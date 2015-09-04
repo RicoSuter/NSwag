@@ -2,19 +2,19 @@
 
 NSwag is a Swagger API toolchain for .NET and other platforms written in C#. Swagger uses JSON Schema to describe types and JSON based HTTP REST web services. The primary intention of the project is to automatically generate client code from these Swagger files and integrate the whole process so that it can be used as easily as WCF web service references in .NET. 
 
-Swagger Generators: 
+**Swagger Generators:**
 
 - ASP.NET Web API
 - Types from .NET assemblies
 
-Client Generators: 
+**Client Generators:** 
 
 - TypeScript
 - CSharp
 
 [Read more about the available Swagger and Client Generators](https://github.com/NSwag/NSwag/wiki)
 
-Ways to use the toolchain: 
+**Ways to use the toolchain:** 
 
 - In your C# code
 - Via command line
