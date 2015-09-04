@@ -50,14 +50,14 @@ namespace NSwagStudio.ViewModels.ClientGenerators
             set { Set(ref _clientCode, value); }
         }
         
-        public Task GenerateClientAsync(string jsdlData)
+        public Task GenerateClientAsync(string swaggerData)
         {
             return RunTaskAsync(async () =>
             {
                 var code = string.Empty;
                 await Task.Run(() =>
                 {
-                    var service = SwaggerService.FromJson(jsdlData);
+                    var service = SwaggerService.FromJson(swaggerData);
 
                     var codeGenerator = new SwaggerToCSharpGenerator(service);
                     codeGenerator.Class = ClassName;
