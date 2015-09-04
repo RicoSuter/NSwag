@@ -114,6 +114,7 @@ namespace NSwag.CodeGeneration.ClientGenerators.TypeScript
             var template = LoadTemplate(AsyncType == TypeScriptAsyncType.Callbacks ? "Callbacks" : "Q");
             template.Add("class", Class);
             template.Add("operations", operations);
+            template.Add("hasOperations", operations.Any());
             template.Add("baseUrl", _service.BaseUrl);
             template.Add("toolchain", SwaggerService.ToolchainVersion);
             template.Add("interfaces", _resolver.GenerateInterfaces());

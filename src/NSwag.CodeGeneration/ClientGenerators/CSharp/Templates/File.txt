@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 
 namespace <namespace>
 {
+<if(hasOperations)>
     public partial class <class>
     {
         public <class>() : this("<baseUrl>") { }
@@ -99,6 +100,7 @@ namespace <namespace>
             \}
         \}
     }
+<endif>
 
     <classes>
 }

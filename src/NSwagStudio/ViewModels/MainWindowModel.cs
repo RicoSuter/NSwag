@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.Linq;
 using System.Threading.Tasks;
 using MyToolkit.Command;
 using MyToolkit.Mvvm;
@@ -35,6 +36,7 @@ namespace NSwagStudio.ViewModels
         public MainWindowModel()
         {
             GenerateCommand = new AsyncRelayCommand(GenerateAsync);
+            SelectedSwaggerGenerator = SwaggerGenerators.First();
         }
 
         public AsyncRelayCommand GenerateCommand { get; set; }

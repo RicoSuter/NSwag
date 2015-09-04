@@ -41,11 +41,12 @@
                 <Grid Margin="0,0,4,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
                     <TextBlock Text="Input" FontSize="16" FontWeight="Bold" Margin="0,0,0,16" />
-                    <TabControl Grid.Row="1" 
+                    <TabControl Grid.Row="2" 
                                 ItemsSource="{Binding SwaggerGenerators}" 
                                 SelectedItem="{Binding SelectedSwaggerGenerator, Mode=TwoWay}">
                         <TabControl.ItemContainerStyle>
@@ -54,6 +55,16 @@
                             </Style>
                         </TabControl.ItemContainerStyle>
                     </TabControl>
+                    <!--<ComboBox ItemsSource="{Binding SwaggerGenerators}" 
+                              DisplayMemberPath="Title"
+                              SelectedItem="{Binding SelectedSwaggerGenerator, Mode=TwoWay}"
+                              FontSize="20"
+                              Grid.Row="1">
+                    </ComboBox>
+
+                    <GroupBox Grid.Row="2" Header="{Binding SelectedSwaggerGenerator.Title, Mode=OneWay}">
+                        <ContentControl Content="{Binding SelectedSwaggerGenerator, Mode=OneWay}" />
+                    </GroupBox>-->
                 </Grid>
 
                 <GridSplitter Grid.Column="1" Grid.Row="0" Width="4" 

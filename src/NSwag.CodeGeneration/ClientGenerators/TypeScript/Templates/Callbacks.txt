@@ -2,6 +2,7 @@
 
 <interfaces>
 
+<if(hasOperations)>
 export class <class> {
     baseUrl = "<baseUrl>"; 
     beforeSend: any = undefined; 
@@ -97,3 +98,4 @@ export class <class> {
 
 }>
 }
+<endif>

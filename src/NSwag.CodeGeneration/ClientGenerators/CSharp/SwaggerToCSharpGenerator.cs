@@ -106,6 +106,7 @@ namespace NSwag.CodeGeneration.ClientGenerators.CSharp
             template.Add("namespace", Namespace);
             template.Add("baseUrl", _service.BaseUrl);
             template.Add("operations", operations);
+            template.Add("hasOperations", operations.Any());
             template.Add("toolchain", SwaggerService.ToolchainVersion);
             template.Add("classes", _resolver.GenerateClasses());
 

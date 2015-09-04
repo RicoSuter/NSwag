@@ -41,6 +41,6 @@
                   ItemsSource="{Binding AllClassNames}" />
 
         <TextBlock TextWrapping="Wrap" 
-                   Text="Generates a Swagger definition with the given class type and no operations. Use this generator to create DTO code in another language." />
+                   Text="Generates a Swagger definition with the given class type and no operations. Use this generator to create DTO code for another platform." />
     </StackPanel>
 </UserControl>
