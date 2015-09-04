@@ -1,0 +1,245 @@
+﻿{
+  "swagger": "2.0",
+  "info": {
+    "title": "",
+    "version": ""
+  },
+  "schemes": [],
+  "paths": {
+    "api/Persons/Get": {
+      "get": {
+        "tags": [],
+        "operationId": "GetAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "schema": {
+              "$id": "1",
+              "items": {
+                "$id": "2",
+                "type": "object",
+                "$ref": "#/definitions/Person"
+              },
+              "type": "array"
+            }
+          }
+        }
+      }
+    },
+    "api/Persons/Get/{id}": {
+      "get": {
+        "tags": [],
+        "operationId": "Get",
+        "parameters": [
+          {
+            "$id": "3",
+            "name": "id",
+            "in": "path",
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$id": "4",
+              "type": "object",
+              "$ref": "#/definitions/Person"
+            }
+          }
+        }
+      }
+    },
+    "api/Persons/Post": {
+      "post": {
+        "tags": [],
+        "operationId": "Post",
+        "parameters": [
+          {
+            "$id": "5",
+            "name": "request",
+            "in": "body",
+            "schema": {
+              "$id": "6",
+              "type": "object",
+              "$ref": "#/definitions/Person"
+            }
+          }
+        ],
+        "responses": {
+          "200": {}
+        }
+      }
+    },
+    "api/Persons/Put/{id}": {
+      "put": {
+        "tags": [],
+        "operationId": "Put",
+        "parameters": [
+          {
+            "$id": "7",
+            "name": "id",
+            "in": "path",
+            "type": "integer"
+          },
+          {
+            "$id": "8",
+            "name": "request",
+            "in": "body",
+            "schema": {
+              "$id": "9",
+              "type": "object",
+              "$ref": "#/definitions/Person"
+            }
+          }
+        ],
+        "responses": {
+          "200": {}
+        }
+      }
+    },
+    "api/Persons/Delete/{id}": {
+      "delete": {
+        "tags": [],
+        "operationId": "Delete",
+        "parameters": [
+          {
+            "$id": "10",
+            "name": "id",
+            "in": "path",
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {}
+        }
+      }
+    },
+    "api/Person/Calculate/{a}/{b}": {
+      "get": {
+        "tags": [],
+        "description": "Calculates the sum of a, b and c.",
+        "operationId": "Calculate",
+        "parameters": [
+          {
+            "$id": "11",
+            "name": "a",
+            "in": "path",
+            "type": "integer"
+          },
+          {
+            "$id": "12",
+            "name": "b",
+            "in": "path",
+            "type": "integer"
+          },
+          {
+            "$id": "13",
+            "name": "c",
+            "in": "query",
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$id": "14",
+              "type": "integer"
+            }
+          }
+        }
+      }
+    },
+    "api/Persons/AddHour": {
+      "get": {
+        "tags": [],
+        "operationId": "AddHour",
+        "parameters": [
+          {
+            "$id": "15",
+            "name": "time",
+            "in": "query",
+            "type": "string",
+            "format": "date-time"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$id": "16",
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        }
+      }
+    },
+    "api/Persons/LoadComplexObject": {
+      "get": {
+        "tags": [],
+        "operationId": "LoadComplexObject",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "schema": {
+              "$id": "17",
+              "type": "object",
+              "$ref": "#/definitions/Car"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "SwaggerException": {
+      "$id": "18",
+      "properties": {
+        "ExceptionType": {
+          "$id": "19",
+          "type": "string"
+        },
+        "Message": {
+          "$id": "20",
+          "type": "string"
+        },
+        "StackTrace": {
+          "$id": "21",
+          "type": "string"
+        }
+      },
+      "typeName": "SwaggerException"
+    },
+    "Person": {
+      "$id": "22",
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "$id": "23",
+          "type": "string"
+        },
+        "LastName": {
+          "$id": "24",
+          "type": "string"
+        }
+      },
+      "typeName": "Person"
+    },
+    "Car": {
+      "$id": "25",
+      "type": "object",
+      "properties": {
+        "Name": {
+          "$id": "26",
+          "type": "string"
+        },
+        "Driver": {
+          "$id": "27",
+          "type": "object",
+          "typeName": "Person",
+          "$ref": "#/definitions/Person"
+        }
+      },
+      "typeName": "Car"
+    }
+  }
+}

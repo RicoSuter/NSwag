@@ -1,0 +1,10 @@
+﻿**/bin/**
+**/obj/**
+src/packages/**
+
+**.suo
+**.user
+**.DotSettings
+
+**.sln.ide/**
+src/.vs/**

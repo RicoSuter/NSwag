@@ -1,0 +1,28 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+
+<#@ assembly name="System.Core" #>
+<#@ assembly name="$(SolutionDir)\NSwag.CodeGeneration\bin\Debug\NJsonSchema.CodeGeneration.dll" #>
+<#@ assembly name="$(SolutionDir)\NSwag.CodeGeneration\bin\Debug\NSwag.CodeGeneration.dll" #>
+<#@ assembly name="$(SolutionDir)\NSwag.CodeGeneration\bin\Debug\NSwag.dll" #>
+
+<#@ import namespace="NSwag" #>
+<#@ import namespace="NSwag.CodeGeneration.ClientGenerators.CSharp" #>
+
+<#@ import namespace="System.IO" #>
+<#@ import namespace="Microsoft.CSharp" #>
+
+<#@ output extension=".cs" #>
+<#
+	// CONFIGURATION
+	var swaggerUrl = @"http://localhost:22093/api/Persons/Swagger"; 
+	// -------------
+    
+    var generator = new SwaggerToCSharpGenerator(SwaggerService.FromUrl(swaggerUrl));
+	var provider = new CSharpCodeProvider();
+	generator.Class = provider.CreateEscapedIdentifier(Path.GetFileNameWithoutExtension(Host.TemplateFile));
+	generator.Class = provider.CreateEscapedIdentifier(Path.GetFileNameWithoutExtension(Host.TemplateFile));
+	generator.Namespace = Host.ResolveParameterValue("directiveId", "namespaceDirectiveProcessor", "namespaceHint");
+
+	var code = generator.GenerateFile();
+#>
+<#= code #>

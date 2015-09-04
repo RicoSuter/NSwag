@@ -1,0 +1,105 @@
+﻿// Generated using the NSwag toolchain v<toolchain> (https://github.com/NSwag/NSwag)
+
+<interfaces>
+
+export class <class> {
+    baseUrl = "<baseUrl>"; 
+    beforeSend: any = undefined; 
+<operations:{operation | 
+    
+    <operation.OperationName>(<operation.Parameters:{parameter | <parameter.Name>: <parameter.Type><if(!parameter.IsLast)>,<endif> }>): Q.Promise\<<operation.ResultType>> {
+        return Q.Promise((resolve, reject) => {
+            this.<operation.OperationName>WithCallbacks(<operation.Parameters:{parameter | <parameter.Name><if(!parameter.isLast)>,<endif> }>, (result) => resolve(result), (exception, reason) => reject(exception));
+        \});
+    \}
+    
+    private <operation.OperationName>WithCallbacks(<operation.Parameters:{parameter | <parameter.Name>: <parameter.Type>, }>onSuccess?: (result: <operation.ResultType>) => void, onFail?: (exception: <operation.ExceptionType>, reason: string) => void) {
+        var url = this.baseUrl + "/<operation.Target>?"; 
+
+<operation.PlaceholderParameters:{parameter | 
+    <if(parameter.IsDate)>
+        url = url.replace("{<parameter.Name>\}", "" + <parameter.Name>.toJSON()); 
+    <else>
+        url = url.replace("{<parameter.Name>\}", "" + <parameter.Name>); 
+    <endif>
+}>
+
+<operation.QueryParameters:{parameter | 
+    <if(parameter.IsDate)>
+        url += "<parameter.Name>=" + encodeURIComponent("" + <parameter.Name>.toJSON()) + "&"; 
+    <else>
+        url += "<parameter.Name>=" + encodeURIComponent("" + <parameter.Name>) + "&"; 
+    <endif>
+}>
+
+<if(operation.HasContent)>
+        var content = JSON.stringify(<operation.ContentParameter.Name>);
+<else>
+        var content = "";
+<endif>
+
+        $.ajax({
+            url: url,
+            beforeSend: this.beforeSend,
+            type: "<operation.Method>",
+            data: content,
+            dataType: "text",
+            contentType: "application/json; charset=UTF-8"
+        \}).done((data, textStatus, xhr) => {
+            this.process<operation.OperationNameUpper>(xhr, onSuccess, onFail);
+        \}).fail((xhr) => {
+            this.process<operation.OperationNameUpper>(xhr, onSuccess, onFail);
+        \});
+    \}
+
+    private process<operation.OperationNameUpper>(xhr: any, onSuccess: any, onFail: any) {
+        var data = xhr.responseText; 
+        var status = xhr.status; 
+
+<operation.Responses:{response | 
+        if (status == "<response.StatusCode>") {
+            try { 
+<if(response.TypeIsDate)>
+                var result = new Date(data);
+<else>
+                var result = \<<response.Type>>jQuery.parseJSON(data);
+<endif>
+<if(response.IsSuccess)>
+                if (onSuccess !== undefined)
+                    onSuccess(result);
+<else>
+                if (onFail !== undefined)
+                    onFail(result);
+<endif>
+            \} catch(e) { 
+                if (onFail !== undefined)
+                    onFail(null, "error_parsing");
+            \}
+        \}
+        else
+}>
+        {
+<if(operation.HasDefaultResponse)>
+            try { 
+<if(operation.DefaultResponse.TypeIsDate)>
+                var result = new Date(data);
+<else>
+                var result = \<<operation.DefaultResponse.Type>>jQuery.parseJSON(data);
+<endif>
+<if(operation.DefaultResponse.IsSuccess)>
+                if (onSuccess !== undefined)
+                    onSuccess(result);
+<else>
+                if (onFail !== undefined)
+                    onFail(result);
+<endif>
+            \} catch(e) { 
+                if (onFail !== undefined)
+                    onFail(null, "error_parsing");
+            \}
+<endif>
+        \}
+    \}
+
+}>
+}

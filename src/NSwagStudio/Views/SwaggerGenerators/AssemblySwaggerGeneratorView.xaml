@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="NSwagStudio.Views.SwaggerGenerators.AssemblySwaggerGeneratorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:swaggerGenerators="clr-namespace:NSwagStudio.ViewModels.SwaggerGenerators"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <swaggerGenerators:AssemblySwaggerGeneratorViewModel x:Key="ViewModel" />
+    </UserControl.Resources>
+
+    <StackPanel Margin="8" DataContext="{StaticResource ViewModel}">
+        <Grid Margin="0,0,0,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text=".NET Assembly" FontWeight="Bold" Margin="0,0,0,6" />
+                <TextBox Grid.Row="1" Text="{Binding AssemblyPath, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" />
+            </Grid>
+
+            <Button Command="{Binding BrowseAssemblyCommand}" VerticalAlignment="Stretch"
+                    Padding="8,4,8,4" Grid.Column="1" Content="..." Margin="0,0,12,0" />
+
+            <Button Command="{Binding LoadAssemblyCommand}" VerticalAlignment="Stretch"
+                    Padding="8,4,8,4" Grid.Column="2" Content="Load" />
+        </Grid>
+
+        <TextBlock Text="Class" FontWeight="Bold" Margin="0,0,0,6" />
+        <ComboBox Text="{Binding ClassName, Mode=TwoWay}" Margin="0,0,0,12"
+                  ItemsSource="{Binding AllClassNames}" />
+
+        <TextBlock TextWrapping="Wrap" 
+                   Text="Generates a Swagger definition with the given class type and no operations. Use this generator to create DTO code in another language." />
+    </StackPanel>
+</UserControl>
