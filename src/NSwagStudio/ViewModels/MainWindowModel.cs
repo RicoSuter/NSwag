@@ -21,8 +21,8 @@ namespace NSwagStudio.ViewModels
 
         private readonly ISwaggerGenerator[] _swaggerGenerators = new ISwaggerGenerator[]
         {
+            new SwaggerInputGeneratorView(),
             new WebApiSwaggerGeneratorView(),
-            new SwaggerInputGeneratorView(), 
             new AssemblySwaggerGeneratorView(), 
         };
 
