@@ -100,7 +100,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         {
             return RunTaskAsync(async () =>
             {
-                AllControllerNames = await Task.Run(() => SwaggerAssemblyTypesGenerator.GetControllerClasses(AssemblyPath));
+                AllControllerNames = await Task.Run(() => AssemblyTypeToSwaggerGenerator.GetControllerClasses(AssemblyPath));
                 ControllerName = AllControllerNames.FirstOrDefault();
             });
         }
@@ -109,7 +109,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         {
             return await RunTaskAsync(async () =>
             {
-                return await Task.Run(() => SwaggerAssemblyTypesGenerator.FromWebApiAssembly(AssemblyPath, ControllerName, UrlTemplate));
+                return await Task.Run(() => AssemblyTypeToSwaggerGenerator.FromWebApiAssembly(AssemblyPath, ControllerName, UrlTemplate));
             });
         }
     }

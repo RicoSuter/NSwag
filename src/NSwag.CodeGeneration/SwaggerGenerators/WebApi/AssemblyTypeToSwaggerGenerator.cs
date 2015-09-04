@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="SwaggerAssemblyTypesGenerator.cs" company="NSwag">
+// <copyright file="AssemblyTypeToSwaggerGenerator.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -16,7 +16,7 @@ using NSwag.CodeGeneration.Infrastructure;
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 {
     /// <summary>Generates a <see cref="SwaggerService"/> from a Web API controller which is located in a .NET assembly.</summary>
-    public class SwaggerAssemblyTypesGenerator
+    public class AssemblyTypeToSwaggerGenerator
     {
         /// <summary>Gets the available controller classes from the given assembly.</summary>
         /// <param name="assemblyPath">The assembly path.</param>

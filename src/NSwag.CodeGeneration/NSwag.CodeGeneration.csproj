@@ -55,7 +55,7 @@
     <Compile Include="ClientGenerators\TypeScript\SwaggerToTypeScriptGenerator.cs" />
     <Compile Include="Infrastructure\AppDomainIsolation.cs" />
     <Compile Include="SwaggerGenerators\RootTypeJsonSchemaGenerator.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\SwaggerAssemblyTypesGenerator.cs" />
+    <Compile Include="SwaggerGenerators\WebApi\AssemblyTypeToSwaggerGenerator.cs" />
     <Compile Include="SwaggerGenerators\WebApi\WebApiToSwaggerGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
