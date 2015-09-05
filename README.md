@@ -2,7 +2,7 @@
 
 **NSwag is still in development and not stable yet.**
 
-NSwag is a Swagger 2.0 API toolchain for .NET and other platforms, written in C#. Swagger uses JSON Schema to describe types and JSON based HTTP REST web services. The primary intention of the project is to automatically generate client code from these Swagger files and integrate the whole process so that it can be used as easily as possible. 
+NSwag is a Swagger 2.0 API toolchain for .NET and other platforms, written in C#. Swagger uses JSON and JSON Schema to fully describe your RESTful Web API. The intention of the NSwag project is to provide tools to automatically generate client code from these Swagger specifications and integrate the whole process so that it can be used as easily as possible. 
 
 **Swagger Generators:**
 
