@@ -109,7 +109,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         {
             return await RunTaskAsync(async () =>
             {
-                return await Task.Run(() => AssemblyTypeToSwaggerGenerator.FromWebApiAssembly(AssemblyPath, ControllerName, UrlTemplate));
+                return await Task.Run(() => AssemblyTypeToSwaggerGenerator.FromWebApiAssembly(AssemblyPath, ControllerName, UrlTemplate).ToJson());
             });
         }
     }

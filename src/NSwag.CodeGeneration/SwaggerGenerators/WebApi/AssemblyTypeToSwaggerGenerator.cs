@@ -49,20 +49,20 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <param name="controllerClassName">The full name of the controller class.</param>
         /// <param name="urlTemplate">The default Web API URL template.</param>
         /// <returns>The Swagger definition.</returns>
-        public static string FromWebApiAssembly(string assemblyPath, string controllerClassName, string urlTemplate)
+        public static SwaggerService FromWebApiAssembly(string assemblyPath, string controllerClassName, string urlTemplate)
         {
             using (var isolated = new AppDomainIsolation<NSwagServiceLoader>())
-                return isolated.Object.FromWebApiAssembly(assemblyPath, controllerClassName, urlTemplate);
+                return SwaggerService.FromJson(isolated.Object.FromWebApiAssembly(assemblyPath, controllerClassName, urlTemplate));
         }
 
         /// <summary>Generates the Swagger definition for the given classes without operations (used for class generation).</summary>
         /// <param name="assemblyPath">The assembly path.</param>
         /// <param name="className">The class name.</param>
         /// <returns>The Swagger definition.</returns>
-        public static string FromAssemblyType(string assemblyPath, string className)
+        public static SwaggerService FromAssemblyType(string assemblyPath, string className)
         {
             using (var isolated = new AppDomainIsolation<NSwagServiceLoader>())
-                return isolated.Object.FromAssemblyType(assemblyPath, className);
+                return SwaggerService.FromJson(isolated.Object.FromAssemblyType(assemblyPath, className));
         }
 
         private class NSwagServiceLoader : MarshalByRefObject
@@ -73,8 +73,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 var type = assembly.GetType(controllerClassName);
 
                 var generator = new WebApiToSwaggerGenerator(urlTemplate);
-                var service = generator.Generate(type);
-                return service.ToJson();
+                return generator.Generate(type).ToJson();
             }
 
             internal string FromAssemblyType(string assemblyPath, string className)
@@ -85,7 +84,6 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 var service = new SwaggerService();
                 var schema = JsonSchema4.FromType(type);
                 service.Definitions[type.Name] = schema;
-
                 return service.ToJson();
             }
 
