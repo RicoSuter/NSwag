@@ -67,7 +67,7 @@
                     </GroupBox>-->
                 </Grid>
 
-                <GridSplitter Grid.Column="1" Grid.Row="0" Width="4" 
+                <GridSplitter Grid.Column="1" Grid.Row="0" Width="4" Margin="4,0,4,0" 
                               ResizeBehavior="PreviousAndNext" />
 
                 <!-- Output -->
