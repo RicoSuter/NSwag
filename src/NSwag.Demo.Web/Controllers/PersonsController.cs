@@ -76,11 +76,4 @@ namespace NSwag.Demo.Web.Controllers
             });
         }
     }
-
-    public class Car
-    {
-        public string Name { get; set; }
-
-        public Person Driver { get; set; }
-    }
 }

@@ -8,5 +8,7 @@ namespace NSwag.Demo.Web.Models
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
+
+        public Car[] Cars { get; set; }
     }
 }

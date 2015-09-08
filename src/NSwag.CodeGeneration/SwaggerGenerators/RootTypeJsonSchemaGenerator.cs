@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using NJsonSchema;
 
 namespace NSwag.CodeGeneration.SwaggerGenerators
@@ -18,7 +19,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
         private bool _isRootType = true;
         private readonly SwaggerService _service;
 
-        /// <summary>Initializes a new instance of the <see cref="RootTypeJsonSchemaGenerator"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="RootTypeJsonSchemaGenerator" /> class.</summary>
         /// <param name="service">The service.</param>
         public RootTypeJsonSchemaGenerator(SwaggerService service)
         {
@@ -26,25 +27,26 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
         }
 
         /// <summary>Generates the properties for the given type and schema.</summary>
-        /// <typeparam name="TSchemaType"></typeparam>
+        /// <typeparam name="TSchemaType">The type of the schema type.</typeparam>
         /// <param name="type">The types.</param>
         /// <param name="schema">The properties</param>
-        protected override void GenerateObjectProperties<TSchemaType>(Type type, TSchemaType schema)
+        /// <param name="schemaResolver">The schema resolver.</param>
+        protected override void GenerateObject<TSchemaType>(Type type, TSchemaType schema, ISchemaResolver schemaResolver)
         {
             if (_isRootType)
             {
                 _isRootType = false;
-                base.GenerateObjectProperties(type, schema);
+                base.GenerateObject(type, schema, schemaResolver);
             }
             else
             {
-                if (!_service.Definitions.ContainsKey(type.Name))
+                if (!schemaResolver.HasSchema(type))
                 {
                     var schemaGenerator = new RootTypeJsonSchemaGenerator(_service);
-                    _service.Definitions[type.Name] = schemaGenerator.Generate<JsonSchema4>(type);
+                    schemaGenerator.Generate<JsonSchema4>(type, schemaResolver);
                 }
 
-                schema.SchemaReference = _service.Definitions[type.Name];
+                schema.SchemaReference = schemaResolver.GetSchema(type);
             }
         }
     }
