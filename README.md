@@ -1,6 +1,6 @@
 ## NSwag: The Swagger API toolchain for .NET
 
-[![Build status](https://ci.appveyor.com/api/projects/status/lii3q06k1f5kvs2n?svg=true)](https://ci.appveyor.com/project/rsuter/nswag)
+[![Build status](https://ci.appveyor.com/api/projects/status/lii3q06k1f5kvs2n?svg=true)](https://ci.appveyor.com/project/rsuter/njsonschema-qcaty)
 
 NSwag is a Swagger 2.0 API toolchain for .NET, TypeScript and other platforms, written in C#. The [Swagger specification](http://swagger.io) uses JSON and JSON Schema to describe a RESTful web API. The project provides tools to automatically generate client code from these Swagger specifications and integrate this generation into existing processes. 
 
