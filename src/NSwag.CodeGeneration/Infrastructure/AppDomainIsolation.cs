@@ -13,7 +13,15 @@ namespace NSwag.CodeGeneration.Infrastructure
             _domain = AppDomain.CreateDomain("AppDomainIsolation:" + Guid.NewGuid(), null, setup);
 
             var type = typeof(T);
-            _object = (T)_domain.CreateInstanceFromAndUnwrap(type.Assembly.Location, type.FullName);
+
+            try
+            {
+                _object = (T)_domain.CreateInstanceFromAndUnwrap(type.Assembly.FullName, type.FullName);
+            }
+            catch
+            {
+                _object = (T)_domain.CreateInstanceFromAndUnwrap(type.Assembly.Location, type.FullName);
+            }
         }
 
         public T Object
