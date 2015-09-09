@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Tests", "NSwag.Tests\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Annotations", "NSwag.Annotations\NSwag.Annotations.csproj", "{CA084154-E758-4A44-938D-7806AF2DD886}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F31829C6-CEE4-4242-A4D9-820C36127B0B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -160,7 +162,9 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{37650571-163A-4BE7-86BF-DC1B02ADACBB} = {F31829C6-CEE4-4242-A4D9-820C36127B0B}
 		{37AE85DE-B127-4861-B925-1A67A35F314A} = {CCE905FB-0DE1-4A8A-89AE-D84E9367D35C}
 		{267D875B-3481-465D-AD2C-4BB18EB911BA} = {CCE905FB-0DE1-4A8A-89AE-D84E9367D35C}
+		{8232C857-CAA5-400C-8EC5-6239C799BAF5} = {F31829C6-CEE4-4242-A4D9-820C36127B0B}
 	EndGlobalSection
 EndGlobal
