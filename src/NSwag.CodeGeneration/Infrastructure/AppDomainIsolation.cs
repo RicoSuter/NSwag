@@ -16,7 +16,7 @@ namespace NSwag.CodeGeneration.Infrastructure
 
             try
             {
-                _object = (T)_domain.CreateInstanceFromAndUnwrap(type.Assembly.FullName, type.FullName);
+                _object = (T)_domain.CreateInstanceAndUnwrap(type.Assembly.FullName, type.FullName);
             }
             catch
             {
