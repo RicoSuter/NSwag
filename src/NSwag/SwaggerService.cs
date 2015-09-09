@@ -12,7 +12,7 @@ using System.Net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using NJsonSchema;
-using NSwag.Infrastructure;
+using NSwag.Collections;
 
 namespace NSwag
 {
@@ -116,8 +116,8 @@ namespace NSwag
             get
             {
                 if (Schemes.Any())
-                    return Schemes.First() + "://" + Host + (string.IsNullOrEmpty(BasePath) ? "/" + BasePath : string.Empty);
-                return Host + (string.IsNullOrEmpty(BasePath) ? "/" + BasePath : string.Empty);
+                    return (Schemes.First() + "://" + Host + (string.IsNullOrEmpty(BasePath) ? "/" + BasePath : string.Empty)).Trim('/');
+                return (Host + (string.IsNullOrEmpty(BasePath) ? "/" + BasePath : string.Empty)).Trim('/');
             }
         }
 

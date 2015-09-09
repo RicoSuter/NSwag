@@ -2,7 +2,7 @@
 
 
 
-// Generated using the NSwag toolchain v0.1.5723.36710 (https://github.com/NSwag/NSwag)
+// Generated using the NSwag toolchain v0.1.5723.36710 (http://NSwag.org)
 
 export interface SwaggerException {
     ExceptionType?: string;

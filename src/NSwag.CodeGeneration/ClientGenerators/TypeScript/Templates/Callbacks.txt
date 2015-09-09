@@ -1,4 +1,4 @@
-﻿// Generated using the NSwag toolchain v<toolchain> (https://github.com/NSwag/NSwag)
+﻿// Generated using the NSwag toolchain v<toolchain> (http://NSwag.org)
 
 <interfaces>
 
@@ -47,12 +47,12 @@ export class <class> {
         \});
     \}
 
-    private process<operation.OperationNameUpper>(xhr: any, onSuccess: any, onFail: any) {
+    private process<operation.OperationNameUpper>(xhr: any, onSuccess?: any, onFail?: any) {
         var data = xhr.responseText; 
         var status = xhr.status; 
 
 <operation.Responses:{response | 
-        if (status === "<response.StatusCode>") {
+        if (status === <response.StatusCode>) {
             try { 
 <if(response.TypeIsDate)>
                 var result = new Date(data);
@@ -71,8 +71,7 @@ export class <class> {
                     onFail(null, "error_parsing");
             \}
         \}
-        else
-}>
+        else}>
         {
 <if(operation.HasDefaultResponse)>
             try { 
@@ -92,6 +91,9 @@ export class <class> {
                 if (onFail !== undefined)
                     onFail(null, "error_parsing");
             \}
+<else>
+            if (onFail !== undefined)
+                onFail(null, "error_no_callback_for_status");
 <endif>
         \}
     \}

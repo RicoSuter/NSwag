@@ -8,7 +8,7 @@
 
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using NSwag.Infrastructure;
+using NSwag.Collections;
 
 namespace NSwag
 {

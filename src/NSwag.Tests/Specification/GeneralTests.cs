@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace NSwag.Tests
 {
     [TestClass]
-    public class UnitTest1
+    public class GeneralTests
     {
         [TestMethod]
         public void WhenConvertingAndBackThenItShouldBeTheSame()
@@ -37,7 +37,8 @@ namespace NSwag.Tests
             Assert.AreEqual("pets", service.Operations.First().Operation.OperationId);
         }
 
-        private string _sampleServiceCode = @"{
+        private string _sampleServiceCode = 
+@"{
   ""swagger"": ""2.0"",
   ""info"": {
     ""version"": ""1.0.0"",
@@ -98,7 +99,6 @@ namespace NSwag.Tests
       }
     }
   }
-}
-";
+}";
     }
 }

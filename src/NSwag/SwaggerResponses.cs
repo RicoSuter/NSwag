@@ -6,7 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using NSwag.Infrastructure;
+using NSwag.Collections;
 
 namespace NSwag
 {

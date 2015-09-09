@@ -18,51 +18,56 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
     /// <summary>Generates a <see cref="SwaggerService"/> from a Web API controller which is located in a .NET assembly.</summary>
     public class AssemblyTypeToSwaggerGenerator
     {
-        /// <summary>Gets the available controller classes from the given assembly.</summary>
+        private readonly string _assemblyPath;
+
+        /// <summary>Initializes a new instance of the <see cref="AssemblyTypeToSwaggerGenerator"/> class.</summary>
         /// <param name="assemblyPath">The assembly path.</param>
-        /// <returns>The controller classes.</returns>
-        public static string[] GetControllerClasses(string assemblyPath)
+        public AssemblyTypeToSwaggerGenerator(string assemblyPath)
         {
-            if (File.Exists(assemblyPath))
+            _assemblyPath = assemblyPath; 
+        }
+
+        /// <summary>Gets the available controller classes from the given assembly.</summary>
+        /// <returns>The controller classes.</returns>
+        public string[] GetControllerClasses()
+        {
+            if (File.Exists(_assemblyPath))
             {
                 using (var isolated = new AppDomainIsolation<NSwagServiceLoader>())
-                    return isolated.Object.GetControllerClasses(assemblyPath);
+                    return isolated.Object.GetControllerClasses(_assemblyPath);
             }
             return new string[] { };
         }
 
         /// <summary>Gets the available controller classes from the given assembly.</summary>
-        /// <param name="assemblyPath">The assembly path.</param>
         /// <returns>The controller classes.</returns>
-        public static string[] GetClasses(string assemblyPath)
+        public string[] GetClasses()
         {
-            if (File.Exists(assemblyPath))
+            if (File.Exists(_assemblyPath))
             {
                 using (var isolated = new AppDomainIsolation<NSwagServiceLoader>())
-                    return isolated.Object.GetClasses(assemblyPath);
+                    return isolated.Object.GetClasses(_assemblyPath);
             }
             return new string[] { };
         }
 
         /// <summary>Generates the Swagger definition for the given controller.</summary>
-        /// <param name="assemblyPath">The assembly path.</param>
         /// <param name="controllerClassName">The full name of the controller class.</param>
         /// <param name="urlTemplate">The default Web API URL template.</param>
         /// <returns>The Swagger definition.</returns>
-        public static SwaggerService FromWebApiAssembly(string assemblyPath, string controllerClassName, string urlTemplate)
+        public SwaggerService FromWebApiAssembly(string controllerClassName, string urlTemplate)
         {
             using (var isolated = new AppDomainIsolation<NSwagServiceLoader>())
-                return SwaggerService.FromJson(isolated.Object.FromWebApiAssembly(assemblyPath, controllerClassName, urlTemplate));
+                return SwaggerService.FromJson(isolated.Object.FromWebApiAssembly(_assemblyPath, controllerClassName, urlTemplate));
         }
 
         /// <summary>Generates the Swagger definition for the given classes without operations (used for class generation).</summary>
-        /// <param name="assemblyPath">The assembly path.</param>
         /// <param name="className">The class name.</param>
         /// <returns>The Swagger definition.</returns>
-        public static SwaggerService FromAssemblyType(string assemblyPath, string className)
+        public SwaggerService FromAssemblyType(string className)
         {
             using (var isolated = new AppDomainIsolation<NSwagServiceLoader>())
-                return SwaggerService.FromJson(isolated.Object.FromAssemblyType(assemblyPath, className));
+                return SwaggerService.FromJson(isolated.Object.FromAssemblyType(_assemblyPath, className));
         }
 
         private class NSwagServiceLoader : MarshalByRefObject

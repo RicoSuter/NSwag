@@ -1,4 +1,4 @@
-// Generated using the NSwag toolchain v0.1.5725.20114 (https://github.com/NSwag/NSwag)
+// Generated using the NSwag toolchain v0.1.5725.20114 (http://NSwag.org)
 define(["require", "exports"], function (require, exports) {
     var DataService = (function () {
         function DataService() {

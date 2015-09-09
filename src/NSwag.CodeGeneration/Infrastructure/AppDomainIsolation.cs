@@ -9,11 +9,11 @@ namespace NSwag.CodeGeneration.Infrastructure
 
         public AppDomainIsolation()
         {
-			var setup = new AppDomainSetup { ShadowCopyFiles = "true" }; 
+            var setup = new AppDomainSetup { ShadowCopyFiles = "true" }; 
             _domain = AppDomain.CreateDomain("AppDomainIsolation:" + Guid.NewGuid(), null, setup);
 
             var type = typeof(T);
-            _object = (T)_domain.CreateInstanceAndUnwrap(type.Assembly.FullName, type.FullName);
+            _object = (T)_domain.CreateInstanceFromAndUnwrap(type.Assembly.Location, type.FullName);
         }
 
         public T Object

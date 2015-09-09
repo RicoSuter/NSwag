@@ -7,7 +7,7 @@
 //-----------------------------------------------------------------------
 
 using NJsonSchema;
-using NSwag.Infrastructure;
+using NSwag.Collections;
 
 namespace NSwag
 {

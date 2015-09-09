@@ -79,7 +79,11 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         {
             return RunTaskAsync(async () =>
             {
-                AllClassNames = await Task.Run(() => AssemblyTypeToSwaggerGenerator.GetClasses(AssemblyPath));
+                AllClassNames = await Task.Run(() =>
+                {
+                    var generator = new AssemblyTypeToSwaggerGenerator(AssemblyPath);
+                    return generator.GetClasses();
+                });
                 ClassName = AllClassNames.FirstOrDefault();
             });
         }
@@ -88,7 +92,11 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         {
             return await RunTaskAsync(async () =>
             {
-                return await Task.Run(() => AssemblyTypeToSwaggerGenerator.FromAssemblyType(AssemblyPath, ClassName).ToJson());
+                return await Task.Run(() =>
+                {
+                    var generator = new AssemblyTypeToSwaggerGenerator(AssemblyPath);
+                    return generator.FromAssemblyType(ClassName).ToJson();
+                });
             });
         }
     }

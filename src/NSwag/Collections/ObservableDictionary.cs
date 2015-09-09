@@ -13,7 +13,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 
-namespace NSwag.Infrastructure
+namespace NSwag.Collections
 {
     /// <summary>An implementation of an observable dictionary. </summary>
     /// <typeparam name="TKey">The type of the key. </typeparam>
