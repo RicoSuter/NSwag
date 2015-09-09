@@ -51,6 +51,14 @@
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="NJsonSchema, Version=1.1.5729.33707, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.1.1.5729.33707\lib\portable-net45+win+wpa81+wp80+Xamarin.iOS10+MonoAndroid10+MonoTouch10\NJsonSchema.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NJsonSchema.CodeGeneration, Version=1.1.5729.33708, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.CodeGeneration.1.1.5729.33708\lib\net45\NJsonSchema.CodeGeneration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -162,14 +170,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\NJsonSchema\src\NJsonSchema.CodeGeneration\NJsonSchema.CodeGeneration.csproj">
-      <Project>{8a463fa0-daaf-483c-813e-ae9c6153cbf7}</Project>
-      <Name>NJsonSchema.CodeGeneration</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\NJsonSchema\src\NJsonSchema\NJsonSchema.csproj">
-      <Project>{7b7a2e32-e808-4a19-98b1-37e766580f8c}</Project>
-      <Name>NJsonSchema</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj">
       <Project>{75b3f91d-687e-4fb3-ad45-ccfa3c406db4}</Project>
       <Name>NSwag.CodeGeneration</Name>
