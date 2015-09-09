@@ -18,20 +18,20 @@
         </Grid.RowDefinitions>
 
         <StackPanel>
-            <TextBlock Text="Class Name" FontWeight="Bold" Margin="0,0,0,6" />
-            <TextBox Text="{Binding ClassName, Mode=TwoWay}" Margin="0,0,0,12" />
-
             <TextBlock Text="Namespace" FontWeight="Bold" Margin="0,0,0,6" />
             <TextBox Text="{Binding Namespace, Mode=TwoWay}" Margin="0,0,0,12" />
+
+            <TextBlock Text="Class Name" FontWeight="Bold" Margin="0,0,0,6" />
+            <TextBox Text="{Binding ClassName, Mode=TwoWay}" Margin="0,0,0,12" />
 
             <TextBlock Text="C# Output" FontWeight="Bold" Margin="0,0,0,6" />
         </StackPanel>
 
-        <TextBox Text="{Binding ClientCode}" 
+        <TextBox Grid.Row="1"
+                 Text="{Binding ClientCode}" 
                  VerticalScrollBarVisibility="Auto" 
                  HorizontalScrollBarVisibility="Auto" 
                  AcceptsReturn="True"
-                 IsReadOnlyCaretVisible="True" FontFamily="Courier New" IsReadOnly="True"
-                 Grid.Row="1" />
+                 IsReadOnlyCaretVisible="True" FontFamily="Courier New" IsReadOnly="True" />
     </Grid>
 </UserControl>
