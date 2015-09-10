@@ -26,15 +26,17 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock Text=".NET Assembly" FontWeight="Bold" Margin="0,0,0,6" />
-                <TextBox Grid.Row="1" Text="{Binding AssemblyPath, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" />
+                <TextBox Grid.Row="1" Text="{Binding AssemblyPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                         Margin="0,0,12,0" VerticalAlignment="Center" />
             </Grid>
 
             <Button Command="{Binding BrowseAssemblyCommand}" VerticalAlignment="Stretch"
                     Padding="8,4,8,4" Grid.Column="1" Content="..." Margin="0,0,12,0" />
-            
+
             <Button Command="{Binding LoadAssemblyCommand}" VerticalAlignment="Stretch"
                     Padding="8,4,8,4" Grid.Column="2" Content="Load" />
         </Grid>
+        <TextBlock Text="{Binding AssemblyName, Mode=OneWay}" TextWrapping="Wrap" Margin="0,-6,0,12" />
 
         <TextBlock Text="Controller" FontWeight="Bold" Margin="0,0,0,6" />
         <ComboBox Text="{Binding ControllerName, Mode=TwoWay}" Margin="0,0,0,12"

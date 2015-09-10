@@ -62,13 +62,16 @@ namespace NSwagStudio.ViewModels.ClientGenerators
                 var code = string.Empty;
                 await Task.Run(() =>
                 {
-                    var service = SwaggerService.FromJson(swaggerData);
+                    if (!string.IsNullOrEmpty(swaggerData))
+                    {
+                        var service = SwaggerService.FromJson(swaggerData);
 
-                    var codeGenerator = new SwaggerToTypeScriptGenerator(service);
-                    codeGenerator.Class = ClassName;
-                    codeGenerator.AsyncType = AsyncType;
+                        var codeGenerator = new SwaggerToTypeScriptGenerator(service);
+                        codeGenerator.Class = ClassName;
+                        codeGenerator.AsyncType = AsyncType;
 
-                    code = codeGenerator.GenerateFile();
+                        code = codeGenerator.GenerateFile();
+                    }
                 });
 
                 ClientCode = code;

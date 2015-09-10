@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Win32;
@@ -48,9 +49,16 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
                 {
                     LoadAssemblyCommand.RaiseCanExecuteChanged();
                     ApplicationSettings.SetSetting("AssemblyPath", _assemblyPath);
+                    RaisePropertyChanged(() => AssemblyName);
                 }
             }
         }
+
+        public string AssemblyName
+        {
+            get { return Path.GetFileName(AssemblyPath); }
+        }
+
 
         /// <summary>Gets or sets the class name. </summary>
         public string ControllerName
