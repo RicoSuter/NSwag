@@ -38,8 +38,8 @@
       <HintPath>..\packages\Antlr4.StringTemplate.4.0.6.9004\lib\net35\Antlr4.StringTemplate.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NConsole, Version=0.5.5731.41104, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NConsole.0.5.5731.41104\lib\net45\NConsole.dll</HintPath>
+    <Reference Include="NConsole, Version=0.5.5731.41412, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NConsole.0.5.5731.41412\lib\net45\NConsole.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
