@@ -75,9 +75,9 @@
       <Project>{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}</Project>
       <Name>NSwag.CodeGeneration</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NSwag\NSwag.csproj">
+    <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj">
       <Project>{2E6174AA-FC75-4821-9E86-51B30568BEC0}</Project>
-      <Name>NSwag</Name>
+      <Name>NSwag.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

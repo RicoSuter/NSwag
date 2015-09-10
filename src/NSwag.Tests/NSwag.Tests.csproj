@@ -78,13 +78,13 @@
       <Project>{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}</Project>
       <Name>NSwag.CodeGeneration</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj">
+      <Project>{2E6174AA-FC75-4821-9E86-51B30568BEC0}</Project>
+      <Name>NSwag.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NSwag.Demo.Web\NSwag.Demo.Web.csproj">
       <Project>{37AE85DE-B127-4861-B925-1A67A35F314A}</Project>
       <Name>NSwag.Demo.Web</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NSwag\NSwag.csproj">
-      <Project>{2E6174AA-FC75-4821-9E86-51B30568BEC0}</Project>
-      <Name>NSwag</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

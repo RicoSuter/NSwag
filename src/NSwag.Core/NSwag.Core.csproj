@@ -4,18 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{26CBD69C-EE7C-4D81-8D62-410F4AD4876B}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{2E6174AA-FC75-4821-9E86-51B30568BEC0}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NSwag.Console</RootNamespace>
-    <AssemblyName>NSwag</AssemblyName>
+    <RootNamespace>NSwag</RootNamespace>
+    <AssemblyName>NSwag.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,35 +21,24 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Antlr4.StringTemplate, Version=4.0.6.9004, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Antlr4.StringTemplate.4.0.6.9004\lib\net35\Antlr4.StringTemplate.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NConsole, Version=0.4.5709.41413, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NConsole.0.4.5709.41413\lib\net45\NConsole.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="NJsonSchema, Version=1.4.5731.36729, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NJsonSchema.1.4.5731.36729\lib\portable-net45+win+wpa81+wp80+Xamarin.iOS10+MonoAndroid10+MonoTouch10\NJsonSchema.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NJsonSchema.CodeGeneration, Version=1.4.5731.36730, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.CodeGeneration.1.4.5731.36730\lib\net45\NJsonSchema.CodeGeneration.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -64,27 +51,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\CSharpCommand.cs" />
-    <Compile Include="Commands\InputOutputCommandBase.cs" />
-    <Compile Include="Commands\TypeScriptCommand.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Collections\ObservableDictionary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SwaggerContact.cs" />
+    <Compile Include="SwaggerExternalDocumentation.cs" />
+    <Compile Include="SwaggerHeaders.cs" />
+    <Compile Include="SwaggerInfo.cs" />
+    <Compile Include="SwaggerLicense.cs" />
+    <Compile Include="SwaggerOperation.cs" />
+    <Compile Include="SwaggerOperationDescription.cs" />
+    <Compile Include="SwaggerOperationMethod.cs" />
+    <Compile Include="SwaggerParameter.cs" />
+    <Compile Include="SwaggerParameterKind.cs" />
+    <Compile Include="SwaggerOperations.cs" />
+    <Compile Include="SwaggerResponse.cs" />
+    <Compile Include="SwaggerResponses.cs" />
+    <Compile Include="SwaggerSchema.cs" />
+    <Compile Include="SwaggerSecurityRequirement.cs" />
+    <Compile Include="SwaggerSecurityScheme.cs" />
+    <Compile Include="SwaggerSecuritySchemeType.cs" />
+    <Compile Include="SwaggerService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj">
-      <Project>{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}</Project>
-      <Name>NSwag.CodeGeneration</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NSwag\NSwag.csproj">
-      <Project>{2E6174AA-FC75-4821-9E86-51B30568BEC0}</Project>
-      <Name>NSwag</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

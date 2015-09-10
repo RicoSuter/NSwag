@@ -9,7 +9,7 @@ namespace NSwag.Console.Commands
     public abstract class InputOutputCommandBase : IConsoleCommand
     {
         [Description("An URL to the Swagger definition or the JSON itself.")]
-        [Argument(Position = 1)]
+        [Argument(Name = "Input")]
         public string Input { get; set; }
 
         [Description("The output file path (optional).")]
@@ -20,7 +20,15 @@ namespace NSwag.Console.Commands
 
         protected SwaggerService InputSwaggerService
         {
-            get { return Input.Contains("{") ? SwaggerService.FromJson(Input) : SwaggerService.FromUrl(Input); }
+            get
+            {
+                if (Input.Contains("{"))
+                    return SwaggerService.FromJson(Input);
+                else if (File.Exists(Input))
+                    return SwaggerService.FromJson(File.ReadAllText(Input, Encoding.UTF8));
+                else
+                    return SwaggerService.FromUrl(Input);
+            }
         }
 
         protected void WriteOutput(IConsoleHost host, string output)

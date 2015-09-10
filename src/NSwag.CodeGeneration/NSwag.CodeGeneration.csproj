@@ -71,17 +71,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NSwag\NSwag.csproj">
-      <Project>{2e6174aa-fc75-4821-9e86-51b30568bec0}</Project>
-      <Name>NSwag</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="ClientGenerators\TypeScript\Templates\Callbacks.txt" />
     <EmbeddedResource Include="ClientGenerators\TypeScript\Templates\Q.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ClientGenerators\CSharp\Templates\File.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj">
+      <Project>{2E6174AA-FC75-4821-9E86-51B30568BEC0}</Project>
+      <Name>NSwag.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
