@@ -47,6 +47,45 @@ namespace NSwag.CodeGeneration.Tests
             Assert.IsTrue(code.Contains("export interface Address"));
         }
 
+        [TestMethod]
+        public void When_using_json_schema_with_references_in_service_then_references_are_correctly_resolved()
+        {
+            //// Arrange
+            var jsonSchema = @"{
+  ""definitions"": {
+    ""app"": {
+      ""definitions"": {
+        ""name"": {
+          ""pattern"": ""^[a-z][a-z0-9-]{3,30}$"",
+          ""type"": ""string""
+        }
+      },
+      ""properties"": {
+        ""name"": {
+          ""$ref"": ""#/definitions/app/definitions/name""
+        }
+      },
+      ""required"": [""name""],
+      ""type"": ""object""
+    }
+  },
+  ""properties"": {
+    ""app"": {
+      ""$ref"": ""#/definitions/app""
+    },
+  },
+  ""type"": ""object""
+}";
+            
+            //// Act
+            var schema = JsonSchema4.FromJson(jsonSchema);
+            var service = new SwaggerService();
+            service.Definitions["Foo"] = schema;
+
+            //// Assert
+            var jsonService = service.ToJson(); // no exception expected
+        }
+
         private static SwaggerService CreateService()
         {
             var service = new SwaggerService();

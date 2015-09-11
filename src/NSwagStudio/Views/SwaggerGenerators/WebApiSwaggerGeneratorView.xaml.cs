@@ -14,7 +14,7 @@ namespace NSwagStudio.Views.SwaggerGenerators
 
         private WebApiSwaggerGeneratorViewModel Model { get { return (WebApiSwaggerGeneratorViewModel)Resources["ViewModel"]; } }
 
-        public string Title { get { return "Web API"; } }
+        public string Title { get { return "Web API Assembly"; } }
 
         public Task<string> GenerateSwaggerAsync()
         {

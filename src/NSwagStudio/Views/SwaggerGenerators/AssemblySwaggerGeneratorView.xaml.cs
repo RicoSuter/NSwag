@@ -12,7 +12,7 @@ namespace NSwagStudio.Views.SwaggerGenerators
 
         private AssemblySwaggerGeneratorViewModel Model { get { return (AssemblySwaggerGeneratorViewModel)Resources["ViewModel"]; } }
 
-        public string Title { get { return "Assembly"; } }
+        public string Title { get { return ".NET Assembly"; } }
 
         public Task<string> GenerateSwaggerAsync()
         {

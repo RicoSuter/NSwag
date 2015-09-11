@@ -137,7 +137,8 @@ namespace NSwag
 
             GenerateOperationIds();
 
-            JsonSchemaReferenceUtilities.UpdateAllTypeReferences(this);
+            JsonSchemaReferenceUtilities.UpdateSchemaReferencePaths(this);
+            JsonSchemaReferenceUtilities.UpdateSchemaReferences(this);
 
             var data = JsonConvert.SerializeObject(this, settings);
             return JsonSchemaReferenceUtilities.ConvertPropertyReferences(data);
@@ -150,7 +151,7 @@ namespace NSwag
         {
             data = JsonSchemaReferenceUtilities.ConvertJsonReferences(data);
             var service = JsonConvert.DeserializeObject<SwaggerService>(data);
-            JsonSchemaReferenceUtilities.UpdateAllTypeReferences(service);
+            JsonSchemaReferenceUtilities.UpdateSchemaReferences(service);
             return service;
         }
 

@@ -24,7 +24,7 @@
 
     <TabControl TabStripPlacement="Left" DataContext="{StaticResource ViewModel}" Margin="8,0,0,0">
         <!-- Service2Client -->
-        <TabItem Header="Service2Client" HeaderTemplate="{StaticResource RotatedTabItem}">
+        <TabItem Header="Generators" HeaderTemplate="{StaticResource RotatedTabItem}">
             <Grid Margin="8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" MinWidth="400" />

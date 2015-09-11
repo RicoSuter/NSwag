@@ -62,7 +62,7 @@ namespace NSwag.CodeGeneration.ClientGenerators.CSharp
                     {
                         StatusCode = r.Key,
                         IsSuccess = r.Key == "200",
-                        Type = GetType(operation, r.Value.Schema, "Result"),
+                        Type = GetType(r.Value.Schema, "Response"),
                     }).ToList();
 
                     var defaultResponse = responses.SingleOrDefault(r => r.StatusCode == "default");
@@ -87,7 +87,7 @@ namespace NSwag.CodeGeneration.ClientGenerators.CSharp
                         Parameters = operation.Parameters.Select(parameter => new
                         {
                             Name = parameter.Name,
-                            Type = _resolver.Resolve(parameter.ActualSchema, parameter.IsRequired),
+                            Type = _resolver.Resolve(parameter.ActualSchema, parameter.IsRequired, parameter.Name),
                             IsLast = operation.Parameters.LastOrDefault() == parameter
                         }).ToList(),
 
@@ -118,7 +118,7 @@ namespace NSwag.CodeGeneration.ClientGenerators.CSharp
             if (operation.Responses.Count(r => r.Key != "200") != 1)
                 return "Exception";
 
-            return GetType(operation, operation.Responses.Single(r => r.Key != "200").Value.Schema, "Exception");
+            return GetType(operation.Responses.Single(r => r.Key != "200").Value.Schema, "Exception");
         }
 
         private string GetResultType(SwaggerOperation operation)
@@ -130,15 +130,15 @@ namespace NSwag.CodeGeneration.ClientGenerators.CSharp
                 return "object";
 
             var response = operation.Responses.Single(r => r.Key == "200").Value;
-            return GetType(operation, response.Schema, "Result");
+            return GetType(response.Schema, "Response");
         }
 
-        private string GetType(SwaggerOperation operation, JsonSchema4 schema, string typePostFix)
+        private string GetType(JsonSchema4 schema, string typeNameHint)
         {
             if (schema == null)
                 return "string";
 
-            return _resolver.Resolve(schema.ActualSchema, true);
+            return _resolver.Resolve(schema.ActualSchema, true, typeNameHint);
         }
     }
 }

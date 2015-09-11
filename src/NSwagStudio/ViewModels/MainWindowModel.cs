@@ -23,6 +23,7 @@ namespace NSwagStudio.ViewModels
         {
             new SwaggerInputGeneratorView(),
             new WebApiSwaggerGeneratorView(),
+            new JsonSchemaInputGeneratorView(),
             new AssemblySwaggerGeneratorView(), 
         };
 
