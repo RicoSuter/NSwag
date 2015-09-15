@@ -7,7 +7,7 @@ NSwag is a Swagger 2.0 API toolchain for .NET, TypeScript and other platforms, w
 **Swagger Generators:**
 
 - ASP.NET Web API, [WebApiToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/WebApiToSwaggerGenerator)
-- Types from .NET assemblies [AssemblyTypeToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/AssemblyTypeToSwaggerGenerator)
+- Types from .NET assemblies [AssemblyToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/AssemblyToSwaggerGenerator)
 
 **Client Generators:** 
 
