@@ -11,7 +11,7 @@ namespace NSwag.Tests.Integration
         {
             //// Arrange
             var assemblyPath = "../../../NSwag.Demo.Web/bin/NSwag.Demo.Web.dll";
-            var generator = new AssemblyTypeToSwaggerGenerator(assemblyPath);
+            var generator = new AssemblyToSwaggerGenerator(assemblyPath);
 
             //// Act
             var service = generator.FromAssemblyType("NSwag.Demo.Web.Models.Person");

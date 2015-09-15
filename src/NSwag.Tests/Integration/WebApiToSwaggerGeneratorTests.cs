@@ -15,7 +15,8 @@ namespace NSwag.Tests.Integration
             var generator = new WebApiToSwaggerGenerator("api/{controller}/{action}/{id}");
 
             //// Act
-            var service = generator.Generate(typeof(PersonsController));
+            var service = generator.Generate<PersonsController>();
+            var swaggerSpecification = service.ToJson();
 
             //// Assert
             Assert.AreEqual(8, service.Operations.Count());

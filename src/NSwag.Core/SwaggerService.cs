@@ -198,7 +198,7 @@ namespace NSwag
                 if (group.Count() > 1)
                 {
                     var arrayResponseOperation = operations.FirstOrDefault(
-                        a => a.Operation.Responses.Any(r => r.Key == "200" && r.Value.Schema.Type == JsonObjectType.Array));
+                        a => a.Operation.Responses.Any(r => r.Key == "200" && r.Value.Schema != null && r.Value.Schema.Type == JsonObjectType.Array));
 
                     if (arrayResponseOperation != null)
                     {

@@ -110,7 +110,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             {
                 AllControllerNames = await Task.Run(() =>
                 {
-                    var generator = new AssemblyTypeToSwaggerGenerator(AssemblyPath);
+                    var generator = new WebApiAssemblyToSwaggerGenerator(AssemblyPath);
                     return generator.GetControllerClasses();
                 });
 
@@ -124,7 +124,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             {
                 return await Task.Run(() =>
                 {
-                    var generator = new AssemblyTypeToSwaggerGenerator(AssemblyPath);
+                    var generator = new WebApiAssemblyToSwaggerGenerator(AssemblyPath);
                     return generator.FromWebApiAssembly(ControllerName, UrlTemplate).ToJson();
                 });
             });
