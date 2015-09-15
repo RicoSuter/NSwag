@@ -36,7 +36,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <param name="excludedMethodName">The name of the excluded method name.</param>
         /// <returns>The <see cref="SwaggerService" />.</returns>
         /// <exception cref="InvalidOperationException">The parameter cannot be an object or array.</exception>
-        public SwaggerService Generate<TController>(string excludedMethodName = null)
+        public SwaggerService Generate<TController>(string excludedMethodName = "Swagger")
         {
             return Generate(typeof(TController), excludedMethodName);
         }
@@ -46,7 +46,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <param name="excludedMethodName">The name of the excluded method name.</param>
         /// <returns>The <see cref="SwaggerService"/>.</returns>
         /// <exception cref="InvalidOperationException">The parameter cannot be an object or array. </exception>
-        public SwaggerService Generate(Type controllerType, string excludedMethodName = null)
+        public SwaggerService Generate(Type controllerType, string excludedMethodName = "Swagger")
         {
             _service = new SwaggerService();
             _serviceType = controllerType;
