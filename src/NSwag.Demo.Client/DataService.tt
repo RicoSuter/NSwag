@@ -3,7 +3,7 @@
 <#@ assembly name="System.Core" #>
 <#@ assembly name="$(SolutionDir)\NSwag.CodeGeneration\bin\Debug\NJsonSchema.CodeGeneration.dll" #>
 <#@ assembly name="$(SolutionDir)\NSwag.CodeGeneration\bin\Debug\NSwag.CodeGeneration.dll" #>
-<#@ assembly name="$(SolutionDir)\NSwag.CodeGeneration\bin\Debug\NSwag.dll" #>
+<#@ assembly name="$(SolutionDir)\NSwag.CodeGeneration\bin\Debug\NSwag.Core.dll" #>
 
 <#@ import namespace="NSwag" #>
 <#@ import namespace="NSwag.CodeGeneration.ClientGenerators.CSharp" #>
@@ -19,7 +19,6 @@
     
     var generator = new SwaggerToCSharpGenerator(SwaggerService.FromUrl(swaggerUrl));
 	var provider = new CSharpCodeProvider();
-	generator.Class = provider.CreateEscapedIdentifier(Path.GetFileNameWithoutExtension(Host.TemplateFile));
 	generator.Class = provider.CreateEscapedIdentifier(Path.GetFileNameWithoutExtension(Host.TemplateFile));
 	generator.Namespace = Host.ResolveParameterValue("directiveId", "namespaceDirectiveProcessor", "namespaceHint");
 

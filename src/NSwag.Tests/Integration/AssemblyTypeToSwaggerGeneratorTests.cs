@@ -11,10 +11,10 @@ namespace NSwag.Tests.Integration
         {
             //// Arrange
             var assemblyPath = "../../../NSwag.Demo.Web/bin/NSwag.Demo.Web.dll";
-            var generator = new AssemblyToSwaggerGenerator(assemblyPath);
+            var generator = new AssemblyTypeToSwaggerGenerator(assemblyPath);
 
             //// Act
-            var service = generator.FromAssemblyType("NSwag.Demo.Web.Models.Person");
+            var service = generator.Generate("NSwag.Demo.Web.Models.Person");
 
             //// Assert
             Assert.AreEqual(3, service.Definitions["Person"].Properties.Count);

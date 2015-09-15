@@ -125,7 +125,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
                 return await Task.Run(() =>
                 {
                     var generator = new WebApiAssemblyToSwaggerGenerator(AssemblyPath);
-                    return generator.FromWebApiAssembly(ControllerName, UrlTemplate).ToJson();
+                    return generator.Generate(ControllerName, UrlTemplate).ToJson();
                 });
             });
         }
