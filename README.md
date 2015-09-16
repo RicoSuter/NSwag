@@ -21,7 +21,7 @@ NSwag is a Swagger 2.0 API toolchain for .NET, TypeScript and other platforms, w
 - In your C# code
 - Via [command line](https://github.com/NSwag/NSwag/wiki/CommandLine)
 - Generate code with [T4 templates](https://github.com/NSwag/NSwag/wiki/T4) in Visual Studio
-- Windows GUI [NSwagStudio](https://github.com/NSwag/NSwag/wiki/NSwagStudio)
+- Windows GUI, [NSwagStudio](https://github.com/NSwag/NSwag/wiki/NSwagStudio)
 
 [**Downloads and Build Artifacts** (command line tool and NSwagStudio)](https://ci.appveyor.com/project/rsuter/nswag/build/artifacts)
 
