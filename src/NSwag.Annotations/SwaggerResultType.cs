@@ -20,7 +20,7 @@ namespace NSwag.Annotations
             ResultType = resultType; // TODO: Check for this attribute on WebAPI methods
         }
 
-        /// <summary>Gets or sets the result type.</summary>
+        /// <summary>Gets or sets the JSON result type of an MVC or Web API action method.</summary>
         public Type ResultType { get; set; }
     }
 }
