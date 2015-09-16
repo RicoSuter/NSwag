@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
 using System.Web.Http;
 using System.Web.Http.Results;
 using Newtonsoft.Json;
@@ -65,15 +67,11 @@ namespace NSwag.Demo.Web.Controllers
         }
         
         [HttpGet]
-        public JsonResult<SwaggerService> Swagger()
+        public HttpResponseMessage Swagger()
         {
             var generator = new WebApiToSwaggerGenerator(Configuration.Routes.First(r => !string.IsNullOrEmpty(r.RouteTemplate)).RouteTemplate);
             var service = generator.Generate(GetType(), "Swagger");
-            return Json(service, new JsonSerializerSettings
-            {
-                Formatting = Formatting.Indented, 
-                PreserveReferencesHandling = PreserveReferencesHandling.None
-            });
+            return new HttpResponseMessage { Content = new StringContent(service.ToJson(), Encoding.UTF8) };
         }
     }
 }

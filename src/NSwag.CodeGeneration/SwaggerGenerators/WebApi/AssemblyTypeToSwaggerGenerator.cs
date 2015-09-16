@@ -16,13 +16,13 @@ using NSwag.CodeGeneration.Infrastructure;
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 {
     /// <summary>Generates a <see cref="SwaggerService"/> from a Web API controller or type which is located in a .NET assembly.</summary>
-    public class AssemblyToSwaggerGenerator
+    public class AssemblyTypeToSwaggerGenerator
     {
         private readonly string _assemblyPath;
 
-        /// <summary>Initializes a new instance of the <see cref="AssemblyToSwaggerGenerator"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="AssemblyTypeToSwaggerGenerator"/> class.</summary>
         /// <param name="assemblyPath">The assembly path.</param>
-        public AssemblyToSwaggerGenerator(string assemblyPath)
+        public AssemblyTypeToSwaggerGenerator(string assemblyPath)
         {
             _assemblyPath = assemblyPath; 
         }
@@ -33,7 +33,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         {
             if (File.Exists(_assemblyPath))
             {
-                using (var isolated = new AppDomainIsolation<NSwagServiceLoader>())
+                using (var isolated = new AppDomainIsolation<AssemblyLoader>())
                     return isolated.Object.GetClasses(_assemblyPath);
             }
             return new string[] { };
@@ -42,13 +42,13 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <summary>Generates the Swagger definition for the given classes without operations (used for class generation).</summary>
         /// <param name="className">The class name.</param>
         /// <returns>The Swagger definition.</returns>
-        public SwaggerService FromAssemblyType(string className)
+        public SwaggerService Generate(string className)
         {
-            using (var isolated = new AppDomainIsolation<NSwagServiceLoader>())
+            using (var isolated = new AppDomainIsolation<AssemblyLoader>())
                 return SwaggerService.FromJson(isolated.Object.FromAssemblyType(_assemblyPath, className));
         }
 
-        private class NSwagServiceLoader : MarshalByRefObject
+        private class AssemblyLoader : MarshalByRefObject
         {
             internal string FromAssemblyType(string assemblyPath, string className)
             {

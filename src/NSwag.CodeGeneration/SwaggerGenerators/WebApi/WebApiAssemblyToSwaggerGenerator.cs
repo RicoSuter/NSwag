@@ -32,7 +32,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         {
             if (File.Exists(_assemblyPath))
             {
-                using (var isolated = new AppDomainIsolation<NSwagServiceLoader>())
+                using (var isolated = new AppDomainIsolation<AssemblyLoader>())
                     return isolated.Object.GetControllerClasses(_assemblyPath);
             }
             return new string[] { };
@@ -42,13 +42,13 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <param name="controllerClassName">The full name of the controller class.</param>
         /// <param name="urlTemplate">The default Web API URL template.</param>
         /// <returns>The Swagger definition.</returns>
-        public SwaggerService FromWebApiAssembly(string controllerClassName, string urlTemplate)
+        public SwaggerService Generate(string controllerClassName, string urlTemplate)
         {
-            using (var isolated = new AppDomainIsolation<NSwagServiceLoader>())
+            using (var isolated = new AppDomainIsolation<AssemblyLoader>())
                 return SwaggerService.FromJson(isolated.Object.FromWebApiAssembly(_assemblyPath, controllerClassName, urlTemplate));
         }
 
-        private class NSwagServiceLoader : MarshalByRefObject
+        private class AssemblyLoader : MarshalByRefObject
         {
             internal string FromWebApiAssembly(string assemblyPath, string controllerClassName, string urlTemplate)
             {

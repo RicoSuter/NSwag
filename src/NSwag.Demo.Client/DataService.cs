@@ -2,6 +2,17 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -11,13 +22,13 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-// Generated using the NSwag toolchain v0.1.5725.20357 (http://NSwag.org)
+// Generated using the NSwag toolchain v0.1.5736.35519 (http://NSwag.org)
 
 namespace NSwag.Demo.Client
 {
     public partial class DataService
     {
-        public DataService() : this("/") { }
+        public DataService() : this("") { }
 
         public DataService(string baseUrl)
         {
@@ -31,7 +42,7 @@ namespace NSwag.Demo.Client
         public string BaseUrl { get; set; }
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async Task<ObservableCollection<object>> GetAllAsync()
+        public async Task<ObservableCollection<Person>> GetAllAsync()
         {
             var url = string.Format("{0}/{1}?", BaseUrl, "api/Persons/Get");
 
@@ -44,14 +55,14 @@ namespace NSwag.Demo.Client
             var responseData = await response.Content.ReadAsStringAsync(); 
             var status = response.StatusCode.ToString();
             if (status == "200") {
-                return JsonConvert.DeserializeObject<ObservableCollection<object>>(responseData);		
+                return JsonConvert.DeserializeObject<ObservableCollection<Person>>(responseData);		
             }
 
             throw new SwaggerException("The response was not expected.", response.StatusCode, null);
         }
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async Task<object> GetAsync(long id )
+        public async Task<Person> GetAsync(long id )
         {
             var url = string.Format("{0}/{1}?", BaseUrl, "api/Persons/Get/{id}");
 
@@ -66,14 +77,14 @@ namespace NSwag.Demo.Client
             var responseData = await response.Content.ReadAsStringAsync(); 
             var status = response.StatusCode.ToString();
             if (status == "200") {
-                return JsonConvert.DeserializeObject<object>(responseData);		
+                return JsonConvert.DeserializeObject<Person>(responseData);		
             }
 
             throw new SwaggerException("The response was not expected.", response.StatusCode, null);
         }
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async Task<string> PostAsync(object request )
+        public async Task<string> PostAsync(Person request )
         {
             var url = string.Format("{0}/{1}?", BaseUrl, "api/Persons/Post");
 
@@ -94,7 +105,7 @@ namespace NSwag.Demo.Client
         }
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async Task<string> PutAsync(long id, object request )
+        public async Task<string> PutAsync(long id, Person request )
         {
             var url = string.Format("{0}/{1}?", BaseUrl, "api/Persons/Put/{id}");
 
@@ -186,7 +197,7 @@ namespace NSwag.Demo.Client
         }
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async Task<object> LoadComplexObjectAsync()
+        public async Task<Car> LoadComplexObjectAsync()
         {
             var url = string.Format("{0}/{1}?", BaseUrl, "api/Persons/LoadComplexObject");
 
@@ -199,7 +210,7 @@ namespace NSwag.Demo.Client
             var responseData = await response.Content.ReadAsStringAsync(); 
             var status = response.StatusCode.ToString();
             if (status == "200") {
-                return JsonConvert.DeserializeObject<object>(responseData);		
+                return JsonConvert.DeserializeObject<Car>(responseData);		
             }
 
             throw new SwaggerException("The response was not expected.", response.StatusCode, null);
@@ -298,6 +309,7 @@ namespace NSwag.Demo.Client
     {
         private string _firstName;
         private string _lastName;
+        private ObservableCollection<Car> _cars;
 
         [JsonProperty("firstName", Required = Required.Default)]
         public string FirstName
@@ -322,6 +334,20 @@ namespace NSwag.Demo.Client
                 if (_lastName != value)
                 {
                     _lastName = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        [JsonProperty("Cars", Required = Required.Default)]
+        public ObservableCollection<Car> Cars
+        {
+            get { return _cars; }
+            set 
+            {
+                if (_cars != value)
+                {
+                    _cars = value; 
                     RaisePropertyChanged();
                 }
             }
@@ -399,4 +425,5 @@ namespace NSwag.Demo.Client
                 handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }
+
 }

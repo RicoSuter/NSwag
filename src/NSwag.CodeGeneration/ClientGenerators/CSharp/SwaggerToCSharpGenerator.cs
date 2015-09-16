@@ -110,7 +110,10 @@ namespace NSwag.CodeGeneration.ClientGenerators.CSharp
             template.Add("toolchain", SwaggerService.ToolchainVersion);
             template.Add("classes", _resolver.GenerateClasses());
 
-            return template.Render().Replace("\r", string.Empty).Replace("\n\n\n\n", "\n\n").Replace("\n\n\n", "\n\n");
+            return template.Render()
+                .Replace("\r", string.Empty)
+                .Replace("\n\n\n\n", "\n\n")
+                .Replace("\n\n\n", "\n\n");
         }
 
         private string GetExceptionType(SwaggerOperation operation)
