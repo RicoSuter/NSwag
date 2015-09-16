@@ -16,8 +16,6 @@ NSwag is a Swagger 2.0 API toolchain for .NET, TypeScript and other platforms, w
 - TypeScript, [SwaggerToTypeScriptGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToTypeScriptGenerator)
 - CSharp, [SwaggerToCSharpGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToCSharpGenerator)
 
-[Read more about the available Swagger and Client Generators](https://github.com/NSwag/NSwag/wiki)
-
 **Ways to use the toolchain:** 
 
 - In your C# code
