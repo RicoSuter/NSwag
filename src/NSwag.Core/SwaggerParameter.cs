@@ -27,7 +27,7 @@ namespace NSwag
         [JsonConverter(typeof(StringEnumConverter))]
         public SwaggerParameterKind Kind { get; set; }
 
-        /// <summary>Gets or sets a value indicating whether the parameter is required.</summary>
+        /// <summary>Gets or sets a value indicating whether the parameter is required (default: true).</summary>
         [JsonIgnore]
         public bool IsRequired
         {
