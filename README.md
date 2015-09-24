@@ -38,3 +38,5 @@ The following code shows how to generate C# client classes to call a web service
 	generator.Namespace = "MyNamespace";
 	
 	var code = generator.GenerateFile();
+
+[Full Sample](https://github.com/NSwag/NSwag/wiki/WebApiToSwaggerGenerator)
