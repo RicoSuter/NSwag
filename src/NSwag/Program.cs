@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using NConsole;
-using NSwag.Console.Commands;
+using NSwag.Commands;
 
 namespace NSwag
 {
@@ -18,8 +18,10 @@ namespace NSwag
             {
                 var processor = new CommandLineProcessor(host);
 
-                processor.RegisterCommand<CSharpCommand>("csharp");
-                processor.RegisterCommand<TypeScriptCommand>("typescript");
+                processor.RegisterCommand<WebApiToSwaggerCommand>("webapi");
+
+                processor.RegisterCommand<SwaggerToCSharpCommand>("csharp");
+                processor.RegisterCommand<SwaggerToTypeScriptCommand>("typescript");
 
                 processor.Process(args);
             }

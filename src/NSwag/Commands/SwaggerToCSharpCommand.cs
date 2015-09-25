@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 using NConsole;
 using NSwag.CodeGeneration.ClientGenerators.CSharp;
 
-namespace NSwag.Console.Commands
+namespace NSwag.Commands
 {
     [Description("Generates the CSharp client code.")]
-    public class CSharpCommand : InputOutputCommandBase
+    public class SwaggerToCSharpCommand : InputOutputCommandBase
     {
         [Description("The class name of the generated client.")]
         [Argument(Name = "Class")]

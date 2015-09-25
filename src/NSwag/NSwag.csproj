@@ -65,9 +65,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\CSharpCommand.cs" />
+    <Compile Include="Commands\OutputCommandBase.cs" />
+    <Compile Include="Commands\SwaggerToCSharpCommand.cs" />
     <Compile Include="Commands\InputOutputCommandBase.cs" />
-    <Compile Include="Commands\TypeScriptCommand.cs" />
+    <Compile Include="Commands\SwaggerToTypeScriptCommand.cs" />
+    <Compile Include="Commands\WebApiToSwaggerCommand.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

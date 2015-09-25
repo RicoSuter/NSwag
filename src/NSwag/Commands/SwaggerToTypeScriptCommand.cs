@@ -1,13 +1,12 @@
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using NConsole;
 using NSwag.CodeGeneration.ClientGenerators.TypeScript;
 
-namespace NSwag.Console.Commands
+namespace NSwag.Commands
 {
     [Description("Generates the TypeScript client code.")]
-    public class TypeScriptCommand : InputOutputCommandBase
+    public class SwaggerToTypeScriptCommand : InputOutputCommandBase
     {
         [Description("The class name of the generated client.")]
         [Argument(Name = "Class", DefaultValue = "Client")]

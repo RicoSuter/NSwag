@@ -9,7 +9,7 @@ namespace NSwagStudio.Views.ClientGenerators
             InitializeComponent();
         }
 
-        public string Title { get { return "Swagger"; } }
+        public string Title { get { return "Swagger Specification"; } }
 
         public async Task GenerateClientAsync(string swaggerData)
         {
