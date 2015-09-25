@@ -6,22 +6,22 @@ NSwag is a Swagger 2.0 API toolchain for .NET, TypeScript and other platforms, w
 
 **Swagger Generators:**
 
-- ASP.NET Web API, [WebApiToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/WebApiToSwaggerGenerator)
-- Types from .NET assemblies [AssemblyToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/AssemblyToSwaggerGenerator)
+- ASP.NET Web API
+    - [WebApiToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/WebApiToSwaggerGenerator)
+    - [WebApiAssemblyToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/WebApiAssemblyToSwaggerGenerator)
+- Types from .NET assemblies, [AssemblyToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/AssemblyToSwaggerGenerator)
 
 **Client Generators:** 
 
 - TypeScript, [SwaggerToTypeScriptGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToTypeScriptGenerator)
 - CSharp, [SwaggerToCSharpGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToCSharpGenerator)
 
-[Read more about the available Swagger and Client Generators](https://github.com/NSwag/NSwag/wiki)
-
 **Ways to use the toolchain:** 
 
 - In your C# code
 - Via [command line](https://github.com/NSwag/NSwag/wiki/CommandLine)
 - Generate code with [T4 templates](https://github.com/NSwag/NSwag/wiki/T4) in Visual Studio
-- Windows GUI [NSwagStudio](https://github.com/NSwag/NSwag/wiki/NSwagStudio)
+- Windows GUI, [NSwagStudio](https://github.com/NSwag/NSwag/wiki/NSwagStudio)
 
 [**Downloads and Build Artifacts** (command line tool and NSwagStudio)](https://ci.appveyor.com/project/rsuter/nswag/build/artifacts)
 
@@ -38,3 +38,5 @@ The following code shows how to generate C# client classes to call a web service
 	generator.Namespace = "MyNamespace";
 	
 	var code = generator.GenerateFile();
+
+[Full Sample](https://github.com/NSwag/NSwag/wiki/WebApiToSwaggerGenerator)

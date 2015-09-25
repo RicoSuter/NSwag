@@ -14,13 +14,13 @@ namespace NSwag.Annotations
     public class SwaggerResultTypeAttribute : Attribute
     {
         /// <summary>Initializes a new instance of the <see cref="SwaggerResultTypeAttribute"/> class.</summary>
-        /// <param name="resultType">The operation result type.</param>
+        /// <param name="resultType">The JSON result type of the MVC or Web API action method.</param>
         public SwaggerResultTypeAttribute(Type resultType)
         {
             ResultType = resultType; // TODO: Check for this attribute on WebAPI methods
         }
 
-        /// <summary>Gets or sets the result type.</summary>
+        /// <summary>Gets or sets the JSON result type of the MVC or Web API action method.</summary>
         public Type ResultType { get; set; }
     }
 }
