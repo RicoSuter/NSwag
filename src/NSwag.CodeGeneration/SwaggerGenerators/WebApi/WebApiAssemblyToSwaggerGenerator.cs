@@ -63,17 +63,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             {
                 var assembly = Assembly.LoadFrom(assemblyPath);
                 return assembly.ExportedTypes
-                    .Where(t =>
-                    {
-                        var baseType = t.BaseType;
-                        while (baseType != null)
-                        {
-                            if (baseType.Name == "ApiController")
-                                return true;
-                            baseType = baseType.BaseType;
-                        }
-                        return false; 
-                    })
+                    .Where(t => t.InheritsFrom("ApiController"))
                     .Select(t => t.FullName)
                     .ToArray();
             }

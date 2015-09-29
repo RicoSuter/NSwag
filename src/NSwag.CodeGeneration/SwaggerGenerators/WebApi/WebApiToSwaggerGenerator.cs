@@ -22,7 +22,6 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         private SwaggerService _service;
         private readonly string _defaultRouteTemplate;
         private Type _serviceType;
-        private JsonSchema4 _exceptionType;
 
         /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerGenerator"/> class.</summary>
         /// <param name="defaultRouteTemplate">The default route template.</param>
@@ -50,15 +49,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         {
             _service = new SwaggerService();
             _serviceType = controllerType;
-
-            _exceptionType = new JsonSchema4();
-            _exceptionType.TypeName = "SwaggerException";
-            _exceptionType.Properties.Add("ExceptionType", new JsonProperty { Type = JsonObjectType.String });
-            _exceptionType.Properties.Add("Message", new JsonProperty { Type = JsonObjectType.String });
-            _exceptionType.Properties.Add("StackTrace", new JsonProperty { Type = JsonObjectType.String });
-
-            _service.Definitions[_exceptionType.TypeName] = _exceptionType;
-
+            
             var schemaResolver = new SchemaResolver();
             var methods = controllerType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
             foreach (var method in methods.Where(m => m.Name != excludedMethodName))
@@ -242,9 +233,12 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         {
             if (method.ReturnType.FullName != "System.Void")
             {
+                dynamic resultTypeAttribute = method.GetCustomAttributes().SingleOrDefault(a => a.GetType().Name == "ResultTypeAttribute");
+                var resultType = resultTypeAttribute != null ? resultTypeAttribute.Type : method.ReturnType;
+
                 operation.Responses["200"] = new SwaggerResponse
                 {
-                    Schema = CreateAndAddSchema<JsonSchema4>(method.ReturnType, schemaResolver)
+                    Schema = CreateAndAddSchema<JsonSchema4>(resultType, schemaResolver)
                 };
             }
             else
@@ -260,10 +254,20 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             if (type.Name == "JsonResult`1")
                 type = type.GenericTypeArguments[0];
 
+            if (type.Name == "HttpResponseMessage" || type.InheritsFrom("HttpResponseMessage"))
+                type = typeof (object);
+            
             var info = JsonObjectTypeDescription.FromType(type);
-
             if (info.Type.HasFlag(JsonObjectType.Object))
             {
+                if (type == typeof (object))
+                {
+                    return new TSchemaType
+                    {
+                        Type = JsonObjectType.Object,
+                    };
+                }
+
                 if (!schemaResolver.HasSchema(type))
                 {
                     var schemaGenerator = new RootTypeJsonSchemaGenerator(_service);
