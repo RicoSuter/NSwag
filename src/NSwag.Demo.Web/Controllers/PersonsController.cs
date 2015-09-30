@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Web.Http;
 using System.Web.Http.Results;
 using Newtonsoft.Json;
+using NSwag.Annotations;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 using NSwag.Demo.Web.Models;
 
@@ -26,9 +28,10 @@ namespace NSwag.Demo.Web.Controllers
         }
 
         // GET: api/Person/5
-        public Person Get(int id)
+        [ResultType(typeof(Person))]
+        public HttpResponseMessage Get(int id)
         {
-            return new Person { FirstName = "Rico", LastName = "Suter" };
+            return Request.CreateResponse(HttpStatusCode.OK, new Person { FirstName = "Rico", LastName = "Suter" });
         }
 
         // POST: api/Person
@@ -51,7 +54,7 @@ namespace NSwag.Demo.Web.Controllers
         [Description("Calculates the sum of a, b and c.")]
         public int Calculate(int a, int b, int c)
         {
-            return a + b + c; 
+            return a + b + c;
         }
 
         [HttpGet]
@@ -65,7 +68,7 @@ namespace NSwag.Demo.Web.Controllers
         {
             return new Car();
         }
-        
+
         [HttpGet]
         public HttpResponseMessage Swagger()
         {

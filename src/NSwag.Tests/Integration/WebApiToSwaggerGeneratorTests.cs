@@ -21,5 +21,19 @@ namespace NSwag.Tests.Integration
             //// Assert
             Assert.AreEqual(8, service.Operations.Count());
         }
+
+        [TestMethod]
+        public void When_there_is_a_ResultType_attribute_on_an_action_method_then_the_response_is_taken_from_the_given_type()
+        {
+            //// Arrange
+            var generator = new WebApiToSwaggerGenerator("api/{controller}/{action}/{id}");
+
+            //// Act
+            var service = generator.Generate<PersonsController>();
+            var operation = service.Operations.Single(o => o.Path == "api/Persons/Get/{id}");
+
+            //// Assert
+            Assert.AreEqual("Person", operation.Operation.Responses["200"].Schema.ActualSchema.TypeName);
+        }
     }
 }

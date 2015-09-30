@@ -111,6 +111,10 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj">
+      <Project>{CA084154-E758-4A44-938D-7806AF2DD886}</Project>
+      <Name>NSwag.Annotations</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj">
       <Project>{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}</Project>
       <Name>NSwag.CodeGeneration</Name>
