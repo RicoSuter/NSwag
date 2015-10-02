@@ -63,7 +63,7 @@ namespace NSwag
         [JsonProperty(PropertyName = "parameters", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public List<SwaggerParameter> Parameters { get; set; }
 
-        /// <summary>Gets or sets the responses.</summary>
+        /// <summary>Gets or sets the HTTP Status Code/Response pairs.</summary>
         [JsonProperty(PropertyName = "responses", Required = Required.Always, DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Dictionary<string, SwaggerResponse> Responses { get; set; }
 

@@ -49,7 +49,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         {
             _service = new SwaggerService();
             _serviceType = controllerType;
-            
+
             var schemaResolver = new SchemaResolver();
             var methods = controllerType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
             foreach (var method in methods.Where(m => m.Name != excludedMethodName))
@@ -139,7 +139,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 }
             }
 
-            return httpPath; 
+            return httpPath;
         }
 
         private IEnumerable<SwaggerOperationMethod> GetSupportedHttpMethods(MethodInfo method)
@@ -148,7 +148,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
             var methodName = method.Name;
 
-            var httpMethods = GetSupportedHttpMethodsFromAttributes(method).ToArray(); 
+            var httpMethods = GetSupportedHttpMethodsFromAttributes(method).ToArray();
             foreach (var httpMethod in httpMethods)
                 yield return httpMethod;
 
@@ -158,7 +158,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     yield return SwaggerOperationMethod.get;
                 else if (methodName.StartsWith("Post"))
                     yield return SwaggerOperationMethod.post;
-                else if(methodName.StartsWith("Put"))
+                else if (methodName.StartsWith("Put"))
                     yield return SwaggerOperationMethod.put;
                 else if (methodName.StartsWith("Delete"))
                     yield return SwaggerOperationMethod.delete;
@@ -233,13 +233,26 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         {
             if (method.ReturnType.FullName != "System.Void")
             {
-                dynamic resultTypeAttribute = method.GetCustomAttributes().SingleOrDefault(a => a.GetType().Name == "ResultTypeAttribute");
-                var resultType = resultTypeAttribute != null ? resultTypeAttribute.Type : method.ReturnType;
-
-                operation.Responses["200"] = new SwaggerResponse
+                var resultTypeAttributes = method.GetCustomAttributes().Where(a => a.GetType().Name == "ResultTypeAttribute").ToList();
+                if (resultTypeAttributes.Count > 0)
                 {
-                    Schema = CreateAndAddSchema<JsonSchema4>(resultType, schemaResolver)
-                };
+                    foreach (var resultTypeAttribute in resultTypeAttributes)
+                    {
+                        dynamic dynResultTypeAttribute = resultTypeAttribute;
+
+                        var httpStatusCode = "200";
+                        if (resultTypeAttribute.GetType().GetRuntimeProperty("HttpStatusCode") != null)
+                            httpStatusCode = dynResultTypeAttribute.HttpStatusCode;
+
+                        var schema = CreateAndAddSchema<JsonSchema4>(dynResultTypeAttribute.Type, schemaResolver);
+                        operation.Responses[httpStatusCode] = new SwaggerResponse { Schema = schema };
+                    }
+                }
+                else
+                {
+                    var schema = CreateAndAddSchema<JsonSchema4>(method.ReturnType, schemaResolver);
+                    operation.Responses["200"] = new SwaggerResponse { Schema = schema };
+                }
             }
             else
                 operation.Responses["200"] = new SwaggerResponse();
@@ -255,12 +268,12 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 type = type.GenericTypeArguments[0];
 
             if (type.Name == "HttpResponseMessage" || type.InheritsFrom("HttpResponseMessage"))
-                type = typeof (object);
-            
+                type = typeof(object);
+
             var info = JsonObjectTypeDescription.FromType(type);
             if (info.Type.HasFlag(JsonObjectType.Object))
             {
-                if (type == typeof (object))
+                if (type == typeof(object))
                 {
                     return new TSchemaType
                     {
