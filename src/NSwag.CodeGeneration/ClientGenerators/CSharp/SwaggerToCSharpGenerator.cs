@@ -56,7 +56,7 @@ namespace NSwag.CodeGeneration.ClientGenerators.CSharp
                 .SelectMany(pair => pair.Value.Select(p => new { Path = pair.Key, Method = p.Key, Operation = p.Value }))
                 .Select(tuple =>
                 {
-                    var httpMethod = ConvertToUpperStart(tuple.Method.ToString());
+                    var httpMethod = ConvertToUpperStartIdentifier(tuple.Method.ToString());
                     var operation = tuple.Operation;
                     var responses = operation.Responses.Select(r => new
                     {
@@ -75,7 +75,7 @@ namespace NSwag.CodeGeneration.ClientGenerators.CSharp
 
                         Method = httpMethod.ToString(),
                         IsGetOrDelete = tuple.Method == SwaggerOperationMethod.get || tuple.Method == SwaggerOperationMethod.delete, 
-                        MethodName = ConvertToUpperStart(operation.OperationId),
+                        MethodName = ConvertToUpperStartIdentifier(operation.OperationId),
 
                         ResultType = GetResultType(operation),
                         ExceptionType = GetExceptionType(operation),
@@ -127,13 +127,13 @@ namespace NSwag.CodeGeneration.ClientGenerators.CSharp
         private string GetResultType(SwaggerOperation operation)
         {
             if (operation.Responses.Count(r => r.Key == "200") == 0)
-                return "void";
+                return "Task";
 
             if (operation.Responses.Count(r => r.Key == "200") != 1)
-                return "object";
+                return "Task<object>";
 
             var response = operation.Responses.Single(r => r.Key == "200").Value;
-            return GetType(response.Schema, "Response");
+            return "Task<" + GetType(response.Schema, "Response") + ">";
         }
 
         private string GetType(JsonSchema4 schema, string typeNameHint)

@@ -75,8 +75,8 @@ namespace NSwag.CodeGeneration.ClientGenerators.TypeScript
                     {
                         Name = operation.OperationId,
                         Method = httpMethod.ToString(),
-                        OperationName = ConvertToLowerStart(operation.OperationId),
-                        OperationNameUpper = ConvertToUpperStart(operation.OperationId),
+                        OperationName = ConvertToLowerStartIdentifier(operation.OperationId),
+                        OperationNameUpper = ConvertToUpperStartIdentifier(operation.OperationId),
 
                         ResultType = GetResultType(operation),
                         ExceptionType = GetExceptionType(operation),

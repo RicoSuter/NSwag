@@ -29,7 +29,7 @@ namespace <namespace>
         
 <operations:{operation | 
         /// \<exception cref="SwaggerException">A server side error occurred.\</exception>
-        public async Task\<<operation.resultType>> <operation.MethodName>Async(<operation.Parameters:{parameter | <parameter.Type> <parameter.Name><if(!parameter.isLast)>,<endif> }>)
+        public async <operation.resultType> <operation.MethodName>Async(<operation.Parameters:{parameter | <parameter.Type> <parameter.Name><if(!parameter.isLast)>,<endif> }>)
         {
             var url = string.Format("{0\}/{1\}?", BaseUrl, "<operation.Target>");
 
