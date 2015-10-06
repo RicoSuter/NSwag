@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using System.Windows;
+using NSwag;
 
 namespace NSwagStudio.Views.ClientGenerators
 {
@@ -13,7 +16,14 @@ namespace NSwagStudio.Views.ClientGenerators
 
         public async Task GenerateClientAsync(string swaggerData)
         {
-            SwaggerOutput.Text = swaggerData;
+            try
+            {
+                SwaggerOutput.Text = SwaggerService.FromJson(swaggerData).ToJson();
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show("Exception: " + exception.Message, "An error occured");
+            }
         }
     }
 }

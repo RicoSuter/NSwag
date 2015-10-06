@@ -61,20 +61,41 @@ namespace <namespace>
             var responseData = await response.Content.ReadAsStringAsync(); 
             var status = response.StatusCode.ToString();
 <operation.Responses:{response | 
-            if (status == "<response.StatusCode>") {
+            if (status == "<response.StatusCode>") 
+            {
     <if(response.IsSuccess)>
                 return JsonConvert.DeserializeObject\<<response.Type>>(responseData);		
     <else>
                 try
                 {
                     var exception = JsonConvert.DeserializeObject\<<response.Type>>(responseData);
-                    throw new SwaggerException\<<operation.resultType>>("A server side error occurred.", response.StatusCode, exception, null);
-                \} catch (Exception exception) {
+                    throw new SwaggerException\<<response.Type>>("A server side error occurred.", response.StatusCode, exception, null);
+                \} 
+                catch (Exception exception) 
+                {
                     throw new SwaggerException("Could not deserialize the exception body.", response.StatusCode, exception);
                 \}
     <endif>
             \}
-}>
+            else}>
+            {
+<if(operation.HasDefaultResponse)>
+    <if(operation.DefaultResponse.IsSuccess)>
+                return JsonConvert.DeserializeObject\<<operation.DefaultResponse.Type>>(responseData);		
+    <else>
+                try
+                {
+                    var exception = JsonConvert.DeserializeObject\<<operation.DefaultResponse.Type>>(responseData);
+                    throw new SwaggerException\<<operation.DefaultResponse.Type>>("A server side error occurred.", response.StatusCode, exception, null);
+                \} 
+                catch (Exception exception) 
+                {
+                    throw new SwaggerException("Could not deserialize the exception body.", response.StatusCode, exception);
+                \}
+    <endif>
+<endif>
+            \}
+
             throw new SwaggerException("The response was not expected.", response.StatusCode, null);
         \}
 
