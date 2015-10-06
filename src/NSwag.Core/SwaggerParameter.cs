@@ -36,7 +36,7 @@ namespace NSwag
         }
 
         /// <summary>Gets or sets the raw required value.</summary>
-        [JsonProperty(PropertyName = "isRequired", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(PropertyName = "required", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         internal bool? IsRequiredRaw { get; set; }
 
         /// <summary>Gets or sets the schema which is only available when <see cref="Kind"/> == body.</summary>
