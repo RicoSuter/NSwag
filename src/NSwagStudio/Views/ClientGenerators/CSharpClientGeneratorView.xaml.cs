@@ -10,9 +10,9 @@ namespace NSwagStudio.Views.ClientGenerators
             InitializeComponent();
         }
 
-        private CSharpClientGeneratorViewModel Model { get { return (CSharpClientGeneratorViewModel) Resources["ViewModel"]; } }
-
         public string Title { get { return "CSharp Client"; } }
+
+        private CSharpClientGeneratorViewModel Model { get { return (CSharpClientGeneratorViewModel) Resources["ViewModel"]; } }
 
         public Task GenerateClientAsync(string swaggerData)
         {

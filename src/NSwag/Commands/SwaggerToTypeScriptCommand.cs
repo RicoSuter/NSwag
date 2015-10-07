@@ -9,7 +9,7 @@ namespace NSwag.Commands
     public class SwaggerToTypeScriptCommand : InputOutputCommandBase
     {
         [Description("The class name of the generated client.")]
-        [Argument(Name = "Class", DefaultValue = "Client")]
+        [Argument(Name = "Class", DefaultValue = "{controller}Client")]
         public string Class { get; set; }
 
         public override async Task RunAsync(CommandLineProcessor processor, IConsoleHost host)

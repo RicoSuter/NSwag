@@ -13,6 +13,8 @@ using System.Windows;
 using MyToolkit.Mvvm;
 using MyToolkit.Storage;
 using NSwag;
+using NSwag.CodeGeneration.ClientGenerators;
+using NSwag.CodeGeneration.ClientGenerators.Models;
 using NSwag.CodeGeneration.ClientGenerators.TypeScript;
 
 namespace NSwagStudio.ViewModels.ClientGenerators
@@ -22,10 +24,11 @@ namespace NSwagStudio.ViewModels.ClientGenerators
         private string _className;
         private string _clientCode;
         private TypeScriptAsyncType _asyncType;
+        private OperationGenerationMode _operationGenerationMode;
 
         public TypeScriptCodeGeneratorViewModel()
         {
-            ClassName = ApplicationSettings.GetSetting("ClassName", "Client");
+            ClassName = ApplicationSettings.GetSetting("ClassName", "{controller}Client");
         }
 
         /// <summary>Gets or sets the TypeScript class name. </summary>
@@ -46,6 +49,19 @@ namespace NSwagStudio.ViewModels.ClientGenerators
         public TypeScriptAsyncType[] AsyncTypes
         {
             get { return Enum.GetNames(typeof(TypeScriptAsyncType)).Select(t => (TypeScriptAsyncType)Enum.Parse(typeof(TypeScriptAsyncType), t)).ToArray(); }
+        }
+
+        /// <summary>Gets or sets the async type. </summary>
+        public OperationGenerationMode OperationGenerationMode
+        {
+            get { return _operationGenerationMode; }
+            set { Set(ref _operationGenerationMode, value); }
+        }
+
+        /// <summary>Gets the async types. </summary>
+        public OperationGenerationMode[] OperationGenerationModes
+        {
+            get { return Enum.GetNames(typeof(OperationGenerationMode)).Select(t => (OperationGenerationMode)Enum.Parse(typeof(OperationGenerationMode), t)).ToArray(); }
         }
 
         /// <summary>Gets or sets the client code. </summary>
@@ -69,6 +85,7 @@ namespace NSwagStudio.ViewModels.ClientGenerators
                         var codeGenerator = new SwaggerToTypeScriptGenerator(service);
                         codeGenerator.Class = ClassName;
                         codeGenerator.AsyncType = AsyncType;
+                        codeGenerator.OperationGenerationMode = OperationGenerationMode;
 
                         code = codeGenerator.GenerateFile();
                     }

@@ -1,15 +1,11 @@
-﻿// Generated using the NSwag toolchain v<toolchain> (http://NSwag.org)
-
-<interfaces>
-
-<if(hasOperations)>
+﻿<if(hasOperations)>
 export class <class> {
     baseUrl = "<baseUrl>"; 
     beforeSend: any = undefined; 
 
 <operations:{operation | 
-    <operation.OperationName>(<operation.Parameters:{parameter | <parameter.Name>: <parameter.Type>, }>onSuccess?: (result: <operation.ResultType>) => void, onFail?: (exception: <operation.ExceptionType>, reason: string) => void) {
-        var url = this.baseUrl + "/<operation.Target>?"; 
+    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.Name>: <parameter.Type>, }>onSuccess?: (result: <operation.ResultType>) => void, onFail?: (exception: <operation.ExceptionType>, reason: string) => void) {
+        var url = this.baseUrl + "/<operation.Path>?"; 
 
 <operation.PlaceholderParameters:{parameter | 
     <if(parameter.IsDate)>
@@ -36,7 +32,7 @@ export class <class> {
         $.ajax({
             url: url,
             beforeSend: this.beforeSend,
-            type: "<operation.Method>",
+            type: "<operation.HttpMethodLower>",
             data: content,
             dataType: "text",
             contentType: "application/json; charset=UTF-8"
@@ -101,3 +97,4 @@ export class <class> {
 }>
 }
 <endif>
+

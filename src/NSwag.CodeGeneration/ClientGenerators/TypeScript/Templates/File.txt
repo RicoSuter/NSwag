@@ -1,0 +1,5 @@
+﻿// Generated using the NSwag toolchain v<toolchain> (http://NSwag.org)
+
+<interfaces>
+
+<clients>

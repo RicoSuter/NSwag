@@ -115,8 +115,12 @@ namespace NSwag
         {
             get
             {
+                if (string.IsNullOrEmpty(Host))
+                    return "";
+
                 if (Schemes.Any())
                     return (Schemes.First() + "://" + Host + (string.IsNullOrEmpty(BasePath) ? "/" + BasePath : string.Empty)).Trim('/');
+
                 return (Host + (string.IsNullOrEmpty(BasePath) ? "/" + BasePath : string.Empty)).Trim('/');
             }
         }

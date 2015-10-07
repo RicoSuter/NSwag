@@ -7,12 +7,16 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using MyToolkit.Mvvm;
 using MyToolkit.Storage;
 using NSwag;
+using NSwag.CodeGeneration.ClientGenerators;
 using NSwag.CodeGeneration.ClientGenerators.CSharp;
+using NSwag.CodeGeneration.ClientGenerators.Models;
+using NSwag.CodeGeneration.ClientGenerators.TypeScript;
 
 namespace NSwagStudio.ViewModels.ClientGenerators
 {
@@ -22,10 +26,11 @@ namespace NSwagStudio.ViewModels.ClientGenerators
 
         private string _className;
         private string _namespace;
+        private OperationGenerationMode _operationGenerationMode;
 
         public CSharpClientGeneratorViewModel()
         {
-            ClassName = ApplicationSettings.GetSetting("CSharpClassName", "MyClass");
+            ClassName = ApplicationSettings.GetSetting("CSharpClassName", "{controller}Client");
             Namespace = ApplicationSettings.GetSetting("CSharpNamespace", "MyNamespace");
         }
 
@@ -42,7 +47,20 @@ namespace NSwagStudio.ViewModels.ClientGenerators
             get { return _namespace; }
             set { Set(ref _namespace, value); }
         }
-        
+
+        /// <summary>Gets or sets the async type. </summary>
+        public OperationGenerationMode OperationGenerationMode
+        {
+            get { return _operationGenerationMode; }
+            set { Set(ref _operationGenerationMode, value); }
+        }
+
+        /// <summary>Gets the async types. </summary>
+        public OperationGenerationMode[] OperationGenerationModes
+        {
+            get { return Enum.GetNames(typeof(OperationGenerationMode)).Select(t => (OperationGenerationMode)Enum.Parse(typeof(OperationGenerationMode), t)).ToArray(); }
+        }
+
         /// <summary>Gets or sets the client code. </summary>
         public string ClientCode
         {
@@ -64,6 +82,7 @@ namespace NSwagStudio.ViewModels.ClientGenerators
                         var codeGenerator = new SwaggerToCSharpGenerator(service);
                         codeGenerator.Class = ClassName;
                         codeGenerator.Namespace = Namespace;
+                        codeGenerator.OperationGenerationMode = OperationGenerationMode;
 
                         code = codeGenerator.GenerateFile();
                     }

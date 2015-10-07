@@ -278,6 +278,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     return new TSchemaType
                     {
                         Type = JsonObjectType.Object,
+                        AllowAdditionalProperties = false
                     };
                 }
 

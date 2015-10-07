@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows;
 using NSwag;
+using NSwagStudio.ViewModels.ClientGenerators;
 
 namespace NSwagStudio.Views.ClientGenerators
 {
@@ -14,16 +15,11 @@ namespace NSwagStudio.Views.ClientGenerators
 
         public string Title { get { return "Swagger Specification"; } }
 
-        public async Task GenerateClientAsync(string swaggerData)
+        private SwaggerGeneratorViewModel Model { get { return (SwaggerGeneratorViewModel)Resources["ViewModel"]; } }
+
+        public Task GenerateClientAsync(string swaggerData)
         {
-            try
-            {
-                SwaggerOutput.Text = SwaggerService.FromJson(swaggerData).ToJson();
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show("Exception: " + exception.Message, "An error occured");
-            }
+            return Model.GenerateClientAsync(swaggerData);
         }
     }
 }
