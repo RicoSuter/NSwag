@@ -50,9 +50,17 @@ namespace NSwag.CodeGeneration.ClientGenerators.TypeScript
 
         /// <summary>Generates the file.</summary>
         /// <returns>The file contents.</returns>
-        public string GenerateFile()
+        public override string GenerateFile()
         {
             return GenerateFile(_service, _resolver);
+        }
+
+        /// <summary>Generates the type.</summary>
+        /// <param name="typeNameHint">The type name hint.</param>
+        /// <returns>The code</returns>
+        public override string GenerateType(string typeNameHint)
+        {
+            throw new NotImplementedException();
         }
 
         internal override string RenderFile(string clientCode)
@@ -60,7 +68,7 @@ namespace NSwag.CodeGeneration.ClientGenerators.TypeScript
             var template = LoadTemplate("File");
             template.Add("toolchain", SwaggerService.ToolchainVersion);
             template.Add("clients", clientCode);
-            template.Add("interfaces", _resolver.GenerateInterfaces());
+            template.Add("interfaces", _resolver.GenerateTypes());
             return template.Render();
         }
 

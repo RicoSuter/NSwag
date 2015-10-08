@@ -47,18 +47,26 @@ namespace NSwag.CodeGeneration.ClientGenerators.CSharp
 
         /// <summary>Generates the file.</summary>
         /// <returns>The file contents.</returns>
-        public string GenerateFile()
+        public override string GenerateFile()
         {
             return GenerateFile(_service, _resolver);
         }
-        
+
+        /// <summary>Generates the type.</summary>
+        /// <param name="typeNameHint">The type name hint.</param>
+        /// <returns>The code</returns>
+        public override string GenerateType(string typeNameHint)
+        {
+            throw new NotImplementedException();
+        }
+
         internal override string RenderFile(string clientCode)
         {
             var template = LoadTemplate("File");
             template.Add("namespace", Namespace);
             template.Add("toolchain", SwaggerService.ToolchainVersion);
             template.Add("clients", clientCode);
-            template.Add("classes", _resolver.GenerateClasses());
+            template.Add("classes", _resolver.GenerateTypes());
             return template.Render();
         }
 
