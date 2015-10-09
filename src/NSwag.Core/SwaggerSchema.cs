@@ -6,21 +6,27 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using Newtonsoft.Json;
+
 namespace NSwag
 {
     /// <summary>The enumeration of Swagger protocol schemes.</summary>
     public enum SwaggerSchema
     {
         /// <summary>The HTTP schema.</summary>
-        http,
+        [JsonProperty("http")]
+        Http,
 
         /// <summary>The HTTPS schema.</summary>
-        https,
+        [JsonProperty("https")]
+        Https,
 
         /// <summary>The WS schema.</summary>
-        ws,
+        [JsonProperty("ws")]
+        Ws,
 
         /// <summary>The WSS schema.</summary>
-        wss
+        [JsonProperty("wss")]
+        Wss
     }
 }

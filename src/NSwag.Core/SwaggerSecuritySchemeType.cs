@@ -6,6 +6,8 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using Newtonsoft.Json;
+
 namespace NSwag
 {
     /// <summary></summary>
@@ -15,12 +17,15 @@ namespace NSwag
         Undefined,
 
         /// <summary>Basic authentication.</summary>
-        basic,
+        [JsonProperty("basic")]
+        Basic,
 
         /// <summary>API key authentication.</summary>
-        apiKey,
+        [JsonProperty("apiKey")]
+        ApiKey,
 
         /// <summary>OAuth2 authentication.</summary>
-        oauth2
+        [JsonProperty("oauth2")]
+        OAuth2
     }
 }

@@ -6,27 +6,34 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using Newtonsoft.Json;
+
 namespace NSwag
 {
     /// <summary>Enumeration of the parameter kinds. </summary>
     public enum SwaggerParameterKind
     {
         /// <summary>An undefined kind.</summary>
-        Undefined, 
+        Undefined,
 
         /// <summary>A JSON object as POST or PUT body (only one parameter of this type is allowed). </summary>
-        body,
+        [JsonProperty("body")]
+        Body,
 
         /// <summary>A query key-value pair. </summary>
-        query,
+        [JsonProperty("query")]
+        Query,
 
         /// <summary>An URL path placeholder. </summary>
-        path,
+        [JsonProperty("path")]
+        Path,
 
         /// <summary>A HTTP header parameter.</summary>
-        header,
+        [JsonProperty("header")]
+        Header,
 
         /// <summary>A form data parameter.</summary>
-        formData
+        [JsonProperty("formData")]
+        FormData
     }
 }

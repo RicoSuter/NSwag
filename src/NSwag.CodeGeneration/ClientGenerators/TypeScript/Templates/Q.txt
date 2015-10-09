@@ -3,7 +3,12 @@ export class <class> {
     baseUrl = "<baseUrl>"; 
     beforeSend: any = undefined; 
 <operations:{operation | 
-    
+    /**
+<if(operation.HasSummary)>     * <operation.Summary><endif>
+<operation.Parameters:{parameter | 
+<if(parameter.HasDescription)>     * @<parameter.Name> <parameter.Description><endif>}>
+<if(operation.HasResultDescription)>     * @return <operation.ResultDescription><endif>
+     */
     <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.Name>: <parameter.Type><if(!parameter.IsLast)>,<endif> }>): Q.Promise\<<operation.ResultType>> {
         return Q.Promise((resolve, reject) => {
             this.<operation.OperationNameLower>WithCallbacks(<operation.Parameters:{parameter | <parameter.Name><if(!parameter.isLast)>,<endif> }>, (result) => resolve(result), (exception, reason) => reject(exception));

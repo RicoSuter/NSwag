@@ -14,8 +14,18 @@ namespace NSwag.CodeGeneration.ClientGenerators.Models
 
         public string Type { get; set; }
 
+
+        public string Description { get; set; }
+
+        public bool HasDescription
+        {
+            get { return !string.IsNullOrEmpty(Description); }
+        }
+
+
         public bool IsLast { get; set; }
 
         public bool IsDate { get; set; }
+
     }
 }

@@ -11,7 +11,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Win32;
 using MyToolkit.Command;
-using MyToolkit.Mvvm;
 using MyToolkit.Storage;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 
@@ -23,6 +22,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         private string _className;
         private string[] _allClassNames;
 
+        /// <summary>Initializes a new instance of the <see cref="AssemblySwaggerGeneratorViewModel"/> class.</summary>
         public AssemblySwaggerGeneratorViewModel()
         {
             BrowseAssemblyCommand = new AsyncRelayCommand(BrowseAssembly);
@@ -32,8 +32,10 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             LoadAssemblyCommand.TryExecute();
         }
 
+        /// <summary>Gets or sets the command to browse for an assembly.</summary>
         public AsyncRelayCommand BrowseAssemblyCommand { get; set; }
 
+        /// <summary>Gets or sets the command to load the types from an assembly.</summary>
         public AsyncRelayCommand LoadAssemblyCommand { get; set; }
 
         /// <summary>Gets or sets the assembly path. </summary>
@@ -51,6 +53,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             }
         }
 
+        /// <summary>Gets the name of the selected assembly.</summary>
         public string AssemblyName
         {
             get { return Path.GetFileName(AssemblyPath); }

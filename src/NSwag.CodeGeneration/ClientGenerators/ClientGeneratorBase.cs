@@ -12,8 +12,27 @@ namespace NSwag.CodeGeneration.ClientGenerators
         /// <summary>Gets or sets a value indicating whether [generate multiple web API clients].</summary>
         public OperationGenerationMode OperationGenerationMode { get; set; }
 
+        internal abstract string RenderFile(string clientCode);
+
+        internal abstract string RenderClientCode(string controllerName, IEnumerable<OperationModel> operations);
+
+        internal abstract string GetType(JsonSchema4 schema, string typeNameHint);
+
+        internal abstract string GetExceptionType(SwaggerOperation operation);
+
+        internal abstract string GetResultType(SwaggerOperation operation);
+
+        internal string GetResultDescription(SwaggerOperation operation)
+        {
+            var response = GetOkResponse(operation);
+            if (response != null)
+                return response.Description;
+
+            return null;
+        }
+        
         internal string GenerateFile<TGenerator>(SwaggerService service, TypeResolverBase<TGenerator> resolver)
-            where TGenerator : GeneratorBase
+            where TGenerator : TypeGeneratorBase
         {
             var operations = GetOperations(service, resolver);
             var clients = string.Empty;
@@ -33,7 +52,7 @@ namespace NSwag.CodeGeneration.ClientGenerators
         }
         
         internal List<OperationModel> GetOperations<TGenerator>(SwaggerService service, TypeResolverBase<TGenerator> resolver) 
-            where TGenerator : GeneratorBase
+            where TGenerator : TypeGeneratorBase
         {
             service.GenerateOperationIds();
 
@@ -68,7 +87,9 @@ namespace NSwag.CodeGeneration.ClientGenerators
                         HttpMethodUpper = ConvertToUpperStartIdentifier(tuple.HttpMethod.ToString()),
                         HttpMethodLower = ConvertToLowerStartIdentifier(tuple.HttpMethod.ToString()),
 
-                        IsGetOrDelete = tuple.HttpMethod == SwaggerOperationMethod.get || tuple.HttpMethod == SwaggerOperationMethod.delete,
+                        IsGetOrDelete = tuple.HttpMethod == SwaggerOperationMethod.Get || tuple.HttpMethod == SwaggerOperationMethod.Delete,
+
+                        Summary = operation.Summary, 
 
                         MvcActionName = mvcActionName,
                         MvcControllerName = mvcControllerName,
@@ -83,49 +104,49 @@ namespace NSwag.CodeGeneration.ClientGenerators
                                 : operation.OperationId),
 
                         ResultType = GetResultType(operation),
+                        ResultDescription = GetResultDescription(operation),
+
                         ExceptionType = GetExceptionType(operation),
 
                         Responses = responses,
                         DefaultResponse = defaultResponse,
 
-                        Parameters = operation.Parameters.Select(parameter => new ParameterModel
+                        Parameters = operation.Parameters.Select(p => new ParameterModel
                         {
-                            Name = parameter.Name,
-                            Type = resolver.Resolve(parameter.ActualSchema, parameter.IsRequired, parameter.Name),
-                            IsLast = operation.Parameters.LastOrDefault() == parameter
+                            Name = p.Name,
+                            Type = resolver.Resolve(p.ActualSchema, p.IsRequired, p.Name),
+                            IsLast = operation.Parameters.LastOrDefault() == p,
+                            Description = p.Description
                         }).ToList(),
 
                         ContentParameter =
-                            operation.Parameters.Where(p => p.Kind == SwaggerParameterKind.body)
+                            operation.Parameters.Where(p => p.Kind == SwaggerParameterKind.Body)
                                 .Select(p => new ParameterModel { Name = p.Name })
                                 .SingleOrDefault(),
 
                         PlaceholderParameters =
-                            operation.Parameters.Where(p => p.Kind == SwaggerParameterKind.path).Select(p => new ParameterModel
+                            operation.Parameters.Where(p => p.Kind == SwaggerParameterKind.Path).Select(p => new ParameterModel
                             {
                                 Name = p.Name,
-                                IsDate = p.Format == JsonFormatStrings.DateTime
+                                IsDate = p.Format == JsonFormatStrings.DateTime,
+                                Description = p.Description
                             }),
 
                         QueryParameters =
-                            operation.Parameters.Where(p => p.Kind == SwaggerParameterKind.query).Select(p => new ParameterModel
+                            operation.Parameters.Where(p => p.Kind == SwaggerParameterKind.Query).Select(p => new ParameterModel
                             {
                                 Name = p.Name,
-                                IsDate = p.Format == JsonFormatStrings.DateTime
+                                IsDate = p.Format == JsonFormatStrings.DateTime,
+                                Description = p.Description
                             }).ToList(),
                     };
                 }).ToList();
             return operations;
         }
 
-        internal abstract string RenderFile(string clientCode);
-
-        internal abstract string RenderClientCode(string controllerName, IEnumerable<OperationModel> operations);
-
-        internal abstract string GetType(JsonSchema4 schema, string typeNameHint);
-
-        internal abstract string GetExceptionType(SwaggerOperation operation);
-
-        internal abstract string GetResultType(SwaggerOperation operation);
+        internal SwaggerResponse GetOkResponse(SwaggerOperation operation)
+        {
+            return operation.Responses.Single(r => r.Key == "200").Value;
+        }
     }
 }

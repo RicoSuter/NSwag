@@ -54,7 +54,7 @@ namespace NSwag
             get { return typeof(SwaggerService).Assembly.GetName().Version.ToString(); }
         }
         
-        /// <summary>Gets or sets the Swagger Specification version being used.</summary>
+        /// <summary>Gets or sets the Swagger specification version being used.</summary>
         [JsonProperty(PropertyName = "swagger", Required = Required.Always, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Swagger { get; set; }
 
@@ -110,6 +110,7 @@ namespace NSwag
         [JsonProperty(PropertyName = "tags", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public List<string> Tags { get; set; }
 
+        /// <summary>Gets the base URL of the web service.</summary>
         [JsonIgnore]
         public string BaseUrl
         {
@@ -119,7 +120,7 @@ namespace NSwag
                     return "";
 
                 if (Schemes.Any())
-                    return (Schemes.First() + "://" + Host + (string.IsNullOrEmpty(BasePath) ? "/" + BasePath : string.Empty)).Trim('/');
+                    return (Schemes.First().ToString().ToLowerInvariant() + "://" + Host + (string.IsNullOrEmpty(BasePath) ? "/" + BasePath : string.Empty)).Trim('/');
 
                 return (Host + (string.IsNullOrEmpty(BasePath) ? "/" + BasePath : string.Empty)).Trim('/');
             }

@@ -125,7 +125,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 if (parameter != null)
                 {
                     var operationParameter = CreatePrimitiveParameter(parameter, schemaResolver);
-                    operationParameter.Kind = SwaggerParameterKind.path;
+                    operationParameter.Kind = SwaggerParameterKind.Path;
 
                     operation.Parameters.Add(operationParameter);
                     parameters.Remove(parameter);
@@ -155,34 +155,34 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             if (httpMethods.Length == 0)
             {
                 if (methodName.StartsWith("Get"))
-                    yield return SwaggerOperationMethod.get;
+                    yield return SwaggerOperationMethod.Get;
                 else if (methodName.StartsWith("Post"))
-                    yield return SwaggerOperationMethod.post;
+                    yield return SwaggerOperationMethod.Post;
                 else if (methodName.StartsWith("Put"))
-                    yield return SwaggerOperationMethod.put;
+                    yield return SwaggerOperationMethod.Put;
                 else if (methodName.StartsWith("Delete"))
-                    yield return SwaggerOperationMethod.delete;
+                    yield return SwaggerOperationMethod.Delete;
                 else
-                    yield return SwaggerOperationMethod.post;
+                    yield return SwaggerOperationMethod.Post;
             }
         }
 
         private IEnumerable<SwaggerOperationMethod> GetSupportedHttpMethodsFromAttributes(MethodInfo method)
         {
             if (method.GetCustomAttributes().Any(a => a.GetType().Name == "HttpGetAttribute"))
-                yield return SwaggerOperationMethod.get;
+                yield return SwaggerOperationMethod.Get;
 
             if (method.GetCustomAttributes().Any(a => a.GetType().Name == "HttpPostAttribute"))
-                yield return SwaggerOperationMethod.post;
+                yield return SwaggerOperationMethod.Post;
 
             if (method.GetCustomAttributes().Any(a => a.GetType().Name == "HttpPutAttribute"))
-                yield return SwaggerOperationMethod.put;
+                yield return SwaggerOperationMethod.Put;
 
             if (method.GetCustomAttributes().Any(a => a.GetType().Name == "HttpDeleteAttribute"))
-                yield return SwaggerOperationMethod.delete;
+                yield return SwaggerOperationMethod.Delete;
 
             if (method.GetCustomAttributes().Any(a => a.GetType().Name == "HttpOptionsAttribute"))
-                yield return SwaggerOperationMethod.options;
+                yield return SwaggerOperationMethod.Options;
         }
 
         /// <exception cref="InvalidOperationException">The parameter cannot be an object or array. </exception>
@@ -203,7 +203,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     var info = JsonObjectTypeDescription.FromType(parameter.ParameterType);
                     if (info.Type.HasFlag(JsonObjectType.Object) || info.Type.HasFlag(JsonObjectType.Array))
                     {
-                        if (operation.Parameters.Any(p => p.Kind == SwaggerParameterKind.body))
+                        if (operation.Parameters.Any(p => p.Kind == SwaggerParameterKind.Body))
                             throw new InvalidOperationException("The parameter '" + parameter.Name + "' cannot be an object or array. ");
 
                         var operationParameter = CreateBodyParameter(parameter, schemaResolver);
@@ -212,7 +212,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     else
                     {
                         var operationParameter = CreatePrimitiveParameter(parameter, schemaResolver);
-                        operationParameter.Kind = SwaggerParameterKind.query;
+                        operationParameter.Kind = SwaggerParameterKind.Query;
 
                         operation.Parameters.Add(operationParameter);
                     }
@@ -225,7 +225,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             var operationParameter = new SwaggerParameter();
             operationParameter.Schema = CreateAndAddSchema<SwaggerParameter>(parameter.ParameterType, schemaResolver);
             operationParameter.Name = "request";
-            operationParameter.Kind = SwaggerParameterKind.body;
+            operationParameter.Kind = SwaggerParameterKind.Body;
             return operationParameter;
         }
 

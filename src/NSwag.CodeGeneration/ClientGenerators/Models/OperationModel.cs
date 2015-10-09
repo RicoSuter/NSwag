@@ -26,6 +26,13 @@ namespace NSwag.CodeGeneration.ClientGenerators.Models
 
         public string ResultType { get; set; }
 
+        public string ResultDescription { get; set; }
+
+        public bool HasResultDescription
+        {
+            get { return !string.IsNullOrEmpty(ResultDescription); }
+        }
+
         public string ExceptionType { get; set; }
 
         public List<ResponseModel> Responses { get; set; }
@@ -34,7 +41,7 @@ namespace NSwag.CodeGeneration.ClientGenerators.Models
 
         public bool HasDefaultResponse { get { return DefaultResponse != null; } }
 
-        public List<ParameterModel> Parameters { get; set; }
+        public IEnumerable<ParameterModel> Parameters { get; set; }
 
         public bool HasContent { get { return ContentParameter != null; } }
 
@@ -47,6 +54,14 @@ namespace NSwag.CodeGeneration.ClientGenerators.Models
         public string Path { get; set; }
 
         public bool IsGetOrDelete { get; set; }
+
         public string HttpMethodLower { get; set; }
+
+        public string Summary { get; set; }
+
+        public bool HasSummary
+        {
+            get { return !string.IsNullOrEmpty(Summary); }
+        }
     }
 }

@@ -14,11 +14,11 @@ namespace NSwag.Tests.Specification
             service.Paths["path"] = new SwaggerOperations
             {
                 {
-                    SwaggerOperationMethod.get,
+                    SwaggerOperationMethod.Get,
                     new SwaggerOperation { }
                 },
                 {
-                    SwaggerOperationMethod.post,
+                    SwaggerOperationMethod.Post,
                     new SwaggerOperation { }
                 }
             };

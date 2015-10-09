@@ -15,7 +15,7 @@ namespace NSwag.Tests
             //// Act
             var service = SwaggerService.FromJson(json);
             var json2 = service.ToJson();
-            var reference = service.Paths["/pets"][SwaggerOperationMethod.get].Responses["200"].Schema.Item.SchemaReference;
+            var reference = service.Paths["/pets"][SwaggerOperationMethod.Get].Responses["200"].Schema.Item.SchemaReference;
 
             //// Assert
             Assert.IsNotNull(json2);

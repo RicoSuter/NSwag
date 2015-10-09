@@ -10,13 +10,10 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using MyToolkit.Mvvm;
 using MyToolkit.Storage;
 using NSwag;
 using NSwag.CodeGeneration.ClientGenerators;
 using NSwag.CodeGeneration.ClientGenerators.CSharp;
-using NSwag.CodeGeneration.ClientGenerators.Models;
-using NSwag.CodeGeneration.ClientGenerators.TypeScript;
 
 namespace NSwagStudio.ViewModels.ClientGenerators
 {
@@ -28,6 +25,7 @@ namespace NSwagStudio.ViewModels.ClientGenerators
         private string _namespace;
         private OperationGenerationMode _operationGenerationMode;
 
+        /// <summary>Initializes a new instance of the <see cref="CSharpClientGeneratorViewModel"/> class.</summary>
         public CSharpClientGeneratorViewModel()
         {
             ClassName = ApplicationSettings.GetSetting("CSharpClassName", "{controller}Client");

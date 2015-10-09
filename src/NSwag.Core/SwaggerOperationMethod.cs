@@ -6,30 +6,39 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using Newtonsoft.Json;
+
 namespace NSwag
 {
     /// <summary>Enumeration of the available HTTP methods. </summary>
     public enum SwaggerOperationMethod
     {
         /// <summary>The HTTP GET method. </summary>
-        get,
+        [JsonProperty("get")]
+        Get,
 
         /// <summary>The HTTP POST method. </summary>
-        post,
+        [JsonProperty("post")]
+        Post,
 
         /// <summary>The HTTP PUT method. </summary>
-        put,
+        [JsonProperty("put")]
+        Put,
 
         /// <summary>The HTTP DELETE method. </summary>
-        delete,
+        [JsonProperty("delete")]
+        Delete,
 
         /// <summary>The HTTP OPTIONS method. </summary>
-        options,
+        [JsonProperty("options")]
+        Options,
 
         /// <summary>The HTTP HEAD method. </summary>
-        head,
+        [JsonProperty("head")]
+        Head,
 
         /// <summary>The HTTP PATCH method. </summary>
-        patch
+        [JsonProperty("patch")]
+        Patch
     }
 }

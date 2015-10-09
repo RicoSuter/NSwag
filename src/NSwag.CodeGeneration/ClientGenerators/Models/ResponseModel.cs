@@ -10,11 +10,12 @@ namespace NSwag.CodeGeneration.ClientGenerators.Models
 {
     internal class ResponseModel
     {
+        public string Type { get; set; }
+
         public string StatusCode { get; set; }
 
-        public bool IsSuccess { get; set; }
 
-        public string Type { get; set; }
+        public bool IsSuccess { get; set; }
 
         public bool TypeIsDate { get; set; }
     }

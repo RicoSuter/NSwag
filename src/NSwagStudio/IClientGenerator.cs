@@ -10,10 +10,13 @@ using System.Threading.Tasks;
 
 namespace NSwagStudio
 {
+    /// <summary>The interface for a client generator.</summary>
     public interface IClientGenerator
     {
+        /// <summary>Gets the title.</summary>
         string Title { get; }
 
+        /// <summary>Generates the client code.</summary>
         Task GenerateClientAsync(string swaggerData);
     }
 }

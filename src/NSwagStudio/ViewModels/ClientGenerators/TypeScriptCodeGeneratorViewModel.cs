@@ -10,11 +10,9 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using MyToolkit.Mvvm;
 using MyToolkit.Storage;
 using NSwag;
 using NSwag.CodeGeneration.ClientGenerators;
-using NSwag.CodeGeneration.ClientGenerators.Models;
 using NSwag.CodeGeneration.ClientGenerators.TypeScript;
 
 namespace NSwagStudio.ViewModels.ClientGenerators
@@ -26,6 +24,7 @@ namespace NSwagStudio.ViewModels.ClientGenerators
         private TypeScriptAsyncType _asyncType;
         private OperationGenerationMode _operationGenerationMode;
 
+        /// <summary>Initializes a new instance of the <see cref="TypeScriptCodeGeneratorViewModel"/> class.</summary>
         public TypeScriptCodeGeneratorViewModel()
         {
             ClassName = ApplicationSettings.GetSetting("ClassName", "{controller}Client");

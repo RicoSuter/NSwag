@@ -9,12 +9,12 @@
 using System.Linq;
 using System.Threading.Tasks;
 using MyToolkit.Command;
-using MyToolkit.Mvvm;
 using NSwagStudio.Views.ClientGenerators;
 using NSwagStudio.Views.SwaggerGenerators;
 
 namespace NSwagStudio.ViewModels
 {
+    /// <summary>The view model for the MainWindow.</summary>
     public class MainWindowModel : ViewModelBase
     {
         private ISwaggerGenerator _selectedSwaggerGenerator;
@@ -34,16 +34,20 @@ namespace NSwagStudio.ViewModels
             new CSharpClientGeneratorView()
         };
 
+        /// <summary>Initializes a new instance of the <see cref="MainWindowModel"/> class.</summary>
         public MainWindowModel()
         {
             GenerateCommand = new AsyncRelayCommand(GenerateAsync);
             SelectedSwaggerGenerator = SwaggerGenerators.First();
         }
 
+        /// <summary>Gets or sets the command to generate code from the selected Swagger generator.</summary>
         public AsyncRelayCommand GenerateCommand { get; set; }
 
+        /// <summary>Gets the swagger generators.</summary>
         public ISwaggerGenerator[] SwaggerGenerators { get { return _swaggerGenerators; } }
 
+        /// <summary>Gets the client generators.</summary>
         public IClientGenerator[] ClientGenerators { get { return _clientGenerators; } }
 
         /// <summary>Gets or sets the selected <see cref="ISwaggerGenerator"/>. </summary>

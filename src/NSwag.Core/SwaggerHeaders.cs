@@ -14,5 +14,6 @@ namespace NSwag
     /// <summary>A collection of headers.</summary>
     public class SwaggerHeaders : ObservableDictionary<string, JsonSchema4>
     {
+
     }
 }

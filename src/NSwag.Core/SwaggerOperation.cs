@@ -23,7 +23,8 @@ namespace NSwag
             Parameters = new List<SwaggerParameter>();
             Responses = new Dictionary<string, SwaggerResponse>();
         }
-        
+
+        /// <summary>Gets the parent operations list.</summary>
         [JsonIgnore]
         public SwaggerOperations Parent { get; internal set; }
 

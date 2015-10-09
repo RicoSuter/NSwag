@@ -55,14 +55,6 @@ namespace NSwag.CodeGeneration.ClientGenerators.TypeScript
             return GenerateFile(_service, _resolver);
         }
 
-        /// <summary>Generates the type.</summary>
-        /// <param name="typeNameHint">The type name hint.</param>
-        /// <returns>The code</returns>
-        public override string GenerateType(string typeNameHint)
-        {
-            throw new NotImplementedException();
-        }
-
         internal override string RenderFile(string clientCode)
         {
             var template = LoadTemplate("File");
@@ -98,7 +90,7 @@ namespace NSwag.CodeGeneration.ClientGenerators.TypeScript
             if (operation.Responses.Count(r => r.Key == "200") != 1)
                 return "any";
 
-            var response = operation.Responses.Single(r => r.Key == "200").Value;
+            var response = GetOkResponse(operation);
             return GetType(response.Schema, "Response");
         }
 

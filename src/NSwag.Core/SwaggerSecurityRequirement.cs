@@ -6,7 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
 
 namespace NSwag
@@ -14,5 +13,6 @@ namespace NSwag
     /// <summary>The operation security requirements.</summary>
     public class SwaggerSecurityRequirement : Dictionary<string, string[]>
     {
+
     }
 }

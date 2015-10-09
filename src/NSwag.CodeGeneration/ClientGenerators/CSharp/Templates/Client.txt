@@ -15,6 +15,10 @@ public partial class <class>
     public string BaseUrl { get; set; }
         
 <operations:{operation | 
+<if(operation.HasSummary)>    /// \<summary><operation.Summary>\</summary><endif>
+<operation.Parameters:{parameter | 
+<if(parameter.HasDescription)>    /// \<param name="<parameter.Name>"><parameter.Description>\</param><endif>}>
+<if(operation.HasResultDescription)>    /// \<returns><operation.ResultDescription>\</returns><endif>
     /// \<exception cref="SwaggerException">A server side error occurred.\</exception>
     public async <operation.resultType> <operation.OperationNameUpper>Async(<operation.Parameters:{parameter | <parameter.Type> <parameter.Name><if(!parameter.isLast)>,<endif> }>)
     {

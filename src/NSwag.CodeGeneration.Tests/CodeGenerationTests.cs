@@ -90,7 +90,7 @@ namespace NSwag.CodeGeneration.Tests
         {
             var service = new SwaggerService();
             service.Paths["/Person"] = new SwaggerOperations();
-            service.Paths["/Person"][SwaggerOperationMethod.get] = new SwaggerOperation
+            service.Paths["/Person"][SwaggerOperationMethod.Get] = new SwaggerOperation
             {
                 Responses = new Dictionary<string, SwaggerResponse>
                 {

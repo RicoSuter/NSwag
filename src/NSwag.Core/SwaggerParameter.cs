@@ -48,7 +48,7 @@ namespace NSwag
         [JsonIgnore]
         public override JsonSchema4 ActualSchema
         {
-            get { return Kind == SwaggerParameterKind.body ? Schema.ActualSchema : base.ActualSchema; }
+            get { return Kind == SwaggerParameterKind.Body ? Schema.ActualSchema : base.ActualSchema; }
         }
     }
 }
