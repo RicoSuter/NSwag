@@ -23,8 +23,8 @@ NSwag is a Swagger 2.0 API toolchain for .NET, TypeScript and other platforms, w
 - Generate code with [T4 templates](https://github.com/NSwag/NSwag/wiki/T4) in Visual Studio
 - Windows GUI, [NSwagStudio](https://github.com/NSwag/NSwag/wiki/NSwagStudio)
 
-[**Download** latest NSwagStudio MSI installer](http://rsuter.com/Projects/NSwagStudio/installer.php)
-[**Download** latest Build Artifacts](https://ci.appveyor.com/project/rsuter/nswag/build/artifacts) (command line tool and NSwagStudio binaries)
+- [**Download** latest NSwagStudio MSI installer](http://rsuter.com/Projects/NSwagStudio/installer.php)
+- [**Download** latest Build Artifacts](https://ci.appveyor.com/project/rsuter/nswag/build/artifacts) (command line tool and NSwagStudio binaries)
 
 This project uses [NJsonSchema for .NET](http://njsonschema.org) for JSON Schema generation. 
 
