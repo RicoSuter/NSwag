@@ -42,6 +42,9 @@
         <ComboBox Text="{Binding ClassName, Mode=TwoWay}" Margin="0,0,0,12"
                   ItemsSource="{Binding AllClassNames}" />
 
+        <TextBlock Text="Default Enum Handling" FontWeight="Bold" Margin="0,0,0,6" />
+        <ComboBox SelectedItem="{Binding DefaultEnumHandling, Mode=TwoWay}" ItemsSource="{Binding EnumHandlings}" Margin="0,0,0,12" />
+
         <TextBlock TextWrapping="Wrap" 
                    Text="Generates a Swagger definition with the given class type and no operations. Use this generator to create DTO code for another platform." />
     </StackPanel>

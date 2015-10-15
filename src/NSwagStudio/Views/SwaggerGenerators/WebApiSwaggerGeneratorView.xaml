@@ -42,6 +42,9 @@
         <ComboBox Text="{Binding ControllerName, Mode=TwoWay}" Margin="0,0,0,12"
                   ItemsSource="{Binding AllControllerNames}" />
 
+        <TextBlock Text="Default Enum Handling" FontWeight="Bold" Margin="0,0,0,6" />
+        <ComboBox SelectedItem="{Binding DefaultEnumHandling, Mode=TwoWay}" ItemsSource="{Binding EnumHandlings}" Margin="0,0,0,12" />
+
         <TextBlock Text="Default URL Template" FontWeight="Bold" Margin="0,0,0,6" />
         <TextBox Text="{Binding UrlTemplate, Mode=TwoWay}" Margin="0,0,0,24" />
     </StackPanel>

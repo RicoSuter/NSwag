@@ -10,6 +10,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Newtonsoft.Json;
 using NJsonSchema;
 using NSwag.CodeGeneration.Infrastructure;
 
@@ -20,12 +21,23 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
     {
         private readonly string _assemblyPath;
 
-        /// <summary>Initializes a new instance of the <see cref="AssemblyTypeToSwaggerGenerator"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="AssemblyTypeToSwaggerGenerator" /> class.</summary>
         /// <param name="assemblyPath">The assembly path.</param>
-        public AssemblyTypeToSwaggerGenerator(string assemblyPath)
+        public AssemblyTypeToSwaggerGenerator(string assemblyPath) : this(assemblyPath, new JsonSchemaGeneratorSettings())
         {
-            _assemblyPath = assemblyPath; 
         }
+
+        /// <summary>Initializes a new instance of the <see cref="AssemblyTypeToSwaggerGenerator" /> class.</summary>
+        /// <param name="assemblyPath">The assembly path.</param>
+        /// <param name="jsonSchemaGeneratorSettings">The json schema generator settings.</param>
+        public AssemblyTypeToSwaggerGenerator(string assemblyPath, JsonSchemaGeneratorSettings jsonSchemaGeneratorSettings)
+        {
+            _assemblyPath = assemblyPath;
+            JsonSchemaGeneratorSettings = jsonSchemaGeneratorSettings;
+        }
+
+        /// <summary>Gets or sets the JSON Schema generator settings.</summary>
+        public JsonSchemaGeneratorSettings JsonSchemaGeneratorSettings { get; set; }
 
         /// <summary>Gets the available controller classes from the given assembly.</summary>
         /// <returns>The controller classes.</returns>
@@ -38,25 +50,27 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             }
             return new string[] { };
         }
-        
+
         /// <summary>Generates the Swagger definition for the given classes without operations (used for class generation).</summary>
         /// <param name="className">The class name.</param>
         /// <returns>The Swagger definition.</returns>
         public SwaggerService Generate(string className)
         {
             using (var isolated = new AppDomainIsolation<AssemblyLoader>())
-                return SwaggerService.FromJson(isolated.Object.FromAssemblyType(_assemblyPath, className));
+                return SwaggerService.FromJson(isolated.Object.FromAssemblyType(_assemblyPath, className, JsonConvert.SerializeObject(JsonSchemaGeneratorSettings)));
         }
 
         private class AssemblyLoader : MarshalByRefObject
         {
-            internal string FromAssemblyType(string assemblyPath, string className)
+            internal string FromAssemblyType(string assemblyPath, string className, string jsonSchemaGeneratorSettingsData)
             {
+                var jsonSchemaGeneratorSettings = JsonConvert.DeserializeObject<JsonSchemaGeneratorSettings>(jsonSchemaGeneratorSettingsData);
+
                 var assembly = Assembly.LoadFrom(assemblyPath);
-                var type = assembly.GetType(className); 
+                var type = assembly.GetType(className);
 
                 var service = new SwaggerService();
-                var schema = JsonSchema4.FromType(type);
+                var schema = JsonSchema4.FromType(type, jsonSchemaGeneratorSettings);
                 service.Definitions[type.Name] = schema;
                 return service.ToJson();
             }

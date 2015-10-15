@@ -20,7 +20,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
 
         /// <summary>Initializes a new instance of the <see cref="RootTypeJsonSchemaGenerator" /> class.</summary>
         /// <param name="service">The service.</param>
-        public RootTypeJsonSchemaGenerator(SwaggerService service)
+        /// <param name="settings">The settings.</param>
+        public RootTypeJsonSchemaGenerator(SwaggerService service, JsonSchemaGeneratorSettings settings) : base(settings)
         {
             _service = service;
         }
@@ -41,7 +42,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
             {
                 if (!schemaResolver.HasSchema(type))
                 {
-                    var schemaGenerator = new RootTypeJsonSchemaGenerator(_service);
+                    var schemaGenerator = new RootTypeJsonSchemaGenerator(_service, Settings);
                     schemaGenerator.Generate<JsonSchema4>(type, schemaResolver);
                 }
 

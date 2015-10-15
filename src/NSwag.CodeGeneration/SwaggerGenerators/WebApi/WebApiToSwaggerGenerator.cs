@@ -23,13 +23,24 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         private readonly string _defaultRouteTemplate;
         private Type _serviceType;
 
-        /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerGenerator"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerGenerator" /> class.</summary>
         /// <param name="defaultRouteTemplate">The default route template.</param>
-        public WebApiToSwaggerGenerator(string defaultRouteTemplate)
+        public WebApiToSwaggerGenerator(string defaultRouteTemplate) : this (defaultRouteTemplate, new JsonSchemaGeneratorSettings())
         {
-            _defaultRouteTemplate = defaultRouteTemplate;
         }
 
+        /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerGenerator" /> class.</summary>
+        /// <param name="defaultRouteTemplate">The default route template.</param>
+        /// <param name="jsonSchemaGeneratorSettings">The JSON Schema generator settings.</param>
+        public WebApiToSwaggerGenerator(string defaultRouteTemplate, JsonSchemaGeneratorSettings jsonSchemaGeneratorSettings)
+        {
+            _defaultRouteTemplate = defaultRouteTemplate;
+            JsonSchemaGeneratorSettings = jsonSchemaGeneratorSettings; 
+        }
+
+        /// <summary>Gets or sets the JSON Schema generator settings.</summary>
+        public JsonSchemaGeneratorSettings JsonSchemaGeneratorSettings { get; set; }
+        
         /// <summary>Generates the service description.</summary>
         /// <typeparam name="TController">The type of the controller.</typeparam>
         /// <param name="excludedMethodName">The name of the excluded method name.</param>
@@ -43,8 +54,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <summary>Generates the service description.</summary>
         /// <param name="controllerType">The type of the controller.</param>
         /// <param name="excludedMethodName">The name of the excluded method name.</param>
-        /// <returns>The <see cref="SwaggerService"/>.</returns>
-        /// <exception cref="InvalidOperationException">The parameter cannot be an object or array. </exception>
+        /// <returns>The <see cref="SwaggerService" />.</returns>
+        /// <exception cref="InvalidOperationException">The parameter cannot be an object or array.</exception>
         public SwaggerService Generate(Type controllerType, string excludedMethodName = "Swagger")
         {
             _service = new SwaggerService();
@@ -113,9 +124,10 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             }
             else
             {
+                var actionName = GetActionName(method);
                 httpPath = _defaultRouteTemplate
                     .Replace("{controller}", _serviceType.Name.Replace("Controller", string.Empty))
-                    .Replace("{action}", method.Name);
+                    .Replace("{action}", actionName);
             }
 
             foreach (var match in Regex.Matches(httpPath, "\\{(.*?)\\}").OfType<Match>())
@@ -142,11 +154,22 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             return httpPath;
         }
 
+        private string GetActionName(MethodInfo method)
+        {
+            dynamic actionNameAttribute = method.GetCustomAttributes()
+                .SingleOrDefault(a => a.GetType().Name == "ActionNameAttribute");
+
+            if (actionNameAttribute != null)
+                return actionNameAttribute.Name;
+
+            return method.Name;
+        }
+
         private IEnumerable<SwaggerOperationMethod> GetSupportedHttpMethods(MethodInfo method)
         {
             // See http://www.asp.net/web-api/overview/web-api-routing-and-actions/routing-in-aspnet-web-api
 
-            var methodName = method.Name;
+            var actionName = GetActionName(method);
 
             var httpMethods = GetSupportedHttpMethodsFromAttributes(method).ToArray();
             foreach (var httpMethod in httpMethods)
@@ -154,13 +177,13 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
             if (httpMethods.Length == 0)
             {
-                if (methodName.StartsWith("Get"))
+                if (actionName.StartsWith("Get"))
                     yield return SwaggerOperationMethod.Get;
-                else if (methodName.StartsWith("Post"))
+                else if (actionName.StartsWith("Post"))
                     yield return SwaggerOperationMethod.Post;
-                else if (methodName.StartsWith("Put"))
+                else if (actionName.StartsWith("Put"))
                     yield return SwaggerOperationMethod.Put;
-                else if (methodName.StartsWith("Delete"))
+                else if (actionName.StartsWith("Delete"))
                     yield return SwaggerOperationMethod.Delete;
                 else
                     yield return SwaggerOperationMethod.Post;
@@ -183,6 +206,30 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
             if (method.GetCustomAttributes().Any(a => a.GetType().Name == "HttpOptionsAttribute"))
                 yield return SwaggerOperationMethod.Options;
+
+            dynamic acceptVerbsAttribute = method.GetCustomAttributes()
+                .SingleOrDefault(a => a.GetType().Name == "AcceptVerbsAttribute");
+
+            if (acceptVerbsAttribute != null)
+            {
+                foreach (var verb in ((ICollection<string>)acceptVerbsAttribute.Verbs).Select(v => v.ToLowerInvariant()))
+                {
+                    if (verb == "get")
+                        yield return SwaggerOperationMethod.Get;
+                    else if (verb == "post")
+                        yield return SwaggerOperationMethod.Post;
+                    else if (verb == "put")
+                        yield return SwaggerOperationMethod.Put;
+                    else if (verb == "delete")
+                        yield return SwaggerOperationMethod.Delete;
+                    else if (verb == "options")
+                        yield return SwaggerOperationMethod.Options;
+                    else if (verb == "head")
+                        yield return SwaggerOperationMethod.Head;
+                    else if (verb == "patch")
+                        yield return SwaggerOperationMethod.Patch;
+                }
+            }
         }
 
         /// <exception cref="InvalidOperationException">The parameter cannot be an object or array. </exception>
@@ -284,7 +331,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
                 if (!schemaResolver.HasSchema(type))
                 {
-                    var schemaGenerator = new RootTypeJsonSchemaGenerator(_service);
+                    var schemaGenerator = new RootTypeJsonSchemaGenerator(_service, JsonSchemaGeneratorSettings);
                     schemaGenerator.Generate<JsonSchema4>(type, schemaResolver);
                 }
 
@@ -305,7 +352,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 };
             }
 
-            var generator = new RootTypeJsonSchemaGenerator(_service);
+            var generator = new RootTypeJsonSchemaGenerator(_service, JsonSchemaGeneratorSettings);
             return generator.Generate<TSchemaType>(type, schemaResolver);
         }
 
@@ -318,7 +365,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             if (info.Type.HasFlag(JsonObjectType.Object) || info.Type.HasFlag(JsonObjectType.Array))
                 throw new InvalidOperationException("The parameter '" + parameter.Name + "' cannot be an object or array.");
 
-            var parameterGenerator = new RootTypeJsonSchemaGenerator(_service);
+            var parameterGenerator = new RootTypeJsonSchemaGenerator(_service, JsonSchemaGeneratorSettings);
 
             var segmentParameter = parameterGenerator.Generate<SwaggerParameter>(parameter.ParameterType, schemaResolver);
             segmentParameter.Name = parameter.Name;

@@ -145,6 +145,12 @@
                     has been developed by 
                     <Hyperlink NavigateUri="http://www.rsuter.com" Click="OnOpenHyperlink">Rico Suter</Hyperlink>.
                 </TextBlock>
+
+                <TextBlock Margin="0,0,0,8">
+                        Version: <Run Text="{Binding ApplicationVersion, Mode=OneWay}" />
+                        <LineBreak />
+                        License: <Hyperlink NavigateUri="https://github.com/NSwag/NSwag/blob/master/LICENSE.md" Click="OnOpenHyperlink">Ms-PL</Hyperlink>
+                </TextBlock>
             </StackPanel>
         </TabItem>
     </TabControl>

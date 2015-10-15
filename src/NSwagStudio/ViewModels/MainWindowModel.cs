@@ -9,6 +9,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using MyToolkit.Command;
+using MyToolkit.Utilities;
 using NSwagStudio.Views.ClientGenerators;
 using NSwagStudio.Views.SwaggerGenerators;
 
@@ -55,6 +56,12 @@ namespace NSwagStudio.ViewModels
         {
             get { return _selectedSwaggerGenerator; }
             set { Set(ref _selectedSwaggerGenerator, value); }
+        }
+
+        /// <summary>Gets the application version with build time. </summary>
+        public string ApplicationVersion
+        {
+            get { return GetType().Assembly.GetVersionWithBuildTime(); }
         }
 
         private async Task GenerateAsync()

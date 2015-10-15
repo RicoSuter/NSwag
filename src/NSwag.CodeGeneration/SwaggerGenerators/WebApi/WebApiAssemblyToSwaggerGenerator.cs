@@ -10,6 +10,8 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Newtonsoft.Json;
+using NJsonSchema;
 using NSwag.CodeGeneration.Infrastructure;
 
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
@@ -19,12 +21,24 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
     {
         private readonly string _assemblyPath;
 
-        /// <summary>Initializes a new instance of the <see cref="WebApiAssemblyToSwaggerGenerator"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="WebApiAssemblyToSwaggerGenerator" /> class.</summary>
         /// <param name="assemblyPath">The assembly path.</param>
-        public WebApiAssemblyToSwaggerGenerator(string assemblyPath)
+        public WebApiAssemblyToSwaggerGenerator(string assemblyPath) : this (assemblyPath, new JsonSchemaGeneratorSettings())
         {
             _assemblyPath = assemblyPath;
         }
+
+        /// <summary>Initializes a new instance of the <see cref="WebApiAssemblyToSwaggerGenerator" /> class.</summary>
+        /// <param name="assemblyPath">The assembly path.</param>
+        /// <param name="jsonSchemaGeneratorSettings">The json schema generator settings.</param>
+        public WebApiAssemblyToSwaggerGenerator(string assemblyPath, JsonSchemaGeneratorSettings jsonSchemaGeneratorSettings)
+        {
+            _assemblyPath = assemblyPath;
+            JsonSchemaGeneratorSettings = jsonSchemaGeneratorSettings; 
+        }
+
+        /// <summary>Gets or sets the JSON Schema generator settings.</summary>
+        public JsonSchemaGeneratorSettings JsonSchemaGeneratorSettings { get; set; }
 
         /// <summary>Gets the available controller classes from the given assembly.</summary>
         /// <returns>The controller classes.</returns>
@@ -45,17 +59,19 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         public SwaggerService Generate(string controllerClassName, string urlTemplate)
         {
             using (var isolated = new AppDomainIsolation<AssemblyLoader>())
-                return SwaggerService.FromJson(isolated.Object.FromWebApiAssembly(_assemblyPath, controllerClassName, urlTemplate));
+                return SwaggerService.FromJson(isolated.Object.FromWebApiAssembly(_assemblyPath, controllerClassName, urlTemplate, JsonConvert.SerializeObject(JsonSchemaGeneratorSettings)));
         }
 
         private class AssemblyLoader : MarshalByRefObject
         {
-            internal string FromWebApiAssembly(string assemblyPath, string controllerClassName, string urlTemplate)
+            internal string FromWebApiAssembly(string assemblyPath, string controllerClassName, string urlTemplate, string jsonSchemaGeneratorSettingsData)
             {
+                var jsonSchemaGeneratorSettings = JsonConvert.DeserializeObject<JsonSchemaGeneratorSettings>(jsonSchemaGeneratorSettingsData);
+
                 var assembly = Assembly.LoadFrom(assemblyPath);
                 var type = assembly.GetType(controllerClassName);
 
-                var generator = new WebApiToSwaggerGenerator(urlTemplate);
+                var generator = new WebApiToSwaggerGenerator(urlTemplate, jsonSchemaGeneratorSettings);
                 return generator.Generate(type).ToJson();
             }
             

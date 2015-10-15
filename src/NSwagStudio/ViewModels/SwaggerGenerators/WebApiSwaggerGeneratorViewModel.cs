@@ -6,12 +6,14 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Win32;
 using MyToolkit.Command;
 using MyToolkit.Storage;
+using NJsonSchema;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 
 namespace NSwagStudio.ViewModels.SwaggerGenerators
@@ -22,6 +24,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         private string _controllerName;
         private string[] _allControllerNames;
         private string _urlTemplate;
+        private EnumHandling _defaultEnumHandling;
 
         /// <summary>Initializes a new instance of the <see cref="WebApiSwaggerGeneratorViewModel"/> class.</summary>
         public WebApiSwaggerGeneratorViewModel()
@@ -33,6 +36,19 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             UrlTemplate = ApplicationSettings.GetSetting("UrlTemplate", "api/{controller}/{action}/{id}");
 
             LoadAssemblyCommand.TryExecute();
+        }
+
+        /// <summary>Gets or sets the default enum handling. </summary>
+        public EnumHandling DefaultEnumHandling
+        {
+            get { return _defaultEnumHandling; }
+            set { Set(ref _defaultEnumHandling, value); }
+        }
+
+        /// <summary>Gets the default enum handling. </summary>
+        public EnumHandling[] EnumHandlings
+        {
+            get { return Enum.GetNames(typeof(EnumHandling)).Select(t => (EnumHandling)Enum.Parse(typeof(EnumHandling), t)).ToArray(); }
         }
 
         /// <summary>Gets or sets the command to browse for an assembly.</summary>
@@ -88,13 +104,6 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             }
         }
 
-        private bool GenerateFromWebApiCanExecute()
-        {
-            return !string.IsNullOrEmpty(AssemblyPath) &&
-                !string.IsNullOrEmpty(ControllerName) &&
-                !string.IsNullOrEmpty(UrlTemplate);
-        }
-
         private async Task BrowseAssembly()
         {
             var dlg = new OpenFileDialog();
@@ -127,7 +136,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             {
                 return await Task.Run(() =>
                 {
-                    var generator = new WebApiAssemblyToSwaggerGenerator(AssemblyPath);
+                    var generator = new WebApiAssemblyToSwaggerGenerator(AssemblyPath, new JsonSchemaGeneratorSettings { DefaultEnumHandling = DefaultEnumHandling });
                     return generator.Generate(ControllerName, UrlTemplate).ToJson();
                 });
             });

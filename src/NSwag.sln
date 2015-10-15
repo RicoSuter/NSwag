@@ -25,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F31829C6
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Core", "NSwag.Core\NSwag.Core.csproj", "{2E6174AA-FC75-4821-9E86-51B30568BEC0}"
 EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "NSwagStudio.Installer", "NSwagStudio.Installer\NSwagStudio.Installer.wixproj", "{50DCC09C-7349-4BAC-8833-261A641E0669}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -157,6 +159,18 @@ Global
 		{2E6174AA-FC75-4821-9E86-51B30568BEC0}.Release|x64.Build.0 = Release|Any CPU
 		{2E6174AA-FC75-4821-9E86-51B30568BEC0}.Release|x86.ActiveCfg = Release|Any CPU
 		{2E6174AA-FC75-4821-9E86-51B30568BEC0}.Release|x86.Build.0 = Release|Any CPU
+		{50DCC09C-7349-4BAC-8833-261A641E0669}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{50DCC09C-7349-4BAC-8833-261A641E0669}.Debug|Any CPU.Build.0 = Debug|x86
+		{50DCC09C-7349-4BAC-8833-261A641E0669}.Debug|ARM.ActiveCfg = Debug|x86
+		{50DCC09C-7349-4BAC-8833-261A641E0669}.Debug|x64.ActiveCfg = Debug|x86
+		{50DCC09C-7349-4BAC-8833-261A641E0669}.Debug|x86.ActiveCfg = Debug|x86
+		{50DCC09C-7349-4BAC-8833-261A641E0669}.Debug|x86.Build.0 = Debug|x86
+		{50DCC09C-7349-4BAC-8833-261A641E0669}.Release|Any CPU.ActiveCfg = Release|x86
+		{50DCC09C-7349-4BAC-8833-261A641E0669}.Release|Any CPU.Build.0 = Release|x86
+		{50DCC09C-7349-4BAC-8833-261A641E0669}.Release|ARM.ActiveCfg = Release|x86
+		{50DCC09C-7349-4BAC-8833-261A641E0669}.Release|x64.ActiveCfg = Release|x86
+		{50DCC09C-7349-4BAC-8833-261A641E0669}.Release|x86.ActiveCfg = Release|x86
+		{50DCC09C-7349-4BAC-8833-261A641E0669}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
