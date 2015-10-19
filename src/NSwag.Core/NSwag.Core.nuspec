@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package>
+    <metadata>
+        <id>$id$</id>
+        <version>$version$</version>
+        <authors>$author$</authors>
+        <description>$description$</description>
+        <projectUrl>https://github.com/NSwag/NSwag</projectUrl>
+        <licenseUrl>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</licenseUrl>
+    </metadata>
+    <files>
+        <file src="bin\Release\NSwag.Core.dll" target="lib\net45" />
+        <file src="bin\Release\NSwag.Core.pdb" target="lib\net45" />
+        <file src="bin\Release\NSwag.Core.xml" target="lib\net45" />
+    </files>
+</package>

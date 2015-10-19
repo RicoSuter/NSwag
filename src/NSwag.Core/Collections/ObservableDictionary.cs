@@ -15,9 +15,9 @@ using System.Linq;
 
 namespace NSwag.Collections
 {
-    /// <summary>An implementation of an observable dictionary. </summary>
-    /// <typeparam name="TKey">The type of the key. </typeparam>
-    /// <typeparam name="TValue">The type of the value. </typeparam>
+    /// <summary>An implementation of an observable dictionary.</summary>
+    /// <typeparam name="TKey">The type of the key.</typeparam>
+    /// <typeparam name="TValue">The type of the value.</typeparam>
     public class ObservableDictionary<TKey, TValue> :
         IDictionary<TKey, TValue>, INotifyCollectionChanged,
         INotifyPropertyChanged, IDictionary, IReadOnlyDictionary<TKey, TValue>
@@ -122,6 +122,8 @@ namespace NSwag.Collections
             }
         }
 
+        /// <summary>Called when the property has changed.</summary>
+        /// <param name="propertyName">Name of the property.</param>
         protected virtual void OnPropertyChanged(string propertyName)
         {
             var copy = PropertyChanged;
@@ -129,6 +131,7 @@ namespace NSwag.Collections
                 copy(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        /// <summary>Called when the collection has changed.</summary>
         protected void OnCollectionChanged()
         {
             OnPropertyChanged();
@@ -137,6 +140,9 @@ namespace NSwag.Collections
                 copy(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
+        /// <summary>Called when the collection has changed.</summary>
+        /// <param name="action">The action.</param>
+        /// <param name="changedItem">The changed item.</param>
         protected void OnCollectionChanged(NotifyCollectionChangedAction action, KeyValuePair<TKey, TValue> changedItem)
         {
             OnPropertyChanged();
@@ -145,6 +151,10 @@ namespace NSwag.Collections
                 copy(this, new NotifyCollectionChangedEventArgs(action, changedItem, 0));
         }
 
+        /// <summary>Called when the collection has changed.</summary>
+        /// <param name="action">The action.</param>
+        /// <param name="newItem">The new item.</param>
+        /// <param name="oldItem">The old item.</param>
         protected void OnCollectionChanged(NotifyCollectionChangedAction action, KeyValuePair<TKey, TValue> newItem, KeyValuePair<TKey, TValue> oldItem)
         {
             OnPropertyChanged();
@@ -153,6 +163,9 @@ namespace NSwag.Collections
                 copy(this, new NotifyCollectionChangedEventArgs(action, newItem, oldItem, 0));
         }
 
+        /// <summary>Called when the collection has changed.</summary>
+        /// <param name="action">The action.</param>
+        /// <param name="newItems">The new items.</param>
         protected void OnCollectionChanged(NotifyCollectionChangedAction action, IList newItems)
         {
             OnPropertyChanged();
@@ -171,16 +184,23 @@ namespace NSwag.Collections
 
         #region IDictionary<TKey,TValue> interface
 
+        /// <summary>Adds the specified key.</summary>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value.</param>
         public void Add(TKey key, TValue value)
         {
             Insert(key, value, true);
         }
 
+        /// <summary>Determines whether the specified key contains key.</summary>
+        /// <param name="key">The key.</param>
+        /// <returns></returns>
         public bool ContainsKey(TKey key)
         {
             return Dictionary.ContainsKey(key);
         }
 
+        /// <summary>Gets an <see cref="T:System.Collections.Generic.ICollection`1" /> containing the keys of the <see cref="T:System.Collections.Generic.IDictionary`2" />.</summary>
         public ICollection<TKey> Keys
         {
             get { return Dictionary.Keys; }
@@ -195,6 +215,10 @@ namespace NSwag.Collections
             get { return Values; }
         }
 
+        /// <summary>Removes the specified key.</summary>
+        /// <param name="key">The key.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">key</exception>
         public virtual bool Remove(TKey key)
         {
             if (key == null)
@@ -210,6 +234,10 @@ namespace NSwag.Collections
             return removed;
         }
 
+        /// <summary>Tries the get value.</summary>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
         public bool TryGetValue(TKey key, out TValue value)
         {
             return Dictionary.TryGetValue(key, out value);
@@ -220,11 +248,16 @@ namespace NSwag.Collections
             get { return Keys; }
         }
 
+        /// <summary>Gets an <see cref="T:System.Collections.Generic.ICollection`1" /> containing the values in the <see cref="T:System.Collections.Generic.IDictionary`2" />.</summary>
         public ICollection<TValue> Values
         {
             get { return Dictionary.Values; }
         }
 
+        /// <summary>Gets or sets the TValue with the specified key.</summary>
+        /// <value>The TValue.</value>
+        /// <param name="key">The key.</param>
+        /// <returns></returns>
         public TValue this[TKey key]
         {
             get { return Dictionary[key]; }
@@ -235,6 +268,8 @@ namespace NSwag.Collections
 
         #region ICollection<KeyValuePair<TKey,TValue>> interface
 
+        /// <summary>Adds the specified item.</summary>
+        /// <param name="item">The item.</param>
         public void Add(KeyValuePair<TKey, TValue> item)
         {
             Insert(item.Key, item.Value, true);
@@ -245,6 +280,7 @@ namespace NSwag.Collections
             Insert((TKey)key, (TValue)value, true);
         }
 
+        /// <summary>Removes all items from the <see cref="T:System.Collections.Generic.ICollection`1" />.</summary>
         public void Clear()
         {
             if (Dictionary.Count > 0)
@@ -254,6 +290,8 @@ namespace NSwag.Collections
             }
         }
 
+        /// <summary>Initializes the specified key value pairs.</summary>
+        /// <param name="keyValuePairs">The key value pairs.</param>
         public void Initialize(IEnumerable<KeyValuePair<TKey, TValue>> keyValuePairs)
         {
             var pairs = keyValuePairs.ToList();
@@ -266,11 +304,16 @@ namespace NSwag.Collections
             OnCollectionChanged();
         }
 
+        /// <summary>Initializes the specified key value pairs.</summary>
+        /// <param name="keyValuePairs">The key value pairs.</param>
         public void Initialize(IEnumerable keyValuePairs)
         {
             Initialize(keyValuePairs.Cast<KeyValuePair<TKey, TValue>>());
         }
 
+        /// <summary>Determines whether [contains] [the specified key].</summary>
+        /// <param name="key">The key.</param>
+        /// <returns></returns>
         public bool Contains(object key)
         {
             return ContainsKey((TKey)key);
@@ -281,36 +324,53 @@ namespace NSwag.Collections
             return ((IDictionary)Dictionary).GetEnumerator();
         }
 
+        /// <summary>Removes the specified key.</summary>
+        /// <param name="key">The key.</param>
         public void Remove(object key)
         {
             Remove((TKey)key);
         }
 
+        /// <summary>Gets a value indicating whether the <see cref="T:System.Collections.IDictionary" /> object has a fixed size.</summary>
         public bool IsFixedSize { get { return false; } }
 
+        /// <summary>Determines whether [contains] [the specified item].</summary>
+        /// <param name="item">The item.</param>
+        /// <returns></returns>
         public bool Contains(KeyValuePair<TKey, TValue> item)
         {
             return Dictionary.Contains(item);
         }
 
+        /// <summary>Copies to.</summary>
+        /// <param name="array">The array.</param>
+        /// <param name="arrayIndex">Index of the array.</param>
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
             Dictionary.CopyTo(array, arrayIndex);
         }
 
+        /// <summary>Copies to.</summary>
+        /// <param name="array">The array.</param>
+        /// <param name="index">The index.</param>
         public void CopyTo(Array array, int index)
         {
             ((IDictionary)Dictionary).CopyTo(array, index);
         }
 
+        /// <summary>Gets the number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1" />.</summary>
         public int Count
         {
             get { return Dictionary.Count; }
         }
 
+        /// <summary>Gets a value indicating whether access to the <see cref="T:System.Collections.ICollection" /> is synchronized (thread safe).</summary>
         public bool IsSynchronized { get; private set; }
+
+        /// <summary>Gets an object that can be used to synchronize access to the <see cref="T:System.Collections.ICollection" />.</summary>
         public object SyncRoot { get; private set; }
 
+        /// <summary>Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1" /> is read-only.</summary>
         public bool IsReadOnly
         {
             get { return Dictionary.IsReadOnly; }
@@ -322,6 +382,9 @@ namespace NSwag.Collections
             set { this[(TKey)key] = (TValue)value; }
         }
 
+        /// <summary>Removes the specified item.</summary>
+        /// <param name="item">The item.</param>
+        /// <returns></returns>
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
             return Remove(item.Key);
@@ -331,6 +394,8 @@ namespace NSwag.Collections
 
         #region IEnumerable<KeyValuePair<TKey,TValue>> interface
 
+        /// <summary>Returns an enumerator that iterates through the collection.</summary>
+        /// <returns>A <see cref="T:System.Collections.Generic.IEnumerator`1" /> that can be used to iterate through the collection.</returns>
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
             return Dictionary.GetEnumerator();
@@ -349,12 +414,14 @@ namespace NSwag.Collections
 
         #region INotifyCollectionChanged interface
 
+        /// <summary>Occurs when the collection has changed.</summary>
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
         #endregion
 
         #region INotifyPropertyChanged interface
 
+        /// <summary>Occurs when a property has changed.</summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
