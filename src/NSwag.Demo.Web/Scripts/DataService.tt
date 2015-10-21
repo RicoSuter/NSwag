@@ -1,31 +1,28 @@
 ﻿<#@ template debug="false" hostspecific="true" language="C#" #>
-
 <#@ assembly name="System.Core" #>
 <#@ assembly name="$(SolutionDir)\NSwag.CodeGeneration\bin\Debug\NJsonSchema.CodeGeneration.dll" #>
 <#@ assembly name="$(SolutionDir)\NSwag.CodeGeneration\bin\Debug\NSwag.CodeGeneration.dll" #>
-<#@ assembly name="$(SolutionDir)\NSwag.CodeGeneration\bin\Debug\NSwag.dll" #>
-
+<#@ assembly name="$(SolutionDir)\NSwag.CodeGeneration\bin\Debug\NSwag.Core.dll" #>
 <#@ import namespace="NSwag" #>
 <#@ import namespace="NSwag.CodeGeneration.ClientGenerators.TypeScript" #>
-
 <#@ import namespace="System.IO" #>
 <#@ import namespace="Microsoft.CSharp" #>
-
 <#@ output extension=".ts" #>
 <#
-	// CONFIGURATION
-	var filePath = @"../../ServiceDefinitions/PersonsService.swagger";
-	// -------------
-		
-	var fullFilePath = Path.GetFullPath(Path.GetDirectoryName(Host.TemplateFile) + filePath); 
-	var service = SwaggerService.FromJson(File.ReadAllText(fullFilePath));
+    // CONFIGURATION
+    var filePath = @"../../ServiceDefinitions/PersonsService.swagger";
+    // -------------
 
-	var codeGenerator = new SwaggerToTypeScriptGenerator(service);
-	
-	var provider = new CSharpCodeProvider();
-	var className = Path.GetFileNameWithoutExtension(Host.TemplateFile); 
-	codeGenerator.Class = provider.CreateEscapedIdentifier(className);
+    var fullFilePath = Path.GetFullPath(Path.GetDirectoryName(Host.TemplateFile) + filePath); 
+    var service = SwaggerService.FromJson(File.ReadAllText(fullFilePath));
 
-	var code = codeGenerator.GenerateFile();
+    // -------------
+
+    var clientGenerator = new SwaggerToTypeScriptGenerator(service);
+
+    var provider = new CSharpCodeProvider();
+    clientGenerator.Class = provider.CreateEscapedIdentifier(Path.GetFileNameWithoutExtension(Host.TemplateFile));
+
+    var code = clientGenerator.GenerateFile();
 #>
 <#= code #>

@@ -1,19 +1,4 @@
-﻿
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Net;
@@ -22,11 +7,39 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-// Generated using the NSwag toolchain v0.1.5736.35519 (http://NSwag.org)
+// Generated using the NSwag toolchain v0.12.5772.33331 (http://NSwag.org)
 
 namespace NSwag.Demo.Client
 {
-    public partial class DataService
+    public partial interface IDataService
+    {
+        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
+        Task<ObservableCollection<Person>> GetAllAsync();
+
+        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
+        Task<Person> GetAsync(long id );
+
+        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
+        Task<string> PostAsync(Person request );
+
+        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
+        Task<string> PutAsync(long id, Person request );
+
+        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
+        Task<string> DeleteAsync(long id );
+
+        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
+        Task<long> CalculateAsync(long a, long b, long c );
+
+        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
+        Task<DateTime> AddHourAsync(DateTime time );
+
+        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
+        Task<Car> LoadComplexObjectAsync();
+
+    }
+
+    public partial class DataService : IDataService
     {
         public DataService() : this("") { }
 
@@ -54,8 +67,12 @@ namespace NSwag.Demo.Client
 
             var responseData = await response.Content.ReadAsStringAsync(); 
             var status = response.StatusCode.ToString();
-            if (status == "200") {
+            if (status == "200") 
+            {
                 return JsonConvert.DeserializeObject<ObservableCollection<Person>>(responseData);		
+            }
+            else
+            {
             }
 
             throw new SwaggerException("The response was not expected.", response.StatusCode, null);
@@ -76,8 +93,12 @@ namespace NSwag.Demo.Client
 
             var responseData = await response.Content.ReadAsStringAsync(); 
             var status = response.StatusCode.ToString();
-            if (status == "200") {
+            if (status == "200") 
+            {
                 return JsonConvert.DeserializeObject<Person>(responseData);		
+            }
+            else
+            {
             }
 
             throw new SwaggerException("The response was not expected.", response.StatusCode, null);
@@ -97,8 +118,12 @@ namespace NSwag.Demo.Client
             ProcessResponse(client, response);
             var responseData = await response.Content.ReadAsStringAsync(); 
             var status = response.StatusCode.ToString();
-            if (status == "200") {
+            if (status == "200") 
+            {
                 return JsonConvert.DeserializeObject<string>(responseData);		
+            }
+            else
+            {
             }
 
             throw new SwaggerException("The response was not expected.", response.StatusCode, null);
@@ -120,8 +145,12 @@ namespace NSwag.Demo.Client
             ProcessResponse(client, response);
             var responseData = await response.Content.ReadAsStringAsync(); 
             var status = response.StatusCode.ToString();
-            if (status == "200") {
+            if (status == "200") 
+            {
                 return JsonConvert.DeserializeObject<string>(responseData);		
+            }
+            else
+            {
             }
 
             throw new SwaggerException("The response was not expected.", response.StatusCode, null);
@@ -142,8 +171,12 @@ namespace NSwag.Demo.Client
 
             var responseData = await response.Content.ReadAsStringAsync(); 
             var status = response.StatusCode.ToString();
-            if (status == "200") {
+            if (status == "200") 
+            {
                 return JsonConvert.DeserializeObject<string>(responseData);		
+            }
+            else
+            {
             }
 
             throw new SwaggerException("The response was not expected.", response.StatusCode, null);
@@ -167,8 +200,12 @@ namespace NSwag.Demo.Client
 
             var responseData = await response.Content.ReadAsStringAsync(); 
             var status = response.StatusCode.ToString();
-            if (status == "200") {
+            if (status == "200") 
+            {
                 return JsonConvert.DeserializeObject<long>(responseData);		
+            }
+            else
+            {
             }
 
             throw new SwaggerException("The response was not expected.", response.StatusCode, null);
@@ -189,8 +226,12 @@ namespace NSwag.Demo.Client
 
             var responseData = await response.Content.ReadAsStringAsync(); 
             var status = response.StatusCode.ToString();
-            if (status == "200") {
+            if (status == "200") 
+            {
                 return JsonConvert.DeserializeObject<DateTime>(responseData);		
+            }
+            else
+            {
             }
 
             throw new SwaggerException("The response was not expected.", response.StatusCode, null);
@@ -209,8 +250,12 @@ namespace NSwag.Demo.Client
 
             var responseData = await response.Content.ReadAsStringAsync(); 
             var status = response.StatusCode.ToString();
-            if (status == "200") {
+            if (status == "200") 
+            {
                 return JsonConvert.DeserializeObject<Car>(responseData);		
+            }
+            else
+            {
             }
 
             throw new SwaggerException("The response was not expected.", response.StatusCode, null);
@@ -234,74 +279,6 @@ namespace NSwag.Demo.Client
             {
                 Response = response;
             }
-        }
-    }
-
-    public partial class SwaggerException : INotifyPropertyChanged
-    {
-        private string _exceptionType;
-        private string _message;
-        private string _stackTrace;
-
-        [JsonProperty("ExceptionType", Required = Required.Default)]
-        public string ExceptionType
-        {
-            get { return _exceptionType; }
-            set 
-            {
-                if (_exceptionType != value)
-                {
-                    _exceptionType = value; 
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        [JsonProperty("Message", Required = Required.Default)]
-        public string Message
-        {
-            get { return _message; }
-            set 
-            {
-                if (_message != value)
-                {
-                    _message = value; 
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        [JsonProperty("StackTrace", Required = Required.Default)]
-        public string StackTrace
-        {
-            get { return _stackTrace; }
-            set 
-            {
-                if (_stackTrace != value)
-                {
-                    _stackTrace = value; 
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public string ToJson() 
-        {
-            return JsonConvert.SerializeObject(this);
-        }
-
-        public static SwaggerException FromJson(string data)
-        {
-            return JsonConvert.DeserializeObject<SwaggerException>(data);
-        }
-
-        protected virtual void RaisePropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            var handler = PropertyChanged;
-            if (handler != null) 
-                handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 

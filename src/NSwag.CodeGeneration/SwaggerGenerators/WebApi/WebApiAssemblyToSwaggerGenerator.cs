@@ -46,7 +46,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         {
             if (File.Exists(_assemblyPath))
             {
-                using (var isolated = new AppDomainIsolation<AssemblyLoader>())
+                using (var isolated = new AppDomainIsolation<AssemblyLoader>(Path.GetDirectoryName(_assemblyPath)))
                     return isolated.Object.GetControllerClasses(_assemblyPath);
             }
             return new string[] { };
@@ -58,7 +58,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <returns>The Swagger definition.</returns>
         public SwaggerService Generate(string controllerClassName, string urlTemplate)
         {
-            using (var isolated = new AppDomainIsolation<AssemblyLoader>())
+            using (var isolated = new AppDomainIsolation<AssemblyLoader>(Path.GetDirectoryName(_assemblyPath)))
                 return SwaggerService.FromJson(isolated.Object.FromWebApiAssembly(_assemblyPath, controllerClassName, urlTemplate, JsonConvert.SerializeObject(JsonSchemaGeneratorSettings)));
         }
 

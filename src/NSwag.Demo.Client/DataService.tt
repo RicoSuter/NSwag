@@ -1,27 +1,34 @@
 ﻿<#@ template debug="false" hostspecific="true" language="C#" #>
-
 <#@ assembly name="System.Core" #>
+<#@ assembly name="$(SolutionDir)\NSwag.CodeGeneration\bin\Debug\NJsonSchema.dll" #>
 <#@ assembly name="$(SolutionDir)\NSwag.CodeGeneration\bin\Debug\NJsonSchema.CodeGeneration.dll" #>
 <#@ assembly name="$(SolutionDir)\NSwag.CodeGeneration\bin\Debug\NSwag.CodeGeneration.dll" #>
 <#@ assembly name="$(SolutionDir)\NSwag.CodeGeneration\bin\Debug\NSwag.Core.dll" #>
-
-<#@ import namespace="NSwag" #>
 <#@ import namespace="NSwag.CodeGeneration.ClientGenerators.CSharp" #>
-
+<#@ import namespace="NSwag.CodeGeneration.SwaggerGenerators.WebApi" #>
 <#@ import namespace="System.IO" #>
 <#@ import namespace="Microsoft.CSharp" #>
-
 <#@ output extension=".cs" #>
 <#
-	// CONFIGURATION
-	var swaggerUrl = @"http://localhost:22093/api/Persons/Swagger"; 
-	// -------------
-    
-    var generator = new SwaggerToCSharpGenerator(SwaggerService.FromUrl(swaggerUrl));
-	var provider = new CSharpCodeProvider();
-	generator.Class = provider.CreateEscapedIdentifier(Path.GetFileNameWithoutExtension(Host.TemplateFile));
-	generator.Namespace = Host.ResolveParameterValue("directiveId", "namespaceDirectiveProcessor", "namespaceHint");
+    // CONFIGURATION
+    var assemblyPath = @"../../NSwag.Demo.Web/bin/NSwag.Demo.Web.dll";
+    var controllerClass = "NSwag.Demo.Web.Controllers.PersonsController";
+    var urlTemplate = "api/{controller}/{action}/{id}";
+    // -------------
 
-	var code = generator.GenerateFile();
+    var fullAssemblyPath = Path.GetFullPath(Path.GetDirectoryName(Host.TemplateFile) + assemblyPath); 
+
+    var generator = new WebApiAssemblyToSwaggerGenerator(fullAssemblyPath);
+    var service = generator.Generate(controllerClass, urlTemplate);
+
+    // -------------
+
+    var clientGenerator = new SwaggerToCSharpGenerator(service);
+
+    var provider = new CSharpCodeProvider();
+    clientGenerator.Class = provider.CreateEscapedIdentifier(Path.GetFileNameWithoutExtension(Host.TemplateFile));
+    clientGenerator.Namespace = Host.ResolveParameterValue("directiveId", "namespaceDirectiveProcessor", "namespaceHint");
+
+    var code = clientGenerator.GenerateFile();
 #>
 <#= code #>

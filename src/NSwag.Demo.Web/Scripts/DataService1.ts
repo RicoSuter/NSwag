@@ -1,32 +1,62 @@
-﻿
-
-
-
-// Generated using the NSwag toolchain v0.1.5725.20114 (http://NSwag.org)
+﻿// Generated using the NSwag toolchain v0.12.5772.33331 (http://NSwag.org)
 
 export interface SwaggerException {
     ExceptionType?: string;
     Message?: string;
     StackTrace?: string;
-
 }
 
 export interface Person {
     firstName?: string;
     LastName?: string;
-
 }
 
 export interface Car {
     Name?: string;
     Driver?: Person;
+}
+
+export interface IDataService {
+    /**
+     */
+    getAll(onSuccess?: (result: Person[]) => void, onFail?: (exception: any, reason: string) => void);
+
+    /**
+     */
+    get(id: number, onSuccess?: (result: Person) => void, onFail?: (exception: any, reason: string) => void);
+
+    /**
+     */
+    post(request: Person, onSuccess?: (result: any) => void, onFail?: (exception: any, reason: string) => void);
+
+    /**
+     */
+    put(id: number, request: Person, onSuccess?: (result: any) => void, onFail?: (exception: any, reason: string) => void);
+
+    /**
+     */
+    delete(id: number, onSuccess?: (result: any) => void, onFail?: (exception: any, reason: string) => void);
+
+    /**
+     */
+    calculate(a: number, b: number, c: number, onSuccess?: (result: number) => void, onFail?: (exception: any, reason: string) => void);
+
+    /**
+     */
+    addHour(time: Date, onSuccess?: (result: Date) => void, onFail?: (exception: any, reason: string) => void);
+
+    /**
+     */
+    loadComplexObject(onSuccess?: (result: Car) => void, onFail?: (exception: any, reason: string) => void);
 
 }
 
-export class DataService {
-    baseUrl = "/"; 
+export class DataService implements IDataService {
+    baseUrl = ""; 
     beforeSend: any = undefined; 
 
+    /**
+     */
     getAll(onSuccess?: (result: Person[]) => void, onFail?: (exception: any, reason: string) => void) {
         var url = this.baseUrl + "/api/Persons/Get?"; 
 
@@ -46,11 +76,11 @@ export class DataService {
         });
     }
 
-    private processGetAll(xhr: any, onSuccess: any, onFail: any) {
+    private processGetAll(xhr: any, onSuccess?: any, onFail?: any) {
         var data = xhr.responseText; 
         var status = xhr.status; 
 
-        if (status === "200") {
+        if (status === 200) {
             try { 
                 var result = <Person[]>jQuery.parseJSON(data);
                 if (onSuccess !== undefined)
@@ -61,11 +91,14 @@ export class DataService {
             }
         }
         else
-
         {
+            if (onFail !== undefined)
+                onFail(null, "error_no_callback_for_status");
         }
     }
 
+    /**
+     */
     get(id: number, onSuccess?: (result: Person) => void, onFail?: (exception: any, reason: string) => void) {
         var url = this.baseUrl + "/api/Persons/Get/{id}?"; 
 
@@ -87,11 +120,11 @@ export class DataService {
         });
     }
 
-    private processGet(xhr: any, onSuccess: any, onFail: any) {
+    private processGet(xhr: any, onSuccess?: any, onFail?: any) {
         var data = xhr.responseText; 
         var status = xhr.status; 
 
-        if (status === "200") {
+        if (status === 200) {
             try { 
                 var result = <Person>jQuery.parseJSON(data);
                 if (onSuccess !== undefined)
@@ -102,11 +135,14 @@ export class DataService {
             }
         }
         else
-
         {
+            if (onFail !== undefined)
+                onFail(null, "error_no_callback_for_status");
         }
     }
 
+    /**
+     */
     post(request: Person, onSuccess?: (result: any) => void, onFail?: (exception: any, reason: string) => void) {
         var url = this.baseUrl + "/api/Persons/Post?"; 
 
@@ -125,11 +161,11 @@ export class DataService {
         });
     }
 
-    private processPost(xhr: any, onSuccess: any, onFail: any) {
+    private processPost(xhr: any, onSuccess?: any, onFail?: any) {
         var data = xhr.responseText; 
         var status = xhr.status; 
 
-        if (status === "200") {
+        if (status === 200) {
             try { 
                 var result = <any>jQuery.parseJSON(data);
                 if (onSuccess !== undefined)
@@ -140,11 +176,14 @@ export class DataService {
             }
         }
         else
-
         {
+            if (onFail !== undefined)
+                onFail(null, "error_no_callback_for_status");
         }
     }
 
+    /**
+     */
     put(id: number, request: Person, onSuccess?: (result: any) => void, onFail?: (exception: any, reason: string) => void) {
         var url = this.baseUrl + "/api/Persons/Put/{id}?"; 
 
@@ -165,11 +204,11 @@ export class DataService {
         });
     }
 
-    private processPut(xhr: any, onSuccess: any, onFail: any) {
+    private processPut(xhr: any, onSuccess?: any, onFail?: any) {
         var data = xhr.responseText; 
         var status = xhr.status; 
 
-        if (status === "200") {
+        if (status === 200) {
             try { 
                 var result = <any>jQuery.parseJSON(data);
                 if (onSuccess !== undefined)
@@ -180,11 +219,14 @@ export class DataService {
             }
         }
         else
-
         {
+            if (onFail !== undefined)
+                onFail(null, "error_no_callback_for_status");
         }
     }
 
+    /**
+     */
     delete(id: number, onSuccess?: (result: any) => void, onFail?: (exception: any, reason: string) => void) {
         var url = this.baseUrl + "/api/Persons/Delete/{id}?"; 
 
@@ -206,11 +248,11 @@ export class DataService {
         });
     }
 
-    private processDelete(xhr: any, onSuccess: any, onFail: any) {
+    private processDelete(xhr: any, onSuccess?: any, onFail?: any) {
         var data = xhr.responseText; 
         var status = xhr.status; 
 
-        if (status === "200") {
+        if (status === 200) {
             try { 
                 var result = <any>jQuery.parseJSON(data);
                 if (onSuccess !== undefined)
@@ -221,11 +263,14 @@ export class DataService {
             }
         }
         else
-
         {
+            if (onFail !== undefined)
+                onFail(null, "error_no_callback_for_status");
         }
     }
 
+    /**
+     */
     calculate(a: number, b: number, c: number, onSuccess?: (result: number) => void, onFail?: (exception: any, reason: string) => void) {
         var url = this.baseUrl + "/api/Person/Calculate/{a}/{b}?"; 
 
@@ -250,11 +295,11 @@ export class DataService {
         });
     }
 
-    private processCalculate(xhr: any, onSuccess: any, onFail: any) {
+    private processCalculate(xhr: any, onSuccess?: any, onFail?: any) {
         var data = xhr.responseText; 
         var status = xhr.status; 
 
-        if (status === "200") {
+        if (status === 200) {
             try { 
                 var result = <number>jQuery.parseJSON(data);
                 if (onSuccess !== undefined)
@@ -265,11 +310,14 @@ export class DataService {
             }
         }
         else
-
         {
+            if (onFail !== undefined)
+                onFail(null, "error_no_callback_for_status");
         }
     }
 
+    /**
+     */
     addHour(time: Date, onSuccess?: (result: Date) => void, onFail?: (exception: any, reason: string) => void) {
         var url = this.baseUrl + "/api/Persons/AddHour?"; 
 
@@ -291,11 +339,11 @@ export class DataService {
         });
     }
 
-    private processAddHour(xhr: any, onSuccess: any, onFail: any) {
+    private processAddHour(xhr: any, onSuccess?: any, onFail?: any) {
         var data = xhr.responseText; 
         var status = xhr.status; 
 
-        if (status === "200") {
+        if (status === 200) {
             try { 
                 var result = new Date(data);
                 if (onSuccess !== undefined)
@@ -306,11 +354,14 @@ export class DataService {
             }
         }
         else
-
         {
+            if (onFail !== undefined)
+                onFail(null, "error_no_callback_for_status");
         }
     }
 
+    /**
+     */
     loadComplexObject(onSuccess?: (result: Car) => void, onFail?: (exception: any, reason: string) => void) {
         var url = this.baseUrl + "/api/Persons/LoadComplexObject?"; 
 
@@ -330,11 +381,11 @@ export class DataService {
         });
     }
 
-    private processLoadComplexObject(xhr: any, onSuccess: any, onFail: any) {
+    private processLoadComplexObject(xhr: any, onSuccess?: any, onFail?: any) {
         var data = xhr.responseText; 
         var status = xhr.status; 
 
-        if (status === "200") {
+        if (status === 200) {
             try { 
                 var result = <Car>jQuery.parseJSON(data);
                 if (onSuccess !== undefined)
@@ -345,9 +396,11 @@ export class DataService {
             }
         }
         else
-
         {
+            if (onFail !== undefined)
+                onFail(null, "error_no_callback_for_status");
         }
     }
 
 }
+

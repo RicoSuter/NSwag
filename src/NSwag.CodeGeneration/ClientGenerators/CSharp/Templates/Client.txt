@@ -1,5 +1,18 @@
 ﻿<if(hasOperations)>
-public partial class <class>
+public partial interface I<class>
+{
+<operations:{operation | 
+<if(operation.HasSummary)>    /// \<summary><operation.Summary>\</summary><endif>
+<operation.Parameters:{parameter | 
+<if(parameter.HasDescription)>    /// \<param name="<parameter.Name>"><parameter.Description>\</param><endif>}>
+<if(operation.HasResultDescription)>    /// \<returns><operation.ResultDescription>\</returns><endif>
+    /// \<exception cref="<class>.SwaggerException">A server side error occurred.\</exception>
+    <operation.resultType> <operation.OperationNameUpper>Async(<operation.Parameters:{parameter | <parameter.Type> <parameter.Name><if(!parameter.isLast)>,<endif> }>);
+
+}>
+}
+
+public partial class <class> : I<class>
 {
     public <class>() : this("<baseUrl>") { }
 

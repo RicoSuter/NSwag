@@ -15,11 +15,15 @@ namespace NSwag.CodeGeneration.Infrastructure
         private AppDomain _domain;
         private readonly T _object;
 
-        public AppDomainIsolation()
+        public AppDomainIsolation(string assemblyDirectory)
         {
-            var setup = new AppDomainSetup { ShadowCopyFiles = "true" }; 
-            _domain = AppDomain.CreateDomain("AppDomainIsolation:" + Guid.NewGuid(), null, setup);
+            var setup = new AppDomainSetup
+            {
+                ShadowCopyFiles = "true",
+                ApplicationBase = assemblyDirectory
+            };
 
+            _domain = AppDomain.CreateDomain("AppDomainIsolation:" + Guid.NewGuid(), null, setup);
             var type = typeof(T);
 
             try

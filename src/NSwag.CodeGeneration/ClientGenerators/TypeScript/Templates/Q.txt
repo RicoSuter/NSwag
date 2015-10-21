@@ -1,5 +1,18 @@
 ﻿<if(hasOperations)>
-export class <class> {
+export interface I<class> {
+<operations:{operation | 
+    /**
+<if(operation.HasSummary)>     * <operation.Summary><endif>
+<operation.Parameters:{parameter | 
+<if(parameter.HasDescription)>     * @<parameter.Name> <parameter.Description><endif>}>
+<if(operation.HasResultDescription)>     * @return <operation.ResultDescription><endif>
+     */
+    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.Name>: <parameter.Type><if(!parameter.IsLast)>,<endif> }>): Q.Promise\<<operation.ResultType>>;
+
+}>
+}
+
+export class <class> implements I<class> {
     baseUrl = "<baseUrl>"; 
     beforeSend: any = undefined; 
 <operations:{operation | 
