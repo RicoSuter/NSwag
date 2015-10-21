@@ -7,6 +7,7 @@
         <description>$description$</description>
         <projectUrl>https://github.com/NSwag/NSwag</projectUrl>
         <licenseUrl>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</licenseUrl>
+		<iconUrl>https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png</iconUrl>
     </metadata>
     <files>
         <file src="bin\Release\NSwag.Core.dll" target="lib\net45" />
