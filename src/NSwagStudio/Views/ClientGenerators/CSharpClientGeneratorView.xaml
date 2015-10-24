@@ -27,7 +27,7 @@
             <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
                 <Run Text="Operation Generation Mode" FontWeight="Bold" />
                 <LineBreak />
-                {controller} is replaced with the second last path segment
+                The {controller} placeholder of the Class Name is replaced by the second last path segment. 
             </TextBlock>
             <ComboBox SelectedItem="{Binding OperationGenerationMode, Mode=TwoWay}" ItemsSource="{Binding OperationGenerationModes}" Margin="0,0,0,12" />
 

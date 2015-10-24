@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:viewModels="clr-namespace:NSwagStudio.ViewModels"
-        Title="NSwagStudio" 
+        Title="NSwagStudio: The Swagger API toolchain for .NET" 
         MinHeight="600" MinWidth="700" UseLayoutRounding="True"
         WindowStartupLocation="CenterScreen"
         Height="700" Width="1000">
@@ -23,7 +23,7 @@
     </Window.Resources>
 
     <TabControl TabStripPlacement="Left" DataContext="{StaticResource ViewModel}" Margin="8,0,0,0">
-        <!-- Service2Client -->
+        <!-- Generators -->
         <TabItem Header="Generators" HeaderTemplate="{StaticResource RotatedTabItem}">
             <Grid Margin="8">
                 <Grid.ColumnDefinitions>
@@ -37,7 +37,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <!-- Source -->
+                <!-- Input -->
                 <Grid Margin="0,0,4,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -95,60 +95,26 @@
             </Grid>
         </TabItem>
 
-        <!-- Code2Code -->
-        <!--<TabItem Header="Code2Code" HeaderTemplate="{StaticResource RotatedTabItem}">
-            <Grid Margin="8">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <Grid Margin="0,0,4,0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    <TextBlock Text="Source" FontSize="16" FontWeight="Bold" Margin="0,0,0,16" />
-                    <TabControl Grid.Row="1">
-                        <TabItem Header="CSharp Assembly">
-
-                        </TabItem>
-                    </TabControl>
-                </Grid>
-
-                <Grid Grid.Column="1" Margin="4,0,0,0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    <TextBlock Text="Output" FontSize="16" FontWeight="Bold" Margin="0,0,0,16" />
-                    
-                    <TabControl Grid.Row="1">
-                        <TabItem Header="TypeScript Code">
-
-                        </TabItem>
-                        <TabItem Header="CSharp Code">
-
-                        </TabItem>
-                    </TabControl>
-                </Grid>
-            </Grid>
-        </TabItem>-->
-
         <!-- About -->
         <TabItem Header="About" HeaderTemplate="{StaticResource RotatedTabItem}">
             <StackPanel Margin="8">
+                <TextBlock Margin="0,0,0,8" FontSize="16" FontWeight="Bold">
+                    <Hyperlink NavigateUri="http://nswag.org" Click="OnOpenHyperlink">NSwag: The Swagger API toolchain for .NET</Hyperlink>
+                </TextBlock>
+                <TextBlock Margin="0,0,0,8" FontSize="14" TextWrapping="Wrap">
+                    NSwag is a Swagger 2.0 API toolchain for .NET, TypeScript and other platforms, written in C#. 
+                    The Swagger specification uses JSON and JSON Schema to describe a RESTful web API. 
+                    The project provides tools to automatically generate client code from these Swagger 
+                    specifications and integrate this generation into existing processes.
+                </TextBlock>
                 <TextBlock Margin="0,0,0,8" FontSize="14">
-                    <Hyperlink NavigateUri="http://nswag.org" Click="OnOpenHyperlink">NSwagStudio</Hyperlink>
-                    has been developed by 
+                    NSwag and NSwagStudio have been developed by 
                     <Hyperlink NavigateUri="http://www.rsuter.com" Click="OnOpenHyperlink">Rico Suter</Hyperlink>.
                 </TextBlock>
-
                 <TextBlock Margin="0,0,0,8">
-                        Version: <Run Text="{Binding ApplicationVersion, Mode=OneWay}" />
-                        <LineBreak />
+                        Application Version: <Run Text="{Binding ApplicationVersion, Mode=OneWay}" />
+                </TextBlock>
+                <TextBlock Margin="0,0,0,8">
                         License: <Hyperlink NavigateUri="https://github.com/NSwag/NSwag/blob/master/LICENSE.md" Click="OnOpenHyperlink">Ms-PL</Hyperlink>
                 </TextBlock>
             </StackPanel>
