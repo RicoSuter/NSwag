@@ -1,13 +1,13 @@
 ﻿<if(hasOperations)>
 export interface I<class> {
 <operations:{operation | 
-    /**
+<if(operation.HasDocumentation)>    /**
 <if(operation.HasSummary)>     * <operation.Summary><endif>
 <operation.Parameters:{parameter | 
 <if(parameter.HasDescription)>     * @<parameter.Name> <parameter.Description><endif>}>
 <if(operation.HasResultDescription)>     * @return <operation.ResultDescription><endif>
      */
-    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.Name>: <parameter.Type>, }>onSuccess?: (result: <operation.ResultType>) => void, onFail?: (exception: <operation.ExceptionType>, reason: string) => void);
+<endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.Name>: <parameter.Type>, }>onSuccess?: (result: <operation.ResultType>) => void, onFail?: (exception: <operation.ExceptionType>, reason: string) => void);
 
 }>
 }
@@ -17,13 +17,13 @@ export class <class> implements I<class> {
     beforeSend: any = undefined; 
 
 <operations:{operation | 
-    /**
+<if(operation.HasDocumentation)>    /**
 <if(operation.HasSummary)>     * <operation.Summary><endif>
 <operation.Parameters:{parameter | 
 <if(parameter.HasDescription)>     * @<parameter.Name> <parameter.Description><endif>}>
 <if(operation.HasResultDescription)>     * @return <operation.ResultDescription><endif>
      */
-    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.Name>: <parameter.Type>, }>onSuccess?: (result: <operation.ResultType>) => void, onFail?: (exception: <operation.ExceptionType>, reason: string) => void) {
+<endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.Name>: <parameter.Type>, }>onSuccess?: (result: <operation.ResultType>) => void, onFail?: (exception: <operation.ExceptionType>, reason: string) => void) {
         var url = this.baseUrl + "/<operation.Path>?"; 
 
 <operation.PlaceholderParameters:{parameter | 

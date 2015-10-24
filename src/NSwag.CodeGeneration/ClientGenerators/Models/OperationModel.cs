@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NSwag.CodeGeneration.ClientGenerators.Models
 {
@@ -62,6 +63,11 @@ namespace NSwag.CodeGeneration.ClientGenerators.Models
         public bool HasSummary
         {
             get { return !string.IsNullOrEmpty(Summary); }
+        }
+
+        public bool HasDocumentation
+        {
+            get { return HasSummary || HasResultDescription || Parameters.Any(p => p.HasDescription); }
         }
     }
 }
