@@ -28,6 +28,9 @@ namespace NSwag.Demo.Web.Controllers
         }
 
         // GET: api/Person/5
+        /// <summary>Gets a person.</summary>
+        /// <param name="id">The ID of the person.</param>
+        /// <returns>The person.</returns>
         [ResultType(typeof(Person))]
         public HttpResponseMessage Get(int id)
         {
@@ -35,11 +38,16 @@ namespace NSwag.Demo.Web.Controllers
         }
 
         // POST: api/Person
+        /// <summary>Creates a new person.</summary>
+        /// <param name="value">The person.</param>
         public void Post([FromBody]Person value)
         {
         }
 
         // PUT: api/Person/5
+        /// <summary>Updates the existing person.</summary>
+        /// <param name="id">The ID.</param>
+        /// <param name="value">The person.</param>
         public void Put(int id, [FromBody]Person value)
         {
         }

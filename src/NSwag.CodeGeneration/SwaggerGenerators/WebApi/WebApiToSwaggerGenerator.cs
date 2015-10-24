@@ -103,6 +103,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
             if (descriptionAttribute != null)
                 operation.Description = descriptionAttribute.Description;
+            else
+                operation.Description = method.GetXmlDocumentation();
         }
 
         private string GetHttpPath(SwaggerOperation operation, MethodInfo method, List<ParameterInfo> parameters, ISchemaResolver schemaResolver)
@@ -273,6 +275,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             operationParameter.Schema = CreateAndAddSchema<SwaggerParameter>(parameter.ParameterType, schemaResolver);
             operationParameter.Name = "request";
             operationParameter.Kind = SwaggerParameterKind.Body;
+            operationParameter.Description = parameter.GetXmlDocumentation();
             return operationParameter;
         }
 
@@ -292,13 +295,21 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                             httpStatusCode = dynResultTypeAttribute.HttpStatusCode;
 
                         var schema = CreateAndAddSchema<JsonSchema4>(dynResultTypeAttribute.Type, schemaResolver);
-                        operation.Responses[httpStatusCode] = new SwaggerResponse { Schema = schema };
+                        operation.Responses[httpStatusCode] = new SwaggerResponse
+                        {
+                            Description = method.ReturnParameter.GetXmlDocumentation(),
+                            Schema = schema
+                        };
                     }
                 }
                 else
                 {
                     var schema = CreateAndAddSchema<JsonSchema4>(method.ReturnType, schemaResolver);
-                    operation.Responses["200"] = new SwaggerResponse { Schema = schema };
+                    operation.Responses["200"] = new SwaggerResponse
+                    {
+                        Description = method.ReturnParameter.GetXmlDocumentation(), 
+                        Schema = schema
+                    };
                 }
             }
             else
@@ -369,6 +380,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
             var segmentParameter = parameterGenerator.Generate<SwaggerParameter>(parameter.ParameterType, schemaResolver);
             segmentParameter.Name = parameter.Name;
+            segmentParameter.Description = parameter.GetXmlDocumentation();
             return segmentParameter;
         }
     }
