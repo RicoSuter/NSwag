@@ -12,6 +12,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using NJsonSchema;
+using NJsonSchema.Infrastructure;
 using NSwag.CodeGeneration.Infrastructure;
 
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
