@@ -32,17 +32,17 @@ namespace NSwag
         [JsonProperty(PropertyName = "tags", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public List<string> Tags { get; set; }
 
-        /// <summary>Gets or sets the description.</summary>
+        /// <summary>Gets or sets the summary of the operation.</summary>
+        [JsonProperty(PropertyName = "summary", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string Summary { get; set; }
+
+        /// <summary>Gets or sets the long description of the operation.</summary>
         [JsonProperty(PropertyName = "description", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Description { get; set; }
 
         /// <summary>Gets or sets the external documentation.</summary>
         [JsonProperty(PropertyName = "externalDocs", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public SwaggerExternalDocumentation ExternalDocumentation { get; set; }
-
-        /// <summary>Gets or sets the name of the operation.</summary>
-        [JsonProperty(PropertyName = "summary", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string Summary { get; set; }
 
         /// <summary>Gets or sets the operation ID (unique name).</summary>
         [JsonProperty(PropertyName = "operationId", DefaultValueHandling = DefaultValueHandling.Ignore)]

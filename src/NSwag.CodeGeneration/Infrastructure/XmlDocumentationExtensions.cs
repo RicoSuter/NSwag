@@ -22,26 +22,26 @@ namespace NSwag.CodeGeneration.Infrastructure
         private static readonly Dictionary<string, XDocument> _cache =
             new Dictionary<string, XDocument>(StringComparer.OrdinalIgnoreCase);
 
-        /// <summary>Returns the XML documentation (summary tag) for the specified member.</summary>
+        /// <summary>Returns the contents of the "summary" tag (.NET XML documentation) for the specified member.</summary>
         /// <param name="member">The reflected member.</param>
-        /// <returns>The contents of the summary tag for the member.</returns>
+        /// <returns>The contents of the "summary" tag for the member.</returns>
         public static string GetXmlDocumentation(this MemberInfo member)
         {
             return GetXmlDocumentation(member, GetXmlDocumentationPath(member.Module.Assembly));
         }
 
-        /// <summary>Returns the XML documentation (returns/param tag) for the specified parameter.</summary>
-        /// <param name="parameter">The reflected parameter (or return value).</param>
-        /// <returns>The contents of the returns/param tag for the parameter.</returns>
+        /// <summary>Returns the contents of the "returns" or "param" tag (.NET XML documentation) for the specified parameter.</summary>
+        /// <param name="parameter">The reflected parameter or return info.</param>
+        /// <returns>The contents of the "returns" or "param" tag.</returns>
         public static string GetXmlDocumentation(this ParameterInfo parameter)
         {
             return GetXmlDocumentation(parameter, GetXmlDocumentationPath(parameter.Member.Module.Assembly));
         }
 
-        /// <summary>Returns the XML documentation (summary tag) for the specified member.</summary>
+        /// <summary>Returns the contents of the "summary" tag (.NET XML documentation) for the specified member.</summary>
         /// <param name="member">The reflected member.</param>
-        /// <param name="pathToXmlFile">Path to the XML documentation file.</param>
-        /// <returns>The contents of the summary tag for the member.</returns>
+        /// <param name="pathToXmlFile">The path to the XML documentation file.</param>
+        /// <returns>The contents of the "summary" tag for the member.</returns>
         public static string GetXmlDocumentation(this MemberInfo member, string pathToXmlFile)
         {
             if (pathToXmlFile == null || !File.Exists(pathToXmlFile))
@@ -55,10 +55,10 @@ namespace NSwag.CodeGeneration.Infrastructure
             return GetXmlDocumentation(member, _cache[assemblyName.FullName]);
         }
 
-        /// <summary>Returns the XML documentation (returns/param tag) for the specified parameter.</summary>
-        /// <param name="parameter">The reflected parameter (or return value).</param>
-        /// <param name="pathToXmlFile">Path to the XML documentation file.</param>
-        /// <returns>The contents of the returns/param tag for the parameter.</returns>
+        /// <summary>Returns the contents of the "returns" or "param" tag (.NET XML documentation) for the specified parameter.</summary>
+        /// <param name="parameter">The reflected parameter or return info.</param>
+        /// <param name="pathToXmlFile">The path to the XML documentation file.</param>
+        /// <returns>The contents of the "returns" or "param" tag.</returns>
         public static string GetXmlDocumentation(this ParameterInfo parameter, string pathToXmlFile)
         {
             if (pathToXmlFile == null || !File.Exists(pathToXmlFile))
@@ -72,43 +72,27 @@ namespace NSwag.CodeGeneration.Infrastructure
             return GetXmlDocumentation(parameter, _cache[assemblyName.FullName]);
         }
 
-        /// <summary>Returns the XML documentation (summary tag) for the specified member.</summary>
+        /// <summary>Returns the contents of the "summary" tag (.NET XML documentation) for the specified member.</summary>
         /// <param name="member">The reflected member.</param>
-        /// <param name="xml">XML documentation.</param>
-        /// <returns>The contents of the summary tag for the member.</returns>
+        /// <param name="xml">The XML documentation document.</param>
+        /// <returns>The contents of the "summary" tag for the member.</returns>
         public static string GetXmlDocumentation(this MemberInfo member, XDocument xml)
         {
-            return xml.XPathEvaluate(
-                String.Format(
-                    "string(/doc/members/member[@name='{0}']/summary)",
-                    GetMemberElementName(member)
-                    )
-                ).ToString().Trim();
+            var name = GetMemberElementName(member); 
+            return xml.XPathEvaluate(string.Format("string(/doc/members/member[@name='{0}']/summary)",name)).ToString().Trim();
         }
 
-        /// <summary>Returns the XML documentation (returns/param tag) for the specified parameter.</summary>
-        /// <param name="parameter">The reflected parameter (or return value).</param>
-        /// <param name="xml">XML documentation.</param>
-        /// <returns>The contents of the returns/param tag for the parameter.</returns>
+        /// <summary>Returns the contents of the "returns" or "param" tag (.NET XML documentation) for the specified parameter.</summary>
+        /// <param name="parameter">The reflected parameter or return info.</param>
+        /// <param name="xml">The XML documentation document.</param>
+        /// <returns>The contents of the "returns" or "param" tag.</returns>
         public static string GetXmlDocumentation(this ParameterInfo parameter, XDocument xml)
         {
+            var name = GetMemberElementName(parameter.Member); 
             if (parameter.IsRetval || string.IsNullOrEmpty(parameter.Name))
-            {
-                return xml.XPathEvaluate(
-                    string.Format(
-                        "string(/doc/members/member[@name='{0}']/returns)",
-                        GetMemberElementName(parameter.Member))
-                    ).ToString().Trim();
-            }
+                return xml.XPathEvaluate(string.Format("string(/doc/members/member[@name='{0}']/returns)", name)).ToString().Trim();
             else
-            {
-                return xml.XPathEvaluate(
-                    string.Format(
-                        "string(/doc/members/member[@name='{0}']/param[@name='{1}'])",
-                        GetMemberElementName(parameter.Member),
-                        parameter.Name)
-                    ).ToString().Trim();
-            }
+                return xml.XPathEvaluate(string.Format("string(/doc/members/member[@name='{0}']/param[@name='{1}'])", name, parameter.Name)).ToString().Trim();
         }
 
         private static string GetMemberElementName(MemberInfo member)
@@ -124,6 +108,7 @@ namespace NSwag.CodeGeneration.Infrastructure
                     // XML documentation uses slightly different constructor names
                     memberName = memberName.Replace(".ctor", "#ctor");
                     goto case MemberTypes.Method;
+
                 case MemberTypes.Method:
                     prefixCode = 'M';
 
@@ -150,6 +135,7 @@ namespace NSwag.CodeGeneration.Infrastructure
                     // XML documentation uses slightly different nested type names
                     memberName = memberName.Replace('+', '.');
                     goto case MemberTypes.TypeInfo;
+
                 case MemberTypes.TypeInfo:
                     prefixCode = 'T';
                     break;
@@ -163,10 +149,9 @@ namespace NSwag.CodeGeneration.Infrastructure
             }
 
             // elements are of the form "M:Namespace.Class.Method"
-            return String.Format("{0}:{1}", prefixCode, memberName);
+            return string.Format("{0}:{1}", prefixCode, memberName);
         }
-
-
+        
         private static string GetXmlDocumentationPath(Assembly assembly)
         {
             var assemblyName = assembly.GetName();

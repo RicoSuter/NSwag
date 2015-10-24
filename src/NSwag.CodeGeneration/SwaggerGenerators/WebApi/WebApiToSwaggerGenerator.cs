@@ -102,9 +102,13 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 .SingleOrDefault(a => a.GetType().Name == "DescriptionAttribute");
 
             if (descriptionAttribute != null)
-                operation.Description = descriptionAttribute.Description;
+                operation.Summary = descriptionAttribute.Description;
             else
-                operation.Description = method.GetXmlDocumentation();
+            {
+                var summary = method.GetXmlDocumentation();
+                if (summary != string.Empty)
+                    operation.Summary = summary;
+            }
         }
 
         private string GetHttpPath(SwaggerOperation operation, MethodInfo method, List<ParameterInfo> parameters, ISchemaResolver schemaResolver)
@@ -275,7 +279,11 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             operationParameter.Schema = CreateAndAddSchema<SwaggerParameter>(parameter.ParameterType, schemaResolver);
             operationParameter.Name = "request";
             operationParameter.Kind = SwaggerParameterKind.Body;
-            operationParameter.Description = parameter.GetXmlDocumentation();
+
+            var description = parameter.GetXmlDocumentation();
+            if (description != string.Empty)
+                operationParameter.Description = description;
+
             return operationParameter;
         }
 
@@ -283,6 +291,10 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         {
             if (method.ReturnType.FullName != "System.Void")
             {
+                var description = method.ReturnParameter.GetXmlDocumentation();
+                if (description == string.Empty)
+                    description = null; 
+
                 var resultTypeAttributes = method.GetCustomAttributes().Where(a => a.GetType().Name == "ResultTypeAttribute").ToList();
                 if (resultTypeAttributes.Count > 0)
                 {
@@ -297,7 +309,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                         var schema = CreateAndAddSchema<JsonSchema4>(dynResultTypeAttribute.Type, schemaResolver);
                         operation.Responses[httpStatusCode] = new SwaggerResponse
                         {
-                            Description = method.ReturnParameter.GetXmlDocumentation(),
+                            Description = description,
                             Schema = schema
                         };
                     }
@@ -307,7 +319,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     var schema = CreateAndAddSchema<JsonSchema4>(method.ReturnType, schemaResolver);
                     operation.Responses["200"] = new SwaggerResponse
                     {
-                        Description = method.ReturnParameter.GetXmlDocumentation(), 
+                        Description = description, 
                         Schema = schema
                     };
                 }

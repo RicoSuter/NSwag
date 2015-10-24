@@ -42,12 +42,12 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="NJsonSchema, Version=1.7.5770.30722, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NJsonSchema.1.7.5770.30722\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10\NJsonSchema.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="NJsonSchema.CodeGeneration, Version=1.7.5770.30723, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NJsonSchema.CodeGeneration.1.7.5770.30723\lib\net45\NJsonSchema.CodeGeneration.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
