@@ -67,12 +67,12 @@ export class <class> implements I<class> {
         \});
     \}
 
-    private process<operation.OperationNameUpper>(xhr: any, onSuccess: any, onFail: any) {
+    private process<operation.OperationNameUpper>(xhr: any, onSuccess?: any, onFail?: any) {
         var data = xhr.responseText; 
         var status = xhr.status; 
 
 <operation.Responses:{response | 
-        if (status == <response.StatusCode>) {
+        if (status === <response.StatusCode>) {
             try { 
 <if(response.TypeIsDate)>
                 var result<response.StatusCode> = new Date(data);
