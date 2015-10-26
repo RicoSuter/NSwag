@@ -296,18 +296,18 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 if (description == string.Empty)
                     description = null; 
 
-                var resultTypeAttributes = method.GetCustomAttributes().Where(a => a.GetType().Name == "ResultTypeAttribute").ToList();
-                if (resultTypeAttributes.Count > 0)
+                var responseTypeAttributes = method.GetCustomAttributes().Where(a => a.GetType().Name == "ResponseTypeAttribute").ToList();
+                if (responseTypeAttributes.Count > 0)
                 {
-                    foreach (var resultTypeAttribute in resultTypeAttributes)
+                    foreach (var responseTypeAttribute in responseTypeAttributes)
                     {
-                        dynamic dynResultTypeAttribute = resultTypeAttribute;
+                        dynamic dynResultTypeAttribute = responseTypeAttribute;
 
                         var httpStatusCode = "200";
-                        if (resultTypeAttribute.GetType().GetRuntimeProperty("HttpStatusCode") != null)
+                        if (responseTypeAttribute.GetType().GetRuntimeProperty("HttpStatusCode") != null)
                             httpStatusCode = dynResultTypeAttribute.HttpStatusCode;
 
-                        var schema = CreateAndAddSchema<JsonSchema4>(dynResultTypeAttribute.Type, schemaResolver);
+                        var schema = CreateAndAddSchema<JsonSchema4>(dynResultTypeAttribute.ResponseType, schemaResolver);
                         operation.Responses[httpStatusCode] = new SwaggerResponse
                         {
                             Description = description,

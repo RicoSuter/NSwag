@@ -39,8 +39,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="NJsonSchema, Version=1.8.5777.37128, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NJsonSchema.1.8.5777.37128\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10\NJsonSchema.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

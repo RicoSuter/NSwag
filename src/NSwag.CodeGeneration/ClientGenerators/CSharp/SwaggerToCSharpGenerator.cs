@@ -97,7 +97,7 @@ namespace NSwag.CodeGeneration.ClientGenerators.CSharp
             if (schema == null)
                 return "string";
 
-            if (schema.IsAnyType)
+            if (schema.ActualSchema.IsAnyType)
                 return "object";
 
             return _resolver.Resolve(schema.ActualSchema, true, typeNameHint);

@@ -102,7 +102,7 @@ namespace NSwag.CodeGeneration.ClientGenerators.TypeScript
             if (schema == null)
                 return "any";
 
-            if (schema.IsAnyType)
+            if (schema.ActualSchema.IsAnyType)
                 return "any";
 
             return _resolver.Resolve(schema.ActualSchema, true, typeNameHint);
