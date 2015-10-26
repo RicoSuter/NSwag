@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-// Generated using the NSwag toolchain v0.13.5777.37671 (http://NSwag.org)
+// Generated using the NSwag toolchain v0.14.5777.39617 (http://NSwag.org)
 
 namespace NSwag.Demo.Client
 {
