@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
-using NJsonSchema.CodeGeneration.CSharp;
 using NSwag.CodeGeneration.ClientGenerators.Models;
 
 namespace NSwag.CodeGeneration.ClientGenerators.CSharp
@@ -19,7 +18,7 @@ namespace NSwag.CodeGeneration.ClientGenerators.CSharp
     public class SwaggerToCSharpGenerator : ClientGeneratorBase
     {
         private readonly SwaggerService _service;
-        private readonly CSharpTypeResolver _resolver;
+        private readonly SwaggerToCSharpTypeResolver _resolver;
 
         /// <summary>Initializes a new instance of the <see cref="SwaggerToCSharpGenerator"/> class.</summary>
         /// <param name="service">The service.</param>
@@ -30,7 +29,11 @@ namespace NSwag.CodeGeneration.ClientGenerators.CSharp
                 throw new ArgumentNullException("service");
 
             _service = service;
-            _resolver = new CSharpTypeResolver(_service.Definitions.Select(p => p.Value).ToArray());
+
+            foreach (var definition in _service.Definitions)
+                definition.Value.TypeName = definition.Key;
+
+            _resolver = new SwaggerToCSharpTypeResolver(_service.Definitions);
         }
 
         /// <summary>Gets or sets the class name of the service client.</summary>
@@ -84,9 +87,6 @@ namespace NSwag.CodeGeneration.ClientGenerators.CSharp
         {
             if (operation.Responses.Count(r => r.Key == "200") == 0)
                 return "Task";
-
-            if (operation.Responses.Count(r => r.Key == "200") != 1)
-                return "Task<object>";
 
             var response = GetOkResponse(operation);
             return "Task<" + GetType(response.Schema, "Response") + ">";

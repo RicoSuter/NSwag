@@ -30,6 +30,7 @@ namespace NSwag.Demo.Web.Controllers
         /// <param name="id">The ID of the person.</param>
         /// <returns>The person.</returns>
         [ResultType(typeof(Person))]
+        [ResultType("500", typeof(PersonNotFoundException))]
         public HttpResponseMessage Get(int id)
         {
             return Request.CreateResponse(HttpStatusCode.OK, new Person { FirstName = "Rico", LastName = "Suter" });
@@ -82,5 +83,14 @@ namespace NSwag.Demo.Web.Controllers
             var service = generator.Generate(GetType(), "Swagger");
             return new HttpResponseMessage { Content = new StringContent(service.ToJson(), Encoding.UTF8) };
         }
+    }
+
+    public class PersonNotFoundException : Exception
+    {
+        public PersonNotFoundException()
+        {
+        }
+
+        public int PersonId { get; set; }
     }
 }

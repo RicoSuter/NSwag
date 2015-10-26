@@ -33,7 +33,7 @@ namespace NSwag.Tests.Integration
             var operation = service.Operations.Single(o => o.Path == "api/Persons/Get/{id}");
 
             //// Assert
-            Assert.AreEqual(1, operation.Operation.Responses.Count);
+            Assert.AreEqual(2, operation.Operation.Responses.Count);
             Assert.AreEqual("Person", operation.Operation.Responses["200"].Schema.ActualSchema.TypeName);
         }
     }

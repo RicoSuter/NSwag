@@ -1,15 +1,13 @@
-// Generated using the NSwag toolchain v0.12.5772.33331 (http://NSwag.org)
+// Generated using the NSwag toolchain v0.13.5777.38709 (http://NSwag.org)
 define(["require", "exports"], function (require, exports) {
     var DataService = (function () {
         function DataService() {
             this.baseUrl = "";
             this.beforeSend = undefined;
         }
-        /**
-         */
         DataService.prototype.getAll = function (onSuccess, onFail) {
             var _this = this;
-            var url = this.baseUrl + "/api/Persons/Get?";
+            var url = this.baseUrl + "/MyWorldCalculators/api/Persons/Get?";
             var content = "";
             $.ajax({
                 url: url,
@@ -29,9 +27,9 @@ define(["require", "exports"], function (require, exports) {
             var status = xhr.status;
             if (status === 200) {
                 try {
-                    var result = jQuery.parseJSON(data);
+                    var result200 = jQuery.parseJSON(data);
                     if (onSuccess !== undefined)
-                        onSuccess(result);
+                        onSuccess(result200);
                 }
                 catch (e) {
                     if (onFail !== undefined)
@@ -44,10 +42,13 @@ define(["require", "exports"], function (require, exports) {
             }
         };
         /**
+         * Gets a person.
+         * @id The ID of the person.
+         * @return The person.
          */
         DataService.prototype.get = function (id, onSuccess, onFail) {
             var _this = this;
-            var url = this.baseUrl + "/api/Persons/Get/{id}?";
+            var url = this.baseUrl + "/MyWorldCalculators/api/Persons/Get/{id}?";
             url = url.replace("{id}", "" + id);
             var content = "";
             $.ajax({
@@ -68,9 +69,20 @@ define(["require", "exports"], function (require, exports) {
             var status = xhr.status;
             if (status === 200) {
                 try {
-                    var result = jQuery.parseJSON(data);
+                    var result200 = jQuery.parseJSON(data);
                     if (onSuccess !== undefined)
-                        onSuccess(result);
+                        onSuccess(result200);
+                }
+                catch (e) {
+                    if (onFail !== undefined)
+                        onFail(null, "error_parsing");
+                }
+            }
+            else if (status === 500) {
+                try {
+                    var result500 = jQuery.parseJSON(data);
+                    if (onFail !== undefined)
+                        onFail(result500);
                 }
                 catch (e) {
                     if (onFail !== undefined)
@@ -83,10 +95,12 @@ define(["require", "exports"], function (require, exports) {
             }
         };
         /**
+         * Creates a new person.
+         * @request The person.
          */
         DataService.prototype.post = function (request, onSuccess, onFail) {
             var _this = this;
-            var url = this.baseUrl + "/api/Persons/Post?";
+            var url = this.baseUrl + "/MyWorldCalculators/api/Persons/Post?";
             var content = JSON.stringify(request);
             $.ajax({
                 url: url,
@@ -106,9 +120,9 @@ define(["require", "exports"], function (require, exports) {
             var status = xhr.status;
             if (status === 200) {
                 try {
-                    var result = jQuery.parseJSON(data);
+                    var result200 = jQuery.parseJSON(data);
                     if (onSuccess !== undefined)
-                        onSuccess(result);
+                        onSuccess(result200);
                 }
                 catch (e) {
                     if (onFail !== undefined)
@@ -121,10 +135,13 @@ define(["require", "exports"], function (require, exports) {
             }
         };
         /**
+         * Updates the existing person.
+         * @id The ID.
+         * @request The person.
          */
         DataService.prototype.put = function (id, request, onSuccess, onFail) {
             var _this = this;
-            var url = this.baseUrl + "/api/Persons/Put/{id}?";
+            var url = this.baseUrl + "/MyWorldCalculators/api/Persons/Put/{id}?";
             url = url.replace("{id}", "" + id);
             var content = JSON.stringify(request);
             $.ajax({
@@ -145,9 +162,9 @@ define(["require", "exports"], function (require, exports) {
             var status = xhr.status;
             if (status === 200) {
                 try {
-                    var result = jQuery.parseJSON(data);
+                    var result200 = jQuery.parseJSON(data);
                     if (onSuccess !== undefined)
-                        onSuccess(result);
+                        onSuccess(result200);
                 }
                 catch (e) {
                     if (onFail !== undefined)
@@ -159,11 +176,9 @@ define(["require", "exports"], function (require, exports) {
                     onFail(null, "error_no_callback_for_status");
             }
         };
-        /**
-         */
         DataService.prototype.delete = function (id, onSuccess, onFail) {
             var _this = this;
-            var url = this.baseUrl + "/api/Persons/Delete/{id}?";
+            var url = this.baseUrl + "/MyWorldCalculators/api/Persons/Delete/{id}?";
             url = url.replace("{id}", "" + id);
             var content = "";
             $.ajax({
@@ -184,9 +199,9 @@ define(["require", "exports"], function (require, exports) {
             var status = xhr.status;
             if (status === 200) {
                 try {
-                    var result = jQuery.parseJSON(data);
+                    var result200 = jQuery.parseJSON(data);
                     if (onSuccess !== undefined)
-                        onSuccess(result);
+                        onSuccess(result200);
                 }
                 catch (e) {
                     if (onFail !== undefined)
@@ -199,6 +214,7 @@ define(["require", "exports"], function (require, exports) {
             }
         };
         /**
+         * Calculates the sum of a, b and c.
          */
         DataService.prototype.calculate = function (a, b, c, onSuccess, onFail) {
             var _this = this;
@@ -225,9 +241,9 @@ define(["require", "exports"], function (require, exports) {
             var status = xhr.status;
             if (status === 200) {
                 try {
-                    var result = jQuery.parseJSON(data);
+                    var result200 = jQuery.parseJSON(data);
                     if (onSuccess !== undefined)
-                        onSuccess(result);
+                        onSuccess(result200);
                 }
                 catch (e) {
                     if (onFail !== undefined)
@@ -239,11 +255,9 @@ define(["require", "exports"], function (require, exports) {
                     onFail(null, "error_no_callback_for_status");
             }
         };
-        /**
-         */
         DataService.prototype.addHour = function (time, onSuccess, onFail) {
             var _this = this;
-            var url = this.baseUrl + "/api/Persons/AddHour?";
+            var url = this.baseUrl + "/MyWorldCalculators/api/Persons/AddHour?";
             url += "time=" + encodeURIComponent("" + time.toJSON()) + "&";
             var content = "";
             $.ajax({
@@ -264,9 +278,9 @@ define(["require", "exports"], function (require, exports) {
             var status = xhr.status;
             if (status === 200) {
                 try {
-                    var result = new Date(data);
+                    var result200 = new Date(data);
                     if (onSuccess !== undefined)
-                        onSuccess(result);
+                        onSuccess(result200);
                 }
                 catch (e) {
                     if (onFail !== undefined)
@@ -278,11 +292,9 @@ define(["require", "exports"], function (require, exports) {
                     onFail(null, "error_no_callback_for_status");
             }
         };
-        /**
-         */
         DataService.prototype.loadComplexObject = function (onSuccess, onFail) {
             var _this = this;
-            var url = this.baseUrl + "/api/Persons/LoadComplexObject?";
+            var url = this.baseUrl + "/MyWorldCalculators/api/Persons/LoadComplexObject?";
             var content = "";
             $.ajax({
                 url: url,
@@ -302,9 +314,9 @@ define(["require", "exports"], function (require, exports) {
             var status = xhr.status;
             if (status === 200) {
                 try {
-                    var result = jQuery.parseJSON(data);
+                    var result200 = jQuery.parseJSON(data);
                     if (onSuccess !== undefined)
-                        onSuccess(result);
+                        onSuccess(result200);
                 }
                 catch (e) {
                     if (onFail !== undefined)

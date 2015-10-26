@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-// Generated using the NSwag toolchain v0.12.5772.33331 (http://NSwag.org)
+// Generated using the NSwag toolchain v0.13.5777.37671 (http://NSwag.org)
 
 namespace NSwag.Demo.Client
 {
@@ -16,18 +16,27 @@ namespace NSwag.Demo.Client
         /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
         Task<ObservableCollection<Person>> GetAllAsync();
 
+        /// <summary>Gets a person.</summary>
+        /// <param name="id">The ID of the person.</param>
+        /// <returns>The person.</returns>
         /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
         Task<Person> GetAsync(long id );
 
+        /// <summary>Creates a new person.</summary>
+        /// <param name="request">The person.</param>
         /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
         Task<string> PostAsync(Person request );
 
+        /// <summary>Updates the existing person.</summary>
+        /// <param name="id">The ID.</param>
+        /// <param name="request">The person.</param>
         /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
         Task<string> PutAsync(long id, Person request );
 
         /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
         Task<string> DeleteAsync(long id );
 
+        /// <summary>Calculates the sum of a, b and c.</summary>
         /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
         Task<long> CalculateAsync(long a, long b, long c );
 
@@ -69,7 +78,14 @@ namespace NSwag.Demo.Client
             var status = response.StatusCode.ToString();
             if (status == "200") 
             {
-                return JsonConvert.DeserializeObject<ObservableCollection<Person>>(responseData);		
+                try
+                {
+                    return JsonConvert.DeserializeObject<ObservableCollection<Person>>(responseData);		
+                } 
+                catch (Exception exception) 
+                {
+                    throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, exception);
+                }
             }
             else
             {
@@ -78,6 +94,9 @@ namespace NSwag.Demo.Client
             throw new SwaggerException("The response was not expected.", response.StatusCode, null);
         }
 
+        /// <summary>Gets a person.</summary>
+        /// <param name="id">The ID of the person.</param>
+        /// <returns>The person.</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async Task<Person> GetAsync(long id )
         {
@@ -95,7 +114,27 @@ namespace NSwag.Demo.Client
             var status = response.StatusCode.ToString();
             if (status == "200") 
             {
-                return JsonConvert.DeserializeObject<Person>(responseData);		
+                try
+                {
+                    return JsonConvert.DeserializeObject<Person>(responseData);		
+                } 
+                catch (Exception exception) 
+                {
+                    throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, exception);
+                }
+            }
+            else
+            if (status == "500") 
+            {
+                try
+                {
+                    var exception = JsonConvert.DeserializeObject<PersonNotFoundException>(responseData);
+                    throw new SwaggerException<PersonNotFoundException>("A server side error occurred.", response.StatusCode, exception, null);
+                } 
+                catch (Exception exception) 
+                {
+                    throw new SwaggerException("Could not deserialize the exception body.", response.StatusCode, exception);
+                }
             }
             else
             {
@@ -104,6 +143,8 @@ namespace NSwag.Demo.Client
             throw new SwaggerException("The response was not expected.", response.StatusCode, null);
         }
 
+        /// <summary>Creates a new person.</summary>
+        /// <param name="request">The person.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async Task<string> PostAsync(Person request )
         {
@@ -120,7 +161,14 @@ namespace NSwag.Demo.Client
             var status = response.StatusCode.ToString();
             if (status == "200") 
             {
-                return JsonConvert.DeserializeObject<string>(responseData);		
+                try
+                {
+                    return JsonConvert.DeserializeObject<string>(responseData);		
+                } 
+                catch (Exception exception) 
+                {
+                    throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, exception);
+                }
             }
             else
             {
@@ -129,6 +177,9 @@ namespace NSwag.Demo.Client
             throw new SwaggerException("The response was not expected.", response.StatusCode, null);
         }
 
+        /// <summary>Updates the existing person.</summary>
+        /// <param name="id">The ID.</param>
+        /// <param name="request">The person.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async Task<string> PutAsync(long id, Person request )
         {
@@ -147,7 +198,14 @@ namespace NSwag.Demo.Client
             var status = response.StatusCode.ToString();
             if (status == "200") 
             {
-                return JsonConvert.DeserializeObject<string>(responseData);		
+                try
+                {
+                    return JsonConvert.DeserializeObject<string>(responseData);		
+                } 
+                catch (Exception exception) 
+                {
+                    throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, exception);
+                }
             }
             else
             {
@@ -173,7 +231,14 @@ namespace NSwag.Demo.Client
             var status = response.StatusCode.ToString();
             if (status == "200") 
             {
-                return JsonConvert.DeserializeObject<string>(responseData);		
+                try
+                {
+                    return JsonConvert.DeserializeObject<string>(responseData);		
+                } 
+                catch (Exception exception) 
+                {
+                    throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, exception);
+                }
             }
             else
             {
@@ -182,6 +247,7 @@ namespace NSwag.Demo.Client
             throw new SwaggerException("The response was not expected.", response.StatusCode, null);
         }
 
+        /// <summary>Calculates the sum of a, b and c.</summary>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async Task<long> CalculateAsync(long a, long b, long c )
         {
@@ -202,7 +268,14 @@ namespace NSwag.Demo.Client
             var status = response.StatusCode.ToString();
             if (status == "200") 
             {
-                return JsonConvert.DeserializeObject<long>(responseData);		
+                try
+                {
+                    return JsonConvert.DeserializeObject<long>(responseData);		
+                } 
+                catch (Exception exception) 
+                {
+                    throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, exception);
+                }
             }
             else
             {
@@ -228,7 +301,14 @@ namespace NSwag.Demo.Client
             var status = response.StatusCode.ToString();
             if (status == "200") 
             {
-                return JsonConvert.DeserializeObject<DateTime>(responseData);		
+                try
+                {
+                    return JsonConvert.DeserializeObject<DateTime>(responseData);		
+                } 
+                catch (Exception exception) 
+                {
+                    throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, exception);
+                }
             }
             else
             {
@@ -252,7 +332,14 @@ namespace NSwag.Demo.Client
             var status = response.StatusCode.ToString();
             if (status == "200") 
             {
-                return JsonConvert.DeserializeObject<Car>(responseData);		
+                try
+                {
+                    return JsonConvert.DeserializeObject<Car>(responseData);		
+                } 
+                catch (Exception exception) 
+                {
+                    throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, exception);
+                }
             }
             else
             {
@@ -282,12 +369,14 @@ namespace NSwag.Demo.Client
         }
     }
 
+    /// <summary>The DTO class for a person.</summary>
     public partial class Person : INotifyPropertyChanged
     {
         private string _firstName;
         private string _lastName;
         private ObservableCollection<Car> _cars;
 
+        /// <summary>Gets or sets the first name.</summary>
         [JsonProperty("firstName", Required = Required.Default)]
         public string FirstName
         {
@@ -393,6 +482,44 @@ namespace NSwag.Demo.Client
         public static Car FromJson(string data)
         {
             return JsonConvert.DeserializeObject<Car>(data);
+        }
+
+        protected virtual void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null) 
+                handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
+    public partial class PersonNotFoundException : Exception, INotifyPropertyChanged
+    {
+        private long _personId;
+
+        [JsonProperty("PersonId", Required = Required.Always)]
+        public long PersonId
+        {
+            get { return _personId; }
+            set 
+            {
+                if (_personId != value)
+                {
+                    _personId = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public string ToJson() 
+        {
+            return JsonConvert.SerializeObject(this);
+        }
+
+        public static PersonNotFoundException FromJson(string data)
+        {
+            return JsonConvert.DeserializeObject<PersonNotFoundException>(data);
         }
 
         protected virtual void RaisePropertyChanged([CallerMemberName] string propertyName = null)

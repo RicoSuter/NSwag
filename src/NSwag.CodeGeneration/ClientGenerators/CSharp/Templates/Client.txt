@@ -68,7 +68,14 @@ public partial class <class> : I<class>
         if (status == "<response.StatusCode>") 
         {
 <if(response.IsSuccess)>
-            return JsonConvert.DeserializeObject\<<response.Type>>(responseData);		
+            try
+            {
+                return JsonConvert.DeserializeObject\<<response.Type>>(responseData);		
+            \} 
+            catch (Exception exception) 
+            {
+                throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, exception);
+            \}
 <else>
             try
             {
@@ -85,7 +92,14 @@ public partial class <class> : I<class>
         {
 <if(operation.HasDefaultResponse)>
     <if(operation.DefaultResponse.IsSuccess)>
-            return JsonConvert.DeserializeObject\<<operation.DefaultResponse.Type>>(responseData);		
+            try
+            {
+                return JsonConvert.DeserializeObject\<<operation.DefaultResponse.Type>>(responseData);		
+            \} 
+            catch (Exception exception) 
+            {
+                throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, exception);
+            \}
     <else>
             try
             {

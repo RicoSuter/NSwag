@@ -33,6 +33,10 @@ namespace NSwag.CodeGeneration.ClientGenerators.TypeScript
             AsyncType = TypeScriptAsyncType.Callbacks;
 
             _service = service;
+
+            foreach (var definition in _service.Definitions)
+                definition.Value.TypeName = definition.Key;
+
             _resolver = new TypeScriptTypeResolver(_service.Definitions.Select(p => p.Value).ToArray());
         }
 
@@ -76,19 +80,18 @@ namespace NSwag.CodeGeneration.ClientGenerators.TypeScript
 
         internal override string GetExceptionType(SwaggerOperation operation)
         {
-            if (operation.Responses.Count(r => r.Key != "200") != 1)
-                return "any";
+            if (operation.Responses.Count(r => r.Key != "200") == 0)
+                return "string";
 
-            return GetType(operation.Responses.Single(r => r.Key != "200").Value.Schema, "Exception");
+            return string.Join(" | ", operation.Responses
+                .Where(r => r.Key != "200")
+                .Select(r => GetType(r.Value.Schema.ActualSchema, "Exception"))) + " | string";
         }
 
         internal override string GetResultType(SwaggerOperation operation)
         {
             if (operation.Responses.Count(r => r.Key == "200") == 0)
                 return "void";
-
-            if (operation.Responses.Count(r => r.Key == "200") != 1)
-                return "any";
 
             var response = GetOkResponse(operation);
             return GetType(response.Schema, "Response");

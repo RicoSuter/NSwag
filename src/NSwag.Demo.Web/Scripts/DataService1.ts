@@ -1,14 +1,11 @@
-﻿// Generated using the NSwag toolchain v0.12.5772.33331 (http://NSwag.org)
+﻿// Generated using the NSwag toolchain v0.13.5777.38709 (http://NSwag.org)
 
-export interface SwaggerException {
-    ExceptionType?: string;
-    Message?: string;
-    StackTrace?: string;
-}
-
+/** The DTO class for a person. */
 export interface Person {
+    /** Gets or sets the first name. */
     firstName?: string;
     LastName?: string;
+    Cars?: Car[];
 }
 
 export interface Car {
@@ -16,38 +13,50 @@ export interface Car {
     Driver?: Person;
 }
 
+export interface PersonNotFoundException extends Exception {
+    PersonId: number;
+}
+
+export interface Exception {
+    Message?: string;
+    InnerException?: Exception;
+    StackTrace?: string;
+    Source?: string;
+}
+
 export interface IDataService {
-    /**
-     */
-    getAll(onSuccess?: (result: Person[]) => void, onFail?: (exception: any, reason: string) => void);
+    getAll(onSuccess?: (result: Person[]) => void, onFail?: (exception: string, reason: string) => void);
 
     /**
+     * Gets a person.
+     * @id The ID of the person.
+     * @return The person.
      */
-    get(id: number, onSuccess?: (result: Person) => void, onFail?: (exception: any, reason: string) => void);
+    get(id: number, onSuccess?: (result: Person) => void, onFail?: (exception: PersonNotFoundException | string, reason: string) => void);
 
     /**
+     * Creates a new person.
+     * @request The person.
      */
-    post(request: Person, onSuccess?: (result: any) => void, onFail?: (exception: any, reason: string) => void);
+    post(request: Person, onSuccess?: (result: any) => void, onFail?: (exception: string, reason: string) => void);
 
     /**
+     * Updates the existing person.
+     * @id The ID.
+     * @request The person.
      */
-    put(id: number, request: Person, onSuccess?: (result: any) => void, onFail?: (exception: any, reason: string) => void);
+    put(id: number, request: Person, onSuccess?: (result: any) => void, onFail?: (exception: string, reason: string) => void);
+
+    delete(id: number, onSuccess?: (result: any) => void, onFail?: (exception: string, reason: string) => void);
 
     /**
+     * Calculates the sum of a, b and c.
      */
-    delete(id: number, onSuccess?: (result: any) => void, onFail?: (exception: any, reason: string) => void);
+    calculate(a: number, b: number, c: number, onSuccess?: (result: number) => void, onFail?: (exception: string, reason: string) => void);
 
-    /**
-     */
-    calculate(a: number, b: number, c: number, onSuccess?: (result: number) => void, onFail?: (exception: any, reason: string) => void);
+    addHour(time: Date, onSuccess?: (result: Date) => void, onFail?: (exception: string, reason: string) => void);
 
-    /**
-     */
-    addHour(time: Date, onSuccess?: (result: Date) => void, onFail?: (exception: any, reason: string) => void);
-
-    /**
-     */
-    loadComplexObject(onSuccess?: (result: Car) => void, onFail?: (exception: any, reason: string) => void);
+    loadComplexObject(onSuccess?: (result: Car) => void, onFail?: (exception: string, reason: string) => void);
 
 }
 
@@ -55,10 +64,8 @@ export class DataService implements IDataService {
     baseUrl = ""; 
     beforeSend: any = undefined; 
 
-    /**
-     */
-    getAll(onSuccess?: (result: Person[]) => void, onFail?: (exception: any, reason: string) => void) {
-        var url = this.baseUrl + "/api/Persons/Get?"; 
+    getAll(onSuccess?: (result: Person[]) => void, onFail?: (exception: string, reason: string) => void) {
+        var url = this.baseUrl + "/MyWorldCalculators/api/Persons/Get?"; 
 
         var content = "";
 
@@ -82,9 +89,9 @@ export class DataService implements IDataService {
 
         if (status === 200) {
             try { 
-                var result = <Person[]>jQuery.parseJSON(data);
+                var result200 = <Person[]>jQuery.parseJSON(data);
                 if (onSuccess !== undefined)
-                    onSuccess(result);
+                    onSuccess(result200);
             } catch(e) { 
                 if (onFail !== undefined)
                     onFail(null, "error_parsing");
@@ -98,9 +105,12 @@ export class DataService implements IDataService {
     }
 
     /**
+     * Gets a person.
+     * @id The ID of the person.
+     * @return The person.
      */
-    get(id: number, onSuccess?: (result: Person) => void, onFail?: (exception: any, reason: string) => void) {
-        var url = this.baseUrl + "/api/Persons/Get/{id}?"; 
+    get(id: number, onSuccess?: (result: Person) => void, onFail?: (exception: PersonNotFoundException | string, reason: string) => void) {
+        var url = this.baseUrl + "/MyWorldCalculators/api/Persons/Get/{id}?"; 
 
         url = url.replace("{id}", "" + id); 
 
@@ -126,9 +136,20 @@ export class DataService implements IDataService {
 
         if (status === 200) {
             try { 
-                var result = <Person>jQuery.parseJSON(data);
+                var result200 = <Person>jQuery.parseJSON(data);
                 if (onSuccess !== undefined)
-                    onSuccess(result);
+                    onSuccess(result200);
+            } catch(e) { 
+                if (onFail !== undefined)
+                    onFail(null, "error_parsing");
+            }
+        }
+        else
+        if (status === 500) {
+            try { 
+                var result500 = <PersonNotFoundException>jQuery.parseJSON(data);
+                if (onFail !== undefined)
+                    onFail(result500);
             } catch(e) { 
                 if (onFail !== undefined)
                     onFail(null, "error_parsing");
@@ -142,9 +163,11 @@ export class DataService implements IDataService {
     }
 
     /**
+     * Creates a new person.
+     * @request The person.
      */
-    post(request: Person, onSuccess?: (result: any) => void, onFail?: (exception: any, reason: string) => void) {
-        var url = this.baseUrl + "/api/Persons/Post?"; 
+    post(request: Person, onSuccess?: (result: any) => void, onFail?: (exception: string, reason: string) => void) {
+        var url = this.baseUrl + "/MyWorldCalculators/api/Persons/Post?"; 
 
         var content = JSON.stringify(request);
         $.ajax({
@@ -167,9 +190,9 @@ export class DataService implements IDataService {
 
         if (status === 200) {
             try { 
-                var result = <any>jQuery.parseJSON(data);
+                var result200 = <any>jQuery.parseJSON(data);
                 if (onSuccess !== undefined)
-                    onSuccess(result);
+                    onSuccess(result200);
             } catch(e) { 
                 if (onFail !== undefined)
                     onFail(null, "error_parsing");
@@ -183,9 +206,12 @@ export class DataService implements IDataService {
     }
 
     /**
+     * Updates the existing person.
+     * @id The ID.
+     * @request The person.
      */
-    put(id: number, request: Person, onSuccess?: (result: any) => void, onFail?: (exception: any, reason: string) => void) {
-        var url = this.baseUrl + "/api/Persons/Put/{id}?"; 
+    put(id: number, request: Person, onSuccess?: (result: any) => void, onFail?: (exception: string, reason: string) => void) {
+        var url = this.baseUrl + "/MyWorldCalculators/api/Persons/Put/{id}?"; 
 
         url = url.replace("{id}", "" + id); 
 
@@ -210,9 +236,9 @@ export class DataService implements IDataService {
 
         if (status === 200) {
             try { 
-                var result = <any>jQuery.parseJSON(data);
+                var result200 = <any>jQuery.parseJSON(data);
                 if (onSuccess !== undefined)
-                    onSuccess(result);
+                    onSuccess(result200);
             } catch(e) { 
                 if (onFail !== undefined)
                     onFail(null, "error_parsing");
@@ -225,10 +251,8 @@ export class DataService implements IDataService {
         }
     }
 
-    /**
-     */
-    delete(id: number, onSuccess?: (result: any) => void, onFail?: (exception: any, reason: string) => void) {
-        var url = this.baseUrl + "/api/Persons/Delete/{id}?"; 
+    delete(id: number, onSuccess?: (result: any) => void, onFail?: (exception: string, reason: string) => void) {
+        var url = this.baseUrl + "/MyWorldCalculators/api/Persons/Delete/{id}?"; 
 
         url = url.replace("{id}", "" + id); 
 
@@ -254,9 +278,9 @@ export class DataService implements IDataService {
 
         if (status === 200) {
             try { 
-                var result = <any>jQuery.parseJSON(data);
+                var result200 = <any>jQuery.parseJSON(data);
                 if (onSuccess !== undefined)
-                    onSuccess(result);
+                    onSuccess(result200);
             } catch(e) { 
                 if (onFail !== undefined)
                     onFail(null, "error_parsing");
@@ -270,8 +294,9 @@ export class DataService implements IDataService {
     }
 
     /**
+     * Calculates the sum of a, b and c.
      */
-    calculate(a: number, b: number, c: number, onSuccess?: (result: number) => void, onFail?: (exception: any, reason: string) => void) {
+    calculate(a: number, b: number, c: number, onSuccess?: (result: number) => void, onFail?: (exception: string, reason: string) => void) {
         var url = this.baseUrl + "/api/Person/Calculate/{a}/{b}?"; 
 
         url = url.replace("{a}", "" + a); 
@@ -301,9 +326,9 @@ export class DataService implements IDataService {
 
         if (status === 200) {
             try { 
-                var result = <number>jQuery.parseJSON(data);
+                var result200 = <number>jQuery.parseJSON(data);
                 if (onSuccess !== undefined)
-                    onSuccess(result);
+                    onSuccess(result200);
             } catch(e) { 
                 if (onFail !== undefined)
                     onFail(null, "error_parsing");
@@ -316,10 +341,8 @@ export class DataService implements IDataService {
         }
     }
 
-    /**
-     */
-    addHour(time: Date, onSuccess?: (result: Date) => void, onFail?: (exception: any, reason: string) => void) {
-        var url = this.baseUrl + "/api/Persons/AddHour?"; 
+    addHour(time: Date, onSuccess?: (result: Date) => void, onFail?: (exception: string, reason: string) => void) {
+        var url = this.baseUrl + "/MyWorldCalculators/api/Persons/AddHour?"; 
 
         url += "time=" + encodeURIComponent("" + time.toJSON()) + "&"; 
 
@@ -345,9 +368,9 @@ export class DataService implements IDataService {
 
         if (status === 200) {
             try { 
-                var result = new Date(data);
+                var result200 = new Date(data);
                 if (onSuccess !== undefined)
-                    onSuccess(result);
+                    onSuccess(result200);
             } catch(e) { 
                 if (onFail !== undefined)
                     onFail(null, "error_parsing");
@@ -360,10 +383,8 @@ export class DataService implements IDataService {
         }
     }
 
-    /**
-     */
-    loadComplexObject(onSuccess?: (result: Car) => void, onFail?: (exception: any, reason: string) => void) {
-        var url = this.baseUrl + "/api/Persons/LoadComplexObject?"; 
+    loadComplexObject(onSuccess?: (result: Car) => void, onFail?: (exception: string, reason: string) => void) {
+        var url = this.baseUrl + "/MyWorldCalculators/api/Persons/LoadComplexObject?"; 
 
         var content = "";
 
@@ -387,9 +408,9 @@ export class DataService implements IDataService {
 
         if (status === 200) {
             try { 
-                var result = <Car>jQuery.parseJSON(data);
+                var result200 = <Car>jQuery.parseJSON(data);
                 if (onSuccess !== undefined)
-                    onSuccess(result);
+                    onSuccess(result200);
             } catch(e) { 
                 if (onFail !== undefined)
                     onFail(null, "error_parsing");
