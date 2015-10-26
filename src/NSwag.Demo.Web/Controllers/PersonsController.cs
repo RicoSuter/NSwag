@@ -4,8 +4,13 @@ using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Results;
+using Newtonsoft.Json;
 using NSwag.Annotations;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 using NSwag.Demo.Web.Models;
@@ -29,8 +34,8 @@ namespace NSwag.Demo.Web.Controllers
         /// <summary>Gets a person.</summary>
         /// <param name="id">The ID of the person.</param>
         /// <returns>The person.</returns>
-        [ResultType(typeof(Person))]
-        [ResultType("500", typeof(PersonNotFoundException))]
+        [ResponseType(typeof(Person))]
+        [ResponseType("500", typeof(PersonNotFoundException))]
         public HttpResponseMessage Get(int id)
         {
             return Request.CreateResponse(HttpStatusCode.OK, new Person { FirstName = "Rico", LastName = "Suter" });
