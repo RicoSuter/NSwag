@@ -17,7 +17,7 @@ namespace NSwag.Tests.Integration
             var service = generator.Generate("NSwag.Demo.Web.Models.Person");
 
             //// Assert
-            Assert.AreEqual(3, service.Definitions["Person"].Properties.Count);
+            Assert.AreEqual(4, service.Definitions["Person"].Properties.Count);
         }
     }
 }

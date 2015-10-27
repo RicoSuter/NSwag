@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace NSwag.Demo.Web.Models
 {
@@ -12,5 +13,8 @@ namespace NSwag.Demo.Web.Models
         public string LastName { get; set; }
 
         public Car[] Cars { get; set; }
+
+        [JsonConverter(typeof(StringEnumConverter))]
+        public ObjectType Type { get; set; }
     }
 }

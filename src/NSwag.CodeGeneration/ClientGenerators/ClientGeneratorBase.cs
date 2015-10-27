@@ -26,7 +26,7 @@ namespace NSwag.CodeGeneration.ClientGenerators
         {
             var response = GetOkResponse(operation);
             if (response != null)
-                return response.Description;
+                return RemoveLineBreaks(response.Description);
 
             return null;
         }
@@ -89,7 +89,7 @@ namespace NSwag.CodeGeneration.ClientGenerators
 
                         IsGetOrDelete = tuple.HttpMethod == SwaggerOperationMethod.Get || tuple.HttpMethod == SwaggerOperationMethod.Delete,
 
-                        Summary = operation.Summary, 
+                        Summary = RemoveLineBreaks(operation.Summary), 
 
                         MvcActionName = mvcActionName,
                         MvcControllerName = mvcControllerName,
@@ -116,7 +116,7 @@ namespace NSwag.CodeGeneration.ClientGenerators
                             Name = p.Name,
                             Type = resolver.Resolve(p.ActualSchema, p.IsRequired, p.Name),
                             IsLast = operation.Parameters.LastOrDefault() == p,
-                            Description = p.Description
+                            Description = RemoveLineBreaks(p.Description)
                         }).ToList(),
 
                         ContentParameter =
@@ -129,7 +129,7 @@ namespace NSwag.CodeGeneration.ClientGenerators
                             {
                                 Name = p.Name,
                                 IsDate = p.Format == JsonFormatStrings.DateTime,
-                                Description = p.Description
+                                Description = RemoveLineBreaks(p.Description)
                             }),
 
                         QueryParameters =
@@ -137,7 +137,7 @@ namespace NSwag.CodeGeneration.ClientGenerators
                             {
                                 Name = p.Name,
                                 IsDate = p.Format == JsonFormatStrings.DateTime,
-                                Description = p.Description
+                                Description = RemoveLineBreaks(p.Description)
                             }).ToList(),
                     };
                 }).ToList();

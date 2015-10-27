@@ -68,44 +68,49 @@ export class <class> implements I<class> {
 
 <operation.Responses:{response | 
         if (status === <response.StatusCode>) {
+            var result<response.StatusCode> = null; 
             try { 
 <if(response.TypeIsDate)>
-                var result<response.StatusCode> = new Date(data);
+                result<response.StatusCode> = new Date(data);
 <else>
-                var result<response.StatusCode> = \<<response.Type>>jQuery.parseJSON(data);
-<endif>
-<if(response.IsSuccess)>
-                if (onSuccess !== undefined)
-                    onSuccess(result<response.StatusCode>);
-<else>
-                if (onFail !== undefined)
-                    onFail(result<response.StatusCode>);
+                result<response.StatusCode> = \<<response.Type>>jQuery.parseJSON(data);
 <endif>
             \} catch(e) { 
                 if (onFail !== undefined)
-                    onFail(null, "error_parsing");
+                    onFail(null, "error_parsing", e);
+                return;
             \}
+<if(response.IsSuccess)>
+            if (onSuccess !== undefined)
+                onSuccess(result<response.StatusCode>);
+<else>
+            if (onFail !== undefined)
+                onFail(result<response.StatusCode>);
+<endif>
+            return;
         \}
         else}>
         {
 <if(operation.HasDefaultResponse)>
+            var result = null; 
             try { 
-<if(operation.DefaultResponse.TypeIsDate)>
-                var result = new Date(data);
-<else>
-                var result = \<<operation.DefaultResponse.Type>>jQuery.parseJSON(data);
-<endif>
-<if(operation.DefaultResponse.IsSuccess)>
-                if (onSuccess !== undefined)
-                    onSuccess(result);
-<else>
-                if (onFail !== undefined)
-                    onFail(result);
-<endif>
+    <if(operation.DefaultResponse.TypeIsDate)>
+                result = new Date(data);
+    <else>
+                result = \<<operation.DefaultResponse.Type>>jQuery.parseJSON(data);
+    <endif>
             \} catch(e) { 
                 if (onFail !== undefined)
-                    onFail(null, "error_parsing");
+                    onFail(null, "error_parsing", e);
+                return;
             \}
+    <if(operation.DefaultResponse.IsSuccess)>
+            if (onSuccess !== undefined)
+                onSuccess(result);
+    <else>
+            if (onFail !== undefined)
+                onFail(result);
+    <endif>
 <else>
             if (onFail !== undefined)
                 onFail(null, "error_no_callback_for_status");

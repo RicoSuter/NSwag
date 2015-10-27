@@ -1,5 +1,5 @@
-﻿**/bin/**
-**/obj/**
+﻿src/**/bin/**
+src/**/obj/**
 src/packages/**
 
 **.suo
@@ -7,4 +7,4 @@ src/packages/**
 **.DotSettings
 
 **.sln.ide/**
-src/.vs/**
+**.vs/**

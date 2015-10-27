@@ -28,6 +28,10 @@ namespace NSwagStudio.Views
 
         private void LoadWindowState()
         {
+            var length = ApplicationSettings.GetSetting("WindowSplitter", (double)0); 
+            if (length != 0)
+                Grid.ColumnDefinitions[0].Width = new GridLength(length, GridUnitType.Pixel);
+
             Width = ApplicationSettings.GetSetting("WindowWidth", Width);
             Height = ApplicationSettings.GetSetting("WindowHeight", Height);
             Left = ApplicationSettings.GetSetting("WindowLeft", Left);
@@ -40,6 +44,9 @@ namespace NSwagStudio.Views
 
         protected override void OnClosed(EventArgs e)
         {
+            if (Grid.ColumnDefinitions[0].Width.IsAbsolute)
+                ApplicationSettings.SetSetting("WindowSplitter", Grid.ColumnDefinitions[0].Width.Value);
+
             ApplicationSettings.SetSetting("WindowWidth", Width);
             ApplicationSettings.SetSetting("WindowHeight", Height);
             ApplicationSettings.SetSetting("WindowLeft", Left);

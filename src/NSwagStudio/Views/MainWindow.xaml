@@ -25,7 +25,7 @@
     <TabControl TabStripPlacement="Left" DataContext="{StaticResource ViewModel}" Margin="8,0,0,0">
         <!-- Generators -->
         <TabItem Header="Generators" HeaderTemplate="{StaticResource RotatedTabItem}">
-            <Grid Margin="8">
+            <Grid Margin="8" x:Name="Grid">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" MinWidth="400" />
                     <ColumnDefinition Width="Auto" />
@@ -67,7 +67,7 @@
                     </GroupBox>-->
                 </Grid>
 
-                <GridSplitter Grid.Column="1" Grid.Row="0" Width="4" Margin="4,0,4,0" 
+                <GridSplitter Grid.Column="1" Grid.Row="0" Width="4" Margin="4,0,4,0"
                               ResizeBehavior="PreviousAndNext" />
 
                 <!-- Output -->
