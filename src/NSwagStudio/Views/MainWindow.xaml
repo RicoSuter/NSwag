@@ -87,7 +87,7 @@
                     </TabControl>
                 </Grid>
 
-                <Button Command="{Binding GenerateCommand}"
+                <Button Command="{Binding GenerateCommand}" Click="OnGenerate"
                         Margin="0,8,0,0" Padding="8" 
                         Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
                     <TextBlock Text="Generate Outputs" FontSize="16" Margin="0,4,0,4" />

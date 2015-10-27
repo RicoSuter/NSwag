@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Documents;
 using MyToolkit.Storage;
 using MyToolkit.Utilities;
+using NSwagStudio.ViewModels;
 
 namespace NSwagStudio.Views
 {
@@ -15,6 +17,8 @@ namespace NSwagStudio.Views
             CheckForApplicationUpdate();
             LoadWindowState();
         }
+
+        private MainWindowModel Model { get { return (MainWindowModel)Resources["ViewModel"]; } }
 
         private async void CheckForApplicationUpdate()
         {
@@ -58,6 +62,14 @@ namespace NSwagStudio.Views
         {
             var uri = ((Hyperlink)sender).NavigateUri;
             Process.Start(uri.ToString());
+        }
+
+        private void OnGenerate(object sender, RoutedEventArgs e)
+        {
+            App.Telemetry.TrackEvent("Generate", new Dictionary<string, string>
+            {
+                { "Generator", Model.SelectedSwaggerGenerator.Title }
+            });
         }
     }
 }
