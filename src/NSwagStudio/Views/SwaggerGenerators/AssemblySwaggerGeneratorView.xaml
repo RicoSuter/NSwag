@@ -42,7 +42,11 @@
         <ComboBox Text="{Binding ClassName, Mode=TwoWay}" Margin="0,0,0,12"
                   ItemsSource="{Binding AllClassNames}" />
 
-        <TextBlock Text="Default Enum Handling" FontWeight="Bold" Margin="0,0,0,6" />
+        <TextBlock Margin="0,0,0,6">
+            <Run Text="Default Enum Handling" FontWeight="Bold" />
+            <LineBreak />
+            Choose 'Integer' if you use the default Json.NET serializer or 'String' if a global StringEnumConverter is registered.
+        </TextBlock>
         <ComboBox SelectedItem="{Binding DefaultEnumHandling, Mode=TwoWay}" ItemsSource="{Binding EnumHandlings}" Margin="0,0,0,12" />
 
         <TextBlock TextWrapping="Wrap" 
