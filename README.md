@@ -32,7 +32,7 @@ NSwag is a Swagger 2.0 API toolchain for .NET, TypeScript and other platforms, w
 
 This project uses [NJsonSchema for .NET](http://njsonschema.org) for JSON Schema generation. 
 
-[![](NSwagStudioScreenshot01.png)](NSwagStudioScreenshot01.png)
+[![](NSwagStudioScreenshot01.png)](https://raw.githubusercontent.com/wiki/NSwag/NSwag/NSwagStudioScreenshot01.png)
 
 ### Usage in C&#35;
 
