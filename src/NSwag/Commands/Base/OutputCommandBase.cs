@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NConsole;
 
-namespace NSwag.Commands
+namespace NSwag.Commands.Base
 {
     public abstract class OutputCommandBase : IConsoleCommand
     {
@@ -21,7 +21,7 @@ namespace NSwag.Commands
             else
             {
                 File.WriteAllText(OutputFilePath, output, Encoding.UTF8);
-                host.WriteMessage("Client code successfully written to file.");
+                host.WriteMessage("Code has been successfully written to file.\n");
             }
         }
     }

@@ -24,6 +24,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         private string _controllerName;
         private string[] _allControllerNames;
         private string _urlTemplate;
+        private bool _specifyControllerName;
         private EnumHandling _defaultEnumHandling;
 
         /// <summary>Initializes a new instance of the <see cref="WebApiSwaggerGeneratorViewModel"/> class.</summary>
@@ -31,6 +32,8 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         {
             BrowseAssemblyCommand = new AsyncRelayCommand(BrowseAssembly);
             LoadAssemblyCommand = new AsyncRelayCommand(LoadAssembly, () => !string.IsNullOrEmpty(AssemblyPath));
+
+            SpecifyControllerName = true; 
 
             AssemblyPath = ApplicationSettings.GetSetting("AssemblyPath", string.Empty);
             UrlTemplate = ApplicationSettings.GetSetting("UrlTemplate", "api/{controller}/{action}/{id}");
@@ -78,6 +81,12 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             get { return Path.GetFileName(AssemblyPath); }
         }
 
+        /// <summary>Gets or sets a value indicating whether to specify a single controller name. </summary>
+        public bool SpecifyControllerName
+        {
+            get { return _specifyControllerName; }
+            set { Set(ref _specifyControllerName, value); }
+        }
 
         /// <summary>Gets or sets the class name. </summary>
         public string ControllerName
@@ -137,7 +146,10 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
                 return await Task.Run(() =>
                 {
                     var generator = new WebApiAssemblyToSwaggerGenerator(AssemblyPath, new JsonSchemaGeneratorSettings { DefaultEnumHandling = DefaultEnumHandling });
-                    return generator.Generate(ControllerName, UrlTemplate).ToJson();
+                    if (SpecifyControllerName)
+                        return generator.GenerateForSingleController(ControllerName, UrlTemplate).ToJson();
+                    else
+                        return generator.GenerateForAssemblyControllers(UrlTemplate).ToJson();
                 });
             });
         }

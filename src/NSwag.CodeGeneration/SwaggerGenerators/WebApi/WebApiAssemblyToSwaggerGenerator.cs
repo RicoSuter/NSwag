@@ -56,15 +56,34 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <param name="controllerClassName">The full name of the controller class.</param>
         /// <param name="urlTemplate">The default Web API URL template.</param>
         /// <returns>The Swagger definition.</returns>
-        public SwaggerService Generate(string controllerClassName, string urlTemplate)
+        public SwaggerService GenerateForSingleController(string controllerClassName, string urlTemplate)
         {
             using (var isolated = new AppDomainIsolation<AssemblyLoader>(Path.GetDirectoryName(_assemblyPath)))
-                return SwaggerService.FromJson(isolated.Object.FromWebApiAssembly(_assemblyPath, controllerClassName, urlTemplate, JsonConvert.SerializeObject(JsonSchemaGeneratorSettings)));
+            {
+                var service = isolated.Object.GenerateForSingleController(
+                    _assemblyPath, controllerClassName, urlTemplate, JsonConvert.SerializeObject(JsonSchemaGeneratorSettings)); 
+
+                return SwaggerService.FromJson(service);
+            }
+        }
+
+        /// <summary>Generates the Swagger definition for all controllers in the assembly.</summary>
+        /// <param name="urlTemplate">The default Web API URL template.</param>
+        /// <returns>The Swagger definition.</returns>
+        public SwaggerService GenerateForAssemblyControllers(string urlTemplate)
+        {
+            using (var isolated = new AppDomainIsolation<AssemblyLoader>(Path.GetDirectoryName(_assemblyPath)))
+            {
+                var service = isolated.Object.GenerateForAssemblyControllers(
+                    _assemblyPath, urlTemplate, JsonConvert.SerializeObject(JsonSchemaGeneratorSettings));
+
+                return SwaggerService.FromJson(service);
+            }
         }
 
         private class AssemblyLoader : MarshalByRefObject
         {
-            internal string FromWebApiAssembly(string assemblyPath, string controllerClassName, string urlTemplate, string jsonSchemaGeneratorSettingsData)
+            internal string GenerateForSingleController(string assemblyPath, string controllerClassName, string urlTemplate, string jsonSchemaGeneratorSettingsData)
             {
                 var jsonSchemaGeneratorSettings = JsonConvert.DeserializeObject<JsonSchemaGeneratorSettings>(jsonSchemaGeneratorSettingsData);
 
@@ -72,9 +91,21 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 var type = assembly.GetType(controllerClassName);
 
                 var generator = new WebApiToSwaggerGenerator(urlTemplate, jsonSchemaGeneratorSettings);
-                return generator.Generate(type).ToJson();
+                return generator.GenerateForController(type).ToJson();
             }
-            
+
+            internal string GenerateForAssemblyControllers(string assemblyPath, string urlTemplate, string jsonSchemaGeneratorSettingsData)
+            {
+                var jsonSchemaGeneratorSettings = JsonConvert.DeserializeObject<JsonSchemaGeneratorSettings>(jsonSchemaGeneratorSettingsData);
+
+                var assembly = Assembly.LoadFrom(assemblyPath);
+                var controllers = assembly.ExportedTypes
+                    .Where(t => t.InheritsFrom("ApiController")).ToArray(); 
+
+                var generator = new WebApiToSwaggerGenerator(urlTemplate, jsonSchemaGeneratorSettings);
+                return generator.GenerateForControllers(controllers).ToJson();
+            }
+
             internal string[] GetControllerClasses(string assemblyPath)
             {
                 var assembly = Assembly.LoadFrom(assemblyPath);

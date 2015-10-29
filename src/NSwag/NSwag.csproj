@@ -38,8 +38,8 @@
       <HintPath>..\packages\Antlr4.StringTemplate.4.0.6.9004\lib\net35\Antlr4.StringTemplate.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NConsole, Version=0.5.5769.31078, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NConsole.0.5.5769.31078\lib\net45\NConsole.dll</HintPath>
+    <Reference Include="NConsole, Version=0.6.5780.31873, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NConsole.0.6.5780.31873\lib\net45\NConsole.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -47,12 +47,12 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="NJsonSchema, Version=1.10.5779.31942, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NJsonSchema.1.10.5779.31942\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10\NJsonSchema.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="NJsonSchema.CodeGeneration, Version=1.10.5779.31943, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NJsonSchema.CodeGeneration.1.10.5779.31943\lib\net45\NJsonSchema.CodeGeneration.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -65,9 +65,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\OutputCommandBase.cs" />
+    <Compile Include="Commands\JsonSchemaToCSharpCommand.cs" />
+    <Compile Include="Commands\JsonSchemaToTypeScriptCommand.cs" />
+    <Compile Include="Commands\Base\OutputCommandBase.cs" />
     <Compile Include="Commands\SwaggerToCSharpCommand.cs" />
-    <Compile Include="Commands\InputOutputCommandBase.cs" />
+    <Compile Include="Commands\Base\InputOutputCommandBase.cs" />
     <Compile Include="Commands\SwaggerToTypeScriptCommand.cs" />
     <Compile Include="Commands\WebApiToSwaggerCommand.cs" />
     <Compile Include="Program.cs" />

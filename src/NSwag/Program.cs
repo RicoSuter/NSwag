@@ -11,30 +11,36 @@ namespace NSwag
         {
             var host = new ConsoleHost();
             host.WriteMessage("NSwag command line: v" + typeof(SwaggerInfo).Assembly.GetName().Version + "\n");
-            host.WriteMessage("Visit http://NSwag.org for more information.");
-            host.WriteMessage("\n");
+            host.WriteMessage("Visit http://NSwag.org for more information.\n");
+            host.WriteMessage("Execute the 'help' command to show a list of all the available commands.\n");
 
             try
             {
                 var processor = new CommandLineProcessor(host);
 
-                processor.RegisterCommand<WebApiToSwaggerCommand>("webapi");
+                processor.RegisterCommand<WebApiToSwaggerCommand>("webapi2swagger");
 
-                processor.RegisterCommand<SwaggerToCSharpCommand>("csharp");
-                processor.RegisterCommand<SwaggerToTypeScriptCommand>("typescript");
+                processor.RegisterCommand<JsonSchemaToCSharpCommand>("jsonschema2csharp");
+                processor.RegisterCommand<JsonSchemaToTypeScriptCommand>("jsonschema2typescript");
+                
+                processor.RegisterCommand<SwaggerToCSharpCommand>("swagger2csharp");
+                processor.RegisterCommand<SwaggerToTypeScriptCommand>("swagger2typescript");
 
                 processor.Process(args);
             }
             catch (Exception exception)
             {
-                var savedForegroundColor = System.Console.ForegroundColor; 
-                System.Console.ForegroundColor = ConsoleColor.Red;
+                var savedForegroundColor = Console.ForegroundColor; 
+                Console.ForegroundColor = ConsoleColor.Red;
                 host.WriteMessage(exception.ToString());
-                System.Console.ForegroundColor = savedForegroundColor;
+                Console.ForegroundColor = savedForegroundColor;
             }
 
             if (Debugger.IsAttached)
-                System.Console.ReadKey();
+            {
+                Console.WriteLine("Press <any> key to exit...");
+                Console.ReadKey();
+            }
         }
     }
 }

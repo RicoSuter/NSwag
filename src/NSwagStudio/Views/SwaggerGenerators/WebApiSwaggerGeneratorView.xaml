@@ -4,11 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:swaggerGenerators="clr-namespace:NSwagStudio.ViewModels.SwaggerGenerators"
+             xmlns:converters="clr-namespace:MyToolkit.Converters;assembly=MyToolkit.Extended"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
     <UserControl.Resources>
         <swaggerGenerators:WebApiSwaggerGeneratorViewModel x:Key="ViewModel" />
+        <converters:VisibilityConverter x:Key="VisibilityConverter" />
     </UserControl.Resources>
 
     <StackPanel Margin="8" DataContext="{StaticResource ViewModel}">
@@ -38,11 +40,14 @@
         </Grid>
         <TextBlock Text="{Binding AssemblyName, Mode=OneWay}" TextWrapping="Wrap" Margin="0,-6,0,12" />
 
-        <TextBlock Text="Controller" FontWeight="Bold" Margin="0,0,0,6" />
-        <ComboBox Text="{Binding ControllerName, Mode=TwoWay}" Margin="0,0,0,12"
-                  ItemsSource="{Binding AllControllerNames}" />
+        <CheckBox IsChecked="{Binding SpecifyControllerName, Mode=TwoWay}" Margin="0,0,0,12" Content="Single controller from assembly"/>
+        <StackPanel Visibility="{Binding SpecifyControllerName, Converter={StaticResource VisibilityConverter}}">
+            <TextBlock Text="Controller" FontWeight="Bold" Margin="0,0,0,6" />
+            <ComboBox Text="{Binding ControllerName, Mode=TwoWay}" Margin="0,0,0,12"
+                      ItemsSource="{Binding AllControllerNames}" />
+        </StackPanel>
 
-        <TextBlock Margin="0,0,0,6">
+        <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
             <Run Text="Default Enum Handling" FontWeight="Bold" />
             <LineBreak />
             Choose 'Integer' if you use the default Json.NET serializer or 'String' if a global StringEnumConverter is registered.

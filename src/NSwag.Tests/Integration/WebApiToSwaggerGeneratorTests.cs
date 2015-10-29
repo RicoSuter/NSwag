@@ -15,7 +15,7 @@ namespace NSwag.Tests.Integration
             var generator = new WebApiToSwaggerGenerator("api/{controller}/{action}/{id}");
 
             //// Act
-            var service = generator.Generate<PersonsController>();
+            var service = generator.GenerateForController<PersonsController>();
             var swaggerSpecification = service.ToJson();
 
             //// Assert
@@ -29,7 +29,7 @@ namespace NSwag.Tests.Integration
             var generator = new WebApiToSwaggerGenerator("api/{controller}/{action}/{id}");
 
             //// Act
-            var service = generator.Generate<PersonsController>();
+            var service = generator.GenerateForController<PersonsController>();
             var operation = service.Operations.Single(o => o.Path == "api/Persons/Get/{id}");
 
             //// Assert

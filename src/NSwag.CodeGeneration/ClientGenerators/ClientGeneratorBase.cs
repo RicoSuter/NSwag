@@ -9,7 +9,7 @@ namespace NSwag.CodeGeneration.ClientGenerators
     /// <summary>The client generator base.</summary>
     public abstract class ClientGeneratorBase : GeneratorBase
     {
-        /// <summary>Gets or sets a value indicating whether [generate multiple web API clients].</summary>
+        /// <summary>Gets or sets the operation generation mode.</summary>
         public OperationGenerationMode OperationGenerationMode { get; set; }
 
         internal abstract string RenderFile(string clientCode);
