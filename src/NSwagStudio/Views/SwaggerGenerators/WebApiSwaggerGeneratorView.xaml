@@ -40,14 +40,16 @@
         </Grid>
         <TextBlock Text="{Binding AssemblyName, Mode=OneWay}" TextWrapping="Wrap" Margin="0,-6,0,12" />
 
-        <CheckBox IsChecked="{Binding SpecifyControllerName, Mode=TwoWay}" Margin="0,0,0,12" Content="Single controller from assembly"/>
-        <StackPanel Visibility="{Binding SpecifyControllerName, Converter={StaticResource VisibilityConverter}}">
-            <TextBlock Text="Controller" FontWeight="Bold" Margin="0,0,0,6" />
-            <ComboBox Text="{Binding ControllerName, Mode=TwoWay}" Margin="0,0,0,12"
-                      ItemsSource="{Binding AllControllerNames}" />
-        </StackPanel>
+        <TextBlock Text="Web API Controller" FontWeight="Bold" Margin="0,0,0,6" />
+        <RadioButton GroupName="SpecifyControllerName" IsChecked="False"
+                     Margin="0,0,0,6" Content="Use all controllers from assembly"/>
+        <RadioButton IsChecked="{Binding SpecifyControllerName, Mode=TwoWay}" 
+                     Margin="0,0,0,6" Content="Use single controller from assembly: " GroupName="SpecifyControllerName"/>
+        <ComboBox Visibility="{Binding SpecifyControllerName, Converter={StaticResource VisibilityConverter}}"
+                  Text="{Binding ControllerName, Mode=TwoWay}" Margin="0,0,0,6"
+                  ItemsSource="{Binding AllControllerNames}" />
 
-        <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
+        <TextBlock Margin="0,6,0,6" TextWrapping="Wrap">
             <Run Text="Default Enum Handling" FontWeight="Bold" />
             <LineBreak />
             Choose 'Integer' if you use the default Json.NET serializer or 'String' if a global StringEnumConverter is registered.
