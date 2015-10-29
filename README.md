@@ -34,7 +34,7 @@ This project uses [NJsonSchema for .NET](http://njsonschema.org) for JSON Schema
 
 ### Usage in C&#35;
 
-The following code shows how to generate C# client classes to call a web service: 
+The following code shows how to read a Swagger specification and generate C# client classes to call the described web services: 
 	
 	var service = SwaggerService.FromJson("...");
 	
