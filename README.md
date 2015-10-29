@@ -32,8 +32,6 @@ NSwag is a Swagger 2.0 API toolchain for .NET, TypeScript and other platforms, w
 
 This project uses [NJsonSchema for .NET](http://njsonschema.org) for JSON Schema generation. 
 
-[![](https://raw.githubusercontent.com/wiki/NSwag/NSwag/NSwagStudioScreenshot01.png)](NSwagStudioScreenshot01.png)
-
 ### Usage in C&#35;
 
 The following code shows how to generate C# client classes to call a web service: 
@@ -47,3 +45,10 @@ The following code shows how to generate C# client classes to call a web service
 	var code = generator.GenerateFile();
 
 [Full Sample](https://github.com/NSwag/NSwag/wiki/WebApiToSwaggerGenerator)
+
+### NSwagStudio
+
+The generators can be used in a confortable and simple Windows GUI called NSwagStudio: 
+
+[![](https://raw.githubusercontent.com/wiki/NSwag/NSwag/NSwagStudioScreenshot01.png)](NSwagStudioScreenshot01.png)
+
