@@ -82,7 +82,7 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\DataService.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DataService1.ts</LastGenOutput>
+      <LastGenOutput>DataService.ts</LastGenOutput>
     </Content>
     <Content Include="Scripts\jquery.js" />
     <Content Include="Scripts\require.js" />
@@ -130,8 +130,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\App.ts" />
-    <TypeScriptCompile Include="Scripts\DataService.ts" />
-    <TypeScriptCompile Include="Scripts\DataService1.ts">
+    <TypeScriptCompile Include="Scripts\DataService.ts">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DataService.tt</DependentUpon>

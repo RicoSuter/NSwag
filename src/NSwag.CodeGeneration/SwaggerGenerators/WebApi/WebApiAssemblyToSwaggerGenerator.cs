@@ -56,6 +56,16 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <param name="controllerClassName">The full name of the controller class.</param>
         /// <param name="urlTemplate">The default Web API URL template.</param>
         /// <returns>The Swagger definition.</returns>
+        [Obsolete("Use the GenerateForSingleController() method instead. (11/2/2015)")]
+        public SwaggerService Generate(string controllerClassName, string urlTemplate)
+        {
+            return GenerateForSingleController(controllerClassName, urlTemplate);
+        }
+
+        /// <summary>Generates the Swagger definition for the given controller.</summary>
+        /// <param name="controllerClassName">The full name of the controller class.</param>
+        /// <param name="urlTemplate">The default Web API URL template.</param>
+        /// <returns>The Swagger definition.</returns>
         public SwaggerService GenerateForSingleController(string controllerClassName, string urlTemplate)
         {
             using (var isolated = new AppDomainIsolation<AssemblyLoader>(Path.GetDirectoryName(_assemblyPath)))

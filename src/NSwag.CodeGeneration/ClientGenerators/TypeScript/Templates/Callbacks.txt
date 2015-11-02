@@ -64,10 +64,10 @@ export class <class> implements I<class> {
 
     private process<operation.OperationNameUpper>(xhr: any, onSuccess?: any, onFail?: any) {
         var data = xhr.responseText; 
-        var status = xhr.status; 
+        var status = xhr.status.toString(); 
 
 <operation.Responses:{response | 
-        if (status === <response.StatusCode>) {
+        if (status === "<response.StatusCode>") {
             var result<response.StatusCode> = null; 
             try { 
 <if(response.TypeIsDate)>

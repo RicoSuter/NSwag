@@ -19,7 +19,7 @@
     var fullAssemblyPath = Path.GetFullPath(Path.GetDirectoryName(Host.TemplateFile) + assemblyPath); 
 
     var generator = new WebApiAssemblyToSwaggerGenerator(fullAssemblyPath);
-    var service = generator.Generate(controllerClass, urlTemplate);
+    var service = generator.GenerateForSingleController(controllerClass, urlTemplate);
 
     // -------------
 

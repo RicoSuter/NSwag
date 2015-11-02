@@ -1,34 +1,71 @@
-﻿/// <reference path="typings/jquery/jquery.d.ts" />
+﻿// Generated using the NSwag toolchain v0.19.5784.33760 (http://NSwag.org)
 
-
-
-// Generated using the NSwag toolchain v0.1.5723.36710 (http://NSwag.org)
-
-export interface SwaggerException {
-    ExceptionType?: string;
-    Message?: string;
-    StackTrace?: string;
-
-}
-
+/** The DTO class for a person. */
 export interface Person {
+    /** Gets or sets the first name. */
     firstName?: string;
     LastName?: string;
-
+    Cars?: Car[];
 }
 
 export interface Car {
     Name?: string;
     Driver?: Person;
+}
+
+export interface PersonNotFoundException extends Exception {
+    PersonId: number;
+}
+
+export interface Exception {
+    Message?: string;
+    InnerException?: Exception;
+    StackTrace?: string;
+    Source?: string;
+}
+
+export interface IDataService {
+    getAll(onSuccess?: (result: Person[]) => void, onFail?: (exception: string, reason: string) => void);
+
+    /**
+     * Gets a person.
+     * @id The ID of the person.
+     * @return The person.
+     */
+    get(id: number, onSuccess?: (result: Person) => void, onFail?: (exception: PersonNotFoundException | string, reason: string) => void);
+
+    /**
+     * Creates a new person.
+     * @request The person.
+     */
+    post(request: Person, onSuccess?: (result: any) => void, onFail?: (exception: string, reason: string) => void);
+
+    /**
+     * Updates the existing person.
+     * @id The ID.
+     * @request The person.
+     */
+    put(id: number, request: Person, onSuccess?: (result: any) => void, onFail?: (exception: string, reason: string) => void);
+
+    delete(id: number, onSuccess?: (result: any) => void, onFail?: (exception: string, reason: string) => void);
+
+    /**
+     * Calculates the sum of a, b and c.
+     */
+    calculate(a: number, b: number, c: number, onSuccess?: (result: number) => void, onFail?: (exception: string, reason: string) => void);
+
+    addHour(time: Date, onSuccess?: (result: Date) => void, onFail?: (exception: string, reason: string) => void);
+
+    loadComplexObject(onSuccess?: (result: Car) => void, onFail?: (exception: string, reason: string) => void);
 
 }
 
-export class DataService {
-    baseUrl = "/"; 
+export class DataService implements IDataService {
+    baseUrl = ""; 
     beforeSend: any = undefined; 
 
-    getAll(onSuccess?: (result: Person[]) => void, onFail?: (exception: any, reason: string) => void) {
-        var url = this.baseUrl + "/api/Persons/Get?"; 
+    getAll(onSuccess?: (result: Person[]) => void, onFail?: (exception: string, reason: string) => void) {
+        var url = this.baseUrl + "/MyWorldCalculators/api/Persons/Get?"; 
 
         var content = "";
 
@@ -46,27 +83,37 @@ export class DataService {
         });
     }
 
-    private processGetAll(xhr: any, onSuccess: any, onFail: any) {
+    private processGetAll(xhr: any, onSuccess?: any, onFail?: any) {
         var data = xhr.responseText; 
-        var status = xhr.status; 
+        var status = xhr.status.toString(); 
 
         if (status === "200") {
+            var result200 = null; 
             try { 
-                var result = <Person[]>jQuery.parseJSON(data);
-                if (onSuccess !== undefined)
-                    onSuccess(result);
+                result200 = <Person[]>jQuery.parseJSON(data);
             } catch(e) { 
                 if (onFail !== undefined)
-                    onFail(null, "error_parsing");
+                    onFail(null, "error_parsing", e);
+                return;
             }
+            if (onSuccess !== undefined)
+                onSuccess(result200);
+            return;
         }
         else
-
         {
+            if (onFail !== undefined)
+                onFail(null, "error_no_callback_for_status");
         }
     }
-    get(id: number, onSuccess?: (result: Person) => void, onFail?: (exception: any, reason: string) => void) {
-        var url = this.baseUrl + "/api/Persons/Get/{id}?"; 
+
+    /**
+     * Gets a person.
+     * @id The ID of the person.
+     * @return The person.
+     */
+    get(id: number, onSuccess?: (result: Person) => void, onFail?: (exception: PersonNotFoundException | string, reason: string) => void) {
+        var url = this.baseUrl + "/MyWorldCalculators/api/Persons/Get/{id}?"; 
 
         url = url.replace("{id}", "" + id); 
 
@@ -86,27 +133,50 @@ export class DataService {
         });
     }
 
-    private processGet(xhr: any, onSuccess: any, onFail: any) {
+    private processGet(xhr: any, onSuccess?: any, onFail?: any) {
         var data = xhr.responseText; 
-        var status = xhr.status; 
+        var status = xhr.status.toString(); 
 
         if (status === "200") {
+            var result200 = null; 
             try { 
-                var result = <Person>jQuery.parseJSON(data);
-                if (onSuccess !== undefined)
-                    onSuccess(result);
+                result200 = <Person>jQuery.parseJSON(data);
             } catch(e) { 
                 if (onFail !== undefined)
-                    onFail(null, "error_parsing");
+                    onFail(null, "error_parsing", e);
+                return;
             }
+            if (onSuccess !== undefined)
+                onSuccess(result200);
+            return;
         }
         else
-
+        if (status === "500") {
+            var result500 = null; 
+            try { 
+                result500 = <PersonNotFoundException>jQuery.parseJSON(data);
+            } catch(e) { 
+                if (onFail !== undefined)
+                    onFail(null, "error_parsing", e);
+                return;
+            }
+            if (onFail !== undefined)
+                onFail(result500);
+            return;
+        }
+        else
         {
+            if (onFail !== undefined)
+                onFail(null, "error_no_callback_for_status");
         }
     }
-    post(request: any, onSuccess?: (result: any) => void, onFail?: (exception: any, reason: string) => void) {
-        var url = this.baseUrl + "/api/Persons/Post?"; 
+
+    /**
+     * Creates a new person.
+     * @request The person.
+     */
+    post(request: Person, onSuccess?: (result: any) => void, onFail?: (exception: string, reason: string) => void) {
+        var url = this.baseUrl + "/MyWorldCalculators/api/Persons/Post?"; 
 
         var content = JSON.stringify(request);
         $.ajax({
@@ -123,20 +193,41 @@ export class DataService {
         });
     }
 
-    private processPost(xhr: any, onSuccess: any, onFail: any) {
+    private processPost(xhr: any, onSuccess?: any, onFail?: any) {
         var data = xhr.responseText; 
-        var status = xhr.status; 
+        var status = xhr.status.toString(); 
 
+        if (status === "200") {
+            var result200 = null; 
+            try { 
+                result200 = <any>jQuery.parseJSON(data);
+            } catch(e) { 
+                if (onFail !== undefined)
+                    onFail(null, "error_parsing", e);
+                return;
+            }
+            if (onSuccess !== undefined)
+                onSuccess(result200);
+            return;
+        }
+        else
         {
+            if (onFail !== undefined)
+                onFail(null, "error_no_callback_for_status");
         }
     }
-    put(id: number, onSuccess?: (result: any) => void, onFail?: (exception: any, reason: string) => void) {
-        var url = this.baseUrl + "/api/Persons/Put/{id}?"; 
 
-        url += "id=" + encodeURIComponent("" + id) + "&"; 
+    /**
+     * Updates the existing person.
+     * @id The ID.
+     * @request The person.
+     */
+    put(id: number, request: Person, onSuccess?: (result: any) => void, onFail?: (exception: string, reason: string) => void) {
+        var url = this.baseUrl + "/MyWorldCalculators/api/Persons/Put/{id}?"; 
 
-        var content = "";
+        url = url.replace("{id}", "" + id); 
 
+        var content = JSON.stringify(request);
         $.ajax({
             url: url,
             beforeSend: this.beforeSend,
@@ -151,17 +242,34 @@ export class DataService {
         });
     }
 
-    private processPut(xhr: any, onSuccess: any, onFail: any) {
+    private processPut(xhr: any, onSuccess?: any, onFail?: any) {
         var data = xhr.responseText; 
-        var status = xhr.status; 
+        var status = xhr.status.toString(); 
 
+        if (status === "200") {
+            var result200 = null; 
+            try { 
+                result200 = <any>jQuery.parseJSON(data);
+            } catch(e) { 
+                if (onFail !== undefined)
+                    onFail(null, "error_parsing", e);
+                return;
+            }
+            if (onSuccess !== undefined)
+                onSuccess(result200);
+            return;
+        }
+        else
         {
+            if (onFail !== undefined)
+                onFail(null, "error_no_callback_for_status");
         }
     }
-    delete(id: number, onSuccess?: (result: any) => void, onFail?: (exception: any, reason: string) => void) {
-        var url = this.baseUrl + "/api/Persons/Delete/{id}?"; 
 
-        url += "id=" + encodeURIComponent("" + id) + "&"; 
+    delete(id: number, onSuccess?: (result: any) => void, onFail?: (exception: string, reason: string) => void) {
+        var url = this.baseUrl + "/MyWorldCalculators/api/Persons/Delete/{id}?"; 
+
+        url = url.replace("{id}", "" + id); 
 
         var content = "";
 
@@ -179,18 +287,39 @@ export class DataService {
         });
     }
 
-    private processDelete(xhr: any, onSuccess: any, onFail: any) {
+    private processDelete(xhr: any, onSuccess?: any, onFail?: any) {
         var data = xhr.responseText; 
-        var status = xhr.status; 
+        var status = xhr.status.toString(); 
 
+        if (status === "200") {
+            var result200 = null; 
+            try { 
+                result200 = <any>jQuery.parseJSON(data);
+            } catch(e) { 
+                if (onFail !== undefined)
+                    onFail(null, "error_parsing", e);
+                return;
+            }
+            if (onSuccess !== undefined)
+                onSuccess(result200);
+            return;
+        }
+        else
         {
+            if (onFail !== undefined)
+                onFail(null, "error_no_callback_for_status");
         }
     }
-    calculate(a: number, b: number, c: number, onSuccess?: (result: number) => void, onFail?: (exception: any, reason: string) => void) {
+
+    /**
+     * Calculates the sum of a, b and c.
+     */
+    calculate(a: number, b: number, c: number, onSuccess?: (result: number) => void, onFail?: (exception: string, reason: string) => void) {
         var url = this.baseUrl + "/api/Person/Calculate/{a}/{b}?"; 
 
-        url += "a=" + encodeURIComponent("" + a) + "&"; 
-        url += "b=" + encodeURIComponent("" + b) + "&"; 
+        url = url.replace("{a}", "" + a); 
+        url = url.replace("{b}", "" + b); 
+
         url += "c=" + encodeURIComponent("" + c) + "&"; 
 
         var content = "";
@@ -209,27 +338,32 @@ export class DataService {
         });
     }
 
-    private processCalculate(xhr: any, onSuccess: any, onFail: any) {
+    private processCalculate(xhr: any, onSuccess?: any, onFail?: any) {
         var data = xhr.responseText; 
-        var status = xhr.status; 
+        var status = xhr.status.toString(); 
 
         if (status === "200") {
+            var result200 = null; 
             try { 
-                var result = <number>jQuery.parseJSON(data);
-                if (onSuccess !== undefined)
-                    onSuccess(result);
+                result200 = <number>jQuery.parseJSON(data);
             } catch(e) { 
                 if (onFail !== undefined)
-                    onFail(null, "error_parsing");
+                    onFail(null, "error_parsing", e);
+                return;
             }
+            if (onSuccess !== undefined)
+                onSuccess(result200);
+            return;
         }
         else
-
         {
+            if (onFail !== undefined)
+                onFail(null, "error_no_callback_for_status");
         }
     }
-    addHour(time: Date, onSuccess?: (result: Date) => void, onFail?: (exception: any, reason: string) => void) {
-        var url = this.baseUrl + "/api/Persons/AddHour?"; 
+
+    addHour(time: Date, onSuccess?: (result: Date) => void, onFail?: (exception: string, reason: string) => void) {
+        var url = this.baseUrl + "/MyWorldCalculators/api/Persons/AddHour?"; 
 
         url += "time=" + encodeURIComponent("" + time.toJSON()) + "&"; 
 
@@ -249,27 +383,32 @@ export class DataService {
         });
     }
 
-    private processAddHour(xhr: any, onSuccess: any, onFail: any) {
+    private processAddHour(xhr: any, onSuccess?: any, onFail?: any) {
         var data = xhr.responseText; 
-        var status = xhr.status; 
+        var status = xhr.status.toString(); 
 
         if (status === "200") {
+            var result200 = null; 
             try { 
-                var result = new Date(data);
-                if (onSuccess !== undefined)
-                    onSuccess(result);
+                result200 = new Date(data);
             } catch(e) { 
                 if (onFail !== undefined)
-                    onFail(null, "error_parsing");
+                    onFail(null, "error_parsing", e);
+                return;
             }
+            if (onSuccess !== undefined)
+                onSuccess(result200);
+            return;
         }
         else
-
         {
+            if (onFail !== undefined)
+                onFail(null, "error_no_callback_for_status");
         }
     }
-    loadComplexObject(onSuccess?: (result: Car) => void, onFail?: (exception: any, reason: string) => void) {
-        var url = this.baseUrl + "/api/Persons/LoadComplexObject?"; 
+
+    loadComplexObject(onSuccess?: (result: Car) => void, onFail?: (exception: string, reason: string) => void) {
+        var url = this.baseUrl + "/MyWorldCalculators/api/Persons/LoadComplexObject?"; 
 
         var content = "";
 
@@ -287,24 +426,29 @@ export class DataService {
         });
     }
 
-    private processLoadComplexObject(xhr: any, onSuccess: any, onFail: any) {
+    private processLoadComplexObject(xhr: any, onSuccess?: any, onFail?: any) {
         var data = xhr.responseText; 
-        var status = xhr.status; 
+        var status = xhr.status.toString(); 
 
         if (status === "200") {
+            var result200 = null; 
             try { 
-                var result = <Car>jQuery.parseJSON(data);
-                if (onSuccess !== undefined)
-                    onSuccess(result);
+                result200 = <Car>jQuery.parseJSON(data);
             } catch(e) { 
                 if (onFail !== undefined)
-                    onFail(null, "error_parsing");
+                    onFail(null, "error_parsing", e);
+                return;
             }
+            if (onSuccess !== undefined)
+                onSuccess(result200);
+            return;
         }
         else
-
         {
+            if (onFail !== undefined)
+                onFail(null, "error_no_callback_for_status");
         }
     }
 
 }
+

@@ -42,9 +42,9 @@
 
         <TextBlock Text="Web API Controller" FontWeight="Bold" Margin="0,0,0,6" />
         <RadioButton GroupName="SpecifyControllerName" IsChecked="False"
-                     Margin="0,0,0,6" Content="Use all controllers from assembly"/>
+                     Margin="0,0,0,6" Content="Use all controllers"/>
         <RadioButton IsChecked="{Binding SpecifyControllerName, Mode=TwoWay}" 
-                     Margin="0,0,0,6" Content="Use single controller from assembly: " GroupName="SpecifyControllerName"/>
+                     Margin="0,0,0,6" Content="Use single controller: " GroupName="SpecifyControllerName"/>
         <ComboBox Visibility="{Binding SpecifyControllerName, Converter={StaticResource VisibilityConverter}}"
                   Text="{Binding ControllerName, Mode=TwoWay}" Margin="0,0,0,6"
                   ItemsSource="{Binding AllControllerNames}" />

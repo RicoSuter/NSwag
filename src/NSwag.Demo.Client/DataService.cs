@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-// Generated using the NSwag toolchain v0.14.5777.43191 (http://NSwag.org)
+// Generated using the NSwag toolchain v0.19.5784.33455 (http://NSwag.org)
 
 namespace NSwag.Demo.Client
 {
@@ -23,15 +23,15 @@ namespace NSwag.Demo.Client
         Task<Person> GetAsync(long id );
 
         /// <summary>Creates a new person.</summary>
-        /// <param name="request">The person.</param>
+        /// <param name="value">The person.</param>
         /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
-        Task<string> PostAsync(Person request );
+        Task<string> PostAsync(Person value );
 
         /// <summary>Updates the existing person.</summary>
         /// <param name="id">The ID.</param>
-        /// <param name="request">The person.</param>
+        /// <param name="value">The person.</param>
         /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
-        Task<string> PutAsync(long id, Person request );
+        Task<string> PutAsync(long id, Person value );
 
         /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
         Task<string> DeleteAsync(long id );
@@ -144,16 +144,16 @@ namespace NSwag.Demo.Client
         }
 
         /// <summary>Creates a new person.</summary>
-        /// <param name="request">The person.</param>
+        /// <param name="value">The person.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async Task<string> PostAsync(Person request )
+        public async Task<string> PostAsync(Person value )
         {
             var url = string.Format("{0}/{1}?", BaseUrl, "api/Persons/Post");
 
             var client = new HttpClient();
             PrepareRequest(client);
 
-            var content = new StringContent(JsonConvert.SerializeObject(request));
+            var content = new StringContent(JsonConvert.SerializeObject(value));
 
             var response = await client.PostAsync(url, content);
             ProcessResponse(client, response);
@@ -179,9 +179,9 @@ namespace NSwag.Demo.Client
 
         /// <summary>Updates the existing person.</summary>
         /// <param name="id">The ID.</param>
-        /// <param name="request">The person.</param>
+        /// <param name="value">The person.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async Task<string> PutAsync(long id, Person request )
+        public async Task<string> PutAsync(long id, Person value )
         {
             var url = string.Format("{0}/{1}?", BaseUrl, "api/Persons/Put/{id}");
 
@@ -190,7 +190,7 @@ namespace NSwag.Demo.Client
             var client = new HttpClient();
             PrepareRequest(client);
 
-            var content = new StringContent(JsonConvert.SerializeObject(request));
+            var content = new StringContent(JsonConvert.SerializeObject(value));
 
             var response = await client.PutAsync(url, content);
             ProcessResponse(client, response);
@@ -375,6 +375,7 @@ namespace NSwag.Demo.Client
         private string _firstName;
         private string _lastName;
         private ObservableCollection<Car> _cars;
+        private ObjectType _type;
 
         /// <summary>Gets or sets the first name.</summary>
         [JsonProperty("firstName", Required = Required.Default)]
@@ -419,6 +420,20 @@ namespace NSwag.Demo.Client
             }
         }
 
+        [JsonProperty("Type", Required = Required.Always)]
+        public ObjectType Type
+        {
+            get { return _type; }
+            set 
+            {
+                if (_type != value)
+                {
+                    _type = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public string ToJson() 
@@ -443,6 +458,7 @@ namespace NSwag.Demo.Client
     {
         private string _name;
         private Person _driver;
+        private ObjectType _type;
 
         [JsonProperty("Name", Required = Required.Default)]
         public string Name
@@ -472,6 +488,20 @@ namespace NSwag.Demo.Client
             }
         }
 
+        [JsonProperty("Type", Required = Required.Always)]
+        public ObjectType Type
+        {
+            get { return _type; }
+            set 
+            {
+                if (_type != value)
+                {
+                    _type = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public string ToJson() 
@@ -490,6 +520,12 @@ namespace NSwag.Demo.Client
             if (handler != null) 
                 handler(this, new PropertyChangedEventArgs(propertyName));
         }
+    }
+
+    public enum ObjectType
+    {
+        Foo, 
+        Bar, 
     }
 
     public partial class PersonNotFoundException : Exception, INotifyPropertyChanged
