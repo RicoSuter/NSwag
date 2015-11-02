@@ -19,7 +19,7 @@ namespace NSwag.Tests.Integration
             var swaggerSpecification = service.ToJson();
 
             //// Assert
-            Assert.AreEqual(8, service.Operations.Count());
+            Assert.AreEqual(9, service.Operations.Count());
         }
 
         [TestMethod]
