@@ -277,7 +277,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
                 // TODO: Add support for ModelBinder attribute
 
-                var isComplexParameter = info.Type.HasFlag(JsonObjectType.Object) || info.Type.HasFlag(JsonObjectType.Array);
+                var isComplexParameter = IsComplexType(info);
                 if (isComplexParameter)
                 {
                     if (fromUriAttribute != null)
@@ -331,7 +331,11 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         {
             var parameterGenerator = new RootTypeJsonSchemaGenerator(service, JsonSchemaGeneratorSettings);
 
-            var segmentParameter = parameterGenerator.Generate<SwaggerParameter>(parameter.ParameterType, schemaResolver);
+            var info = JsonObjectTypeDescription.FromType(parameter.ParameterType);
+            var isComplexParameter = IsComplexType(info);
+            var parameterType = isComplexParameter ? typeof (string) : parameter.ParameterType; // complex types must be treated as string
+
+            var segmentParameter = parameterGenerator.Generate<SwaggerParameter>(parameterType, schemaResolver);
             segmentParameter.Name = parameter.Name;
             segmentParameter.Description = parameter.GetXmlDocumentation();
             return segmentParameter;
@@ -427,6 +431,12 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
             var generator = new RootTypeJsonSchemaGenerator(service, JsonSchemaGeneratorSettings);
             return generator.Generate<TSchemaType>(type, schemaResolver);
+        }
+
+        private bool IsComplexType(JsonObjectTypeDescription info)
+        {
+            // TODO: Move to JsonObjectTypeDescription class in NJsonSchema
+            return info.Type.HasFlag(JsonObjectType.Object) || info.Type.HasFlag(JsonObjectType.Array);
         }
     }
 }

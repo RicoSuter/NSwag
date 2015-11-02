@@ -17,9 +17,21 @@ using NSwag.Demo.Web.Models;
 
 namespace NSwag.Demo.Web.Controllers
 {
+    public class MyClass
+    {
+        public string Foo { get; set; }
+    }
+
     [RoutePrefix("api/Person")]
     public class PersonsController : ApiController
     {
+        [HttpPut]
+        [Route("xyz/{data}")]
+        public string Xyz(MyClass data)
+        {
+            return "abc";
+        }
+
         // GET: api/Person
         public IEnumerable<Person> Get()
         {
