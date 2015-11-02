@@ -12,7 +12,7 @@ namespace NSwag.Tests.Integration
         public void When_generating_swagger_from_controller_than_all_required_operations_are_available()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator("api/{controller}/{action}/{id}");
+            var generator = new WebApiToSwaggerGenerator();
 
             //// Act
             var service = generator.GenerateForController<PersonsController>();
@@ -26,7 +26,7 @@ namespace NSwag.Tests.Integration
         public void When_there_is_a_ResultType_attribute_on_an_action_method_then_the_response_is_taken_from_the_given_type()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator("api/{controller}/{action}/{id}");
+            var generator = new WebApiToSwaggerGenerator();
 
             //// Act
             var service = generator.GenerateForController<PersonsController>();
