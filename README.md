@@ -50,5 +50,5 @@ Check out the [project's Wiki](https://github.com/NSwag/NSwag/wiki) for more inf
 
 The generators can be used in a confortable and simple Windows GUI called NSwagStudio: 
 
-[![](https://raw.githubusercontent.com/wiki/NSwag/NSwag/NSwagStudioScreenshot01.png)](NSwagStudioScreenshot01.png)
+[![](https://raw.githubusercontent.com/wiki/NSwag/NSwag/NSwagStudioScreenshot01.png)](https://raw.githubusercontent.com/wiki/NSwag/NSwag/NSwagStudioScreenshot01.png)
 
