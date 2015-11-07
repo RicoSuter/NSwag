@@ -19,10 +19,10 @@ NSwag is a Swagger 2.0 API toolchain for .NET, TypeScript and other platforms, w
 
 **Ways to use the toolchain:** 
 
-- In your C# code
-- Via [command line](https://github.com/NSwag/NSwag/wiki/CommandLine)
-- Generate code with [T4 templates](https://github.com/NSwag/NSwag/wiki/T4) in Visual Studio
 - Windows GUI, [NSwagStudio](https://github.com/NSwag/NSwag/wiki/NSwagStudio)
+- In your C# code, via [NuGet](https://www.nuget.org/packages?q=NSwag)
+- Via [command line](https://github.com/NSwag/NSwag/wiki/CommandLine) (Windows, Mac and Linux support through [Mono](http://www.mono-project.com/))
+- Generate code with [T4 templates](https://github.com/NSwag/NSwag/wiki/T4) in Visual Studio
 
 **Downloads**
 
@@ -50,5 +50,5 @@ Check out the [project's Wiki](https://github.com/NSwag/NSwag/wiki) for more inf
 
 The generators can be used in a confortable and simple Windows GUI called NSwagStudio: 
 
-[![](https://raw.githubusercontent.com/wiki/NSwag/NSwag/NSwagStudioScreenshot01.png)](NSwagStudioScreenshot01.png)
+[![](https://raw.githubusercontent.com/wiki/NSwag/NSwag/NSwagStudioScreenshot01.png)](https://raw.githubusercontent.com/wiki/NSwag/NSwag/NSwagStudioScreenshot01.png)
 

@@ -20,7 +20,11 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
     /// <summary>Generates a <see cref="SwaggerService"/> object for the given Web API class type. </summary>
     public class WebApiToSwaggerGenerator
     {
-        private readonly string _defaultRouteTemplate;
+        /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerGenerator" /> class.</summary>
+        public WebApiToSwaggerGenerator()
+            : this("api/{controller}/{action}/{id}", new JsonSchemaGeneratorSettings())
+        {
+        }
 
         /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerGenerator" /> class.</summary>
         /// <param name="defaultRouteTemplate">The default route template.</param>
@@ -34,10 +38,13 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <param name="jsonSchemaGeneratorSettings">The JSON Schema generator settings.</param>
         public WebApiToSwaggerGenerator(string defaultRouteTemplate, JsonSchemaGeneratorSettings jsonSchemaGeneratorSettings)
         {
-            _defaultRouteTemplate = defaultRouteTemplate;
+            DefaultRouteTemplate = defaultRouteTemplate;
             JsonSchemaGeneratorSettings = jsonSchemaGeneratorSettings;
         }
 
+        /// <summary>Gets or sets the default route template which is used when no route attributes are found (default: 'api/{controller}/{action}/{id}').</summary>
+        public string DefaultRouteTemplate { get; set; }
+        
         /// <summary>Gets or sets the JSON Schema generator settings.</summary>
         public JsonSchemaGeneratorSettings JsonSchemaGeneratorSettings { get; set; }
 
@@ -153,7 +160,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             else
             {
                 var actionName = GetActionName(method);
-                httpPath = _defaultRouteTemplate
+                httpPath = DefaultRouteTemplate
                     .Replace("{controller}", controllerType.Name.Replace("Controller", string.Empty))
                     .Replace("{action}", actionName);
             }
