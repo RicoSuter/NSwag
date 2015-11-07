@@ -52,26 +52,32 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         }
 
         /// <summary>Generates the Swagger definition for the given classes without operations (used for class generation).</summary>
-        /// <param name="className">The class name.</param>
+        /// <param name="classNames">The class names.</param>
         /// <returns>The Swagger definition.</returns>
-        public SwaggerService Generate(string className)
+        public SwaggerService Generate(string[] classNames)
         {
             using (var isolated = new AppDomainIsolation<AssemblyLoader>(Path.GetDirectoryName(_assemblyPath)))
-                return SwaggerService.FromJson(isolated.Object.FromAssemblyType(_assemblyPath, className, JsonConvert.SerializeObject(JsonSchemaGeneratorSettings)));
+                return SwaggerService.FromJson(isolated.Object.FromAssemblyType(_assemblyPath, classNames, JsonConvert.SerializeObject(JsonSchemaGeneratorSettings)));
         }
 
         private class AssemblyLoader : MarshalByRefObject
         {
-            internal string FromAssemblyType(string assemblyPath, string className, string jsonSchemaGeneratorSettingsData)
+            internal string FromAssemblyType(string assemblyPath, string[] classNames, string jsonSchemaGeneratorSettingsData)
             {
                 var jsonSchemaGeneratorSettings = JsonConvert.DeserializeObject<JsonSchemaGeneratorSettings>(jsonSchemaGeneratorSettingsData);
 
-                var assembly = Assembly.LoadFrom(assemblyPath);
-                var type = assembly.GetType(className);
-
+                var generator = new JsonSchemaGenerator(jsonSchemaGeneratorSettings);
+                var resolver = new SchemaResolver();
                 var service = new SwaggerService();
-                var schema = JsonSchema4.FromType(type, jsonSchemaGeneratorSettings);
-                service.Definitions[type.Name] = schema;
+
+                var assembly = Assembly.LoadFrom(assemblyPath);
+                foreach (var className in classNames)
+                {
+                    var type = assembly.GetType(className);
+                    var schema = generator.Generate<JsonSchema4>(type, resolver);
+                    service.Definitions[type.Name] = schema;
+                }
+                
                 return service.ToJson();
             }
 

@@ -120,8 +120,9 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             {
                 return await Task.Run(() =>
                 {
-                    var generator = new AssemblyTypeToSwaggerGenerator(AssemblyPath, new JsonSchemaGeneratorSettings { DefaultEnumHandling = DefaultEnumHandling });
-                    return generator.Generate(ClassName).ToJson();
+                    var settings = new JsonSchemaGeneratorSettings { DefaultEnumHandling = DefaultEnumHandling };
+                    var generator = new AssemblyTypeToSwaggerGenerator(AssemblyPath, settings);
+                    return generator.Generate(new[] { ClassName }).ToJson();
                 });
             });
         }

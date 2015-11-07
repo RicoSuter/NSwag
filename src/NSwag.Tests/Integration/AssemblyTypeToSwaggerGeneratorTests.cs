@@ -14,7 +14,7 @@ namespace NSwag.Tests.Integration
             var generator = new AssemblyTypeToSwaggerGenerator(assemblyPath);
 
             //// Act
-            var service = generator.Generate("NSwag.Demo.Web.Models.Person");
+            var service = generator.Generate(new[] { "NSwag.Demo.Web.Models.Person" });
 
             //// Assert
             Assert.AreEqual(4, service.Definitions["Person"].Properties.Count);
