@@ -63,7 +63,7 @@ public partial class <class> : I<class>
 <endif>
 
         var responseData = await response.Content.ReadAsStringAsync(); 
-        var status = response.StatusCode.ToString();
+        var status = ((int)response.StatusCode).ToString();
 <operation.Responses:{response | 
         if (status == "<response.StatusCode>") 
         {

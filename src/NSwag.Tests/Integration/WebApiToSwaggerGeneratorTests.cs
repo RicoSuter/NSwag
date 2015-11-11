@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 using NSwag.Demo.Web.Controllers;
@@ -35,6 +36,26 @@ namespace NSwag.Tests.Integration
             //// Assert
             Assert.AreEqual(2, operation.Operation.Responses.Count);
             Assert.AreEqual("Person", operation.Operation.Responses["200"].Schema.ActualSchema.TypeName);
+        }
+
+        [TestMethod]
+        public void When_route_attribte_is_on_controller_class_then_it_applies_for_actions()
+        {
+            //// Arrange
+            var generator = new WebApiToSwaggerGenerator();
+
+            //// Act
+            var service = generator.GenerateForController<MyController>();
+            var operation = service.Operations.Single(o => o.Operation.OperationId == "Foo");
+
+            //// Assert
+            Assert.AreEqual("myRoot/My/Foo", operation.Path);
+        }
+
+        [Route("myRoot/{controller}/{action}/{id}")]
+        public class MyController : ApiController
+        {
+            public void Foo() { }
         }
     }
 }

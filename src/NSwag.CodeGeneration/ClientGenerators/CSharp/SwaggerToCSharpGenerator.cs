@@ -42,6 +42,9 @@ namespace NSwag.CodeGeneration.ClientGenerators.CSharp
         /// <summary>Gets or sets the namespace.</summary>
         public string Namespace { get; set; }
 
+        /// <summary>Gets or sets a value indicating whether to only generate the client classes (no DTO classes).</summary>
+        public bool GenerateClientClassesOnly { get; set; }
+
         /// <summary>Gets the language.</summary>
         protected override string Language
         {
@@ -61,7 +64,7 @@ namespace NSwag.CodeGeneration.ClientGenerators.CSharp
             template.Add("namespace", Namespace);
             template.Add("toolchain", SwaggerService.ToolchainVersion);
             template.Add("clients", clientCode);
-            template.Add("classes", _resolver.GenerateTypes());
+            template.Add("classes", !GenerateClientClassesOnly ? _resolver.GenerateTypes() : string.Empty);
             return template.Render();
         }
 
