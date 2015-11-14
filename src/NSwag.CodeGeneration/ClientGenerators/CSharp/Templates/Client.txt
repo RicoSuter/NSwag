@@ -1,4 +1,5 @@
 ﻿<if(hasOperations)>
+<if(generateClientInterfaces)>
 public partial interface I<class>
 {
 <operations:{operation | 
@@ -10,9 +11,9 @@ public partial interface I<class>
     <operation.resultType> <operation.OperationNameUpper>Async(<operation.Parameters:{parameter | <parameter.Type> <parameter.Name><if(!parameter.isLast)>,<endif> }>);
 
 }>
-}
+}<endif>
 
-public partial class <class> : I<class>
+public partial class <class> : <if(hasClientBaseClass)><clientBaseClass><if(generateClientInterfaces)>, <endif><endif><if(generateClientInterfaces)>I<class><endif>
 {
     public <class>() : this("<baseUrl>") { }
 
@@ -44,8 +45,8 @@ public partial class <class> : I<class>
 <operation.QueryParameters:{parameter | 
         url += string.Format("<parameter.Name>={0\}&", Uri.EscapeUriString(<parameter.Name>.ToString()));
 }>
-            
-        var client = new HttpClient();
+        
+        <if(useHttpClientCreationMethod)>var client = await CreateHttpClientAsync();<else>var client = new HttpClient();<endif>
         PrepareRequest(client);
 
 <if(operation.HasContent)>

@@ -47,7 +47,7 @@
             <LineBreak />
             Choose 'Integer' if you use the default Json.NET serializer or 'String' if a global StringEnumConverter is registered.
         </TextBlock>
-        <ComboBox SelectedItem="{Binding DefaultEnumHandling, Mode=TwoWay}" ItemsSource="{Binding EnumHandlings}" Margin="0,0,0,12" />
+        <ComboBox SelectedItem="{Binding Settings.DefaultEnumHandling, Mode=TwoWay}" ItemsSource="{Binding EnumHandlings}" Margin="0,0,0,12" />
 
         <TextBlock TextWrapping="Wrap" 
                    Text="Generates a Swagger definition with the given class type and no operations. Use this generator to create DTO code for another platform." />

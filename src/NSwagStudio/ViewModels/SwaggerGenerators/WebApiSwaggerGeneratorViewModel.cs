@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Microsoft.Win32;
 using MyToolkit.Command;
 using MyToolkit.Storage;
+using Newtonsoft.Json;
 using NJsonSchema;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 
@@ -20,34 +21,29 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
 {
     public class WebApiSwaggerGeneratorViewModel : ViewModelBase
     {
-        private string _assemblyPath;
         private string _controllerName;
         private string[] _allControllerNames;
-        private string _urlTemplate;
         private bool _specifyControllerName;
-        private EnumHandling _defaultEnumHandling;
 
         /// <summary>Initializes a new instance of the <see cref="WebApiSwaggerGeneratorViewModel"/> class.</summary>
         public WebApiSwaggerGeneratorViewModel()
         {
             BrowseAssemblyCommand = new AsyncRelayCommand(BrowseAssembly);
+            SpecifyControllerName = true;
+
+            Settings = JsonConvert.DeserializeObject<WebApiAssemblyToSwaggerGeneratorSettings>(
+                ApplicationSettings.GetSetting("WebApiAssemblyToSwaggerGeneratorSettings",
+                JsonConvert.SerializeObject(new WebApiAssemblyToSwaggerGeneratorSettings())));
+
             LoadAssemblyCommand = new AsyncRelayCommand(LoadAssembly, () => !string.IsNullOrEmpty(AssemblyPath));
-
-            SpecifyControllerName = true; 
-
-            AssemblyPath = ApplicationSettings.GetSetting("AssemblyPath", string.Empty);
-            UrlTemplate = ApplicationSettings.GetSetting("UrlTemplate", "api/{controller}/{action}/{id}");
-
             LoadAssemblyCommand.TryExecute();
         }
 
-        /// <summary>Gets or sets the default enum handling. </summary>
-        public EnumHandling DefaultEnumHandling
+        protected override void OnUnloaded()
         {
-            get { return _defaultEnumHandling; }
-            set { Set(ref _defaultEnumHandling, value); }
+            ApplicationSettings.SetSetting("WebApiAssemblyToSwaggerGeneratorSettings", JsonConvert.SerializeObject(Settings));
         }
-
+        
         /// <summary>Gets the default enum handling. </summary>
         public EnumHandling[] EnumHandlings
         {
@@ -63,17 +59,18 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         /// <summary>Gets or sets the assembly path. </summary>
         public string AssemblyPath
         {
-            get { return _assemblyPath; }
+            get { return Settings.AssemblyPath; }
             set
             {
-                if (Set(ref _assemblyPath, value))
-                {
-                    LoadAssemblyCommand.RaiseCanExecuteChanged();
-                    ApplicationSettings.SetSetting("AssemblyPath", _assemblyPath);
-                    RaisePropertyChanged(() => AssemblyName);
-                }
+                Settings.AssemblyPath = value;
+                LoadAssemblyCommand.RaiseCanExecuteChanged();
+                RaisePropertyChanged(() => AssemblyPath);
+                RaisePropertyChanged(() => AssemblyName);
             }
         }
+
+        /// <summary>Gets the generator settings.</summary>
+        public WebApiAssemblyToSwaggerGeneratorSettings Settings { get; private set; }
 
         /// <summary>Gets the name of the selected assembly.</summary>
         public string AssemblyName
@@ -100,18 +97,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         {
             get { return _allControllerNames; }
             set { Set(ref _allControllerNames, value); }
-        }
-
-        /// <summary>Gets or sets the url template. </summary>
-        public string UrlTemplate
-        {
-            get { return _urlTemplate; }
-            set
-            {
-                if (Set(ref _urlTemplate, value))
-                    ApplicationSettings.SetSetting("UrlTemplate", _urlTemplate);
-            }
-        }
+        }       
 
         private async Task BrowseAssembly()
         {
@@ -131,7 +117,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             {
                 AllControllerNames = await Task.Run(() =>
                 {
-                    var generator = new WebApiAssemblyToSwaggerGenerator(AssemblyPath);
+                    var generator = new WebApiAssemblyToSwaggerGenerator(Settings);
                     return generator.GetControllerClasses();
                 });
 
@@ -145,11 +131,11 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             {
                 return await Task.Run(() =>
                 {
-                    var generator = new WebApiAssemblyToSwaggerGenerator(AssemblyPath, new JsonSchemaGeneratorSettings { DefaultEnumHandling = DefaultEnumHandling });
+                    var generator = new WebApiAssemblyToSwaggerGenerator(Settings);
                     if (SpecifyControllerName)
-                        return generator.GenerateForSingleController(ControllerName, UrlTemplate).ToJson();
+                        return generator.GenerateForSingleController(ControllerName).ToJson();
                     else
-                        return generator.GenerateForAssemblyControllers(UrlTemplate).ToJson();
+                        return generator.GenerateForAssemblyControllers().ToJson();
                 });
             });
         }

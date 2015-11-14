@@ -1,4 +1,5 @@
 ﻿<if(hasOperations)>
+<if(generateClientInterfaces)>
 export interface I<class> {
 <operations:{operation | 
 <if(operation.HasDocumentation)>    /**
@@ -10,7 +11,7 @@ export interface I<class> {
 <endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.Name>: <parameter.Type><if(!parameter.IsLast)>,<endif> }>): Q.Promise\<<operation.ResultType>>;
 
 }>
-}
+}<endif>
 
 export class <class> implements I<class> {
     baseUrl = "<baseUrl>"; 

@@ -18,9 +18,12 @@ namespace NSwag.CodeGeneration.Tests
             var service = CreateService();
 
             //// Act
-            var generator = new SwaggerToCSharpGenerator(service);
-            generator.Class = "MyClass";
-            generator.Namespace = "MyNamespace";
+            var generator = new SwaggerToCSharpGenerator(service, new SwaggerToCSharpGeneratorSettings
+            {
+                ClassName = "MyClass",
+                Namespace = "MyNamespace"
+            });
+
             var code = generator.GenerateFile();
 
             // Assert
@@ -37,8 +40,10 @@ namespace NSwag.CodeGeneration.Tests
             var service = CreateService();
 
             //// Act
-            var generator = new SwaggerToTypeScriptGenerator(service);
-            generator.Class = "MyClass";
+            var generator = new SwaggerToTypeScriptGenerator(service, new SwaggerToTypeScriptGeneratorSettings
+            {
+                Class = "MyClass"
+            });
             var code = generator.GenerateFile();
 
             // Assert
@@ -76,7 +81,7 @@ namespace NSwag.CodeGeneration.Tests
   },
   ""type"": ""object""
 }";
-            
+
             //// Act
             var schema = JsonSchema4.FromJson(jsonSchema);
             var service = new SwaggerService();

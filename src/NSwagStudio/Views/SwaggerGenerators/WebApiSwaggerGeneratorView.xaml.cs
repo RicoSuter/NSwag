@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
+using MyToolkit.Mvvm;
 using NSwagStudio.ViewModels.SwaggerGenerators;
 
 namespace NSwagStudio.Views.SwaggerGenerators
@@ -10,6 +11,7 @@ namespace NSwagStudio.Views.SwaggerGenerators
         public WebApiSwaggerGeneratorView()
         {
             InitializeComponent();
+            ViewModelHelper.RegisterViewModel(Model, this);
         }
 
         private WebApiSwaggerGeneratorViewModel Model { get { return (WebApiSwaggerGeneratorViewModel)Resources["ViewModel"]; } }

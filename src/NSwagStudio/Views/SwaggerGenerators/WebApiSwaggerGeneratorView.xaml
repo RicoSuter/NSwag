@@ -54,9 +54,9 @@
             <LineBreak />
             Choose 'Integer' if you use the default Json.NET serializer or 'String' if a global StringEnumConverter is registered.
         </TextBlock>
-        <ComboBox SelectedItem="{Binding DefaultEnumHandling, Mode=TwoWay}" ItemsSource="{Binding EnumHandlings}" Margin="0,0,0,12" />
+        <ComboBox SelectedItem="{Binding Settings.DefaultEnumHandling, Mode=TwoWay}" ItemsSource="{Binding EnumHandlings}" Margin="0,0,0,12" />
 
         <TextBlock Text="Default URL Template" FontWeight="Bold" Margin="0,0,0,6" />
-        <TextBox Text="{Binding UrlTemplate, Mode=TwoWay}" Margin="0,0,0,24" />
+        <TextBox Text="{Binding Settings.DefaultUrlTemplate, Mode=TwoWay}" Margin="0,0,0,24" />
     </StackPanel>
 </UserControl>

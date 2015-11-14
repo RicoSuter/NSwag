@@ -21,33 +21,15 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
     public class WebApiToSwaggerGenerator
     {
         /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerGenerator" /> class.</summary>
-        public WebApiToSwaggerGenerator()
-            : this("api/{controller}/{action}/{id}", new JsonSchemaGeneratorSettings())
+        /// <param name="settings">The settings.</param>
+        public WebApiToSwaggerGenerator(WebApiToSwaggerGeneratorSettings settings)
         {
+            Settings = settings;
         }
 
-        /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerGenerator" /> class.</summary>
-        /// <param name="defaultRouteTemplate">The default route template.</param>
-        public WebApiToSwaggerGenerator(string defaultRouteTemplate) 
-            : this(defaultRouteTemplate, new JsonSchemaGeneratorSettings())
-        {
-        }
-
-        /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerGenerator" /> class.</summary>
-        /// <param name="defaultRouteTemplate">The default route template.</param>
-        /// <param name="jsonSchemaGeneratorSettings">The JSON Schema generator settings.</param>
-        public WebApiToSwaggerGenerator(string defaultRouteTemplate, JsonSchemaGeneratorSettings jsonSchemaGeneratorSettings)
-        {
-            DefaultRouteTemplate = defaultRouteTemplate;
-            JsonSchemaGeneratorSettings = jsonSchemaGeneratorSettings;
-        }
-
-        /// <summary>Gets or sets the default route template which is used when no route attributes are found (default: 'api/{controller}/{action}/{id}').</summary>
-        public string DefaultRouteTemplate { get; set; }
+        /// <summary>Gets or sets the generator settings.</summary>
+        public WebApiToSwaggerGeneratorSettings Settings { get; set; }
         
-        /// <summary>Gets or sets the JSON Schema generator settings.</summary>
-        public JsonSchemaGeneratorSettings JsonSchemaGeneratorSettings { get; set; }
-
         /// <summary>Generates a Swagger specification for the given controller type.</summary>
         /// <typeparam name="TController">The type of the controller.</typeparam>
         /// <param name="excludedMethodName">The name of the excluded method name.</param>
@@ -160,7 +142,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             else
             {
                 var actionName = GetActionName(method);
-                httpPath = DefaultRouteTemplate
+                httpPath = Settings.DefaultUrlTemplate
                     .Replace("{controller}", controllerType.Name.Replace("Controller", string.Empty))
                     .Replace("{action}", actionName);
             }
@@ -336,7 +318,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
         private SwaggerParameter CreatePrimitiveParameter(SwaggerService service, ParameterInfo parameter, ISchemaResolver schemaResolver)
         {
-            var parameterGenerator = new RootTypeJsonSchemaGenerator(service, JsonSchemaGeneratorSettings);
+            var parameterGenerator = new RootTypeJsonSchemaGenerator(service, Settings);
 
             var info = JsonObjectTypeDescription.FromType(parameter.ParameterType);
             var isComplexParameter = IsComplexType(info);
@@ -415,7 +397,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
                 if (!schemaResolver.HasSchema(type))
                 {
-                    var schemaGenerator = new RootTypeJsonSchemaGenerator(service, JsonSchemaGeneratorSettings);
+                    var schemaGenerator = new RootTypeJsonSchemaGenerator(service, Settings);
                     schemaGenerator.Generate<JsonSchema4>(type, schemaResolver);
                 }
 
@@ -436,7 +418,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 };
             }
 
-            var generator = new RootTypeJsonSchemaGenerator(service, JsonSchemaGeneratorSettings);
+            var generator = new RootTypeJsonSchemaGenerator(service, Settings);
             return generator.Generate<TSchemaType>(type, schemaResolver);
         }
 

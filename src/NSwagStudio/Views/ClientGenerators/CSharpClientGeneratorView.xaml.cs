@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using MyToolkit.Mvvm;
 using NSwagStudio.ViewModels.ClientGenerators;
 
 namespace NSwagStudio.Views.ClientGenerators
@@ -8,6 +9,7 @@ namespace NSwagStudio.Views.ClientGenerators
         public CSharpClientGeneratorView()
         {
             InitializeComponent();
+            ViewModelHelper.RegisterViewModel(Model, this);
         }
 
         public string Title { get { return "CSharp Client"; } }

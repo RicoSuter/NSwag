@@ -21,30 +21,27 @@ namespace NSwag.CodeGeneration.ClientGenerators.TypeScript
         private readonly SwaggerService _service;
         private readonly TypeScriptTypeResolver _resolver;
 
-        /// <summary>Initializes a new instance of the <see cref="SwaggerToTypeScriptGenerator"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="SwaggerToTypeScriptGenerator" /> class.</summary>
         /// <param name="service">The service.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="service"/> is <see langword="null" />.</exception>
-        public SwaggerToTypeScriptGenerator(SwaggerService service)
+        /// <param name="settings">The settings.</param>
+        /// <exception cref="System.ArgumentNullException">service</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="service" /> is <see langword="null" />.</exception>
+        public SwaggerToTypeScriptGenerator(SwaggerService service, SwaggerToTypeScriptGeneratorSettings settings)
         {
             if (service == null)
                 throw new ArgumentNullException("service");
 
-            Class = "{controller}Client";
-            AsyncType = TypeScriptAsyncType.Callbacks;
+            Settings = settings; 
 
             _service = service;
-
             foreach (var definition in _service.Definitions)
                 definition.Value.TypeName = definition.Key;
 
             _resolver = new TypeScriptTypeResolver(_service.Definitions.Select(p => p.Value).ToArray());
         }
 
-        /// <summary>Gets or sets the class name of the service client.</summary>
-        public string Class { get; set; }
-
-        /// <summary>Gets or sets the type of the asynchronism handling.</summary>
-        public TypeScriptAsyncType AsyncType { get; set; }
+        /// <summary>Gets or sets the generator settings.</summary>
+        public SwaggerToTypeScriptGeneratorSettings Settings { get; set; }
 
         /// <summary>Gets the language.</summary>
         protected override string Language
@@ -59,20 +56,26 @@ namespace NSwag.CodeGeneration.ClientGenerators.TypeScript
             return GenerateFile(_service, _resolver);
         }
 
+        internal override ClientGeneratorBaseSettings BaseSettings
+        {
+            get { return Settings; }
+        }
+
         internal override string RenderFile(string clientCode)
         {
             var template = LoadTemplate("File");
             template.Add("toolchain", SwaggerService.ToolchainVersion);
-            template.Add("clients", clientCode);
-            template.Add("interfaces", _resolver.GenerateTypes());
+            template.Add("clients", Settings.GenerateDtoTypes ? clientCode : string.Empty);
+            template.Add("interfaces", Settings.GenerateDtoTypes ? _resolver.GenerateTypes() : string.Empty);
             return template.Render();
         }
 
         internal override string RenderClientCode(string controllerName, IEnumerable<OperationModel> operations)
         {
-            var template = LoadTemplate(AsyncType == TypeScriptAsyncType.Callbacks ? "Callbacks" : "Q");
-            template.Add("class", Class.Replace("{controller}", ConvertToUpperStartIdentifier(controllerName)));
+            var template = LoadTemplate(Settings.AsyncType == TypeScriptAsyncType.Callbacks ? "Callbacks" : "Q");
+            template.Add("class", Settings.Class.Replace("{controller}", ConvertToUpperStartIdentifier(controllerName)));
             template.Add("operations", operations);
+            template.Add("generateClientInterfaces", Settings.GenerateClientInterfaces);
             template.Add("hasOperations", operations.Any());
             template.Add("baseUrl", _service.BaseUrl);
             return template.Render();

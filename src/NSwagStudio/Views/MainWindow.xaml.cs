@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 using MyToolkit.Storage;
 using MyToolkit.Utilities;
@@ -56,6 +58,14 @@ namespace NSwagStudio.Views
             ApplicationSettings.SetSetting("WindowLeft", Left);
             ApplicationSettings.SetSetting("WindowTop", Top);
             ApplicationSettings.SetSetting("WindowState", WindowState);
+
+            foreach (var generatorView in Model.ClientGenerators.OfType<UserControl>()
+                .Concat(Model.SwaggerGenerators.OfType<UserControl>()))
+            {
+                var vm = generatorView.Resources["ViewModel"] as ViewModelBase; 
+                if (vm != null)
+                    vm.CallOnUnloaded();
+            }
         }
 
         private void OnOpenHyperlink(object sender, RoutedEventArgs e)

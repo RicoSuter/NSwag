@@ -19,17 +19,23 @@
 
         <StackPanel>
             <TextBlock Text="Class Name" FontWeight="Bold" Margin="0,0,0,6" />
-            <TextBox Text="{Binding ClassName, Mode=TwoWay}" Margin="0,0,0,12" />
+            <TextBox Text="{Binding Settings.Class, Mode=TwoWay}" Margin="0,0,0,12" />
             
+            <CheckBox IsChecked="{Binding Settings.GenerateClientInterfaces, Mode=TwoWay}" 
+                      Content="Generate Client Interfaces" Margin="0,0,0,12" />
+
+            <CheckBox IsChecked="{Binding Settings.GenerateDtoTypes, Mode=TwoWay}" 
+                      Content="Generate DTO Types (e.g. request and response classes)" Margin="0,0,0,12" />
+
             <TextBlock Text="Async Type" FontWeight="Bold" Margin="0,0,0,6" />
-            <ComboBox SelectedItem="{Binding AsyncType, Mode=TwoWay}" ItemsSource="{Binding AsyncTypes}" Margin="0,0,0,12" />
+            <ComboBox SelectedItem="{Binding Settings.AsyncType, Mode=TwoWay}" ItemsSource="{Binding AsyncTypes}" Margin="0,0,0,12" />
 
             <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
                 <Run Text="Operation Generation Mode" FontWeight="Bold" />
                 <LineBreak />
                 The {controller} placeholder of the Class Name is replaced by the second last path segment.
             </TextBlock>
-            <ComboBox SelectedItem="{Binding OperationGenerationMode, Mode=TwoWay}" ItemsSource="{Binding OperationGenerationModes}" Margin="0,0,0,12" />
+            <ComboBox SelectedItem="{Binding Settings.OperationGenerationMode, Mode=TwoWay}" ItemsSource="{Binding OperationGenerationModes}" Margin="0,0,0,12" />
 
             <TextBlock Text="TypeScript Output" FontWeight="Bold" Margin="0,0,0,6" />
         </StackPanel>

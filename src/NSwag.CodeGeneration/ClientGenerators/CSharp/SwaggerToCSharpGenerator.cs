@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
 using NSwag.CodeGeneration.ClientGenerators.Models;
+using NSwag.CodeGeneration.ClientGenerators.TypeScript;
 
 namespace NSwag.CodeGeneration.ClientGenerators.CSharp
 {
@@ -20,30 +21,27 @@ namespace NSwag.CodeGeneration.ClientGenerators.CSharp
         private readonly SwaggerService _service;
         private readonly SwaggerToCSharpTypeResolver _resolver;
 
-        /// <summary>Initializes a new instance of the <see cref="SwaggerToCSharpGenerator"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="SwaggerToCSharpGenerator" /> class.</summary>
         /// <param name="service">The service.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="service"/> is <see langword="null" />.</exception>
-        public SwaggerToCSharpGenerator(SwaggerService service)
+        /// <param name="settings">The settings.</param>
+        /// <exception cref="System.ArgumentNullException">service</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="service" /> is <see langword="null" />.</exception>
+        public SwaggerToCSharpGenerator(SwaggerService service, SwaggerToCSharpGeneratorSettings settings)
         {
             if (service == null)
                 throw new ArgumentNullException("service");
 
-            _service = service;
+            Settings = settings; 
 
+            _service = service;
             foreach (var definition in _service.Definitions)
                 definition.Value.TypeName = definition.Key;
 
             _resolver = new SwaggerToCSharpTypeResolver(_service.Definitions);
         }
 
-        /// <summary>Gets or sets the class name of the service client.</summary>
-        public string Class { get; set; }
-
-        /// <summary>Gets or sets the namespace.</summary>
-        public string Namespace { get; set; }
-
-        /// <summary>Gets or sets a value indicating whether to only generate the client classes (no DTO classes).</summary>
-        public bool GenerateClientClassesOnly { get; set; }
+        /// <summary>Gets or sets the generator settings.</summary>
+        public SwaggerToCSharpGeneratorSettings Settings { get; set; }
 
         /// <summary>Gets the language.</summary>
         protected override string Language
@@ -57,24 +55,38 @@ namespace NSwag.CodeGeneration.ClientGenerators.CSharp
         {
             return GenerateFile(_service, _resolver);
         }
-        
+
+        internal override ClientGeneratorBaseSettings BaseSettings
+        {
+            get { return Settings; }
+        }
+
         internal override string RenderFile(string clientCode)
         {
             var template = LoadTemplate("File");
-            template.Add("namespace", Namespace);
+            template.Add("namespace", Settings.Namespace);
             template.Add("toolchain", SwaggerService.ToolchainVersion);
-            template.Add("clients", clientCode);
-            template.Add("classes", !GenerateClientClassesOnly ? _resolver.GenerateTypes() : string.Empty);
+            template.Add("clients", Settings.GenerateDtoTypes ? clientCode : string.Empty);
+            template.Add("namespaceUsages", Settings.AdditionalNamespaceUsages);
+            template.Add("classes", Settings.GenerateDtoTypes ? _resolver.GenerateTypes() : string.Empty);
             return template.Render();
         }
 
         internal override string RenderClientCode(string controllerName, IEnumerable<OperationModel> operations)
         {
             var template = LoadTemplate("Client");
-            template.Add("class", Class.Replace("{controller}", ConvertToUpperStartIdentifier(controllerName)));
+            template.Add("class", Settings.ClassName.Replace("{controller}", ConvertToUpperStartIdentifier(controllerName)));
+
+            template.Add("clientBaseClass", Settings.ClientBaseClass);
+            template.Add("hasClientBaseClass", !string.IsNullOrEmpty(Settings.ClientBaseClass));
+
+            template.Add("useHttpClientCreationMethod", Settings.UseHttpClientCreationMethod);
+            template.Add("generateClientInterfaces", Settings.GenerateClientInterfaces);
+
             template.Add("baseUrl", _service.BaseUrl);
             template.Add("operations", operations);
             template.Add("hasOperations", operations.Any());
+
             return template.Render();
         }
 

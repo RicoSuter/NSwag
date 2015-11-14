@@ -19,21 +19,25 @@ namespace NSwag.Commands
         public string Controller { get; set; }
 
         [Description("The Web API default URL template.")]
-        [Argument(Name = "UrlTemplate", DefaultValue = "api/{controller}/{action}/{id}")]
-        public string UrlTemplate { get; set; }
+        [Argument(Name = "DefaultUrlTemplate", DefaultValue = "api/{controller}/{action}/{id}")]
+        public string DefaultUrlTemplate { get; set; }
 
         [Description("The default enum handling ('String' or 'Integer').")]
-        [Argument(Name = "EnumHandling", DefaultValue = EnumHandling.String)]
-        public EnumHandling EnumHandling { get; set; }
+        [Argument(Name = "DefaultEnumHandling", DefaultValue = EnumHandling.String)]
+        public EnumHandling DefaultEnumHandling { get; set; }
 
         public override async Task RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            var generator = new WebApiAssemblyToSwaggerGenerator(Assembly);
-            generator.JsonSchemaGeneratorSettings.DefaultEnumHandling = EnumHandling;
+            var generator = new WebApiAssemblyToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings
+            {
+                AssemblyPath = Assembly,
+                DefaultUrlTemplate = DefaultUrlTemplate, 
+                DefaultEnumHandling = DefaultEnumHandling
+            });
 
             var service = string.IsNullOrEmpty(Controller) ? 
-                generator.GenerateForAssemblyControllers(UrlTemplate) : 
-                generator.GenerateForSingleController(Controller, UrlTemplate);
+                generator.GenerateForAssemblyControllers() : 
+                generator.GenerateForSingleController(Controller);
 
             var json = service.ToJson();
 

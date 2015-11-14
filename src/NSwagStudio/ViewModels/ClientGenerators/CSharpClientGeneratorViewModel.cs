@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using MyToolkit.Storage;
+using Newtonsoft.Json;
 using NSwag;
 using NSwag.CodeGeneration.ClientGenerators;
 using NSwag.CodeGeneration.ClientGenerators.CSharp;
@@ -21,42 +22,39 @@ namespace NSwagStudio.ViewModels.ClientGenerators
     {
         private string _clientCode;
 
-        private string _className;
-        private string _namespace;
-        private OperationGenerationMode _operationGenerationMode;
-
-        /// <summary>Initializes a new instance of the <see cref="CSharpClientGeneratorViewModel"/> class.</summary>
         public CSharpClientGeneratorViewModel()
         {
-            ClassName = ApplicationSettings.GetSetting("CSharpClassName", "{controller}Client");
-            Namespace = ApplicationSettings.GetSetting("CSharpNamespace", "MyNamespace");
+            Settings = JsonConvert.DeserializeObject<SwaggerToCSharpGeneratorSettings>(
+                ApplicationSettings.GetSetting("SwaggerToCSharpGeneratorSettings",
+                JsonConvert.SerializeObject(new SwaggerToCSharpGeneratorSettings())));
         }
 
-        /// <summary>Gets or sets the CSharp class name. </summary>
-        public string ClassName
+        protected override void OnUnloaded()
         {
-            get { return _className; }
-            set { Set(ref _className, value); }
+            ApplicationSettings.SetSetting("SwaggerToCSharpGeneratorSettings", JsonConvert.SerializeObject(Settings));
         }
 
-        /// <summary>Gets or sets the CSharp namespace. </summary>
-        public string Namespace
-        {
-            get { return _namespace; }
-            set { Set(ref _namespace, value); }
-        }
-
-        /// <summary>Gets or sets the async type. </summary>
-        public OperationGenerationMode OperationGenerationMode
-        {
-            get { return _operationGenerationMode; }
-            set { Set(ref _operationGenerationMode, value); }
-        }
+        /// <summary>Gets the settings.</summary>
+        public SwaggerToCSharpGeneratorSettings Settings { get; private set; }
 
         /// <summary>Gets the async types. </summary>
         public OperationGenerationMode[] OperationGenerationModes
         {
             get { return Enum.GetNames(typeof(OperationGenerationMode)).Select(t => (OperationGenerationMode)Enum.Parse(typeof(OperationGenerationMode), t)).ToArray(); }
+        }
+
+        /// <summary>Gets or sets the namespace usage. </summary>
+        public string AdditionalNamespaceUsage
+        {
+            get { return Settings.AdditionalNamespaceUsages.Any() ? Settings.AdditionalNamespaceUsages.First() : null; }
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                    Settings.AdditionalNamespaceUsages = new[] { value };
+                else
+                    Settings.AdditionalNamespaceUsages = new string[] { };
+                RaisePropertyChanged(() => AdditionalNamespaceUsage);
+            }
         }
 
         /// <summary>Gets or sets the client code. </summary>
@@ -65,7 +63,7 @@ namespace NSwagStudio.ViewModels.ClientGenerators
             get { return _clientCode; }
             set { Set(ref _clientCode, value); }
         }
-        
+
         public Task GenerateClientAsync(string swaggerData)
         {
             return RunTaskAsync(async () =>
@@ -77,11 +75,7 @@ namespace NSwagStudio.ViewModels.ClientGenerators
                     {
                         var service = SwaggerService.FromJson(swaggerData);
 
-                        var codeGenerator = new SwaggerToCSharpGenerator(service);
-                        codeGenerator.Class = ClassName;
-                        codeGenerator.Namespace = Namespace;
-                        codeGenerator.OperationGenerationMode = OperationGenerationMode;
-
+                        var codeGenerator = new SwaggerToCSharpGenerator(service, Settings);
                         code = codeGenerator.GenerateFile();
                     }
                 });

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using MyToolkit.Mvvm;
 using NSwagStudio.ViewModels.SwaggerGenerators;
 
 namespace NSwagStudio.Views.SwaggerGenerators
@@ -8,6 +9,7 @@ namespace NSwagStudio.Views.SwaggerGenerators
         public AssemblySwaggerGeneratorView()
         {
             InitializeComponent();
+            ViewModelHelper.RegisterViewModel(Model, this);
         }
 
         private AssemblySwaggerGeneratorViewModel Model { get { return (AssemblySwaggerGeneratorViewModel)Resources["ViewModel"]; } }

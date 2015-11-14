@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSwag.CodeGeneration.ClientGenerators.TypeScript;
+using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 
 namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator.Attributes
 {
@@ -34,7 +36,7 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator.Attributes
         public void When_parameter_is_complex_then_it_is_a_body_parameter()
         {
             //// Arrange
-            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator();
+            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
             var service = generator.GenerateForController<TestController>();
@@ -48,7 +50,7 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator.Attributes
         public void When_parameter_is_complex_and_has_FromUri_then_it_is_a_query_parameter()
         {
             //// Arrange
-            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator();
+            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
             var service = generator.GenerateForController<TestController>();
@@ -63,7 +65,7 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator.Attributes
         public void When_parameter_is_complex_and_has_FromBody_then_it_is_a_body_parameter()
         {
             //// Arrange
-            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator();
+            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
             var service = generator.GenerateForController<TestController>();

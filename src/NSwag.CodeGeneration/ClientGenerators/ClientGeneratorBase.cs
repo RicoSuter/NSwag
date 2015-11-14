@@ -3,14 +3,14 @@ using System.Linq;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 using NSwag.CodeGeneration.ClientGenerators.Models;
+using NSwag.CodeGeneration.ClientGenerators.TypeScript;
 
 namespace NSwag.CodeGeneration.ClientGenerators
 {
     /// <summary>The client generator base.</summary>
     public abstract class ClientGeneratorBase : GeneratorBase
     {
-        /// <summary>Gets or sets the operation generation mode.</summary>
-        public OperationGenerationMode OperationGenerationMode { get; set; }
+        internal abstract ClientGeneratorBaseSettings BaseSettings { get; }
 
         internal abstract string RenderFile(string clientCode);
 
@@ -37,7 +37,7 @@ namespace NSwag.CodeGeneration.ClientGenerators
             var operations = GetOperations(service, resolver);
             var clients = string.Empty;
 
-            if (OperationGenerationMode == OperationGenerationMode.MultipleClientsFromPathSegments)
+            if (BaseSettings.OperationGenerationMode == OperationGenerationMode.MultipleClientsFromPathSegments)
             {
                 foreach (var controllerOperations in operations.GroupBy(o => o.MvcControllerName))
                     clients += RenderClientCode(controllerOperations.Key, controllerOperations);
@@ -95,11 +95,11 @@ namespace NSwag.CodeGeneration.ClientGenerators
                         MvcControllerName = mvcControllerName,
 
                         OperationNameLower =
-                            ConvertToLowerStartIdentifier(OperationGenerationMode == OperationGenerationMode.MultipleClientsFromPathSegments
+                            ConvertToLowerStartIdentifier(BaseSettings.OperationGenerationMode == OperationGenerationMode.MultipleClientsFromPathSegments
                                 ? mvcActionName
                                 : operation.OperationId),
                         OperationNameUpper =
-                            ConvertToUpperStartIdentifier(OperationGenerationMode == OperationGenerationMode.MultipleClientsFromPathSegments
+                            ConvertToUpperStartIdentifier(BaseSettings.OperationGenerationMode == OperationGenerationMode.MultipleClientsFromPathSegments
                                 ? mvcActionName
                                 : operation.OperationId),
 
