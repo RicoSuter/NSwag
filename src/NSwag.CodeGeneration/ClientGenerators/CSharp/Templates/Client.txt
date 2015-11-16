@@ -46,24 +46,24 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasClientBaseClass)><
         url += string.Format("<parameter.Name>={0\}&", Uri.EscapeUriString(<parameter.Name>.ToString()));
 }>
         
-        <if(useHttpClientCreationMethod)>var client = await CreateHttpClientAsync();<else>var client = new HttpClient();<endif>
+        <if(useHttpClientCreationMethod)>var client = await CreateHttpClientAsync().ConfigureAwait(false);<else>var client = new HttpClient();<endif>
         PrepareRequest(client);
 
 <if(operation.HasContent)>
         var content = new StringContent(JsonConvert.SerializeObject(<operation.ContentParameter.Name>));
 
-        var response = await client.<operation.HttpMethodUpper>Async(url, content);
+        var response = await client.<operation.HttpMethodUpper>Async(url, content).ConfigureAwait(false);
         ProcessResponse(client, response);
 <else>
     <if(operation.IsGetOrDelete)>
-        var response = await client.<operation.HttpMethodUpper>Async(url);
+        var response = await client.<operation.HttpMethodUpper>Async(url).ConfigureAwait(false);
     <else>
-        var response = await client.<operation.HttpMethodUpper>Async(url, new StringContent(""));
+        var response = await client.<operation.HttpMethodUpper>Async(url, new StringContent("")).ConfigureAwait(false);
     <endif>
         ProcessResponse(client, response);
 <endif>
 
-        var responseData = await response.Content.ReadAsStringAsync(); 
+        var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
         var status = ((int)response.StatusCode).ToString();
 <operation.Responses:{response | 
         if (status == "<response.StatusCode>") 
