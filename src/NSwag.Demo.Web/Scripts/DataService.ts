@@ -1,4 +1,4 @@
-﻿// Generated using the NSwag toolchain v0.19.5784.33760 (http://NSwag.org)
+﻿// Generated using the NSwag toolchain v1.2.5798.33989 (http://NSwag.org)
 
 /** The DTO class for a person. */
 export interface Person {
@@ -24,43 +24,7 @@ export interface Exception {
     Source?: string;
 }
 
-export interface IDataService {
-    getAll(onSuccess?: (result: Person[]) => void, onFail?: (exception: string, reason: string) => void);
-
-    /**
-     * Gets a person.
-     * @id The ID of the person.
-     * @return The person.
-     */
-    get(id: number, onSuccess?: (result: Person) => void, onFail?: (exception: PersonNotFoundException | string, reason: string) => void);
-
-    /**
-     * Creates a new person.
-     * @request The person.
-     */
-    post(request: Person, onSuccess?: (result: any) => void, onFail?: (exception: string, reason: string) => void);
-
-    /**
-     * Updates the existing person.
-     * @id The ID.
-     * @request The person.
-     */
-    put(id: number, request: Person, onSuccess?: (result: any) => void, onFail?: (exception: string, reason: string) => void);
-
-    delete(id: number, onSuccess?: (result: any) => void, onFail?: (exception: string, reason: string) => void);
-
-    /**
-     * Calculates the sum of a, b and c.
-     */
-    calculate(a: number, b: number, c: number, onSuccess?: (result: number) => void, onFail?: (exception: string, reason: string) => void);
-
-    addHour(time: Date, onSuccess?: (result: Date) => void, onFail?: (exception: string, reason: string) => void);
-
-    loadComplexObject(onSuccess?: (result: Car) => void, onFail?: (exception: string, reason: string) => void);
-
-}
-
-export class DataService implements IDataService {
+export class DataService {
     baseUrl = ""; 
     beforeSend: any = undefined; 
 

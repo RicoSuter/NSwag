@@ -73,7 +73,7 @@ namespace NSwag.CodeGeneration.ClientGenerators.TypeScript
         internal override string RenderClientCode(string controllerName, IEnumerable<OperationModel> operations)
         {
             var template = LoadTemplate(Settings.AsyncType == TypeScriptAsyncType.Callbacks ? "Callbacks" : "Q");
-            template.Add("class", Settings.Class.Replace("{controller}", ConvertToUpperStartIdentifier(controllerName)));
+            template.Add("class", Settings.ClassName.Replace("{controller}", ConvertToUpperStartIdentifier(controllerName)));
             template.Add("operations", operations);
             template.Add("generateClientInterfaces", Settings.GenerateClientInterfaces);
             template.Add("hasOperations", operations.Any());

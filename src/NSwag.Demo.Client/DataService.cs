@@ -7,48 +7,11 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-// Generated using the NSwag toolchain v0.19.5784.33455 (http://NSwag.org)
+// Generated using the NSwag toolchain v1.2.5798.33989 (http://NSwag.org)
 
 namespace NSwag.Demo.Client
 {
-    public partial interface IDataService
-    {
-        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
-        Task<ObservableCollection<Person>> GetAllAsync();
-
-        /// <summary>Gets a person.</summary>
-        /// <param name="id">The ID of the person.</param>
-        /// <returns>The person.</returns>
-        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
-        Task<Person> GetAsync(long id );
-
-        /// <summary>Creates a new person.</summary>
-        /// <param name="value">The person.</param>
-        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
-        Task<string> PostAsync(Person value );
-
-        /// <summary>Updates the existing person.</summary>
-        /// <param name="id">The ID.</param>
-        /// <param name="value">The person.</param>
-        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
-        Task<string> PutAsync(long id, Person value );
-
-        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
-        Task<string> DeleteAsync(long id );
-
-        /// <summary>Calculates the sum of a, b and c.</summary>
-        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
-        Task<long> CalculateAsync(long a, long b, long c );
-
-        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
-        Task<DateTime> AddHourAsync(DateTime time );
-
-        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
-        Task<Car> LoadComplexObjectAsync();
-
-    }
-
-    public partial class DataService : IDataService
+    public partial class DataService 
     {
         public DataService() : this("") { }
 
@@ -64,6 +27,39 @@ namespace NSwag.Demo.Client
         public string BaseUrl { get; set; }
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        public async Task<string> XyzAsync(string data )
+        {
+            var url = string.Format("{0}/{1}?", BaseUrl, "api/Person/xyz/{data}");
+
+            url = url.Replace("{data}", data.ToString());
+
+            var client = new HttpClient();
+            PrepareRequest(client);
+
+            var response = await client.PutAsync(url, new StringContent("")).ConfigureAwait(false);
+            ProcessResponse(client, response);
+
+            var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
+            var status = ((int)response.StatusCode).ToString();
+            if (status == "200") 
+            {
+                try
+                {
+                    return JsonConvert.DeserializeObject<string>(responseData);		
+                } 
+                catch (Exception exception) 
+                {
+                    throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, exception);
+                }
+            }
+            else
+            {
+            }
+
+            throw new SwaggerException("The response was not expected.", response.StatusCode, null);
+        }
+
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async Task<ObservableCollection<Person>> GetAllAsync()
         {
             var url = string.Format("{0}/{1}?", BaseUrl, "api/Persons/Get");
@@ -71,11 +67,11 @@ namespace NSwag.Demo.Client
             var client = new HttpClient();
             PrepareRequest(client);
 
-            var response = await client.GetAsync(url);
+            var response = await client.GetAsync(url).ConfigureAwait(false);
             ProcessResponse(client, response);
 
-            var responseData = await response.Content.ReadAsStringAsync(); 
-            var status = response.StatusCode.ToString();
+            var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
+            var status = ((int)response.StatusCode).ToString();
             if (status == "200") 
             {
                 try
@@ -107,11 +103,11 @@ namespace NSwag.Demo.Client
             var client = new HttpClient();
             PrepareRequest(client);
 
-            var response = await client.GetAsync(url);
+            var response = await client.GetAsync(url).ConfigureAwait(false);
             ProcessResponse(client, response);
 
-            var responseData = await response.Content.ReadAsStringAsync(); 
-            var status = response.StatusCode.ToString();
+            var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
+            var status = ((int)response.StatusCode).ToString();
             if (status == "200") 
             {
                 try
@@ -155,10 +151,10 @@ namespace NSwag.Demo.Client
 
             var content = new StringContent(JsonConvert.SerializeObject(value));
 
-            var response = await client.PostAsync(url, content);
+            var response = await client.PostAsync(url, content).ConfigureAwait(false);
             ProcessResponse(client, response);
-            var responseData = await response.Content.ReadAsStringAsync(); 
-            var status = response.StatusCode.ToString();
+            var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
+            var status = ((int)response.StatusCode).ToString();
             if (status == "200") 
             {
                 try
@@ -192,10 +188,10 @@ namespace NSwag.Demo.Client
 
             var content = new StringContent(JsonConvert.SerializeObject(value));
 
-            var response = await client.PutAsync(url, content);
+            var response = await client.PutAsync(url, content).ConfigureAwait(false);
             ProcessResponse(client, response);
-            var responseData = await response.Content.ReadAsStringAsync(); 
-            var status = response.StatusCode.ToString();
+            var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
+            var status = ((int)response.StatusCode).ToString();
             if (status == "200") 
             {
                 try
@@ -224,11 +220,11 @@ namespace NSwag.Demo.Client
             var client = new HttpClient();
             PrepareRequest(client);
 
-            var response = await client.DeleteAsync(url);
+            var response = await client.DeleteAsync(url).ConfigureAwait(false);
             ProcessResponse(client, response);
 
-            var responseData = await response.Content.ReadAsStringAsync(); 
-            var status = response.StatusCode.ToString();
+            var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
+            var status = ((int)response.StatusCode).ToString();
             if (status == "200") 
             {
                 try
@@ -261,11 +257,11 @@ namespace NSwag.Demo.Client
             var client = new HttpClient();
             PrepareRequest(client);
 
-            var response = await client.GetAsync(url);
+            var response = await client.GetAsync(url).ConfigureAwait(false);
             ProcessResponse(client, response);
 
-            var responseData = await response.Content.ReadAsStringAsync(); 
-            var status = response.StatusCode.ToString();
+            var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
+            var status = ((int)response.StatusCode).ToString();
             if (status == "200") 
             {
                 try
@@ -294,11 +290,11 @@ namespace NSwag.Demo.Client
             var client = new HttpClient();
             PrepareRequest(client);
 
-            var response = await client.GetAsync(url);
+            var response = await client.GetAsync(url).ConfigureAwait(false);
             ProcessResponse(client, response);
 
-            var responseData = await response.Content.ReadAsStringAsync(); 
-            var status = response.StatusCode.ToString();
+            var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
+            var status = ((int)response.StatusCode).ToString();
             if (status == "200") 
             {
                 try
@@ -325,11 +321,11 @@ namespace NSwag.Demo.Client
             var client = new HttpClient();
             PrepareRequest(client);
 
-            var response = await client.GetAsync(url);
+            var response = await client.GetAsync(url).ConfigureAwait(false);
             ProcessResponse(client, response);
 
-            var responseData = await response.Content.ReadAsStringAsync(); 
-            var status = response.StatusCode.ToString();
+            var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
+            var status = ((int)response.StatusCode).ToString();
             if (status == "200") 
             {
                 try

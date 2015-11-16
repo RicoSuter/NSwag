@@ -18,6 +18,14 @@ namespace NSwag.Commands
         [Argument(Name = "AsyncType", DefaultValue = TypeScriptAsyncType.Callbacks)]
         public TypeScriptAsyncType AsyncType { get; set; }
 
+        [Description("Specifies whether generate client classes.")]
+        [Argument(Name = "GenerateClientClasses", DefaultValue = true)]
+        public bool GenerateClientClasses { get; set; }
+
+        [Description("Specifies whether generate interfaces for the client classes.")]
+        [Argument(Name = "GenerateClientInterfaces", DefaultValue = false)]
+        public bool GenerateClientInterfaces { get; set; }
+
         [Description("Specifies whether to generate DTO classes.")]
         [Argument(Name = "GenerateDtoTypes", DefaultValue = true)]
         public bool GenerateDtoTypes { get; set; }
@@ -25,18 +33,16 @@ namespace NSwag.Commands
         [Description("The operation generation mode ('SingleClientFromOperationId' or 'MultipleClientsFromPathSegments').")]
         [Argument(Name = "OperationGenerationMode", DefaultValue = OperationGenerationMode.SingleClientFromOperationId)]
         public OperationGenerationMode OperationGenerationMode { get; set; }
-        
-        [Description("Specifies whether to generate client interfaces.")]
-        [Argument(Name = "GenerateClientInterfaces", DefaultValue = false)]
-        public bool GenerateClientInterfaces { get; set; }
 
         public override async Task RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var clientGenerator = new SwaggerToTypeScriptGenerator(InputSwaggerService, new SwaggerToTypeScriptGeneratorSettings
             {
-                Class = ClassName,
+                ClassName = ClassName,
                 AsyncType = AsyncType,
                 OperationGenerationMode = OperationGenerationMode,
+
+                GenerateClientClasses = GenerateClientClasses,
                 GenerateClientInterfaces = GenerateClientInterfaces,
                 GenerateDtoTypes = GenerateDtoTypes
             });

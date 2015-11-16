@@ -1,5 +1,6 @@
 ﻿<#@ template debug="false" hostspecific="true" language="C#" #>
 <#@ assembly name="System.Core" #>
+<#@ assembly name="$(SolutionDir)\NSwag.CodeGeneration\bin\Debug\NJsonSchema.dll" #>
 <#@ assembly name="$(SolutionDir)\NSwag.CodeGeneration\bin\Debug\NJsonSchema.CodeGeneration.dll" #>
 <#@ assembly name="$(SolutionDir)\NSwag.CodeGeneration\bin\Debug\NSwag.CodeGeneration.dll" #>
 <#@ assembly name="$(SolutionDir)\NSwag.CodeGeneration\bin\Debug\NSwag.Core.dll" #>
@@ -18,11 +19,11 @@
 
     // -------------
 
-    var clientGenerator = new SwaggerToTypeScriptGenerator(service);
-
     var provider = new CSharpCodeProvider();
-    clientGenerator.Class = provider.CreateEscapedIdentifier(Path.GetFileNameWithoutExtension(Host.TemplateFile));
-
+    var clientGenerator = new SwaggerToTypeScriptGenerator(service, new SwaggerToTypeScriptGeneratorSettings
+    {
+        ClassName = provider.CreateEscapedIdentifier(Path.GetFileNameWithoutExtension(Host.TemplateFile))
+    });
     var code = clientGenerator.GenerateFile();
 #>
 <#= code #>

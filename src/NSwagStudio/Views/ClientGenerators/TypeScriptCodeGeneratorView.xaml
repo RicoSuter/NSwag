@@ -21,7 +21,7 @@
 
         <StackPanel>
             <TextBlock Text="Class Name" FontWeight="Bold" Margin="0,0,0,6" />
-            <TextBox Text="{Binding Settings.Class, Mode=TwoWay}" Margin="0,0,0,12" />
+            <TextBox Text="{Binding Settings.ClassName, Mode=TwoWay}" Margin="0,0,0,12" />
 
             <CheckBox IsChecked="{Binding Settings.GenerateClientClasses, Mode=TwoWay}" 
                       Content="Generate Client Classes" Margin="0,0,0,12" />
