@@ -14,12 +14,12 @@ namespace NSwag.CodeGeneration.ClientGenerators
         /// <summary>Initializes a new instance of the <see cref="ClientGeneratorBaseSettings"/> class.</summary>
         public ClientGeneratorBaseSettings()
         {
-            GenerateClientTypes = true; 
+            GenerateClientClasses = true; 
             GenerateDtoTypes = true;
         }
 
         /// <summary>Gets or sets a value indicating whether to generate client types (default: true).</summary>
-        public bool GenerateClientTypes { get; set; }
+        public bool GenerateClientClasses { get; set; }
 
         /// <summary>Gets or sets a value indicating whether to generate DTO classes (default: true).</summary>
         public bool GenerateDtoTypes { get; set; }

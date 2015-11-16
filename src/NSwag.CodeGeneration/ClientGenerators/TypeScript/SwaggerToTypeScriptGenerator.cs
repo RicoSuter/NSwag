@@ -65,7 +65,7 @@ namespace NSwag.CodeGeneration.ClientGenerators.TypeScript
         {
             var template = LoadTemplate("File");
             template.Add("toolchain", SwaggerService.ToolchainVersion);
-            template.Add("clients", Settings.GenerateClientTypes ? clientCode : string.Empty);
+            template.Add("clients", Settings.GenerateClientClasses ? clientCode : string.Empty);
             template.Add("interfaces", Settings.GenerateDtoTypes ? _resolver.GenerateTypes() : string.Empty);
             return template.Render();
         }

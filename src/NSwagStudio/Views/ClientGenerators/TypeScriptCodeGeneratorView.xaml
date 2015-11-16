@@ -4,11 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:clientGenerators="clr-namespace:NSwagStudio.ViewModels.ClientGenerators"
+             xmlns:converters="clr-namespace:MyToolkit.Converters;assembly=MyToolkit.Extended"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
     <UserControl.Resources>
         <clientGenerators:TypeScriptCodeGeneratorViewModel x:Key="ViewModel" />
+        <converters:VisibilityConverter x:Key="VisibilityConverter" />
     </UserControl.Resources>
 
     <Grid Margin="8" DataContext="{StaticResource ViewModel}">
@@ -20,8 +22,12 @@
         <StackPanel>
             <TextBlock Text="Class Name" FontWeight="Bold" Margin="0,0,0,6" />
             <TextBox Text="{Binding Settings.Class, Mode=TwoWay}" Margin="0,0,0,12" />
-            
+
+            <CheckBox IsChecked="{Binding Settings.GenerateClientClasses, Mode=TwoWay}" 
+                      Content="Generate Client Classes" Margin="0,0,0,12" />
+
             <CheckBox IsChecked="{Binding Settings.GenerateClientInterfaces, Mode=TwoWay}" 
+                      IsEnabled="{Binding Settings.GenerateClientClasses, Converter={StaticResource VisibilityConverter}}"
                       Content="Generate Client Interfaces" Margin="0,0,0,12" />
 
             <CheckBox IsChecked="{Binding Settings.GenerateDtoTypes, Mode=TwoWay}" 
