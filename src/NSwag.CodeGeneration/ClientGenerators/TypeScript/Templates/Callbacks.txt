@@ -13,7 +13,7 @@ export interface I<class> {
 }>
 }<endif>
 
-export class <class> implements I<class> {
+export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
     baseUrl = "<baseUrl>"; 
     beforeSend: any = undefined; 
 
