@@ -14,11 +14,20 @@ namespace NSwag.Commands
         [Argument(Name = "Namespace")]
         public string Namespace { get; set; }
 
+        [Description("Specifies whether a required property must be defined in JSON (sets Required.Always when the property is required).")]
+        [Argument(Name = "RequiredPropertiesMustBeDefined", DefaultValue = true)]
+        public bool RequiredPropertiesMustBeDefined { get; set; }
+
         public override async Task RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
+            var settings = new CSharpGeneratorSettings
+            {
+                Namespace = Namespace,
+                RequiredPropertiesMustBeDefined = RequiredPropertiesMustBeDefined
+            };
+
             var schema = JsonSchema4.FromJson(InputJson);
-            var generator = new CSharpGenerator(schema);
-            generator.Namespace = Namespace; 
+            var generator = new CSharpGenerator(schema, settings);
             var code = generator.GenerateFile();
             WriteOutput(host, code);
         }

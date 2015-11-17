@@ -18,11 +18,10 @@ namespace NSwag.CodeGeneration.Tests
             var service = CreateService();
 
             //// Act
-            var generator = new SwaggerToCSharpGenerator(service, new SwaggerToCSharpGeneratorSettings
-            {
-                ClassName = "MyClass",
-                Namespace = "MyNamespace"
-            });
+            var settings = new SwaggerToCSharpGeneratorSettings { ClassName = "MyClass" };
+            settings.CSharpGeneratorSettings.Namespace = "MyNamespace";
+
+            var generator = new SwaggerToCSharpGenerator(service, settings);
 
             var code = generator.GenerateFile();
 

@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using NJsonSchema.CodeGeneration.CSharp;
 using NSwag.CodeGeneration.ClientGenerators.TypeScript;
 
 namespace NSwag.CodeGeneration.ClientGenerators.CSharp
@@ -16,16 +17,16 @@ namespace NSwag.CodeGeneration.ClientGenerators.CSharp
         /// <summary>Initializes a new instance of the <see cref="SwaggerToCSharpGeneratorSettings"/> class.</summary>
         public SwaggerToCSharpGeneratorSettings()
         {
+            ClassName = "{controller}Client";
             AdditionalNamespaceUsages = new string[] { };
-            ClassName = "{controller}Client"; 
-            Namespace = "MyNamespace"; 
+            CSharpGeneratorSettings = new CSharpGeneratorSettings();
         }
 
+        /// <summary>Gets or sets the CSharp generator settings.</summary>
+        public CSharpGeneratorSettings CSharpGeneratorSettings { get; set; }
+        
         /// <summary>Gets or sets the class name of the service client.</summary>
         public string ClassName { get; set; }
-
-        /// <summary>Gets or sets the namespace.</summary>
-        public string Namespace { get; set; }
 
         /// <summary>Gets or sets the full name of the base class.</summary>
         public string ClientBaseClass { get; set; }

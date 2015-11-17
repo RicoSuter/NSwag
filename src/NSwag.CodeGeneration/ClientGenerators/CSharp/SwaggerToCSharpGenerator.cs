@@ -37,7 +37,7 @@ namespace NSwag.CodeGeneration.ClientGenerators.CSharp
             foreach (var definition in _service.Definitions)
                 definition.Value.TypeName = definition.Key;
 
-            _resolver = new SwaggerToCSharpTypeResolver(_service.Definitions);
+            _resolver = new SwaggerToCSharpTypeResolver(settings.CSharpGeneratorSettings, _service.Definitions);
         }
 
         /// <summary>Gets or sets the generator settings.</summary>
@@ -64,7 +64,7 @@ namespace NSwag.CodeGeneration.ClientGenerators.CSharp
         internal override string RenderFile(string clientCode)
         {
             var template = LoadTemplate("File");
-            template.Add("namespace", Settings.Namespace);
+            template.Add("namespace", Settings.CSharpGeneratorSettings.Namespace);
             template.Add("toolchain", SwaggerService.ToolchainVersion);
             template.Add("clients", Settings.GenerateClientClasses ? clientCode : string.Empty);
             template.Add("namespaceUsages", Settings.AdditionalNamespaceUsages);

@@ -20,8 +20,9 @@ namespace NSwag.CodeGeneration.ClientGenerators.CSharp
 
         /// <summary>Initializes a new instance of the <see cref="CSharpTypeResolver" /> class.</summary>
         /// <param name="definition">The definition.</param>
-        public SwaggerToCSharpTypeResolver(IDictionary<string, JsonSchema4> definition)
-            : base(definition.Where(p => p.Key != "Exception").Select(p => p.Value).ToArray())
+        /// <param name="settings">The generator settings.</param>
+        public SwaggerToCSharpTypeResolver(CSharpGeneratorSettings settings, IDictionary<string, JsonSchema4> definition)
+            : base(settings, definition.Where(p => p.Key != "Exception").Select(p => p.Value).ToArray())
         {
             _exceptionSchema = definition.ContainsKey("Exception") ? definition["Exception"] : null;
         }

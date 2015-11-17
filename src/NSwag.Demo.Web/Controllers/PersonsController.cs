@@ -17,6 +17,27 @@ using NSwag.Demo.Web.Models;
 
 namespace NSwag.Demo.Web.Controllers
 {
+    public class CreateUserResponse
+    {
+        public enum CreateUserStatus
+        {
+            Success = 0,
+            InvalidUserName = 1,
+            InvalidPassword = 2,
+            InvalidQuestion = 3,
+            InvalidAnswer = 4,
+            InvalidEmail = 5,
+            DuplicateUserName = 6,
+            DuplicateEmail = 7,
+            UserRejected = 8,
+            InvalidProviderUserKey = 9,
+            DuplicateProviderUserKey = 10,
+            ProviderError = 11
+        }
+        public CreateUserStatus status { get; set; }
+        public int Id { get; set; }
+    }
+
     public class MyClass
     {
         public string Foo { get; set; }

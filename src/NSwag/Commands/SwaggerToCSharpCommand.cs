@@ -38,18 +38,26 @@ namespace NSwag.Commands
         [Argument(Name = "GenerateClientInterfaces", DefaultValue = false)]
         public bool GenerateClientInterfaces { get; set; }
 
+        [Description("Specifies whether a required property must be defined in JSON (sets Required.Always when the property is required).")]
+        [Argument(Name = "RequiredPropertiesMustBeDefined", DefaultValue = true)]
+        public bool RequiredPropertiesMustBeDefined { get; set; }
+
         public override async Task RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            var clientGenerator = new SwaggerToCSharpGenerator(InputSwaggerService, new SwaggerToCSharpGeneratorSettings
+            var settings = new SwaggerToCSharpGeneratorSettings
             {
                 ClassName = ClassName,
-                Namespace = Namespace,
                 OperationGenerationMode = OperationGenerationMode,
-                GenerateClientInterfaces = GenerateClientInterfaces, 
-                UseHttpClientCreationMethod = UseHttpClientCreationMethod, 
-                ClientBaseClass = ClientBaseClass, 
+                GenerateClientInterfaces = GenerateClientInterfaces,
+                UseHttpClientCreationMethod = UseHttpClientCreationMethod,
+                ClientBaseClass = ClientBaseClass,
                 GenerateDtoTypes = GenerateDtoTypes
-            });
+            };
+
+            settings.CSharpGeneratorSettings.Namespace = Namespace;
+            settings.CSharpGeneratorSettings.RequiredPropertiesMustBeDefined = RequiredPropertiesMustBeDefined;
+
+            var clientGenerator = new SwaggerToCSharpGenerator(InputSwaggerService, settings);
 
             var output = clientGenerator.GenerateFile();
             WriteOutput(host, output);

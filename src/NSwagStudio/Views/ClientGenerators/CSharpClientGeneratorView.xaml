@@ -21,11 +21,14 @@
 
         <StackPanel>
             <TextBlock Text="Namespace" FontWeight="Bold" Margin="0,0,0,6" />
-            <TextBox Text="{Binding Settings.Namespace, Mode=TwoWay}" Margin="0,0,0,12" />
+            <TextBox Text="{Binding Settings.CSharpGeneratorSettings.Namespace, Mode=TwoWay}" Margin="0,0,0,12" />
 
             <TextBlock Text="Class Name" FontWeight="Bold" Margin="0,0,0,6" />
             <TextBox Text="{Binding Settings.ClassName, Mode=TwoWay}" Margin="0,0,0,12" />
-            
+
+            <CheckBox IsChecked="{Binding Settings.CSharpGeneratorSettings.RequiredPropertiesMustBeDefined, Mode=TwoWay}" 
+                      Content="Required properties must be defined in JSON (sets Required.Always when the property is required)" Margin="0,0,0,12" />
+
             <TextBlock Text="Additional Namespace Usage" FontWeight="Bold" Margin="0,0,0,6" />
             <TextBox Text="{Binding AdditionalNamespaceUsage, Mode=TwoWay}" Margin="0,0,0,12" />
 
