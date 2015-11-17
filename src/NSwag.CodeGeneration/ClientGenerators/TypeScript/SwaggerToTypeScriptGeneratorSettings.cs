@@ -14,12 +14,12 @@ namespace NSwag.CodeGeneration.ClientGenerators.TypeScript
         /// <summary>Initializes a new instance of the <see cref="SwaggerToTypeScriptGeneratorSettings"/> class.</summary>
         public SwaggerToTypeScriptGeneratorSettings()
         {
-            Class = "{controller}Client";
+            ClassName = "{controller}Client";
             AsyncType = TypeScriptAsyncType.Callbacks;
         }
 
         /// <summary>Gets or sets the class name of the service client.</summary>
-        public string Class { get; set; }
+        public string ClassName { get; set; }
 
         /// <summary>Gets or sets the type of the asynchronism handling.</summary>
         public TypeScriptAsyncType AsyncType { get; set; }

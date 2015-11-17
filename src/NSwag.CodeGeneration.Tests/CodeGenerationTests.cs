@@ -41,7 +41,7 @@ namespace NSwag.CodeGeneration.Tests
             //// Act
             var generator = new SwaggerToTypeScriptGenerator(service, new SwaggerToTypeScriptGeneratorSettings
             {
-                Class = "MyClass"
+                ClassName = "MyClass"
             });
             var code = generator.GenerateFile();
 

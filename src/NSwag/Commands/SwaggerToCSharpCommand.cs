@@ -18,6 +18,14 @@ namespace NSwag.Commands
         [Argument(Name = "Namespace")]
         public string Namespace { get; set; }
 
+        [Description("Specifies whether generate client classes.")]
+        [Argument(Name = "GenerateClientClasses", DefaultValue = true)]
+        public bool GenerateClientClasses { get; set; }
+
+        [Description("Specifies whether generate interfaces for the client classes.")]
+        [Argument(Name = "GenerateClientInterfaces", DefaultValue = false)]
+        public bool GenerateClientInterfaces { get; set; }
+
         [Description("Specifies whether to generate DTO classes.")]
         [Argument(Name = "GenerateDtoTypes", DefaultValue = true)]
         public bool GenerateDtoTypes { get; set; }
@@ -26,17 +34,13 @@ namespace NSwag.Commands
         [Argument(Name = "ClientBaseClass", DefaultValue = "")]
         public string ClientBaseClass { get; set; }
 
-        [Description("Specifies whether to generate DTO classes.")]
+        [Description("Specifies whether to call CreateHttpClientAsync on the base class to create a new HttpClient.")]
         [Argument(Name = "UseHttpClientCreationMethod", DefaultValue = false)]
         public bool UseHttpClientCreationMethod { get; set; }
         
         [Description("The operation generation mode ('SingleClientFromOperationId' or 'MultipleClientsFromPathSegments').")]
         [Argument(Name = "OperationGenerationMode", DefaultValue = OperationGenerationMode.SingleClientFromOperationId)]
         public OperationGenerationMode OperationGenerationMode { get; set; }
-
-        [Description("Specifies whether to call CreateHttpClientAsync on the base class to create a new HttpClient.")]
-        [Argument(Name = "GenerateClientInterfaces", DefaultValue = false)]
-        public bool GenerateClientInterfaces { get; set; }
 
         [Description("Specifies whether a required property must be defined in JSON (sets Required.Always when the property is required).")]
         [Argument(Name = "RequiredPropertiesMustBeDefined", DefaultValue = true)]
@@ -48,9 +52,12 @@ namespace NSwag.Commands
             {
                 ClassName = ClassName,
                 OperationGenerationMode = OperationGenerationMode,
-                GenerateClientInterfaces = GenerateClientInterfaces,
+
                 UseHttpClientCreationMethod = UseHttpClientCreationMethod,
-                ClientBaseClass = ClientBaseClass,
+
+                GenerateClientClasses = GenerateClientClasses, 
+                GenerateClientInterfaces = GenerateClientInterfaces, 
+                ClientBaseClass = ClientBaseClass, 
                 GenerateDtoTypes = GenerateDtoTypes
             };
 
