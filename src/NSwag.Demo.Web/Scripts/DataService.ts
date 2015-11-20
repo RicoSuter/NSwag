@@ -1,4 +1,16 @@
-﻿// Generated using the NSwag toolchain v1.3.5799.35246 (http://NSwag.org)
+﻿
+
+
+
+
+
+
+
+
+
+
+
+// Generated using the NSwag toolchain v1.3.5802.33703 (http://NSwag.org)
 
 /** The DTO class for a person. */
 export interface Person {

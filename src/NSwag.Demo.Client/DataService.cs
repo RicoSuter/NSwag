@@ -1,4 +1,17 @@
-﻿using System;
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Net;
@@ -7,7 +20,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-// Generated using the NSwag toolchain v1.3.5799.35246 (http://NSwag.org)
+// Generated using the NSwag toolchain v1.3.5802.33703 (http://NSwag.org)
 
 namespace NSwag.Demo.Client
 {

@@ -23,38 +23,46 @@
             <TextBlock Text="Namespace" FontWeight="Bold" Margin="0,0,0,6" />
             <TextBox Text="{Binding Settings.CSharpGeneratorSettings.Namespace, Mode=TwoWay}" Margin="0,0,0,12" />
 
-            <TextBlock Text="Class Name" FontWeight="Bold" Margin="0,0,0,6" />
-            <TextBox Text="{Binding Settings.ClassName, Mode=TwoWay}" Margin="0,0,0,12" />
-
-            <CheckBox IsChecked="{Binding Settings.CSharpGeneratorSettings.RequiredPropertiesMustBeDefined, Mode=TwoWay}" 
-                      Content="Required properties must be defined in JSON (sets Required.Always when the property is required)" Margin="0,0,0,12" />
-
             <TextBlock Text="Additional Namespace Usage" FontWeight="Bold" Margin="0,0,0,6" />
             <TextBox Text="{Binding AdditionalNamespaceUsage, Mode=TwoWay}" Margin="0,0,0,12" />
 
-            <CheckBox IsChecked="{Binding Settings.GenerateClientClasses, Mode=TwoWay}" 
-                      Content="Generate Client Classes" Margin="0,0,0,12" />
+            <CheckBox IsChecked="{Binding Settings.GenerateDtoTypes, Mode=TwoWay}" Margin="0,0,0,12">
+                <TextBlock Text="Generate DTO Types (e.g. request and response classes)" TextWrapping="Wrap" />
+            </CheckBox>
 
-            <CheckBox IsChecked="{Binding Settings.GenerateClientInterfaces, Mode=TwoWay}" 
-                      IsEnabled="{Binding Settings.GenerateClientClasses, Converter={StaticResource VisibilityConverter}}"
-                      Content="Generate Client Interfaces" Margin="0,0,0,12" />
+            <CheckBox IsChecked="{Binding Settings.CSharpGeneratorSettings.RequiredPropertiesMustBeDefined, Mode=TwoWay}" Margin="0,0,0,12">
+                <TextBlock Text="Required properties must be defined in JSON (sets Required.Always when the property is required)" TextWrapping="Wrap" />
+            </CheckBox>
 
-            <CheckBox IsChecked="{Binding Settings.GenerateDtoTypes, Mode=TwoWay}" 
-                      Content="Generate DTO Types (e.g. request and response classes)" Margin="0,0,0,12" />
+            <GroupBox Header="Client" Margin="0,0,0,12">
+                <StackPanel Margin="4,4,4,-8">
+                    <CheckBox IsChecked="{Binding Settings.GenerateClientClasses, Mode=TwoWay}" 
+                              Content="Generate Client Classes" Margin="0,4,0,12" />
 
-            <TextBlock Text="Client Base Class (optional)" FontWeight="Bold" Margin="0,0,0,6" />
-            <TextBox Text="{Binding Settings.ClientBaseClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,12" />
-            
-            <CheckBox IsChecked="{Binding Settings.UseHttpClientCreationMethod, Mode=TwoWay}"
-                      IsEnabled="{Binding Settings.ClientBaseClass, Converter={StaticResource VisibilityConverter}}"
-                      Content="Call the CreateHttpClientAsync method on the client base class to create a new HttpClient instance" Margin="0,0,0,12" />
+                    <StackPanel Visibility="{Binding Settings.GenerateClientClasses, Converter={StaticResource VisibilityConverter}}">
+                        <TextBlock Text="Class Name" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Settings.ClassName, Mode=TwoWay}" Margin="0,0,0,12" />
 
-            <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
-                <Run Text="Operation Generation Mode" FontWeight="Bold" />
-                <LineBreak />
-                The {controller} placeholder of the Class Name is replaced by the second last path segment. 
-            </TextBlock>
-            <ComboBox SelectedItem="{Binding Settings.OperationGenerationMode, Mode=TwoWay}" ItemsSource="{Binding OperationGenerationModes}" Margin="0,0,0,12" />
+                        <TextBlock Text="Base Class Name (optional)" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Settings.ClientBaseClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,12" />
+
+                        <CheckBox IsChecked="{Binding Settings.UseHttpClientCreationMethod, Mode=TwoWay}"
+                                  IsEnabled="{Binding Settings.ClientBaseClass, Converter={StaticResource VisibilityConverter}}" Margin="0,0,0,12">
+                            <TextBlock Text="Call the CreateHttpClientAsync method on the client base class to create a new HttpClient instance" TextWrapping="Wrap" />
+                        </CheckBox>
+
+                        <CheckBox IsChecked="{Binding Settings.GenerateClientInterfaces, Mode=TwoWay}" 
+                                  Content="Generate Client Interfaces" Margin="0,0,0,12" />
+                        
+                        <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
+                            <Run Text="Operation Generation Mode" FontWeight="Bold" />
+                            <LineBreak />
+                            The {controller} placeholder of the Class Name is replaced by the second last path segment.
+                        </TextBlock>
+                        <ComboBox SelectedItem="{Binding Settings.OperationGenerationMode, Mode=TwoWay}" ItemsSource="{Binding OperationGenerationModes}" Margin="0,0,0,12" />
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
 
             <TextBlock Text="C# Output" FontWeight="Bold" Margin="0,0,0,6" />
         </StackPanel>
