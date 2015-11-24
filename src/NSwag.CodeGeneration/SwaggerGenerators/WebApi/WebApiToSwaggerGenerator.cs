@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -229,9 +230,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
             if (acceptVerbsAttribute != null)
             {
-                foreach (var verb in ((ICollection<string>)acceptVerbsAttribute.Verbs).Select(v => v.ToLowerInvariant()))
+                foreach (var verb in ((ICollection)acceptVerbsAttribute.HttpMethods).OfType<object>().Select(v => v.ToString().ToLowerInvariant()))
                 {
-                    if (verb == "get")
+                        if (verb == "get")
                         yield return SwaggerOperationMethod.Get;
                     else if (verb == "post")
                         yield return SwaggerOperationMethod.Post;

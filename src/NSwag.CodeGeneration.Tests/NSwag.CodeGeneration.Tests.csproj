@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="CodeGenerationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebApiToSwaggerGenerator\Attributes\AcceptVerbsTests.cs" />
     <Compile Include="WebApiToSwaggerGenerator\Attributes\ComplexParametersTests.cs" />
     <Compile Include="WebApiToSwaggerGenerator\Attributes\PrimitivePathParametersTests.cs" />
     <Compile Include="WebApiToSwaggerGenerator\Attributes\PrimitiveQueryParametersTests.cs" />

@@ -1,0 +1,94 @@
+﻿using System.Linq;
+using System.Web.Http;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
+
+namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator.Attributes
+{
+    [TestClass]
+    public class AcceptVerbsTests
+    {
+        public class TestController : ApiController
+        {
+            [AcceptVerbs("Post")]
+            public int AddPost(int a, int b)
+            {
+                return a + b; 
+            }
+
+            [AcceptVerbs("Get")]
+            public int AddGet(int a, int b)
+            {
+                return a + b;
+            }
+
+            [AcceptVerbs("Delete")]
+            public int AddDelete(int a, int b)
+            {
+                return a + b;
+            }
+
+            [AcceptVerbs("Put")]
+            public int AddPut(int a, int b)
+            {
+                return a + b;
+            }
+        }
+
+        [TestMethod]
+        public void When_accept_verbs_attribute_with_post_is_used_then_http_method_is_correct()
+        {
+            //// Arrange
+            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+
+            //// Act
+            var service = generator.GenerateForController<TestController>();
+            var operation = service.Operations.First(o => o.Operation.OperationId == "AddPost");
+
+            //// Assert
+            Assert.AreEqual(SwaggerOperationMethod.Post, operation.HttpMethod);
+        }
+
+        [TestMethod]
+        public void When_accept_verbs_attribute_with_get_is_used_then_http_method_is_correct()
+        {
+            //// Arrange
+            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+
+            //// Act
+            var service = generator.GenerateForController<TestController>();
+            var operation = service.Operations.First(o => o.Operation.OperationId == "AddGet");
+
+            //// Assert
+            Assert.AreEqual(SwaggerOperationMethod.Get, operation.HttpMethod);
+        }
+
+        [TestMethod]
+        public void When_accept_verbs_attribute_with_delete_is_used_then_http_method_is_correct()
+        {
+            //// Arrange
+            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+
+            //// Act
+            var service = generator.GenerateForController<TestController>();
+            var operation = service.Operations.First(o => o.Operation.OperationId == "AddDelete");
+
+            //// Assert
+            Assert.AreEqual(SwaggerOperationMethod.Delete, operation.HttpMethod);
+        }
+
+        [TestMethod]
+        public void When_accept_verbs_attribute_with_put_is_used_then_http_method_is_correct()
+        {
+            //// Arrange
+            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+
+            //// Act
+            var service = generator.GenerateForController<TestController>();
+            var operation = service.Operations.First(o => o.Operation.OperationId == "AddPut");
+
+            //// Assert
+            Assert.AreEqual(SwaggerOperationMethod.Put, operation.HttpMethod);
+        }
+    }
+}
