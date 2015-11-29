@@ -115,7 +115,7 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasClientBaseClass)><
 <endif>
         \}
 
-        throw new SwaggerException("The response was not expected.", response.StatusCode, null);
+        throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response.StatusCode + ").", response.StatusCode, null);
     \}
 
 }>

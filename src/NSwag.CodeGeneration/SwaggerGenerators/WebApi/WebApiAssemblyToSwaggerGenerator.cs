@@ -84,7 +84,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
                 var assembly = Assembly.LoadFrom(settings.AssemblyPath);
                 var controllers = assembly.ExportedTypes
-                    .Where(t => t.InheritsFrom("ApiController")).ToArray(); 
+                    .Where(t => t.InheritsFrom("ApiController") || t.InheritsFrom("Controller")).ToArray(); 
 
                 var generator = new WebApiToSwaggerGenerator(settings);
                 return generator.GenerateForControllers(controllers).ToJson();
@@ -94,7 +94,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             {
                 var assembly = Assembly.LoadFrom(assemblyPath);
                 return assembly.ExportedTypes
-                    .Where(t => t.InheritsFrom("ApiController"))
+                    .Where(t => t.InheritsFrom("ApiController") || t.InheritsFrom("Controller"))
                     .Select(t => t.FullName)
                     .ToArray();
             }
