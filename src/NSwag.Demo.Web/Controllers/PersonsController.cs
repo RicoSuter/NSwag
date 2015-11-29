@@ -17,6 +17,30 @@ using NSwag.Demo.Web.Models;
 
 namespace NSwag.Demo.Web.Controllers
 {
+    public class AA
+    {
+        public string FirstName { get; set; }
+    }
+
+    public class BB : AA
+    {
+        public string LastName { get; set; }
+    }
+
+    public class CC : BB
+    {
+        public string Address { get; set; }
+    }
+
+
+    public class Persons2Controller : ApiController
+    {
+        public void Post([FromBody]CC value)
+        {
+        }
+    }
+
+
     public class CreateUserResponse
     {
         public enum CreateUserStatus

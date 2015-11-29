@@ -26,13 +26,18 @@ namespace NSwag.Commands
         [Argument(Name = "DefaultEnumHandling", DefaultValue = EnumHandling.String)]
         public EnumHandling DefaultEnumHandling { get; set; }
 
+        [Description("Flatten the inheritance hierarchy instead of using allOf to describe inheritance (default: false).")]
+        [Argument(Name = "FlattenInheritanceHierarchy", DefaultValue = false)]
+        public bool FlattenInheritanceHierarchy { get; set; }
+
         public override async Task RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var generator = new WebApiAssemblyToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings
             {
                 AssemblyPath = Assembly,
                 DefaultUrlTemplate = DefaultUrlTemplate, 
-                DefaultEnumHandling = DefaultEnumHandling
+                DefaultEnumHandling = DefaultEnumHandling,
+                FlattenInheritanceHierarchy = FlattenInheritanceHierarchy
             });
 
             var service = string.IsNullOrEmpty(Controller) ? 
