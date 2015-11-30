@@ -51,6 +51,7 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasClientBaseClass)><
 
 <if(operation.HasContent)>
         var content = new StringContent(JsonConvert.SerializeObject(<operation.ContentParameter.Name>));
+        content.Headers.ContentType.MediaType = "application/json";
 
         var response = await client.<operation.HttpMethodUpper>Async(url, content).ConfigureAwait(false);
         ProcessResponse(client, response);
