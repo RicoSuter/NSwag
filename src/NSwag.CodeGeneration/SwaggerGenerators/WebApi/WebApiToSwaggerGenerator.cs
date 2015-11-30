@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
 using NSwag.CodeGeneration.Infrastructure;
@@ -333,25 +334,43 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
         private void LoadReturnType(SwaggerService service, SwaggerOperation operation, MethodInfo method, ISchemaResolver schemaResolver)
         {
-            if (method.ReturnType.FullName != "System.Void")
+            var returnType = method.ReturnType;
+            if (returnType == typeof (Task))
+                operation.Responses["200"] = new SwaggerResponse();
+            else
             {
-                var description = method.ReturnParameter.GetXmlDocumentation();
-                if (description == string.Empty)
-                    description = null;
+                if (returnType.Name == "Task`1")
+                    returnType = returnType.GenericTypeArguments[0];
 
-                var responseTypeAttributes = method.GetCustomAttributes().Where(a => a.GetType().Name == "ResponseTypeAttribute").ToList();
-                if (responseTypeAttributes.Count > 0)
+                if (returnType.FullName != "System.Void")
                 {
-                    foreach (var responseTypeAttribute in responseTypeAttributes)
+                    var description = method.ReturnParameter.GetXmlDocumentation();
+                    if (description == string.Empty)
+                        description = null;
+
+                    var responseTypeAttributes = method.GetCustomAttributes().Where(a => a.GetType().Name == "ResponseTypeAttribute").ToList();
+                    if (responseTypeAttributes.Count > 0)
                     {
-                        dynamic dynResultTypeAttribute = responseTypeAttribute;
+                        foreach (var responseTypeAttribute in responseTypeAttributes)
+                        {
+                            dynamic dynResultTypeAttribute = responseTypeAttribute;
 
-                        var httpStatusCode = "200";
-                        if (responseTypeAttribute.GetType().GetRuntimeProperty("HttpStatusCode") != null)
-                            httpStatusCode = dynResultTypeAttribute.HttpStatusCode;
+                            var httpStatusCode = "200";
+                            if (responseTypeAttribute.GetType().GetRuntimeProperty("HttpStatusCode") != null)
+                                httpStatusCode = dynResultTypeAttribute.HttpStatusCode;
 
-                        var schema = CreateAndAddSchema<JsonSchema4>(service, dynResultTypeAttribute.ResponseType, schemaResolver);
-                        operation.Responses[httpStatusCode] = new SwaggerResponse
+                            var schema = CreateAndAddSchema<JsonSchema4>(service, dynResultTypeAttribute.ResponseType, schemaResolver);
+                            operation.Responses[httpStatusCode] = new SwaggerResponse
+                            {
+                                Description = description,
+                                Schema = schema
+                            };
+                        }
+                    }
+                    else
+                    {
+                        var schema = CreateAndAddSchema<JsonSchema4>(service, returnType, schemaResolver);
+                        operation.Responses["200"] = new SwaggerResponse
                         {
                             Description = description,
                             Schema = schema
@@ -359,17 +378,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     }
                 }
                 else
-                {
-                    var schema = CreateAndAddSchema<JsonSchema4>(service, method.ReturnType, schemaResolver);
-                    operation.Responses["200"] = new SwaggerResponse
-                    {
-                        Description = description,
-                        Schema = schema
-                    };
-                }
+                    operation.Responses["200"] = new SwaggerResponse();
             }
-            else
-                operation.Responses["200"] = new SwaggerResponse();
         }
 
         private TSchemaType CreateAndAddSchema<TSchemaType>(SwaggerService service, Type type, ISchemaResolver schemaResolver)
