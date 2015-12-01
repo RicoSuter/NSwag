@@ -69,7 +69,7 @@ namespace NSwag.CodeGeneration.ClientGenerators
                     var responses = operation.Responses.Select(r => new ResponseModel
                     {
                         StatusCode = r.Key,
-                        IsSuccess = r.Key == "200",
+                        IsSuccess = HttpUtilities.IsSuccessStatusCode(r.Key),
                         Type = GetType(r.Value.Schema, "Response"),
                         TypeIsDate = GetType(r.Value.Schema, "Response") == "Date"
                     }).ToList();
@@ -146,7 +146,10 @@ namespace NSwag.CodeGeneration.ClientGenerators
 
         internal SwaggerResponse GetOkResponse(SwaggerOperation operation)
         {
-            return operation.Responses.Single(r => r.Key == "200").Value;
+            if (operation.Responses.Any(r => r.Key == "200"))
+                return operation.Responses.Single(r => r.Key == "200").Value;  
+
+            return operation.Responses.First(r => HttpUtilities.IsSuccessStatusCode(r.Key)).Value;
         }
     }
 }

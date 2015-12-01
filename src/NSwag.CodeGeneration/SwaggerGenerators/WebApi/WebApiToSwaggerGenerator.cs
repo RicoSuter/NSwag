@@ -336,19 +336,22 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         {
             var returnType = method.ReturnType;
             if (returnType == typeof (Task))
-                operation.Responses["200"] = new SwaggerResponse();
+                operation.Responses["204"] = new SwaggerResponse(); 
             else
             {
                 if (returnType.Name == "Task`1")
                     returnType = returnType.GenericTypeArguments[0];
 
-                if (returnType.FullName != "System.Void")
+                if (returnType.FullName == "System.Void")
+                    operation.Responses["204"] = new SwaggerResponse();
+                else
                 {
                     var description = method.ReturnParameter.GetXmlDocumentation();
                     if (description == string.Empty)
                         description = null;
 
-                    var responseTypeAttributes = method.GetCustomAttributes().Where(a => a.GetType().Name == "ResponseTypeAttribute").ToList();
+                    var responseTypeAttributes =
+                        method.GetCustomAttributes().Where(a => a.GetType().Name == "ResponseTypeAttribute").ToList();
                     if (responseTypeAttributes.Count > 0)
                     {
                         foreach (var responseTypeAttribute in responseTypeAttributes)
@@ -377,8 +380,6 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                         };
                     }
                 }
-                else
-                    operation.Responses["200"] = new SwaggerResponse();
             }
         }
 

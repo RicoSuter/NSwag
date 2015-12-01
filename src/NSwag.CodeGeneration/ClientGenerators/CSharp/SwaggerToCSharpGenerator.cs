@@ -94,15 +94,15 @@ namespace NSwag.CodeGeneration.ClientGenerators.CSharp
 
         internal override string GetExceptionType(SwaggerOperation operation)
         {
-            if (operation.Responses.Count(r => r.Key != "200") != 1)
+            if (operation.Responses.Count(r => !HttpUtilities.IsSuccessStatusCode(r.Key)) != 1)
                 return "Exception";
 
-            return GetType(operation.Responses.Single(r => r.Key != "200").Value.Schema, "Exception");
+            return GetType(operation.Responses.Single(r => !HttpUtilities.IsSuccessStatusCode(r.Key)).Value.Schema, "Exception");
         }
 
         internal override string GetResultType(SwaggerOperation operation)
         {
-            if (operation.Responses.Count(r => r.Key == "200") == 0)
+            if (operation.Responses.Count(r => HttpUtilities.IsSuccessStatusCode(r.Key)) == 0)
                 return "Task";
 
             var response = GetOkResponse(operation);

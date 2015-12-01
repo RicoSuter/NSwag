@@ -83,17 +83,17 @@ namespace NSwag.CodeGeneration.ClientGenerators.TypeScript
 
         internal override string GetExceptionType(SwaggerOperation operation)
         {
-            if (operation.Responses.Count(r => r.Key != "200") == 0)
+            if (operation.Responses.Count(r => !HttpUtilities.IsSuccessStatusCode(r.Key)) == 0)
                 return "string";
 
             return string.Join(" | ", operation.Responses
-                .Where(r => r.Key != "200")
+                .Where(r => !HttpUtilities.IsSuccessStatusCode(r.Key))
                 .Select(r => GetType(r.Value.Schema.ActualSchema, "Exception"))) + " | string";
         }
 
         internal override string GetResultType(SwaggerOperation operation)
         {
-            if (operation.Responses.Count(r => r.Key == "200") == 0)
+            if (operation.Responses.Count(r => HttpUtilities.IsSuccessStatusCode(r.Key)) == 0)
                 return "void";
 
             var response = GetOkResponse(operation);
