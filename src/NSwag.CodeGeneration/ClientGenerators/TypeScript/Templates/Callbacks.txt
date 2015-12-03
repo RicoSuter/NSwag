@@ -86,7 +86,7 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
                 onSuccess(result<response.StatusCode>);
 <else>
             if (onFail !== undefined)
-                onFail(result<response.StatusCode>);
+                onFail(result<response.StatusCode>, "error_exception");
 <endif>
             return;
         \}
@@ -110,7 +110,7 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
                 onSuccess(result);
     <else>
             if (onFail !== undefined)
-                onFail(result);
+                onFail(result, "error_exception");
     <endif>
 <else>
             if (onFail !== undefined)

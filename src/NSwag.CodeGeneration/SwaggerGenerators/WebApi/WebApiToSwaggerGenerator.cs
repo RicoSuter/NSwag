@@ -31,7 +31,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
         /// <summary>Gets or sets the generator settings.</summary>
         public WebApiToSwaggerGeneratorSettings Settings { get; set; }
-        
+
         /// <summary>Generates a Swagger specification for the given controller type.</summary>
         /// <typeparam name="TController">The type of the controller.</typeparam>
         /// <param name="excludedMethodName">The name of the excluded method name.</param>
@@ -237,7 +237,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             {
                 foreach (var verb in ((ICollection)acceptVerbsAttribute.HttpMethods).OfType<object>().Select(v => v.ToString().ToLowerInvariant()))
                 {
-                        if (verb == "get")
+                    if (verb == "get")
                         yield return SwaggerOperationMethod.Get;
                     else if (verb == "post")
                         yield return SwaggerOperationMethod.Post;
@@ -328,7 +328,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
             var info = JsonObjectTypeDescription.FromType(parameter.ParameterType);
             var isComplexParameter = IsComplexType(info);
-            var parameterType = isComplexParameter ? typeof (string) : parameter.ParameterType; // complex types must be treated as string
+            var parameterType = isComplexParameter ? typeof(string) : parameter.ParameterType; // complex types must be treated as string
 
             var segmentParameter = parameterGenerator.Generate<SwaggerParameter>(parameterType, schemaResolver);
             segmentParameter.Name = parameter.Name;
@@ -339,50 +339,47 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         private void LoadReturnType(SwaggerService service, SwaggerOperation operation, MethodInfo method, ISchemaResolver schemaResolver)
         {
             var returnType = method.ReturnType;
-            if (returnType == typeof (Task))
-                operation.Responses["204"] = new SwaggerResponse(); 
+            if (returnType == typeof(Task))
+                returnType = typeof(void);
+            else if (returnType.Name == "Task`1")
+                returnType = returnType.GenericTypeArguments[0];
+
+            var description = method.ReturnParameter.GetXmlDocumentation();
+            if (description == string.Empty)
+                description = null;
+
+            var isVoidResponse = returnType.FullName == "System.Void";
+            var responseTypeAttributes = method.GetCustomAttributes().Where(a => a.GetType().Name == "ResponseTypeAttribute").ToList();
+            if (responseTypeAttributes.Count > 0)
+            {
+                foreach (var responseTypeAttribute in responseTypeAttributes)
+                {
+                    dynamic dynResultTypeAttribute = responseTypeAttribute;
+
+                    var httpStatusCode = isVoidResponse ? "204" : "200";
+                    if (responseTypeAttribute.GetType().GetRuntimeProperty("HttpStatusCode") != null)
+                        httpStatusCode = dynResultTypeAttribute.HttpStatusCode;
+
+                    var schema = CreateAndAddSchema<JsonSchema4>(service, dynResultTypeAttribute.ResponseType, schemaResolver);
+                    operation.Responses[httpStatusCode] = new SwaggerResponse
+                    {
+                        Description = description,
+                        Schema = schema
+                    };
+                }
+            }
             else
             {
-                if (returnType.Name == "Task`1")
-                    returnType = returnType.GenericTypeArguments[0];
-
-                if (returnType.FullName == "System.Void")
+                if (isVoidResponse)
                     operation.Responses["204"] = new SwaggerResponse();
                 else
                 {
-                    var description = method.ReturnParameter.GetXmlDocumentation();
-                    if (description == string.Empty)
-                        description = null;
-
-                    var responseTypeAttributes =
-                        method.GetCustomAttributes().Where(a => a.GetType().Name == "ResponseTypeAttribute").ToList();
-                    if (responseTypeAttributes.Count > 0)
+                    var schema = CreateAndAddSchema<JsonSchema4>(service, returnType, schemaResolver);
+                    operation.Responses["200"] = new SwaggerResponse
                     {
-                        foreach (var responseTypeAttribute in responseTypeAttributes)
-                        {
-                            dynamic dynResultTypeAttribute = responseTypeAttribute;
-
-                            var httpStatusCode = "200";
-                            if (responseTypeAttribute.GetType().GetRuntimeProperty("HttpStatusCode") != null)
-                                httpStatusCode = dynResultTypeAttribute.HttpStatusCode;
-
-                            var schema = CreateAndAddSchema<JsonSchema4>(service, dynResultTypeAttribute.ResponseType, schemaResolver);
-                            operation.Responses[httpStatusCode] = new SwaggerResponse
-                            {
-                                Description = description,
-                                Schema = schema
-                            };
-                        }
-                    }
-                    else
-                    {
-                        var schema = CreateAndAddSchema<JsonSchema4>(service, returnType, schemaResolver);
-                        operation.Responses["200"] = new SwaggerResponse
-                        {
-                            Description = description,
-                            Schema = schema
-                        };
-                    }
+                        Description = description,
+                        Schema = schema
+                    };
                 }
             }
         }
