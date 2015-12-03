@@ -133,6 +133,12 @@ namespace NSwag.Demo.Web.Controllers
         }
 
         [HttpGet]
+        public Task<int> TestAsync()
+        {
+            return Task.FromResult(0);
+        }
+
+        [HttpGet]
         public Car LoadComplexObject()
         {
             return new Car();

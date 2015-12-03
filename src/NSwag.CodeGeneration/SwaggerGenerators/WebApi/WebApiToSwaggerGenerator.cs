@@ -84,8 +84,12 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 var parameters = method.GetParameters().ToList();
                 var methodName = method.Name;
 
+                var operationId = methodName;
+                if (operationId.EndsWith("Async"))
+                    operationId = operationId.Substring(0, operationId.Length - 5);
+
                 var operation = new SwaggerOperation();
-                operation.OperationId = methodName;
+                operation.OperationId = operationId;
 
                 var httpPath = GetHttpPath(service, operation, controllerType, method, parameters, schemaResolver);
 
