@@ -16,9 +16,9 @@ NSwag is a Swagger 2.0 API toolchain for .NET, TypeScript and other platforms, w
 
 - TypeScript, [SwaggerToTypeScriptGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToTypeScriptGenerator)
 	- Available templates: 
-		- JQuery with Callbacks
-		- JQuery with Q promises
-		- AngularJS using $http
+		- JQuery with Callbacks, `JQueryCallbacks`
+		- JQuery with Q promises `JQueryQPromises`
+		- AngularJS using $http, `AngularJS`
 - CSharp, [SwaggerToCSharpGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToCSharpGenerator)
 
 **Ways to use the toolchain:** 
