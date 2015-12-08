@@ -14,9 +14,13 @@ namespace NSwag.Commands
         [Argument(Name = "ClassName", DefaultValue = "{controller}Client")]
         public string ClassName { get; set; }
 
-        [Description("The type of the asynchronism handling ('Callbacks' or 'Q').")]
-        [Argument(Name = "AsyncType", DefaultValue = TypeScriptAsyncType.Callbacks)]
-        public TypeScriptAsyncType AsyncType { get; set; }
+        [Description("The TypeScript module name (default: '', no module).")]
+        [Argument(Name = "ModuleName", DefaultValue = "")]
+        public string ModuleName { get; set; }
+
+        [Description("The type of the asynchronism handling ('JQueryCallbacks', 'JQueryQPromises', 'AngularJS').")]
+        [Argument(Name = "Template", DefaultValue = TypeScriptTemplate.JQueryCallbacks)]
+        public TypeScriptTemplate Template { get; set; }
 
         [Description("Specifies whether generate client classes.")]
         [Argument(Name = "GenerateClientClasses", DefaultValue = true)]
@@ -39,7 +43,8 @@ namespace NSwag.Commands
             var clientGenerator = new SwaggerToTypeScriptGenerator(InputSwaggerService, new SwaggerToTypeScriptGeneratorSettings
             {
                 ClassName = ClassName,
-                AsyncType = AsyncType,
+                ModuleName = ModuleName,
+                Template = Template,
                 OperationGenerationMode = OperationGenerationMode,
 
                 GenerateClientClasses = GenerateClientClasses,

@@ -1,9 +1,10 @@
-// Generated using the NSwag toolchain v1.3.5802.33703 (http://NSwag.org)
+// Generated using the NSwag toolchain v1.10.5820.37720 (http://NSwag.org)
 define(["require", "exports"], function (require, exports) {
     var DataService = (function () {
-        function DataService() {
-            this.baseUrl = "";
+        function DataService(baseUrl) {
+            this.baseUrl = undefined;
             this.beforeSend = undefined;
+            this.baseUrl = baseUrl !== undefined ? baseUrl : "";
         }
         DataService.prototype.getAll = function (onSuccess, onFail) {
             var _this = this;
@@ -95,7 +96,7 @@ define(["require", "exports"], function (require, exports) {
                     return;
                 }
                 if (onFail !== undefined)
-                    onFail(result500);
+                    onFail(result500, "error_exception");
                 return;
             }
             else {

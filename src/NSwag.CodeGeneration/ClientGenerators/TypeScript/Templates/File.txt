@@ -1,5 +1,13 @@
 ﻿// Generated using the NSwag toolchain v<toolchain> (http://NSwag.org)
 
+<if(hasModuleName)>
+module <moduleName> {
+<endif>
+
 <interfaces>
 
 <clients>
+
+<if(hasModuleName)>
+\}
+<endif>

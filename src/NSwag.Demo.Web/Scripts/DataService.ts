@@ -1,16 +1,4 @@
-﻿
-
-
-
-
-
-
-
-
-
-
-
-// Generated using the NSwag toolchain v1.3.5802.33703 (http://NSwag.org)
+﻿// Generated using the NSwag toolchain v1.10.5820.37720 (http://NSwag.org)
 
 /** The DTO class for a person. */
 export interface Person {
@@ -37,8 +25,12 @@ export interface Exception {
 }
 
 export class DataService {
-    baseUrl = ""; 
+    baseUrl: string = undefined; 
     beforeSend: any = undefined; 
+
+    constructor(baseUrl?: string) {
+        this.baseUrl = baseUrl !== undefined ? baseUrl : ""; 
+    }
 
     getAll(onSuccess?: (result: Person[]) => void, onFail?: (exception: string, reason: string) => void) {
         var url = this.baseUrl + "/MyWorldCalculators/api/Persons/Get?"; 
@@ -64,7 +56,7 @@ export class DataService {
         var status = xhr.status.toString(); 
 
         if (status === "200") {
-            var result200 = null; 
+            var result200: Person[] = null; 
             try { 
                 result200 = <Person[]>jQuery.parseJSON(data);
             } catch(e) { 
@@ -114,7 +106,7 @@ export class DataService {
         var status = xhr.status.toString(); 
 
         if (status === "200") {
-            var result200 = null; 
+            var result200: Person = null; 
             try { 
                 result200 = <Person>jQuery.parseJSON(data);
             } catch(e) { 
@@ -128,7 +120,7 @@ export class DataService {
         }
         else
         if (status === "500") {
-            var result500 = null; 
+            var result500: PersonNotFoundException = null; 
             try { 
                 result500 = <PersonNotFoundException>jQuery.parseJSON(data);
             } catch(e) { 
@@ -137,7 +129,7 @@ export class DataService {
                 return;
             }
             if (onFail !== undefined)
-                onFail(result500);
+                onFail(result500, "error_exception");
             return;
         }
         else
@@ -174,7 +166,7 @@ export class DataService {
         var status = xhr.status.toString(); 
 
         if (status === "200") {
-            var result200 = null; 
+            var result200: any = null; 
             try { 
                 result200 = <any>jQuery.parseJSON(data);
             } catch(e) { 
@@ -223,7 +215,7 @@ export class DataService {
         var status = xhr.status.toString(); 
 
         if (status === "200") {
-            var result200 = null; 
+            var result200: any = null; 
             try { 
                 result200 = <any>jQuery.parseJSON(data);
             } catch(e) { 
@@ -268,7 +260,7 @@ export class DataService {
         var status = xhr.status.toString(); 
 
         if (status === "200") {
-            var result200 = null; 
+            var result200: any = null; 
             try { 
                 result200 = <any>jQuery.parseJSON(data);
             } catch(e) { 
@@ -319,7 +311,7 @@ export class DataService {
         var status = xhr.status.toString(); 
 
         if (status === "200") {
-            var result200 = null; 
+            var result200: number = null; 
             try { 
                 result200 = <number>jQuery.parseJSON(data);
             } catch(e) { 
@@ -364,7 +356,7 @@ export class DataService {
         var status = xhr.status.toString(); 
 
         if (status === "200") {
-            var result200 = null; 
+            var result200: Date = null; 
             try { 
                 result200 = new Date(data);
             } catch(e) { 
@@ -407,7 +399,7 @@ export class DataService {
         var status = xhr.status.toString(); 
 
         if (status === "200") {
-            var result200 = null; 
+            var result200: Car = null; 
             try { 
                 result200 = <Car>jQuery.parseJSON(data);
             } catch(e) { 

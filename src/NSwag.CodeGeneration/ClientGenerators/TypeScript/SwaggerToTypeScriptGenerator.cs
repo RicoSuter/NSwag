@@ -67,12 +67,14 @@ namespace NSwag.CodeGeneration.ClientGenerators.TypeScript
             template.Add("toolchain", SwaggerService.ToolchainVersion);
             template.Add("clients", Settings.GenerateClientClasses ? clientCode : string.Empty);
             template.Add("interfaces", Settings.GenerateDtoTypes ? _resolver.GenerateTypes() : string.Empty);
+            template.Add("hasModuleName", !string.IsNullOrEmpty(Settings.ModuleName));
+            template.Add("moduleName", Settings.ModuleName);
             return template.Render();
         }
 
         internal override string RenderClientCode(string controllerName, IEnumerable<OperationModel> operations)
         {
-            var template = LoadTemplate(Settings.AsyncType == TypeScriptAsyncType.Callbacks ? "Callbacks" : "Q");
+            var template = LoadTemplate(Settings.Template.ToString());
             template.Add("class", Settings.ClassName.Replace("{controller}", ConvertToUpperStartIdentifier(controllerName)));
             template.Add("operations", operations);
             template.Add("generateClientInterfaces", Settings.GenerateClientInterfaces);

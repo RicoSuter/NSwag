@@ -8,13 +8,16 @@
 
 namespace NSwag.CodeGeneration.ClientGenerators.TypeScript
 {
-    /// <summary>The asynchronism handling types.</summary>
-    public enum TypeScriptAsyncType
+    /// <summary>The TypeScript output templates.</summary>
+    public enum TypeScriptTemplate
     {
-        /// <summary>Uses callbacks.</summary>
-        Callbacks,
+        /// <summary>Uses JQuery with callbacks.</summary>
+        JQueryCallbacks,
 
-        /// <summary>Uses the Q promises library.</summary>
-        Q
+        /// <summary>Uses JQuery and Q promises.</summary>
+        JQueryQPromises,
+
+        /// <summary>Uses $http from AngularJS 1.x.</summary>
+        AngularJS,
     }
 }

@@ -68,7 +68,7 @@
     <Compile Include="ClientGenerators\OperationGenerationMode.cs" />
     <Compile Include="ClientGenerators\ClientGeneratorBaseSettings.cs" />
     <Compile Include="ClientGenerators\TypeScript\SwaggerToTypeScriptGeneratorSettings.cs" />
-    <Compile Include="ClientGenerators\TypeScript\TypeScriptAsyncType.cs" />
+    <Compile Include="ClientGenerators\TypeScript\TypeScriptTemplate.cs" />
     <Compile Include="ClientGenerators\TypeScript\SwaggerToTypeScriptGenerator.cs" />
     <Compile Include="Infrastructure\AppDomainIsolation.cs" />
     <Compile Include="Infrastructure\ReflectionExtensions.cs" />
@@ -88,8 +88,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ClientGenerators\TypeScript\Templates\Callbacks.txt" />
-    <EmbeddedResource Include="ClientGenerators\TypeScript\Templates\Q.txt" />
+    <EmbeddedResource Include="ClientGenerators\TypeScript\Templates\JQueryCallbacks.txt" />
+    <EmbeddedResource Include="ClientGenerators\TypeScript\Templates\JQueryQPromises.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ClientGenerators\CSharp\Templates\File.txt" />
@@ -105,6 +105,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ClientGenerators\CSharp\Templates\Client.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ClientGenerators\TypeScript\Templates\AngularJS.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -23,6 +23,9 @@
             <TextBlock Text="Class Name" FontWeight="Bold" Margin="0,0,0,6" />
             <TextBox Text="{Binding Settings.ClassName, Mode=TwoWay}" Margin="0,0,0,12" />
 
+            <TextBlock Text="Module name (empty for no module declaration)" FontWeight="Bold" Margin="0,0,0,6" />
+            <TextBox Text="{Binding Settings.ModuleName, Mode=TwoWay}" Margin="0,0,0,12" />
+
             <CheckBox IsChecked="{Binding Settings.GenerateClientClasses, Mode=TwoWay}" 
                       Content="Generate Client Classes" Margin="0,0,0,12" />
 
@@ -33,8 +36,8 @@
             <CheckBox IsChecked="{Binding Settings.GenerateDtoTypes, Mode=TwoWay}" 
                       Content="Generate DTO Types (e.g. request and response classes)" Margin="0,0,0,12" />
 
-            <TextBlock Text="Async Type" FontWeight="Bold" Margin="0,0,0,6" />
-            <ComboBox SelectedItem="{Binding Settings.AsyncType, Mode=TwoWay}" ItemsSource="{Binding AsyncTypes}" Margin="0,0,0,12" />
+            <TextBlock Text="Template" FontWeight="Bold" Margin="0,0,0,6" />
+            <ComboBox SelectedItem="{Binding Settings.Template, Mode=TwoWay}" ItemsSource="{Binding Templates}" Margin="0,0,0,12" />
 
             <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
                 <Run Text="Operation Generation Mode" FontWeight="Bold" />

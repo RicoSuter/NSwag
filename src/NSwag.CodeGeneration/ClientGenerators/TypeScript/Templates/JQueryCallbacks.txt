@@ -14,8 +14,12 @@ export interface I<class> {
 }<endif>
 
 export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
-    baseUrl = "<baseUrl>"; 
+    baseUrl: string = undefined; 
     beforeSend: any = undefined; 
+
+    constructor(baseUrl?: string) {
+        this.baseUrl = baseUrl !== undefined ? baseUrl : ""; 
+    }
 
 <operations:{operation | 
 <if(operation.HasDocumentation)>    /**
@@ -69,7 +73,7 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
 
 <operation.Responses:{response | 
         if (status === "<response.StatusCode>") {
-            var result<response.StatusCode> = null; 
+            var result<response.StatusCode>: <response.Type> = null; 
             try { 
 <if(response.TypeIsDate)>
                 result<response.StatusCode> = new Date(data);
@@ -93,7 +97,7 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
         else}>
         {
 <if(operation.HasDefaultResponse)>
-            var result = null; 
+            var result: <operation.DefaultResponse.Type> = null; 
             try { 
     <if(operation.DefaultResponse.TypeIsDate)>
                 result = new Date(data);

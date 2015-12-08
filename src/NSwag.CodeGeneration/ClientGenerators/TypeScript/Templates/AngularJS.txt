@@ -1,0 +1,111 @@
+﻿// The AngularJS client template is currently NOT TESTET!
+
+<if(hasOperations)>
+<if(generateClientInterfaces)>
+export interface I<class> {
+<operations:{operation | 
+<if(operation.HasDocumentation)>    /**
+<if(operation.HasSummary)>     * <operation.Summary><endif>
+<operation.Parameters:{parameter | 
+<if(parameter.HasDescription)>     * @<parameter.Name> <parameter.Description><endif>}>
+<if(operation.HasResultDescription)>     * @return <operation.ResultDescription><endif>
+     */
+<endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.Name>: <parameter.Type><if(!parameter.IsLast)>,<endif> }>): ng.IPromise\<<operation.ResultType>>;
+
+}>
+}<endif>
+
+export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
+    baseUrl = "<baseUrl>"; 
+    http: ng.IHttpService = null; 
+
+    constructor($http: ng.IHttpService) {
+        this.http = $http; 
+    }
+
+<operations:{operation | 
+<if(operation.HasDocumentation)>    /**
+<if(operation.HasSummary)>     * <operation.Summary><endif>
+<operation.Parameters:{parameter | 
+<if(parameter.HasDescription)>     * @<parameter.Name> <parameter.Description><endif>}>
+<if(operation.HasResultDescription)>     * @return <operation.ResultDescription><endif>
+     */
+<endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.Name>: <parameter.Type><if(!parameter.IsLast)>,<endif> }>): ng.IPromise\<<operation.ResultType>> {
+        var url = this.baseUrl + "/<operation.Path>?"; 
+
+<operation.PlaceholderParameters:{parameter | 
+    <if(parameter.IsDate)>
+        url = url.replace("{<parameter.Name>\}", "" + <parameter.Name>.toJSON()); 
+    <else>
+        url = url.replace("{<parameter.Name>\}", "" + <parameter.Name>); 
+    <endif>
+}>
+
+<operation.QueryParameters:{parameter | 
+    <if(parameter.IsDate)>
+        url += "<parameter.Name>=" + encodeURIComponent("" + <parameter.Name>.toJSON()) + "&"; 
+    <else>
+        url += "<parameter.Name>=" + encodeURIComponent("" + <parameter.Name>) + "&"; 
+    <endif>
+}>
+
+<if(operation.HasContent)>
+        var content = JSON.stringify(<operation.ContentParameter.Name>);
+<else>
+        var content = "";
+<endif>
+
+        return this.http({
+            url: url,
+            method: "<operation.HttpMethod>",
+            data: content,
+            headers: {
+                'Content-Type': "application/json; charset=UTF-8"
+            \}
+        \}).then((response) => {
+            return this.process<operation.OperationNameUpper>(response);
+        \});
+    \}
+
+    private process<operation.OperationNameUpper>(response: any) {
+        var data = response.data; 
+        var status = response.status; 
+
+<operation.Responses:{response | 
+        if (status === "<response.StatusCode>") {
+            var result<response.StatusCode>: <response.Type> = null; 
+<if(response.TypeIsDate)>
+            result<response.StatusCode> = new Date(data);
+<else>
+            result<response.StatusCode> = \<<response.Type>>data;
+<endif>
+<if(response.IsSuccess)>
+            return result<response.StatusCode>; 
+<else>
+            throw result<response.StatusCode>; 
+<endif>
+        \}
+        else}>
+        {
+<if(operation.HasDefaultResponse)>
+            var result: <operation.DefaultResponse.Type> = null; 
+    <if(operation.DefaultResponse.TypeIsDate)>
+            result = new Date(data);
+    <else>
+            result = \<<operation.DefaultResponse.Type>>data;
+    <endif>
+    <if(operation.DefaultResponse.IsSuccess)>
+            return result; 
+    <else>
+            throw result; 
+    <endif>
+<else>
+            throw "error_no_callback_for_status"; 
+<endif>
+        \}
+    \}
+
+}>
+}
+<endif>
+

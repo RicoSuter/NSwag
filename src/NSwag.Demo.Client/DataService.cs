@@ -1,17 +1,4 @@
-﻿
-
-
-
-
-
-
-
-
-
-
-
-
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Net;
@@ -20,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-// Generated using the NSwag toolchain v1.3.5802.33703 (http://NSwag.org)
+// Generated using the NSwag toolchain v1.10.5820.37720 (http://NSwag.org)
 
 namespace NSwag.Demo.Client
 {
@@ -69,7 +56,7 @@ namespace NSwag.Demo.Client
             {
             }
 
-            throw new SwaggerException("The response was not expected.", response.StatusCode, null);
+            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response.StatusCode + ").", response.StatusCode, null);
         }
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
@@ -100,7 +87,7 @@ namespace NSwag.Demo.Client
             {
             }
 
-            throw new SwaggerException("The response was not expected.", response.StatusCode, null);
+            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response.StatusCode + ").", response.StatusCode, null);
         }
 
         /// <summary>Gets a person.</summary>
@@ -149,7 +136,7 @@ namespace NSwag.Demo.Client
             {
             }
 
-            throw new SwaggerException("The response was not expected.", response.StatusCode, null);
+            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response.StatusCode + ").", response.StatusCode, null);
         }
 
         /// <summary>Creates a new person.</summary>
@@ -163,12 +150,13 @@ namespace NSwag.Demo.Client
             PrepareRequest(client);
 
             var content = new StringContent(JsonConvert.SerializeObject(value));
+            content.Headers.ContentType.MediaType = "application/json";
 
             var response = await client.PostAsync(url, content).ConfigureAwait(false);
             ProcessResponse(client, response);
             var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
             var status = ((int)response.StatusCode).ToString();
-            if (status == "200") 
+            if (status == "204") 
             {
                 try
                 {
@@ -183,7 +171,7 @@ namespace NSwag.Demo.Client
             {
             }
 
-            throw new SwaggerException("The response was not expected.", response.StatusCode, null);
+            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response.StatusCode + ").", response.StatusCode, null);
         }
 
         /// <summary>Updates the existing person.</summary>
@@ -200,12 +188,13 @@ namespace NSwag.Demo.Client
             PrepareRequest(client);
 
             var content = new StringContent(JsonConvert.SerializeObject(value));
+            content.Headers.ContentType.MediaType = "application/json";
 
             var response = await client.PutAsync(url, content).ConfigureAwait(false);
             ProcessResponse(client, response);
             var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
             var status = ((int)response.StatusCode).ToString();
-            if (status == "200") 
+            if (status == "204") 
             {
                 try
                 {
@@ -220,7 +209,7 @@ namespace NSwag.Demo.Client
             {
             }
 
-            throw new SwaggerException("The response was not expected.", response.StatusCode, null);
+            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response.StatusCode + ").", response.StatusCode, null);
         }
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
@@ -238,7 +227,7 @@ namespace NSwag.Demo.Client
 
             var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
             var status = ((int)response.StatusCode).ToString();
-            if (status == "200") 
+            if (status == "204") 
             {
                 try
                 {
@@ -253,7 +242,7 @@ namespace NSwag.Demo.Client
             {
             }
 
-            throw new SwaggerException("The response was not expected.", response.StatusCode, null);
+            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response.StatusCode + ").", response.StatusCode, null);
         }
 
         /// <summary>Calculates the sum of a, b and c.</summary>
@@ -290,7 +279,7 @@ namespace NSwag.Demo.Client
             {
             }
 
-            throw new SwaggerException("The response was not expected.", response.StatusCode, null);
+            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response.StatusCode + ").", response.StatusCode, null);
         }
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
@@ -323,7 +312,38 @@ namespace NSwag.Demo.Client
             {
             }
 
-            throw new SwaggerException("The response was not expected.", response.StatusCode, null);
+            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response.StatusCode + ").", response.StatusCode, null);
+        }
+
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        public async Task<long> TestAsync()
+        {
+            var url = string.Format("{0}/{1}?", BaseUrl, "api/Persons/TestAsync");
+
+            var client = new HttpClient();
+            PrepareRequest(client);
+
+            var response = await client.GetAsync(url).ConfigureAwait(false);
+            ProcessResponse(client, response);
+
+            var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
+            var status = ((int)response.StatusCode).ToString();
+            if (status == "200") 
+            {
+                try
+                {
+                    return JsonConvert.DeserializeObject<long>(responseData);		
+                } 
+                catch (Exception exception) 
+                {
+                    throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, exception);
+                }
+            }
+            else
+            {
+            }
+
+            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response.StatusCode + ").", response.StatusCode, null);
         }
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
@@ -354,7 +374,7 @@ namespace NSwag.Demo.Client
             {
             }
 
-            throw new SwaggerException("The response was not expected.", response.StatusCode, null);
+            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response.StatusCode + ").", response.StatusCode, null);
         }
 
         public class SwaggerException : Exception

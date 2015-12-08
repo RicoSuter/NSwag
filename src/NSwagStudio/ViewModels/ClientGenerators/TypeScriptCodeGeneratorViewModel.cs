@@ -37,10 +37,10 @@ namespace NSwagStudio.ViewModels.ClientGenerators
         /// <summary>Gets the settings.</summary>
         public SwaggerToTypeScriptGeneratorSettings Settings { get; private set; }
         
-        /// <summary>Gets the async types. </summary>
-        public TypeScriptAsyncType[] AsyncTypes
+        /// <summary>Gets the output templates. </summary>
+        public TypeScriptTemplate[] Templates
         {
-            get { return Enum.GetNames(typeof(TypeScriptAsyncType)).Select(t => (TypeScriptAsyncType)Enum.Parse(typeof(TypeScriptAsyncType), t)).ToArray(); }
+            get { return Enum.GetNames(typeof(TypeScriptTemplate)).Select(t => (TypeScriptTemplate)Enum.Parse(typeof(TypeScriptTemplate), t)).ToArray(); }
         }
         
         /// <summary>Gets the async types. </summary>
