@@ -22,8 +22,8 @@ namespace NSwag.Commands
         [Argument(Name = "DefaultUrlTemplate", DefaultValue = "api/{controller}/{action}/{id}")]
         public string DefaultUrlTemplate { get; set; }
 
-        [Description("The default enum handling ('String' or 'Integer').")]
-        [Argument(Name = "DefaultEnumHandling", DefaultValue = EnumHandling.String)]
+        [Description("The default enum handling ('String' or 'Integer'), default: Integer.")]
+        [Argument(Name = "DefaultEnumHandling", DefaultValue = EnumHandling.Integer)]
         public EnumHandling DefaultEnumHandling { get; set; }
 
         [Description("Flatten the inheritance hierarchy instead of using allOf to describe inheritance (default: false).")]

@@ -40,13 +40,13 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
             }
             else
             {
-                if (!schemaResolver.HasSchema(type))
+                if (!schemaResolver.HasSchema(type, JsonObjectType.Object))
                 {
                     var schemaGenerator = new RootTypeJsonSchemaGenerator(_service, Settings);
                     schemaGenerator.Generate<JsonSchema4>(type, schemaResolver);
                 }
 
-                schema.SchemaReference = schemaResolver.GetSchema(type);
+                schema.SchemaReference = schemaResolver.GetSchema(type, JsonObjectType.Object);
             }
         }
     }
