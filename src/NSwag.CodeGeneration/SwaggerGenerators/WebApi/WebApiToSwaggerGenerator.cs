@@ -408,7 +408,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     };
                 }
 
-                if (!schemaResolver.HasSchema(type, JsonObjectType.Object))
+                if (!schemaResolver.HasSchema(type, false))
                 {
                     var schemaGenerator = new RootTypeJsonSchemaGenerator(service, Settings);
                     schemaGenerator.Generate<JsonSchema4>(type, schemaResolver);
@@ -417,7 +417,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 return new TSchemaType
                 {
                     Type = JsonObjectType.Object,
-                    SchemaReference = schemaResolver.GetSchema(type, JsonObjectType.Object)
+                    SchemaReference = schemaResolver.GetSchema(type, false)
                 };
             }
 
