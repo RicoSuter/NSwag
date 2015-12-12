@@ -43,12 +43,12 @@
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=1.18.5822.14857, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.1.18.5822.14857\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10\NJsonSchema.dll</HintPath>
+    <Reference Include="NJsonSchema, Version=1.19.5824.3255, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.1.19.5824.3255\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10\NJsonSchema.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema.CodeGeneration, Version=1.18.5822.14857, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.CodeGeneration.1.18.5822.14857\lib\net45\NJsonSchema.CodeGeneration.dll</HintPath>
+    <Reference Include="NJsonSchema.CodeGeneration, Version=1.19.5824.3256, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.CodeGeneration.1.19.5824.3256\lib\net45\NJsonSchema.CodeGeneration.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
