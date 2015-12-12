@@ -52,7 +52,7 @@ The following code shows how to read a Swagger specification and generate C# cli
 	var generator = new SwaggerToCSharpGenerator(service, settings);
 	var code = generator.GenerateFile();
 
-Check out the [project's Wiki](https://github.com/NSwag/NSwag/wiki) for more information.
+Check out the [project Wiki](https://github.com/NSwag/NSwag/wiki) for more information.
 
 ### NSwagStudio
 
