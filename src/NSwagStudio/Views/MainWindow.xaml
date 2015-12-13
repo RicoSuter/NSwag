@@ -78,7 +78,9 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Text="Output" FontSize="16" FontWeight="Bold" Margin="0,0,0,16" />
-                    <TabControl Grid.Row="1" ItemsSource="{Binding ClientGenerators}">
+                    <TabControl Grid.Row="1" 
+                                ItemsSource="{Binding ClientGenerators}"
+                                SelectedItem="{Binding SelectedClientGenerator, Mode=TwoWay}">
                         <TabControl.ItemContainerStyle>
                             <Style TargetType="{x:Type TabItem}">
                                 <Setter Property="Header" Value="{Binding Title}" />

@@ -7,12 +7,19 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Windows.Input;
 using MyToolkit.Command;
+using MyToolkit.Resources;
 using MyToolkit.Storage;
 using MyToolkit.Utilities;
 using Newtonsoft.Json;
+using NSwag.CodeGeneration.ClientGenerators.CSharp;
+using NSwag.CodeGeneration.ClientGenerators.TypeScript;
+using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 using NSwagStudio.Views.ClientGenerators;
 using NSwagStudio.Views.SwaggerGenerators;
 
@@ -21,13 +28,17 @@ namespace NSwagStudio.ViewModels
     /// <summary>The view model for the MainWindow.</summary>
     public class MainWindowModel : ViewModelBase
     {
-        private ISwaggerGenerator _selectedSwaggerGenerator;
         private static NSwagSettings _settings;
+
+        private ISwaggerGenerator _selectedSwaggerGenerator;
+        private IClientGenerator _selectedClientGenerator;
 
         /// <summary>Initializes a new instance of the <see cref="MainWindowModel"/> class.</summary>
         public MainWindowModel()
         {
             GenerateCommand = new AsyncRelayCommand(GenerateAsync);
+            LoadSettingsCommand = new RelayCommand(LoadSettings);
+            SaveSettingsCommand = new RelayCommand(SaveSettings);
         }
 
         /// <summary>Gets or sets the command to generate code from the selected Swagger generator.</summary>
@@ -46,12 +57,23 @@ namespace NSwagStudio.ViewModels
             set { Set(ref _selectedSwaggerGenerator, value); }
         }
 
+        /// <summary>Gets or sets the selected <see cref="IClientGenerator"/>. </summary>
+        public IClientGenerator SelectedClientGenerator
+        {
+            get { return _selectedClientGenerator; }
+            set { Set(ref _selectedClientGenerator, value); }
+        }
+
         /// <summary>Gets or sets the settings. </summary>
         public static NSwagSettings Settings
         {
             get { return _settings; }
             set { _settings = value; }
         }
+
+        public ICommand LoadSettingsCommand { get; private set; }
+
+        public ICommand SaveSettingsCommand { get; private set; }
 
         /// <summary>Gets the application version with build time. </summary>
         public string ApplicationVersion
@@ -71,7 +93,7 @@ namespace NSwagStudio.ViewModels
 
         protected override void OnLoaded()
         {
-            LoadSettings();
+            LoadApplicationSettings();
 
             SwaggerGenerators = new ISwaggerGenerator[]
             {
@@ -88,37 +110,101 @@ namespace NSwagStudio.ViewModels
                 new CSharpClientGeneratorView()
             };
 
+            RaisePropertyChanged(() => SwaggerGenerators);
+            RaisePropertyChanged(() => ClientGenerators);
+
             SelectedSwaggerGenerator = SwaggerGenerators.First();
-            RaiseAllPropertiesChanged();
+            SelectedClientGenerator = ClientGenerators.First();
         }
 
         protected override void OnUnloaded()
         {
-            SaveSettings();
+            SaveApplicationSettings();
+        }
+
+        private void LoadApplicationSettings()
+        {
+            try
+            {
+                var settings = new NSwagSettings();
+
+                var setting = ApplicationSettings.GetSetting("AssemblyTypeToSwaggerGeneratorSettings", string.Empty);
+                if (!string.IsNullOrEmpty(setting))
+                    settings.AssemblyTypeToSwaggerGeneratorSettings =
+                        JsonConvert.DeserializeObject<AssemblyTypeToSwaggerGeneratorSettings>(setting);
+
+                setting = ApplicationSettings.GetSetting("WebApiAssemblyToSwaggerGeneratorSettings", string.Empty);
+                if (!string.IsNullOrEmpty(setting))
+                    settings.WebApiAssemblyToSwaggerGeneratorSettings =
+                        JsonConvert.DeserializeObject<WebApiAssemblyToSwaggerGeneratorSettings>(setting);
+
+                setting = ApplicationSettings.GetSetting("SwaggerToCSharpGeneratorSettings", string.Empty);
+                if (!string.IsNullOrEmpty(setting))
+                    settings.SwaggerToCSharpGeneratorSettings = 
+                        JsonConvert.DeserializeObject<SwaggerToCSharpGeneratorSettings>(setting);
+
+                setting = ApplicationSettings.GetSetting("SwaggerToTypeScriptGeneratorSettings", string.Empty);
+                if (!string.IsNullOrEmpty(setting))
+                    settings.SwaggerToTypeScriptGeneratorSettings =
+                        JsonConvert.DeserializeObject<SwaggerToTypeScriptGeneratorSettings>(setting);
+
+                Settings = settings;
+            }
+            catch
+            {
+                Settings = new NSwagSettings();
+            }
+        }
+
+        private void SaveApplicationSettings()
+        {
+            ApplicationSettings.SetSetting("AssemblyTypeToSwaggerGeneratorSettings",
+                JsonConvert.SerializeObject(Settings.AssemblyTypeToSwaggerGeneratorSettings));
+            ApplicationSettings.SetSetting("WebApiAssemblyToSwaggerGeneratorSettings",
+                JsonConvert.SerializeObject(Settings.WebApiAssemblyToSwaggerGeneratorSettings));
+
+            ApplicationSettings.SetSetting("SwaggerToCSharpGeneratorSettings",
+                JsonConvert.SerializeObject(Settings.SwaggerToCSharpGeneratorSettings));
+            ApplicationSettings.SetSetting("SwaggerToTypeScriptGeneratorSettings",
+                JsonConvert.SerializeObject(Settings.SwaggerToTypeScriptGeneratorSettings));
         }
 
         private void LoadSettings()
         {
-            var settings = ApplicationSettings.GetSetting("NSwagSettings", string.Empty);
-            if (!string.IsNullOrEmpty(settings))
+            var dlg = new OpenFileDialog();
+            dlg.Title = "Open NSwag settings file";
+            dlg.Filter = "NSwag settings (*.nswag)|*.nswag";
+            dlg.RestoreDirectory = true;
+            if (dlg.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
-                    Settings = JsonConvert.DeserializeObject<NSwagSettings>(settings);
+                    Settings = JsonConvert.DeserializeObject<NSwagSettings>(File.ReadAllText(dlg.FileName));
                 }
-                catch
+                catch (Exception exception)
                 {
-                    Settings = new NSwagSettings();
+                    MessageBox.Show("File open failed: \n" + exception.Message, "Could not load the settings");
                 }
             }
-            else
-                Settings = new NSwagSettings();
         }
 
         private void SaveSettings()
         {
-            var settings = JsonConvert.SerializeObject(Settings);
-            ApplicationSettings.SetSetting("NSwagSettings", settings);
+            var dlg = new SaveFileDialog();
+            dlg.Filter = "NSwag settings (*.nswag)|*.nswag";
+            dlg.RestoreDirectory = true;
+            dlg.AddExtension = true;
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    File.WriteAllText(dlg.FileName, JsonConvert.SerializeObject(Settings));
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show("File save failed: \n" + exception.Message, "Could not save the settings");
+                }
+            }
         }
     }
 }
