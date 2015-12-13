@@ -10,12 +10,17 @@ NSwag is a Swagger 2.0 API toolchain for .NET, TypeScript and other platforms, w
 - ASP.NET Web API
     - [WebApiToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/WebApiToSwaggerGenerator)
     - [WebApiAssemblyToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/WebApiAssemblyToSwaggerGenerator)
-- Types from .NET assemblies, [AssemblyToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/AssemblyToSwaggerGenerator)
+- Types from .NET assemblies, [AssemblyTypeToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/AssemblyTypeToSwaggerGenerator)
 
 **Client Generators:** 
 
-- TypeScript, [SwaggerToTypeScriptGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToTypeScriptGenerator)
 - CSharp, [SwaggerToCSharpGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToCSharpGenerator)
+	- With [INotifyPropertyChanged](https://msdn.microsoft.com/en-us/library/system.componentmodel.inotifypropertychanged(v=vs.110).aspx) supporting DTOs
+- TypeScript, [SwaggerToTypeScriptGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToTypeScriptGenerator)
+	- Available templates/supported libraries: 
+		- JQuery with Callbacks, `JQueryCallbacks`
+		- JQuery with Q promises `JQueryQPromises`
+		- AngularJS using $http, `AngularJS`
 
 **Ways to use the toolchain:** 
 
@@ -47,7 +52,7 @@ The following code shows how to read a Swagger specification and generate C# cli
 	var generator = new SwaggerToCSharpGenerator(service, settings);
 	var code = generator.GenerateFile();
 
-Check out the [project's Wiki](https://github.com/NSwag/NSwag/wiki) for more information.
+Check out the [project Wiki](https://github.com/NSwag/NSwag/wiki) for more information.
 
 ### NSwagStudio
 

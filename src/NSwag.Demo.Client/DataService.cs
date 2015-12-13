@@ -6,8 +6,9 @@ using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
-// Generated using the NSwag toolchain v1.10.5820.37720 (http://NSwag.org)
+// Generated using the NSwag toolchain v1.10.5821.38513 (http://NSwag.org)
 
 namespace NSwag.Demo.Client
 {
@@ -450,6 +451,7 @@ namespace NSwag.Demo.Client
         }
 
         [JsonProperty("Type", Required = Required.Always)]
+        [JsonConverter(typeof(StringEnumConverter))]
         public ObjectType Type
         {
             get { return _type; }
@@ -518,6 +520,7 @@ namespace NSwag.Demo.Client
         }
 
         [JsonProperty("Type", Required = Required.Always)]
+        [JsonConverter(typeof(StringEnumConverter))]
         public ObjectType Type
         {
             get { return _type; }
@@ -553,8 +556,8 @@ namespace NSwag.Demo.Client
 
     public enum ObjectType
     {
-        Foo, 
-        Bar, 
+        Foo = 0, 
+        Bar = 1, 
     }
 
     public partial class PersonNotFoundException : Exception, INotifyPropertyChanged

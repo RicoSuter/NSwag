@@ -69,6 +69,8 @@ namespace NSwagStudio.Views
                 if (vm != null)
                     vm.CallOnUnloaded();
             }
+
+            Model.CallOnUnloaded();
         }
 
         private void OnOpenHyperlink(object sender, RoutedEventArgs e)
