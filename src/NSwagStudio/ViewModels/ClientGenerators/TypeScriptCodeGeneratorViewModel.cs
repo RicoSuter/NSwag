@@ -10,8 +10,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using MyToolkit.Storage;
-using Newtonsoft.Json;
 using NSwag;
 using NSwag.CodeGeneration.ClientGenerators;
 using NSwag.CodeGeneration.ClientGenerators.TypeScript;
@@ -21,22 +19,15 @@ namespace NSwagStudio.ViewModels.ClientGenerators
     public class TypeScriptCodeGeneratorViewModel : ViewModelBase
     {
         private string _clientCode;
+        private SwaggerToTypeScriptGeneratorSettings _settings = MainWindowModel.Settings.SwaggerToTypeScriptGeneratorSettings;
 
-        public TypeScriptCodeGeneratorViewModel()
-        {
-            Settings = JsonConvert.DeserializeObject<SwaggerToTypeScriptGeneratorSettings>(
-                ApplicationSettings.GetSetting("SwaggerToTypeScriptGeneratorSettings",
-                JsonConvert.SerializeObject(new SwaggerToTypeScriptGeneratorSettings())));
-        }
-
-        protected override void OnUnloaded()
-        {
-            ApplicationSettings.SetSetting("SwaggerToTypeScriptGeneratorSettings", JsonConvert.SerializeObject(Settings));
-        }
-        
         /// <summary>Gets the settings.</summary>
-        public SwaggerToTypeScriptGeneratorSettings Settings { get; private set; }
-        
+        public SwaggerToTypeScriptGeneratorSettings Settings
+        {
+            get { return _settings; }
+            set { Set(ref _settings, value); }
+        }
+
         /// <summary>Gets the output templates. </summary>
         public TypeScriptTemplate[] Templates
         {

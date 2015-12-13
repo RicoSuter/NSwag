@@ -12,8 +12,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Win32;
 using MyToolkit.Command;
-using MyToolkit.Storage;
-using Newtonsoft.Json;
 using NJsonSchema;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 
@@ -24,24 +22,16 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         private string _controllerName;
         private string[] _allControllerNames;
         private bool _specifyControllerName;
+        private WebApiAssemblyToSwaggerGeneratorSettings _settings = MainWindowModel.Settings.WebApiAssemblyToSwaggerGeneratorSettings;
 
         /// <summary>Initializes a new instance of the <see cref="WebApiSwaggerGeneratorViewModel"/> class.</summary>
         public WebApiSwaggerGeneratorViewModel()
         {
             BrowseAssemblyCommand = new AsyncRelayCommand(BrowseAssembly);
             SpecifyControllerName = true;
-
-            Settings = JsonConvert.DeserializeObject<WebApiAssemblyToSwaggerGeneratorSettings>(
-                ApplicationSettings.GetSetting("WebApiAssemblyToSwaggerGeneratorSettings",
-                JsonConvert.SerializeObject(new WebApiAssemblyToSwaggerGeneratorSettings())));
-
+            
             LoadAssemblyCommand = new AsyncRelayCommand(LoadAssembly, () => !string.IsNullOrEmpty(AssemblyPath));
             LoadAssemblyCommand.TryExecute();
-        }
-
-        protected override void OnUnloaded()
-        {
-            ApplicationSettings.SetSetting("WebApiAssemblyToSwaggerGeneratorSettings", JsonConvert.SerializeObject(Settings));
         }
         
         /// <summary>Gets the default enum handling. </summary>
@@ -69,8 +59,12 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             }
         }
 
-        /// <summary>Gets the generator settings.</summary>
-        public WebApiAssemblyToSwaggerGeneratorSettings Settings { get; private set; }
+        /// <summary>Gets or sets the generator settings. </summary>
+        public WebApiAssemblyToSwaggerGeneratorSettings Settings
+        {
+            get { return _settings; }
+            set { Set(ref _settings, value); }
+        }
 
         /// <summary>Gets the name of the selected assembly.</summary>
         public string AssemblyName

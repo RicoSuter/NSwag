@@ -5,9 +5,11 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using MyToolkit.Mvvm;
 using MyToolkit.Storage;
 using MyToolkit.Utilities;
 using NSwagStudio.ViewModels;
+using ViewModelBase = NSwagStudio.ViewModels.ViewModelBase;
 
 namespace NSwagStudio.Views
 {
@@ -16,6 +18,7 @@ namespace NSwagStudio.Views
         public MainWindow()
         {
             InitializeComponent();
+            ViewModelHelper.RegisterViewModel(Model, this);
             CheckForApplicationUpdate();
             LoadWindowState();
         }

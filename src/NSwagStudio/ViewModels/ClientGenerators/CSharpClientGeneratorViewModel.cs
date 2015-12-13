@@ -10,8 +10,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using MyToolkit.Storage;
-using Newtonsoft.Json;
 using NSwag;
 using NSwag.CodeGeneration.ClientGenerators;
 using NSwag.CodeGeneration.ClientGenerators.CSharp;
@@ -21,21 +19,14 @@ namespace NSwagStudio.ViewModels.ClientGenerators
     public class CSharpClientGeneratorViewModel : ViewModelBase
     {
         private string _clientCode;
-
-        public CSharpClientGeneratorViewModel()
-        {
-            Settings = JsonConvert.DeserializeObject<SwaggerToCSharpGeneratorSettings>(
-                ApplicationSettings.GetSetting("SwaggerToCSharpGeneratorSettings",
-                JsonConvert.SerializeObject(new SwaggerToCSharpGeneratorSettings())));
-        }
-
-        protected override void OnUnloaded()
-        {
-            ApplicationSettings.SetSetting("SwaggerToCSharpGeneratorSettings", JsonConvert.SerializeObject(Settings));
-        }
+        private SwaggerToCSharpGeneratorSettings _settings = MainWindowModel.Settings.SwaggerToCSharpGeneratorSettings;
 
         /// <summary>Gets the settings.</summary>
-        public SwaggerToCSharpGeneratorSettings Settings { get; private set; }
+        public SwaggerToCSharpGeneratorSettings Settings
+        {
+            get { return _settings; }
+            set { Set(ref _settings, value); }
+        }
 
         /// <summary>Gets the async types. </summary>
         public OperationGenerationMode[] OperationGenerationModes

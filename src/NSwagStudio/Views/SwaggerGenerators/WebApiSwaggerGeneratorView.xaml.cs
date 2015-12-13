@@ -1,7 +1,8 @@
-﻿using System.IO;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows;
 using MyToolkit.Mvvm;
+using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
+using NSwagStudio.ViewModels;
 using NSwagStudio.ViewModels.SwaggerGenerators;
 
 namespace NSwagStudio.Views.SwaggerGenerators
@@ -11,13 +12,12 @@ namespace NSwagStudio.Views.SwaggerGenerators
         public WebApiSwaggerGeneratorView()
         {
             InitializeComponent();
-            ViewModelHelper.RegisterViewModel(Model, this);
-        }
+            ViewModelHelper.RegisterViewModel(Model, this);}
 
         private WebApiSwaggerGeneratorViewModel Model { get { return (WebApiSwaggerGeneratorViewModel)Resources["ViewModel"]; } }
 
         public string Title { get { return "Web API Assembly"; } }
-
+        
         public Task<string> GenerateSwaggerAsync()
         {
             return Model.GenerateSwaggerAsync();

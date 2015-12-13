@@ -12,8 +12,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Win32;
 using MyToolkit.Command;
-using MyToolkit.Storage;
-using Newtonsoft.Json;
 using NJsonSchema;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 
@@ -23,27 +21,23 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
     {
         private string _className;
         private string[] _allClassNames;
+        private AssemblyTypeToSwaggerGeneratorSettings _settings = MainWindowModel.Settings.AssemblyTypeToSwaggerGeneratorSettings;
 
         /// <summary>Initializes a new instance of the <see cref="AssemblySwaggerGeneratorViewModel"/> class.</summary>
         public AssemblySwaggerGeneratorViewModel()
         {
             BrowseAssemblyCommand = new AsyncRelayCommand(BrowseAssembly);
 
-            Settings = JsonConvert.DeserializeObject<AssemblyTypeToSwaggerGeneratorSettings>(
-                ApplicationSettings.GetSetting("AssemblyTypeToSwaggerGeneratorSettings",
-                JsonConvert.SerializeObject(new AssemblyTypeToSwaggerGeneratorSettings())));
-
             LoadAssemblyCommand = new AsyncRelayCommand(LoadAssembly, () => !string.IsNullOrEmpty(AssemblyPath));
             LoadAssemblyCommand.TryExecute();
         }
 
-        protected override void OnUnloaded()
-        {
-            ApplicationSettings.SetSetting("AssemblyTypeToSwaggerGeneratorSettings", JsonConvert.SerializeObject(Settings));
-        }
-
         /// <summary>Gets or sets the generator settings.</summary>
-        public AssemblyTypeToSwaggerGeneratorSettings Settings { get; set; }
+        public AssemblyTypeToSwaggerGeneratorSettings Settings
+        {
+            get { return _settings; }
+            set { Set(ref _settings, value); }
+        }
 
         /// <summary>Gets the async types. </summary>
         public EnumHandling[] EnumHandlings
