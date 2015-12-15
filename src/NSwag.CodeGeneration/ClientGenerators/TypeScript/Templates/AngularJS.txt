@@ -13,7 +13,8 @@ export interface I<class> {
 <endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.Name>: <parameter.Type><if(!parameter.IsLast)>,<endif> }>): ng.IPromise\<<operation.ResultType>>;
 
 }>
-}<endif>
+}
+<endif>
 
 export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
     baseUrl = "<baseUrl>"; 

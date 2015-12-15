@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\AssemblyTypeToSwaggerCommand.cs" />
     <Compile Include="Commands\JsonSchemaToCSharpCommand.cs" />
     <Compile Include="Commands\JsonSchemaToTypeScriptCommand.cs" />
     <Compile Include="Commands\Base\OutputCommandBase.cs" />

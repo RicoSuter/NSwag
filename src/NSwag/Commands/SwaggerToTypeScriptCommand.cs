@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Threading.Tasks;
 using NConsole;
+using Newtonsoft.Json;
 using NSwag.CodeGeneration.ClientGenerators;
 using NSwag.CodeGeneration.ClientGenerators.TypeScript;
 using NSwag.Commands.Base;
@@ -10,50 +11,80 @@ namespace NSwag.Commands
     [Description("Generates TypeScript client code from a Swagger specification.")]
     public class SwaggerToTypeScriptCommand : InputOutputCommandBase
     {
+        public SwaggerToTypeScriptCommand()
+        {
+            Settings = new SwaggerToTypeScriptGeneratorSettings();
+        }
+
+        [JsonIgnore]
+        public SwaggerToTypeScriptGeneratorSettings Settings { get; set; }
+
         [Description("The class name of the generated client.")]
         [Argument(Name = "ClassName", DefaultValue = "{controller}Client")]
-        public string ClassName { get; set; }
+        public string ClassName
+        {
+            get { return Settings.ClassName; }
+            set { Settings.ClassName = value; }
+        }
 
         [Description("The TypeScript module name (default: '', no module).")]
         [Argument(Name = "ModuleName", DefaultValue = "")]
-        public string ModuleName { get; set; }
+        public string ModuleName
+        {
+            get { return Settings.ModuleName; }
+            set { Settings.ModuleName = value; }
+        }
 
         [Description("The type of the asynchronism handling ('JQueryCallbacks', 'JQueryQPromises', 'AngularJS').")]
         [Argument(Name = "Template", DefaultValue = TypeScriptTemplate.JQueryCallbacks)]
-        public TypeScriptTemplate Template { get; set; }
+        public TypeScriptTemplate Template
+        {
+            get { return Settings.Template; }
+            set { Settings.Template = value; }
+        }
 
         [Description("Specifies whether generate client classes.")]
         [Argument(Name = "GenerateClientClasses", DefaultValue = true)]
-        public bool GenerateClientClasses { get; set; }
+        public bool GenerateClientClasses
+        {
+            get { return Settings.GenerateClientClasses; }
+            set { Settings.GenerateClientClasses = value; }
+        }
 
         [Description("Specifies whether generate interfaces for the client classes.")]
         [Argument(Name = "GenerateClientInterfaces", DefaultValue = false)]
-        public bool GenerateClientInterfaces { get; set; }
+        public bool GenerateClientInterfaces
+        {
+            get { return Settings.GenerateClientInterfaces; }
+            set { Settings.GenerateClientInterfaces = value; }
+        }
 
         [Description("Specifies whether to generate DTO classes.")]
         [Argument(Name = "GenerateDtoTypes", DefaultValue = true)]
-        public bool GenerateDtoTypes { get; set; }
+        public bool GenerateDtoTypes
+        {
+            get { return Settings.GenerateDtoTypes; }
+            set { Settings.GenerateDtoTypes = value; }
+        }
 
         [Description("The operation generation mode ('SingleClientFromOperationId' or 'MultipleClientsFromPathSegments').")]
         [Argument(Name = "OperationGenerationMode", DefaultValue = OperationGenerationMode.SingleClientFromOperationId)]
-        public OperationGenerationMode OperationGenerationMode { get; set; }
+        public OperationGenerationMode OperationGenerationMode
+        {
+            get { return Settings.OperationGenerationMode; }
+            set { Settings.OperationGenerationMode = value; }
+        }
 
         public override async Task RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            var clientGenerator = new SwaggerToTypeScriptGenerator(InputSwaggerService, new SwaggerToTypeScriptGeneratorSettings
-            {
-                ClassName = ClassName,
-                ModuleName = ModuleName,
-                Template = Template,
-                OperationGenerationMode = OperationGenerationMode,
-
-                GenerateClientClasses = GenerateClientClasses,
-                GenerateClientInterfaces = GenerateClientInterfaces,
-                GenerateDtoTypes = GenerateDtoTypes
-            });
-
-            var output = clientGenerator.GenerateFile();
+            var output = await RunAsync();
             WriteOutput(host, output);
+        }
+
+        public async Task<string> RunAsync()
+        {
+            var clientGenerator = new SwaggerToTypeScriptGenerator(InputSwaggerService, Settings);
+            return clientGenerator.GenerateFile();
         }
     }
 }

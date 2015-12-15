@@ -14,14 +14,14 @@ using Microsoft.Win32;
 using MyToolkit.Command;
 using NJsonSchema;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
+using NSwag.Commands;
 
 namespace NSwagStudio.ViewModels.SwaggerGenerators
 {
     public class AssemblySwaggerGeneratorViewModel : ViewModelBase
     {
-        private string _className;
         private string[] _allClassNames;
-        private AssemblyTypeToSwaggerGeneratorSettings _settings = MainWindowModel.Settings.AssemblyTypeToSwaggerGeneratorSettings;
+        private AssemblyTypeToSwaggerCommand _command = MainWindowModel.Settings.AssemblyTypeToSwaggerCommand; // TODO: Use command
 
         /// <summary>Initializes a new instance of the <see cref="AssemblySwaggerGeneratorViewModel"/> class.</summary>
         public AssemblySwaggerGeneratorViewModel()
@@ -33,10 +33,10 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         }
 
         /// <summary>Gets or sets the generator settings.</summary>
-        public AssemblyTypeToSwaggerGeneratorSettings Settings
+        public AssemblyTypeToSwaggerCommand Command
         {
-            get { return _settings; }
-            set { Set(ref _settings, value); }
+            get { return _command; }
+            set { Set(ref _command, value); }
         }
 
         /// <summary>Gets the async types. </summary>
@@ -54,10 +54,10 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         /// <summary>Gets or sets the assembly path. </summary>
         public string AssemblyPath
         {
-            get { return Settings.AssemblyPath; }
+            get { return Command.AssemblyPath; }
             set
             {
-                Settings.AssemblyPath = value;
+                Command.AssemblyPath = value;
                 LoadAssemblyCommand.RaiseCanExecuteChanged();
                 RaisePropertyChanged(() => AssemblyPath);
                 RaisePropertyChanged(() => AssemblyName);
@@ -73,8 +73,19 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         /// <summary>Gets or sets the class name. </summary>
         public string ClassName
         {
-            get { return _className; }
-            set { Set(ref _className, value); }
+            get
+            {
+                return Command.ClassNames != null && Command.ClassNames.Any() ? Command.ClassNames.First() : null;
+            }
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                    Command.ClassNames = new[] { value };
+                else
+                    Command.ClassNames = new string[] { };
+                RaisePropertyChanged(() => ClassName);
+
+            }
         }
 
         /// <summary>Gets or sets the all class names. </summary>
@@ -102,7 +113,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             {
                 AllClassNames = await Task.Run(() =>
                 {
-                    var generator = new AssemblyTypeToSwaggerGenerator(Settings);
+                    var generator = new AssemblyTypeToSwaggerGenerator(Command.Settings);
                     return generator.GetClasses();
                 });
                 ClassName = AllClassNames.FirstOrDefault();
@@ -111,14 +122,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
 
         public async Task<string> GenerateSwaggerAsync()
         {
-            return await RunTaskAsync(async () =>
-            {
-                return await Task.Run(() =>
-                {
-                    var generator = new AssemblyTypeToSwaggerGenerator(Settings);
-                    return generator.Generate(new[] { ClassName }).ToJson();
-                });
-            });
+            return await RunTaskAsync(async () => await Task.Run(async () => await Command.RunAsync()));
         }
     }
 }

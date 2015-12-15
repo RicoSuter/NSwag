@@ -58,6 +58,10 @@
       <HintPath>..\packages\MyToolkit.Extended.2.5.8.0\lib\net45\MyToolkit.Extended.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="NConsole, Version=0.6.5780.31873, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NConsole.0.6.5780.31873\lib\net45\NConsole.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>

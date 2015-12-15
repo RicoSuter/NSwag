@@ -13,19 +13,20 @@ using System.Windows;
 using NSwag;
 using NSwag.CodeGeneration.ClientGenerators;
 using NSwag.CodeGeneration.ClientGenerators.CSharp;
+using NSwag.Commands;
 
 namespace NSwagStudio.ViewModels.ClientGenerators
 {
     public class CSharpClientGeneratorViewModel : ViewModelBase
     {
         private string _clientCode;
-        private SwaggerToCSharpGeneratorSettings _settings = MainWindowModel.Settings.SwaggerToCSharpGeneratorSettings;
+        private SwaggerToCSharpCommand _command = MainWindowModel.Settings.SwaggerToCSharpCommand;
 
         /// <summary>Gets the settings.</summary>
-        public SwaggerToCSharpGeneratorSettings Settings
+        public SwaggerToCSharpCommand Command
         {
-            get { return _settings; }
-            set { Set(ref _settings, value); }
+            get { return _command; }
+            set { Set(ref _command, value); }
         }
 
         /// <summary>Gets the async types. </summary>
@@ -37,13 +38,17 @@ namespace NSwagStudio.ViewModels.ClientGenerators
         /// <summary>Gets or sets the namespace usage. </summary>
         public string AdditionalNamespaceUsage
         {
-            get { return Settings.AdditionalNamespaceUsages.Any() ? Settings.AdditionalNamespaceUsages.First() : null; }
+            get
+            {
+                return Command.AdditionalNamespaceUsages != null && 
+                    Command.AdditionalNamespaceUsages.Any() ? Command.AdditionalNamespaceUsages.First() : null;
+            }
             set
             {
                 if (!string.IsNullOrEmpty(value))
-                    Settings.AdditionalNamespaceUsages = new[] { value };
+                    Command.AdditionalNamespaceUsages = new[] { value };
                 else
-                    Settings.AdditionalNamespaceUsages = new string[] { };
+                    Command.AdditionalNamespaceUsages = new string[] { };
                 RaisePropertyChanged(() => AdditionalNamespaceUsage);
             }
         }
@@ -60,14 +65,12 @@ namespace NSwagStudio.ViewModels.ClientGenerators
             return RunTaskAsync(async () =>
             {
                 var code = string.Empty;
-                await Task.Run(() =>
+                await Task.Run(async () =>
                 {
                     if (!string.IsNullOrEmpty(swaggerData))
                     {
-                        var service = SwaggerService.FromJson(swaggerData);
-
-                        var codeGenerator = new SwaggerToCSharpGenerator(service, Settings);
-                        code = codeGenerator.GenerateFile();
+                        Command.Input = swaggerData;
+                        code = await Command.RunAsync();
                     }
                 });
 

@@ -13,16 +13,17 @@ using System.Windows;
 using NSwag;
 using NSwag.CodeGeneration.ClientGenerators;
 using NSwag.CodeGeneration.ClientGenerators.TypeScript;
+using NSwag.Commands;
 
 namespace NSwagStudio.ViewModels.ClientGenerators
 {
     public class TypeScriptCodeGeneratorViewModel : ViewModelBase
     {
         private string _clientCode;
-        private SwaggerToTypeScriptGeneratorSettings _settings = MainWindowModel.Settings.SwaggerToTypeScriptGeneratorSettings;
+        private SwaggerToTypeScriptCommand _settings = MainWindowModel.Settings.SwaggerToTypeScriptCommand;
 
         /// <summary>Gets the settings.</summary>
-        public SwaggerToTypeScriptGeneratorSettings Settings
+        public SwaggerToTypeScriptCommand Command
         {
             get { return _settings; }
             set { Set(ref _settings, value); }
@@ -52,14 +53,12 @@ namespace NSwagStudio.ViewModels.ClientGenerators
             return RunTaskAsync(async () =>
             {
                 var code = string.Empty;
-                await Task.Run(() =>
+                await Task.Run(async () =>
                 {
                     if (!string.IsNullOrEmpty(swaggerData))
                     {
-                        var service = SwaggerService.FromJson(swaggerData);
-
-                        var codeGenerator = new SwaggerToTypeScriptGenerator(service, Settings);
-                        code = codeGenerator.GenerateFile();
+                        Command.Input = swaggerData;
+                        code = await Command.RunAsync();
                     }
                 });
 

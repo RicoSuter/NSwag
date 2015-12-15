@@ -6,9 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using NSwag.CodeGeneration.ClientGenerators.CSharp;
-using NSwag.CodeGeneration.ClientGenerators.TypeScript;
-using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
+using NSwag.Commands;
 
 namespace NSwagStudio
 {
@@ -16,19 +14,20 @@ namespace NSwagStudio
     {
         public NSwagSettings()
         {
-            WebApiAssemblyToSwaggerGeneratorSettings = new WebApiAssemblyToSwaggerGeneratorSettings();
-            AssemblyTypeToSwaggerGeneratorSettings = new AssemblyTypeToSwaggerGeneratorSettings();
+            WebApiToSwaggerCommand = new WebApiToSwaggerCommand();
+            AssemblyTypeToSwaggerCommand = new AssemblyTypeToSwaggerCommand();
 
-            SwaggerToCSharpGeneratorSettings = new SwaggerToCSharpGeneratorSettings();
-            SwaggerToTypeScriptGeneratorSettings = new SwaggerToTypeScriptGeneratorSettings();
+            SwaggerToTypeScriptCommand = new SwaggerToTypeScriptCommand();
+            SwaggerToCSharpCommand = new SwaggerToCSharpCommand();
         }
 
-        public WebApiAssemblyToSwaggerGeneratorSettings WebApiAssemblyToSwaggerGeneratorSettings { get; set; }
+        public WebApiToSwaggerCommand WebApiToSwaggerCommand { get; set; }
 
-        public AssemblyTypeToSwaggerGeneratorSettings AssemblyTypeToSwaggerGeneratorSettings { get; set; }
+        public AssemblyTypeToSwaggerCommand AssemblyTypeToSwaggerCommand { get; set; }
 
-        public SwaggerToCSharpGeneratorSettings SwaggerToCSharpGeneratorSettings { get; set; }
+        public SwaggerToTypeScriptCommand SwaggerToTypeScriptCommand { get; set; }
 
-        public SwaggerToTypeScriptGeneratorSettings SwaggerToTypeScriptGeneratorSettings { get; set; }
+        public SwaggerToCSharpCommand SwaggerToCSharpCommand { get; set; }
+
     }
 }

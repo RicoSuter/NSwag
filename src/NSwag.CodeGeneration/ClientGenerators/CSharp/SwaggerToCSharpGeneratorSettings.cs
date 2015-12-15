@@ -7,7 +7,6 @@
 //-----------------------------------------------------------------------
 
 using NJsonSchema.CodeGeneration.CSharp;
-using NSwag.CodeGeneration.ClientGenerators.TypeScript;
 
 namespace NSwag.CodeGeneration.ClientGenerators.CSharp
 {
@@ -18,7 +17,7 @@ namespace NSwag.CodeGeneration.ClientGenerators.CSharp
         public SwaggerToCSharpGeneratorSettings()
         {
             ClassName = "{controller}Client";
-            AdditionalNamespaceUsages = new string[] { };
+            AdditionalNamespaceUsages = null;
             CSharpGeneratorSettings = new CSharpGeneratorSettings();
         }
 

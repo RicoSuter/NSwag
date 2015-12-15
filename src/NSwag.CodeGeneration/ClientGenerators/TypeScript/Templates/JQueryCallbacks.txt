@@ -11,7 +11,8 @@ export interface I<class> {
 <endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.Name>: <parameter.Type>, }>onSuccess?: (result: <operation.ResultType>) => void, onFail?: (exception: <operation.ExceptionType>, reason: string) => void);
 
 }>
-}<endif>
+}
+<endif>
 
 export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
     baseUrl: string = undefined; 

@@ -39,7 +39,7 @@
         <TextBlock Text="{Binding AssemblyName, Mode=OneWay}" TextWrapping="Wrap" Margin="0,-6,0,12" />
 
         <TextBlock Text="Class" FontWeight="Bold" Margin="0,0,0,6" />
-        <ComboBox Text="{Binding ClassName, Mode=TwoWay}" Margin="0,0,0,12"
+        <ComboBox SelectedItem="{Binding ClassName, Mode=TwoWay}" Margin="0,0,0,12"
                   ItemsSource="{Binding AllClassNames}" />
 
         <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
@@ -47,9 +47,9 @@
             <LineBreak />
             Choose 'Integer' if you use the default Json.NET serializer or 'String' if a global StringEnumConverter is registered.
         </TextBlock>
-        <ComboBox SelectedItem="{Binding Settings.DefaultEnumHandling, Mode=TwoWay}" ItemsSource="{Binding EnumHandlings}" Margin="0,0,0,12" />
+        <ComboBox SelectedItem="{Binding Command.DefaultEnumHandling, Mode=TwoWay}" ItemsSource="{Binding EnumHandlings}" Margin="0,0,0,12" />
 
-        <CheckBox IsChecked="{Binding Settings.FlattenInheritanceHierarchy, Mode=TwoWay}" Margin="0,0,0,12">
+        <CheckBox IsChecked="{Binding Command.FlattenInheritanceHierarchy, Mode=TwoWay}" Margin="0,0,0,12">
             <TextBlock Text="Flatten the inheritance hierarchy instead of using allOf to describe inheritance" TextWrapping="Wrap" />
         </CheckBox>
 

@@ -46,7 +46,7 @@
         <RadioButton IsChecked="{Binding SpecifyControllerName, Mode=TwoWay}" 
                      Margin="0,0,0,6" Content="Use single controller: " GroupName="SpecifyControllerName"/>
         <ComboBox Visibility="{Binding SpecifyControllerName, Converter={StaticResource VisibilityConverter}}"
-                  Text="{Binding ControllerName, Mode=TwoWay}" Margin="0,0,0,6"
+                  SelectedItem="{Binding ControllerName, Mode=TwoWay}" Margin="0,0,0,6"
                   ItemsSource="{Binding AllControllerNames}" />
 
         <TextBlock Margin="0,6,0,6" TextWrapping="Wrap">
@@ -54,13 +54,13 @@
             <LineBreak />
             Choose 'Integer' if you use the default Json.NET serializer or 'String' if a global StringEnumConverter is registered.
         </TextBlock>
-        <ComboBox SelectedItem="{Binding Settings.DefaultEnumHandling, Mode=TwoWay}" ItemsSource="{Binding EnumHandlings}" Margin="0,0,0,12" />
+        <ComboBox SelectedItem="{Binding Command.DefaultEnumHandling, Mode=TwoWay}" ItemsSource="{Binding EnumHandlings}" Margin="0,0,0,12" />
 
-        <CheckBox IsChecked="{Binding Settings.FlattenInheritanceHierarchy, Mode=TwoWay}" Margin="0,0,0,12">
+        <CheckBox IsChecked="{Binding Command.FlattenInheritanceHierarchy, Mode=TwoWay}" Margin="0,0,0,12">
             <TextBlock Text="Flatten the inheritance hierarchy instead of using allOf to describe inheritance" TextWrapping="Wrap" />
         </CheckBox>
 
         <TextBlock Text="Default URL Template" FontWeight="Bold" Margin="0,0,0,6" />
-        <TextBox Text="{Binding Settings.DefaultUrlTemplate, Mode=TwoWay}" Margin="0,0,0,24" />
+        <TextBox Text="{Binding Command.DefaultUrlTemplate, Mode=TwoWay}" Margin="0,0,0,24" />
     </StackPanel>
 </UserControl>

@@ -67,7 +67,7 @@ namespace NSwag.CodeGeneration.ClientGenerators.CSharp
             template.Add("namespace", Settings.CSharpGeneratorSettings.Namespace);
             template.Add("toolchain", SwaggerService.ToolchainVersion);
             template.Add("clients", Settings.GenerateClientClasses ? clientCode : string.Empty);
-            template.Add("namespaceUsages", Settings.AdditionalNamespaceUsages);
+            template.Add("namespaceUsages", Settings.AdditionalNamespaceUsages ?? new string[] {});
             template.Add("classes", Settings.GenerateDtoTypes ? _resolver.GenerateTypes() : string.Empty);
             return template.Render();
         }

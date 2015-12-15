@@ -126,29 +126,11 @@ namespace NSwagStudio.ViewModels
         {
             try
             {
-                var settings = new NSwagSettings();
-
-                var setting = ApplicationSettings.GetSetting("AssemblyTypeToSwaggerGeneratorSettings", string.Empty);
-                if (!string.IsNullOrEmpty(setting))
-                    settings.AssemblyTypeToSwaggerGeneratorSettings =
-                        JsonConvert.DeserializeObject<AssemblyTypeToSwaggerGeneratorSettings>(setting);
-
-                setting = ApplicationSettings.GetSetting("WebApiAssemblyToSwaggerGeneratorSettings", string.Empty);
-                if (!string.IsNullOrEmpty(setting))
-                    settings.WebApiAssemblyToSwaggerGeneratorSettings =
-                        JsonConvert.DeserializeObject<WebApiAssemblyToSwaggerGeneratorSettings>(setting);
-
-                setting = ApplicationSettings.GetSetting("SwaggerToCSharpGeneratorSettings", string.Empty);
-                if (!string.IsNullOrEmpty(setting))
-                    settings.SwaggerToCSharpGeneratorSettings = 
-                        JsonConvert.DeserializeObject<SwaggerToCSharpGeneratorSettings>(setting);
-
-                setting = ApplicationSettings.GetSetting("SwaggerToTypeScriptGeneratorSettings", string.Empty);
-                if (!string.IsNullOrEmpty(setting))
-                    settings.SwaggerToTypeScriptGeneratorSettings =
-                        JsonConvert.DeserializeObject<SwaggerToTypeScriptGeneratorSettings>(setting);
-
-                Settings = settings;
+                var settings = ApplicationSettings.GetSetting("NSwagSettings", string.Empty);
+                if (settings != string.Empty)
+                    Settings = JsonConvert.DeserializeObject<NSwagSettings>(settings);
+                else
+                    Settings = new NSwagSettings();
             }
             catch
             {
@@ -158,15 +140,7 @@ namespace NSwagStudio.ViewModels
 
         private void SaveApplicationSettings()
         {
-            ApplicationSettings.SetSetting("AssemblyTypeToSwaggerGeneratorSettings",
-                JsonConvert.SerializeObject(Settings.AssemblyTypeToSwaggerGeneratorSettings));
-            ApplicationSettings.SetSetting("WebApiAssemblyToSwaggerGeneratorSettings",
-                JsonConvert.SerializeObject(Settings.WebApiAssemblyToSwaggerGeneratorSettings));
-
-            ApplicationSettings.SetSetting("SwaggerToCSharpGeneratorSettings",
-                JsonConvert.SerializeObject(Settings.SwaggerToCSharpGeneratorSettings));
-            ApplicationSettings.SetSetting("SwaggerToTypeScriptGeneratorSettings",
-                JsonConvert.SerializeObject(Settings.SwaggerToTypeScriptGeneratorSettings));
+            ApplicationSettings.SetSetting("NSwagSettings", JsonConvert.SerializeObject(Settings, Formatting.Indented));
         }
 
         private void LoadSettings()

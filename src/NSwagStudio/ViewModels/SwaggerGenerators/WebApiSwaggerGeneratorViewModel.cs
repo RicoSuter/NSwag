@@ -14,22 +14,22 @@ using Microsoft.Win32;
 using MyToolkit.Command;
 using NJsonSchema;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
+using NSwag.Commands;
 
 namespace NSwagStudio.ViewModels.SwaggerGenerators
 {
     public class WebApiSwaggerGeneratorViewModel : ViewModelBase
     {
-        private string _controllerName;
-        private string[] _allControllerNames;
         private bool _specifyControllerName;
-        private WebApiAssemblyToSwaggerGeneratorSettings _settings = MainWindowModel.Settings.WebApiAssemblyToSwaggerGeneratorSettings;
+        private string[] _allControllerNames;
+        private WebApiToSwaggerCommand _command = MainWindowModel.Settings.WebApiToSwaggerCommand;
 
         /// <summary>Initializes a new instance of the <see cref="WebApiSwaggerGeneratorViewModel"/> class.</summary>
         public WebApiSwaggerGeneratorViewModel()
         {
             BrowseAssemblyCommand = new AsyncRelayCommand(BrowseAssembly);
-            SpecifyControllerName = true;
-            
+            SpecifyControllerName = true; 
+
             LoadAssemblyCommand = new AsyncRelayCommand(LoadAssembly, () => !string.IsNullOrEmpty(AssemblyPath));
             LoadAssemblyCommand.TryExecute();
         }
@@ -46,24 +46,24 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         /// <summary>Gets or sets the command to load the controller types from an assembly.</summary>
         public AsyncRelayCommand LoadAssemblyCommand { get; set; }
 
+        /// <summary>Gets or sets the generator settings. </summary>
+        public WebApiToSwaggerCommand Command
+        {
+            get { return _command; }
+            set { Set(ref _command, value); }
+        }
+
         /// <summary>Gets or sets the assembly path. </summary>
         public string AssemblyPath
         {
-            get { return Settings.AssemblyPath; }
+            get { return Command.AssemblyPath; }
             set
             {
-                Settings.AssemblyPath = value;
+                Command.AssemblyPath = value;
                 LoadAssemblyCommand.RaiseCanExecuteChanged();
                 RaisePropertyChanged(() => AssemblyPath);
                 RaisePropertyChanged(() => AssemblyName);
             }
-        }
-
-        /// <summary>Gets or sets the generator settings. </summary>
-        public WebApiAssemblyToSwaggerGeneratorSettings Settings
-        {
-            get { return _settings; }
-            set { Set(ref _settings, value); }
         }
 
         /// <summary>Gets the name of the selected assembly.</summary>
@@ -82,8 +82,8 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         /// <summary>Gets or sets the class name. </summary>
         public string ControllerName
         {
-            get { return _controllerName; }
-            set { Set(ref _controllerName, value); }
+            get { return Command.ControllerName; }
+            set { Command.ControllerName = value; }
         }
 
         /// <summary>Gets or sets the all class names. </summary>
@@ -105,32 +105,29 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             }
         }
 
+        public async Task<string> GenerateSwaggerAsync()
+        {
+            return await RunTaskAsync(async () => await Task.Run(async () =>
+            {
+                if (!SpecifyControllerName)
+                    Command.ControllerName = null; 
+
+                return await Command.RunAsync();
+            }));
+        }
+
         private Task LoadAssembly()
         {
             return RunTaskAsync(async () =>
             {
                 AllControllerNames = await Task.Run(() =>
                 {
-                    var generator = new WebApiAssemblyToSwaggerGenerator(Settings);
+                    var generator = new WebApiAssemblyToSwaggerGenerator(Command.Settings);
                     return generator.GetControllerClasses();
                 });
 
-                ControllerName = AllControllerNames.FirstOrDefault();
-            });
-        }
-
-        public async Task<string> GenerateSwaggerAsync()
-        {
-            return await RunTaskAsync(async () =>
-            {
-                return await Task.Run(() =>
-                {
-                    var generator = new WebApiAssemblyToSwaggerGenerator(Settings);
-                    if (SpecifyControllerName)
-                        return generator.GenerateForSingleController(ControllerName).ToJson();
-                    else
-                        return generator.GenerateForAssemblyControllers().ToJson();
-                });
+                if (!AllControllerNames.Contains(ControllerName))
+                    ControllerName = AllControllerNames.FirstOrDefault();
             });
         }
     }
