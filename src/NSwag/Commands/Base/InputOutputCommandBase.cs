@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using NConsole;
+using Newtonsoft.Json;
 
 namespace NSwag.Commands.Base
 {
@@ -12,6 +13,7 @@ namespace NSwag.Commands.Base
         [Argument(Name = "Input")]
         public string Input { get; set; }
 
+        [JsonIgnore]
         protected SwaggerService InputSwaggerService
         {
             get
@@ -26,6 +28,7 @@ namespace NSwag.Commands.Base
             }
         }
 
+        [JsonIgnore]
         protected string InputJson
         {
             get

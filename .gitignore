@@ -8,3 +8,6 @@ src/packages/**
 
 **.sln.ide/**
 **.vs/**
+
+[Bb]in/
+[Oo]bj/
