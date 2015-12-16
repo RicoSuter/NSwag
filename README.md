@@ -5,6 +5,13 @@
 
 NSwag is a Swagger 2.0 API toolchain for .NET, TypeScript and other platforms, written in C#. The [Swagger specification](http://swagger.io) uses JSON and JSON Schema to describe a RESTful web API. The project provides tools to automatically generate client code from these Swagger specifications and integrate this generation into existing processes. 
 
+**Ways to use the toolchain:** 
+
+- Simple to use Windows GUI, [NSwagStudio](https://github.com/NSwag/NSwag/wiki/NSwagStudio)
+- In your C# code, via [NuGet](https://www.nuget.org/packages?q=NSwag)
+- Via [command line](https://github.com/NSwag/NSwag/wiki/CommandLine) (Windows, Mac and Linux support through [Mono](http://www.mono-project.com/))
+- Generate code with [T4 templates](https://github.com/NSwag/NSwag/wiki/T4) in Visual Studio
+
 **Swagger Generators:**
 
 - ASP.NET Web API
@@ -21,13 +28,6 @@ NSwag is a Swagger 2.0 API toolchain for .NET, TypeScript and other platforms, w
 		- JQuery with Callbacks, `JQueryCallbacks`
 		- JQuery with Q promises `JQueryQPromises`
 		- AngularJS using $http, `AngularJS`
-
-**Ways to use the toolchain:** 
-
-- Windows GUI, [NSwagStudio](https://github.com/NSwag/NSwag/wiki/NSwagStudio)
-- In your C# code, via [NuGet](https://www.nuget.org/packages?q=NSwag)
-- Via [command line](https://github.com/NSwag/NSwag/wiki/CommandLine) (Windows, Mac and Linux support through [Mono](http://www.mono-project.com/))
-- Generate code with [T4 templates](https://github.com/NSwag/NSwag/wiki/T4) in Visual Studio
 
 **Downloads**
 
@@ -59,4 +59,3 @@ Check out the [project Wiki](https://github.com/NSwag/NSwag/wiki) for more infor
 The generators can be used in a confortable and simple Windows GUI called NSwagStudio: 
 
 [![](https://raw.githubusercontent.com/wiki/NSwag/NSwag/NSwagStudioScreenshot01.png)](https://raw.githubusercontent.com/wiki/NSwag/NSwag/NSwagStudioScreenshot01.png)
-
