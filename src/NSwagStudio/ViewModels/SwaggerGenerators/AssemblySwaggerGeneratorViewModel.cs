@@ -28,7 +28,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         {
             BrowseAssemblyCommand = new AsyncRelayCommand(BrowseAssembly);
 
-            LoadAssemblyCommand = new AsyncRelayCommand(LoadAssembly, () => !string.IsNullOrEmpty(AssemblyPath));
+            LoadAssemblyCommand = new AsyncRelayCommand(LoadAssemblyAsync, () => !string.IsNullOrEmpty(AssemblyPath));
             LoadAssemblyCommand.TryExecute();
         }
 
@@ -39,7 +39,10 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             set
             {
                 if (Set(ref _command, value))
+                {
                     RaiseAllPropertiesChanged();
+                    LoadAssemblyAsync();
+                }
             }
         }
 
@@ -107,11 +110,11 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             if (dlg.ShowDialog() == true)
             {
                 AssemblyPath = dlg.FileName;
-                await LoadAssembly();
+                await LoadAssemblyAsync();
             }
         }
 
-        private Task LoadAssembly()
+        private Task LoadAssemblyAsync()
         {
             return RunTaskAsync(async () =>
             {

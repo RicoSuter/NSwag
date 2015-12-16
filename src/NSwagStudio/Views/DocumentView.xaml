@@ -65,20 +65,10 @@
             </TabControl>
         </Grid>
 
-        <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <Button Command="{Binding SaveSettingsCommand}" Margin="0,8,8,0" Padding="8">
-                <TextBlock Text="Save .nswag File" FontSize="16" Margin="0,4,0,4" />
-            </Button>
-
-            <Button Command="{Binding GenerateCommand}" Click="OnGenerate" Grid.Column="1"
-                    Margin="0,8,0,0" Padding="8">
-                <TextBlock Text="Generate Outputs" FontSize="16" Margin="0,4,0,4" />
-            </Button>
-        </Grid>
+        <Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+                Command="{Binding GenerateCommand}" Click="OnGenerate"
+                Margin="0,8,0,0" Padding="8">
+            <TextBlock Text="Generate Outputs" FontSize="16" Margin="0,4,0,4" />
+        </Button>
     </Grid>
 </UserControl>

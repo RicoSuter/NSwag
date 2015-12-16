@@ -18,17 +18,23 @@ namespace NSwagStudio.Views
             Unloaded += OnUnloaded;
         }
 
+        private DocumentViewModel Model { get { return (DocumentViewModel)Resources["ViewModel"]; } }
+
         public static readonly DependencyProperty DocumentProperty = DependencyProperty.Register(
-            "Document", typeof (NSwagDocument), typeof (DocumentView), new PropertyMetadata(default(NSwagDocument), 
-                (o, args) => ((DocumentView)o).Model.Document = (NSwagDocument)args.NewValue));
+            "Document", typeof (NSwagDocument), typeof (DocumentView), new PropertyMetadata(default(NSwagDocument), OnDocumentChanged));
+
+        private static void OnDocumentChanged(DependencyObject view, DependencyPropertyChangedEventArgs args)
+        {
+            var vm = ((DocumentView) view).Model;
+            if (vm.Document != args.NewValue)
+                vm.Document = (NSwagDocument) args.NewValue;
+        }
 
         public NSwagDocument Document
         {
             get { return (NSwagDocument) GetValue(DocumentProperty); }
             set { SetValue(DocumentProperty, value); }
         }
-
-        private DocumentViewModel Model { get { return (DocumentViewModel)Resources["ViewModel"]; } }
 
         private void OnGenerate(object sender, RoutedEventArgs e)
         {

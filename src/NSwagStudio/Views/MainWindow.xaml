@@ -10,7 +10,6 @@
 
     <Window.Resources>
         <viewModels:MainWindowModel x:Key="ViewModel" />
-
         <DataTemplate x:Key="RotatedTabItem">
             <ContentPresenter Margin="4,8,4,8">
                 <ContentPresenter.LayoutTransform>
@@ -23,20 +22,25 @@
         </DataTemplate>
     </Window.Resources>
 
-    <TabControl TabStripPlacement="Left" DataContext="{StaticResource ViewModel}" Margin="8,0,0,0">
-        <!-- Documents -->
-        <TabItem Header="Documents" HeaderTemplate="{StaticResource RotatedTabItem}">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                
-                <Button Content="Open .nswag File" Margin="8,8,0,0"
-                        Padding="8,4,8,4" HorizontalAlignment="Left"
-                        Command="{Binding OpenDocumentCommand}" />
-
-                <TabControl Grid.Row="1" ItemsSource="{Binding Documents}" 
+    <Grid DataContext="{StaticResource ViewModel}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <Menu>
+            <MenuItem Header="_File">
+                <MenuItem Header="_New" Command="{Binding CreateDocumentCommand}" />
+                <MenuItem Header="_Open" Command="{Binding OpenDocumentCommand}" />
+                <MenuItem Header="_Close" Command="{Binding CloseDocumentCommand}" CommandParameter="{Binding SelectedDocument}" />
+                <MenuItem Header="_Save" Command="{Binding SaveSettingsCommand}" CommandParameter="{Binding SelectedDocument}" />
+            </MenuItem>
+        </Menu>
+        
+        <TabControl Grid.Row="1" TabStripPlacement="Left" Margin="8,8,0,0">
+            <!-- Documents -->
+            <TabItem Header="Documents" HeaderTemplate="{StaticResource RotatedTabItem}">
+                <TabControl ItemsSource="{Binding Documents}" 
                             SelectedItem="{Binding SelectedDocument, Mode=TwoWay}" 
                             Margin="8">
                     <TabControl.ItemTemplate>
@@ -61,32 +65,31 @@
                         </DataTemplate>
                     </TabControl.ContentTemplate>
                 </TabControl>
-            </Grid>
-        </TabItem>
-
-        <!-- About -->
-        <TabItem Header="About" HeaderTemplate="{StaticResource RotatedTabItem}">
-            <StackPanel Margin="8">
-                <TextBlock Margin="0,0,0,8" FontSize="16" FontWeight="Bold">
-                    <Hyperlink NavigateUri="http://nswag.org" Click="OnOpenHyperlink">NSwag: The Swagger API toolchain for .NET</Hyperlink>
-                </TextBlock>
-                <TextBlock Margin="0,0,0,8" FontSize="14" TextWrapping="Wrap">
-                    NSwag is a Swagger 2.0 API toolchain for .NET, TypeScript and other platforms, written in C#. 
-                    The Swagger specification uses JSON and JSON Schema to describe a RESTful web API. 
-                    The project provides tools to automatically generate client code from these Swagger 
-                    specifications and integrate this generation into existing processes.
-                </TextBlock>
-                <TextBlock Margin="0,0,0,8" FontSize="14">
-                    NSwag and NSwagStudio have been developed by 
-                    <Hyperlink NavigateUri="http://www.rsuter.com" Click="OnOpenHyperlink">Rico Suter</Hyperlink>.
-                </TextBlock>
-                <TextBlock Margin="0,0,0,8">
+            </TabItem>
+            <!-- About -->
+            <TabItem Header="About" HeaderTemplate="{StaticResource RotatedTabItem}">
+                <StackPanel Margin="8">
+                    <TextBlock Margin="0,0,0,8" FontSize="16" FontWeight="Bold">
+                        <Hyperlink NavigateUri="http://nswag.org" Click="OnOpenHyperlink">NSwag: The Swagger API toolchain for .NET</Hyperlink>
+                    </TextBlock>
+                    <TextBlock Margin="0,0,0,8" FontSize="14" TextWrapping="Wrap">
+                        NSwag is a Swagger 2.0 API toolchain for .NET, TypeScript and other platforms, written in C#. 
+                        The Swagger specification uses JSON and JSON Schema to describe a RESTful web API. 
+                        The project provides tools to automatically generate client code from these Swagger 
+                        specifications and integrate this generation into existing processes.
+                    </TextBlock>
+                    <TextBlock Margin="0,0,0,8" FontSize="14">
+                        NSwag and NSwagStudio have been developed by 
+                        <Hyperlink NavigateUri="http://www.rsuter.com" Click="OnOpenHyperlink">Rico Suter</Hyperlink>.
+                    </TextBlock>
+                    <TextBlock Margin="0,0,0,8">
                         Application Version: <Run Text="{Binding ApplicationVersion, Mode=OneWay}" />
-                </TextBlock>
-                <TextBlock Margin="0,0,0,8">
+                    </TextBlock>
+                    <TextBlock Margin="0,0,0,8">
                         License: <Hyperlink NavigateUri="https://github.com/NSwag/NSwag/blob/master/LICENSE.md" Click="OnOpenHyperlink">Ms-PL</Hyperlink>
-                </TextBlock>
-            </StackPanel>
-        </TabItem>
-    </TabControl>
+                    </TextBlock>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </Grid>    
 </Window>

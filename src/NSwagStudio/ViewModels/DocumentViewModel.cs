@@ -17,21 +17,15 @@ namespace NSwagStudio.ViewModels
     public class DocumentViewModel : ViewModelBase
     {
         private static NSwagDocument _document;
-
-        private ISwaggerGenerator _selectedSwaggerGenerator;
-        private IClientGenerator _selectedClientGenerator;
-
+        
         /// <summary>Initializes a new instance of the <see cref="MainWindowModel"/> class.</summary>
         public DocumentViewModel()
         {
             GenerateCommand = new AsyncRelayCommand(GenerateAsync);
-            SaveSettingsCommand = new RelayCommand(SaveDocument);
         }
 
         /// <summary>Gets or sets the command to generate code from the selected Swagger generator.</summary>
         public AsyncRelayCommand GenerateCommand { get; set; }
-
-        public ICommand SaveSettingsCommand { get; private set; }
 
         /// <summary>Gets the swagger generators.</summary>
         public ISwaggerGenerator[] SwaggerGenerators { get; private set; }
@@ -87,34 +81,6 @@ namespace NSwagStudio.ViewModels
 
             RaisePropertyChanged(() => SwaggerGenerators);
             RaisePropertyChanged(() => ClientGenerators);
-        }
-
-        private void SaveDocument()
-        {
-            try
-            {
-                if (File.Exists(Document.Path))
-                {
-                    File.WriteAllText(Document.Path, JsonConvert.SerializeObject(Document));
-                    MessageBox.Show("The file has been saved.", "File saved");
-                }
-                else
-                {
-                    var dlg = new SaveFileDialog();
-                    dlg.Filter = "NSwag settings (*.nswag)|*.nswag";
-                    dlg.RestoreDirectory = true;
-                    dlg.AddExtension = true;
-                    if (dlg.ShowDialog() == DialogResult.OK)
-                    {
-                        File.WriteAllText(dlg.FileName, JsonConvert.SerializeObject(Document, Formatting.Indented));
-                        Document.Path = dlg.FileName;
-                    }
-                }
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show("File save failed: \n" + exception.Message, "Could not save the settings");
-            }
-        }
+        }               
     }
 }

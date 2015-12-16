@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using MyToolkit.Model;
 using Newtonsoft.Json;
 using NSwag.Commands;
@@ -44,6 +45,24 @@ namespace NSwagStudio
             get { return System.IO.Path.GetFileName(Path); }
         }
 
+        [JsonIgnore]
+        public string OriginalDocument { get; set; }
+
+        [JsonIgnore]
+        public bool IsDirty
+        {
+            get { return OriginalDocument != JsonConvert.SerializeObject(this, Formatting.Indented); }
+        }
+
+        public static NSwagDocument LoadDocument(string filePath)
+        {
+            var data = System.IO.File.ReadAllText(filePath); 
+            var document = JsonConvert.DeserializeObject<NSwagDocument>(data);
+            document.Path = filePath;
+            document.OriginalDocument = data; 
+            return document;
+        }
+
         /// <summary>Gets or sets the selected Swagger generator. </summary>
         [JsonProperty("SelectedSwaggerGenerator")]
         public int SelectedSwaggerGenerator
@@ -71,5 +90,10 @@ namespace NSwagStudio
 
         [JsonProperty("SwaggerToCSharpCommand")]
         public SwaggerToCSharpCommand SwaggerToCSharpCommand { get; set; }
+
+        public void Save()
+        {
+            System.IO.File.WriteAllText(Path, JsonConvert.SerializeObject(this, Formatting.Indented));
+        }
     }
 }

@@ -348,7 +348,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             if (description == string.Empty)
                 description = null;
 
-            var isVoidResponse = returnType.FullName == "System.Void";
+            var isVoidResponse = returnType.FullName == "System.Void" || returnType.Name == "HttpResponseMessage";
             var responseTypeAttributes = method.GetCustomAttributes().Where(a => a.GetType().Name == "ResponseTypeAttribute").ToList();
             if (responseTypeAttributes.Count > 0)
             {

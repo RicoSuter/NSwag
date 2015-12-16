@@ -1,21 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Documents;
 using MyToolkit.Mvvm;
 using MyToolkit.Storage;
 using MyToolkit.Utilities;
 using NSwagStudio.ViewModels;
-using ViewModelBase = NSwagStudio.ViewModels.ViewModelBase;
+using Newtonsoft.Json;
 
 namespace NSwagStudio.Views
 {
     public partial class MainWindow : Window
     {
+        private bool _closeCancelled = false;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -38,11 +38,6 @@ namespace NSwagStudio.Views
 
         private void LoadWindowState()
         {
-            // TODO: Enable this
-            //var length = ApplicationSettings.GetSetting("WindowSplitter", (double)0); 
-            //if (length != 0)
-            //    Grid.ColumnDefinitions[0].Width = new GridLength(length, GridUnitType.Pixel);
-
             Width = ApplicationSettings.GetSetting("WindowWidth", Width);
             Height = ApplicationSettings.GetSetting("WindowHeight", Height);
             Left = ApplicationSettings.GetSetting("WindowLeft", Left);
@@ -52,19 +47,34 @@ namespace NSwagStudio.Views
             if (Left == double.NaN)
                 WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
-
-        private bool _cancelled = false;
          
         protected override void OnClosing(CancelEventArgs e)
         {
-            if (!_cancelled)
+            if (!_closeCancelled)
             {
+                e.Cancel = true;
+                
+                var paths = Model.Documents
+                    .Where(d => System.IO.File.Exists(d.Path))
+                    .Select(d => d.Path)
+                    .ToArray();
+
+                foreach (var document in Model.Documents.ToArray())
+                {
+                    var success = Model.CloseDocument(document);
+                    if (!success)
+                    {
+                        base.OnClosing(e);
+                        return;
+                    }
+                }
+
+                ApplicationSettings.SetSetting("NSwagSettings", JsonConvert.SerializeObject(paths, Formatting.Indented));
+
                 Model.CallOnUnloaded();
                 Model.Documents.Clear();
 
-                e.Cancel = true;
-                _cancelled = true;
-
+                _closeCancelled = true;
                 Dispatcher.InvokeAsync(() => { Close(); });
             }
             base.OnClosing(e);
@@ -72,11 +82,6 @@ namespace NSwagStudio.Views
 
         protected override void OnClosed(EventArgs e)
         {
-
-            // TODO: Enable this
-            //if (Grid.ColumnDefinitions[0].Width.IsAbsolute)
-            //    ApplicationSettings.SetSetting("WindowSplitter", Grid.ColumnDefinitions[0].Width.Value);
-
             ApplicationSettings.SetSetting("WindowWidth", Width);
             ApplicationSettings.SetSetting("WindowHeight", Height);
             ApplicationSettings.SetSetting("WindowLeft", Left);

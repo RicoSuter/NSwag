@@ -27,8 +27,10 @@ namespace NSwagStudio.ViewModels
         /// <summary>Initializes a new instance of the <see cref="MainWindowModel"/> class.</summary>
         public MainWindowModel()
         {
+            CreateDocumentCommand = new RelayCommand(CreateDocument);
             OpenDocumentCommand = new RelayCommand(OpenDocument);
-            CloseDocumentCommand = new RelayCommand<NSwagDocument>(CloseDocument);
+            CloseDocumentCommand = new RelayCommand<NSwagDocument>(document => CloseDocument(document));
+            SaveSettingsCommand = new RelayCommand<NSwagDocument>(document => SaveDocument(document));
 
             Documents = new ObservableCollection<NSwagDocument>();
         }
@@ -42,9 +44,13 @@ namespace NSwagStudio.ViewModels
             set { Set(ref _selectedDocument, value); }
         }
 
+        public ICommand CreateDocumentCommand { get; private set; }
+
         public ICommand OpenDocumentCommand { get; private set; }
 
         public ICommand CloseDocumentCommand { get; private set; }
+
+        public ICommand SaveSettingsCommand { get; private set; }
 
         /// <summary>Gets the application version with build time. </summary>
         public string ApplicationVersion
@@ -56,12 +62,7 @@ namespace NSwagStudio.ViewModels
         {
             LoadApplicationSettings();
         }
-
-        protected override void OnUnloaded()
-        {
-            SaveApplicationSettings();
-        }
-
+        
         private void LoadApplicationSettings()
         {
             try
@@ -81,34 +82,24 @@ namespace NSwagStudio.ViewModels
                         SelectedDocument = Documents.Last();
                     }
                     else
-                        CreateNewDocument();
+                        CreateDocument();
                 }
                 else
-                    CreateNewDocument();
+                    CreateDocument();
             }
             catch
             {
-                CreateNewDocument();
+                CreateDocument();
             }
 
             SelectedDocument = Documents.First();
         }
 
-        private void CreateNewDocument()
+        private void CreateDocument()
         {
-            var document = new NSwagDocument {Path = "Untitled"}; 
+            var document = new NSwagDocument { Path = "Untitled" };
             Documents.Add(document);
-            SelectedDocument = document; 
-        }
-
-        private void SaveApplicationSettings()
-        {
-            var paths = Documents
-                .Where(d => File.Exists(d.Path))
-                .Select(d => d.Path)
-                .ToArray();
-
-            ApplicationSettings.SetSetting("NSwagSettings", JsonConvert.SerializeObject(paths, Formatting.Indented));
+            SelectedDocument = document;
         }
 
         private void OpenDocument()
@@ -133,19 +124,62 @@ namespace NSwagStudio.ViewModels
 
         private NSwagDocument LoadDocument(string filePath)
         {
-            var document = JsonConvert.DeserializeObject<NSwagDocument>(File.ReadAllText(filePath));
-            document.Path = filePath;
+            var document = NSwagDocument.LoadDocument(filePath);
             Documents.Add(document);
             return document;
         }
 
-        private void CloseDocument(NSwagDocument document)
+        public bool CloseDocument(NSwagDocument document)
         {
-            Documents.Remove(document);
+            if (document.IsDirty)
+            {
+                var result = MessageBox.Show("Do you want to save the file " + document.Name + " ?", 
+                    "Save file", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
 
-            if (Documents.Count == 0)
-                CreateNewDocument();
+                if (result == DialogResult.Yes)
+                {
+                    var success = SaveDocument(document);
+                    if (!success)
+                        return false;
+                }
+                else if (result == DialogResult.Cancel)
+                    return false; 
+            }
+
+            Documents.Remove(document);
+            return true; 
         }
 
+        private bool SaveDocument(NSwagDocument document)
+        {
+            try
+            {
+                if (File.Exists(document.Path))
+                {
+                    document.Save();
+                    MessageBox.Show("The file has been saved.", "File saved");
+                    return true;
+                }
+                else
+                {
+                    var dlg = new SaveFileDialog();
+                    dlg.Filter = "NSwag settings (*.nswag)|*.nswag";
+                    dlg.RestoreDirectory = true;
+                    dlg.AddExtension = true;
+                    if (dlg.ShowDialog() == DialogResult.OK)
+                    {
+                        document.Path = dlg.FileName;
+                        document.Save();
+                        return true;
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show("File save failed: \n" + exception.Message, "Could not save the settings");
+            }
+
+            return false;
+        }
     }
 }
