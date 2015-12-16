@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
@@ -37,9 +38,10 @@ namespace NSwagStudio.Views
 
         private void LoadWindowState()
         {
-            var length = ApplicationSettings.GetSetting("WindowSplitter", (double)0); 
-            if (length != 0)
-                Grid.ColumnDefinitions[0].Width = new GridLength(length, GridUnitType.Pixel);
+            // TODO: Enable this
+            //var length = ApplicationSettings.GetSetting("WindowSplitter", (double)0); 
+            //if (length != 0)
+            //    Grid.ColumnDefinitions[0].Width = new GridLength(length, GridUnitType.Pixel);
 
             Width = ApplicationSettings.GetSetting("WindowWidth", Width);
             Height = ApplicationSettings.GetSetting("WindowHeight", Height);
@@ -51,40 +53,41 @@ namespace NSwagStudio.Views
                 WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
+        private bool _cancelled = false;
+         
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            if (!_cancelled)
+            {
+                Model.CallOnUnloaded();
+                Model.Documents.Clear();
+
+                e.Cancel = true;
+                _cancelled = true;
+
+                Dispatcher.InvokeAsync(() => { Close(); });
+            }
+            base.OnClosing(e);
+        }
+
         protected override void OnClosed(EventArgs e)
         {
-            if (Grid.ColumnDefinitions[0].Width.IsAbsolute)
-                ApplicationSettings.SetSetting("WindowSplitter", Grid.ColumnDefinitions[0].Width.Value);
+
+            // TODO: Enable this
+            //if (Grid.ColumnDefinitions[0].Width.IsAbsolute)
+            //    ApplicationSettings.SetSetting("WindowSplitter", Grid.ColumnDefinitions[0].Width.Value);
 
             ApplicationSettings.SetSetting("WindowWidth", Width);
             ApplicationSettings.SetSetting("WindowHeight", Height);
             ApplicationSettings.SetSetting("WindowLeft", Left);
             ApplicationSettings.SetSetting("WindowTop", Top);
             ApplicationSettings.SetSetting("WindowState", WindowState);
-
-            foreach (var generatorView in Model.ClientGenerators.OfType<UserControl>()
-                .Concat(Model.SwaggerGenerators.OfType<UserControl>()))
-            {
-                var vm = generatorView.Resources["ViewModel"] as ViewModelBase; 
-                if (vm != null)
-                    vm.CallOnUnloaded();
-            }
-
-            Model.CallOnUnloaded();
         }
 
         private void OnOpenHyperlink(object sender, RoutedEventArgs e)
         {
             var uri = ((Hyperlink)sender).NavigateUri;
             Process.Start(uri.ToString());
-        }
-
-        private void OnGenerate(object sender, RoutedEventArgs e)
-        {
-            App.Telemetry.TrackEvent("Generate", new Dictionary<string, string>
-            {
-                { "Generator", Model.SelectedSwaggerGenerator.Title }
-            });
         }
     }
 }

@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using NSwag;
 using NSwag.CodeGeneration.ClientGenerators;
-using NSwag.CodeGeneration.ClientGenerators.CSharp;
 using NSwag.Commands;
 
 namespace NSwagStudio.ViewModels.ClientGenerators
@@ -20,13 +19,17 @@ namespace NSwagStudio.ViewModels.ClientGenerators
     public class CSharpClientGeneratorViewModel : ViewModelBase
     {
         private string _clientCode;
-        private SwaggerToCSharpCommand _command = MainWindowModel.Settings.SwaggerToCSharpCommand;
-
+        private SwaggerToCSharpCommand _command = new SwaggerToCSharpCommand();
+        
         /// <summary>Gets the settings.</summary>
         public SwaggerToCSharpCommand Command
         {
             get { return _command; }
-            set { Set(ref _command, value); }
+            set
+            {
+                if (Set(ref _command, value))
+                    RaiseAllPropertiesChanged();
+            }
         }
 
         /// <summary>Gets the async types. </summary>

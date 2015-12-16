@@ -20,13 +20,17 @@ namespace NSwagStudio.ViewModels.ClientGenerators
     public class TypeScriptCodeGeneratorViewModel : ViewModelBase
     {
         private string _clientCode;
-        private SwaggerToTypeScriptCommand _settings = MainWindowModel.Settings.SwaggerToTypeScriptCommand;
-
+        private SwaggerToTypeScriptCommand _command = new SwaggerToTypeScriptCommand();
+        
         /// <summary>Gets the settings.</summary>
         public SwaggerToTypeScriptCommand Command
         {
-            get { return _settings; }
-            set { Set(ref _settings, value); }
+            get { return _command; }
+            set
+            {
+                if (Set(ref _command, value))
+                    RaiseAllPropertiesChanged();
+            }
         }
 
         /// <summary>Gets the output templates. </summary>

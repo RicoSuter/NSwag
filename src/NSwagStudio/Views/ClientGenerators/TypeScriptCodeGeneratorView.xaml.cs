@@ -2,6 +2,7 @@
 using System.Windows;
 using MyToolkit.Mvvm;
 using NSwag.CodeGeneration.ClientGenerators.TypeScript;
+using NSwag.Commands;
 using NSwagStudio.ViewModels;
 using NSwagStudio.ViewModels.ClientGenerators;
 
@@ -9,10 +10,11 @@ namespace NSwagStudio.Views.ClientGenerators
 {
     public partial class TypeScriptCodeGeneratorView : IClientGenerator
     {
-        public TypeScriptCodeGeneratorView()
+        public TypeScriptCodeGeneratorView(SwaggerToTypeScriptCommand command)
         {
             InitializeComponent();
             ViewModelHelper.RegisterViewModel(Model, this);
+            Model.Command = command; 
         }
 
         private TypeScriptCodeGeneratorViewModel Model { get { return (TypeScriptCodeGeneratorViewModel)Resources["ViewModel"]; } }

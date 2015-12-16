@@ -21,7 +21,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
     public class AssemblySwaggerGeneratorViewModel : ViewModelBase
     {
         private string[] _allClassNames;
-        private AssemblyTypeToSwaggerCommand _command = MainWindowModel.Settings.AssemblyTypeToSwaggerCommand; // TODO: Use command
+        private AssemblyTypeToSwaggerCommand _command = new AssemblyTypeToSwaggerCommand();
 
         /// <summary>Initializes a new instance of the <see cref="AssemblySwaggerGeneratorViewModel"/> class.</summary>
         public AssemblySwaggerGeneratorViewModel()
@@ -36,7 +36,11 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         public AssemblyTypeToSwaggerCommand Command
         {
             get { return _command; }
-            set { Set(ref _command, value); }
+            set
+            {
+                if (Set(ref _command, value))
+                    RaiseAllPropertiesChanged();
+            }
         }
 
         /// <summary>Gets the async types. </summary>

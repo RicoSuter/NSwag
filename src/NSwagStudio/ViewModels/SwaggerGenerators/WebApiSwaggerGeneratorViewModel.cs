@@ -22,18 +22,18 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
     {
         private bool _specifyControllerName;
         private string[] _allControllerNames;
-        private WebApiToSwaggerCommand _command = MainWindowModel.Settings.WebApiToSwaggerCommand;
+        private WebApiToSwaggerCommand _command = new WebApiToSwaggerCommand();
 
         /// <summary>Initializes a new instance of the <see cref="WebApiSwaggerGeneratorViewModel"/> class.</summary>
         public WebApiSwaggerGeneratorViewModel()
         {
             BrowseAssemblyCommand = new AsyncRelayCommand(BrowseAssembly);
-            SpecifyControllerName = true; 
+            SpecifyControllerName = true;
 
-            LoadAssemblyCommand = new AsyncRelayCommand(LoadAssembly, () => !string.IsNullOrEmpty(AssemblyPath));
+            LoadAssemblyCommand = new AsyncRelayCommand(LoadAssemblyAsync, () => !string.IsNullOrEmpty(AssemblyPath));
             LoadAssemblyCommand.TryExecute();
         }
-        
+
         /// <summary>Gets the default enum handling. </summary>
         public EnumHandling[] EnumHandlings
         {
@@ -50,7 +50,14 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         public WebApiToSwaggerCommand Command
         {
             get { return _command; }
-            set { Set(ref _command, value); }
+            set
+            {
+                if (Set(ref _command, value))
+                {
+                    RaiseAllPropertiesChanged();
+                    LoadAssemblyAsync();
+                }
+            }
         }
 
         /// <summary>Gets or sets the assembly path. </summary>
@@ -91,17 +98,17 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         {
             get { return _allControllerNames; }
             set { Set(ref _allControllerNames, value); }
-        }       
+        }
 
         private async Task BrowseAssembly()
         {
             var dlg = new OpenFileDialog();
             dlg.DefaultExt = ".dll"; // 
-            dlg.Filter = ".NET Assemblies (.dll)|*.dll"; 
+            dlg.Filter = ".NET Assemblies (.dll)|*.dll";
             if (dlg.ShowDialog() == true)
             {
                 AssemblyPath = dlg.FileName;
-                await LoadAssembly();
+                await LoadAssemblyAsync();
             }
         }
 
@@ -110,13 +117,13 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             return await RunTaskAsync(async () => await Task.Run(async () =>
             {
                 if (!SpecifyControllerName)
-                    Command.ControllerName = null; 
+                    Command.ControllerName = null;
 
                 return await Command.RunAsync();
             }));
         }
 
-        private Task LoadAssembly()
+        private Task LoadAssemblyAsync()
         {
             return RunTaskAsync(async () =>
             {
