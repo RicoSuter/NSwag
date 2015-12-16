@@ -4,71 +4,77 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:viewModels="clr-namespace:NSwagStudio.ViewModels"
+             xmlns:converters="clr-namespace:MyToolkit.Converters;assembly=MyToolkit.Extended"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     
     <UserControl.Resources>
         <viewModels:DocumentViewModel x:Key="ViewModel" />
+        <converters:NotConverter x:Key="NotConverter" />
     </UserControl.Resources>
 
-    <Grid DataContext="{StaticResource ViewModel}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" MinWidth="400" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" MinWidth="400" />
-        </Grid.ColumnDefinitions>
+    <Border DataContext="{StaticResource ViewModel}" 
+            IsEnabled="{Binding GenerateCommand.IsRunning, Converter={StaticResource NotConverter}}">
+        <Grid>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="400" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" MinWidth="400" />
+            </Grid.ColumnDefinitions>
 
-        <!-- Input -->
-        <Grid Margin="0,0,4,0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <TextBlock Text="Input" FontSize="16" FontWeight="Bold" Margin="0,0,0,16" />
-            <TabControl Grid.Row="2" 
+            <!-- Input -->
+            <Grid Margin="0,0,4,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Input" FontSize="16" FontWeight="Bold" Margin="0,0,0,16" />
+                <TabControl Grid.Row="2" 
                         ItemsSource="{Binding SwaggerGenerators}" 
                         SelectedIndex="{Binding Document.SelectedSwaggerGenerator, Mode=TwoWay}">
-                <TabControl.ItemContainerStyle>
-                    <Style TargetType="{x:Type TabItem}">
-                        <Setter Property="Header" Value="{Binding Title}" />
-                    </Style>
-                </TabControl.ItemContainerStyle>
-            </TabControl>
-        </Grid>
+                    <TabControl.ItemContainerStyle>
+                        <Style TargetType="{x:Type TabItem}">
+                            <Setter Property="Header" Value="{Binding Title}" />
+                        </Style>
+                    </TabControl.ItemContainerStyle>
+                </TabControl>
+            </Grid>
 
-        <GridSplitter Grid.Column="1" Grid.Row="0" Width="4" Margin="4,0,4,0"
+            <GridSplitter Grid.Column="1" Grid.Row="0" Width="4" Margin="4,0,4,0"
                       ResizeBehavior="PreviousAndNext" />
 
-        <!-- Output -->
-        <Grid Grid.Column="2" Grid.Row="0" Margin="4,0,0,0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+            <!-- Output -->
+            <Grid Grid.Column="2" Grid.Row="0" Margin="4,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
-            <TextBlock Text="Output" FontSize="16" FontWeight="Bold" Margin="0,0,0,16" />
-            <TabControl Grid.Row="1" 
+                <TextBlock Text="Output" FontSize="16" FontWeight="Bold" Margin="0,0,0,16" />
+                <TabControl Grid.Row="1" 
                         ItemsSource="{Binding ClientGenerators}"
                         SelectedIndex="{Binding Document.SelectedClientGenerator, Mode=TwoWay}">
-                <TabControl.ItemContainerStyle>
-                    <Style TargetType="{x:Type TabItem}">
-                        <Setter Property="Header" Value="{Binding Title}" />
-                    </Style>
-                </TabControl.ItemContainerStyle>
-            </TabControl>
-        </Grid>
+                    <TabControl.ItemContainerStyle>
+                        <Style TargetType="{x:Type TabItem}">
+                            <Setter Property="Header" Value="{Binding Title}" />
+                        </Style>
+                    </TabControl.ItemContainerStyle>
+                </TabControl>
+            </Grid>
 
-        <Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+            <Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
                 Command="{Binding GenerateCommand}" Click="OnGenerate"
                 Margin="0,8,0,0" Padding="8">
-            <TextBlock Text="Generate Outputs" FontSize="16" Margin="0,4,0,4" />
-        </Button>
-    </Grid>
+                <TextBlock Text="Generate Outputs" FontSize="16" Margin="0,4,0,4" />
+            </Button>
+        </Grid>
+    </Border>
 </UserControl>

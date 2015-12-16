@@ -16,8 +16,11 @@ namespace NSwagStudio
     public class NSwagDocument : ObservableObject
     {
         private string _path;
+
         private int _selectedSwaggerGenerator;
         private int _selectedClientGenerator;
+
+        private string _latestData;
 
         public NSwagDocument()
         {
@@ -46,12 +49,9 @@ namespace NSwagStudio
         }
 
         [JsonIgnore]
-        public string OriginalDocument { get; set; }
-
-        [JsonIgnore]
         public bool IsDirty
         {
-            get { return OriginalDocument != JsonConvert.SerializeObject(this, Formatting.Indented); }
+            get { return _latestData != JsonConvert.SerializeObject(this, Formatting.Indented); }
         }
 
         public static NSwagDocument LoadDocument(string filePath)
@@ -59,7 +59,15 @@ namespace NSwagStudio
             var data = System.IO.File.ReadAllText(filePath); 
             var document = JsonConvert.DeserializeObject<NSwagDocument>(data);
             document.Path = filePath;
-            document.OriginalDocument = data; 
+            document._latestData = data; 
+            return document;
+        }
+
+        public static NSwagDocument CreateDocument()
+        {
+            var document = new NSwagDocument();
+            document.Path = "Untitled";
+            document._latestData = JsonConvert.SerializeObject(document, Formatting.Indented);
             return document;
         }
 
@@ -93,7 +101,8 @@ namespace NSwagStudio
 
         public void Save()
         {
-            System.IO.File.WriteAllText(Path, JsonConvert.SerializeObject(this, Formatting.Indented));
+            _latestData = JsonConvert.SerializeObject(this, Formatting.Indented); 
+            System.IO.File.WriteAllText(Path, _latestData);
         }
     }
 }

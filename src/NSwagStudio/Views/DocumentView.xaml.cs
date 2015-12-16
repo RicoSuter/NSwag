@@ -42,7 +42,6 @@ namespace NSwagStudio.Views
             {
                 { "Generator", Model.SwaggerGenerators[Document.SelectedSwaggerGenerator].Title }
             });
-
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)

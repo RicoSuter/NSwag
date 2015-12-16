@@ -97,7 +97,7 @@ namespace NSwagStudio.ViewModels
 
         private void CreateDocument()
         {
-            var document = new NSwagDocument { Path = "Untitled" };
+            var document = NSwagDocument.CreateDocument();
             Documents.Add(document);
             SelectedDocument = document;
         }
