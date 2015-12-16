@@ -20,7 +20,6 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
 {
     public class WebApiSwaggerGeneratorViewModel : ViewModelBase
     {
-        private bool _specifyControllerName;
         private string[] _allControllerNames;
         private WebApiToSwaggerCommand _command = new WebApiToSwaggerCommand();
 
@@ -28,9 +27,8 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         public WebApiSwaggerGeneratorViewModel()
         {
             BrowseAssemblyCommand = new AsyncRelayCommand(BrowseAssembly);
-            SpecifyControllerName = true;
 
-            LoadAssemblyCommand = new AsyncRelayCommand(LoadAssemblyAsync, () => !string.IsNullOrEmpty(AssemblyPath));
+            LoadAssemblyCommand = new AsyncRelayCommand(async () => await LoadAssemblyAsync(true), () => !string.IsNullOrEmpty(AssemblyPath));
             LoadAssemblyCommand.TryExecute();
         }
 
@@ -55,7 +53,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
                 if (Set(ref _command, value))
                 {
                     RaiseAllPropertiesChanged();
-                    LoadAssemblyAsync();
+                    LoadAssemblyAsync(false);
                 }
             }
         }
@@ -82,15 +80,26 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         /// <summary>Gets or sets a value indicating whether to specify a single controller name. </summary>
         public bool SpecifyControllerName
         {
-            get { return _specifyControllerName; }
-            set { Set(ref _specifyControllerName, value); }
+            get { return Command.ControllerName != null; }
+            set
+            {
+                if (value != SpecifyControllerName)
+                    ControllerName = value && AllControllerNames != null ? AllControllerNames.FirstOrDefault() : null;
+
+                RaisePropertyChanged(() => SpecifyControllerName);
+            }
         }
 
         /// <summary>Gets or sets the class name. </summary>
         public string ControllerName
         {
             get { return Command.ControllerName; }
-            set { Command.ControllerName = value; }
+            set
+            {
+                Command.ControllerName = value;
+                RaisePropertyChanged(() => ControllerName);
+                RaisePropertyChanged(() => SpecifyControllerName);
+            }
         }
 
         /// <summary>Gets or sets the all class names. </summary>
@@ -98,6 +107,14 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         {
             get { return _allControllerNames; }
             set { Set(ref _allControllerNames, value); }
+        }
+
+        public async Task<string> GenerateSwaggerAsync()
+        {
+            return await RunTaskAsync(async () => await Task.Run(async () =>
+            {
+                return await Command.RunAsync();
+            }));
         }
 
         private async Task BrowseAssembly()
@@ -108,22 +125,11 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             if (dlg.ShowDialog() == true)
             {
                 AssemblyPath = dlg.FileName;
-                await LoadAssemblyAsync();
+                await LoadAssemblyAsync(true);
             }
         }
 
-        public async Task<string> GenerateSwaggerAsync()
-        {
-            return await RunTaskAsync(async () => await Task.Run(async () =>
-            {
-                if (!SpecifyControllerName)
-                    Command.ControllerName = null;
-
-                return await Command.RunAsync();
-            }));
-        }
-
-        private Task LoadAssemblyAsync()
+        private Task LoadAssemblyAsync(bool updateSelectedController)
         {
             return RunTaskAsync(async () =>
             {
@@ -133,8 +139,11 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
                     return generator.GetControllerClasses();
                 });
 
-                if (!AllControllerNames.Contains(ControllerName))
-                    ControllerName = AllControllerNames.FirstOrDefault();
+                if (updateSelectedController)
+                {
+                    if (!AllControllerNames.Contains(ControllerName))
+                        ControllerName = AllControllerNames.FirstOrDefault();
+                }
             });
         }
     }

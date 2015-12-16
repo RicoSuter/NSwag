@@ -13,11 +13,12 @@ namespace NSwag.Commands
         public AssemblyTypeToSwaggerCommand()
         {
             Settings = new AssemblyTypeToSwaggerGeneratorSettings();
+            ClassNames = new string[] { };
         }
 
         [JsonIgnore]
         public AssemblyTypeToSwaggerGeneratorSettings Settings { get; set; }
-        
+
         [Description("The path to the Web API .NET assembly.")]
         [Argument(Name = "Assembly")]
         public string AssemblyPath

@@ -33,7 +33,8 @@
                 <MenuItem Header="_New" Command="{Binding CreateDocumentCommand}" />
                 <MenuItem Header="_Open" Command="{Binding OpenDocumentCommand}" />
                 <MenuItem Header="_Close" Command="{Binding CloseDocumentCommand}" CommandParameter="{Binding SelectedDocument}" />
-                <MenuItem Header="_Save" Command="{Binding SaveSettingsCommand}" CommandParameter="{Binding SelectedDocument}" />
+                <MenuItem Header="_Save" Command="{Binding SaveDocumentCommand}" CommandParameter="{Binding SelectedDocument}" />
+                <MenuItem Header="Save As" Command="{Binding SaveAsDocumentCommand}" CommandParameter="{Binding SelectedDocument}" />
             </MenuItem>
         </Menu>
         

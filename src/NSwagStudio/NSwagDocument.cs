@@ -31,6 +31,23 @@ namespace NSwagStudio
             SwaggerToCSharpCommand = new SwaggerToCSharpCommand();
         }
 
+        public static NSwagDocument LoadDocument(string filePath)
+        {
+            var data = System.IO.File.ReadAllText(filePath);
+            var document = JsonConvert.DeserializeObject<NSwagDocument>(data);
+            document.Path = filePath;
+            document._latestData = data;
+            return document;
+        }
+
+        public static NSwagDocument CreateDocument()
+        {
+            var document = new NSwagDocument();
+            document.Path = "Untitled";
+            document._latestData = JsonConvert.SerializeObject(document, Formatting.Indented);
+            return document;
+        }
+
         [JsonIgnore]
         public string Path
         {
@@ -54,23 +71,6 @@ namespace NSwagStudio
             get { return _latestData != JsonConvert.SerializeObject(this, Formatting.Indented); }
         }
 
-        public static NSwagDocument LoadDocument(string filePath)
-        {
-            var data = System.IO.File.ReadAllText(filePath); 
-            var document = JsonConvert.DeserializeObject<NSwagDocument>(data);
-            document.Path = filePath;
-            document._latestData = data; 
-            return document;
-        }
-
-        public static NSwagDocument CreateDocument()
-        {
-            var document = new NSwagDocument();
-            document.Path = "Untitled";
-            document._latestData = JsonConvert.SerializeObject(document, Formatting.Indented);
-            return document;
-        }
-
         /// <summary>Gets or sets the selected Swagger generator. </summary>
         [JsonProperty("SelectedSwaggerGenerator")]
         public int SelectedSwaggerGenerator
@@ -80,7 +80,7 @@ namespace NSwagStudio
         }
 
         /// <summary>Gets or sets the selected client generator. </summary>
-        [JsonProperty("SelectedClientGenerator")]
+        [JsonIgnore]
         public int SelectedClientGenerator
         {
             get { return _selectedClientGenerator; }

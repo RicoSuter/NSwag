@@ -29,8 +29,10 @@ namespace NSwagStudio.ViewModels
         {
             CreateDocumentCommand = new RelayCommand(CreateDocument);
             OpenDocumentCommand = new RelayCommand(OpenDocument);
-            CloseDocumentCommand = new RelayCommand<NSwagDocument>(document => CloseDocument(document));
-            SaveSettingsCommand = new RelayCommand<NSwagDocument>(document => SaveDocument(document));
+
+            CloseDocumentCommand = new RelayCommand<NSwagDocument>(document => CloseDocument(document), document => document != null);
+            SaveDocumentCommand = new RelayCommand<NSwagDocument>(document => SaveDocument(document), document => document != null);
+            SaveAsDocumentCommand = new RelayCommand<NSwagDocument>(document => SaveAsDocument(document), document => document != null);
 
             Documents = new ObservableCollection<NSwagDocument>();
         }
@@ -41,16 +43,26 @@ namespace NSwagStudio.ViewModels
         public NSwagDocument SelectedDocument
         {
             get { return _selectedDocument; }
-            set { Set(ref _selectedDocument, value); }
+            set
+            {
+                if (Set(ref _selectedDocument, value))
+                {
+                    CloseDocumentCommand.RaiseCanExecuteChanged();
+                    SaveDocumentCommand.RaiseCanExecuteChanged();
+                    SaveAsDocumentCommand.RaiseCanExecuteChanged();
+                }
+            }
         }
 
         public ICommand CreateDocumentCommand { get; private set; }
 
         public ICommand OpenDocumentCommand { get; private set; }
 
-        public ICommand CloseDocumentCommand { get; private set; }
+        public RelayCommand<NSwagDocument> CloseDocumentCommand { get; private set; }
 
-        public ICommand SaveSettingsCommand { get; private set; }
+        public RelayCommand<NSwagDocument> SaveDocumentCommand { get; private set; }
+
+        public RelayCommand<NSwagDocument> SaveAsDocumentCommand { get; private set; }
 
         /// <summary>Gets the application version with build time. </summary>
         public string ApplicationVersion
@@ -62,7 +74,7 @@ namespace NSwagStudio.ViewModels
         {
             LoadApplicationSettings();
         }
-        
+
         private void LoadApplicationSettings()
         {
             try
@@ -133,7 +145,7 @@ namespace NSwagStudio.ViewModels
         {
             if (document.IsDirty)
             {
-                var result = MessageBox.Show("Do you want to save the file " + document.Name + " ?", 
+                var result = MessageBox.Show("Do you want to save the file " + document.Name + " ?",
                     "Save file", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
 
                 if (result == DialogResult.Yes)
@@ -143,11 +155,11 @@ namespace NSwagStudio.ViewModels
                         return false;
                 }
                 else if (result == DialogResult.Cancel)
-                    return false; 
+                    return false;
             }
 
             Documents.Remove(document);
-            return true; 
+            return true;
         }
 
         private bool SaveDocument(NSwagDocument document)
@@ -162,16 +174,8 @@ namespace NSwagStudio.ViewModels
                 }
                 else
                 {
-                    var dlg = new SaveFileDialog();
-                    dlg.Filter = "NSwag settings (*.nswag)|*.nswag";
-                    dlg.RestoreDirectory = true;
-                    dlg.AddExtension = true;
-                    if (dlg.ShowDialog() == DialogResult.OK)
-                    {
-                        document.Path = dlg.FileName;
-                        document.Save();
+                    if (SaveAsDocument(document))
                         return true;
-                    }
                 }
             }
             catch (Exception exception)
@@ -179,6 +183,21 @@ namespace NSwagStudio.ViewModels
                 MessageBox.Show("File save failed: \n" + exception.Message, "Could not save the settings");
             }
 
+            return false;
+        }
+
+        private bool SaveAsDocument(NSwagDocument document)
+        {
+            var dlg = new SaveFileDialog();
+            dlg.Filter = "NSwag settings (*.nswag)|*.nswag";
+            dlg.RestoreDirectory = true;
+            dlg.AddExtension = true;
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                document.Path = dlg.FileName;
+                document.Save();
+                return true;
+            }
             return false;
         }
     }

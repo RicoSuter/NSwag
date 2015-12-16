@@ -11,6 +11,7 @@
     <UserControl.Resources>
         <swaggerGenerators:WebApiSwaggerGeneratorViewModel x:Key="ViewModel" />
         <converters:VisibilityConverter x:Key="VisibilityConverter" />
+        <converters:NotConverter x:Key="NotConverter" />
     </UserControl.Resources>
 
     <StackPanel Margin="8" DataContext="{StaticResource ViewModel}">
@@ -41,10 +42,13 @@
         <TextBlock Text="{Binding AssemblyName, Mode=OneWay}" TextWrapping="Wrap" Margin="0,-6,0,12" />
 
         <TextBlock Text="Web API Controller" FontWeight="Bold" Margin="0,0,0,6" />
-        <RadioButton GroupName="SpecifyControllerName" IsChecked="False"
-                     Margin="0,0,0,6" Content="Use all controllers"/>
-        <RadioButton IsChecked="{Binding SpecifyControllerName, Mode=TwoWay}" 
-                     Margin="0,0,0,6" Content="Use single controller: " GroupName="SpecifyControllerName"/>
+        <TextBlock Visibility="{Binding SpecifyControllerName, Converter={StaticResource NotConverter}}"
+                   Text="Using all controllers" Margin="0,0,0,12" />
+        <TextBlock Visibility="{Binding SpecifyControllerName, Converter={StaticResource VisibilityConverter}}"
+                   Text="{Binding ControllerName}" Margin="0,0,0,12" />
+        
+        <CheckBox IsChecked="{Binding SpecifyControllerName, Mode=TwoWay}"
+                  Margin="0,0,0,6" Content="Use single controller"/>
         <ComboBox Visibility="{Binding SpecifyControllerName, Converter={StaticResource VisibilityConverter}}"
                   SelectedItem="{Binding ControllerName, Mode=TwoWay}" Margin="0,0,0,6"
                   ItemsSource="{Binding AllControllerNames}" />

@@ -74,6 +74,7 @@ namespace NSwagStudio.ViewModels.ClientGenerators
                     {
                         Command.Input = swaggerData;
                         code = await Command.RunAsync();
+                        Command.Input = null;
                     }
                 });
 
