@@ -74,7 +74,7 @@ namespace NSwag
 
         /// <summary>Gets or sets a security description.</summary>
         [JsonProperty(PropertyName = "security", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public SwaggerSecurityRequirement Security { get; set; }
+        public List<SwaggerSecurityRequirement> Security { get; set; }
 
         /// <summary>Gets the list of MIME types the operation can consume, either from the operation or from the <see cref="SwaggerService"/>.</summary>
         [JsonIgnore]
@@ -121,7 +121,7 @@ namespace NSwag
 
         /// <summary>Gets the actual security description, either from the operation or from the <see cref="SwaggerService"/>.</summary>
         [JsonIgnore]
-        public SwaggerSecurityRequirement ActualSecurity
+        public List<SwaggerSecurityRequirement> ActualSecurity
         {
             get { return Security ?? Parent.Parent.Security; }
         }

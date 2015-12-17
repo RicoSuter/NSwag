@@ -104,11 +104,11 @@ namespace NSwag
 
         /// <summary>Gets or sets a security description.</summary>
         [JsonProperty(PropertyName = "security", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public SwaggerSecurityRequirement Security { get; set; }
+        public List<SwaggerSecurityRequirement> Security { get; set; }
 
         /// <summary>Gets or sets the description.</summary>
         [JsonProperty(PropertyName = "tags", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public List<string> Tags { get; set; }
+        public List<SwaggerTag> Tags { get; set; }
 
         /// <summary>Gets the base URL of the web service.</summary>
         [JsonIgnore]

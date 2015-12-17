@@ -31,7 +31,7 @@ namespace NSwag.CodeGeneration.ClientGenerators.TypeScript
             if (service == null)
                 throw new ArgumentNullException("service");
 
-            Settings = settings; 
+            Settings = settings;
 
             _service = service;
             foreach (var definition in _service.Definitions)
@@ -89,14 +89,15 @@ namespace NSwag.CodeGeneration.ClientGenerators.TypeScript
                 return "string";
 
             return string.Join(" | ", operation.Responses
-                .Where(r => !HttpUtilities.IsSuccessStatusCode(r.Key))
-                .Select(r => GetType(r.Value.Schema.ActualSchema, "Exception"))) + " | string";
+                .Where(r => !HttpUtilities.IsSuccessStatusCode(r.Key) && r.Value.Schema != null)
+                .Select(r => GetType(r.Value.Schema.ActualSchema, "Exception"))
+                .Concat(new [] { "string" }));
         }
 
         internal override string GetResultType(SwaggerOperation operation)
         {
             if (operation.Responses.Count(r => HttpUtilities.IsSuccessStatusCode(r.Key)) == 0)
-                return "void";
+                return "any";
 
             var response = GetOkResponse(operation);
             return GetType(response.Schema, "Response");

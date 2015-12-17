@@ -31,27 +31,27 @@ namespace NSwag
         public string Description { get; set; }
 
         /// <summary>Gets or sets the name of the header or query parameter to be used.</summary>
-        [JsonProperty(PropertyName = "name", Required = Required.Always, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(PropertyName = "name", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Name { get; set; }
 
         /// <summary>Gets or sets the location of the API key.</summary>
-        [JsonProperty(PropertyName = "in", Required = Required.Always, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(PropertyName = "in", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string ApiKeyLocation { get; set; }
 
         /// <summary>Gets or sets the used by the OAuth2 security scheme.</summary>
-        [JsonProperty(PropertyName = "flow", Required = Required.Always, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(PropertyName = "flow", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Flow { get; set; }
 
         /// <summary>Gets or sets the authorization URL to be used for this flow.</summary>
-        [JsonProperty(PropertyName = "authorizationUrl", Required = Required.Always, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(PropertyName = "authorizationUrl", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string AuthorizationUrl { get; set; }
 
         /// <summary>Gets or sets the token URL to be used for this flow. .</summary>
-        [JsonProperty(PropertyName = "tokenUrl", Required = Required.Always, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(PropertyName = "tokenUrl", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string TokenUrl { get; set; }
 
         /// <summary>Gets the available scopes for the OAuth2 security scheme.</summary>
-        [JsonProperty(PropertyName = "scopes", Required = Required.Always, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(PropertyName = "scopes", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public Dictionary<string, string> Scopes { get; private set; }
     }
 }

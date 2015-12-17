@@ -11,7 +11,8 @@ public partial interface I<class>
     <operation.resultType> <operation.OperationNameUpper>Async(<operation.Parameters:{parameter | <parameter.Type> <parameter.Name><if(!parameter.isLast)>,<endif> }>);
 
 }>
-}<endif>
+}
+<endif>
 
 public partial class <class> <if(hasBaseType)>: <endif><if(hasClientBaseClass)><clientBaseClass><if(generateClientInterfaces)>, <endif><endif><if(generateClientInterfaces)>I<class><endif>
 {

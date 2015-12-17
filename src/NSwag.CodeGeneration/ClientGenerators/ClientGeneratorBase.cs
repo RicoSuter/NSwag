@@ -30,7 +30,7 @@ namespace NSwag.CodeGeneration.ClientGenerators
 
             return null;
         }
-        
+
         internal string GenerateFile<TGenerator>(SwaggerService service, TypeResolverBase<TGenerator> resolver)
             where TGenerator : TypeGeneratorBase
         {
@@ -50,8 +50,8 @@ namespace NSwag.CodeGeneration.ClientGenerators
                 .Replace("\n\n\n\n", "\n\n")
                 .Replace("\n\n\n", "\n\n");
         }
-        
-        internal List<OperationModel> GetOperations<TGenerator>(SwaggerService service, TypeResolverBase<TGenerator> resolver) 
+
+        internal List<OperationModel> GetOperations<TGenerator>(SwaggerService service, TypeResolverBase<TGenerator> resolver)
             where TGenerator : TypeGeneratorBase
         {
             service.GenerateOperationIds();
@@ -82,14 +82,14 @@ namespace NSwag.CodeGeneration.ClientGenerators
                     {
                         Id = operation.OperationId,
 
-                        Path = tuple.Path, 
+                        Path = tuple.Path,
 
                         HttpMethodUpper = ConvertToUpperStartIdentifier(tuple.HttpMethod.ToString()),
                         HttpMethodLower = ConvertToLowerStartIdentifier(tuple.HttpMethod.ToString()),
 
                         IsGetOrDelete = tuple.HttpMethod == SwaggerOperationMethod.Get || tuple.HttpMethod == SwaggerOperationMethod.Delete,
 
-                        Summary = RemoveLineBreaks(operation.Summary), 
+                        Summary = RemoveLineBreaks(operation.Summary),
 
                         MvcActionName = mvcActionName,
                         MvcControllerName = mvcControllerName,
@@ -111,12 +111,18 @@ namespace NSwag.CodeGeneration.ClientGenerators
                         Responses = responses,
                         DefaultResponse = defaultResponse,
 
-                        Parameters = operation.Parameters.Select(p => new ParameterModel
+                        Parameters = operation.Parameters.Select(p =>
                         {
-                            Name = p.Name,
-                            Type = resolver.Resolve(p.ActualSchema, p.IsRequired, p.Name),
-                            IsLast = operation.Parameters.LastOrDefault() == p,
-                            Description = RemoveLineBreaks(p.Description)
+                            if (p.ActualSchema.Type == JsonObjectType.File)
+                                p.ActualSchema.Type = JsonObjectType.String; // TODO: Implement File type handling
+
+                            return new ParameterModel
+                            {
+                                Name = p.Name,
+                                Type = resolver.Resolve(p.ActualSchema, p.IsRequired, p.Name),
+                                IsLast = operation.Parameters.LastOrDefault() == p,
+                                Description = RemoveLineBreaks(p.Description)
+                            };
                         }).ToList(),
 
                         ContentParameter =
@@ -147,9 +153,13 @@ namespace NSwag.CodeGeneration.ClientGenerators
         internal SwaggerResponse GetOkResponse(SwaggerOperation operation)
         {
             if (operation.Responses.Any(r => r.Key == "200"))
-                return operation.Responses.Single(r => r.Key == "200").Value;  
+                return operation.Responses.Single(r => r.Key == "200").Value;
 
-            return operation.Responses.First(r => HttpUtilities.IsSuccessStatusCode(r.Key)).Value;
+            var response = operation.Responses.FirstOrDefault(r => HttpUtilities.IsSuccessStatusCode(r.Key)).Value;
+            if (response == null)
+                return operation.Responses.First().Value;
+
+            return response;
         }
     }
 }

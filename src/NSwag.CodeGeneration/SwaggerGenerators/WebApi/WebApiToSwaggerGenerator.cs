@@ -348,7 +348,12 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             if (description == string.Empty)
                 description = null;
 
-            var isVoidResponse = returnType.FullName == "System.Void" || returnType.Name == "HttpResponseMessage";
+            var isVoidResponse = 
+                returnType.FullName == "System.Void" || 
+                returnType.Name == "IHttpActionResult" || 
+                returnType.Name == "HttpResponseMessage" || 
+                returnType.InheritsFrom("HttpResponseMessage");
+
             var responseTypeAttributes = method.GetCustomAttributes().Where(a => a.GetType().Name == "ResponseTypeAttribute").ToList();
             if (responseTypeAttributes.Count > 0)
             {
@@ -392,8 +397,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
             if (type.Name == "JsonResult`1")
                 type = type.GenericTypeArguments[0];
-
-            if (type.Name == "HttpResponseMessage" || type.InheritsFrom("HttpResponseMessage"))
+            
+            if (type.Name == "IHttpActionResult" || type.Name == "HttpResponseMessage" || type.InheritsFrom("HttpResponseMessage"))
                 type = typeof(object);
 
             var info = JsonObjectTypeDescription.FromType(type);

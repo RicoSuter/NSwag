@@ -11,3 +11,4 @@ src/packages/**
 
 [Bb]in/
 [Oo]bj/
+*.nugetreferenceswitcher
