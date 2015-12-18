@@ -79,7 +79,7 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
 <if(response.TypeIsDate)>
                 result<response.StatusCode> = new Date(data);
 <else>
-                result<response.StatusCode> = \<<response.Type>>jQuery.parseJSON(data);
+                result<response.StatusCode> = data === "" ? null : \<<response.Type>>jQuery.parseJSON(data);
 <endif>
             \} catch(e) { 
                 if (onFail !== undefined)
