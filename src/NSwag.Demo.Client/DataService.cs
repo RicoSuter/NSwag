@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-// Generated using the NSwag toolchain v1.12.5825.38522 (http://NSwag.org)
+// Generated using the NSwag toolchain v1.15.5831.1699 (http://NSwag.org)
 
 namespace NSwag.Demo.Client
 {
@@ -597,5 +597,4 @@ namespace NSwag.Demo.Client
                 handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-
 }

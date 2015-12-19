@@ -5,10 +5,10 @@ export interface I<class> {
 <if(operation.HasDocumentation)>    /**
 <if(operation.HasSummary)>     * <operation.Summary><endif>
 <operation.Parameters:{parameter | 
-<if(parameter.HasDescription)>     * @<parameter.Name> <parameter.Description><endif>}>
+<if(parameter.HasDescription)>     * @<parameter.VariableNameLower> <parameter.Description><endif>}>
 <if(operation.HasResultDescription)>     * @return <operation.ResultDescription><endif>
      */
-<endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.Name>: <parameter.Type><if(!parameter.IsLast)>,<endif> }>): Q.Promise\<<operation.ResultType>>;
+<endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.VariableNameLower>: <parameter.Type><if(!parameter.IsLast)>,<endif> }>): Q.Promise\<<operation.ResultType>>;
 
 }>
 }
@@ -26,36 +26,36 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
 <if(operation.HasDocumentation)>    /**
 <if(operation.HasSummary)>     * <operation.Summary><endif>
 <operation.Parameters:{parameter | 
-<if(parameter.HasDescription)>     * @<parameter.Name> <parameter.Description><endif>}>
+<if(parameter.HasDescription)>     * @<parameter.VariableNameLower> <parameter.Description><endif>}>
 <if(operation.HasResultDescription)>     * @return <operation.ResultDescription><endif>
      */
-<endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.Name>: <parameter.Type><if(!parameter.IsLast)>,<endif> }>): Q.Promise\<<operation.ResultType>> {
+<endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.VariableNameLower>: <parameter.Type><if(!parameter.IsLast)>,<endif> }>): Q.Promise\<<operation.ResultType>> {
         return Q.Promise\<<operation.ResultType>>((resolve, reject) => {
-            this.<operation.OperationNameLower>WithCallbacks(<operation.Parameters:{parameter | <parameter.Name>, }>(result) => resolve(result), (exception, reason) => reject(exception));
+            this.<operation.OperationNameLower>WithCallbacks(<operation.Parameters:{parameter | <parameter.VariableNameLower>, }>(result) => resolve(result), (exception, reason) => reject(exception));
         \});
     \}
     
-    private <operation.OperationNameLower>WithCallbacks(<operation.Parameters:{parameter | <parameter.Name>: <parameter.Type>, }>onSuccess?: (result: <operation.ResultType>) => void, onFail?: (exception: <operation.ExceptionType>, reason: string) => void) {
+    private <operation.OperationNameLower>WithCallbacks(<operation.Parameters:{parameter | <parameter.VariableNameLower>: <parameter.Type>, }>onSuccess?: (result: <operation.ResultType>) => void, onFail?: (exception: <operation.ExceptionType>, reason: string) => void) {
         var url = this.baseUrl + "/<operation.Path>?"; 
 
-<operation.PlaceholderParameters:{parameter | 
+<operation.PathParameters:{parameter | 
     <if(parameter.IsDate)>
-        url = url.replace("{<parameter.Name>\}", "" + <parameter.Name>.toJSON()); 
+        url = url.replace("{<parameter.Name>\}", "" + <parameter.VariableNameLower>.toJSON()); 
     <else>
-        url = url.replace("{<parameter.Name>\}", "" + <parameter.Name>); 
+        url = url.replace("{<parameter.Name>\}", "" + <parameter.VariableNameLower>); 
     <endif>
 }>
 
 <operation.QueryParameters:{parameter | 
     <if(parameter.IsDate)>
-        url += "<parameter.Name>=" + encodeURIComponent("" + <parameter.Name>.toJSON()) + "&"; 
+        url += "<parameter.Name>=" + encodeURIComponent("" + <parameter.VariableNameLower>.toJSON()) + "&"; 
     <else>
-        url += "<parameter.Name>=" + encodeURIComponent("" + <parameter.Name>) + "&"; 
+        url += "<parameter.Name>=" + encodeURIComponent("" + <parameter.VariableNameLower>) + "&"; 
     <endif>
 }>
 
 <if(operation.HasContent)>
-        var content = JSON.stringify(<operation.ContentParameter.Name>);
+        var content = JSON.stringify(<operation.ContentParameter.VariableNameLower>);
 <else>
         var content = "";
 <endif>
@@ -66,7 +66,11 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
             type: "<operation.HttpMethod>",
             data: content,
             dataType: "text",
-            contentType: "application/json; charset=UTF-8"
+            headers: {
+<operation.HeaderParameters:{parameter | 
+                "<parameter.Name>": <parameter.VariableNameLower>, 
+}>                "Content-Type": "application/json; charset=UTF-8"
+            \}
         \}).done((data, textStatus, xhr) => {
             this.process<operation.OperationNameUpper>(xhr, onSuccess, onFail);
         \}).fail((xhr) => {

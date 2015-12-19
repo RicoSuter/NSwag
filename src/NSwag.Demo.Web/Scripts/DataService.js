@@ -1,35 +1,43 @@
-// Generated using the NSwag toolchain v1.14.5829.22787 (http://NSwag.org)
+// Generated using the NSwag toolchain v1.15.5831.1699 (http://NSwag.org)
 define(["require", "exports"], function (require, exports) {
-    var DataService = (function () {
-        function DataService(baseUrl) {
+    (function (ObjectType) {
+        ObjectType[ObjectType["Foo"] = "Foo"] = "Foo";
+        ObjectType[ObjectType["Bar"] = "Bar"] = "Bar";
+    })(exports.ObjectType || (exports.ObjectType = {}));
+    var ObjectType = exports.ObjectType;
+    var Client = (function () {
+        function Client(baseUrl) {
             this.baseUrl = undefined;
             this.beforeSend = undefined;
             this.baseUrl = baseUrl !== undefined ? baseUrl : "";
         }
-        DataService.prototype.getAll = function (onSuccess, onFail) {
+        Client.prototype.xyz = function (data, onSuccess, onFail) {
             var _this = this;
-            var url = this.baseUrl + "/MyWorldCalculators/api/Persons/Get?";
+            var url = this.baseUrl + "/api/Person/xyz/{data}?";
+            url = url.replace("{data}", "" + data);
             var content = "";
             $.ajax({
                 url: url,
                 beforeSend: this.beforeSend,
-                type: "get",
+                type: "put",
                 data: content,
                 dataType: "text",
-                contentType: "application/json; charset=UTF-8"
+                headers: {
+                    "Content-Type": "application/json; charset=UTF-8"
+                }
             }).done(function (data, textStatus, xhr) {
-                _this.processGetAll(xhr, onSuccess, onFail);
+                _this.processXyz(xhr, onSuccess, onFail);
             }).fail(function (xhr) {
-                _this.processGetAll(xhr, onSuccess, onFail);
+                _this.processXyz(xhr, onSuccess, onFail);
             });
         };
-        DataService.prototype.processGetAll = function (xhr, onSuccess, onFail) {
+        Client.prototype.processXyz = function (xhr, onSuccess, onFail) {
             var data = xhr.responseText;
             var status = xhr.status.toString();
             if (status === "200") {
                 var result200 = null;
                 try {
-                    result200 = jQuery.parseJSON(data);
+                    result200 = data === "" ? null : jQuery.parseJSON(data);
                 }
                 catch (e) {
                     if (onFail !== undefined)
@@ -42,7 +50,48 @@ define(["require", "exports"], function (require, exports) {
             }
             else {
                 if (onFail !== undefined)
-                    onFail(null, "error_no_callback_for_status");
+                    onFail(null, "error_no_callback_for_the_received_http_status");
+            }
+        };
+        Client.prototype.getAll = function (onSuccess, onFail) {
+            var _this = this;
+            var url = this.baseUrl + "/api/Persons/Get?";
+            var content = "";
+            $.ajax({
+                url: url,
+                beforeSend: this.beforeSend,
+                type: "get",
+                data: content,
+                dataType: "text",
+                headers: {
+                    "Content-Type": "application/json; charset=UTF-8"
+                }
+            }).done(function (data, textStatus, xhr) {
+                _this.processGetAll(xhr, onSuccess, onFail);
+            }).fail(function (xhr) {
+                _this.processGetAll(xhr, onSuccess, onFail);
+            });
+        };
+        Client.prototype.processGetAll = function (xhr, onSuccess, onFail) {
+            var data = xhr.responseText;
+            var status = xhr.status.toString();
+            if (status === "200") {
+                var result200 = null;
+                try {
+                    result200 = data === "" ? null : jQuery.parseJSON(data);
+                }
+                catch (e) {
+                    if (onFail !== undefined)
+                        onFail(null, "error_parsing", e);
+                    return;
+                }
+                if (onSuccess !== undefined)
+                    onSuccess(result200);
+                return;
+            }
+            else {
+                if (onFail !== undefined)
+                    onFail(null, "error_no_callback_for_the_received_http_status");
             }
         };
         /**
@@ -50,9 +99,9 @@ define(["require", "exports"], function (require, exports) {
          * @id The ID of the person.
          * @return The person.
          */
-        DataService.prototype.get = function (id, onSuccess, onFail) {
+        Client.prototype.get = function (id, onSuccess, onFail) {
             var _this = this;
-            var url = this.baseUrl + "/MyWorldCalculators/api/Persons/Get/{id}?";
+            var url = this.baseUrl + "/api/Persons/Get/{id}?";
             url = url.replace("{id}", "" + id);
             var content = "";
             $.ajax({
@@ -61,20 +110,22 @@ define(["require", "exports"], function (require, exports) {
                 type: "get",
                 data: content,
                 dataType: "text",
-                contentType: "application/json; charset=UTF-8"
+                headers: {
+                    "Content-Type": "application/json; charset=UTF-8"
+                }
             }).done(function (data, textStatus, xhr) {
                 _this.processGet(xhr, onSuccess, onFail);
             }).fail(function (xhr) {
                 _this.processGet(xhr, onSuccess, onFail);
             });
         };
-        DataService.prototype.processGet = function (xhr, onSuccess, onFail) {
+        Client.prototype.processGet = function (xhr, onSuccess, onFail) {
             var data = xhr.responseText;
             var status = xhr.status.toString();
             if (status === "200") {
                 var result200 = null;
                 try {
-                    result200 = jQuery.parseJSON(data);
+                    result200 = data === "" ? null : jQuery.parseJSON(data);
                 }
                 catch (e) {
                     if (onFail !== undefined)
@@ -88,7 +139,7 @@ define(["require", "exports"], function (require, exports) {
             else if (status === "500") {
                 var result500 = null;
                 try {
-                    result500 = jQuery.parseJSON(data);
+                    result500 = data === "" ? null : jQuery.parseJSON(data);
                 }
                 catch (e) {
                     if (onFail !== undefined)
@@ -101,37 +152,39 @@ define(["require", "exports"], function (require, exports) {
             }
             else {
                 if (onFail !== undefined)
-                    onFail(null, "error_no_callback_for_status");
+                    onFail(null, "error_no_callback_for_the_received_http_status");
             }
         };
         /**
          * Creates a new person.
-         * @request The person.
+         * @value The person.
          */
-        DataService.prototype.post = function (request, onSuccess, onFail) {
+        Client.prototype.post = function (value, onSuccess, onFail) {
             var _this = this;
-            var url = this.baseUrl + "/MyWorldCalculators/api/Persons/Post?";
-            var content = JSON.stringify(request);
+            var url = this.baseUrl + "/api/Persons/Post?";
+            var content = JSON.stringify(value);
             $.ajax({
                 url: url,
                 beforeSend: this.beforeSend,
                 type: "post",
                 data: content,
                 dataType: "text",
-                contentType: "application/json; charset=UTF-8"
+                headers: {
+                    "Content-Type": "application/json; charset=UTF-8"
+                }
             }).done(function (data, textStatus, xhr) {
                 _this.processPost(xhr, onSuccess, onFail);
             }).fail(function (xhr) {
                 _this.processPost(xhr, onSuccess, onFail);
             });
         };
-        DataService.prototype.processPost = function (xhr, onSuccess, onFail) {
+        Client.prototype.processPost = function (xhr, onSuccess, onFail) {
             var data = xhr.responseText;
             var status = xhr.status.toString();
-            if (status === "200") {
-                var result200 = null;
+            if (status === "204") {
+                var result204 = null;
                 try {
-                    result200 = jQuery.parseJSON(data);
+                    result204 = data === "" ? null : jQuery.parseJSON(data);
                 }
                 catch (e) {
                     if (onFail !== undefined)
@@ -139,44 +192,46 @@ define(["require", "exports"], function (require, exports) {
                     return;
                 }
                 if (onSuccess !== undefined)
-                    onSuccess(result200);
+                    onSuccess(result204);
                 return;
             }
             else {
                 if (onFail !== undefined)
-                    onFail(null, "error_no_callback_for_status");
+                    onFail(null, "error_no_callback_for_the_received_http_status");
             }
         };
         /**
          * Updates the existing person.
          * @id The ID.
-         * @request The person.
+         * @value The person.
          */
-        DataService.prototype.put = function (id, request, onSuccess, onFail) {
+        Client.prototype.put = function (id, value, onSuccess, onFail) {
             var _this = this;
-            var url = this.baseUrl + "/MyWorldCalculators/api/Persons/Put/{id}?";
+            var url = this.baseUrl + "/api/Persons/Put/{id}?";
             url = url.replace("{id}", "" + id);
-            var content = JSON.stringify(request);
+            var content = JSON.stringify(value);
             $.ajax({
                 url: url,
                 beforeSend: this.beforeSend,
                 type: "put",
                 data: content,
                 dataType: "text",
-                contentType: "application/json; charset=UTF-8"
+                headers: {
+                    "Content-Type": "application/json; charset=UTF-8"
+                }
             }).done(function (data, textStatus, xhr) {
                 _this.processPut(xhr, onSuccess, onFail);
             }).fail(function (xhr) {
                 _this.processPut(xhr, onSuccess, onFail);
             });
         };
-        DataService.prototype.processPut = function (xhr, onSuccess, onFail) {
+        Client.prototype.processPut = function (xhr, onSuccess, onFail) {
             var data = xhr.responseText;
             var status = xhr.status.toString();
-            if (status === "200") {
-                var result200 = null;
+            if (status === "204") {
+                var result204 = null;
                 try {
-                    result200 = jQuery.parseJSON(data);
+                    result204 = data === "" ? null : jQuery.parseJSON(data);
                 }
                 catch (e) {
                     if (onFail !== undefined)
@@ -184,17 +239,17 @@ define(["require", "exports"], function (require, exports) {
                     return;
                 }
                 if (onSuccess !== undefined)
-                    onSuccess(result200);
+                    onSuccess(result204);
                 return;
             }
             else {
                 if (onFail !== undefined)
-                    onFail(null, "error_no_callback_for_status");
+                    onFail(null, "error_no_callback_for_the_received_http_status");
             }
         };
-        DataService.prototype.delete = function (id, onSuccess, onFail) {
+        Client.prototype.delete = function (id, onSuccess, onFail) {
             var _this = this;
-            var url = this.baseUrl + "/MyWorldCalculators/api/Persons/Delete/{id}?";
+            var url = this.baseUrl + "/api/Persons/Delete/{id}?";
             url = url.replace("{id}", "" + id);
             var content = "";
             $.ajax({
@@ -203,20 +258,22 @@ define(["require", "exports"], function (require, exports) {
                 type: "delete",
                 data: content,
                 dataType: "text",
-                contentType: "application/json; charset=UTF-8"
+                headers: {
+                    "Content-Type": "application/json; charset=UTF-8"
+                }
             }).done(function (data, textStatus, xhr) {
                 _this.processDelete(xhr, onSuccess, onFail);
             }).fail(function (xhr) {
                 _this.processDelete(xhr, onSuccess, onFail);
             });
         };
-        DataService.prototype.processDelete = function (xhr, onSuccess, onFail) {
+        Client.prototype.processDelete = function (xhr, onSuccess, onFail) {
             var data = xhr.responseText;
             var status = xhr.status.toString();
-            if (status === "200") {
-                var result200 = null;
+            if (status === "204") {
+                var result204 = null;
                 try {
-                    result200 = jQuery.parseJSON(data);
+                    result204 = data === "" ? null : jQuery.parseJSON(data);
                 }
                 catch (e) {
                     if (onFail !== undefined)
@@ -224,18 +281,18 @@ define(["require", "exports"], function (require, exports) {
                     return;
                 }
                 if (onSuccess !== undefined)
-                    onSuccess(result200);
+                    onSuccess(result204);
                 return;
             }
             else {
                 if (onFail !== undefined)
-                    onFail(null, "error_no_callback_for_status");
+                    onFail(null, "error_no_callback_for_the_received_http_status");
             }
         };
         /**
          * Calculates the sum of a, b and c.
          */
-        DataService.prototype.calculate = function (a, b, c, onSuccess, onFail) {
+        Client.prototype.calculate = function (a, b, c, onSuccess, onFail) {
             var _this = this;
             var url = this.baseUrl + "/api/Person/Calculate/{a}/{b}?";
             url = url.replace("{a}", "" + a);
@@ -248,20 +305,22 @@ define(["require", "exports"], function (require, exports) {
                 type: "get",
                 data: content,
                 dataType: "text",
-                contentType: "application/json; charset=UTF-8"
+                headers: {
+                    "Content-Type": "application/json; charset=UTF-8"
+                }
             }).done(function (data, textStatus, xhr) {
                 _this.processCalculate(xhr, onSuccess, onFail);
             }).fail(function (xhr) {
                 _this.processCalculate(xhr, onSuccess, onFail);
             });
         };
-        DataService.prototype.processCalculate = function (xhr, onSuccess, onFail) {
+        Client.prototype.processCalculate = function (xhr, onSuccess, onFail) {
             var data = xhr.responseText;
             var status = xhr.status.toString();
             if (status === "200") {
                 var result200 = null;
                 try {
-                    result200 = jQuery.parseJSON(data);
+                    result200 = data === "" ? null : jQuery.parseJSON(data);
                 }
                 catch (e) {
                     if (onFail !== undefined)
@@ -274,13 +333,13 @@ define(["require", "exports"], function (require, exports) {
             }
             else {
                 if (onFail !== undefined)
-                    onFail(null, "error_no_callback_for_status");
+                    onFail(null, "error_no_callback_for_the_received_http_status");
             }
         };
-        DataService.prototype.addHour = function (time, onSuccess, onFail) {
+        Client.prototype.addHour = function (time, onSuccess, onFail) {
             var _this = this;
-            var url = this.baseUrl + "/MyWorldCalculators/api/Persons/AddHour?";
-            url += "time=" + encodeURIComponent("" + time.toJSON()) + "&";
+            var url = this.baseUrl + "/api/Persons/AddHour?";
+            url += "time=" + encodeURIComponent("" + time) + "&";
             var content = "";
             $.ajax({
                 url: url,
@@ -288,14 +347,16 @@ define(["require", "exports"], function (require, exports) {
                 type: "get",
                 data: content,
                 dataType: "text",
-                contentType: "application/json; charset=UTF-8"
+                headers: {
+                    "Content-Type": "application/json; charset=UTF-8"
+                }
             }).done(function (data, textStatus, xhr) {
                 _this.processAddHour(xhr, onSuccess, onFail);
             }).fail(function (xhr) {
                 _this.processAddHour(xhr, onSuccess, onFail);
             });
         };
-        DataService.prototype.processAddHour = function (xhr, onSuccess, onFail) {
+        Client.prototype.processAddHour = function (xhr, onSuccess, onFail) {
             var data = xhr.responseText;
             var status = xhr.status.toString();
             if (status === "200") {
@@ -314,12 +375,12 @@ define(["require", "exports"], function (require, exports) {
             }
             else {
                 if (onFail !== undefined)
-                    onFail(null, "error_no_callback_for_status");
+                    onFail(null, "error_no_callback_for_the_received_http_status");
             }
         };
-        DataService.prototype.loadComplexObject = function (onSuccess, onFail) {
+        Client.prototype.test = function (onSuccess, onFail) {
             var _this = this;
-            var url = this.baseUrl + "/MyWorldCalculators/api/Persons/LoadComplexObject?";
+            var url = this.baseUrl + "/api/Persons/TestAsync?";
             var content = "";
             $.ajax({
                 url: url,
@@ -327,20 +388,22 @@ define(["require", "exports"], function (require, exports) {
                 type: "get",
                 data: content,
                 dataType: "text",
-                contentType: "application/json; charset=UTF-8"
+                headers: {
+                    "Content-Type": "application/json; charset=UTF-8"
+                }
             }).done(function (data, textStatus, xhr) {
-                _this.processLoadComplexObject(xhr, onSuccess, onFail);
+                _this.processTest(xhr, onSuccess, onFail);
             }).fail(function (xhr) {
-                _this.processLoadComplexObject(xhr, onSuccess, onFail);
+                _this.processTest(xhr, onSuccess, onFail);
             });
         };
-        DataService.prototype.processLoadComplexObject = function (xhr, onSuccess, onFail) {
+        Client.prototype.processTest = function (xhr, onSuccess, onFail) {
             var data = xhr.responseText;
             var status = xhr.status.toString();
             if (status === "200") {
                 var result200 = null;
                 try {
-                    result200 = jQuery.parseJSON(data);
+                    result200 = data === "" ? null : jQuery.parseJSON(data);
                 }
                 catch (e) {
                     if (onFail !== undefined)
@@ -353,11 +416,52 @@ define(["require", "exports"], function (require, exports) {
             }
             else {
                 if (onFail !== undefined)
-                    onFail(null, "error_no_callback_for_status");
+                    onFail(null, "error_no_callback_for_the_received_http_status");
             }
         };
-        return DataService;
+        Client.prototype.loadComplexObject = function (onSuccess, onFail) {
+            var _this = this;
+            var url = this.baseUrl + "/api/Persons/LoadComplexObject?";
+            var content = "";
+            $.ajax({
+                url: url,
+                beforeSend: this.beforeSend,
+                type: "get",
+                data: content,
+                dataType: "text",
+                headers: {
+                    "Content-Type": "application/json; charset=UTF-8"
+                }
+            }).done(function (data, textStatus, xhr) {
+                _this.processLoadComplexObject(xhr, onSuccess, onFail);
+            }).fail(function (xhr) {
+                _this.processLoadComplexObject(xhr, onSuccess, onFail);
+            });
+        };
+        Client.prototype.processLoadComplexObject = function (xhr, onSuccess, onFail) {
+            var data = xhr.responseText;
+            var status = xhr.status.toString();
+            if (status === "200") {
+                var result200 = null;
+                try {
+                    result200 = data === "" ? null : jQuery.parseJSON(data);
+                }
+                catch (e) {
+                    if (onFail !== undefined)
+                        onFail(null, "error_parsing", e);
+                    return;
+                }
+                if (onSuccess !== undefined)
+                    onSuccess(result200);
+                return;
+            }
+            else {
+                if (onFail !== undefined)
+                    onFail(null, "error_no_callback_for_the_received_http_status");
+            }
+        };
+        return Client;
     })();
-    exports.DataService = DataService;
+    exports.Client = Client;
 });
 //# sourceMappingURL=DataService.js.map

@@ -1,5 +1,5 @@
 define(["require", "exports", "DataService"], function (require, exports, dataService) {
-    var client = new dataService.DataService();
+    var client = new dataService.Client();
     client.baseUrl = "http://localhost:22093";
     client.addHour(new Date(2012, 12, 25, 10, 15, 20), function (result) {
         var x = 10;

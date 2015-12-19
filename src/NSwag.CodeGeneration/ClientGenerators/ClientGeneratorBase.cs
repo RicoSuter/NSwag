@@ -119,32 +119,13 @@ namespace NSwag.CodeGeneration.ClientGenerators
                             return new ParameterModel
                             {
                                 Name = p.Name,
+                                VariableNameLower = ConvertToLowerStartIdentifier(p.Name.Replace("-", "_")), 
+                                Kind = p.Kind, 
                                 Type = resolver.Resolve(p.ActualSchema, p.IsRequired, p.Name),
                                 IsLast = operation.Parameters.LastOrDefault() == p,
                                 Description = RemoveLineBreaks(p.Description)
                             };
-                        }).ToList(),
-
-                        ContentParameter =
-                            operation.Parameters.Where(p => p.Kind == SwaggerParameterKind.Body)
-                                .Select(p => new ParameterModel { Name = p.Name })
-                                .SingleOrDefault(),
-
-                        PlaceholderParameters =
-                            operation.Parameters.Where(p => p.Kind == SwaggerParameterKind.Path).Select(p => new ParameterModel
-                            {
-                                Name = p.Name,
-                                IsDate = p.Format == JsonFormatStrings.DateTime,
-                                Description = RemoveLineBreaks(p.Description)
-                            }),
-
-                        QueryParameters =
-                            operation.Parameters.Where(p => p.Kind == SwaggerParameterKind.Query).Select(p => new ParameterModel
-                            {
-                                Name = p.Name,
-                                IsDate = p.Format == JsonFormatStrings.DateTime,
-                                Description = RemoveLineBreaks(p.Description)
-                            }).ToList(),
+                        }).ToList(),                           
                     };
                 }).ToList();
             return operations;

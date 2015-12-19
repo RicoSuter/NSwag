@@ -105,6 +105,7 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="ServiceDefinitions\PersonsService.swagger" />
+    <Content Include="Swagger.nswag" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

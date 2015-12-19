@@ -5,10 +5,10 @@ public partial interface I<class>
 <operations:{operation | 
 <if(operation.HasSummary)>    /// \<summary><operation.Summary>\</summary><endif>
 <operation.Parameters:{parameter | 
-<if(parameter.HasDescription)>    /// \<param name="<parameter.Name>"><parameter.Description>\</param><endif>}>
+<if(parameter.HasDescription)>    /// \<param name="<parameter.VariableNameLower>"><parameter.Description>\</param><endif>}>
 <if(operation.HasResultDescription)>    /// \<returns><operation.ResultDescription>\</returns><endif>
     /// \<exception cref="<class>.SwaggerException">A server side error occurred.\</exception>
-    <operation.resultType> <operation.OperationNameUpper>Async(<operation.Parameters:{parameter | <parameter.Type> <parameter.Name><if(!parameter.isLast)>,<endif> }>);
+    <operation.resultType> <operation.OperationNameUpper>Async(<operation.Parameters:{parameter | <parameter.Type> <parameter.VariableNameLower><if(!parameter.isLast)>,<endif> }>);
 
 }>
 }
@@ -32,26 +32,30 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasClientBaseClass)><
 <operations:{operation | 
 <if(operation.HasSummary)>    /// \<summary><operation.Summary>\</summary><endif>
 <operation.Parameters:{parameter | 
-<if(parameter.HasDescription)>    /// \<param name="<parameter.Name>"><parameter.Description>\</param><endif>}>
+<if(parameter.HasDescription)>    /// \<param name="<parameter.VariableNameLower>"><parameter.Description>\</param><endif>}>
 <if(operation.HasResultDescription)>    /// \<returns><operation.ResultDescription>\</returns><endif>
     /// \<exception cref="SwaggerException">A server side error occurred.\</exception>
-    public async <operation.resultType> <operation.OperationNameUpper>Async(<operation.Parameters:{parameter | <parameter.Type> <parameter.Name><if(!parameter.isLast)>,<endif> }>)
+    public async <operation.resultType> <operation.OperationNameUpper>Async(<operation.Parameters:{parameter | <parameter.Type> <parameter.VariableNameLower><if(!parameter.isLast)>,<endif> }>)
     {
         var url = string.Format("{0\}/{1\}?", BaseUrl, "<operation.Path>");
 
-<operation.PlaceholderParameters:{parameter | 
-        url = url.Replace("{<parameter.Name>\}", <parameter.Name>.ToString());
+<operation.PathParameters:{parameter | 
+        url = url.Replace("{<parameter.Name>\}", <parameter.VariableNameLower>.ToString());
 }>
 
 <operation.QueryParameters:{parameter | 
-        url += string.Format("<parameter.Name>={0\}&", Uri.EscapeUriString(<parameter.Name>.ToString()));
+        url += string.Format("<parameter.Name>={0\}&", Uri.EscapeUriString(<parameter.VariableNameLower>.ToString()));
 }>
         
         <if(useHttpClientCreationMethod)>var client = await CreateHttpClientAsync().ConfigureAwait(false);<else>var client = new HttpClient();<endif>
         PrepareRequest(client);
 
+<operation.HeaderParameters:{parameter | 
+        client.DefaultRequestHeaders.TryAddWithoutValidation("<parameter.Name>", <parameter.VariableNameLower>);
+}>
+
 <if(operation.HasContent)>
-        var content = new StringContent(JsonConvert.SerializeObject(<operation.ContentParameter.Name>));
+        var content = new StringContent(JsonConvert.SerializeObject(<operation.ContentParameter.VariableNameLower>));
         content.Headers.ContentType.MediaType = "application/json";
 
         var response = await client.<operation.HttpMethodUpper>Async(url, content).ConfigureAwait(false);

@@ -46,11 +46,28 @@ namespace NSwag.CodeGeneration.ClientGenerators.Models
 
         public bool HasContent { get { return ContentParameter != null; } }
 
-        public ParameterModel ContentParameter { get; set; }
+        public ParameterModel ContentParameter
+        {
+            get
+            {
+                return Parameters.SingleOrDefault(p => p.Kind == SwaggerParameterKind.Body);
+            }
+        }
 
-        public IEnumerable<ParameterModel> PlaceholderParameters { get; set; }
+        public IEnumerable<ParameterModel> PathParameters
+        {
+            get { return Parameters.Where(p => p.Kind == SwaggerParameterKind.Path); }
+        }
 
-        public IEnumerable<ParameterModel> QueryParameters { get; set; }
+        public IEnumerable<ParameterModel> QueryParameters
+        {
+            get { return Parameters.Where(p => p.Kind == SwaggerParameterKind.Query); }
+        }
+
+        public IEnumerable<ParameterModel> HeaderParameters
+        {
+            get { return Parameters.Where(p => p.Kind == SwaggerParameterKind.Header); }
+        }
 
         public string Path { get; set; }
 

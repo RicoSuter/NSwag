@@ -12,8 +12,11 @@ namespace NSwag.CodeGeneration.ClientGenerators.Models
     {
         public string Name { get; set; }
 
-        public string Type { get; set; }
+        public string VariableNameLower { get; set; }
 
+        public SwaggerParameterKind Kind { get; set; }
+
+        public string Type { get; set; }
 
         public string Description { get; set; }
 
@@ -21,11 +24,9 @@ namespace NSwag.CodeGeneration.ClientGenerators.Models
         {
             get { return !string.IsNullOrEmpty(Description); }
         }
-
-
+        
         public bool IsLast { get; set; }
 
         public bool IsDate { get; set; }
-
     }
 }
