@@ -13,8 +13,7 @@ namespace NSwag.CodeGeneration.ClientGenerators.Models
         public string Type { get; set; }
 
         public string StatusCode { get; set; }
-
-
+        
         public bool IsSuccess { get; set; }
 
         public bool TypeIsDate { get; set; }
