@@ -18,14 +18,19 @@ namespace NSwag.Commands
         [Argument(Name = "RequiredPropertiesMustBeDefined", DefaultValue = true)]
         public bool RequiredPropertiesMustBeDefined { get; set; }
 
+        [Description("The date time .NET type (DateTime or DateTimeOffset).")]
+        [Argument(Name = "DateTimeType", DefaultValue = CSharpDateTimeType.DateTime)]
+        public CSharpDateTimeType DateTimeType { get; set; }
+
         public override async Task RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var settings = new CSharpGeneratorSettings
             {
                 Namespace = Namespace,
-                RequiredPropertiesMustBeDefined = RequiredPropertiesMustBeDefined
+                RequiredPropertiesMustBeDefined = RequiredPropertiesMustBeDefined,
+                DateTimeType = DateTimeType
             };
-
+            
             var schema = JsonSchema4.FromJson(InputJson);
             var generator = new CSharpGenerator(schema, settings);
             var code = generator.GenerateFile();

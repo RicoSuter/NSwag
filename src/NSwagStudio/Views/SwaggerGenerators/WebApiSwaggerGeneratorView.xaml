@@ -43,7 +43,11 @@
 
         <TextBlock Text="Web API Controller" FontWeight="Bold" Margin="0,0,0,6" />
         <TextBlock Visibility="{Binding SpecifyControllerName, Converter={StaticResource NotConverter}}"
-                   Text="Using all controllers" Margin="0,0,0,12" />
+                   Margin="0,0,0,12">
+            <Run Text="Using all" />
+            <Run Text="{Binding AllControllerNames.Length, Mode=OneWay}" />
+            <Run Text="controllers" />
+        </TextBlock>
         <TextBlock Visibility="{Binding SpecifyControllerName, Converter={StaticResource VisibilityConverter}}"
                    Text="{Binding ControllerName}" Margin="0,0,0,12" />
         

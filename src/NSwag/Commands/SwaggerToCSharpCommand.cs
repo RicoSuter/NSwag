@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using NConsole;
 using Newtonsoft.Json;
+using NJsonSchema.CodeGeneration.CSharp;
 using NSwag.CodeGeneration.ClientGenerators;
 using NSwag.CodeGeneration.ClientGenerators.CSharp;
 using NSwag.Commands.Base;
@@ -97,6 +98,14 @@ namespace NSwag.Commands
         {
             get { return Settings.AdditionalNamespaceUsages; }
             set { Settings.AdditionalNamespaceUsages = value; }
+        }
+
+        [Description("The date time .NET type (DateTime or DateTimeOffset).")]
+        [Argument(Name = "DateTimeType", DefaultValue = CSharpDateTimeType.DateTime)]
+        public CSharpDateTimeType DateTimeType
+        {
+            get { return Settings.CSharpGeneratorSettings.DateTimeType; }
+            set { Settings.CSharpGeneratorSettings.DateTimeType = value; }
         }
 
         public override async Task RunAsync(CommandLineProcessor processor, IConsoleHost host)

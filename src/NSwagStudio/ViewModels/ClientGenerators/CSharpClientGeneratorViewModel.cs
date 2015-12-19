@@ -10,6 +10,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using NJsonSchema.CodeGeneration.CSharp;
 using NSwag;
 using NSwag.CodeGeneration.ClientGenerators;
 using NSwag.Commands;
@@ -32,27 +33,42 @@ namespace NSwagStudio.ViewModels.ClientGenerators
             }
         }
 
-        /// <summary>Gets the async types. </summary>
+        /// <summary>Gets the list of operation modes. </summary>
         public OperationGenerationMode[] OperationGenerationModes
-        {
-            get { return Enum.GetNames(typeof(OperationGenerationMode)).Select(t => (OperationGenerationMode)Enum.Parse(typeof(OperationGenerationMode), t)).ToArray(); }
-        }
-
-        /// <summary>Gets or sets the namespace usage. </summary>
-        public string AdditionalNamespaceUsage
         {
             get
             {
-                return Command.AdditionalNamespaceUsages != null && 
-                    Command.AdditionalNamespaceUsages.Any() ? Command.AdditionalNamespaceUsages.First() : null;
+                return Enum.GetNames(typeof(OperationGenerationMode))
+                    .Select(t => (OperationGenerationMode)Enum.Parse(typeof(OperationGenerationMode), t))
+                    .ToArray();
+            }
+        }
+
+        /// <summary>Gets the list of date time types. </summary>
+        public CSharpDateTimeType[] DateTimeTypes
+        {
+            get
+            {
+                return Enum.GetNames(typeof(CSharpDateTimeType))
+                    .Select(t => (CSharpDateTimeType)Enum.Parse(typeof(CSharpDateTimeType), t))
+                    .ToArray();
+            }
+        }
+
+        /// <summary>Gets or sets the namespace usages (comma separated). </summary>
+        public string AdditionalNamespaceUsages
+        {
+            get
+            {
+                return Command.AdditionalNamespaceUsages != null ? string.Join(",", Command.AdditionalNamespaceUsages) : "";
             }
             set
             {
-                if (!string.IsNullOrEmpty(value))
-                    Command.AdditionalNamespaceUsages = new[] { value };
+                if (value != null)
+                    Command.AdditionalNamespaceUsages = value.Split(',').Select(n => n.Trim()).ToArray();
                 else
                     Command.AdditionalNamespaceUsages = new string[] { };
-                RaisePropertyChanged(() => AdditionalNamespaceUsage);
+                RaisePropertyChanged(() => AdditionalNamespaceUsages);
             }
         }
 

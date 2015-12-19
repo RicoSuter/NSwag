@@ -20,7 +20,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
 {
     public class WebApiSwaggerGeneratorViewModel : ViewModelBase
     {
-        private string[] _allControllerNames;
+        private string[] _allControllerNames = { };
         private WebApiToSwaggerCommand _command = new WebApiToSwaggerCommand();
 
         /// <summary>Initializes a new instance of the <see cref="WebApiSwaggerGeneratorViewModel"/> class.</summary>
@@ -53,6 +53,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
                 if (Set(ref _command, value))
                 {
                     RaiseAllPropertiesChanged();
+                    LoadAssemblyCommand.RaiseCanExecuteChanged();
                     LoadAssemblyAsync(false);
                 }
             }
@@ -84,7 +85,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             set
             {
                 if (value != SpecifyControllerName)
-                    ControllerName = value && AllControllerNames != null ? AllControllerNames.FirstOrDefault() : null;
+                    ControllerName = value ? AllControllerNames.FirstOrDefault() : null;
 
                 RaisePropertyChanged(() => SpecifyControllerName);
             }
@@ -141,7 +142,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
 
                 if (updateSelectedController)
                 {
-                    if (!AllControllerNames.Contains(ControllerName))
+                    if (ControllerName != null && !AllControllerNames.Contains(ControllerName))
                         ControllerName = AllControllerNames.FirstOrDefault();
                 }
             });

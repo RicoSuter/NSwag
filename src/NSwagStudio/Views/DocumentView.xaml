@@ -14,9 +14,9 @@
     <Border DataContext="{StaticResource ViewModel}" IsEnabled="{Binding GenerateCommand.CanExecute}">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" MinWidth="400" />
+                <ColumnDefinition Width="2*" MinWidth="400" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" MinWidth="400" />
+                <ColumnDefinition Width="3*" MinWidth="400" />
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
