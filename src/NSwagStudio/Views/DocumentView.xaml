@@ -25,15 +25,18 @@
             </Grid.RowDefinitions>
 
             <!-- Input -->
-            <Grid Margin="0,0,4,0">
+            <Grid Margin="0,0,4,0" Grid.RowSpan="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="Input" FontSize="16" FontWeight="Bold" Margin="0,0,0,16" />
-                <TabControl Grid.Row="2" 
+                <TextBlock FontSize="16" Margin="0,0,0,16">
+                    <Run Text="Input:" FontWeight="Bold" />
+                    <Run Text="{Binding SelectedItem.Title, ElementName=InputTabControl, Mode=OneWay}" />
+                </TextBlock>
+                <TabControl Grid.Row="2" x:Name="InputTabControl"
                         ItemsSource="{Binding SwaggerGenerators}" 
                         SelectedIndex="{Binding Document.SelectedSwaggerGenerator, Mode=TwoWay}">
                     <TabControl.ItemContainerStyle>
@@ -44,7 +47,8 @@
                 </TabControl>
             </Grid>
 
-            <GridSplitter Grid.Column="1" Grid.Row="0" Width="4" Margin="4,0,4,0"
+            <GridSplitter Grid.Column="1" Grid.Row="0" Grid.RowSpan="2"
+                          Width="4" Margin="4,0,4,0"
                           ResizeBehavior="PreviousAndNext" />
 
             <!-- Output -->
@@ -55,7 +59,7 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock Text="Output" FontSize="16" FontWeight="Bold" Margin="0,0,0,16" />
-                <TabControl Grid.Row="1" 
+                <TabControl Grid.Row="1"
                         ItemsSource="{Binding ClientGenerators}"
                         SelectedIndex="{Binding Document.SelectedClientGenerator, Mode=TwoWay}">
                     <TabControl.ItemContainerStyle>
@@ -66,9 +70,9 @@
                 </TabControl>
             </Grid>
 
-            <Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+            <Button Grid.Row="1" Grid.Column="2"
                 Command="{Binding GenerateCommand}" Click="OnGenerate"
-                Margin="0,8,0,0" Padding="8">
+                Margin="4,8,0,0" Padding="8">
                 <TextBlock Text="Generate Outputs" FontSize="16" Margin="0,4,0,4" />
             </Button>
         </Grid>

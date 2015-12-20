@@ -87,6 +87,12 @@ namespace NSwagStudio
             set { Set(ref _selectedClientGenerator, value); }
         }
 
+        [JsonProperty("InputSwagger")]
+        public string InputSwagger { get; set; }
+
+        [JsonProperty("InputJsonSchema")]
+        public string InputJsonSchema { get; set; }
+
         [JsonProperty("WebApiToSwaggerCommand")]
         public WebApiToSwaggerCommand WebApiToSwaggerCommand { get; set; }
 

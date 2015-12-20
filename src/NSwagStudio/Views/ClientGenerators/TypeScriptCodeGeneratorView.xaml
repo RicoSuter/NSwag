@@ -5,6 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:clientGenerators="clr-namespace:NSwagStudio.ViewModels.ClientGenerators"
              xmlns:converters="clr-namespace:MyToolkit.Converters;assembly=MyToolkit.Extended"
+             xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:views="clr-namespace:NSwagStudio.Views"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
@@ -21,7 +24,7 @@
         </Grid.RowDefinitions>
 
         <Border Margin="-10,-10,-10,6" Background="GhostWhite" BorderThickness="0,0,0,1" BorderBrush="LightGray">
-            <Expander Margin="8" IsExpanded="True">
+            <Expander Margin="8" IsExpanded="{Binding ShowSettings, Mode=TwoWay}">
                 <Expander.HeaderTemplate>
                     <DataTemplate>
                         <TextBlock Margin="2,0,0,0" FontSize="16" FontWeight="Bold">Settings</TextBlock>
@@ -65,13 +68,12 @@
                 </StackPanel>
             </Expander>
         </Border>
-
-        <TextBlock Text="TypeScript Output" FontWeight="Bold" Margin="0,0,0,6" Grid.Row="1" />
-        <TextBox Text="{Binding ClientCode}" 
-                 VerticalScrollBarVisibility="Auto" 
-                 HorizontalScrollBarVisibility="Auto" 
-                 AcceptsReturn="True"
-                 IsReadOnlyCaretVisible="True" FontFamily="Courier New" IsReadOnly="True"
-                 Grid.Row="2" />
+        <!--<TextBlock Text="TypeScript Output:" FontWeight="Bold" Margin="0,0,0,6" Grid.Row="1" />-->
+        <avalonedit:TextEditor Grid.Row="2" Margin="-8,-8,-8,-8" FontFamily="Consolas" IsReadOnly="True"
+                               SyntaxHighlighting="JavaScript" FontSize="10pt" Padding="8">
+            <i:Interaction.Behaviors>
+                <views:AvalonEditBehavior Text="{Binding ClientCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </i:Interaction.Behaviors>
+        </avalonedit:TextEditor>
     </Grid>
 </UserControl>

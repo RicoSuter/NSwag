@@ -4,8 +4,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
+using System.Windows.Input;
 using MyToolkit.Mvvm;
 using MyToolkit.Storage;
+using MyToolkit.UI;
 using MyToolkit.Utilities;
 using NSwagStudio.ViewModels;
 using Newtonsoft.Json;
@@ -20,12 +22,25 @@ namespace NSwagStudio.Views
         {
             InitializeComponent();
             ViewModelHelper.RegisterViewModel(Model, this);
+            RegisterShortcuts();
             CheckForApplicationUpdate();
             LoadWindowState();
         }
 
         private MainWindowModel Model { get { return (MainWindowModel)Resources["ViewModel"]; } }
 
+        private void RegisterShortcuts()
+        {
+            ShortcutManager.RegisterShortcut(typeof(MainWindow), new KeyGesture(Key.N, ModifierKeys.Control),
+                () => Model.CreateDocumentCommand.TryExecute());
+            ShortcutManager.RegisterShortcut(typeof(MainWindow), new KeyGesture(Key.O, ModifierKeys.Control),
+                () => Model.OpenDocumentCommand.TryExecute());
+            ShortcutManager.RegisterShortcut(typeof(MainWindow), new KeyGesture(Key.S, ModifierKeys.Control),
+                () => Model.SaveDocumentCommand.TryExecute(Model.SelectedDocument));
+            ShortcutManager.RegisterShortcut(typeof(MainWindow), new KeyGesture(Key.W, ModifierKeys.Control),
+                () => Model.CloseDocumentCommand.TryExecute(Model.SelectedDocument));
+        }
+        
         private async void CheckForApplicationUpdate()
         {
             var updater = new ApplicationUpdater(

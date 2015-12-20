@@ -10,6 +10,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using MyToolkit.Storage;
 using NJsonSchema.CodeGeneration.CSharp;
 using NSwag;
 using NSwag.CodeGeneration.ClientGenerators;
@@ -21,7 +22,13 @@ namespace NSwagStudio.ViewModels.ClientGenerators
     {
         private string _clientCode;
         private SwaggerToCSharpCommand _command = new SwaggerToCSharpCommand();
-        
+
+        public bool ShowSettings
+        {
+            get { return ApplicationSettings.GetSetting("CSharpClientGeneratorViewModel.ShowSettings", true); }
+            set { ApplicationSettings.SetSetting("CSharpClientGeneratorViewModel.ShowSettings", value); }
+        }
+
         /// <summary>Gets the settings.</summary>
         public SwaggerToCSharpCommand Command
         {

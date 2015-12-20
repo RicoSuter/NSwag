@@ -54,9 +54,9 @@ namespace NSwagStudio.ViewModels
             }
         }
 
-        public ICommand CreateDocumentCommand { get; private set; }
+        public RelayCommand CreateDocumentCommand { get; private set; }
 
-        public ICommand OpenDocumentCommand { get; private set; }
+        public RelayCommand OpenDocumentCommand { get; private set; }
 
         public RelayCommand<NSwagDocument> CloseDocumentCommand { get; private set; }
 

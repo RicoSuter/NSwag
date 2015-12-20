@@ -10,6 +10,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using MyToolkit.Storage;
 using NSwag;
 using NSwag.CodeGeneration.ClientGenerators;
 using NSwag.CodeGeneration.ClientGenerators.TypeScript;
@@ -21,7 +22,13 @@ namespace NSwagStudio.ViewModels.ClientGenerators
     {
         private string _clientCode;
         private SwaggerToTypeScriptCommand _command = new SwaggerToTypeScriptCommand();
-        
+
+        public bool ShowSettings
+        {
+            get { return ApplicationSettings.GetSetting("TypeScriptCodeGeneratorViewModel.ShowSettings", true); }
+            set { ApplicationSettings.SetSetting("TypeScriptCodeGeneratorViewModel.ShowSettings", value); }
+        }
+
         /// <summary>Gets the settings.</summary>
         public SwaggerToTypeScriptCommand Command
         {

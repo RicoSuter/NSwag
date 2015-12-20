@@ -30,10 +30,13 @@
         
         <Menu>
             <MenuItem Header="_File">
-                <MenuItem Header="_New" Command="{Binding CreateDocumentCommand}" />
-                <MenuItem Header="_Open" Command="{Binding OpenDocumentCommand}" />
-                <MenuItem Header="_Close" Command="{Binding CloseDocumentCommand}" CommandParameter="{Binding SelectedDocument}" />
-                <MenuItem Header="_Save" Command="{Binding SaveDocumentCommand}" CommandParameter="{Binding SelectedDocument}" />
+                <MenuItem Header="_New" Command="{Binding CreateDocumentCommand}" InputGestureText="Ctrl-N" />
+                <MenuItem Header="_Open" Command="{Binding OpenDocumentCommand}" InputGestureText="Ctrl-O" />
+                <MenuItem Header="_Close" InputGestureText="Ctrl-W" 
+                          Command="{Binding CloseDocumentCommand}" 
+                          CommandParameter="{Binding SelectedDocument}" />
+                <MenuItem Header="_Save" InputGestureText="Ctrl-S" 
+                          Command="{Binding SaveDocumentCommand}" CommandParameter="{Binding SelectedDocument}" />
                 <MenuItem Header="Save As" Command="{Binding SaveAsDocumentCommand}" CommandParameter="{Binding SelectedDocument}" />
             </MenuItem>
         </Menu>

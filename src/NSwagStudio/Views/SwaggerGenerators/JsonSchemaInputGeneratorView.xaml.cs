@@ -8,9 +8,10 @@ namespace NSwagStudio.Views.SwaggerGenerators
 {
     public partial class JsonSchemaInputGeneratorView : ISwaggerGenerator
     {
-        public JsonSchemaInputGeneratorView()
+        public JsonSchemaInputGeneratorView(NSwagDocument document)
         {
             InitializeComponent();
+            DataContext = document;
         }
 
         public string Title { get { return "JSON Schema"; } }

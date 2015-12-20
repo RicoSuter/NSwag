@@ -15,6 +15,7 @@ namespace NSwag.Commands
         public SwaggerToCSharpCommand()
         {
             Settings = new SwaggerToCSharpGeneratorSettings();
+            Namespace = "MyNamespace";
         }
 
         [JsonIgnore]
