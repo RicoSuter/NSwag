@@ -75,8 +75,11 @@ namespace NSwag.CodeGeneration.ClientGenerators.TypeScript
         internal override string RenderClientCode(string controllerName, IEnumerable<OperationModel> operations)
         {
             var template = LoadTemplate(Settings.Template.ToString());
+            //var template = LoadTemplate(Settings.Template == TypeScriptTemplate.AngularJS ?  "AngularJS" : "JQuery");
+
             template.Add("class", Settings.ClassName.Replace("{controller}", ConvertToUpperStartIdentifier(controllerName)));
             template.Add("operations", operations);
+            template.Add("renderPromises", Settings.Template == TypeScriptTemplate.JQueryQPromises);
             template.Add("generateClientInterfaces", Settings.GenerateClientInterfaces);
             template.Add("hasOperations", operations.Any());
             template.Add("baseUrl", _service.BaseUrl);

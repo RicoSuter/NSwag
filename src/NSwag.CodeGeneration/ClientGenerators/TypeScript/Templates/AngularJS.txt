@@ -11,9 +11,7 @@ export interface I<class> {
 <if(operation.HasResultDescription)>     * @return <operation.ResultDescription><endif>
      */
 <endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.VariableNameLower>: <parameter.Type><if(!parameter.IsLast)>,<endif> }>): ng.IPromise\<<operation.ResultType>>;
-
-}>
-}
+}>}
 <endif>
 
 export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
@@ -23,8 +21,8 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
     constructor($http: ng.IHttpService) {
         this.http = $http; 
     }
-
 <operations:{operation | 
+
 <if(operation.HasDocumentation)>    /**
 <if(operation.HasSummary)>     * <operation.Summary><endif>
 <operation.Parameters:{parameter | 
@@ -107,8 +105,6 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
 <endif>
         \}
     \}
-
-}>
-}
+}>}
 <endif>
 

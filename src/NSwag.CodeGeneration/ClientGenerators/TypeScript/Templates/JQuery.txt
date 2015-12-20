@@ -8,7 +8,7 @@ export interface I<class> {
 <if(parameter.HasDescription)>     * @<parameter.VariableNameLower> <parameter.Description><endif>}>
 <if(operation.HasResultDescription)>     * @return <operation.ResultDescription><endif>
      */
-<endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.VariableNameLower>: <parameter.Type>, }>onSuccess?: (result: <operation.ResultType>) => void, onFail?: (exception: <operation.ExceptionType>, reason: string) => void): void;
+<endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.VariableNameLower>: <parameter.Type>, }>onSuccess?: (result: <operation.ResultType>) => void, onFail?: (exception: <operation.ExceptionType>, reason: string) => void)<if(renderPromises)>: Q.Promise\<<operation.ResultType>><endif>;
 }>}
 <endif>
 
@@ -27,7 +27,16 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
 <if(parameter.HasDescription)>     * @<parameter.VariableNameLower> <parameter.Description><endif>}>
 <if(operation.HasResultDescription)>     * @return <operation.ResultDescription><endif>
      */
-<endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.VariableNameLower>: <parameter.Type>, }>onSuccess?: (result: <operation.ResultType>) => void, onFail?: (exception: <operation.ExceptionType>, reason: string) => void) {
+<endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.VariableNameLower>: <parameter.Type>, }>onSuccess?: (result: <operation.ResultType>) => void, onFail?: (exception: <operation.ExceptionType>, reason: string) => void)<if(renderPromises)>: Q.Promise\<<operation.ResultType>><endif> {
+<if(renderPromises)>
+        if (onSuccess === undefined && onFail === undefined) {
+            return Q.Promise\<<operation.ResultType>>((resolve, reject) => {
+                this.<operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.VariableNameLower>, }>(result) => resolve(result), (exception, reason) => reject(exception));
+            \});
+        \}
+
+        var defer = Q.defer\<<operation.ResultType>>();
+<endif>
         var url = this.baseUrl + "/<operation.Path>?"; 
 
 <operation.PathParameters:{parameter | 
@@ -55,7 +64,7 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
         $.ajax({
             url: url,
             beforeSend: this.beforeSend,
-            type: "<operation.HttpMethodLower>",
+            type: "<operation.HttpMethod>",
             data: content,
             dataType: "text",
             headers: {
@@ -64,9 +73,23 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
 }>                "Content-Type": "application/json; charset=UTF-8"
             \}
         \}).then((data, textStatus, xhr) => {
+<if(renderPromises)>
+            this.process<operation.OperationNameUpper>(xhr, (result) => {
+                defer.resolve(result);
+                if (onSuccess !== undefined) 
+                    onSuccess(result);
+            \}, (exception, reason) => {
+                defer.reject(exception);
+                if (onFail !== undefined) 
+                    onFail(exception, reason);
+            \});
+<else>
             this.process<operation.OperationNameUpper>(xhr, onSuccess, onFail);
+<endif>
         \});
-    \}
+<if(renderPromises)>
+        return defer.promise;
+<endif>    \}
 
     private process<operation.OperationNameUpper>(xhr: any, onSuccess?: any, onFail?: any) {
         var data = xhr.responseText; 

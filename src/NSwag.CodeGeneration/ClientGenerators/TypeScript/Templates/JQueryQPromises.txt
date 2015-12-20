@@ -9,9 +9,7 @@ export interface I<class> {
 <if(operation.HasResultDescription)>     * @return <operation.ResultDescription><endif>
      */
 <endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.VariableNameLower>: <parameter.Type><if(!parameter.IsLast)>,<endif> }>): Q.Promise\<<operation.ResultType>>;
-
-}>
-}
+}>}
 <endif>
 
 export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
@@ -21,8 +19,8 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
     constructor(baseUrl?: string) {
         this.baseUrl = baseUrl !== undefined ? baseUrl : ""; 
     }
-
 <operations:{operation | 
+
 <if(operation.HasDocumentation)>    /**
 <if(operation.HasSummary)>     * <operation.Summary><endif>
 <operation.Parameters:{parameter | 
@@ -71,9 +69,7 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
                 "<parameter.Name>": <parameter.VariableNameLower>, 
 }>                "Content-Type": "application/json; charset=UTF-8"
             \}
-        \}).done((data, textStatus, xhr) => {
-            this.process<operation.OperationNameUpper>(xhr, onSuccess, onFail);
-        \}).fail((xhr) => {
+        \}).then((data, textStatus, xhr) => {
             this.process<operation.OperationNameUpper>(xhr, onSuccess, onFail);
         \});
     \}
@@ -133,8 +129,6 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
 <endif>
         \}
     \}
-
-}>
-}
+}>}
 <endif>
 

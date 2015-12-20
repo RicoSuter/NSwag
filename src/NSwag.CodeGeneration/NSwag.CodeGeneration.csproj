@@ -89,7 +89,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ClientGenerators\TypeScript\Templates\JQueryCallbacks.txt" />
-    <EmbeddedResource Include="ClientGenerators\TypeScript\Templates\JQueryQPromises.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ClientGenerators\CSharp\Templates\File.txt" />
@@ -108,6 +107,10 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ClientGenerators\TypeScript\Templates\AngularJS.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ClientGenerators\TypeScript\Templates\JQuery.txt" />
+    <EmbeddedResource Include="ClientGenerators\TypeScript\Templates\JQueryQPromises.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
