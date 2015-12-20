@@ -15,11 +15,12 @@ export interface I<class> {
 <endif>
 
 export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
-    baseUrl = "<baseUrl>"; 
+    baseUrl: string = undefined; 
     http: ng.IHttpService = null; 
 
-    constructor($http: ng.IHttpService) {
+    constructor($http: ng.IHttpService, baseUrl?: string) {
         this.http = $http; 
+        this.baseUrl = baseUrl !== undefined ? baseUrl : "<baseUrl>"; 
     }
 <operations:{operation | 
 

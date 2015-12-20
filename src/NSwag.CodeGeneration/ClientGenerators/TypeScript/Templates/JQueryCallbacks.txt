@@ -17,7 +17,7 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
     beforeSend: any = undefined; 
 
     constructor(baseUrl?: string) {
-        this.baseUrl = baseUrl !== undefined ? baseUrl : ""; 
+        this.baseUrl = baseUrl !== undefined ? baseUrl : "<baseUrl>"; 
     }
 <operations:{operation | 
 
