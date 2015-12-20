@@ -17,12 +17,14 @@
         </Grid.RowDefinitions>
 
         <TextBlock Text="JSON Schema: " FontWeight="Bold" Margin="0,0,0,8" />
-        <avalonedit:TextEditor x:Name="JsonSchema" Grid.Row="1" Margin="-8,0,-8,-8"
-                               Padding="8" FontFamily="Consolas"
-                               SyntaxHighlighting="JavaScript" FontSize="10pt">
-            <i:Interaction.Behaviors>
-                <views:AvalonEditBehavior Text="{Binding InputJsonSchema, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            </i:Interaction.Behaviors>
-        </avalonedit:TextEditor>
+
+        <Border Grid.Row="1" Margin="-8,0,-8,-8" BorderThickness="0,1,0,0" BorderBrush="LightGray">
+            <avalonedit:TextEditor x:Name="JsonSchema" Padding="8" FontFamily="Consolas" Background="GhostWhite"
+                                   SyntaxHighlighting="JavaScript" FontSize="10pt">
+                <i:Interaction.Behaviors>
+                    <views:AvalonEditBehavior Text="{Binding InputJsonSchema, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </i:Interaction.Behaviors>
+            </avalonedit:TextEditor>
+        </Border>
     </Grid>
 </UserControl>

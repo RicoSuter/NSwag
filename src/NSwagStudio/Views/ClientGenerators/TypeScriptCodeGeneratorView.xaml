@@ -23,7 +23,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Border Margin="-10,-10,-10,6" Background="GhostWhite" BorderThickness="0,0,0,1" BorderBrush="LightGray">
+        <Border Margin="-10,-10,-10,6" BorderThickness="0,0,0,1" BorderBrush="LightGray">
             <Expander Margin="8" IsExpanded="{Binding ShowSettings, Mode=TwoWay}">
                 <Expander.HeaderTemplate>
                     <DataTemplate>
@@ -69,11 +69,14 @@
             </Expander>
         </Border>
         <!--<TextBlock Text="TypeScript Output:" FontWeight="Bold" Margin="0,0,0,6" Grid.Row="1" />-->
-        <avalonedit:TextEditor Grid.Row="2" Margin="-8,-8,-8,-8" FontFamily="Consolas" IsReadOnly="True"
-                               SyntaxHighlighting="JavaScript" FontSize="10pt" Padding="8">
-            <i:Interaction.Behaviors>
-                <views:AvalonEditBehavior Text="{Binding ClientCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            </i:Interaction.Behaviors>
-        </avalonedit:TextEditor>
+
+        <Border Grid.Row="2" Margin="-8,-8,-8,-8" BorderThickness="0,1,0,0" BorderBrush="LightGray">
+            <avalonedit:TextEditor Background="GhostWhite" FontFamily="Consolas" IsReadOnly="True"
+                                   SyntaxHighlighting="JavaScript" FontSize="10pt" Padding="8">
+                <i:Interaction.Behaviors>
+                    <views:AvalonEditBehavior Text="{Binding ClientCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </i:Interaction.Behaviors>
+            </avalonedit:TextEditor>
+        </Border>
     </Grid>
 </UserControl>

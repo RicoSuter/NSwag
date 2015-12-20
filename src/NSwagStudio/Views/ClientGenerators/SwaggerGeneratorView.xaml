@@ -19,14 +19,14 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBlock Text="Swagger Specification (JSON):" FontWeight="Bold" Margin="0,0,0,6"  />
-        
-        <avalonedit:TextEditor Padding="8" FontFamily="Consolas" IsReadOnly="True" 
-                               Grid.Row="1" Margin="-8,0,-8,-8"
-                               SyntaxHighlighting="JavaScript" FontSize="10pt">
-            <i:Interaction.Behaviors>
-                <views:AvalonEditBehavior Text="{Binding SwaggerCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            </i:Interaction.Behaviors>
-        </avalonedit:TextEditor>
+        <TextBlock Text="Swagger Specification (JSON):" FontWeight="Bold" Margin="0,0,0,8"  />
+        <Border Grid.Row="1" Margin="-8,0,-8,-8" BorderThickness="0,1,0,0" BorderBrush="LightGray">
+            <avalonedit:TextEditor Padding="8" Background="GhostWhite" FontFamily="Consolas" IsReadOnly="True" 
+                                   SyntaxHighlighting="JavaScript" FontSize="10pt">
+                <i:Interaction.Behaviors>
+                    <views:AvalonEditBehavior Text="{Binding SwaggerCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </i:Interaction.Behaviors>
+            </avalonedit:TextEditor>
+        </Border>
     </Grid>
 </UserControl>
