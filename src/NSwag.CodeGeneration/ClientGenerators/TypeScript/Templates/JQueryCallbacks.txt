@@ -63,7 +63,9 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
                 "<parameter.Name>": <parameter.VariableNameLower>, 
 }>                "Content-Type": "application/json; charset=UTF-8"
             \}
-        \}).then((data, textStatus, xhr) => {
+        \}).done((data, textStatus, xhr) => {
+            this.process<operation.OperationNameUpper>(xhr, onSuccess, onFail);
+        \}).fail((xhr) => {
             this.process<operation.OperationNameUpper>(xhr, onSuccess, onFail);
         \});
     \}
