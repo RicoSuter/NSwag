@@ -20,7 +20,8 @@
     var generator = new WebApiAssemblyToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings
     {
         AssemblyPath = Path.GetFullPath(Path.GetDirectoryName(Host.TemplateFile) + assemblyPath), 
-        DefaultUrlTemplate = defaultUrlTemplate
+        DefaultUrlTemplate = defaultUrlTemplate, 
+        
     });
     var service = generator.GenerateForSingleController(controllerClass);
 
@@ -30,6 +31,8 @@
     var settings = new SwaggerToCSharpGeneratorSettings
     {
         ClassName = provider.CreateEscapedIdentifier(Path.GetFileNameWithoutExtension(Host.TemplateFile)),
+        GenerateClientInterfaces = true
+        
     };
     settings.CSharpGeneratorSettings.Namespace = Host.ResolveParameterValue("directiveId", "namespaceDirectiveProcessor", "namespaceHint");
     var clientGenerator = new SwaggerToCSharpGenerator(service, settings);

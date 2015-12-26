@@ -4,15 +4,108 @@ using System.ComponentModel;
 using System.Net;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-// Generated using the NSwag toolchain v1.15.5831.1699 (http://NSwag.org)
+// Generated using the NSwag toolchain v1.17.5836.3242 (http://NSwag.org)
 
 namespace NSwag.Demo.Client
 {
-    public partial class DataService 
+    public partial interface IDataService
+    {
+        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
+        Task<string> XyzAsync(string data);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
+        Task<string> XyzAsync(string data, CancellationToken cancellationToken);
+
+        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
+        Task<ObservableCollection<Person>> GetAllAsync();
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
+        Task<ObservableCollection<Person>> GetAllAsync(CancellationToken cancellationToken);
+
+        /// <summary>Gets a person.</summary>
+        /// <param name="id">The ID of the person.</param>
+        /// <returns>The person.</returns>
+        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
+        Task<Person> GetAsync(long id);
+
+        /// <summary>Gets a person.</summary>
+        /// <param name="id">The ID of the person.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>The person.</returns>
+        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
+        Task<Person> GetAsync(long id, CancellationToken cancellationToken);
+
+        /// <summary>Creates a new person.</summary>
+        /// <param name="value">The person.</param>
+        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
+        Task<string> PostAsync(Person value);
+
+        /// <summary>Creates a new person.</summary>
+        /// <param name="value">The person.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
+        Task<string> PostAsync(Person value, CancellationToken cancellationToken);
+
+        /// <summary>Updates the existing person.</summary>
+        /// <param name="id">The ID.</param>
+        /// <param name="value">The person.</param>
+        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
+        Task<string> PutAsync(long id, Person value);
+
+        /// <summary>Updates the existing person.</summary>
+        /// <param name="id">The ID.</param>
+        /// <param name="value">The person.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
+        Task<string> PutAsync(long id, Person value, CancellationToken cancellationToken);
+
+        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
+        Task<string> DeleteAsync(long id);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
+        Task<string> DeleteAsync(long id, CancellationToken cancellationToken);
+
+        /// <summary>Calculates the sum of a, b and c.</summary>
+        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
+        Task<long> CalculateAsync(long a, long b, long c);
+
+        /// <summary>Calculates the sum of a, b and c.</summary>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
+        Task<long> CalculateAsync(long a, long b, long c, CancellationToken cancellationToken);
+
+        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
+        Task<DateTime> AddHourAsync(DateTime time);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
+        Task<DateTime> AddHourAsync(DateTime time, CancellationToken cancellationToken);
+
+        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
+        Task<long> TestAsync();
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
+        Task<long> TestAsync(CancellationToken cancellationToken);
+
+        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
+        Task<Car> LoadComplexObjectAsync();
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="DataService.SwaggerException">A server side error occurred.</exception>
+        Task<Car> LoadComplexObjectAsync(CancellationToken cancellationToken);
+
+    }
+
+    public partial class DataService : IDataService
     {
         public DataService() : this("") { }
 
@@ -28,7 +121,14 @@ namespace NSwag.Demo.Client
         public string BaseUrl { get; set; }
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async Task<string> XyzAsync(string data )
+        public Task<string> XyzAsync(string data)
+        {
+            return XyzAsync(data, CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        public async Task<string> XyzAsync(string data, CancellationToken cancellationToken)
         {
             var url = string.Format("{0}/{1}?", BaseUrl, "api/Person/xyz/{data}");
 
@@ -37,7 +137,7 @@ namespace NSwag.Demo.Client
             var client = new HttpClient();
             PrepareRequest(client);
 
-            var response = await client.PutAsync(url, new StringContent("")).ConfigureAwait(false);
+            var response = await client.PutAsync(url, new StringContent(""), cancellationToken).ConfigureAwait(false);
             ProcessResponse(client, response);
 
             var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
@@ -61,14 +161,21 @@ namespace NSwag.Demo.Client
         }
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async Task<ObservableCollection<Person>> GetAllAsync()
+        public Task<ObservableCollection<Person>> GetAllAsync()
+        {
+            return GetAllAsync(CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        public async Task<ObservableCollection<Person>> GetAllAsync(CancellationToken cancellationToken)
         {
             var url = string.Format("{0}/{1}?", BaseUrl, "api/Persons/Get");
 
             var client = new HttpClient();
             PrepareRequest(client);
 
-            var response = await client.GetAsync(url).ConfigureAwait(false);
+            var response = await client.GetAsync(url, cancellationToken).ConfigureAwait(false);
             ProcessResponse(client, response);
 
             var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
@@ -95,7 +202,17 @@ namespace NSwag.Demo.Client
         /// <param name="id">The ID of the person.</param>
         /// <returns>The person.</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async Task<Person> GetAsync(long id )
+        public Task<Person> GetAsync(long id)
+        {
+            return GetAsync(id, CancellationToken.None);
+        }
+
+        /// <summary>Gets a person.</summary>
+        /// <param name="id">The ID of the person.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>The person.</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        public async Task<Person> GetAsync(long id, CancellationToken cancellationToken)
         {
             var url = string.Format("{0}/{1}?", BaseUrl, "api/Persons/Get/{id}");
 
@@ -104,7 +221,7 @@ namespace NSwag.Demo.Client
             var client = new HttpClient();
             PrepareRequest(client);
 
-            var response = await client.GetAsync(url).ConfigureAwait(false);
+            var response = await client.GetAsync(url, cancellationToken).ConfigureAwait(false);
             ProcessResponse(client, response);
 
             var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
@@ -143,7 +260,16 @@ namespace NSwag.Demo.Client
         /// <summary>Creates a new person.</summary>
         /// <param name="value">The person.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async Task<string> PostAsync(Person value )
+        public Task<string> PostAsync(Person value)
+        {
+            return PostAsync(value, CancellationToken.None);
+        }
+
+        /// <summary>Creates a new person.</summary>
+        /// <param name="value">The person.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        public async Task<string> PostAsync(Person value, CancellationToken cancellationToken)
         {
             var url = string.Format("{0}/{1}?", BaseUrl, "api/Persons/Post");
 
@@ -153,7 +279,7 @@ namespace NSwag.Demo.Client
             var content = new StringContent(JsonConvert.SerializeObject(value));
             content.Headers.ContentType.MediaType = "application/json";
 
-            var response = await client.PostAsync(url, content).ConfigureAwait(false);
+            var response = await client.PostAsync(url, content, cancellationToken).ConfigureAwait(false);
             ProcessResponse(client, response);
             var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
             var status = ((int)response.StatusCode).ToString();
@@ -179,7 +305,17 @@ namespace NSwag.Demo.Client
         /// <param name="id">The ID.</param>
         /// <param name="value">The person.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async Task<string> PutAsync(long id, Person value )
+        public Task<string> PutAsync(long id, Person value)
+        {
+            return PutAsync(id, value, CancellationToken.None);
+        }
+
+        /// <summary>Updates the existing person.</summary>
+        /// <param name="id">The ID.</param>
+        /// <param name="value">The person.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        public async Task<string> PutAsync(long id, Person value, CancellationToken cancellationToken)
         {
             var url = string.Format("{0}/{1}?", BaseUrl, "api/Persons/Put/{id}");
 
@@ -191,7 +327,7 @@ namespace NSwag.Demo.Client
             var content = new StringContent(JsonConvert.SerializeObject(value));
             content.Headers.ContentType.MediaType = "application/json";
 
-            var response = await client.PutAsync(url, content).ConfigureAwait(false);
+            var response = await client.PutAsync(url, content, cancellationToken).ConfigureAwait(false);
             ProcessResponse(client, response);
             var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
             var status = ((int)response.StatusCode).ToString();
@@ -214,7 +350,14 @@ namespace NSwag.Demo.Client
         }
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async Task<string> DeleteAsync(long id )
+        public Task<string> DeleteAsync(long id)
+        {
+            return DeleteAsync(id, CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        public async Task<string> DeleteAsync(long id, CancellationToken cancellationToken)
         {
             var url = string.Format("{0}/{1}?", BaseUrl, "api/Persons/Delete/{id}");
 
@@ -223,7 +366,7 @@ namespace NSwag.Demo.Client
             var client = new HttpClient();
             PrepareRequest(client);
 
-            var response = await client.DeleteAsync(url).ConfigureAwait(false);
+            var response = await client.DeleteAsync(url, cancellationToken).ConfigureAwait(false);
             ProcessResponse(client, response);
 
             var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
@@ -248,7 +391,15 @@ namespace NSwag.Demo.Client
 
         /// <summary>Calculates the sum of a, b and c.</summary>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async Task<long> CalculateAsync(long a, long b, long c )
+        public Task<long> CalculateAsync(long a, long b, long c)
+        {
+            return CalculateAsync(a, b, c, CancellationToken.None);
+        }
+
+        /// <summary>Calculates the sum of a, b and c.</summary>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        public async Task<long> CalculateAsync(long a, long b, long c, CancellationToken cancellationToken)
         {
             var url = string.Format("{0}/{1}?", BaseUrl, "api/Person/Calculate/{a}/{b}");
 
@@ -260,7 +411,7 @@ namespace NSwag.Demo.Client
             var client = new HttpClient();
             PrepareRequest(client);
 
-            var response = await client.GetAsync(url).ConfigureAwait(false);
+            var response = await client.GetAsync(url, cancellationToken).ConfigureAwait(false);
             ProcessResponse(client, response);
 
             var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
@@ -284,7 +435,14 @@ namespace NSwag.Demo.Client
         }
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async Task<DateTime> AddHourAsync(DateTime time )
+        public Task<DateTime> AddHourAsync(DateTime time)
+        {
+            return AddHourAsync(time, CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        public async Task<DateTime> AddHourAsync(DateTime time, CancellationToken cancellationToken)
         {
             var url = string.Format("{0}/{1}?", BaseUrl, "api/Persons/AddHour");
 
@@ -293,7 +451,7 @@ namespace NSwag.Demo.Client
             var client = new HttpClient();
             PrepareRequest(client);
 
-            var response = await client.GetAsync(url).ConfigureAwait(false);
+            var response = await client.GetAsync(url, cancellationToken).ConfigureAwait(false);
             ProcessResponse(client, response);
 
             var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
@@ -317,14 +475,21 @@ namespace NSwag.Demo.Client
         }
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async Task<long> TestAsync()
+        public Task<long> TestAsync()
+        {
+            return TestAsync(CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        public async Task<long> TestAsync(CancellationToken cancellationToken)
         {
             var url = string.Format("{0}/{1}?", BaseUrl, "api/Persons/TestAsync");
 
             var client = new HttpClient();
             PrepareRequest(client);
 
-            var response = await client.GetAsync(url).ConfigureAwait(false);
+            var response = await client.GetAsync(url, cancellationToken).ConfigureAwait(false);
             ProcessResponse(client, response);
 
             var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
@@ -348,14 +513,21 @@ namespace NSwag.Demo.Client
         }
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async Task<Car> LoadComplexObjectAsync()
+        public Task<Car> LoadComplexObjectAsync()
+        {
+            return LoadComplexObjectAsync(CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        public async Task<Car> LoadComplexObjectAsync(CancellationToken cancellationToken)
         {
             var url = string.Format("{0}/{1}?", BaseUrl, "api/Persons/LoadComplexObject");
 
             var client = new HttpClient();
             PrepareRequest(client);
 
-            var response = await client.GetAsync(url).ConfigureAwait(false);
+            var response = await client.GetAsync(url, cancellationToken).ConfigureAwait(false);
             ProcessResponse(client, response);
 
             var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
