@@ -12,3 +12,4 @@ src/packages/**
 [Bb]in/
 [Oo]bj/
 *.nugetreferenceswitcher
+/src/.vs/config
