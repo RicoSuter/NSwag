@@ -28,5 +28,7 @@ namespace NSwag.CodeGeneration.ClientGenerators.Models
         public bool IsLast { get; set; }
 
         public bool IsDate { get; set; }
+
+        public bool IsOptional { get; set; }
     }
 }

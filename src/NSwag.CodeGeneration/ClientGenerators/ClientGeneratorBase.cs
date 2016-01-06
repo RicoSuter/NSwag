@@ -127,7 +127,8 @@ namespace NSwag.CodeGeneration.ClientGenerators
                             {
                                 Name = p.Name,
                                 VariableNameLower = ConvertToLowerStartIdentifier(p.Name.Replace("-", "_")), 
-                                Kind = p.Kind, 
+                                Kind = p.Kind,
+                                IsOptional = !p.IsRequired, 
                                 Type = resolver.Resolve(p.ActualSchema, p.IsRequired, p.Name),
                                 IsLast = operation.Parameters.LastOrDefault() == p,
                                 Description = RemoveLineBreaks(p.Description)
