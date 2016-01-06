@@ -93,49 +93,53 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasClientBaseClass)><
 <operation.Responses:{response | 
         if (status == "<response.StatusCode>") 
         {
-<if(response.IsSuccess)>
+            var result = default(<response.Type>); 
+
             try
             {
-                return JsonConvert.DeserializeObject\<<response.Type>>(responseData);		
-            \} 
-            catch (Exception exception) 
-            {
-                throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, exception);
-            \}
-<else>
-            try
-            {
-                var exception = JsonConvert.DeserializeObject\<<response.Type>>(responseData);
-                throw new SwaggerException\<<response.Type>>("A server side error occurred.", response.StatusCode, exception, null);
-            \} 
-            catch (Exception exception) 
-            {
-                throw new SwaggerException("Could not deserialize the exception body.", response.StatusCode, exception);
-            \}
-<endif>
-        \}
-        else}>
-        {
-<if(operation.HasDefaultResponse)>
-    <if(operation.DefaultResponse.IsSuccess)>
-            try
-            {
-                return JsonConvert.DeserializeObject\<<operation.DefaultResponse.Type>>(responseData);		
+                if (!string.IsNullOrEmpty(responseData))
+                    result = JsonConvert.DeserializeObject\<<response.Type>>(responseData);
+                                
+    <if(response.IsSuccess)>
+                return result; 
             \} 
             catch (Exception exception) 
             {
                 throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, exception);
             \}
     <else>
-            try
-            {
-                var exception = JsonConvert.DeserializeObject\<<operation.DefaultResponse.Type>>(responseData);
-                throw new SwaggerException\<<operation.DefaultResponse.Type>>("A server side error occurred.", response.StatusCode, exception, null);
             \} 
             catch (Exception exception) 
             {
-                throw new SwaggerException("Could not deserialize the exception body.", response.StatusCode, exception);
+                throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, exception);
             \}
+            throw new SwaggerException\<<response.Type>>("A server side error occurred.", response.StatusCode, result, null);
+    <endif>
+        \}
+        else}>
+        {
+<if(operation.HasDefaultResponse)>
+            var result = default(<operation.DefaultResponse.Type>); 
+
+            try
+            {
+                if (!string.IsNullOrEmpty(responseData))
+                    result = JsonConvert.DeserializeObject\<<operation.DefaultResponse.Type>>(responseData);
+                                
+    <if(operation.DefaultResponse.IsSuccess)>
+                return result; 
+            \} 
+            catch (Exception exception) 
+            {
+                throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, exception);
+            \}
+    <else>
+            \} 
+            catch (Exception exception) 
+            {
+                throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, exception);
+            \}
+            throw new SwaggerException\<<operation.DefaultResponse.Type>>("A server side error occurred.", response.StatusCode, result, null);
     <endif>
 <endif>
         \}

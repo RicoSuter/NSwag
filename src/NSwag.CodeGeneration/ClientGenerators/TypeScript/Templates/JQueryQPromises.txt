@@ -83,41 +83,49 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
 <operation.Responses:{response | 
         if (status === "<response.StatusCode>") {
             var result<response.StatusCode>: <response.Type> = null; 
-            try { 
-<if(response.TypeIsDate)>
-                result<response.StatusCode> = new Date(data);
-<else>
-                result<response.StatusCode> = data === "" ? null : \<<response.Type>>jQuery.parseJSON(data);
-<endif>
-            \} catch(e) { 
-                if (onFail !== undefined)
-                    onFail(null, "error_parsing", e);
-                return;
+            if (data !== undefined && data !== null && data !== "") {
+                try {
+                    if (data !== un)
+    <if(response.TypeIsDate)>
+                    result<response.StatusCode> = new Date(data);
+    <else>
+                    result<response.StatusCode> = data === "" ? null : \<<response.Type>>jQuery.parseJSON(data);
+    <endif>
+                \} catch(e) { 
+                    if (onFail !== undefined)
+                        onFail(null, "error_parsing", e);
+                    return;
+                \}
             \}
-<if(response.IsSuccess)>
+
+    <if(response.IsSuccess)>
             if (onSuccess !== undefined)
                 onSuccess(result<response.StatusCode>);
-<else>
+    <else>
             if (onFail !== undefined)
                 onFail(result<response.StatusCode>, "error_exception");
-<endif>
+    <endif>
             return;
         \}
         else}>
         {
 <if(operation.HasDefaultResponse)>
             var result: <operation.DefaultResponse.Type> = null; 
-            try { 
+
+            if (data !== undefined && data !== null && data !== "") {
+                try { 
     <if(operation.DefaultResponse.TypeIsDate)>
-                result = new Date(data);
+                    result = new Date(data);
     <else>
-                result = \<<operation.DefaultResponse.Type>>jQuery.parseJSON(data);
+                    result = \<<operation.DefaultResponse.Type>>jQuery.parseJSON(data);
     <endif>
-            \} catch(e) { 
-                if (onFail !== undefined)
-                    onFail(null, "error_parsing", e);
-                return;
+                \} catch(e) { 
+                    if (onFail !== undefined)
+                        onFail(null, "error_parsing", e);
+                    return;
+                \}
             \}
+
     <if(operation.DefaultResponse.IsSuccess)>
             if (onSuccess !== undefined)
                 onSuccess(result);

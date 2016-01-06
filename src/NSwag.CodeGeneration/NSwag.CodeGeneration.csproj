@@ -109,7 +109,6 @@
     <EmbeddedResource Include="ClientGenerators\TypeScript\Templates\AngularJS.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ClientGenerators\TypeScript\Templates\JQuery.txt" />
     <EmbeddedResource Include="ClientGenerators\TypeScript\Templates\JQueryQPromises.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
