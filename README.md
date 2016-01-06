@@ -41,16 +41,18 @@ This project uses [NJsonSchema for .NET](http://njsonschema.org) for JSON Schema
 
 The following code shows how to read a Swagger specification and generate C# client classes to call the described web services: 
 	
-	var service = SwaggerService.FromJson("...");
-	
-	var settings = new SwaggerToCSharpGeneratorSettings 
-	{
-		ClassName = "MyClass",
-		Namespace = "MyNamespace"
-	};
-	
-	var generator = new SwaggerToCSharpGenerator(service, settings);
-	var code = generator.GenerateFile();
+```cs
+var service = SwaggerService.FromJson("...");
+
+var settings = new SwaggerToCSharpGeneratorSettings 
+{
+    ClassName = "MyClass",
+    Namespace = "MyNamespace"
+};
+
+var generator = new SwaggerToCSharpGenerator(service, settings);
+var code = generator.GenerateFile();
+```
 
 Check out the [project Wiki](https://github.com/NSwag/NSwag/wiki) for more information.
 
@@ -58,4 +60,4 @@ Check out the [project Wiki](https://github.com/NSwag/NSwag/wiki) for more infor
 
 The generators can be used in a confortable and simple Windows GUI called NSwagStudio: 
 
-[![](https://raw.githubusercontent.com/wiki/NSwag/NSwag/NSwagStudioScreenshot01.png)](https://raw.githubusercontent.com/wiki/NSwag/NSwag/NSwagStudioScreenshot01.png)
+[![](https://raw.githubusercontent.com/NSwag/NSwag/master/assets/screenshots/03_WebAPI_CSharp.png)](https://raw.githubusercontent.com/NSwag/NSwag/master/assets/screenshots/03_WebAPI_CSharp.png)
