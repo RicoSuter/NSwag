@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-// Generated using the NSwag toolchain v1.17.5836.3242 (http://NSwag.org)
+// Generated using the NSwag toolchain v1.17.5849.35297 (http://NSwag.org)
 
 namespace NSwag.Demo.Client
 {
@@ -142,11 +142,17 @@ namespace NSwag.Demo.Client
 
             var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
             var status = ((int)response.StatusCode).ToString();
+
             if (status == "200") 
             {
+                var result = default(string); 
+
                 try
                 {
-                    return JsonConvert.DeserializeObject<string>(responseData);		
+                    if (!string.IsNullOrEmpty(responseData))
+                        result = JsonConvert.DeserializeObject<string>(responseData);
+
+                    return result; 
                 } 
                 catch (Exception exception) 
                 {
@@ -180,11 +186,17 @@ namespace NSwag.Demo.Client
 
             var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
             var status = ((int)response.StatusCode).ToString();
+
             if (status == "200") 
             {
+                var result = default(ObservableCollection<Person>); 
+
                 try
                 {
-                    return JsonConvert.DeserializeObject<ObservableCollection<Person>>(responseData);		
+                    if (!string.IsNullOrEmpty(responseData))
+                        result = JsonConvert.DeserializeObject<ObservableCollection<Person>>(responseData);
+
+                    return result; 
                 } 
                 catch (Exception exception) 
                 {
@@ -226,11 +238,17 @@ namespace NSwag.Demo.Client
 
             var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
             var status = ((int)response.StatusCode).ToString();
+
             if (status == "200") 
             {
+                var result = default(Person); 
+
                 try
                 {
-                    return JsonConvert.DeserializeObject<Person>(responseData);		
+                    if (!string.IsNullOrEmpty(responseData))
+                        result = JsonConvert.DeserializeObject<Person>(responseData);
+
+                    return result; 
                 } 
                 catch (Exception exception) 
                 {
@@ -240,15 +258,19 @@ namespace NSwag.Demo.Client
             else
             if (status == "500") 
             {
+                var result = default(PersonNotFoundException); 
+
                 try
                 {
-                    var exception = JsonConvert.DeserializeObject<PersonNotFoundException>(responseData);
-                    throw new SwaggerException<PersonNotFoundException>("A server side error occurred.", response.StatusCode, exception, null);
+                    if (!string.IsNullOrEmpty(responseData))
+                        result = JsonConvert.DeserializeObject<PersonNotFoundException>(responseData);
+
                 } 
                 catch (Exception exception) 
                 {
-                    throw new SwaggerException("Could not deserialize the exception body.", response.StatusCode, exception);
+                    throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, exception);
                 }
+                throw new SwaggerException<PersonNotFoundException>("A server side error occurred.", response.StatusCode, result, null);
             }
             else
             {
@@ -283,11 +305,17 @@ namespace NSwag.Demo.Client
             ProcessResponse(client, response);
             var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
             var status = ((int)response.StatusCode).ToString();
+
             if (status == "204") 
             {
+                var result = default(string); 
+
                 try
                 {
-                    return JsonConvert.DeserializeObject<string>(responseData);		
+                    if (!string.IsNullOrEmpty(responseData))
+                        result = JsonConvert.DeserializeObject<string>(responseData);
+
+                    return result; 
                 } 
                 catch (Exception exception) 
                 {
@@ -331,11 +359,17 @@ namespace NSwag.Demo.Client
             ProcessResponse(client, response);
             var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
             var status = ((int)response.StatusCode).ToString();
+
             if (status == "204") 
             {
+                var result = default(string); 
+
                 try
                 {
-                    return JsonConvert.DeserializeObject<string>(responseData);		
+                    if (!string.IsNullOrEmpty(responseData))
+                        result = JsonConvert.DeserializeObject<string>(responseData);
+
+                    return result; 
                 } 
                 catch (Exception exception) 
                 {
@@ -371,11 +405,17 @@ namespace NSwag.Demo.Client
 
             var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
             var status = ((int)response.StatusCode).ToString();
+
             if (status == "204") 
             {
+                var result = default(string); 
+
                 try
                 {
-                    return JsonConvert.DeserializeObject<string>(responseData);		
+                    if (!string.IsNullOrEmpty(responseData))
+                        result = JsonConvert.DeserializeObject<string>(responseData);
+
+                    return result; 
                 } 
                 catch (Exception exception) 
                 {
@@ -416,11 +456,17 @@ namespace NSwag.Demo.Client
 
             var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
             var status = ((int)response.StatusCode).ToString();
+
             if (status == "200") 
             {
+                var result = default(long); 
+
                 try
                 {
-                    return JsonConvert.DeserializeObject<long>(responseData);		
+                    if (!string.IsNullOrEmpty(responseData))
+                        result = JsonConvert.DeserializeObject<long>(responseData);
+
+                    return result; 
                 } 
                 catch (Exception exception) 
                 {
@@ -456,11 +502,17 @@ namespace NSwag.Demo.Client
 
             var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
             var status = ((int)response.StatusCode).ToString();
+
             if (status == "200") 
             {
+                var result = default(DateTime); 
+
                 try
                 {
-                    return JsonConvert.DeserializeObject<DateTime>(responseData);		
+                    if (!string.IsNullOrEmpty(responseData))
+                        result = JsonConvert.DeserializeObject<DateTime>(responseData);
+
+                    return result; 
                 } 
                 catch (Exception exception) 
                 {
@@ -494,11 +546,17 @@ namespace NSwag.Demo.Client
 
             var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
             var status = ((int)response.StatusCode).ToString();
+
             if (status == "200") 
             {
+                var result = default(long); 
+
                 try
                 {
-                    return JsonConvert.DeserializeObject<long>(responseData);		
+                    if (!string.IsNullOrEmpty(responseData))
+                        result = JsonConvert.DeserializeObject<long>(responseData);
+
+                    return result; 
                 } 
                 catch (Exception exception) 
                 {
@@ -532,11 +590,17 @@ namespace NSwag.Demo.Client
 
             var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
             var status = ((int)response.StatusCode).ToString();
+
             if (status == "200") 
             {
+                var result = default(Car); 
+
                 try
                 {
-                    return JsonConvert.DeserializeObject<Car>(responseData);		
+                    if (!string.IsNullOrEmpty(responseData))
+                        result = JsonConvert.DeserializeObject<Car>(responseData);
+
+                    return result; 
                 } 
                 catch (Exception exception) 
                 {

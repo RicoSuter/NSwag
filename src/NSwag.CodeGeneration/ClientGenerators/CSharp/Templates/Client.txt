@@ -90,6 +90,7 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasClientBaseClass)><
 
         var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
         var status = ((int)response.StatusCode).ToString();
+
 <operation.Responses:{response | 
         if (status == "<response.StatusCode>") 
         {
@@ -98,8 +99,7 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasClientBaseClass)><
             try
             {
                 if (!string.IsNullOrEmpty(responseData))
-                    result = JsonConvert.DeserializeObject\<<response.Type>>(responseData);
-                                
+                    result = JsonConvert.DeserializeObject\<<response.Type>>(responseData);                                
     <if(response.IsSuccess)>
                 return result; 
             \} 
@@ -113,6 +113,7 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasClientBaseClass)><
             {
                 throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, exception);
             \}
+
             throw new SwaggerException\<<response.Type>>("A server side error occurred.", response.StatusCode, result, null);
     <endif>
         \}
@@ -120,27 +121,20 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasClientBaseClass)><
         {
 <if(operation.HasDefaultResponse)>
             var result = default(<operation.DefaultResponse.Type>); 
-
             try
             {
                 if (!string.IsNullOrEmpty(responseData))
                     result = JsonConvert.DeserializeObject\<<operation.DefaultResponse.Type>>(responseData);
                                 
-    <if(operation.DefaultResponse.IsSuccess)>
-                return result; 
+                if (status.Length == 3 && status.StartsWith("2"))
+                    return result; 
             \} 
             catch (Exception exception) 
             {
                 throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, exception);
             \}
-    <else>
-            \} 
-            catch (Exception exception) 
-            {
-                throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, exception);
-            \}
+
             throw new SwaggerException\<<operation.DefaultResponse.Type>>("A server side error occurred.", response.StatusCode, result, null);
-    <endif>
 <endif>
         \}
 
