@@ -85,7 +85,6 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
             var result<response.StatusCode>: <response.Type> = null; 
             if (data !== undefined && data !== null && data !== "") {
                 try {
-                    if (data !== un)
     <if(response.TypeIsDate)>
                     result<response.StatusCode> = new Date(data);
     <else>

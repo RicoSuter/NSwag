@@ -1,4 +1,4 @@
-// Generated using the NSwag toolchain v1.15.5831.1699 (http://NSwag.org)
+// Generated using the NSwag toolchain v1.17.5849.35297 (http://NSwag.org)
 define(["require", "exports"], function (require, exports) {
     (function (ObjectType) {
         ObjectType[ObjectType["Foo"] = "Foo"] = "Foo";
@@ -36,13 +36,15 @@ define(["require", "exports"], function (require, exports) {
             var status = xhr.status.toString();
             if (status === "200") {
                 var result200 = null;
-                try {
-                    result200 = data === "" ? null : jQuery.parseJSON(data);
-                }
-                catch (e) {
-                    if (onFail !== undefined)
-                        onFail(null, "error_parsing", e);
-                    return;
+                if (data !== undefined && data !== null && data !== "") {
+                    try {
+                        result200 = data === "" ? null : jQuery.parseJSON(data);
+                    }
+                    catch (e) {
+                        if (onFail !== undefined)
+                            onFail(null, "error_parsing", e);
+                        return;
+                    }
                 }
                 if (onSuccess !== undefined)
                     onSuccess(result200);
@@ -77,13 +79,15 @@ define(["require", "exports"], function (require, exports) {
             var status = xhr.status.toString();
             if (status === "200") {
                 var result200 = null;
-                try {
-                    result200 = data === "" ? null : jQuery.parseJSON(data);
-                }
-                catch (e) {
-                    if (onFail !== undefined)
-                        onFail(null, "error_parsing", e);
-                    return;
+                if (data !== undefined && data !== null && data !== "") {
+                    try {
+                        result200 = data === "" ? null : jQuery.parseJSON(data);
+                    }
+                    catch (e) {
+                        if (onFail !== undefined)
+                            onFail(null, "error_parsing", e);
+                        return;
+                    }
                 }
                 if (onSuccess !== undefined)
                     onSuccess(result200);
@@ -124,13 +128,15 @@ define(["require", "exports"], function (require, exports) {
             var status = xhr.status.toString();
             if (status === "200") {
                 var result200 = null;
-                try {
-                    result200 = data === "" ? null : jQuery.parseJSON(data);
-                }
-                catch (e) {
-                    if (onFail !== undefined)
-                        onFail(null, "error_parsing", e);
-                    return;
+                if (data !== undefined && data !== null && data !== "") {
+                    try {
+                        result200 = data === "" ? null : jQuery.parseJSON(data);
+                    }
+                    catch (e) {
+                        if (onFail !== undefined)
+                            onFail(null, "error_parsing", e);
+                        return;
+                    }
                 }
                 if (onSuccess !== undefined)
                     onSuccess(result200);
@@ -138,13 +144,15 @@ define(["require", "exports"], function (require, exports) {
             }
             else if (status === "500") {
                 var result500 = null;
-                try {
-                    result500 = data === "" ? null : jQuery.parseJSON(data);
-                }
-                catch (e) {
-                    if (onFail !== undefined)
-                        onFail(null, "error_parsing", e);
-                    return;
+                if (data !== undefined && data !== null && data !== "") {
+                    try {
+                        result500 = data === "" ? null : jQuery.parseJSON(data);
+                    }
+                    catch (e) {
+                        if (onFail !== undefined)
+                            onFail(null, "error_parsing", e);
+                        return;
+                    }
                 }
                 if (onFail !== undefined)
                     onFail(result500, "error_exception");
@@ -183,13 +191,15 @@ define(["require", "exports"], function (require, exports) {
             var status = xhr.status.toString();
             if (status === "204") {
                 var result204 = null;
-                try {
-                    result204 = data === "" ? null : jQuery.parseJSON(data);
-                }
-                catch (e) {
-                    if (onFail !== undefined)
-                        onFail(null, "error_parsing", e);
-                    return;
+                if (data !== undefined && data !== null && data !== "") {
+                    try {
+                        result204 = data === "" ? null : jQuery.parseJSON(data);
+                    }
+                    catch (e) {
+                        if (onFail !== undefined)
+                            onFail(null, "error_parsing", e);
+                        return;
+                    }
                 }
                 if (onSuccess !== undefined)
                     onSuccess(result204);
@@ -230,13 +240,15 @@ define(["require", "exports"], function (require, exports) {
             var status = xhr.status.toString();
             if (status === "204") {
                 var result204 = null;
-                try {
-                    result204 = data === "" ? null : jQuery.parseJSON(data);
-                }
-                catch (e) {
-                    if (onFail !== undefined)
-                        onFail(null, "error_parsing", e);
-                    return;
+                if (data !== undefined && data !== null && data !== "") {
+                    try {
+                        result204 = data === "" ? null : jQuery.parseJSON(data);
+                    }
+                    catch (e) {
+                        if (onFail !== undefined)
+                            onFail(null, "error_parsing", e);
+                        return;
+                    }
                 }
                 if (onSuccess !== undefined)
                     onSuccess(result204);
@@ -272,13 +284,15 @@ define(["require", "exports"], function (require, exports) {
             var status = xhr.status.toString();
             if (status === "204") {
                 var result204 = null;
-                try {
-                    result204 = data === "" ? null : jQuery.parseJSON(data);
-                }
-                catch (e) {
-                    if (onFail !== undefined)
-                        onFail(null, "error_parsing", e);
-                    return;
+                if (data !== undefined && data !== null && data !== "") {
+                    try {
+                        result204 = data === "" ? null : jQuery.parseJSON(data);
+                    }
+                    catch (e) {
+                        if (onFail !== undefined)
+                            onFail(null, "error_parsing", e);
+                        return;
+                    }
                 }
                 if (onSuccess !== undefined)
                     onSuccess(result204);
@@ -319,13 +333,15 @@ define(["require", "exports"], function (require, exports) {
             var status = xhr.status.toString();
             if (status === "200") {
                 var result200 = null;
-                try {
-                    result200 = data === "" ? null : jQuery.parseJSON(data);
-                }
-                catch (e) {
-                    if (onFail !== undefined)
-                        onFail(null, "error_parsing", e);
-                    return;
+                if (data !== undefined && data !== null && data !== "") {
+                    try {
+                        result200 = data === "" ? null : jQuery.parseJSON(data);
+                    }
+                    catch (e) {
+                        if (onFail !== undefined)
+                            onFail(null, "error_parsing", e);
+                        return;
+                    }
                 }
                 if (onSuccess !== undefined)
                     onSuccess(result200);
@@ -361,13 +377,15 @@ define(["require", "exports"], function (require, exports) {
             var status = xhr.status.toString();
             if (status === "200") {
                 var result200 = null;
-                try {
-                    result200 = new Date(data);
-                }
-                catch (e) {
-                    if (onFail !== undefined)
-                        onFail(null, "error_parsing", e);
-                    return;
+                if (data !== undefined && data !== null && data !== "") {
+                    try {
+                        result200 = new Date(data);
+                    }
+                    catch (e) {
+                        if (onFail !== undefined)
+                            onFail(null, "error_parsing", e);
+                        return;
+                    }
                 }
                 if (onSuccess !== undefined)
                     onSuccess(result200);
@@ -402,13 +420,15 @@ define(["require", "exports"], function (require, exports) {
             var status = xhr.status.toString();
             if (status === "200") {
                 var result200 = null;
-                try {
-                    result200 = data === "" ? null : jQuery.parseJSON(data);
-                }
-                catch (e) {
-                    if (onFail !== undefined)
-                        onFail(null, "error_parsing", e);
-                    return;
+                if (data !== undefined && data !== null && data !== "") {
+                    try {
+                        result200 = data === "" ? null : jQuery.parseJSON(data);
+                    }
+                    catch (e) {
+                        if (onFail !== undefined)
+                            onFail(null, "error_parsing", e);
+                        return;
+                    }
                 }
                 if (onSuccess !== undefined)
                     onSuccess(result200);
@@ -443,13 +463,15 @@ define(["require", "exports"], function (require, exports) {
             var status = xhr.status.toString();
             if (status === "200") {
                 var result200 = null;
-                try {
-                    result200 = data === "" ? null : jQuery.parseJSON(data);
-                }
-                catch (e) {
-                    if (onFail !== undefined)
-                        onFail(null, "error_parsing", e);
-                    return;
+                if (data !== undefined && data !== null && data !== "") {
+                    try {
+                        result200 = data === "" ? null : jQuery.parseJSON(data);
+                    }
+                    catch (e) {
+                        if (onFail !== undefined)
+                            onFail(null, "error_parsing", e);
+                        return;
+                    }
                 }
                 if (onSuccess !== undefined)
                     onSuccess(result200);

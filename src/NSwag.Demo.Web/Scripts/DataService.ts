@@ -1,4 +1,4 @@
-﻿// Generated using the NSwag toolchain v1.15.5831.1699 (http://NSwag.org)
+﻿// Generated using the NSwag toolchain v1.17.5849.35297 (http://NSwag.org)
 
 /** The DTO class for a person. */
 export interface Person {
@@ -31,47 +31,7 @@ export interface Exception {
     Source?: string;
 }
 
-export interface IClient {
-    xyz(data: string, onSuccess?: (result: string) => void, onFail?: (exception: string, reason: string) => void);
-
-    getAll(onSuccess?: (result: Person[]) => void, onFail?: (exception: string, reason: string) => void);
-
-    /**
-     * Gets a person.
-     * @id The ID of the person.
-     * @return The person.
-     */
-    get(id: number, onSuccess?: (result: Person) => void, onFail?: (exception: PersonNotFoundException | string, reason: string) => void);
-
-    /**
-     * Creates a new person.
-     * @value The person.
-     */
-    post(value: Person, onSuccess?: (result: any) => void, onFail?: (exception: string, reason: string) => void);
-
-    /**
-     * Updates the existing person.
-     * @id The ID.
-     * @value The person.
-     */
-    put(id: number, value: Person, onSuccess?: (result: any) => void, onFail?: (exception: string, reason: string) => void);
-
-    delete(id: number, onSuccess?: (result: any) => void, onFail?: (exception: string, reason: string) => void);
-
-    /**
-     * Calculates the sum of a, b and c.
-     */
-    calculate(a: number, b: number, c: number, onSuccess?: (result: number) => void, onFail?: (exception: string, reason: string) => void);
-
-    addHour(time: Date, onSuccess?: (result: Date) => void, onFail?: (exception: string, reason: string) => void);
-
-    test(onSuccess?: (result: number) => void, onFail?: (exception: string, reason: string) => void);
-
-    loadComplexObject(onSuccess?: (result: Car) => void, onFail?: (exception: string, reason: string) => void);
-
-}
-
-export class Client implements IClient {
+export class Client {
     baseUrl: string = undefined;
     beforeSend: any = undefined;
 
@@ -108,13 +68,16 @@ export class Client implements IClient {
 
         if (status === "200") {
             var result200: string = null;
-            try {
-                result200 = data === "" ? null : <string>jQuery.parseJSON(data);
-            } catch (e) {
-                if (onFail !== undefined)
-                    onFail(null, "error_parsing", e);
-                return;
+            if (data !== undefined && data !== null && data !== "") {
+                try {
+                    result200 = data === "" ? null : <string>jQuery.parseJSON(data);
+                } catch (e) {
+                    if (onFail !== undefined)
+                        onFail(null, "error_parsing", e);
+                    return;
+                }
             }
+
             if (onSuccess !== undefined)
                 onSuccess(result200);
             return;
@@ -152,13 +115,16 @@ export class Client implements IClient {
 
         if (status === "200") {
             var result200: Person[] = null;
-            try {
-                result200 = data === "" ? null : <Person[]>jQuery.parseJSON(data);
-            } catch (e) {
-                if (onFail !== undefined)
-                    onFail(null, "error_parsing", e);
-                return;
+            if (data !== undefined && data !== null && data !== "") {
+                try {
+                    result200 = data === "" ? null : <Person[]>jQuery.parseJSON(data);
+                } catch (e) {
+                    if (onFail !== undefined)
+                        onFail(null, "error_parsing", e);
+                    return;
+                }
             }
+
             if (onSuccess !== undefined)
                 onSuccess(result200);
             return;
@@ -203,13 +169,16 @@ export class Client implements IClient {
 
         if (status === "200") {
             var result200: Person = null;
-            try {
-                result200 = data === "" ? null : <Person>jQuery.parseJSON(data);
-            } catch (e) {
-                if (onFail !== undefined)
-                    onFail(null, "error_parsing", e);
-                return;
+            if (data !== undefined && data !== null && data !== "") {
+                try {
+                    result200 = data === "" ? null : <Person>jQuery.parseJSON(data);
+                } catch (e) {
+                    if (onFail !== undefined)
+                        onFail(null, "error_parsing", e);
+                    return;
+                }
             }
+
             if (onSuccess !== undefined)
                 onSuccess(result200);
             return;
@@ -217,13 +186,16 @@ export class Client implements IClient {
         else
             if (status === "500") {
                 var result500: PersonNotFoundException = null;
-                try {
-                    result500 = data === "" ? null : <PersonNotFoundException>jQuery.parseJSON(data);
-                } catch (e) {
-                    if (onFail !== undefined)
-                        onFail(null, "error_parsing", e);
-                    return;
+                if (data !== undefined && data !== null && data !== "") {
+                    try {
+                        result500 = data === "" ? null : <PersonNotFoundException>jQuery.parseJSON(data);
+                    } catch (e) {
+                        if (onFail !== undefined)
+                            onFail(null, "error_parsing", e);
+                        return;
+                    }
                 }
+
                 if (onFail !== undefined)
                     onFail(result500, "error_exception");
                 return;
@@ -264,13 +236,16 @@ export class Client implements IClient {
 
         if (status === "204") {
             var result204: any = null;
-            try {
-                result204 = data === "" ? null : <any>jQuery.parseJSON(data);
-            } catch (e) {
-                if (onFail !== undefined)
-                    onFail(null, "error_parsing", e);
-                return;
+            if (data !== undefined && data !== null && data !== "") {
+                try {
+                    result204 = data === "" ? null : <any>jQuery.parseJSON(data);
+                } catch (e) {
+                    if (onFail !== undefined)
+                        onFail(null, "error_parsing", e);
+                    return;
+                }
             }
+
             if (onSuccess !== undefined)
                 onSuccess(result204);
             return;
@@ -314,13 +289,16 @@ export class Client implements IClient {
 
         if (status === "204") {
             var result204: any = null;
-            try {
-                result204 = data === "" ? null : <any>jQuery.parseJSON(data);
-            } catch (e) {
-                if (onFail !== undefined)
-                    onFail(null, "error_parsing", e);
-                return;
+            if (data !== undefined && data !== null && data !== "") {
+                try {
+                    result204 = data === "" ? null : <any>jQuery.parseJSON(data);
+                } catch (e) {
+                    if (onFail !== undefined)
+                        onFail(null, "error_parsing", e);
+                    return;
+                }
             }
+
             if (onSuccess !== undefined)
                 onSuccess(result204);
             return;
@@ -360,13 +338,16 @@ export class Client implements IClient {
 
         if (status === "204") {
             var result204: any = null;
-            try {
-                result204 = data === "" ? null : <any>jQuery.parseJSON(data);
-            } catch (e) {
-                if (onFail !== undefined)
-                    onFail(null, "error_parsing", e);
-                return;
+            if (data !== undefined && data !== null && data !== "") {
+                try {
+                    result204 = data === "" ? null : <any>jQuery.parseJSON(data);
+                } catch (e) {
+                    if (onFail !== undefined)
+                        onFail(null, "error_parsing", e);
+                    return;
+                }
             }
+
             if (onSuccess !== undefined)
                 onSuccess(result204);
             return;
@@ -412,13 +393,16 @@ export class Client implements IClient {
 
         if (status === "200") {
             var result200: number = null;
-            try {
-                result200 = data === "" ? null : <number>jQuery.parseJSON(data);
-            } catch (e) {
-                if (onFail !== undefined)
-                    onFail(null, "error_parsing", e);
-                return;
+            if (data !== undefined && data !== null && data !== "") {
+                try {
+                    result200 = data === "" ? null : <number>jQuery.parseJSON(data);
+                } catch (e) {
+                    if (onFail !== undefined)
+                        onFail(null, "error_parsing", e);
+                    return;
+                }
             }
+
             if (onSuccess !== undefined)
                 onSuccess(result200);
             return;
@@ -458,13 +442,16 @@ export class Client implements IClient {
 
         if (status === "200") {
             var result200: Date = null;
-            try {
-                result200 = new Date(data);
-            } catch (e) {
-                if (onFail !== undefined)
-                    onFail(null, "error_parsing", e);
-                return;
+            if (data !== undefined && data !== null && data !== "") {
+                try {
+                    result200 = new Date(data);
+                } catch (e) {
+                    if (onFail !== undefined)
+                        onFail(null, "error_parsing", e);
+                    return;
+                }
             }
+
             if (onSuccess !== undefined)
                 onSuccess(result200);
             return;
@@ -502,13 +489,16 @@ export class Client implements IClient {
 
         if (status === "200") {
             var result200: number = null;
-            try {
-                result200 = data === "" ? null : <number>jQuery.parseJSON(data);
-            } catch (e) {
-                if (onFail !== undefined)
-                    onFail(null, "error_parsing", e);
-                return;
+            if (data !== undefined && data !== null && data !== "") {
+                try {
+                    result200 = data === "" ? null : <number>jQuery.parseJSON(data);
+                } catch (e) {
+                    if (onFail !== undefined)
+                        onFail(null, "error_parsing", e);
+                    return;
+                }
             }
+
             if (onSuccess !== undefined)
                 onSuccess(result200);
             return;
@@ -546,13 +536,16 @@ export class Client implements IClient {
 
         if (status === "200") {
             var result200: Car = null;
-            try {
-                result200 = data === "" ? null : <Car>jQuery.parseJSON(data);
-            } catch (e) {
-                if (onFail !== undefined)
-                    onFail(null, "error_parsing", e);
-                return;
+            if (data !== undefined && data !== null && data !== "") {
+                try {
+                    result200 = data === "" ? null : <Car>jQuery.parseJSON(data);
+                } catch (e) {
+                    if (onFail !== undefined)
+                        onFail(null, "error_parsing", e);
+                    return;
+                }
             }
+
             if (onSuccess !== undefined)
                 onSuccess(result200);
             return;
@@ -562,6 +555,5 @@ export class Client implements IClient {
                 onFail(null, "error_no_callback_for_the_received_http_status");
         }
     }
-
 }
 
