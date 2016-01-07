@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.IO;
 
 namespace NSwag.CodeGeneration.Infrastructure
 {
@@ -20,7 +21,8 @@ namespace NSwag.CodeGeneration.Infrastructure
             var setup = new AppDomainSetup
             {
                 ShadowCopyFiles = "true",
-                ApplicationBase = assemblyDirectory
+                ApplicationBase = assemblyDirectory, 
+                ConfigurationFile = GetConfigurationPath(assemblyDirectory)
             };
 
             _domain = AppDomain.CreateDomain("AppDomainIsolation:" + Guid.NewGuid(), null, setup);
@@ -48,6 +50,19 @@ namespace NSwag.CodeGeneration.Infrastructure
                 AppDomain.Unload(_domain);
                 _domain = null;
             }
+        }
+
+        public string GetConfigurationPath(string assemblyDirectory)
+        {
+            var config = Path.Combine(assemblyDirectory, "App.config");
+            if (File.Exists(config))
+                return config;
+
+            config = Path.Combine(assemblyDirectory, "Web.config");
+            if (File.Exists(config))
+                return config;
+
+            return config; 
         }
     }
 }
