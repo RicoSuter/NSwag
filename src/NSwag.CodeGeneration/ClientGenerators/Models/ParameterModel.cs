@@ -6,6 +6,8 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using NJsonSchema;
+
 namespace NSwag.CodeGeneration.ClientGenerators.Models
 {
     internal class ParameterModel
@@ -24,11 +26,21 @@ namespace NSwag.CodeGeneration.ClientGenerators.Models
         {
             get { return !string.IsNullOrEmpty(Description); }
         }
-        
+
         public bool IsLast { get; set; }
 
-        public bool IsDate { get; set; }
+        public bool IsDate
+        {
+            get { return Schema.Type == JsonObjectType.String && Schema.Format == JsonFormatStrings.DateTime; }
+        }
+
+        public bool IsArray
+        {
+            get { return Schema.Type == JsonObjectType.Array; }
+        }
 
         public bool IsOptional { get; set; }
+
+        public JsonSchema4 Schema { get; set; }
     }
 }
