@@ -44,7 +44,11 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
 <operation.QueryParameters:{parameter | 
         if (<parameter.VariableNameLower> !== undefined && <parameter.VariableNameLower> !== null)
     <if(parameter.IsDate)>
+    <if(parameter.IsArray)>
+            <parameter.VariableNameLower>.forEach(item => { url += "<parameter.Name>=" + encodeURIComponent("" + item.toJSON()) + "&"; \});
+    <else>
             url += "<parameter.Name>=" + encodeURIComponent("" + <parameter.VariableNameLower>.toJSON()) + "&"; 
+    <endif>
     <else>
     <if(parameter.IsArray)>
             <parameter.VariableNameLower>.forEach(item => { url += "<parameter.Name>=" + encodeURIComponent("" + item) + "&"; \});

@@ -64,10 +64,18 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasClientBaseClass)><
 
 <operation.QueryParameters:{parameter | 
         if (<parameter.VariableNameLower> != null)
+    <if(parameter.IsDate)>
+    <if(parameter.IsArray)>
+            foreach(var item in <parameter.VariableNameLower>) { url += string.Format("<parameter.Name>={0\}&", Uri.EscapeUriString(JsonConvert.SerializeObject(item))); \}
+    <else>
+            url += string.Format("<parameter.Name>={0\}&", Uri.EscapeUriString(JsonConvert.SerializeObject(<parameter.VariableNameLower>)));
+    <endif>
+    <else>
     <if(parameter.IsArray)>
             foreach(var item in <parameter.VariableNameLower>) { url += string.Format("<parameter.Name>={0\}&", Uri.EscapeUriString(item.ToString())); \}
     <else>
             url += string.Format("<parameter.Name>={0\}&", Uri.EscapeUriString(<parameter.VariableNameLower>.ToString()));
+    <endif>
     <endif>
 }>
         
