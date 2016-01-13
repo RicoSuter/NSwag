@@ -43,7 +43,11 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
     <if(parameter.IsDate)>
             url += "<parameter.Name>=" + encodeURIComponent("" + <parameter.VariableNameLower>.toJSON()) + "&"; 
     <else>
+    <if(parameter.IsArray)>
+            <parameter.VariableNameLower>.forEach(item => { url += "<parameter.Name>=" + encodeURIComponent("" + item) + "&"; \});
+    <else>
             url += "<parameter.Name>=" + encodeURIComponent("" + <parameter.VariableNameLower>) + "&"; 
+    <endif>
     <endif>
 }>
 

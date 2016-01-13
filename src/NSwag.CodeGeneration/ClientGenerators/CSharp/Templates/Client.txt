@@ -63,7 +63,12 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasClientBaseClass)><
 }>
 
 <operation.QueryParameters:{parameter | 
-        url += string.Format("<parameter.Name>={0\}&", Uri.EscapeUriString(<parameter.VariableNameLower>.ToString()));
+        if (<parameter.VariableNameLower> != null)
+    <if(parameter.IsArray)>
+            foreach(var item in <parameter.VariableNameLower>) { url += string.Format("<parameter.Name>={0\}&", Uri.EscapeUriString(item.ToString())); \}
+    <else>
+            url += string.Format("<parameter.Name>={0\}&", Uri.EscapeUriString(<parameter.VariableNameLower>.ToString()));
+    <endif>
 }>
         
         <if(useHttpClientCreationMethod)>var client = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);<else>var client = new HttpClient();<endif>

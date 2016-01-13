@@ -125,6 +125,7 @@ namespace NSwag.CodeGeneration.ClientGenerators
 
                             return new ParameterModel
                             {
+                                Schema = p.ActualSchema, 
                                 Name = p.Name,
                                 VariableNameLower = ConvertToLowerStartIdentifier(p.Name.Replace("-", "_")), 
                                 Kind = p.Kind,
