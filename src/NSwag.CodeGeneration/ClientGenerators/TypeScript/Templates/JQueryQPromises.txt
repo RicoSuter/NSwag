@@ -5,10 +5,10 @@ export interface I<class> {
 <if(operation.HasDocumentation)>    /**
 <if(operation.HasSummary)>     * <operation.Summary><endif>
 <operation.Parameters:{parameter | 
-<if(parameter.HasDescription)>     * @<parameter.VariableNameLower> <parameter.Description><endif>}>
+<if(parameter.HasDescriptionOrIsOptional)>     * @<parameter.VariableNameLower><if(parameter.IsOptional)> (optional)<endif> <parameter.Description><endif>}>
 <if(operation.HasResultDescription)>     * @return <operation.ResultDescription><endif>
      */
-<endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.VariableNameLower><if(parameter.IsOptional)>?<endif>: <parameter.Type><if(!parameter.IsLast)>,<endif> }>): Q.Promise\<<operation.ResultType>>;
+<endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.VariableNameLower>: <parameter.Type><if(!parameter.IsLast)>,<endif> }>): Q.Promise\<<operation.ResultType>>;
 }>}
 <endif>
 
@@ -24,10 +24,10 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
 <if(operation.HasDocumentation)>    /**
 <if(operation.HasSummary)>     * <operation.Summary><endif>
 <operation.Parameters:{parameter | 
-<if(parameter.HasDescription)>     * @<parameter.VariableNameLower> <parameter.Description><endif>}>
+<if(parameter.HasDescriptionOrIsOptional)>     * @<parameter.VariableNameLower><if(parameter.IsOptional)> (optional)<endif> <parameter.Description><endif>}>
 <if(operation.HasResultDescription)>     * @return <operation.ResultDescription><endif>
      */
-<endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.VariableNameLower><if(parameter.IsOptional)>?<endif>: <parameter.Type><if(!parameter.IsLast)>,<endif> }>): Q.Promise\<<operation.ResultType>> {
+<endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.VariableNameLower>: <parameter.Type><if(!parameter.IsLast)>,<endif> }>): Q.Promise\<<operation.ResultType>> {
         return Q.Promise\<<operation.ResultType>>((resolve, reject) => {
             this.<operation.OperationNameLower>WithCallbacks(<operation.Parameters:{parameter | <parameter.VariableNameLower>, }>(result) => resolve(result), (exception, reason) => reject(exception));
         \});
