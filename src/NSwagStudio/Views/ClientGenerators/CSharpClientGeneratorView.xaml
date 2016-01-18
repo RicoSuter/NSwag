@@ -46,9 +46,14 @@
                         <TextBlock Text="Required properties must be defined in JSON (sets Required.Always when the property is required)" TextWrapping="Wrap" />
                     </CheckBox>
 
-                    <TextBlock Text="Date Time Property Type" FontWeight="Bold" Margin="0,0,0,6" />
-                    <ComboBox SelectedItem="{Binding Command.DateTimeType, Mode=TwoWay}" 
-                              ItemsSource="{Binding DateTimeTypes}" Margin="0,0,0,12" />
+                    <TextBlock Text="Date Time Type" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding Command.DateTimeType, Mode=TwoWay}" Margin="0,0,0,12" />
+
+                    <TextBlock Text="Generic Array Type" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding Command.ArrayType, Mode=TwoWay}" Margin="0,0,0,12" />
+                    
+                    <TextBlock Text="Generic Dictionary Type" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding Command.DictionaryType, Mode=TwoWay}" Margin="0,0,0,12" />
 
                     <GroupBox Header="Client" Margin="0,0,0,12">
                         <StackPanel Margin="4,4,4,-8">
@@ -84,7 +89,6 @@
             </Expander>
         </Border>
 
-        <!--<TextBlock Text="C# Output:" FontWeight="Bold" Margin="0,0,0,6" Grid.Row="1" />-->
         <Border Grid.Row="2" Margin="-8,-8,-8,-8" BorderThickness="0,1,0,0" BorderBrush="LightGray">
             <avalonedit:TextEditor Background="GhostWhite" FontFamily="Consolas" IsReadOnly="True" 
                                    SyntaxHighlighting="C#" FontSize="10pt" Padding="8">

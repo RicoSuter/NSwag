@@ -330,7 +330,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             var isComplexParameter = IsComplexType(info);
             var parameterType = isComplexParameter ? typeof(string) : parameter.ParameterType; // complex types must be treated as string
 
-            var segmentParameter = parameterGenerator.Generate<SwaggerParameter>(parameterType, schemaResolver);
+            var segmentParameter = parameterGenerator.Generate<SwaggerParameter>(parameterType, parameter.GetCustomAttributes(), schemaResolver);
             segmentParameter.Name = parameter.Name;
             segmentParameter.Description = parameter.GetXmlDocumentation();
             return segmentParameter;

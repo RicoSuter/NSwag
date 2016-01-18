@@ -50,18 +50,7 @@ namespace NSwagStudio.ViewModels.ClientGenerators
                     .ToArray();
             }
         }
-
-        /// <summary>Gets the list of date time types. </summary>
-        public CSharpDateTimeType[] DateTimeTypes
-        {
-            get
-            {
-                return Enum.GetNames(typeof(CSharpDateTimeType))
-                    .Select(t => (CSharpDateTimeType)Enum.Parse(typeof(CSharpDateTimeType), t))
-                    .ToArray();
-            }
-        }
-
+        
         /// <summary>Gets or sets the namespace usages (comma separated). </summary>
         public string AdditionalNamespaceUsages
         {

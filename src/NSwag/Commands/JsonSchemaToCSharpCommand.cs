@@ -18,9 +18,17 @@ namespace NSwag.Commands
         [Argument(Name = "RequiredPropertiesMustBeDefined", DefaultValue = true)]
         public bool RequiredPropertiesMustBeDefined { get; set; }
 
-        [Description("The date time .NET type (DateTime or DateTimeOffset).")]
-        [Argument(Name = "DateTimeType", DefaultValue = CSharpDateTimeType.DateTime)]
-        public CSharpDateTimeType DateTimeType { get; set; }
+        [Description("The date time .NET type (default: 'DateTime').")]
+        [Argument(Name = "DateTimeType", DefaultValue = "DateTime")]
+        public string DateTimeType { get; set; }
+
+        [Description("The generic array .NET type (default: 'ObservableCollection').")]
+        [Argument(Name = "ArrayType", DefaultValue = "ObservableCollection")]
+        public string ArrayType { get; set; }
+
+        [Description("The generic dictionary .NET type (default: 'Dictionary').")]
+        [Argument(Name = "DictionaryType", DefaultValue = "Dictionary")]
+        public string DictionaryType { get; set; }
 
         public override async Task RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
@@ -28,7 +36,9 @@ namespace NSwag.Commands
             {
                 Namespace = Namespace,
                 RequiredPropertiesMustBeDefined = RequiredPropertiesMustBeDefined,
-                DateTimeType = DateTimeType
+                DateTimeType = DateTimeType,
+                ArrayType = ArrayType,
+                DictionaryType = DictionaryType,
             };
             
             var schema = JsonSchema4.FromJson(InputJson);

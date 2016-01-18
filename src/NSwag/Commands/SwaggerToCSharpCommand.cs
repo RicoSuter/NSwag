@@ -100,13 +100,29 @@ namespace NSwag.Commands
             get { return Settings.AdditionalNamespaceUsages; }
             set { Settings.AdditionalNamespaceUsages = value; }
         }
-
-        [Description("The date time .NET type (DateTime or DateTimeOffset).")]
-        [Argument(Name = "DateTimeType", DefaultValue = CSharpDateTimeType.DateTime)]
-        public CSharpDateTimeType DateTimeType
+        
+        [Description("The date time .NET type (default: 'DateTime').")]
+        [Argument(Name = "DateTimeType", DefaultValue = "DateTime")]
+        public string DateTimeType
         {
             get { return Settings.CSharpGeneratorSettings.DateTimeType; }
             set { Settings.CSharpGeneratorSettings.DateTimeType = value; }
+        }
+
+        [Description("The generic array .NET type (default: 'ObservableCollection').")]
+        [Argument(Name = "ArrayType", DefaultValue = "ObservableCollection")]
+        public string ArrayType
+        {
+            get { return Settings.CSharpGeneratorSettings.ArrayType; }
+            set { Settings.CSharpGeneratorSettings.ArrayType = value; }
+        }
+
+        [Description("The generic dictionary .NET type (default: 'Dictionary').")]
+        [Argument(Name = "DictionaryType", DefaultValue = "Dictionary")]
+        public string DictionaryType
+        {
+            get { return Settings.CSharpGeneratorSettings.DictionaryType; }
+            set { Settings.CSharpGeneratorSettings.DictionaryType = value; }
         }
 
         public override async Task RunAsync(CommandLineProcessor processor, IConsoleHost host)

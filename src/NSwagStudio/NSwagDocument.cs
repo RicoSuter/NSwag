@@ -37,6 +37,11 @@ namespace NSwagStudio
             var document = JsonConvert.DeserializeObject<NSwagDocument>(data);
             document.Path = filePath;
             document._latestData = data;
+
+            // Legacy file support
+            if (document.SwaggerToCSharpCommand.DateTimeType == "0")
+                document.SwaggerToCSharpCommand.DateTimeType = "DateTime";
+
             return document;
         }
 
