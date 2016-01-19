@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:viewModels="clr-namespace:NSwagStudio.ViewModels"
         xmlns:views="clr-namespace:NSwagStudio.Views"
-        Title="NSwagStudio: The Swagger API toolchain for .NET" 
+        Title="NSwagStudio: The Swagger API toolchain for .NET and TypeScript" 
         MinHeight="600" MinWidth="700" UseLayoutRounding="True"
         WindowStartupLocation="CenterScreen"
         Height="700" Width="1000">
