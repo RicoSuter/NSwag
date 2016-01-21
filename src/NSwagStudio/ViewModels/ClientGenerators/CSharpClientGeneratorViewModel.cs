@@ -11,8 +11,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using MyToolkit.Storage;
-using NJsonSchema.CodeGeneration.CSharp;
-using NSwag;
 using NSwag.CodeGeneration.ClientGenerators;
 using NSwag.Commands;
 

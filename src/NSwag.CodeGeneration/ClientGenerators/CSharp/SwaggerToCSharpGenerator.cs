@@ -102,13 +102,13 @@ namespace NSwag.CodeGeneration.ClientGenerators.CSharp
 
         internal override string GetResultType(SwaggerOperation operation)
         {
-            if (operation.Responses.Count(r => HttpUtilities.IsSuccessStatusCode(r.Key)) == 0)
+            var response = GetSuccessResponse(operation);
+            if (response == null)
                 return "Task";
 
-            var response = GetOkResponse(operation);
             return "Task<" + GetType(response.Schema, "Response") + ">";
         }
-
+        
         internal override string GetType(JsonSchema4 schema, string typeNameHint)
         {
             if (schema == null)

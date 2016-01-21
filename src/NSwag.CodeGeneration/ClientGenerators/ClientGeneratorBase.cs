@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
@@ -31,10 +32,9 @@ namespace NSwag.CodeGeneration.ClientGenerators
 
         internal string GetResultDescription(SwaggerOperation operation)
         {
-            var response = GetOkResponse(operation);
+            var response = GetSuccessResponse(operation);
             if (response != null)
                 return RemoveLineBreaks(response.Description);
-
             return null;
         }
 
@@ -139,17 +139,17 @@ namespace NSwag.CodeGeneration.ClientGenerators
                 }).ToList();
             return operations;
         }
-
-        internal SwaggerResponse GetOkResponse(SwaggerOperation operation)
+        
+        internal SwaggerResponse GetSuccessResponse(SwaggerOperation operation)
         {
             if (operation.Responses.Any(r => r.Key == "200"))
                 return operation.Responses.Single(r => r.Key == "200").Value;
 
             var response = operation.Responses.FirstOrDefault(r => HttpUtilities.IsSuccessStatusCode(r.Key)).Value;
-            if (response == null)
-                return operation.Responses.First().Value;
+            if (response != null)
+                return response;
 
-            return response;
+            return operation.Responses.FirstOrDefault(r => r.Key == "default").Value;
         }
     }
 }

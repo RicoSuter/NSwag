@@ -99,10 +99,10 @@ namespace NSwag.CodeGeneration.ClientGenerators.TypeScript
 
         internal override string GetResultType(SwaggerOperation operation)
         {
-            if (operation.Responses.Count(r => HttpUtilities.IsSuccessStatusCode(r.Key)) == 0)
+            var response = GetSuccessResponse(operation);
+            if (response == null)
                 return "any";
 
-            var response = GetOkResponse(operation);
             return GetType(response.Schema, "Response");
         }
 

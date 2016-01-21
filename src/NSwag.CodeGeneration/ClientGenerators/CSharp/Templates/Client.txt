@@ -138,9 +138,11 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasClientBaseClass)><
             {
                 if (!string.IsNullOrEmpty(responseData))
                     result = JsonConvert.DeserializeObject\<<operation.DefaultResponse.Type>>(responseData);
-                                
+
+<if(operation.HasOnlyDefaultResponse)>
                 if (status.Length == 3 && status.StartsWith("2"))
-                    return result; 
+                    return result;
+<endif>
             \} 
             catch (Exception exception) 
             {

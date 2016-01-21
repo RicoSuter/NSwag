@@ -40,7 +40,15 @@ namespace NSwag.CodeGeneration.ClientGenerators.Models
 
         public ResponseModel DefaultResponse { get; set; }
 
-        public bool HasDefaultResponse { get { return DefaultResponse != null; } }
+        public bool HasDefaultResponse
+        {
+            get { return DefaultResponse != null; }
+        }
+
+        public bool HasOnlyDefaultResponse
+        {
+            get { return Responses.Count == 0 && HasDefaultResponse; }
+        }
 
         public IEnumerable<ParameterModel> Parameters { get; set; }
 
