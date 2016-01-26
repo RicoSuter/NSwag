@@ -49,13 +49,13 @@ The following code shows how to read a Swagger specification and generate C# cli
 ```cs
 var service = SwaggerService.FromJson("...");
 
-var settings = new SwaggerToCSharpGeneratorSettings 
+var settings = new SwaggerToCSharpClientGeneratorSettings 
 {
     ClassName = "MyClass",
     Namespace = "MyNamespace"
 };
 
-var generator = new SwaggerToCSharpGenerator(service, settings);
+var generator = new SwaggerToCSharpClientGenerator(service, settings);
 var code = generator.GenerateFile();
 ```
 
