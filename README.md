@@ -14,7 +14,7 @@ NSwag is a Swagger 2.0 API toolchain for .NET, TypeScript and other platforms, w
 
 **Swagger Generators:**
 
-- ASP.NET Web API
+- ASP.NET Web API to Swagger
     - [WebApiToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/WebApiToSwaggerGenerator)
     - [WebApiAssemblyToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/WebApiAssemblyToSwaggerGenerator)
 - Types from .NET assemblies
@@ -22,7 +22,7 @@ NSwag is a Swagger 2.0 API toolchain for .NET, TypeScript and other platforms, w
 
 **Code Generators:** 
 
-- **TypeScript Client**, 
+- **TypeScript Client**
 	- [SwaggerToTypeScriptClientGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToTypeScriptClientGenerator)
 	- Available templates/supported libraries: 
 		- JQuery with Callbacks, `JQueryCallbacks`
