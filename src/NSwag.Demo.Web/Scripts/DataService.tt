@@ -6,7 +6,7 @@
 <#@ assembly name="$(SolutionDir)\NSwag.CodeGeneration\bin\Debug\NSwag.CodeGeneration.dll" #>
 <#@ assembly name="$(SolutionDir)\NSwag.CodeGeneration\bin\Debug\NSwag.Core.dll" #>
 <#@ import namespace="NSwag.CodeGeneration.SwaggerGenerators.WebApi" #>
-<#@ import namespace="NSwag.CodeGeneration.ClientGenerators.TypeScript" #>
+<#@ import namespace="NSwag.CodeGeneration.CodeGenerators.TypeScript" #>
 <#@ import namespace="System.IO" #>
 <#@ import namespace="Microsoft.CSharp" #>
 <#@ output extension=".ts" #>
@@ -27,7 +27,7 @@
     // -------------
 
     var provider = new CSharpCodeProvider();
-    var clientGenerator = new SwaggerToTypeScriptGenerator(service, new SwaggerToTypeScriptGeneratorSettings
+    var clientGenerator = new SwaggerToTypeScriptClientGenerator(service, new SwaggerToTypeScriptClientGeneratorSettings
     {
         ClassName = provider.CreateEscapedIdentifier(Path.GetFileNameWithoutExtension(Host.TemplateFile))
     });

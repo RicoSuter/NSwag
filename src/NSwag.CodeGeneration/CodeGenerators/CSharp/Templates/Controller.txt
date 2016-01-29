@@ -1,0 +1,12 @@
+﻿public abstract class <class>Controller : <if(hasClientBaseClass)><clientBaseClass><else>ApiController<endif>
+{
+<operations:{operation | 
+<if(operation.HasSummary)>    /// \<summary><operation.Summary>\</summary><endif>
+<operation.Parameters:{parameter | 
+<if(parameter.HasDescription)>    /// \<param name="<parameter.VariableNameLower>"><parameter.Description>\</param><endif>}>
+<if(operation.HasResultDescription)>    /// \<returns><operation.ResultDescription>\</returns><endif>
+    public abstract <operation.resultType> <operation.OperationNameUpper>(<operation.Parameters:{parameter | <parameter.Type> <parameter.VariableNameLower><if(!parameter.isLast)>, <endif>}>);
+
+}>
+\}
+

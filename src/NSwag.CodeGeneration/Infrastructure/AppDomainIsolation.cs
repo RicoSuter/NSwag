@@ -62,7 +62,11 @@ namespace NSwag.CodeGeneration.Infrastructure
             if (File.Exists(config))
                 return config;
 
-            return config; 
+            config = Path.Combine(assemblyDirectory, "../Web.config");
+            if (File.Exists(config))
+                return config;
+
+            return null; 
         }
     }
 }

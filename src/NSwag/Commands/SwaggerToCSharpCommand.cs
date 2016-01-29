@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using NConsole;
 using Newtonsoft.Json;
 using NJsonSchema.CodeGeneration.CSharp;
-using NSwag.CodeGeneration.ClientGenerators;
-using NSwag.CodeGeneration.ClientGenerators.CSharp;
+using NSwag.CodeGeneration.CodeGenerators;
+using NSwag.CodeGeneration.CodeGenerators.CSharp;
 using NSwag.Commands.Base;
 
 namespace NSwag.Commands
@@ -14,12 +14,12 @@ namespace NSwag.Commands
     {
         public SwaggerToCSharpCommand()
         {
-            Settings = new SwaggerToCSharpGeneratorSettings();
+            Settings = new SwaggerToCSharpClientGeneratorSettings();
             Namespace = "MyNamespace";
         }
 
         [JsonIgnore]
-        public SwaggerToCSharpGeneratorSettings Settings { get; set; }
+        public SwaggerToCSharpClientGeneratorSettings Settings { get; set; }
 
         [Description("The class name of the generated client.")]
         [Argument(Name = "ClassName")]
@@ -133,7 +133,7 @@ namespace NSwag.Commands
 
         public async Task<string> RunAsync()
         {
-            var clientGenerator = new SwaggerToCSharpGenerator(InputSwaggerService, Settings);
+            var clientGenerator = new SwaggerToCSharpClientGenerator(InputSwaggerService, Settings);
             return clientGenerator.GenerateFile();
         }
     }

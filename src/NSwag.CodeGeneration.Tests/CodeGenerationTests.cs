@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NJsonSchema;
-using NSwag.CodeGeneration.ClientGenerators.CSharp;
-using NSwag.CodeGeneration.ClientGenerators.TypeScript;
+using NSwag.CodeGeneration.CodeGenerators.CSharp;
+using NSwag.CodeGeneration.CodeGenerators.TypeScript;
 
 namespace NSwag.CodeGeneration.Tests
 {
@@ -18,10 +18,10 @@ namespace NSwag.CodeGeneration.Tests
             var service = CreateService();
 
             //// Act
-            var settings = new SwaggerToCSharpGeneratorSettings { ClassName = "MyClass" };
+            var settings = new SwaggerToCSharpClientGeneratorSettings { ClassName = "MyClass" };
             settings.CSharpGeneratorSettings.Namespace = "MyNamespace";
 
-            var generator = new SwaggerToCSharpGenerator(service, settings);
+            var generator = new SwaggerToCSharpClientGenerator(service, settings);
 
             var code = generator.GenerateFile();
 
@@ -39,7 +39,7 @@ namespace NSwag.CodeGeneration.Tests
             var service = CreateService();
 
             //// Act
-            var generator = new SwaggerToTypeScriptGenerator(service, new SwaggerToTypeScriptGeneratorSettings
+            var generator = new SwaggerToTypeScriptClientGenerator(service, new SwaggerToTypeScriptClientGeneratorSettings
             {
                 ClassName = "MyClass"
             });

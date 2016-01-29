@@ -6,7 +6,7 @@
 <#@ assembly name="$(SolutionDir)\NSwag.CodeGeneration\bin\Debug\NSwag.CodeGeneration.dll" #>
 <#@ assembly name="$(SolutionDir)\NSwag.CodeGeneration\bin\Debug\NSwag.Core.dll" #>
 <#@ import namespace="NSwag.CodeGeneration.SwaggerGenerators.WebApi" #>
-<#@ import namespace="NSwag.CodeGeneration.ClientGenerators.CSharp" #>
+<#@ import namespace="NSwag.CodeGeneration.CodeGenerators.CSharp" #>
 <#@ import namespace="System.IO" #>
 <#@ import namespace="Microsoft.CSharp" #>
 <#@ output extension=".cs" #>
@@ -28,14 +28,14 @@
     // -------------
 
     var provider = new CSharpCodeProvider();
-    var settings = new SwaggerToCSharpGeneratorSettings
+    var settings = new SwaggerToCSharpClientGeneratorSettings
     {
         ClassName = provider.CreateEscapedIdentifier(Path.GetFileNameWithoutExtension(Host.TemplateFile)),
         GenerateClientInterfaces = true
         
     };
     settings.CSharpGeneratorSettings.Namespace = Host.ResolveParameterValue("directiveId", "namespaceDirectiveProcessor", "namespaceHint");
-    var clientGenerator = new SwaggerToCSharpGenerator(service, settings);
+    var clientGenerator = new SwaggerToCSharpClientGenerator(service, settings);
     var code = clientGenerator.GenerateFile();
 #>
 <#= code #>

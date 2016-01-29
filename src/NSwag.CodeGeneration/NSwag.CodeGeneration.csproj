@@ -37,16 +37,16 @@
     <Reference Include="Antlr4.StringTemplate">
       <HintPath>..\packages\Antlr4.StringTemplate.4.0.6.9004\lib\net35\Antlr4.StringTemplate.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=1.26.5864.35160, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.1.26.5864.35160\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10\NJsonSchema.dll</HintPath>
+    <Reference Include="NJsonSchema, Version=1.28.5872.19133, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.1.28.5872.19133\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10\NJsonSchema.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema.CodeGeneration, Version=1.26.5864.35161, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.CodeGeneration.1.26.5864.35161\lib\net45\NJsonSchema.CodeGeneration.dll</HintPath>
+    <Reference Include="NJsonSchema.CodeGeneration, Version=1.28.5872.19133, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.CodeGeneration.1.28.5872.19133\lib\net45\NJsonSchema.CodeGeneration.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -58,20 +58,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClientGenerators\CSharp\SwaggerToCSharpGeneratorSettings.cs" />
-    <Compile Include="ClientGenerators\CSharp\SwaggerToCSharpTypeResolver.cs" />
-    <Compile Include="ClientGenerators\Models\OperationModel.cs" />
-    <Compile Include="ClientGenerators\Models\ParameterModel.cs" />
-    <Compile Include="ClientGenerators\Models\ResponseModel.cs" />
-    <Compile Include="ClientGenerators\CSharp\SwaggerToCSharpGenerator.cs" />
-    <Compile Include="ClientGenerators\ClientGeneratorBase.cs" />
-    <Compile Include="ClientGenerators\OperationGenerationMode.cs" />
-    <Compile Include="ClientGenerators\ClientGeneratorBaseSettings.cs" />
-    <Compile Include="ClientGenerators\TypeScript\SwaggerToTypeScriptGeneratorSettings.cs" />
-    <Compile Include="ClientGenerators\TypeScript\TypeScriptTemplate.cs" />
-    <Compile Include="ClientGenerators\TypeScript\SwaggerToTypeScriptGenerator.cs" />
+    <Compile Include="CodeGenerators\ControllerGeneratorBaseSettings.cs" />
+    <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpClientGeneratorSettings.cs" />
+    <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpGenerator.cs" />
+    <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpTypeResolver.cs" />
+    <Compile Include="CodeGenerators\Models\OperationModel.cs" />
+    <Compile Include="CodeGenerators\Models\ParameterModel.cs" />
+    <Compile Include="CodeGenerators\Models\ResponseModel.cs" />
+    <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpClientGenerator.cs" />
+    <Compile Include="CodeGenerators\ClientGeneratorBase.cs" />
+    <Compile Include="CodeGenerators\OperationGenerationMode.cs" />
+    <Compile Include="CodeGenerators\ClientGeneratorBaseSettings.cs" />
+    <Compile Include="CodeGenerators\TypeScript\SwaggerToTypeScriptClientGeneratorSettings.cs" />
+    <Compile Include="CodeGenerators\TypeScript\TypeScriptTemplate.cs" />
+    <Compile Include="CodeGenerators\TypeScript\SwaggerToTypeScriptClientGenerator.cs" />
     <Compile Include="Infrastructure\AppDomainIsolation.cs" />
     <Compile Include="Infrastructure\ReflectionExtensions.cs" />
+    <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpControllerGenerator.cs" />
+    <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpControllerGeneratorSettings.cs" />
     <Compile Include="SwaggerGenerators\RootTypeJsonSchemaGenerator.cs" />
     <Compile Include="SwaggerGenerators\WebApi\AssemblyTypeToSwaggerGenerator.cs" />
     <Compile Include="SwaggerGenerators\WebApi\AssemblyTypeToSwaggerGeneratorSettings.cs" />
@@ -82,16 +86,17 @@
     <Compile Include="SwaggerGenerators\WebApi\WebApiToSwaggerGeneratorSettings.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="NSwag.CodeGeneration.nuspec" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ClientGenerators\TypeScript\Templates\JQueryCallbacks.txt" />
+    <EmbeddedResource Include="CodeGenerators\TypeScript\Templates\JQueryCallbacks.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ClientGenerators\CSharp\Templates\File.txt" />
+    <EmbeddedResource Include="CodeGenerators\CSharp\Templates\File.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj">
@@ -100,16 +105,19 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ClientGenerators\TypeScript\Templates\File.txt" />
+    <EmbeddedResource Include="CodeGenerators\TypeScript\Templates\File.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ClientGenerators\CSharp\Templates\Client.txt" />
+    <EmbeddedResource Include="CodeGenerators\CSharp\Templates\Client.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ClientGenerators\TypeScript\Templates\AngularJS.txt" />
+    <EmbeddedResource Include="CodeGenerators\TypeScript\Templates\AngularJS.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ClientGenerators\TypeScript\Templates\JQueryQPromises.txt" />
+    <EmbeddedResource Include="CodeGenerators\TypeScript\Templates\JQueryQPromises.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CodeGenerators\CSharp\Templates\Controller.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

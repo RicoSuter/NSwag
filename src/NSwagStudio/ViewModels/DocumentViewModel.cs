@@ -9,8 +9,10 @@ using MyToolkit.Command;
 using MyToolkit.Utilities;
 using Newtonsoft.Json;
 using NSwagStudio.Properties;
-using NSwagStudio.Views.ClientGenerators;
+using NSwagStudio.Views.CodeGenerators;
 using NSwagStudio.Views.SwaggerGenerators;
+using CSharpClientGeneratorView = NSwagStudio.Views.CodeGenerators.CSharpClientGeneratorView;
+using TypeScriptClientGeneratorView = NSwagStudio.Views.CodeGenerators.TypeScriptClientGeneratorView;
 
 namespace NSwagStudio.ViewModels
 {
@@ -75,7 +77,7 @@ namespace NSwagStudio.ViewModels
             ClientGenerators = new IClientGenerator[]
             {
                 new SwaggerGeneratorView(),
-                new TypeScriptCodeGeneratorView(Document.SwaggerToTypeScriptCommand),
+                new TypeScriptClientGeneratorView(Document.SwaggerToTypeScriptCommand),
                 new CSharpClientGeneratorView(Document.SwaggerToCSharpCommand)
             };
 

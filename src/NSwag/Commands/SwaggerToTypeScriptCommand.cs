@@ -2,8 +2,8 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using NConsole;
 using Newtonsoft.Json;
-using NSwag.CodeGeneration.ClientGenerators;
-using NSwag.CodeGeneration.ClientGenerators.TypeScript;
+using NSwag.CodeGeneration.CodeGenerators;
+using NSwag.CodeGeneration.CodeGenerators.TypeScript;
 using NSwag.Commands.Base;
 
 namespace NSwag.Commands
@@ -13,11 +13,11 @@ namespace NSwag.Commands
     {
         public SwaggerToTypeScriptCommand()
         {
-            Settings = new SwaggerToTypeScriptGeneratorSettings();
+            Settings = new SwaggerToTypeScriptClientGeneratorSettings();
         }
 
         [JsonIgnore]
-        public SwaggerToTypeScriptGeneratorSettings Settings { get; set; }
+        public SwaggerToTypeScriptClientGeneratorSettings Settings { get; set; }
 
         [Description("The class name of the generated client.")]
         [Argument(Name = "ClassName", DefaultValue = "{controller}Client")]
@@ -83,7 +83,7 @@ namespace NSwag.Commands
 
         public async Task<string> RunAsync()
         {
-            var clientGenerator = new SwaggerToTypeScriptGenerator(InputSwaggerService, Settings);
+            var clientGenerator = new SwaggerToTypeScriptClientGenerator(InputSwaggerService, Settings);
             return clientGenerator.GenerateFile();
         }
     }
