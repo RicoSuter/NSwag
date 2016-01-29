@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using NJsonSchema.CodeGeneration.CSharp;
-
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp
 {
     /// <summary>Settings for the <see cref="SwaggerToCSharpControllerGenerator"/>.</summary>
@@ -17,6 +15,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         public SwaggerToCSharpControllerGeneratorSettings()
         {
             ClassName = "{controller}";
+            CSharpGeneratorSettings.ArrayType = "IEnumerable";
+            AdditionalNamespaceUsages = new [] { "System.Web.Http" };
         }
 
         /// <summary>Gets or sets the full name of the base class.</summary>

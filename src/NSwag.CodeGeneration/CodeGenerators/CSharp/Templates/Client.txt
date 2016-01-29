@@ -22,7 +22,7 @@ public partial interface I<class>
 }
 <endif>
 
-public partial class <class> <if(hasBaseType)>: <endif><if(hasClientBaseClass)><clientBaseClass><if(generateClientInterfaces)>, <endif><endif><if(generateClientInterfaces)>I<class><endif>
+public partial class <class> <if(hasBaseType)>: <endif><if(hasBaseClass)><baseClass><if(generateClientInterfaces)>, <endif><endif><if(generateClientInterfaces)>I<class><endif>
 {
     public <class>() : this("<baseUrl>") { }
 

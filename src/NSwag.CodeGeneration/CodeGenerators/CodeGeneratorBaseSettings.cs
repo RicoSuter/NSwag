@@ -18,8 +18,8 @@ namespace NSwag.CodeGeneration.CodeGenerators
             GenerateDtoTypes = true;
         }
 
-        /// <summary>Gets or sets a value indicating whether to generate client types (default: true).</summary>
-        public bool GenerateClientClasses { get; set; }
+        /// <summary>Gets or sets the operation generation mode.</summary>
+        public OperationGenerationMode OperationGenerationMode { get; set; }
 
         /// <summary>Gets or sets a value indicating whether to generate DTO classes (default: true).</summary>
         public bool GenerateDtoTypes { get; set; }
@@ -27,7 +27,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
         /// <summary>Gets or sets a value indicating whether to generate interfaces for the client classes.</summary>
         public bool GenerateClientInterfaces { get; set; }
 
-        /// <summary>Gets or sets the operation generation mode.</summary>
-        public OperationGenerationMode OperationGenerationMode { get; set; }
+        /// <summary>Gets or sets a value indicating whether to generate client types (default: true).</summary>
+        public bool GenerateClientClasses { get; set; }
     }
 }

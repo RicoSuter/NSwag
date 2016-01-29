@@ -17,7 +17,10 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         protected SwaggerToCSharpGeneratorSettings()
         {
             AdditionalNamespaceUsages = null;
-            CSharpGeneratorSettings = new CSharpGeneratorSettings();
+            CSharpGeneratorSettings = new CSharpGeneratorSettings
+            {
+                Namespace = "MyNamespace"
+            };
         }
 
         /// <summary>Gets or sets the CSharp generator settings.</summary>

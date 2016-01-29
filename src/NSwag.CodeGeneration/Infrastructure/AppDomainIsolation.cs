@@ -16,8 +16,12 @@ namespace NSwag.CodeGeneration.Infrastructure
         private AppDomain _domain;
         private readonly T _object;
 
+        /// <exception cref="ArgumentNullException"><paramref name="assemblyDirectory"/> is <see langword="null" />.</exception>
         public AppDomainIsolation(string assemblyDirectory)
         {
+            if (string.IsNullOrEmpty(assemblyDirectory))
+                throw new ArgumentNullException("assemblyDirectory");
+
             var setup = new AppDomainSetup
             {
                 ShadowCopyFiles = "true",

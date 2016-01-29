@@ -75,8 +75,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             template.Add("class", Settings.ClassName.Replace("{controller}", ConvertToUpperStartIdentifier(controllerName)));
 
             var hasClientBaseClass = !string.IsNullOrEmpty(Settings.ClientBaseClass); 
-            template.Add("clientBaseClass", Settings.ClientBaseClass);
-            template.Add("hasClientBaseClass", hasClientBaseClass);
+            template.Add("baseClass", Settings.ClientBaseClass);
+            template.Add("hasBaseClass", hasClientBaseClass);
 
             template.Add("useHttpClientCreationMethod", Settings.UseHttpClientCreationMethod);
             template.Add("generateClientInterfaces", Settings.GenerateClientInterfaces);

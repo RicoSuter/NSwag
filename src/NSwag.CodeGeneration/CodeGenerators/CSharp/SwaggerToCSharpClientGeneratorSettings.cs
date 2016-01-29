@@ -11,6 +11,12 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
     /// <summary>Settings for the <see cref="SwaggerToCSharpClientGenerator"/>.</summary>
     public class SwaggerToCSharpClientGeneratorSettings : SwaggerToCSharpGeneratorSettings
     {
+        /// <summary>Initializes a new instance of the <see cref="SwaggerToCSharpClientGeneratorSettings"/> class.</summary>
+        public SwaggerToCSharpClientGeneratorSettings()
+        {
+            ClassName = "{controller}Client";
+        }
+
         /// <summary>Gets or sets the full name of the base class.</summary>
         public string ClientBaseClass { get; set; }
 
