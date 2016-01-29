@@ -60,7 +60,7 @@
 
                 <TextBlock Text="Output" FontSize="16" FontWeight="Bold" Margin="0,0,0,16" />
                 <TabControl Grid.Row="1"
-                        ItemsSource="{Binding ClientGenerators}"
+                        ItemsSource="{Binding CodeGenerators}"
                         SelectedIndex="{Binding Document.SelectedClientGenerator, Mode=TwoWay}">
                     <TabControl.ItemContainerStyle>
                         <Style TargetType="{x:Type TabItem}">

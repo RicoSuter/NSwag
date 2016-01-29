@@ -1,26 +1,22 @@
 using System.ComponentModel;
-using System.Threading.Tasks;
 using NConsole;
-using Newtonsoft.Json;
-using NJsonSchema.CodeGeneration.CSharp;
 using NSwag.CodeGeneration.CodeGenerators;
 using NSwag.CodeGeneration.CodeGenerators.CSharp;
 using NSwag.Commands.Base;
 
 namespace NSwag.Commands
 {
-    [Description("Generates CSharp client code from a Swagger specification.")]
-    public class SwaggerToCSharpCommand : InputOutputCommandBase
+    public abstract class SwaggerToCSharpCommand<TSettings>
+        : InputOutputCommandBase
+         where TSettings : SwaggerToCSharpGeneratorSettings
     {
-        public SwaggerToCSharpCommand()
+        protected SwaggerToCSharpCommand(TSettings settings)
         {
-            Settings = new SwaggerToCSharpClientGeneratorSettings();
-            Namespace = "MyNamespace";
+            Settings = settings; 
         }
 
-        [JsonIgnore]
-        public SwaggerToCSharpClientGeneratorSettings Settings { get; set; }
-
+        public TSettings Settings { get; set; }
+        
         [Description("The class name of the generated client.")]
         [Argument(Name = "ClassName")]
         public string ClassName
@@ -29,60 +25,12 @@ namespace NSwag.Commands
             set { Settings.ClassName = value; }
         }
 
-        [Description("The namespace of the generated classes.")]
-        [Argument(Name = "Namespace")]
-        public string Namespace
+        [Description("The additional namespace usages.")]
+        [Argument(Name = "AdditionalNamespaceUsages", DefaultValue = null)]
+        public string[] AdditionalNamespaceUsages
         {
-            get { return Settings.CSharpGeneratorSettings.Namespace; }
-            set { Settings.CSharpGeneratorSettings.Namespace = value; }
-        }
-
-        [Description("Specifies whether generate client classes.")]
-        [Argument(Name = "GenerateClientClasses", DefaultValue = true)]
-        public bool GenerateClientClasses
-        {
-            get { return Settings.GenerateClientClasses; }
-            set { Settings.GenerateClientClasses = value; }
-        }
-
-        [Description("Specifies whether generate interfaces for the client classes.")]
-        [Argument(Name = "GenerateClientInterfaces", DefaultValue = false)]
-        public bool GenerateClientInterfaces
-        {
-            get { return Settings.GenerateClientInterfaces; }
-            set { Settings.GenerateClientInterfaces = value; }
-        }
-
-        [Description("Specifies whether to generate DTO classes.")]
-        [Argument(Name = "GenerateDtoTypes", DefaultValue = true)]
-        public bool GenerateDtoTypes
-        {
-            get { return Settings.GenerateDtoTypes; }
-            set { Settings.GenerateDtoTypes = value; }
-        }
-
-        [Description("The client base class (empty for no base class).")]
-        [Argument(Name = "ClientBaseClass", DefaultValue = "")]
-        public string ClientBaseClass
-        {
-            get { return Settings.ClientBaseClass; }
-            set { Settings.ClientBaseClass = value; }
-        }
-
-        [Description("Specifies whether to call CreateHttpClientAsync on the base class to create a new HttpClient.")]
-        [Argument(Name = "UseHttpClientCreationMethod", DefaultValue = false)]
-        public bool UseHttpClientCreationMethod
-        {
-            get { return Settings.UseHttpClientCreationMethod; }
-            set { Settings.UseHttpClientCreationMethod = value; }
-        }
-
-        [Description("The operation generation mode ('SingleClientFromOperationId' or 'MultipleClientsFromPathSegments').")]
-        [Argument(Name = "OperationGenerationMode", DefaultValue = OperationGenerationMode.SingleClientFromOperationId)]
-        public OperationGenerationMode OperationGenerationMode
-        {
-            get { return Settings.OperationGenerationMode; }
-            set { Settings.OperationGenerationMode = value; }
+            get { return Settings.AdditionalNamespaceUsages; }
+            set { Settings.AdditionalNamespaceUsages = value; }
         }
 
         [Description("Specifies whether a required property must be defined in JSON (sets Required.Always when the property is required).")]
@@ -93,14 +41,14 @@ namespace NSwag.Commands
             set { Settings.CSharpGeneratorSettings.RequiredPropertiesMustBeDefined = value; }
         }
 
-        [Description("The additional namespace usages.")]
-        [Argument(Name = "AdditionalNamespaceUsages", DefaultValue = null)]
-        public string[] AdditionalNamespaceUsages
+        [Description("The namespace of the generated classes.")]
+        [Argument(Name = "Namespace")]
+        public string Namespace
         {
-            get { return Settings.AdditionalNamespaceUsages; }
-            set { Settings.AdditionalNamespaceUsages = value; }
+            get { return Settings.CSharpGeneratorSettings.Namespace; }
+            set { Settings.CSharpGeneratorSettings.Namespace = value; }
         }
-        
+
         [Description("The date time .NET type (default: 'DateTime').")]
         [Argument(Name = "DateTimeType", DefaultValue = "DateTime")]
         public string DateTimeType
@@ -125,16 +73,13 @@ namespace NSwag.Commands
             set { Settings.CSharpGeneratorSettings.DictionaryType = value; }
         }
 
-        public override async Task RunAsync(CommandLineProcessor processor, IConsoleHost host)
-        {
-            var output = await RunAsync();
-            WriteOutput(host, output);
-        }
 
-        public async Task<string> RunAsync()
+        [Description("The operation generation mode ('SingleClientFromOperationId' or 'MultipleClientsFromPathSegments').")]
+        [Argument(Name = "OperationGenerationMode", DefaultValue = OperationGenerationMode.SingleClientFromOperationId)]
+        public OperationGenerationMode OperationGenerationMode
         {
-            var clientGenerator = new SwaggerToCSharpClientGenerator(InputSwaggerService, Settings);
-            return clientGenerator.GenerateFile();
+            get { return Settings.OperationGenerationMode; }
+            set { Settings.OperationGenerationMode = value; }
         }
     }
 }

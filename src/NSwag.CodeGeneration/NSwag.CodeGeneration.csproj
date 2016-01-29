@@ -61,6 +61,7 @@
     <Compile Include="CodeGenerators\ControllerGeneratorBaseSettings.cs" />
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpClientGeneratorSettings.cs" />
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpGenerator.cs" />
+    <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpGeneratorSettings.cs" />
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpTypeResolver.cs" />
     <Compile Include="CodeGenerators\Models\OperationModel.cs" />
     <Compile Include="CodeGenerators\Models\ParameterModel.cs" />
@@ -68,7 +69,7 @@
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpClientGenerator.cs" />
     <Compile Include="CodeGenerators\ClientGeneratorBase.cs" />
     <Compile Include="CodeGenerators\OperationGenerationMode.cs" />
-    <Compile Include="CodeGenerators\ClientGeneratorBaseSettings.cs" />
+    <Compile Include="CodeGenerators\CodeGeneratorBaseSettings.cs" />
     <Compile Include="CodeGenerators\TypeScript\PromiseType.cs" />
     <Compile Include="CodeGenerators\TypeScript\SwaggerToTypeScriptClientGeneratorSettings.cs" />
     <Compile Include="CodeGenerators\TypeScript\TypeScriptTemplate.cs" />

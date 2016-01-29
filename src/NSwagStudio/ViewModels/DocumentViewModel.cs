@@ -33,7 +33,7 @@ namespace NSwagStudio.ViewModels
         public ISwaggerGenerator[] SwaggerGenerators { get; private set; }
 
         /// <summary>Gets the client generators.</summary>
-        public IClientGenerator[] ClientGenerators { get; private set; }
+        public ICodeGenerator[] CodeGenerators { get; private set; }
         
         /// <summary>Gets or sets the settings. </summary>
         public NSwagDocument Document
@@ -60,7 +60,7 @@ namespace NSwagStudio.ViewModels
         private async Task GenerateAsync()
         {
             var swaggerCode = await SwaggerGenerators[Document.SelectedSwaggerGenerator].GenerateSwaggerAsync();
-            foreach (var generator in ClientGenerators)
+            foreach (var generator in CodeGenerators)
                 await generator.GenerateClientAsync(swaggerCode);
         }
 
@@ -74,15 +74,16 @@ namespace NSwagStudio.ViewModels
                 new AssemblySwaggerGeneratorView(Document.AssemblyTypeToSwaggerCommand),
             };
 
-            ClientGenerators = new IClientGenerator[]
+            CodeGenerators = new ICodeGenerator[]
             {
                 new SwaggerGeneratorView(),
                 new TypeScriptClientGeneratorView(Document.SwaggerToTypeScriptCommand),
-                new CSharpClientGeneratorView(Document.SwaggerToCSharpCommand)
+                new CSharpClientGeneratorView(Document.SwaggerToCSharpClientCommand),
+                new CSharpControllerGeneratorView(Document.SwaggerToCSharpControllerCommand)
             };
 
             RaisePropertyChanged(() => SwaggerGenerators);
-            RaisePropertyChanged(() => ClientGenerators);
+            RaisePropertyChanged(() => CodeGenerators);
         }               
     }
 }

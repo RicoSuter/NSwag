@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="IClientGenerator.cs" company="NSwag">
+// <copyright file="ICodeGenerator.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace NSwagStudio
 {
     /// <summary>The interface for a client generator.</summary>
-    public interface IClientGenerator
+    public interface ICodeGenerator
     {
         /// <summary>Gets the title.</summary>
         string Title { get; }

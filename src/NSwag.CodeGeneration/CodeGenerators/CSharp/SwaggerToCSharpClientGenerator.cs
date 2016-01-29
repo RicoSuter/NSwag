@@ -53,7 +53,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             return GenerateFile(_service, Resolver);
         }
 
-        internal override ClientGeneratorBaseSettings BaseSettings
+        internal override CodeGeneratorBaseSettings BaseSettings
         {
             get { return Settings; }
         }

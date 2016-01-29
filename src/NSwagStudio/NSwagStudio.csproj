@@ -109,16 +109,20 @@
     </ApplicationDefinition>
     <Compile Include="ISwaggerGenerator.cs" />
     <Compile Include="NSwagDocument.cs" />
+    <Compile Include="ViewModels\CodeGenerators\CSharpControllerGeneratorViewModel.cs" />
     <Compile Include="ViewModels\CodeGenerators\SwaggerGeneratorViewModel.cs" />
     <Compile Include="ViewModels\CodeGenerators\CSharpClientGeneratorViewModel.cs" />
     <Compile Include="ViewModels\DocumentViewModel.cs" />
     <Compile Include="ViewModels\SwaggerGenerators\AssemblySwaggerGeneratorViewModel.cs" />
     <Compile Include="ViewModels\SwaggerGenerators\WebApiSwaggerGeneratorViewModel.cs" />
     <Compile Include="ViewModels\MainWindowModel.cs" />
-    <Compile Include="IClientGenerator.cs" />
+    <Compile Include="ICodeGenerator.cs" />
     <Compile Include="ViewModels\CodeGenerators\TypeScriptClientGeneratorViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\AvalonEditBehavior.cs" />
+    <Compile Include="Views\CodeGenerators\CSharpControllerGeneratorView.xaml.cs">
+      <DependentUpon>CSharpControllerGeneratorView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CodeGenerators\CSharpClientGeneratorView.xaml.cs">
       <DependentUpon>CSharpClientGeneratorView.xaml</DependentUpon>
     </Compile>
@@ -150,6 +154,10 @@
     <Compile Include="Views\CodeGenerators\TypeScriptClientGeneratorView.xaml.cs">
       <DependentUpon>TypeScriptClientGeneratorView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\CodeGenerators\CSharpControllerGeneratorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\CodeGenerators\CSharpClientGeneratorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

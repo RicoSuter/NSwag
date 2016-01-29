@@ -5,7 +5,7 @@ using NSwagStudio.ViewModels.CodeGenerators;
 
 namespace NSwagStudio.Views.CodeGenerators
 {
-    public partial class TypeScriptClientGeneratorView : IClientGenerator
+    public partial class TypeScriptClientGeneratorView : ICodeGenerator
     {
         public TypeScriptClientGeneratorView(SwaggerToTypeScriptCommand command)
         {

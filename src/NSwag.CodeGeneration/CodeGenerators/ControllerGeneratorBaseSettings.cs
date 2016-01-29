@@ -11,7 +11,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
     /// <summary>Settings for the <see cref="ClientGeneratorBase"/>.</summary>
     public class ControllerGeneratorBaseSettings
     {
-        /// <summary>Initializes a new instance of the <see cref="ClientGeneratorBaseSettings"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="CodeGeneratorBaseSettings"/> class.</summary>
         public ControllerGeneratorBaseSettings()
         {
             GenerateDtoTypes = true;

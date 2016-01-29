@@ -38,10 +38,6 @@
                     <TextBlock Text="Additional Namespace Usages (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding AdditionalNamespaceUsages, Mode=TwoWay}" Margin="0,0,0,12" />
 
-                    <CheckBox IsChecked="{Binding Command.GenerateDtoTypes, Mode=TwoWay}" Margin="0,0,0,12">
-                        <TextBlock Text="Generate DTO Types (e.g. request and response classes)" TextWrapping="Wrap" />
-                    </CheckBox>
-
                     <CheckBox IsChecked="{Binding Command.RequiredPropertiesMustBeDefined, Mode=TwoWay}" Margin="0,0,0,12">
                         <TextBlock Text="Required properties must be defined in JSON (sets Required.Always when the property is required)" TextWrapping="Wrap" />
                     </CheckBox>
@@ -54,7 +50,11 @@
                     
                     <TextBlock Text="Generic Dictionary Type" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding Command.DictionaryType, Mode=TwoWay}" Margin="0,0,0,12" />
-
+                    
+                    <CheckBox IsChecked="{Binding Command.GenerateDtoTypes, Mode=TwoWay}" Margin="0,0,0,12">
+                        <TextBlock Text="Generate DTO Types (e.g. request and response classes)" TextWrapping="Wrap" />
+                    </CheckBox>
+                    
                     <GroupBox Header="Client" Margin="0,0,0,12">
                         <StackPanel Margin="4,4,4,-8">
                             <CheckBox IsChecked="{Binding Command.GenerateClientClasses, Mode=TwoWay}" 

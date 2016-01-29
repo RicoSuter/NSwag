@@ -1,4 +1,4 @@
-﻿public interface I<class>
+﻿public interface I<class>Controller
 {
 <operations:{operation | 
 <if(operation.HasSummary)>    /// \<summary><operation.Summary>\</summary><endif>
@@ -12,9 +12,9 @@
 
 public class <class>Controller : <if(hasClientBaseClass)><clientBaseClass><else>ApiController<endif>
 {
-    private I<class> _implementation; 
+    private I<class>Controller _implementation; 
 
-    public <class>Controller(I<class> implementation)
+    public <class>Controller(I<class>Controller implementation)
     {
         _implementation = implementation; 
     \}

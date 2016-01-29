@@ -46,7 +46,7 @@ namespace NSwagStudio.Views
 
         private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            foreach (var generatorView in Model.ClientGenerators.OfType<UserControl>()
+            foreach (var generatorView in Model.CodeGenerators.OfType<UserControl>()
                 .Concat(Model.SwaggerGenerators.OfType<UserControl>()))
             {
                 var vm = generatorView.Resources["ViewModel"] as ViewModelBase;

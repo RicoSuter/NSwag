@@ -23,7 +23,7 @@ namespace NSwag
                 processor.RegisterCommand<JsonSchemaToCSharpCommand>("jsonschema2csharp");
                 processor.RegisterCommand<JsonSchemaToTypeScriptCommand>("jsonschema2typescript");
                 
-                processor.RegisterCommand<SwaggerToCSharpCommand>("swagger2csharp");
+                processor.RegisterCommand<SwaggerToCSharpClientCommand>("swagger2csharp");
                 processor.RegisterCommand<SwaggerToTypeScriptCommand>("swagger2typescript");
 
                 processor.Process(args);

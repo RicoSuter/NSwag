@@ -17,7 +17,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
     /// <summary>The client generator base.</summary>
     public abstract class ClientGeneratorBase : GeneratorBase
     {
-        internal abstract ClientGeneratorBaseSettings BaseSettings { get; }
+        internal abstract CodeGeneratorBaseSettings BaseSettings { get; }
 
         internal abstract string RenderFile(string clientCode);
 

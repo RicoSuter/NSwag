@@ -52,7 +52,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             return GenerateFile(_service, Resolver);
         }
 
-        internal override ClientGeneratorBaseSettings BaseSettings
+        internal override CodeGeneratorBaseSettings BaseSettings
         {
             get { return Settings; }
         }
@@ -73,8 +73,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             var template = LoadTemplate("Controller");
             template.Add("class", Settings.ClassName.Replace("{controller}", ConvertToUpperStartIdentifier(controllerName)));
 
-            var hasClientBaseClass = !string.IsNullOrEmpty(Settings.ClientBaseClass); 
-            template.Add("clientBaseClass", Settings.ClientBaseClass);
+            var hasClientBaseClass = !string.IsNullOrEmpty(Settings.ControllerBaseClass); 
+            template.Add("clientBaseClass", Settings.ControllerBaseClass);
             template.Add("hasClientBaseClass", hasClientBaseClass);
 
             template.Add("baseUrl", _service.BaseUrl);

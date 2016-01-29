@@ -19,7 +19,7 @@ namespace NSwagStudio.ViewModels.CodeGenerators
     public class CSharpClientGeneratorViewModel : ViewModelBase
     {
         private string _clientCode;
-        private SwaggerToCSharpCommand _command = new SwaggerToCSharpCommand();
+        private SwaggerToCSharpClientCommand _command = new SwaggerToCSharpClientCommand();
 
         public bool ShowSettings
         {
@@ -28,7 +28,7 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         }
 
         /// <summary>Gets the settings.</summary>
-        public SwaggerToCSharpCommand Command
+        public SwaggerToCSharpClientCommand Command
         {
             get { return _command; }
             set

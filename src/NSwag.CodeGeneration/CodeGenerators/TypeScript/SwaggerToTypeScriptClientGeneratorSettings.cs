@@ -9,7 +9,7 @@
 namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 {
     /// <summary>Settings for the <see cref="SwaggerToTypeScriptClientGenerator"/>.</summary>
-    public class SwaggerToTypeScriptClientGeneratorSettings : ClientGeneratorBaseSettings
+    public class SwaggerToTypeScriptClientGeneratorSettings : CodeGeneratorBaseSettings
     {
         /// <summary>Initializes a new instance of the <see cref="SwaggerToTypeScriptClientGeneratorSettings"/> class.</summary>
         public SwaggerToTypeScriptClientGeneratorSettings()
