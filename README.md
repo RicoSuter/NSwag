@@ -31,8 +31,9 @@ NSwag is a Swagger 2.0 API toolchain for .NET, TypeScript and other platforms, w
 - **CSharp Client**
 	- [SwaggerToCSharpClientGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToCSharpClientGenerator)
 	- With [INotifyPropertyChanged](https://msdn.microsoft.com/en-us/library/system.componentmodel.inotifypropertychanged(v=vs.110).aspx) supporting DTOs
-- **CSharp WebAPI Controllers** (coming soon)
+- **CSharp WebAPI Controllers**
 	- [SwaggerToCSharpControllerGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToCSharpControllerGenerator)
+             - Generates Web API Controllers based on a Swagger specification
 
 **Downloads**
 
