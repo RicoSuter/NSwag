@@ -14,6 +14,7 @@
     <UserControl.Resources>
         <codeGenerators:TypeScriptClientGeneratorViewModel x:Key="ViewModel" />
         <converters:VisibilityConverter x:Key="VisibilityConverter" />
+        <converters:EqualityConverter x:Key="EqualityConverter" />
     </UserControl.Resources>
 
     <Grid Margin="8" DataContext="{StaticResource ViewModel}">
@@ -53,6 +54,12 @@
                                 <TextBlock Text="Template" FontWeight="Bold" Margin="0,0,0,6" />
                                 <ComboBox SelectedItem="{Binding Command.Template, Mode=TwoWay}" 
                                       ItemsSource="{Binding Templates}" Margin="0,0,0,12" />
+
+                                <StackPanel Visibility="{Binding Command.Template, ConverterParameter='JQueryPromises', Converter={StaticResource EqualityConverter}}">
+                                    <TextBlock Text="Promise Type" FontWeight="Bold" Margin="0,0,0,6" />
+                                    <ComboBox SelectedItem="{Binding Command.PromiseType, Mode=TwoWay}" 
+                                              ItemsSource="{Binding PromiseTypes}" Margin="0,0,0,12" />
+                                </StackPanel>
 
                                 <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
                                 <Run Text="Operation Generation Mode" FontWeight="Bold" />

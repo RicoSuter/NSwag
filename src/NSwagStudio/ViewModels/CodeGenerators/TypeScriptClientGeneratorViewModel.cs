@@ -45,10 +45,16 @@ namespace NSwagStudio.ViewModels.CodeGenerators
             get { return Enum.GetNames(typeof(TypeScriptTemplate)).Select(t => (TypeScriptTemplate)Enum.Parse(typeof(TypeScriptTemplate), t)).ToArray(); }
         }
         
-        /// <summary>Gets the async types. </summary>
+        /// <summary>Gets the operation modes. </summary>
         public OperationGenerationMode[] OperationGenerationModes
         {
             get { return Enum.GetNames(typeof(OperationGenerationMode)).Select(t => (OperationGenerationMode)Enum.Parse(typeof(OperationGenerationMode), t)).ToArray(); }
+        }
+
+        /// <summary>Gets the promise types. </summary>
+        public PromiseType[] PromiseTypes
+        {
+            get { return Enum.GetNames(typeof(PromiseType)).Select(t => (PromiseType)Enum.Parse(typeof(PromiseType), t)).ToArray(); }
         }
 
         /// <summary>Gets or sets the client code. </summary>

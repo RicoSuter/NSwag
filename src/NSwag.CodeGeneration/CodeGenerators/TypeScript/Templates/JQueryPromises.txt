@@ -8,7 +8,7 @@ export interface I<class> {
 <if(parameter.HasDescriptionOrIsOptional)>     * @<parameter.VariableNameLower><if(parameter.IsOptional)> (optional)<endif> <parameter.Description><endif>}>
 <if(operation.HasResultDescription)>     * @return <operation.ResultDescription><endif>
      */
-<endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.VariableNameLower>: <parameter.Type><if(!parameter.IsLast)>,<endif> }>): Q.Promise\<<operation.ResultType>>;
+<endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.VariableNameLower>: <parameter.Type><if(!parameter.IsLast)>,<endif> }>): <promiseType>\<<operation.ResultType>>;
 }>}
 <endif>
 
@@ -27,8 +27,8 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
 <if(parameter.HasDescriptionOrIsOptional)>     * @<parameter.VariableNameLower><if(parameter.IsOptional)> (optional)<endif> <parameter.Description><endif>}>
 <if(operation.HasResultDescription)>     * @return <operation.ResultDescription><endif>
      */
-<endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.VariableNameLower>: <parameter.Type><if(!parameter.IsLast)>,<endif> }>): Q.Promise\<<operation.ResultType>> {
-        return Q.Promise\<<operation.ResultType>>((resolve, reject) => {
+<endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.VariableNameLower>: <parameter.Type><if(!parameter.IsLast)>,<endif> }>): <promiseType>\<<operation.ResultType>> {
+        return <promiseConstructor>\<<operation.ResultType>>((resolve, reject) => {
             this.<operation.OperationNameLower>WithCallbacks(<operation.Parameters:{parameter | <parameter.VariableNameLower>, }>(result) => resolve(result), (exception, reason) => reject(exception));
         \});
     \}

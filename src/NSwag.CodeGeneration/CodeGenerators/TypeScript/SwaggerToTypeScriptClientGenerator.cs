@@ -75,14 +75,16 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         internal override string RenderClientCode(string controllerName, IEnumerable<OperationModel> operations)
         {
             var template = LoadTemplate(Settings.Template.ToString());
-            //var template = LoadTemplate(Settings.Template == TypeScriptTemplate.AngularJS ?  "AngularJS" : "JQuery");
 
             template.Add("class", Settings.ClassName.Replace("{controller}", ConvertToUpperStartIdentifier(controllerName)));
             template.Add("operations", operations);
-            template.Add("renderPromises", Settings.Template == TypeScriptTemplate.JQueryQPromises);
             template.Add("generateClientInterfaces", Settings.GenerateClientInterfaces);
             template.Add("hasOperations", operations.Any());
             template.Add("baseUrl", _service.BaseUrl);
+
+            template.Add("promiseType", Settings.PromiseType == PromiseType.Promise ? "Promise" : "Q.Promise");
+            template.Add("promiseConstructor", Settings.PromiseType == PromiseType.Promise ? "new Promise" : "Q.Promise");
+
             return template.Render();
         }
 
@@ -94,7 +96,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             return string.Join(" | ", operation.Responses
                 .Where(r => !HttpUtilities.IsSuccessStatusCode(r.Key) && r.Value.Schema != null)
                 .Select(r => GetType(r.Value.Schema.ActualSchema, "Exception"))
-                .Concat(new [] { "string" }));
+                .Concat(new[] { "string" }));
         }
 
         internal override string GetResultType(SwaggerOperation operation)

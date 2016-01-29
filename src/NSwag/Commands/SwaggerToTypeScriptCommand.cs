@@ -43,6 +43,14 @@ namespace NSwag.Commands
             set { Settings.Template = value; }
         }
 
+        [Description("The promise type ('Promise' or 'QPromise').")]
+        [Argument(Name = "PromiseType", DefaultValue = "Promise")]
+        public PromiseType PromiseType
+        {
+            get { return Settings.PromiseType; }
+            set { Settings.PromiseType = value; }
+        }
+
         [Description("Specifies whether generate client classes.")]
         [Argument(Name = "GenerateClientClasses", DefaultValue = true)]
         public bool GenerateClientClasses

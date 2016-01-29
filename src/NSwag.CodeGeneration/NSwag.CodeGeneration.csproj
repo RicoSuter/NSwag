@@ -69,6 +69,7 @@
     <Compile Include="CodeGenerators\ClientGeneratorBase.cs" />
     <Compile Include="CodeGenerators\OperationGenerationMode.cs" />
     <Compile Include="CodeGenerators\ClientGeneratorBaseSettings.cs" />
+    <Compile Include="CodeGenerators\TypeScript\PromiseType.cs" />
     <Compile Include="CodeGenerators\TypeScript\SwaggerToTypeScriptClientGeneratorSettings.cs" />
     <Compile Include="CodeGenerators\TypeScript\TypeScriptTemplate.cs" />
     <Compile Include="CodeGenerators\TypeScript\SwaggerToTypeScriptClientGenerator.cs" />
@@ -114,7 +115,7 @@
     <EmbeddedResource Include="CodeGenerators\TypeScript\Templates\AngularJS.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="CodeGenerators\TypeScript\Templates\JQueryQPromises.txt" />
+    <EmbeddedResource Include="CodeGenerators\TypeScript\Templates\JQueryPromises.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CodeGenerators\CSharp\Templates\Controller.txt" />
