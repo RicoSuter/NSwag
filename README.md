@@ -64,6 +64,6 @@ Check out the [project Wiki](https://github.com/NSwag/NSwag/wiki) for more infor
 
 ### NSwagStudio
 
-The generators can be used in a confortable and simple Windows GUI called NSwagStudio: 
+The generators can be used in a comfortable and simple Windows GUI called NSwagStudio: 
 
 [![](https://raw.githubusercontent.com/NSwag/NSwag/master/assets/screenshots/03_WebAPI_CSharp.png)](https://raw.githubusercontent.com/NSwag/NSwag/master/assets/screenshots/03_WebAPI_CSharp.png)
