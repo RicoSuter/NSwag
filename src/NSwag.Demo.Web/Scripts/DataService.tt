@@ -22,7 +22,7 @@
         AssemblyPath = Path.GetFullPath(Path.GetDirectoryName(Host.TemplateFile) + assemblyPath), 
         DefaultUrlTemplate = defaultUrlTemplate
     });
-    var service = generator.GenerateForSingleController(controllerClass);
+    var service = generator.GenerateForController(controllerClass);
 
     // -------------
 

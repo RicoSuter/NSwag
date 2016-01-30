@@ -18,6 +18,9 @@ namespace NSwag.Commands.Base
         {
             get
             {
+                if (string.IsNullOrEmpty(Input))
+                    return null; 
+
                 if (IsJson)
                     return SwaggerService.FromJson(Input);
 
@@ -44,9 +47,6 @@ namespace NSwag.Commands.Base
             }
         }
 
-        private bool IsJson
-        {
-            get { return Input.Contains("{"); }
-        }
+        private bool IsJson => !string.IsNullOrEmpty(Input) && Input.Contains("{");
     }
 }

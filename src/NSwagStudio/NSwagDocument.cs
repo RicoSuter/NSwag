@@ -29,7 +29,7 @@ namespace NSwagStudio
 
             SwaggerToTypeScriptCommand = new SwaggerToTypeScriptCommand();
             SwaggerToCSharpClientCommand = new SwaggerToCSharpClientCommand();
-            SwaggerToCSharpControllerCommand = new SwaggerToCSharpControllerCommand();
+            SwaggerToCSharpWebApiControllerCommand = new SwaggerToCSharpWebApiControllerCommand();
         }
 
         public static NSwagDocument LoadDocument(string filePath)
@@ -42,6 +42,7 @@ namespace NSwagStudio
             // Legacy file support
             if (document.SwaggerToCSharpClientCommand.DateTimeType == "0")
                 document.SwaggerToCSharpClientCommand.DateTimeType = "DateTime";
+            document.WebApiToSwaggerCommand.ControllerName = "";
 
             return document;
         }
@@ -111,8 +112,8 @@ namespace NSwagStudio
         [JsonProperty("SwaggerToCSharpClientCommand")]
         public SwaggerToCSharpClientCommand SwaggerToCSharpClientCommand { get; set; }
 
-        [JsonProperty("SwaggerToCSharpControllerCommand")]
-        public SwaggerToCSharpControllerCommand SwaggerToCSharpControllerCommand { get; set; }
+        [JsonProperty("SwaggerToCSharpWebApiControllerCommand")]
+        public SwaggerToCSharpWebApiControllerCommand SwaggerToCSharpWebApiControllerCommand { get; set; }
 
         public void Save()
         {

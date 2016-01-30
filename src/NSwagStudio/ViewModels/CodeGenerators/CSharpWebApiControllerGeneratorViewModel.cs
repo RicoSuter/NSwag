@@ -16,10 +16,10 @@ using NSwag.Commands;
 
 namespace NSwagStudio.ViewModels.CodeGenerators
 {
-    public class CSharpControllerGeneratorViewModel : ViewModelBase
+    public class CSharpWebApiControllerGeneratorViewModel : ViewModelBase
     {
         private string _clientCode;
-        private SwaggerToCSharpControllerCommand _command = new SwaggerToCSharpControllerCommand();
+        private SwaggerToCSharpWebApiControllerCommand _command = new SwaggerToCSharpWebApiControllerCommand();
 
         public bool ShowSettings
         {
@@ -28,7 +28,7 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         }
 
         /// <summary>Gets the settings.</summary>
-        public SwaggerToCSharpControllerCommand Command
+        public SwaggerToCSharpWebApiControllerCommand Command
         {
             get { return _command; }
             set

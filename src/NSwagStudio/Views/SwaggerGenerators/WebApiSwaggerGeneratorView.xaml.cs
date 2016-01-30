@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using MyToolkit.Mvvm;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 using NSwag.Commands;
@@ -14,7 +16,11 @@ namespace NSwagStudio.Views.SwaggerGenerators
         {
             InitializeComponent();
             ViewModelHelper.RegisterViewModel(Model, this);
-            Model.Command = command; 
+            Model.Command = command;
+
+            ControllersList.SelectedItems.Clear();
+            foreach (var controller in Model.Command.ControllerNames)
+                ControllersList.SelectedItems.Add(controller);
         }
 
         private WebApiSwaggerGeneratorViewModel Model { get { return (WebApiSwaggerGeneratorViewModel)Resources["ViewModel"]; } }
@@ -29,6 +35,11 @@ namespace NSwagStudio.Views.SwaggerGenerators
         public override string ToString()
         {
             return Title;
+        }
+
+        private void ControllersListSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Model.ControllerNames = ((ListBox) sender).SelectedItems.OfType<string>().ToArray();
         }
     }
 }

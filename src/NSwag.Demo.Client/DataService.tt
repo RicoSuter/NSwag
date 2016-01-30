@@ -23,7 +23,7 @@
         DefaultUrlTemplate = defaultUrlTemplate, 
         
     });
-    var service = generator.GenerateForSingleController(controllerClass);
+    var service = generator.GenerateForController(controllerClass);
 
     // -------------
 

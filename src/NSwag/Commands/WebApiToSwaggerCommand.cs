@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using NConsole;
 using Newtonsoft.Json;
@@ -14,6 +16,7 @@ namespace NSwag.Commands
         public WebApiToSwaggerCommand()
         {
             Settings = new WebApiAssemblyToSwaggerGeneratorSettings();
+            ControllerNames = new string[] { };
         }
 
         [JsonIgnore]
@@ -30,6 +33,10 @@ namespace NSwag.Commands
         [Description("The Web API controller full class name or empty to load all controllers from the assembly.")]
         [Argument(Name = "Controller", DefaultValue = null)]
         public string ControllerName { get; set; }
+
+        [Description("The Web API controller full class names or empty to load all controllers from the assembly.")]
+        [Argument(Name = "Controllers", DefaultValue = new string[] { })]
+        public IEnumerable<string> ControllerNames { get; set; }
 
         [Description("The Web API default URL template.")]
         [Argument(Name = "DefaultUrlTemplate", DefaultValue = "api/{controller}/{action}/{id}")]
@@ -64,10 +71,15 @@ namespace NSwag.Commands
         {
             var generator = new WebApiAssemblyToSwaggerGenerator(Settings);
 
-            var service = string.IsNullOrEmpty(ControllerName)
-                ? generator.GenerateForAssemblyControllers()
-                : generator.GenerateForSingleController(ControllerName);
+            var controllerNames = ControllerNames.ToList(); 
+            if (!string.IsNullOrEmpty(ControllerName))
+                controllerNames.Add(ControllerName);
 
+            controllerNames = controllerNames.Distinct().ToList();
+            if (!controllerNames.Any())
+                controllerNames = generator.GetControllerClasses().ToList();
+
+            var service = generator.GenerateForControllers(controllerNames);
             return service.ToJson();
         }
     }

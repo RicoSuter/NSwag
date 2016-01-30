@@ -8,11 +8,11 @@
 
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp
 {
-    /// <summary>Settings for the <see cref="SwaggerToCSharpControllerGenerator"/>.</summary>
-    public class SwaggerToCSharpControllerGeneratorSettings : SwaggerToCSharpGeneratorSettings
+    /// <summary>Settings for the <see cref="SwaggerToCSharpWebApiControllerGenerator"/>.</summary>
+    public class SwaggerToCSharpWebApiControllerGeneratorSettings : SwaggerToCSharpGeneratorSettings
     {
-        /// <summary>Initializes a new instance of the <see cref="SwaggerToCSharpControllerGeneratorSettings"/> class.</summary>
-        public SwaggerToCSharpControllerGeneratorSettings()
+        /// <summary>Initializes a new instance of the <see cref="SwaggerToCSharpWebApiControllerGeneratorSettings"/> class.</summary>
+        public SwaggerToCSharpWebApiControllerGeneratorSettings()
         {
             ClassName = "{controller}";
             CSharpGeneratorSettings.ArrayType = "IEnumerable";

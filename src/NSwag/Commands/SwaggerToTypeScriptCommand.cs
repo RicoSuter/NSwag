@@ -35,7 +35,7 @@ namespace NSwag.Commands
             set { Settings.ModuleName = value; }
         }
 
-        [Description("The type of the asynchronism handling ('JQueryCallbacks', 'JQueryQPromises', 'AngularJS').")]
+        [Description("The type of the asynchronism handling ('JQueryCallbacks', 'JQueryPromises', 'AngularJS').")]
         [Argument(Name = "Template", DefaultValue = TypeScriptTemplate.JQueryCallbacks)]
         public TypeScriptTemplate Template
         {

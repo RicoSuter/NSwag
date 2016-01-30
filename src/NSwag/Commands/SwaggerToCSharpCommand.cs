@@ -26,7 +26,7 @@ namespace NSwag.Commands
         }
 
         [Description("The additional namespace usages.")]
-        [Argument(Name = "AdditionalNamespaceUsages", DefaultValue = null)]
+        [Argument(Name = "AdditionalNamespaceUsages", DefaultValue = new string[] {})]
         public string[] AdditionalNamespaceUsages
         {
             get { return Settings.AdditionalNamespaceUsages; }
@@ -72,8 +72,7 @@ namespace NSwag.Commands
             get { return Settings.CSharpGeneratorSettings.DictionaryType; }
             set { Settings.CSharpGeneratorSettings.DictionaryType = value; }
         }
-
-
+        
         [Description("The operation generation mode ('SingleClientFromOperationId' or 'MultipleClientsFromPathSegments').")]
         [Argument(Name = "OperationGenerationMode", DefaultValue = OperationGenerationMode.SingleClientFromOperationId)]
         public OperationGenerationMode OperationGenerationMode

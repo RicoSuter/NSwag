@@ -20,11 +20,12 @@ namespace NSwag
 
                 processor.RegisterCommand<WebApiToSwaggerCommand>("webapi2swagger");
 
-                processor.RegisterCommand<JsonSchemaToCSharpCommand>("jsonschema2csharp");
-                processor.RegisterCommand<JsonSchemaToTypeScriptCommand>("jsonschema2typescript");
+                processor.RegisterCommand<JsonSchemaToCSharpCommand>("jsonschema2csclient");
+                processor.RegisterCommand<JsonSchemaToTypeScriptCommand>("jsonschema2tsclient");
                 
-                processor.RegisterCommand<SwaggerToCSharpClientCommand>("swagger2csharp");
-                processor.RegisterCommand<SwaggerToTypeScriptCommand>("swagger2typescript");
+                processor.RegisterCommand<SwaggerToCSharpClientCommand>("swagger2csclient");
+                processor.RegisterCommand<SwaggerToCSharpWebApiControllerCommand>("swagger2cscontroller");
+                processor.RegisterCommand<SwaggerToTypeScriptCommand>("swagger2tsclient");
 
                 processor.Process(args);
             }

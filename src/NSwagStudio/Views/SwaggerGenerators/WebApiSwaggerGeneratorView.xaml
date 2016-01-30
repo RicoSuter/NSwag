@@ -41,21 +41,44 @@
         </Grid>
         <TextBlock Text="{Binding AssemblyName, Mode=OneWay}" TextWrapping="Wrap" Margin="0,-6,0,12" />
 
-        <TextBlock Text="Web API Controller" FontWeight="Bold" Margin="0,0,0,6" />
-        <TextBlock Visibility="{Binding SpecifyControllerName, Converter={StaticResource NotConverter}}"
-                   Margin="0,0,0,12">
-            <Run Text="Using all" />
-            <Run Text="{Binding AllControllerNames.Length, Mode=OneWay}" />
-            <Run Text="controllers" />
-        </TextBlock>
-        <TextBlock Visibility="{Binding SpecifyControllerName, Converter={StaticResource VisibilityConverter}}"
-                   Text="{Binding ControllerName}" Margin="0,0,0,12" />
-        
-        <CheckBox IsChecked="{Binding SpecifyControllerName, Mode=TwoWay}"
-                  Margin="0,0,0,6" Content="Use single controller"/>
-        <ComboBox Visibility="{Binding SpecifyControllerName, Converter={StaticResource VisibilityConverter}}"
-                  SelectedItem="{Binding ControllerName, Mode=TwoWay}" Margin="0,0,0,6"
-                  ItemsSource="{Binding AllControllerNames}" />
+        <TextBlock Text="Web API Controller Names" FontWeight="Bold" Margin="0,0,0,6" />
+        <ListBox ItemsSource="{Binding AllControllerNames}" x:Name="ControllersList" MaxHeight="300"
+                 SelectionChanged="ControllersListSelectionChanged" BorderThickness="0" Padding="0"
+                 SelectionMode="Multiple">
+            <ListBox.Resources>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="HorizontalContentAlignment" 
+                            Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                    <Setter Property="VerticalContentAlignment" 
+                            Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Margin" Value="0"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" 
+                                        Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.Resources>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox Content="{Binding}" Margin="0,0,0,4"
+                              IsChecked="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}">
+                        <CheckBox.LayoutTransform>
+                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                        </CheckBox.LayoutTransform>
+                    </CheckBox>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
         <TextBlock Margin="0,6,0,6" TextWrapping="Wrap">
             <Run Text="Default Enum Handling" FontWeight="Bold" />

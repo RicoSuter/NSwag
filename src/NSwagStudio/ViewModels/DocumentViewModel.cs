@@ -79,7 +79,7 @@ namespace NSwagStudio.ViewModels
                 new SwaggerGeneratorView(),
                 new TypeScriptClientGeneratorView(Document.SwaggerToTypeScriptCommand),
                 new CSharpClientGeneratorView(Document.SwaggerToCSharpClientCommand),
-                new CSharpControllerGeneratorView(Document.SwaggerToCSharpControllerCommand)
+                new CSharpWebApiControllerGeneratorView(Document.SwaggerToCSharpWebApiControllerCommand)
             };
 
             RaisePropertyChanged(() => SwaggerGenerators);

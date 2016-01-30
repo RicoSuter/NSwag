@@ -6,13 +6,12 @@ using NSwag.CodeGeneration.CodeGenerators.CSharp;
 namespace NSwag.Commands
 {
     [Description("Generates CSharp Web API controller code from a Swagger specification.")]
-    public class SwaggerToCSharpControllerCommand : SwaggerToCSharpCommand<SwaggerToCSharpControllerGeneratorSettings>
+    public class SwaggerToCSharpWebApiControllerCommand : SwaggerToCSharpCommand<SwaggerToCSharpWebApiControllerGeneratorSettings>
     {
-        public SwaggerToCSharpControllerCommand() : base(new SwaggerToCSharpControllerGeneratorSettings())
+        public SwaggerToCSharpWebApiControllerCommand() : base(new SwaggerToCSharpWebApiControllerGeneratorSettings())
         {
         }
-
-
+        
         [Description("The controller base class (empty for 'ApiController').")]
         [Argument(Name = "ControllerBaseClass", DefaultValue = "")]
         public string ControllerBaseClass
@@ -29,7 +28,7 @@ namespace NSwag.Commands
 
         public async Task<string> RunAsync()
         {
-            var clientGenerator = new SwaggerToCSharpControllerGenerator(InputSwaggerService, Settings);
+            var clientGenerator = new SwaggerToCSharpWebApiControllerGenerator(InputSwaggerService, Settings);
             return clientGenerator.GenerateFile();
         }
     }

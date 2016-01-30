@@ -63,7 +63,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <param name="excludedMethodName">The name of the excluded method name.</param>
         /// <returns>The <see cref="SwaggerService" />.</returns>
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
-        public SwaggerService GenerateForControllers(Type[] controllerTypes, string excludedMethodName = "Swagger")
+        public SwaggerService GenerateForControllers(IEnumerable<Type> controllerTypes, string excludedMethodName = "Swagger")
         {
             var service = new SwaggerService();
             var schemaResolver = new SchemaResolver();

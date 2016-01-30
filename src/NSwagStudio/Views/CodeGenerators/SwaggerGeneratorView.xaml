@@ -19,6 +19,7 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
+        
         <TextBlock Text="Swagger Specification (JSON):" FontWeight="Bold" Margin="0,0,0,8"  />
         <Border Grid.Row="1" Margin="-8,0,-8,-8" BorderThickness="0,1,0,0" BorderBrush="LightGray">
             <avalonedit:TextEditor Padding="8" Background="GhostWhite" FontFamily="Consolas" IsReadOnly="True" 

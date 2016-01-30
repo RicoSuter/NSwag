@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -78,28 +79,14 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             get { return Path.GetFileName(AssemblyPath); }
         }
 
-        /// <summary>Gets or sets a value indicating whether to specify a single controller name. </summary>
-        public bool SpecifyControllerName
-        {
-            get { return Command.ControllerName != null; }
-            set
-            {
-                if (value != SpecifyControllerName)
-                    ControllerName = value ? AllControllerNames.FirstOrDefault() : null;
-
-                RaisePropertyChanged(() => SpecifyControllerName);
-            }
-        }
-
         /// <summary>Gets or sets the class name. </summary>
-        public string ControllerName
+        public IEnumerable<string> ControllerNames
         {
-            get { return Command.ControllerName; }
+            get { return Command.ControllerNames; }
             set
             {
-                Command.ControllerName = value;
-                RaisePropertyChanged(() => ControllerName);
-                RaisePropertyChanged(() => SpecifyControllerName);
+                Command.ControllerNames = value;
+                RaisePropertyChanged(() => ControllerNames);
             }
         }
 
@@ -140,11 +127,18 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
                     return generator.GetControllerClasses();
                 });
 
-                if (updateSelectedController)
+                if (ControllerNames != null)
                 {
-                    if (ControllerName != null && !AllControllerNames.Contains(ControllerName))
-                        ControllerName = AllControllerNames.FirstOrDefault();
+                    var newControllerNames = ControllerNames.ToList();
+                    foreach (var controller in newControllerNames.ToArray())
+                    {
+                        if (!AllControllerNames.Contains(controller))
+                            newControllerNames.Remove(controller);
+                    }
+                    ControllerNames = newControllerNames.ToArray();
                 }
+                else
+                    ControllerNames = new string[] { };
             });
         }
     }

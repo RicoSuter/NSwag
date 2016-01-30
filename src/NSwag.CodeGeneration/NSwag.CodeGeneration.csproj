@@ -76,8 +76,8 @@
     <Compile Include="CodeGenerators\TypeScript\SwaggerToTypeScriptClientGenerator.cs" />
     <Compile Include="Infrastructure\AppDomainIsolation.cs" />
     <Compile Include="Infrastructure\ReflectionExtensions.cs" />
-    <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpControllerGenerator.cs" />
-    <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpControllerGeneratorSettings.cs" />
+    <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpWebApiControllerGenerator.cs" />
+    <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpWebApiControllerGeneratorSettings.cs" />
     <Compile Include="SwaggerGenerators\RootTypeJsonSchemaGenerator.cs" />
     <Compile Include="SwaggerGenerators\WebApi\AssemblyTypeToSwaggerGenerator.cs" />
     <Compile Include="SwaggerGenerators\WebApi\AssemblyTypeToSwaggerGeneratorSettings.cs" />
@@ -119,7 +119,7 @@
     <EmbeddedResource Include="CodeGenerators\TypeScript\Templates\JQueryPromises.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="CodeGenerators\CSharp\Templates\Controller.txt" />
+    <EmbeddedResource Include="CodeGenerators\CSharp\Templates\WebApiController.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
