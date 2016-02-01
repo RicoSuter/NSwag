@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using NConsole;
+using NJsonSchema.CodeGeneration.CSharp;
 using NSwag.CodeGeneration.CodeGenerators;
 using NSwag.CodeGeneration.CodeGenerators.CSharp;
 using NSwag.Commands.Base;
@@ -72,7 +73,15 @@ namespace NSwag.Commands
             get { return Settings.CSharpGeneratorSettings.DictionaryType; }
             set { Settings.CSharpGeneratorSettings.DictionaryType = value; }
         }
-        
+
+        [Description("The CSharp class style, 'Poco' or 'Inpc' (default: 'Poco').")]
+        [Argument(Name = "ClassStyle", DefaultValue = "Poco")]
+        public CSharpClassStyle ClassStyle
+        {
+            get { return Settings.CSharpGeneratorSettings.ClassStyle; }
+            set { Settings.CSharpGeneratorSettings.ClassStyle = value; }
+        }
+
         [Description("The operation generation mode ('SingleClientFromOperationId' or 'MultipleClientsFromPathSegments').")]
         [Argument(Name = "OperationGenerationMode", DefaultValue = OperationGenerationMode.SingleClientFromOperationId)]
         public OperationGenerationMode OperationGenerationMode

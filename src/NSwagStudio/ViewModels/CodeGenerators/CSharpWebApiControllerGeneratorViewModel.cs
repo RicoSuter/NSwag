@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using MyToolkit.Storage;
+using NJsonSchema.CodeGeneration.CSharp;
 using NSwag.CodeGeneration.CodeGenerators;
 using NSwag.Commands;
 
@@ -48,7 +49,18 @@ namespace NSwagStudio.ViewModels.CodeGenerators
                     .ToArray();
             }
         }
-        
+
+        /// <summary>Gets the list of class styles. </summary>
+        public CSharpClassStyle[] ClassStyles
+        {
+            get
+            {
+                return Enum.GetNames(typeof(CSharpClassStyle))
+                    .Select(t => (CSharpClassStyle)Enum.Parse(typeof(CSharpClassStyle), t))
+                    .ToArray();
+            }
+        }
+
         /// <summary>Gets or sets the namespace usages (comma separated). </summary>
         public string AdditionalNamespaceUsages
         {

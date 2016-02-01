@@ -8,8 +8,7 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:views="clr-namespace:NSwagStudio.Views"
              xmlns:codeGenerators="clr-namespace:NSwagStudio.ViewModels.CodeGenerators"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
 
     <UserControl.Resources>
         <codeGenerators:TypeScriptClientGeneratorViewModel x:Key="ViewModel" />
@@ -37,7 +36,7 @@
                     <TextBox Text="{Binding Command.ModuleName, Mode=TwoWay}" Margin="0,0,0,12" />
 
                     <CheckBox IsChecked="{Binding Command.GenerateDtoTypes, Mode=TwoWay}" 
-                          Content="Generate DTO Types (e.g. request and response classes)" Margin="0,0,0,12" />
+                              Content="Generate DTO interfaces (e.g. request and response types)" Margin="0,0,0,12" />
 
                     <GroupBox Header="Client" Margin="0,0,0,12">
                         <StackPanel Margin="4,4,4,-8">
@@ -52,9 +51,9 @@
                                 <TextBox Text="{Binding Command.ClassName, Mode=TwoWay}" Margin="0,0,0,12" />
 
                                 <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
-                                <Run Text="Operation Generation Mode" FontWeight="Bold" />
-                                <LineBreak />
-                                The {controller} placeholder of the Class Name is replaced by the second last path segment.
+                                    <Run Text="Operation Generation Mode" FontWeight="Bold" />
+                                    <LineBreak />
+                                    The {controller} placeholder of the Class Name is replaced by the second last path segment.
                                 </TextBlock>
                                 <ComboBox SelectedItem="{Binding Command.OperationGenerationMode, Mode=TwoWay}" 
                                       ItemsSource="{Binding OperationGenerationModes}" Margin="0,0,0,12" />
@@ -74,7 +73,6 @@
                 </StackPanel>
             </Expander>
         </Border>
-        <!--<TextBlock Text="TypeScript Output:" FontWeight="Bold" Margin="0,0,0,6" Grid.Row="1" />-->
 
         <Border Grid.Row="2" Margin="-8,-8,-8,-8" BorderThickness="0,1,0,0" BorderBrush="LightGray">
             <avalonedit:TextEditor Background="GhostWhite" FontFamily="Consolas" IsReadOnly="True"

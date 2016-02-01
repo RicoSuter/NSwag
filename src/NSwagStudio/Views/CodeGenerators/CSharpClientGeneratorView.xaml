@@ -23,7 +23,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Border MaxHeight="600" Margin="-10,-10,-10,6" BorderThickness="0,0,0,1" BorderBrush="LightGray">
+        <Border MaxHeight="550" Margin="-10,-10,-10,6" BorderThickness="0,0,0,1" BorderBrush="LightGray">
             <Expander Margin="8" IsExpanded="{Binding ShowSettings, Mode=TwoWay}">
                 <Expander.HeaderTemplate>
                     <DataTemplate>
@@ -31,35 +31,15 @@
                     </DataTemplate>
                 </Expander.HeaderTemplate>
 
-                <ScrollViewer>
-                    <StackPanel Margin="0,8,0,-8">
+                <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Hidden" Margin="-8,0,-8,-8">
+                    <StackPanel Margin="8,8,8,0">
                         <TextBlock Text="Namespace" FontWeight="Bold" Margin="0,0,0,6" />
                         <TextBox Text="{Binding Command.Namespace, Mode=TwoWay}" Margin="0,0,0,12" />
 
-                        <TextBlock Text="Additional Namespace Usages (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
-                        <TextBox Text="{Binding AdditionalNamespaceUsages, Mode=TwoWay}" Margin="0,0,0,12" />
-
-                        <CheckBox IsChecked="{Binding Command.RequiredPropertiesMustBeDefined, Mode=TwoWay}" Margin="0,0,0,12">
-                            <TextBlock Text="Required properties must be defined in JSON (sets Required.Always when the property is required)" TextWrapping="Wrap" />
-                        </CheckBox>
-
-                        <TextBlock Text="Date Time Type" FontWeight="Bold" Margin="0,0,0,6" />
-                        <TextBox Text="{Binding Command.DateTimeType, Mode=TwoWay}" Margin="0,0,0,12" />
-
-                        <TextBlock Text="Generic Array Type" FontWeight="Bold" Margin="0,0,0,6" />
-                        <TextBox Text="{Binding Command.ArrayType, Mode=TwoWay}" Margin="0,0,0,12" />
-
-                        <TextBlock Text="Generic Dictionary Type" FontWeight="Bold" Margin="0,0,0,6" />
-                        <TextBox Text="{Binding Command.DictionaryType, Mode=TwoWay}" Margin="0,0,0,12" />
-
-                        <CheckBox IsChecked="{Binding Command.GenerateDtoTypes, Mode=TwoWay}" Margin="0,0,0,12">
-                            <TextBlock Text="Generate DTO Types (e.g. request and response classes)" TextWrapping="Wrap" />
-                        </CheckBox>
-
                         <GroupBox Header="Client" Margin="0,0,0,12">
-                            <StackPanel Margin="4,4,4,-8">
+                            <StackPanel Margin="4,8,4,-8">
                                 <CheckBox IsChecked="{Binding Command.GenerateClientClasses, Mode=TwoWay}" 
-                                      Content="Generate Client Classes" Margin="0,4,0,12" />
+                                      Content="Generate Client Classes" Margin="0,0,0,12" />
 
                                 <StackPanel Visibility="{Binding Command.GenerateClientClasses, Converter={StaticResource VisibilityConverter}}">
                                     <TextBlock Text="Class Name" FontWeight="Bold" Margin="0,0,0,6" />
@@ -83,6 +63,36 @@
                                           IsEnabled="{Binding Command.ClientBaseClass, Converter={StaticResource VisibilityConverter}}" Margin="0,0,0,12">
                                         <TextBlock Text="Call the CreateHttpClientAsync method on the client base class to create a new HttpClient instance" TextWrapping="Wrap" />
                                     </CheckBox>
+                                </StackPanel>
+                            </StackPanel>
+                        </GroupBox>
+
+                        <TextBlock Text="Additional Namespace Usages (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding AdditionalNamespaceUsages, Mode=TwoWay}" Margin="0,0,0,12" />
+
+                        <GroupBox Header="Classes" Margin="0,0,0,12">
+                            <StackPanel Margin="4,8,4,-8">
+                                <CheckBox IsChecked="{Binding Command.RequiredPropertiesMustBeDefined, Mode=TwoWay}" Margin="0,0,0,12">
+                                    <TextBlock Text="Required properties must be defined in JSON (sets Required.Always when the property is required)" TextWrapping="Wrap" />
+                                </CheckBox>
+
+                                <TextBlock Text="Date Time Type" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.DateTimeType, Mode=TwoWay}" Margin="0,0,0,12" />
+
+                                <TextBlock Text="Generic Array Type" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.ArrayType, Mode=TwoWay}" Margin="0,0,0,12" />
+
+                                <TextBlock Text="Generic Dictionary Type" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.DictionaryType, Mode=TwoWay}" Margin="0,0,0,12" />
+
+                                <CheckBox IsChecked="{Binding Command.GenerateDtoTypes, Mode=TwoWay}" Margin="0,0,0,12">
+                                    <TextBlock Text="Generate DTO Types (e.g. request and response classes)" TextWrapping="Wrap" />
+                                </CheckBox>
+
+                                <StackPanel Visibility="{Binding Command.GenerateDtoTypes, Converter={StaticResource VisibilityConverter}}">
+                                    <TextBlock Text="Class Style" FontWeight="Bold" Margin="0,0,0,6" />
+                                    <ComboBox SelectedItem="{Binding Command.ClassStyle, Mode=TwoWay}" 
+                                              ItemsSource="{Binding ClassStyles}" Margin="0,0,0,12" />
                                 </StackPanel>
                             </StackPanel>
                         </GroupBox>
