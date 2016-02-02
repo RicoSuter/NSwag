@@ -4,11 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:viewModels="clr-namespace:NSwagStudio.ViewModels"
+             xmlns:converters="clr-namespace:MyToolkit.Converters;assembly=MyToolkit.Extended"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="1000">
     
     <UserControl.Resources>
         <viewModels:DocumentViewModel x:Key="ViewModel" />
+        <converters:NotConverter x:Key="NotConverter" />
+        <converters:VisibilityConverter x:Key="VisibilityConverter" />
     </UserControl.Resources>
 
     <Border DataContext="{StaticResource ViewModel}" IsEnabled="{Binding GenerateCommand.CanExecute}">
@@ -70,11 +73,15 @@
                 </TabControl>
             </Grid>
 
-            <Button Grid.Row="1" Grid.Column="2"
-                Command="{Binding GenerateCommand}" Click="OnGenerate"
-                Margin="4,8,0,0" Padding="8">
+            <Button Grid.Row="1" Grid.Column="2" Height="50"
+                    Visibility="{Binding GenerateCommand.CanExecute, Converter={StaticResource VisibilityConverter}}"
+                    Command="{Binding GenerateCommand}" Click="OnGenerate" Margin="4,8,0,0" Padding="8">
                 <TextBlock Text="Generate Outputs" FontSize="16" Margin="0,4,0,4" />
             </Button>
+
+            <ProgressBar Grid.Row="1" Grid.Column="2" IsIndeterminate="True" Height="50" Margin="4,8,0,0"
+                         Visibility="{Binding GenerateCommand.CanExecute, Converter={StaticResource NotConverter}}">
+            </ProgressBar>
         </Grid>
     </Border>
 </UserControl>

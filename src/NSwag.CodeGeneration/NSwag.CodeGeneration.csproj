@@ -75,6 +75,7 @@
     <Compile Include="CodeGenerators\TypeScript\TypeScriptTemplate.cs" />
     <Compile Include="CodeGenerators\TypeScript\SwaggerToTypeScriptClientGenerator.cs" />
     <Compile Include="Infrastructure\AppDomainIsolation.cs" />
+    <Compile Include="Infrastructure\AssemblyConfigurationFileTransformer.cs" />
     <Compile Include="Infrastructure\ReflectionExtensions.cs" />
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpWebApiControllerGenerator.cs" />
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpWebApiControllerGeneratorSettings.cs" />
