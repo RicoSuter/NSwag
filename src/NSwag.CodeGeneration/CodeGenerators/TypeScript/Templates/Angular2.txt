@@ -1,4 +1,4 @@
-﻿import {Http, Headers} from 'angular2/http';
+﻿import {Http, Headers, Response} from 'angular2/http';
 
 // The Angular2 client template is currently NOT TESTET!
 
@@ -66,23 +66,21 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
         var content = "";
 <endif>
 
-        return this.http({
-            url: url,
-            method: "<operation.HttpMethodUpper>",
-            data: content,
-            headers: {
+        return this.<operation.HttpMethodLower>(url, {
+            body: content,
+            headers: new Headers({
 <operation.HeaderParameters:{parameter | 
                 "<parameter.Name>": <parameter.VariableNameLower>, 
 }>                "Content-Type": "application/json; charset=UTF-8"
-            \}
-        \}).then((response) => {
+            \})
+        \}).map((response) => {
             return this.process<operation.OperationNameUpper>(response);
         \});
     \}
 
-    private process<operation.OperationNameUpper>(response: any) {
-        var data = response.data; 
-        var status = response.status; 
+    private process<operation.OperationNameUpper>(response: Response) {
+        var data = response.json(); 
+        var status = response.status.toString(); 
 
 <operation.Responses:{response | 
         if (status === "<response.StatusCode>") {
