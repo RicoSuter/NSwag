@@ -1,0 +1,68 @@
+﻿﻿namespace Settings.Interfaces
+{
+    public interface IDateTimeConverter
+    {
+        string DateTimeFormat { set; get; }
+
+        string ConvertDate(DateTime date);
+    }
+
+    public interface IClientSettings
+    {
+        ApiCredentials ApiCredentials { set; get; }
+        IDateTimeConverter DateTimeConverter { set; get; }
+    }
+
+}
+
+namespace Settings
+{
+    public class ApiCredentials
+    {
+        public ApiCredentials() : this(null) { }
+        public ApiCredentials(string value)
+        {
+            Value = value;
+            UseUrl = true;
+        }
+
+        private string value { get; set; }
+        private string name { get; set; }
+        public string Value { get { return this.value; } set { this.value = value; } }
+        public string Name { get { return name ?? "api_key"; } set { name = value; } }
+
+        public bool HasValue => Value != null;
+        public bool IsUrlUsable => HasValue && UseUrl;
+        public bool IsHeaderUsable => HasValue && UseHeader;
+        public bool UseUrl { get; set; }
+        public bool UseHeader { get; set; }
+    }
+
+    public class DefaultDateTimeConverter : IDateTimeConverter
+    {
+        public string DateTimeFormat { get; set; }
+        public string ConvertDate(DateTime date)
+        {
+            return date.ToString(DateTimeFormat ?? CultureInfo.InvariantCulture.ToString());
+        }
+    }
+
+    public class DefaultClientSettings : IClientSettings
+    {
+        private ApiCredentials apiCredentials { set; get; }
+
+        public ApiCredentials ApiCredentials
+        {
+            get { return apiCredentials ?? (apiCredentials = new ApiCredentials()); }
+            set { apiCredentials = value; }
+        }
+		
+        private IDateTimeConverter dateTimeConverter { set; get; }
+
+        public IDateTimeConverter DateTimeConverter
+        {
+            get { return dateTimeConverter ?? (dateTimeConverter = new DefaultDateTimeConverter()); }
+            set { dateTimeConverter = value; }
+        }
+    }
+}

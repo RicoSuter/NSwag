@@ -23,13 +23,13 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         /// <param name="settings">The settings.</param>
         /// <exception cref="System.ArgumentNullException">service</exception>
         /// <exception cref="ArgumentNullException"><paramref name="service" /> is <see langword="null" />.</exception>
-        public SwaggerToCSharpClientGenerator(SwaggerService service, SwaggerToCSharpClientGeneratorSettings settings) 
+        public SwaggerToCSharpClientGenerator(SwaggerService service, SwaggerToCSharpClientGeneratorSettings settings)
             : base(service, settings.CSharpGeneratorSettings)
         {
             if (service == null)
                 throw new ArgumentNullException("service");
 
-            Settings = settings; 
+            Settings = settings;
 
             _service = service;
             foreach (var definition in _service.Definitions)
@@ -60,11 +60,15 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
 
         internal override string RenderFile(string clientCode)
         {
+            var settings = LoadTemplate("Settings");
+            settings.Add("namespace", Settings.CSharpGeneratorSettings.Namespace);
+
             var template = LoadTemplate("File");
+            template.Add("settings", settings.Render());
             template.Add("namespace", Settings.CSharpGeneratorSettings.Namespace);
             template.Add("toolchain", SwaggerService.ToolchainVersion);
             template.Add("clients", Settings.GenerateClientClasses ? clientCode : string.Empty);
-            template.Add("namespaceUsages", Settings.AdditionalNamespaceUsages ?? new string[] {});
+            template.Add("namespaceUsages", Settings.AdditionalNamespaceUsages ?? new string[] { });
             template.Add("classes", Settings.GenerateDtoTypes ? Resolver.GenerateTypes() : string.Empty);
             return template.Render();
         }
@@ -74,7 +78,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             var template = LoadTemplate("Client");
             template.Add("class", Settings.ClassName.Replace("{controller}", ConvertToUpperStartIdentifier(controllerName)));
 
-            var hasClientBaseClass = !string.IsNullOrEmpty(Settings.ClientBaseClass); 
+            var hasClientBaseClass = !string.IsNullOrEmpty(Settings.ClientBaseClass);
             template.Add("baseClass", Settings.ClientBaseClass);
             template.Add("hasBaseClass", hasClientBaseClass);
 

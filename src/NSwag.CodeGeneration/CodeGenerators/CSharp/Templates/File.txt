@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
@@ -12,12 +12,16 @@ using Newtonsoft.Json.Converters;
 <namespaceUsages:{usage | 
 using <usage>;
 }>
+using <namespace>.Settings;
+using <namespace>.Settings.Interfaces;
 
 // Generated using the NSwag toolchain v<toolchain> (http://NSwag.org)
 
 namespace <namespace>
 {
     <clients>
+
+    <settings>
 
     <classes>
 }

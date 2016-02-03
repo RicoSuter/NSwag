@@ -58,17 +58,24 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasBaseClass)><baseCl
     {
         var url = string.Format("{0\}/{1\}?", BaseUrl, "<operation.Path>");
 
+        if (Settings.ApiCredentials.IsUrlUsable)
+            url += string.Format("{0\}={1\}&", Uri.EscapeUriString(Settings.ApiCredentials.Name), Uri.EscapeUriString(Settings.ApiCredentials.Value));
+
 <operation.PathParameters:{parameter | 
+    <if(parameter.IsDate)>
+        url = url.Replace("{<parameter.Name>\}", Settings.DateTimeConverter.ConvertDate(<parameter.VariableNameLower>));
+    <else>
         url = url.Replace("{<parameter.Name>\}", <parameter.VariableNameLower>.ToString());
+    <endif>
 }>
 
 <operation.QueryParameters:{parameter | 
         if (<parameter.VariableNameLower> != null)
     <if(parameter.IsDate)>
     <if(parameter.IsArray)>
-            foreach(var item in <parameter.VariableNameLower>) { url += string.Format("<parameter.Name>={0\}&", Uri.EscapeUriString(item.ToString("s", CultureInfo.InvariantCulture))); \}
+            foreach(var item in <parameter.VariableNameLower>) { url += string.Format("<parameter.Name>={0\}&", Uri.EscapeUriString(Settings.DateTimeConverter.ConvertDate(item))); \}
     <else>
-            url += string.Format("<parameter.Name>={0\}&", Uri.EscapeUriString(<parameter.VariableNameLower>.ToString("s", CultureInfo.InvariantCulture)));
+            url += string.Format("<parameter.Name>={0\}&", Uri.EscapeUriString(Settings.DateTimeConverter.ConvertDate(<parameter.VariableNameLower>)));
     <endif>
     <else>
     <if(parameter.IsArray)>
@@ -102,7 +109,7 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasBaseClass)><baseCl
 <endif>
 
         var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
-        var status = ((int)response.StatusCode).ToString();
+        var responseStatusCode = ((int)response.StatusCode).ToString();
 
 <operation.Responses:{response | 
         if (status == "<response.StatusCode>") 
@@ -179,4 +186,3 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasBaseClass)><baseCl
     \}
 }
 <endif>
-
