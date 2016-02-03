@@ -79,7 +79,7 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <TextBlock Text="When multiple controllers are selected, you should choose MultipleClientsFromPathSegments as operation generation mode."
+        <TextBlock Text="When multiple controllers are selected, consider selecting MultipleClientsFromPathSegments as operation generation mode."
                    TextWrapping="Wrap" Margin="0,4,0,6" />
         
         <TextBlock Margin="0,6,0,6" TextWrapping="Wrap">
