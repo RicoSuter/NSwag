@@ -17,7 +17,10 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         /// <summary>Uses JQuery with Promises/A+.</summary>
         JQueryPromises,
 
-        /// <summary>Uses $http from AngularJS 1.x.</summary>
-        AngularJS,
+        /// <summary>Uses $http from Angular 1.x.</summary>
+        Angular,
+
+        /// <summary>Uses the http service from Angular 2.x.</summary>
+        Angular2
     }
 }

@@ -1,4 +1,4 @@
-﻿// The AngularJS client template is currently NOT TESTET!
+﻿// The Angular client template is currently NOT TESTET!
 
 <if(hasOperations)>
 <if(generateClientInterfaces)>

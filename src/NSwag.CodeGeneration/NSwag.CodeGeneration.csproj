@@ -114,13 +114,16 @@
     <EmbeddedResource Include="CodeGenerators\CSharp\Templates\Client.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="CodeGenerators\TypeScript\Templates\AngularJS.txt" />
+    <EmbeddedResource Include="CodeGenerators\TypeScript\Templates\Angular.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CodeGenerators\TypeScript\Templates\JQueryPromises.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CodeGenerators\CSharp\Templates\WebApiController.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CodeGenerators\TypeScript\Templates\Angular2.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

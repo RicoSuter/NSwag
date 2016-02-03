@@ -3,11 +3,9 @@
 <if(hasModuleName)>
 module <moduleName> {
 <endif>
-
-<interfaces>
-
 <clients>
 
+<interfaces>
 <if(hasModuleName)>
 \}
 <endif>
