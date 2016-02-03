@@ -12,7 +12,7 @@ export interface I<class> {
 <if(parameter.HasDescription)>     * @<parameter.VariableNameLower> <parameter.Description><endif>}>
 <if(operation.HasResultDescription)>     * @return <operation.ResultDescription><endif>
      */
-<endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.VariableNameLower>: <parameter.Type><if(!parameter.IsLast)>,<endif> }>): Observable\<<operation.ResultType>>;
+<endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.VariableNameLower>: <parameter.Type><if(!parameter.IsLast)>, <endif>}>): Observable\<<operation.ResultType>>;
 }>}
 <endif>
 
@@ -33,7 +33,7 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
 <if(parameter.HasDescription)>     * @<parameter.VariableNameLower> <parameter.Description><endif>}>
 <if(operation.HasResultDescription)>     * @return <operation.ResultDescription><endif>
      */
-<endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.VariableNameLower>: <parameter.Type><if(!parameter.IsLast)>,<endif> }>): Observable\<<operation.ResultType>> {
+<endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.VariableNameLower>: <parameter.Type><if(!parameter.IsLast)>, <endif>}>): Observable\<<operation.ResultType>> {
         var url = this.baseUrl + "/<operation.Path>?"; 
 
 <operation.PathParameters:{parameter | 
