@@ -1,6 +1,6 @@
-﻿import {Http, Headers, Response} from 'angular2/http';
-
-// The Angular2 client template is currently NOT TESTET!
+﻿import {Observable} from 'rxjs/Observable';
+import {Injectable, Inject} from 'angular2/angular2';
+import {Http, Headers, Response} from 'angular2/http';
 
 <if(hasOperations)>
 <if(generateClientInterfaces)>
@@ -12,15 +12,16 @@ export interface I<class> {
 <if(parameter.HasDescription)>     * @<parameter.VariableNameLower> <parameter.Description><endif>}>
 <if(operation.HasResultDescription)>     * @return <operation.ResultDescription><endif>
      */
-<endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.VariableNameLower>: <parameter.Type><if(!parameter.IsLast)>,<endif> }>): ng.IPromise\<<operation.ResultType>>;
+<endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.VariableNameLower>: <parameter.Type><if(!parameter.IsLast)>,<endif> }>): Observable\<<operation.ResultType>>;
 }>}
 <endif>
 
+@Injectable()
 export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
+    private http: Http = null; 
     baseUrl: string = undefined; 
-    http: Http = null; 
 
-    constructor(http: Http, baseUrl?: string) {
+    constructor(@Inject(Http) http: Http, baseUrl?: string) {
         this.http = http; 
         this.baseUrl = baseUrl !== undefined ? baseUrl : "<baseUrl>"; 
     }
@@ -32,7 +33,7 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
 <if(parameter.HasDescription)>     * @<parameter.VariableNameLower> <parameter.Description><endif>}>
 <if(operation.HasResultDescription)>     * @return <operation.ResultDescription><endif>
      */
-<endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.VariableNameLower>: <parameter.Type><if(!parameter.IsLast)>,<endif> }>): ng.IPromise\<<operation.ResultType>> {
+<endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.VariableNameLower>: <parameter.Type><if(!parameter.IsLast)>,<endif> }>): Observable\<<operation.ResultType>> {
         var url = this.baseUrl + "/<operation.Path>?"; 
 
 <operation.PathParameters:{parameter | 
