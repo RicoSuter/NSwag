@@ -348,24 +348,19 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             if (description == string.Empty)
                 description = null;
 
-            var isVoidResponse = 
-                returnType.FullName == "System.Void" || 
-                returnType.Name == "IHttpActionResult" || 
-                returnType.Name == "HttpResponseMessage" || 
-                returnType.InheritsFrom("HttpResponseMessage");
-
             var responseTypeAttributes = method.GetCustomAttributes().Where(a => a.GetType().Name == "ResponseTypeAttribute").ToList();
             if (responseTypeAttributes.Count > 0)
             {
                 foreach (var responseTypeAttribute in responseTypeAttributes)
                 {
                     dynamic dynResultTypeAttribute = responseTypeAttribute;
+                    returnType = dynResultTypeAttribute.ResponseType;
 
-                    var httpStatusCode = isVoidResponse ? "204" : "200";
+                    var httpStatusCode = IsVoidResponse(returnType) ? "204" : "200";
                     if (responseTypeAttribute.GetType().GetRuntimeProperty("HttpStatusCode") != null)
                         httpStatusCode = dynResultTypeAttribute.HttpStatusCode;
 
-                    var schema = CreateAndAddSchema<JsonSchema4>(service, dynResultTypeAttribute.ResponseType, schemaResolver);
+                    var schema = CreateAndAddSchema<JsonSchema4>(service, returnType, schemaResolver);
                     operation.Responses[httpStatusCode] = new SwaggerResponse
                     {
                         Description = description,
@@ -375,7 +370,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             }
             else
             {
-                if (isVoidResponse)
+                if (IsVoidResponse(returnType))
                     operation.Responses["204"] = new SwaggerResponse();
                 else
                 {
@@ -387,6 +382,14 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     };
                 }
             }
+        }
+
+        private bool IsVoidResponse(Type returnType)
+        {
+            return returnType.FullName == "System.Void" ||
+                   returnType.Name == "IHttpActionResult" ||
+                   returnType.Name == "HttpResponseMessage" ||
+                   returnType.InheritsFrom("HttpResponseMessage");
         }
 
         private TSchemaType CreateAndAddSchema<TSchemaType>(SwaggerService service, Type type, ISchemaResolver schemaResolver)
