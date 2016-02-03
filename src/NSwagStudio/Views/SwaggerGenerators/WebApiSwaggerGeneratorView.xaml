@@ -41,7 +41,7 @@
         </Grid>
         <TextBlock Text="{Binding AssemblyName, Mode=OneWay}" TextWrapping="Wrap" Margin="0,-6,0,12" />
 
-        <TextBlock Text="Web API Controller Names" FontWeight="Bold" Margin="0,0,0,6" />
+        <TextBlock Text="Web API Controller Names" FontWeight="Bold" Margin="0,0,0,8" />
         <ListBox ItemsSource="{Binding AllControllerNames}" x:Name="ControllersList" MaxHeight="300"
                  SelectionChanged="ControllersListSelectionChanged" BorderThickness="0" Padding="0"
                  SelectionMode="Multiple">
@@ -79,7 +79,9 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-
+        <TextBlock Text="When multiple controllers are selected, you should choose MultipleClientsFromPathSegments as operation generation mode."
+                   TextWrapping="Wrap" Margin="0,4,0,6" />
+        
         <TextBlock Margin="0,6,0,6" TextWrapping="Wrap">
             <Run Text="Default Enum Handling" FontWeight="Bold" />
             <LineBreak />
