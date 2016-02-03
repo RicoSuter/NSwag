@@ -26,9 +26,14 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasBaseClass)><baseCl
 {
     public <class>() : this("<baseUrl>") { }
 
-    public <class>(string baseUrl)
+    public Client(string baseUrl):this(baseUrl,null)
     {
-        BaseUrl = baseUrl; 
+        BaseUrl = baseUrl;
+    }
+    public Client(string baseUrl,IClientSettings settings)
+    {
+        BaseUrl = baseUrl;
+        Settings = settings;
     }
 
     partial void PrepareRequest(HttpClient request);
@@ -36,6 +41,13 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasBaseClass)><baseCl
     partial void ProcessResponse(HttpClient request, HttpResponseMessage response);
 
     public string BaseUrl { get; set; }
+
+    private IClientSettings settings { get; set; }
+
+    public IClientSettings Settings {
+        get { return settings ?? (settings = new DefaultClientSettings()); }
+        set { settings = value; }
+    }
 
 <operations:{operation | 
 <if(operation.HasSummary)>    /// \<summary><operation.Summary>\</summary><endif>
@@ -112,7 +124,7 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasBaseClass)><baseCl
         var responseStatusCode = ((int)response.StatusCode).ToString();
 
 <operation.Responses:{response | 
-        if (status == "<response.StatusCode>") 
+        if (responseStatusCode == "<response.StatusCode>") 
         {
             var result = default(<response.Type>); 
 
