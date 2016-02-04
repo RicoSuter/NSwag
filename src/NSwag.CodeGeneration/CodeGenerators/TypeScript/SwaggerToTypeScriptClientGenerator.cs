@@ -103,7 +103,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         {
             var response = GetSuccessResponse(operation);
             if (response == null)
-                return "any";
+                return "void";
 
             return GetType(response.Schema, "Response");
         }
@@ -111,7 +111,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         internal override string GetType(JsonSchema4 schema, string typeNameHint)
         {
             if (schema == null)
-                return "any";
+                return "void";
 
             if (schema.ActualSchema.IsAnyType)
                 return "any";

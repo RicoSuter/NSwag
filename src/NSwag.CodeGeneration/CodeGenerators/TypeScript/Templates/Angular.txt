@@ -84,16 +84,18 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
 
 <operation.Responses:{response | 
         if (status === "<response.StatusCode>") {
+<if(response.HasType)>
             var result<response.StatusCode>: <response.Type> = null; 
-<if(response.TypeIsDate)>
+    <if(response.TypeIsDate)>
             result<response.StatusCode> = new Date(data);
-<else>
+    <else>
             result<response.StatusCode> = \<<response.Type>>data;
-<endif>
-<if(response.IsSuccess)>
+    <endif>
+    <if(response.IsSuccess)>
             return result<response.StatusCode>; 
-<else>
+    <else>
             throw result<response.StatusCode>; 
+    <endif>
 <endif>
         \}
         else}>

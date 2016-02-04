@@ -29,6 +29,12 @@ namespace NSwag.CodeGeneration.CodeGenerators
 
         internal abstract string GetResultType(SwaggerOperation operation);
 
+        internal bool HasResultType(SwaggerOperation operation)
+        {
+            var response = GetSuccessResponse(operation);
+            return response != null && response.Schema != null;
+        }
+
         internal string GetResultDescription(SwaggerOperation operation)
         {
             var response = GetSuccessResponse(operation);
@@ -77,6 +83,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
                         StatusCode = r.Key,
                         IsSuccess = HttpUtilities.IsSuccessStatusCode(r.Key),
                         Type = GetType(r.Value.Schema, "Response"),
+                        HasType = r.Value.Schema != null, 
                         TypeIsDate = GetType(r.Value.Schema, "Response") == "Date"
                     }).ToList();
 
@@ -110,6 +117,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
                                 : operation.OperationId),
 
                         ResultType = GetResultType(operation),
+                        HasResultType = HasResultType(operation),
                         ResultDescription = GetResultDescription(operation),
 
                         ExceptionType = GetExceptionType(operation),

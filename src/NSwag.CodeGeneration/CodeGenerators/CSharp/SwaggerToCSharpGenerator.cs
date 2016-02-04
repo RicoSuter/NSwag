@@ -42,7 +42,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         internal override string GetType(JsonSchema4 schema, string typeNameHint)
         {
             if (schema == null)
-                return "string";
+                return "void";
 
             if (schema.ActualSchema.IsAnyType)
                 return "object";

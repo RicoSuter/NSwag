@@ -107,6 +107,7 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasBaseClass)><baseCl
 <operation.Responses:{response | 
         if (status == "<response.StatusCode>") 
         {
+<if(response.HasType)>
             var result = default(<response.Type>); 
 
             try
@@ -129,6 +130,7 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasBaseClass)><baseCl
 
             throw new SwaggerException\<<response.Type>>("A server side error occurred.", response.StatusCode, result, null);
     <endif>
+<endif>
         \}
         else}>
         {
