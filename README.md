@@ -27,7 +27,8 @@ NSwag is a Swagger 2.0 API toolchain for .NET, TypeScript and other platforms, w
 	- Available templates/supported libraries: 
 		- JQuery with Callbacks, `JQueryCallbacks`
 		- JQuery with promises `JQueryPromises`
-		- AngularJS using $http, `AngularJS`
+		- AngularJS using $http, `Angular`
+		- Angular 2 using the http service, `Angular2`
 - **CSharp Client**
 	- [SwaggerToCSharpClientGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToCSharpClientGenerator)
 	- With [INotifyPropertyChanged](https://msdn.microsoft.com/en-us/library/system.componentmodel.inotifypropertychanged(v=vs.110).aspx) supporting DTOs
