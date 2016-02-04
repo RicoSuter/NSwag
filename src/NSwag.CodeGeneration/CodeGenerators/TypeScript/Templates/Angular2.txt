@@ -1,5 +1,6 @@
-﻿import {Observable} from 'rxjs/Observable';
-import {Injectable, Inject} from 'angular2/angular2';
+﻿import 'rxjs/Rx'; 
+import {Observable} from 'rxjs/Observable';
+import {Injectable, Inject} from 'angular2/core';
 import {Http, Headers, Response} from 'angular2/http';
 
 <if(hasOperations)>
@@ -67,8 +68,9 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
         var content = "";
 <endif>
 
-        return this.<operation.HttpMethodLower>(url, {
+        return this.http.request(url, {
             body: content,
+            method: "<operation.HttpMethodLower>",
             headers: new Headers({
 <operation.HeaderParameters:{parameter | 
                 "<parameter.Name>": <parameter.VariableNameLower>, 
