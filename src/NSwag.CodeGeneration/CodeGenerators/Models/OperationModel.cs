@@ -52,7 +52,10 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 
         public IEnumerable<ParameterModel> Parameters { get; set; }
 
-        public bool HasContent { get { return ContentParameter != null; } }
+        public bool HasContent
+        {
+            get { return ContentParameter != null; }
+        }
 
         public ParameterModel ContentParameter
         {

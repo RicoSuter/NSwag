@@ -24,7 +24,6 @@ namespace NSwag
 
         /// <summary>Gets or sets the kind of the parameter.</summary>
         [JsonProperty(PropertyName = "in", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        [JsonConverter(typeof(StringEnumConverter))]
         public SwaggerParameterKind Kind { get; set; }
 
         /// <summary>Gets or sets a value indicating whether the parameter is required (default: true).</summary>
