@@ -10,6 +10,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
 using MyToolkit.Command;
@@ -70,8 +71,9 @@ namespace NSwagStudio.ViewModels
             get { return GetType().Assembly.GetVersionWithBuildTime(); }
         }
 
-        protected override void OnLoaded()
+        protected override async void OnLoaded()
         {
+            await Task.Delay(500);
             LoadApplicationSettings();
         }
 
@@ -89,19 +91,20 @@ namespace NSwagStudio.ViewModels
                     if (paths.Length > 0)
                     {
                         foreach (var path in paths)
-                            LoadDocument(path);
+                            OpenDocument(path);
 
                         SelectedDocument = Documents.Last();
                     }
-                    else
+                    else if (!Documents.Any())
                         CreateDocument();
                 }
-                else
+                else if (!Documents.Any())
                     CreateDocument();
             }
             catch
             {
-                CreateDocument();
+                if (!Documents.Any())
+                    CreateDocument();
             }
 
             SelectedDocument = Documents.First();
@@ -121,24 +124,27 @@ namespace NSwagStudio.ViewModels
             dlg.Filter = "NSwag settings (*.nswag)|*.nswag";
             dlg.RestoreDirectory = true;
             if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                try
-                {
-                    var document = LoadDocument(dlg.FileName);
-                    SelectedDocument = document;
-                }
-                catch (Exception exception)
-                {
-                    MessageBox.Show("File open failed: \n" + exception.Message, "Could not load the settings");
-                }
-            }
+                OpenDocument(dlg.FileName);
         }
 
-        private NSwagDocument LoadDocument(string filePath)
+        public void OpenDocument(string filePath)
         {
-            var document = NSwagDocument.LoadDocument(filePath);
-            Documents.Add(document);
-            return document;
+            try
+            {
+                var currentDocument = Documents.SingleOrDefault(d => d.Path == filePath);
+                if (currentDocument != null)
+                    SelectedDocument = currentDocument;
+                else
+                {
+                    var document = NSwagDocument.LoadDocument(filePath);
+                    Documents.Add(document);
+                    SelectedDocument = document;
+                }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show("File open failed: \n" + exception.Message, "Could not load the settings");
+            }
         }
 
         public bool CloseDocument(NSwagDocument document)

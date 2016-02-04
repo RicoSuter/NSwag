@@ -11,6 +11,7 @@ using MyToolkit.UI;
 using MyToolkit.Utilities;
 using NSwagStudio.ViewModels;
 using Newtonsoft.Json;
+using NSwagStudio.Utilities;
 
 namespace NSwagStudio.Views
 {
@@ -25,6 +26,7 @@ namespace NSwagStudio.Views
             RegisterShortcuts();
             CheckForApplicationUpdate();
             LoadWindowState();
+            RegisterFileOpenHandler();
         }
 
         private MainWindowModel Model { get { return (MainWindowModel)Resources["ViewModel"]; } }
@@ -40,7 +42,14 @@ namespace NSwagStudio.Views
             ShortcutManager.RegisterShortcut(typeof(MainWindow), new KeyGesture(Key.W, ModifierKeys.Control),
                 () => Model.CloseDocumentCommand.TryExecute(Model.SelectedDocument));
         }
-        
+
+        private void RegisterFileOpenHandler()
+        {
+            var fileHandler = new MyFileOpenHandler();
+            fileHandler.FileOpen += (sender, args) => { Model.OpenDocument(args.FileName); };
+            fileHandler.Initialize(this);
+        }
+
         private async void CheckForApplicationUpdate()
         {
             var updater = new ApplicationUpdater(
@@ -90,7 +99,10 @@ namespace NSwagStudio.Views
                 Model.Documents.Clear();
 
                 _closeCancelled = true;
-                Dispatcher.InvokeAsync(() => { Close(); });
+                Dispatcher.InvokeAsync(() =>
+                {
+                    Close();
+                });
             }
             base.OnClosing(e);
         }

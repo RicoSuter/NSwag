@@ -75,6 +75,14 @@
                 <RemoveFile Id="RemoveShortcut"
                             Name="NSwagStudio"
                             On="uninstall" />
+
+                <ProgId Id='NSwagFile' Description='NSwag Configuration file'>
+                    <Extension Id='nswag' ContentType='application/json'>
+                        <Verb Id='open' Command='Open'
+                              TargetFile='fil3D998DFDF0171F45FA4994B3076A1BE3'
+                              Argument='"%1"' />
+                    </Extension>
+                </ProgId>
             </Component>
         </DirectoryRef>
     </Fragment>

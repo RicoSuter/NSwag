@@ -109,6 +109,7 @@
     </ApplicationDefinition>
     <Compile Include="ISwaggerGenerator.cs" />
     <Compile Include="NSwagDocument.cs" />
+    <Compile Include="Utilities\MyFileOpenHandler.cs" />
     <Compile Include="ViewModels\CodeGenerators\CSharpWebApiControllerGeneratorViewModel.cs" />
     <Compile Include="ViewModels\CodeGenerators\SwaggerGeneratorViewModel.cs" />
     <Compile Include="ViewModels\CodeGenerators\CSharpClientGeneratorViewModel.cs" />
