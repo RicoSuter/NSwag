@@ -101,27 +101,33 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasBaseClass)><baseCl
         ProcessResponse(client, response);
 <endif>
 
-        var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false); 
+        var responseData = await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false); 
         var status = ((int)response.StatusCode).ToString();
 
 <operation.Responses:{response | 
         if (status == "<response.StatusCode>") 
         {
 <if(response.HasType)>
+    <if(response.IsFile)>
+        <if(response.IsSuccess)>
+            return responseData; 
+        <else>
+            throw new SwaggerException\<byte[]>("A server side error occurred.", response.StatusCode, responseData, null);
+        <endif>
+    <else>
             var result = default(<response.Type>); 
-
             try
             {
-                if (!string.IsNullOrEmpty(responseData))
-                    result = JsonConvert.DeserializeObject\<<response.Type>>(responseData);                                
-    <if(response.IsSuccess)>
+                if (responseData.Length > 0)
+                    result = JsonConvert.DeserializeObject\<<response.Type>>(Encoding.UTF8.GetString(responseData));                                
+        <if(response.IsSuccess)>
                 return result; 
             \} 
             catch (Exception exception) 
             {
                 throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, exception);
             \}
-    <else>
+        <else>
             \} 
             catch (Exception exception) 
             {
@@ -129,6 +135,7 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasBaseClass)><baseCl
             \}
 
             throw new SwaggerException\<<response.Type>>("A server side error occurred.", response.StatusCode, result, null);
+        <endif>
     <endif>
 <endif>
         \}
@@ -138,8 +145,8 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasBaseClass)><baseCl
             var result = default(<operation.DefaultResponse.Type>); 
             try
             {
-                if (!string.IsNullOrEmpty(responseData))
-                    result = JsonConvert.DeserializeObject\<<operation.DefaultResponse.Type>>(responseData);
+                if (responseData.Length > 0)
+                    result = JsonConvert.DeserializeObject\<<operation.DefaultResponse.Type>>(Encoding.UTF8.GetString(responseData));
 
 <if(operation.HasOnlyDefaultResponse)>
                 if (status.Length == 3 && status.StartsWith("2"))

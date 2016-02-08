@@ -92,7 +92,11 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
         <if(response.TypeIsDate)>
                     result<response.StatusCode> = new Date(data);
         <else>
+        <if(response.IsFile)>
+                    result<response.StatusCode> = data;
+        <else>
                     result<response.StatusCode> = data === "" ? null : \<<response.Type>>jQuery.parseJSON(data);
+        <endif>
         <endif>
                 \} catch(e) { 
                     if (onFail !== undefined)
@@ -123,7 +127,11 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
         <if(operation.DefaultResponse.TypeIsDate)>
                     result = new Date(data);
         <else>
+        <if(response.IsFile)>
+                    result = data;
+        <else>
                     result = \<<operation.DefaultResponse.Type>>jQuery.parseJSON(data);
+        <endif>
         <endif>
                 \} catch(e) { 
                     if (onFail !== undefined)

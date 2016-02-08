@@ -19,5 +19,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         public bool TypeIsDate { get; set; }
 
         public bool HasType { get; set; }
+
+        public bool IsFile { get; set; }
     }
 }

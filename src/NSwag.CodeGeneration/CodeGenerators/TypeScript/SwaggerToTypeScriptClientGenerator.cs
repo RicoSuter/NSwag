@@ -102,7 +102,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         internal override string GetResultType(SwaggerOperation operation)
         {
             var response = GetSuccessResponse(operation);
-            if (response == null)
+            if (response == null || response.Schema == null)
                 return "void";
 
             return GetType(response.Schema, "Response");
@@ -113,7 +113,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             if (schema == null)
                 return "void";
 
-            if (schema.ActualSchema.IsAnyType)
+            if (schema.ActualSchema.IsAnyType || schema.ActualSchema.Type == JsonObjectType.File)
                 return "any";
 
             return _resolver.Resolve(schema.ActualSchema, true, typeNameHint);

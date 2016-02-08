@@ -83,6 +83,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
                         StatusCode = r.Key,
                         IsSuccess = HttpUtilities.IsSuccessStatusCode(r.Key),
                         Type = GetType(r.Value.Schema, "Response"),
+                        IsFile = r.Value.Schema != null && r.Value.Schema.ActualSchema.Type == JsonObjectType.File, 
                         HasType = r.Value.Schema != null, 
                         TypeIsDate = GetType(r.Value.Schema, "Response") == "Date"
                     }).ToList();

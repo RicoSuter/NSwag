@@ -82,7 +82,11 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
     \}
 
     private process<operation.OperationNameUpper>(response: Response) {
+    <if(response.IsFile)>
+        var data = response.blob(); 
+    <else>
         var data = response.json(); 
+    <endif>
         var status = response.status.toString(); 
 
 <operation.Responses:{response | 
