@@ -31,7 +31,7 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasBaseClass)><baseCl
         BaseUrl = baseUrl; 
     }
 
-    partial void PrepareRequest(HttpClient request);
+    partial void PrepareRequest(HttpClient request, ref string url);
 
     partial void ProcessResponse(HttpClient request, HttpResponseMessage response);
 
@@ -80,7 +80,7 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasBaseClass)><baseCl
 }>
         
         <if(useHttpClientCreationMethod)>var client = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);<else>var client = new HttpClient();<endif>
-        PrepareRequest(client);
+        PrepareRequest(client, ref url);
 
 <operation.HeaderParameters:{parameter | 
         client.DefaultRequestHeaders.TryAddWithoutValidation("<parameter.Name>", <parameter.VariableNameLower>);

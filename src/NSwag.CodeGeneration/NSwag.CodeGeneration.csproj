@@ -114,7 +114,7 @@
     <EmbeddedResource Include="CodeGenerators\CSharp\Templates\Client.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="CodeGenerators\TypeScript\Templates\Angular.txt" />
+    <EmbeddedResource Include="CodeGenerators\TypeScript\Templates\AngularJS.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CodeGenerators\TypeScript\Templates\JQueryPromises.txt" />
