@@ -40,7 +40,6 @@ namespace NSwag.Demo.Web.Controllers
         }
     }
 
-
     public class CreateUserResponse
     {
         public enum CreateUserStatus

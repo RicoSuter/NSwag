@@ -74,7 +74,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 var settings = JsonConvert.DeserializeObject<WebApiAssemblyToSwaggerGeneratorSettings>(settingsData);
 
                 var assembly = Assembly.LoadFrom(settings.AssemblyPath);
-                var type = assembly.GetType(controllerClassName);
+                var type = assembly.GetType(controllerClassName, true);
 
                 var generator = new WebApiToSwaggerGenerator(settings);
                 return generator.GenerateForController(type).ToJson();
@@ -85,7 +85,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 var settings = JsonConvert.DeserializeObject<WebApiAssemblyToSwaggerGeneratorSettings>(settingsData);
 
                 var assembly = Assembly.LoadFrom(settings.AssemblyPath);
-                var controllers = controllerClassNames.Select(c => assembly.GetType(c));
+                var controllers = controllerClassNames.Select(c => assembly.GetType(c, true));
 
                 var generator = new WebApiToSwaggerGenerator(settings);
                 return generator.GenerateForControllers(controllers).ToJson();

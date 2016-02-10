@@ -33,7 +33,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         internal override string GetResultType(SwaggerOperation operation)
         {
             var response = GetSuccessResponse(operation);
-            if (response == null)
+            if (response == null || response.Schema == null)
                 return "Task";
 
             return "Task<" + GetType(response.Schema, "Response") + ">";
@@ -42,7 +42,10 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         internal override string GetType(JsonSchema4 schema, string typeNameHint)
         {
             if (schema == null)
-                return "string";
+                return "void";
+
+            if (schema.ActualSchema.Type == JsonObjectType.File)
+                return "byte[]";
 
             if (schema.ActualSchema.IsAnyType)
                 return "object";

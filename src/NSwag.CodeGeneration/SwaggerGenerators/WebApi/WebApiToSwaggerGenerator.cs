@@ -386,8 +386,13 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
         private bool IsVoidResponse(Type returnType)
         {
-            return returnType.FullName == "System.Void" ||
-                   returnType.Name == "IHttpActionResult" ||
+            return returnType == null ||
+                   returnType.FullName == "System.Void";
+        }
+
+        private bool IsFileResponse(Type returnType)
+        {
+            return returnType.Name == "IHttpActionResult" ||
                    returnType.Name == "HttpResponseMessage" ||
                    returnType.InheritsFrom("HttpResponseMessage");
         }
@@ -400,9 +405,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
             if (type.Name == "JsonResult`1")
                 type = type.GenericTypeArguments[0];
-            
-            if (type.Name == "IHttpActionResult" || type.Name == "HttpResponseMessage" || type.InheritsFrom("HttpResponseMessage"))
-                type = typeof(object);
+
+            if (IsFileResponse(type))
+                return new TSchemaType { Type = JsonObjectType.File };
 
             var info = JsonObjectTypeDescription.FromType(type);
             if (info.Type.HasFlag(JsonObjectType.Object))

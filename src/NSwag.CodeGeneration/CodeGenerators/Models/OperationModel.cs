@@ -27,6 +27,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 
         public string ResultType { get; set; }
 
+        public bool HasResultType { get; set; }
+
         public string ResultDescription { get; set; }
 
         public bool HasResultDescription

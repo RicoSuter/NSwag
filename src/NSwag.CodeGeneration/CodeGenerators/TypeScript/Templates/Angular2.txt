@@ -82,21 +82,27 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
     \}
 
     private process<operation.OperationNameUpper>(response: Response) {
+    <if(response.IsFile)>
+        var data = response.blob(); 
+    <else>
         var data = response.json(); 
+    <endif>
         var status = response.status.toString(); 
 
 <operation.Responses:{response | 
         if (status === "<response.StatusCode>") {
+<if(response.HasType)>
             var result<response.StatusCode>: <response.Type> = null; 
-<if(response.TypeIsDate)>
+    <if(response.TypeIsDate)>
             result<response.StatusCode> = new Date(data);
-<else>
+    <else>
             result<response.StatusCode> = \<<response.Type>>data;
-<endif>
-<if(response.IsSuccess)>
+    <endif>
+    <if(response.IsSuccess)>
             return result<response.StatusCode>; 
-<else>
+    <else>
             throw result<response.StatusCode>; 
+    <endif>
 <endif>
         \}
         else}>
