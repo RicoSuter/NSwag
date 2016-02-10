@@ -1,4 +1,4 @@
-﻿// The Angular client template is currently NOT TESTET!
+// The Angular client template is currently NOT TESTET!
 
 <if(hasOperations)>
 <if(generateClientInterfaces)>
@@ -83,7 +83,7 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
         var status = response.status; 
 
 <operation.Responses:{response | 
-        if (status === "<response.StatusCode>") {
+        if (status === <response.StatusCode>) {
 <if(response.HasType)>
             var result<response.StatusCode>: <response.Type> = null; 
     <if(response.TypeIsDate)>
