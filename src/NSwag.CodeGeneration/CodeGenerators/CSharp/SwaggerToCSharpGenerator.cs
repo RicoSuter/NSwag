@@ -50,7 +50,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             if (schema.ActualSchema.IsAnyType)
                 return "object";
 
-            return Resolver.Resolve(schema.ActualSchema, true, typeNameHint);
+            return Resolver.Resolve(schema.ActualSchema, schema.ActualSchema.Type.HasFlag(JsonObjectType.Null), typeNameHint);
         }
     }
 }

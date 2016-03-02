@@ -116,7 +116,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             if (schema.ActualSchema.IsAnyType || schema.ActualSchema.Type == JsonObjectType.File)
                 return "any";
 
-            return _resolver.Resolve(schema.ActualSchema, true, typeNameHint);
+            return _resolver.Resolve(schema.ActualSchema, schema.ActualSchema.Type.HasFlag(JsonObjectType.Null), typeNameHint);
         }
     }
 }

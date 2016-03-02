@@ -272,8 +272,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
                 // TODO: Add support for ModelBinder attribute
 
-                var isComplexParameter = IsComplexType(info);
-                if (isComplexParameter)
+                if (info.IsComplexType)
                 {
                     if (fromUriAttribute != null)
                         AddPrimitiveParameter(service, operation, schemaResolver, parameter);
@@ -327,8 +326,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             var parameterGenerator = new RootTypeJsonSchemaGenerator(service, Settings);
 
             var info = JsonObjectTypeDescription.FromType(parameter.ParameterType);
-            var isComplexParameter = IsComplexType(info);
-            var parameterType = isComplexParameter ? typeof(string) : parameter.ParameterType; // complex types must be treated as string
+            var parameterType = info.IsComplexType ? typeof(string) : parameter.ParameterType; // complex types must be treated as string
 
             var segmentParameter = parameterGenerator.Generate<SwaggerParameter>(parameterType, parameter.GetCustomAttributes(), schemaResolver);
             segmentParameter.Name = parameter.Name;
@@ -416,7 +414,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 {
                     return new TSchemaType
                     {
-                        Type = JsonObjectType.Object,
+                        Type = JsonObjectType.Object | JsonObjectType.Null,
                         AllowAdditionalProperties = false
                     };
                 }
@@ -429,7 +427,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
                 return new TSchemaType
                 {
-                    Type = JsonObjectType.Object,
+                    Type = JsonObjectType.Object | JsonObjectType.Null,
                     SchemaReference = schemaResolver.GetSchema(type, false)
                 };
             }
@@ -439,19 +437,13 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 var itemType = type.GenericTypeArguments.Length == 0 ? type.GetElementType() : type.GenericTypeArguments[0];
                 return new TSchemaType
                 {
-                    Type = JsonObjectType.Array,
+                    Type = JsonObjectType.Array | JsonObjectType.Null,
                     Item = CreateAndAddSchema<JsonSchema4>(service, itemType, schemaResolver)
                 };
             }
 
             var generator = new RootTypeJsonSchemaGenerator(service, Settings);
             return generator.Generate<TSchemaType>(type, schemaResolver);
-        }
-
-        private bool IsComplexType(JsonObjectTypeDescription info)
-        {
-            // TODO: Move to JsonObjectTypeDescription class in NJsonSchema
-            return info.Type.HasFlag(JsonObjectType.Object) || info.Type.HasFlag(JsonObjectType.Array);
         }
     }
 }

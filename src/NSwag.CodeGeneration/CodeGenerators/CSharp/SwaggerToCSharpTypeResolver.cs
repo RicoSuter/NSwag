@@ -29,15 +29,15 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
 
         /// <summary>Resolves and possibly generates the specified schema.</summary>
         /// <param name="schema">The schema.</param>
-        /// <param name="isRequired">Specifies whether the given type usage is required.</param>
+        /// <param name="isNullable">Specifies whether the given type usage is nullable.</param>
         /// <param name="typeNameHint">The type name hint to use when generating the type and the type name is missing.</param>
         /// <returns>The type name.</returns>
-        public override string Resolve(JsonSchema4 schema, bool isRequired, string typeNameHint)
+        public override string Resolve(JsonSchema4 schema, bool isNullable, string typeNameHint)
         {
             if (schema.ActualSchema == _exceptionSchema)
                 return "Exception";
 
-            return base.Resolve(schema, isRequired, typeNameHint);
+            return base.Resolve(schema, isNullable, typeNameHint);
         }
     }
 }

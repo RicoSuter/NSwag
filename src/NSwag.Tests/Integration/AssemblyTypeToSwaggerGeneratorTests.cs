@@ -20,7 +20,7 @@ namespace NSwag.Tests.Integration
             var service = generator.Generate(new[] { "NSwag.Demo.Web.Models.Person" });
 
             //// Assert
-            Assert.AreEqual(4, service.Definitions["Person"].Properties.Count);
+            Assert.AreEqual(6, service.Definitions["Person"].Properties.Count);
         }
     }
 }
