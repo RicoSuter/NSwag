@@ -85,7 +85,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             get { return Command.ControllerNames; }
             set
             {
-                Command.ControllerNames = value;
+                Command.ControllerNames = value.ToArray();
                 RaisePropertyChanged(() => ControllerNames);
             }
         }
