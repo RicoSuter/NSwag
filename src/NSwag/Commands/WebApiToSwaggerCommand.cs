@@ -36,7 +36,7 @@ namespace NSwag.Commands
 
         [Description("The Web API controller full class names or empty to load all controllers from the assembly.")]
         [Argument(Name = "Controllers", DefaultValue = new string[] { })]
-        public IEnumerable<string> ControllerNames { get; set; }
+        public string[] ControllerNames { get; set; }
 
         [Description("The Web API default URL template.")]
         [Argument(Name = "DefaultUrlTemplate", DefaultValue = "api/{controller}/{action}/{id}")]
@@ -71,11 +71,11 @@ namespace NSwag.Commands
         {
             var generator = new WebApiAssemblyToSwaggerGenerator(Settings);
 
-            var controllerNames = ControllerNames.ToList(); 
+            var controllerNames = ControllerNames.ToList();
             if (!string.IsNullOrEmpty(ControllerName))
                 controllerNames.Add(ControllerName);
 
-            controllerNames = controllerNames.Distinct().ToList();
+            controllerNames = controllerNames.Where(s => !string.IsNullOrWhiteSpace(s)).Distinct().ToList();
             if (!controllerNames.Any())
                 controllerNames = generator.GetControllerClasses().ToList();
 
