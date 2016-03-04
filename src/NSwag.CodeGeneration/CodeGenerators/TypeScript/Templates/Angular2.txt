@@ -46,7 +46,13 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
 }>
 
 <operation.QueryParameters:{parameter | 
+    <if(parameter.IsOptional)>
         if (<parameter.VariableNameLower> !== undefined && <parameter.VariableNameLower> !== null)
+    <else>
+        if (<parameter.VariableNameLower> === undefined || <parameter.VariableNameLower> === null)
+            throw new Error("The parameter '<parameter.VariableNameLower>' must be defined.");
+        else
+    <endif>
     <if(parameter.IsDate)>
     <if(parameter.IsArray)>
             <parameter.VariableNameLower>.forEach(item => { url += "<parameter.Name>=" + encodeURIComponent("" + item.toJSON()) + "&"; \});

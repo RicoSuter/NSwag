@@ -137,7 +137,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
                                 Name = p.Name,
                                 VariableNameLower = ConvertToLowerStartIdentifier(p.Name.Replace("-", "_")), 
                                 Kind = p.Kind,
-                                IsOptional = !p.IsRequired, 
+                                IsRequired = p.IsRequired, 
                                 Type = resolver.Resolve(p.ActualSchema, p.Type.HasFlag(JsonObjectType.Null), p.Name),
                                 IsLast = operation.Parameters.LastOrDefault() == p,
                                 Description = RemoveLineBreaks(p.Description)

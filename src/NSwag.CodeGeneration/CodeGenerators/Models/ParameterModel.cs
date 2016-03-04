@@ -44,7 +44,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
             get { return Schema.Type == JsonObjectType.Array; }
         }
 
-        public bool IsOptional { get; set; }
+        public bool IsRequired { get; set; }
+
+        public bool IsOptional => !IsRequired;
 
         public JsonSchema4 Schema { get; set; }
     }

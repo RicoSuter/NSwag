@@ -63,7 +63,13 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasBaseClass)><baseCl
 }>
 
 <operation.QueryParameters:{parameter | 
+    <if(parameter.IsOptional)>
         if (<parameter.VariableNameLower> != null)
+    <else>
+        if (<parameter.VariableNameLower> == null)
+            throw new ArgumentNullException("<parameter.VariableNameLower>");
+        else
+    <endif>
     <if(parameter.IsDate)>
     <if(parameter.IsArray)>
             foreach(var item in <parameter.VariableNameLower>) { url += string.Format("<parameter.Name>={0\}&", Uri.EscapeUriString(item.ToString("s", CultureInfo.InvariantCulture))); \}
