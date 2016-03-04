@@ -275,16 +275,16 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 if (info.IsComplexType)
                 {
                     if (fromUriAttribute != null)
-                        AddPrimitiveParameter(service, operation, schemaResolver, parameter);
+                        AddPrimitiveParametersFromUri(service, operation, parameter, schemaResolver);
                     else
-                        AddBodyParameter(service, operation, schemaResolver, parameter);
+                        AddBodyParameter(service, operation, parameter, schemaResolver);
                 }
                 else
                 {
                     if (fromBodyAttribute != null)
-                        AddBodyParameter(service, operation, schemaResolver, parameter);
+                        AddBodyParameter(service, operation, parameter, schemaResolver);
                     else
-                        AddPrimitiveParameter(service, operation, schemaResolver, parameter);
+                        AddPrimitiveParameter(service, operation, parameter, schemaResolver);
                 }
             }
 
@@ -292,15 +292,25 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 throw new InvalidOperationException("The operation '" + operation.OperationId + "' has more than one body parameter.");
         }
 
-        private void AddBodyParameter(SwaggerService service, SwaggerOperation operation, ISchemaResolver schemaResolver,
-            ParameterInfo parameter)
+        private void AddBodyParameter(SwaggerService service, SwaggerOperation operation, ParameterInfo parameter, ISchemaResolver schemaResolver)
         {
             var operationParameter = CreateBodyParameter(service, parameter, schemaResolver);
             operation.Parameters.Add(operationParameter);
         }
 
-        private void AddPrimitiveParameter(SwaggerService service, SwaggerOperation operation, ISchemaResolver schemaResolver,
-            ParameterInfo parameter)
+        private void AddPrimitiveParametersFromUri(SwaggerService service, SwaggerOperation operation, ParameterInfo parameter, ISchemaResolver schemaResolver)
+        {
+            foreach (var property in parameter.ParameterType.GetRuntimeProperties())
+            {
+                var operationParameter = CreatePrimitiveParameter(// TODO: Check if there is a way to control the property name
+                    service, property.Name, property.GetXmlDocumentation(), property.PropertyType, property.GetCustomAttributes(), schemaResolver);
+
+                operationParameter.Kind = SwaggerParameterKind.Query;
+                operation.Parameters.Add(operationParameter);
+            }
+        }
+
+        private void AddPrimitiveParameter(SwaggerService service, SwaggerOperation operation, ParameterInfo parameter, ISchemaResolver schemaResolver)
         {
             var operationParameter = CreatePrimitiveParameter(service, parameter, schemaResolver);
             operationParameter.Kind = SwaggerParameterKind.Query;
@@ -323,15 +333,21 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
         private SwaggerParameter CreatePrimitiveParameter(SwaggerService service, ParameterInfo parameter, ISchemaResolver schemaResolver)
         {
+            return CreatePrimitiveParameter(service, parameter.Name, parameter.GetXmlDocumentation(), parameter.ParameterType, parameter.GetCustomAttributes(), schemaResolver);
+        }
+
+        private SwaggerParameter CreatePrimitiveParameter(SwaggerService service, string name, string description, 
+            Type type, IEnumerable<Attribute> parentAttributes, ISchemaResolver schemaResolver)
+        {
             var parameterGenerator = new RootTypeJsonSchemaGenerator(service, Settings);
 
-            var info = JsonObjectTypeDescription.FromType(parameter.ParameterType);
-            var parameterType = info.IsComplexType ? typeof(string) : parameter.ParameterType; // complex types must be treated as string
+            var info = JsonObjectTypeDescription.FromType(type);
+            var parameterType = info.IsComplexType ? typeof(string) : type; // complex types must be treated as string
 
-            var segmentParameter = parameterGenerator.Generate<SwaggerParameter>(parameterType, parameter.GetCustomAttributes(), schemaResolver);
-            segmentParameter.Name = parameter.Name;
-            segmentParameter.Description = parameter.GetXmlDocumentation();
-            return segmentParameter;
+            var operationParameter = parameterGenerator.Generate<SwaggerParameter>(parameterType, parentAttributes, schemaResolver);
+            operationParameter.Name = name;
+            operationParameter.Description = description;
+            return operationParameter;
         }
 
         private void LoadReturnType(SwaggerService service, SwaggerOperation operation, MethodInfo method, ISchemaResolver schemaResolver)
