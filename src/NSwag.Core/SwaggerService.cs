@@ -155,7 +155,12 @@ namespace NSwag
         public static SwaggerService FromJson(string data)
         {
             data = JsonSchemaReferenceUtilities.ConvertJsonReferences(data);
-            var service = JsonConvert.DeserializeObject<SwaggerService>(data);
+            var service = JsonConvert.DeserializeObject<SwaggerService>(data, new JsonSerializerSettings
+            {
+                ConstructorHandling = ConstructorHandling.Default,
+                ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
+                PreserveReferencesHandling = PreserveReferencesHandling.Objects
+            });
             JsonSchemaReferenceUtilities.UpdateSchemaReferences(service);
             return service;
         }
