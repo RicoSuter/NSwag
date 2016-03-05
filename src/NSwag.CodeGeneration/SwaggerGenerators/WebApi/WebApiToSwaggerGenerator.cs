@@ -160,7 +160,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 if (parameter != null)
                 {
                     var operationParameter = CreatePrimitiveParameter(service, parameter, schemaResolver, setRequiredProperty: false);
-                    operationParameter.Kind = SwaggerParameterKind.Path;
+                    operationParameter.Kind = SwaggerParameterKind.Path; // Path is always required => property not needed
 
                     operation.Parameters.Add(operationParameter);
                     parameters.Remove(parameter);
