@@ -23,7 +23,7 @@
   "SwaggerToTypeScriptCommand": {
     "ClassName": "{controller}Client",
     "ModuleName": "",
-    "Template": 0,
+    "Template": 1,
     "PromiseType": 0,
     "GenerateClientClasses": true,
     "GenerateClientInterfaces": true,
