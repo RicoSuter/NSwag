@@ -302,9 +302,11 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         {
             foreach (var property in parameter.ParameterType.GetRuntimeProperties())
             {
+                var attributes = property.GetCustomAttributes().ToList(); 
                 var operationParameter = CreatePrimitiveParameter(// TODO: Check if there is a way to control the property name
-                    service, property.Name, property.GetXmlDocumentation(), property.PropertyType, property.GetCustomAttributes(), schemaResolver);
+                    service, property.Name, property.GetXmlDocumentation(), property.PropertyType, attributes, schemaResolver);
 
+                operationParameter.IsRequired = attributes.Any(a => a.GetType().Name == "RequiredAttribute");
                 operationParameter.Kind = SwaggerParameterKind.Query;
                 operation.Parameters.Add(operationParameter);
             }
