@@ -8,7 +8,6 @@
 
 using System;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using NJsonSchema;
 
 namespace NSwag
@@ -26,11 +25,16 @@ namespace NSwag
         [JsonProperty(PropertyName = "in", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public SwaggerParameterKind Kind { get; set; }
 
-        /// <summary>Gets or sets a value indicating whether the parameter is required (default: true).</summary>
+        /// <summary>Gets or sets a value indicating whether the parameter is required (default: true when <see cref="Kind"/> is  <see cref="SwaggerParameterKind.Path"/>, false otherwise).</summary>
         [JsonIgnore]
         public bool IsRequired
         {
-            get { return IsRequiredRaw.HasValue ? IsRequiredRaw.Value : true; }
+            get
+            {
+                if (Kind == SwaggerParameterKind.Path)
+                    return true; 
+                return IsRequiredRaw ?? false;
+            }
             set { IsRequiredRaw = value; }
         }
 
