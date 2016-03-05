@@ -38,6 +38,9 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
         var url = this.baseUrl + "/<operation.Path>?"; 
 
 <operation.PathParameters:{parameter | 
+    if (<parameter.VariableNameLower> === undefined || <parameter.VariableNameLower> === null)
+        throw new Error("The parameter '<parameter.VariableNameLower>' must be defined.");
+
     <if(parameter.IsDate)>
         url = url.replace("{<parameter.Name>\}", "" + <parameter.VariableNameLower>.toJSON()); 
     <else>

@@ -59,6 +59,9 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasBaseClass)><baseCl
         var url = string.Format("{0\}/{1\}?", BaseUrl, "<operation.Path>");
 
 <operation.PathParameters:{parameter | 
+        if (<parameter.VariableNameLower> == null)
+            throw new ArgumentNullException("<parameter.VariableNameLower>");
+
         url = url.Replace("{<parameter.Name>\}", <parameter.VariableNameLower>.ToString());
 }>
 
