@@ -159,7 +159,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 var parameter = parameters.SingleOrDefault(p => p.Name == parameterName);
                 if (parameter != null)
                 {
-                    var operationParameter = CreatePrimitiveParameter(service, parameter, schemaResolver);
+                    var operationParameter = CreatePrimitiveParameter(service, parameter, schemaResolver, setRequiredProperty: false);
                     operationParameter.Kind = SwaggerParameterKind.Path;
 
                     operation.Parameters.Add(operationParameter);
@@ -302,7 +302,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         {
             foreach (var property in parameter.ParameterType.GetRuntimeProperties())
             {
-                var attributes = property.GetCustomAttributes().ToList(); 
+                var attributes = property.GetCustomAttributes().ToList();
                 var operationParameter = CreatePrimitiveParameter(// TODO: Check if there is a way to control the property name
                     service, property.Name, property.GetXmlDocumentation(), property.PropertyType, attributes, schemaResolver);
 
@@ -314,7 +314,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
         private void AddPrimitiveParameter(SwaggerService service, SwaggerOperation operation, ParameterInfo parameter, ISchemaResolver schemaResolver)
         {
-            var operationParameter = CreatePrimitiveParameter(service, parameter, schemaResolver);
+            var operationParameter = CreatePrimitiveParameter(service, parameter, schemaResolver, setRequiredProperty: true);
             operationParameter.Kind = SwaggerParameterKind.Query;
             operation.Parameters.Add(operationParameter);
         }
@@ -325,6 +325,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             operationParameter.Schema = CreateAndAddSchema<SwaggerParameter>(service, parameter.ParameterType, schemaResolver);
             operationParameter.Name = parameter.Name;
             operationParameter.Kind = SwaggerParameterKind.Body;
+            operationParameter.IsRequired = !parameter.HasDefaultValue;
 
             var description = parameter.GetXmlDocumentation();
             if (description != string.Empty)
@@ -333,12 +334,19 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             return operationParameter;
         }
 
-        private SwaggerParameter CreatePrimitiveParameter(SwaggerService service, ParameterInfo parameter, ISchemaResolver schemaResolver)
+        private SwaggerParameter CreatePrimitiveParameter(SwaggerService service, ParameterInfo parameter, ISchemaResolver schemaResolver, bool setRequiredProperty)
         {
-            return CreatePrimitiveParameter(service, parameter.Name, parameter.GetXmlDocumentation(), parameter.ParameterType, parameter.GetCustomAttributes(), schemaResolver);
+            var operationParameter = CreatePrimitiveParameter(
+                service, parameter.Name, parameter.GetXmlDocumentation(),
+                parameter.ParameterType, parameter.GetCustomAttributes(), schemaResolver);
+
+            if (setRequiredProperty)
+                operationParameter.IsRequired = !parameter.HasDefaultValue;
+
+            return operationParameter;
         }
 
-        private SwaggerParameter CreatePrimitiveParameter(SwaggerService service, string name, string description, 
+        private SwaggerParameter CreatePrimitiveParameter(SwaggerService service, string name, string description,
             Type type, IEnumerable<Attribute> parentAttributes, ISchemaResolver schemaResolver)
         {
             var parameterGenerator = new RootTypeJsonSchemaGenerator(service, Settings);
@@ -348,7 +356,10 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
             var operationParameter = parameterGenerator.Generate<SwaggerParameter>(parameterType, parentAttributes, schemaResolver);
             operationParameter.Name = name;
-            operationParameter.Description = description;
+
+            if (description != string.Empty)
+                operationParameter.Description = description;
+
             return operationParameter;
         }
 
