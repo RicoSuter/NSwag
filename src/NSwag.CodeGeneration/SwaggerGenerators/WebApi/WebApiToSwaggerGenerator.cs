@@ -351,7 +351,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             if (parameter.HasDefaultValue)
                 return false;
 
-            if (parameter.ParameterType.GetGenericTypeDefinition() == typeof(Nullable<>))
+            var isNullable = Nullable.GetUnderlyingType(parameter.ParameterType) != null; 
+            if (isNullable)
                 return false;
 
             return parameter.ParameterType.IsValueType;
