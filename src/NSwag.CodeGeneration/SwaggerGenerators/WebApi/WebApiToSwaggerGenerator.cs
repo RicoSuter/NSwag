@@ -325,7 +325,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             operationParameter.Schema = CreateAndAddSchema<SwaggerParameter>(service, parameter.ParameterType, schemaResolver);
             operationParameter.Name = parameter.Name;
             operationParameter.Kind = SwaggerParameterKind.Body;
-            operationParameter.IsRequired = !parameter.HasDefaultValue;
+            operationParameter.IsRequired = IsParameterRequired(parameter);
 
             var description = parameter.GetXmlDocumentation();
             if (description != string.Empty)
@@ -341,9 +341,20 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 parameter.ParameterType, parameter.GetCustomAttributes(), schemaResolver);
 
             if (setRequiredProperty)
-                operationParameter.IsRequired = !parameter.HasDefaultValue;
+                operationParameter.IsRequired = IsParameterRequired(parameter);
 
             return operationParameter;
+        }
+
+        private bool IsParameterRequired(ParameterInfo parameter)
+        {
+            if (parameter.HasDefaultValue)
+                return false;
+
+            if (parameter.ParameterType.GetGenericTypeDefinition() == typeof(Nullable<>))
+                return false;
+
+            return parameter.ParameterType.IsValueType;
         }
 
         private SwaggerParameter CreatePrimitiveParameter(SwaggerService service, string name, string description,
