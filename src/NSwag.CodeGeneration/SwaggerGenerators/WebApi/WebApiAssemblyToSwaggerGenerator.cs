@@ -37,7 +37,10 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             if (File.Exists(Settings.AssemblyPath))
             {
                 using (var isolated = new AppDomainIsolation<AssemblyLoader>(Path.GetDirectoryName(Settings.AssemblyPath)))
+                {
+                    isolated.Object.InitAdditionalDirectories(Settings.ReferencePaths);
                     return isolated.Object.GetControllerClasses(Settings.AssemblyPath);
+                }
             }
             return new string[] { };
         }
@@ -49,7 +52,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         {
             using (var isolated = new AppDomainIsolation<AssemblyLoader>(Path.GetDirectoryName(Settings.AssemblyPath)))
             {
-                var service = isolated.Object.GenerateForController(controllerClassName, JsonConvert.SerializeObject(Settings)); 
+                isolated.Object.InitAdditionalDirectories(Settings.ReferencePaths);
+                var service = isolated.Object.GenerateForController(controllerClassName, JsonConvert.SerializeObject(Settings));
                 return SwaggerService.FromJson(service);
             }
         }
@@ -61,20 +65,32 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         {
             using (var isolated = new AppDomainIsolation<AssemblyLoader>(Path.GetDirectoryName(Settings.AssemblyPath)))
             {
+                isolated.Object.InitAdditionalDirectories(Settings.ReferencePaths);
                 var service = isolated.Object.GenerateForControllers(controllerClassNames, JsonConvert.SerializeObject(Settings));
-
                 return SwaggerService.FromJson(service);
             }
         }
 
         private class AssemblyLoader : MarshalByRefObject
         {
+
+            private List<string> _additionalDirectories;
+
+            public void InitAdditionalDirectories(IEnumerable<string> referencePaths)
+            {
+                _additionalDirectories = new List<string>();
+                foreach (var dir in referencePaths.Where(p => !string.IsNullOrWhiteSpace(p)))
+                {
+                    _additionalDirectories.AddRange(System.IO.Directory.GetDirectories(dir, "*", System.IO.SearchOption.AllDirectories));
+                }
+            }
+
             internal string GenerateForController(string controllerClassName, string settingsData)
             {
                 var settings = JsonConvert.DeserializeObject<WebApiAssemblyToSwaggerGeneratorSettings>(settingsData);
 
-                var assembly = Assembly.LoadFrom(settings.AssemblyPath);
-                var type = assembly.GetType(controllerClassName, true);
+                IEnumerable<Type> controllers = GetControllerTypes(new string[] { controllerClassName }, settings);
+                var type = controllers.First();
 
                 var generator = new WebApiToSwaggerGenerator(settings);
                 return generator.GenerateForController(type).ToJson();
@@ -83,16 +99,68 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             internal string GenerateForControllers(IEnumerable<string> controllerClassNames, string settingsData)
             {
                 var settings = JsonConvert.DeserializeObject<WebApiAssemblyToSwaggerGeneratorSettings>(settingsData);
-
-                var assembly = Assembly.LoadFrom(settings.AssemblyPath);
-                var controllers = controllerClassNames.Select(c => assembly.GetType(c, true));
-
+                IEnumerable<Type> controllers = GetControllerTypes(controllerClassNames, settings);
+                
                 var generator = new WebApiToSwaggerGenerator(settings);
                 return generator.GenerateForControllers(controllers).ToJson();
             }
 
+            private IEnumerable<Type> GetControllerTypes(IEnumerable<string> controllerClassNames, WebApiAssemblyToSwaggerGeneratorSettings settings)
+            {
+                AppDomain domain = AppDomain.CurrentDomain;
+                domain.AssemblyResolve += Domain_AssemblyResolve;
+
+                var assembly = Assembly.LoadFrom(settings.AssemblyPath);
+                var controllers = controllerClassNames.Select(c => assembly.GetType(c, true));
+
+
+                var types = assembly.GetTypes();
+                var controllerTypes = new List<Type>();
+
+                foreach (var className in controllerClassNames)
+                {
+                    try
+                    {
+                        var type = types.Where(t => t.FullName == className || t.Name == className).First();
+                        controllerTypes.Add(type);
+                    }
+                    catch
+                    {
+                        throw new Exception("Unable to load type for controller: " + className);
+                    }
+                }
+
+                return controllerTypes;
+            }
+
+            private Assembly Domain_AssemblyResolve(object sender, ResolveEventArgs args)
+            {
+                foreach (var dir in _additionalDirectories)
+                {
+                    var files = Directory.GetFiles(dir, args.Name.Substring(0, args.Name.IndexOf(",")) + ".dll", SearchOption.TopDirectoryOnly);
+
+                    foreach (var file in files)
+                    {
+                        //Load the assembly from the specified path.
+                        try
+                        {
+                            var assembly = Assembly.LoadFrom(file);
+
+                            if (assembly.FullName == args.Name)
+                                return assembly;
+                        }
+                        catch { }
+                    }
+                }
+
+                return null;
+            }
+
             internal string[] GetControllerClasses(string assemblyPath)
             {
+                AppDomain domain = AppDomain.CurrentDomain;
+                domain.AssemblyResolve += Domain_AssemblyResolve;
+
                 var assembly = Assembly.LoadFrom(assemblyPath);
                 return assembly.ExportedTypes
                     .Where(t => t.InheritsFrom("ApiController") || t.InheritsFrom("Controller"))
