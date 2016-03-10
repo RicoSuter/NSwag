@@ -29,6 +29,14 @@ namespace NSwag.Commands
             get { return Settings.AssemblyPath; }
             set { Settings.AssemblyPath = value; }
         }
+        
+        [Description("The path to seach for referenced assemblies files.")]
+        [Argument(Name = "ReferencePaths", DefaultValue = "")]
+        public string[] ReferencePaths
+        {
+            get { return Settings.ReferencePaths; }
+            set { Settings.ReferencePaths = value; }
+        }
 
         [Description("The Web API controller full class name or empty to load all controllers from the assembly.")]
         [Argument(Name = "Controller", DefaultValue = null)]
