@@ -12,9 +12,6 @@ namespace NSwag.CodeGeneration.Infrastructure
 {
     internal sealed class AppDomainIsolation<T> : IDisposable where T : MarshalByRefObject
     {
-        private AppDomain _domain;
-        private readonly T _object;
-
         /// <exception cref="ArgumentNullException"><paramref name="assemblyDirectory"/> is <see langword="null" />.</exception>
         public AppDomainIsolation(string assemblyDirectory)
         {
@@ -30,31 +27,30 @@ namespace NSwag.CodeGeneration.Infrastructure
                     ConfigurationFile = transformer.GetConfigurationPath(assemblyDirectory)
                 };
 
-                _domain = AppDomain.CreateDomain("AppDomainIsolation:" + Guid.NewGuid(), null, setup);
+                Domain = AppDomain.CreateDomain("AppDomainIsolation:" + Guid.NewGuid(), null, setup);
             }
 
             var type = typeof(T);
             try
             {
-                _object = (T)_domain.CreateInstanceAndUnwrap(type.Assembly.FullName, type.FullName);
+                Object = (T)Domain.CreateInstanceAndUnwrap(type.Assembly.FullName, type.FullName);
             }
             catch
             {
-                _object = (T)_domain.CreateInstanceFromAndUnwrap(type.Assembly.Location, type.FullName);
+                Object = (T)Domain.CreateInstanceFromAndUnwrap(type.Assembly.Location, type.FullName);
             }
         }
 
-        public T Object
-        {
-            get { return _object; }
-        }
+        public AppDomain Domain { get; private set; }
+
+        public T Object { get; }
 
         public void Dispose()
         {
-            if (_domain != null)
+            if (Domain != null)
             {
-                AppDomain.Unload(_domain);
-                _domain = null;
+                AppDomain.Unload(Domain);
+                Domain = null;
             }
         }
     }

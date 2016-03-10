@@ -16,6 +16,7 @@ namespace NSwag.Commands
         public WebApiToSwaggerCommand()
         {
             Settings = new WebApiAssemblyToSwaggerGeneratorSettings();
+            ReferencePaths = new string[] { };
             ControllerNames = new string[] { };
         }
 
@@ -31,7 +32,7 @@ namespace NSwag.Commands
         }
         
         [Description("The path to seach for referenced assemblies files.")]
-        [Argument(Name = "ReferencePaths", DefaultValue = "")]
+        [Argument(Name = "ReferencePaths", DefaultValue = new string[] { })]
         public string[] ReferencePaths
         {
             get { return Settings.ReferencePaths; }

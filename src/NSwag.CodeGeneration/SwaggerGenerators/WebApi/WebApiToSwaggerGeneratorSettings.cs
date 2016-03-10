@@ -13,7 +13,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
     /// <summary>Settings for the <see cref="WebApiAssemblyToSwaggerGenerator"/>.</summary>
     public class WebApiToSwaggerGeneratorSettings : JsonSchemaGeneratorSettings
     {
-        /// <summary>Webs the API assembly to swagger generator settings.</summary>
+        /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerGeneratorSettings"/> class.</summary>
         public WebApiToSwaggerGeneratorSettings()
         {
             DefaultUrlTemplate = "api/{controller}/{action}/{id}";
