@@ -36,7 +36,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         {
             if (File.Exists(Settings.AssemblyPath))
             {
-                using (var isolated = new AppDomainIsolation<AssemblyLoader>(Path.GetDirectoryName(Settings.AssemblyPath)))
+                using (var isolated = new AppDomainIsolation<WebApiAssemblyLoader>(Path.GetDirectoryName(Settings.AssemblyPath)))
                     return isolated.Object.GetControllerClasses(Settings.AssemblyPath, Settings.ReferencePaths);
             }
             return new string[] { };
@@ -47,7 +47,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <returns>The Swagger definition.</returns>
         public SwaggerService GenerateForController(string controllerClassName)
         {
-            using (var isolated = new AppDomainIsolation<AssemblyLoader>(Path.GetDirectoryName(Settings.AssemblyPath)))
+            using (var isolated = new AppDomainIsolation<WebApiAssemblyLoader>(Path.GetDirectoryName(Settings.AssemblyPath)))
             {
                 var service = isolated.Object.GenerateForController(controllerClassName, JsonConvert.SerializeObject(Settings));
                 return SwaggerService.FromJson(service);
@@ -59,14 +59,14 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <returns>The Swagger definition.</returns>
         public SwaggerService GenerateForControllers(IEnumerable<string> controllerClassNames)
         {
-            using (var isolated = new AppDomainIsolation<AssemblyLoader>(Path.GetDirectoryName(Settings.AssemblyPath)))
+            using (var isolated = new AppDomainIsolation<WebApiAssemblyLoader>(Path.GetDirectoryName(Settings.AssemblyPath)))
             {
                 var service = isolated.Object.GenerateForControllers(controllerClassNames, JsonConvert.SerializeObject(Settings));
                 return SwaggerService.FromJson(service);
             }
         }
 
-        private class AssemblyLoader : MarshalByRefObject
+        private class WebApiAssemblyLoader : AssemblyLoader
         {
             internal string GenerateForController(string controllerClassName, string settingsData)
             {
@@ -88,39 +88,6 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
                 var generator = new WebApiToSwaggerGenerator(settings);
                 return generator.GenerateForControllers(controllers).ToJson();
-            }
-
-            private void RegisterReferencePaths(IEnumerable<string> referencePaths)
-            {
-                var domain = AppDomain.CurrentDomain; 
-
-                var allReferencePaths = new List<string> { domain.SetupInformation.ApplicationBase };
-                foreach (var dir in referencePaths.Where(p => !string.IsNullOrWhiteSpace(p)))
-                    allReferencePaths.AddRange(System.IO.Directory.GetDirectories(dir, "*", System.IO.SearchOption.AllDirectories));
-
-                domain.AssemblyResolve += (sender, args) =>
-                {
-                    foreach (var path in allReferencePaths)
-                    {
-                        var files = Directory.GetFiles(path, args.Name.Substring(
-                            0, args.Name.IndexOf(",", StringComparison.InvariantCulture)) + ".dll",
-                            SearchOption.TopDirectoryOnly);
-
-                        foreach (var file in files)
-                        {
-                            try
-                            {
-                                var assembly = Assembly.LoadFrom(file);
-                                if (assembly.FullName == args.Name)
-                                    return assembly;
-                            }
-                            catch
-                            {
-                            }
-                        }
-                    }
-                    return null;
-                };
             }
 
             private IEnumerable<Type> GetControllerTypes(IEnumerable<string> controllerClassNames, WebApiAssemblyToSwaggerGeneratorSettings settings)

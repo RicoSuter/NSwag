@@ -1,4 +1,13 @@
-﻿using System;
+﻿//-----------------------------------------------------------------------
+// <copyright file="AssemblyTypeToSwaggerGenerator.cs" company="NSwag">
+//     Copyright (c) Rico Suter. All rights reserved.
+// </copyright>
+// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <author>Rico Suter, mail@rsuter.com</author>
+//-----------------------------------------------------------------------
+
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -27,8 +36,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         {
             if (File.Exists(Settings.AssemblyPath))
             {
-                using (var isolated = new AppDomainIsolation<AssemblyLoader>(Path.GetDirectoryName(Settings.AssemblyPath)))
-                    return isolated.Object.GetClasses(Settings.AssemblyPath);
+                using (var isolated = new AppDomainIsolation<NetAssemblyLoader>(Path.GetDirectoryName(Settings.AssemblyPath)))
+                    return isolated.Object.GetClasses(Settings.AssemblyPath, Settings.ReferencePaths);
             }
             return new string[] { };
         }
@@ -38,15 +47,16 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <returns>The Swagger definition.</returns>
         public SwaggerService Generate(string[] classNames)
         {
-            using (var isolated = new AppDomainIsolation<AssemblyLoader>(Path.GetDirectoryName(Settings.AssemblyPath)))
+            using (var isolated = new AppDomainIsolation<NetAssemblyLoader>(Path.GetDirectoryName(Settings.AssemblyPath)))
                 return SwaggerService.FromJson(isolated.Object.FromAssemblyType(classNames, JsonConvert.SerializeObject(Settings)));
         }
 
-        private class AssemblyLoader : MarshalByRefObject
+        private class NetAssemblyLoader : AssemblyLoader
         {
             internal string FromAssemblyType(string[] classNames, string settingsData)
             {
                 var settings = JsonConvert.DeserializeObject<AssemblyTypeToSwaggerGeneratorSettings>(settingsData);
+                RegisterReferencePaths(settings.ReferencePaths);
 
                 var generator = new JsonSchemaGenerator(settings);
                 var resolver = new SchemaResolver();
@@ -63,8 +73,10 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 return service.ToJson();
             }
 
-            internal string[] GetClasses(string assemblyPath)
+            internal string[] GetClasses(string assemblyPath, IEnumerable<string> referencePaths)
             {
+                RegisterReferencePaths(referencePaths);
+
                 var assembly = Assembly.LoadFrom(assemblyPath);
                 return assembly.ExportedTypes
                     .Select(t => t.FullName)

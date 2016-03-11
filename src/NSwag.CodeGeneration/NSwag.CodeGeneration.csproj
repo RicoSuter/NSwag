@@ -79,6 +79,7 @@
     <Compile Include="Infrastructure\ReflectionExtensions.cs" />
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpWebApiControllerGenerator.cs" />
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpWebApiControllerGeneratorSettings.cs" />
+    <Compile Include="SwaggerGenerators\AssemblyLoader.cs" />
     <Compile Include="SwaggerGenerators\RootTypeJsonSchemaGenerator.cs" />
     <Compile Include="SwaggerGenerators\WebApi\AssemblyTypeToSwaggerGenerator.cs" />
     <Compile Include="SwaggerGenerators\WebApi\AssemblyTypeToSwaggerGeneratorSettings.cs" />
