@@ -12,7 +12,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Input;
 using MyToolkit.Command;
 using MyToolkit.Storage;
 using MyToolkit.Utilities;
@@ -66,10 +65,7 @@ namespace NSwagStudio.ViewModels
         public RelayCommand<NSwagDocument> SaveAsDocumentCommand { get; private set; }
 
         /// <summary>Gets the application version with build time. </summary>
-        public string ApplicationVersion
-        {
-            get { return GetType().Assembly.GetVersionWithBuildTime(); }
-        }
+        public string ApplicationVersion => GetType().Assembly.GetVersionWithBuildTime();
 
         protected override async void OnLoaded()
         {

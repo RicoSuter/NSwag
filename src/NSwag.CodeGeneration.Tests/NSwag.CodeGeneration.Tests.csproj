@@ -83,6 +83,7 @@
     <Compile Include="WebApiToSwaggerGenerator\Attributes\ComplexParametersTests.cs" />
     <Compile Include="WebApiToSwaggerGenerator\Attributes\PrimitivePathParametersTests.cs" />
     <Compile Include="WebApiToSwaggerGenerator\Attributes\PrimitiveQueryParametersTests.cs" />
+    <Compile Include="WebApiToSwaggerGenerator\Attributes\RouteInheritanceTests.cs" />
     <Compile Include="WebApiToSwaggerGenerator\GeneralTests.cs" />
   </ItemGroup>
   <ItemGroup>
