@@ -7,9 +7,12 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.IO;
+using System.Text;
 using MyToolkit.Model;
 using Newtonsoft.Json;
 using NSwag.Commands;
+using NSwagStudio.Utilities;
 
 namespace NSwagStudio
 {
@@ -34,10 +37,28 @@ namespace NSwagStudio
 
         public static NSwagDocument LoadDocument(string filePath)
         {
-            var data = System.IO.File.ReadAllText(filePath);
+            var data = File.ReadAllText(filePath);
+
             var document = JsonConvert.DeserializeObject<NSwagDocument>(data);
             document.Path = filePath;
-            document._latestData = data;
+
+            if (!string.IsNullOrEmpty(document.WebApiToSwaggerCommand.AssemblyPath) &&
+                !System.IO.Path.IsPathRooted(document.WebApiToSwaggerCommand.AssemblyPath))
+            {
+                document.WebApiToSwaggerCommand.AssemblyPath = PathUtilities.MakeAbsolutePath(
+                    System.IO.Path.GetDirectoryName(filePath), 
+                    document.WebApiToSwaggerCommand.AssemblyPath);
+            }
+
+            if (!string.IsNullOrEmpty(document.AssemblyTypeToSwaggerCommand.AssemblyPath) && 
+                !System.IO.Path.IsPathRooted(document.AssemblyTypeToSwaggerCommand.AssemblyPath))
+            {
+                document.AssemblyTypeToSwaggerCommand.AssemblyPath = PathUtilities.MakeAbsolutePath(
+                    System.IO.Path.GetDirectoryName(filePath),
+                    document.AssemblyTypeToSwaggerCommand.AssemblyPath);
+            }
+
+            document._latestData = JsonConvert.SerializeObject(document, Formatting.Indented);
 
             // Legacy file support
             if (document.SwaggerToCSharpClientCommand.DateTimeType == "0")
@@ -45,6 +66,24 @@ namespace NSwagStudio
             document.WebApiToSwaggerCommand.ControllerName = "";
 
             return document;
+        }
+
+        public void Save()
+        {
+            var previousWebApiAssemblyPath = WebApiToSwaggerCommand.AssemblyPath;
+            if (!string.IsNullOrEmpty(previousWebApiAssemblyPath))
+                WebApiToSwaggerCommand.AssemblyPath = PathUtilities.MakeRelativePath(WebApiToSwaggerCommand.AssemblyPath, System.IO.Path.GetDirectoryName(Path));
+
+            var previousAssemblyTypeAssemblyPath = AssemblyTypeToSwaggerCommand.AssemblyPath;
+            if (!string.IsNullOrEmpty(previousAssemblyTypeAssemblyPath))
+                AssemblyTypeToSwaggerCommand.AssemblyPath = PathUtilities.MakeRelativePath(AssemblyTypeToSwaggerCommand.AssemblyPath, System.IO.Path.GetDirectoryName(Path));
+
+            _latestData = JsonConvert.SerializeObject(this, Formatting.Indented);
+
+            WebApiToSwaggerCommand.AssemblyPath = previousWebApiAssemblyPath;
+            AssemblyTypeToSwaggerCommand.AssemblyPath = previousAssemblyTypeAssemblyPath; 
+
+            File.WriteAllText(Path, _latestData);
         }
 
         public static NSwagDocument CreateDocument()
@@ -114,11 +153,5 @@ namespace NSwagStudio
 
         [JsonProperty("SwaggerToCSharpWebApiControllerCommand")]
         public SwaggerToCSharpWebApiControllerCommand SwaggerToCSharpWebApiControllerCommand { get; set; }
-
-        public void Save()
-        {
-            _latestData = JsonConvert.SerializeObject(this, Formatting.Indented); 
-            System.IO.File.WriteAllText(Path, _latestData);
-        }
     }
 }
