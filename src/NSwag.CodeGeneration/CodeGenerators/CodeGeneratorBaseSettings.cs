@@ -38,7 +38,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
             get
             {
                 if (OperationGenerationMode == OperationGenerationMode.SingleClientFromOperationId)
-                    return new MultipleClientsFromPathSegmentsOperationNameGenerator();
+                    return new SingleClientFromOperationIdOperationNameGenerator();
 
                 if (OperationGenerationMode == OperationGenerationMode.MultipleClientsFromPathSegments)
                     return new MultipleClientsFromPathSegmentsOperationNameGenerator();
