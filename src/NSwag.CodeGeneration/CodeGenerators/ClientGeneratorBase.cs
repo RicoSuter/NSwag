@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
@@ -49,9 +50,9 @@ namespace NSwag.CodeGeneration.CodeGenerators
             var operations = GetOperations(service, resolver);
             var clients = string.Empty;
 
-            if (BaseSettings.OperationGenerationMode == OperationGenerationMode.MultipleClientsFromPathSegments)
+            if (BaseSettings.OperationNameGenerator.SupportsMultipleClients)
             {
-                foreach (var controllerOperations in operations.GroupBy(o => o.MvcControllerName))
+                foreach (var controllerOperations in operations.GroupBy(o => BaseSettings.OperationNameGenerator.GetClientName(o.Path, o.HttpMethod, o.Operation)))
                     clients += RenderClientCode(controllerOperations.Key, controllerOperations);
             }
             else
@@ -72,12 +73,9 @@ namespace NSwag.CodeGeneration.CodeGenerators
                 .SelectMany(pair => pair.Value.Select(p => new { Path = pair.Key.Trim('/'), HttpMethod = p.Key, Operation = p.Value }))
                 .Select(tuple =>
                 {
-                    var pathSegments = tuple.Path.Split('/').Where(p => !p.Contains("{")).Reverse().ToArray();
-
-                    var mvcControllerName = pathSegments.Length >= 2 ? pathSegments[1] : "Unknown";
-                    var mvcActionName = pathSegments.Length >= 1 ? pathSegments[0] : "Unknown";
-
                     var operation = tuple.Operation;
+                    var operationName = BaseSettings.OperationNameGenerator.GetOperationName(tuple.Path, tuple.HttpMethod, tuple.Operation); 
+
                     var responses = operation.Responses.Select(r => new ResponseModel
                     {
                         StatusCode = r.Key,
@@ -94,28 +92,14 @@ namespace NSwag.CodeGeneration.CodeGenerators
 
                     return new OperationModel
                     {
-                        Id = operation.OperationId,
-
                         Path = tuple.Path,
-
-                        HttpMethodUpper = ConvertToUpperStartIdentifier(tuple.HttpMethod.ToString()),
-                        HttpMethodLower = ConvertToLowerStartIdentifier(tuple.HttpMethod.ToString()),
-
-                        IsGetOrDelete = tuple.HttpMethod == SwaggerOperationMethod.Get || tuple.HttpMethod == SwaggerOperationMethod.Delete,
-
+                        HttpMethod = tuple.HttpMethod,
+                        Operation = tuple.Operation, 
+                        
                         Summary = RemoveLineBreaks(operation.Summary),
 
-                        MvcActionName = mvcActionName,
-                        MvcControllerName = mvcControllerName,
-
-                        OperationNameLower =
-                            ConvertToLowerStartIdentifier(BaseSettings.OperationGenerationMode == OperationGenerationMode.MultipleClientsFromPathSegments
-                                ? mvcActionName
-                                : operation.OperationId),
-                        OperationNameUpper =
-                            ConvertToUpperStartIdentifier(BaseSettings.OperationGenerationMode == OperationGenerationMode.MultipleClientsFromPathSegments
-                                ? mvcActionName
-                                : operation.OperationId),
+                        OperationNameLower = ConvertToLowerCamelCase(operationName),
+                        OperationNameUpper = ConvertToUpperCamelCase(operationName),
 
                         ResultType = GetResultType(operation),
                         HasResultType = HasResultType(operation),
@@ -135,7 +119,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
                             {
                                 Schema = p.ActualSchema, 
                                 Name = p.Name,
-                                VariableNameLower = ConvertToLowerStartIdentifier(p.Name.Replace("-", "_")), 
+                                VariableNameLower = ConvertToLowerCamelCase(p.Name.Replace("-", "_")), 
                                 Kind = p.Kind,
                                 IsRequired = p.IsRequired, 
                                 Type = resolver.Resolve(p.ActualSchema, p.Type.HasFlag(JsonObjectType.Null), p.Name),
@@ -147,7 +131,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
                 }).ToList();
             return operations;
         }
-        
+
         internal SwaggerResponse GetSuccessResponse(SwaggerOperation operation)
         {
             if (operation.Responses.Any(r => r.Key == "200"))

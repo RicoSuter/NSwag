@@ -29,7 +29,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         public SwaggerToTypeScriptClientGenerator(SwaggerService service, SwaggerToTypeScriptClientGeneratorSettings settings)
         {
             if (service == null)
-                throw new ArgumentNullException("service");
+                throw new ArgumentNullException(nameof(service));
 
             Settings = settings;
 
@@ -76,7 +76,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         {
             var template = LoadTemplate(Settings.Template.ToString());
 
-            template.Add("class", Settings.ClassName.Replace("{controller}", ConvertToUpperStartIdentifier(controllerName)));
+            template.Add("class", Settings.ClassName.Replace("{controller}", ConvertToUpperCamelCase(controllerName)));
             template.Add("operations", operations);
             template.Add("generateClientInterfaces", Settings.GenerateClientInterfaces);
             template.Add("hasOperations", operations.Any());

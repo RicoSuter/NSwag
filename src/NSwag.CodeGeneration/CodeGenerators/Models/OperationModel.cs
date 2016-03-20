@@ -8,18 +8,27 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using NJsonSchema.CodeGeneration;
 
 namespace NSwag.CodeGeneration.CodeGenerators.Models
 {
     internal class OperationModel
     {
-        public string Id { get; set; }
+        public string Id => Operation.OperationId;
 
-        public string HttpMethodUpper { get; set; }
+        public string Path { get; set; }
 
-        public string MvcActionName { get; set; }
+        public SwaggerOperation Operation { get; set; }
 
-        public string MvcControllerName { get; set; }
+        public SwaggerOperationMethod HttpMethod { get; set; }
+
+
+
+        public string HttpMethodUpper => GeneratorBase.ConvertToUpperCamelCase(HttpMethod.ToString());
+
+        public string HttpMethodLower => GeneratorBase.ConvertToLowerCamelCase(HttpMethod.ToString());
+
+        public bool IsGetOrDelete => HttpMethod == SwaggerOperationMethod.Get || HttpMethod == SwaggerOperationMethod.Delete;
 
         public string OperationNameLower { get; set; }
 
@@ -31,10 +40,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 
         public string ResultDescription { get; set; }
 
-        public bool HasResultDescription
-        {
-            get { return !string.IsNullOrEmpty(ResultDescription); }
-        }
+        public bool HasResultDescription => !string.IsNullOrEmpty(ResultDescription);
 
         public string ExceptionType { get; set; }
 
@@ -42,15 +48,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 
         public ResponseModel DefaultResponse { get; set; }
 
-        public bool HasDefaultResponse
-        {
-            get { return DefaultResponse != null; }
-        }
+        public bool HasDefaultResponse => DefaultResponse != null;
 
-        public bool HasOnlyDefaultResponse
-        {
-            get { return Responses.Count == 0 && HasDefaultResponse; }
-        }
+        public bool HasOnlyDefaultResponse => Responses.Count == 0 && HasDefaultResponse;
 
         public IEnumerable<ParameterModel> Parameters { get; set; }
 
@@ -59,45 +59,18 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
             get { return ContentParameter != null; }
         }
 
-        public ParameterModel ContentParameter
-        {
-            get
-            {
-                return Parameters.SingleOrDefault(p => p.Kind == SwaggerParameterKind.Body);
-            }
-        }
+        public ParameterModel ContentParameter => Parameters.SingleOrDefault(p => p.Kind == SwaggerParameterKind.Body);
 
-        public IEnumerable<ParameterModel> PathParameters
-        {
-            get { return Parameters.Where(p => p.Kind == SwaggerParameterKind.Path); }
-        }
+        public IEnumerable<ParameterModel> PathParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.Path);
 
-        public IEnumerable<ParameterModel> QueryParameters
-        {
-            get { return Parameters.Where(p => p.Kind == SwaggerParameterKind.Query); }
-        }
+        public IEnumerable<ParameterModel> QueryParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.Query);
 
-        public IEnumerable<ParameterModel> HeaderParameters
-        {
-            get { return Parameters.Where(p => p.Kind == SwaggerParameterKind.Header); }
-        }
-
-        public string Path { get; set; }
-
-        public bool IsGetOrDelete { get; set; }
-
-        public string HttpMethodLower { get; set; }
-
+        public IEnumerable<ParameterModel> HeaderParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.Header);
+        
         public string Summary { get; set; }
 
-        public bool HasSummary
-        {
-            get { return !string.IsNullOrEmpty(Summary); }
-        }
+        public bool HasSummary => !string.IsNullOrEmpty(Summary);
 
-        public bool HasDocumentation
-        {
-            get { return HasSummary || HasResultDescription || Parameters.Any(p => p.HasDescription); }
-        }
+        public bool HasDocumentation => HasSummary || HasResultDescription || Parameters.Any(p => p.HasDescription);
     }
 }

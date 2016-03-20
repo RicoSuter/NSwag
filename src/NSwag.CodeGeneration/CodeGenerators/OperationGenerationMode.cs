@@ -14,7 +14,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
         /// <summary>From the Swagger operation ID.</summary>
         SingleClientFromOperationId,
 
-        /// <summary>From path segments (operation name = nth segment, client name = nth - 1 segment).</summary>
+        /// <summary>From path segments (operation name = last segment, client name = second to last segment).</summary>
         MultipleClientsFromPathSegments
     }
 }

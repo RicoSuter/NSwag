@@ -6,6 +6,9 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
+using NSwag.CodeGeneration.CodeGenerators.OperationNameGenerators;
+
 namespace NSwag.CodeGeneration.CodeGenerators
 {
     /// <summary>Settings for the <see cref="ClientGeneratorBase"/>.</summary>
@@ -29,5 +32,19 @@ namespace NSwag.CodeGeneration.CodeGenerators
 
         /// <summary>Gets or sets a value indicating whether to generate client types (default: true).</summary>
         public bool GenerateClientClasses { get; set; }
+
+        internal IOperationNameGenerator OperationNameGenerator
+        {
+            get
+            {
+                if (OperationGenerationMode == OperationGenerationMode.SingleClientFromOperationId)
+                    return new MultipleClientsFromPathSegmentsOperationNameGenerator();
+
+                if (OperationGenerationMode == OperationGenerationMode.MultipleClientsFromPathSegments)
+                    return new MultipleClientsFromPathSegmentsOperationNameGenerator();
+
+                throw new NotSupportedException("The OperationGenerationMode " + OperationGenerationMode + " is not supported.");
+            }
+        }
     }
 }

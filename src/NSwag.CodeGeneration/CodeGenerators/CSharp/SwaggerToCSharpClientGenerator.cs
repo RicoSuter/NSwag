@@ -72,7 +72,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         internal override string RenderClientCode(string controllerName, IEnumerable<OperationModel> operations)
         {
             var template = LoadTemplate("Client");
-            template.Add("class", Settings.ClassName.Replace("{controller}", ConvertToUpperStartIdentifier(controllerName)));
+            template.Add("class", Settings.ClassName.Replace("{controller}", ConvertToUpperCamelCase(controllerName)));
 
             var hasClientBaseClass = !string.IsNullOrEmpty(Settings.ClientBaseClass); 
             template.Add("baseClass", Settings.ClientBaseClass);
