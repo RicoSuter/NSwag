@@ -336,7 +336,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         private SwaggerParameter CreateBodyParameter(SwaggerService service, ParameterInfo parameter, ISchemaResolver schemaResolver)
         {
             var operationParameter = new SwaggerParameter();
-            operationParameter.Schema = CreateAndAddSchema<SwaggerParameter>(service, parameter.ParameterType, schemaResolver);
+            operationParameter.Schema = CreateAndAddSchema(service, parameter.ParameterType, schemaResolver);
             operationParameter.Name = parameter.Name;
             operationParameter.Kind = SwaggerParameterKind.Body;
             operationParameter.IsRequired = IsParameterRequired(parameter);
@@ -379,8 +379,16 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
             var info = JsonObjectTypeDescription.FromType(type);
             var parameterType = info.IsComplexType ? typeof(string) : type; // complex types must be treated as string
+            
+            SwaggerParameter operationParameter;
+            if (parameterType.IsEnum)
+            {
+                operationParameter = new SwaggerParameter();
+                operationParameter.SchemaReference = parameterGenerator.Generate<JsonSchema4>(parameterType, parentAttributes, schemaResolver);
+            }
+            else
+                operationParameter = parameterGenerator.Generate<SwaggerParameter>(parameterType, parentAttributes, schemaResolver);
 
-            var operationParameter = parameterGenerator.Generate<SwaggerParameter>(parameterType, parentAttributes, schemaResolver);
             operationParameter.Name = name;
 
             if (description != string.Empty)
@@ -413,7 +421,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     if (responseTypeAttribute.GetType().GetRuntimeProperty("HttpStatusCode") != null)
                         httpStatusCode = dynResultTypeAttribute.HttpStatusCode;
 
-                    var schema = CreateAndAddSchema<JsonSchema4>(service, returnType, schemaResolver);
+                    var schema = CreateAndAddSchema(service, returnType, schemaResolver);
                     operation.Responses[httpStatusCode] = new SwaggerResponse
                     {
                         Description = description,
@@ -427,7 +435,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     operation.Responses["204"] = new SwaggerResponse();
                 else
                 {
-                    var schema = CreateAndAddSchema<JsonSchema4>(service, returnType, schemaResolver);
+                    var schema = CreateAndAddSchema(service, returnType, schemaResolver);
                     operation.Responses["200"] = new SwaggerResponse
                     {
                         Description = description,
@@ -450,8 +458,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                    returnType.InheritsFrom("HttpResponseMessage");
         }
 
-        private TSchemaType CreateAndAddSchema<TSchemaType>(SwaggerService service, Type type, ISchemaResolver schemaResolver)
-            where TSchemaType : JsonSchema4, new()
+        private JsonSchema4 CreateAndAddSchema(SwaggerService service, Type type, ISchemaResolver schemaResolver)
         {
             if (type.Name == "Task`1")
                 type = type.GenericTypeArguments[0];
@@ -460,14 +467,14 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 type = type.GenericTypeArguments[0];
 
             if (IsFileResponse(type))
-                return new TSchemaType { Type = JsonObjectType.File };
+                return new JsonSchema4 { Type = JsonObjectType.File };
 
             var info = JsonObjectTypeDescription.FromType(type);
             if (info.Type.HasFlag(JsonObjectType.Object))
             {
                 if (type == typeof(object))
                 {
-                    return new TSchemaType
+                    return new JsonSchema4
                     {
                         Type = JsonObjectType.Object | JsonObjectType.Null,
                         AllowAdditionalProperties = false
@@ -480,7 +487,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     schemaGenerator.Generate<JsonSchema4>(type, schemaResolver);
                 }
 
-                return new TSchemaType
+                return new JsonSchema4
                 {
                     Type = JsonObjectType.Object | JsonObjectType.Null,
                     SchemaReference = schemaResolver.GetSchema(type, false)
@@ -490,15 +497,15 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             if (info.Type.HasFlag(JsonObjectType.Array))
             {
                 var itemType = type.GenericTypeArguments.Length == 0 ? type.GetElementType() : type.GenericTypeArguments[0];
-                return new TSchemaType
+                return new JsonSchema4
                 {
                     Type = JsonObjectType.Array | JsonObjectType.Null,
-                    Item = CreateAndAddSchema<JsonSchema4>(service, itemType, schemaResolver)
+                    Item = CreateAndAddSchema(service, itemType, schemaResolver)
                 };
             }
 
             var generator = new RootTypeJsonSchemaGenerator(service, Settings);
-            return generator.Generate<TSchemaType>(type, schemaResolver);
+            return generator.Generate<JsonSchema4>(type, schemaResolver);
         }
     }
 }
