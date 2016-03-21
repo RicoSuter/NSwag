@@ -106,7 +106,12 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             }
 
             foreach (var schema in schemaResolver.Schemes)
-                service.Definitions[schema.TypeName] = schema;
+            {
+                if (!service.Definitions.ContainsKey(schema.TypeName))
+                    service.Definitions[schema.TypeName] = schema;
+                else
+                    service.Definitions["ref_" + Guid.NewGuid()] = schema;
+            }
         }
 
         private static string GetOperationId(string controllerName, string methodName)
