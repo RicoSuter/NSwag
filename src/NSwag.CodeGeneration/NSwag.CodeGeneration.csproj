@@ -69,6 +69,7 @@
     <Compile Include="CodeGenerators\Models\ResponseModel.cs" />
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpClientGenerator.cs" />
     <Compile Include="CodeGenerators\ClientGeneratorBase.cs" />
+    <Compile Include="CodeGenerators\OperationNameGenerators\MultipleClientsFromOperationIdOperationNameGenerator.cs" />
     <Compile Include="CodeGenerators\OperationNameGenerators\MultipleClientsFromPathSegmentsOperationNameGenerator.cs" />
     <Compile Include="CodeGenerators\OperationGenerationMode.cs" />
     <Compile Include="CodeGenerators\CodeGeneratorBaseSettings.cs" />

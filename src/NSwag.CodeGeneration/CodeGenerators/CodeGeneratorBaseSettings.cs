@@ -33,15 +33,19 @@ namespace NSwag.CodeGeneration.CodeGenerators
         /// <summary>Gets or sets a value indicating whether to generate client types (default: true).</summary>
         public bool GenerateClientClasses { get; set; }
 
+        /// <exception cref="NotSupportedException" accessor="get">The OperationGenerationMode is not supported.</exception>
         internal IOperationNameGenerator OperationNameGenerator
         {
             get
             {
-                if (OperationGenerationMode == OperationGenerationMode.SingleClientFromOperationId)
-                    return new SingleClientFromOperationIdOperationNameGenerator();
+                if (OperationGenerationMode == OperationGenerationMode.MultipleClientsFromOperationId)
+                    return new MultipleClientsFromOperationIdOperationNameGenerator();
 
                 if (OperationGenerationMode == OperationGenerationMode.MultipleClientsFromPathSegments)
                     return new MultipleClientsFromPathSegmentsOperationNameGenerator();
+
+                if (OperationGenerationMode == OperationGenerationMode.SingleClientFromOperationId)
+                    return new SingleClientFromOperationIdOperationNameGenerator();
 
                 throw new NotSupportedException("The OperationGenerationMode " + OperationGenerationMode + " is not supported.");
             }

@@ -171,3 +171,4 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
     \}
 }>}
 <endif>
+

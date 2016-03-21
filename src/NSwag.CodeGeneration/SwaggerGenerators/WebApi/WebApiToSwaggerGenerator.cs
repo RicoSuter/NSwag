@@ -84,12 +84,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 var parameters = method.GetParameters().ToList();
                 var methodName = method.Name;
 
-                var operationId = methodName;
-                if (operationId.EndsWith("Async"))
-                    operationId = operationId.Substring(0, operationId.Length - 5);
-
                 var operation = new SwaggerOperation();
-                operation.OperationId = operationId;
+                operation.OperationId = GetOperationId(controllerType.Name, methodName);
 
                 var httpPath = GetHttpPath(service, operation, controllerType, method, parameters, schemaResolver);
 
@@ -111,6 +107,19 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
             foreach (var schema in schemaResolver.Schemes)
                 service.Definitions[schema.TypeName] = schema;
+        }
+
+        private static string GetOperationId(string controllerName, string methodName)
+        {
+            // TODO: Implement IOperationIdGenerator
+
+            if (controllerName.EndsWith("Controller"))
+                controllerName = controllerName.Substring(0, controllerName.Length - 10);
+
+            if (methodName.EndsWith("Async"))
+                methodName = methodName.Substring(0, methodName.Length - 5);
+            
+            return  controllerName + "_" + methodName;
         }
 
         private void LoadMetaData(SwaggerOperation operation, MethodInfo method)
@@ -351,7 +360,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             if (parameter.HasDefaultValue)
                 return false;
 
-            var isNullable = Nullable.GetUnderlyingType(parameter.ParameterType) != null; 
+            var isNullable = Nullable.GetUnderlyingType(parameter.ParameterType) != null;
             if (isNullable)
                 return false;
 

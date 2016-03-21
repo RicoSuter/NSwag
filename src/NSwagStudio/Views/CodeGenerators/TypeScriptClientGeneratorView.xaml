@@ -53,7 +53,7 @@
                                 <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
                                     <Run Text="Operation Generation Mode" FontWeight="Bold" />
                                     <LineBreak />
-                                    The {controller} placeholder of the Class Name is replaced by the second last path segment.
+                                    The {controller} placeholder of the Class Name is replaced by generated client name (depends on the OperationGenerationMode strategy).
                                 </TextBlock>
                                 <ComboBox SelectedItem="{Binding Command.OperationGenerationMode, Mode=TwoWay}" 
                                       ItemsSource="{Binding OperationGenerationModes}" Margin="0,0,0,12" />
