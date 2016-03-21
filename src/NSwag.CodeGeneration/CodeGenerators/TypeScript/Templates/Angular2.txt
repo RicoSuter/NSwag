@@ -101,7 +101,7 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
         if (status === "<response.StatusCode>") {
 <if(response.HasType)>
             var result<response.StatusCode>: <response.Type> = null; 
-    <if(response.TypeIsDate)>
+    <if(response.IsDate)>
             result<response.StatusCode> = new Date(data);
     <else>
             result<response.StatusCode> = \<<response.Type>>data;
@@ -117,7 +117,7 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
         {
 <if(operation.HasDefaultResponse)>
             var result: <operation.DefaultResponse.Type> = null; 
-    <if(operation.DefaultResponse.TypeIsDate)>
+    <if(operation.DefaultResponse.IsDate)>
             result = new Date(data);
     <else>
             result = \<<operation.DefaultResponse.Type>>data;

@@ -74,16 +74,10 @@ namespace NSwag.CodeGeneration.CodeGenerators
                 .Select(tuple =>
                 {
                     var operation = tuple.Operation;
-                    var operationName = BaseSettings.OperationNameGenerator.GetOperationName(tuple.Path, tuple.HttpMethod, tuple.Operation); 
-
-                    var responses = operation.Responses.Select(r => new ResponseModel
+                    var responses = operation.Responses.Select(r => new ResponseModel(this)
                     {
                         StatusCode = r.Key,
-                        IsSuccess = HttpUtilities.IsSuccessStatusCode(r.Key),
-                        Type = GetType(r.Value.Schema, "Response"),
-                        IsFile = r.Value.Schema != null && r.Value.Schema.ActualSchema.Type == JsonObjectType.File, 
-                        HasType = r.Value.Schema != null, 
-                        TypeIsDate = GetType(r.Value.Schema, "Response") == "Date"
+                        Schema = r.Value.Schema?.ActualSchema
                     }).ToList();
 
                     var defaultResponse = responses.SingleOrDefault(r => r.StatusCode == "default");
@@ -95,21 +89,13 @@ namespace NSwag.CodeGeneration.CodeGenerators
                         Path = tuple.Path,
                         HttpMethod = tuple.HttpMethod,
                         Operation = tuple.Operation, 
-                        
-                        Summary = RemoveLineBreaks(operation.Summary),
-
-                        OperationNameLower = ConvertToLowerCamelCase(operationName),
-                        OperationNameUpper = ConvertToUpperCamelCase(operationName),
-
+                        OperationName = BaseSettings.OperationNameGenerator.GetOperationName(tuple.Path, tuple.HttpMethod, tuple.Operation),
                         ResultType = GetResultType(operation),
                         HasResultType = HasResultType(operation),
                         ResultDescription = GetResultDescription(operation),
-
                         ExceptionType = GetExceptionType(operation),
-
                         Responses = responses,
                         DefaultResponse = defaultResponse,
-
                         Parameters = operation.Parameters.Select(p =>
                         {
                             if (p.ActualSchema.Type == JsonObjectType.File)

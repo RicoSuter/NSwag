@@ -22,7 +22,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 
         public SwaggerOperationMethod HttpMethod { get; set; }
 
-
+        public string OperationName { get; set; }
 
         public string HttpMethodUpper => GeneratorBase.ConvertToUpperCamelCase(HttpMethod.ToString());
 
@@ -30,9 +30,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 
         public bool IsGetOrDelete => HttpMethod == SwaggerOperationMethod.Get || HttpMethod == SwaggerOperationMethod.Delete;
 
-        public string OperationNameLower { get; set; }
+        public string OperationNameLower => GeneratorBase.ConvertToLowerCamelCase(OperationName);
 
-        public string OperationNameUpper { get; set; }
+        public string OperationNameUpper => GeneratorBase.ConvertToUpperCamelCase(OperationName);
 
         public string ResultType { get; set; }
 
@@ -48,16 +48,13 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 
         public ResponseModel DefaultResponse { get; set; }
 
+        public IEnumerable<ParameterModel> Parameters { get; set; }
+        
         public bool HasDefaultResponse => DefaultResponse != null;
 
         public bool HasOnlyDefaultResponse => Responses.Count == 0 && HasDefaultResponse;
-
-        public IEnumerable<ParameterModel> Parameters { get; set; }
-
-        public bool HasContent
-        {
-            get { return ContentParameter != null; }
-        }
+        
+        public bool HasContent => ContentParameter != null;
 
         public ParameterModel ContentParameter => Parameters.SingleOrDefault(p => p.Kind == SwaggerParameterKind.Body);
 
@@ -66,8 +63,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         public IEnumerable<ParameterModel> QueryParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.Query);
 
         public IEnumerable<ParameterModel> HeaderParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.Header);
-        
-        public string Summary { get; set; }
+
+        public string Summary => GeneratorBase.RemoveLineBreaks(Operation.Summary);
 
         public bool HasSummary => !string.IsNullOrEmpty(Summary);
 

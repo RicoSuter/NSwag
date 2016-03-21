@@ -44,10 +44,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         public SwaggerToTypeScriptClientGeneratorSettings Settings { get; set; }
 
         /// <summary>Gets the language.</summary>
-        protected override string Language
-        {
-            get { return "TypeScript"; }
-        }
+        protected override string Language => "TypeScript";
 
         /// <summary>Generates the file.</summary>
         /// <returns>The file contents.</returns>
@@ -56,10 +53,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             return GenerateFile(_service, _resolver);
         }
 
-        internal override CodeGeneratorBaseSettings BaseSettings
-        {
-            get { return Settings; }
-        }
+        internal override CodeGeneratorBaseSettings BaseSettings => Settings;
 
         internal override string RenderFile(string clientCode)
         {
@@ -102,7 +96,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         internal override string GetResultType(SwaggerOperation operation)
         {
             var response = GetSuccessResponse(operation);
-            if (response == null || response.Schema == null)
+            if (response?.Schema == null)
                 return "void";
 
             return GetType(response.Schema, "Response");

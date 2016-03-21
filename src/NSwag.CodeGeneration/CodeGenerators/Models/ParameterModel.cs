@@ -22,32 +22,20 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 
         public string Description { get; set; }
 
-        public bool HasDescription
-        {
-            get { return !string.IsNullOrEmpty(Description); }
-        }
-        
-        public bool HasDescriptionOrIsOptional
-        {
-            get { return HasDescription || IsOptional; }
-        }
-
-        public bool IsLast { get; set; }
-
-        public bool IsDate
-        {
-            get { return Schema.Type == JsonObjectType.String && Schema.Format == JsonFormatStrings.DateTime; }
-        }
-
-        public bool IsArray
-        {
-            get { return Schema.Type == JsonObjectType.Array; }
-        }
+        public JsonSchema4 Schema { get; set; }
 
         public bool IsRequired { get; set; }
 
-        public bool IsOptional => !IsRequired;
+        public bool HasDescription => !string.IsNullOrEmpty(Description);
 
-        public JsonSchema4 Schema { get; set; }
+        public bool HasDescriptionOrIsOptional => HasDescription || IsOptional;
+
+        public bool IsLast { get; set; }
+
+        public bool IsDate => Schema.Type == JsonObjectType.String && Schema.Format == JsonFormatStrings.DateTime;
+
+        public bool IsArray => Schema.Type == JsonObjectType.Array;
+
+        public bool IsOptional => !IsRequired;
     }
 }

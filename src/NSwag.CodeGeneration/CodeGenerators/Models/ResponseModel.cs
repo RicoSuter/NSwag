@@ -6,20 +6,31 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using NJsonSchema;
+
 namespace NSwag.CodeGeneration.CodeGenerators.Models
 {
     internal class ResponseModel
     {
-        public string Type { get; set; }
+        private readonly ClientGeneratorBase _clientGeneratorBase;
+
+        public ResponseModel(ClientGeneratorBase clientGeneratorBase)
+        {
+            _clientGeneratorBase = clientGeneratorBase;
+        }
+
+        public JsonSchema4 Schema { get; set; }
 
         public string StatusCode { get; set; }
         
-        public bool IsSuccess { get; set; }
+        public string Type => _clientGeneratorBase.GetType(Schema, "Response");
 
-        public bool TypeIsDate { get; set; }
+        public bool HasType => Schema != null; 
 
-        public bool HasType { get; set; }
+        public bool IsSuccess => HttpUtilities.IsSuccessStatusCode(StatusCode);
 
-        public bool IsFile { get; set; }
+        public bool IsDate => _clientGeneratorBase.GetType(Schema, "Response") == "Date";
+
+        public bool IsFile => Schema != null && Schema.ActualSchema.Type == JsonObjectType.File;
     }
 }

@@ -27,7 +27,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             : base(service, settings.CSharpGeneratorSettings)
         {
             if (service == null)
-                throw new ArgumentNullException("service");
+                throw new ArgumentNullException(nameof(service));
 
             Settings = settings; 
 
@@ -41,10 +41,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         public SwaggerToCSharpClientGeneratorSettings Settings { get; set; }
 
         /// <summary>Gets the language.</summary>
-        protected override string Language
-        {
-            get { return "CSharp"; }
-        }
+        protected override string Language => "CSharp";
 
         /// <summary>Generates the file.</summary>
         /// <returns>The file contents.</returns>
@@ -53,10 +50,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             return GenerateFile(_service, Resolver);
         }
 
-        internal override CodeGeneratorBaseSettings BaseSettings
-        {
-            get { return Settings; }
-        }
+        internal override CodeGeneratorBaseSettings BaseSettings => Settings;
 
         internal override string RenderFile(string clientCode)
         {
