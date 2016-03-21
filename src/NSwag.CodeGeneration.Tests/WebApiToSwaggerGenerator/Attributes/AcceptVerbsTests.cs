@@ -43,7 +43,7 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator.Attributes
 
             //// Act
             var service = generator.GenerateForController<TestController>();
-            var operation = service.Operations.First(o => o.Operation.OperationId == "AddPost");
+            var operation = service.Operations.First(o => o.Operation.OperationId == "Test_AddPost");
 
             //// Assert
             Assert.AreEqual(SwaggerOperationMethod.Post, operation.HttpMethod);
@@ -57,7 +57,7 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator.Attributes
 
             //// Act
             var service = generator.GenerateForController<TestController>();
-            var operation = service.Operations.First(o => o.Operation.OperationId == "AddGet");
+            var operation = service.Operations.First(o => o.Operation.OperationId == "Test_AddGet");
 
             //// Assert
             Assert.AreEqual(SwaggerOperationMethod.Get, operation.HttpMethod);
@@ -71,7 +71,7 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator.Attributes
 
             //// Act
             var service = generator.GenerateForController<TestController>();
-            var operation = service.Operations.First(o => o.Operation.OperationId == "AddDelete");
+            var operation = service.Operations.First(o => o.Operation.OperationId == "Test_AddDelete");
 
             //// Assert
             Assert.AreEqual(SwaggerOperationMethod.Delete, operation.HttpMethod);
@@ -85,7 +85,7 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator.Attributes
 
             //// Act
             var service = generator.GenerateForController<TestController>();
-            var operation = service.Operations.First(o => o.Operation.OperationId == "AddPut");
+            var operation = service.Operations.First(o => o.Operation.OperationId == "Test_AddPut");
 
             //// Assert
             Assert.AreEqual(SwaggerOperationMethod.Put, operation.HttpMethod);

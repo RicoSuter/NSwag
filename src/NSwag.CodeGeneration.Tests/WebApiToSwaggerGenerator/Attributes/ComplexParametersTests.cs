@@ -41,7 +41,7 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator.Attributes
 
             //// Act
             var service = generator.GenerateForController<TestController>();
-            var operation = service.Operations.Single(o => o.Operation.OperationId == "WithoutAttribute").Operation;
+            var operation = service.Operations.Single(o => o.Operation.OperationId == "Test_WithoutAttribute").Operation;
 
             //// Assert
             Assert.AreEqual(SwaggerParameterKind.Body, operation.Parameters[0].Kind);
@@ -56,7 +56,7 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator.Attributes
 
             //// Act
             var service = generator.GenerateForController<TestController>();
-            var operation = service.Operations.Single(o => o.Operation.OperationId == "WithFromUriAttribute").Operation;
+            var operation = service.Operations.Single(o => o.Operation.OperationId == "Test_WithFromUriAttribute").Operation;
 
             //// Assert
             Assert.AreEqual(SwaggerParameterKind.Query, operation.Parameters[0].Kind);
@@ -70,7 +70,7 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator.Attributes
 
             //// Act
             var service = generator.GenerateForController<TestController>();
-            var operation = service.Operations.Single(o => o.Operation.OperationId == "WithFromUriAttribute").Operation;
+            var operation = service.Operations.Single(o => o.Operation.OperationId == "Test_WithFromUriAttribute").Operation;
 
             //// Assert
             Assert.AreEqual(SwaggerParameterKind.Query, operation.Parameters[0].Kind);
@@ -87,7 +87,7 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator.Attributes
 
             //// Act
             var service = generator.GenerateForController<TestController>();
-            var operation = service.Operations.Single(o => o.Operation.OperationId == "WithFromBodyAttribute").Operation;
+            var operation = service.Operations.Single(o => o.Operation.OperationId == "Test_WithFromBodyAttribute").Operation;
 
             //// Assert
             Assert.AreEqual(SwaggerParameterKind.Body, operation.Parameters[0].Kind);
