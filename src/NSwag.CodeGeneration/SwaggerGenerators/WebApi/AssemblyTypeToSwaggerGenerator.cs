@@ -66,7 +66,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 foreach (var className in classNames)
                 {
                     var type = assembly.GetType(className);
-                    var schema = generator.Generate<JsonSchema4>(type, resolver);
+                    var schema = generator.Generate(type, resolver);
                     service.Definitions[type.Name] = schema;
                 }
 

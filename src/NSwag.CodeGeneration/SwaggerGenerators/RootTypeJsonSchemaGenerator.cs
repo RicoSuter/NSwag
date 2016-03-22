@@ -43,7 +43,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
                 if (!schemaResolver.HasSchema(type, false))
                 {
                     var schemaGenerator = new RootTypeJsonSchemaGenerator(_service, Settings);
-                    schemaGenerator.Generate<JsonSchema4>(type, schemaResolver);
+                    schemaGenerator.Generate(type, schemaResolver);
                 }
 
                 schema.SchemaReference = schemaResolver.GetSchema(type, false);
