@@ -22,7 +22,7 @@ namespace NSwag
         {
             var rootService = root as SwaggerService;
             if (rootService != null && objectToAppend != null)
-                rootService.Definitions["ref_" + Guid.NewGuid()] = objectToAppend;
+                rootService.Definitions["ref_" + Guid.NewGuid().ToString().Replace("-", "_")] = objectToAppend;
             else
                 throw new InvalidOperationException("Could not find the JSON path of a child object.");
         }

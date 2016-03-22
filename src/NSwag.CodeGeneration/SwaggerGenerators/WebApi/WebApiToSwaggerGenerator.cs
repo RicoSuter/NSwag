@@ -110,7 +110,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 if (!service.Definitions.ContainsKey(schema.TypeName))
                     service.Definitions[schema.TypeName] = schema;
                 else
-                    service.Definitions["ref_" + Guid.NewGuid()] = schema;
+                    service.Definitions["ref_" + Guid.NewGuid().ToString().Replace("-", "_")] = schema;
             }
         }
 
