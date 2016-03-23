@@ -14,17 +14,19 @@ namespace NSwag
     /// <summary>Appends a JSON Schema to the Definitions of a Swagger service.</summary>
     public class SwaggerServiceSchemaDefinitionAppender : ISchemaDefinitionAppender
     {
+        private readonly SwaggerService _service;
+
+        public SwaggerServiceSchemaDefinitionAppender(SwaggerService service)
+        {
+            _service = service; 
+        }
+
         /// <summary>Appends the schema to the root object.</summary>
         /// <param name="root">The root object.</param>
         /// <param name="objectToAppend">The object to append.</param>
-        /// <exception cref="InvalidOperationException">Could not find the JSON path of a child object.</exception>
         public void Append(object root, JsonSchema4 objectToAppend)
         {
-            var rootService = root as SwaggerService;
-            if (rootService != null && objectToAppend != null)
-                rootService.Definitions["ref_" + Guid.NewGuid().ToString().Replace("-", "_")] = objectToAppend;
-            else
-                throw new InvalidOperationException("Could not find the JSON path of a child object.");
+            _service.Definitions["ref_" + Guid.NewGuid().ToString().Replace("-", "_")] = objectToAppend;
         }
     }
 }

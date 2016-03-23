@@ -375,7 +375,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         private SwaggerParameter CreatePrimitiveParameter(SwaggerService service, string name, string description,
             Type type, IEnumerable<Attribute> parentAttributes, ISchemaResolver schemaResolver)
         {
-            var schemaGenerator = new RootTypeJsonSchemaGenerator(service, Settings);
+            var schemaDefinitionAppender = new SwaggerServiceSchemaDefinitionAppender(service);
+            var schemaGenerator = new RootTypeJsonSchemaGenerator(service, schemaDefinitionAppender, Settings);
 
             var typeDescription = JsonObjectTypeDescription.FromType(type, parentAttributes, Settings.DefaultEnumHandling);
             var parameterType = typeDescription.IsComplexType ? typeof(string) : type; // complex types must be treated as string
@@ -384,7 +385,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             typeDescription.ApplyType(operationParameter);
 
             if (parameterType.IsEnum)
-                operationParameter.SchemaReference = schemaGenerator.Generate<JsonSchema4>(parameterType, parentAttributes, schemaResolver);
+                operationParameter.SchemaReference = schemaGenerator.Generate<JsonSchema4>(parameterType, null, parentAttributes, schemaDefinitionAppender, schemaResolver);
             else
                 schemaGenerator.ApplyPropertyAnnotations(operationParameter, parentAttributes, typeDescription);
 
@@ -468,6 +469,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             if (IsFileResponse(type))
                 return new JsonSchema4 { Type = JsonObjectType.File };
 
+            var schemaDefinitionAppender = new SwaggerServiceSchemaDefinitionAppender(service);
             var typeDescription = JsonObjectTypeDescription.FromType(type, parentAttributes, Settings.DefaultEnumHandling);
             if (typeDescription.Type.HasFlag(JsonObjectType.Object))
             {
@@ -482,8 +484,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
                 if (!schemaResolver.HasSchema(type, false))
                 {
-                    var schemaGenerator = new RootTypeJsonSchemaGenerator(service, Settings);
-                    schemaGenerator.Generate(type, schemaResolver);
+                    var schemaGenerator = new RootTypeJsonSchemaGenerator(service, schemaDefinitionAppender, Settings);
+                    schemaGenerator.Generate(type, null, null, schemaDefinitionAppender, schemaResolver);
                 }
 
                 return new JsonSchema4
@@ -503,8 +505,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 };
             }
 
-            var generator = new RootTypeJsonSchemaGenerator(service, Settings);
-            return generator.Generate(type, schemaResolver);
+            var generator = new RootTypeJsonSchemaGenerator(service, schemaDefinitionAppender, Settings);
+            return generator.Generate(type, null, null, schemaDefinitionAppender, schemaResolver);
         }
     }
 }
