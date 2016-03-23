@@ -27,6 +27,14 @@ namespace NSwag.Commands
             set { Settings.AssemblyPath = value; }
         }
 
+        [Description("The paths to seach for referenced assemblies files.")]
+        [Argument(Name = "ReferencePaths", DefaultValue = new string[] { })]
+        public string[] ReferencePaths
+        {
+            get { return Settings.ReferencePaths; }
+            set { Settings.ReferencePaths = value; }
+        }
+
         [Description("The default enum handling ('String' or 'Integer'), default: Integer.")]
         [Argument(Name = "DefaultEnumHandling", DefaultValue = EnumHandling.Integer)]
         public EnumHandling DefaultEnumHandling
@@ -41,6 +49,14 @@ namespace NSwag.Commands
         {
             get { return Settings.FlattenInheritanceHierarchy; }
             set { Settings.FlattenInheritanceHierarchy = value; }
+        }
+
+        [Description("Generate schemas for types in KnownTypeAttribute attributes (default: true).")]
+        [Argument(Name = "GenerateKnownTypes", DefaultValue = true)]
+        public bool GenerateKnownTypes
+        {
+            get { return Settings.GenerateKnownTypes; }
+            set { Settings.GenerateKnownTypes = value; }
         }
 
         [Description("The class names.")]

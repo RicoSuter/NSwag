@@ -31,7 +31,7 @@ namespace NSwag.Commands
             set { Settings.AssemblyPath = value; }
         }
         
-        [Description("The path to seach for referenced assemblies files.")]
+        [Description("The paths to seach for referenced assemblies files.")]
         [Argument(Name = "ReferencePaths", DefaultValue = new string[] { })]
         public string[] ReferencePaths
         {
@@ -69,6 +69,14 @@ namespace NSwag.Commands
         {
             get { return Settings.FlattenInheritanceHierarchy; }
             set { Settings.FlattenInheritanceHierarchy = value; }
+        }
+
+        [Description("Generate schemas for types in KnownTypeAttribute attributes (default: true).")]
+        [Argument(Name = "GenerateKnownTypes", DefaultValue = true)]
+        public bool GenerateKnownTypes
+        {
+            get { return Settings.GenerateKnownTypes; }
+            set { Settings.GenerateKnownTypes = value; }
         }
 
         public override async Task RunAsync(CommandLineProcessor processor, IConsoleHost host)
