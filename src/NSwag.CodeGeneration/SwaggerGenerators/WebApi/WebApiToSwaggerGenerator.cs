@@ -107,10 +107,13 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
             foreach (var schema in schemaResolver.Schemes)
             {
-                if (!service.Definitions.ContainsKey(schema.TypeName))
-                    service.Definitions[schema.TypeName] = schema;
-                else
-                    service.Definitions["ref_" + Guid.NewGuid().ToString().Replace("-", "_")] = schema;
+                if (!service.Definitions.Values.Contains(schema))
+                {
+                    if (!service.Definitions.ContainsKey(schema.TypeName))
+                        service.Definitions[schema.TypeName] = schema;
+                    else
+                        service.Definitions["ref_" + Guid.NewGuid().ToString().Replace("-", "_")] = schema;
+                }
             }
         }
 
