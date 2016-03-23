@@ -336,10 +336,10 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         private SwaggerParameter CreateBodyParameter(SwaggerService service, ParameterInfo parameter, ISchemaResolver schemaResolver)
         {
             var operationParameter = new SwaggerParameter();
-            operationParameter.Schema = CreateAndAddSchema(service, parameter.ParameterType, parameter.GetCustomAttributes(), schemaResolver);
             operationParameter.Name = parameter.Name;
             operationParameter.Kind = SwaggerParameterKind.Body;
             operationParameter.IsRequired = IsParameterRequired(parameter);
+            operationParameter.Schema = CreateAndAddSchema(service, parameter.ParameterType, parameter.GetCustomAttributes(), schemaResolver);
 
             var description = parameter.GetXmlDocumentation();
             if (description != string.Empty)
@@ -375,16 +375,18 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         private SwaggerParameter CreatePrimitiveParameter(SwaggerService service, string name, string description,
             Type type, IEnumerable<Attribute> parentAttributes, ISchemaResolver schemaResolver)
         {
-            var parameterGenerator = new RootTypeJsonSchemaGenerator(service, Settings);
+            var schemaGenerator = new RootTypeJsonSchemaGenerator(service, Settings);
 
-            var info = JsonObjectTypeDescription.FromType(type, parentAttributes, Settings.DefaultEnumHandling);
-            var parameterType = info.IsComplexType ? typeof(string) : type; // complex types must be treated as string
+            var typeDescription = JsonObjectTypeDescription.FromType(type, parentAttributes, Settings.DefaultEnumHandling);
+            var parameterType = typeDescription.IsComplexType ? typeof(string) : type; // complex types must be treated as string
             
             var operationParameter = new SwaggerParameter();
+            typeDescription.ApplyType(operationParameter);
+
             if (parameterType.IsEnum)
-                operationParameter.SchemaReference = parameterGenerator.Generate(parameterType, parentAttributes, schemaResolver);
+                operationParameter.SchemaReference = schemaGenerator.Generate<JsonSchema4>(parameterType, parentAttributes, schemaResolver);
             else
-                parameterGenerator.ApplyPropertyAnnotations(operationParameter, parentAttributes, info);
+                schemaGenerator.ApplyPropertyAnnotations(operationParameter, parentAttributes, typeDescription);
 
             operationParameter.Name = name;
 
