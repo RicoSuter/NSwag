@@ -26,7 +26,10 @@ namespace NSwag
         /// <param name="objectToAppend">The object to append.</param>
         public void Append(object root, JsonSchema4 objectToAppend)
         {
-            _service.Definitions["ref_" + Guid.NewGuid().ToString().Replace("-", "_")] = objectToAppend;
+            if (!_service.Definitions.ContainsKey(objectToAppend.TypeName))
+                _service.Definitions[objectToAppend.TypeName] = objectToAppend;
+            else
+                _service.Definitions["ref_" + Guid.NewGuid().ToString().Replace("-", "_")] = objectToAppend;
         }
     }
 }
