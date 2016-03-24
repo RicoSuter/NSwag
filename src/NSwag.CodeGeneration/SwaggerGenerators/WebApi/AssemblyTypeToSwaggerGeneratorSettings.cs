@@ -6,7 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using NJsonSchema;
+using NJsonSchema.Generation;
 
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 {

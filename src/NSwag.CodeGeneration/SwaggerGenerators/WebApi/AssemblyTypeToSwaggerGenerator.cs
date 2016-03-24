@@ -13,6 +13,7 @@ using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json;
 using NJsonSchema;
+using NJsonSchema.Generation;
 using NSwag.CodeGeneration.Infrastructure;
 
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi

@@ -8,6 +8,7 @@
 
 using System;
 using NJsonSchema;
+using NJsonSchema.Generation;
 
 namespace NSwag.CodeGeneration.SwaggerGenerators
 {
