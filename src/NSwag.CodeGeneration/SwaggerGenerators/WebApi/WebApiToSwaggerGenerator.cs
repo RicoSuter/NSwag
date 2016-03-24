@@ -85,7 +85,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 var methodName = method.Name;
 
                 var operation = new SwaggerOperation();
-                operation.OperationId = GetOperationId(controllerType.Name, methodName);
+                operation.OperationId = GetOperationId(service, controllerType.Name, methodName);
 
                 var httpPath = GetHttpPath(service, operation, controllerType, method, parameters, schemaResolver);
 
@@ -117,7 +117,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             }
         }
 
-        private static string GetOperationId(string controllerName, string methodName)
+        private string GetOperationId(SwaggerService service, string controllerName, string methodName)
         {
             // TODO: Implement IOperationIdGenerator
 
@@ -126,8 +126,14 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
             if (methodName.EndsWith("Async"))
                 methodName = methodName.Substring(0, methodName.Length - 5);
-            
-            return  controllerName + "_" + methodName;
+
+            var operationId = controllerName + "_" + methodName;
+
+            var number = 1;
+            while (service.Operations.Any(o => o.Operation.OperationId == (operationId + (number > 1 ? "_" + number : string.Empty))))
+                number++;
+
+            return operationId + (number > 1 ? "_" + number : string.Empty);
         }
 
         private void LoadMetaData(SwaggerOperation operation, MethodInfo method)
