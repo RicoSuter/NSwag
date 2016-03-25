@@ -142,7 +142,7 @@ namespace NSwag
 
             GenerateOperationIds();
 
-            JsonSchemaReferenceUtilities.UpdateSchemaReferencePaths(this, new SwaggerServiceSchemaDefinitionAppender(this));
+            JsonSchemaReferenceUtilities.UpdateSchemaReferencePaths(this, new SwaggerServiceSchemaDefinitionAppender());
             var data = JsonConvert.SerializeObject(this, settings);
             JsonSchemaReferenceUtilities.UpdateSchemaReferences(this);
 
