@@ -17,22 +17,24 @@ namespace NSwag.CodeGeneration.CodeGenerators.OperationNameGenerators
         public bool SupportsMultipleClients { get; } = true;
 
         /// <summary>Gets the client name for a given operation.</summary>
+        /// <param name="service">The Swagger service.</param>
         /// <param name="path">The HTTP path.</param>
         /// <param name="httpMethod">The HTTP method.</param>
         /// <param name="operation">The operation.</param>
         /// <returns>The client name.</returns>
-        public string GetClientName(string path, SwaggerOperationMethod httpMethod, SwaggerOperation operation)
+        public string GetClientName(SwaggerService service, string path, SwaggerOperationMethod httpMethod, SwaggerOperation operation)
         {
             var pathSegments = path.Split('/').Where(p => !p.Contains("{")).Reverse().ToArray();
             return pathSegments.Length >= 2 ? pathSegments[1] : "Unknown";
         }
 
-        /// <summary>Gets the operation name for a given operation.</summary>
+        /// <summary>Gets the client name for a given operation.</summary>
+        /// <param name="service">The Swagger service.</param>
         /// <param name="path">The HTTP path.</param>
         /// <param name="httpMethod">The HTTP method.</param>
         /// <param name="operation">The operation.</param>
-        /// <returns>The operation name.</returns>
-        public string GetOperationName(string path, SwaggerOperationMethod httpMethod, SwaggerOperation operation)
+        /// <returns>The client name.</returns>
+        public string GetOperationName(SwaggerService service, string path, SwaggerOperationMethod httpMethod, SwaggerOperation operation)
         {
             var pathSegments = path.Split('/').Where(p => !p.Contains("{")).Reverse().ToArray();
             return pathSegments.Length >= 1 ? pathSegments[0] : "Unknown";

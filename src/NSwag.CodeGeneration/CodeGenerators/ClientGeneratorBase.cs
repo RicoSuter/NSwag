@@ -52,7 +52,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
 
             if (BaseSettings.OperationNameGenerator.SupportsMultipleClients)
             {
-                foreach (var controllerOperations in operations.GroupBy(o => BaseSettings.OperationNameGenerator.GetClientName(o.Path, o.HttpMethod, o.Operation)))
+                foreach (var controllerOperations in operations.GroupBy(o => BaseSettings.OperationNameGenerator.GetClientName(service, o.Path, o.HttpMethod, o.Operation)))
                     clients += RenderClientCode(controllerOperations.Key, controllerOperations);
             }
             else
@@ -89,7 +89,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
                         Path = tuple.Path,
                         HttpMethod = tuple.HttpMethod,
                         Operation = tuple.Operation, 
-                        OperationName = BaseSettings.OperationNameGenerator.GetOperationName(tuple.Path, tuple.HttpMethod, tuple.Operation),
+                        OperationName = BaseSettings.OperationNameGenerator.GetOperationName(service, tuple.Path, tuple.HttpMethod, tuple.Operation),
                         ResultType = GetResultType(operation),
                         HasResultType = HasResultType(operation),
                         ResultDescription = GetResultDescription(operation),
