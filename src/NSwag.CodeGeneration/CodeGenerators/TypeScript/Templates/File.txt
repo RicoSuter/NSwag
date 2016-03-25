@@ -4,13 +4,15 @@ import {Observable} from 'rxjs/Observable';
 import {Injectable, Inject} from 'angular2/core';
 import {Http, Headers, Response} from 'angular2/http';
 
-const API_BASE_URL = new OpaqueToken('API_BASE_URL');
-
 <endif>
 // Generated using the NSwag toolchain v<toolchain> (http://NSwag.org)
 
 <if(hasModuleName)>
 module <moduleName> {
+<endif>
+<if(isAngular2)>
+const API_BASE_URL = new OpaqueToken('API_BASE_URL');
+
 <endif>
 <clients>
 <interfaces>
