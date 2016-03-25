@@ -384,7 +384,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         private SwaggerParameter CreatePrimitiveParameter(SwaggerService service, string name, string description,
             Type type, IEnumerable<Attribute> parentAttributes, ISchemaResolver schemaResolver)
         {
-            var schemaDefinitionAppender = new SwaggerServiceSchemaDefinitionAppender();
+            var schemaDefinitionAppender = new SwaggerServiceSchemaDefinitionAppender(service);
             var schemaGenerator = new RootTypeJsonSchemaGenerator(service, schemaDefinitionAppender, Settings);
 
             var typeDescription = JsonObjectTypeDescription.FromType(type, parentAttributes, Settings.DefaultEnumHandling);
@@ -478,7 +478,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             if (IsFileResponse(type))
                 return new JsonSchema4 { Type = JsonObjectType.File };
 
-            var schemaDefinitionAppender = new SwaggerServiceSchemaDefinitionAppender();
+            var schemaDefinitionAppender = new SwaggerServiceSchemaDefinitionAppender(service);
             var typeDescription = JsonObjectTypeDescription.FromType(type, parentAttributes, Settings.DefaultEnumHandling);
             if (typeDescription.Type.HasFlag(JsonObjectType.Object))
             {
