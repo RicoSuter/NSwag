@@ -59,6 +59,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         {
             var template = LoadTemplate("File");
             template.Add("toolchain", SwaggerService.ToolchainVersion);
+            template.Add("isAngular2", Settings.Template == TypeScriptTemplate.Angular2);
             template.Add("clients", Settings.GenerateClientClasses ? clientCode : string.Empty);
             template.Add("interfaces", Settings.GenerateDtoTypes ? _resolver.GenerateTypes() : string.Empty);
             template.Add("hasModuleName", !string.IsNullOrEmpty(Settings.ModuleName));
