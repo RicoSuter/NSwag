@@ -1,9 +1,4 @@
-﻿import 'rxjs/Rx'; 
-import {Observable} from 'rxjs/Observable';
-import {Injectable, Inject} from 'angular2/core';
-import {Http, Headers, Response} from 'angular2/http';
-
-<if(hasOperations)>
+﻿<if(hasOperations)>
 <if(generateClientInterfaces)>
 export interface I<class> {
 <operations:{operation | 
@@ -22,9 +17,9 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
     private http: Http = null; 
     baseUrl: string = undefined; 
 
-    constructor(@Inject(Http) http: Http, baseUrl?: string) {
+    constructor(@Inject(Http) http: Http, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http; 
-        this.baseUrl = baseUrl !== undefined ? baseUrl : "<baseUrl>"; 
+        this.baseUrl = baseUrl ? baseUrl : "<baseUrl>"; 
     }
 <operations:{operation | 
 
