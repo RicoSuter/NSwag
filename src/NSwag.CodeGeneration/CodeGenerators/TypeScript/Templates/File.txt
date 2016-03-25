@@ -11,7 +11,7 @@ import {Http, Headers, Response} from 'angular2/http';
 module <moduleName> {
 <endif>
 <if(isAngular2)>
-const API_BASE_URL = new OpaqueToken('API_BASE_URL');
+export const API_BASE_URL = new OpaqueToken('API_BASE_URL');
 
 <endif>
 <clients>
