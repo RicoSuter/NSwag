@@ -60,6 +60,22 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             }
         }
 
+        public string ReferencePaths
+        {
+            get
+            {
+                return Command.ReferencePaths != null ? string.Join(",", Command.ReferencePaths) : "";
+            }
+            set
+            {
+                if (value != null)
+                    Command.ReferencePaths = value.Split(',').Select(n => n.Trim()).ToArray();
+                else
+                    Command.ReferencePaths = new string[] { };
+                RaisePropertyChanged(() => ReferencePaths);
+            }
+        }
+
         /// <summary>Gets or sets the assembly path. </summary>
         public string AssemblyPath
         {

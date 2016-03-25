@@ -38,6 +38,9 @@
         </Grid>
         <TextBlock Text="{Binding AssemblyName, Mode=OneWay}" TextWrapping="Wrap" Margin="0,-6,0,12" />
 
+        <TextBlock Text="Paths to seach for referenced assemblies files (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
+        <TextBox Text="{Binding ReferencePaths, Mode=TwoWay}" Margin="0,0,0,12" />
+
         <TextBlock Text="Class" FontWeight="Bold" Margin="0,0,0,6" />
         <ComboBox SelectedItem="{Binding ClassName, Mode=TwoWay}" Margin="0,0,0,12"
                   ItemsSource="{Binding AllClassNames}" />
@@ -53,7 +56,11 @@
             <TextBlock Text="Flatten the inheritance hierarchy instead of using allOf to describe inheritance" TextWrapping="Wrap" />
         </CheckBox>
 
-        <TextBlock TextWrapping="Wrap" 
+        <CheckBox IsChecked="{Binding Command.GenerateKnownTypes, Mode=TwoWay}" Margin="0,0,0,12">
+            <TextBlock Text="Generate schemas for types in KnownTypeAttribute attributes" TextWrapping="Wrap" />
+        </CheckBox>
+
+        <TextBlock TextWrapping="Wrap" Margin="0,8,0,0" FontWeight="Bold"
                    Text="Generates a Swagger definition with the given class type and no operations. Use this generator to create DTO code for another platform." />
     </StackPanel>
 </UserControl>

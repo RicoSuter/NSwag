@@ -6,6 +6,8 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.Diagnostics.Contracts;
+
 namespace NSwag.CodeGeneration.CodeGenerators.OperationNameGenerators
 {
     /// <summary>Generates the client and operation name for a given operation.</summary>
@@ -15,17 +17,21 @@ namespace NSwag.CodeGeneration.CodeGenerators.OperationNameGenerators
         bool SupportsMultipleClients { get; }
 
         /// <summary>Gets the client name for a given operation.</summary>
+        /// <param name="service">The Swagger service.</param>
         /// <param name="path">The HTTP path.</param>
         /// <param name="httpMethod">The HTTP method.</param>
         /// <param name="operation">The operation.</param>
         /// <returns>The client name.</returns>
-        string GetClientName(string path, SwaggerOperationMethod httpMethod, SwaggerOperation operation);
+        [Pure]
+        string GetClientName(SwaggerService service, string path, SwaggerOperationMethod httpMethod, SwaggerOperation operation);
 
         /// <summary>Gets the operation name for a given operation.</summary>
+        /// <param name="service">The Swagger service.</param>
         /// <param name="path">The HTTP path.</param>
         /// <param name="httpMethod">The HTTP method.</param>
         /// <param name="operation">The operation.</param>
         /// <returns>The operation name.</returns>
-        string GetOperationName(string path, SwaggerOperationMethod httpMethod, SwaggerOperation operation);
+        [Pure]
+        string GetOperationName(SwaggerService service, string path, SwaggerOperationMethod httpMethod, SwaggerOperation operation);
     }
 }
