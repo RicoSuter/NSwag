@@ -39,8 +39,8 @@
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=2.3.5940.24969, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.2.3.5940.24969\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10\NJsonSchema.dll</HintPath>
+    <Reference Include="NJsonSchema, Version=2.4.5940.38662, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.2.4.5940.38662\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10\NJsonSchema.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

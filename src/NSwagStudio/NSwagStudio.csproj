@@ -58,12 +58,12 @@
       <HintPath>..\packages\Expression.Interaction.3.0.40218.0\lib\net46\Microsoft.Expression.Interactions.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MyToolkit, Version=2.5.11.0, Culture=neutral, PublicKeyToken=3e349a1360994d26, processorArchitecture=MSIL">
-      <HintPath>..\packages\MyToolkit.2.5.11.0\lib\portable-net45+wp8+win8+wpa81\MyToolkit.dll</HintPath>
+    <Reference Include="MyToolkit, Version=2.5.12.0, Culture=neutral, PublicKeyToken=3e349a1360994d26, processorArchitecture=MSIL">
+      <HintPath>..\packages\MyToolkit.2.5.12.0\lib\portable-net45+wp8+win8+wpa81\MyToolkit.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MyToolkit.Extended, Version=2.5.11.0, Culture=neutral, PublicKeyToken=3e349a1360994d26, processorArchitecture=MSIL">
-      <HintPath>..\packages\MyToolkit.Extended.2.5.11.0\lib\net45\MyToolkit.Extended.dll</HintPath>
+    <Reference Include="MyToolkit.Extended, Version=2.5.12.0, Culture=neutral, PublicKeyToken=3e349a1360994d26, processorArchitecture=MSIL">
+      <HintPath>..\packages\MyToolkit.Extended.2.5.12.0\lib\net45\MyToolkit.Extended.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="NConsole, Version=1.2.5854.14777, Culture=neutral, PublicKeyToken=0f839b9a5b9cbd65, processorArchitecture=MSIL">
@@ -74,12 +74,12 @@
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=2.3.5940.24969, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.2.3.5940.24969\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10\NJsonSchema.dll</HintPath>
+    <Reference Include="NJsonSchema, Version=2.4.5940.38662, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.2.4.5940.38662\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10\NJsonSchema.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema.CodeGeneration, Version=2.3.5940.24970, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.CodeGeneration.2.3.5940.24970\lib\net45\NJsonSchema.CodeGeneration.dll</HintPath>
+    <Reference Include="NJsonSchema.CodeGeneration, Version=2.4.5940.38663, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.CodeGeneration.2.4.5940.38663\lib\net45\NJsonSchema.CodeGeneration.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
