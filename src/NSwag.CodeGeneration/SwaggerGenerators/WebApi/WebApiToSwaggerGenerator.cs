@@ -480,7 +480,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
             var schemaDefinitionAppender = new SwaggerServiceSchemaDefinitionAppender(service);
             var typeDescription = JsonObjectTypeDescription.FromType(type, parentAttributes, Settings.DefaultEnumHandling);
-            if (typeDescription.Type.HasFlag(JsonObjectType.Object))
+            if (typeDescription.Type.HasFlag(JsonObjectType.Object) && !typeDescription.IsDictionary)
             {
                 if (type == typeof(object))
                 {
