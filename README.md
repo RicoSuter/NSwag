@@ -69,7 +69,3 @@ Check out the [project Wiki](https://github.com/NSwag/NSwag/wiki) for more infor
 The generators can be used in a comfortable and simple Windows GUI called NSwagStudio: 
 
 [![](https://raw.githubusercontent.com/NSwag/NSwag/master/assets/screenshots/03_WebAPI_CSharp.png)](https://raw.githubusercontent.com/NSwag/NSwag/master/assets/screenshots/03_WebAPI_CSharp.png)
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/NSwag/nswag/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
