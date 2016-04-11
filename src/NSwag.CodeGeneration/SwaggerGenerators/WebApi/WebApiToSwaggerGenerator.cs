@@ -78,8 +78,13 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
         private void GenerateForController(SwaggerService service, Type controllerType, string excludedMethodName, SchemaResolver schemaResolver)
         {
-            var methods = controllerType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
-            foreach (var method in methods.Where(m => m.Name != excludedMethodName))
+            var methods = controllerType.GetMethods(BindingFlags.Public | BindingFlags.Instance);
+            foreach (var method in methods.Where(m => m.Name != excludedMethodName && 
+                m.DeclaringType != null &&
+                m.DeclaringType != typeof(object) &&
+                m.DeclaringType.FullName != "System.Web.Http.ApiController" && 
+                m.DeclaringType.FullName != "Microsoft.AspNet.Mvc.Controller" && // .NET Core (Web API & MVC)
+                m.DeclaringType.FullName != "System.Web.Mvc.Controller"))
             {
                 var parameters = method.GetParameters().ToList();
                 var methodName = method.Name;
