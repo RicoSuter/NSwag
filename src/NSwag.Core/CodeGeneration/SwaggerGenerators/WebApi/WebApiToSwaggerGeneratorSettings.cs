@@ -11,7 +11,7 @@ using NJsonSchema.Generation;
 
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 {
-    /// <summary>Settings for the <see cref="WebApiAssemblyToSwaggerGenerator"/>.</summary>
+    /// <summary>Settings for the <see cref="WebApiToSwaggerGenerator"/>.</summary>
     public class WebApiToSwaggerGeneratorSettings : JsonSchemaGeneratorSettings
     {
         /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerGeneratorSettings"/> class.</summary>

@@ -6,9 +6,11 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using NJsonSchema;
@@ -49,11 +51,8 @@ namespace NSwag
         }
 
         /// <summary>Gets the NSwag toolchain version.</summary>
-        public static string ToolchainVersion
-        {
-            get { return typeof(SwaggerService).Assembly.GetName().Version.ToString(); }
-        }
-        
+        public static string ToolchainVersion => typeof(SwaggerService).GetTypeInfo().Assembly.GetName().Version.ToString();
+
         /// <summary>Gets or sets the Swagger specification version being used.</summary>
         [JsonProperty(PropertyName = "swagger", Required = Required.Always, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Swagger { get; set; }
@@ -170,7 +169,8 @@ namespace NSwag
         /// <returns>The <see cref="SwaggerService"/>.</returns>
         public static SwaggerService FromUrl(string url)
         {
-            using (WebClient client = new WebClient())
+            dynamic client = Activator.CreateInstance(Type.GetType("System.Net.WebClient", true));
+            using (client)
             {
                 var data = client.DownloadString(url);
                 return FromJson(data);

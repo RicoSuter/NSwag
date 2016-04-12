@@ -7,19 +7,20 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Reflection;
 
 namespace NSwag.CodeGeneration.Infrastructure
 {
-    internal static class ReflectionExtensions
+    public static class ReflectionExtensions
     {
         public static bool InheritsFrom(this Type type, string typeName)
         {
-            var baseType = type.BaseType;
+            var baseType = type.GetTypeInfo().BaseType;
             while (baseType != null)
             {
                 if (baseType.Name == typeName)
                     return true;
-                baseType = baseType.BaseType;
+                baseType = baseType.GetTypeInfo().BaseType;
             }
             return false;
         }
