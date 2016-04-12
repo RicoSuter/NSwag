@@ -116,7 +116,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 RegisterReferencePaths(referencePaths);
                 var assembly = Assembly.LoadFrom(assemblyPath);
                 return assembly.ExportedTypes
-                    .Where(t => t.InheritsFrom("ApiController") || t.InheritsFrom("Controller"))
+                    .Where(t => t.Name.EndsWith("Controller") || t.InheritsFrom("ApiController") || t.InheritsFrom("Controller"))
                     .Select(t => t.FullName)
                     .ToArray();
             }

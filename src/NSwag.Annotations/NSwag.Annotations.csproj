@@ -34,6 +34,12 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\NSwag.Annotations.xml</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>../NSwag.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
     <None Include="NSwag.Annotations.nuspec" />
