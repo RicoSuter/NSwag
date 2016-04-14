@@ -45,6 +45,12 @@ The NSwag project heavily uses [NJsonSchema for .NET](http://njsonschema.org) fo
 - [Download latest **NSwag command line tools** and NSwagStudio as ZIP archive](http://rsuter.com/Projects/NSwagStudio/archive.php)
 - [Download latest **Build Artifacts** from AppVeyor](https://ci.appveyor.com/project/rsuter/nswag/build/artifacts) (command line tools and NSwagStudio binaries)
 
+**NuGet Packages**
+
+- [NSwag.Core](https://www.nuget.org/packages/NSwag.Core/): [Source Code](https://github.com/NSwag/NSwag/tree/master/src/NSwag.Core)
+- [NSwag.Annotations](https://www.nuget.org/packages/NSwag.Annotations/): [Source Code](https://github.com/NSwag/NSwag/tree/master/src/NSwag.Annotations)
+- [NSwag.CodeGeneration](https://www.nuget.org/packages/NSwag.CodeGeneration/): [Source Code](https://github.com/NSwag/NSwag/tree/master/src/NSwag.CodeGeneration)
+
 ### Usage in C&#35;
 
 The following code shows how to read a Swagger specification and generate C# client classes to call the described web services: 
