@@ -47,9 +47,9 @@ The NSwag project heavily uses [NJsonSchema for .NET](http://njsonschema.org) fo
 
 **NuGet Packages**
 
-- [NSwag.Core](https://www.nuget.org/packages/NSwag.Core/): [Source Code](https://github.com/NSwag/NSwag/tree/master/src/NSwag.Core)
-- [NSwag.Annotations](https://www.nuget.org/packages/NSwag.Annotations/): [Source Code](https://github.com/NSwag/NSwag/tree/master/src/NSwag.Annotations)
-- [NSwag.CodeGeneration](https://www.nuget.org/packages/NSwag.CodeGeneration/): [Source Code](https://github.com/NSwag/NSwag/tree/master/src/NSwag.CodeGeneration)
+- [NSwag.Core](https://www.nuget.org/packages/NSwag.Core/): The Swagger reader and writer classes ([Source Code](https://github.com/NSwag/NSwag/tree/master/src/NSwag.Core))
+- [NSwag.Annotations](https://www.nuget.org/packages/NSwag.Annotations/): .NET attributes to control how the Swagger spec is generated for a Web API controller ([Source Code](https://github.com/NSwag/NSwag/tree/master/src/NSwag.Annotations))
+- [NSwag.CodeGeneration](https://www.nuget.org/packages/NSwag.CodeGeneration/): Classes to generate C# and TypeScript clients ([Source Code](https://github.com/NSwag/NSwag/tree/master/src/NSwag.CodeGeneration))
 
 ### Usage in C&#35;
 
