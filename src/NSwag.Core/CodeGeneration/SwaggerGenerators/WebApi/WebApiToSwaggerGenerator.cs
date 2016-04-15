@@ -78,7 +78,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
         private void GenerateForController(SwaggerService service, Type controllerType, string excludedMethodName, SchemaResolver schemaResolver)
         {
-            var methods = controllerType.GetMethods(BindingFlags.Public | BindingFlags.Instance);
+            var methods = controllerType.GetRuntimeMethods().Where(m => m.IsPublic);
             foreach (var method in methods.Where(m => m.Name != excludedMethodName && 
                 m.DeclaringType != null &&
                 m.DeclaringType != typeof(object) &&
@@ -165,7 +165,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
             if (routeAttribute != null)
             {
-                dynamic routePrefixAttribute = controllerType.GetCustomAttributes()
+                dynamic routePrefixAttribute = controllerType.GetTypeInfo().GetCustomAttributes()
                     .SingleOrDefault(a => a.GetType().Name == "RoutePrefixAttribute");
 
                 if (routePrefixAttribute != null)
@@ -383,7 +383,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             if (isNullable)
                 return false;
 
-            return parameter.ParameterType.IsValueType;
+            return parameter.ParameterType.GetTypeInfo().IsValueType;
         }
 
         private SwaggerParameter CreatePrimitiveParameter(SwaggerService service, string name, string description,
@@ -398,7 +398,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             var operationParameter = new SwaggerParameter();
             typeDescription.ApplyType(operationParameter);
 
-            if (parameterType.IsEnum)
+            if (parameterType.GetTypeInfo().IsEnum)
                 operationParameter.SchemaReference = schemaGenerator.Generate<JsonSchema4>(parameterType, null, parentAttributes, schemaDefinitionAppender, schemaResolver);
             else
                 schemaGenerator.ApplyPropertyAnnotations(operationParameter, parentAttributes, typeDescription);
