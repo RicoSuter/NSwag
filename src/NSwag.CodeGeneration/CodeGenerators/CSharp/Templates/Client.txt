@@ -121,7 +121,7 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasBaseClass)><baseCl
         <if(response.IsSuccess)>
             return responseData; 
         <else>
-            throw new SwaggerException\<byte[]>("A server side error occurred.", response.StatusCode, responseData, null);
+            throw new SwaggerException\<byte[]>("A server side error occurred.", response.StatusCode, responseData, responseData, null);
         <endif>
     <else>
             var result = default(<response.Type>); 
@@ -134,18 +134,24 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasBaseClass)><baseCl
             \} 
             catch (Exception exception) 
             {
-                throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, exception);
+                throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, responseData, exception);
             \}
         <else>
             \} 
             catch (Exception exception) 
             {
-                throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, exception);
+                throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, responseData, exception);
             \}
 
-            throw new SwaggerException\<<response.Type>>("A server side error occurred.", response.StatusCode, result, null);
+            throw new SwaggerException\<<response.Type>>("A server side error occurred.", response.StatusCode, responseData, result, null);
         <endif>
     <endif>
+<else>
+    <if(operation.HasResultType)>
+            return default(<operation.HasResult>);
+    <else>
+            return;     
+    <endif> 
 <endif>
         \}
         else}>
@@ -157,21 +163,21 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasBaseClass)><baseCl
                 if (responseData.Length > 0)
                     result = JsonConvert.DeserializeObject\<<operation.DefaultResponse.Type>>(Encoding.UTF8.GetString(responseData));
 
-<if(operation.HasOnlyDefaultResponse)>
+    <if(operation.HasOnlyDefaultResponse)>
                 if (status.Length == 3 && status.StartsWith("2"))
                     return result;
-<endif>
+    <endif>
             \} 
             catch (Exception exception) 
             {
-                throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, exception);
+                throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, responseData, exception);
             \}
 
-            throw new SwaggerException\<<operation.DefaultResponse.Type>>("A server side error occurred.", response.StatusCode, result, null);
+            throw new SwaggerException\<<operation.DefaultResponse.Type>>("A server side error occurred.", response.StatusCode, responseData, result, null);
 <endif>
         \}
 
-        throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response.StatusCode + ").", response.StatusCode, null);
+        throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response.StatusCode + ").", response.StatusCode, responseData, null);
     \}
 
 }>
@@ -180,9 +186,18 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasBaseClass)><baseCl
     {
         public HttpStatusCode StatusCode { get; private set; \}
 
-        public SwaggerException(string message, HttpStatusCode statusCode, Exception innerException) : base(message, innerException)
+        public byte[] ResponseData { get; private set; \}
+
+        public SwaggerException(string message, HttpStatusCode statusCode, byte[] responseData, Exception innerException) 
+            : base(message, innerException)
         {
             StatusCode = statusCode;
+            ResponseData = responseData;
+        \}
+
+        public override string ToString()
+        {
+            return string.Format("HTTP Response: \n{0}\n{1}", Encoding.UTF8.GetString(ResponseData), base.ToString());
         \}
     \}
 
@@ -190,7 +205,8 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasBaseClass)><baseCl
     {
         public TResponse Response { get; private set; \}
 
-        public SwaggerException(string message, HttpStatusCode statusCode, TResponse response, Exception innerException) : base(message, statusCode, innerException)
+        public SwaggerException(string message, HttpStatusCode statusCode, byte[] responseData, TResponse response, Exception innerException) 
+            : base(message, statusCode, responseData, innerException)
         {
             Response = response;
         \}
