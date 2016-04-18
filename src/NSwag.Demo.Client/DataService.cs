@@ -41,41 +41,41 @@ namespace NSwag.Demo.Client
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async Task<string> XyzAsync(object data, CancellationToken cancellationToken)
         {
-            var url = string.Format("{0}/{1}?", BaseUrl, "api/Person/xyz/{data}");
+            var url_ = string.Format("{0}/{1}?", BaseUrl, "api/Person/xyz/{data}");
 
             if (data == null)
                 throw new ArgumentNullException("data");
 
-            url = url.Replace("{data}", data.ToString());
+            url_ = url_.Replace("{data}", data.ToString());
 
-            var client = new HttpClient();
-            PrepareRequest(client, ref url);
+            var client_ = new HttpClient();
+            PrepareRequest(client_, ref url_);
 
-            var response = await client.PutAsync(url, new StringContent(""), cancellationToken).ConfigureAwait(false);
-            ProcessResponse(client, response);
+            var response_ = await client_.PutAsync(url_, new StringContent(string.Empty), cancellationToken).ConfigureAwait(false);
+            ProcessResponse(client_, response_);
 
-            var responseData = await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-            var status = ((int)response.StatusCode).ToString();
+            var responseData_ = await response_.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+            var status_ = ((int)response_.StatusCode).ToString();
 
-            if (status == "200")
+            if (status_ == "200")
             {
-                var result = default(string);
+                var result_ = default(string);
                 try
                 {
-                    if (responseData.Length > 0)
-                        result = JsonConvert.DeserializeObject<string>(Encoding.UTF8.GetString(responseData));
-                    return result;
+                    if (responseData_.Length > 0)
+                        result_ = JsonConvert.DeserializeObject<string>(Encoding.UTF8.GetString(responseData_));
+                    return result_;
                 }
                 catch (Exception exception)
                 {
-                    throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, responseData, exception);
+                    throw new SwaggerException("Could not deserialize the response body.", response_.StatusCode, responseData_, exception);
                 }
             }
             else
             {
             }
 
-            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response.StatusCode + ").", response.StatusCode, responseData, null);
+            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", response_.StatusCode, responseData_, null);
         }
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
@@ -88,36 +88,36 @@ namespace NSwag.Demo.Client
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async Task<ObservableCollection<Person>> GetAllAsync(CancellationToken cancellationToken)
         {
-            var url = string.Format("{0}/{1}?", BaseUrl, "api/Persons/Get");
+            var url_ = string.Format("{0}/{1}?", BaseUrl, "api/Persons/Get");
 
-            var client = new HttpClient();
-            PrepareRequest(client, ref url);
+            var client_ = new HttpClient();
+            PrepareRequest(client_, ref url_);
 
-            var response = await client.GetAsync(url, cancellationToken).ConfigureAwait(false);
-            ProcessResponse(client, response);
+            var response_ = await client_.GetAsync(url_, cancellationToken).ConfigureAwait(false);
+            ProcessResponse(client_, response_);
 
-            var responseData = await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-            var status = ((int)response.StatusCode).ToString();
+            var responseData_ = await response_.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+            var status_ = ((int)response_.StatusCode).ToString();
 
-            if (status == "200")
+            if (status_ == "200")
             {
-                var result = default(ObservableCollection<Person>);
+                var result_ = default(ObservableCollection<Person>);
                 try
                 {
-                    if (responseData.Length > 0)
-                        result = JsonConvert.DeserializeObject<ObservableCollection<Person>>(Encoding.UTF8.GetString(responseData));
-                    return result;
+                    if (responseData_.Length > 0)
+                        result_ = JsonConvert.DeserializeObject<ObservableCollection<Person>>(Encoding.UTF8.GetString(responseData_));
+                    return result_;
                 }
                 catch (Exception exception)
                 {
-                    throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, responseData, exception);
+                    throw new SwaggerException("Could not deserialize the response body.", response_.StatusCode, responseData_, exception);
                 }
             }
             else
             {
             }
 
-            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response.StatusCode + ").", response.StatusCode, responseData, null);
+            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", response_.StatusCode, responseData_, null);
         }
 
         /// <summary>Gets a person.</summary>
@@ -136,57 +136,57 @@ namespace NSwag.Demo.Client
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async Task<Person> GetAsync(int id, CancellationToken cancellationToken)
         {
-            var url = string.Format("{0}/{1}?", BaseUrl, "api/Persons/Get/{id}");
+            var url_ = string.Format("{0}/{1}?", BaseUrl, "api/Persons/Get/{id}");
 
             if (id == null)
                 throw new ArgumentNullException("id");
 
-            url = url.Replace("{id}", id.ToString());
+            url_ = url_.Replace("{id}", id.ToString());
 
-            var client = new HttpClient();
-            PrepareRequest(client, ref url);
+            var client_ = new HttpClient();
+            PrepareRequest(client_, ref url_);
 
-            var response = await client.GetAsync(url, cancellationToken).ConfigureAwait(false);
-            ProcessResponse(client, response);
+            var response_ = await client_.GetAsync(url_, cancellationToken).ConfigureAwait(false);
+            ProcessResponse(client_, response_);
 
-            var responseData = await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-            var status = ((int)response.StatusCode).ToString();
+            var responseData_ = await response_.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+            var status_ = ((int)response_.StatusCode).ToString();
 
-            if (status == "200")
+            if (status_ == "200")
             {
-                var result = default(Person);
+                var result_ = default(Person);
                 try
                 {
-                    if (responseData.Length > 0)
-                        result = JsonConvert.DeserializeObject<Person>(Encoding.UTF8.GetString(responseData));
-                    return result;
+                    if (responseData_.Length > 0)
+                        result_ = JsonConvert.DeserializeObject<Person>(Encoding.UTF8.GetString(responseData_));
+                    return result_;
                 }
                 catch (Exception exception)
                 {
-                    throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, responseData, exception);
+                    throw new SwaggerException("Could not deserialize the response body.", response_.StatusCode, responseData_, exception);
                 }
             }
             else
-            if (status == "500")
+            if (status_ == "500")
             {
-                var result = default(PersonNotFoundException);
+                var result_ = default(PersonNotFoundException);
                 try
                 {
-                    if (responseData.Length > 0)
-                        result = JsonConvert.DeserializeObject<PersonNotFoundException>(Encoding.UTF8.GetString(responseData));
+                    if (responseData_.Length > 0)
+                        result_ = JsonConvert.DeserializeObject<PersonNotFoundException>(Encoding.UTF8.GetString(responseData_));
                 }
                 catch (Exception exception)
                 {
-                    throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, responseData, exception);
+                    throw new SwaggerException("Could not deserialize the response body.", response_.StatusCode, responseData_, exception);
                 }
 
-                throw new SwaggerException<PersonNotFoundException>("A server side error occurred.", response.StatusCode, responseData, result, null);
+                throw new SwaggerException<PersonNotFoundException>("A server side error occurred.", response_.StatusCode, responseData_, result_, null);
             }
             else
             {
             }
 
-            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response.StatusCode + ").", response.StatusCode, responseData, null);
+            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", response_.StatusCode, responseData_, null);
         }
 
         /// <summary>Creates a new person.</summary>
@@ -203,27 +203,29 @@ namespace NSwag.Demo.Client
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async Task PostAsync(Person value, CancellationToken cancellationToken)
         {
-            var url = string.Format("{0}/{1}?", BaseUrl, "api/Persons/Post");
+            var url_ = string.Format("{0}/{1}?", BaseUrl, "api/Persons/Post");
 
-            var client = new HttpClient();
-            PrepareRequest(client, ref url);
+            var client_ = new HttpClient();
+            PrepareRequest(client_, ref url_);
 
-            var content = new StringContent(JsonConvert.SerializeObject(value));
-            content.Headers.ContentType.MediaType = "application/json";
+            var content_ = new StringContent(JsonConvert.SerializeObject(value));
+            content_.Headers.ContentType.MediaType = "application/json";
 
-            var response = await client.PostAsync(url, content, cancellationToken).ConfigureAwait(false);
-            ProcessResponse(client, response);
-            var responseData = await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-            var status = ((int)response.StatusCode).ToString();
+            var response_ = await client_.PostAsync(url_, content_, cancellationToken).ConfigureAwait(false);
+            ProcessResponse(client_, response_);
+            var responseData_ = await response_.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+            var status_ = ((int)response_.StatusCode).ToString();
 
-            if (status == "204")
+            if (status_ == "204")
             {
+                return;
+
             }
             else
             {
             }
 
-            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response.StatusCode + ").", response.StatusCode, responseData, null);
+            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", response_.StatusCode, responseData_, null);
         }
 
         /// <summary>Updates the existing person.</summary>
@@ -242,32 +244,34 @@ namespace NSwag.Demo.Client
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async Task PutAsync(int id, Person value, CancellationToken cancellationToken)
         {
-            var url = string.Format("{0}/{1}?", BaseUrl, "api/Persons/Put/{id}");
+            var url_ = string.Format("{0}/{1}?", BaseUrl, "api/Persons/Put/{id}");
 
             if (id == null)
                 throw new ArgumentNullException("id");
 
-            url = url.Replace("{id}", id.ToString());
+            url_ = url_.Replace("{id}", id.ToString());
 
-            var client = new HttpClient();
-            PrepareRequest(client, ref url);
+            var client_ = new HttpClient();
+            PrepareRequest(client_, ref url_);
 
-            var content = new StringContent(JsonConvert.SerializeObject(value));
-            content.Headers.ContentType.MediaType = "application/json";
+            var content_ = new StringContent(JsonConvert.SerializeObject(value));
+            content_.Headers.ContentType.MediaType = "application/json";
 
-            var response = await client.PutAsync(url, content, cancellationToken).ConfigureAwait(false);
-            ProcessResponse(client, response);
-            var responseData = await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-            var status = ((int)response.StatusCode).ToString();
+            var response_ = await client_.PutAsync(url_, content_, cancellationToken).ConfigureAwait(false);
+            ProcessResponse(client_, response_);
+            var responseData_ = await response_.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+            var status_ = ((int)response_.StatusCode).ToString();
 
-            if (status == "204")
+            if (status_ == "204")
             {
+                return;
+
             }
             else
             {
             }
 
-            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response.StatusCode + ").", response.StatusCode, responseData, null);
+            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", response_.StatusCode, responseData_, null);
         }
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
@@ -280,30 +284,32 @@ namespace NSwag.Demo.Client
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async Task DeleteAsync(int id, CancellationToken cancellationToken)
         {
-            var url = string.Format("{0}/{1}?", BaseUrl, "api/Persons/Delete/{id}");
+            var url_ = string.Format("{0}/{1}?", BaseUrl, "api/Persons/Delete/{id}");
 
             if (id == null)
                 throw new ArgumentNullException("id");
 
-            url = url.Replace("{id}", id.ToString());
+            url_ = url_.Replace("{id}", id.ToString());
 
-            var client = new HttpClient();
-            PrepareRequest(client, ref url);
+            var client_ = new HttpClient();
+            PrepareRequest(client_, ref url_);
 
-            var response = await client.DeleteAsync(url, cancellationToken).ConfigureAwait(false);
-            ProcessResponse(client, response);
+            var response_ = await client_.DeleteAsync(url_, cancellationToken).ConfigureAwait(false);
+            ProcessResponse(client_, response_);
 
-            var responseData = await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-            var status = ((int)response.StatusCode).ToString();
+            var responseData_ = await response_.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+            var status_ = ((int)response_.StatusCode).ToString();
 
-            if (status == "204")
+            if (status_ == "204")
             {
+                return;
+
             }
             else
             {
             }
 
-            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response.StatusCode + ").", response.StatusCode, responseData, null);
+            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", response_.StatusCode, responseData_, null);
         }
 
         /// <summary>Calculates the sum of a, b and c.</summary>
@@ -318,50 +324,50 @@ namespace NSwag.Demo.Client
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async Task<int> CalculateAsync(int a, int b, int c, CancellationToken cancellationToken)
         {
-            var url = string.Format("{0}/{1}?", BaseUrl, "api/Person/Calculate/{a}/{b}");
+            var url_ = string.Format("{0}/{1}?", BaseUrl, "api/Person/Calculate/{a}/{b}");
 
             if (a == null)
                 throw new ArgumentNullException("a");
 
-            url = url.Replace("{a}", a.ToString());
+            url_ = url_.Replace("{a}", a.ToString());
             if (b == null)
                 throw new ArgumentNullException("b");
 
-            url = url.Replace("{b}", b.ToString());
+            url_ = url_.Replace("{b}", b.ToString());
 
             if (c == null)
                 throw new ArgumentNullException("c");
             else
-                url += string.Format("c={0}&", Uri.EscapeUriString(c.ToString()));
+                url_ += string.Format("c={0}&", Uri.EscapeUriString(c.ToString()));
 
-            var client = new HttpClient();
-            PrepareRequest(client, ref url);
+            var client_ = new HttpClient();
+            PrepareRequest(client_, ref url_);
 
-            var response = await client.GetAsync(url, cancellationToken).ConfigureAwait(false);
-            ProcessResponse(client, response);
+            var response_ = await client_.GetAsync(url_, cancellationToken).ConfigureAwait(false);
+            ProcessResponse(client_, response_);
 
-            var responseData = await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-            var status = ((int)response.StatusCode).ToString();
+            var responseData_ = await response_.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+            var status_ = ((int)response_.StatusCode).ToString();
 
-            if (status == "200")
+            if (status_ == "200")
             {
-                var result = default(int);
+                var result_ = default(int);
                 try
                 {
-                    if (responseData.Length > 0)
-                        result = JsonConvert.DeserializeObject<int>(Encoding.UTF8.GetString(responseData));
-                    return result;
+                    if (responseData_.Length > 0)
+                        result_ = JsonConvert.DeserializeObject<int>(Encoding.UTF8.GetString(responseData_));
+                    return result_;
                 }
                 catch (Exception exception)
                 {
-                    throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, responseData, exception);
+                    throw new SwaggerException("Could not deserialize the response body.", response_.StatusCode, responseData_, exception);
                 }
             }
             else
             {
             }
 
-            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response.StatusCode + ").", response.StatusCode, responseData, null);
+            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", response_.StatusCode, responseData_, null);
         }
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
@@ -374,41 +380,41 @@ namespace NSwag.Demo.Client
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async Task<DateTime> AddHourAsync(DateTime time, CancellationToken cancellationToken)
         {
-            var url = string.Format("{0}/{1}?", BaseUrl, "api/Persons/AddHour");
+            var url_ = string.Format("{0}/{1}?", BaseUrl, "api/Persons/AddHour");
 
             if (time == null)
                 throw new ArgumentNullException("time");
             else
-                url += string.Format("time={0}&", Uri.EscapeUriString(time.ToString("s", CultureInfo.InvariantCulture)));
+                url_ += string.Format("time={0}&", Uri.EscapeUriString(time.ToString("s", CultureInfo.InvariantCulture)));
 
-            var client = new HttpClient();
-            PrepareRequest(client, ref url);
+            var client_ = new HttpClient();
+            PrepareRequest(client_, ref url_);
 
-            var response = await client.GetAsync(url, cancellationToken).ConfigureAwait(false);
-            ProcessResponse(client, response);
+            var response_ = await client_.GetAsync(url_, cancellationToken).ConfigureAwait(false);
+            ProcessResponse(client_, response_);
 
-            var responseData = await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-            var status = ((int)response.StatusCode).ToString();
+            var responseData_ = await response_.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+            var status_ = ((int)response_.StatusCode).ToString();
 
-            if (status == "200")
+            if (status_ == "200")
             {
-                var result = default(DateTime);
+                var result_ = default(DateTime);
                 try
                 {
-                    if (responseData.Length > 0)
-                        result = JsonConvert.DeserializeObject<DateTime>(Encoding.UTF8.GetString(responseData));
-                    return result;
+                    if (responseData_.Length > 0)
+                        result_ = JsonConvert.DeserializeObject<DateTime>(Encoding.UTF8.GetString(responseData_));
+                    return result_;
                 }
                 catch (Exception exception)
                 {
-                    throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, responseData, exception);
+                    throw new SwaggerException("Could not deserialize the response body.", response_.StatusCode, responseData_, exception);
                 }
             }
             else
             {
             }
 
-            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response.StatusCode + ").", response.StatusCode, responseData, null);
+            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", response_.StatusCode, responseData_, null);
         }
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
@@ -421,36 +427,36 @@ namespace NSwag.Demo.Client
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async Task<int> TestAsync(CancellationToken cancellationToken)
         {
-            var url = string.Format("{0}/{1}?", BaseUrl, "api/Persons/TestAsync");
+            var url_ = string.Format("{0}/{1}?", BaseUrl, "api/Persons/TestAsync");
 
-            var client = new HttpClient();
-            PrepareRequest(client, ref url);
+            var client_ = new HttpClient();
+            PrepareRequest(client_, ref url_);
 
-            var response = await client.GetAsync(url, cancellationToken).ConfigureAwait(false);
-            ProcessResponse(client, response);
+            var response_ = await client_.GetAsync(url_, cancellationToken).ConfigureAwait(false);
+            ProcessResponse(client_, response_);
 
-            var responseData = await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-            var status = ((int)response.StatusCode).ToString();
+            var responseData_ = await response_.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+            var status_ = ((int)response_.StatusCode).ToString();
 
-            if (status == "200")
+            if (status_ == "200")
             {
-                var result = default(int);
+                var result_ = default(int);
                 try
                 {
-                    if (responseData.Length > 0)
-                        result = JsonConvert.DeserializeObject<int>(Encoding.UTF8.GetString(responseData));
-                    return result;
+                    if (responseData_.Length > 0)
+                        result_ = JsonConvert.DeserializeObject<int>(Encoding.UTF8.GetString(responseData_));
+                    return result_;
                 }
                 catch (Exception exception)
                 {
-                    throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, responseData, exception);
+                    throw new SwaggerException("Could not deserialize the response body.", response_.StatusCode, responseData_, exception);
                 }
             }
             else
             {
             }
 
-            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response.StatusCode + ").", response.StatusCode, responseData, null);
+            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", response_.StatusCode, responseData_, null);
         }
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
@@ -463,36 +469,36 @@ namespace NSwag.Demo.Client
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async Task<Car> LoadComplexObjectAsync(CancellationToken cancellationToken)
         {
-            var url = string.Format("{0}/{1}?", BaseUrl, "api/Persons/LoadComplexObject");
+            var url_ = string.Format("{0}/{1}?", BaseUrl, "api/Persons/LoadComplexObject");
 
-            var client = new HttpClient();
-            PrepareRequest(client, ref url);
+            var client_ = new HttpClient();
+            PrepareRequest(client_, ref url_);
 
-            var response = await client.GetAsync(url, cancellationToken).ConfigureAwait(false);
-            ProcessResponse(client, response);
+            var response_ = await client_.GetAsync(url_, cancellationToken).ConfigureAwait(false);
+            ProcessResponse(client_, response_);
 
-            var responseData = await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-            var status = ((int)response.StatusCode).ToString();
+            var responseData_ = await response_.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+            var status_ = ((int)response_.StatusCode).ToString();
 
-            if (status == "200")
+            if (status_ == "200")
             {
-                var result = default(Car);
+                var result_ = default(Car);
                 try
                 {
-                    if (responseData.Length > 0)
-                        result = JsonConvert.DeserializeObject<Car>(Encoding.UTF8.GetString(responseData));
-                    return result;
+                    if (responseData_.Length > 0)
+                        result_ = JsonConvert.DeserializeObject<Car>(Encoding.UTF8.GetString(responseData_));
+                    return result_;
                 }
                 catch (Exception exception)
                 {
-                    throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, responseData, exception);
+                    throw new SwaggerException("Could not deserialize the response body.", response_.StatusCode, responseData_, exception);
                 }
             }
             else
             {
             }
 
-            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response.StatusCode + ").", response.StatusCode, responseData, null);
+            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", response_.StatusCode, responseData_, null);
         }
 
         public class SwaggerException : Exception
