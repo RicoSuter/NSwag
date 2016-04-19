@@ -6,7 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,7 +15,7 @@ using NJsonSchema;
 using NJsonSchema.Generation;
 using NSwag.CodeGeneration.Infrastructure;
 
-namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
+namespace NSwag.CodeGeneration.SwaggerGenerators
 {
     /// <summary>Generates a <see cref="SwaggerService"/> from a Web API controller or type which is located in a .NET assembly.</summary>
     public class AssemblyTypeToSwaggerGenerator

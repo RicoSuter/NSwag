@@ -83,8 +83,8 @@
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpWebApiControllerGenerator.cs" />
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpWebApiControllerGeneratorSettings.cs" />
     <Compile Include="SwaggerGenerators\AssemblyLoader.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\AssemblyTypeToSwaggerGenerator.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\AssemblyTypeToSwaggerGeneratorSettings.cs" />
+    <Compile Include="SwaggerGenerators\AssemblyTypeToSwaggerGenerator.cs" />
+    <Compile Include="SwaggerGenerators\AssemblyTypeToSwaggerGeneratorSettings.cs" />
     <Compile Include="SwaggerGenerators\WebApi\WebApiAssemblyToSwaggerGenerator.cs" />
     <Compile Include="SwaggerGenerators\WebApi\WebApiAssemblyToSwaggerGeneratorSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
