@@ -76,6 +76,7 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
             url: url,
             method: "<operation.HttpMethodUpper>",
             data: content,
+            transformResponse: [], 
             headers: {
 <operation.HeaderParameters:{parameter | 
                 "<parameter.Name>": <parameter.VariableNameLower>, 
@@ -87,7 +88,7 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
     \}
 
     private process<operation.OperationNameUpper>(response: any) {
-        var data = response.data; 
+        var data = response.data.replace(/\/Date((-?\d*))\//, (a: string, b: string) => { return new Date(+b); \});
         var status = response.status; 
 
 <operation.Responses:{response | 
@@ -97,7 +98,7 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
     <if(response.IsDate)>
             result<response.StatusCode> = new Date(data);
     <else>
-            result<response.StatusCode> = \<<response.Type>>data;
+            result<response.StatusCode> = \<<response.Type>>JSON.parse(data);
     <endif>
     <if(response.IsSuccess)>
             return result<response.StatusCode>; 
@@ -113,7 +114,7 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
     <if(operation.DefaultResponse.IsDate)>
             result = new Date(data);
     <else>
-            result = \<<operation.DefaultResponse.Type>>data;
+            result = \<<operation.DefaultResponse.Type>>JSON.parse(data);
     <endif>
     <if(operation.DefaultResponse.IsSuccess)>
             return result; 

@@ -8,7 +8,7 @@
 
 using NJsonSchema.Generation;
 
-namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
+namespace NSwag.CodeGeneration.SwaggerGenerators
 {
     /// <summary>Settings for the <see cref="AssemblyTypeToSwaggerGenerator"/>.</summary>
     public class AssemblyTypeToSwaggerGeneratorSettings : JsonSchemaGeneratorSettings

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using NConsole;
 using Newtonsoft.Json;
 using NJsonSchema;
+using NSwag.CodeGeneration.SwaggerGenerators;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 using NSwag.Commands.Base;
 

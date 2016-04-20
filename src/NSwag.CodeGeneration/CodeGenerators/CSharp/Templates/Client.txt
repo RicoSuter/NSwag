@@ -56,13 +56,13 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasBaseClass)><baseCl
     /// \<exception cref="SwaggerException">A server side error occurred.\</exception>
     public async <operation.resultType> <operation.OperationNameUpper>Async(<operation.Parameters:{parameter | <parameter.Type> <parameter.VariableNameLower>, }>CancellationToken cancellationToken)
     {
-        var url = string.Format("{0\}/{1\}?", BaseUrl, "<operation.Path>");
+        var url_ = string.Format("{0\}/{1\}?", BaseUrl, "<operation.Path>");
 
 <operation.PathParameters:{parameter | 
         if (<parameter.VariableNameLower> == null)
             throw new ArgumentNullException("<parameter.VariableNameLower>");
 
-        url = url.Replace("{<parameter.Name>\}", <parameter.VariableNameLower>.ToString());
+        url_ = url_.Replace("{<parameter.Name>\}", <parameter.VariableNameLower>.ToString());
 }>
 
 <operation.QueryParameters:{parameter | 
@@ -75,103 +75,109 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasBaseClass)><baseCl
     <endif>
     <if(parameter.IsDate)>
     <if(parameter.IsArray)>
-            foreach(var item in <parameter.VariableNameLower>) { url += string.Format("<parameter.Name>={0\}&", Uri.EscapeUriString(item.ToString("s", CultureInfo.InvariantCulture))); \}
+            foreach(var item_ in <parameter.VariableNameLower>) { url_ += string.Format("<parameter.Name>={0\}&", Uri.EscapeUriString(item_.ToString("s", CultureInfo.InvariantCulture))); \}
     <else>
-            url += string.Format("<parameter.Name>={0\}&", Uri.EscapeUriString(<parameter.VariableNameLower>.ToString("s", CultureInfo.InvariantCulture)));
+            url_ += string.Format("<parameter.Name>={0\}&", Uri.EscapeUriString(<parameter.VariableNameLower>.ToString("s", CultureInfo.InvariantCulture)));
     <endif>
     <else>
     <if(parameter.IsArray)>
-            foreach(var item in <parameter.VariableNameLower>) { url += string.Format("<parameter.Name>={0\}&", Uri.EscapeUriString(item.ToString())); \}
+            foreach(var item_ in <parameter.VariableNameLower>) { url_ += string.Format("<parameter.Name>={0\}&", Uri.EscapeUriString(item_.ToString())); \}
     <else>
-            url += string.Format("<parameter.Name>={0\}&", Uri.EscapeUriString(<parameter.VariableNameLower>.ToString()));
+            url_ += string.Format("<parameter.Name>={0\}&", Uri.EscapeUriString(<parameter.VariableNameLower>.ToString()));
     <endif>
     <endif>
 }>
         
-        <if(useHttpClientCreationMethod)>var client = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);<else>var client = new HttpClient();<endif>
-        PrepareRequest(client, ref url);
+        <if(useHttpClientCreationMethod)>var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);<else>var client_ = new HttpClient();<endif>
+        PrepareRequest(client_, ref url_);
 
 <operation.HeaderParameters:{parameter | 
-        client.DefaultRequestHeaders.TryAddWithoutValidation("<parameter.Name>", <parameter.VariableNameLower>);
+        client_.DefaultRequestHeaders.TryAddWithoutValidation("<parameter.Name>", <parameter.VariableNameLower>);
 }>
 
 <if(operation.HasContent)>
-        var content = new StringContent(JsonConvert.SerializeObject(<operation.ContentParameter.VariableNameLower>));
-        content.Headers.ContentType.MediaType = "application/json";
+        var content_ = new StringContent(JsonConvert.SerializeObject(<operation.ContentParameter.VariableNameLower>));
+        content_.Headers.ContentType.MediaType = "application/json";
 
-        var response = await client.<operation.HttpMethodUpper>Async(url, content, cancellationToken).ConfigureAwait(false);
-        ProcessResponse(client, response);
+        var response_ = await client_.<operation.HttpMethodUpper>Async(url_, content_, cancellationToken).ConfigureAwait(false);
+        ProcessResponse(client_, response_);
 <else>
     <if(operation.IsGetOrDelete)>
-        var response = await client.<operation.HttpMethodUpper>Async(url, cancellationToken).ConfigureAwait(false);
+        var response_ = await client_.<operation.HttpMethodUpper>Async(url_, cancellationToken).ConfigureAwait(false);
     <else>
-        var response = await client.<operation.HttpMethodUpper>Async(url, new StringContent(""), cancellationToken).ConfigureAwait(false);
+        var response_ = await client_.<operation.HttpMethodUpper>Async(url_, new StringContent(string.Empty), cancellationToken).ConfigureAwait(false);
     <endif>
-        ProcessResponse(client, response);
+        ProcessResponse(client_, response_);
 <endif>
 
-        var responseData = await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false); 
-        var status = ((int)response.StatusCode).ToString();
+        var responseData_ = await response_.Content.ReadAsByteArrayAsync().ConfigureAwait(false); 
+        var status_ = ((int)response_.StatusCode).ToString();
 
 <operation.Responses:{response | 
-        if (status == "<response.StatusCode>") 
+        if (status_ == "<response.StatusCode>") 
         {
 <if(response.HasType)>
     <if(response.IsFile)>
         <if(response.IsSuccess)>
-            return responseData; 
+            return responseData_; 
         <else>
-            throw new SwaggerException\<byte[]>("A server side error occurred.", response.StatusCode, responseData, null);
+            throw new SwaggerException\<byte[]>("A server side error occurred.", response_.StatusCode, responseData_, responseData_, null);
         <endif>
     <else>
-            var result = default(<response.Type>); 
+            var result_ = default(<response.Type>); 
             try
             {
-                if (responseData.Length > 0)
-                    result = JsonConvert.DeserializeObject\<<response.Type>>(Encoding.UTF8.GetString(responseData));                                
+                if (responseData_.Length > 0)
+                    result_ = JsonConvert.DeserializeObject\<<response.Type>>(Encoding.UTF8.GetString(responseData_));                                
         <if(response.IsSuccess)>
-                return result; 
+                return result_; 
             \} 
             catch (Exception exception) 
             {
-                throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, exception);
+                throw new SwaggerException("Could not deserialize the response body.", response_.StatusCode, responseData_, exception);
             \}
         <else>
             \} 
             catch (Exception exception) 
             {
-                throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, exception);
+                throw new SwaggerException("Could not deserialize the response body.", response_.StatusCode, responseData_, exception);
             \}
 
-            throw new SwaggerException\<<response.Type>>("A server side error occurred.", response.StatusCode, result, null);
+            throw new SwaggerException\<<response.Type>>("A server side error occurred.", response_.StatusCode, responseData_, result_, null);
         <endif>
     <endif>
+<else>
+    <if(operation.HasResultType)>
+            return default(<operation.HasResult>);
+    <else>
+            return;     
+    <endif> 
 <endif>
         \}
         else}>
         {
 <if(operation.HasDefaultResponse)>
-            var result = default(<operation.DefaultResponse.Type>); 
+            var result_ = default(<operation.DefaultResponse.Type>); 
             try
             {
-                if (responseData.Length > 0)
-                    result = JsonConvert.DeserializeObject\<<operation.DefaultResponse.Type>>(Encoding.UTF8.GetString(responseData));
+                if (responseData_.Length > 0)
+                    result_ = JsonConvert.DeserializeObject\<<operation.DefaultResponse.Type>>(Encoding.UTF8.GetString(responseData_));
 
-<if(operation.HasOnlyDefaultResponse)>
-                if (status.Length == 3 && status.StartsWith("2"))
-                    return result;
-<endif>
+    <if(operation.HasOnlyDefaultResponse)>
+                if (status_.Length == 3 && status_.StartsWith("2"))
+                    return result_;
+    <endif>
             \} 
-            catch (Exception exception) 
+            catch (Exception exception_) 
             {
-                throw new SwaggerException("Could not deserialize the response body.", response.StatusCode, exception);
+                throw new SwaggerException("Could not deserialize the response body.", response_.StatusCode, responseData_, exception_);
             \}
 
-            throw new SwaggerException\<<operation.DefaultResponse.Type>>("A server side error occurred.", response.StatusCode, result, null);
+            throw new SwaggerException\<<operation.DefaultResponse.Type>>("A server side error occurred.", response_.StatusCode, responseData_, result_, null);
 <endif>
         \}
 
-        throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response.StatusCode + ").", response.StatusCode, null);
+        throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", response_.StatusCode, responseData_, null);
     \}
 
 }>
@@ -180,9 +186,18 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasBaseClass)><baseCl
     {
         public HttpStatusCode StatusCode { get; private set; \}
 
-        public SwaggerException(string message, HttpStatusCode statusCode, Exception innerException) : base(message, innerException)
+        public byte[] ResponseData { get; private set; \}
+
+        public SwaggerException(string message, HttpStatusCode statusCode, byte[] responseData, Exception innerException) 
+            : base(message, innerException)
         {
             StatusCode = statusCode;
+            ResponseData = responseData;
+        \}
+
+        public override string ToString()
+        {
+            return string.Format("HTTP Response: \n{0}\n{1}", Encoding.UTF8.GetString(ResponseData), base.ToString());
         \}
     \}
 
@@ -190,7 +205,8 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasBaseClass)><baseCl
     {
         public TResponse Response { get; private set; \}
 
-        public SwaggerException(string message, HttpStatusCode statusCode, TResponse response, Exception innerException) : base(message, statusCode, innerException)
+        public SwaggerException(string message, HttpStatusCode statusCode, byte[] responseData, TResponse response, Exception innerException) 
+            : base(message, statusCode, responseData, innerException)
         {
             Response = response;
         \}

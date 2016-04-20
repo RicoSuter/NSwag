@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace NSwag.Demo.Client
 {
@@ -11,11 +12,18 @@ namespace NSwag.Demo.Client
 
         private async void OnCalculate(object sender, RoutedEventArgs e)
         {
-            var client = new DataService("http://localhost:22093");
-            var result = await client.CalculateAsync(int.Parse(A.Text), int.Parse(B.Text), int.Parse(C.Text));
-            Result.Text = result.ToString();
+            try
+            {
+                var client = new PersonsClient("http://localhost:22093");
+                var result = await client.CalculateAsync(int.Parse(A.Text), int.Parse(B.Text), int.Parse(C.Text));
+                Result.Text = result.ToString();
 
-            var persons = await client.GetAllAsync();
+                var persons = await client.GetAllAsync();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
     }
 }

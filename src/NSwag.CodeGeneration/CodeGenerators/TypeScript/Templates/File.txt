@@ -12,6 +12,7 @@ module <moduleName> {
 <endif>
 <if(isAngular2)>
 export const API_BASE_URL = new OpaqueToken('API_BASE_URL');
+export const JSON_PARSE_REVIVER = new OpaqueToken('JSON_PARSE_REVIVER');
 
 <endif>
 <clients>

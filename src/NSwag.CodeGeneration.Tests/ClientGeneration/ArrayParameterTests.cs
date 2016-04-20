@@ -137,7 +137,7 @@ namespace NSwag.CodeGeneration.Tests.ClientGeneration
             var code = generator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains(@"foreach(var item in elementId) { url += string.Format(""elementId={0}&"", Uri.EscapeUriString(item.ToString())); }"));
+            Assert.IsTrue(code.Contains(@"foreach(var item_ in elementId) { url_ += string.Format(""elementId={0}&"", Uri.EscapeUriString(item_.ToString())); }"));
         }
     }
 }

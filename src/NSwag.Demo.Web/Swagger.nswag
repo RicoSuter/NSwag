@@ -12,19 +12,22 @@
     "DefaultUrlTemplate": "api/{controller}/{action}/{id}",
     "DefaultEnumHandling": 0,
     "FlattenInheritanceHierarchy": false,
+    "GenerateKnownTypes": true,
     "OutputFilePath": null
   },
   "AssemblyTypeToSwaggerCommand": {
     "AssemblyPath": null,
+    "ReferencePaths": [],
     "DefaultEnumHandling": 0,
     "FlattenInheritanceHierarchy": false,
+    "GenerateKnownTypes": true,
     "ClassNames": [],
     "OutputFilePath": null
   },
   "SwaggerToTypeScriptCommand": {
     "ClassName": "{controller}Client",
     "ModuleName": "",
-    "Template": 1,
+    "Template": 0,
     "PromiseType": 0,
     "GenerateClientClasses": true,
     "GenerateClientInterfaces": true,
@@ -43,7 +46,7 @@
       "ClientBaseClass": null,
       "UseHttpClientCreationMethod": false,
       "CSharpGeneratorSettings": {
-        "Namespace": "MyNamespace",
+        "Namespace": "NSwag.Demo.Client",
         "RequiredPropertiesMustBeDefined": true,
         "DateTimeType": "DateTime",
         "ArrayType": "ObservableCollection",
@@ -60,7 +63,7 @@
     "ClassName": "{controller}Client",
     "AdditionalNamespaceUsages": null,
     "RequiredPropertiesMustBeDefined": true,
-    "Namespace": "MyNamespace",
+    "Namespace": "NSwag.Demo.Client",
     "DateTimeType": "DateTime",
     "ArrayType": "ObservableCollection",
     "DictionaryType": "Dictionary",
