@@ -1,37 +1,36 @@
-﻿// Generated using the NSwag toolchain v1.17.5849.35297 (http://NSwag.org)
+﻿// Generated using the NSwag toolchain v2.6.5954.30417 (http://NSwag.org)
 
-/** The DTO class for a person. */
-export interface Person {
-    /** Gets or sets the first name. */
-    firstName?: string;
-    LastName?: string;
-    Cars?: Car[];
-    Type: ObjectType;
+export interface IPersonsClient {
+    xyz(data: any, onSuccess?: (result: string) => void, onFail?: (exception: string, reason: string) => void): void;
+    getAll(onSuccess?: (result: Person[]) => void, onFail?: (exception: string, reason: string) => void): void;
+    /**
+     * Gets a person.
+     * @id The ID of the person.
+     * @return The person.
+     */
+    get(id: number, onSuccess?: (result: Person) => void, onFail?: (exception: PersonNotFoundException | string, reason: string) => void): void;
+    /**
+     * Creates a new person.
+     * @value (optional) The person.
+     */
+    post(value: Person, onSuccess?: () => void, onFail?: (exception: string, reason: string) => void): void;
+    /**
+     * Updates the existing person.
+     * @id The ID.
+     * @value (optional) The person.
+     */
+    put(id: number, value: Person, onSuccess?: () => void, onFail?: (exception: string, reason: string) => void): void;
+    delete(id: number, onSuccess?: () => void, onFail?: (exception: string, reason: string) => void): void;
+    /**
+     * Calculates the sum of a, b and c.
+     */
+    calculate(a: number, b: number, c: number, onSuccess?: (result: number) => void, onFail?: (exception: string, reason: string) => void): void;
+    addHour(time: Date, onSuccess?: (result: Date) => void, onFail?: (exception: string, reason: string) => void): void;
+    test(onSuccess?: (result: number) => void, onFail?: (exception: string, reason: string) => void): void;
+    loadComplexObject(onSuccess?: (result: Car) => void, onFail?: (exception: string, reason: string) => void): void;
 }
 
-export interface Car {
-    Name?: string;
-    Driver?: Person;
-    Type: ObjectType;
-}
-
-export enum ObjectType {
-    Foo = <any>"Foo",
-    Bar = <any>"Bar",
-}
-
-export interface PersonNotFoundException extends Exception {
-    PersonId: number;
-}
-
-export interface Exception {
-    Message?: string;
-    InnerException?: Exception;
-    StackTrace?: string;
-    Source?: string;
-}
-
-export class Client {
+export class PersonsClient implements IPersonsClient {
     baseUrl: string = undefined;
     beforeSend: any = undefined;
 
@@ -39,9 +38,11 @@ export class Client {
         this.baseUrl = baseUrl !== undefined ? baseUrl : "";
     }
 
-    xyz(data: string, onSuccess?: (result: string) => void, onFail?: (exception: string, reason: string) => void) {
+    xyz(data: any, onSuccess?: (result: string) => void, onFail?: (exception: string, reason: string) => void) {
         var url = this.baseUrl + "/api/Person/xyz/{data}?";
 
+        if (data === undefined || data === null)
+            throw new Error("The parameter 'data' must be defined.");
         url = url.replace("{data}", "" + data);
 
         var content = "";
@@ -70,14 +71,14 @@ export class Client {
             var result200: string = null;
             if (data !== undefined && data !== null && data !== "") {
                 try {
-                    result200 = data === "" ? null : <string>jQuery.parseJSON(data);
+                    result200 = data === "" ? null : <string>jQuery.parseJSON(
+                        data.replace(/\/Date((-?\d*))\//, (a: string, b: string) => { return new Date(+b); }));
                 } catch (e) {
                     if (onFail !== undefined)
                         onFail(null, "error_parsing", e);
                     return;
                 }
             }
-
             if (onSuccess !== undefined)
                 onSuccess(result200);
             return;
@@ -117,14 +118,14 @@ export class Client {
             var result200: Person[] = null;
             if (data !== undefined && data !== null && data !== "") {
                 try {
-                    result200 = data === "" ? null : <Person[]>jQuery.parseJSON(data);
+                    result200 = data === "" ? null : <Person[]>jQuery.parseJSON(
+                        data.replace(/\/Date((-?\d*))\//, (a: string, b: string) => { return new Date(+b); }));
                 } catch (e) {
                     if (onFail !== undefined)
                         onFail(null, "error_parsing", e);
                     return;
                 }
             }
-
             if (onSuccess !== undefined)
                 onSuccess(result200);
             return;
@@ -143,6 +144,8 @@ export class Client {
     get(id: number, onSuccess?: (result: Person) => void, onFail?: (exception: PersonNotFoundException | string, reason: string) => void) {
         var url = this.baseUrl + "/api/Persons/Get/{id}?";
 
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
         url = url.replace("{id}", "" + id);
 
         var content = "";
@@ -171,14 +174,14 @@ export class Client {
             var result200: Person = null;
             if (data !== undefined && data !== null && data !== "") {
                 try {
-                    result200 = data === "" ? null : <Person>jQuery.parseJSON(data);
+                    result200 = data === "" ? null : <Person>jQuery.parseJSON(
+                        data.replace(/\/Date((-?\d*))\//, (a: string, b: string) => { return new Date(+b); }));
                 } catch (e) {
                     if (onFail !== undefined)
                         onFail(null, "error_parsing", e);
                     return;
                 }
             }
-
             if (onSuccess !== undefined)
                 onSuccess(result200);
             return;
@@ -188,14 +191,14 @@ export class Client {
                 var result500: PersonNotFoundException = null;
                 if (data !== undefined && data !== null && data !== "") {
                     try {
-                        result500 = data === "" ? null : <PersonNotFoundException>jQuery.parseJSON(data);
+                        result500 = data === "" ? null : <PersonNotFoundException>jQuery.parseJSON(
+                            data.replace(/\/Date((-?\d*))\//, (a: string, b: string) => { return new Date(+b); }));
                     } catch (e) {
                         if (onFail !== undefined)
                             onFail(null, "error_parsing", e);
                         return;
                     }
                 }
-
                 if (onFail !== undefined)
                     onFail(result500, "error_exception");
                 return;
@@ -208,9 +211,9 @@ export class Client {
 
     /**
      * Creates a new person.
-     * @value The person.
+     * @value (optional) The person.
      */
-    post(value: Person, onSuccess?: (result: any) => void, onFail?: (exception: string, reason: string) => void) {
+    post(value: Person, onSuccess?: () => void, onFail?: (exception: string, reason: string) => void) {
         var url = this.baseUrl + "/api/Persons/Post?";
 
         var content = JSON.stringify(value);
@@ -235,16 +238,7 @@ export class Client {
         var status = xhr.status.toString();
 
         if (status === "204") {
-            var result204: any = null;
-            if (data !== undefined && data !== null && data !== "") {
-                try {
-                    result204 = data === "" ? null : <any>jQuery.parseJSON(data);
-                } catch (e) {
-                    if (onFail !== undefined)
-                        onFail(null, "error_parsing", e);
-                    return;
-                }
-            }
+            var result204: any = undefined;
 
             if (onSuccess !== undefined)
                 onSuccess(result204);
@@ -259,11 +253,13 @@ export class Client {
     /**
      * Updates the existing person.
      * @id The ID.
-     * @value The person.
+     * @value (optional) The person.
      */
-    put(id: number, value: Person, onSuccess?: (result: any) => void, onFail?: (exception: string, reason: string) => void) {
+    put(id: number, value: Person, onSuccess?: () => void, onFail?: (exception: string, reason: string) => void) {
         var url = this.baseUrl + "/api/Persons/Put/{id}?";
 
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
         url = url.replace("{id}", "" + id);
 
         var content = JSON.stringify(value);
@@ -288,16 +284,7 @@ export class Client {
         var status = xhr.status.toString();
 
         if (status === "204") {
-            var result204: any = null;
-            if (data !== undefined && data !== null && data !== "") {
-                try {
-                    result204 = data === "" ? null : <any>jQuery.parseJSON(data);
-                } catch (e) {
-                    if (onFail !== undefined)
-                        onFail(null, "error_parsing", e);
-                    return;
-                }
-            }
+            var result204: any = undefined;
 
             if (onSuccess !== undefined)
                 onSuccess(result204);
@@ -309,9 +296,11 @@ export class Client {
         }
     }
 
-    delete(id: number, onSuccess?: (result: any) => void, onFail?: (exception: string, reason: string) => void) {
+    delete(id: number, onSuccess?: () => void, onFail?: (exception: string, reason: string) => void) {
         var url = this.baseUrl + "/api/Persons/Delete/{id}?";
 
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
         url = url.replace("{id}", "" + id);
 
         var content = "";
@@ -337,16 +326,7 @@ export class Client {
         var status = xhr.status.toString();
 
         if (status === "204") {
-            var result204: any = null;
-            if (data !== undefined && data !== null && data !== "") {
-                try {
-                    result204 = data === "" ? null : <any>jQuery.parseJSON(data);
-                } catch (e) {
-                    if (onFail !== undefined)
-                        onFail(null, "error_parsing", e);
-                    return;
-                }
-            }
+            var result204: any = undefined;
 
             if (onSuccess !== undefined)
                 onSuccess(result204);
@@ -364,10 +344,17 @@ export class Client {
     calculate(a: number, b: number, c: number, onSuccess?: (result: number) => void, onFail?: (exception: string, reason: string) => void) {
         var url = this.baseUrl + "/api/Person/Calculate/{a}/{b}?";
 
+        if (a === undefined || a === null)
+            throw new Error("The parameter 'a' must be defined.");
         url = url.replace("{a}", "" + a);
+        if (b === undefined || b === null)
+            throw new Error("The parameter 'b' must be defined.");
         url = url.replace("{b}", "" + b);
 
-        url += "c=" + encodeURIComponent("" + c) + "&";
+        if (c === undefined || c === null)
+            throw new Error("The parameter 'c' must be defined.");
+        else
+            url += "c=" + encodeURIComponent("" + c) + "&";
 
         var content = "";
 
@@ -395,14 +382,14 @@ export class Client {
             var result200: number = null;
             if (data !== undefined && data !== null && data !== "") {
                 try {
-                    result200 = data === "" ? null : <number>jQuery.parseJSON(data);
+                    result200 = data === "" ? null : <number>jQuery.parseJSON(
+                        data.replace(/\/Date((-?\d*))\//, (a: string, b: string) => { return new Date(+b); }));
                 } catch (e) {
                     if (onFail !== undefined)
                         onFail(null, "error_parsing", e);
                     return;
                 }
             }
-
             if (onSuccess !== undefined)
                 onSuccess(result200);
             return;
@@ -416,7 +403,10 @@ export class Client {
     addHour(time: Date, onSuccess?: (result: Date) => void, onFail?: (exception: string, reason: string) => void) {
         var url = this.baseUrl + "/api/Persons/AddHour?";
 
-        url += "time=" + encodeURIComponent("" + time) + "&";
+        if (time === undefined || time === null)
+            throw new Error("The parameter 'time' must be defined.");
+        else
+            url += "time=" + encodeURIComponent("" + time.toJSON()) + "&";
 
         var content = "";
 
@@ -451,7 +441,6 @@ export class Client {
                     return;
                 }
             }
-
             if (onSuccess !== undefined)
                 onSuccess(result200);
             return;
@@ -491,14 +480,14 @@ export class Client {
             var result200: number = null;
             if (data !== undefined && data !== null && data !== "") {
                 try {
-                    result200 = data === "" ? null : <number>jQuery.parseJSON(data);
+                    result200 = data === "" ? null : <number>jQuery.parseJSON(
+                        data.replace(/\/Date((-?\d*))\//, (a: string, b: string) => { return new Date(+b); }));
                 } catch (e) {
                     if (onFail !== undefined)
                         onFail(null, "error_parsing", e);
                     return;
                 }
             }
-
             if (onSuccess !== undefined)
                 onSuccess(result200);
             return;
@@ -538,14 +527,14 @@ export class Client {
             var result200: Car = null;
             if (data !== undefined && data !== null && data !== "") {
                 try {
-                    result200 = data === "" ? null : <Car>jQuery.parseJSON(data);
+                    result200 = data === "" ? null : <Car>jQuery.parseJSON(
+                        data.replace(/\/Date((-?\d*))\//, (a: string, b: string) => { return new Date(+b); }));
                 } catch (e) {
                     if (onFail !== undefined)
                         onFail(null, "error_parsing", e);
                     return;
                 }
             }
-
             if (onSuccess !== undefined)
                 onSuccess(result200);
             return;
@@ -557,3 +546,36 @@ export class Client {
     }
 }
 
+/** The DTO class for a person. */
+export interface Person {
+    /** Gets or sets the first name. */
+    firstName?: string;
+    LastName?: string;
+    Birthday?: Date;
+    /** Gets or sets the height in cm. */
+    Height?: number;
+    Cars?: Car[];
+    Type?: ObjectType;
+}
+
+export interface Car {
+    Name?: string;
+    Driver?: Person;
+    Type?: ObjectType;
+}
+
+export enum ObjectType {
+    Foo = <any>"Foo",
+    Bar = <any>"Bar",
+}
+
+export interface PersonNotFoundException extends Exception {
+    PersonId?: number;
+}
+
+export interface Exception {
+    Message?: string;
+    InnerException?: Exception;
+    StackTrace?: string;
+    Source?: string;
+}

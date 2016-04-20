@@ -1,19 +1,16 @@
-// Generated using the NSwag toolchain v1.17.5849.35297 (http://NSwag.org)
+// Generated using the NSwag toolchain v2.6.5954.30417 (http://NSwag.org)
 define(["require", "exports"], function (require, exports) {
-    (function (ObjectType) {
-        ObjectType[ObjectType["Foo"] = "Foo"] = "Foo";
-        ObjectType[ObjectType["Bar"] = "Bar"] = "Bar";
-    })(exports.ObjectType || (exports.ObjectType = {}));
-    var ObjectType = exports.ObjectType;
-    var Client = (function () {
-        function Client(baseUrl) {
+    var PersonsClient = (function () {
+        function PersonsClient(baseUrl) {
             this.baseUrl = undefined;
             this.beforeSend = undefined;
             this.baseUrl = baseUrl !== undefined ? baseUrl : "";
         }
-        Client.prototype.xyz = function (data, onSuccess, onFail) {
+        PersonsClient.prototype.xyz = function (data, onSuccess, onFail) {
             var _this = this;
             var url = this.baseUrl + "/api/Person/xyz/{data}?";
+            if (data === undefined || data === null)
+                throw new Error("The parameter 'data' must be defined.");
             url = url.replace("{data}", "" + data);
             var content = "";
             $.ajax({
@@ -31,14 +28,14 @@ define(["require", "exports"], function (require, exports) {
                 _this.processXyz(xhr, onSuccess, onFail);
             });
         };
-        Client.prototype.processXyz = function (xhr, onSuccess, onFail) {
+        PersonsClient.prototype.processXyz = function (xhr, onSuccess, onFail) {
             var data = xhr.responseText;
             var status = xhr.status.toString();
             if (status === "200") {
                 var result200 = null;
                 if (data !== undefined && data !== null && data !== "") {
                     try {
-                        result200 = data === "" ? null : jQuery.parseJSON(data);
+                        result200 = data === "" ? null : jQuery.parseJSON(data.replace(/\/Date((-?\d*))\//, function (a, b) { return new Date(+b); }));
                     }
                     catch (e) {
                         if (onFail !== undefined)
@@ -55,7 +52,7 @@ define(["require", "exports"], function (require, exports) {
                     onFail(null, "error_no_callback_for_the_received_http_status");
             }
         };
-        Client.prototype.getAll = function (onSuccess, onFail) {
+        PersonsClient.prototype.getAll = function (onSuccess, onFail) {
             var _this = this;
             var url = this.baseUrl + "/api/Persons/Get?";
             var content = "";
@@ -74,14 +71,14 @@ define(["require", "exports"], function (require, exports) {
                 _this.processGetAll(xhr, onSuccess, onFail);
             });
         };
-        Client.prototype.processGetAll = function (xhr, onSuccess, onFail) {
+        PersonsClient.prototype.processGetAll = function (xhr, onSuccess, onFail) {
             var data = xhr.responseText;
             var status = xhr.status.toString();
             if (status === "200") {
                 var result200 = null;
                 if (data !== undefined && data !== null && data !== "") {
                     try {
-                        result200 = data === "" ? null : jQuery.parseJSON(data);
+                        result200 = data === "" ? null : jQuery.parseJSON(data.replace(/\/Date((-?\d*))\//, function (a, b) { return new Date(+b); }));
                     }
                     catch (e) {
                         if (onFail !== undefined)
@@ -103,9 +100,11 @@ define(["require", "exports"], function (require, exports) {
          * @id The ID of the person.
          * @return The person.
          */
-        Client.prototype.get = function (id, onSuccess, onFail) {
+        PersonsClient.prototype.get = function (id, onSuccess, onFail) {
             var _this = this;
             var url = this.baseUrl + "/api/Persons/Get/{id}?";
+            if (id === undefined || id === null)
+                throw new Error("The parameter 'id' must be defined.");
             url = url.replace("{id}", "" + id);
             var content = "";
             $.ajax({
@@ -123,14 +122,14 @@ define(["require", "exports"], function (require, exports) {
                 _this.processGet(xhr, onSuccess, onFail);
             });
         };
-        Client.prototype.processGet = function (xhr, onSuccess, onFail) {
+        PersonsClient.prototype.processGet = function (xhr, onSuccess, onFail) {
             var data = xhr.responseText;
             var status = xhr.status.toString();
             if (status === "200") {
                 var result200 = null;
                 if (data !== undefined && data !== null && data !== "") {
                     try {
-                        result200 = data === "" ? null : jQuery.parseJSON(data);
+                        result200 = data === "" ? null : jQuery.parseJSON(data.replace(/\/Date((-?\d*))\//, function (a, b) { return new Date(+b); }));
                     }
                     catch (e) {
                         if (onFail !== undefined)
@@ -146,7 +145,7 @@ define(["require", "exports"], function (require, exports) {
                 var result500 = null;
                 if (data !== undefined && data !== null && data !== "") {
                     try {
-                        result500 = data === "" ? null : jQuery.parseJSON(data);
+                        result500 = data === "" ? null : jQuery.parseJSON(data.replace(/\/Date((-?\d*))\//, function (a, b) { return new Date(+b); }));
                     }
                     catch (e) {
                         if (onFail !== undefined)
@@ -165,9 +164,9 @@ define(["require", "exports"], function (require, exports) {
         };
         /**
          * Creates a new person.
-         * @value The person.
+         * @value (optional) The person.
          */
-        Client.prototype.post = function (value, onSuccess, onFail) {
+        PersonsClient.prototype.post = function (value, onSuccess, onFail) {
             var _this = this;
             var url = this.baseUrl + "/api/Persons/Post?";
             var content = JSON.stringify(value);
@@ -186,21 +185,11 @@ define(["require", "exports"], function (require, exports) {
                 _this.processPost(xhr, onSuccess, onFail);
             });
         };
-        Client.prototype.processPost = function (xhr, onSuccess, onFail) {
+        PersonsClient.prototype.processPost = function (xhr, onSuccess, onFail) {
             var data = xhr.responseText;
             var status = xhr.status.toString();
             if (status === "204") {
-                var result204 = null;
-                if (data !== undefined && data !== null && data !== "") {
-                    try {
-                        result204 = data === "" ? null : jQuery.parseJSON(data);
-                    }
-                    catch (e) {
-                        if (onFail !== undefined)
-                            onFail(null, "error_parsing", e);
-                        return;
-                    }
-                }
+                var result204 = undefined;
                 if (onSuccess !== undefined)
                     onSuccess(result204);
                 return;
@@ -213,11 +202,13 @@ define(["require", "exports"], function (require, exports) {
         /**
          * Updates the existing person.
          * @id The ID.
-         * @value The person.
+         * @value (optional) The person.
          */
-        Client.prototype.put = function (id, value, onSuccess, onFail) {
+        PersonsClient.prototype.put = function (id, value, onSuccess, onFail) {
             var _this = this;
             var url = this.baseUrl + "/api/Persons/Put/{id}?";
+            if (id === undefined || id === null)
+                throw new Error("The parameter 'id' must be defined.");
             url = url.replace("{id}", "" + id);
             var content = JSON.stringify(value);
             $.ajax({
@@ -235,21 +226,11 @@ define(["require", "exports"], function (require, exports) {
                 _this.processPut(xhr, onSuccess, onFail);
             });
         };
-        Client.prototype.processPut = function (xhr, onSuccess, onFail) {
+        PersonsClient.prototype.processPut = function (xhr, onSuccess, onFail) {
             var data = xhr.responseText;
             var status = xhr.status.toString();
             if (status === "204") {
-                var result204 = null;
-                if (data !== undefined && data !== null && data !== "") {
-                    try {
-                        result204 = data === "" ? null : jQuery.parseJSON(data);
-                    }
-                    catch (e) {
-                        if (onFail !== undefined)
-                            onFail(null, "error_parsing", e);
-                        return;
-                    }
-                }
+                var result204 = undefined;
                 if (onSuccess !== undefined)
                     onSuccess(result204);
                 return;
@@ -259,9 +240,11 @@ define(["require", "exports"], function (require, exports) {
                     onFail(null, "error_no_callback_for_the_received_http_status");
             }
         };
-        Client.prototype.delete = function (id, onSuccess, onFail) {
+        PersonsClient.prototype.delete = function (id, onSuccess, onFail) {
             var _this = this;
             var url = this.baseUrl + "/api/Persons/Delete/{id}?";
+            if (id === undefined || id === null)
+                throw new Error("The parameter 'id' must be defined.");
             url = url.replace("{id}", "" + id);
             var content = "";
             $.ajax({
@@ -279,21 +262,11 @@ define(["require", "exports"], function (require, exports) {
                 _this.processDelete(xhr, onSuccess, onFail);
             });
         };
-        Client.prototype.processDelete = function (xhr, onSuccess, onFail) {
+        PersonsClient.prototype.processDelete = function (xhr, onSuccess, onFail) {
             var data = xhr.responseText;
             var status = xhr.status.toString();
             if (status === "204") {
-                var result204 = null;
-                if (data !== undefined && data !== null && data !== "") {
-                    try {
-                        result204 = data === "" ? null : jQuery.parseJSON(data);
-                    }
-                    catch (e) {
-                        if (onFail !== undefined)
-                            onFail(null, "error_parsing", e);
-                        return;
-                    }
-                }
+                var result204 = undefined;
                 if (onSuccess !== undefined)
                     onSuccess(result204);
                 return;
@@ -306,12 +279,19 @@ define(["require", "exports"], function (require, exports) {
         /**
          * Calculates the sum of a, b and c.
          */
-        Client.prototype.calculate = function (a, b, c, onSuccess, onFail) {
+        PersonsClient.prototype.calculate = function (a, b, c, onSuccess, onFail) {
             var _this = this;
             var url = this.baseUrl + "/api/Person/Calculate/{a}/{b}?";
+            if (a === undefined || a === null)
+                throw new Error("The parameter 'a' must be defined.");
             url = url.replace("{a}", "" + a);
+            if (b === undefined || b === null)
+                throw new Error("The parameter 'b' must be defined.");
             url = url.replace("{b}", "" + b);
-            url += "c=" + encodeURIComponent("" + c) + "&";
+            if (c === undefined || c === null)
+                throw new Error("The parameter 'c' must be defined.");
+            else
+                url += "c=" + encodeURIComponent("" + c) + "&";
             var content = "";
             $.ajax({
                 url: url,
@@ -328,14 +308,14 @@ define(["require", "exports"], function (require, exports) {
                 _this.processCalculate(xhr, onSuccess, onFail);
             });
         };
-        Client.prototype.processCalculate = function (xhr, onSuccess, onFail) {
+        PersonsClient.prototype.processCalculate = function (xhr, onSuccess, onFail) {
             var data = xhr.responseText;
             var status = xhr.status.toString();
             if (status === "200") {
                 var result200 = null;
                 if (data !== undefined && data !== null && data !== "") {
                     try {
-                        result200 = data === "" ? null : jQuery.parseJSON(data);
+                        result200 = data === "" ? null : jQuery.parseJSON(data.replace(/\/Date((-?\d*))\//, function (a, b) { return new Date(+b); }));
                     }
                     catch (e) {
                         if (onFail !== undefined)
@@ -352,10 +332,13 @@ define(["require", "exports"], function (require, exports) {
                     onFail(null, "error_no_callback_for_the_received_http_status");
             }
         };
-        Client.prototype.addHour = function (time, onSuccess, onFail) {
+        PersonsClient.prototype.addHour = function (time, onSuccess, onFail) {
             var _this = this;
             var url = this.baseUrl + "/api/Persons/AddHour?";
-            url += "time=" + encodeURIComponent("" + time) + "&";
+            if (time === undefined || time === null)
+                throw new Error("The parameter 'time' must be defined.");
+            else
+                url += "time=" + encodeURIComponent("" + time.toJSON()) + "&";
             var content = "";
             $.ajax({
                 url: url,
@@ -372,7 +355,7 @@ define(["require", "exports"], function (require, exports) {
                 _this.processAddHour(xhr, onSuccess, onFail);
             });
         };
-        Client.prototype.processAddHour = function (xhr, onSuccess, onFail) {
+        PersonsClient.prototype.processAddHour = function (xhr, onSuccess, onFail) {
             var data = xhr.responseText;
             var status = xhr.status.toString();
             if (status === "200") {
@@ -396,7 +379,7 @@ define(["require", "exports"], function (require, exports) {
                     onFail(null, "error_no_callback_for_the_received_http_status");
             }
         };
-        Client.prototype.test = function (onSuccess, onFail) {
+        PersonsClient.prototype.test = function (onSuccess, onFail) {
             var _this = this;
             var url = this.baseUrl + "/api/Persons/TestAsync?";
             var content = "";
@@ -415,14 +398,14 @@ define(["require", "exports"], function (require, exports) {
                 _this.processTest(xhr, onSuccess, onFail);
             });
         };
-        Client.prototype.processTest = function (xhr, onSuccess, onFail) {
+        PersonsClient.prototype.processTest = function (xhr, onSuccess, onFail) {
             var data = xhr.responseText;
             var status = xhr.status.toString();
             if (status === "200") {
                 var result200 = null;
                 if (data !== undefined && data !== null && data !== "") {
                     try {
-                        result200 = data === "" ? null : jQuery.parseJSON(data);
+                        result200 = data === "" ? null : jQuery.parseJSON(data.replace(/\/Date((-?\d*))\//, function (a, b) { return new Date(+b); }));
                     }
                     catch (e) {
                         if (onFail !== undefined)
@@ -439,7 +422,7 @@ define(["require", "exports"], function (require, exports) {
                     onFail(null, "error_no_callback_for_the_received_http_status");
             }
         };
-        Client.prototype.loadComplexObject = function (onSuccess, onFail) {
+        PersonsClient.prototype.loadComplexObject = function (onSuccess, onFail) {
             var _this = this;
             var url = this.baseUrl + "/api/Persons/LoadComplexObject?";
             var content = "";
@@ -458,14 +441,14 @@ define(["require", "exports"], function (require, exports) {
                 _this.processLoadComplexObject(xhr, onSuccess, onFail);
             });
         };
-        Client.prototype.processLoadComplexObject = function (xhr, onSuccess, onFail) {
+        PersonsClient.prototype.processLoadComplexObject = function (xhr, onSuccess, onFail) {
             var data = xhr.responseText;
             var status = xhr.status.toString();
             if (status === "200") {
                 var result200 = null;
                 if (data !== undefined && data !== null && data !== "") {
                     try {
-                        result200 = data === "" ? null : jQuery.parseJSON(data);
+                        result200 = data === "" ? null : jQuery.parseJSON(data.replace(/\/Date((-?\d*))\//, function (a, b) { return new Date(+b); }));
                     }
                     catch (e) {
                         if (onFail !== undefined)
@@ -482,8 +465,13 @@ define(["require", "exports"], function (require, exports) {
                     onFail(null, "error_no_callback_for_the_received_http_status");
             }
         };
-        return Client;
+        return PersonsClient;
     })();
-    exports.Client = Client;
+    exports.PersonsClient = PersonsClient;
+    (function (ObjectType) {
+        ObjectType[ObjectType["Foo"] = "Foo"] = "Foo";
+        ObjectType[ObjectType["Bar"] = "Bar"] = "Bar";
+    })(exports.ObjectType || (exports.ObjectType = {}));
+    var ObjectType = exports.ObjectType;
 });
 //# sourceMappingURL=DataService.js.map
