@@ -90,8 +90,7 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
     <if(response.IsFile)>
         var data = response.blob(); 
     <else>
-        var text = response.text().replace(/\/Date((-?\d*))\//, (a: string, b: string) => { return new Date(+b); \});
-        var data = JSON.parse(text, this.jsonParseReviver);
+        var data = JSON.parse(response.text(), this.jsonParseReviver);
     <endif>
         var status = response.status.toString(); 
 

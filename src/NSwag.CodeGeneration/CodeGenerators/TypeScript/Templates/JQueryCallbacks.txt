@@ -103,8 +103,7 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
         <if(response.IsFile)>
                     result<response.StatusCode> = data;
         <else>
-                    result<response.StatusCode> = data === "" ? null : \<<response.Type>>jQuery.parseJSON(
-                        data.replace(/\/Date((-?\d*))\//, (a: string, b: string) => { return new Date(+b); \}));
+                    result<response.StatusCode> = data === "" ? null : \<<response.Type>>jQuery.parseJSON(data);
         <endif>
         <endif>
                 \} catch(e) { 
@@ -139,8 +138,7 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
         <if(response.IsFile)>
                     result = data;
         <else>
-                    result = \<<operation.DefaultResponse.Type>>jQuery.parseJSON(
-                        data.replace(/\/Date((-?\d*))\//, (a: string, b: string) => { return new Date(+b); \}));
+                    result = \<<operation.DefaultResponse.Type>>jQuery.parseJSON(data);
         <endif>
         <endif>
                 \} catch(e) { 
