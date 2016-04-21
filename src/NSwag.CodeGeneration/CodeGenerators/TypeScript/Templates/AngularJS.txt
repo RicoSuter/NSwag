@@ -15,12 +15,14 @@ export interface I<class> {
 <endif>
 
 export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
-    baseUrl: string = undefined; 
-    http: ng.IHttpService = null; 
+    private baseUrl: string = undefined; 
+    private http: ng.IHttpService = null; 
+    private jsonParseReviver: (key: string, value: any) => any = undefined; 
 
-    constructor($http: ng.IHttpService, baseUrl?: string) {
+    constructor($http: ng.IHttpService, baseUrl?: string, jsonParseReviver?: (key: string, value: any) => any) {
         this.http = $http; 
         this.baseUrl = baseUrl !== undefined ? baseUrl : "<baseUrl>"; 
+        this.jsonParseReviver = jsonParseReviver;
     }
 <operations:{operation | 
 
@@ -88,7 +90,7 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
     \}
 
     private process<operation.OperationNameUpper>(response: any) {
-        var data = response.data.replace(/\/Date((-?\d*))\//, (a: string, b: string) => { return new Date(+b); \});
+        var data = response.data;
         var status = response.status; 
 
 <operation.Responses:{response | 
@@ -98,7 +100,7 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
     <if(response.IsDate)>
             result<response.StatusCode> = new Date(data);
     <else>
-            result<response.StatusCode> = \<<response.Type>>JSON.parse(data);
+            result<response.StatusCode> = \<<response.Type>>JSON.parse(data, this.jsonParseReviver);
     <endif>
     <if(response.IsSuccess)>
             return result<response.StatusCode>; 
@@ -114,7 +116,7 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
     <if(operation.DefaultResponse.IsDate)>
             result = new Date(data);
     <else>
-            result = \<<operation.DefaultResponse.Type>>JSON.parse(data);
+            result = \<<operation.DefaultResponse.Type>>JSON.parse(data, this.jsonParseReviver);
     <endif>
     <if(operation.DefaultResponse.IsSuccess)>
             return result; 
