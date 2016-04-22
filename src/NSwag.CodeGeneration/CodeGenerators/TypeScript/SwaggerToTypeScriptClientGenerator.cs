@@ -37,7 +37,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             foreach (var definition in _service.Definitions)
                 definition.Value.TypeName = definition.Key;
 
-            _resolver = new TypeScriptTypeResolver(_service.Definitions.Select(p => p.Value).ToArray());
+            _resolver = new TypeScriptTypeResolver(_service.Definitions.Select(p => p.Value).ToArray(), Settings.TypeScriptGeneratorSettings);
         }
 
         /// <summary>Gets or sets the generator settings.</summary>

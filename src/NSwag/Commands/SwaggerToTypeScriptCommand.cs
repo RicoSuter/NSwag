@@ -83,6 +83,14 @@ namespace NSwag.Commands
             set { Settings.OperationGenerationMode = value; }
         }
 
+        [Description("Specifies whether to generate readonly keywords (only available in TS 2.0+, default: true).")]
+        [Argument(Name = "GenerateReadOnlyKeywords", DefaultValue = true)]
+        public bool GenerateReadOnlyKeywords
+        {
+            get { return Settings.TypeScriptGeneratorSettings.GenerateReadOnlyKeywords; }
+            set { Settings.TypeScriptGeneratorSettings.GenerateReadOnlyKeywords = value; }
+        }
+
         public override async Task RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var output = await RunAsync();
