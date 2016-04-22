@@ -6,6 +6,8 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using NJsonSchema.CodeGeneration.TypeScript;
+
 namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 {
     /// <summary>Settings for the <see cref="SwaggerToTypeScriptClientGenerator"/>.</summary>
@@ -18,7 +20,11 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             ClassName = "{controller}Client";
             Template = TypeScriptTemplate.JQueryCallbacks;
             PromiseType = PromiseType.Promise;
+            TypeScriptGeneratorSettings = new TypeScriptGeneratorSettings();
         }
+
+        /// <summary>Gets or sets the TypeScript generator settings.</summary>
+        public TypeScriptGeneratorSettings TypeScriptGeneratorSettings { get; set; }
 
         /// <summary>Gets or sets the class name of the service client.</summary>
         public string ClassName { get; set; }

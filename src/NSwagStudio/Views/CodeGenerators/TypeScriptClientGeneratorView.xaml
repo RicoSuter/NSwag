@@ -38,6 +38,10 @@
                     <CheckBox IsChecked="{Binding Command.GenerateDtoTypes, Mode=TwoWay}" 
                               Content="Generate DTO interfaces (e.g. request and response types)" Margin="0,0,0,12" />
 
+                    <CheckBox IsChecked="{Binding Command.GenerateReadOnlyKeywords, Mode=TwoWay}" 
+                              Visibility="{Binding Command.GenerateDtoTypes, Converter={StaticResource VisibilityConverter}}"
+                              Content="Generate readonly keywords in DTO types" Margin="0,0,0,12" />
+
                     <GroupBox Header="Client" Margin="0,0,0,12">
                         <StackPanel Margin="4,4,4,-8">
                             <CheckBox IsChecked="{Binding Command.GenerateClientClasses, Mode=TwoWay}" 

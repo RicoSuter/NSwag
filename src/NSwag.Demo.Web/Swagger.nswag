@@ -29,10 +29,11 @@
     "ModuleName": "",
     "Template": 0,
     "PromiseType": 0,
-    "GenerateClientClasses": true,
+    "GenerateClientClasses": false,
     "GenerateClientInterfaces": true,
     "GenerateDtoTypes": true,
     "OperationGenerationMode": 0,
+    "GenerateReadOnlyKeywords": false,
     "Input": null,
     "OutputFilePath": null
   },
