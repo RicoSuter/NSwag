@@ -143,6 +143,7 @@
     <Compile Include="Views\SwaggerGenerators\SwaggerInputGeneratorView.xaml.cs">
       <DependentUpon>SwaggerInputGeneratorView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\SwaggerGenerators\SwaggerInputGeneratorViewModel.cs" />
     <Compile Include="Views\SwaggerGenerators\WebApiSwaggerGeneratorView.xaml.cs">
       <DependentUpon>WebApiSwaggerGeneratorView.xaml</DependentUpon>
     </Compile>
