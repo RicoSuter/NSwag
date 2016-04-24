@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.CodeGeneration", "NSwag.CodeGeneration\NSwag.CodeGeneration.csproj", "{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}"
 EndProject
@@ -26,6 +26,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Core", "NSwag.Core\NSwag.Core.csproj", "{2E6174AA-FC75-4821-9E86-51B30568BEC0}"
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "NSwagStudio.Installer", "NSwagStudio.Installer\NSwagStudio.Installer.wixproj", "{50DCC09C-7349-4BAC-8833-261A641E0669}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{B50AC8CD-CF12-4E7E-9295-E65750C46AA6}"
+	ProjectSection(SolutionItems) = preProject
+		Samples\DemoWeb.nswag = Samples\DemoWeb.nswag
+		Samples\SwaggerUrlImport.nswag = Samples\SwaggerUrlImport.nswag
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

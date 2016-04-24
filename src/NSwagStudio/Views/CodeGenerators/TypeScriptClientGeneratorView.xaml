@@ -34,14 +34,7 @@
                 <StackPanel Margin="0,8,0,-8">
                     <TextBlock Text="Module name (empty for no module declaration)" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding Command.ModuleName, Mode=TwoWay}" Margin="0,0,0,12" />
-
-                    <CheckBox IsChecked="{Binding Command.GenerateDtoTypes, Mode=TwoWay}" 
-                              Content="Generate DTO interfaces (e.g. request and response types)" Margin="0,0,0,12" />
-
-                    <CheckBox IsChecked="{Binding Command.GenerateReadOnlyKeywords, Mode=TwoWay}" 
-                              Visibility="{Binding Command.GenerateDtoTypes, Converter={StaticResource VisibilityConverter}}"
-                              Content="Generate readonly keywords in DTO types" Margin="0,0,0,12" />
-
+                    
                     <GroupBox Header="Client" Margin="0,0,0,12">
                         <StackPanel Margin="4,4,4,-8">
                             <CheckBox IsChecked="{Binding Command.GenerateClientClasses, Mode=TwoWay}" 
@@ -71,6 +64,22 @@
                                     <ComboBox SelectedItem="{Binding Command.PromiseType, Mode=TwoWay}" 
                                               ItemsSource="{Binding PromiseTypes}" Margin="0,0,0,12" />
                                 </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <GroupBox Header="DTO Types" Margin="0,0,0,12">
+                        <StackPanel Margin="4,8,4,-8">
+                            <CheckBox IsChecked="{Binding Command.GenerateDtoTypes, Mode=TwoWay}" 
+                                      Content="Generate DTO interfaces (e.g. request and response types)" Margin="0,0,0,12" />
+
+                            <StackPanel Visibility="{Binding Command.GenerateDtoTypes, Converter={StaticResource VisibilityConverter}}">
+                                <CheckBox IsChecked="{Binding Command.GenerateReadOnlyKeywords, Mode=TwoWay}" 
+                                          Content="Generate readonly keywords in DTO types" Margin="0,0,0,12" />
+
+                                <TextBlock Text="Type Style (Class/KoObservableClass are experimental)" FontWeight="Bold" Margin="0,0,0,6" />
+                                <ComboBox SelectedItem="{Binding Command.TypeStyle, Mode=TwoWay}" 
+                                          ItemsSource="{Binding TypeStyles}" Margin="0,0,0,12" />
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>

@@ -36,6 +36,9 @@
                         <TextBlock Text="Namespace" FontWeight="Bold" Margin="0,0,0,6" />
                         <TextBox Text="{Binding Command.Namespace, Mode=TwoWay}" Margin="0,0,0,12" />
 
+                        <TextBlock Text="Additional Namespace Usages (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding AdditionalNamespaceUsages, Mode=TwoWay}" Margin="0,0,0,12" />
+
                         <GroupBox Header="Client" Margin="0,0,0,12">
                             <StackPanel Margin="4,8,4,-8">
                                 <CheckBox IsChecked="{Binding Command.GenerateClientClasses, Mode=TwoWay}" 
@@ -67,10 +70,7 @@
                             </StackPanel>
                         </GroupBox>
 
-                        <TextBlock Text="Additional Namespace Usages (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
-                        <TextBox Text="{Binding AdditionalNamespaceUsages, Mode=TwoWay}" Margin="0,0,0,12" />
-
-                        <GroupBox Header="Classes" Margin="0,0,0,12">
+                        <GroupBox Header="DTO Classes" Margin="0,0,0,12">
                             <StackPanel Margin="4,8,4,-8">
                                 <CheckBox IsChecked="{Binding Command.RequiredPropertiesMustBeDefined, Mode=TwoWay}" Margin="0,0,0,12">
                                     <TextBlock Text="Required properties must be defined in JSON (sets Required.Always when the property is required)" TextWrapping="Wrap" />

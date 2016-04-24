@@ -136,6 +136,9 @@ namespace NSwagStudio
         [JsonProperty("InputSwagger")]
         public string InputSwagger { get; set; }
 
+        [JsonProperty("InputSwaggerUrl")]
+        public string InputSwaggerUrl { get; set; }
+        
         [JsonProperty("InputJsonSchema")]
         public string InputJsonSchema { get; set; }
 

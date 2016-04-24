@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using MyToolkit.Storage;
+using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag.CodeGeneration.CodeGenerators;
 using NSwag.CodeGeneration.CodeGenerators.TypeScript;
 using NSwag.Commands;
@@ -56,6 +57,18 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         {
             get { return Enum.GetNames(typeof(PromiseType)).Select(t => (PromiseType)Enum.Parse(typeof(PromiseType), t)).ToArray(); }
         }
+
+        /// <summary>Gets the list of type styles. </summary>
+        public TypeScriptTypeStyle[] TypeStyles
+        {
+            get
+            {
+                return Enum.GetNames(typeof(TypeScriptTypeStyle))
+                    .Select(t => (TypeScriptTypeStyle)Enum.Parse(typeof(TypeScriptTypeStyle), t))
+                    .ToArray();
+            }
+        }
+
 
         /// <summary>Gets or sets the client code. </summary>
         public string ClientCode

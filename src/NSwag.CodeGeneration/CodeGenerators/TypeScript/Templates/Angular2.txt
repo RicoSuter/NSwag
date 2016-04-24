@@ -90,7 +90,7 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
     <if(response.IsFile)>
         var data = response.blob(); 
     <else>
-        var data = JSON.parse(response.text(), this.jsonParseReviver);
+        var data = response.text();
     <endif>
         var status = response.status.toString(); 
 
@@ -101,7 +101,7 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
     <if(response.IsDate)>
             result<response.StatusCode> = new Date(data);
     <else>
-            result<response.StatusCode> = \<<response.Type>>data;
+            result<response.StatusCode> = data === "" ? null : <if(useDtoClasses)>new <response.Type>(JSON.parse(data, this.jsonParseReviver))<else>\<<response.Type>>JSON.parse(data, this.jsonParseReviver)<endif>;
     <endif>
     <if(response.IsSuccess)>
             return result<response.StatusCode>; 
@@ -117,7 +117,7 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
     <if(operation.DefaultResponse.IsDate)>
             result = new Date(data);
     <else>
-            result = \<<operation.DefaultResponse.Type>>data;
+            result = data === "" ? null : <if(useDtoClasses)>new <operation.DefaultResponse.Type>(JSON.parse(data, this.jsonParseReviver))<else>\<<operation.DefaultResponse.Type>>JSON.parse(data, this.jsonParseReviver)<endif>;
     <endif>
     <if(operation.DefaultResponse.IsSuccess)>
             return result; 

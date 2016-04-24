@@ -1,4 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Net;
+using System.Threading.Tasks;
+using System.Windows;
+using Newtonsoft.Json;
+using NSwagStudio.ViewModels.SwaggerGenerators;
 
 namespace NSwagStudio.Views.SwaggerGenerators
 {
@@ -7,14 +12,27 @@ namespace NSwagStudio.Views.SwaggerGenerators
         public SwaggerInputGeneratorView(NSwagDocument document)
         {
             InitializeComponent();
-            DataContext = document; 
+
+            var hasInputSwaggerUrl = !string.IsNullOrEmpty(document.InputSwaggerUrl);
+            if (hasInputSwaggerUrl)
+                document.InputSwagger = string.Empty;
+
+            Model.Document = document;
+            Model.RaiseAllPropertiesChanged();
+
+            if (hasInputSwaggerUrl)
+                Model.LoadSwaggerUrlAsync();
         }
 
-        public string Title { get { return "Swagger Specification"; } }
+        private SwaggerInputGeneratorViewModel Model => (SwaggerInputGeneratorViewModel)Resources["ViewModel"];
+
+        public NSwagDocument Document { get; set; }
+
+        public string Title => "Swagger Specification";
 
         public async Task<string> GenerateSwaggerAsync()
         {
-            return SwaggerCode.Text;
+            return Model.Document.InputSwagger;
         }
     }
 }
