@@ -77,6 +77,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             template.Add("hasOperations", operations.Any());
             template.Add("baseUrl", _service.BaseUrl);
 
+            template.Add("useDtoClasses", Settings.TypeScriptGeneratorSettings.TypeStyle != TypeScriptTypeStyle.Interface);
             template.Add("promiseType", Settings.PromiseType == PromiseType.Promise ? "Promise" : "Q.Promise");
             template.Add("promiseConstructor", Settings.PromiseType == PromiseType.Promise ? "new Promise" : "Q.Promise");
 

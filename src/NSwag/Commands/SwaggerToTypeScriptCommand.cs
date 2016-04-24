@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using NConsole;
 using Newtonsoft.Json;
+using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag.CodeGeneration.CodeGenerators;
 using NSwag.CodeGeneration.CodeGenerators.TypeScript;
 using NSwag.Commands.Base;
@@ -89,6 +90,14 @@ namespace NSwag.Commands
         {
             get { return Settings.TypeScriptGeneratorSettings.GenerateReadOnlyKeywords; }
             set { Settings.TypeScriptGeneratorSettings.GenerateReadOnlyKeywords = value; }
+        }
+
+        [Description("The type style (default: Interface).")]
+        [Argument(Name = "TypeStyle", DefaultValue = TypeScriptTypeStyle.Interface)]
+        public TypeScriptTypeStyle TypeStyle
+        {
+            get { return Settings.TypeScriptGeneratorSettings.TypeStyle; }
+            set { Settings.TypeScriptGeneratorSettings.TypeStyle = value; }
         }
 
         public override async Task RunAsync(CommandLineProcessor processor, IConsoleHost host)
