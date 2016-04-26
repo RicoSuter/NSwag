@@ -169,7 +169,7 @@ namespace NSwag
         /// <returns>The <see cref="SwaggerService"/>.</returns>
         public static SwaggerService FromUrl(string url)
         {
-            dynamic client = Activator.CreateInstance(Type.GetType("System.Net.WebClient", true));
+            dynamic client = Activator.CreateInstance(Type.GetType("System.Net.WebClient, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089", true));
             using (client)
             {
                 var data = client.DownloadString(url);

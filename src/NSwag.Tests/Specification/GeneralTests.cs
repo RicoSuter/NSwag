@@ -7,6 +7,19 @@ namespace NSwag.Tests
     public class GeneralTests
     {
         [TestMethod]
+        public void When_Swagger_is_loaded_from_url_then_it_works()
+        {
+            //// Arrange
+
+
+            //// Act
+            var swagger = SwaggerService.FromUrl("http://petstore.swagger.io/v2/swagger.json");
+
+            //// Assert
+            Assert.IsNotNull(swagger);
+        }
+
+        [TestMethod]
         public void WhenConvertingAndBackThenItShouldBeTheSame()
         {
             //// Arrange
