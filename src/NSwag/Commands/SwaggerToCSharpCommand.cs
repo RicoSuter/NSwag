@@ -7,8 +7,7 @@ using NSwag.Commands.Base;
 
 namespace NSwag.Commands
 {
-    public abstract class SwaggerToCSharpCommand<TSettings>
-        : InputOutputCommandBase
+    public abstract class SwaggerToCSharpCommand<TSettings> : InputOutputCommandBase
          where TSettings : SwaggerToCSharpGeneratorSettings
     {
         protected SwaggerToCSharpCommand(TSettings settings)

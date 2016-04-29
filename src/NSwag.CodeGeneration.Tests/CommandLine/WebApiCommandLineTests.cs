@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -11,28 +12,60 @@ namespace NSwag.CodeGeneration.Tests.CommandLine
         public void When_webapi2swagger_is_called_then_file_is_created()
         {
             //// Arrange
-            if (File.Exists("MyWebService.json"))
-                File.Delete("MyWebService.json");
-
             var command = "webapi2swagger " +
                           "/assembly:" + Path.GetFullPath("../../../NSwag.Demo.Web/bin/NSwag.Demo.Web.dll") + " " +
                           "/controller:NSwag.Demo.Web.Controllers.PersonsController " +
-                          "/output:MyWebService.json";
+                          "/output:" + OutputFile;
 
             //// Act
+            var output = RunCommandLine(command);
+            var service = SwaggerService.FromJson(output);
+
+            //// Assert
+            Assert.IsNotNull(service);
+        }
+
+        [TestMethod]
+        public void When_swagger2typescript_is_called_then_file_is_created()
+        {
+            //// Arrange
+            var command = "swagger2tsclient " +
+                          @"/input:""{ \""swagger\"": \""2.0\"", \""paths\"": {}, \""definitions\"": { \""Test\"": { typeName: \""Test\"", type: \""Object\"" } } }"" " +
+                          "/output:" + OutputFile;
+
+            //// Act
+            var output = RunCommandLine(command);
+
+            //// Assert
+            Assert.IsTrue(output.Contains("export interface Test {"));
+        }
+
+        private const string OutputFile = "Output.json";
+
+        private static string RunCommandLine(string command)
+        {
+            if (File.Exists(OutputFile))
+                File.Delete(OutputFile);
+
+            var configuration = Directory.GetCurrentDirectory().Contains("bin\\Release") ? "Release" : "Debug";
             var process = Process.Start(new ProcessStartInfo
             {
-                FileName = Path.GetFullPath("../../../NSwag/bin/" + (Directory.GetCurrentDirectory().Contains("bin\\Release") ? "Release" : "Debug") + "/NSwag.exe"),
+                FileName = Path.GetFullPath("../../../NSwag/bin/" + configuration + "/NSwag.exe"),
                 Arguments = command,
             });
 
             if (!process.WaitForExit(5000))
+            {
                 process.Kill();
+                throw new InvalidOperationException("The process did not terminate.");
+            }
 
-            var json = File.ReadAllText("MyWebService.json");
+            var output = File.ReadAllText(OutputFile);
 
-            //// Assert
-            Assert.IsTrue(!string.IsNullOrEmpty(json));
+            if (File.Exists(OutputFile))
+                File.Delete(OutputFile);
+
+            return output;
         }
     }
 }
