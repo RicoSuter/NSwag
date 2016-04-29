@@ -52,6 +52,8 @@ namespace NSwag.CodeGeneration.Tests.CommandLine
             {
                 FileName = Path.GetFullPath("../../../NSwag/bin/" + configuration + "/NSwag.exe"),
                 Arguments = command,
+                CreateNoWindow = true, 
+                WindowStyle = ProcessWindowStyle.Hidden
             });
 
             if (!process.WaitForExit(5000))
