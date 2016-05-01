@@ -25,6 +25,7 @@ namespace NSwag
         public SwaggerService()
         {
             Swagger = "2.0";
+            Info = new SwaggerInfo();
             Schemes = new List<SwaggerSchema>();
             Responses = new Dictionary<string, SwaggerResponse>();
             SecurityDefinitions = new Dictionary<string, SwaggerSecurityScheme>();
@@ -54,11 +55,11 @@ namespace NSwag
         public static string ToolchainVersion => typeof(SwaggerService).GetTypeInfo().Assembly.GetName().Version.ToString();
 
         /// <summary>Gets or sets the Swagger specification version being used.</summary>
-        [JsonProperty(PropertyName = "swagger", Required = Required.Always, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(PropertyName = "swagger", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Swagger { get; set; }
 
         /// <summary>Gets or sets the metadata about the API.</summary>
-        [JsonProperty(PropertyName = "info", Required = Required.Always, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(PropertyName = "info", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public SwaggerInfo Info { get; set; }
 
         /// <summary>Gets or sets the host (name or ip) serving the API.</summary>
