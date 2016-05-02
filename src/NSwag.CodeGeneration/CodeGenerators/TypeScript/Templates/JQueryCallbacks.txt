@@ -103,7 +103,12 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
         <if(response.IsFile)>
                     result<response.StatusCode> = data;
         <else>
-                    result<response.StatusCode> = data === "" ? null : <if(useDtoClasses)>new <response.Type>(jQuery.parseJSON(data))<else>\<<response.Type>>jQuery.parseJSON(data)<endif>;
+            <if(useDtoClasses)>
+                    var resultData<response.StatusCode> = jQuery.parseJSON(data);
+                    <response.DataConversionCode>
+            <else>
+                    result<response.StatusCode> = data === "" ? null : \<<response.Type>>jQuery.parseJSON(data);
+            <endif>
         <endif>
         <endif>
                 \} catch(e) { 
@@ -138,7 +143,12 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
         <if(response.IsFile)>
                     result = data;
         <else>
-                    result = data === "" ? null : <if(useDtoClasses)>new <operation.DefaultResponse.Type>(jQuery.parseJSON(data))<else>\<<operation.DefaultResponse.Type>>jQuery.parseJSON(data)<endif>;
+            <if(useDtoClasses)>
+                    var resultData = jQuery.parseJSON(data);
+                    <response.DataConversionCode>
+            <else>
+                    result = data === "" ? null : \<<response.Type>>jQuery.parseJSON(data);
+            <endif>
         <endif>
         <endif>
                 \} catch(e) { 

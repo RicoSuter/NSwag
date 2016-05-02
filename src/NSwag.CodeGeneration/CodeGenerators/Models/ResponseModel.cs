@@ -32,5 +32,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         public bool IsDate => _clientGeneratorBase.GetType(Schema, "Response") == "Date";
 
         public bool IsFile => Schema != null && Schema.ActualSchema.Type == JsonObjectType.File;
+
+        public string DataConversionCode { get; set; }
     }
 }

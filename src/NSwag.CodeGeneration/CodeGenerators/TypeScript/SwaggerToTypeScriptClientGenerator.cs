@@ -71,6 +71,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         {
             var template = LoadTemplate(Settings.Template.ToString());
 
+            GenerateDataConversionCodes(operations);
+
             template.Add("class", Settings.ClassName.Replace("{controller}", ConvertToUpperCamelCase(controllerName)));
             template.Add("operations", operations);
             template.Add("generateClientInterfaces", Settings.GenerateClientInterfaces);
@@ -82,6 +84,27 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             template.Add("promiseConstructor", Settings.PromiseType == PromiseType.Promise ? "new Promise" : "Q.Promise");
 
             return template.Render();
+        }
+
+        private void GenerateDataConversionCodes(IEnumerable<OperationModel> operations)
+        {
+            foreach (var operation in operations)
+            {
+                foreach (var response in operation.Responses.Where(r => r.HasType))
+                {
+                    var generator = new TypeScriptGenerator(response.Schema, Settings.TypeScriptGeneratorSettings, _resolver);
+                    response.DataConversionCode = generator.GenerateDataConversion("result" + response.StatusCode,
+                        "resultData" + response.StatusCode, response.Schema, false, string.Empty);
+                }
+
+                if (operation.HasDefaultResponse && operation.DefaultResponse.HasType)
+                {
+                    var generator = new TypeScriptGenerator(operation.DefaultResponse.Schema,
+                        Settings.TypeScriptGeneratorSettings, _resolver);
+                    operation.DefaultResponse.DataConversionCode = generator.GenerateDataConversion("result", "resultData",
+                        operation.DefaultResponse.Schema, false, string.Empty);
+                }
+            }
         }
 
         internal override string GetExceptionType(SwaggerOperation operation)
