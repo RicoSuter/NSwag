@@ -100,7 +100,12 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
     <if(response.IsDate)>
             result<response.StatusCode> = new Date(data);
     <else>
-            result<response.StatusCode> = data === "" ? null : <if(useDtoClasses)>new <response.Type>(JSON.parse(data, this.jsonParseReviver))<else>\<<response.Type>>JSON.parse(data, this.jsonParseReviver)<endif>;
+        <if(useDtoClasses)>
+            var resultData<response.StatusCode> = data === "" ? null : jQuery.parseJSON(data, this.jsonParseReviver);
+            <response.DataConversionCode>
+        <else>
+            result<response.StatusCode> = data === "" ? null : \<<response.Type>>jQuery.parseJSON(data, this.jsonParseReviver);
+        <endif>
     <endif>
     <if(response.IsSuccess)>
             return result<response.StatusCode>; 
@@ -116,7 +121,12 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
     <if(operation.DefaultResponse.IsDate)>
             result = new Date(data);
     <else>
-            result = data === "" ? null : <if(useDtoClasses)>new <operation.DefaultResponse.Type>(JSON.parse(data, this.jsonParseReviver))<else>\<<operation.DefaultResponse.Type>>JSON.parse(data, this.jsonParseReviver)<endif>;
+        <if(useDtoClasses)>
+            var resultData = data === "" ? null : jQuery.parseJSON(data, this.jsonParseReviver);
+            <response.DataConversionCode>
+        <else>
+            result = data === "" ? null : \<<response.Type>>jQuery.parseJSON(data, this.jsonParseReviver);
+        <endif>
     <endif>
     <if(operation.DefaultResponse.IsSuccess)>
             return result; 
