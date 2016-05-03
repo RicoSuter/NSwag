@@ -15,35 +15,43 @@
     </UserControl.Resources>
 
     <StackPanel Margin="8" DataContext="{StaticResource ViewModel}">
-        <Grid Margin="0,0,0,12">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
+        <GroupBox Header="Assembly" Margin="0,0,0,12">
+            <StackPanel Margin="4,8,4,-8">
+                <Grid Margin="0,0,0,12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                </Grid.RowDefinitions>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
 
-                <TextBlock Text=".NET Assembly" FontWeight="Bold" Margin="0,0,0,6" />
-                <TextBox Grid.Row="1" Text="{Binding AssemblyPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                         Margin="0,0,12,0" VerticalAlignment="Center" />
-            </Grid>
+                        <TextBlock Text=".NET Assembly Path" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Grid.Row="1" Text="{Binding AssemblyPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                Margin="0,0,12,0" VerticalAlignment="Center" />
+                    </Grid>
 
-            <Button Command="{Binding BrowseAssemblyCommand}" VerticalAlignment="Stretch"
-                    Padding="8,4,8,4" Grid.Column="1" Content="..." Margin="0,0,12,0" />
+                    <Button Command="{Binding BrowseAssemblyCommand}" VerticalAlignment="Stretch"
+                            Padding="8,4,8,4" Grid.Column="1" Content="..." Margin="0,0,12,0" />
 
-            <Button Command="{Binding LoadAssemblyCommand}" VerticalAlignment="Stretch"
-                    Padding="8,4,8,4" Grid.Column="2" Content="Load" />
-        </Grid>
-        <TextBlock Text="{Binding AssemblyName, Mode=OneWay}" TextWrapping="Wrap" Margin="0,-6,0,12" />
+                    <Button Command="{Binding LoadAssemblyCommand}" VerticalAlignment="Stretch"
+                            Padding="8,4,8,4" Grid.Column="2" Content="Load" />
+                </Grid>
+                <TextBlock Text="{Binding AssemblyName, Mode=OneWay}" TextWrapping="Wrap" Margin="0,-6,0,12" />
 
-        <TextBlock Text="Paths to seach for referenced assembly files (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
-        <TextBox Text="{Binding ReferencePaths, Mode=TwoWay}" Margin="0,0,0,12" />
+                <TextBlock Text="App.config or Web.config file path (optional, automatically searched when empty)" FontWeight="Bold" Margin="0,0,0,6" />
+                <TextBlock Text="(Required for correct binding redirects, required when assembly cannot be loaded)" Margin="0,0,0,6" />
+                <TextBox Text="{Binding Command.AssemblyConfig, Mode=TwoWay}" Margin="0,0,0,12" />
 
+                <TextBlock Text="Paths to search for referenced assembly files (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
+                <TextBox Text="{Binding ReferencePaths, Mode=TwoWay}" Margin="0,0,0,12" />
+            </StackPanel>
+        </GroupBox>
+        
         <TextBlock Text="Web API Controller Names" FontWeight="Bold" Margin="0,0,0,8" />
         <ListBox ItemsSource="{Binding AllControllerNames}" x:Name="ControllersList" MaxHeight="300"
                  SelectionChanged="ControllersListSelectionChanged" BorderThickness="0" Padding="0"

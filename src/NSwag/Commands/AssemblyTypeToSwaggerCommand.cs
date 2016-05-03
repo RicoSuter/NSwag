@@ -28,7 +28,15 @@ namespace NSwag.Commands
             set { Settings.AssemblyPath = value; }
         }
 
-        [Description("The paths to seach for referenced assembly files.")]
+        [Description("The path to the assembly App.config or Web.config (optional).")]
+        [Argument(Name = "AssemblyConfig", DefaultValue = "")]
+        public string AssemblyConfig
+        {
+            get { return Settings.AssemblyConfig; }
+            set { Settings.AssemblyConfig = value; }
+        }
+
+        [Description("The paths to search for referenced assembly files.")]
         [Argument(Name = "ReferencePaths", DefaultValue = new string[] { })]
         public string[] ReferencePaths
         {
