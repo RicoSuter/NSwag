@@ -13,7 +13,7 @@ namespace NSwag.CodeGeneration.Infrastructure
     internal sealed class AppDomainIsolation<T> : IDisposable where T : MarshalByRefObject
     {
         /// <exception cref="ArgumentNullException"><paramref name="assemblyDirectory"/> is <see langword="null" />.</exception>
-        public AppDomainIsolation(string assemblyDirectory)
+        public AppDomainIsolation(string assemblyDirectory, string assemblyConfiguration)
         {
             if (string.IsNullOrEmpty(assemblyDirectory))
                 throw new ArgumentNullException("assemblyDirectory");
@@ -24,7 +24,7 @@ namespace NSwag.CodeGeneration.Infrastructure
                 {
                     ShadowCopyFiles = "true",
                     ApplicationBase = assemblyDirectory,
-                    ConfigurationFile = transformer.GetConfigurationPath(assemblyDirectory)
+                    ConfigurationFile = !string.IsNullOrEmpty(assemblyConfiguration) ? assemblyConfiguration : transformer.GetConfigurationPath(assemblyDirectory)
                 };
 
                 Domain = AppDomain.CreateDomain("AppDomainIsolation:" + Guid.NewGuid(), null, setup);

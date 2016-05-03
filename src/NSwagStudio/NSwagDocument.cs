@@ -41,22 +41,7 @@ namespace NSwagStudio
 
             var document = JsonConvert.DeserializeObject<NSwagDocument>(data);
             document.Path = filePath;
-
-            if (!string.IsNullOrEmpty(document.WebApiToSwaggerCommand.AssemblyPath) &&
-                !System.IO.Path.IsPathRooted(document.WebApiToSwaggerCommand.AssemblyPath))
-            {
-                document.WebApiToSwaggerCommand.AssemblyPath = PathUtilities.MakeAbsolutePath(
-                    System.IO.Path.GetDirectoryName(filePath), 
-                    document.WebApiToSwaggerCommand.AssemblyPath);
-            }
-
-            if (!string.IsNullOrEmpty(document.AssemblyTypeToSwaggerCommand.AssemblyPath) && 
-                !System.IO.Path.IsPathRooted(document.AssemblyTypeToSwaggerCommand.AssemblyPath))
-            {
-                document.AssemblyTypeToSwaggerCommand.AssemblyPath = PathUtilities.MakeAbsolutePath(
-                    System.IO.Path.GetDirectoryName(filePath),
-                    document.AssemblyTypeToSwaggerCommand.AssemblyPath);
-            }
+            document.ConvertToAbsolutePaths();
 
             document._latestData = JsonConvert.SerializeObject(document, Formatting.Indented);
 
@@ -70,9 +55,7 @@ namespace NSwagStudio
 
         public void Save()
         {
-            var previousWebApiAssemblyPath = WebApiToSwaggerCommand.AssemblyPath;
-            if (!string.IsNullOrEmpty(previousWebApiAssemblyPath))
-                WebApiToSwaggerCommand.AssemblyPath = PathUtilities.MakeRelativePath(WebApiToSwaggerCommand.AssemblyPath, System.IO.Path.GetDirectoryName(Path));
+            ConvertToRelativePaths();
 
             var previousAssemblyTypeAssemblyPath = AssemblyTypeToSwaggerCommand.AssemblyPath;
             if (!string.IsNullOrEmpty(previousAssemblyTypeAssemblyPath))
@@ -80,10 +63,39 @@ namespace NSwagStudio
 
             _latestData = JsonConvert.SerializeObject(this, Formatting.Indented);
 
-            WebApiToSwaggerCommand.AssemblyPath = previousWebApiAssemblyPath;
-            AssemblyTypeToSwaggerCommand.AssemblyPath = previousAssemblyTypeAssemblyPath; 
+            ConvertToAbsolutePaths();
 
             File.WriteAllText(Path, _latestData);
+        }
+
+        private void ConvertToAbsolutePaths()
+        {
+            WebApiToSwaggerCommand.AssemblyPath = ConvertToAbsolute(WebApiToSwaggerCommand.AssemblyPath);
+            AssemblyTypeToSwaggerCommand.AssemblyPath = ConvertToAbsolute(AssemblyTypeToSwaggerCommand.AssemblyPath);
+            WebApiToSwaggerCommand.AssemblyConfig = ConvertToAbsolute(WebApiToSwaggerCommand.AssemblyConfig);
+            AssemblyTypeToSwaggerCommand.AssemblyConfig = ConvertToAbsolute(AssemblyTypeToSwaggerCommand.AssemblyConfig);
+        }
+
+        private string ConvertToAbsolute(string path)
+        {
+            if (!string.IsNullOrEmpty(path) && !System.IO.Path.IsPathRooted(path))
+                return PathUtilities.MakeAbsolutePath(System.IO.Path.GetDirectoryName(Path), path);
+            return path;
+        }
+
+        private void ConvertToRelativePaths()
+        {
+            WebApiToSwaggerCommand.AssemblyPath = ConvertToRelativePath(WebApiToSwaggerCommand.AssemblyPath);
+            AssemblyTypeToSwaggerCommand.AssemblyPath = ConvertToRelativePath(AssemblyTypeToSwaggerCommand.AssemblyPath);
+            WebApiToSwaggerCommand.AssemblyConfig = ConvertToRelativePath(WebApiToSwaggerCommand.AssemblyConfig);
+            AssemblyTypeToSwaggerCommand.AssemblyConfig = ConvertToRelativePath(AssemblyTypeToSwaggerCommand.AssemblyConfig);
+        }
+
+        private string ConvertToRelativePath(string path)
+        {
+            if (!string.IsNullOrEmpty(path))
+                return PathUtilities.MakeRelativePath(path, System.IO.Path.GetDirectoryName(Path));
+            return path; 
         }
 
         public static NSwagDocument CreateDocument()
