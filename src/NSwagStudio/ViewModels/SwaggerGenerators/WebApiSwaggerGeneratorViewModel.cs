@@ -29,7 +29,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         {
             BrowseAssemblyCommand = new AsyncRelayCommand(BrowseAssembly);
 
-            LoadAssemblyCommand = new AsyncRelayCommand(async () => await LoadAssemblyAsync(true), () => !string.IsNullOrEmpty(AssemblyPath));
+            LoadAssemblyCommand = new AsyncRelayCommand(async () => await LoadAssemblyAsync(), () => !string.IsNullOrEmpty(AssemblyPath));
             LoadAssemblyCommand.TryExecute();
         }
 
@@ -55,7 +55,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
                 {
                     RaiseAllPropertiesChanged();
                     LoadAssemblyCommand.RaiseCanExecuteChanged();
-                    LoadAssemblyAsync(false);
+                    LoadAssemblyAsync();
                 }
             }
         }
@@ -90,10 +90,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         }
 
         /// <summary>Gets the name of the selected assembly.</summary>
-        public string AssemblyName
-        {
-            get { return Path.GetFileName(AssemblyPath); }
-        }
+        public string AssemblyName => Path.GetFileName(AssemblyPath);
 
         /// <summary>Gets or sets the class name. </summary>
         public IEnumerable<string> ControllerNames
@@ -129,11 +126,11 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             if (dlg.ShowDialog() == true)
             {
                 AssemblyPath = dlg.FileName;
-                await LoadAssemblyAsync(true);
+                await LoadAssemblyAsync();
             }
         }
 
-        private Task LoadAssemblyAsync(bool updateSelectedController)
+        private Task LoadAssemblyAsync()
         {
             return RunTaskAsync(async () =>
             {

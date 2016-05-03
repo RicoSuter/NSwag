@@ -1,14 +1,6 @@
-using System;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Windows.Input;
 using MyToolkit.Command;
 using MyToolkit.Utilities;
-using Newtonsoft.Json;
-using NSwagStudio.Properties;
 using NSwagStudio.Views.CodeGenerators;
 using NSwagStudio.Views.SwaggerGenerators;
 using CSharpClientGeneratorView = NSwagStudio.Views.CodeGenerators.CSharpClientGeneratorView;
@@ -52,10 +44,7 @@ namespace NSwagStudio.ViewModels
         }
 
         /// <summary>Gets the application version with build time. </summary>
-        public string ApplicationVersion
-        {
-            get { return GetType().Assembly.GetVersionWithBuildTime(); }
-        }
+        public string ApplicationVersion => GetType().Assembly.GetVersionWithBuildTime();
 
         private async Task GenerateAsync()
         {

@@ -34,11 +34,8 @@ namespace NSwagStudio.Views
         private void AssociatedObjectOnTextChanged(object sender, EventArgs eventArgs)
         {
             var textEditor = sender as TextEditor;
-            if (textEditor != null)
-            {
-                if (textEditor.Document != null)
-                    Text = textEditor.Document.Text;
-            }
+            if (textEditor?.Document != null)
+                Text = textEditor.Document.Text;
         }
 
         private static void PropertyChangedCallback(
@@ -46,16 +43,13 @@ namespace NSwagStudio.Views
             DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
             var behavior = dependencyObject as AvalonEditBehavior;
-            if (behavior.AssociatedObject != null)
+            var editor = behavior?.AssociatedObject;
+            if (editor?.Document != null)
             {
-                var editor = behavior.AssociatedObject as TextEditor;
-                if (editor.Document != null)
-                {
-                    var caretOffset = editor.CaretOffset;
-                    editor.Document.Text = dependencyPropertyChangedEventArgs.NewValue.ToString();
-                    if (editor.Document.Text.Length > caretOffset)
-                        editor.CaretOffset = caretOffset;
-                }
+                var caretOffset = editor.CaretOffset;
+                editor.Document.Text = dependencyPropertyChangedEventArgs.NewValue?.ToString() ?? string.Empty;
+                if (editor.Document.Text.Length > caretOffset)
+                    editor.CaretOffset = caretOffset;
             }
         }
     }

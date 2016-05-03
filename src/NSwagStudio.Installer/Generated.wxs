@@ -1153,199 +1153,211 @@
                 <File Id="filB160E459611A55BD812888E001FF740C" KeyPath="yes" Source="$(var.SourcePath)\NSwag.pdb" />
             </Component>
             <Component Id="cmp52D2A30100C72AAC8F61B78E109361CE" Directory="RootDirectory" Guid="*">
-                <Class Id="{08B7DED6-D4B6-3A01-8E78-C5279E4FE699}" Context="InprocServer32" Description="NSwagStudio.ViewModels.ViewModelBase" ThreadingModel="both" ForeignServer="mscoree.dll">
-                    <ProgId Id="NSwagStudio.ViewModels.ViewModelBase" Description="NSwagStudio.ViewModels.ViewModelBase" />
-                </Class>
-                <Class Id="{20C72F71-5D67-3804-8F39-75EC1C7AA325}" Context="InprocServer32" Description="NSwagStudio.ViewModels.DocumentViewModel" ThreadingModel="both" ForeignServer="mscoree.dll">
+                <Class Id="{034F5D2B-5DE9-3472-A30C-5FF3ED269D9A}" Context="InprocServer32" Description="NSwagStudio.ViewModels.DocumentViewModel" ThreadingModel="both" ForeignServer="mscoree.dll">
                     <ProgId Id="NSwagStudio.ViewModels.DocumentViewModel" Description="NSwagStudio.ViewModels.DocumentViewModel" />
                 </Class>
-                <Class Id="{345B4C12-7894-358F-A4FD-7712A880A272}" Context="InprocServer32" Description="NSwagStudio.Views.DocumentView" ThreadingModel="both" ForeignServer="mscoree.dll">
-                    <ProgId Id="NSwagStudio.Views.DocumentView" Description="NSwagStudio.Views.DocumentView" />
-                </Class>
-                <Class Id="{35C08BD8-26FD-382A-AD0A-C9C4AC30F6B1}" Context="InprocServer32" Description="NSwagStudio.ViewModels.CodeGenerators.SwaggerGeneratorViewModel" ThreadingModel="both" ForeignServer="mscoree.dll">
-                    <ProgId Id="NSwagStudio.ViewModels.CodeGenerators.SwaggerGeneratorViewModel" Description="NSwagStudio.ViewModels.CodeGenerators.SwaggerGeneratorViewModel" />
-                </Class>
-                <Class Id="{54C5FE52-0563-3B25-BBD0-8A8433D8834A}" Context="InprocServer32" Description="NSwagStudio.ViewModels.CodeGenerators.TypeScriptClientGeneratorViewModel" ThreadingModel="both" ForeignServer="mscoree.dll">
-                    <ProgId Id="NSwagStudio.ViewModels.CodeGenerators.TypeScriptClientGeneratorViewModel" Description="NSwagStudio.ViewModels.CodeGenerators.TypeScriptClientGeneratorViewModel" />
-                </Class>
-                <Class Id="{5778D3D4-E6AD-3AEE-B0ED-6DCD57A43B5F}" Context="InprocServer32" Description="NSwagStudio.ViewModels.SwaggerGenerators.SwaggerInputGeneratorViewModel" ThreadingModel="both" ForeignServer="mscoree.dll">
+                <Class Id="{0409D890-5AD2-3536-AE13-EDC1990E139A}" Context="InprocServer32" Description="NSwagStudio.ViewModels.SwaggerGenerators.SwaggerInputGeneratorViewModel" ThreadingModel="both" ForeignServer="mscoree.dll">
                     <ProgId Id="NSwagStudio.ViewModels.SwaggerGenerators.SwaggerInputGeneratorViewModel" Description="NSwagStudio.ViewModels.SwaggerGenerators.SwaggerInputGeneratorViewModel" />
                 </Class>
-                <Class Id="{635F4F46-E3EC-31A8-9A15-A11AD786B1AE}" Context="InprocServer32" Description="NSwagStudio.ViewModels.CodeGenerators.CSharpClientGeneratorViewModel" ThreadingModel="both" ForeignServer="mscoree.dll">
-                    <ProgId Id="NSwagStudio.ViewModels.CodeGenerators.CSharpClientGeneratorViewModel" Description="NSwagStudio.ViewModels.CodeGenerators.CSharpClientGeneratorViewModel" />
-                </Class>
-                <Class Id="{64BFEAF5-A96D-398A-92B3-ABEDE216486B}" Context="InprocServer32" Description="NSwagStudio.ViewModels.SwaggerGenerators.WebApiSwaggerGeneratorViewModel" ThreadingModel="both" ForeignServer="mscoree.dll">
-                    <ProgId Id="NSwagStudio.ViewModels.SwaggerGenerators.WebApiSwaggerGeneratorViewModel" Description="NSwagStudio.ViewModels.SwaggerGenerators.WebApiSwaggerGeneratorViewModel" />
-                </Class>
-                <Class Id="{741555E6-58EF-3C5B-BE40-9631A8883202}" Context="InprocServer32" Description="NSwagStudio.Views.CodeGenerators.SwaggerGeneratorView" ThreadingModel="both" ForeignServer="mscoree.dll">
-                    <ProgId Id="NSwagStudio.Views.CodeGenerators.SwaggerGeneratorView" Description="NSwagStudio.Views.CodeGenerators.SwaggerGeneratorView" />
-                </Class>
-                <Class Id="{89161841-62F3-30C6-9CC8-E5D1C61CB21A}" Context="InprocServer32" Description="NSwagStudio.App" ThreadingModel="both" ForeignServer="mscoree.dll">
+                <Class Id="{1080F36C-B35F-38BD-8DBB-55FAE89FA3B2}" Context="InprocServer32" Description="NSwagStudio.App" ThreadingModel="both" ForeignServer="mscoree.dll">
                     <ProgId Id="NSwagStudio.App" Description="NSwagStudio.App" />
                 </Class>
-                <Class Id="{945E1855-2721-356D-A777-3D9FE32EF4FC}" Context="InprocServer32" Description="NSwagStudio.ViewModels.CodeGenerators.CSharpWebApiControllerGeneratorViewModel" ThreadingModel="both" ForeignServer="mscoree.dll">
-                    <ProgId Id="NSwagStudio.ViewModels.CodeGenerators.CSharpWebApiControllerGeneratorViewModel" Description="NSwagStudio.ViewModels.CodeGenerators.CSharpWebApiControllerGeneratorViewModel" />
+                <Class Id="{26B85EF9-8A7D-3DEC-BC69-6BF683CF234D}" Context="InprocServer32" Description="NSwagStudio.ViewModels.SwaggerGenerators.WebApiSwaggerGeneratorViewModel" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="NSwagStudio.ViewModels.SwaggerGenerators.WebApiSwaggerGeneratorViewModel" Description="NSwagStudio.ViewModels.SwaggerGenerators.WebApiSwaggerGeneratorViewModel" />
                 </Class>
-                <Class Id="{993A275A-0B27-34F3-B2E2-C912D145842C}" Context="InprocServer32" Description="NSwagStudio.Views.AvalonEditBehavior" ThreadingModel="both" ForeignServer="mscoree.dll">
-                    <ProgId Id="NSwagStudio.Views.AvalonEditBehavior" Description="NSwagStudio.Views.AvalonEditBehavior" />
+                <Class Id="{339CC833-E73B-3D17-8AFD-C7A65D29C226}" Context="InprocServer32" Description="NSwagStudio.ViewModels.CodeGenerators.CSharpClientGeneratorViewModel" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="NSwagStudio.ViewModels.CodeGenerators.CSharpClientGeneratorViewModel" Description="NSwagStudio.ViewModels.CodeGenerators.CSharpClientGeneratorViewModel" />
                 </Class>
-                <Class Id="{9B411C75-E2A4-3A53-A848-786C3D57E324}" Context="InprocServer32" Description="NSwagStudio.ViewModels.SwaggerGenerators.AssemblySwaggerGeneratorViewModel" ThreadingModel="both" ForeignServer="mscoree.dll">
-                    <ProgId Id="NSwagStudio.ViewModels.SwaggerGenerators.AssemblySwaggerGeneratorViewModel" Description="NSwagStudio.ViewModels.SwaggerGenerators.AssemblySwaggerGeneratorViewModel" />
+                <Class Id="{3E0D48FD-0186-3780-B3DE-11226B5D35EB}" Context="InprocServer32" Description="NSwagStudio.ViewModels.CodeGenerators.SwaggerGeneratorViewModel" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="NSwagStudio.ViewModels.CodeGenerators.SwaggerGeneratorViewModel" Description="NSwagStudio.ViewModels.CodeGenerators.SwaggerGeneratorViewModel" />
                 </Class>
-                <Class Id="{CE41A403-5494-341F-AA36-2162263C98BB}" Context="InprocServer32" Description="NSwagStudio.ViewModels.MainWindowModel" ThreadingModel="both" ForeignServer="mscoree.dll">
-                    <ProgId Id="NSwagStudio.ViewModels.MainWindowModel" Description="NSwagStudio.ViewModels.MainWindowModel" />
-                </Class>
-                <Class Id="{F2254ED4-7EB2-3EF3-9932-F291F5D7C20D}" Context="InprocServer32" Description="NSwagStudio.Views.MainWindow" ThreadingModel="both" ForeignServer="mscoree.dll">
-                    <ProgId Id="NSwagStudio.Views.MainWindow" Description="NSwagStudio.Views.MainWindow" />
-                </Class>
-                <Class Id="{FD4951F1-D204-3B2A-BDC8-8138762B6082}" Context="InprocServer32" Description="NSwagStudio.NSwagDocument" ThreadingModel="both" ForeignServer="mscoree.dll">
+                <Class Id="{43DF3B55-5351-30A5-B499-45EAE620B4DC}" Context="InprocServer32" Description="NSwagStudio.NSwagDocument" ThreadingModel="both" ForeignServer="mscoree.dll">
                     <ProgId Id="NSwagStudio.NSwagDocument" Description="NSwagStudio.NSwagDocument" />
                 </Class>
+                <Class Id="{4636AA41-DEED-3910-BF1C-ACC2A2704E4C}" Context="InprocServer32" Description="NSwagStudio.Views.MainWindow" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="NSwagStudio.Views.MainWindow" Description="NSwagStudio.Views.MainWindow" />
+                </Class>
+                <Class Id="{53D9B0BF-71A2-32CD-AAEF-6F3A886C2114}" Context="InprocServer32" Description="NSwagStudio.ViewModels.CodeGenerators.CSharpWebApiControllerGeneratorViewModel" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="NSwagStudio.ViewModels.CodeGenerators.CSharpWebApiControllerGeneratorViewModel" Description="NSwagStudio.ViewModels.CodeGenerators.CSharpWebApiControllerGeneratorViewModel" />
+                </Class>
+                <Class Id="{58707E72-6F36-3946-9739-8A9199F18EBC}" Context="InprocServer32" Description="NSwagStudio.ViewModels.SwaggerGenerators.AssemblySwaggerGeneratorViewModel" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="NSwagStudio.ViewModels.SwaggerGenerators.AssemblySwaggerGeneratorViewModel" Description="NSwagStudio.ViewModels.SwaggerGenerators.AssemblySwaggerGeneratorViewModel" />
+                </Class>
+                <Class Id="{6262B22C-7992-35B7-B1DF-E8716703B21C}" Context="InprocServer32" Description="NSwagStudio.ViewModels.ViewModelBase" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="NSwagStudio.ViewModels.ViewModelBase" Description="NSwagStudio.ViewModels.ViewModelBase" />
+                </Class>
+                <Class Id="{84A811FA-F68C-380E-9DAA-C894D73C21D9}" Context="InprocServer32" Description="NSwagStudio.ViewModels.CodeGenerators.TypeScriptClientGeneratorViewModel" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="NSwagStudio.ViewModels.CodeGenerators.TypeScriptClientGeneratorViewModel" Description="NSwagStudio.ViewModels.CodeGenerators.TypeScriptClientGeneratorViewModel" />
+                </Class>
+                <Class Id="{9959695E-4BA4-3D92-9A54-503BF0C55839}" Context="InprocServer32" Description="NSwagStudio.Views.CodeGenerators.SwaggerGeneratorView" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="NSwagStudio.Views.CodeGenerators.SwaggerGeneratorView" Description="NSwagStudio.Views.CodeGenerators.SwaggerGeneratorView" />
+                </Class>
+                <Class Id="{C742DE33-716C-3A73-AE6A-E0560962707A}" Context="InprocServer32" Description="NSwagStudio.Views.DocumentView" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="NSwagStudio.Views.DocumentView" Description="NSwagStudio.Views.DocumentView" />
+                </Class>
+                <Class Id="{D498BCDA-D7FE-3068-92EB-84734CB188B0}" Context="InprocServer32" Description="XamlGeneratedNamespace.GeneratedInternalTypeHelper" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="XamlGeneratedNamespace.GeneratedInternalTypeHelper" Description="XamlGeneratedNamespace.GeneratedInternalTypeHelper" />
+                </Class>
+                <Class Id="{E37FC21D-7A98-33B7-8296-E78164F3D223}" Context="InprocServer32" Description="NSwagStudio.Views.AvalonEditBehavior" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="NSwagStudio.Views.AvalonEditBehavior" Description="NSwagStudio.Views.AvalonEditBehavior" />
+                </Class>
+                <Class Id="{EC2FA07A-1A54-3557-A42D-2BC80D51837C}" Context="InprocServer32" Description="NSwagStudio.ViewModels.MainWindowModel" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="NSwagStudio.ViewModels.MainWindowModel" Description="NSwagStudio.ViewModels.MainWindowModel" />
+                </Class>
                 <File Id="filF3BD24AA0D122986D3F6250EA6C47D5B" KeyPath="yes" Source="$(var.SourcePath)\NSwagStudio.exe" />
-                <RegistryValue Root="HKCR" Key="CLSID\{08B7DED6-D4B6-3A01-8E78-C5279E4FE699}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{08B7DED6-D4B6-3A01-8E78-C5279E4FE699}\InprocServer32\2.15.5967.40407" Name="Class" Value="NSwagStudio.ViewModels.ViewModelBase" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{08B7DED6-D4B6-3A01-8E78-C5279E4FE699}\InprocServer32\2.15.5967.40407" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40407, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{08B7DED6-D4B6-3A01-8E78-C5279E4FE699}\InprocServer32\2.15.5967.40407" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{08B7DED6-D4B6-3A01-8E78-C5279E4FE699}\InprocServer32\2.15.5967.40407" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{08B7DED6-D4B6-3A01-8E78-C5279E4FE699}\InprocServer32" Name="Class" Value="NSwagStudio.ViewModels.ViewModelBase" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{08B7DED6-D4B6-3A01-8E78-C5279E4FE699}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40407, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{08B7DED6-D4B6-3A01-8E78-C5279E4FE699}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{08B7DED6-D4B6-3A01-8E78-C5279E4FE699}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{20C72F71-5D67-3804-8F39-75EC1C7AA325}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{20C72F71-5D67-3804-8F39-75EC1C7AA325}\InprocServer32\2.15.5967.40407" Name="Class" Value="NSwagStudio.ViewModels.DocumentViewModel" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{20C72F71-5D67-3804-8F39-75EC1C7AA325}\InprocServer32\2.15.5967.40407" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40407, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{20C72F71-5D67-3804-8F39-75EC1C7AA325}\InprocServer32\2.15.5967.40407" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{20C72F71-5D67-3804-8F39-75EC1C7AA325}\InprocServer32\2.15.5967.40407" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{20C72F71-5D67-3804-8F39-75EC1C7AA325}\InprocServer32" Name="Class" Value="NSwagStudio.ViewModels.DocumentViewModel" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{20C72F71-5D67-3804-8F39-75EC1C7AA325}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40407, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{20C72F71-5D67-3804-8F39-75EC1C7AA325}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{20C72F71-5D67-3804-8F39-75EC1C7AA325}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{345B4C12-7894-358F-A4FD-7712A880A272}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{345B4C12-7894-358F-A4FD-7712A880A272}\InprocServer32\2.15.5967.40407" Name="Class" Value="NSwagStudio.Views.DocumentView" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{345B4C12-7894-358F-A4FD-7712A880A272}\InprocServer32\2.15.5967.40407" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40407, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{345B4C12-7894-358F-A4FD-7712A880A272}\InprocServer32\2.15.5967.40407" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{345B4C12-7894-358F-A4FD-7712A880A272}\InprocServer32\2.15.5967.40407" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{345B4C12-7894-358F-A4FD-7712A880A272}\InprocServer32" Name="Class" Value="NSwagStudio.Views.DocumentView" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{345B4C12-7894-358F-A4FD-7712A880A272}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40407, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{345B4C12-7894-358F-A4FD-7712A880A272}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{345B4C12-7894-358F-A4FD-7712A880A272}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{35C08BD8-26FD-382A-AD0A-C9C4AC30F6B1}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{35C08BD8-26FD-382A-AD0A-C9C4AC30F6B1}\InprocServer32\2.15.5967.40407" Name="Class" Value="NSwagStudio.ViewModels.CodeGenerators.SwaggerGeneratorViewModel" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{35C08BD8-26FD-382A-AD0A-C9C4AC30F6B1}\InprocServer32\2.15.5967.40407" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40407, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{35C08BD8-26FD-382A-AD0A-C9C4AC30F6B1}\InprocServer32\2.15.5967.40407" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{35C08BD8-26FD-382A-AD0A-C9C4AC30F6B1}\InprocServer32\2.15.5967.40407" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{35C08BD8-26FD-382A-AD0A-C9C4AC30F6B1}\InprocServer32" Name="Class" Value="NSwagStudio.ViewModels.CodeGenerators.SwaggerGeneratorViewModel" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{35C08BD8-26FD-382A-AD0A-C9C4AC30F6B1}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40407, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{35C08BD8-26FD-382A-AD0A-C9C4AC30F6B1}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{35C08BD8-26FD-382A-AD0A-C9C4AC30F6B1}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{54C5FE52-0563-3B25-BBD0-8A8433D8834A}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{54C5FE52-0563-3B25-BBD0-8A8433D8834A}\InprocServer32\2.15.5967.40407" Name="Class" Value="NSwagStudio.ViewModels.CodeGenerators.TypeScriptClientGeneratorViewModel" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{54C5FE52-0563-3B25-BBD0-8A8433D8834A}\InprocServer32\2.15.5967.40407" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40407, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{54C5FE52-0563-3B25-BBD0-8A8433D8834A}\InprocServer32\2.15.5967.40407" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{54C5FE52-0563-3B25-BBD0-8A8433D8834A}\InprocServer32\2.15.5967.40407" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{54C5FE52-0563-3B25-BBD0-8A8433D8834A}\InprocServer32" Name="Class" Value="NSwagStudio.ViewModels.CodeGenerators.TypeScriptClientGeneratorViewModel" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{54C5FE52-0563-3B25-BBD0-8A8433D8834A}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40407, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{54C5FE52-0563-3B25-BBD0-8A8433D8834A}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{54C5FE52-0563-3B25-BBD0-8A8433D8834A}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{5778D3D4-E6AD-3AEE-B0ED-6DCD57A43B5F}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{5778D3D4-E6AD-3AEE-B0ED-6DCD57A43B5F}\InprocServer32\2.15.5967.40407" Name="Class" Value="NSwagStudio.ViewModels.SwaggerGenerators.SwaggerInputGeneratorViewModel" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{5778D3D4-E6AD-3AEE-B0ED-6DCD57A43B5F}\InprocServer32\2.15.5967.40407" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40407, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{5778D3D4-E6AD-3AEE-B0ED-6DCD57A43B5F}\InprocServer32\2.15.5967.40407" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{5778D3D4-E6AD-3AEE-B0ED-6DCD57A43B5F}\InprocServer32\2.15.5967.40407" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{5778D3D4-E6AD-3AEE-B0ED-6DCD57A43B5F}\InprocServer32" Name="Class" Value="NSwagStudio.ViewModels.SwaggerGenerators.SwaggerInputGeneratorViewModel" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{5778D3D4-E6AD-3AEE-B0ED-6DCD57A43B5F}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40407, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{5778D3D4-E6AD-3AEE-B0ED-6DCD57A43B5F}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{5778D3D4-E6AD-3AEE-B0ED-6DCD57A43B5F}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{635F4F46-E3EC-31A8-9A15-A11AD786B1AE}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{635F4F46-E3EC-31A8-9A15-A11AD786B1AE}\InprocServer32\2.15.5967.40407" Name="Class" Value="NSwagStudio.ViewModels.CodeGenerators.CSharpClientGeneratorViewModel" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{635F4F46-E3EC-31A8-9A15-A11AD786B1AE}\InprocServer32\2.15.5967.40407" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40407, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{635F4F46-E3EC-31A8-9A15-A11AD786B1AE}\InprocServer32\2.15.5967.40407" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{635F4F46-E3EC-31A8-9A15-A11AD786B1AE}\InprocServer32\2.15.5967.40407" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{635F4F46-E3EC-31A8-9A15-A11AD786B1AE}\InprocServer32" Name="Class" Value="NSwagStudio.ViewModels.CodeGenerators.CSharpClientGeneratorViewModel" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{635F4F46-E3EC-31A8-9A15-A11AD786B1AE}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40407, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{635F4F46-E3EC-31A8-9A15-A11AD786B1AE}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{635F4F46-E3EC-31A8-9A15-A11AD786B1AE}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{64BFEAF5-A96D-398A-92B3-ABEDE216486B}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{64BFEAF5-A96D-398A-92B3-ABEDE216486B}\InprocServer32\2.15.5967.40407" Name="Class" Value="NSwagStudio.ViewModels.SwaggerGenerators.WebApiSwaggerGeneratorViewModel" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{64BFEAF5-A96D-398A-92B3-ABEDE216486B}\InprocServer32\2.15.5967.40407" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40407, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{64BFEAF5-A96D-398A-92B3-ABEDE216486B}\InprocServer32\2.15.5967.40407" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{64BFEAF5-A96D-398A-92B3-ABEDE216486B}\InprocServer32\2.15.5967.40407" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{64BFEAF5-A96D-398A-92B3-ABEDE216486B}\InprocServer32" Name="Class" Value="NSwagStudio.ViewModels.SwaggerGenerators.WebApiSwaggerGeneratorViewModel" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{64BFEAF5-A96D-398A-92B3-ABEDE216486B}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40407, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{64BFEAF5-A96D-398A-92B3-ABEDE216486B}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{64BFEAF5-A96D-398A-92B3-ABEDE216486B}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{741555E6-58EF-3C5B-BE40-9631A8883202}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{741555E6-58EF-3C5B-BE40-9631A8883202}\InprocServer32\2.15.5967.40407" Name="Class" Value="NSwagStudio.Views.CodeGenerators.SwaggerGeneratorView" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{741555E6-58EF-3C5B-BE40-9631A8883202}\InprocServer32\2.15.5967.40407" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40407, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{741555E6-58EF-3C5B-BE40-9631A8883202}\InprocServer32\2.15.5967.40407" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{741555E6-58EF-3C5B-BE40-9631A8883202}\InprocServer32\2.15.5967.40407" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{741555E6-58EF-3C5B-BE40-9631A8883202}\InprocServer32" Name="Class" Value="NSwagStudio.Views.CodeGenerators.SwaggerGeneratorView" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{741555E6-58EF-3C5B-BE40-9631A8883202}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40407, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{741555E6-58EF-3C5B-BE40-9631A8883202}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{741555E6-58EF-3C5B-BE40-9631A8883202}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{89161841-62F3-30C6-9CC8-E5D1C61CB21A}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{89161841-62F3-30C6-9CC8-E5D1C61CB21A}\InprocServer32\2.15.5967.40407" Name="Class" Value="NSwagStudio.App" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{89161841-62F3-30C6-9CC8-E5D1C61CB21A}\InprocServer32\2.15.5967.40407" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40407, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{89161841-62F3-30C6-9CC8-E5D1C61CB21A}\InprocServer32\2.15.5967.40407" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{89161841-62F3-30C6-9CC8-E5D1C61CB21A}\InprocServer32\2.15.5967.40407" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{89161841-62F3-30C6-9CC8-E5D1C61CB21A}\InprocServer32" Name="Class" Value="NSwagStudio.App" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{89161841-62F3-30C6-9CC8-E5D1C61CB21A}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40407, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{89161841-62F3-30C6-9CC8-E5D1C61CB21A}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{89161841-62F3-30C6-9CC8-E5D1C61CB21A}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{945E1855-2721-356D-A777-3D9FE32EF4FC}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{945E1855-2721-356D-A777-3D9FE32EF4FC}\InprocServer32\2.15.5967.40407" Name="Class" Value="NSwagStudio.ViewModels.CodeGenerators.CSharpWebApiControllerGeneratorViewModel" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{945E1855-2721-356D-A777-3D9FE32EF4FC}\InprocServer32\2.15.5967.40407" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40407, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{945E1855-2721-356D-A777-3D9FE32EF4FC}\InprocServer32\2.15.5967.40407" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{945E1855-2721-356D-A777-3D9FE32EF4FC}\InprocServer32\2.15.5967.40407" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{945E1855-2721-356D-A777-3D9FE32EF4FC}\InprocServer32" Name="Class" Value="NSwagStudio.ViewModels.CodeGenerators.CSharpWebApiControllerGeneratorViewModel" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{945E1855-2721-356D-A777-3D9FE32EF4FC}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40407, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{945E1855-2721-356D-A777-3D9FE32EF4FC}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{945E1855-2721-356D-A777-3D9FE32EF4FC}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{993A275A-0B27-34F3-B2E2-C912D145842C}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{993A275A-0B27-34F3-B2E2-C912D145842C}\InprocServer32\2.15.5967.40407" Name="Class" Value="NSwagStudio.Views.AvalonEditBehavior" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{993A275A-0B27-34F3-B2E2-C912D145842C}\InprocServer32\2.15.5967.40407" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40407, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{993A275A-0B27-34F3-B2E2-C912D145842C}\InprocServer32\2.15.5967.40407" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{993A275A-0B27-34F3-B2E2-C912D145842C}\InprocServer32\2.15.5967.40407" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{993A275A-0B27-34F3-B2E2-C912D145842C}\InprocServer32" Name="Class" Value="NSwagStudio.Views.AvalonEditBehavior" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{993A275A-0B27-34F3-B2E2-C912D145842C}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40407, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{993A275A-0B27-34F3-B2E2-C912D145842C}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{993A275A-0B27-34F3-B2E2-C912D145842C}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{9B411C75-E2A4-3A53-A848-786C3D57E324}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{9B411C75-E2A4-3A53-A848-786C3D57E324}\InprocServer32\2.15.5967.40407" Name="Class" Value="NSwagStudio.ViewModels.SwaggerGenerators.AssemblySwaggerGeneratorViewModel" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{9B411C75-E2A4-3A53-A848-786C3D57E324}\InprocServer32\2.15.5967.40407" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40407, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{9B411C75-E2A4-3A53-A848-786C3D57E324}\InprocServer32\2.15.5967.40407" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{9B411C75-E2A4-3A53-A848-786C3D57E324}\InprocServer32\2.15.5967.40407" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{9B411C75-E2A4-3A53-A848-786C3D57E324}\InprocServer32" Name="Class" Value="NSwagStudio.ViewModels.SwaggerGenerators.AssemblySwaggerGeneratorViewModel" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{9B411C75-E2A4-3A53-A848-786C3D57E324}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40407, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{9B411C75-E2A4-3A53-A848-786C3D57E324}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{9B411C75-E2A4-3A53-A848-786C3D57E324}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{CE41A403-5494-341F-AA36-2162263C98BB}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{CE41A403-5494-341F-AA36-2162263C98BB}\InprocServer32\2.15.5967.40407" Name="Class" Value="NSwagStudio.ViewModels.MainWindowModel" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{CE41A403-5494-341F-AA36-2162263C98BB}\InprocServer32\2.15.5967.40407" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40407, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{CE41A403-5494-341F-AA36-2162263C98BB}\InprocServer32\2.15.5967.40407" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{CE41A403-5494-341F-AA36-2162263C98BB}\InprocServer32\2.15.5967.40407" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{CE41A403-5494-341F-AA36-2162263C98BB}\InprocServer32" Name="Class" Value="NSwagStudio.ViewModels.MainWindowModel" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{CE41A403-5494-341F-AA36-2162263C98BB}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40407, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{CE41A403-5494-341F-AA36-2162263C98BB}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{CE41A403-5494-341F-AA36-2162263C98BB}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{F2254ED4-7EB2-3EF3-9932-F291F5D7C20D}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{F2254ED4-7EB2-3EF3-9932-F291F5D7C20D}\InprocServer32\2.15.5967.40407" Name="Class" Value="NSwagStudio.Views.MainWindow" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{F2254ED4-7EB2-3EF3-9932-F291F5D7C20D}\InprocServer32\2.15.5967.40407" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40407, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{F2254ED4-7EB2-3EF3-9932-F291F5D7C20D}\InprocServer32\2.15.5967.40407" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{F2254ED4-7EB2-3EF3-9932-F291F5D7C20D}\InprocServer32\2.15.5967.40407" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{F2254ED4-7EB2-3EF3-9932-F291F5D7C20D}\InprocServer32" Name="Class" Value="NSwagStudio.Views.MainWindow" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{F2254ED4-7EB2-3EF3-9932-F291F5D7C20D}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40407, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{F2254ED4-7EB2-3EF3-9932-F291F5D7C20D}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{F2254ED4-7EB2-3EF3-9932-F291F5D7C20D}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{FD4951F1-D204-3B2A-BDC8-8138762B6082}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{FD4951F1-D204-3B2A-BDC8-8138762B6082}\InprocServer32\2.15.5967.40407" Name="Class" Value="NSwagStudio.NSwagDocument" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{FD4951F1-D204-3B2A-BDC8-8138762B6082}\InprocServer32\2.15.5967.40407" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40407, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{FD4951F1-D204-3B2A-BDC8-8138762B6082}\InprocServer32\2.15.5967.40407" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{FD4951F1-D204-3B2A-BDC8-8138762B6082}\InprocServer32\2.15.5967.40407" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{FD4951F1-D204-3B2A-BDC8-8138762B6082}\InprocServer32" Name="Class" Value="NSwagStudio.NSwagDocument" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{FD4951F1-D204-3B2A-BDC8-8138762B6082}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40407, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{FD4951F1-D204-3B2A-BDC8-8138762B6082}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
-                <RegistryValue Root="HKCR" Key="CLSID\{FD4951F1-D204-3B2A-BDC8-8138762B6082}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{034F5D2B-5DE9-3472-A30C-5FF3ED269D9A}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{034F5D2B-5DE9-3472-A30C-5FF3ED269D9A}\InprocServer32\2.15.5967.40538" Name="Class" Value="NSwagStudio.ViewModels.DocumentViewModel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{034F5D2B-5DE9-3472-A30C-5FF3ED269D9A}\InprocServer32\2.15.5967.40538" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{034F5D2B-5DE9-3472-A30C-5FF3ED269D9A}\InprocServer32\2.15.5967.40538" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{034F5D2B-5DE9-3472-A30C-5FF3ED269D9A}\InprocServer32\2.15.5967.40538" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{034F5D2B-5DE9-3472-A30C-5FF3ED269D9A}\InprocServer32" Name="Class" Value="NSwagStudio.ViewModels.DocumentViewModel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{034F5D2B-5DE9-3472-A30C-5FF3ED269D9A}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{034F5D2B-5DE9-3472-A30C-5FF3ED269D9A}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{034F5D2B-5DE9-3472-A30C-5FF3ED269D9A}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{0409D890-5AD2-3536-AE13-EDC1990E139A}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{0409D890-5AD2-3536-AE13-EDC1990E139A}\InprocServer32\2.15.5967.40538" Name="Class" Value="NSwagStudio.ViewModels.SwaggerGenerators.SwaggerInputGeneratorViewModel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{0409D890-5AD2-3536-AE13-EDC1990E139A}\InprocServer32\2.15.5967.40538" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{0409D890-5AD2-3536-AE13-EDC1990E139A}\InprocServer32\2.15.5967.40538" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{0409D890-5AD2-3536-AE13-EDC1990E139A}\InprocServer32\2.15.5967.40538" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{0409D890-5AD2-3536-AE13-EDC1990E139A}\InprocServer32" Name="Class" Value="NSwagStudio.ViewModels.SwaggerGenerators.SwaggerInputGeneratorViewModel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{0409D890-5AD2-3536-AE13-EDC1990E139A}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{0409D890-5AD2-3536-AE13-EDC1990E139A}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{0409D890-5AD2-3536-AE13-EDC1990E139A}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1080F36C-B35F-38BD-8DBB-55FAE89FA3B2}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1080F36C-B35F-38BD-8DBB-55FAE89FA3B2}\InprocServer32\2.15.5967.40538" Name="Class" Value="NSwagStudio.App" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1080F36C-B35F-38BD-8DBB-55FAE89FA3B2}\InprocServer32\2.15.5967.40538" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1080F36C-B35F-38BD-8DBB-55FAE89FA3B2}\InprocServer32\2.15.5967.40538" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1080F36C-B35F-38BD-8DBB-55FAE89FA3B2}\InprocServer32\2.15.5967.40538" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1080F36C-B35F-38BD-8DBB-55FAE89FA3B2}\InprocServer32" Name="Class" Value="NSwagStudio.App" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1080F36C-B35F-38BD-8DBB-55FAE89FA3B2}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1080F36C-B35F-38BD-8DBB-55FAE89FA3B2}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1080F36C-B35F-38BD-8DBB-55FAE89FA3B2}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{26B85EF9-8A7D-3DEC-BC69-6BF683CF234D}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{26B85EF9-8A7D-3DEC-BC69-6BF683CF234D}\InprocServer32\2.15.5967.40538" Name="Class" Value="NSwagStudio.ViewModels.SwaggerGenerators.WebApiSwaggerGeneratorViewModel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{26B85EF9-8A7D-3DEC-BC69-6BF683CF234D}\InprocServer32\2.15.5967.40538" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{26B85EF9-8A7D-3DEC-BC69-6BF683CF234D}\InprocServer32\2.15.5967.40538" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{26B85EF9-8A7D-3DEC-BC69-6BF683CF234D}\InprocServer32\2.15.5967.40538" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{26B85EF9-8A7D-3DEC-BC69-6BF683CF234D}\InprocServer32" Name="Class" Value="NSwagStudio.ViewModels.SwaggerGenerators.WebApiSwaggerGeneratorViewModel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{26B85EF9-8A7D-3DEC-BC69-6BF683CF234D}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{26B85EF9-8A7D-3DEC-BC69-6BF683CF234D}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{26B85EF9-8A7D-3DEC-BC69-6BF683CF234D}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{339CC833-E73B-3D17-8AFD-C7A65D29C226}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{339CC833-E73B-3D17-8AFD-C7A65D29C226}\InprocServer32\2.15.5967.40538" Name="Class" Value="NSwagStudio.ViewModels.CodeGenerators.CSharpClientGeneratorViewModel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{339CC833-E73B-3D17-8AFD-C7A65D29C226}\InprocServer32\2.15.5967.40538" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{339CC833-E73B-3D17-8AFD-C7A65D29C226}\InprocServer32\2.15.5967.40538" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{339CC833-E73B-3D17-8AFD-C7A65D29C226}\InprocServer32\2.15.5967.40538" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{339CC833-E73B-3D17-8AFD-C7A65D29C226}\InprocServer32" Name="Class" Value="NSwagStudio.ViewModels.CodeGenerators.CSharpClientGeneratorViewModel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{339CC833-E73B-3D17-8AFD-C7A65D29C226}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{339CC833-E73B-3D17-8AFD-C7A65D29C226}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{339CC833-E73B-3D17-8AFD-C7A65D29C226}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{3E0D48FD-0186-3780-B3DE-11226B5D35EB}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{3E0D48FD-0186-3780-B3DE-11226B5D35EB}\InprocServer32\2.15.5967.40538" Name="Class" Value="NSwagStudio.ViewModels.CodeGenerators.SwaggerGeneratorViewModel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{3E0D48FD-0186-3780-B3DE-11226B5D35EB}\InprocServer32\2.15.5967.40538" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{3E0D48FD-0186-3780-B3DE-11226B5D35EB}\InprocServer32\2.15.5967.40538" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{3E0D48FD-0186-3780-B3DE-11226B5D35EB}\InprocServer32\2.15.5967.40538" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{3E0D48FD-0186-3780-B3DE-11226B5D35EB}\InprocServer32" Name="Class" Value="NSwagStudio.ViewModels.CodeGenerators.SwaggerGeneratorViewModel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{3E0D48FD-0186-3780-B3DE-11226B5D35EB}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{3E0D48FD-0186-3780-B3DE-11226B5D35EB}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{3E0D48FD-0186-3780-B3DE-11226B5D35EB}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{43DF3B55-5351-30A5-B499-45EAE620B4DC}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{43DF3B55-5351-30A5-B499-45EAE620B4DC}\InprocServer32\2.15.5967.40538" Name="Class" Value="NSwagStudio.NSwagDocument" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{43DF3B55-5351-30A5-B499-45EAE620B4DC}\InprocServer32\2.15.5967.40538" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{43DF3B55-5351-30A5-B499-45EAE620B4DC}\InprocServer32\2.15.5967.40538" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{43DF3B55-5351-30A5-B499-45EAE620B4DC}\InprocServer32\2.15.5967.40538" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{43DF3B55-5351-30A5-B499-45EAE620B4DC}\InprocServer32" Name="Class" Value="NSwagStudio.NSwagDocument" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{43DF3B55-5351-30A5-B499-45EAE620B4DC}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{43DF3B55-5351-30A5-B499-45EAE620B4DC}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{43DF3B55-5351-30A5-B499-45EAE620B4DC}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{4636AA41-DEED-3910-BF1C-ACC2A2704E4C}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{4636AA41-DEED-3910-BF1C-ACC2A2704E4C}\InprocServer32\2.15.5967.40538" Name="Class" Value="NSwagStudio.Views.MainWindow" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{4636AA41-DEED-3910-BF1C-ACC2A2704E4C}\InprocServer32\2.15.5967.40538" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{4636AA41-DEED-3910-BF1C-ACC2A2704E4C}\InprocServer32\2.15.5967.40538" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{4636AA41-DEED-3910-BF1C-ACC2A2704E4C}\InprocServer32\2.15.5967.40538" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{4636AA41-DEED-3910-BF1C-ACC2A2704E4C}\InprocServer32" Name="Class" Value="NSwagStudio.Views.MainWindow" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{4636AA41-DEED-3910-BF1C-ACC2A2704E4C}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{4636AA41-DEED-3910-BF1C-ACC2A2704E4C}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{4636AA41-DEED-3910-BF1C-ACC2A2704E4C}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{53D9B0BF-71A2-32CD-AAEF-6F3A886C2114}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{53D9B0BF-71A2-32CD-AAEF-6F3A886C2114}\InprocServer32\2.15.5967.40538" Name="Class" Value="NSwagStudio.ViewModels.CodeGenerators.CSharpWebApiControllerGeneratorViewModel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{53D9B0BF-71A2-32CD-AAEF-6F3A886C2114}\InprocServer32\2.15.5967.40538" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{53D9B0BF-71A2-32CD-AAEF-6F3A886C2114}\InprocServer32\2.15.5967.40538" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{53D9B0BF-71A2-32CD-AAEF-6F3A886C2114}\InprocServer32\2.15.5967.40538" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{53D9B0BF-71A2-32CD-AAEF-6F3A886C2114}\InprocServer32" Name="Class" Value="NSwagStudio.ViewModels.CodeGenerators.CSharpWebApiControllerGeneratorViewModel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{53D9B0BF-71A2-32CD-AAEF-6F3A886C2114}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{53D9B0BF-71A2-32CD-AAEF-6F3A886C2114}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{53D9B0BF-71A2-32CD-AAEF-6F3A886C2114}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{58707E72-6F36-3946-9739-8A9199F18EBC}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{58707E72-6F36-3946-9739-8A9199F18EBC}\InprocServer32\2.15.5967.40538" Name="Class" Value="NSwagStudio.ViewModels.SwaggerGenerators.AssemblySwaggerGeneratorViewModel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{58707E72-6F36-3946-9739-8A9199F18EBC}\InprocServer32\2.15.5967.40538" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{58707E72-6F36-3946-9739-8A9199F18EBC}\InprocServer32\2.15.5967.40538" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{58707E72-6F36-3946-9739-8A9199F18EBC}\InprocServer32\2.15.5967.40538" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{58707E72-6F36-3946-9739-8A9199F18EBC}\InprocServer32" Name="Class" Value="NSwagStudio.ViewModels.SwaggerGenerators.AssemblySwaggerGeneratorViewModel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{58707E72-6F36-3946-9739-8A9199F18EBC}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{58707E72-6F36-3946-9739-8A9199F18EBC}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{58707E72-6F36-3946-9739-8A9199F18EBC}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6262B22C-7992-35B7-B1DF-E8716703B21C}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6262B22C-7992-35B7-B1DF-E8716703B21C}\InprocServer32\2.15.5967.40538" Name="Class" Value="NSwagStudio.ViewModels.ViewModelBase" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6262B22C-7992-35B7-B1DF-E8716703B21C}\InprocServer32\2.15.5967.40538" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6262B22C-7992-35B7-B1DF-E8716703B21C}\InprocServer32\2.15.5967.40538" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6262B22C-7992-35B7-B1DF-E8716703B21C}\InprocServer32\2.15.5967.40538" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6262B22C-7992-35B7-B1DF-E8716703B21C}\InprocServer32" Name="Class" Value="NSwagStudio.ViewModels.ViewModelBase" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6262B22C-7992-35B7-B1DF-E8716703B21C}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6262B22C-7992-35B7-B1DF-E8716703B21C}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6262B22C-7992-35B7-B1DF-E8716703B21C}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{84A811FA-F68C-380E-9DAA-C894D73C21D9}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{84A811FA-F68C-380E-9DAA-C894D73C21D9}\InprocServer32\2.15.5967.40538" Name="Class" Value="NSwagStudio.ViewModels.CodeGenerators.TypeScriptClientGeneratorViewModel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{84A811FA-F68C-380E-9DAA-C894D73C21D9}\InprocServer32\2.15.5967.40538" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{84A811FA-F68C-380E-9DAA-C894D73C21D9}\InprocServer32\2.15.5967.40538" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{84A811FA-F68C-380E-9DAA-C894D73C21D9}\InprocServer32\2.15.5967.40538" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{84A811FA-F68C-380E-9DAA-C894D73C21D9}\InprocServer32" Name="Class" Value="NSwagStudio.ViewModels.CodeGenerators.TypeScriptClientGeneratorViewModel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{84A811FA-F68C-380E-9DAA-C894D73C21D9}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{84A811FA-F68C-380E-9DAA-C894D73C21D9}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{84A811FA-F68C-380E-9DAA-C894D73C21D9}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{9959695E-4BA4-3D92-9A54-503BF0C55839}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{9959695E-4BA4-3D92-9A54-503BF0C55839}\InprocServer32\2.15.5967.40538" Name="Class" Value="NSwagStudio.Views.CodeGenerators.SwaggerGeneratorView" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{9959695E-4BA4-3D92-9A54-503BF0C55839}\InprocServer32\2.15.5967.40538" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{9959695E-4BA4-3D92-9A54-503BF0C55839}\InprocServer32\2.15.5967.40538" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{9959695E-4BA4-3D92-9A54-503BF0C55839}\InprocServer32\2.15.5967.40538" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{9959695E-4BA4-3D92-9A54-503BF0C55839}\InprocServer32" Name="Class" Value="NSwagStudio.Views.CodeGenerators.SwaggerGeneratorView" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{9959695E-4BA4-3D92-9A54-503BF0C55839}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{9959695E-4BA4-3D92-9A54-503BF0C55839}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{9959695E-4BA4-3D92-9A54-503BF0C55839}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C742DE33-716C-3A73-AE6A-E0560962707A}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C742DE33-716C-3A73-AE6A-E0560962707A}\InprocServer32\2.15.5967.40538" Name="Class" Value="NSwagStudio.Views.DocumentView" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C742DE33-716C-3A73-AE6A-E0560962707A}\InprocServer32\2.15.5967.40538" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C742DE33-716C-3A73-AE6A-E0560962707A}\InprocServer32\2.15.5967.40538" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C742DE33-716C-3A73-AE6A-E0560962707A}\InprocServer32\2.15.5967.40538" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C742DE33-716C-3A73-AE6A-E0560962707A}\InprocServer32" Name="Class" Value="NSwagStudio.Views.DocumentView" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C742DE33-716C-3A73-AE6A-E0560962707A}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C742DE33-716C-3A73-AE6A-E0560962707A}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C742DE33-716C-3A73-AE6A-E0560962707A}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{D498BCDA-D7FE-3068-92EB-84734CB188B0}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{D498BCDA-D7FE-3068-92EB-84734CB188B0}\InprocServer32\2.15.5967.40538" Name="Class" Value="XamlGeneratedNamespace.GeneratedInternalTypeHelper" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{D498BCDA-D7FE-3068-92EB-84734CB188B0}\InprocServer32\2.15.5967.40538" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{D498BCDA-D7FE-3068-92EB-84734CB188B0}\InprocServer32\2.15.5967.40538" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{D498BCDA-D7FE-3068-92EB-84734CB188B0}\InprocServer32\2.15.5967.40538" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{D498BCDA-D7FE-3068-92EB-84734CB188B0}\InprocServer32" Name="Class" Value="XamlGeneratedNamespace.GeneratedInternalTypeHelper" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{D498BCDA-D7FE-3068-92EB-84734CB188B0}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{D498BCDA-D7FE-3068-92EB-84734CB188B0}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{D498BCDA-D7FE-3068-92EB-84734CB188B0}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E37FC21D-7A98-33B7-8296-E78164F3D223}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E37FC21D-7A98-33B7-8296-E78164F3D223}\InprocServer32\2.15.5967.40538" Name="Class" Value="NSwagStudio.Views.AvalonEditBehavior" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E37FC21D-7A98-33B7-8296-E78164F3D223}\InprocServer32\2.15.5967.40538" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E37FC21D-7A98-33B7-8296-E78164F3D223}\InprocServer32\2.15.5967.40538" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E37FC21D-7A98-33B7-8296-E78164F3D223}\InprocServer32\2.15.5967.40538" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E37FC21D-7A98-33B7-8296-E78164F3D223}\InprocServer32" Name="Class" Value="NSwagStudio.Views.AvalonEditBehavior" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E37FC21D-7A98-33B7-8296-E78164F3D223}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E37FC21D-7A98-33B7-8296-E78164F3D223}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E37FC21D-7A98-33B7-8296-E78164F3D223}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{EC2FA07A-1A54-3557-A42D-2BC80D51837C}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{EC2FA07A-1A54-3557-A42D-2BC80D51837C}\InprocServer32\2.15.5967.40538" Name="Class" Value="NSwagStudio.ViewModels.MainWindowModel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{EC2FA07A-1A54-3557-A42D-2BC80D51837C}\InprocServer32\2.15.5967.40538" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{EC2FA07A-1A54-3557-A42D-2BC80D51837C}\InprocServer32\2.15.5967.40538" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{EC2FA07A-1A54-3557-A42D-2BC80D51837C}\InprocServer32\2.15.5967.40538" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{EC2FA07A-1A54-3557-A42D-2BC80D51837C}\InprocServer32" Name="Class" Value="NSwagStudio.ViewModels.MainWindowModel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{EC2FA07A-1A54-3557-A42D-2BC80D51837C}\InprocServer32" Name="Assembly" Value="NSwagStudio, Version=2.15.5967.40538, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{EC2FA07A-1A54-3557-A42D-2BC80D51837C}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{EC2FA07A-1A54-3557-A42D-2BC80D51837C}\InprocServer32" Name="CodeBase" Value="file:///[#filF3BD24AA0D122986D3F6250EA6C47D5B]" Type="string" Action="write" />
             </Component>
             <Component Id="cmpE1AD57291ECD76446C08E80324E18C52" Directory="RootDirectory" Guid="*">
                 <File Id="fil3D998DFDF0171F45FA4994B3076A1BE3" KeyPath="yes" Source="$(var.SourcePath)\NSwagStudio.exe.config" />

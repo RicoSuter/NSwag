@@ -6,9 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
 using System.IO;
-using System.Text;
 using MyToolkit.Model;
 using Newtonsoft.Json;
 using NSwag.Commands;
@@ -118,16 +116,10 @@ namespace NSwagStudio
         }
 
         [JsonIgnore]
-        public string Name
-        {
-            get { return System.IO.Path.GetFileName(Path); }
-        }
+        public string Name => System.IO.Path.GetFileName(Path);
 
         [JsonIgnore]
-        public bool IsDirty
-        {
-            get { return _latestData != JsonConvert.SerializeObject(this, Formatting.Indented); }
-        }
+        public bool IsDirty => _latestData != JsonConvert.SerializeObject(this, Formatting.Indented);
 
         /// <summary>Gets or sets the selected Swagger generator. </summary>
         [JsonProperty("SelectedSwaggerGenerator")]
