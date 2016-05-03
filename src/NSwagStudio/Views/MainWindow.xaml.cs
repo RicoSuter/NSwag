@@ -45,7 +45,7 @@ namespace NSwagStudio.Views
 
         private void RegisterFileOpenHandler()
         {
-            var fileHandler = new MyFileOpenHandler();
+            var fileHandler = new FileOpenHandler();
             fileHandler.FileOpen += (sender, args) => { Model.OpenDocument(args.FileName); };
             fileHandler.Initialize(this);
         }
