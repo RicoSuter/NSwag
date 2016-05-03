@@ -19,7 +19,8 @@ namespace NSwagStudio.ViewModels.CodeGenerators
 
         public async Task GenerateClientAsync(string swaggerData)
         {
-            SwaggerCode = await RunTaskAsync(() => SwaggerService.FromJson(swaggerData).ToJson());
+            var code = await RunTaskAsync(() => SwaggerService.FromJson(swaggerData).ToJson());
+            SwaggerCode = code ?? string.Empty;
         }
 
         public override void HandleException(Exception exception)
