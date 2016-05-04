@@ -91,8 +91,7 @@ namespace NSwagStudio.ViewModels.CodeGenerators
                         Command.Input = null;
                     }
                 });
-
-                ClientCode = code;
+                ClientCode = code ?? string.Empty;
             });
         }
 

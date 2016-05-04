@@ -14,7 +14,6 @@ using Microsoft.Win32;
 using MyToolkit.Command;
 using NJsonSchema;
 using NSwag.CodeGeneration.SwaggerGenerators;
-using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 using NSwag.Commands;
 
 namespace NSwagStudio.ViewModels.SwaggerGenerators
