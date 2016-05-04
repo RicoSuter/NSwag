@@ -35,7 +35,7 @@ namespace NSwagStudio.Utilities
 
             // If we didn't find a common prefix then throw
             if (lastCommonRoot == -1)
-                throw new ArgumentException("The path of the two files doesn't have any common base.");
+                return absPath;
 
             // Build up the relative path
             var relativePath = new StringBuilder();
