@@ -24,15 +24,15 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 
         public string OperationName { get; set; }
 
-        public string HttpMethodUpper => GeneratorBase.ConvertToUpperCamelCase(HttpMethod.ToString());
+        public string HttpMethodUpper => ConversionUtilities.ConvertToUpperCamelCase(HttpMethod.ToString());
 
-        public string HttpMethodLower => GeneratorBase.ConvertToLowerCamelCase(HttpMethod.ToString());
+        public string HttpMethodLower => ConversionUtilities.ConvertToLowerCamelCase(HttpMethod.ToString());
 
         public bool IsGetOrDelete => HttpMethod == SwaggerOperationMethod.Get || HttpMethod == SwaggerOperationMethod.Delete;
 
-        public string OperationNameLower => GeneratorBase.ConvertToLowerCamelCase(OperationName);
+        public string OperationNameLower => ConversionUtilities.ConvertToLowerCamelCase(OperationName);
 
-        public string OperationNameUpper => GeneratorBase.ConvertToUpperCamelCase(OperationName);
+        public string OperationNameUpper => ConversionUtilities.ConvertToUpperCamelCase(OperationName);
 
         public string ResultType { get; set; }
 
@@ -64,7 +64,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 
         public IEnumerable<ParameterModel> HeaderParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.Header);
 
-        public string Summary => GeneratorBase.RemoveLineBreaks(Operation.Summary);
+        public string Summary => ConversionUtilities.RemoveWhiteSpaces(Operation.Summary);
 
         public bool HasSummary => !string.IsNullOrEmpty(Summary);
 

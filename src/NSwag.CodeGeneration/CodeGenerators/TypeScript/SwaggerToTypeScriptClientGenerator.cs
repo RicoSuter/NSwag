@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
+using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag.CodeGeneration.CodeGenerators.Models;
 
@@ -73,7 +74,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 
             GenerateDataConversionCodes(operations);
 
-            template.Add("class", Settings.ClassName.Replace("{controller}", ConvertToUpperCamelCase(controllerName)));
+            template.Add("class", Settings.ClassName.Replace("{controller}", ConversionUtilities.ConvertToUpperCamelCase(controllerName)));
             template.Add("operations", operations);
             template.Add("generateClientInterfaces", Settings.GenerateClientInterfaces);
             template.Add("hasOperations", operations.Any());

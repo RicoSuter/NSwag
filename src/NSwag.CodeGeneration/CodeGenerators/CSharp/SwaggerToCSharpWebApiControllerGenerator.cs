@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NJsonSchema.CodeGeneration;
 using NSwag.CodeGeneration.CodeGenerators.Models;
 
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp
@@ -65,7 +66,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         internal override string RenderClientCode(string controllerName, IEnumerable<OperationModel> operations)
         {
             var template = LoadTemplate("WebApiController");
-            template.Add("class", Settings.ClassName.Replace("{controller}", ConvertToUpperCamelCase(controllerName)));
+            template.Add("class", Settings.ClassName.Replace("{controller}", ConversionUtilities.ConvertToUpperCamelCase(controllerName)));
 
             var hasClientBaseClass = !string.IsNullOrEmpty(Settings.ControllerBaseClass); 
             template.Add("baseClass", Settings.ControllerBaseClass);
