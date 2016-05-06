@@ -60,7 +60,7 @@
   <ItemGroup>
     <Compile Include="CodeGenerators\ControllerGeneratorBaseSettings.cs" />
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpClientGeneratorSettings.cs" />
-    <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpGenerator.cs" />
+    <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpGeneratorBase.cs" />
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpGeneratorSettings.cs" />
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpTypeResolver.cs" />
     <Compile Include="CodeGenerators\OperationNameGenerators\IOperationNameGenerator.cs" />

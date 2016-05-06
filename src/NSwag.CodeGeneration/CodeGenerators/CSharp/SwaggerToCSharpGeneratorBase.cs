@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="SwaggerToCSharpGenerator.cs" company="NSwag">
+// <copyright file="SwaggerToCSharpGeneratorBase.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -13,11 +13,11 @@ using NJsonSchema.CodeGeneration.CSharp;
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp
 {
     /// <summary>The CSharp generator base class.</summary>
-    public abstract class SwaggerToCSharpGenerator : ClientGeneratorBase
+    public abstract class SwaggerToCSharpGeneratorBase : ClientGeneratorBase
     {
         internal SwaggerToCSharpTypeResolver Resolver { get; private set; }
 
-        internal SwaggerToCSharpGenerator(SwaggerService service, CSharpGeneratorSettings settings)
+        internal SwaggerToCSharpGeneratorBase(SwaggerService service, CSharpGeneratorSettings settings)
         {
             Resolver = new SwaggerToCSharpTypeResolver(settings, service.Definitions);
         }
@@ -33,7 +33,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         internal override string GetResultType(SwaggerOperation operation)
         {
             var response = GetSuccessResponse(operation);
-            if (response == null || response.Schema == null)
+            if (response?.Schema == null)
                 return "Task";
 
             return "Task<" + GetType(response.Schema, "Response") + ">";
