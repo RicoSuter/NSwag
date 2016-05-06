@@ -8,7 +8,8 @@ public partial interface I<class>
 <if(parameter.HasDescription)>    /// \<param name="<parameter.VariableNameLower>"><parameter.Description>\</param><endif>}>
 <if(operation.HasResultDescription)>    /// \<returns><operation.ResultDescription>\</returns><endif>
     /// \<exception cref="<class>.SwaggerException">A server side error occurred.\</exception>
-    <operation.resultType> <operation.OperationNameUpper>Async(<operation.Parameters:{parameter | <parameter.Type> <parameter.VariableNameLower><if(!parameter.isLast)>, <endif>}>);
+<if(operation.IsDeprecated)>    [Obsolete]
+<endif>    <operation.resultType> <operation.OperationNameUpper>Async(<operation.Parameters:{parameter | <parameter.Type> <parameter.VariableNameLower><if(!parameter.isLast)>, <endif>}>);
 
 <if(operation.HasSummary)>    /// \<summary><operation.Summary>\</summary><endif>
 <operation.Parameters:{parameter | 
@@ -16,7 +17,8 @@ public partial interface I<class>
     /// \<param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.\</param>
 <if(operation.HasResultDescription)>    /// \<returns><operation.ResultDescription>\</returns><endif>
     /// \<exception cref="<class>.SwaggerException">A server side error occurred.\</exception>
-    <operation.resultType> <operation.OperationNameUpper>Async(<operation.Parameters:{parameter | <parameter.Type> <parameter.VariableNameLower>, }>CancellationToken cancellationToken);
+<if(operation.IsDeprecated)>    [Obsolete]
+<endif>    <operation.resultType> <operation.OperationNameUpper>Async(<operation.Parameters:{parameter | <parameter.Type> <parameter.VariableNameLower>, }>CancellationToken cancellationToken);
 
 }>
 }
@@ -43,7 +45,8 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasBaseClass)><baseCl
 <if(parameter.HasDescription)>    /// \<param name="<parameter.VariableNameLower>"><parameter.Description>\</param><endif>}>
 <if(operation.HasResultDescription)>    /// \<returns><operation.ResultDescription>\</returns><endif>
     /// \<exception cref="SwaggerException">A server side error occurred.\</exception>
-    public <operation.resultType> <operation.OperationNameUpper>Async(<operation.Parameters:{parameter | <parameter.Type> <parameter.VariableNameLower><if(!parameter.isLast)>, <endif>}>)
+<if(operation.IsDeprecated)>    [Obsolete]
+<endif>    public <operation.resultType> <operation.OperationNameUpper>Async(<operation.Parameters:{parameter | <parameter.Type> <parameter.VariableNameLower><if(!parameter.isLast)>, <endif>}>)
     {
         return <operation.OperationNameUpper>Async(<operation.Parameters:{parameter | <parameter.VariableNameLower>, }>CancellationToken.None);
     \}
@@ -54,7 +57,8 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasBaseClass)><baseCl
     /// \<param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.\</param>
 <if(operation.HasResultDescription)>    /// \<returns><operation.ResultDescription>\</returns><endif>
     /// \<exception cref="SwaggerException">A server side error occurred.\</exception>
-    public async <operation.resultType> <operation.OperationNameUpper>Async(<operation.Parameters:{parameter | <parameter.Type> <parameter.VariableNameLower>, }>CancellationToken cancellationToken)
+<if(operation.IsDeprecated)>    [Obsolete]
+<endif>    public async <operation.resultType> <operation.OperationNameUpper>Async(<operation.Parameters:{parameter | <parameter.Type> <parameter.VariableNameLower>, }>CancellationToken cancellationToken)
     {
         var url_ = string.Format("{0\}/{1\}?", BaseUrl, "<operation.Path>");
 

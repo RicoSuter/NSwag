@@ -33,6 +33,7 @@ namespace NSwag.Demo.Web.Controllers
         }
 
         // GET: api/Person
+        [Obsolete]
         public IEnumerable<Person> Get()
         {
             return new Person[]

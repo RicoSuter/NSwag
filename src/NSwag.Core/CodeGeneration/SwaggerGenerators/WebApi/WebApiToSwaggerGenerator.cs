@@ -91,6 +91,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
                 var operation = new SwaggerOperation();
                 operation.OperationId = GetOperationId(service, controllerType.Name, methodName);
+                operation.IsDeprecated = method.GetCustomAttribute<ObsoleteAttribute>() != null;
 
                 var httpPath = GetHttpPath(service, operation, controllerType, method, parameters, schemaResolver);
 

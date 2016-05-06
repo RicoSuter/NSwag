@@ -73,5 +73,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         public bool HasDocumentation => HasSummary || HasResultDescription || Parameters.Any(p => p.HasDescription);
 
         public bool HasFormParameters { get; set; }
+
+        public bool IsDeprecated => Operation.IsDeprecated;
     }
 }
