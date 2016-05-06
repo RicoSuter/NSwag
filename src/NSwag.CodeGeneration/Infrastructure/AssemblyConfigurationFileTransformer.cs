@@ -16,7 +16,7 @@ namespace NSwag.CodeGeneration.Infrastructure
 {
     internal class AssemblyConfigurationFileTransformer : IDisposable
     {
-        private string _transformedConfiguationPath = null;
+        private string _transformedConfigurationPath = null;
 
         public string GetConfigurationPath(string assemblyDirectory)
         {
@@ -32,7 +32,7 @@ namespace NSwag.CodeGeneration.Infrastructure
                     RegexOptions.Singleline);
 
                 File.WriteAllText(configPath, content, Encoding.UTF8);
-                _transformedConfiguationPath = configPath;
+                _transformedConfigurationPath = configPath;
                 return configPath;
             }
 
@@ -41,10 +41,10 @@ namespace NSwag.CodeGeneration.Infrastructure
 
         public void Dispose()
         {
-            if (_transformedConfiguationPath != null)
+            if (_transformedConfigurationPath != null)
             {
-                File.Delete(_transformedConfiguationPath);
-                _transformedConfiguationPath = null; 
+                File.Delete(_transformedConfigurationPath);
+                _transformedConfigurationPath = null; 
             }
         }
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -71,9 +70,11 @@ namespace NSwag.CodeGeneration.Tests.ClientGeneration
             var settings = new SwaggerToTypeScriptClientGeneratorSettings { ClassName = "MyClass" };
             var generator = new SwaggerToTypeScriptClientGenerator(service, settings);
             var code = generator.GenerateFile();
-            
+
             //// Assert
-            Assert.IsTrue(code.Contains(@"elementId.forEach(item => { url += ""elementId="" + encodeURIComponent("""" + item) + ""&""; });"));
+            Assert.IsTrue(
+                code.Contains(
+                    @"elementId.forEach(item => { url += ""elementId="" + encodeURIComponent("""" + item) + ""&""; });"));
         }
 
         [TestMethod]
@@ -137,7 +138,10 @@ namespace NSwag.CodeGeneration.Tests.ClientGeneration
             var code = generator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains(@"foreach(var item_ in elementId) { url_ += string.Format(""elementId={0}&"", Uri.EscapeUriString(item_.ToString())); }"));
+            Assert.IsTrue(
+                code.Contains(
+                    @"foreach(var item_ in elementId) { url_ += string.Format(""elementId={0}&"", Uri.EscapeUriString(item_.ToString())); }"));
         }
+
     }
 }

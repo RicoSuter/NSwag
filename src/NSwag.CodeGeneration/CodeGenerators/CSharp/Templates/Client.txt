@@ -105,7 +105,22 @@ public partial class <class> <if(hasBaseType)>: <endif><if(hasBaseClass)><baseCl
     <if(operation.IsGetOrDelete)>
         var response_ = await client_.<operation.HttpMethodUpper>Async(url_, cancellationToken).ConfigureAwait(false);
     <else>
-        var response_ = await client_.<operation.HttpMethodUpper>Async(url_, new StringContent(string.Empty), cancellationToken).ConfigureAwait(false);
+        <if(operation.HasFormParameters)>
+        var content_ = new MultipartFormDataContent();
+<operation.FormParameters:{parameter |
+    <if(parameter.IsOptional)>
+        if (<parameter.VariableNameLower> != null)
+    <else>
+        if (<parameter.VariableNameLower> == null)
+            throw new ArgumentNullException("<parameter.VariableNameLower>");
+        else
+    <endif>
+            content_.Add(new StringContent(<parameter.VariableNameLower>.ToString()), "<parameter.Name>");
+}>
+        <else>
+        var content_ = new StringContent(string.Empty);
+        <endif>
+        var response_ = await client_.<operation.HttpMethodUpper>Async(url_, content_, cancellationToken).ConfigureAwait(false);
     <endif>
         ProcessResponse(client_, response_);
 <endif>

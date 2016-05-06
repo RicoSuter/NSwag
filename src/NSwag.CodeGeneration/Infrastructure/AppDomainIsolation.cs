@@ -16,7 +16,7 @@ namespace NSwag.CodeGeneration.Infrastructure
         public AppDomainIsolation(string assemblyDirectory, string assemblyConfiguration)
         {
             if (string.IsNullOrEmpty(assemblyDirectory))
-                throw new ArgumentNullException("assemblyDirectory");
+                throw new ArgumentNullException(nameof(assemblyDirectory));
 
             using (var transformer = new AssemblyConfigurationFileTransformer())
             {

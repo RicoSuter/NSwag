@@ -78,6 +78,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ClientGeneration\ArrayParameterTests.cs" />
+    <Compile Include="ClientGeneration\FormParameterTests.cs" />
     <Compile Include="CodeGenerationTests.cs" />
     <Compile Include="CommandLine\WebApiCommandLineTests.cs" />
     <Compile Include="OperationNameGenerator\MultipleClientsFromOperationIdOperationNameGeneratorTests.cs" />

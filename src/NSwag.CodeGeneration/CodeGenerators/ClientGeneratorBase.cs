@@ -94,6 +94,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
                         HasResultType = HasResultType(operation),
                         ResultDescription = GetResultDescription(operation),
                         ExceptionType = GetExceptionType(operation),
+                        HasFormParameters = operation.Parameters.Any(p => p.Kind == SwaggerParameterKind.FormData),
                         Responses = responses,
                         DefaultResponse = defaultResponse,
                         Parameters = operation.Parameters.Select(p =>
