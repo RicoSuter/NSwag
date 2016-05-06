@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="SwaggerToCSharpGenerator.cs" company="NSwag">
+// <copyright file="SwaggerToCSharpClientGenerator.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -15,7 +15,7 @@ using NSwag.CodeGeneration.CodeGenerators.Models;
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp
 {
     /// <summary>Generates the CSharp service client code. </summary>
-    public class SwaggerToCSharpClientGenerator : SwaggerToCSharpGenerator
+    public class SwaggerToCSharpClientGenerator : SwaggerToCSharpGeneratorBase
     {
         private readonly SwaggerService _service;
 
@@ -44,14 +44,14 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         /// <summary>Gets the language.</summary>
         protected override string Language => "CSharp";
 
+        internal override CodeGeneratorBaseSettings BaseSettings => Settings;
+
         /// <summary>Generates the file.</summary>
         /// <returns>The file contents.</returns>
         public override string GenerateFile()
         {
             return GenerateFile(_service, Resolver);
         }
-
-        internal override CodeGeneratorBaseSettings BaseSettings => Settings;
 
         internal override string RenderFile(string clientCode)
         {

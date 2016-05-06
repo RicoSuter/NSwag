@@ -64,10 +64,14 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 
         public IEnumerable<ParameterModel> HeaderParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.Header);
 
+        public IEnumerable<ParameterModel> FormParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.FormData);
+
         public string Summary => ConversionUtilities.RemoveWhiteSpaces(Operation.Summary);
 
         public bool HasSummary => !string.IsNullOrEmpty(Summary);
 
         public bool HasDocumentation => HasSummary || HasResultDescription || Parameters.Any(p => p.HasDescription);
+
+        public bool HasFormParameters { get; set; }
     }
 }
