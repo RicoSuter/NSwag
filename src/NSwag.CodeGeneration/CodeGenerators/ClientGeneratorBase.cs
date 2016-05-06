@@ -40,7 +40,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
         {
             var response = GetSuccessResponse(operation);
             if (response != null)
-                return RemoveLineBreaks(response.Description);
+                return ConversionUtilities.RemoveWhiteSpaces(response.Description);
             return null;
         }
 
@@ -105,12 +105,12 @@ namespace NSwag.CodeGeneration.CodeGenerators
                             {
                                 Schema = p.ActualSchema, 
                                 Name = p.Name,
-                                VariableNameLower = ConvertToLowerCamelCase(p.Name.Replace("-", "_")), 
+                                VariableNameLower = ConversionUtilities.ConvertToLowerCamelCase(p.Name.Replace("-", "_")), 
                                 Kind = p.Kind,
                                 IsRequired = p.IsRequired, 
                                 Type = resolver.Resolve(p.ActualSchema, p.Type.HasFlag(JsonObjectType.Null), p.Name),
                                 IsLast = operation.Parameters.LastOrDefault() == p,
-                                Description = RemoveLineBreaks(p.Description)
+                                Description = ConversionUtilities.RemoveWhiteSpaces(p.Description)
                             };
                         }).ToList(),                           
                     };

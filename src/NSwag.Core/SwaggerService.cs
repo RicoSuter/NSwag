@@ -120,9 +120,9 @@ namespace NSwag
                     return "";
 
                 if (Schemes.Any())
-                    return (Schemes.First().ToString().ToLowerInvariant() + "://" + Host + (string.IsNullOrEmpty(BasePath) ? "/" + BasePath : string.Empty)).Trim('/');
+                    return (Schemes.First().ToString().ToLowerInvariant() + "://" + Host + (!string.IsNullOrEmpty(BasePath) ? "/" + BasePath.Trim('/') : string.Empty)).Trim('/');
 
-                return (Host + (string.IsNullOrEmpty(BasePath) ? "/" + BasePath : string.Empty)).Trim('/');
+                return (Host + (!string.IsNullOrEmpty(BasePath) ? "/" + BasePath.Trim('/') : string.Empty)).Trim('/');
             }
         }
 
