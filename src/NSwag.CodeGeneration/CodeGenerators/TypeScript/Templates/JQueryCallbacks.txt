@@ -7,6 +7,7 @@ export interface I<class> {
 <operation.Parameters:{parameter | 
 <if(parameter.HasDescriptionOrIsOptional)>     * @<parameter.VariableNameLower><if(parameter.IsOptional)> (optional)<endif> <parameter.Description><endif>}>
 <if(operation.HasResultDescription)>     * @return <operation.ResultDescription><endif>
+<if(operation.IsDeprecated)>     * @deprecated<endif>
      */
 <endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.VariableNameLower>: <parameter.Type>, }>onSuccess?: (<if(operation.HasResultType)>result: <operation.ResultType><endif>) => void, onFail?: (exception: <operation.ExceptionType>, reason: string) => void): void;
 }>}
@@ -26,6 +27,7 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
 <operation.Parameters:{parameter | 
 <if(parameter.HasDescriptionOrIsOptional)>     * @<parameter.VariableNameLower><if(parameter.IsOptional)> (optional)<endif> <parameter.Description><endif>}>
 <if(operation.HasResultDescription)>     * @return <operation.ResultDescription><endif>
+<if(operation.IsDeprecated)>     * @deprecated<endif>
      */
 <endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.VariableNameLower>: <parameter.Type>, }>onSuccess?: (<if(operation.HasResultType)>result: <operation.ResultType><endif>) => void, onFail?: (exception: <operation.ExceptionType>, reason: string) => void) {
         var url = this.baseUrl + "/<operation.Path>?"; 

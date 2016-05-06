@@ -70,7 +70,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 
         public bool HasSummary => !string.IsNullOrEmpty(Summary);
 
-        public bool HasDocumentation => HasSummary || HasResultDescription || Parameters.Any(p => p.HasDescription);
+        public bool HasDocumentation => HasSummary || HasResultDescription || Parameters.Any(p => p.HasDescription) || Operation.IsDeprecated;
 
         public bool HasFormParameters { get; set; }
 

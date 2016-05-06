@@ -33,7 +33,7 @@
     "Template": 1,
     "PromiseType": 0,
     "GenerateClientClasses": true,
-    "GenerateClientInterfaces": false,
+    "GenerateClientInterfaces": true,
     "GenerateDtoTypes": true,
     "OperationGenerationMode": 0,
     "GenerateReadOnlyKeywords": false,

@@ -7,6 +7,7 @@ export interface I<class> {
 <operation.Parameters:{parameter | 
 <if(parameter.HasDescription)>     * @<parameter.VariableNameLower> <parameter.Description><endif>}>
 <if(operation.HasResultDescription)>     * @return <operation.ResultDescription><endif>
+<if(operation.IsDeprecated)>     * @deprecated<endif>
      */
 <endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.VariableNameLower>: <parameter.Type><if(!parameter.IsLast)>, <endif>}>): Observable\<<operation.ResultType>>;
 }>}
@@ -30,6 +31,7 @@ export class <class> <if(generateClientInterfaces)>implements I<class> <endif>{
 <operation.Parameters:{parameter | 
 <if(parameter.HasDescription)>     * @<parameter.VariableNameLower> <parameter.Description><endif>}>
 <if(operation.HasResultDescription)>     * @return <operation.ResultDescription><endif>
+<if(operation.IsDeprecated)>     * @deprecated<endif>
      */
 <endif>    <operation.OperationNameLower>(<operation.Parameters:{parameter | <parameter.VariableNameLower>: <parameter.Type><if(!parameter.IsLast)>, <endif>}>): Observable\<<operation.ResultType>> {
         var url = this.baseUrl + "/<operation.Path>?"; 

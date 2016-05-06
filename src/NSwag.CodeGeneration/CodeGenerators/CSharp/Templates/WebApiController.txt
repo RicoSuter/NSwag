@@ -5,7 +5,8 @@
 <operation.Parameters:{parameter | 
 <if(parameter.HasDescription)>    /// \<param name="<parameter.VariableNameLower>"><parameter.Description>\</param><endif>}>
 <if(operation.HasResultDescription)>    /// \<returns><operation.ResultDescription>\</returns><endif>
-    <operation.resultType> <operation.OperationNameUpper>Async(<operation.Parameters:{parameter | <parameter.Type> <parameter.VariableNameLower><if(!parameter.isLast)>, <endif>}>);
+<if(operation.IsDeprecated)>    [Obsolete]
+<endif>    <operation.resultType> <operation.OperationNameUpper>Async(<operation.Parameters:{parameter | <parameter.Type> <parameter.VariableNameLower><if(!parameter.isLast)>, <endif>}>);
 
 }>
 \}
@@ -24,7 +25,8 @@ public class <class>Controller : <if(hasBaseClass)><baseClass><else>ApiControlle
 <operation.Parameters:{parameter | 
 <if(parameter.HasDescription)>    /// \<param name="<parameter.VariableNameLower>"><parameter.Description>\</param><endif>}>
 <if(operation.HasResultDescription)>    /// \<returns><operation.ResultDescription>\</returns><endif>
-    [Http<operation.HttpMethodUpper>, Route("<operation.Path>")]
+<if(operation.IsDeprecated)>    [Obsolete]
+<endif>    [Http<operation.HttpMethodUpper>, Route("<operation.Path>")]
     public <operation.resultType> <operation.OperationNameUpper>(<operation.Parameters:{parameter | <parameter.Type> <parameter.VariableNameLower><if(!parameter.isLast)>, <endif>}>)
     {
         return _implementation.<operation.OperationNameUpper>Async(<operation.Parameters:{parameter | <parameter.VariableNameLower><if(!parameter.isLast)>, <endif>}>);
