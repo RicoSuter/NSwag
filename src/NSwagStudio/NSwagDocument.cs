@@ -54,15 +54,9 @@ namespace NSwagStudio
         public void Save()
         {
             ConvertToRelativePaths();
-
-            var previousAssemblyTypeAssemblyPath = AssemblyTypeToSwaggerCommand.AssemblyPath;
-            if (!string.IsNullOrEmpty(previousAssemblyTypeAssemblyPath))
-                AssemblyTypeToSwaggerCommand.AssemblyPath = PathUtilities.MakeRelativePath(AssemblyTypeToSwaggerCommand.AssemblyPath, System.IO.Path.GetDirectoryName(Path));
-
+            
             _latestData = JsonConvert.SerializeObject(this, Formatting.Indented);
-
             ConvertToAbsolutePaths();
-
             File.WriteAllText(Path, _latestData);
         }
 
