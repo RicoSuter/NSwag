@@ -4,14 +4,11 @@ using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Formatting;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Results;
-using Newtonsoft.Json;
 using NSwag.Annotations;
+using NSwag.AssemblyLoader.SwaggerGenerators.WebApi;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 using NSwag.Demo.Web.Models;
 

@@ -6,7 +6,11 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
+using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.TypeScript;
+using NJsonSchema.CodeGeneration.TypeScript.Templates;
+using NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates;
 
 namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 {
@@ -37,5 +41,22 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 
         /// <summary>Gets or sets the TypeScript module name (default: '', no module).</summary>
         public string ModuleName { get; set; }
+
+        internal ITemplate CreateTemplate()
+        {
+            if (Template == TypeScriptTemplate.Angular2)
+                return new Angular2Template();
+
+            if (Template == TypeScriptTemplate.AngularJS)
+                return new AngularJSTemplate();
+
+            if (Template == TypeScriptTemplate.JQueryCallbacks)
+                return new JQueryCallbacksTemplate();
+
+            if (Template == TypeScriptTemplate.JQueryPromises)
+                return new JQueryPromisesTemplate();
+
+            throw new NotImplementedException();
+        }
     }
 }

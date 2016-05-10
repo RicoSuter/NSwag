@@ -36,6 +36,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 
         public bool IsArray => Schema.Type == JsonObjectType.Array;
 
+        public bool IsDateArray => IsArray && Schema.Item?.Format == JsonFormatStrings.DateTime;
+
         public bool IsOptional => !IsRequired;
     }
 }

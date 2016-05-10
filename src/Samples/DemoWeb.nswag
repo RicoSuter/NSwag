@@ -30,7 +30,7 @@
   "SwaggerToTypeScriptCommand": {
     "ClassName": "{controller}Client",
     "ModuleName": "",
-    "Template": 1,
+    "Template": 3,
     "PromiseType": 0,
     "GenerateClientClasses": true,
     "GenerateClientInterfaces": true,
@@ -59,14 +59,20 @@
         "ClassStyle": 1
       },
       "ClassName": "{controller}Client",
-      "AdditionalNamespaceUsages": null,
+      "AdditionalNamespaceUsages": [
+        "a",
+        "b"
+      ],
       "OperationGenerationMode": 0,
       "GenerateDtoTypes": true,
       "GenerateClientInterfaces": true,
       "GenerateClientClasses": true
     },
     "ClassName": "{controller}Client",
-    "AdditionalNamespaceUsages": null,
+    "AdditionalNamespaceUsages": [
+      "a",
+      "b"
+    ],
     "RequiredPropertiesMustBeDefined": true,
     "Namespace": "NSwag.Demo.Client",
     "DateTimeType": "DateTime",

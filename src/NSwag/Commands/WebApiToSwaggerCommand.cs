@@ -1,11 +1,10 @@
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using NConsole;
 using Newtonsoft.Json;
 using NJsonSchema;
-using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
+using NSwag.AssemblyLoader.SwaggerGenerators.WebApi;
 using NSwag.Commands.Base;
 
 namespace NSwag.Commands

@@ -1,4 +1,4 @@
-// Generated using the NSwag toolchain v2.6.5954.30417 (http://NSwag.org)
+// Generated using the NSwag toolchain v2.18.5973.40474 (http://NSwag.org)
 define(["require", "exports"], function (require, exports) {
     var PersonsClient = (function () {
         function PersonsClient(baseUrl) {
@@ -35,7 +35,7 @@ define(["require", "exports"], function (require, exports) {
                 var result200 = null;
                 if (data !== undefined && data !== null && data !== "") {
                     try {
-                        result200 = data === "" ? null : jQuery.parseJSON(data.replace(/\/Date((-?\d*))\//, function (a, b) { return new Date(+b); }));
+                        result200 = data === "" ? null : jQuery.parseJSON(data);
                     }
                     catch (e) {
                         if (onFail !== undefined)
@@ -52,6 +52,9 @@ define(["require", "exports"], function (require, exports) {
                     onFail(null, "error_no_callback_for_the_received_http_status");
             }
         };
+        /**
+         * @deprecated
+         */
         PersonsClient.prototype.getAll = function (onSuccess, onFail) {
             var _this = this;
             var url = this.baseUrl + "/api/Persons/Get?";
@@ -78,7 +81,7 @@ define(["require", "exports"], function (require, exports) {
                 var result200 = null;
                 if (data !== undefined && data !== null && data !== "") {
                     try {
-                        result200 = data === "" ? null : jQuery.parseJSON(data.replace(/\/Date((-?\d*))\//, function (a, b) { return new Date(+b); }));
+                        result200 = data === "" ? null : jQuery.parseJSON(data);
                     }
                     catch (e) {
                         if (onFail !== undefined)
@@ -129,7 +132,7 @@ define(["require", "exports"], function (require, exports) {
                 var result200 = null;
                 if (data !== undefined && data !== null && data !== "") {
                     try {
-                        result200 = data === "" ? null : jQuery.parseJSON(data.replace(/\/Date((-?\d*))\//, function (a, b) { return new Date(+b); }));
+                        result200 = data === "" ? null : jQuery.parseJSON(data);
                     }
                     catch (e) {
                         if (onFail !== undefined)
@@ -145,7 +148,7 @@ define(["require", "exports"], function (require, exports) {
                 var result500 = null;
                 if (data !== undefined && data !== null && data !== "") {
                     try {
-                        result500 = data === "" ? null : jQuery.parseJSON(data.replace(/\/Date((-?\d*))\//, function (a, b) { return new Date(+b); }));
+                        result500 = data === "" ? null : jQuery.parseJSON(data);
                     }
                     catch (e) {
                         if (onFail !== undefined)
@@ -315,7 +318,7 @@ define(["require", "exports"], function (require, exports) {
                 var result200 = null;
                 if (data !== undefined && data !== null && data !== "") {
                     try {
-                        result200 = data === "" ? null : jQuery.parseJSON(data.replace(/\/Date((-?\d*))\//, function (a, b) { return new Date(+b); }));
+                        result200 = data === "" ? null : jQuery.parseJSON(data);
                     }
                     catch (e) {
                         if (onFail !== undefined)
@@ -405,7 +408,7 @@ define(["require", "exports"], function (require, exports) {
                 var result200 = null;
                 if (data !== undefined && data !== null && data !== "") {
                     try {
-                        result200 = data === "" ? null : jQuery.parseJSON(data.replace(/\/Date((-?\d*))\//, function (a, b) { return new Date(+b); }));
+                        result200 = data === "" ? null : jQuery.parseJSON(data);
                     }
                     catch (e) {
                         if (onFail !== undefined)
@@ -448,7 +451,7 @@ define(["require", "exports"], function (require, exports) {
                 var result200 = null;
                 if (data !== undefined && data !== null && data !== "") {
                     try {
-                        result200 = data === "" ? null : jQuery.parseJSON(data.replace(/\/Date((-?\d*))\//, function (a, b) { return new Date(+b); }));
+                        result200 = data === "" ? null : jQuery.parseJSON(data);
                     }
                     catch (e) {
                         if (onFail !== undefined)

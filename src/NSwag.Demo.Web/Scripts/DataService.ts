@@ -1,7 +1,10 @@
-﻿// Generated using the NSwag toolchain v2.6.5954.30417 (http://NSwag.org)
+﻿// Generated using the NSwag toolchain v2.18.5973.40474 (http://NSwag.org)
 
 export interface IPersonsClient {
     xyz(data: any, onSuccess?: (result: string) => void, onFail?: (exception: string, reason: string) => void): void;
+    /**
+     * @deprecated
+     */
     getAll(onSuccess?: (result: Person[]) => void, onFail?: (exception: string, reason: string) => void): void;
     /**
      * Gets a person.
@@ -71,14 +74,14 @@ export class PersonsClient implements IPersonsClient {
             var result200: string = null;
             if (data !== undefined && data !== null && data !== "") {
                 try {
-                    result200 = data === "" ? null : <string>jQuery.parseJSON(
-                        data.replace(/\/Date((-?\d*))\//, (a: string, b: string) => { return new Date(+b); }));
+                    result200 = data === "" ? null : <string>jQuery.parseJSON(data);
                 } catch (e) {
                     if (onFail !== undefined)
                         onFail(null, "error_parsing", e);
                     return;
                 }
             }
+
             if (onSuccess !== undefined)
                 onSuccess(result200);
             return;
@@ -89,6 +92,9 @@ export class PersonsClient implements IPersonsClient {
         }
     }
 
+    /**
+     * @deprecated
+     */
     getAll(onSuccess?: (result: Person[]) => void, onFail?: (exception: string, reason: string) => void) {
         var url = this.baseUrl + "/api/Persons/Get?";
 
@@ -118,14 +124,14 @@ export class PersonsClient implements IPersonsClient {
             var result200: Person[] = null;
             if (data !== undefined && data !== null && data !== "") {
                 try {
-                    result200 = data === "" ? null : <Person[]>jQuery.parseJSON(
-                        data.replace(/\/Date((-?\d*))\//, (a: string, b: string) => { return new Date(+b); }));
+                    result200 = data === "" ? null : <Person[]>jQuery.parseJSON(data);
                 } catch (e) {
                     if (onFail !== undefined)
                         onFail(null, "error_parsing", e);
                     return;
                 }
             }
+
             if (onSuccess !== undefined)
                 onSuccess(result200);
             return;
@@ -174,14 +180,14 @@ export class PersonsClient implements IPersonsClient {
             var result200: Person = null;
             if (data !== undefined && data !== null && data !== "") {
                 try {
-                    result200 = data === "" ? null : <Person>jQuery.parseJSON(
-                        data.replace(/\/Date((-?\d*))\//, (a: string, b: string) => { return new Date(+b); }));
+                    result200 = data === "" ? null : <Person>jQuery.parseJSON(data);
                 } catch (e) {
                     if (onFail !== undefined)
                         onFail(null, "error_parsing", e);
                     return;
                 }
             }
+
             if (onSuccess !== undefined)
                 onSuccess(result200);
             return;
@@ -191,14 +197,14 @@ export class PersonsClient implements IPersonsClient {
                 var result500: PersonNotFoundException = null;
                 if (data !== undefined && data !== null && data !== "") {
                     try {
-                        result500 = data === "" ? null : <PersonNotFoundException>jQuery.parseJSON(
-                            data.replace(/\/Date((-?\d*))\//, (a: string, b: string) => { return new Date(+b); }));
+                        result500 = data === "" ? null : <PersonNotFoundException>jQuery.parseJSON(data);
                     } catch (e) {
                         if (onFail !== undefined)
                             onFail(null, "error_parsing", e);
                         return;
                     }
                 }
+
                 if (onFail !== undefined)
                     onFail(result500, "error_exception");
                 return;
@@ -217,6 +223,7 @@ export class PersonsClient implements IPersonsClient {
         var url = this.baseUrl + "/api/Persons/Post?";
 
         var content = JSON.stringify(value);
+
         $.ajax({
             url: url,
             beforeSend: this.beforeSend,
@@ -263,6 +270,7 @@ export class PersonsClient implements IPersonsClient {
         url = url.replace("{id}", "" + id);
 
         var content = JSON.stringify(value);
+
         $.ajax({
             url: url,
             beforeSend: this.beforeSend,
@@ -382,14 +390,14 @@ export class PersonsClient implements IPersonsClient {
             var result200: number = null;
             if (data !== undefined && data !== null && data !== "") {
                 try {
-                    result200 = data === "" ? null : <number>jQuery.parseJSON(
-                        data.replace(/\/Date((-?\d*))\//, (a: string, b: string) => { return new Date(+b); }));
+                    result200 = data === "" ? null : <number>jQuery.parseJSON(data);
                 } catch (e) {
                     if (onFail !== undefined)
                         onFail(null, "error_parsing", e);
                     return;
                 }
             }
+
             if (onSuccess !== undefined)
                 onSuccess(result200);
             return;
@@ -441,6 +449,7 @@ export class PersonsClient implements IPersonsClient {
                     return;
                 }
             }
+
             if (onSuccess !== undefined)
                 onSuccess(result200);
             return;
@@ -480,14 +489,14 @@ export class PersonsClient implements IPersonsClient {
             var result200: number = null;
             if (data !== undefined && data !== null && data !== "") {
                 try {
-                    result200 = data === "" ? null : <number>jQuery.parseJSON(
-                        data.replace(/\/Date((-?\d*))\//, (a: string, b: string) => { return new Date(+b); }));
+                    result200 = data === "" ? null : <number>jQuery.parseJSON(data);
                 } catch (e) {
                     if (onFail !== undefined)
                         onFail(null, "error_parsing", e);
                     return;
                 }
             }
+
             if (onSuccess !== undefined)
                 onSuccess(result200);
             return;
@@ -527,14 +536,14 @@ export class PersonsClient implements IPersonsClient {
             var result200: Car = null;
             if (data !== undefined && data !== null && data !== "") {
                 try {
-                    result200 = data === "" ? null : <Car>jQuery.parseJSON(
-                        data.replace(/\/Date((-?\d*))\//, (a: string, b: string) => { return new Date(+b); }));
+                    result200 = data === "" ? null : <Car>jQuery.parseJSON(data);
                 } catch (e) {
                     if (onFail !== undefined)
                         onFail(null, "error_parsing", e);
                     return;
                 }
             }
+
             if (onSuccess !== undefined)
                 onSuccess(result200);
             return;
