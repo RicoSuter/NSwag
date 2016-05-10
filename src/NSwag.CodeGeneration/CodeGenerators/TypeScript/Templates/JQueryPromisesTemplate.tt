@@ -188,4 +188,3 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
     }
 <#}#>}
 <#}#>
-
