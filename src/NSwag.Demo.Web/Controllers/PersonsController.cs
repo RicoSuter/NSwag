@@ -91,7 +91,7 @@ namespace NSwag.Demo.Web.Controllers
             return Task.FromResult(0);
         }
 
-        [HttpGet]
+        [HttpGet, ActionName("LoadComplexObject2")]
         public Car LoadComplexObject()
         {
             return new Car();

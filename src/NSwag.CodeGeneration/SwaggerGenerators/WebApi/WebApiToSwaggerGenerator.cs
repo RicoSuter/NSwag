@@ -139,7 +139,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             while (service.Operations.Any(o => o.Operation.OperationId == (operationId + (number > 1 ? "_" + number : string.Empty))))
                 number++;
 
-            return operationId + (number > 1 ? "_" + number : string.Empty);
+            return operationId + (number > 1 ? number.ToString() : string.Empty);
         }
 
         private void LoadMetaData(SwaggerOperation operation, MethodInfo method)
@@ -175,12 +175,12 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     httpPath = routeAttribute.Template;
             }
             else
-            {
-                var actionName = GetActionName(method);
-                httpPath = Settings.DefaultUrlTemplate
-                    .Replace("{controller}", controllerType.Name.Replace("Controller", string.Empty))
-                    .Replace("{action}", actionName);
-            }
+                httpPath = Settings.DefaultUrlTemplate;
+
+            var actionName = GetActionName(method);
+            httpPath = httpPath
+                .Replace("{controller}", controllerType.Name.Replace("Controller", string.Empty))
+                .Replace("{action}", actionName);
 
             foreach (var match in Regex.Matches(httpPath, "\\{(.*?)\\}").OfType<Match>())
             {
