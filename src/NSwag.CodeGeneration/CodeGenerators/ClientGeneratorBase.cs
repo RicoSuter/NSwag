@@ -106,7 +106,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
                             {
                                 Schema = p.ActualSchema, 
                                 Name = p.Name,
-                                VariableNameLower = ConversionUtilities.ConvertToLowerCamelCase(p.Name.Replace("-", "_")), 
+                                VariableNameLower = ConversionUtilities.ConvertToLowerCamelCase(p.Name.Replace("-", "_").Replace(".", "_")), 
                                 Kind = p.Kind,
                                 IsRequired = p.IsRequired, 
                                 Type = resolver.Resolve(p.ActualSchema, p.Type.HasFlag(JsonObjectType.Null), p.Name),
