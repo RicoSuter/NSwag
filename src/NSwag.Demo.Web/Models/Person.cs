@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -9,6 +10,7 @@ namespace NSwag.Demo.Web.Models
     {
         /// <summary>Gets or sets the first name.</summary>
         [JsonProperty("firstName")]
+        [DefaultValue("Rico")]
         public string FirstName { get; set; }
 
         public string LastName { get; set; }

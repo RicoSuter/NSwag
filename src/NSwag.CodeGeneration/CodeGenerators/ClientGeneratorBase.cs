@@ -40,7 +40,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
         {
             var response = GetSuccessResponse(operation);
             if (response != null)
-                return ConversionUtilities.RemoveWhiteSpaces(response.Description);
+                return ConversionUtilities.TrimWhiteSpaces(response.Description);
             return null;
         }
 
@@ -53,7 +53,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
             if (BaseSettings.OperationNameGenerator.SupportsMultipleClients)
             {
                 foreach (var controllerOperations in operations.GroupBy(o => BaseSettings.OperationNameGenerator.GetClientName(service, o.Path, o.HttpMethod, o.Operation)))
-                    clients += RenderClientCode(controllerOperations.Key, controllerOperations);
+                    clients += RenderClientCode(controllerOperations.Key, controllerOperations) + "\n\n";
             }
             else
                 clients = RenderClientCode(string.Empty, operations);
@@ -106,12 +106,12 @@ namespace NSwag.CodeGeneration.CodeGenerators
                             {
                                 Schema = p.ActualSchema, 
                                 Name = p.Name,
-                                VariableNameLower = ConversionUtilities.ConvertToLowerCamelCase(p.Name.Replace("-", "_")), 
+                                VariableNameLower = ConversionUtilities.ConvertToLowerCamelCase(p.Name.Replace("-", "_").Replace(".", "_")), 
                                 Kind = p.Kind,
                                 IsRequired = p.IsRequired, 
                                 Type = resolver.Resolve(p.ActualSchema, p.Type.HasFlag(JsonObjectType.Null), p.Name),
                                 IsLast = operation.Parameters.LastOrDefault() == p,
-                                Description = ConversionUtilities.RemoveWhiteSpaces(p.Description)
+                                Description = ConversionUtilities.TrimWhiteSpaces(p.Description)
                             };
                         }).ToList(),                           
                     };

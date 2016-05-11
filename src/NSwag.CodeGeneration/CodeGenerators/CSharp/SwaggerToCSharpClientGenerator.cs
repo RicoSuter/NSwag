@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema.CodeGeneration;
+using NSwag.CodeGeneration.CodeGenerators.CSharp.Templates;
 using NSwag.CodeGeneration.CodeGenerators.Models;
 
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp
@@ -55,32 +56,38 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
 
         internal override string RenderFile(string clientCode)
         {
-            var template = LoadTemplate("File");
-            template.Add("namespace", Settings.CSharpGeneratorSettings.Namespace);
-            template.Add("toolchain", SwaggerService.ToolchainVersion);
-            template.Add("clients", Settings.GenerateClientClasses ? clientCode : string.Empty);
-            template.Add("namespaceUsages", Settings.AdditionalNamespaceUsages ?? new string[] {});
-            template.Add("classes", Settings.GenerateDtoTypes ? Resolver.GenerateTypes() : string.Empty);
+            var template = new FileTemplate();
+            template.Initialize(new
+            {
+                Namespace = Settings.CSharpGeneratorSettings.Namespace ?? string.Empty, 
+                Toolchain = SwaggerService.ToolchainVersion, 
+                Clients = Settings.GenerateClientClasses ? clientCode : string.Empty,
+                NamespaceUsages = Settings.AdditionalNamespaceUsages ?? new string[] { },
+                Classes = Settings.GenerateDtoTypes ? Resolver.GenerateTypes() : string.Empty
+            });
             return template.Render();
         }
 
         internal override string RenderClientCode(string controllerName, IEnumerable<OperationModel> operations)
         {
-            var template = LoadTemplate("Client");
-            template.Add("class", Settings.ClassName.Replace("{controller}", ConversionUtilities.ConvertToUpperCamelCase(controllerName)));
+            var hasClientBaseClass = !string.IsNullOrEmpty(Settings.ClientBaseClass);
 
-            var hasClientBaseClass = !string.IsNullOrEmpty(Settings.ClientBaseClass); 
-            template.Add("baseClass", Settings.ClientBaseClass);
-            template.Add("hasBaseClass", hasClientBaseClass);
+            var template = new ClientTemplate();
+            template.Initialize(new
+            {
+                Class = Settings.ClassName.Replace("{controller}", ConversionUtilities.ConvertToUpperCamelCase(controllerName)), 
+                BaseClass = Settings.ClientBaseClass,
 
-            template.Add("useHttpClientCreationMethod", Settings.UseHttpClientCreationMethod);
-            template.Add("generateClientInterfaces", Settings.GenerateClientInterfaces);
-            template.Add("hasBaseType", Settings.GenerateClientInterfaces || hasClientBaseClass);
+                HasBaseClass = hasClientBaseClass,
+                HasBaseType = Settings.GenerateClientInterfaces || hasClientBaseClass,
 
-            template.Add("baseUrl", _service.BaseUrl);
-            template.Add("operations", operations);
-            template.Add("hasOperations", operations.Any());
+                UseHttpClientCreationMethod = Settings.UseHttpClientCreationMethod, 
+                GenerateClientInterfaces = Settings.GenerateClientInterfaces, 
+                BaseUrl = _service.BaseUrl,
 
+                HasOperations = operations.Any(),
+                Operations = operations
+            });
             return template.Render();
         }
     }

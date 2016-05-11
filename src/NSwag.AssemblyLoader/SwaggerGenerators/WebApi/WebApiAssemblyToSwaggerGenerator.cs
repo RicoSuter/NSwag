@@ -12,10 +12,11 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json;
-using NJsonSchema;
+using NSwag.AssemblyLoader.Infrastructure;
 using NSwag.CodeGeneration.Infrastructure;
+using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 
-namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
+namespace NSwag.AssemblyLoader.SwaggerGenerators.WebApi
 {
     /// <summary>Generates a <see cref="SwaggerService"/> from a Web API controller or type which is located in a .NET assembly.</summary>
     public class WebApiAssemblyToSwaggerGenerator

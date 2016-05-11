@@ -70,7 +70,7 @@ namespace NSwag
 
         /// <summary>Gets or sets a value indicating whether the operation is deprecated.</summary>
         [JsonProperty(PropertyName = "deprecated", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public bool Deprecated { get; set; }
+        public bool IsDeprecated { get; set; }
 
         /// <summary>Gets or sets a security description.</summary>
         [JsonProperty(PropertyName = "security", DefaultValueHandling = DefaultValueHandling.Ignore)]

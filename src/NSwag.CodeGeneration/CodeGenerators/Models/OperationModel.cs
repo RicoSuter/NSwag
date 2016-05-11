@@ -66,12 +66,14 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 
         public IEnumerable<ParameterModel> FormParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.FormData);
 
-        public string Summary => ConversionUtilities.RemoveWhiteSpaces(Operation.Summary);
+        public string Summary => ConversionUtilities.TrimWhiteSpaces(Operation.Summary);
 
         public bool HasSummary => !string.IsNullOrEmpty(Summary);
 
-        public bool HasDocumentation => HasSummary || HasResultDescription || Parameters.Any(p => p.HasDescription);
+        public bool HasDocumentation => HasSummary || HasResultDescription || Parameters.Any(p => p.HasDescription) || Operation.IsDeprecated;
 
         public bool HasFormParameters { get; set; }
+
+        public bool IsDeprecated => Operation.IsDeprecated;
     }
 }
