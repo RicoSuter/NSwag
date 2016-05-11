@@ -9,8 +9,8 @@
     "ReferencePaths": [],
     "ControllerName": "",
     "ControllerNames": [
-      "NSwag.Demo.Web.Controllers.FileController",
       "NSwag.Demo.Web.Controllers.PersonsController",
+      "NSwag.Demo.Web.Controllers.FileController",
       "NSwag.Demo.Web.Controllers.RequestParameterTestController"
     ],
     "DefaultUrlTemplate": "api/{controller}/{action}/{id}",
@@ -58,7 +58,7 @@
         "DateTimeType": "DateTime",
         "ArrayType": "ObservableCollection",
         "DictionaryType": "Dictionary",
-        "ClassStyle": 1
+        "ClassStyle": 0
       },
       "ClassName": "{controller}Client",
       "AdditionalNamespaceUsages": [
@@ -80,7 +80,7 @@
     "DateTimeType": "DateTime",
     "ArrayType": "ObservableCollection",
     "DictionaryType": "Dictionary",
-    "ClassStyle": 1,
+    "ClassStyle": 0,
     "OperationGenerationMode": 0,
     "Input": null,
     "OutputFilePath": null
