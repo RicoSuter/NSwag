@@ -9,7 +9,9 @@
     "ReferencePaths": [],
     "ControllerName": "",
     "ControllerNames": [
-      "NSwag.Demo.Web.Controllers.PersonsController"
+      "NSwag.Demo.Web.Controllers.FileController",
+      "NSwag.Demo.Web.Controllers.PersonsController",
+      "NSwag.Demo.Web.Controllers.RequestParameterTestController"
     ],
     "DefaultUrlTemplate": "api/{controller}/{action}/{id}",
     "DefaultEnumHandling": 0,
@@ -37,7 +39,7 @@
     "GenerateDtoTypes": true,
     "OperationGenerationMode": 0,
     "GenerateReadOnlyKeywords": false,
-    "TypeStyle": 0,
+    "TypeStyle": 1,
     "Input": null,
     "OutputFilePath": null
   },
