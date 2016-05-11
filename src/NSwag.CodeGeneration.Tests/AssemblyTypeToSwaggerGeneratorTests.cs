@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSwag.AssemblyLoader.SwaggerGenerators;
 using NSwag.CodeGeneration.SwaggerGenerators;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 

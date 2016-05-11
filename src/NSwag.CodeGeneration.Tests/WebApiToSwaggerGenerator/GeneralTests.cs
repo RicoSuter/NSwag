@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
+using NSwag.AssemblyLoader.SwaggerGenerators.WebApi;
 
 namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator
 {

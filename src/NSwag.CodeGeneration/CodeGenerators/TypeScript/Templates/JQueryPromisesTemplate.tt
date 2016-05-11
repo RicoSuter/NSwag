@@ -1,0 +1,190 @@
+﻿<#@ template visibility="internal" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="NJsonSchema.CodeGeneration" #>
+<#if(Model.HasOperations){#>
+<#if(Model.GenerateClientInterfaces){#>
+export interface I<#=Model.Class#> {
+<#foreach(var operation in Model.Operations){#>
+<#if(operation.HasDocumentation){#>    /**
+<#if(operation.HasSummary){#>     * <#=operation.Summary#>
+<#}#><#foreach(var parameter in operation.Parameters){#>
+<#if(parameter.HasDescriptionOrIsOptional){#>     * @<#=parameter.VariableNameLower#><#if(parameter.IsOptional){#> (optional)<#}#> <#=parameter.Description#>
+<#}#><#}#><#if(operation.HasResultDescription){#>     * @return <#=operation.ResultDescription#>
+<#}#><#if(operation.IsDeprecated){#>     * @deprecated
+<#}#>     */
+<#}#>    <#=operation.OperationNameLower#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableNameLower#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): <#=Model.PromiseType#><<#=operation.ResultType#>>;
+<#}#>}
+<#}#>
+
+export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements I<#=Model.Class#> <#}#>{
+    baseUrl: string = undefined; 
+    beforeSend: any = undefined; 
+
+    constructor(baseUrl?: string) {
+        this.baseUrl = baseUrl !== undefined ? baseUrl : "<#=Model.BaseUrl#>"; 
+    }
+<#foreach(var operation in Model.Operations){#>
+
+<#if(operation.HasDocumentation){#>    /**
+<#if(operation.HasSummary){#>     * <#=operation.Summary#>
+<#}#><#foreach(var parameter in operation.Parameters){#>
+<#if(parameter.HasDescriptionOrIsOptional){#>     * @<#=parameter.VariableNameLower#><#if(parameter.IsOptional){#> (optional)<#}#> <#=parameter.Description#>
+<#}#><#}#><#if(operation.HasResultDescription){#>     * @return <#=operation.ResultDescription#>
+<#}#><#if(operation.IsDeprecated){#>     * @deprecated
+<#}#>     */
+<#}#>    <#=operation.OperationNameLower#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableNameLower#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): <#=Model.PromiseType#><<#=operation.ResultType#>> {
+        return <#=Model.PromiseConstructor#><<#=operation.ResultType#>>((resolve, reject) => {
+            this.<#=operation.OperationNameLower#>WithCallbacks(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableNameLower#>, <#}#>(result) => resolve(result), (exception, reason) => reject(exception));
+        });
+    }
+    
+    private <#=operation.OperationNameLower#>WithCallbacks(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableNameLower#>: <#=parameter.Type#>, <#}#>onSuccess?: (result: <#=operation.ResultType#>) => void, onFail?: (exception: <#=operation.ExceptionType#>, reason: string) => void) {
+        var url = this.baseUrl + "/<#=operation.Path#>?"; 
+
+<#foreach(var parameter in operation.PathParameters){#>
+        if (<#=parameter.VariableNameLower#> === undefined || <#=parameter.VariableNameLower#> === null)
+            throw new Error("The parameter '<#=parameter.VariableNameLower#>' must be defined.");
+<#  if(parameter.IsDate){#>
+        url = url.replace("{<#=parameter.Name#>}", "" + <#=parameter.VariableNameLower#>.toJSON()); 
+<#  }else{#>
+        url = url.replace("{<#=parameter.Name#>}", "" + <#=parameter.VariableNameLower#>); 
+<#  }}#>
+
+<#foreach(var parameter in operation.QueryParameters){#>
+<#  if(parameter.IsOptional){#>
+        if (<#=parameter.VariableNameLower#> !== undefined && <#=parameter.VariableNameLower#> !== null)
+<#  }else{#>
+        if (<#=parameter.VariableNameLower#> === undefined || <#=parameter.VariableNameLower#> === null)
+            throw new Error("The parameter '<#=parameter.VariableNameLower#>' must be defined.");
+        else
+<#  }#>
+<#  if(parameter.IsDateArray){#>
+            <#=parameter.VariableNameLower#>.forEach(item => { url += "<#=parameter.Name#>=" + encodeURIComponent("" + item.toJSON()) + "&"; });
+<#  }else if(parameter.IsDate){#>
+            url += "<#=parameter.Name#>=" + encodeURIComponent("" + <#=parameter.VariableNameLower#>.toJSON()) + "&"; 
+<#  }else if(parameter.IsArray){#>
+            <#=parameter.VariableNameLower#>.forEach(item => { url += "<#=parameter.Name#>=" + encodeURIComponent("" + item) + "&"; });
+<#  }else{#>
+            url += "<#=parameter.Name#>=" + encodeURIComponent("" + <#=parameter.VariableNameLower#>) + "&"; 
+<#  }
+}#>
+
+<#if(operation.HasContent){#>
+        var content = JSON.stringify(<#=operation.ContentParameter.VariableNameLower#>);
+<#}else{#>
+        var content = "";
+<#}#>
+
+        $.ajax({
+            url: url,
+            beforeSend: this.beforeSend,
+            type: "<#=operation.HttpMethodLower#>",
+            data: content,
+            dataType: "text",
+            headers: {
+<#foreach(var parameter in operation.HeaderParameters){#>
+                "<#=parameter.Name#>": <#=parameter.VariableNameLower#>, 
+<#}#>                "Content-Type": "application/json; charset=UTF-8"
+            }
+        }).done((data, textStatus, xhr) => {
+            this.process<#=operation.OperationNameUpper#>(xhr, onSuccess, onFail);
+        }).fail((xhr) => {
+            this.process<#=operation.OperationNameUpper#>(xhr, onSuccess, onFail);
+        });
+    }
+
+    private process<#=operation.OperationNameUpper#>(xhr: any, onSuccess?: any, onFail?: any) {
+        var data = xhr.responseText; 
+        var status = xhr.status.toString(); 
+
+<#foreach(var response in operation.Responses){#>
+        if (status === "<#=response.StatusCode#>") {
+<#  if(response.HasType){#>
+            var result<#=response.StatusCode#>: <#=response.Type#> = null; 
+            if (data !== undefined && data !== null && data !== "") {
+                try {
+<#      if(response.IsDate){#>
+                    result<#=response.StatusCode#> = new Date(data);
+<#      }else{#>
+<#      if(response.IsFile){#>
+                    result<#=response.StatusCode#> = data;
+<#      }else{#>
+<#          if(Model.UseDtoClasses){#>
+                    var resultData<#=response.StatusCode#> = data === "" ? null : jQuery.parseJSON(data);
+                    <#=ConversionUtilities.Tab(response.DataConversionCode, 5)#>
+<#          }else{#>
+                    result<#=response.StatusCode#> = data === "" ? null : <<#=response.Type#>>jQuery.parseJSON(data);
+<#          }#>
+<#      }
+        }#>
+                } catch(e) { 
+                    if (onFail !== undefined)
+                        onFail(null, "error_parsing", e);
+                    return;
+                }
+            }
+<#  }else{#>
+            var result<#=response.StatusCode#>: any = undefined; 
+<#  }#>
+
+<#  if(response.IsSuccess){#>
+            if (onSuccess !== undefined)
+                onSuccess(result<#=response.StatusCode#>);
+<#  }else{#>
+            if (onFail !== undefined)
+                onFail(result<#=response.StatusCode#>, "error_exception");
+<#  }#>
+            return;
+        }
+        else
+<#}#>
+        {
+<#if(operation.HasDefaultResponse){#>
+<#  if(operation.DefaultResponse.HasType){#>
+            var result: <#=operation.DefaultResponse.Type#> = null; 
+            if (data !== undefined && data !== null && data !== "") {
+                try { 
+<#      if(operation.DefaultResponse.IsDate){#>
+                    result = new Date(data);
+<#      }else{#>
+<#      if(operation.DefaultResponse.IsFile){#>
+                    result = data;
+<#      }else{#>
+<#          if(Model.UseDtoClasses){#>
+                    var resultData = data === "" ? null : jQuery.parseJSON(data);
+                    <#=ConversionUtilities.Tab(operation.DefaultResponse.DataConversionCode, 5)#>
+<#          }else{#>
+                    result = data === "" ? null : <<#=operation.DefaultResponse.Type#>>jQuery.parseJSON(data);
+<#          }#>
+<#      }#>
+<#      }#>
+                } catch(e) { 
+                    if (onFail !== undefined)
+                        onFail(null, "error_parsing", e);
+                    return;
+                }
+            }
+<#  }else{#>
+            var result: any = undefined; 
+<#  }#>
+
+<#  if(operation.HasOnlyDefaultResponse){#>
+            if (status.length === 3 && status.indexOf("2") === 0) {
+                if (onSuccess !== undefined)
+                    onSuccess(result);
+            } else {
+                if (onFail !== undefined)
+                    onFail(result, "error_exception");
+            }
+<#  }else{#>
+            if (onFail !== undefined)
+                onFail(result, "error_exception");
+<#  }
+}else{#>
+            if (onFail !== undefined)
+                onFail(null, "error_no_callback_for_the_received_http_status");
+<#}#>
+        }
+    }
+<#}#>}
+<#}#>

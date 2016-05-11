@@ -79,18 +79,16 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         private void GenerateForController(SwaggerService service, Type controllerType, string excludedMethodName, SchemaResolver schemaResolver)
         {
             var methods = controllerType.GetRuntimeMethods().Where(m => m.IsPublic);
-            foreach (var method in methods.Where(m => m.Name != excludedMethodName && 
+            foreach (var method in methods.Where(m => m.Name != excludedMethodName &&
                 m.DeclaringType != null &&
                 m.DeclaringType != typeof(object) &&
-                m.DeclaringType.FullName != "System.Web.Http.ApiController" && 
+                m.DeclaringType.FullName != "System.Web.Http.ApiController" &&
                 m.DeclaringType.FullName != "Microsoft.AspNet.Mvc.Controller" && // .NET Core (Web API & MVC)
                 m.DeclaringType.FullName != "System.Web.Mvc.Controller"))
             {
                 var parameters = method.GetParameters().ToList();
-                var methodName = method.Name;
 
                 var operation = new SwaggerOperation();
-                operation.OperationId = GetOperationId(service, controllerType.Name, methodName);
                 operation.IsDeprecated = method.GetCustomAttribute<ObsoleteAttribute>() != null;
 
                 var httpPath = GetHttpPath(service, operation, controllerType, method, parameters, schemaResolver);
@@ -98,6 +96,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 LoadParameters(service, operation, parameters, schemaResolver);
                 LoadReturnType(service, operation, method, schemaResolver);
                 LoadMetaData(operation, method);
+
+                operation.OperationId = GetOperationId(service, controllerType.Name, method);
 
                 foreach (var httpMethod in GetSupportedHttpMethods(method))
                 {
@@ -123,13 +123,14 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             }
         }
 
-        private string GetOperationId(SwaggerService service, string controllerName, string methodName)
+        private string GetOperationId(SwaggerService service, string controllerName, MethodInfo method)
         {
             // TODO: Implement IOperationIdGenerator
 
             if (controllerName.EndsWith("Controller"))
                 controllerName = controllerName.Substring(0, controllerName.Length - 10);
 
+            var methodName = method.Name;
             if (methodName.EndsWith("Async"))
                 methodName = methodName.Substring(0, methodName.Length - 5);
 
@@ -139,7 +140,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             while (service.Operations.Any(o => o.Operation.OperationId == (operationId + (number > 1 ? "_" + number : string.Empty))))
                 number++;
 
-            return operationId + (number > 1 ? "_" + number : string.Empty);
+            return operationId + (number > 1 ? number.ToString() : string.Empty);
         }
 
         private void LoadMetaData(SwaggerOperation operation, MethodInfo method)
@@ -175,12 +176,12 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     httpPath = routeAttribute.Template;
             }
             else
-            {
-                var actionName = GetActionName(method);
-                httpPath = Settings.DefaultUrlTemplate
-                    .Replace("{controller}", controllerType.Name.Replace("Controller", string.Empty))
-                    .Replace("{action}", actionName);
-            }
+                httpPath = Settings.DefaultUrlTemplate;
+
+            var actionName = GetActionName(method);
+            httpPath = httpPath
+                .Replace("{controller}", controllerType.Name.Replace("Controller", string.Empty))
+                .Replace("{action}", actionName);
 
             foreach (var match in Regex.Matches(httpPath, "\\{(.*?)\\}").OfType<Match>())
             {
@@ -395,7 +396,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
             var typeDescription = JsonObjectTypeDescription.FromType(type, parentAttributes, Settings.DefaultEnumHandling);
             var parameterType = typeDescription.IsComplexType ? typeof(string) : type; // complex types must be treated as string
-            
+
             var operationParameter = new SwaggerParameter();
             typeDescription.ApplyType(operationParameter);
 

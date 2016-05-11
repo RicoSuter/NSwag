@@ -13,6 +13,7 @@ using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag.CodeGeneration.CodeGenerators.Models;
+using NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates;
 
 namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 {
@@ -58,32 +59,41 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 
         internal override string RenderFile(string clientCode)
         {
-            var template = LoadTemplate("File");
-            template.Add("toolchain", SwaggerService.ToolchainVersion);
-            template.Add("isAngular2", Settings.GenerateClientClasses && Settings.Template == TypeScriptTemplate.Angular2);
-            template.Add("clients", Settings.GenerateClientClasses ? clientCode : string.Empty);
-            template.Add("interfaces", Settings.GenerateDtoTypes ? _resolver.GenerateTypes() : string.Empty);
-            template.Add("hasModuleName", !string.IsNullOrEmpty(Settings.ModuleName));
-            template.Add("moduleName", Settings.ModuleName);
+            var template = new FileTemplate();
+            template.Initialize(new
+            {
+                Toolchain = SwaggerService.ToolchainVersion, 
+                IsAngular2 = Settings.GenerateClientClasses && Settings.Template == TypeScriptTemplate.Angular2, 
+
+                Clients = Settings.GenerateClientClasses ? clientCode : string.Empty, 
+                Interfaces = Settings.GenerateDtoTypes ? _resolver.GenerateTypes() : string.Empty,
+
+                HasModuleName = !string.IsNullOrEmpty(Settings.ModuleName), 
+                ModuleName = Settings.ModuleName
+            });
             return template.Render();
         }
 
         internal override string RenderClientCode(string controllerName, IEnumerable<OperationModel> operations)
         {
-            var template = LoadTemplate(Settings.Template.ToString());
-
             GenerateDataConversionCodes(operations);
 
-            template.Add("class", Settings.ClassName.Replace("{controller}", ConversionUtilities.ConvertToUpperCamelCase(controllerName)));
-            template.Add("operations", operations);
-            template.Add("generateClientInterfaces", Settings.GenerateClientInterfaces);
-            template.Add("hasOperations", operations.Any());
-            template.Add("baseUrl", _service.BaseUrl);
+            var template = Settings.CreateTemplate();
+            template.Initialize(new
+            {
+                Class = Settings.ClassName.Replace("{controller}", ConversionUtilities.ConvertToUpperCamelCase(controllerName)),
 
-            template.Add("useDtoClasses", Settings.TypeScriptGeneratorSettings.TypeStyle != TypeScriptTypeStyle.Interface);
-            template.Add("promiseType", Settings.PromiseType == PromiseType.Promise ? "Promise" : "Q.Promise");
-            template.Add("promiseConstructor", Settings.PromiseType == PromiseType.Promise ? "new Promise" : "Q.Promise");
+                HasOperations = operations.Any(),
+                Operations = operations,
 
+                GenerateClientInterfaces = Settings.GenerateClientInterfaces,
+                BaseUrl = _service.BaseUrl, 
+                UseDtoClasses = Settings.TypeScriptGeneratorSettings.TypeStyle != TypeScriptTypeStyle.Interface,
+
+                PromiseType = Settings.PromiseType == PromiseType.Promise ? "Promise" : "Q.Promise",
+                PromiseConstructor = Settings.PromiseType == PromiseType.Promise ? "new Promise" : "Q.Promise"
+            });
+            
             return template.Render();
         }
 

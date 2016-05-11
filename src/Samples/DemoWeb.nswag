@@ -9,7 +9,9 @@
     "ReferencePaths": [],
     "ControllerName": "",
     "ControllerNames": [
-      "NSwag.Demo.Web.Controllers.PersonsController"
+      "NSwag.Demo.Web.Controllers.PersonsController",
+      "NSwag.Demo.Web.Controllers.FileController",
+      "NSwag.Demo.Web.Controllers.RequestParameterTestController"
     ],
     "DefaultUrlTemplate": "api/{controller}/{action}/{id}",
     "DefaultEnumHandling": 0,
@@ -30,14 +32,14 @@
   "SwaggerToTypeScriptCommand": {
     "ClassName": "{controller}Client",
     "ModuleName": "",
-    "Template": 1,
+    "Template": 3,
     "PromiseType": 0,
     "GenerateClientClasses": true,
     "GenerateClientInterfaces": true,
     "GenerateDtoTypes": true,
     "OperationGenerationMode": 0,
     "GenerateReadOnlyKeywords": false,
-    "TypeStyle": 0,
+    "TypeStyle": 1,
     "Input": null,
     "OutputFilePath": null
   },
@@ -56,23 +58,29 @@
         "DateTimeType": "DateTime",
         "ArrayType": "ObservableCollection",
         "DictionaryType": "Dictionary",
-        "ClassStyle": 1
+        "ClassStyle": 0
       },
       "ClassName": "{controller}Client",
-      "AdditionalNamespaceUsages": null,
+      "AdditionalNamespaceUsages": [
+        "a",
+        "b"
+      ],
       "OperationGenerationMode": 0,
       "GenerateDtoTypes": true,
       "GenerateClientInterfaces": true,
       "GenerateClientClasses": true
     },
     "ClassName": "{controller}Client",
-    "AdditionalNamespaceUsages": null,
+    "AdditionalNamespaceUsages": [
+      "a",
+      "b"
+    ],
     "RequiredPropertiesMustBeDefined": true,
     "Namespace": "NSwag.Demo.Client",
     "DateTimeType": "DateTime",
     "ArrayType": "ObservableCollection",
     "DictionaryType": "Dictionary",
-    "ClassStyle": 1,
+    "ClassStyle": 0,
     "OperationGenerationMode": 0,
     "Input": null,
     "OutputFilePath": null
