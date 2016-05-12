@@ -13,9 +13,9 @@ using System.Reflection;
 using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.Generation;
-using NSwag.AssemblyLoader.Infrastructure;
+using NSwag.CodeGeneration.Infrastructure;
 
-namespace NSwag.AssemblyLoader.SwaggerGenerators
+namespace NSwag.CodeGeneration.SwaggerGenerators
 {
     /// <summary>Generates a <see cref="SwaggerService"/> from a Web API controller or type which is located in a .NET assembly.</summary>
     public class AssemblyTypeToSwaggerGenerator

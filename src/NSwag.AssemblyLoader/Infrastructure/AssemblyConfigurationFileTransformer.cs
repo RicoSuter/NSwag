@@ -12,7 +12,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace NSwag.AssemblyLoader.Infrastructure
+namespace NSwag.CodeGeneration.Infrastructure
 {
     internal class AssemblyConfigurationFileTransformer : IDisposable
     {
