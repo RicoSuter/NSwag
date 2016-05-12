@@ -40,12 +40,12 @@
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=2.16.5975.38441, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.2.16.5975.38441\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
+    <Reference Include="NJsonSchema, Version=2.18.5976.28450, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.2.18.5976.28450\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema.CodeGeneration, Version=2.16.5975.38442, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.CodeGeneration.2.16.5975.38442\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
+    <Reference Include="NJsonSchema.CodeGeneration, Version=2.18.5976.28451, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.CodeGeneration.2.18.5976.28451\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -149,38 +149,38 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CodeGenerators\CSharp\Templates\ClientTemplate.tt">
+    <None Include="CodeGenerators\CSharp\Templates\ClientTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>ClientTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="CodeGenerators\CSharp\Templates\FileTemplate.tt">
+    </None>
+    <None Include="CodeGenerators\CSharp\Templates\FileTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>FileTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="CodeGenerators\CSharp\Templates\WebApiControllerTemplate.tt">
+    </None>
+    <None Include="CodeGenerators\CSharp\Templates\WebApiControllerTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>WebApiControllerTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="CodeGenerators\TypeScript\Templates\Angular2Template.tt">
+    </None>
+    <None Include="CodeGenerators\TypeScript\Templates\Angular2Template.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>Angular2Template.cs</LastGenOutput>
-    </Content>
-    <Content Include="CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt">
+    </None>
+    <None Include="CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>AngularJSTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="CodeGenerators\TypeScript\Templates\FileTemplate.tt">
+    </None>
+    <None Include="CodeGenerators\TypeScript\Templates\FileTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>FileTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt">
+    </None>
+    <None Include="CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>JQueryCallbacksTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="CodeGenerators\TypeScript\Templates\JQueryPromisesTemplate.tt">
+    </None>
+    <None Include="CodeGenerators\TypeScript\Templates\JQueryPromisesTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>JQueryPromisesTemplate.cs</LastGenOutput>
-    </Content>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
