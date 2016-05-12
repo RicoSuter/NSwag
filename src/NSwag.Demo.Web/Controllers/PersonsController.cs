@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using NSwag.Annotations;
-using NSwag.AssemblyLoader.SwaggerGenerators.WebApi;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 using NSwag.Demo.Web.Models;
 

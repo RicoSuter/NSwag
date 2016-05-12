@@ -14,7 +14,6 @@ using System.Threading.Tasks;
 using Microsoft.Win32;
 using MyToolkit.Command;
 using NJsonSchema;
-using NSwag.AssemblyLoader.SwaggerGenerators.WebApi;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 using NSwag.Commands;
 

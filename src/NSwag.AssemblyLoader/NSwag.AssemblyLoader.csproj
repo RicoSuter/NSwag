@@ -7,7 +7,7 @@
     <ProjectGuid>{46634C60-BA7D-43E6-9049-6AD461488C39}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NSwag.AssemblyLoader</RootNamespace>
+    <RootNamespace>NSwag.CodeGeneration</RootNamespace>
     <AssemblyName>NSwag.AssemblyLoader</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

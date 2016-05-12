@@ -8,7 +8,7 @@
 
 using System;
 
-namespace NSwag.AssemblyLoader.Infrastructure
+namespace NSwag.CodeGeneration.Infrastructure
 {
     internal sealed class AppDomainIsolation<T> : IDisposable where T : MarshalByRefObject
     {
