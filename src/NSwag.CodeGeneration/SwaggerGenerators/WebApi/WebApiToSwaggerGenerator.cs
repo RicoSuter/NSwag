@@ -176,12 +176,12 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     httpPath = routeAttribute.Template;
             }
             else
-                httpPath = Settings.DefaultUrlTemplate;
-
-            var actionName = GetActionName(method);
-            httpPath = httpPath
-                .Replace("{controller}", controllerType.Name.Replace("Controller", string.Empty))
-                .Replace("{action}", actionName);
+            {
+                var actionName = GetActionName(method);
+                httpPath = (Settings.DefaultUrlTemplate ?? string.Empty)
+                    .Replace("{controller}", controllerType.Name.Replace("Controller", string.Empty))
+                    .Replace("{action}", actionName);
+            }
 
             foreach (var match in Regex.Matches(httpPath, "\\{(.*?)\\}").OfType<Match>())
             {
