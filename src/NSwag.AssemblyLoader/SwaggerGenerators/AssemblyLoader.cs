@@ -12,7 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace NSwag.AssemblyLoader.SwaggerGenerators
+namespace NSwag.CodeGeneration.SwaggerGenerators
 {
     internal class AssemblyLoader : MarshalByRefObject
     {

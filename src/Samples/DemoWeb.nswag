@@ -9,8 +9,8 @@
     "ReferencePaths": [],
     "ControllerName": "",
     "ControllerNames": [
-      "NSwag.Demo.Web.Controllers.PersonsController",
       "NSwag.Demo.Web.Controllers.FileController",
+      "NSwag.Demo.Web.Controllers.PersonsController",
       "NSwag.Demo.Web.Controllers.RequestParameterTestController"
     ],
     "DefaultUrlTemplate": "api/{controller}/{action}/{id}",

@@ -6,9 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
-
-namespace NSwag.AssemblyLoader.SwaggerGenerators.WebApi
+namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 {
     /// <summary>Settings for the <see cref="WebApiAssemblyToSwaggerGenerator"/>.</summary>
     public class WebApiAssemblyToSwaggerGeneratorSettings : WebApiToSwaggerGeneratorSettings
