@@ -65,7 +65,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 }#>
 
 <#if(operation.HasContent){#>
-        var content = JSON.stringify(<#=operation.ContentParameter.VariableNameLower#>);
+        var content = <#if(Model.UsesKnockout){#>ko.toJSON<#}else{#>JSON.stringify<#}#>(<#=operation.ContentParameter.VariableNameLower#>);
 <#}else{#>
         var content = "";
 <#}#>

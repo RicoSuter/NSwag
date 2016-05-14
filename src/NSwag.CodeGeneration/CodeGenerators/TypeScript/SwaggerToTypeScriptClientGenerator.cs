@@ -62,13 +62,14 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             var template = new FileTemplate();
             template.Initialize(new
             {
-                Toolchain = SwaggerService.ToolchainVersion, 
-                IsAngular2 = Settings.GenerateClientClasses && Settings.Template == TypeScriptTemplate.Angular2, 
+                Toolchain = SwaggerService.ToolchainVersion,
+                IsAngular2 = Settings.GenerateClientClasses && Settings.Template == TypeScriptTemplate.Angular2,
 
-                Clients = Settings.GenerateClientClasses ? clientCode : string.Empty, 
+                Clients = Settings.GenerateClientClasses ? clientCode : string.Empty,
                 Interfaces = Settings.GenerateDtoTypes ? _resolver.GenerateTypes() : string.Empty,
+                AdditionalCode = Settings.TypeScriptGeneratorSettings.TransformedAdditionalCode, 
 
-                HasModuleName = !string.IsNullOrEmpty(Settings.ModuleName), 
+                HasModuleName = !string.IsNullOrEmpty(Settings.ModuleName),
                 ModuleName = Settings.ModuleName
             });
             return template.Render();
@@ -85,15 +86,16 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 
                 HasOperations = operations.Any(),
                 Operations = operations,
+                UsesKnockout = Settings.TypeScriptGeneratorSettings.TypeStyle == TypeScriptTypeStyle.KnockoutClass, 
 
                 GenerateClientInterfaces = Settings.GenerateClientInterfaces,
-                BaseUrl = _service.BaseUrl, 
+                BaseUrl = _service.BaseUrl,
                 UseDtoClasses = Settings.TypeScriptGeneratorSettings.TypeStyle != TypeScriptTypeStyle.Interface,
 
                 PromiseType = Settings.PromiseType == PromiseType.Promise ? "Promise" : "Q.Promise",
                 PromiseConstructor = Settings.PromiseType == PromiseType.Promise ? "new Promise" : "Q.Promise"
             });
-            
+
             return template.Render();
         }
 

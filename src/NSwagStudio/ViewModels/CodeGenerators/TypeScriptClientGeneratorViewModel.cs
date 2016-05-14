@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using MyToolkit.Storage;
+using Newtonsoft.Json;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag.CodeGeneration.CodeGenerators;
 using NSwag.CodeGeneration.CodeGenerators.TypeScript;
@@ -45,7 +46,7 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         {
             get { return Enum.GetNames(typeof(TypeScriptTemplate)).Select(t => (TypeScriptTemplate)Enum.Parse(typeof(TypeScriptTemplate), t)).ToArray(); }
         }
-        
+
         /// <summary>Gets the operation modes. </summary>
         public OperationGenerationMode[] OperationGenerationModes
         {
@@ -69,6 +70,22 @@ namespace NSwagStudio.ViewModels.CodeGenerators
             }
         }
 
+        public string ClassMappings
+        {
+            get { return _command.ClassMappings != null ? JsonConvert.SerializeObject(_command.ClassMappings, Formatting.Indented) : "[]"; }
+            set
+            {
+                try
+                {
+                    _command.ClassMappings = JsonConvert.DeserializeObject<TypeScriptClassMapping[]>(value);
+                }
+                catch
+                {
+                    _command.ClassMappings = new TypeScriptClassMapping[] { };
+                }
+                RaisePropertyChanged();
+            }
+        }
 
         /// <summary>Gets or sets the client code. </summary>
         public string ClientCode
