@@ -9,12 +9,10 @@
     "ReferencePaths": [],
     "ControllerName": "",
     "ControllerNames": [
-      "NSwag.Demo.Web.Controllers.FileController",
-      "NSwag.Demo.Web.Controllers.PersonsController",
-      "NSwag.Demo.Web.Controllers.RequestParameterTestController"
+      "NSwag.Demo.Web.Controllers.PersonsController"
     ],
     "DefaultUrlTemplate": "api/{controller}/{action}/{id}",
-    "DefaultEnumHandling": 0,
+    "DefaultEnumHandling": "Integer",
     "FlattenInheritanceHierarchy": false,
     "GenerateKnownTypes": true,
     "OutputFilePath": null
@@ -23,7 +21,7 @@
     "AssemblyPath": null,
     "AssemblyConfig": null,
     "ReferencePaths": [],
-    "DefaultEnumHandling": 0,
+    "DefaultEnumHandling": "Integer",
     "FlattenInheritanceHierarchy": false,
     "GenerateKnownTypes": true,
     "ClassNames": [],
@@ -32,14 +30,26 @@
   "SwaggerToTypeScriptCommand": {
     "ClassName": "{controller}Client",
     "ModuleName": "",
-    "Template": 3,
-    "PromiseType": 0,
+    "Template": "JQueryPromises",
+    "PromiseType": "Promise",
     "GenerateClientClasses": true,
-    "GenerateClientInterfaces": true,
+    "GenerateClientInterfaces": false,
     "GenerateDtoTypes": true,
-    "OperationGenerationMode": 0,
-    "GenerateReadOnlyKeywords": false,
-    "TypeStyle": 1,
+    "OperationGenerationMode": "MultipleClientsFromOperationId",
+    "GenerateReadOnlyKeywords": true,
+    "TypeStyle": "Class",
+    "ClassMappings": [
+      {
+        "Class": "Person",
+        "TargetModule": "MyModule",
+        "TargetClass": "MyPerson"
+      },
+      {
+        "Class": "Car",
+        "TargetModule": "MyModule",
+        "TargetClass": "MyCar"
+      }
+    ],
     "Input": null,
     "OutputFilePath": null
   },
@@ -58,14 +68,14 @@
         "DateTimeType": "DateTime",
         "ArrayType": "ObservableCollection",
         "DictionaryType": "Dictionary",
-        "ClassStyle": 0
+        "ClassStyle": "Poco"
       },
       "ClassName": "{controller}Client",
       "AdditionalNamespaceUsages": [
         "a",
         "b"
       ],
-      "OperationGenerationMode": 0,
+      "OperationGenerationMode": "MultipleClientsFromOperationId",
       "GenerateDtoTypes": true,
       "GenerateClientInterfaces": true,
       "GenerateClientClasses": true
@@ -80,8 +90,8 @@
     "DateTimeType": "DateTime",
     "ArrayType": "ObservableCollection",
     "DictionaryType": "Dictionary",
-    "ClassStyle": 0,
-    "OperationGenerationMode": 0,
+    "ClassStyle": "Poco",
+    "OperationGenerationMode": "MultipleClientsFromOperationId",
     "Input": null,
     "OutputFilePath": null
   },
@@ -95,13 +105,13 @@
         "DateTimeType": "DateTime",
         "ArrayType": "IEnumerable",
         "DictionaryType": "Dictionary",
-        "ClassStyle": 1
+        "ClassStyle": "Inpc"
       },
       "ClassName": "{controller}",
       "AdditionalNamespaceUsages": [
         "System.Web.Http"
       ],
-      "OperationGenerationMode": 0,
+      "OperationGenerationMode": "MultipleClientsFromOperationId",
       "GenerateDtoTypes": true,
       "GenerateClientInterfaces": false,
       "GenerateClientClasses": true
@@ -115,8 +125,8 @@
     "DateTimeType": "DateTime",
     "ArrayType": "IEnumerable",
     "DictionaryType": "Dictionary",
-    "ClassStyle": 1,
-    "OperationGenerationMode": 0,
+    "ClassStyle": "Inpc",
+    "OperationGenerationMode": "MultipleClientsFromOperationId",
     "Input": null,
     "OutputFilePath": null
   }

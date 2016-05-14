@@ -679,7 +679,28 @@ if(operation.HasContent){
             
             #line default
             #line hidden
-            this.Write("        var content = JSON.stringify(");
+            this.Write("        var content = ");
+            
+            #line 72 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2Template.tt"
+if(Model.UsesKnockout){
+            
+            #line default
+            #line hidden
+            this.Write("ko.toJSON");
+            
+            #line 72 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2Template.tt"
+}else{
+            
+            #line default
+            #line hidden
+            this.Write("JSON.stringify");
+            
+            #line 72 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2Template.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("(");
             
             #line 72 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2Template.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ContentParameter.VariableNameLower));

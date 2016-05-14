@@ -83,6 +83,15 @@
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
+
+                    <TextBlock Text="Class mappings (experimental)" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding ClassMappings, Mode=TwoWay}" 
+                             AcceptsReturn="True" Height="120" 
+                             VerticalScrollBarVisibility="Visible"
+                             FontFamily="Courier New" Margin="0,0,0,12" />
+                    
+                    <TextBlock Text="Additional code (i.e. classes for class mappings, the 'generated' import will be removed)" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding Command.AdditionalCode, Mode=TwoWay}" Margin="0,0,0,12" />
                 </StackPanel>
             </Expander>
         </Border>

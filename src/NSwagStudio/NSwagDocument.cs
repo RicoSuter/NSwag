@@ -6,9 +6,11 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.Collections.Generic;
 using System.IO;
 using MyToolkit.Model;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using NSwag.Commands;
 using NSwagStudio.Utilities;
 
@@ -54,8 +56,14 @@ namespace NSwagStudio
         public void Save()
         {
             ConvertToRelativePaths();
-            
-            _latestData = JsonConvert.SerializeObject(this, Formatting.Indented);
+
+            _latestData = JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings
+            {
+                Converters = new List<JsonConverter>
+                {
+                    new StringEnumConverter()
+                }
+            });
             ConvertToAbsolutePaths();
             File.WriteAllText(Path, _latestData);
         }
@@ -66,6 +74,8 @@ namespace NSwagStudio
             AssemblyTypeToSwaggerCommand.AssemblyPath = ConvertToAbsolute(AssemblyTypeToSwaggerCommand.AssemblyPath);
             WebApiToSwaggerCommand.AssemblyConfig = ConvertToAbsolute(WebApiToSwaggerCommand.AssemblyConfig);
             AssemblyTypeToSwaggerCommand.AssemblyConfig = ConvertToAbsolute(AssemblyTypeToSwaggerCommand.AssemblyConfig);
+
+            SwaggerToTypeScriptCommand.AdditionalCode = ConvertToAbsolute(SwaggerToTypeScriptCommand.AdditionalCode);
         }
 
         private string ConvertToAbsolute(string path)
@@ -81,13 +91,15 @@ namespace NSwagStudio
             AssemblyTypeToSwaggerCommand.AssemblyPath = ConvertToRelativePath(AssemblyTypeToSwaggerCommand.AssemblyPath);
             WebApiToSwaggerCommand.AssemblyConfig = ConvertToRelativePath(WebApiToSwaggerCommand.AssemblyConfig);
             AssemblyTypeToSwaggerCommand.AssemblyConfig = ConvertToRelativePath(AssemblyTypeToSwaggerCommand.AssemblyConfig);
+
+            SwaggerToTypeScriptCommand.AdditionalCode = ConvertToRelativePath(SwaggerToTypeScriptCommand.AdditionalCode);
         }
 
         private string ConvertToRelativePath(string path)
         {
             if (!string.IsNullOrEmpty(path))
                 return PathUtilities.MakeRelativePath(path, System.IO.Path.GetDirectoryName(Path));
-            return path; 
+            return path;
         }
 
         public static NSwagDocument CreateDocument()
@@ -113,7 +125,13 @@ namespace NSwagStudio
         public string Name => System.IO.Path.GetFileName(Path);
 
         [JsonIgnore]
-        public bool IsDirty => _latestData != JsonConvert.SerializeObject(this, Formatting.Indented);
+        public bool IsDirty => _latestData != JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings
+        {
+            Converters = new List<JsonConverter>
+            {
+                new StringEnumConverter()
+            }
+        });
 
         /// <summary>Gets or sets the selected Swagger generator. </summary>
         [JsonProperty("SelectedSwaggerGenerator")]
@@ -136,7 +154,7 @@ namespace NSwagStudio
 
         [JsonProperty("InputSwaggerUrl")]
         public string InputSwaggerUrl { get; set; }
-        
+
         [JsonProperty("InputJsonSchema")]
         public string InputJsonSchema { get; set; }
 

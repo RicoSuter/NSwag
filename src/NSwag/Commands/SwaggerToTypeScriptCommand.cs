@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.IO;
 using System.Threading.Tasks;
 using NConsole;
 using Newtonsoft.Json;
@@ -100,6 +101,19 @@ namespace NSwag.Commands
             set { Settings.TypeScriptGeneratorSettings.TypeStyle = value; }
         }
 
+        // TODO: Implement a way to pass mappings via cmd line
+        //[Description("Type class mappings.")]
+        //[Argument(Name = "ClassMappings", DefaultValue = null)]
+        public TypeScriptClassMapping[] ClassMappings
+        {
+            get { return Settings.TypeScriptGeneratorSettings.ClassMappings; }
+            set { Settings.TypeScriptGeneratorSettings.ClassMappings = value; }
+        }
+
+        [Description("The additional code (string or file path).")]
+        [Argument(Name = "AdditionalCode", DefaultValue = "")]
+        public string AdditionalCode { get; set; }
+
         public override async Task RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var output = await RunAsync();
@@ -108,6 +122,11 @@ namespace NSwag.Commands
 
         public async Task<string> RunAsync()
         {
+            var additionalCode = AdditionalCode ?? "";
+            if (File.Exists(additionalCode))
+                additionalCode = File.ReadAllText(additionalCode);
+            Settings.TypeScriptGeneratorSettings.AdditionalCode = additionalCode;
+
             var clientGenerator = new SwaggerToTypeScriptClientGenerator(InputSwaggerService, Settings);
             return clientGenerator.GenerateFile();
         }

@@ -803,7 +803,28 @@ if(operation.HasContent){
             
             #line default
             #line hidden
-            this.Write("        var content = JSON.stringify(");
+            this.Write("        var content = ");
+            
+            #line 73 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesTemplate.tt"
+if(Model.UsesKnockout){
+            
+            #line default
+            #line hidden
+            this.Write("ko.toJSON)");
+            
+            #line 73 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesTemplate.tt"
+}else{
+            
+            #line default
+            #line hidden
+            this.Write("JSON.stringify");
+            
+            #line 73 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("(");
             
             #line 73 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ContentParameter.VariableNameLower));
