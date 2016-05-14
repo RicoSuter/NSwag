@@ -5,6 +5,8 @@ namespace NSwagStudio.Utilities
 {
     public static class PathUtilities
     {
+        // TODO: Move to MyToolkit
+
         public static string MakeAbsolutePath(string relativePath, string relTo)
         {
             var absolutePath = System.IO.Path.Combine(relativePath, relTo);

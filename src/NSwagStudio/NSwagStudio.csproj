@@ -107,7 +107,7 @@
     <Compile Include="NSwagDocument.cs" />
     <Compile Include="Utilities\PathUtilities.cs" />
     <Compile Include="ViewModels\CodeGenerators\CSharpWebApiControllerGeneratorViewModel.cs" />
-    <Compile Include="ViewModels\CodeGenerators\SwaggerGeneratorViewModel.cs" />
+    <Compile Include="ViewModels\CodeGenerators\SwaggerOutputViewModel.cs" />
     <Compile Include="ViewModels\CodeGenerators\CSharpClientGeneratorViewModel.cs" />
     <Compile Include="ViewModels\DocumentViewModel.cs" />
     <Compile Include="ViewModels\SwaggerGenerators\AssemblySwaggerGeneratorViewModel.cs" />
@@ -123,8 +123,8 @@
     <Compile Include="Views\CodeGenerators\CSharpClientGeneratorView.xaml.cs">
       <DependentUpon>CSharpClientGeneratorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CodeGenerators\SwaggerGeneratorView.xaml.cs">
-      <DependentUpon>SwaggerGeneratorView.xaml</DependentUpon>
+    <Compile Include="Views\CodeGenerators\SwaggerOutputView.xaml.cs">
+      <DependentUpon>SwaggerOutputView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DocumentView.xaml.cs">
       <DependentUpon>DocumentView.xaml</DependentUpon>
@@ -132,13 +132,13 @@
     <Compile Include="Views\SwaggerGenerators\AssemblySwaggerGeneratorView.xaml.cs">
       <DependentUpon>AssemblySwaggerGeneratorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SwaggerGenerators\JsonSchemaInputGeneratorView.xaml.cs">
-      <DependentUpon>JsonSchemaInputGeneratorView.xaml</DependentUpon>
+    <Compile Include="Views\SwaggerGenerators\JsonSchemaInputView.xaml.cs">
+      <DependentUpon>JsonSchemaInputView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SwaggerGenerators\SwaggerInputGeneratorView.xaml.cs">
-      <DependentUpon>SwaggerInputGeneratorView.xaml</DependentUpon>
+    <Compile Include="Views\SwaggerGenerators\SwaggerInputView.xaml.cs">
+      <DependentUpon>SwaggerInputView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\SwaggerGenerators\SwaggerInputGeneratorViewModel.cs" />
+    <Compile Include="ViewModels\SwaggerGenerators\SwaggerInputViewModel.cs" />
     <Compile Include="Views\SwaggerGenerators\WebApiSwaggerGeneratorView.xaml.cs">
       <DependentUpon>WebApiSwaggerGeneratorView.xaml</DependentUpon>
     </Compile>
@@ -160,7 +160,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CodeGenerators\SwaggerGeneratorView.xaml">
+    <Page Include="Views\CodeGenerators\SwaggerOutputView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -172,11 +172,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SwaggerGenerators\JsonSchemaInputGeneratorView.xaml">
+    <Page Include="Views\SwaggerGenerators\JsonSchemaInputView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\SwaggerGenerators\SwaggerInputGeneratorView.xaml">
+    <Page Include="Views\SwaggerGenerators\SwaggerInputView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

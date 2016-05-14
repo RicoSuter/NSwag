@@ -9,7 +9,6 @@
 using System;
 using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.TypeScript;
-using NJsonSchema.CodeGeneration.TypeScript.Templates;
 using NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates;
 
 namespace NSwag.CodeGeneration.CodeGenerators.TypeScript

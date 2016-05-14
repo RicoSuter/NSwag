@@ -57,15 +57,15 @@ namespace NSwagStudio.ViewModels
         {
             SwaggerGenerators = new ISwaggerGenerator[]
             {
-                new SwaggerInputGeneratorView(Document),
+                new SwaggerInputView(Document),
                 new WebApiSwaggerGeneratorView(Document.WebApiToSwaggerCommand),
-                new JsonSchemaInputGeneratorView(Document),
+                new JsonSchemaInputView(Document),
                 new AssemblySwaggerGeneratorView(Document.AssemblyTypeToSwaggerCommand),
             };
 
             CodeGenerators = new ICodeGenerator[]
             {
-                new SwaggerGeneratorView(),
+                new SwaggerOutputView(),
                 new TypeScriptClientGeneratorView(Document.SwaggerToTypeScriptCommand),
                 new CSharpClientGeneratorView(Document.SwaggerToCSharpClientCommand),
                 new CSharpWebApiControllerGeneratorView(Document.SwaggerToCSharpWebApiControllerCommand)
