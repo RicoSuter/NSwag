@@ -1,0 +1,108 @@
+﻿<UserControl x:Class="NSwagStudio.Views.CodeGenerators.SwaggerToTypeScriptClientGeneratorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converters="clr-namespace:MyToolkit.Converters;assembly=MyToolkit.Extended"
+             xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:views="clr-namespace:NSwagStudio.Views"
+             xmlns:codeGenerators="clr-namespace:NSwagStudio.ViewModels.CodeGenerators"
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <codeGenerators:SwaggerToTypeScriptClientGeneratorViewModel x:Key="ViewModel" />
+        <converters:VisibilityConverter x:Key="VisibilityConverter" />
+        <converters:EqualityConverter x:Key="EqualityConverter" />
+    </UserControl.Resources>
+
+    <Grid Margin="8" DataContext="{StaticResource ViewModel}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border Margin="-10,-10,-10,6" BorderThickness="0,0,0,1" BorderBrush="LightGray">
+            <Expander Margin="8" IsExpanded="{Binding ShowSettings, Mode=TwoWay}">
+                <Expander.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Margin="2,0,0,0" FontSize="16" FontWeight="Bold">Settings</TextBlock>
+                    </DataTemplate>
+                </Expander.HeaderTemplate>
+
+                <StackPanel Margin="0,8,0,-8">
+                    <TextBlock Text="Module name (empty for no module declaration)" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding Command.ModuleName, Mode=TwoWay}" Margin="0,0,0,12" />
+                    
+                    <GroupBox Header="Client" Margin="0,0,0,12">
+                        <StackPanel Margin="4,4,4,-8">
+                            <CheckBox IsChecked="{Binding Command.GenerateClientClasses, Mode=TwoWay}" 
+                                      Content="Generate Client Classes" Margin="0,4,0,12" />
+
+                            <StackPanel Visibility="{Binding Command.GenerateClientClasses, Converter={StaticResource VisibilityConverter}}">
+                                <CheckBox IsChecked="{Binding Command.GenerateClientInterfaces, Mode=TwoWay}" 
+                                          Content="Generate Client Interfaces" Margin="0,0,0,12" />
+
+                                <TextBlock Text="Class Name" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.ClassName, Mode=TwoWay}" Margin="0,0,0,12" />
+
+                                <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
+                                    <Run Text="Operation Generation Mode" FontWeight="Bold" />
+                                    <LineBreak />
+                                    The {controller} placeholder of the Class Name is replaced by generated client name (depends on the OperationGenerationMode strategy).
+                                </TextBlock>
+                                <ComboBox SelectedItem="{Binding Command.OperationGenerationMode, Mode=TwoWay}" 
+                                      ItemsSource="{Binding OperationGenerationModes}" Margin="0,0,0,12" />
+
+                                <TextBlock Text="Template" FontWeight="Bold" Margin="0,0,0,6" />
+                                <ComboBox SelectedItem="{Binding Command.Template, Mode=TwoWay}" 
+                                      ItemsSource="{Binding Templates}" Margin="0,0,0,12" />
+
+                                <StackPanel Visibility="{Binding Command.Template, ConverterParameter='JQueryPromises', Converter={StaticResource EqualityConverter}}">
+                                    <TextBlock Text="Promise Type" FontWeight="Bold" Margin="0,0,0,6" />
+                                    <ComboBox SelectedItem="{Binding Command.PromiseType, Mode=TwoWay}" 
+                                              ItemsSource="{Binding PromiseTypes}" Margin="0,0,0,12" />
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <GroupBox Header="DTO Types" Margin="0,0,0,12">
+                        <StackPanel Margin="4,8,4,-8">
+                            <CheckBox IsChecked="{Binding Command.GenerateDtoTypes, Mode=TwoWay}" 
+                                      Content="Generate DTO interfaces (e.g. request and response types)" Margin="0,0,0,12" />
+
+                            <StackPanel Visibility="{Binding Command.GenerateDtoTypes, Converter={StaticResource VisibilityConverter}}">
+                                <CheckBox IsChecked="{Binding Command.GenerateReadOnlyKeywords, Mode=TwoWay}" 
+                                          Content="Generate readonly keywords in DTO types" Margin="0,0,0,12" />
+
+                                <TextBlock Text="Type Style" FontWeight="Bold" Margin="0,0,0,6" />
+                                <ComboBox SelectedItem="{Binding Command.TypeStyle, Mode=TwoWay}" 
+                                          ItemsSource="{Binding TypeStyles}" Margin="0,0,0,12" />
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <TextBlock Text="Class mappings (experimental)" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding ClassMappings, Mode=TwoWay}" 
+                             AcceptsReturn="True" Height="120" 
+                             VerticalScrollBarVisibility="Visible"
+                             FontFamily="Courier New" Margin="0,0,0,12" />
+                    
+                    <TextBlock Text="Additional code (i.e. classes for class mappings, the 'generated' import will be removed)" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding Command.AdditionalCode, Mode=TwoWay}" Margin="0,0,0,12" />
+                </StackPanel>
+            </Expander>
+        </Border>
+
+        <Border Grid.Row="2" Margin="-8,-8,-8,-8" BorderThickness="0,1,0,0" BorderBrush="LightGray">
+            <avalonedit:TextEditor Background="GhostWhite" FontFamily="Consolas" IsReadOnly="True"
+                                   SyntaxHighlighting="JavaScript" FontSize="10pt" Padding="8">
+                <i:Interaction.Behaviors>
+                    <views:AvalonEditBehavior Text="{Binding ClientCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </i:Interaction.Behaviors>
+            </avalonedit:TextEditor>
+        </Border>
+    </Grid>
+</UserControl>

@@ -68,8 +68,8 @@
     <Compile Include="Commands\SwaggerToCSharpClientCommand.cs" />
     <Compile Include="Commands\Base\InputOutputCommandBase.cs" />
     <Compile Include="Commands\SwaggerToCSharpCommand.cs" />
-    <Compile Include="Commands\SwaggerToCSharpWebApiControllerCommand.cs" />
-    <Compile Include="Commands\SwaggerToTypeScriptCommand.cs" />
+    <Compile Include="Commands\SwaggerToCSharpControllerCommand.cs" />
+    <Compile Include="Commands\SwaggerToTypeScriptClientCommand.cs" />
     <Compile Include="Commands\WebApiToSwaggerCommand.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

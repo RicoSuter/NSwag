@@ -5,22 +5,27 @@ using NSwagStudio.ViewModels.CodeGenerators;
 
 namespace NSwagStudio.Views.CodeGenerators
 {
-    public partial class CSharpClientGeneratorView : ICodeGenerator
+    public partial class SwaggerToTypeScriptClientGeneratorView : ICodeGenerator
     {
-        public CSharpClientGeneratorView(SwaggerToCSharpClientCommand command)
+        public SwaggerToTypeScriptClientGeneratorView(SwaggerToTypeScriptClientCommand command)
         {
             InitializeComponent();
             ViewModelHelper.RegisterViewModel(Model, this);
             Model.Command = command; 
         }
 
-        public string Title { get { return "CSharp Client"; } }
+        private SwaggerToTypeScriptClientGeneratorViewModel Model => (SwaggerToTypeScriptClientGeneratorViewModel)Resources["ViewModel"];
 
-        private CSharpClientGeneratorViewModel Model { get { return (CSharpClientGeneratorViewModel) Resources["ViewModel"]; } }
-        
+        public string Title => "TypeScript Client";
+
         public Task GenerateClientAsync(string swaggerData)
         {
             return Model.GenerateClientAsync(swaggerData);
+        }
+
+        public override string ToString()
+        {
+            return Title; 
         }
     }
 }
