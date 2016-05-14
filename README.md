@@ -30,7 +30,7 @@ The NSwag project heavily uses [NJsonSchema for .NET](http://njsonschema.org) fo
 	- Available templates/supported libraries: 
 		- JQuery with Callbacks, `JQueryCallbacks`
 		- JQuery with promises `JQueryPromises`
-		- AngularJS using $http, `Angular`
+		- AngularJS using $http, `AngularJS`
 		- Angular 2 using the http service, `Angular2`
 - **CSharp Client**
 	- [SwaggerToCSharpClientGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToCSharpClientGenerator)
