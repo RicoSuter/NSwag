@@ -17,7 +17,7 @@ The NSwag project heavily uses [NJsonSchema for .NET](http://njsonschema.org) fo
 
 **Swagger Generators:**
 
-- ASP.NET Web API to Swagger
+- ASP.NET Web API assembly to Swagger (supports .NET Core)
     - [WebApiToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/WebApiToSwaggerGenerator)
     - [WebApiAssemblyToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/WebApiAssemblyToSwaggerGenerator)
 - Types from .NET assemblies
@@ -30,7 +30,7 @@ The NSwag project heavily uses [NJsonSchema for .NET](http://njsonschema.org) fo
 	- Available templates/supported libraries: 
 		- JQuery with Callbacks, `JQueryCallbacks`
 		- JQuery with promises `JQueryPromises`
-		- AngularJS using $http, `Angular`
+		- AngularJS using $http, `AngularJS`
 		- Angular 2 using the http service, `Angular2`
 - **CSharp Client**
 	- [SwaggerToCSharpClientGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToCSharpClientGenerator)
@@ -57,7 +57,7 @@ The NSwag project heavily uses [NJsonSchema for .NET](http://njsonschema.org) fo
 The following code shows how to read a Swagger specification and generate C# client classes to call the described web services: 
 	
 ```cs
-var service = SwaggerService.FromJson("...");
+var service = SwaggerService.FromJson("{}");
 
 var settings = new SwaggerToCSharpClientGeneratorSettings 
 {
