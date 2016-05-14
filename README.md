@@ -17,7 +17,7 @@ The NSwag project heavily uses [NJsonSchema for .NET](http://njsonschema.org) fo
 
 **Swagger Generators:**
 
-- ASP.NET Web API to Swagger
+- ASP.NET Web API assembly to Swagger (supports .NET Core)
     - [WebApiToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/WebApiToSwaggerGenerator)
     - [WebApiAssemblyToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/WebApiAssemblyToSwaggerGenerator)
 - Types from .NET assemblies
