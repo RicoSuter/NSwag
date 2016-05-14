@@ -45,7 +45,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         /// <summary>Gets the language.</summary>
         protected override string Language => "CSharp";
 
-        internal override CodeGeneratorBaseSettings BaseSettings => Settings;
+        internal override ClientGeneratorBaseSettings BaseSettings => Settings;
 
         /// <summary>Generates the file.</summary>
         /// <returns>The file contents.</returns>

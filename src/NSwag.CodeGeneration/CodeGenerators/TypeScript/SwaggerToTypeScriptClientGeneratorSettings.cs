@@ -15,7 +15,7 @@ using NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates;
 namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 {
     /// <summary>Settings for the <see cref="SwaggerToTypeScriptClientGenerator"/>.</summary>
-    public class SwaggerToTypeScriptClientGeneratorSettings : CodeGeneratorBaseSettings
+    public class SwaggerToTypeScriptClientGeneratorSettings : ClientGeneratorBaseSettings
     {
         /// <summary>Initializes a new instance of the <see cref="SwaggerToTypeScriptClientGeneratorSettings"/> class.</summary>
         public SwaggerToTypeScriptClientGeneratorSettings()
