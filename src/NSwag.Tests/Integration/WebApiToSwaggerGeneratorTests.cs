@@ -40,7 +40,7 @@ namespace NSwag.Tests.Integration
 
         // todo: Fix this
         //[TestMethod]
-        public void When_route_attribte_is_on_controller_class_then_it_applies_for_actions()
+        public void When_route_attribute_is_on_controller_class_then_it_applies_for_actions()
         {
             //// Arrange
             var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());

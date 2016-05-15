@@ -6,15 +6,15 @@ using NSwag;
 
 namespace NSwagStudio.Views.SwaggerGenerators
 {
-    public partial class JsonSchemaInputGeneratorView : ISwaggerGenerator
+    public partial class JsonSchemaInputView : ISwaggerGenerator
     {
-        public JsonSchemaInputGeneratorView(NSwagDocument document)
+        public JsonSchemaInputView(NSwagDocument document)
         {
             InitializeComponent();
             DataContext = document;
         }
 
-        public string Title { get { return "JSON Schema"; } }
+        public string Title => "JSON Schema";
 
         public async Task<string> GenerateSwaggerAsync()
         {

@@ -1,0 +1,113 @@
+﻿<UserControl x:Class="NSwagStudio.Views.CodeGenerators.SwaggerToCSharpClientGeneratorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converters="clr-namespace:MyToolkit.Converters;assembly=MyToolkit.Extended"
+             xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
+             xmlns:views="clr-namespace:NSwagStudio.Views"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:codeGenerators="clr-namespace:NSwagStudio.ViewModels.CodeGenerators"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <codeGenerators:SwaggerToCSharpClientGeneratorViewModel x:Key="ViewModel" />
+        <converters:VisibilityConverter x:Key="VisibilityConverter" />
+    </UserControl.Resources>
+
+    <Grid Margin="8" DataContext="{StaticResource ViewModel}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border MaxHeight="550" Margin="-10,-10,-10,6" BorderThickness="0,0,0,1" BorderBrush="LightGray">
+            <Expander Margin="8" IsExpanded="{Binding ShowSettings, Mode=TwoWay}">
+                <Expander.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Margin="2,0,0,0" FontSize="16" FontWeight="Bold">Settings</TextBlock>
+                    </DataTemplate>
+                </Expander.HeaderTemplate>
+
+                <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Hidden" Margin="-8,0,-8,-8">
+                    <StackPanel Margin="8,8,8,0">
+                        <TextBlock Text="Namespace" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.Namespace, Mode=TwoWay}" Margin="0,0,0,12" />
+
+                        <TextBlock Text="Additional Namespace Usages (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding AdditionalNamespaceUsages, Mode=TwoWay}" Margin="0,0,0,12" />
+
+                        <GroupBox Header="Client" Margin="0,0,0,12">
+                            <StackPanel Margin="4,8,4,-8">
+                                <CheckBox IsChecked="{Binding Command.GenerateClientClasses, Mode=TwoWay}" 
+                                      Content="Generate Client Classes" Margin="0,0,0,12" />
+
+                                <StackPanel Visibility="{Binding Command.GenerateClientClasses, Converter={StaticResource VisibilityConverter}}">
+                                    <TextBlock Text="Class Name" FontWeight="Bold" Margin="0,0,0,6" />
+                                    <TextBox Text="{Binding Command.ClassName, Mode=TwoWay}" Margin="0,0,0,12" />
+
+                                    <TextBlock Text="Base Class Name (optional)" FontWeight="Bold" Margin="0,0,0,6" />
+                                    <TextBox Text="{Binding Command.ClientBaseClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,12" />
+
+                                    <CheckBox IsChecked="{Binding Command.UseHttpClientCreationMethod, Mode=TwoWay}"
+                                              IsEnabled="{Binding Command.ClientBaseClass, Converter={StaticResource VisibilityConverter}}" Margin="0,0,0,12">
+                                        <TextBlock Text="Call the CreateHttpClientAsync method on the client base class to create a new HttpClient instance" TextWrapping="Wrap" />
+                                    </CheckBox>
+
+                                    <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
+                                        <Run Text="Operation Generation Mode" FontWeight="Bold" />
+                                        <LineBreak />
+                                        The {controller} placeholder of the Class Name is replaced by generated client name (depends on the OperationGenerationMode strategy).
+                                    </TextBlock>
+                                    <ComboBox SelectedItem="{Binding Command.OperationGenerationMode, Mode=TwoWay}" 
+                                              ItemsSource="{Binding OperationGenerationModes}" Margin="0,0,0,12" />
+
+                                    <CheckBox IsChecked="{Binding Command.GenerateClientInterfaces, Mode=TwoWay}" 
+                                              Content="Generate Client Interfaces" Margin="0,0,0,12" />
+                                </StackPanel>
+                            </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox Header="DTO Classes" Margin="0,0,0,12">
+                            <StackPanel Margin="4,8,4,-8">
+                                <CheckBox IsChecked="{Binding Command.RequiredPropertiesMustBeDefined, Mode=TwoWay}" Margin="0,0,0,12">
+                                    <TextBlock Text="Required properties must be defined in JSON (sets Required.Always when the property is required)" TextWrapping="Wrap" />
+                                </CheckBox>
+
+                                <TextBlock Text="Date Time Type" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.DateTimeType, Mode=TwoWay}" Margin="0,0,0,12" />
+
+                                <TextBlock Text="Generic Array Type" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.ArrayType, Mode=TwoWay}" Margin="0,0,0,12" />
+
+                                <TextBlock Text="Generic Dictionary Type" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.DictionaryType, Mode=TwoWay}" Margin="0,0,0,12" />
+
+                                <CheckBox IsChecked="{Binding Command.GenerateDtoTypes, Mode=TwoWay}" Margin="0,0,0,12">
+                                    <TextBlock Text="Generate DTO Types (e.g. request and response classes)" TextWrapping="Wrap" />
+                                </CheckBox>
+
+                                <StackPanel Visibility="{Binding Command.GenerateDtoTypes, Converter={StaticResource VisibilityConverter}}">
+                                    <TextBlock Text="Class Style" FontWeight="Bold" Margin="0,0,0,6" />
+                                    <ComboBox SelectedItem="{Binding Command.ClassStyle, Mode=TwoWay}" 
+                                              ItemsSource="{Binding ClassStyles}" Margin="0,0,0,12" />
+                                </StackPanel>
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+                </ScrollViewer>
+            </Expander>
+        </Border>
+
+        <Border Grid.Row="2" Margin="-8,-8,-8,-8" BorderThickness="0,1,0,0" BorderBrush="LightGray">
+            <avalonedit:TextEditor Background="GhostWhite" FontFamily="Consolas" IsReadOnly="True" 
+                                   SyntaxHighlighting="C#" FontSize="10pt" Padding="8">
+                <i:Interaction.Behaviors>
+                    <views:AvalonEditBehavior Text="{Binding ClientCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </i:Interaction.Behaviors>
+            </avalonedit:TextEditor>
+        </Border>
+    </Grid>
+</UserControl>

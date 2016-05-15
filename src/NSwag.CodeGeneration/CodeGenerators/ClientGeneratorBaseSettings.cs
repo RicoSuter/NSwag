@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="CodeGeneratorBaseSettings.cs" company="NSwag">
+// <copyright file="ClientGeneratorBaseSettings.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -12,10 +12,10 @@ using NSwag.CodeGeneration.CodeGenerators.OperationNameGenerators;
 namespace NSwag.CodeGeneration.CodeGenerators
 {
     /// <summary>Settings for the <see cref="ClientGeneratorBase"/>.</summary>
-    public class CodeGeneratorBaseSettings
+    public class ClientGeneratorBaseSettings
     {
-        /// <summary>Initializes a new instance of the <see cref="CodeGeneratorBaseSettings"/> class.</summary>
-        public CodeGeneratorBaseSettings()
+        /// <summary>Initializes a new instance of the <see cref="ClientGeneratorBaseSettings"/> class.</summary>
+        public ClientGeneratorBaseSettings()
         {
             GenerateClientClasses = true; 
             GenerateDtoTypes = true;

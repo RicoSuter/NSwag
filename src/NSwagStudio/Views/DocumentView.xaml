@@ -40,8 +40,8 @@
                     <Run Text="{Binding SelectedItem.Title, ElementName=InputTabControl, Mode=OneWay}" />
                 </TextBlock>
                 <TabControl Grid.Row="2" x:Name="InputTabControl"
-                        ItemsSource="{Binding SwaggerGenerators}" 
-                        SelectedIndex="{Binding Document.SelectedSwaggerGenerator, Mode=TwoWay}">
+                            ItemsSource="{Binding SwaggerGenerators}" 
+                            SelectedIndex="{Binding Document.SelectedSwaggerGenerator, Mode=TwoWay}">
                     <TabControl.ItemContainerStyle>
                         <Style TargetType="{x:Type TabItem}">
                             <Setter Property="Header" Value="{Binding Title}" />
@@ -63,8 +63,8 @@
 
                 <TextBlock Text="Output" FontSize="16" FontWeight="Bold" Margin="0,0,0,16" />
                 <TabControl Grid.Row="1"
-                        ItemsSource="{Binding CodeGenerators}"
-                        SelectedIndex="{Binding Document.SelectedClientGenerator, Mode=TwoWay}">
+                            ItemsSource="{Binding CodeGenerators}"
+                            SelectedIndex="{Binding Document.SelectedClientGenerator, Mode=TwoWay}">
                     <TabControl.ItemContainerStyle>
                         <Style TargetType="{x:Type TabItem}">
                             <Setter Property="Header" Value="{Binding Title}" />

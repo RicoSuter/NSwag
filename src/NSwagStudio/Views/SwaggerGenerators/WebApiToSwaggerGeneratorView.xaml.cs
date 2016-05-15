@@ -1,18 +1,15 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 using MyToolkit.Mvvm;
-using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 using NSwag.Commands;
-using NSwagStudio.ViewModels;
 using NSwagStudio.ViewModels.SwaggerGenerators;
 
 namespace NSwagStudio.Views.SwaggerGenerators
 {
-    public partial class WebApiSwaggerGeneratorView : ISwaggerGenerator
+    public partial class WebApiToSwaggerGeneratorView : ISwaggerGenerator
     {
-        public WebApiSwaggerGeneratorView(WebApiToSwaggerCommand command)
+        public WebApiToSwaggerGeneratorView(WebApiToSwaggerCommand command)
         {
             InitializeComponent();
             ViewModelHelper.RegisterViewModel(Model, this);
@@ -23,9 +20,9 @@ namespace NSwagStudio.Views.SwaggerGenerators
                 ControllersList.SelectedItems.Add(controller);
         }
 
-        private WebApiSwaggerGeneratorViewModel Model { get { return (WebApiSwaggerGeneratorViewModel)Resources["ViewModel"]; } }
+        private WebApiToSwaggerGeneratorViewModel Model => (WebApiToSwaggerGeneratorViewModel)Resources["ViewModel"];
 
-        public string Title { get { return "Web API Assembly"; } }
+        public string Title => "Web API Assembly";
 
         public Task<string> GenerateSwaggerAsync()
         {

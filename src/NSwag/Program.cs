@@ -24,8 +24,8 @@ namespace NSwag
                 processor.RegisterCommand<JsonSchemaToTypeScriptCommand>("jsonschema2tsclient");
                 
                 processor.RegisterCommand<SwaggerToCSharpClientCommand>("swagger2csclient");
-                processor.RegisterCommand<SwaggerToCSharpWebApiControllerCommand>("swagger2cscontroller");
-                processor.RegisterCommand<SwaggerToTypeScriptCommand>("swagger2tsclient");
+                processor.RegisterCommand<SwaggerToCSharpControllerCommand>("swagger2cscontroller");
+                processor.RegisterCommand<SwaggerToTypeScriptClientCommand>("swagger2tsclient");
 
                 processor.Process(args);
             }

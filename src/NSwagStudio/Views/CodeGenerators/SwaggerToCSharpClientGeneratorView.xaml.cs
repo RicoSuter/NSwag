@@ -5,19 +5,19 @@ using NSwagStudio.ViewModels.CodeGenerators;
 
 namespace NSwagStudio.Views.CodeGenerators
 {
-    public partial class CSharpWebApiControllerGeneratorView : ICodeGenerator
+    public partial class SwaggerToCSharpClientGeneratorView : ICodeGenerator
     {
-        public CSharpWebApiControllerGeneratorView(SwaggerToCSharpWebApiControllerCommand command)
+        public SwaggerToCSharpClientGeneratorView(SwaggerToCSharpClientCommand command)
         {
             InitializeComponent();
             ViewModelHelper.RegisterViewModel(Model, this);
             Model.Command = command; 
         }
 
-        public string Title { get { return "CSharp Web API Controller (beta)"; } }
+        public string Title => "CSharp Client";
 
-        private CSharpWebApiControllerGeneratorViewModel Model { get { return (CSharpWebApiControllerGeneratorViewModel) Resources["ViewModel"]; } }
-        
+        private SwaggerToCSharpClientGeneratorViewModel Model => (SwaggerToCSharpClientGeneratorViewModel) Resources["ViewModel"];
+
         public Task GenerateClientAsync(string swaggerData)
         {
             return Model.GenerateClientAsync(swaggerData);

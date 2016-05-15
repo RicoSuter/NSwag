@@ -30,9 +30,9 @@ namespace NSwagStudio
             WebApiToSwaggerCommand = new WebApiToSwaggerCommand();
             AssemblyTypeToSwaggerCommand = new AssemblyTypeToSwaggerCommand();
 
-            SwaggerToTypeScriptCommand = new SwaggerToTypeScriptCommand();
+            SwaggerToTypeScriptClientCommand = new SwaggerToTypeScriptClientCommand();
             SwaggerToCSharpClientCommand = new SwaggerToCSharpClientCommand();
-            SwaggerToCSharpWebApiControllerCommand = new SwaggerToCSharpWebApiControllerCommand();
+            SwaggerToCSharpControllerCommand = new SwaggerToCSharpControllerCommand();
         }
 
         public static NSwagDocument LoadDocument(string filePath)
@@ -75,7 +75,7 @@ namespace NSwagStudio
             WebApiToSwaggerCommand.AssemblyConfig = ConvertToAbsolute(WebApiToSwaggerCommand.AssemblyConfig);
             AssemblyTypeToSwaggerCommand.AssemblyConfig = ConvertToAbsolute(AssemblyTypeToSwaggerCommand.AssemblyConfig);
 
-            SwaggerToTypeScriptCommand.AdditionalCode = ConvertToAbsolute(SwaggerToTypeScriptCommand.AdditionalCode);
+            SwaggerToTypeScriptClientCommand.AdditionalCode = ConvertToAbsolute(SwaggerToTypeScriptClientCommand.AdditionalCode);
         }
 
         private string ConvertToAbsolute(string path)
@@ -92,7 +92,7 @@ namespace NSwagStudio
             WebApiToSwaggerCommand.AssemblyConfig = ConvertToRelativePath(WebApiToSwaggerCommand.AssemblyConfig);
             AssemblyTypeToSwaggerCommand.AssemblyConfig = ConvertToRelativePath(AssemblyTypeToSwaggerCommand.AssemblyConfig);
 
-            SwaggerToTypeScriptCommand.AdditionalCode = ConvertToRelativePath(SwaggerToTypeScriptCommand.AdditionalCode);
+            SwaggerToTypeScriptClientCommand.AdditionalCode = ConvertToRelativePath(SwaggerToTypeScriptClientCommand.AdditionalCode);
         }
 
         private string ConvertToRelativePath(string path)
@@ -165,12 +165,12 @@ namespace NSwagStudio
         public AssemblyTypeToSwaggerCommand AssemblyTypeToSwaggerCommand { get; set; }
 
         [JsonProperty("SwaggerToTypeScriptCommand")]
-        public SwaggerToTypeScriptCommand SwaggerToTypeScriptCommand { get; set; }
+        public SwaggerToTypeScriptClientCommand SwaggerToTypeScriptClientCommand { get; set; }
 
         [JsonProperty("SwaggerToCSharpClientCommand")]
         public SwaggerToCSharpClientCommand SwaggerToCSharpClientCommand { get; set; }
 
-        [JsonProperty("SwaggerToCSharpWebApiControllerCommand")]
-        public SwaggerToCSharpWebApiControllerCommand SwaggerToCSharpWebApiControllerCommand { get; set; }
+        [JsonProperty("SwaggerToCSharpControllerGenerator")]
+        public SwaggerToCSharpControllerCommand SwaggerToCSharpControllerCommand { get; set; }
     }
 }

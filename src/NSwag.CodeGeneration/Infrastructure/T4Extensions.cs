@@ -28,7 +28,6 @@ namespace System.CodeDom.Compiler
 {
     internal class CompilerErrorCollection : List<CompilerError>
     {
-
     }
 
     internal class CompilerError

@@ -11,7 +11,7 @@ using NJsonSchema.CodeGeneration.CSharp;
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp
 {
     /// <summary>Settings for the <see cref="SwaggerToCSharpGeneratorBase"/>.</summary>
-    public abstract class SwaggerToCSharpGeneratorSettings : CodeGeneratorBaseSettings
+    public abstract class SwaggerToCSharpGeneratorSettings : ClientGeneratorBaseSettings
     {
         /// <summary>Initializes a new instance of the <see cref="SwaggerToCSharpClientGeneratorSettings"/> class.</summary>
         protected SwaggerToCSharpGeneratorSettings()

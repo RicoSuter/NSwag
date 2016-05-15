@@ -55,7 +55,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             return GenerateFile(_service, _resolver);
         }
 
-        internal override CodeGeneratorBaseSettings BaseSettings => Settings;
+        internal override ClientGeneratorBaseSettings BaseSettings => Settings;
 
         internal override string RenderFile(string clientCode)
         {

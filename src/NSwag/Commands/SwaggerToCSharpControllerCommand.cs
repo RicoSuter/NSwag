@@ -6,9 +6,9 @@ using NSwag.CodeGeneration.CodeGenerators.CSharp;
 namespace NSwag.Commands
 {
     [Description("Generates CSharp Web API controller code from a Swagger specification.")]
-    public class SwaggerToCSharpWebApiControllerCommand : SwaggerToCSharpCommand<SwaggerToCSharpWebApiControllerGeneratorSettings>
+    public class SwaggerToCSharpControllerCommand : SwaggerToCSharpCommand<SwaggerToCSharpWebApiControllerGeneratorSettings>
     {
-        public SwaggerToCSharpWebApiControllerCommand() : base(new SwaggerToCSharpWebApiControllerGeneratorSettings())
+        public SwaggerToCSharpControllerCommand() : base(new SwaggerToCSharpWebApiControllerGeneratorSettings())
         {
         }
         

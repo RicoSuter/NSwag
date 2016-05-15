@@ -1,26 +1,23 @@
 ﻿using System.Threading.Tasks;
-using System.Windows;
 using MyToolkit.Mvvm;
-using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 using NSwag.Commands;
-using NSwagStudio.ViewModels;
 using NSwagStudio.ViewModels.SwaggerGenerators;
 
 namespace NSwagStudio.Views.SwaggerGenerators
 {
-    public partial class AssemblySwaggerGeneratorView : ISwaggerGenerator
+    public partial class AssemblyTypeToSwaggerGeneratorView : ISwaggerGenerator
     {
-        public AssemblySwaggerGeneratorView(AssemblyTypeToSwaggerCommand command)
+        public AssemblyTypeToSwaggerGeneratorView(AssemblyTypeToSwaggerCommand command)
         {
             InitializeComponent();
             ViewModelHelper.RegisterViewModel(Model, this);
             Model.Command = command; 
         }
 
-        private AssemblySwaggerGeneratorViewModel Model { get { return (AssemblySwaggerGeneratorViewModel)Resources["ViewModel"]; } }
+        private AssemblyTypeToSwaggerGeneratorViewModel Model => (AssemblyTypeToSwaggerGeneratorViewModel)Resources["ViewModel"];
 
-        public string Title { get { return ".NET Assembly"; } }
-        
+        public string Title => ".NET Assembly";
+
         public Task<string> GenerateSwaggerAsync()
         {
             return Model.GenerateSwaggerAsync();

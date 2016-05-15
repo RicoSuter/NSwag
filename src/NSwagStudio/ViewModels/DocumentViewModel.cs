@@ -3,8 +3,6 @@ using MyToolkit.Command;
 using MyToolkit.Utilities;
 using NSwagStudio.Views.CodeGenerators;
 using NSwagStudio.Views.SwaggerGenerators;
-using CSharpClientGeneratorView = NSwagStudio.Views.CodeGenerators.CSharpClientGeneratorView;
-using TypeScriptClientGeneratorView = NSwagStudio.Views.CodeGenerators.TypeScriptClientGeneratorView;
 
 namespace NSwagStudio.ViewModels
 {
@@ -57,18 +55,18 @@ namespace NSwagStudio.ViewModels
         {
             SwaggerGenerators = new ISwaggerGenerator[]
             {
-                new SwaggerInputGeneratorView(Document),
-                new WebApiSwaggerGeneratorView(Document.WebApiToSwaggerCommand),
-                new JsonSchemaInputGeneratorView(Document),
-                new AssemblySwaggerGeneratorView(Document.AssemblyTypeToSwaggerCommand),
+                new SwaggerInputView(Document),
+                new WebApiToSwaggerGeneratorView(Document.WebApiToSwaggerCommand),
+                new JsonSchemaInputView(Document),
+                new AssemblyTypeToSwaggerGeneratorView(Document.AssemblyTypeToSwaggerCommand),
             };
 
             CodeGenerators = new ICodeGenerator[]
             {
-                new SwaggerGeneratorView(),
-                new TypeScriptClientGeneratorView(Document.SwaggerToTypeScriptCommand),
-                new CSharpClientGeneratorView(Document.SwaggerToCSharpClientCommand),
-                new CSharpWebApiControllerGeneratorView(Document.SwaggerToCSharpWebApiControllerCommand)
+                new SwaggerOutputView(),
+                new SwaggerToTypeScriptClientGeneratorView(Document.SwaggerToTypeScriptClientCommand),
+                new SwaggerToCSharpClientGeneratorView(Document.SwaggerToCSharpClientCommand),
+                new SwaggerToCSharpControllerGeneratorView(Document.SwaggerToCSharpControllerCommand)
             };
 
             RaisePropertyChanged(() => SwaggerGenerators);
