@@ -79,7 +79,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         private void GenerateForController(SwaggerService service, Type controllerType, string excludedMethodName, SchemaResolver schemaResolver)
         {
             var methods = controllerType.GetRuntimeMethods().Where(m => m.IsPublic);
-            foreach (var method in methods.Where(m => m.Name != excludedMethodName &&
+            foreach (var method in methods.Where(m => 
+                m.Name != excludedMethodName &&
                 m.DeclaringType != null &&
                 m.DeclaringType != typeof(object) &&
                 m.DeclaringType.FullName != "System.Web.Http.ApiController" &&

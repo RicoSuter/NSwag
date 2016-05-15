@@ -47,7 +47,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
             };
         }
 
-        private static string[] GetAllDirectories(string rootDirectory)
+        private string[] GetAllDirectories(string rootDirectory)
         {
             return Directory.GetDirectories(rootDirectory, "*", SearchOption.AllDirectories);
         }
