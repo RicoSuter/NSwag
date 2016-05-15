@@ -81,6 +81,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             var methods = controllerType.GetRuntimeMethods().Where(m => m.IsPublic);
             foreach (var method in methods.Where(m => 
                 m.Name != excludedMethodName &&
+                m.IsSpecialName == false && // avoid property methods
                 m.DeclaringType != null &&
                 m.DeclaringType != typeof(object) &&
                 m.DeclaringType.FullName != "System.Web.Http.ApiController" &&
