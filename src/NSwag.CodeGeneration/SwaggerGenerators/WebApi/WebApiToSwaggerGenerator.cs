@@ -49,7 +49,11 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
         public SwaggerService GenerateForController(Type controllerType, string excludedMethodName = "Swagger")
         {
-            var service = new SwaggerService();
+            var service = new SwaggerService
+            {
+                Consumes = new List<string> { "application/json" },
+                Produces = new List<string> { "application/json" }
+            };
             var schemaResolver = new SchemaResolver();
 
             GenerateForController(service, controllerType, excludedMethodName, schemaResolver);
@@ -65,7 +69,11 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
         public SwaggerService GenerateForControllers(IEnumerable<Type> controllerTypes, string excludedMethodName = "Swagger")
         {
-            var service = new SwaggerService();
+            var service = new SwaggerService
+            {
+                Consumes = new List<string> { "application/json" },
+                Produces = new List<string> { "application/json" }
+            };
             var schemaResolver = new SchemaResolver();
 
             foreach (var controllerType in controllerTypes)
@@ -79,7 +87,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         private void GenerateForController(SwaggerService service, Type controllerType, string excludedMethodName, SchemaResolver schemaResolver)
         {
             var methods = controllerType.GetRuntimeMethods().Where(m => m.IsPublic);
-            foreach (var method in methods.Where(m => 
+            foreach (var method in methods.Where(m =>
                 m.Name != excludedMethodName &&
                 m.IsSpecialName == false && // avoid property methods
                 m.DeclaringType != null &&
