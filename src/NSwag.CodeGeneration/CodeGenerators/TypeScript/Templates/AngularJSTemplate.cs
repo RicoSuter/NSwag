@@ -101,7 +101,7 @@ if(parameter.HasDescription){
             this.Write(" ");
             
             #line 11 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Description));
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Description ?? ""));
             
             #line default
             #line hidden
@@ -324,7 +324,7 @@ if(parameter.HasDescription){
             this.Write(" ");
             
             #line 34 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Description));
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Description ?? ""));
             
             #line default
             #line hidden
@@ -686,7 +686,7 @@ if(Model.UsesKnockout){
             
             #line default
             #line hidden
-            this.Write("ko.toJSON)");
+            this.Write("ko.toJSON");
             
             #line 71 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
 }else{
