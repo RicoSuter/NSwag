@@ -101,7 +101,7 @@ if(parameter.HasDescription){
             this.Write(" ");
             
             #line 11 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2Template.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Description));
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Description ?? ""));
             
             #line default
             #line hidden
@@ -324,7 +324,7 @@ if(parameter.HasDescription){
             this.Write(" ");
             
             #line 35 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2Template.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Description));
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Description ?? ""));
             
             #line default
             #line hidden

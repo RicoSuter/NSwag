@@ -114,7 +114,7 @@ if(parameter.IsOptional){
             this.Write(" ");
             
             #line 11 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Description));
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Description ?? ""));
             
             #line default
             #line hidden
@@ -353,7 +353,7 @@ if(parameter.IsOptional){
             this.Write(" ");
             
             #line 31 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Description));
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Description ?? ""));
             
             #line default
             #line hidden
@@ -723,7 +723,7 @@ if(Model.UsesKnockout){
             
             #line default
             #line hidden
-            this.Write("ko.toJSON)");
+            this.Write("ko.toJSON");
             
             #line 68 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 }else{

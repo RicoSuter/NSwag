@@ -8,7 +8,7 @@ export interface I<#=Model.Class#> {
 <#if(operation.HasDocumentation){#>    /**
 <#if(operation.HasSummary){#>     * <#=operation.Summary#>
 <#}#><#foreach(var parameter in operation.Parameters){#>
-<#if(parameter.HasDescriptionOrIsOptional){#>     * @<#=parameter.VariableNameLower#><#if(parameter.IsOptional){#> (optional)<#}#> <#=parameter.Description#>
+<#if(parameter.HasDescriptionOrIsOptional){#>     * @<#=parameter.VariableNameLower#><#if(parameter.IsOptional){#> (optional)<#}#> <#=parameter.Description ?? ""#>
 <#}#><#}#><#if(operation.HasResultDescription){#>     * @return <#=operation.ResultDescription#>
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
@@ -28,7 +28,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#if(operation.HasDocumentation){#>    /**
 <#if(operation.HasSummary){#>     * <#=operation.Summary#>
 <#}#><#foreach(var parameter in operation.Parameters){#>
-<#if(parameter.HasDescriptionOrIsOptional){#>     * @<#=parameter.VariableNameLower#><#if(parameter.IsOptional){#> (optional)<#}#> <#=parameter.Description#>
+<#if(parameter.HasDescriptionOrIsOptional){#>     * @<#=parameter.VariableNameLower#><#if(parameter.IsOptional){#> (optional)<#}#> <#=parameter.Description ?? ""#>
 <#}#><#}#><#if(operation.HasResultDescription){#>     * @return <#=operation.ResultDescription#>
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
