@@ -66,8 +66,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
                 IsAngular2 = Settings.GenerateClientClasses && Settings.Template == TypeScriptTemplate.Angular2,
 
                 Clients = Settings.GenerateClientClasses ? clientCode : string.Empty,
-                Interfaces = Settings.GenerateDtoTypes ? _resolver.GenerateTypes() : string.Empty,
-                AdditionalCode = Settings.TypeScriptGeneratorSettings.TransformedAdditionalCode, 
+                Types = GenerateDtoTypes(),
+                ExtensionCode = Settings.TypeScriptGeneratorSettings.TransformedExtensionCode, 
 
                 HasModuleName = !string.IsNullOrEmpty(Settings.ModuleName),
                 ModuleName = Settings.ModuleName
@@ -99,23 +99,39 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             return template.Render();
         }
 
+        private string GenerateDtoTypes()
+        {
+            var code = Settings.GenerateDtoTypes ? _resolver.GenerateTypes() : string.Empty;
+            return ConvertExtendedClassSignatures(code);
+        }
+
+        private string ConvertExtendedClassSignatures(string code)
+        {
+            if (Settings.TypeScriptGeneratorSettings.ExtendedClasses != null)
+            {
+                foreach (var extendedClass in Settings.TypeScriptGeneratorSettings.ExtendedClasses)
+                    code = code.Replace("export class " + extendedClass, "export class " + extendedClass + "Base");
+            }
+            return code;
+        }
+
         private void GenerateDataConversionCodes(IEnumerable<OperationModel> operations)
         {
             foreach (var operation in operations)
             {
                 foreach (var response in operation.Responses.Where(r => r.HasType))
                 {
-                    var generator = new TypeScriptGenerator(response.Schema, Settings.TypeScriptGeneratorSettings, _resolver);
+                    var generator = new TypeScriptGenerator(response.ActualResponseSchema, Settings.TypeScriptGeneratorSettings, _resolver);
                     response.DataConversionCode = generator.GenerateDataConversion("result" + response.StatusCode,
-                        "resultData" + response.StatusCode, response.Schema, false, string.Empty);
+                        "resultData" + response.StatusCode, response.ActualResponseSchema, response.IsNullable, string.Empty);
                 }
 
                 if (operation.HasDefaultResponse && operation.DefaultResponse.HasType)
                 {
-                    var generator = new TypeScriptGenerator(operation.DefaultResponse.Schema,
+                    var generator = new TypeScriptGenerator(operation.DefaultResponse.ActualResponseSchema,
                         Settings.TypeScriptGeneratorSettings, _resolver);
                     operation.DefaultResponse.DataConversionCode = generator.GenerateDataConversion("result", "resultData",
-                        operation.DefaultResponse.Schema, false, string.Empty);
+                        operation.DefaultResponse.ActualResponseSchema, operation.DefaultResponse.IsNullable, string.Empty);
                 }
             }
         }
@@ -127,7 +143,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 
             return string.Join(" | ", operation.Responses
                 .Where(r => !HttpUtilities.IsSuccessStatusCode(r.Key) && r.Value.Schema != null)
-                .Select(r => GetType(r.Value.Schema.ActualSchema, "Exception"))
+                .Select(r => GetType(r.Value.ActualResponseSchema, r.Value.IsNullable, "Exception"))
                 .Concat(new[] { "string" }));
         }
 
@@ -137,10 +153,10 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             if (response?.Schema == null)
                 return "void";
 
-            return GetType(response.Schema, "Response");
+            return GetType(response.ActualResponseSchema, response.IsNullable, "Response");
         }
 
-        internal override string GetType(JsonSchema4 schema, string typeNameHint)
+        internal override string GetType(JsonSchema4 schema, bool isNullable, string typeNameHint)
         {
             if (schema == null)
                 return "void";
@@ -148,7 +164,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             if (schema.ActualSchema.IsAnyType || schema.ActualSchema.Type == JsonObjectType.File)
                 return "any";
 
-            return _resolver.Resolve(schema.ActualSchema, schema.ActualSchema.Type.HasFlag(JsonObjectType.Null), typeNameHint);
+            return _resolver.Resolve(schema.ActualSchema, schema.IsNullable, typeNameHint);
         }
     }
 }

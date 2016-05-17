@@ -24,9 +24,9 @@ export const JSON_PARSE_REVIVER = new OpaqueToken('JSON_PARSE_REVIVER');
 <#}#>
 <#=Model.Clients#>
 
-<#=Model.Interfaces#>
+<#=Model.Types#>
 <#if(Model.HasModuleName){#>
 }
 <#}#>
 
-<#=Model.AdditionalCode#>
+<#=Model.ExtensionCode#>

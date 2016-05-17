@@ -101,18 +101,17 @@ namespace NSwag.Commands
             set { Settings.TypeScriptGeneratorSettings.TypeStyle = value; }
         }
 
-        // TODO: Implement a way to pass mappings via cmd line
-        //[Description("Type class mappings.")]
-        //[Argument(Name = "ClassMappings", DefaultValue = null)]
-        public TypeScriptClassMapping[] ClassMappings
+        [Description("The list of extended classes.")]
+        [Argument(Name = "ExtendedClasses", DefaultValue = new string[] { })]
+        public string[] ExtendedClasses
         {
-            get { return Settings.TypeScriptGeneratorSettings.ClassMappings; }
-            set { Settings.TypeScriptGeneratorSettings.ClassMappings = value; }
+            get { return Settings.TypeScriptGeneratorSettings.ExtendedClasses; }
+            set { Settings.TypeScriptGeneratorSettings.ExtendedClasses = value; }
         }
 
-        [Description("The additional code (string or file path).")]
-        [Argument(Name = "AdditionalCode", DefaultValue = "")]
-        public string AdditionalCode { get; set; }
+        [Description("The extension code (string or file path).")]
+        [Argument(Name = "ExtensionCode", DefaultValue = "")]
+        public string ExtensionCode { get; set; }
 
         public override async Task RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
@@ -122,10 +121,10 @@ namespace NSwag.Commands
 
         public async Task<string> RunAsync()
         {
-            var additionalCode = AdditionalCode ?? "";
+            var additionalCode = ExtensionCode ?? string.Empty;
             if (File.Exists(additionalCode))
                 additionalCode = File.ReadAllText(additionalCode);
-            Settings.TypeScriptGeneratorSettings.AdditionalCode = additionalCode;
+            Settings.TypeScriptGeneratorSettings.ExtensionCode = additionalCode;
 
             var clientGenerator = new SwaggerToTypeScriptClientGenerator(InputSwaggerService, Settings);
             return clientGenerator.GenerateFile();

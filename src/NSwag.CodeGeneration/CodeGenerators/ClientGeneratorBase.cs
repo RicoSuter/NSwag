@@ -24,7 +24,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
 
         internal abstract string RenderClientCode(string controllerName, IEnumerable<OperationModel> operations);
 
-        internal abstract string GetType(JsonSchema4 schema, string typeNameHint);
+        internal abstract string GetType(JsonSchema4 schema, bool isNullable, string typeNameHint);
 
         internal abstract string GetExceptionType(SwaggerOperation operation);
 
@@ -74,11 +74,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
                 .Select(tuple =>
                 {
                     var operation = tuple.Operation;
-                    var responses = operation.Responses.Select(r => new ResponseModel(this)
-                    {
-                        StatusCode = r.Key,
-                        Schema = r.Value.Schema?.ActualSchema
-                    }).ToList();
+                    var responses = operation.Responses.Select(response => new ResponseModel(response, this)).ToList();
 
                     var defaultResponse = responses.SingleOrDefault(r => r.StatusCode == "default");
                     if (defaultResponse != null)
@@ -90,9 +86,11 @@ namespace NSwag.CodeGeneration.CodeGenerators
                         HttpMethod = tuple.HttpMethod,
                         Operation = tuple.Operation, 
                         OperationName = BaseSettings.OperationNameGenerator.GetOperationName(service, tuple.Path, tuple.HttpMethod, tuple.Operation),
+
                         ResultType = GetResultType(operation),
                         HasResultType = HasResultType(operation),
                         ResultDescription = GetResultDescription(operation),
+
                         ExceptionType = GetExceptionType(operation),
                         HasFormParameters = operation.Parameters.Any(p => p.Kind == SwaggerParameterKind.FormData),
                         Responses = responses,
@@ -108,8 +106,8 @@ namespace NSwag.CodeGeneration.CodeGenerators
                                 Name = p.Name,
                                 VariableNameLower = ConversionUtilities.ConvertToLowerCamelCase(p.Name.Replace("-", "_").Replace(".", "_")), 
                                 Kind = p.Kind,
-                                IsRequired = p.IsRequired, 
-                                Type = resolver.Resolve(p.ActualSchema, p.Type.HasFlag(JsonObjectType.Null), p.Name),
+                                IsRequired = p.IsRequired,
+                                Type = resolver.Resolve(p.ActualParameterSchema, !p.IsRequired && p.IsNullable, p.Name),
                                 IsLast = operation.Parameters.LastOrDefault() == p,
                                 Description = ConversionUtilities.TrimWhiteSpaces(p.Description)
                             };
