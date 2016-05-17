@@ -49,7 +49,11 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
         public SwaggerService GenerateForController(Type controllerType, string excludedMethodName = "Swagger")
         {
-            var service = new SwaggerService();
+            var service = new SwaggerService
+            {
+                Consumes = new List<string> { "application/json" },
+                Produces = new List<string> { "application/json" }
+            };
             var schemaResolver = new SchemaResolver();
 
             GenerateForController(service, controllerType, excludedMethodName, schemaResolver);
@@ -65,7 +69,11 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
         public SwaggerService GenerateForControllers(IEnumerable<Type> controllerTypes, string excludedMethodName = "Swagger")
         {
-            var service = new SwaggerService();
+            var service = new SwaggerService
+            {
+                Consumes = new List<string> { "application/json" },
+                Produces = new List<string> { "application/json" }
+            };
             var schemaResolver = new SchemaResolver();
 
             foreach (var controllerType in controllerTypes)
@@ -79,7 +87,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         private void GenerateForController(SwaggerService service, Type controllerType, string excludedMethodName, SchemaResolver schemaResolver)
         {
             var methods = controllerType.GetRuntimeMethods().Where(m => m.IsPublic);
-            foreach (var method in methods.Where(m => 
+            foreach (var method in methods.Where(m =>
                 m.Name != excludedMethodName &&
                 m.IsSpecialName == false && // avoid property methods
                 m.DeclaringType != null &&
@@ -353,11 +361,13 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
         private SwaggerParameter CreateBodyParameter(SwaggerService service, ParameterInfo parameter, ISchemaResolver schemaResolver)
         {
+            var isRequired = IsParameterRequired(parameter);
+
             var operationParameter = new SwaggerParameter();
             operationParameter.Name = parameter.Name;
             operationParameter.Kind = SwaggerParameterKind.Body;
-            operationParameter.IsRequired = IsParameterRequired(parameter);
-            operationParameter.Schema = CreateAndAddSchema(service, parameter.ParameterType, parameter.GetCustomAttributes(), schemaResolver);
+            operationParameter.IsRequired = isRequired;
+            operationParameter.Schema = CreateAndAddSchema(service, parameter.ParameterType, !isRequired, parameter.GetCustomAttributes(), schemaResolver);
 
             var description = parameter.GetXmlDocumentation();
             if (description != string.Empty)
@@ -380,6 +390,12 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
         private bool IsParameterRequired(ParameterInfo parameter)
         {
+            if (parameter == null)
+                return false; 
+
+            if (parameter.GetCustomAttributes().Any(a => a.GetType().Name == "RequiredAttribute"))
+                return true;
+
             if (parameter.HasDefaultValue)
                 return false;
 
@@ -427,6 +443,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             if (description == string.Empty)
                 description = null;
 
+            var mayBeNull = !IsParameterRequired(method.ReturnParameter);
             var responseTypeAttributes = method.GetCustomAttributes().Where(a => a.GetType().Name == "ResponseTypeAttribute").ToList();
             if (responseTypeAttributes.Count > 0)
             {
@@ -439,11 +456,10 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     if (responseTypeAttribute.GetType().GetRuntimeProperty("HttpStatusCode") != null)
                         httpStatusCode = dynResultTypeAttribute.HttpStatusCode;
 
-                    var schema = CreateAndAddSchema(service, returnType, null, schemaResolver);
                     operation.Responses[httpStatusCode] = new SwaggerResponse
                     {
                         Description = description,
-                        Schema = schema
+                        Schema = CreateAndAddSchema(service, returnType, mayBeNull, null, schemaResolver)
                     };
                 }
             }
@@ -453,11 +469,10 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     operation.Responses["204"] = new SwaggerResponse();
                 else
                 {
-                    var schema = CreateAndAddSchema(service, returnType, null, schemaResolver);
                     operation.Responses["200"] = new SwaggerResponse
                     {
                         Description = description,
-                        Schema = schema
+                        Schema = CreateAndAddSchema(service, returnType, mayBeNull, null, schemaResolver)
                     };
                 }
             }
@@ -476,7 +491,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                    returnType.InheritsFrom("HttpResponseMessage");
         }
 
-        private JsonSchema4 CreateAndAddSchema(SwaggerService service, Type type, IEnumerable<Attribute> parentAttributes, ISchemaResolver schemaResolver)
+        private JsonSchema4 CreateAndAddSchema(SwaggerService service, Type type, bool mayBeNull, IEnumerable<Attribute> parentAttributes, ISchemaResolver schemaResolver)
         {
             if (type.Name == "Task`1")
                 type = type.GenericTypeArguments[0];
@@ -506,11 +521,15 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     schemaGenerator.Generate(type, null, null, schemaDefinitionAppender, schemaResolver);
                 }
 
-                return new JsonSchema4
+                if (mayBeNull)
                 {
-                    Type = JsonObjectType.Object | JsonObjectType.Null,
-                    SchemaReference = schemaResolver.GetSchema(type, false)
-                };
+                    var schema = new JsonSchema4();
+                    schema.OneOf.Add(new JsonSchema4 { Type = JsonObjectType.Null });
+                    schema.OneOf.Add(new JsonSchema4 { SchemaReference = schemaResolver.GetSchema(type, false) });
+                    return schema;
+                }
+                else
+                    return new JsonSchema4 { SchemaReference = schemaResolver.GetSchema(type, false) };
             }
 
             if (typeDescription.Type.HasFlag(JsonObjectType.Array))
@@ -519,7 +538,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 return new JsonSchema4
                 {
                     Type = JsonObjectType.Array | JsonObjectType.Null,
-                    Item = CreateAndAddSchema(service, itemType, null, schemaResolver)
+                    Item = CreateAndAddSchema(service, itemType, false, null, schemaResolver)
                 };
             }
 

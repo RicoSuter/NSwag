@@ -70,19 +70,12 @@ namespace NSwagStudio.ViewModels.CodeGenerators
             }
         }
 
-        public string ClassMappings
+        public string ExtendedClasses
         {
-            get { return _command.ClassMappings != null ? JsonConvert.SerializeObject(_command.ClassMappings, Formatting.Indented) : "[]"; }
+            get { return _command.ExtendedClasses != null ? string.Join(",", _command.ExtendedClasses) : ""; }
             set
             {
-                try
-                {
-                    _command.ClassMappings = JsonConvert.DeserializeObject<TypeScriptClassMapping[]>(value);
-                }
-                catch
-                {
-                    _command.ClassMappings = new TypeScriptClassMapping[] { };
-                }
+                _command.ExtendedClasses = !string.IsNullOrEmpty(value) ? value.Split(',') : new string[] { };
                 RaisePropertyChanged();
             }
         }

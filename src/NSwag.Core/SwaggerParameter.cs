@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Linq;
 using Newtonsoft.Json;
 using NJsonSchema;
 
@@ -50,5 +51,9 @@ namespace NSwag
         /// <exception cref="InvalidOperationException" accessor="get">The schema reference path is not resolved.</exception>
         [JsonIgnore]
         public override JsonSchema4 ActualSchema => Kind == SwaggerParameterKind.Body ? Schema.ActualSchema : base.ActualSchema;
+
+        /// <summary>Gets the parameter schema (either oneOf schema or the actual schema).</summary>
+        [JsonIgnore]
+        public JsonSchema4 ActualParameterSchema => ActualSchema.OneOf.FirstOrDefault(o => !o.IsNullable)?.ActualSchema ?? ActualSchema; // TODO: Create derived property (see others)
     }
 }
