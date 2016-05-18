@@ -92,9 +92,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 m.IsSpecialName == false && // avoid property methods
                 m.DeclaringType != null &&
                 m.DeclaringType != typeof(object) &&
+                m.DeclaringType.FullName.StartsWith("Microsoft.AspNet") == false && // .NET Core (Web API & MVC)
                 m.DeclaringType.FullName != "System.Web.Http.ApiController" &&
-                m.DeclaringType.FullName != "Microsoft.AspNet.Mvc.Controller" && // .NET Core (Web API & MVC)
-                m.DeclaringType.FullName != "Microsoft.AspNetCore.Mvc.Controller" && // .NET Core (Web API & MVC)
                 m.DeclaringType.FullName != "System.Web.Mvc.Controller"))
             {
                 var parameters = method.GetParameters().ToList();
