@@ -42,9 +42,9 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
         if (<#=parameter.VariableNameLower#> === undefined || <#=parameter.VariableNameLower#> === null)
             throw new Error("The parameter '<#=parameter.VariableNameLower#>' must be defined.");
 <#  if(parameter.IsDate){#>
-        url = url.replace("{<#=parameter.Name#>}", "" + <#=parameter.VariableNameLower#>.toJSON()); 
+        url = url.replace("{<#=parameter.Name#>}", encodeURIComponent("" + <#=parameter.VariableNameLower#>.toJSON())); 
 <#  }else{#>
-        url = url.replace("{<#=parameter.Name#>}", "" + <#=parameter.VariableNameLower#>); 
+        url = url.replace("{<#=parameter.Name#>}", encodeURIComponent("" + <#=parameter.VariableNameLower#>)); 
 <#  }
 }#>
 

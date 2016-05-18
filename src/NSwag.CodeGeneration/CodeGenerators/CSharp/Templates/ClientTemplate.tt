@@ -69,7 +69,7 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
         if (<#=parameter.VariableNameLower#> == null)
             throw new ArgumentNullException("<#=parameter.VariableNameLower#>");
 
-        url_ = url_.Replace("{<#=parameter.Name#>}", <#=parameter.VariableNameLower#>.ToString());
+        url_ = url_.Replace("{<#=parameter.Name#>}", Uri.EscapeUriString(<#=parameter.VariableNameLower#>.ToString()));
 <#}#>
 
 <#foreach(var parameter in operation.QueryParameters){#>

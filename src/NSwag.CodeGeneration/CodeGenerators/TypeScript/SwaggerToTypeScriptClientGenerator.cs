@@ -110,7 +110,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             if (Settings.TypeScriptGeneratorSettings.ExtendedClasses != null)
             {
                 foreach (var extendedClass in Settings.TypeScriptGeneratorSettings.ExtendedClasses)
-                    code = code.Replace("export class " + extendedClass, "export class " + extendedClass + "Base");
+                    code = code.Replace("export class " + extendedClass + " ", "export class " + extendedClass + "Base ");
             }
             return code;
         }
