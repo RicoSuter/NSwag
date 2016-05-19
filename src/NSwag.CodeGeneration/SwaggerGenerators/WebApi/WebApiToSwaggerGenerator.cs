@@ -92,7 +92,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 m.IsSpecialName == false && // avoid property methods
                 m.DeclaringType != null &&
                 m.DeclaringType != typeof(object) &&
-                m.GetCustomAttributes().All(a => a.GetType().Name != "SwaggerIgnoreAttribute") && 
+                m.GetCustomAttributes().All(a => a.GetType().Name != "SwaggerIgnoreAttribute") &&
                 m.DeclaringType.FullName.StartsWith("Microsoft.AspNet") == false && // .NET Core (Web API & MVC)
                 m.DeclaringType.FullName != "System.Web.Http.ApiController" &&
                 m.DeclaringType.FullName != "System.Web.Mvc.Controller"))
@@ -301,36 +301,56 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         {
             foreach (var parameter in parameters)
             {
-                // http://blogs.msdn.com/b/jmstall/archive/2012/04/16/how-webapi-does-parameter-binding.aspx
-
-                var info = JsonObjectTypeDescription.FromType(parameter.ParameterType, parameter.GetCustomAttributes(), Settings.DefaultEnumHandling);
-
-                dynamic fromBodyAttribute = parameter.GetCustomAttributes()
-                    .SingleOrDefault(a => a.GetType().Name == "FromBodyAttribute");
-
-                dynamic fromUriAttribute = parameter.GetCustomAttributes()
-                    .SingleOrDefault(a => a.GetType().Name == "FromUriAttribute");
-
-                // TODO: Add support for ModelBinder attribute
-
-                if (info.IsComplexType)
-                {
-                    if (fromUriAttribute != null)
-                        AddPrimitiveParametersFromUri(service, operation, parameter, schemaResolver);
-                    else
-                        AddBodyParameter(service, operation, parameter, schemaResolver);
-                }
+                if (parameter.ParameterType.Name == "IFormFile")
+                    AddFileParameter(parameter, operation, service, schemaResolver);
                 else
                 {
-                    if (fromBodyAttribute != null)
-                        AddBodyParameter(service, operation, parameter, schemaResolver);
+                    // http://blogs.msdn.com/b/jmstall/archive/2012/04/16/how-webapi-does-parameter-binding.aspx
+
+                    var info = JsonObjectTypeDescription.FromType(parameter.ParameterType, parameter.GetCustomAttributes(), Settings.DefaultEnumHandling);
+
+                    dynamic fromBodyAttribute = parameter.GetCustomAttributes()
+                        .SingleOrDefault(a => a.GetType().Name == "FromBodyAttribute");
+
+                    dynamic fromUriAttribute = parameter.GetCustomAttributes()
+                        .SingleOrDefault(a => a.GetType().Name == "FromUriAttribute");
+
+                    // TODO: Add support for ModelBinder attribute
+
+                    if (info.IsComplexType)
+                    {
+                        if (fromUriAttribute != null)
+                            AddPrimitiveParametersFromUri(service, operation, parameter, schemaResolver);
+                        else
+                            AddBodyParameter(service, operation, parameter, schemaResolver);
+                    }
                     else
-                        AddPrimitiveParameter(service, operation, parameter, schemaResolver);
+                    {
+                        if (fromBodyAttribute != null)
+                            AddBodyParameter(service, operation, parameter, schemaResolver);
+                        else
+                            AddPrimitiveParameter(service, operation, parameter, schemaResolver);
+                    }
                 }
             }
 
             if (operation.Parameters.Count(p => p.Kind == SwaggerParameterKind.Body) > 1)
                 throw new InvalidOperationException("The operation '" + operation.OperationId + "' has more than one body parameter.");
+        }
+
+        private void AddFileParameter(ParameterInfo parameter, SwaggerOperation operation, SwaggerService service, ISchemaResolver schemaResolver)
+        {
+            operation.Consumes = new List<string> {"multipart/form-data"};
+
+            var attributes = parameter.GetCustomAttributes().ToList();
+            var operationParameter = CreatePrimitiveParameter( // TODO: Check if there is a way to control the property name
+                service, parameter.Name, parameter.GetXmlDocumentation(), parameter.ParameterType, attributes, schemaResolver);
+
+            operationParameter.Type = JsonObjectType.File;
+            operationParameter.IsRequired = attributes.Any(a => a.GetType().Name == "RequiredAttribute");
+            operationParameter.Kind = SwaggerParameterKind.FormData;
+
+            operation.Parameters.Add(operationParameter);
         }
 
         private void AddBodyParameter(SwaggerService service, SwaggerOperation operation, ParameterInfo parameter, ISchemaResolver schemaResolver)
@@ -392,7 +412,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         private bool IsParameterRequired(ParameterInfo parameter)
         {
             if (parameter == null)
-                return false; 
+                return false;
 
             if (parameter.GetCustomAttributes().Any(a => a.GetType().Name == "RequiredAttribute"))
                 return true;
