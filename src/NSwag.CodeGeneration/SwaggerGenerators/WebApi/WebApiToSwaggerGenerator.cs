@@ -486,8 +486,10 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
         private bool IsFileResponse(Type returnType)
         {
-            return returnType.Name == "IHttpActionResult" ||
+            return returnType.Name == "IActionResult" ||
+                   returnType.Name == "IHttpActionResult" ||
                    returnType.Name == "HttpResponseMessage" ||
+                   returnType.InheritsFrom("ActionResult") ||
                    returnType.InheritsFrom("HttpResponseMessage");
         }
 
