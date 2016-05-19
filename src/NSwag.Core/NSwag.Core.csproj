@@ -68,6 +68,7 @@
     <Compile Include="SwaggerOperationDescription.cs" />
     <Compile Include="SwaggerOperationMethod.cs" />
     <Compile Include="SwaggerParameter.cs" />
+    <Compile Include="SwaggerParameterCollectionFormat.cs" />
     <Compile Include="SwaggerParameterKind.cs" />
     <Compile Include="SwaggerOperations.cs" />
     <Compile Include="SwaggerResponse.cs" />

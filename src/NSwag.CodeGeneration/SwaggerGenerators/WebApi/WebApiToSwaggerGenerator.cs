@@ -301,13 +301,12 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         {
             foreach (var parameter in parameters)
             {
-                var parameterTypeName = parameter.ParameterType.Name;
-                if (parameterTypeName == "IFormFile" || 
-                    parameterTypeName == "HttpPostedFileBase" ||
-                    parameter.ParameterType.InheritsFrom("IFormFile") ||
-                    parameter.ParameterType.InheritsFrom("HttpPostedFileBase"))
+                // TODO: Refactor this
+                var isCollection = parameter.ParameterType.IsArray || parameter.ParameterType.GetTypeInfo().ImplementedInterfaces.Any(i => i.Name == "IEnumerable");
+                var parameterType = isCollection && parameter.ParameterType.GenericTypeArguments.Any() ? parameter.ParameterType.GenericTypeArguments[0] : parameter.ParameterType;
+                if (IsFileParameter(parameterType))
                 {
-                    AddFileParameter(parameter, operation, service, schemaResolver);
+                    AddFileParameter(parameter, isCollection, operation, service, schemaResolver);
                 }
                 else
                 {
@@ -344,7 +343,16 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 throw new InvalidOperationException("The operation '" + operation.OperationId + "' has more than one body parameter.");
         }
 
-        private void AddFileParameter(ParameterInfo parameter, SwaggerOperation operation, SwaggerService service, ISchemaResolver schemaResolver)
+        private static bool IsFileParameter(Type type)
+        {
+            var parameterTypeName = type.Name;
+            return parameterTypeName == "IFormFile" || 
+                   parameterTypeName == "HttpPostedFileBase" ||
+                   type.InheritsFrom("IFormFile") ||
+                   type.InheritsFrom("HttpPostedFileBase");
+        }
+
+        private void AddFileParameter(ParameterInfo parameter, bool isCollection, SwaggerOperation operation, SwaggerService service, ISchemaResolver schemaResolver)
         {
             operation.Consumes = new List<string> {"multipart/form-data"};
 
@@ -355,6 +363,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             operationParameter.Type = JsonObjectType.File;
             operationParameter.IsRequired = attributes.Any(a => a.GetType().Name == "RequiredAttribute");
             operationParameter.Kind = SwaggerParameterKind.FormData;
+
+            if (isCollection)
+                operationParameter.CollectionFormat = SwaggerParameterCollectionFormat.Multi;
 
             operation.Parameters.Add(operationParameter);
         }
