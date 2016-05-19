@@ -301,8 +301,14 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         {
             foreach (var parameter in parameters)
             {
-                if (parameter.ParameterType.Name == "IFormFile")
+                var parameterTypeName = parameter.ParameterType.Name;
+                if (parameterTypeName == "IFormFile" || 
+                    parameterTypeName == "HttpPostedFileBase" ||
+                    parameter.ParameterType.InheritsFrom("IFormFile") ||
+                    parameter.ParameterType.InheritsFrom("HttpPostedFileBase"))
+                {
                     AddFileParameter(parameter, operation, service, schemaResolver);
+                }
                 else
                 {
                     // http://blogs.msdn.com/b/jmstall/archive/2012/04/16/how-webapi-does-parameter-binding.aspx
