@@ -92,6 +92,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 m.IsSpecialName == false && // avoid property methods
                 m.DeclaringType != null &&
                 m.DeclaringType != typeof(object) &&
+                m.GetCustomAttributes().All(a => a.GetType().Name != "SwaggerIgnoreAttribute") && 
                 m.DeclaringType.FullName.StartsWith("Microsoft.AspNet") == false && // .NET Core (Web API & MVC)
                 m.DeclaringType.FullName != "System.Web.Http.ApiController" &&
                 m.DeclaringType.FullName != "System.Web.Mvc.Controller"))
