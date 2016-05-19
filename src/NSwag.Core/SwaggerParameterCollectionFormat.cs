@@ -36,7 +36,7 @@ namespace NSwag
         [EnumMember(Value = "pipes")]
         Pipes,
 
-        /// <summary>Corresponds to multiple parameter instances instead of multiple values for a single instance "foo=bar&foo=baz".</summary>
+        /// <summary>Corresponds to multiple parameter instances instead of multiple values for a single instance "foo=bar&amp;foo=baz".</summary>
         [EnumMember(Value = "multi")]
         Multi
     }
