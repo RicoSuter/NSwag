@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Net.Http;
@@ -21,7 +22,7 @@ namespace NSwag.Demo.Web.Controllers
     public class FileController : ApiController
     {
         [HttpPost, Route("upload")]
-        public IActionResult Upload(HttpPostedFileBase myFile, [Required] IFormFile myFile2)
+        public IActionResult Upload(HttpPostedFileBase myFile, [Required] IFormFile myFile2, ICollection<IFormFile> files, ICollection<HttpPostedFileBase> files2)
         {
             throw new NotImplementedException();
         }
