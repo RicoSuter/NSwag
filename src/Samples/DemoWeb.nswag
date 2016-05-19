@@ -9,7 +9,7 @@
     "ReferencePaths": [],
     "ControllerName": "",
     "ControllerNames": [
-      "NSwag.Demo.Web.Controllers.PersonsController"
+      "NSwag.Demo.Web.Controllers.FileController"
     ],
     "DefaultUrlTemplate": "api/{controller}/{action}/{id}",
     "DefaultEnumHandling": "Integer",
@@ -38,18 +38,8 @@
     "OperationGenerationMode": "MultipleClientsFromOperationId",
     "GenerateReadOnlyKeywords": true,
     "TypeStyle": "Class",
-    "ClassMappings": [
-      {
-        "Class": "Person",
-        "TargetModule": "MyModule",
-        "TargetClass": "MyPerson"
-      },
-      {
-        "Class": "Car",
-        "TargetModule": "MyModule",
-        "TargetClass": "MyCar"
-      }
-    ],
+    "ExtendedClasses": null,
+    "ExtensionCode": null,
     "Input": null,
     "OutputFilePath": null
   },
@@ -95,7 +85,7 @@
     "Input": null,
     "OutputFilePath": null
   },
-  "SwaggerToCSharpWebApiControllerCommand": {
+  "SwaggerToCSharpControllerGenerator": {
     "ControllerBaseClass": null,
     "Settings": {
       "ControllerBaseClass": null,

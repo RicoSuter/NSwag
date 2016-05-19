@@ -27,7 +27,7 @@ namespace NSwag.Annotations
         /// <param name="responseType">The JSON result type of the MVC or Web API action method.</param>
         public ResponseTypeAttribute(string httpStatusCode, Type responseType)
         {
-            HttpStatusCode = httpStatusCode; 
+            HttpStatusCode = httpStatusCode;
             ResponseType = responseType;
         }
 
