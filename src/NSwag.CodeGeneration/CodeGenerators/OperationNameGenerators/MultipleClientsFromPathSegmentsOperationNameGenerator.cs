@@ -25,7 +25,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.OperationNameGenerators
         public string GetClientName(SwaggerService service, string path, SwaggerOperationMethod httpMethod, SwaggerOperation operation)
         {
             var pathSegments = path.Split('/').Where(p => !p.Contains("{")).Reverse().ToArray();
-            return pathSegments.Length >= 2 ? pathSegments[1] : "Unknown";
+            return pathSegments.Length >= 2 ? pathSegments[1] : string.Empty;
         }
 
         /// <summary>Gets the client name for a given operation.</summary>
@@ -37,7 +37,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.OperationNameGenerators
         public string GetOperationName(SwaggerService service, string path, SwaggerOperationMethod httpMethod, SwaggerOperation operation)
         {
             var pathSegments = path.Split('/').Where(p => !p.Contains("{")).Reverse().ToArray();
-            return pathSegments.Length >= 1 ? pathSegments[0] : "Unknown";
+            return pathSegments.First();
         }
     }
 }

@@ -21,7 +21,6 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
                     <Grid>
@@ -36,10 +35,7 @@
                     </Grid>
 
                     <Button Command="{Binding BrowseAssemblyCommand}" VerticalAlignment="Stretch"
-                            Padding="8,4,8,4" Grid.Column="1" Content="..." Margin="0,0,12,0" />
-
-                    <Button Command="{Binding LoadAssemblyCommand}" VerticalAlignment="Stretch"
-                            Padding="8,4,8,4" Grid.Column="2" Content="Load" />
+                            Padding="8,4,8,4" Grid.Column="1" Content="..." />
                 </Grid>
                 <TextBlock Text="{Binding AssemblyName, Mode=OneWay}" TextWrapping="Wrap" Margin="0,-6,0,12" />
 
@@ -49,6 +45,9 @@
 
                 <TextBlock Text="Paths to search for referenced assembly files (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
                 <TextBox Text="{Binding ReferencePaths, Mode=TwoWay}" Margin="0,0,0,12" />
+
+                <Button Command="{Binding LoadAssemblyCommand}" VerticalAlignment="Stretch" Margin="0,0,0,12"
+                        Padding="8,4,8,4" Content="Load Assembly" />
             </StackPanel>
         </GroupBox>
         

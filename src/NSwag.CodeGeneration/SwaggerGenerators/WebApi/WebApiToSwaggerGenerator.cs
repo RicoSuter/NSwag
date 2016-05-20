@@ -301,14 +301,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         {
             foreach (var parameter in parameters)
             {
-                // TODO: Refactor this
-                var isCollection = parameter.ParameterType.IsArray || parameter.ParameterType.GetTypeInfo().ImplementedInterfaces.Any(i => i.Name == "IEnumerable");
-                var parameterType = isCollection && parameter.ParameterType.GenericTypeArguments.Any() ? parameter.ParameterType.GenericTypeArguments[0] : parameter.ParameterType;
-                if (IsFileParameter(parameterType))
-                {
-                    AddFileParameter(parameter, isCollection, operation, service, schemaResolver);
-                }
-                else
+                if (TryAddFileParameter(service, operation, schemaResolver, parameter) == false)
                 {
                     // http://blogs.msdn.com/b/jmstall/archive/2012/04/16/how-webapi-does-parameter-binding.aspx
 
@@ -343,6 +336,21 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 throw new InvalidOperationException("The operation '" + operation.OperationId + "' has more than one body parameter.");
         }
 
+        private bool TryAddFileParameter(SwaggerService service, SwaggerOperation operation, ISchemaResolver schemaResolver, ParameterInfo parameter)
+        {
+            var isEnumerable = parameter.ParameterType.IsArray || parameter.ParameterType.GetTypeInfo().ImplementedInterfaces.Any(i => i.Name == "IEnumerable");
+            var parameterType = isEnumerable && parameter.ParameterType.GenericTypeArguments.Any()
+                ? parameter.ParameterType.GenericTypeArguments[0]
+                : parameter.ParameterType;
+            var isFormFileCollection = parameter.ParameterType.Name == "IFormFileCollection";
+            if (IsFileParameter(parameterType) || isFormFileCollection)
+            {
+                AddFileParameter(parameter, isEnumerable || isFormFileCollection, operation, service, schemaResolver);
+                return true; 
+            }
+            return false; 
+        }
+
         private static bool IsFileParameter(Type type)
         {
             var parameterTypeName = type.Name;
@@ -352,7 +360,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                    type.InheritsFrom("HttpPostedFileBase");
         }
 
-        private void AddFileParameter(ParameterInfo parameter, bool isCollection, SwaggerOperation operation, SwaggerService service, ISchemaResolver schemaResolver)
+        private void AddFileParameter(ParameterInfo parameter, bool isEnumerable, SwaggerOperation operation, SwaggerService service, ISchemaResolver schemaResolver)
         {
             operation.Consumes = new List<string> {"multipart/form-data"};
 
@@ -364,7 +372,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             operationParameter.IsRequired = attributes.Any(a => a.GetType().Name == "RequiredAttribute");
             operationParameter.Kind = SwaggerParameterKind.FormData;
 
-            if (isCollection)
+            if (isEnumerable)
                 operationParameter.CollectionFormat = SwaggerParameterCollectionFormat.Multi;
 
             operation.Parameters.Add(operationParameter);

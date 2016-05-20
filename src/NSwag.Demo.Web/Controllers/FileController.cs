@@ -19,10 +19,15 @@ namespace NSwag.Demo.Web.Controllers
         
     }
 
+    public interface IFormFileCollection
+    {
+        
+    }
+
     public class FileController : ApiController
     {
         [HttpPost, Route("upload")]
-        public IActionResult Upload(HttpPostedFileBase myFile, [Required] IFormFile myFile2, ICollection<IFormFile> files, ICollection<HttpPostedFileBase> files2)
+        public IActionResult Upload(HttpPostedFileBase myFile, [Required] IFormFile myFile2, ICollection<IFormFile> files, ICollection<HttpPostedFileBase> files2, IFormFileCollection files3)
         {
             throw new NotImplementedException();
         }
