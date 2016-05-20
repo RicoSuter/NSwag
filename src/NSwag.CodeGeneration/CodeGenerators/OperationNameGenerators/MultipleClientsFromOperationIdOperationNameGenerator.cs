@@ -58,14 +58,14 @@ namespace NSwag.CodeGeneration.CodeGenerators.OperationNameGenerators
 
         private string GetClientName(SwaggerOperation operation)
         {
-            var segments = operation.OperationId.Split('_');
-            return segments.Length >= 2 ? segments[segments.Length - 2] : string.Empty;
+            var segments = operation.OperationId.Split('_').Reverse().ToArray();
+            return segments.Length >= 2 ? segments[1] : string.Empty;
         }
 
         private string GetOperationName(SwaggerOperation operation)
         {
-            var segments = operation.OperationId.Split('_');
-            return segments.Last();
+            var segments = operation.OperationId.Split('_').Reverse().ToArray();
+            return segments.First();
         }
     }
 }
