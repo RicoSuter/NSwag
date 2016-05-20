@@ -31,14 +31,18 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
         /// <summary>Gets the available controller classes from the given assembly.</summary>
         /// <returns>The controller classes.</returns>
+        /// <exception cref="FileNotFoundException">The assembly could not be found.</exception>
+        /// <exception cref="FileNotFoundException">The assembly config file could not be found..</exception>
         public string[] GetControllerClasses()
         {
-            if (File.Exists(Settings.AssemblyPath))
-            {
-                using (var isolated = new AppDomainIsolation<WebApiAssemblyLoader>(Path.GetDirectoryName(Settings.AssemblyPath), Settings.AssemblyConfig))
-                    return isolated.Object.GetControllerClasses(Settings.AssemblyPath, Settings.ReferencePaths);
-            }
-            return new string[] { };
+            if (!File.Exists(Settings.AssemblyPath))
+                throw new FileNotFoundException("The assembly could not be found.", Settings.AssemblyPath);
+
+            if (!string.IsNullOrEmpty(Settings.AssemblyConfig) && !File.Exists(Settings.AssemblyConfig))
+                throw new FileNotFoundException("The assembly config file could not be found.", Settings.AssemblyConfig);
+
+            using (var isolated = new AppDomainIsolation<WebApiAssemblyLoader>(Path.GetDirectoryName(Settings.AssemblyPath), Settings.AssemblyConfig))
+                return isolated.Object.GetControllerClasses(Settings.AssemblyPath, Settings.ReferencePaths);
         }
 
         /// <summary>Generates the Swagger definition for the given controller.</summary>
