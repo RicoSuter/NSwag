@@ -35,6 +35,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{B50A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.AssemblyLoader", "NSwag.AssemblyLoader\NSwag.AssemblyLoader.csproj", "{46634C60-BA7D-43E6-9049-6AD461488C39}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwag.MSBuild", "NSwag.MSBuild", "{0CBA6B21-C510-441F-A37F-6B74D504B966}"
+	ProjectSection(SolutionItems) = preProject
+		NSwag.MSBuild\build.bat = NSwag.MSBuild\build.bat
+		NSwag.MSBuild\NSwag.MSBuild.nuspec = NSwag.MSBuild\NSwag.MSBuild.nuspec
+		NSwag.MSBuild\NSwag.MSBuild.targets = NSwag.MSBuild\NSwag.MSBuild.targets
+		NSwag.MSBuild\NuGet.exe = NSwag.MSBuild\NuGet.exe
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
