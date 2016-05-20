@@ -15,6 +15,7 @@ The NSwag project heavily uses [NJsonSchema for .NET](http://njsonschema.org) fo
 - In your C# code, via [NuGet](https://www.nuget.org/packages?q=NSwag)
 - Via [command line](https://github.com/NSwag/NSwag/wiki/CommandLine) (Windows, Mac and Linux support through [Mono](http://www.mono-project.com/))
 - Generate code with [T4 templates](https://github.com/NSwag/NSwag/wiki/T4) in Visual Studio
+- In your [MSBuild targets](https://github.com/NSwag/NSwag/wiki/MSBuild)
 
 **Swagger Generators:**
 
