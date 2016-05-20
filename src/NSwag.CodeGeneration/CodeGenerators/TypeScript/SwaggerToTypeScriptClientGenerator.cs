@@ -67,7 +67,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 
                 Clients = Settings.GenerateClientClasses ? clientCode : string.Empty,
                 Types = GenerateDtoTypes(),
-                ExtensionCode = Settings.TypeScriptGeneratorSettings.TransformedExtensionCode, 
+                ExtensionCode = Settings.TypeScriptGeneratorSettings.TransformedExtensionCode,
 
                 HasModuleName = !string.IsNullOrEmpty(Settings.ModuleName),
                 ModuleName = Settings.ModuleName
@@ -82,11 +82,11 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             var template = Settings.CreateTemplate();
             template.Initialize(new
             {
-                Class = Settings.ClassName.Replace("{controller}", ConversionUtilities.ConvertToUpperCamelCase(controllerName)),
+                Class = GetClassName(controllerName),
 
                 HasOperations = operations.Any(),
                 Operations = operations,
-                UsesKnockout = Settings.TypeScriptGeneratorSettings.TypeStyle == TypeScriptTypeStyle.KnockoutClass, 
+                UsesKnockout = Settings.TypeScriptGeneratorSettings.TypeStyle == TypeScriptTypeStyle.KnockoutClass,
 
                 GenerateClientInterfaces = Settings.GenerateClientInterfaces,
                 BaseUrl = _service.BaseUrl,
@@ -97,6 +97,19 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             });
 
             return template.Render();
+        }
+
+        private string GetClassName(string controllerName)
+        {
+            var className = Settings.ClassName.Replace("{controller}",
+                ConversionUtilities.ConvertToUpperCamelCase(controllerName));
+
+            if (Settings.TypeScriptGeneratorSettings.ExtendedClasses != null &&
+                Settings.TypeScriptGeneratorSettings.ExtendedClasses.Contains(className))
+            {
+                className = className + "Base";
+            }
+            return className;
         }
 
         private string GenerateDtoTypes()
