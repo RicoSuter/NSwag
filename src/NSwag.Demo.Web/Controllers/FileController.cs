@@ -11,17 +11,14 @@ namespace NSwag.Demo.Web.Controllers
 {
     public interface IFormFile
     {
-        
     }
 
     public interface IActionResult
     {
-        
     }
 
     public interface IFormFileCollection
     {
-        
     }
 
     public class FileController : ApiController

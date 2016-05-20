@@ -84,7 +84,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
                     {
                         Path = tuple.Path,
                         HttpMethod = tuple.HttpMethod,
-                        Operation = tuple.Operation, 
+                        Operation = tuple.Operation,
                         OperationName = BaseSettings.OperationNameGenerator.GetOperationName(service, tuple.Path, tuple.HttpMethod, tuple.Operation),
 
                         ResultType = GetResultType(operation),
@@ -102,19 +102,30 @@ namespace NSwag.CodeGeneration.CodeGenerators
 
                             return new ParameterModel
                             {
-                                Schema = p.ActualSchema, 
+                                Schema = p.ActualSchema,
                                 Name = p.Name,
-                                VariableNameLower = ConversionUtilities.ConvertToLowerCamelCase(p.Name.Replace("-", "_").Replace(".", "_")), 
+                                VariableNameLower = ConversionUtilities.ConvertToLowerCamelCase(p.Name.Replace("-", "_").Replace(".", "_")),
                                 Kind = p.Kind,
                                 IsRequired = p.IsRequired,
-                                Type = resolver.Resolve(p.ActualParameterSchema, !p.IsRequired && p.IsNullable, p.Name),
+                                Type = ResolveParameterType(p, resolver),
                                 IsLast = operation.Parameters.LastOrDefault() == p,
                                 Description = ConversionUtilities.TrimWhiteSpaces(p.Description)
                             };
-                        }).ToList(),                           
+                        }).ToList(),
                     };
                 }).ToList();
             return operations;
+        }
+
+        private string ResolveParameterType<TGenerator>(SwaggerParameter parameter, TypeResolverBase<TGenerator> resolver)
+            where TGenerator : TypeGeneratorBase
+        {
+            var schema = parameter.ActualParameterSchema; 
+
+            if (parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi)
+                schema = new JsonSchema4 { Type = JsonObjectType.Array, Item = schema };
+
+            return resolver.Resolve(schema, !parameter.IsRequired && parameter.IsNullable, parameter.Name);
         }
 
         internal SwaggerResponse GetSuccessResponse(SwaggerOperation operation)
