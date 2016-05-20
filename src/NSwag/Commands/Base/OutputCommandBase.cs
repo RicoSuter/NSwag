@@ -20,6 +20,12 @@ namespace NSwag.Commands.Base
                 host.WriteMessage(output);
             else
             {
+                var file = new FileInfo(OutputFilePath);
+                var directory = file.Directory;
+
+                if (!directory.Exists)
+                    directory.Create();
+
                 File.WriteAllText(OutputFilePath, output, Encoding.UTF8);
                 host.WriteMessage("Code has been successfully written to file.\n");
             }
