@@ -1,7 +1,7 @@
 ## NSwag: The Swagger API toolchain for .NET and TypeScript
 
-[![NuGet Version](https://badge.fury.io/nu/nswag.core.svg)](https://www.nuget.org/packages?q=NSwag)
 [![Gitter](https://img.shields.io/badge/gitter-join%20chat-1dce73.svg)](https://gitter.im/NSwag/NSwag)
+[![NuGet Version](https://badge.fury.io/nu/nswag.core.svg)](https://www.nuget.org/packages?q=NSwag)
 [![Build status](https://ci.appveyor.com/api/projects/status/aajfgxqf5dic7tkk?svg=true)](https://ci.appveyor.com/project/rsuter/nswag)
 CI: [![Build status](https://ci.appveyor.com/api/projects/status/sfoha01b3i841iky?svg=true)](https://ci.appveyor.com/project/rsuter/nswag-25x6o)
 
@@ -15,6 +15,7 @@ The NSwag project heavily uses [NJsonSchema for .NET](http://njsonschema.org) fo
 - In your C# code, via [NuGet](https://www.nuget.org/packages?q=NSwag)
 - Via [command line](https://github.com/NSwag/NSwag/wiki/CommandLine) (Windows, Mac and Linux support through [Mono](http://www.mono-project.com/))
 - Generate code with [T4 templates](https://github.com/NSwag/NSwag/wiki/T4) in Visual Studio
+- In your [MSBuild targets](https://github.com/NSwag/NSwag/wiki/MSBuild)
 
 **Swagger Generators:**
 
@@ -52,6 +53,7 @@ The NSwag project heavily uses [NJsonSchema for .NET](http://njsonschema.org) fo
 - [NSwag.Annotations](https://www.nuget.org/packages/NSwag.Annotations/) (PCL 259): Attributes to decorate Web API controllers to control the Swagger generation ([Source Code](https://github.com/NSwag/NSwag/tree/master/src/NSwag.Annotations))
 - [NSwag.CodeGeneration](https://www.nuget.org/packages/NSwag.CodeGeneration/) (PCL 259): Classes to generate C# and TypeScript clients ([Source Code](https://github.com/NSwag/NSwag/tree/master/src/NSwag.CodeGeneration))
 - [NSwag.AssemblyLoader](https://www.nuget.org/packages/NSwag.AssemblyLoader/) (.NET 4.5+): Classes to load assemblies in an isolated AppDomain and generate Swagger specs from Web API controllers
+- [NSwag.MSBuild](https://www.nuget.org/packages/NSwag.MSBuild/) (MSBuild .targets): Adds a .targets file to your Visual Studio project, so that you can run the NSwag command line tool in a MSBuild target
 
 ### Usage in C&#35;
 
