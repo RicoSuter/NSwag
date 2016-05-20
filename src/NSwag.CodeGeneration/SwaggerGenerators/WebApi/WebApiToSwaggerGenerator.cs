@@ -301,11 +301,10 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         {
             foreach (var parameter in parameters)
             {
-                if (TryAddFileParameter(service, operation, schemaResolver, parameter) == false)
+                var parameterInfo = JsonObjectTypeDescription.FromType(parameter.ParameterType, parameter.GetCustomAttributes(), Settings.DefaultEnumHandling);
+                if (TryAddFileParameter(parameterInfo, service, operation, schemaResolver, parameter) == false)
                 {
                     // http://blogs.msdn.com/b/jmstall/archive/2012/04/16/how-webapi-does-parameter-binding.aspx
-
-                    var info = JsonObjectTypeDescription.FromType(parameter.ParameterType, parameter.GetCustomAttributes(), Settings.DefaultEnumHandling);
 
                     dynamic fromBodyAttribute = parameter.GetCustomAttributes()
                         .SingleOrDefault(a => a.GetType().Name == "FromBodyAttribute");
@@ -315,7 +314,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
                     // TODO: Add support for ModelBinder attribute
 
-                    if (info.IsComplexType)
+                    if (parameterInfo.IsComplexType)
                     {
                         if (fromUriAttribute != null)
                             AddPrimitiveParametersFromUri(service, operation, parameter, schemaResolver);
@@ -332,50 +331,41 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 }
             }
 
+            if (operation.Parameters.Any(p => p.Type == JsonObjectType.File))
+                operation.Consumes = new List<string> { "multipart/form-data" };
+
             if (operation.Parameters.Count(p => p.Kind == SwaggerParameterKind.Body) > 1)
                 throw new InvalidOperationException("The operation '" + operation.OperationId + "' has more than one body parameter.");
         }
 
-        private bool TryAddFileParameter(SwaggerService service, SwaggerOperation operation, ISchemaResolver schemaResolver, ParameterInfo parameter)
+        private bool TryAddFileParameter(JsonObjectTypeDescription info, SwaggerService service, SwaggerOperation operation, ISchemaResolver schemaResolver, ParameterInfo parameter)
         {
-            var isEnumerable = parameter.ParameterType.IsArray || parameter.ParameterType.GetTypeInfo().ImplementedInterfaces.Any(i => i.Name == "IEnumerable");
-            var parameterType = isEnumerable && parameter.ParameterType.GenericTypeArguments.Any()
-                ? parameter.ParameterType.GenericTypeArguments[0]
-                : parameter.ParameterType;
-            var isFormFileCollection = parameter.ParameterType.Name == "IFormFileCollection";
-            if (IsFileParameter(parameterType) || isFormFileCollection)
+            var isFileArray = IsFileArray(parameter.ParameterType, info);
+            if (info.Type == JsonObjectType.File || isFileArray)
             {
-                AddFileParameter(parameter, isEnumerable || isFormFileCollection, operation, service, schemaResolver);
-                return true; 
+                AddFileParameter(parameter, isFileArray, operation, service, schemaResolver);
+                return true;
             }
-            return false; 
+
+            return false;
         }
 
-        private static bool IsFileParameter(Type type)
+        private void AddFileParameter(ParameterInfo parameter, bool isFileArray, SwaggerOperation operation, SwaggerService service, ISchemaResolver schemaResolver)
         {
-            var parameterTypeName = type.Name;
-            return parameterTypeName == "IFormFile" || 
-                   parameterTypeName == "HttpPostedFileBase" ||
-                   type.InheritsFrom("IFormFile") ||
-                   type.InheritsFrom("HttpPostedFileBase");
-        }
-
-        private void AddFileParameter(ParameterInfo parameter, bool isEnumerable, SwaggerOperation operation, SwaggerService service, ISchemaResolver schemaResolver)
-        {
-            operation.Consumes = new List<string> {"multipart/form-data"};
-
             var attributes = parameter.GetCustomAttributes().ToList();
             var operationParameter = CreatePrimitiveParameter( // TODO: Check if there is a way to control the property name
                 service, parameter.Name, parameter.GetXmlDocumentation(), parameter.ParameterType, attributes, schemaResolver);
 
-            operationParameter.Type = JsonObjectType.File;
-            operationParameter.IsRequired = attributes.Any(a => a.GetType().Name == "RequiredAttribute");
-            operationParameter.Kind = SwaggerParameterKind.FormData;
-
-            if (isEnumerable)
-                operationParameter.CollectionFormat = SwaggerParameterCollectionFormat.Multi;
-
+            InitializeFileParameter(operationParameter, isFileArray);
             operation.Parameters.Add(operationParameter);
+        }
+
+        private bool IsFileArray(Type type, JsonObjectTypeDescription typeInfo)
+        {
+            var isFormFileCollection = type.Name == "IFormFileCollection";
+            var isFileArray = typeInfo.Type == JsonObjectType.Array && type.GenericTypeArguments.Any() &&
+                JsonObjectTypeDescription.FromType(type.GenericTypeArguments[0], null, Settings.DefaultEnumHandling).Type == JsonObjectType.File;
+            return isFormFileCollection || isFileArray;
         }
 
         private void AddBodyParameter(SwaggerService service, SwaggerOperation operation, ParameterInfo parameter, ISchemaResolver schemaResolver)
@@ -390,12 +380,26 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             {
                 var attributes = property.GetCustomAttributes().ToList();
                 var operationParameter = CreatePrimitiveParameter(// TODO: Check if there is a way to control the property name
-                    service, property.Name, property.GetXmlDocumentation(), property.PropertyType, attributes, schemaResolver);
+                    service, JsonPathUtilities.GetPropertyName(property), property.GetXmlDocumentation(), property.PropertyType, attributes, schemaResolver);
 
-                operationParameter.IsRequired = attributes.Any(a => a.GetType().Name == "RequiredAttribute");
-                operationParameter.Kind = SwaggerParameterKind.Query;
+                var parameterInfo = JsonObjectTypeDescription.FromType(property.PropertyType, attributes, Settings.DefaultEnumHandling);
+                var isFileArray = IsFileArray(property.PropertyType, parameterInfo);
+                if (parameterInfo.Type == JsonObjectType.File || isFileArray)
+                    InitializeFileParameter(operationParameter, isFileArray);
+                else
+                    operationParameter.Kind = SwaggerParameterKind.Query;
+
                 operation.Parameters.Add(operationParameter);
             }
+        }
+
+        private static void InitializeFileParameter(SwaggerParameter operationParameter, bool isFileArray)
+        {
+            operationParameter.Type = JsonObjectType.File;
+            operationParameter.Kind = SwaggerParameterKind.FormData;
+
+            if (isFileArray)
+                operationParameter.CollectionFormat = SwaggerParameterCollectionFormat.Multi;
         }
 
         private void AddPrimitiveParameter(SwaggerService service, SwaggerOperation operation, ParameterInfo parameter, ISchemaResolver schemaResolver)
@@ -470,6 +474,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 schemaGenerator.ApplyPropertyAnnotations(operationParameter, parentAttributes, typeDescription);
 
             operationParameter.Name = name;
+            operationParameter.IsRequired = parentAttributes?.Any(a => a.GetType().Name == "RequiredAttribute") ?? false;
 
             if (description != string.Empty)
                 operationParameter.Description = description;
