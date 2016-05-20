@@ -79,7 +79,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="NSwag.Console.nuspec" />
+    <None Include="NSwag.nuspec" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
