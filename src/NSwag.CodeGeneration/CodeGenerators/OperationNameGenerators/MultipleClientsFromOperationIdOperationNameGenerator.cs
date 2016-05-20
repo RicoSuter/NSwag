@@ -59,13 +59,13 @@ namespace NSwag.CodeGeneration.CodeGenerators.OperationNameGenerators
         private string GetClientName(SwaggerOperation operation)
         {
             var segments = operation.OperationId.Split('_');
-            return segments.Length >= 2 ? segments[0] : "Anonymous";
+            return segments.Length >= 2 ? segments[segments.Length - 2] : string.Empty;
         }
 
         private string GetOperationName(SwaggerOperation operation)
         {
             var segments = operation.OperationId.Split('_');
-            return segments.Length >= 2 ? segments[1] : "Anonymous";
+            return segments.Last();
         }
     }
 }
