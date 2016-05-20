@@ -1,5 +1,7 @@
 ## NSwag: The Swagger API toolchain for .NET and TypeScript
 
+[![Join the chat at https://gitter.im/NSwag/NSwag](https://badges.gitter.im/NSwag/NSwag.svg)](https://gitter.im/NSwag/NSwag?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![NuGet Version](https://badge.fury.io/nu/nswag.core.svg)](https://www.nuget.org/packages?q=NSwag)
 [![Build status](https://ci.appveyor.com/api/projects/status/aajfgxqf5dic7tkk?svg=true)](https://ci.appveyor.com/project/rsuter/nswag)
 CI: [![Build status](https://ci.appveyor.com/api/projects/status/sfoha01b3i841iky?svg=true)](https://ci.appveyor.com/project/rsuter/nswag-25x6o)
