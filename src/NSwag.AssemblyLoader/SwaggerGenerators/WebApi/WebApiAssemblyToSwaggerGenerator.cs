@@ -41,7 +41,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             if (!string.IsNullOrEmpty(Settings.AssemblyConfig) && !File.Exists(Settings.AssemblyConfig))
                 throw new FileNotFoundException("The assembly config file could not be found.", Settings.AssemblyConfig);
 
-            using (var isolated = new AppDomainIsolation<WebApiAssemblyLoader>(Path.GetDirectoryName(Settings.AssemblyPath), Settings.AssemblyConfig))
+            using (var isolated = new AppDomainIsolation<WebApiAssemblyLoader>(Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPath)), Settings.AssemblyConfig))
                 return isolated.Object.GetControllerClasses(Settings.AssemblyPath, Settings.ReferencePaths);
         }
 
@@ -50,7 +50,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <returns>The Swagger definition.</returns>
         public SwaggerService GenerateForController(string controllerClassName)
         {
-            using (var isolated = new AppDomainIsolation<WebApiAssemblyLoader>(Path.GetDirectoryName(Settings.AssemblyPath), Settings.AssemblyConfig))
+            using (var isolated = new AppDomainIsolation<WebApiAssemblyLoader>(Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPath)), Settings.AssemblyConfig))
             {
                 var service = isolated.Object.GenerateForController(controllerClassName, JsonConvert.SerializeObject(Settings));
                 return SwaggerService.FromJson(service);
@@ -62,7 +62,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <returns>The Swagger definition.</returns>
         public SwaggerService GenerateForControllers(IEnumerable<string> controllerClassNames)
         {
-            using (var isolated = new AppDomainIsolation<WebApiAssemblyLoader>(Path.GetDirectoryName(Settings.AssemblyPath), Settings.AssemblyConfig))
+            using (var isolated = new AppDomainIsolation<WebApiAssemblyLoader>(Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPath)), Settings.AssemblyConfig))
             {
                 var service = isolated.Object.GenerateForControllers(controllerClassNames, JsonConvert.SerializeObject(Settings));
                 return SwaggerService.FromJson(service);
@@ -106,9 +106,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                         var type = types.First(t => t.FullName == className || t.Name == className);
                         controllerTypes.Add(type);
                     }
-                    catch
+                    catch (Exception exception)
                     {
-                        throw new TypeLoadException("Unable to load type for controller: " + className);
+                        throw new TypeLoadException("Unable to load type for controller: " + className, exception);
                     }
                 }
                 return controllerTypes;
@@ -119,7 +119,10 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 RegisterReferencePaths(referencePaths);
                 var assembly = Assembly.LoadFrom(assemblyPath);
                 return assembly.ExportedTypes
-                    .Where(t => t.Name.EndsWith("Controller") || t.InheritsFrom("ApiController") || t.InheritsFrom("Controller"))
+                    .Where(t => t.Name.EndsWith("Controller") ||
+                                t.InheritsFrom("ApiController") ||
+                                t.InheritsFrom("Controller")) // in ASP.NET Core, a Web API controller inherits from Controller
+                    .Where(t => t.GetTypeInfo().ImplementedInterfaces.All(i => i.FullName != "System.Web.Mvc.IController")) // no MVC controllers (legacy ASP.NET)
                     .Select(t => t.FullName)
                     .ToArray();
             }

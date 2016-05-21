@@ -53,7 +53,7 @@ The NSwag project heavily uses [NJsonSchema for .NET](http://njsonschema.org) fo
 - [NSwag.Annotations](https://www.nuget.org/packages/NSwag.Annotations/) (PCL 259): Attributes to decorate Web API controllers to control the Swagger generation ([Source Code](https://github.com/NSwag/NSwag/tree/master/src/NSwag.Annotations))
 - [NSwag.CodeGeneration](https://www.nuget.org/packages/NSwag.CodeGeneration/) (PCL 259): Classes to generate C# and TypeScript clients ([Source Code](https://github.com/NSwag/NSwag/tree/master/src/NSwag.CodeGeneration))
 - [NSwag.AssemblyLoader](https://www.nuget.org/packages/NSwag.AssemblyLoader/) (.NET 4.5+): Classes to load assemblies in an isolated AppDomain and generate Swagger specs from Web API controllers
-- [NSwag.MSBuild](https://www.nuget.org/packages/NSwag.MSBuild/) (MSBuild .targets): Adds a .targets file to your Visual Studio project, so that you can run the NSwag command line tool in a MSBuild target
+- [NSwag.MSBuild](https://www.nuget.org/packages/NSwag.MSBuild/) (MSBuild .targets): Adds a .targets file to your Visual Studio project, so that you can run the NSwag command line tool in an MSBuild target
 
 ### Usage in C&#35;
 
