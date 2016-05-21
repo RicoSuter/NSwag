@@ -106,9 +106,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                         var type = types.First(t => t.FullName == className || t.Name == className);
                         controllerTypes.Add(type);
                     }
-                    catch
+                    catch (Exception exception)
                     {
-                        throw new TypeLoadException("Unable to load type for controller: " + className);
+                        throw new TypeLoadException("Unable to load type for controller: " + className, exception);
                     }
                 }
                 return controllerTypes;
@@ -119,7 +119,10 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 RegisterReferencePaths(referencePaths);
                 var assembly = Assembly.LoadFrom(assemblyPath);
                 return assembly.ExportedTypes
-                    .Where(t => t.Name.EndsWith("Controller") || t.InheritsFrom("ApiController") || t.InheritsFrom("Controller"))
+                    .Where(t => t.Name.EndsWith("Controller") ||
+                                t.InheritsFrom("ApiController") ||
+                                t.InheritsFrom("Controller")) // in ASP.NET Core, a Web API controller inherits from Controller
+                    .Where(t => t.GetTypeInfo().ImplementedInterfaces.All(i => i.FullName != "System.Web.Mvc.IController")) // no MVC controllers (legacy ASP.NET)
                     .Select(t => t.FullName)
                     .ToArray();
             }
