@@ -202,6 +202,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 {
                     var operationParameter = CreatePrimitiveParameter(service, parameter, schemaResolver, setRequiredProperty: false);
                     operationParameter.Kind = SwaggerParameterKind.Path; // Path is always required => property not needed
+                    operationParameter.IsRequired = true; 
 
                     operation.Parameters.Add(operationParameter);
                     parameters.Remove(parameter);
@@ -428,14 +429,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
         private SwaggerParameter CreatePrimitiveParameter(SwaggerService service, ParameterInfo parameter, ISchemaResolver schemaResolver, bool setRequiredProperty)
         {
-            var operationParameter = CreatePrimitiveParameter(
+            return CreatePrimitiveParameter(
                 service, parameter.Name, parameter.GetXmlDocumentation(),
                 parameter.ParameterType, parameter.GetCustomAttributes(), schemaResolver);
-
-            if (setRequiredProperty)
-                operationParameter.IsRequired = IsParameterRequired(parameter);
-
-            return operationParameter;
         }
 
         private bool IsParameterRequired(ParameterInfo parameter)

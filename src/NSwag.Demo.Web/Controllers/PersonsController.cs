@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -73,7 +74,7 @@ namespace NSwag.Demo.Web.Controllers
         [HttpGet]
         [Route("Calculate/{a}/{b}")]
         [Description("Calculates the sum of a, b and c.")]
-        public int Calculate(int a, int b, int c)
+        public int Calculate(int a, int b, [Required]int c)
         {
             return a + b + c;
         }
