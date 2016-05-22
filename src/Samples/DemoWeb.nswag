@@ -9,7 +9,7 @@
     "ReferencePaths": [],
     "ControllerName": "",
     "ControllerNames": [
-      "NSwag.Demo.Web.Controllers.FileController"
+      "NSwag.Demo.Web.Controllers.PersonsController"
     ],
     "DefaultUrlTemplate": "api/{controller}/{action}/{id}",
     "DefaultEnumHandling": "Integer",

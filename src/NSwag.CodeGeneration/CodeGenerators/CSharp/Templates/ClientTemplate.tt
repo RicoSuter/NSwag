@@ -28,6 +28,7 @@ public partial interface I<#=Model.Class#>
 <#}#>
 
 public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Model.HasBaseClass){#><#=Model.BaseClass#><#if(Model.GenerateClientInterfaces){#>, <#}#><#}#><#if(Model.GenerateClientInterfaces){#>I<#=Model.Class#><#}#>
+
 {
     public <#=Model.Class#>() : this("<#=Model.BaseUrl#>") { }
 
@@ -232,5 +233,29 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
         }
     }
 }
-<#}#>
+<#if(Model.HasMissingHttpMethods){#>
 
+internal static class HttpExtensions
+{
+    public static async Task<HttpResponseMessage> OptionsAsync(this HttpClient client, string requestUri, HttpContent content, CancellationToken cancellationToken)
+    {
+        var method = new HttpMethod("OPTIONS");
+        var request = new HttpRequestMessage(method, requestUri) { Content = content };
+        return await client.SendAsync(request, cancellationToken);
+    }
+
+    public static async Task<HttpResponseMessage> HeadAsync(this HttpClient client, string requestUri, HttpContent content, CancellationToken cancellationToken)
+    {
+        var method = new HttpMethod("HEAD");
+        var request = new HttpRequestMessage(method, requestUri) { Content = content };
+        return await client.SendAsync(request, cancellationToken);
+    }
+
+    public static async Task<HttpResponseMessage> PatchAsync(this HttpClient client, string requestUri, HttpContent content, CancellationToken cancellationToken)
+    {
+        var method = new HttpMethod("PATCH");
+        var request = new HttpRequestMessage(method, requestUri) { Content = content };
+        return await client.SendAsync(request, cancellationToken);
+    }
+}
+<#}}#>

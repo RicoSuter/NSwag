@@ -93,7 +93,7 @@ foreach(var usage in Model.NamespaceUsages){
             
             #line default
             #line hidden
-            this.Write("\r\n}\r\n");
+            this.Write("\r\n}");
             return this.GenerationEnvironment.ToString();
         }
     }

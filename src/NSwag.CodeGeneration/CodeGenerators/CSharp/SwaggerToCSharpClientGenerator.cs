@@ -8,8 +8,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using NJsonSchema.CodeGeneration;
+using NSwag.CodeGeneration.CodeGenerators.CSharp.Models;
 using NSwag.CodeGeneration.CodeGenerators.CSharp.Templates;
 using NSwag.CodeGeneration.CodeGenerators.Models;
 
@@ -70,24 +69,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
 
         internal override string RenderClientCode(string controllerName, IEnumerable<OperationModel> operations)
         {
-            var hasClientBaseClass = !string.IsNullOrEmpty(Settings.ClientBaseClass);
-
             var template = new ClientTemplate();
-            template.Initialize(new
-            {
-                Class = Settings.ClassName.Replace("{controller}", ConversionUtilities.ConvertToUpperCamelCase(controllerName)), 
-                BaseClass = Settings.ClientBaseClass,
-
-                HasBaseClass = hasClientBaseClass,
-                HasBaseType = Settings.GenerateClientInterfaces || hasClientBaseClass,
-
-                UseHttpClientCreationMethod = Settings.UseHttpClientCreationMethod, 
-                GenerateClientInterfaces = Settings.GenerateClientInterfaces, 
-                BaseUrl = _service.BaseUrl,
-
-                HasOperations = operations.Any(),
-                Operations = operations
-            });
+            template.Initialize(new ClientModel(controllerName, operations, _service, Settings));
             return template.Render();
         }
     }
