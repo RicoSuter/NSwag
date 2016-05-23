@@ -23,6 +23,16 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
     constructor(baseUrl?: string) {
         this.baseUrl = baseUrl !== undefined ? baseUrl : "<#=Model.BaseUrl#>"; 
     }
+<#if(Model.IsExtended){#>
+
+    protected transformOptions(options: any) {
+        return options; 
+    }
+
+    protected processResponse(url: string, response: any) {
+        return undefined;
+    }
+<#}#>
 <#foreach(var operation in Model.Operations){#>
 
 <#if(operation.HasDocumentation){#>    /**
@@ -70,7 +80,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
         var content = "";
 <#}#>
 
-        $.ajax({
+        $.ajax(<#if(Model.IsExtended){#>this.transformOptions(<#}#>{
             url: url,
             beforeSend: this.beforeSend,
             type: "<#=operation.HttpMethodLower#>",
@@ -81,14 +91,29 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
                 "<#=parameter.Name#>": <#=parameter.VariableNameLower#>, 
 <#}#>                "Content-Type": "application/json; charset=UTF-8"
             }
-        }).done((data, textStatus, xhr) => {
-            this.process<#=operation.OperationNameUpper#>(xhr, onSuccess, onFail);
+        }<#if(Model.IsExtended){#>)<#}#>).done((data, textStatus, xhr) => {
+            this.process<#=operation.OperationNameUpper#>(url, xhr, onSuccess, onFail);
         }).fail((xhr) => {
-            this.process<#=operation.OperationNameUpper#>(xhr, onSuccess, onFail);
+            this.process<#=operation.OperationNameUpper#>(url, xhr, onSuccess, onFail);
         });
     }
 
-    private process<#=operation.OperationNameUpper#>(xhr: any, onSuccess?: any, onFail?: any) {
+    private process<#=operation.OperationNameUpper#>(url: string, xhr: any, onSuccess?: any, onFail?: any) {
+<#if(Model.IsExtended){#>
+        try {
+            var customResult = this.processResponse(url, xhr);
+            if (customResult !== undefined) {
+                if (onSuccess !== undefined)
+                    onSuccess(customResult);
+                return;
+            }
+        } catch(e) { 
+            if (onFail !== undefined)
+                onFail(null, "error_exception", e);
+            return;
+        }
+        
+<#}#>
         var data = xhr.responseText; 
         var status = xhr.status.toString(); 
 

@@ -53,7 +53,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             return GenerateFile(_service, Resolver);
         }
 
-        internal override string RenderFile(string clientCode)
+        internal override string RenderFile(string clientCode, string[] clientClasses)
         {
             var template = new FileTemplate();
             template.Initialize(new
@@ -74,7 +74,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             var template = new WebApiControllerTemplate();
             template.Initialize(new
             {
-                Class = Settings.ClassName.Replace("{controller}", ConversionUtilities.ConvertToUpperCamelCase(controllerName)),
+                Class = controllerName,
                 BaseClass = Settings.ControllerBaseClass,
 
                 HasBaseClass = hasClientBaseClass,

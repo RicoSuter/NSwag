@@ -11,7 +11,7 @@
 import 'rxjs/Rx'; 
 import {Observable} from 'rxjs/Observable';
 import {Injectable, Inject, Optional, OpaqueToken} from '@angular/core';
-import {Http, Headers, Response} from '@angular/http';
+import {Http, Headers, Response, RequestOptionsArgs} from '@angular/http';
 <#}#>
 
 <#if(Model.HasModuleName){#>

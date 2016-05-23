@@ -21,6 +21,9 @@ namespace NSwag.CodeGeneration.CodeGenerators
             GenerateDtoTypes = true;
         }
 
+        /// <summary>Gets or sets the class name of the service client or controller.</summary>
+        public string ClassName { get; set; }
+
         /// <summary>Gets or sets the operation generation mode.</summary>
         public OperationGenerationMode OperationGenerationMode { get; set; }
 

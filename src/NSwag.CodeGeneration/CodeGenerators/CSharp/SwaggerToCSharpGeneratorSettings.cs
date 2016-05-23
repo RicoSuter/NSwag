@@ -26,9 +26,6 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         /// <summary>Gets or sets the CSharp generator settings.</summary>
         public CSharpGeneratorSettings CSharpGeneratorSettings { get; set; }
 
-        /// <summary>Gets or sets the class name of the service client.</summary>
-        public string ClassName { get; set; }
-
         /// <summary>Gets or sets the additional namespace usages.</summary>
         public string[] AdditionalNamespaceUsages { get; set; }
     }

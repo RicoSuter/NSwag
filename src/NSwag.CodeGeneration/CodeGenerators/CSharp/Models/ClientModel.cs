@@ -11,7 +11,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
         {
             var hasClientBaseClass = !string.IsNullOrEmpty(settings.ClientBaseClass);
 
-            Class = settings.ClassName.Replace("{controller}", ConversionUtilities.ConvertToUpperCamelCase(controllerName));
+            Class = controllerName;
             BaseClass = settings.ClientBaseClass;
 
             HasBaseClass = hasClientBaseClass;

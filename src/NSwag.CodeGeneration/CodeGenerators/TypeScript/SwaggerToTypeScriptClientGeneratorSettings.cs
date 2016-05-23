@@ -29,9 +29,6 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         /// <summary>Gets or sets the TypeScript generator settings.</summary>
         public TypeScriptGeneratorSettings TypeScriptGeneratorSettings { get; set; }
 
-        /// <summary>Gets or sets the class name of the service client.</summary>
-        public string ClassName { get; set; }
-
         /// <summary>Gets or sets the output template.</summary>
         public TypeScriptTemplate Template { get; set; }
 

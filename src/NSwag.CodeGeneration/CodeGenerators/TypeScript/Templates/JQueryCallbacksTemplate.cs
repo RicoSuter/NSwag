@@ -286,271 +286,286 @@ if(Model.GenerateClientInterfaces){
             this.Write("\"; \r\n    }\r\n");
             
             #line 26 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+if(Model.IsExtended){
+            
+            #line default
+            #line hidden
+            this.Write("\r\n    protected transformOptions(options: any) {\r\n        return options; \r\n    }" +
+                    "\r\n\r\n    protected processResponse(url: string, response: any) {\r\n        return " +
+                    "undefined;\r\n    }\r\n");
+            
+            #line 35 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            
+            #line 36 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 foreach(var operation in Model.Operations){
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 28 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 38 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 if(operation.HasDocumentation){
             
             #line default
             #line hidden
             this.Write("    /**\r\n");
             
-            #line 29 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 39 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 if(operation.HasSummary){
             
             #line default
             #line hidden
             this.Write("     * ");
             
-            #line 29 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 39 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.Summary));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 30 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 40 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 30 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 40 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 foreach(var parameter in operation.Parameters){
             
             #line default
             #line hidden
             
-            #line 31 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 41 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 if(parameter.HasDescriptionOrIsOptional){
             
             #line default
             #line hidden
             this.Write("     * @");
             
-            #line 31 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 41 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableNameLower));
             
             #line default
             #line hidden
             
-            #line 31 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 41 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 if(parameter.IsOptional){
             
             #line default
             #line hidden
             this.Write(" (optional)");
             
-            #line 31 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 41 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 31 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 41 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Description ?? ""));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 32 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 42 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 32 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 42 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 32 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 42 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 if(operation.HasResultDescription){
             
             #line default
             #line hidden
             this.Write("     * @return ");
             
-            #line 32 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 42 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultDescription));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 33 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 43 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 33 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 43 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 if(operation.IsDeprecated){
             
             #line default
             #line hidden
             this.Write("     * @deprecated\r\n");
             
-            #line 34 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 44 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("     */\r\n");
             
-            #line 35 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 45 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("    ");
             
-            #line 35 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 45 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameLower));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 35 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 45 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 foreach(var parameter in operation.Parameters){
             
             #line default
             #line hidden
             
-            #line 35 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 45 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableNameLower));
             
             #line default
             #line hidden
             this.Write(": ");
             
-            #line 35 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 45 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Type));
             
             #line default
             #line hidden
             this.Write(", ");
             
-            #line 35 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 45 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("onSuccess?: (");
             
-            #line 35 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 45 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 if(operation.HasResultType){
             
             #line default
             #line hidden
             this.Write("result: ");
             
-            #line 35 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 45 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultType));
             
             #line default
             #line hidden
             
-            #line 35 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 45 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write(") => void, onFail?: (exception: ");
             
-            #line 35 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 45 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ExceptionType));
             
             #line default
             #line hidden
             this.Write(", reason: string) => void) {\r\n        var url = this.baseUrl + \"/");
             
-            #line 36 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 46 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.Path));
             
             #line default
             #line hidden
             this.Write("?\"; \r\n\r\n");
             
-            #line 38 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 48 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 foreach(var parameter in operation.PathParameters){
             
             #line default
             #line hidden
             this.Write("        if (");
             
-            #line 39 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 49 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableNameLower));
             
             #line default
             #line hidden
             this.Write(" === undefined || ");
             
-            #line 39 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 49 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableNameLower));
             
             #line default
             #line hidden
             this.Write(" === null)\r\n            throw new Error(\"The parameter \'");
             
-            #line 40 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 50 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableNameLower));
             
             #line default
             #line hidden
             this.Write("\' must be defined.\");\r\n");
             
-            #line 41 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 51 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
   if(parameter.IsDate){
             
             #line default
             #line hidden
             this.Write("        url = url.replace(\"{");
             
-            #line 42 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 52 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
             
             #line default
             #line hidden
             this.Write("}\", encodeURIComponent(\"\" + ");
             
-            #line 42 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 52 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableNameLower));
             
             #line default
             #line hidden
             this.Write(".toJSON())); \r\n");
             
-            #line 43 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 53 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
   }else{
             
             #line default
             #line hidden
             this.Write("        url = url.replace(\"{");
             
-            #line 44 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 54 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
             
             #line default
             #line hidden
             this.Write("}\", encodeURIComponent(\"\" + ");
             
-            #line 44 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 54 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableNameLower));
             
             #line default
             #line hidden
             this.Write(")); \r\n");
             
-            #line 45 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 55 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
   }
 }
             
@@ -558,152 +573,152 @@ foreach(var parameter in operation.PathParameters){
             #line hidden
             this.Write("\r\n");
             
-            #line 48 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 58 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 foreach(var parameter in operation.QueryParameters){
             
             #line default
             #line hidden
             
-            #line 49 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 59 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
   if(parameter.IsOptional){
             
             #line default
             #line hidden
             this.Write("        if (");
             
-            #line 50 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 60 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableNameLower));
             
             #line default
             #line hidden
             this.Write(" !== undefined && ");
             
-            #line 50 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 60 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableNameLower));
             
             #line default
             #line hidden
             this.Write(" !== null)\r\n");
             
-            #line 51 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 61 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
   }else{
             
             #line default
             #line hidden
             this.Write("        if (");
             
-            #line 52 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 62 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableNameLower));
             
             #line default
             #line hidden
             this.Write(" === undefined || ");
             
-            #line 52 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 62 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableNameLower));
             
             #line default
             #line hidden
             this.Write(" === null)\r\n            throw new Error(\"The parameter \'");
             
-            #line 53 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 63 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableNameLower));
             
             #line default
             #line hidden
             this.Write("\' must be defined.\");\r\n        else\r\n");
             
-            #line 55 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 65 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
   }
             
             #line default
             #line hidden
             
-            #line 56 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 66 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
   if(parameter.IsDateArray){
             
             #line default
             #line hidden
             this.Write("            ");
             
-            #line 57 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 67 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableNameLower));
             
             #line default
             #line hidden
             this.Write(".forEach(item => { url += \"");
             
-            #line 57 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 67 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
             
             #line default
             #line hidden
             this.Write("=\" + encodeURIComponent(\"\" + item.toJSON()) + \"&\"; });\r\n");
             
-            #line 58 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 68 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
   }else if(parameter.IsDate){
             
             #line default
             #line hidden
             this.Write("            url += \"");
             
-            #line 59 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 69 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
             
             #line default
             #line hidden
             this.Write("=\" + encodeURIComponent(\"\" + ");
             
-            #line 59 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 69 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableNameLower));
             
             #line default
             #line hidden
             this.Write(".toJSON()) + \"&\"; \r\n");
             
-            #line 60 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 70 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
   }else if(parameter.IsArray){
             
             #line default
             #line hidden
             this.Write("            ");
             
-            #line 61 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 71 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableNameLower));
             
             #line default
             #line hidden
             this.Write(".forEach(item => { url += \"");
             
-            #line 61 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 71 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
             
             #line default
             #line hidden
             this.Write("=\" + encodeURIComponent(\"\" + item) + \"&\"; });\r\n");
             
-            #line 62 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 72 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
   }else{
             
             #line default
             #line hidden
             this.Write("            url += \"");
             
-            #line 63 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 73 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
             
             #line default
             #line hidden
             this.Write("=\" + encodeURIComponent(\"\" + ");
             
-            #line 63 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 73 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableNameLower));
             
             #line default
             #line hidden
             this.Write(") + \"&\"; \r\n");
             
-            #line 64 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 74 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
   }
 }
             
@@ -711,57 +726,71 @@ foreach(var parameter in operation.QueryParameters){
             #line hidden
             this.Write("\r\n");
             
-            #line 67 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 77 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 if(operation.HasContent){
             
             #line default
             #line hidden
             this.Write("        var content = ");
             
-            #line 68 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 78 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 if(Model.UsesKnockout){
             
             #line default
             #line hidden
             this.Write("ko.toJSON");
             
-            #line 68 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 78 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 }else{
             
             #line default
             #line hidden
             this.Write("JSON.stringify");
             
-            #line 68 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 78 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 68 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 78 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ContentParameter.VariableNameLower));
             
             #line default
             #line hidden
             this.Write(");\r\n");
             
-            #line 69 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 79 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 }else{
             
             #line default
             #line hidden
             this.Write("        var content = \"\";\r\n");
             
-            #line 71 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 81 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 }
             
             #line default
             #line hidden
-            this.Write("\r\n        $.ajax({\r\n            url: url,\r\n            beforeSend: this.beforeSen" +
-                    "d,\r\n            type: \"");
+            this.Write("\r\n        $.ajax(");
             
-            #line 76 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 83 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+if(Model.IsExtended){
+            
+            #line default
+            #line hidden
+            this.Write("this.transformOptions(");
+            
+            #line 83 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("{\r\n            url: url,\r\n            beforeSend: this.beforeSend,\r\n            t" +
+                    "ype: \"");
+            
+            #line 86 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.HttpMethodLower));
             
             #line default
@@ -769,86 +798,128 @@ if(Model.UsesKnockout){
             this.Write("\",\r\n            data: content,\r\n            dataType: \"text\",\r\n            header" +
                     "s: {\r\n");
             
-            #line 80 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 90 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 foreach(var parameter in operation.HeaderParameters){
             
             #line default
             #line hidden
             this.Write("                \"");
             
-            #line 81 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 91 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
             
             #line default
             #line hidden
             this.Write("\": ");
             
-            #line 81 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 91 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableNameLower));
             
             #line default
             #line hidden
             this.Write(", \r\n");
             
-            #line 82 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 92 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("                \"Content-Type\": \"application/json; charset=UTF-8\"\r\n            }\r" +
-                    "\n        }).done((data, textStatus, xhr) => {\r\n            this.process");
+                    "\n        }");
             
-            #line 85 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
-            
-            #line default
-            #line hidden
-            this.Write("(xhr, onSuccess, onFail);\r\n        }).fail((xhr) => {\r\n            this.process");
-            
-            #line 87 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
+            #line 94 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+if(Model.IsExtended){
             
             #line default
             #line hidden
-            this.Write("(xhr, onSuccess, onFail);\r\n        });\r\n    }\r\n\r\n    private process");
+            this.Write(")");
             
-            #line 91 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
+            #line 94 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+}
             
             #line default
             #line hidden
-            this.Write("(xhr: any, onSuccess?: any, onFail?: any) {\r\n        var data = xhr.responseText;" +
-                    " \r\n        var status = xhr.status.toString(); \r\n\r\n");
+            this.Write(").done((data, textStatus, xhr) => {\r\n            this.process");
             
             #line 95 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
+            
+            #line default
+            #line hidden
+            this.Write("(url, xhr, onSuccess, onFail);\r\n        }).fail((xhr) => {\r\n            this.proc" +
+                    "ess");
+            
+            #line 97 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
+            
+            #line default
+            #line hidden
+            this.Write("(url, xhr, onSuccess, onFail);\r\n        });\r\n    }\r\n\r\n    private process");
+            
+            #line 101 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
+            
+            #line default
+            #line hidden
+            this.Write("(url: string, xhr: any, onSuccess?: any, onFail?: any) {\r\n");
+            
+            #line 102 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+if(Model.IsExtended){
+            
+            #line default
+            #line hidden
+            this.Write(@"        try {
+            var customResult = this.processResponse(url, xhr);
+            if (customResult !== undefined) {
+                if (onSuccess !== undefined)
+                    onSuccess(customResult);
+                return;
+            }
+        } catch(e) { 
+            if (onFail !== undefined)
+                onFail(null, ""error_exception"", e);
+            return;
+        }
+        
+");
+            
+            #line 116 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("        var data = xhr.responseText; \r\n        var status = xhr.status.toString()" +
+                    "; \r\n\r\n");
+            
+            #line 120 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 foreach(var response in operation.Responses){
             
             #line default
             #line hidden
             this.Write("        if (status === \"");
             
-            #line 96 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 121 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
             
             #line default
             #line hidden
             this.Write("\") {\r\n");
             
-            #line 97 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 122 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
   if(response.HasType){
             
             #line default
             #line hidden
             this.Write("            var result");
             
-            #line 98 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 123 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
             
             #line default
             #line hidden
             this.Write(": ");
             
-            #line 98 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 123 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.Type));
             
             #line default
@@ -856,95 +927,95 @@ foreach(var response in operation.Responses){
             this.Write(" = null; \r\n            if (data !== undefined && data !== null && data !== \"\") {\r" +
                     "\n                try {\r\n");
             
-            #line 101 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 126 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
       if(response.IsDate){
             
             #line default
             #line hidden
             this.Write("                    result");
             
-            #line 102 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 127 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
             
             #line default
             #line hidden
             this.Write(" = new Date(data);\r\n");
             
-            #line 103 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 128 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
       }else{
             
             #line default
             #line hidden
             
-            #line 104 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 129 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
       if(response.IsFile){
             
             #line default
             #line hidden
             this.Write("                    result");
             
-            #line 105 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 130 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
             
             #line default
             #line hidden
             this.Write(" = data;\r\n");
             
-            #line 106 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 131 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
       }else{
             
             #line default
             #line hidden
             
-            #line 107 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 132 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
           if(Model.UseDtoClasses){
             
             #line default
             #line hidden
             this.Write("                    var resultData");
             
-            #line 108 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 133 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
             
             #line default
             #line hidden
             this.Write(" = jQuery.parseJSON(data);\r\n                    ");
             
-            #line 109 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 134 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.Tab(response.DataConversionCode, 5)));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 110 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 135 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
           }else{
             
             #line default
             #line hidden
             this.Write("                    result");
             
-            #line 111 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 136 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
             
             #line default
             #line hidden
             this.Write(" = data === \"\" ? null : <");
             
-            #line 111 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 136 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.Type));
             
             #line default
             #line hidden
             this.Write(">jQuery.parseJSON(data);\r\n");
             
-            #line 112 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 137 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
           }
             
             #line default
             #line hidden
             
-            #line 113 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 138 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
       }}
             
             #line default
@@ -953,83 +1024,83 @@ foreach(var response in operation.Responses){
                     "                     onFail(null, \"error_parsing\", e);\r\n                    retu" +
                     "rn;\r\n                }\r\n            }\r\n");
             
-            #line 120 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 145 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
   }else{
             
             #line default
             #line hidden
             this.Write("            var result");
             
-            #line 121 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 146 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
             
             #line default
             #line hidden
             this.Write(": any = undefined; \r\n");
             
-            #line 122 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 147 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
   }
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 124 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 149 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
   if(response.IsSuccess){
             
             #line default
             #line hidden
             this.Write("            if (onSuccess !== undefined)\r\n                onSuccess(result");
             
-            #line 126 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 151 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
             
             #line default
             #line hidden
             this.Write(");\r\n");
             
-            #line 127 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 152 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
   }else{
             
             #line default
             #line hidden
             this.Write("            if (onFail !== undefined)\r\n                onFail(result");
             
-            #line 129 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 154 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
             
             #line default
             #line hidden
             this.Write(", \"error_exception\");\r\n");
             
-            #line 130 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 155 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
   }
             
             #line default
             #line hidden
             this.Write("            return;\r\n        }\r\n        else\r\n");
             
-            #line 134 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 159 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("        {\r\n");
             
-            #line 136 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 161 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 if(operation.HasDefaultResponse){
             
             #line default
             #line hidden
             
-            #line 137 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 162 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
   if(operation.DefaultResponse.HasType){
             
             #line default
             #line hidden
             this.Write("            var result: ");
             
-            #line 138 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 163 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.DefaultResponse.Type));
             
             #line default
@@ -1037,33 +1108,33 @@ if(operation.HasDefaultResponse){
             this.Write(" = null; \r\n            if (data !== undefined && data !== null && data !== \"\") {\r" +
                     "\n                try { \r\n");
             
-            #line 141 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 166 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
       if(operation.DefaultResponse.IsDate){
             
             #line default
             #line hidden
             this.Write("                    result = new Date(data);\r\n");
             
-            #line 143 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 168 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
       }else{
             
             #line default
             #line hidden
             
-            #line 144 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 169 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
       if(operation.DefaultResponse.IsFile){
             
             #line default
             #line hidden
             this.Write("                    result = data;\r\n");
             
-            #line 146 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 171 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
       }else{
             
             #line default
             #line hidden
             
-            #line 147 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 172 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
           if(Model.UseDtoClasses){
             
             #line default
@@ -1071,34 +1142,34 @@ if(operation.HasDefaultResponse){
             this.Write("                    var resultData = jQuery.parseJSON(data);\r\n                   " +
                     " ");
             
-            #line 149 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 174 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.Tab(operation.DefaultResponse.DataConversionCode, 5)));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 150 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 175 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
           }else{
             
             #line default
             #line hidden
             this.Write("                    result = data === \"\" ? null : <");
             
-            #line 151 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 176 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.DefaultResponse.Type));
             
             #line default
             #line hidden
             this.Write(">jQuery.parseJSON(data);\r\n");
             
-            #line 152 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 177 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
           }
             
             #line default
             #line hidden
             
-            #line 153 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 178 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
       }}
             
             #line default
@@ -1107,21 +1178,21 @@ if(operation.HasDefaultResponse){
                     "                     onFail(null, \"error_parsing\", e);\r\n                    retu" +
                     "rn;\r\n                }\r\n            }\r\n");
             
-            #line 160 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 185 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
   }else{
             
             #line default
             #line hidden
             this.Write("            var result: any = undefined; \r\n");
             
-            #line 162 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 187 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
   }
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 164 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 189 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
   if(operation.HasOnlyDefaultResponse){
             
             #line default
@@ -1135,7 +1206,7 @@ if(operation.HasDefaultResponse){
             }
 ");
             
-            #line 172 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 197 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
   }else{
             
             #line default
@@ -1143,13 +1214,13 @@ if(operation.HasDefaultResponse){
             this.Write("            if (onFail !== undefined)\r\n                onFail(result, \"error_exce" +
                     "ption\");\r\n");
             
-            #line 175 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 200 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
   }
             
             #line default
             #line hidden
             
-            #line 176 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 201 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 }else{
             
             #line default
@@ -1157,21 +1228,21 @@ if(operation.HasDefaultResponse){
             this.Write("            if (onFail !== undefined)\r\n                onFail(null, \"error_no_cal" +
                     "lback_for_the_received_http_status\");\r\n");
             
-            #line 179 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 204 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("        }\r\n    }\r\n");
             
-            #line 182 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 207 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("}\r\n");
             
-            #line 183 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
+            #line 208 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 }
             
             #line default

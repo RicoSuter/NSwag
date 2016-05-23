@@ -57,7 +57,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 
         internal override ClientGeneratorBaseSettings BaseSettings => Settings;
 
-        internal override string RenderFile(string clientCode)
+        internal override string RenderFile(string clientCode, string[] clientClasses)
         {
             var template = new FileTemplate();
             template.Initialize(new
@@ -67,7 +67,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 
                 Clients = Settings.GenerateClientClasses ? clientCode : string.Empty,
                 Types = GenerateDtoTypes(),
-                ExtensionCode = Settings.TypeScriptGeneratorSettings.TransformedExtensionCode,
+                ExtensionCode = GenerateExtensionCode(clientClasses),
 
                 HasModuleName = !string.IsNullOrEmpty(Settings.ModuleName),
                 ModuleName = Settings.ModuleName
@@ -77,12 +77,15 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 
         internal override string RenderClientCode(string controllerName, IEnumerable<OperationModel> operations)
         {
+            controllerName = GetClassName(controllerName);
+
             GenerateDataConversionCodes(operations);
 
             var template = Settings.CreateTemplate();
             template.Initialize(new
             {
-                Class = GetClassName(controllerName),
+                Class = controllerName,
+                IsExtended = Settings.TypeScriptGeneratorSettings.ExtendedClasses?.Any(c => c + "Base" == controllerName) == true,
 
                 HasOperations = operations.Any(),
                 Operations = operations,
@@ -99,17 +102,21 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             return template.Render();
         }
 
-        private string GetClassName(string controllerName)
+        private string GetClassName(string className)
         {
-            var className = Settings.ClassName.Replace("{controller}",
-                ConversionUtilities.ConvertToUpperCamelCase(controllerName));
-
             if (Settings.TypeScriptGeneratorSettings.ExtendedClasses != null &&
                 Settings.TypeScriptGeneratorSettings.ExtendedClasses.Contains(className))
             {
                 className = className + "Base";
             }
+
             return className;
+        }
+
+        private string GenerateExtensionCode(string[] clientClasses)
+        {
+            var clientClassesVariable = "{" + string.Join(", ", clientClasses.Select(c => "'" + c + "': " + c)) + "}";
+            return Settings.TypeScriptGeneratorSettings.TransformedExtensionCode.Replace("{clientClasses}", clientClassesVariable);
         }
 
         private string GenerateDtoTypes()

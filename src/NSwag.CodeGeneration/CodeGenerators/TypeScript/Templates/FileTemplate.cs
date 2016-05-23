@@ -43,7 +43,7 @@ if(Model.IsAngular2){
             #line hidden
             this.Write("\r\nimport \'rxjs/Rx\'; \r\nimport {Observable} from \'rxjs/Observable\';\r\nimport {Inject" +
                     "able, Inject, Optional, OpaqueToken} from \'@angular/core\';\r\nimport {Http, Header" +
-                    "s, Response} from \'@angular/http\';\r\n");
+                    "s, Response, RequestOptionsArgs} from \'@angular/http\';\r\n");
             
             #line 15 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FileTemplate.tt"
 }
