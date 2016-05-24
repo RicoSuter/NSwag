@@ -37,26 +37,5 @@ namespace NSwag.Tests.Integration
             Assert.AreEqual(2, operation.Operation.Responses.Count);
             Assert.AreEqual("Person", operation.Operation.Responses["200"].ActualResponseSchema.TypeName);
         }
-
-        // todo: Fix this
-        //[TestMethod]
-        public void When_route_attribute_is_on_controller_class_then_it_applies_for_actions()
-        {
-            //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
-
-            //// Act
-            var service = generator.GenerateForController<MyController>();
-            var operation = service.Operations.Single(o => o.Operation.OperationId == "Foo");
-
-            //// Assert
-            Assert.AreEqual("myRoot/My/Foo", operation.Path);
-        }
-
-        [Route("myRoot/{controller}/{action}/{id}")]
-        public class MyController : ApiController
-        {
-            public void Foo() { }
-        }
     }
 }

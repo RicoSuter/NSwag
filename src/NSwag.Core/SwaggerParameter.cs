@@ -41,12 +41,10 @@ namespace NSwag
 
         /// <summary>Gets the parameter schema (either oneOf schema or the actual schema).</summary>
         [JsonIgnore]
-        public JsonSchema4 ActualParameterSchema => ActualSchema.OneOf.FirstOrDefault(o => !o.IsNullable)?.ActualSchema ?? ActualSchema;
+        public JsonSchema4 ActualParameterSchema => ActualSchema.OneOf.FirstOrDefault(o => !o.IsNullable)?.ActualSchema ?? ActualSchema; // TODO: Create derived property (see others)
 
         /// <summary>Gets or sets the format of the array if type array is used.</summary>
         [JsonProperty(PropertyName = "collectionFormat", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public SwaggerParameterCollectionFormat CollectionFormat { get; set; }
-
-        // TODO: Create derived property (see others)
     }
 }
