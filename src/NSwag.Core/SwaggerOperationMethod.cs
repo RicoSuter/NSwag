@@ -6,39 +6,46 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace NSwag
 {
     /// <summary>Enumeration of the available HTTP methods. </summary>
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum SwaggerOperationMethod
     {
+        /// <summary>An undefined method.</summary>
+        [EnumMember(Value = "undefined")]
+        Undefined,
+
         /// <summary>The HTTP GET method. </summary>
-        [JsonProperty("get")]
+        [EnumMember(Value = "get")]
         Get,
 
         /// <summary>The HTTP POST method. </summary>
-        [JsonProperty("post")]
+        [EnumMember(Value = "post")]
         Post,
 
         /// <summary>The HTTP PUT method. </summary>
-        [JsonProperty("put")]
+        [EnumMember(Value = "put")]
         Put,
 
         /// <summary>The HTTP DELETE method. </summary>
-        [JsonProperty("delete")]
+        [EnumMember(Value = "delete")]
         Delete,
 
         /// <summary>The HTTP OPTIONS method. </summary>
-        [JsonProperty("options")]
+        [EnumMember(Value = "options")]
         Options,
 
         /// <summary>The HTTP HEAD method. </summary>
-        [JsonProperty("head")]
+        [EnumMember(Value = "head")]
         Head,
 
         /// <summary>The HTTP PATCH method. </summary>
-        [JsonProperty("patch")]
+        [EnumMember(Value = "patch")]
         Patch
     }
 }
