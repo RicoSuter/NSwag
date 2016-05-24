@@ -100,7 +100,7 @@ namespace NSwag.Commands
                 controllerNames.Add(ControllerName);
 
             controllerNames = controllerNames.Where(s => !string.IsNullOrWhiteSpace(s)).Distinct().ToList();
-            if (!controllerNames.Any())
+            if (!controllerNames.Any() && !string.IsNullOrEmpty(Settings.AssemblyPath))
                 controllerNames = generator.GetControllerClasses().ToList();
 
             var service = generator.GenerateForControllers(controllerNames);

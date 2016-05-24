@@ -32,8 +32,8 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
         return options; 
     }
 
-    protected processResponse(url: string, response: any) {
-        return undefined;
+    protected transformResult(url: string, response: any, processor: (response: any) => any) {
+        return processor(response);
     }
 <#}#>
 <#foreach(var operation in Model.Operations){#>
@@ -94,17 +94,15 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#}#>                "Content-Type": "application/json; charset=UTF-8"
             }
         }<#if(Model.IsExtended){#>)<#}#>).then((response) => {
-            return this.process<#=operation.OperationNameUpper#>(url, response);
+<#if(Model.IsExtended){#>
+            return this.transformResult(url, response, (response) => this.process<#=operation.OperationNameUpper#>(response));
+<#}else{#>
+            return this.process<#=operation.OperationNameUpper#>(response);
+<#}#>
         });
     }
 
     private process<#=operation.OperationNameUpper#>(url: string, response: any) {
-<#if(Model.IsExtended){#>
-        var customResult = this.processResponse(url, response);
-        if (customResult !== undefined)
-            return customResult; 
-        
-<#}#>
         var data = response.data;
         var status = response.status; 
 
