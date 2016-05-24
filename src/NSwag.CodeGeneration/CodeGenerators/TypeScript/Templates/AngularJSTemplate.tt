@@ -26,6 +26,16 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
         this.baseUrl = baseUrl !== undefined ? baseUrl : "<#=Model.BaseUrl#>"; 
         this.jsonParseReviver = jsonParseReviver;
     }
+<#if(Model.IsExtended){#>
+
+    protected transformOptions(options: any) {
+        return options; 
+    }
+
+    protected transformResult(url: string, response: any, processor: (response: any) => any) {
+        return processor(response);
+    }
+<#}#>
 <#foreach(var operation in Model.Operations){#>
 
 <#if(operation.HasDocumentation){#>    /**
@@ -73,7 +83,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
         var content = "";
 <#}#>
 
-        return this.http({
+        return this.http(<#if(Model.IsExtended){#>this.transformOptions(<#}#>{
             url: url,
             method: "<#=operation.HttpMethodUpper#>",
             data: content,
@@ -83,12 +93,16 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
                 "<#=parameter.Name#>": <#=parameter.VariableNameLower#>, 
 <#}#>                "Content-Type": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        }<#if(Model.IsExtended){#>)<#}#>).then((response) => {
+<#if(Model.IsExtended){#>
+            return this.transformResult(url, response, (response) => this.process<#=operation.OperationNameUpper#>(response));
+<#}else{#>
             return this.process<#=operation.OperationNameUpper#>(response);
+<#}#>
         });
     }
 
-    private process<#=operation.OperationNameUpper#>(response: any) {
+    private process<#=operation.OperationNameUpper#>(url: string, response: any) {
         var data = response.data;
         var status = response.status; 
 

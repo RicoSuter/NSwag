@@ -20,7 +20,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
     {
         internal abstract ClientGeneratorBaseSettings BaseSettings { get; }
 
-        internal abstract string RenderFile(string clientCode);
+        internal abstract string RenderFile(string clientCode, string[] clientClasses);
 
         internal abstract string RenderClientCode(string controllerName, IEnumerable<OperationModel> operations);
 
@@ -47,18 +47,27 @@ namespace NSwag.CodeGeneration.CodeGenerators
         internal string GenerateFile<TGenerator>(SwaggerService service, TypeResolverBase<TGenerator> resolver)
             where TGenerator : TypeGeneratorBase
         {
-            var operations = GetOperations(service, resolver);
             var clients = string.Empty;
+            var operations = GetOperations(service, resolver);
+            var clientClasses = new List<string>();
 
             if (BaseSettings.OperationNameGenerator.SupportsMultipleClients)
             {
                 foreach (var controllerOperations in operations.GroupBy(o => BaseSettings.OperationNameGenerator.GetClientName(service, o.Path, o.HttpMethod, o.Operation)))
-                    clients += RenderClientCode(controllerOperations.Key, controllerOperations) + "\n\n";
+                {
+                    var controllerName = GetClassName(controllerOperations.Key);
+                    clients += RenderClientCode(controllerName, controllerOperations) + "\n\n";
+                    clientClasses.Add(controllerName);
+                }
             }
-            else
-                clients = RenderClientCode(string.Empty, operations);
+            else 
+            {
+                var controllerName = GetClassName(string.Empty);
+                clients = RenderClientCode(controllerName, operations);
+                clientClasses.Add(controllerName);
+            }
 
-            return RenderFile(clients)
+            return RenderFile(clients, clientClasses.ToArray())
                 .Replace("\r", string.Empty)
                 .Replace("\n\n\n\n", "\n\n")
                 .Replace("\n\n\n", "\n\n");
@@ -115,6 +124,11 @@ namespace NSwag.CodeGeneration.CodeGenerators
                     };
                 }).ToList();
             return operations;
+        }
+
+        private string GetClassName(string operationName)
+        {
+            return BaseSettings.ClassName.Replace("{controller}", ConversionUtilities.ConvertToUpperCamelCase(operationName));
         }
 
         private string ResolveParameterType<TGenerator>(SwaggerParameter parameter, TypeResolverBase<TGenerator> resolver)

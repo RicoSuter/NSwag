@@ -1,5 +1,4 @@
 ﻿<#@ template visibility="internal" #>
-<#@ assembly name="System.Core" #>
 <#@ import namespace="NJsonSchema.CodeGeneration" #>
 <#if(Model.HasOperations){#>
 <#if(Model.GenerateClientInterfaces){#>
@@ -27,6 +26,16 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
         this.baseUrl = baseUrl ? baseUrl : "<#=Model.BaseUrl#>"; 
         this.jsonParseReviver = jsonParseReviver;
     }
+<#if(Model.IsExtended){#>
+
+    protected transformOptions(options: RequestOptionsArgs) {
+        return options; 
+    }
+
+    protected transformResult(url: string, response: Response, processor: (response: Response) => any) {
+        return processor(response);
+    }
+<#}#>
 <#foreach(var operation in Model.Operations){#>
 
 <#if(operation.HasDocumentation){#>    /**
@@ -73,8 +82,8 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#}else{#>
         var content = "";
 <#}#>
-
-        return this.http.request(url, {
+        
+        return this.http.request(url, <#if(Model.IsExtended){#>this.transformOptions(<#}#>{
             body: content,
             method: "<#=operation.HttpMethodLower#>",
             headers: new Headers({
@@ -82,8 +91,12 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
                 "<#=parameter.Name#>": <#=parameter.VariableNameLower#>, 
 <#}#>                "Content-Type": "application/json; charset=UTF-8"
             })
-        }).map((response) => {
+        }<#if(Model.IsExtended){#>)<#}#>).map((response) => {
+<#if(Model.IsExtended){#>
+            return this.transformResult(url, response, (response) => this.process<#=operation.OperationNameUpper#>(response));
+<#}else{#>
             return this.process<#=operation.OperationNameUpper#>(response);
+<#}#>
         });
     }
 

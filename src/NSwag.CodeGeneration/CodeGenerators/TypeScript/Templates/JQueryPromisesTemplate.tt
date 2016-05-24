@@ -23,6 +23,16 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
     constructor(baseUrl?: string) {
         this.baseUrl = baseUrl !== undefined ? baseUrl : "<#=Model.BaseUrl#>"; 
     }
+<#if(Model.IsExtended){#>
+
+    protected transformOptions(options: any) {
+        return options; 
+    }
+
+    protected transformResult(url: string, xhr: any, processor: (xhr: any) => any) {
+        return processor(xhr);
+    }
+<#}#>
 <#foreach(var operation in Model.Operations){#>
 
 <#if(operation.HasDocumentation){#>    /**
@@ -75,7 +85,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
         var content = "";
 <#}#>
 
-        $.ajax({
+        $.ajax(<#if(Model.IsExtended){#>this.transformOptions(<#}#>{
             url: url,
             beforeSend: this.beforeSend,
             type: "<#=operation.HttpMethodLower#>",
@@ -86,14 +96,29 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
                 "<#=parameter.Name#>": <#=parameter.VariableNameLower#>, 
 <#}#>                "Content-Type": "application/json; charset=UTF-8"
             }
-        }).done((data, textStatus, xhr) => {
-            this.process<#=operation.OperationNameUpper#>(xhr, onSuccess, onFail);
+        }<#if(Model.IsExtended){#>)<#}#>).done((data, textStatus, xhr) => {
+            this.process<#=operation.OperationNameUpper#>WithCallbacks(url, xhr, onSuccess, onFail);
         }).fail((xhr) => {
-            this.process<#=operation.OperationNameUpper#>(xhr, onSuccess, onFail);
+            this.process<#=operation.OperationNameUpper#>WithCallbacks(url, xhr, onSuccess, onFail);
         });
     }
 
-    private process<#=operation.OperationNameUpper#>(xhr: any, onSuccess?: any, onFail?: any) {
+    private process<#=operation.OperationNameUpper#>WithCallbacks(url: string, xhr: any, onSuccess?: any, onFail?: any) {
+        try {
+<#if(Model.IsExtended){#>
+            var result = this.transformResult(url, xhr, (xhr) => this.process<#=operation.OperationNameUpper#>(xhr));
+<#}else{#>
+            var result = this.process<#=operation.OperationNameUpper#>(xhr);
+<#}#>
+            if (onSuccess !== undefined)
+                onSuccess(result);
+        } catch (e) {
+            if (onFail !== undefined)
+                onFail(e, "http_service_exception");
+        }
+    }
+
+    private process<#=operation.OperationNameUpper#>(xhr: any) {
         var data = xhr.responseText; 
         var status = xhr.status.toString(); 
 
@@ -102,39 +127,29 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#  if(response.HasType){#>
             var result<#=response.StatusCode#>: <#=response.Type#> = null; 
             if (data !== undefined && data !== null && data !== "") {
-                try {
 <#      if(response.IsDate){#>
-                    result<#=response.StatusCode#> = new Date(data);
+                result<#=response.StatusCode#> = new Date(data);
 <#      }else{#>
-<#      if(response.IsFile){#>
-                    result<#=response.StatusCode#> = data;
-<#      }else{#>
-<#          if(Model.UseDtoClasses){#>
-                    var resultData<#=response.StatusCode#> = data === "" ? null : jQuery.parseJSON(data);
-                    <#=ConversionUtilities.Tab(response.DataConversionCode, 5)#>
+<#          if(response.IsFile){#>
+                result<#=response.StatusCode#> = data;
 <#          }else{#>
-                    result<#=response.StatusCode#> = data === "" ? null : <<#=response.Type#>>jQuery.parseJSON(data);
-<#          }#>
-<#      }
+<#              if(Model.UseDtoClasses){#>
+                var resultData<#=response.StatusCode#> = data === "" ? null : jQuery.parseJSON(data);
+                <#=ConversionUtilities.Tab(response.DataConversionCode, 4)#>
+<#              }else{#>
+                result<#=response.StatusCode#> = data === "" ? null : <<#=response.Type#>>jQuery.parseJSON(data);
+<#              }#>
+<#          }
         }#>
-                } catch(e) { 
-                    if (onFail !== undefined)
-                        onFail(null, "error_parsing", e);
-                    return;
-                }
             }
 <#  }else{#>
             var result<#=response.StatusCode#>: any = undefined; 
 <#  }#>
-
 <#  if(response.IsSuccess){#>
-            if (onSuccess !== undefined)
-                onSuccess(result<#=response.StatusCode#>);
+            return result<#=response.StatusCode#>;
 <#  }else{#>
-            if (onFail !== undefined)
-                onFail(result<#=response.StatusCode#>, "error_exception");
+            throw result<#=response.StatusCode#>;
 <#  }#>
-            return;
         }
         else
 <#}#>
@@ -143,46 +158,35 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#  if(operation.DefaultResponse.HasType){#>
             var result: <#=operation.DefaultResponse.Type#> = null; 
             if (data !== undefined && data !== null && data !== "") {
-                try { 
 <#      if(operation.DefaultResponse.IsDate){#>
-                    result = new Date(data);
+                result = new Date(data);
 <#      }else{#>
-<#      if(operation.DefaultResponse.IsFile){#>
-                    result = data;
-<#      }else{#>
-<#          if(Model.UseDtoClasses){#>
-                    var resultData = data === "" ? null : jQuery.parseJSON(data);
-                    <#=ConversionUtilities.Tab(operation.DefaultResponse.DataConversionCode, 5)#>
+<#          if(operation.DefaultResponse.IsFile){#>
+                result = data;
 <#          }else{#>
-                    result = data === "" ? null : <<#=operation.DefaultResponse.Type#>>jQuery.parseJSON(data);
+<#              if(Model.UseDtoClasses){#>
+                var resultData = data === "" ? null : jQuery.parseJSON(data);
+                <#=ConversionUtilities.Tab(operation.DefaultResponse.DataConversionCode, 4)#>
+<#              }else{#>
+                result = data === "" ? null : <<#=operation.DefaultResponse.Type#>>jQuery.parseJSON(data);
+<#              }#>
 <#          }#>
 <#      }#>
-<#      }#>
-                } catch(e) { 
-                    if (onFail !== undefined)
-                        onFail(null, "error_parsing", e);
-                    return;
-                }
             }
 <#  }else{#>
             var result: any = undefined; 
 <#  }#>
 
 <#  if(operation.HasOnlyDefaultResponse){#>
-            if (status.length === 3 && status.indexOf("2") === 0) {
-                if (onSuccess !== undefined)
-                    onSuccess(result);
-            } else {
-                if (onFail !== undefined)
-                    onFail(result, "error_exception");
-            }
+            if (status.length === 3 && status.indexOf("2") === 0)
+                return result;
+            else
+                throw result;
 <#  }else{#>
-            if (onFail !== undefined)
-                onFail(result, "error_exception");
+            return result; 
 <#  }
 }else{#>
-            if (onFail !== undefined)
-                onFail(null, "error_no_callback_for_the_received_http_status");
+            throw new Error("error_no_callback_for_the_received_http_status");
 <#}#>
         }
     }

@@ -11,7 +11,7 @@
 import 'rxjs/Rx'; 
 import {Observable} from 'rxjs/Observable';
 import {Injectable, Inject, Optional, OpaqueToken} from '@angular/core';
-import {Http, Headers, Response} from '@angular/http';
+import {Http, Headers, Response, RequestOptionsArgs} from '@angular/http';
 <#}#>
 
 <#if(Model.HasModuleName){#>
@@ -25,8 +25,8 @@ export const JSON_PARSE_REVIVER = new OpaqueToken('JSON_PARSE_REVIVER');
 <#=Model.Clients#>
 
 <#=Model.Types#>
+
+<#=Model.ExtensionCode#>
 <#if(Model.HasModuleName){#>
 }
 <#}#>
-
-<#=Model.ExtensionCode#>
