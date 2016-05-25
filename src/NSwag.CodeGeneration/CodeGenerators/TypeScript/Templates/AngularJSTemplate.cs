@@ -275,8 +275,8 @@ if(Model.IsExtended){
             #line default
             #line hidden
             this.Write("\r\n    protected transformOptions(options: any) {\r\n        return options; \r\n    }" +
-                    "\r\n\r\n    protected processResponse(url: string, response: any) {\r\n        return " +
-                    "undefined;\r\n    }\r\n");
+                    "\r\n\r\n    protected transformResult(url: string, response: any, processor: (respon" +
+                    "se: any) => any) {\r\n        return processor(response);\r\n    }\r\n");
             
             #line 38 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
 }
@@ -801,152 +801,181 @@ if(Model.IsExtended){
             
             #line default
             #line hidden
-            this.Write(").then((response) => {\r\n            return this.process");
+            this.Write(").then((response) => {\r\n");
             
             #line 97 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
-            
-            #line default
-            #line hidden
-            this.Write("(url, response);\r\n        });\r\n    }\r\n\r\n    private process");
-            
-            #line 101 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
-            
-            #line default
-            #line hidden
-            this.Write("(url: string, response: any) {\r\n");
-            
-            #line 102 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
 if(Model.IsExtended){
             
             #line default
             #line hidden
-            this.Write("        var customResult = this.processResponse(url, response);\r\n        if (cust" +
-                    "omResult !== undefined)\r\n            return customResult; \r\n        \r\n");
+            this.Write("            return this.transformResult(url, response, (response) => this.process" +
+                    "");
             
-            #line 107 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 98 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
+            
+            #line default
+            #line hidden
+            this.Write("(response));\r\n");
+            
+            #line 99 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+}else{
+            
+            #line default
+            #line hidden
+            this.Write("            return this.process");
+            
+            #line 100 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
+            
+            #line default
+            #line hidden
+            this.Write("(response);\r\n");
+            
+            #line 101 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
 }
             
             #line default
             #line hidden
-            this.Write("        var data = response.data;\r\n        var status = response.status; \r\n\r\n");
+            this.Write("        });\r\n    }\r\n\r\n    private process");
             
-            #line 111 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 105 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
+            
+            #line default
+            #line hidden
+            this.Write("(url: string, response: any) {\r\n        var data = response.data;\r\n        var st" +
+                    "atus = response.status; \r\n\r\n");
+            
+            #line 109 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
 foreach(var response in operation.Responses){
             
             #line default
             #line hidden
             this.Write("        if (status === ");
             
-            #line 112 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 110 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
             
             #line default
             #line hidden
             this.Write(") {\r\n");
             
-            #line 113 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 111 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
 if(response.HasType){
             
             #line default
             #line hidden
             this.Write("            var result");
             
-            #line 114 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 112 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
             
             #line default
             #line hidden
             this.Write(": ");
             
-            #line 114 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 112 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.Type));
             
             #line default
             #line hidden
             this.Write(" = null; \r\n");
             
-            #line 115 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 113 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
   if(response.IsDate){
             
             #line default
             #line hidden
             this.Write("            result");
             
-            #line 116 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 114 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
             
             #line default
             #line hidden
             this.Write(" = new Date(data);\r\n");
             
-            #line 117 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 115 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
   }else{
             
             #line default
             #line hidden
             
-            #line 118 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 116 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
       if(Model.UseDtoClasses){
             
             #line default
             #line hidden
             this.Write("            var resultData");
             
-            #line 119 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 117 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
             
             #line default
             #line hidden
             this.Write(" = data === \"\" ? null : JSON.parse(data, this.jsonParseReviver);\r\n            ");
             
-            #line 120 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 118 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.Tab(response.DataConversionCode, 3)));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 121 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 119 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
       }else{
             
             #line default
             #line hidden
             this.Write("            result");
             
-            #line 122 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 120 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
             
             #line default
             #line hidden
             this.Write(" = data === \"\" ? null : <");
             
-            #line 122 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 120 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.Type));
             
             #line default
             #line hidden
             this.Write(">JSON.parse(data, this.jsonParseReviver);\r\n");
             
-            #line 123 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 121 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
       }
             
             #line default
             #line hidden
             
-            #line 124 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 122 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
   }
             
             #line default
             #line hidden
             
-            #line 125 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 123 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
   if(response.IsSuccess){
             
             #line default
             #line hidden
             this.Write("            return result");
+            
+            #line 124 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
+            
+            #line default
+            #line hidden
+            this.Write("; \r\n");
+            
+            #line 125 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+  }else{
+            
+            #line default
+            #line hidden
+            this.Write("            throw result");
             
             #line 126 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
@@ -956,20 +985,6 @@ if(response.HasType){
             this.Write("; \r\n");
             
             #line 127 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
-  }else{
-            
-            #line default
-            #line hidden
-            this.Write("            throw result");
-            
-            #line 128 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
-            
-            #line default
-            #line hidden
-            this.Write("; \r\n");
-            
-            #line 129 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
   }
 }
             
@@ -977,41 +992,41 @@ if(response.HasType){
             #line hidden
             this.Write("        }\r\n        else\r\n");
             
-            #line 133 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 131 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("        {\r\n");
             
-            #line 135 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 133 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
 if(operation.HasDefaultResponse){
             
             #line default
             #line hidden
             this.Write("            var result: ");
             
-            #line 136 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 134 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.DefaultResponse.Type));
             
             #line default
             #line hidden
             this.Write(" = null; \r\n");
             
-            #line 137 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 135 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
   if(operation.DefaultResponse.IsDate){
             
             #line default
             #line hidden
             this.Write("            result = new Date(data);\r\n");
             
-            #line 139 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 137 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
   }else{
             
             #line default
             #line hidden
             
-            #line 140 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 138 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
       if(Model.UseDtoClasses){
             
             #line default
@@ -1019,54 +1034,54 @@ if(operation.HasDefaultResponse){
             this.Write("            var resultData = data === \"\" ? null : JSON.parse(data, this.jsonParse" +
                     "Reviver);\r\n            ");
             
-            #line 142 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 140 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.Tab(operation.DefaultResponse.DataConversionCode, 3)));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 143 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 141 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
       }else{
             
             #line default
             #line hidden
             this.Write("            result = data === \"\" ? null : <");
             
-            #line 144 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 142 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.DefaultResponse.Type));
             
             #line default
             #line hidden
             this.Write(">JSON.parse(data, this.jsonParseReviver);\r\n");
             
-            #line 145 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 143 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
       }
             
             #line default
             #line hidden
             
-            #line 146 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 144 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
   }
             
             #line default
             #line hidden
             
-            #line 147 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 145 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
   if(operation.DefaultResponse.IsSuccess){
             
             #line default
             #line hidden
             this.Write("            return result; \r\n");
             
-            #line 149 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 147 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
   }else{
             
             #line default
             #line hidden
             this.Write("            throw result; \r\n");
             
-            #line 151 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 149 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
   }
 }else{
             
@@ -1074,21 +1089,21 @@ if(operation.HasDefaultResponse){
             #line hidden
             this.Write("            throw \"error_no_callback_for_the_received_http_status\"; \r\n");
             
-            #line 154 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 152 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("        }\r\n    }\r\n");
             
-            #line 157 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 155 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("}\r\n");
             
-            #line 158 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
+            #line 156 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt"
 }
             
             #line default

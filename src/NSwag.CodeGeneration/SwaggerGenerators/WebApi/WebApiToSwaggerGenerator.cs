@@ -49,11 +49,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
         public SwaggerService GenerateForController(Type controllerType, string excludedMethodName = "Swagger")
         {
-            var service = new SwaggerService
-            {
-                Consumes = new List<string> { "application/json" },
-                Produces = new List<string> { "application/json" }
-            };
+            var service = CreateService();
             var schemaResolver = new SchemaResolver();
 
             GenerateForController(service, controllerType, excludedMethodName, schemaResolver);
@@ -69,11 +65,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
         public SwaggerService GenerateForControllers(IEnumerable<Type> controllerTypes, string excludedMethodName = "Swagger")
         {
-            var service = new SwaggerService
-            {
-                Consumes = new List<string> { "application/json" },
-                Produces = new List<string> { "application/json" }
-            };
+            var service = CreateService();
             var schemaResolver = new SchemaResolver();
 
             foreach (var controllerType in controllerTypes)
@@ -81,6 +73,15 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
             service.GenerateOperationIds();
             return service;
+        }
+
+        private static SwaggerService CreateService()
+        {
+            return new SwaggerService
+            {
+                Consumes = new List<string> { "application/json" },
+                Produces = new List<string> { "application/json" }
+            };
         }
 
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>

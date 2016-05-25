@@ -136,8 +136,13 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             {
                 AllControllerNames = await Task.Run(() =>
                 {
-                    var generator = new WebApiAssemblyToSwaggerGenerator(Command.Settings);
-                    return generator.GetControllerClasses();
+                    if (!string.IsNullOrEmpty(Command.Settings.AssemblyPath))
+                    {
+                        var generator = new WebApiAssemblyToSwaggerGenerator(Command.Settings);
+                        return generator.GetControllerClasses();
+                    }
+                    else
+                        return new string[] { };
                 });
 
                 if (ControllerNames != null)

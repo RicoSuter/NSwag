@@ -5,7 +5,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/aajfgxqf5dic7tkk?svg=true)](https://ci.appveyor.com/project/rsuter/nswag)
 CI: [![Build status](https://ci.appveyor.com/api/projects/status/sfoha01b3i841iky?svg=true)](https://ci.appveyor.com/project/rsuter/nswag-25x6o)
 
-NSwag is a Swagger 2.0 API toolchain for .NET, TypeScript and other platforms, written in C#. The [Swagger specification](http://swagger.io) uses JSON and JSON Schema to describe a RESTful web API. The project provides tools to automatically generate client code from these Swagger specifications and integrate this generation into existing processes. 
+NSwag is a Swagger 2.0 API toolchain for .NET, TypeScript and other platforms, written in C#. The [Swagger specification](http://swagger.io) uses JSON and JSON Schema to describe a RESTful web API. The project provides tools to generate Swagger specifications from existing Web API controllers and client code from these Swagger specifications and integrate this generation into existing processes. 
 
 The NSwag project heavily uses [NJsonSchema for .NET](http://njsonschema.org) for JSON Schema handling and C#/TypeScript class/interface generation. 
 
@@ -60,16 +60,19 @@ The NSwag project heavily uses [NJsonSchema for .NET](http://njsonschema.org) fo
 The following code shows how to read a Swagger specification and generate C# client classes to call the described web services: 
 	
 ```cs
-var service = SwaggerService.FromJson("{}");
+var swaggerSettings = new WebApiToSwaggerGeneratorSettings();
+var swaggerGenerator = new WebApiToSwaggerGenerator(swaggerSettings);
 
-var settings = new SwaggerToCSharpClientGeneratorSettings 
+var service = swaggerGenerator.GenerateForController<PersonsController>();
+
+var clientSettings = new SwaggerToCSharpClientGeneratorSettings 
 {
     ClassName = "MyClass",
     Namespace = "MyNamespace"
 };
+var clientGenerator = new SwaggerToCSharpClientGenerator(service, clientSettings);
 
-var generator = new SwaggerToCSharpClientGenerator(service, settings);
-var code = generator.GenerateFile();
+var code = clientGenerator.GenerateFile();
 ```
 
 Check out the [project Wiki](https://github.com/NSwag/NSwag/wiki) for more information.

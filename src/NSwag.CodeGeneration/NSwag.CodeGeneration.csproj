@@ -40,12 +40,12 @@
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=2.23.5984.32960, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.2.23.5984.32960\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
+    <Reference Include="NJsonSchema, Version=2.24.5988.28092, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.2.24.5988.28092\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema.CodeGeneration, Version=2.23.5984.32961, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.CodeGeneration.2.23.5984.32961\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
+    <Reference Include="NJsonSchema.CodeGeneration, Version=2.24.5988.28093, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.CodeGeneration.2.24.5988.28093\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -93,12 +93,12 @@
     <Compile Include="CodeGenerators\TypeScript\Models\ClientTemplateModel.cs" />
     <Compile Include="CodeGenerators\TypeScript\PromiseType.cs" />
     <Compile Include="CodeGenerators\TypeScript\SwaggerToTypeScriptClientGeneratorSettings.cs" />
+    <Compile Include="CodeGenerators\TypeScript\Templates\Angular2Template.Extensions.cs" />
     <Compile Include="CodeGenerators\TypeScript\Templates\Angular2Template.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Angular2Template.tt</DependentUpon>
     </Compile>
-    <Compile Include="CodeGenerators\TypeScript\Templates\Angular2Template.Extensions.cs" />
     <Compile Include="CodeGenerators\TypeScript\Templates\AngularJSTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
