@@ -184,14 +184,11 @@ namespace NSwag
         {
             get
             {
-                return Paths.SelectMany(p => p.Value.Select(o =>
-                {                   
-                    return new SwaggerOperationDescription
-                    {
-                        Path = p.Key,
-                        HttpMethod = o.Key,
-                        Operation = o.Value
-                    };
+                return Paths.SelectMany(p => p.Value.Select(o => new SwaggerOperationDescription
+                {
+                    Path = p.Key,
+                    HttpMethod = o.Key,
+                    Operation = o.Value
                 }));
             }
         }

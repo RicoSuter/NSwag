@@ -67,10 +67,10 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             return template.Render();
         }
 
-        internal override string RenderClientCode(string controllerName, IEnumerable<OperationModel> operations)
+        internal override string RenderClientCode(string controllerName, IList<OperationModel> operations)
         {
             var template = new ClientTemplate();
-            template.Initialize(new ClientModel(controllerName, operations, _service, Settings));
+            template.Initialize(new ClientTemplateModel(controllerName, operations, _service, Settings));
             return template.Render();
         }
     }

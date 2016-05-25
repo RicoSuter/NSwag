@@ -22,7 +22,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
 
         internal abstract string RenderFile(string clientCode, string[] clientClasses);
 
-        internal abstract string RenderClientCode(string controllerName, IEnumerable<OperationModel> operations);
+        internal abstract string RenderClientCode(string controllerName, IList<OperationModel> operations);
 
         internal abstract string GetType(JsonSchema4 schema, bool isNullable, string typeNameHint);
 
@@ -56,7 +56,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
                 foreach (var controllerOperations in operations.GroupBy(o => BaseSettings.OperationNameGenerator.GetClientName(service, o.Path, o.HttpMethod, o.Operation)))
                 {
                     var controllerName = GetClassName(controllerOperations.Key);
-                    clients += RenderClientCode(controllerName, controllerOperations) + "\n\n";
+                    clients += RenderClientCode(controllerName, controllerOperations.ToList()) + "\n\n";
                     clientClasses.Add(controllerName);
                 }
             }

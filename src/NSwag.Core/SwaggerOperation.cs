@@ -78,24 +78,15 @@ namespace NSwag
 
         /// <summary>Gets the list of MIME types the operation can consume, either from the operation or from the <see cref="SwaggerService"/>.</summary>
         [JsonIgnore]
-        public IEnumerable<string> ActualConsumes
-        {
-            get { return Consumes ?? Parent.Parent.Consumes; }
-        }
+        public IEnumerable<string> ActualConsumes => Consumes ?? Parent.Parent.Consumes;
 
         /// <summary>Gets the list of MIME types the operation can produce, either from the operation or from the <see cref="SwaggerService"/>.</summary>
         [JsonIgnore]
-        public IEnumerable<string> ActualProduces
-        {
-            get { return Produces ?? Parent.Parent.Produces; }
-        }
+        public IEnumerable<string> ActualProduces => Produces ?? Parent.Parent.Produces;
 
         /// <summary>Gets the actual schemes, either from the operation or from the <see cref="SwaggerService"/>.</summary>
         [JsonIgnore]
-        public IEnumerable<SwaggerSchema> ActualSchemes
-        {
-            get { return Schemes ?? Parent.Parent.Schemes; }
-        }
+        public IEnumerable<SwaggerSchema> ActualSchemes => Schemes ?? Parent.Parent.Schemes;
 
         /// <summary>Gets the parameters from the operation and from the <see cref="SwaggerService"/>.</summary>
         [JsonIgnore]
@@ -121,9 +112,6 @@ namespace NSwag
 
         /// <summary>Gets the actual security description, either from the operation or from the <see cref="SwaggerService"/>.</summary>
         [JsonIgnore]
-        public List<SwaggerSecurityRequirement> ActualSecurity
-        {
-            get { return Security ?? Parent.Parent.Security; }
-        }
+        public List<SwaggerSecurityRequirement> ActualSecurity => Security ?? Parent.Parent.Security;
     }
 }
