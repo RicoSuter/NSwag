@@ -60,16 +60,19 @@ The NSwag project heavily uses [NJsonSchema for .NET](http://njsonschema.org) fo
 The following code shows how to read a Swagger specification and generate C# client classes to call the described web services: 
 	
 ```cs
-var service = SwaggerService.FromJson("{}");
+var swaggerSettings = new WebApiToSwaggerGeneratorSettings();
+var swaggerGenerator = new WebApiToSwaggerGenerator(swaggerSettings);
 
-var settings = new SwaggerToCSharpClientGeneratorSettings 
+var service = swaggerGenerator.GenerateForController<PersonsController>();
+
+var clientSettings = new SwaggerToCSharpClientGeneratorSettings 
 {
     ClassName = "MyClass",
     Namespace = "MyNamespace"
 };
+var clientGenerator = new SwaggerToCSharpClientGenerator(service, clientSettings);
 
-var generator = new SwaggerToCSharpClientGenerator(service, settings);
-var code = generator.GenerateFile();
+var code = clientGenerator.GenerateFile();
 ```
 
 Check out the [project Wiki](https://github.com/NSwag/NSwag/wiki) for more information.
