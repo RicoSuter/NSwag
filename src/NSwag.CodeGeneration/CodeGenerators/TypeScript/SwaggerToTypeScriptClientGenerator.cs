@@ -10,9 +10,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
-using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag.CodeGeneration.CodeGenerators.Models;
+using NSwag.CodeGeneration.CodeGenerators.TypeScript.Models;
 using NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates;
 
 namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
@@ -75,31 +75,46 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             return template.Render();
         }
 
-        internal override string RenderClientCode(string controllerName, IEnumerable<OperationModel> operations)
+        internal override string RenderClientCode(string controllerName, IList<OperationModel> operations)
         {
             controllerName = GetClassName(controllerName);
 
             GenerateDataConversionCodes(operations);
 
             var template = Settings.CreateTemplate();
-            template.Initialize(new
-            {
-                Class = controllerName,
-                IsExtended = Settings.TypeScriptGeneratorSettings.ExtendedClasses?.Any(c => c + "Base" == controllerName) == true,
-
-                HasOperations = operations.Any(),
-                Operations = operations,
-                UsesKnockout = Settings.TypeScriptGeneratorSettings.TypeStyle == TypeScriptTypeStyle.KnockoutClass,
-
-                GenerateClientInterfaces = Settings.GenerateClientInterfaces,
-                BaseUrl = _service.BaseUrl,
-                UseDtoClasses = Settings.TypeScriptGeneratorSettings.TypeStyle != TypeScriptTypeStyle.Interface,
-
-                PromiseType = Settings.PromiseType == PromiseType.Promise ? "Promise" : "Q.Promise",
-                PromiseConstructor = Settings.PromiseType == PromiseType.Promise ? "new Promise" : "Q.Promise"
-            });
-
+            template.Initialize(new ClientTemplateModel(controllerName, operations, _service, Settings));
             return template.Render();
+        }
+
+        internal override string GetExceptionType(SwaggerOperation operation)
+        {
+            if (operation.Responses.Count(r => !HttpUtilities.IsSuccessStatusCode(r.Key)) == 0)
+                return "string";
+
+            return string.Join(" | ", operation.Responses
+                .Where(r => !HttpUtilities.IsSuccessStatusCode(r.Key) && r.Value.Schema != null)
+                .Select(r => GetType(r.Value.ActualResponseSchema, r.Value.IsNullable, "Exception"))
+                .Concat(new[] { "string" }));
+        }
+
+        internal override string GetResultType(SwaggerOperation operation)
+        {
+            var response = GetSuccessResponse(operation);
+            if (response?.Schema == null)
+                return "void";
+
+            return GetType(response.ActualResponseSchema, response.IsNullable, "Response");
+        }
+
+        internal override string GetType(JsonSchema4 schema, bool isNullable, string typeNameHint)
+        {
+            if (schema == null)
+                return "void";
+
+            if (schema.ActualSchema.IsAnyType || schema.ActualSchema.Type == JsonObjectType.File)
+                return "any";
+
+            return _resolver.Resolve(schema.ActualSchema, schema.IsNullable, typeNameHint);
         }
 
         private string GetClassName(string className)
@@ -154,37 +169,6 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
                         operation.DefaultResponse.ActualResponseSchema, operation.DefaultResponse.IsNullable, string.Empty);
                 }
             }
-        }
-
-        internal override string GetExceptionType(SwaggerOperation operation)
-        {
-            if (operation.Responses.Count(r => !HttpUtilities.IsSuccessStatusCode(r.Key)) == 0)
-                return "string";
-
-            return string.Join(" | ", operation.Responses
-                .Where(r => !HttpUtilities.IsSuccessStatusCode(r.Key) && r.Value.Schema != null)
-                .Select(r => GetType(r.Value.ActualResponseSchema, r.Value.IsNullable, "Exception"))
-                .Concat(new[] { "string" }));
-        }
-
-        internal override string GetResultType(SwaggerOperation operation)
-        {
-            var response = GetSuccessResponse(operation);
-            if (response?.Schema == null)
-                return "void";
-
-            return GetType(response.ActualResponseSchema, response.IsNullable, "Response");
-        }
-
-        internal override string GetType(JsonSchema4 schema, bool isNullable, string typeNameHint)
-        {
-            if (schema == null)
-                return "void";
-
-            if (schema.ActualSchema.IsAnyType || schema.ActualSchema.Type == JsonObjectType.File)
-                return "any";
-
-            return _resolver.Resolve(schema.ActualSchema, schema.IsNullable, typeNameHint);
         }
     }
 }

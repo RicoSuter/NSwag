@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 
 namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator.Attributes
@@ -12,6 +13,7 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator.Attributes
         {
             public string Foo { get; set; }
 
+            [JsonProperty("bar")]
             public string Bar { get; set; }
         }
 
@@ -49,20 +51,6 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator.Attributes
         }
 
         [TestMethod]
-        public void When_parameter_is_complex_and_has_FromUri_then_it_is_a_query_parameter()
-        {
-            //// Arrange
-            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
-
-            //// Act
-            var service = generator.GenerateForController<TestController>();
-            var operation = service.Operations.Single(o => o.Operation.OperationId == "Test_WithFromUriAttribute").Operation;
-
-            //// Assert
-            Assert.AreEqual(SwaggerParameterKind.Query, operation.Parameters[0].Kind);
-        }
-
-        [TestMethod]
         public void When_parameter_is_complex_and_has_FromUri_then_complex_object_properties_are_added()
         {
             //// Arrange
@@ -76,7 +64,7 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator.Attributes
             Assert.AreEqual(SwaggerParameterKind.Query, operation.Parameters[0].Kind);
             Assert.AreEqual(SwaggerParameterKind.Query, operation.Parameters[1].Kind);
             Assert.AreEqual("Foo", operation.Parameters[0].Name);
-            Assert.AreEqual("Bar", operation.Parameters[1].Name);
+            Assert.AreEqual("bar", operation.Parameters[1].Name);
         }
 
         [TestMethod]

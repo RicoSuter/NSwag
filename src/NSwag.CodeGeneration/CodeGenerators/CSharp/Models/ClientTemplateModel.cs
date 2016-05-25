@@ -1,13 +1,20 @@
+//-----------------------------------------------------------------------
+// <copyright file="ClientTemplateModel.cs" company="NSwag">
+//     Copyright (c) Rico Suter. All rights reserved.
+// </copyright>
+// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <author>Rico Suter, mail@rsuter.com</author>
+//-----------------------------------------------------------------------
+
 using System.Collections.Generic;
 using System.Linq;
-using NJsonSchema.CodeGeneration;
 using NSwag.CodeGeneration.CodeGenerators.Models;
 
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
 {
-    internal class ClientModel
+    internal class ClientTemplateModel
     {
-        public ClientModel(string controllerName, IEnumerable<OperationModel> operations, SwaggerService service, SwaggerToCSharpClientGeneratorSettings settings)
+        public ClientTemplateModel(string controllerName, IList<OperationModel> operations, SwaggerService service, SwaggerToCSharpClientGeneratorSettings settings)
         {
             var hasClientBaseClass = !string.IsNullOrEmpty(settings.ClientBaseClass);
 
@@ -21,13 +28,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
             GenerateClientInterfaces = settings.GenerateClientInterfaces;
             BaseUrl = service.BaseUrl;
 
-            HasOperations = operations.Any();
             Operations = operations;
-
-            HasMissingHttpMethods = Operations.Any(o =>
-                o.HttpMethod == SwaggerOperationMethod.Options ||
-                o.HttpMethod == SwaggerOperationMethod.Head ||
-                o.HttpMethod == SwaggerOperationMethod.Patch);
         }
 
         public string Class { get; }
@@ -44,10 +45,13 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
 
         public string BaseUrl { get; }
 
-        public bool HasOperations { get; }
+        public bool HasMissingHttpMethods => Operations.Any(o =>
+            o.HttpMethod == SwaggerOperationMethod.Options ||
+            o.HttpMethod == SwaggerOperationMethod.Head ||
+            o.HttpMethod == SwaggerOperationMethod.Patch);
 
-        public bool HasMissingHttpMethods { get; }
+        public IList<OperationModel> Operations { get; }
 
-        public IEnumerable<OperationModel> Operations { get; }
+        public bool HasOperations => Operations.Any();
     }
 }

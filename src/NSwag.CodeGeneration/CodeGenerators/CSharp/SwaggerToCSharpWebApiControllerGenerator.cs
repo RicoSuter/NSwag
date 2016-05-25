@@ -67,7 +67,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             return template.Render();
         }
 
-        internal override string RenderClientCode(string controllerName, IEnumerable<OperationModel> operations)
+        internal override string RenderClientCode(string controllerName, IList<OperationModel> operations)
         {
             var hasClientBaseClass = !string.IsNullOrEmpty(Settings.ControllerBaseClass);
             
