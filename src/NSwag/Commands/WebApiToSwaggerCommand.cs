@@ -16,6 +16,7 @@ namespace NSwag.Commands
         public WebApiToSwaggerCommand()
         {
             Settings = new WebApiAssemblyToSwaggerGeneratorSettings();
+            ControllerNames = new string[] { };
         }
 
         [JsonIgnore]
@@ -98,7 +99,7 @@ namespace NSwag.Commands
             {
                 var generator = new WebApiAssemblyToSwaggerGenerator(Settings);
 
-                var controllerNames = ControllerNames?.ToList() ?? new List<string>();
+                var controllerNames = ControllerNames.ToList();
                 if (!string.IsNullOrEmpty(ControllerName))
                     controllerNames.Add(ControllerName);
 
