@@ -23,7 +23,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Border MaxHeight="550" Margin="-10,-10,-10,6" BorderThickness="0,0,0,1" BorderBrush="LightGray">
+        <Border MaxHeight="620" Margin="-10,-10,-10,6" BorderThickness="0,0,0,1" BorderBrush="LightGray">
             <Expander Margin="8" IsExpanded="{Binding ShowSettings, Mode=TwoWay}">
                 <Expander.HeaderTemplate>
                     <DataTemplate>
