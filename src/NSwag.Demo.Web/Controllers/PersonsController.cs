@@ -42,7 +42,8 @@ namespace NSwag.Demo.Web.Controllers
 
         // GET: api/Person/5
         /// <summary>Gets a person.</summary>
-        /// <param name="id">The ID of the person.</param>
+        /// <param name="id">The ID of 
+        /// the person.</param>
         /// <returns>The person.</returns>
         [ResponseType(typeof(Person))]
         [ResponseType("500", typeof(PersonNotFoundException))]

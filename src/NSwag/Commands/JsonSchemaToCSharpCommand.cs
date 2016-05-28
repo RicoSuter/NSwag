@@ -15,22 +15,29 @@ namespace NSwag.Commands
         public string Namespace { get; set; }
 
         [Description("Specifies whether a required property must be defined in JSON (sets Required.Always when the property is required).")]
-        [Argument(Name = "RequiredPropertiesMustBeDefined", DefaultValue = true)]
-        public bool RequiredPropertiesMustBeDefined { get; set; }
+        [Argument(Name = "RequiredPropertiesMustBeDefined", IsRequired = false)]
+        public bool RequiredPropertiesMustBeDefined { get; set; } = true;
 
         [Description("The date time .NET type (default: 'DateTime').")]
-        [Argument(Name = "DateTimeType", DefaultValue = "DateTime")]
-        public string DateTimeType { get; set; }
+        [Argument(Name = "DateTimeType", IsRequired = false)]
+        public string DateTimeType { get; set; } = "DateTime";
 
         [Description("The generic array .NET type (default: 'ObservableCollection').")]
-        [Argument(Name = "ArrayType", DefaultValue = "ObservableCollection")]
-        public string ArrayType { get; set; }
+        [Argument(Name = "ArrayType", IsRequired = false)]
+        public string ArrayType { get; set; } = "ObservableCollection";
 
         [Description("The generic dictionary .NET type (default: 'Dictionary').")]
-        [Argument(Name = "DictionaryType", DefaultValue = "Dictionary")]
-        public string DictionaryType { get; set; }
+        [Argument(Name = "DictionaryType", IsRequired = false)]
+        public string DictionaryType { get; set; } = "Dictionary";
 
-        public override async Task RunAsync(CommandLineProcessor processor, IConsoleHost host)
+        public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
+        {
+            var code = Run();
+            WriteFileOutput(host, () => code);
+            return code;
+        }
+
+        public string Run()
         {
             var settings = new CSharpGeneratorSettings
             {
@@ -43,8 +50,7 @@ namespace NSwag.Commands
             
             var schema = JsonSchema4.FromJson(InputJson);
             var generator = new CSharpGenerator(schema, settings);
-            var code = generator.GenerateFile();
-            WriteOutput(host, code);
+            return generator.GenerateFile();
         }
     }
 }

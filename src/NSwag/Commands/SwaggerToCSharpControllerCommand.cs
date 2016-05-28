@@ -11,22 +11,23 @@ namespace NSwag.Commands
         public SwaggerToCSharpControllerCommand() : base(new SwaggerToCSharpWebApiControllerGeneratorSettings())
         {
         }
-        
+
         [Description("The controller base class (empty for 'ApiController').")]
-        [Argument(Name = "ControllerBaseClass", DefaultValue = "")]
+        [Argument(Name = "ControllerBaseClass", IsRequired = false)]
         public string ControllerBaseClass
         {
             get { return Settings.ControllerBaseClass; }
             set { Settings.ControllerBaseClass = value; }
         }
 
-        public override async Task RunAsync(CommandLineProcessor processor, IConsoleHost host)
+        public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            var output = await RunAsync();
-            WriteOutput(host, output);
+            var code = Run();
+            WriteFileOutput(host, () => code);
+            return code;
         }
 
-        public async Task<string> RunAsync()
+        public string Run()
         {
             var clientGenerator = new SwaggerToCSharpWebApiControllerGenerator(InputSwaggerService, Settings);
             return clientGenerator.GenerateFile();

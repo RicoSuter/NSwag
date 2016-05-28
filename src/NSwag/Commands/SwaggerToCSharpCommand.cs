@@ -25,22 +25,6 @@ namespace NSwag.Commands
             set { Settings.ClassName = value; }
         }
 
-        [Description("The additional namespace usages.")]
-        [Argument(Name = "AdditionalNamespaceUsages", DefaultValue = new string[] {})]
-        public string[] AdditionalNamespaceUsages
-        {
-            get { return Settings.AdditionalNamespaceUsages; }
-            set { Settings.AdditionalNamespaceUsages = value; }
-        }
-
-        [Description("Specifies whether a required property must be defined in JSON (sets Required.Always when the property is required).")]
-        [Argument(Name = "RequiredPropertiesMustBeDefined", DefaultValue = true)]
-        public bool RequiredPropertiesMustBeDefined
-        {
-            get { return Settings.CSharpGeneratorSettings.RequiredPropertiesMustBeDefined; }
-            set { Settings.CSharpGeneratorSettings.RequiredPropertiesMustBeDefined = value; }
-        }
-
         [Description("The namespace of the generated classes.")]
         [Argument(Name = "Namespace")]
         public string Namespace
@@ -49,8 +33,24 @@ namespace NSwag.Commands
             set { Settings.CSharpGeneratorSettings.Namespace = value; }
         }
 
+        [Description("The additional namespace usages.")]
+        [Argument(Name = "AdditionalNamespaceUsages", IsRequired = false)]
+        public string[] AdditionalNamespaceUsages
+        {
+            get { return Settings.AdditionalNamespaceUsages; }
+            set { Settings.AdditionalNamespaceUsages = value; }
+        }
+
+        [Description("Specifies whether a required property must be defined in JSON (sets Required.Always when the property is required).")]
+        [Argument(Name = "RequiredPropertiesMustBeDefined", IsRequired = false)]
+        public bool RequiredPropertiesMustBeDefined
+        {
+            get { return Settings.CSharpGeneratorSettings.RequiredPropertiesMustBeDefined; }
+            set { Settings.CSharpGeneratorSettings.RequiredPropertiesMustBeDefined = value; }
+        }
+
         [Description("The date time .NET type (default: 'DateTime').")]
-        [Argument(Name = "DateTimeType", DefaultValue = "DateTime")]
+        [Argument(Name = "DateTimeType", IsRequired = false)]
         public string DateTimeType
         {
             get { return Settings.CSharpGeneratorSettings.DateTimeType; }
@@ -58,7 +58,7 @@ namespace NSwag.Commands
         }
 
         [Description("The generic array .NET type (default: 'ObservableCollection').")]
-        [Argument(Name = "ArrayType", DefaultValue = "ObservableCollection")]
+        [Argument(Name = "ArrayType", IsRequired = false)]
         public string ArrayType
         {
             get { return Settings.CSharpGeneratorSettings.ArrayType; }
@@ -66,15 +66,15 @@ namespace NSwag.Commands
         }
 
         [Description("The generic dictionary .NET type (default: 'Dictionary').")]
-        [Argument(Name = "DictionaryType", DefaultValue = "Dictionary")]
+        [Argument(Name = "DictionaryType", IsRequired = false)]
         public string DictionaryType
         {
             get { return Settings.CSharpGeneratorSettings.DictionaryType; }
             set { Settings.CSharpGeneratorSettings.DictionaryType = value; }
         }
 
-        [Description("The CSharp class style, 'Poco' or 'Inpc' (default: 'Poco').")]
-        [Argument(Name = "ClassStyle", DefaultValue = "Poco")]
+        [Description("The CSharp class style, 'Poco' or 'Inpc' (default: 'Inpc').")]
+        [Argument(Name = "ClassStyle", IsRequired = false)]
         public CSharpClassStyle ClassStyle
         {
             get { return Settings.CSharpGeneratorSettings.ClassStyle; }
@@ -82,7 +82,7 @@ namespace NSwag.Commands
         }
 
         [Description("The operation generation mode ('SingleClientFromOperationId' or 'MultipleClientsFromPathSegments').")]
-        [Argument(Name = "OperationGenerationMode", DefaultValue = OperationGenerationMode.SingleClientFromOperationId)]
+        [Argument(Name = "OperationGenerationMode", IsRequired = false)]
         public OperationGenerationMode OperationGenerationMode
         {
             get { return Settings.OperationGenerationMode; }

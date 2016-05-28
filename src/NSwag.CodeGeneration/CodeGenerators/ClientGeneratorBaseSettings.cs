@@ -19,6 +19,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
         {
             GenerateClientClasses = true; 
             GenerateDtoTypes = true;
+            OperationGenerationMode = OperationGenerationMode.MultipleClientsFromOperationId;
         }
 
         /// <summary>Gets or sets the class name of the service client or controller.</summary>

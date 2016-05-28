@@ -10,24 +10,28 @@ namespace NSwag.Commands.Base
     public abstract class InputOutputCommandBase : OutputCommandBase
     {
         [Description("A file path or URL to the data or the JSON data itself.")]
-        [Argument(Name = "Input")]
-        public string Input { get; set; }
+        [Argument(Name = "Input", AcceptsCommandInput = true, IsRequired = true)]
+        public object Input { get; set; }
 
         [JsonIgnore]
         protected SwaggerService InputSwaggerService
         {
             get
             {
-                if (string.IsNullOrEmpty(Input))
-                    return null; 
+                if (Input is SwaggerService)
+                    return (SwaggerService)Input;
 
-                if (IsJson)
-                    return SwaggerService.FromJson(Input);
+                var inputString = Input.ToString();
+                if (string.IsNullOrEmpty(inputString))
+                    return null;
 
-                if (File.Exists(Input))
-                    return SwaggerService.FromJson(File.ReadAllText(Input, Encoding.UTF8));
+                if (IsJson(inputString))
+                    return SwaggerService.FromJson(inputString);
 
-                return SwaggerService.FromUrl(Input);
+                if (File.Exists(inputString))
+                    return SwaggerService.FromJson(File.ReadAllText(inputString, Encoding.UTF8));
+
+                return SwaggerService.FromUrl(inputString);
             }
         }
 
@@ -36,17 +40,22 @@ namespace NSwag.Commands.Base
         {
             get
             {
-                if (IsJson)
-                    return Input;
+                var inputString = Input.ToString();
 
-                if (File.Exists(Input))
-                    return File.ReadAllText(Input, Encoding.UTF8);
+                if (IsJson(inputString))
+                    return inputString;
+
+                if (File.Exists(inputString))
+                    return File.ReadAllText(inputString, Encoding.UTF8);
 
                 using (WebClient client = new WebClient())
-                    return client.DownloadString(Input);
+                    return client.DownloadString(inputString);
             }
         }
 
-        private bool IsJson => !string.IsNullOrEmpty(Input) && Input.Contains("{");
+        private bool IsJson(string data)
+        {
+            return !string.IsNullOrEmpty(data) && data.Contains("{");
+        }
     }
 }

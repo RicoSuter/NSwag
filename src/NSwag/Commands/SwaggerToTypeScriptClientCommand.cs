@@ -22,7 +22,7 @@ namespace NSwag.Commands
         public SwaggerToTypeScriptClientGeneratorSettings Settings { get; set; }
 
         [Description("The class name of the generated client.")]
-        [Argument(Name = "ClassName", DefaultValue = "{controller}Client")]
+        [Argument(Name = "ClassName", IsRequired = false)]
         public string ClassName
         {
             get { return Settings.ClassName; }
@@ -30,15 +30,15 @@ namespace NSwag.Commands
         }
 
         [Description("The TypeScript module name (default: '', no module).")]
-        [Argument(Name = "ModuleName", DefaultValue = "")]
+        [Argument(Name = "ModuleName", IsRequired = false)]
         public string ModuleName
         {
             get { return Settings.ModuleName; }
             set { Settings.ModuleName = value; }
         }
 
-        [Description("The type of the asynchronism handling ('JQueryCallbacks', 'JQueryPromises', 'AngularJS').")]
-        [Argument(Name = "Template", DefaultValue = TypeScriptTemplate.JQueryCallbacks)]
+        [Description("The type of the asynchronism handling ('JQueryCallbacks', 'JQueryPromises', 'AngularJS', 'Angular2').")]
+        [Argument(Name = "Template", IsRequired = false)]
         public TypeScriptTemplate Template
         {
             get { return Settings.Template; }
@@ -46,7 +46,7 @@ namespace NSwag.Commands
         }
 
         [Description("The promise type ('Promise' or 'QPromise').")]
-        [Argument(Name = "PromiseType", DefaultValue = "Promise")]
+        [Argument(Name = "PromiseType", IsRequired = false)]
         public PromiseType PromiseType
         {
             get { return Settings.PromiseType; }
@@ -54,7 +54,7 @@ namespace NSwag.Commands
         }
 
         [Description("Specifies whether generate client classes.")]
-        [Argument(Name = "GenerateClientClasses", DefaultValue = true)]
+        [Argument(Name = "GenerateClientClasses", IsRequired = false)]
         public bool GenerateClientClasses
         {
             get { return Settings.GenerateClientClasses; }
@@ -62,7 +62,7 @@ namespace NSwag.Commands
         }
 
         [Description("Specifies whether generate interfaces for the client classes.")]
-        [Argument(Name = "GenerateClientInterfaces", DefaultValue = false)]
+        [Argument(Name = "GenerateClientInterfaces", IsRequired = false)]
         public bool GenerateClientInterfaces
         {
             get { return Settings.GenerateClientInterfaces; }
@@ -70,7 +70,7 @@ namespace NSwag.Commands
         }
 
         [Description("Specifies whether to generate DTO classes.")]
-        [Argument(Name = "GenerateDtoTypes", DefaultValue = true)]
+        [Argument(Name = "GenerateDtoTypes", IsRequired = false)]
         public bool GenerateDtoTypes
         {
             get { return Settings.GenerateDtoTypes; }
@@ -78,7 +78,7 @@ namespace NSwag.Commands
         }
 
         [Description("The operation generation mode ('SingleClientFromOperationId' or 'MultipleClientsFromPathSegments').")]
-        [Argument(Name = "OperationGenerationMode", DefaultValue = OperationGenerationMode.SingleClientFromOperationId)]
+        [Argument(Name = "OperationGenerationMode", IsRequired = false)]
         public OperationGenerationMode OperationGenerationMode
         {
             get { return Settings.OperationGenerationMode; }
@@ -86,7 +86,7 @@ namespace NSwag.Commands
         }
 
         [Description("Specifies whether to generate readonly keywords (only available in TS 2.0+, default: true).")]
-        [Argument(Name = "GenerateReadOnlyKeywords", DefaultValue = true)]
+        [Argument(Name = "GenerateReadOnlyKeywords", IsRequired = false)]
         public bool GenerateReadOnlyKeywords
         {
             get { return Settings.TypeScriptGeneratorSettings.GenerateReadOnlyKeywords; }
@@ -94,15 +94,23 @@ namespace NSwag.Commands
         }
 
         [Description("The type style (default: Interface).")]
-        [Argument(Name = "TypeStyle", DefaultValue = TypeScriptTypeStyle.Interface)]
+        [Argument(Name = "TypeStyle", IsRequired = false)]
         public TypeScriptTypeStyle TypeStyle
         {
             get { return Settings.TypeScriptGeneratorSettings.TypeStyle; }
             set { Settings.TypeScriptGeneratorSettings.TypeStyle = value; }
         }
 
+        [Description("The type names which always generate plain TypeScript classes.")]
+        [Argument(Name = "ClassTypes", IsRequired = false)]
+        public string[] ClassTypes
+        {
+            get { return Settings.TypeScriptGeneratorSettings.ClassTypes; }
+            set { Settings.TypeScriptGeneratorSettings.ClassTypes = value; }
+        }
+
         [Description("The list of extended classes.")]
-        [Argument(Name = "ExtendedClasses", DefaultValue = new string[] { })]
+        [Argument(Name = "ExtendedClasses", IsRequired = false)]
         public string[] ExtendedClasses
         {
             get { return Settings.TypeScriptGeneratorSettings.ExtendedClasses; }
@@ -110,16 +118,19 @@ namespace NSwag.Commands
         }
 
         [Description("The extension code (string or file path).")]
-        [Argument(Name = "ExtensionCode", DefaultValue = "")]
+        [Argument(Name = "ExtensionCode", IsRequired = false)]
         public string ExtensionCode { get; set; }
 
-        public override async Task RunAsync(CommandLineProcessor processor, IConsoleHost host)
+        public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            var output = await RunAsync();
-            WriteOutput(host, output);
+            host.WriteMessage("Generating TypeScript code...\n");
+
+            var code = Run();
+            WriteFileOutput(host, () => code);
+            return code;
         }
 
-        public async Task<string> RunAsync()
+        public string Run()
         {
             var additionalCode = ExtensionCode ?? string.Empty;
             if (File.Exists(additionalCode))
