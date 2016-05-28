@@ -13,7 +13,6 @@ namespace NSwag.Commands
         public AssemblyTypeToSwaggerCommand()
         {
             Settings = new AssemblyTypeToSwaggerGeneratorSettings();
-            ClassNames = new string[] { };
         }
 
         [JsonIgnore]
@@ -26,6 +25,10 @@ namespace NSwag.Commands
             get { return Settings.AssemblyPath; }
             set { Settings.AssemblyPath = value; }
         }
+
+        [Description("The class names.")]
+        [Argument(Name = "ClassNames")]
+        public string[] ClassNames { get; set; }
 
         [Description("The path to the assembly App.config or Web.config (optional).")]
         [Argument(Name = "AssemblyConfig", IsRequired = false)]
@@ -44,7 +47,7 @@ namespace NSwag.Commands
         }
 
         [Description("The default enum handling ('String' or 'Integer'), default: Integer.")]
-        [Argument(Name = "DefaultEnumHandling", IsRequired = true)]
+        [Argument(Name = "DefaultEnumHandling", IsRequired = false)]
         public EnumHandling DefaultEnumHandling
         {
             get { return Settings.DefaultEnumHandling; }
@@ -66,10 +69,6 @@ namespace NSwag.Commands
             get { return Settings.GenerateKnownTypes; }
             set { Settings.GenerateKnownTypes = value; }
         }
-
-        [Description("The class names.")]
-        [Argument(Name = "ClassNames", IsRequired = false)]
-        public string[] ClassNames { get; set; }
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {

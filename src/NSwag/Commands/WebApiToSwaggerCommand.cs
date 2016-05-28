@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,8 +16,6 @@ namespace NSwag.Commands
         public WebApiToSwaggerCommand()
         {
             Settings = new WebApiAssemblyToSwaggerGeneratorSettings();
-            ReferencePaths = new string[] { };
-            ControllerNames = new string[] { };
         }
 
         [JsonIgnore]
@@ -50,7 +49,7 @@ namespace NSwag.Commands
         [Argument(Name = "Controller", IsRequired = false)]
         public string ControllerName { get; set; }
 
-        [Description("The Web API controller full class names or empty to load all controllers from the assembly.")]
+        [Description("The Web API controller full class names or empty to load all controllers from the assembly (comma separated).")]
         [Argument(Name = "Controllers", IsRequired = false)]
         public string[] ControllerNames { get; set; }
 
@@ -99,7 +98,7 @@ namespace NSwag.Commands
             {
                 var generator = new WebApiAssemblyToSwaggerGenerator(Settings);
 
-                var controllerNames = ControllerNames.ToList();
+                var controllerNames = ControllerNames?.ToList() ?? new List<string>();
                 if (!string.IsNullOrEmpty(ControllerName))
                     controllerNames.Add(ControllerName);
 
