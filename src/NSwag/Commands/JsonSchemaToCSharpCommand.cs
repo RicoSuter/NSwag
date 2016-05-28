@@ -30,14 +30,7 @@ namespace NSwag.Commands
         [Argument(Name = "DictionaryType", IsRequired = false)]
         public string DictionaryType { get; set; } = "Dictionary";
 
-        public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
-        {
-            var code = Run();
-            WriteFileOutput(host, () => code);
-            return code;
-        }
-
-        public string Run()
+        public override Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var settings = new CSharpGeneratorSettings
             {
@@ -47,10 +40,12 @@ namespace NSwag.Commands
                 ArrayType = ArrayType,
                 DictionaryType = DictionaryType,
             };
-            
+
             var schema = JsonSchema4.FromJson(InputJson);
             var generator = new CSharpGenerator(schema, settings);
-            return generator.GenerateFile();
+            var code = generator.GenerateFile();
+            TryWriteFileOutput(host, () => code);
+            return Task.FromResult<object>(code);
         }
     }
 }

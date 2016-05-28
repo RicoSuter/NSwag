@@ -88,24 +88,27 @@ namespace NSwag.Commands
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            var service = Run();
-            WriteFileOutput(host, () => service.ToJson());
+            var service = await RunAsync();
+            TryWriteFileOutput(host, () => service.ToJson());
             return service;
         }
 
-        public SwaggerService Run()
+        public async Task<SwaggerService> RunAsync()
         {
-            var generator = new WebApiAssemblyToSwaggerGenerator(Settings);
+            return await Task.Run(() =>
+            {
+                var generator = new WebApiAssemblyToSwaggerGenerator(Settings);
 
-            var controllerNames = ControllerNames.ToList();
-            if (!string.IsNullOrEmpty(ControllerName))
-                controllerNames.Add(ControllerName);
+                var controllerNames = ControllerNames.ToList();
+                if (!string.IsNullOrEmpty(ControllerName))
+                    controllerNames.Add(ControllerName);
 
-            controllerNames = controllerNames.Where(s => !string.IsNullOrWhiteSpace(s)).Distinct().ToList();
-            if (!controllerNames.Any() && !string.IsNullOrEmpty(Settings.AssemblyPath))
-                controllerNames = generator.GetControllerClasses().ToList();
+                controllerNames = controllerNames.Where(s => !string.IsNullOrWhiteSpace(s)).Distinct().ToList();
+                if (!controllerNames.Any() && !string.IsNullOrEmpty(Settings.AssemblyPath))
+                    controllerNames = generator.GetControllerClasses().ToList();
 
-            return generator.GenerateForControllers(controllerNames);
+                return generator.GenerateForControllers(controllerNames);
+            });
         }
     }
 }

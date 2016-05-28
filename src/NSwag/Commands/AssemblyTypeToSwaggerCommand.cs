@@ -73,15 +73,18 @@ namespace NSwag.Commands
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            var service = Run();
-            WriteFileOutput(host, () => service.ToJson());
+            var service = await RunAsync();
+            TryWriteFileOutput(host, () => service.ToJson());
             return service;
         }
 
-        public SwaggerService Run()
+        public async Task<SwaggerService> RunAsync()
         {
-            var generator = new AssemblyTypeToSwaggerGenerator(Settings);
-            return generator.Generate(ClassNames);
+            return await Task.Run(() =>
+            {
+                var generator = new AssemblyTypeToSwaggerGenerator(Settings);
+                return generator.Generate(ClassNames);
+            });
         }
     }
 }

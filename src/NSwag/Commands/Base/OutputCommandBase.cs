@@ -15,7 +15,7 @@ namespace NSwag.Commands.Base
 
         public abstract Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host);
 
-        protected void WriteFileOutput(IConsoleHost host, Func<string> generator)
+        protected void TryWriteFileOutput(IConsoleHost host, Func<string> generator)
         {
             if (!string.IsNullOrEmpty(OutputFilePath))
             {

@@ -95,7 +95,7 @@ namespace NSwagStudio.ViewModels.CodeGenerators
                     if (!string.IsNullOrEmpty(swaggerData))
                     {
                         Command.Input = swaggerData;
-                        code = await Task.Run(() => Command.Run());
+                        code = await Command.RunAsync();
                         Command.Input = null;
                     }
                 });
