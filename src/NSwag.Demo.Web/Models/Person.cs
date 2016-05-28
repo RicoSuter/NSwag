@@ -5,7 +5,8 @@ using Newtonsoft.Json.Converters;
 
 namespace NSwag.Demo.Web.Models
 {
-    /// <summary>The DTO class for a person.</summary>
+    /// <summary>The DTO class 
+    /// for a person.</summary>
     public class Person
     {
         /// <summary>Gets or sets the first name.</summary>
@@ -17,7 +18,8 @@ namespace NSwag.Demo.Web.Models
 
         public DateTime Birthday { get; set; }
 
-        /// <summary>Gets or sets the height in cm.</summary>
+        /// <summary>Gets or sets 
+        /// the height in cm.</summary>
         public decimal Height { get; set; }
 
         public Car[] Cars { get; set; }

@@ -70,6 +70,16 @@ namespace NSwagStudio.ViewModels.CodeGenerators
             }
         }
 
+        public string ClassTypes
+        {
+            get { return _command.ClassTypes != null ? string.Join(",", _command.ClassTypes) : ""; }
+            set
+            {
+                _command.ClassTypes = !string.IsNullOrEmpty(value) ? value.Split(',') : new string[] { };
+                RaisePropertyChanged();
+            }
+        }
+
         public string ExtendedClasses
         {
             get { return _command.ExtendedClasses != null ? string.Join(",", _command.ExtendedClasses) : ""; }
@@ -97,7 +107,7 @@ namespace NSwagStudio.ViewModels.CodeGenerators
                     if (!string.IsNullOrEmpty(swaggerData))
                     {
                         Command.Input = swaggerData;
-                        code = await Command.RunAsync();
+                        code = await Task.Run(() => Command.Run());
                         Command.Input = null;
                     }
                 });

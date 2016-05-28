@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using System.IO;
 using System.Text;
@@ -9,16 +10,14 @@ namespace NSwag.Commands.Base
     public abstract class OutputCommandBase : IConsoleCommand
     {
         [Description("The output file path (optional).")]
-        [Argument(Name = "Output", DefaultValue = "")]
+        [Argument(Name = "Output", IsRequired = false)]
         public string OutputFilePath { get; set; }
 
-        public abstract Task RunAsync(CommandLineProcessor processor, IConsoleHost host);
+        public abstract Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host);
 
-        protected void WriteOutput(IConsoleHost host, string output)
+        protected void WriteFileOutput(IConsoleHost host, Func<string> generator)
         {
-            if (string.IsNullOrEmpty(OutputFilePath))
-                host.WriteMessage(output);
-            else
+            if (!string.IsNullOrEmpty(OutputFilePath))
             {
                 var file = new FileInfo(OutputFilePath);
                 var directory = file.Directory;
@@ -26,7 +25,7 @@ namespace NSwag.Commands.Base
                 if (!directory.Exists)
                     directory.Create();
 
-                File.WriteAllText(OutputFilePath, output, Encoding.UTF8);
+                File.WriteAllText(OutputFilePath, generator(), Encoding.UTF8);
                 host.WriteMessage("Code has been successfully written to file.\n");
             }
         }

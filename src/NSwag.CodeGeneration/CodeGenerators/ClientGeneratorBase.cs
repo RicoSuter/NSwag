@@ -33,7 +33,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
         internal bool HasResultType(SwaggerOperation operation)
         {
             var response = GetSuccessResponse(operation);
-            return response != null && response.Schema != null;
+            return response?.Schema != null;
         }
 
         internal string GetResultDescription(SwaggerOperation operation)

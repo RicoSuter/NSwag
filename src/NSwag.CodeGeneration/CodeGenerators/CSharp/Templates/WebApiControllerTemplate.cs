@@ -42,33 +42,27 @@ foreach(var operation in Model.Operations){
             #line hidden
             
             #line 7 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\WebApiControllerTemplate.tt"
-if(operation.HasSummary){
+  if(operation.HasSummary){
             
             #line default
             #line hidden
             this.Write("    /// <summary>");
             
             #line 7 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\WebApiControllerTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.Summary));
+            this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)));
             
             #line default
             #line hidden
-            this.Write("</summary>");
-            
-            #line 7 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\WebApiControllerTemplate.tt"
-}
-            
-            #line default
-            #line hidden
+            this.Write("</summary>\r\n");
             
             #line 8 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\WebApiControllerTemplate.tt"
-foreach(var parameter in operation.Parameters){
+  }foreach (var parameter in operation.Parameters){
             
             #line default
             #line hidden
             
             #line 9 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\WebApiControllerTemplate.tt"
-if(parameter.HasDescription){
+      if(parameter.HasDescription){
             
             #line default
             #line hidden
@@ -82,47 +76,35 @@ if(parameter.HasDescription){
             this.Write("\">");
             
             #line 9 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\WebApiControllerTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Description));
+            this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)));
             
             #line default
             #line hidden
-            this.Write("</param>");
-            
-            #line 9 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\WebApiControllerTemplate.tt"
-}}
-            
-            #line default
-            #line hidden
+            this.Write("</param>\r\n");
             
             #line 10 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\WebApiControllerTemplate.tt"
-if(operation.HasResultDescription){
+  }}if(operation.HasResultDescription){
             
             #line default
             #line hidden
             this.Write("    /// <returns>");
             
             #line 10 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\WebApiControllerTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultDescription));
+            this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)));
             
             #line default
             #line hidden
-            this.Write("</returns>");
-            
-            #line 10 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\WebApiControllerTemplate.tt"
-}
-            
-            #line default
-            #line hidden
+            this.Write("</returns>\r\n");
             
             #line 11 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\WebApiControllerTemplate.tt"
-if(operation.IsDeprecated){
+  }if(operation.IsDeprecated){
             
             #line default
             #line hidden
             this.Write("    [Obsolete]\r\n");
             
             #line 12 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\WebApiControllerTemplate.tt"
-}
+  }
             
             #line default
             #line hidden
@@ -242,36 +224,29 @@ foreach(var operation in Model.Operations){
             
             #line default
             #line hidden
-            this.Write(" \r\n");
             
             #line 26 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\WebApiControllerTemplate.tt"
-if(operation.HasSummary){
+  if(operation.HasSummary){
             
             #line default
             #line hidden
             this.Write("    /// <summary>");
             
             #line 26 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\WebApiControllerTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.Summary));
+            this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)));
             
             #line default
             #line hidden
-            this.Write("</summary>");
-            
-            #line 26 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\WebApiControllerTemplate.tt"
-}
-            
-            #line default
-            #line hidden
+            this.Write("</summary>\r\n");
             
             #line 27 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\WebApiControllerTemplate.tt"
-foreach(var parameter in operation.Parameters){
+  }foreach (var parameter in operation.Parameters){
             
             #line default
             #line hidden
             
             #line 28 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\WebApiControllerTemplate.tt"
-if(parameter.HasDescription){
+      if(parameter.HasDescription){
             
             #line default
             #line hidden
@@ -285,47 +260,35 @@ if(parameter.HasDescription){
             this.Write("\">");
             
             #line 28 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\WebApiControllerTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Description));
+            this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)));
             
             #line default
             #line hidden
-            this.Write("</param>");
-            
-            #line 28 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\WebApiControllerTemplate.tt"
-}}
-            
-            #line default
-            #line hidden
+            this.Write("</param>\r\n");
             
             #line 29 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\WebApiControllerTemplate.tt"
-if(operation.HasResultDescription){
+  }}if(operation.HasResultDescription){
             
             #line default
             #line hidden
             this.Write("    /// <returns>");
             
             #line 29 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\WebApiControllerTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultDescription));
+            this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)));
             
             #line default
             #line hidden
-            this.Write("</returns>");
-            
-            #line 29 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\WebApiControllerTemplate.tt"
-}
-            
-            #line default
-            #line hidden
+            this.Write("</returns>\r\n");
             
             #line 30 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\WebApiControllerTemplate.tt"
-if(operation.IsDeprecated){
+  }if(operation.IsDeprecated){
             
             #line default
             #line hidden
             this.Write("    [Obsolete]\r\n");
             
             #line 31 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\WebApiControllerTemplate.tt"
-}
+  }
             
             #line default
             #line hidden

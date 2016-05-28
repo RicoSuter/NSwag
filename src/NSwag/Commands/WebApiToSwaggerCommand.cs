@@ -31,7 +31,7 @@ namespace NSwag.Commands
         }
 
         [Description("The path to the assembly App.config or Web.config (optional).")]
-        [Argument(Name = "AssemblyConfig", DefaultValue = "")]
+        [Argument(Name = "AssemblyConfig", IsRequired = false)]
         public string AssemblyConfig
         {
             get { return Settings.AssemblyConfig; }
@@ -39,7 +39,7 @@ namespace NSwag.Commands
         }
 
         [Description("The paths to search for referenced assembly files.")]
-        [Argument(Name = "ReferencePaths", DefaultValue = new string[] { })]
+        [Argument(Name = "ReferencePaths", IsRequired = false)]
         public string[] ReferencePaths
         {
             get { return Settings.ReferencePaths; }
@@ -47,15 +47,15 @@ namespace NSwag.Commands
         }
 
         [Description("The Web API controller full class name or empty to load all controllers from the assembly.")]
-        [Argument(Name = "Controller", DefaultValue = "")]
+        [Argument(Name = "Controller", IsRequired = false)]
         public string ControllerName { get; set; }
 
         [Description("The Web API controller full class names or empty to load all controllers from the assembly.")]
-        [Argument(Name = "Controllers", DefaultValue = new string[] { })]
+        [Argument(Name = "Controllers", IsRequired = false)]
         public string[] ControllerNames { get; set; }
 
         [Description("The Web API default URL template.")]
-        [Argument(Name = "DefaultUrlTemplate", DefaultValue = "api/{controller}/{action}/{id}")]
+        [Argument(Name = "DefaultUrlTemplate", IsRequired = false)]
         public string DefaultUrlTemplate
         {
             get { return Settings.DefaultUrlTemplate; }
@@ -63,7 +63,7 @@ namespace NSwag.Commands
         }
 
         [Description("The default enum handling ('String' or 'Integer'), default: Integer.")]
-        [Argument(Name = "DefaultEnumHandling", DefaultValue = EnumHandling.Integer)]
+        [Argument(Name = "DefaultEnumHandling", IsRequired = false)]
         public EnumHandling DefaultEnumHandling
         {
             get { return Settings.DefaultEnumHandling; }
@@ -71,7 +71,7 @@ namespace NSwag.Commands
         }
 
         [Description("Flatten the inheritance hierarchy instead of using allOf to describe inheritance (default: false).")]
-        [Argument(Name = "FlattenInheritanceHierarchy", DefaultValue = false)]
+        [Argument(Name = "FlattenInheritanceHierarchy", IsRequired = false)]
         public bool FlattenInheritanceHierarchy
         {
             get { return Settings.FlattenInheritanceHierarchy; }
@@ -79,19 +79,21 @@ namespace NSwag.Commands
         }
 
         [Description("Generate schemas for types in KnownTypeAttribute attributes (default: true).")]
-        [Argument(Name = "GenerateKnownTypes", DefaultValue = true)]
+        [Argument(Name = "GenerateKnownTypes", IsRequired = false)]
         public bool GenerateKnownTypes
         {
             get { return Settings.GenerateKnownTypes; }
             set { Settings.GenerateKnownTypes = value; }
         }
 
-        public override async Task RunAsync(CommandLineProcessor processor, IConsoleHost host)
+        public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            WriteOutput(host, await RunAsync());
+            var service = Run();
+            WriteFileOutput(host, () => service.ToJson());
+            return service;
         }
 
-        public async Task<string> RunAsync()
+        public SwaggerService Run()
         {
             var generator = new WebApiAssemblyToSwaggerGenerator(Settings);
 
@@ -103,8 +105,7 @@ namespace NSwag.Commands
             if (!controllerNames.Any() && !string.IsNullOrEmpty(Settings.AssemblyPath))
                 controllerNames = generator.GetControllerClasses().ToList();
 
-            var service = generator.GenerateForControllers(controllerNames);
-            return service.ToJson();
+            return generator.GenerateForControllers(controllerNames);
         }
     }
 }

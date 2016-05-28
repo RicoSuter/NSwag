@@ -62,20 +62,20 @@
       <HintPath>..\packages\MyToolkit.Extended.2.5.12.0\lib\net45\MyToolkit.Extended.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NConsole, Version=1.3.5963.27533, Culture=neutral, PublicKeyToken=0f839b9a5b9cbd65, processorArchitecture=MSIL">
-      <HintPath>..\packages\NConsole.1.3.5963.27533\lib\net45\NConsole.dll</HintPath>
+    <Reference Include="NConsole, Version=2.0.5992.40924, Culture=neutral, PublicKeyToken=0f839b9a5b9cbd65, processorArchitecture=MSIL">
+      <HintPath>..\packages\NConsole.2.0.5992.40924\lib\net45\NConsole.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=2.25.5989.40403, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.2.25.5989.40403\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
+    <Reference Include="NJsonSchema, Version=2.26.5992.40823, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.2.26.5992.40823\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema.CodeGeneration, Version=2.25.5989.40404, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.CodeGeneration.2.25.5989.40404\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
+    <Reference Include="NJsonSchema.CodeGeneration, Version=2.26.5992.40824, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.CodeGeneration.2.26.5992.40824\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

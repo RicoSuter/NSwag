@@ -15,9 +15,12 @@ namespace NSwag.Demo.Web.Models
         public ObjectType Type { get; set; }
     }
 
+    /// <summary>Foo
+    /// bar</summary>
     public enum ObjectType
     {
         Foo, 
+
         Bar
     }
 }

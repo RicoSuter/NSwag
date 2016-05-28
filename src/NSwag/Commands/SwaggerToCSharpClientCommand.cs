@@ -14,7 +14,7 @@ namespace NSwag.Commands
         }
 
         [Description("The client base class (empty for no base class).")]
-        [Argument(Name = "ClientBaseClass", DefaultValue = "")]
+        [Argument(Name = "ClientBaseClass", IsRequired = false)]
         public string ClientBaseClass
         {
             get { return Settings.ClientBaseClass; }
@@ -22,7 +22,7 @@ namespace NSwag.Commands
         }
 
         [Description("Specifies whether generate client classes.")]
-        [Argument(Name = "GenerateClientClasses", DefaultValue = true)]
+        [Argument(Name = "GenerateClientClasses", IsRequired = false)]
         public bool GenerateClientClasses
         {
             get { return Settings.GenerateClientClasses; }
@@ -30,7 +30,7 @@ namespace NSwag.Commands
         }
 
         [Description("Specifies whether generate interfaces for the client classes.")]
-        [Argument(Name = "GenerateClientInterfaces", DefaultValue = false)]
+        [Argument(Name = "GenerateClientInterfaces", IsRequired = false)]
         public bool GenerateClientInterfaces
         {
             get { return Settings.GenerateClientInterfaces; }
@@ -38,7 +38,7 @@ namespace NSwag.Commands
         }
 
         [Description("Specifies whether to generate DTO classes.")]
-        [Argument(Name = "GenerateDtoTypes", DefaultValue = true)]
+        [Argument(Name = "GenerateDtoTypes", IsRequired = false)]
         public bool GenerateDtoTypes
         {
             get { return Settings.GenerateDtoTypes; }
@@ -46,20 +46,21 @@ namespace NSwag.Commands
         }
 
         [Description("Specifies whether to call CreateHttpClientAsync on the base class to create a new HttpClient.")]
-        [Argument(Name = "UseHttpClientCreationMethod", DefaultValue = false)]
+        [Argument(Name = "UseHttpClientCreationMethod", IsRequired = false)]
         public bool UseHttpClientCreationMethod
         {
             get { return Settings.UseHttpClientCreationMethod; }
             set { Settings.UseHttpClientCreationMethod = value; }
         }
-        
-        public override async Task RunAsync(CommandLineProcessor processor, IConsoleHost host)
+
+        public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            var output = await RunAsync();
-            WriteOutput(host, output);
+            var code = Run();
+            WriteFileOutput(host, () => code);
+            return code;
         }
 
-        public async Task<string> RunAsync()
+        public string Run()
         {
             var clientGenerator = new SwaggerToCSharpClientGenerator(InputSwaggerService, Settings);
             return clientGenerator.GenerateFile();

@@ -28,7 +28,7 @@ namespace NSwag.Commands
         }
 
         [Description("The path to the assembly App.config or Web.config (optional).")]
-        [Argument(Name = "AssemblyConfig", DefaultValue = "")]
+        [Argument(Name = "AssemblyConfig", IsRequired = false)]
         public string AssemblyConfig
         {
             get { return Settings.AssemblyConfig; }
@@ -36,7 +36,7 @@ namespace NSwag.Commands
         }
 
         [Description("The paths to search for referenced assembly files.")]
-        [Argument(Name = "ReferencePaths", DefaultValue = new string[] { })]
+        [Argument(Name = "ReferencePaths", IsRequired = false)]
         public string[] ReferencePaths
         {
             get { return Settings.ReferencePaths; }
@@ -44,7 +44,7 @@ namespace NSwag.Commands
         }
 
         [Description("The default enum handling ('String' or 'Integer'), default: Integer.")]
-        [Argument(Name = "DefaultEnumHandling", DefaultValue = EnumHandling.Integer)]
+        [Argument(Name = "DefaultEnumHandling", IsRequired = true)]
         public EnumHandling DefaultEnumHandling
         {
             get { return Settings.DefaultEnumHandling; }
@@ -52,7 +52,7 @@ namespace NSwag.Commands
         }
 
         [Description("Flatten the inheritance hierarchy instead of using allOf to describe inheritance (default: false).")]
-        [Argument(Name = "FlattenInheritanceHierarchy", DefaultValue = false)]
+        [Argument(Name = "FlattenInheritanceHierarchy", IsRequired = false)]
         public bool FlattenInheritanceHierarchy
         {
             get { return Settings.FlattenInheritanceHierarchy; }
@@ -60,7 +60,7 @@ namespace NSwag.Commands
         }
 
         [Description("Generate schemas for types in KnownTypeAttribute attributes (default: true).")]
-        [Argument(Name = "GenerateKnownTypes", DefaultValue = true)]
+        [Argument(Name = "GenerateKnownTypes", IsRequired = false)]
         public bool GenerateKnownTypes
         {
             get { return Settings.GenerateKnownTypes; }
@@ -68,19 +68,20 @@ namespace NSwag.Commands
         }
 
         [Description("The class names.")]
-        [Argument(Name = "ClassNames", DefaultValue = null)]
+        [Argument(Name = "ClassNames", IsRequired = false)]
         public string[] ClassNames { get; set; }
 
-        public override async Task RunAsync(CommandLineProcessor processor, IConsoleHost host)
+        public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            WriteOutput(host, await RunAsync());
+            var service = Run();
+            WriteFileOutput(host, () => service.ToJson());
+            return service;
         }
 
-        public async Task<string> RunAsync()
+        public SwaggerService Run()
         {
             var generator = new AssemblyTypeToSwaggerGenerator(Settings);
-            var service = generator.Generate(ClassNames);
-            return service.ToJson();
+            return generator.Generate(ClassNames);
         }
     }
 }
