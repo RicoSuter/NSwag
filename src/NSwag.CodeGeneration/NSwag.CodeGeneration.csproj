@@ -94,7 +94,7 @@
     <Compile Include="CodeGenerators\TypeScript\PromiseType.cs" />
     <Compile Include="CodeGenerators\TypeScript\SwaggerToTypeScriptClientGeneratorSettings.cs" />
     <Compile Include="CodeGenerators\TypeScript\Templates\Angular2Template.Extensions.cs" />
-    <Compile Include="CodeGenerators\TypeScript\Templates\Angular2Template.cs">
+    <Compile Include="CodeGenerators\TypeScript\Templates\Angular2Template1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Angular2Template.tt</DependentUpon>
@@ -111,12 +111,12 @@
       <DependentUpon>FileTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="CodeGenerators\TypeScript\Templates\FileTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.cs">
+    <Compile Include="CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.Extensions.cs" />
+    <Compile Include="CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>JQueryCallbacksTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.Extensions.cs" />
     <Compile Include="CodeGenerators\TypeScript\Templates\JQueryPromisesTemplate.Extensions.cs" />
     <Compile Include="CodeGenerators\TypeScript\Templates\JQueryPromisesTemplate.cs">
       <AutoGen>True</AutoGen>
@@ -165,7 +165,7 @@
     </None>
     <None Include="CodeGenerators\TypeScript\Templates\Angular2Template.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>Angular2Template.cs</LastGenOutput>
+      <LastGenOutput>Angular2Template1.cs</LastGenOutput>
     </None>
     <None Include="CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
@@ -177,7 +177,7 @@
     </None>
     <None Include="CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>JQueryCallbacksTemplate.cs</LastGenOutput>
+      <LastGenOutput>JQueryCallbacksTemplate1.cs</LastGenOutput>
     </None>
     <None Include="CodeGenerators\TypeScript\Templates\JQueryPromisesTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>

@@ -102,7 +102,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
         });
     }
 
-    private process<#=operation.OperationNameUpper#>(url: string, response: any) {
+    private process<#=operation.OperationNameUpper#>(response: any) {
         var data = response.data;
         var status = response.status; 
 
