@@ -36,5 +36,8 @@ namespace NSwag.Annotations
 
         /// <summary>Gets or sets the JSON result type of the MVC or Web API action method.</summary>
         public Type ResponseType { get; set; }
+
+        /// <summary>Gets or sets the description of the response.</summary>
+        public string Description { get; set; }
     }
 }
