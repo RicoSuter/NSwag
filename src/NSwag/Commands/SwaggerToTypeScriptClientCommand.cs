@@ -123,22 +123,23 @@ namespace NSwag.Commands
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            host.WriteMessage("Generating TypeScript code...\n");
-
-            var code = Run();
-            WriteFileOutput(host, () => code);
+            var code = await RunAsync();
+            TryWriteFileOutput(host, () => code);
             return code;
         }
 
-        public string Run()
+        public async Task<string> RunAsync()
         {
-            var additionalCode = ExtensionCode ?? string.Empty;
-            if (File.Exists(additionalCode))
-                additionalCode = File.ReadAllText(additionalCode);
-            Settings.TypeScriptGeneratorSettings.ExtensionCode = additionalCode;
+            return await Task.Run(() =>
+            {
+                var additionalCode = ExtensionCode ?? string.Empty;
+                if (File.Exists(additionalCode))
+                    additionalCode = File.ReadAllText(additionalCode);
+                Settings.TypeScriptGeneratorSettings.ExtensionCode = additionalCode;
 
-            var clientGenerator = new SwaggerToTypeScriptClientGenerator(InputSwaggerService, Settings);
-            return clientGenerator.GenerateFile();
+                var clientGenerator = new SwaggerToTypeScriptClientGenerator(InputSwaggerService, Settings);
+                return clientGenerator.GenerateFile();
+            });
         }
     }
 }

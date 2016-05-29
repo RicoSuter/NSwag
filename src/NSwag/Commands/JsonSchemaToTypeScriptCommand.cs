@@ -10,18 +10,13 @@ namespace NSwag.Commands
     [Description("Generates TypeScript interfaces from a JSON Schema.")]
     public class JsonSchemaToTypeScriptCommand : InputOutputCommandBase
     {
-        public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
-        {
-            var code = Run();
-            WriteFileOutput(host, () => code);
-            return code;
-        }
-
-        public string Run()
+        public override Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var schema = JsonSchema4.FromJson(InputJson);
             var generator = new TypeScriptGenerator(schema);
-            return generator.GenerateFile();
+            var code = generator.GenerateFile();
+            TryWriteFileOutput(host, () => code);
+            return Task.FromResult<object>(code);
         }
     }
 }

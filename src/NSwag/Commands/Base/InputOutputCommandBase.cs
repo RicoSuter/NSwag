@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using System.IO;
 using System.Net;
@@ -10,20 +11,22 @@ namespace NSwag.Commands.Base
     public abstract class InputOutputCommandBase : OutputCommandBase
     {
         [Description("A file path or URL to the data or the JSON data itself.")]
-        [Argument(Name = "Input", AcceptsCommandInput = true, IsRequired = true)]
+        [Argument(Name = "Input", IsRequired = true, AcceptsCommandInput = true)]
         public object Input { get; set; }
 
+        /// <exception cref="ArgumentException" accessor="get">The argument 'Input' was empty.</exception>
         [JsonIgnore]
         protected SwaggerService InputSwaggerService
         {
             get
             {
-                if (Input is SwaggerService)
-                    return (SwaggerService)Input;
+                var swaggerService = Input as SwaggerService;
+                if (swaggerService != null)
+                    return swaggerService;
 
                 var inputString = Input.ToString();
                 if (string.IsNullOrEmpty(inputString))
-                    return null;
+                    throw new ArgumentException("The argument 'Input' was empty.");
 
                 if (IsJson(inputString))
                     return SwaggerService.FromJson(inputString);
@@ -35,12 +38,15 @@ namespace NSwag.Commands.Base
             }
         }
 
+        /// <exception cref="ArgumentException" accessor="get">The argument 'Input' was empty.</exception>
         [JsonIgnore]
         protected string InputJson
         {
             get
             {
                 var inputString = Input.ToString();
+                if (string.IsNullOrEmpty(inputString))
+                    throw new ArgumentException("The argument 'Input' was empty.");
 
                 if (IsJson(inputString))
                     return inputString;
