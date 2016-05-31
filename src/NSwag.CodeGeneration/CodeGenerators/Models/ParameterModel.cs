@@ -12,6 +12,11 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 {
     internal class ParameterModel
     {
+        public ParameterModel(string typeName)
+        {
+            Type = typeName;
+        }
+
         public string Name { get; set; }
 
         public string VariableNameLower { get; set; }
@@ -34,10 +39,14 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 
         public bool IsDate => Schema.Type == JsonObjectType.String && Schema.Format == JsonFormatStrings.DateTime;
 
-        public bool IsArray => Schema.Type == JsonObjectType.Array;
+        public bool IsArray => Schema.Type.HasFlag(JsonObjectType.Array);
+
+        public bool IsDictionary => Schema.IsDictionary;
 
         public bool IsDateArray => IsArray && Schema.Item?.Format == JsonFormatStrings.DateTime;
 
         public bool IsOptional => !IsRequired;
+
+        public bool UseDtoClass { get; set; } = false;
     }
 }

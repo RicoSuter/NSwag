@@ -40,12 +40,12 @@
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=2.26.5992.40823, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.2.26.5992.40823\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
+    <Reference Include="NJsonSchema, Version=2.27.5995.31644, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.2.27.5995.31644\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema.CodeGeneration, Version=2.26.5992.40824, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.CodeGeneration.2.26.5992.40824\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
+    <Reference Include="NJsonSchema.CodeGeneration, Version=2.27.5995.31646, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.CodeGeneration.2.27.5995.31646\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -99,12 +99,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Angular2Template.tt</DependentUpon>
     </Compile>
-    <Compile Include="CodeGenerators\TypeScript\Templates\AngularJSTemplate.cs">
+    <Compile Include="CodeGenerators\TypeScript\Templates\AngularJSTemplate.Extensions.cs" />
+    <Compile Include="CodeGenerators\TypeScript\Templates\AngularJSTemplate1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AngularJSTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="CodeGenerators\TypeScript\Templates\AngularJSTemplate.Extensions.cs" />
     <Compile Include="CodeGenerators\TypeScript\Templates\FileTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -123,6 +123,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>JQueryPromisesTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Include="CodeGenerators\TypeScript\RequestBodyGenerator.cs" />
+    <Compile Include="CodeGenerators\TypeScript\Templates\RequestBodyTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RequestBodyTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CodeGenerators\TypeScript\Templates\RequestBodyTemplate.Extensions.cs" />
     <Compile Include="CodeGenerators\TypeScript\TypeScriptTemplate.cs" />
     <Compile Include="CodeGenerators\TypeScript\SwaggerToTypeScriptClientGenerator.cs" />
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpWebApiControllerGenerator.cs" />
@@ -169,7 +176,7 @@
     </None>
     <None Include="CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>AngularJSTemplate.cs</LastGenOutput>
+      <LastGenOutput>AngularJSTemplate1.cs</LastGenOutput>
     </None>
     <None Include="CodeGenerators\TypeScript\Templates\FileTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
@@ -184,7 +191,12 @@
       <LastGenOutput>JQueryPromisesTemplate.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="CodeGenerators\TypeScript\Templates\RequestBodyTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RequestBodyTemplate.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

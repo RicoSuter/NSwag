@@ -79,7 +79,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         {
             controllerName = GetClassName(controllerName);
 
-            GenerateDataConversionCodes(operations);
+            UpdateUseDtoClassAndDataConversionCodeProperties(operations);
 
             var template = Settings.CreateTemplate();
             template.Initialize(new ClientTemplateModel(controllerName, operations, _service, Settings));
@@ -150,23 +150,61 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             return code;
         }
 
-        private void GenerateDataConversionCodes(IEnumerable<OperationModel> operations)
+        private void UpdateUseDtoClassAndDataConversionCodeProperties(IEnumerable<OperationModel> operations)
         {
             foreach (var operation in operations)
             {
+                foreach (var parameter in operation.Parameters)
+                {
+                    if (parameter.IsDictionary)
+                    {
+                        if (parameter.Schema.AdditionalPropertiesSchema != null)
+                        {
+                            var itemTypeName = _resolver.Resolve(parameter.Schema.AdditionalPropertiesSchema, false, string.Empty);
+                            parameter.UseDtoClass = Settings.TypeScriptGeneratorSettings.GetTypeStyle(itemTypeName) != TypeScriptTypeStyle.Interface &&
+                                _resolver.HasTypeGenerator(itemTypeName);
+                        }
+                    }
+                    else if (parameter.IsArray)
+                    {
+                        if (parameter.Schema.Item != null)
+                        {
+                            var itemTypeName = _resolver.Resolve(parameter.Schema.Item, false, string.Empty);
+                            parameter.UseDtoClass = Settings.TypeScriptGeneratorSettings.GetTypeStyle(itemTypeName) != TypeScriptTypeStyle.Interface &&
+                                _resolver.HasTypeGenerator(itemTypeName);
+                        }
+                    }
+                    else
+                        parameter.UseDtoClass = Settings.TypeScriptGeneratorSettings.GetTypeStyle(parameter.Type) != TypeScriptTypeStyle.Interface &&
+                            _resolver.HasTypeGenerator(parameter.Type);
+                }
+
                 foreach (var response in operation.Responses.Where(r => r.HasType))
                 {
-                    var generator = new TypeScriptGenerator(response.ActualResponseSchema, Settings.TypeScriptGeneratorSettings, _resolver);
-                    response.DataConversionCode = generator.GenerateDataConversion("result" + response.StatusCode,
-                        "resultData" + response.StatusCode, response.ActualResponseSchema, response.IsNullable, string.Empty);
+                    response.UseDtoClass = Settings.TypeScriptGeneratorSettings.GetTypeStyle(response.Type) != TypeScriptTypeStyle.Interface;
+                    response.DataConversionCode = DataConversionGenerator.Render(new DataConversionParameters
+                    {
+                        Variable = "result" + response.StatusCode,
+                        Value = "resultData" + response.StatusCode,
+                        Schema = response.ActualResponseSchema,
+                        IsPropertyNullable = response.IsNullable,
+                        TypeNameHint = string.Empty,
+                        Resolver = _resolver
+                    });
                 }
 
                 if (operation.HasDefaultResponse && operation.DefaultResponse.HasType)
                 {
-                    var generator = new TypeScriptGenerator(operation.DefaultResponse.ActualResponseSchema,
-                        Settings.TypeScriptGeneratorSettings, _resolver);
-                    operation.DefaultResponse.DataConversionCode = generator.GenerateDataConversion("result", "resultData",
-                        operation.DefaultResponse.ActualResponseSchema, operation.DefaultResponse.IsNullable, string.Empty);
+                    operation.DefaultResponse.UseDtoClass = Settings.TypeScriptGeneratorSettings.GetTypeStyle(operation.DefaultResponse.Type) != TypeScriptTypeStyle.Interface;
+                    operation.DefaultResponse.DataConversionCode = DataConversionGenerator.Render(new DataConversionParameters
+                    {
+                        Variable = "result",
+                        Value = "resultData",
+                        Schema = operation.DefaultResponse.ActualResponseSchema,
+                        IsPropertyNullable = operation.DefaultResponse.IsNullable,
+                        TypeNameHint = string.Empty,
+                        Resolver = _resolver
+                    });
                 }
             }
         }

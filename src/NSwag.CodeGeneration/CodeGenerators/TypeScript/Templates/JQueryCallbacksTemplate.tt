@@ -1,6 +1,7 @@
 ﻿<#@ template visibility="internal" #>
 <#@ assembly name="System.Core" #>
 <#@ import namespace="NJsonSchema.CodeGeneration" #>
+<#@ import namespace="NSwag.CodeGeneration.CodeGenerators.TypeScript" #>
 <#if(Model.HasOperations){#>
 <#if(Model.GenerateClientInterfaces){#>
 export interface I<#=Model.Class#> {
@@ -74,11 +75,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#  }
 }#>
 
-<#if(operation.HasContent){#>
-        var content = <#if(Model.UsesKnockout){#>ko.toJSON<#}else{#>JSON.stringify<#}#>(<#=operation.ContentParameter.VariableNameLower#>);
-<#}else{#>
-        var content = "";
-<#}#>
+        <#=RequestBodyGenerator.Render(operation.ContentParameter, 2)#>
 
         $.ajax(<#if(Model.IsExtended){#>this.transformOptions(<#}#>{
             url: url,
@@ -128,7 +125,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#          if(response.IsFile){#>
                 result<#=response.StatusCode#> = data;
 <#          }else{#>
-<#              if(Model.UseDtoClasses){#>
+<#              if(response.UseDtoClass){#>
                 var resultData<#=response.StatusCode#> = data === "" ? null : jQuery.parseJSON(data);
                 <#=ConversionUtilities.Tab(response.DataConversionCode, 4)#>
 <#              }else{#>
@@ -159,7 +156,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#          if(operation.DefaultResponse.IsFile){#>
                 result = data;
 <#          }else{#>
-<#              if(Model.UseDtoClasses){#>
+<#              if(operation.DefaultResponse.UseDtoClass){#>
                 var resultData = data === "" ? null : jQuery.parseJSON(data);
                 <#=ConversionUtilities.Tab(operation.DefaultResponse.DataConversionCode, 4)#>
 <#              }else{#>
