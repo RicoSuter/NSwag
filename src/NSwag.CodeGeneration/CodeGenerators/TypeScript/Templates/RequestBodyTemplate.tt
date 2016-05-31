@@ -1,0 +1,29 @@
+﻿<#@ template visibility="internal" #>
+<#@ import namespace="NJsonSchema.CodeGeneration" #>
+<#if(Model != null){
+    if (Model.UseDtoClass){ 
+        if(Model.IsArray){#>
+var contentData = [];
+if (<#=Model.VariableNameLower#>) {
+    for (let item of <#=Model.VariableNameLower#>)
+        contentData.push(item.toJS());
+}
+var content = JSON.stringify(<#=Model.VariableNameLower#> ? contentData : null);
+<#      }else if(Model.IsDictionary){#>
+var contentData = {};
+if (<#=Model.VariableNameLower#>) {
+    for (let key in <#=Model.VariableNameLower#>) {
+        if (<#=Model.VariableNameLower#>.hasOwnProperty(key))
+            contentData[key] = <#=Model.VariableNameLower#>[key].toJS();
+    }
+}
+var content = JSON.stringify(<#=Model.VariableNameLower#> ? contentData : null);
+<#      }else{#>
+var content = JSON.stringify(<#=Model.VariableNameLower#> ? <#=Model.VariableNameLower#>.toJS() : null);
+<#      }
+    }else{#>
+var content = JSON.stringify(<#=Model.VariableNameLower#>);
+<#  }
+  }else{#>
+var content = "";
+<#}#>

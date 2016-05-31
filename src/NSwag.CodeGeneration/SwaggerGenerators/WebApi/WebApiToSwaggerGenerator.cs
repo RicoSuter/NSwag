@@ -487,9 +487,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             else if (returnType.Name == "Task`1")
                 returnType = returnType.GenericTypeArguments[0];
 
-            var description = method.ReturnParameter.GetXmlDocumentation();
-            if (description == string.Empty)
-                description = null;
+            var xmlDescription = method.ReturnParameter.GetXmlDocumentation();
+            if (xmlDescription == string.Empty)
+                xmlDescription = null;
 
             var mayBeNull = !IsParameterRequired(method.ReturnParameter);
             var responseTypeAttributes = method.GetCustomAttributes().Where(a => a.GetType().Name == "ResponseTypeAttribute").ToList();
@@ -503,6 +503,13 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     var httpStatusCode = IsVoidResponse(returnType) ? "204" : "200";
                     if (responseTypeAttribute.GetType().GetRuntimeProperty("HttpStatusCode") != null)
                         httpStatusCode = dynResultTypeAttribute.HttpStatusCode;
+
+                    var description = xmlDescription;
+                    if (responseTypeAttribute.GetType().GetRuntimeProperty("Description") != null)
+                    {
+                        if (!string.IsNullOrEmpty(dynResultTypeAttribute.Description))
+                            description = dynResultTypeAttribute.Description;
+                    }
 
                     operation.Responses[httpStatusCode] = new SwaggerResponse
                     {
@@ -519,7 +526,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 {
                     operation.Responses["200"] = new SwaggerResponse
                     {
-                        Description = description,
+                        Description = xmlDescription,
                         Schema = CreateAndAddSchema(service, returnType, mayBeNull, null, schemaResolver)
                     };
                 }

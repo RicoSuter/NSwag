@@ -26,7 +26,6 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
 
             BaseUrl = service.BaseUrl;
             GenerateClientInterfaces = settings.GenerateClientInterfaces;
-            UseDtoClasses = settings.TypeScriptGeneratorSettings.TypeStyle != TypeScriptTypeStyle.Interface;
 
             PromiseType = settings.PromiseType == TypeScript.PromiseType.Promise ? "Promise" : "Q.Promise";
             PromiseConstructor = settings.PromiseType == TypeScript.PromiseType.Promise ? "new Promise" : "Q.Promise";
@@ -45,8 +44,6 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
         public string BaseUrl { get; }
 
         public bool GenerateClientInterfaces { get; }
-
-        public bool UseDtoClasses { get; }
 
         public string PromiseType { get; }
 

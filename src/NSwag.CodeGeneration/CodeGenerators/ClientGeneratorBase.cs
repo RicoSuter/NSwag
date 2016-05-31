@@ -109,14 +109,13 @@ namespace NSwag.CodeGeneration.CodeGenerators
                             if (p.ActualSchema.Type == JsonObjectType.File)
                                 p.ActualSchema.Type = JsonObjectType.String; // TODO: Implement File type handling
 
-                            return new ParameterModel
+                            return new ParameterModel(ResolveParameterType(p, resolver))
                             {
                                 Schema = p.ActualSchema,
                                 Name = p.Name,
                                 VariableNameLower = ConversionUtilities.ConvertToLowerCamelCase(p.Name.Replace("-", "_").Replace(".", "_")),
                                 Kind = p.Kind,
                                 IsRequired = p.IsRequired,
-                                Type = ResolveParameterType(p, resolver),
                                 IsLast = operation.Parameters.LastOrDefault() == p,
                                 Description = ConversionUtilities.TrimWhiteSpaces(p.Description)
                             };
