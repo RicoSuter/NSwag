@@ -37,8 +37,10 @@
     "GenerateDtoTypes": true,
     "OperationGenerationMode": "MultipleClientsFromOperationId",
     "GenerateReadOnlyKeywords": true,
-    "TypeStyle": "Class",
-    "ClassTypes": null,
+    "TypeStyle": "KnockoutClass",
+    "ClassTypes": [
+      "Car"
+    ],
     "ExtendedClasses": null,
     "ExtensionCode": null,
     "Input": null,

@@ -182,7 +182,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
                 foreach (var response in operation.Responses.Where(r => r.HasType))
                 {
                     response.UseDtoClass = Settings.TypeScriptGeneratorSettings.GetTypeStyle(response.Type) != TypeScriptTypeStyle.Interface;
-                    response.DataConversionCode = DataConversionGenerator.Render(new DataConversionParameters
+                    response.DataConversionCode = DataConversionGenerator.RenderConvertToClassCode(new DataConversionParameters
                     {
                         Variable = "result" + response.StatusCode,
                         Value = "resultData" + response.StatusCode,
@@ -196,7 +196,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
                 if (operation.HasDefaultResponse && operation.DefaultResponse.HasType)
                 {
                     operation.DefaultResponse.UseDtoClass = Settings.TypeScriptGeneratorSettings.GetTypeStyle(operation.DefaultResponse.Type) != TypeScriptTypeStyle.Interface;
-                    operation.DefaultResponse.DataConversionCode = DataConversionGenerator.Render(new DataConversionParameters
+                    operation.DefaultResponse.DataConversionCode = DataConversionGenerator.RenderConvertToClassCode(new DataConversionParameters
                     {
                         Variable = "result",
                         Value = "resultData",
