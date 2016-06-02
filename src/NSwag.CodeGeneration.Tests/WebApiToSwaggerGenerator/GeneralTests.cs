@@ -66,7 +66,7 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator
             var service = generator.GenerateForController(typeof(FromUriFileParameterController));
 
             //// Assert
-            var operation = service.Paths["upload"][SwaggerOperationMethod.Post];
+            var operation = service.Paths["/upload"][SwaggerOperationMethod.Post];
 
             Assert.AreEqual(JsonObjectType.File, operation.Parameters.Single(p => p.Name == "formFile").Type);
             Assert.IsTrue(operation.Parameters.Any(p => p.Name == "formFile"));
@@ -97,7 +97,7 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator
             var service = generator.GenerateForController(typeof(FileCollectionController));
 
             //// Assert
-            var operation = service.Paths["upload"][SwaggerOperationMethod.Post];
+            var operation = service.Paths["/upload"][SwaggerOperationMethod.Post];
             var parameter = operation.Parameters.Single(p => p.Name == "files");
 
             Assert.AreEqual(JsonObjectType.File, parameter.Type);
@@ -132,7 +132,7 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator
             var service = generator.GenerateForController(typeof(FromUriParameterController));
 
             //// Assert
-            var operation = service.Paths["upload"][SwaggerOperationMethod.Post];
+            var operation = service.Paths["/upload"][SwaggerOperationMethod.Post];
 
             Assert.AreEqual(JsonObjectType.String, operation.Parameters.Single(p => p.Name == "Foo").Type);
             Assert.AreEqual(JsonObjectType.String, operation.Parameters.Single(p => p.Name == "Bar").Type);
