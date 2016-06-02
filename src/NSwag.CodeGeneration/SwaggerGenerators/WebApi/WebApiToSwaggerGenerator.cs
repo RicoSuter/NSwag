@@ -217,7 +217,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 }
             }
 
-            return httpPath;
+            return "/" + httpPath.TrimStart('/');
         }
 
         private string GetActionName(MethodInfo method)
