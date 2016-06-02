@@ -31,7 +31,7 @@ namespace NSwag.Tests.Integration
 
             //// Act
             var service = generator.GenerateForController<PersonsController>();
-            var operation = service.Operations.Single(o => o.Path == "api/Persons/Get/{id}");
+            var operation = service.Operations.Single(o => o.Path == "/api/Persons/Get/{id}");
 
             //// Assert
             Assert.AreEqual(2, operation.Operation.Responses.Count);

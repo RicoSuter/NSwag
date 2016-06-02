@@ -20,7 +20,7 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator.Attributes
             var service = generator.GenerateForController<MyController>();
 
             //// Assert
-            Assert.AreEqual("api/My/Foo", service.Operations.First().Path);
+            Assert.AreEqual("/api/My/Foo", service.Operations.First().Path);
         }
 
         [RoutePrefix("api/My")]
@@ -48,7 +48,7 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator.Attributes
             var service = generator.GenerateForController<MyController2>();
 
             //// Assert
-            Assert.AreEqual("Foo", service.Operations.First().Path);
+            Assert.AreEqual("/Foo", service.Operations.First().Path);
         }
 
         public class MyController2 : BaseController2
