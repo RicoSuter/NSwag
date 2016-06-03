@@ -21,6 +21,7 @@ namespace NSwag
             {
                 var processor = new CommandLineProcessor(host);
 
+                processor.RegisterCommand<AssemblyTypeToSwaggerCommand>("types2swagger");
                 processor.RegisterCommand<WebApiToSwaggerCommand>("webapi2swagger");
 
                 processor.RegisterCommand<JsonSchemaToCSharpCommand>("jsonschema2csclient");
