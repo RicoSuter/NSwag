@@ -67,23 +67,37 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 
                 Clients = Settings.GenerateClientClasses ? clientCode : string.Empty,
                 Types = GenerateDtoTypes(),
-                ExtensionCode = GenerateExtensionCode(clientClasses),
 
-                HasModuleName = !string.IsNullOrEmpty(Settings.ModuleName),
-                ModuleName = Settings.ModuleName
+                ExtensionCodeBefore = Settings.TypeScriptGeneratorSettings.ProcessedExtensionCode.CodeBefore, 
+                ExtensionCodeAfter = GenerateExtensionCodeAfter(clientClasses),
+
+                HasModuleName = !string.IsNullOrEmpty(Settings.TypeScriptGeneratorSettings.ModuleName),
+                ModuleName = Settings.TypeScriptGeneratorSettings.ModuleName
             });
             return template.Render();
         }
 
         internal override string RenderClientCode(string controllerName, IList<OperationModel> operations)
         {
-            controllerName = GetClassName(controllerName);
-
             UpdateUseDtoClassAndDataConversionCodeProperties(operations);
 
             var template = Settings.CreateTemplate();
-            template.Initialize(new ClientTemplateModel(controllerName, operations, _service, Settings));
-            return template.Render();
+            template.Initialize(new ClientTemplateModel(GetClassName(controllerName), operations, _service, Settings));
+            var code = template.Render();
+
+            return AppendExtensionClassIfNecessary(controllerName, code);
+        }
+
+        private string AppendExtensionClassIfNecessary(string controllerName, string code)
+        {
+            if (Settings.TypeScriptGeneratorSettings.ExtendedClasses?.Contains(controllerName) == true)
+            {
+                var extensionCode = Settings.TypeScriptGeneratorSettings.ProcessedExtensionCode;
+                return extensionCode.Classes.ContainsKey(controllerName)
+                    ? code + "\n\n" + extensionCode.Classes[controllerName]
+                    : code;
+            }
+            return code;
         }
 
         internal override string GetExceptionType(SwaggerOperation operation)
@@ -119,35 +133,21 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 
         private string GetClassName(string className)
         {
-            if (Settings.TypeScriptGeneratorSettings.ExtendedClasses != null &&
-                Settings.TypeScriptGeneratorSettings.ExtendedClasses.Contains(className))
-            {
-                className = className + "Base";
-            }
+            if (Settings.TypeScriptGeneratorSettings.ExtendedClasses?.Contains(className) == true)
+                return className + "Base";
 
             return className;
         }
 
-        private string GenerateExtensionCode(string[] clientClasses)
+        private string GenerateExtensionCodeAfter(string[] clientClasses)
         {
             var clientClassesVariable = "{" + string.Join(", ", clientClasses.Select(c => "'" + c + "': " + c)) + "}";
-            return Settings.TypeScriptGeneratorSettings.TransformedExtensionCode.Replace("{clientClasses}", clientClassesVariable);
+            return Settings.TypeScriptGeneratorSettings.ProcessedExtensionCode.CodeAfter.Replace("{clientClasses}", clientClassesVariable);
         }
 
         private string GenerateDtoTypes()
         {
-            var code = Settings.GenerateDtoTypes ? _resolver.GenerateTypes() : string.Empty;
-            return ConvertExtendedClassSignatures(code);
-        }
-
-        private string ConvertExtendedClassSignatures(string code)
-        {
-            if (Settings.TypeScriptGeneratorSettings.ExtendedClasses != null)
-            {
-                foreach (var extendedClass in Settings.TypeScriptGeneratorSettings.ExtendedClasses)
-                    code = code.Replace("export class " + extendedClass + " ", "export class " + extendedClass + "Base ");
-            }
-            return code;
+            return Settings.GenerateDtoTypes ? _resolver.GenerateTypes(Settings.TypeScriptGeneratorSettings.ProcessedExtensionCode) : string.Empty;
         }
 
         private void UpdateUseDtoClassAndDataConversionCodeProperties(IEnumerable<OperationModel> operations)

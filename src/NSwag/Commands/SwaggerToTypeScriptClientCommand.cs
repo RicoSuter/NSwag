@@ -33,8 +33,8 @@ namespace NSwag.Commands
         [Argument(Name = "ModuleName", IsRequired = false)]
         public string ModuleName
         {
-            get { return Settings.ModuleName; }
-            set { Settings.ModuleName = value; }
+            get { return Settings.TypeScriptGeneratorSettings.ModuleName; }
+            set { Settings.TypeScriptGeneratorSettings.ModuleName = value; }
         }
 
         [Description("The type of the asynchronism handling ('JQueryCallbacks', 'JQueryPromises', 'AngularJS', 'Angular2').")]

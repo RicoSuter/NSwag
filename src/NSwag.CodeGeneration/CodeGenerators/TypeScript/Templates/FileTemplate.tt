@@ -14,6 +14,8 @@ import {Injectable, Inject, Optional, OpaqueToken} from '@angular/core';
 import {Http, Headers, Response, RequestOptionsArgs} from '@angular/http';
 <#}#>
 
+<#=Model.ExtensionCodeBefore#>
+
 <#if(Model.HasModuleName){#>
 module <#=Model.ModuleName#> {
 <#}#>
@@ -26,7 +28,7 @@ export const JSON_PARSE_REVIVER = new OpaqueToken('JSON_PARSE_REVIVER');
 
 <#=Model.Types#>
 
-<#=Model.ExtensionCode#>
+<#=Model.ExtensionCodeAfter#>
 <#if(Model.HasModuleName){#>
 }
 <#}#>

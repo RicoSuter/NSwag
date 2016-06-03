@@ -19,7 +19,6 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         /// <summary>Initializes a new instance of the <see cref="SwaggerToTypeScriptClientGeneratorSettings"/> class.</summary>
         public SwaggerToTypeScriptClientGeneratorSettings()
         {
-            ModuleName = "";
             ClassName = "{controller}Client";
             Template = TypeScriptTemplate.JQueryCallbacks;
             PromiseType = PromiseType.Promise;
@@ -34,9 +33,6 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 
         /// <summary>Gets or sets the promise type.</summary>
         public PromiseType PromiseType { get; set; }
-
-        /// <summary>Gets or sets the TypeScript module name (default: '', no module).</summary>
-        public string ModuleName { get; set; }
 
         internal ITemplate CreateTemplate()
         {
