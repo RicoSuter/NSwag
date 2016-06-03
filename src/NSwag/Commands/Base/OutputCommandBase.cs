@@ -15,7 +15,7 @@ namespace NSwag.Commands.Base
 
         public abstract Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host);
 
-        protected void TryWriteFileOutput(IConsoleHost host, Func<string> generator)
+        protected bool TryWriteFileOutput(IConsoleHost host, Func<string> generator)
         {
             if (!string.IsNullOrEmpty(OutputFilePath))
             {
@@ -27,7 +27,10 @@ namespace NSwag.Commands.Base
 
                 File.WriteAllText(OutputFilePath, generator(), Encoding.UTF8);
                 host.WriteMessage("Code has been successfully written to file.\n");
+
+                return true; 
             }
+            return false;
         }
     }
 }

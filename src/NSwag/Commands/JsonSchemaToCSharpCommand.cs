@@ -43,9 +43,11 @@ namespace NSwag.Commands
 
             var schema = JsonSchema4.FromJson(InputJson);
             var generator = new CSharpGenerator(schema, settings);
+
             var code = generator.GenerateFile();
-            TryWriteFileOutput(host, () => code);
-            return Task.FromResult<object>(code);
+            if (TryWriteFileOutput(host, () => code) == false)
+                return Task.FromResult<object>(code);
+            return Task.FromResult<object>(null);
         }
     }
 }

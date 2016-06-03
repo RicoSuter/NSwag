@@ -73,8 +73,9 @@ namespace NSwag.Commands
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var service = await RunAsync();
-            TryWriteFileOutput(host, () => service.ToJson());
-            return service;
+            if (TryWriteFileOutput(host, () => service.ToJson()) == false)
+                return service;
+            return null; 
         }
 
         public async Task<SwaggerService> RunAsync()
