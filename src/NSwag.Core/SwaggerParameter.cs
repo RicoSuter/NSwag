@@ -53,7 +53,7 @@ namespace NSwag
             if (propertyNullHandling == PropertyNullHandling.Required)
             {
                 if (IsNullableRaw == null)
-                    return ActualSchema.IsNullable(propertyNullHandling);
+                    return Kind == SwaggerParameterKind.Body ? Schema.IsNullable(propertyNullHandling) : base.IsNullable(propertyNullHandling);
 
                 return IsNullableRaw.Value;
             }
