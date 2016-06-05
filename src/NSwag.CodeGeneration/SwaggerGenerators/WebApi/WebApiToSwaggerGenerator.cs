@@ -88,23 +88,14 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         private void GenerateForController(SwaggerService service, Type controllerType, string excludedMethodName, SchemaResolver schemaResolver)
         {
             var methods = controllerType.GetRuntimeMethods().Where(m => m.IsPublic);
-            foreach (var method in methods.Where(m =>
-                m.Name != excludedMethodName &&
-                m.IsSpecialName == false && // avoid property methods
-                m.DeclaringType != null &&
-                m.DeclaringType != typeof(object) &&
-                m.GetCustomAttributes().All(a => a.GetType().Name != "SwaggerIgnoreAttribute") &&
-                m.DeclaringType.FullName.StartsWith("Microsoft.AspNet") == false && // .NET Core (Web API & MVC)
-                m.DeclaringType.FullName != "System.Web.Http.ApiController" &&
-                m.DeclaringType.FullName != "System.Web.Mvc.Controller"))
+            foreach (var method in GetActionMethods(methods, excludedMethodName))
             {
-                var parameters = method.GetParameters().ToList();
-
                 var operation = new SwaggerOperation
                 {
                     IsDeprecated = method.GetCustomAttribute<ObsoleteAttribute>() != null
                 };
 
+                var parameters = method.GetParameters().ToList();
                 var httpPath = GetHttpPath(service, operation, controllerType, method, parameters, schemaResolver);
 
                 LoadParameters(service, operation, parameters, schemaResolver);
@@ -125,6 +116,11 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 }
             }
 
+            AppendRequiredSchemasToDefinitions(service, schemaResolver);
+        }
+
+        private void AppendRequiredSchemasToDefinitions(SwaggerService service, SchemaResolver schemaResolver)
+        {
             foreach (var schema in schemaResolver.Schemes)
             {
                 if (!service.Definitions.Values.Contains(schema))
@@ -137,6 +133,19 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                         service.Definitions["ref_" + Guid.NewGuid().ToString().Replace("-", "_")] = schema;
                 }
             }
+        }
+
+        private static IEnumerable<MethodInfo> GetActionMethods(IEnumerable<MethodInfo> methods, string excludedMethodName)
+        {
+            return methods.Where(m =>
+                m.Name != excludedMethodName &&
+                m.IsSpecialName == false && // avoid property methods
+                m.DeclaringType != null &&
+                m.DeclaringType != typeof(object) &&
+                m.GetCustomAttributes().All(a => a.GetType().Name != "SwaggerIgnoreAttribute") &&
+                m.DeclaringType.FullName.StartsWith("Microsoft.AspNet") == false && // .NET Core (Web API & MVC)
+                m.DeclaringType.FullName != "System.Web.Http.ApiController" &&
+                m.DeclaringType.FullName != "System.Web.Mvc.Controller");
         }
 
         private string GetOperationId(SwaggerService service, string controllerName, MethodInfo method)
@@ -174,7 +183,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             }
         }
 
-        private string GetHttpPath(SwaggerService service, SwaggerOperation operation, Type controllerType, MethodInfo method, List<ParameterInfo> parameters, ISchemaResolver schemaResolver)
+        private string GetHttpPath(SwaggerService service, SwaggerOperation operation, Type controllerType, 
+            MethodInfo method, List<ParameterInfo> parameters, ISchemaResolver schemaResolver)
         {
             string httpPath;
 
