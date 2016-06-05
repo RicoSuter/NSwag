@@ -100,8 +100,10 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             {
                 var parameters = method.GetParameters().ToList();
 
-                var operation = new SwaggerOperation();
-                operation.IsDeprecated = method.GetCustomAttribute<ObsoleteAttribute>() != null;
+                var operation = new SwaggerOperation
+                {
+                    IsDeprecated = method.GetCustomAttribute<ObsoleteAttribute>() != null
+                };
 
                 var httpPath = GetHttpPath(service, operation, controllerType, method, parameters, schemaResolver);
 
@@ -421,11 +423,13 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         {
             var isRequired = IsParameterRequired(parameter);
 
-            var operationParameter = new SwaggerParameter();
-            operationParameter.Name = parameter.Name;
-            operationParameter.Kind = SwaggerParameterKind.Body;
-            operationParameter.IsRequired = isRequired;
-            operationParameter.Schema = CreateAndAddSchema(service, parameter.ParameterType, !isRequired, parameter.GetCustomAttributes(), schemaResolver);
+            var operationParameter = new SwaggerParameter
+            {
+                Name = parameter.Name,
+                Kind = SwaggerParameterKind.Body,
+                IsRequired = isRequired,
+                Schema = CreateAndAddSchema(service, parameter.ParameterType, !isRequired, parameter.GetCustomAttributes(), schemaResolver)
+            };
 
             var typeDescription = JsonObjectTypeDescription.FromType(parameter.ParameterType, parameter.GetCustomAttributes(), Settings.DefaultEnumHandling);
             operationParameter.IsNullableRaw = typeDescription.IsNullable; 
@@ -459,11 +463,11 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         {
             return CreatePrimitiveParameter(
                 service, parameter.Name, parameter.GetXmlDocumentation(),
-                parameter.ParameterType, parameter.GetCustomAttributes(), schemaResolver);
+                parameter.ParameterType, parameter.GetCustomAttributes().ToList(), schemaResolver);
         }
 
         private SwaggerParameter CreatePrimitiveParameter(SwaggerService service, string name, string description,
-            Type type, IEnumerable<Attribute> parentAttributes, ISchemaResolver schemaResolver)
+            Type type, IList<Attribute> parentAttributes, ISchemaResolver schemaResolver)
         {
             var schemaDefinitionAppender = new SwaggerServiceSchemaDefinitionAppender(service, Settings.TypeNameGenerator);
             var schemaGenerator = new RootTypeJsonSchemaGenerator(service, schemaDefinitionAppender, Settings);
@@ -577,7 +581,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 {
                     return new JsonSchema4
                     {
-                        Type = JsonObjectType.Object, // | JsonObjectType.Null, // Null not allowed in Swagger spec, use required instead
+                        // TODO: (swagger-problem) Check how to express a nullable schema here
+                        Type = Settings.PropertyNullHandling == PropertyNullHandling.OneOf ? JsonObjectType.Object | JsonObjectType.Null : JsonObjectType.Object,
                         AllowAdditionalProperties = false
                     };
                 }
@@ -588,16 +593,23 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     schemaGenerator.Generate(type, null, null, schemaDefinitionAppender, schemaResolver);
                 }
 
-                // TODO: (swagger-problem) Check how to express a nullable response
-                //if (mayBeNull)
-                //{
-                //    var schema = new JsonSchema4();
-                //    schema.OneOf.Add(new JsonSchema4 { Type = JsonObjectType.Null });
-                //    schema.OneOf.Add(new JsonSchema4 { SchemaReference = schemaResolver.GetSchema(type, false) });
-                //    return schema;
-                //}
-                //else
-                return new JsonSchema4 { SchemaReference = schemaResolver.GetSchema(type, false) };
+                if (mayBeNull)
+                {
+                    if (Settings.PropertyNullHandling == PropertyNullHandling.OneOf)
+                    {
+                        var schema = new JsonSchema4();
+                        schema.OneOf.Add(new JsonSchema4 { Type = JsonObjectType.Null });
+                        schema.OneOf.Add(new JsonSchema4 { SchemaReference = schemaResolver.GetSchema(type, false) });
+                        return schema;
+                    }
+                    else
+                    {
+                        // TODO: (swagger-problem) Check how to express a nullable response
+                        return new JsonSchema4 { SchemaReference = schemaResolver.GetSchema(type, false) };
+                    }
+                }
+                else
+                    return new JsonSchema4 { SchemaReference = schemaResolver.GetSchema(type, false) };
             }
 
             if (typeDescription.Type.HasFlag(JsonObjectType.Array))
@@ -605,7 +617,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 var itemType = type.GenericTypeArguments.Length == 0 ? type.GetElementType() : type.GenericTypeArguments[0];
                 return new JsonSchema4
                 {
-                    Type = JsonObjectType.Array, // | JsonObjectType.Null, // Null not allowed in Swagger spec, use required instead
+                    // TODO: (swagger-problem) Check how to express a nullable schema here
+                    Type = Settings.PropertyNullHandling == PropertyNullHandling.OneOf ? JsonObjectType.Array | JsonObjectType.Null : JsonObjectType.Array, 
                     Item = CreateAndAddSchema(service, itemType, false, null, schemaResolver)
                 };
             }

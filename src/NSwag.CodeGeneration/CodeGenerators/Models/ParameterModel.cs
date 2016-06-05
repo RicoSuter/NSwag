@@ -16,12 +16,14 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
     {
         private readonly SwaggerOperation _operation;
         private readonly SwaggerParameter _parameter;
+        private readonly CodeGeneratorSettingsBase _settings;
 
-        public ParameterModel(string typeName, SwaggerOperation operation, SwaggerParameter parameter)
+        public ParameterModel(string typeName, SwaggerOperation operation, SwaggerParameter parameter, CodeGeneratorSettingsBase settings)
         {
             Type = typeName;
             _operation = operation; 
-            _parameter = parameter; 
+            _parameter = parameter;
+            _settings = settings;
         }
 
         public string Type { get; set; }
@@ -38,7 +40,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 
         public bool IsRequired => _parameter.IsRequired;
 
-        public bool IsNullable => _parameter.IsNullable(PropertyNullHandling.Required);
+        public bool IsNullable => _parameter.IsNullable(_settings.PropertyNullHandling);
 
         public bool IsOptional => _parameter.IsRequired == false; 
 

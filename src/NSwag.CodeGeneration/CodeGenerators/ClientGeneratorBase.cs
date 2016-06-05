@@ -109,7 +109,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
                             if (p.ActualSchema.Type == JsonObjectType.File)
                                 p.ActualSchema.Type = JsonObjectType.String; // TODO: Implement File type handling
 
-                            return new ParameterModel(ResolveParameterType(p, resolver), operation, p);
+                            return new ParameterModel(ResolveParameterType(p, resolver), operation, p, BaseSettings.CodeGeneratorSettings);
                         }).ToList(),
                     };
                 }).ToList();
@@ -129,7 +129,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
             if (parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi)
                 schema = new JsonSchema4 { Type = JsonObjectType.Array, Item = schema };
 
-            return resolver.Resolve(schema, parameter.IsRequired == false || parameter.IsNullable(PropertyNullHandling.Required), parameter.Name);
+            return resolver.Resolve(schema, parameter.IsRequired == false || parameter.IsNullable(BaseSettings.CodeGeneratorSettings.PropertyNullHandling), parameter.Name);
         }
 
         internal SwaggerResponse GetSuccessResponse(SwaggerOperation operation)

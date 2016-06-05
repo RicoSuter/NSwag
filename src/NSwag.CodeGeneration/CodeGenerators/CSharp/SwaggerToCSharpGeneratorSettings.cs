@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using NJsonSchema;
+using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.CSharp;
 
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp
@@ -30,5 +31,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
 
         /// <summary>Gets or sets the additional namespace usages.</summary>
         public string[] AdditionalNamespaceUsages { get; set; }
+
+        /// <summary>Gets the code generator settings.</summary>
+        public override CodeGeneratorSettingsBase CodeGeneratorSettings => CSharpGeneratorSettings;
     }
 }
