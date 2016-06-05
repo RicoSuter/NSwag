@@ -18,7 +18,7 @@ namespace NSwag.Demo.Client
                 var result = await client.CalculateAsync(int.Parse(A.Text), int.Parse(B.Text), int.Parse(C.Text));
                 Result.Text = result.ToString();
 
-                var persons = await client.GetAllAsync();
+                var persons = await client.GetAsync();
             }
             catch (Exception ex)
             {

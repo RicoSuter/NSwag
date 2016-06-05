@@ -35,7 +35,7 @@ namespace NSwag.Tests.Integration
 
             //// Assert
             Assert.AreEqual(2, operation.Operation.Responses.Count);
-            Assert.AreEqual("Person", operation.Operation.Responses["200"].ActualResponseSchema.TypeName);
+            Assert.AreEqual("Person", operation.Operation.Responses["200"].ActualResponseSchema.GetTypeName(null));
         }
     }
 }

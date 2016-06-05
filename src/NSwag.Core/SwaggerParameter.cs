@@ -7,7 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System;
-using System.Linq;
+using System.ComponentModel;
 using Newtonsoft.Json;
 using NJsonSchema;
 
@@ -16,8 +16,6 @@ namespace NSwag
     /// <summary>Describes an operation parameter. </summary>
     public class SwaggerParameter : JsonSchema4 
     {
-        // TODO: Only some properties of JsonSchema4 are allowed
-
         /// <summary>Gets or sets the name.</summary>
         [JsonProperty(PropertyName = "name", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Name { get; set; }
@@ -34,17 +32,33 @@ namespace NSwag
         [JsonProperty(PropertyName = "schema", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public JsonSchema4 Schema { get; set; }
 
+        /// <summary>Sets a value indicating whether the parameter can be null (use IsNullable() to get a parameter's nullability).</summary>
+        [JsonProperty(PropertyName = "x-nullable", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public bool? IsNullableRaw { internal get; set; } // TODO: (swagger-problem) Find better/correct solution, see https://github.com/OAI/OpenAPI-Specification/issues/229
+
         /// <summary>Gets the actual schema, either the parameter schema itself (or its reference) or the <see cref="Schema"/> property when <see cref="Kind"/> == body.</summary>
         /// <exception cref="InvalidOperationException" accessor="get">The schema reference path is not resolved.</exception>
         [JsonIgnore]
         public override JsonSchema4 ActualSchema => Kind == SwaggerParameterKind.Body ? Schema.ActualSchema : base.ActualSchema;
 
-        /// <summary>Gets the parameter schema (either oneOf schema or the actual schema).</summary>
-        [JsonIgnore]
-        public JsonSchema4 ActualParameterSchema => ActualSchema.OneOf.FirstOrDefault(o => !o.IsNullable)?.ActualSchema ?? ActualSchema; // TODO: Create derived property (see others)
-
         /// <summary>Gets or sets the format of the array if type array is used.</summary>
         [JsonProperty(PropertyName = "collectionFormat", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public SwaggerParameterCollectionFormat CollectionFormat { get; set; }
+
+        /// <summary>Gets a value indicating whether the validated data can be null.</summary>
+        /// <param name="propertyNullHandling">The property null handling.</param>
+        /// <returns>The result.</returns>
+        public override bool IsNullable(PropertyNullHandling propertyNullHandling)
+        {
+            if (propertyNullHandling == PropertyNullHandling.Required)
+            {
+                if (IsNullableRaw == null)
+                    return ActualSchema.IsNullable(propertyNullHandling);
+
+                return IsNullableRaw.Value;
+            }
+
+            return base.IsNullable(propertyNullHandling);
+        }
     }
 }

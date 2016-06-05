@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System;
+using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates;
@@ -22,7 +23,10 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             ClassName = "{controller}Client";
             Template = TypeScriptTemplate.JQueryCallbacks;
             PromiseType = PromiseType.Promise;
-            TypeScriptGeneratorSettings = new TypeScriptGeneratorSettings();
+            TypeScriptGeneratorSettings = new TypeScriptGeneratorSettings
+            {
+                PropertyNullHandling = PropertyNullHandling.Required
+            };
         }
 
         /// <summary>Gets or sets the TypeScript generator settings.</summary>

@@ -71,7 +71,7 @@ namespace NSwagStudio.ViewModels.CodeGenerators
             set
             {
                 if (value != null)
-                    Command.AdditionalNamespaceUsages = value.Split(',').Select(n => n.Trim()).ToArray();
+                    Command.AdditionalNamespaceUsages = value.Split(',').Select(n => n.Trim()).Where(n => !string.IsNullOrEmpty(n)).ToArray();
                 else
                     Command.AdditionalNamespaceUsages = new string[] { };
                 RaisePropertyChanged(() => AdditionalNamespaceUsages);

@@ -74,7 +74,7 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
 <#}#>
 
 <#foreach(var parameter in operation.QueryParameters){#>
-<#  if(parameter.IsOptional){#>
+<#  if(parameter.IsNullable){#>
         if (<#=parameter.VariableNameLower#> != null)
 <#  }else{#>
         if (<#=parameter.VariableNameLower#> == null)
@@ -113,7 +113,7 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
 <#  if(operation.HasFormParameters){#>
         var content_ = new MultipartFormDataContent();
 <#foreach(var parameter in operation.FormParameters){#>
-<#  if(parameter.IsOptional){#>
+<#  if(parameter.IsNullable){#>
         if (<#=parameter.VariableNameLower#> != null)
 <#  }else{#>
         if (<#=parameter.VariableNameLower#> == null)

@@ -22,7 +22,7 @@ namespace NSwagStudio.Views.SwaggerGenerators
             {
                 var schema = JsonSchema4.FromJson(JsonSchema.Text);
                 var service = new SwaggerService();
-                service.Definitions[schema.TypeName ?? "MyType"] = schema;
+                service.Definitions[schema.TypeNameRaw ?? "MyType"] = schema;
                 return service.ToJson();
             }
             catch (Exception exception)

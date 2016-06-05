@@ -668,7 +668,7 @@ foreach(var parameter in operation.QueryParameters){
             #line hidden
             
             #line 65 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesTemplate.tt"
-  if(parameter.IsOptional){
+  if(parameter.IsNullable){
             
             #line default
             #line hidden

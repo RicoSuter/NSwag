@@ -36,8 +36,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             Settings = settings;
 
             _service = service;
-            foreach (var definition in _service.Definitions)
-                definition.Value.TypeName = definition.Key;
+            foreach (var definition in _service.Definitions.Where(p => string.IsNullOrEmpty(p.Value.TypeNameRaw)))
+                definition.Value.TypeNameRaw = definition.Key;
 
             _resolver = new TypeScriptTypeResolver(_service.Definitions.Select(p => p.Value).ToArray(), Settings.TypeScriptGeneratorSettings);
         }
@@ -128,7 +128,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             if (schema.ActualSchema.IsAnyType || schema.ActualSchema.Type == JsonObjectType.File)
                 return "any";
 
-            return _resolver.Resolve(schema.ActualSchema, schema.IsNullable, typeNameHint);
+            return _resolver.Resolve(schema.ActualSchema, isNullable, typeNameHint);
         }
 
         private string GetClassName(string className)

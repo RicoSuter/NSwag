@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using NSwag.CodeGeneration.CodeGenerators.CSharp.Models;
 using NSwag.CodeGeneration.CodeGenerators.CSharp.Templates;
 using NSwag.CodeGeneration.CodeGenerators.Models;
@@ -33,8 +34,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             Settings = settings; 
 
             _service = service;
-            foreach (var definition in _service.Definitions)
-                definition.Value.TypeName = definition.Key;
+            foreach (var definition in _service.Definitions.Where(p => string.IsNullOrEmpty(p.Value.TypeNameRaw)))
+                definition.Value.TypeNameRaw = definition.Key;
 
         }
 

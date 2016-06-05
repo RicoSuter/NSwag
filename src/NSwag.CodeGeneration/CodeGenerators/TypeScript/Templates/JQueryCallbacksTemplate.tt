@@ -57,7 +57,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 }#>
 
 <#foreach(var parameter in operation.QueryParameters){#>
-<#  if(parameter.IsOptional){#>
+<#  if(parameter.IsNullable){#>
         if (<#=parameter.VariableNameLower#> !== undefined && <#=parameter.VariableNameLower#> !== null)
 <#  }else{#>
         if (<#=parameter.VariableNameLower#> === undefined || <#=parameter.VariableNameLower#> === null)

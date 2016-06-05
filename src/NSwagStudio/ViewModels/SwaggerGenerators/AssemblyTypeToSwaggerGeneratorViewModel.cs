@@ -55,7 +55,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             set
             {
                 if (!string.IsNullOrEmpty(value))
-                    Command.ReferencePaths = value.Split(',').Select(n => n.Trim()).ToArray();
+                    Command.ReferencePaths = value.Split(',').Select(n => n.Trim()).Where(n => !string.IsNullOrEmpty(n)).ToArray();
                 else
                     Command.ReferencePaths = new string[] { };
                 RaisePropertyChanged(() => ReferencePaths);
