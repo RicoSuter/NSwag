@@ -14,36 +14,31 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
 {
     internal class ClientTemplateModel
     {
+        private readonly SwaggerService _service;
+        private readonly SwaggerToCSharpClientGeneratorSettings _settings;
+
         public ClientTemplateModel(string controllerName, IList<OperationModel> operations, SwaggerService service, SwaggerToCSharpClientGeneratorSettings settings)
         {
-            var hasClientBaseClass = !string.IsNullOrEmpty(settings.ClientBaseClass);
+            _service = service;
+            _settings = settings;
 
             Class = controllerName;
-            BaseClass = settings.ClientBaseClass;
-
-            HasBaseClass = hasClientBaseClass;
-            HasBaseType = settings.GenerateClientInterfaces || hasClientBaseClass;
-
-            UseHttpClientCreationMethod = settings.UseHttpClientCreationMethod;
-            GenerateClientInterfaces = settings.GenerateClientInterfaces;
-            BaseUrl = service.BaseUrl;
-
             Operations = operations;
         }
 
         public string Class { get; }
 
-        public string BaseClass { get; }
+        public string BaseClass => _settings.ClientBaseClass;
 
-        public bool HasBaseClass { get; }
+        public bool HasBaseClass => !string.IsNullOrEmpty(_settings.ClientBaseClass);
 
-        public bool HasBaseType { get; }
+        public bool HasBaseType => _settings.GenerateClientInterfaces || HasBaseClass;
 
-        public bool UseHttpClientCreationMethod { get; }
+        public bool UseHttpClientCreationMethod => _settings.UseHttpClientCreationMethod;
 
-        public bool GenerateClientInterfaces { get; }
+        public bool GenerateClientInterfaces => _settings.GenerateClientInterfaces;
 
-        public string BaseUrl { get; }
+        public string BaseUrl => _service.BaseUrl;
 
         public bool HasMissingHttpMethods => Operations.Any(o =>
             o.HttpMethod == SwaggerOperationMethod.Options ||

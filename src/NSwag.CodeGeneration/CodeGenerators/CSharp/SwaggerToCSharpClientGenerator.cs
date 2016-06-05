@@ -57,7 +57,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         internal override string RenderFile(string clientCode, string[] clientClasses)
         {
             var template = new FileTemplate();
-            template.Initialize(new
+            template.Initialize(new // TODO: Add typed class
             {
                 Namespace = Settings.CSharpGeneratorSettings.Namespace ?? string.Empty, 
                 Toolchain = SwaggerService.ToolchainVersion, 

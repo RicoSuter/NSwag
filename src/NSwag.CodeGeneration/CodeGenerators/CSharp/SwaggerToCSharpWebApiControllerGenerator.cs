@@ -55,7 +55,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         internal override string RenderFile(string clientCode, string[] clientClasses)
         {
             var template = new FileTemplate();
-            template.Initialize(new
+            template.Initialize(new // TODO: Add typed class
             {
                 Namespace = Settings.CSharpGeneratorSettings.Namespace, 
                 Toolchain = SwaggerService.ToolchainVersion, 
@@ -71,7 +71,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             var hasClientBaseClass = !string.IsNullOrEmpty(Settings.ControllerBaseClass);
             
             var template = new WebApiControllerTemplate();
-            template.Initialize(new
+            template.Initialize(new // TODO: Add typed class
             {
                 Class = controllerName,
                 BaseClass = Settings.ControllerBaseClass,
