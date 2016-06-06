@@ -27,8 +27,9 @@ namespace NSwag
         public SwaggerHeaders Headers { get; set; }
 
         /// <summary>Sets a value indicating whether the response can be null (use IsNullable() to get a parameter's nullability).</summary>
+        /// <remarks>The Swagger spec does not support null in schemas, see https://github.com/OAI/OpenAPI-Specification/issues/229 </remarks>
         [JsonProperty(PropertyName = "x-nullable", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public bool? IsNullableRaw { internal get; set; } // TODO: (swagger-problem) Find better/correct solution
+        public bool? IsNullableRaw { internal get; set; } 
 
         /// <summary>Gets the actual non-nullable response schema (either oneOf schema or the actual schema).</summary>
         [JsonIgnore]

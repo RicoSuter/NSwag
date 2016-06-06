@@ -150,8 +150,6 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
         private string GetOperationId(SwaggerService service, string controllerName, MethodInfo method)
         {
-            // TODO: Implement IOperationIdGenerator
-
             if (controllerName.EndsWith("Controller"))
                 controllerName = controllerName.Substring(0, controllerName.Length - 10);
 
@@ -399,7 +397,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 var operationParameter = CreatePrimitiveParameter(// TODO: Check if there is a way to control the property name
                     service, JsonPathUtilities.GetPropertyName(property), property.GetXmlDocumentation(), property.PropertyType, attributes, schemaResolver);
 
-                // TODO: Check if required can be controlled with other mechanism than RequiredAttribute
+                // TODO: Check if required can be controlled with mechanisms other than RequiredAttribute
 
                 var parameterInfo = JsonObjectTypeDescription.FromType(property.PropertyType, attributes, Settings.DefaultEnumHandling);
                 var isFileArray = IsFileArray(property.PropertyType, parameterInfo);
@@ -433,16 +431,15 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         {
             var isRequired = IsParameterRequired(parameter);
 
+            var typeDescription = JsonObjectTypeDescription.FromType(parameter.ParameterType, parameter.GetCustomAttributes(), Settings.DefaultEnumHandling);
             var operationParameter = new SwaggerParameter
             {
                 Name = parameter.Name,
                 Kind = SwaggerParameterKind.Body,
                 IsRequired = isRequired,
-                Schema = CreateAndAddSchema(service, parameter.ParameterType, !isRequired, parameter.GetCustomAttributes(), schemaResolver)
+                IsNullableRaw = typeDescription.IsNullable,
+                Schema = CreateAndAddSchema(service, parameter.ParameterType, !isRequired, parameter.GetCustomAttributes(), schemaResolver),
             };
-
-            var typeDescription = JsonObjectTypeDescription.FromType(parameter.ParameterType, parameter.GetCustomAttributes(), Settings.DefaultEnumHandling);
-            operationParameter.IsNullableRaw = typeDescription.IsNullable; 
 
             var description = parameter.GetXmlDocumentation();
             if (description != string.Empty)
@@ -593,7 +590,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 {
                     return new JsonSchema4
                     {
-                        // TODO: (swagger-problem) Check how to express a nullable schema here
+                        // IsNullable is directly set on SwaggerParameter or SwaggerResponse
                         Type = Settings.NullHandling == NullHandling.JsonSchema ? JsonObjectType.Object | JsonObjectType.Null : JsonObjectType.Object,
                         AllowAdditionalProperties = false
                     };
@@ -616,7 +613,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     }
                     else
                     {
-                        // TODO: (swagger-problem) Check how to express a nullable response
+                        // IsNullable is directly set on SwaggerParameter or SwaggerResponse
                         return new JsonSchema4 { SchemaReference = schemaResolver.GetSchema(type, false) };
                     }
                 }
@@ -629,7 +626,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 var itemType = type.GenericTypeArguments.Length == 0 ? type.GetElementType() : type.GenericTypeArguments[0];
                 return new JsonSchema4
                 {
-                    // TODO: (swagger-problem) Check how to express a nullable schema here
+                    // IsNullable is directly set on SwaggerParameter or SwaggerResponse
                     Type = Settings.NullHandling == NullHandling.JsonSchema ? JsonObjectType.Array | JsonObjectType.Null : JsonObjectType.Array, 
                     Item = CreateAndAddSchema(service, itemType, false, null, schemaResolver)
                 };
