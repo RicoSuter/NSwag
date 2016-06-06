@@ -40,7 +40,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 
         private JsonSchema4 Schema => _response.Schema?.ActualSchema;
 
-        public bool IsNullable => _response.IsNullable(PropertyNullHandling.Required);
+        public bool IsNullable => _response.IsNullable(_clientGeneratorBase.BaseSettings.CodeGeneratorSettings.NullHandling);
 
         // TODO: Find way to remove TypeScript only properties
 

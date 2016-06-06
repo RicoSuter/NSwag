@@ -129,7 +129,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
             if (parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi)
                 schema = new JsonSchema4 { Type = JsonObjectType.Array, Item = schema };
 
-            return resolver.Resolve(schema, parameter.IsRequired == false || parameter.IsNullable(BaseSettings.CodeGeneratorSettings.PropertyNullHandling), parameter.Name);
+            return resolver.Resolve(schema, parameter.IsRequired == false || parameter.IsNullable(BaseSettings.CodeGeneratorSettings.NullHandling), parameter.Name);
         }
 
         internal SwaggerResponse GetSuccessResponse(SwaggerOperation operation)

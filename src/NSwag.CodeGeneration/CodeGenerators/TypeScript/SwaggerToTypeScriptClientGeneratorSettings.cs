@@ -25,7 +25,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             PromiseType = PromiseType.Promise;
             TypeScriptGeneratorSettings = new TypeScriptGeneratorSettings
             {
-                PropertyNullHandling = PropertyNullHandling.Required
+                NullHandling = NullHandling.Swagger
             };
         }
 

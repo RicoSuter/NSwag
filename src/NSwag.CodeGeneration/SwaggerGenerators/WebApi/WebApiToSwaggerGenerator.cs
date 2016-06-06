@@ -594,7 +594,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     return new JsonSchema4
                     {
                         // TODO: (swagger-problem) Check how to express a nullable schema here
-                        Type = Settings.PropertyNullHandling == PropertyNullHandling.OneOf ? JsonObjectType.Object | JsonObjectType.Null : JsonObjectType.Object,
+                        Type = Settings.NullHandling == NullHandling.JsonSchema ? JsonObjectType.Object | JsonObjectType.Null : JsonObjectType.Object,
                         AllowAdditionalProperties = false
                     };
                 }
@@ -607,7 +607,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
                 if (mayBeNull)
                 {
-                    if (Settings.PropertyNullHandling == PropertyNullHandling.OneOf)
+                    if (Settings.NullHandling == NullHandling.JsonSchema)
                     {
                         var schema = new JsonSchema4();
                         schema.OneOf.Add(new JsonSchema4 { Type = JsonObjectType.Null });
@@ -630,7 +630,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 return new JsonSchema4
                 {
                     // TODO: (swagger-problem) Check how to express a nullable schema here
-                    Type = Settings.PropertyNullHandling == PropertyNullHandling.OneOf ? JsonObjectType.Array | JsonObjectType.Null : JsonObjectType.Array, 
+                    Type = Settings.NullHandling == NullHandling.JsonSchema ? JsonObjectType.Array | JsonObjectType.Null : JsonObjectType.Array, 
                     Item = CreateAndAddSchema(service, itemType, false, null, schemaResolver)
                 };
             }

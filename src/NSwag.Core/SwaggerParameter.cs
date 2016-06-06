@@ -46,11 +46,11 @@ namespace NSwag
         public SwaggerParameterCollectionFormat CollectionFormat { get; set; }
 
         /// <summary>Gets a value indicating whether the validated data can be null.</summary>
-        /// <param name="propertyNullHandling">The property null handling.</param>
+        /// <param name="nullHandling">The null handling.</param>
         /// <returns>The result.</returns>
-        public override bool IsNullable(PropertyNullHandling propertyNullHandling)
+        public override bool IsNullable(NullHandling nullHandling)
         {
-            if (propertyNullHandling == PropertyNullHandling.Required)
+            if (nullHandling == NullHandling.Swagger)
             {
                 if (IsNullableRaw == null)
                     return IsRequired == false;
@@ -58,7 +58,7 @@ namespace NSwag
                 return IsNullableRaw.Value;
             }
 
-            return base.IsNullable(propertyNullHandling);
+            return base.IsNullable(nullHandling);
         }
     }
 }

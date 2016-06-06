@@ -40,7 +40,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 
         public bool IsRequired => _parameter.IsRequired;
 
-        public bool IsNullable => _parameter.IsNullable(_settings.PropertyNullHandling);
+        public bool IsNullable => _parameter.IsNullable(_settings.NullHandling);
 
         public bool IsOptional => _parameter.IsRequired == false; 
 

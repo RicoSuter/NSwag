@@ -18,7 +18,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         public WebApiToSwaggerGeneratorSettings()
         {
             DefaultUrlTemplate = "api/{controller}/{action}/{id}";
-            PropertyNullHandling = PropertyNullHandling.Required;
+            NullHandling = NullHandling.Swagger;
         }
 
         /// <summary>Gets or sets the default Web API URL template.</summary>

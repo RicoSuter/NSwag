@@ -34,9 +34,12 @@ namespace NSwag
         [JsonIgnore]
         public JsonSchema4 ActualResponseSchema => Schema?.ActualSchema;
 
-        public bool IsNullable(PropertyNullHandling propertyNullHandling)
+        /// <summary>Determines whether the specified null handling is nullable.</summary>
+        /// <param name="nullHandling">The null handling.</param>
+        /// <returns>The result.</returns>
+        public bool IsNullable(NullHandling nullHandling)
         {
-            if (propertyNullHandling == PropertyNullHandling.Required)
+            if (nullHandling == NullHandling.Swagger)
             {
                 if (IsNullableRaw == null)
                     return false;
@@ -44,7 +47,7 @@ namespace NSwag
                 return IsNullableRaw.Value;
             }
 
-            return Schema?.ActualSchema.IsNullable(propertyNullHandling) ?? false;
+            return Schema?.ActualSchema.IsNullable(nullHandling) ?? false;
         }
     }
 }
