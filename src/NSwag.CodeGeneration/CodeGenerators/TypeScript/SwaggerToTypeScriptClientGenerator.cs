@@ -107,7 +107,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 
             return string.Join(" | ", operation.Responses
                 .Where(r => !HttpUtilities.IsSuccessStatusCode(r.Key) && r.Value.Schema != null)
-                .Select(r => GetType(r.Value.ActualResponseSchema, r.Value.IsNullable, "Exception"))
+                .Select(r => GetType(r.Value.ActualResponseSchema, r.Value.IsNullable(PropertyNullHandling.Required), "Exception"))
                 .Concat(new[] { "string" }));
         }
 
@@ -117,7 +117,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             if (response?.Schema == null)
                 return "void";
 
-            return GetType(response.ActualResponseSchema, response.IsNullable, "Response");
+            return GetType(response.ActualResponseSchema, response.IsNullable(PropertyNullHandling.Required), "Response");
         }
 
         internal override string GetType(JsonSchema4 schema, bool isNullable, string typeNameHint)

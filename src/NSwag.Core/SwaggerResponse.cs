@@ -26,12 +26,25 @@ namespace NSwag
         [JsonProperty(PropertyName = "header", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public SwaggerHeaders Headers { get; set; }
 
-        /// <summary>Gets a value indicating whether the response is nullable.</summary>
-        [JsonIgnore]
-        public bool IsNullable => false; // TODO: (swagger-problem) Check how to express a nullable response
+        /// <summary>Sets a value indicating whether the response can be null (use IsNullable() to get a parameter's nullability).</summary>
+        [JsonProperty(PropertyName = "x-nullable", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public bool? IsNullableRaw { internal get; set; } // TODO: (swagger-problem) Find better/correct solution
 
         /// <summary>Gets the actual non-nullable response schema (either oneOf schema or the actual schema).</summary>
         [JsonIgnore]
         public JsonSchema4 ActualResponseSchema => Schema?.ActualSchema;
+
+        public bool IsNullable(PropertyNullHandling propertyNullHandling)
+        {
+            if (propertyNullHandling == PropertyNullHandling.Required)
+            {
+                if (IsNullableRaw == null)
+                    return false;
+
+                return IsNullableRaw.Value;
+            }
+
+            return Schema?.ActualSchema.IsNullable(propertyNullHandling) ?? false;
+        }
     }
 }
