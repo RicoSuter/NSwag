@@ -126,10 +126,11 @@ namespace NSwag.CodeGeneration.CodeGenerators
         {
             var schema = parameter.ActualSchema; 
 
-            if (parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi)
+            if (parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
                 schema = new JsonSchema4 { Type = JsonObjectType.Array, Item = schema };
 
-            return resolver.Resolve(schema, parameter.IsRequired == false || parameter.IsNullable(BaseSettings.CodeGeneratorSettings.NullHandling), parameter.Name);
+            var typeNameHint = ConversionUtilities.ConvertToUpperCamelCase(parameter.Name);
+            return resolver.Resolve(schema, parameter.IsRequired == false || parameter.IsNullable(BaseSettings.CodeGeneratorSettings.NullHandling), typeNameHint);
         }
 
         internal SwaggerResponse GetSuccessResponse(SwaggerOperation operation)
