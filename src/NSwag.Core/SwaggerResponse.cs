@@ -15,8 +15,8 @@ namespace NSwag
     public class SwaggerResponse
     {
         /// <summary>Gets or sets the response's description.</summary>
-        [JsonProperty(PropertyName = "description", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string Description { get; set; }
+        [JsonProperty(PropertyName = "description")]
+        public string Description { get; set; } = ""; 
 
         /// <summary>Gets or sets the response schema.</summary>
         [JsonProperty(PropertyName = "schema", DefaultValueHandling = DefaultValueHandling.Ignore)]

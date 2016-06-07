@@ -534,7 +534,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
                     operation.Responses[httpStatusCode] = new SwaggerResponse
                     {
-                        Description = description,
+                        Description = description ?? string.Empty,
                         IsNullableRaw = mayBeNull,
                         Schema = CreateAndAddSchema(service, returnType, mayBeNull, null, schemaResolver)
                     };
@@ -548,7 +548,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 {
                     operation.Responses["200"] = new SwaggerResponse
                     {
-                        Description = xmlDescription,
+                        Description = xmlDescription ?? string.Empty,
                         IsNullableRaw = mayBeNull,
                         Schema = CreateAndAddSchema(service, returnType, mayBeNull, null, schemaResolver)
                     };
