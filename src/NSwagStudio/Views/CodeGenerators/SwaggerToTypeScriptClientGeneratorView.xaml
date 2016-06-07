@@ -86,17 +86,15 @@
                                         <TextBox Text="{Binding ClassTypes, Mode=TwoWay}" Margin="0,0,0,12" />
                                     </StackPanel>
                                 </StackPanel>
-
-                                <StackPanel Visibility="{Binding Command.TypeStyle, ConverterParameter='!Interface', Converter={StaticResource EqualityConverter}}">
-                                    <TextBlock Text="Extended classes (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
-                                    <TextBox Text="{Binding ExtendedClasses, Mode=TwoWay}" Margin="0,0,0,12" />
-
-                                    <TextBlock Text="Path to class extension code file (the module import 'generated' is removed and class export keywords are added)" 
-                                               FontWeight="Bold" Margin="0,0,0,6" />
-                                    <TextBox Text="{Binding Command.ExtensionCode, Mode=TwoWay}" Margin="0,0,0,12" />
-                                </StackPanel>
                             </StackPanel>
                         </GroupBox>
+
+                        <TextBlock Text="Extended classes (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding ExtendedClasses, Mode=TwoWay}" Margin="0,0,0,12" />
+
+                        <TextBlock Text="Path to class extension code file (the module import 'generated' is removed and class export keywords are added)" 
+                                   FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.ExtensionCode, Mode=TwoWay}" Margin="0,0,0,12" />
                     </StackPanel>
                 </ScrollViewer>
             </Expander>

@@ -43,12 +43,12 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="NJsonSchema, Version=2.37.6002.13677, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NJsonSchema.2.37.6002.13677\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="NJsonSchema.CodeGeneration, Version=2.37.6002.13678, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NJsonSchema.CodeGeneration.2.37.6002.13678\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
