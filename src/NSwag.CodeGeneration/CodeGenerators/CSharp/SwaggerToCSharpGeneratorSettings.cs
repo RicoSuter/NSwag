@@ -6,6 +6,8 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using NJsonSchema;
+using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.CSharp;
 
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp
@@ -19,7 +21,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             AdditionalNamespaceUsages = null;
             CSharpGeneratorSettings = new CSharpGeneratorSettings
             {
-                Namespace = "MyNamespace"
+                Namespace = "MyNamespace",
+                NullHandling = NullHandling.Swagger
             };
         }
 
@@ -28,5 +31,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
 
         /// <summary>Gets or sets the additional namespace usages.</summary>
         public string[] AdditionalNamespaceUsages { get; set; }
+
+        /// <summary>Gets the code generator settings.</summary>
+        public override CodeGeneratorSettingsBase CodeGeneratorSettings => CSharpGeneratorSettings;
     }
 }

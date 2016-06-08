@@ -545,7 +545,7 @@ foreach(var parameter in operation.QueryParameters){
             #line hidden
             
             #line 63 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2Template.tt"
-  if(parameter.IsOptional){
+  if(parameter.IsNullable){
             
             #line default
             #line hidden

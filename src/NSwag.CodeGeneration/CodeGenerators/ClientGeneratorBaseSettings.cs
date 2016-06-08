@@ -7,20 +7,24 @@
 //-----------------------------------------------------------------------
 
 using System;
+using NJsonSchema.CodeGeneration;
 using NSwag.CodeGeneration.CodeGenerators.OperationNameGenerators;
 
 namespace NSwag.CodeGeneration.CodeGenerators
 {
     /// <summary>Settings for the <see cref="ClientGeneratorBase"/>.</summary>
-    public class ClientGeneratorBaseSettings
+    public abstract class ClientGeneratorBaseSettings
     {
         /// <summary>Initializes a new instance of the <see cref="ClientGeneratorBaseSettings"/> class.</summary>
-        public ClientGeneratorBaseSettings()
+        protected ClientGeneratorBaseSettings()
         {
             GenerateClientClasses = true; 
             GenerateDtoTypes = true;
             OperationGenerationMode = OperationGenerationMode.MultipleClientsFromOperationId;
         }
+
+        /// <summary>Gets the code generator settings.</summary>
+        public abstract CodeGeneratorSettingsBase CodeGeneratorSettings { get; }
 
         /// <summary>Gets or sets the class name of the service client or controller.</summary>
         public string ClassName { get; set; }

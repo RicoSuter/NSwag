@@ -784,7 +784,7 @@ foreach(var parameter in operation.QueryParameters){
             #line hidden
             
             #line 77 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
-  if(parameter.IsOptional){
+  if(parameter.IsNullable){
             
             #line default
             #line hidden
@@ -1029,7 +1029,7 @@ foreach(var parameter in operation.FormParameters){
             #line hidden
             
             #line 116 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
-  if(parameter.IsOptional){
+  if(parameter.IsNullable){
             
             #line default
             #line hidden

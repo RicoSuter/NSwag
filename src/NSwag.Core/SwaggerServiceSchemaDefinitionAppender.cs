@@ -15,12 +15,15 @@ namespace NSwag
     public class SwaggerServiceSchemaDefinitionAppender : ISchemaDefinitionAppender
     {
         private readonly SwaggerService _service;
+        private readonly ITypeNameGenerator _typeNameGenerator;
 
-        /// <summary>Initializes a new instance of the <see cref="SwaggerServiceSchemaDefinitionAppender"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="SwaggerServiceSchemaDefinitionAppender" /> class.</summary>
         /// <param name="service">The service.</param>
-        public SwaggerServiceSchemaDefinitionAppender(SwaggerService service)
+        /// <param name="typeNameGenerator">The type name generator.</param>
+        public SwaggerServiceSchemaDefinitionAppender(SwaggerService service, ITypeNameGenerator typeNameGenerator)
         {
             _service = service;
+            _typeNameGenerator = typeNameGenerator; 
         }
 
         /// <summary>Appends the schema to the root object.</summary>
@@ -28,8 +31,9 @@ namespace NSwag
         /// <param name="objectToAppend">The object to append.</param>
         public void Append(object root, JsonSchema4 objectToAppend)
         {
-            if (!string.IsNullOrEmpty(objectToAppend.TypeName) && !_service.Definitions.ContainsKey(objectToAppend.TypeName))
-                _service.Definitions[objectToAppend.TypeName] = objectToAppend;
+            var typeName = objectToAppend.GetTypeName(_typeNameGenerator); 
+            if (!string.IsNullOrEmpty(typeName) && !_service.Definitions.ContainsKey(typeName))
+                _service.Definitions[typeName] = objectToAppend;
             else
                 _service.Definitions["ref_" + Guid.NewGuid().ToString().Replace("-", "_")] = objectToAppend;
         }

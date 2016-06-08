@@ -49,7 +49,7 @@
   "SwaggerToCSharpClientCommand": {
     "ClientBaseClass": null,
     "GenerateClientClasses": true,
-    "GenerateClientInterfaces": true,
+    "GenerateClientInterfaces": false,
     "GenerateDtoTypes": true,
     "UseHttpClientCreationMethod": false,
     "Settings": {
@@ -61,29 +61,26 @@
         "DateTimeType": "DateTime",
         "ArrayType": "ObservableCollection",
         "DictionaryType": "Dictionary",
-        "ClassStyle": "Poco"
+        "ClassStyle": "Inpc",
+        "PropertyNullHandling": "Required",
+        "PropertyNameGenerator": null,
+        "TypeNameGenerator": null
       },
-      "AdditionalNamespaceUsages": [
-        "a",
-        "b"
-      ],
+      "AdditionalNamespaceUsages": [],
       "ClassName": "{controller}Client",
       "OperationGenerationMode": "MultipleClientsFromOperationId",
       "GenerateDtoTypes": true,
-      "GenerateClientInterfaces": true,
+      "GenerateClientInterfaces": false,
       "GenerateClientClasses": true
     },
     "ClassName": "{controller}Client",
     "Namespace": "NSwag.Demo.Client",
-    "AdditionalNamespaceUsages": [
-      "a",
-      "b"
-    ],
+    "AdditionalNamespaceUsages": [],
     "RequiredPropertiesMustBeDefined": true,
     "DateTimeType": "DateTime",
     "ArrayType": "ObservableCollection",
     "DictionaryType": "Dictionary",
-    "ClassStyle": "Poco",
+    "ClassStyle": "Inpc",
     "OperationGenerationMode": "MultipleClientsFromOperationId",
     "Input": null,
     "OutputFilePath": null
@@ -98,7 +95,10 @@
         "DateTimeType": "DateTime",
         "ArrayType": "IEnumerable",
         "DictionaryType": "Dictionary",
-        "ClassStyle": "Inpc"
+        "ClassStyle": "Inpc",
+        "PropertyNullHandling": "Required",
+        "PropertyNameGenerator": null,
+        "TypeNameGenerator": null
       },
       "AdditionalNamespaceUsages": [
         "System.Web.Http"

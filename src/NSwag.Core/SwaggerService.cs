@@ -39,8 +39,8 @@ namespace NSwag
             Definitions = new ObservableDictionary<string, JsonSchema4>();
             Definitions.CollectionChanged += (sender, args) =>
             {
-                foreach (var pair in Definitions.Where(p => string.IsNullOrEmpty(p.Value.TypeName)))
-                    pair.Value.TypeName = pair.Key;
+                foreach (var pair in Definitions.Where(p => string.IsNullOrEmpty(p.Value.TypeNameRaw)))
+                    pair.Value.TypeNameRaw = pair.Key;
             };
 
             Paths = new ObservableDictionary<string, SwaggerOperations>();
@@ -134,6 +134,14 @@ namespace NSwag
         /// <returns>The JSON string.</returns>
         public string ToJson()
         {
+            return ToJson(null);
+        }
+
+        /// <summary>Converts the description object to JSON.</summary>
+        /// <param name="typeNameGenerator">The type name generator.</param>
+        /// <returns>The JSON string.</returns>
+        public string ToJson(ITypeNameGenerator typeNameGenerator)
+        {
             var settings = new JsonSerializerSettings
             {
                 PreserveReferencesHandling = PreserveReferencesHandling.None,
@@ -142,7 +150,7 @@ namespace NSwag
 
             GenerateOperationIds();
 
-            JsonSchemaReferenceUtilities.UpdateSchemaReferencePaths(this, new SwaggerServiceSchemaDefinitionAppender(this));
+            JsonSchemaReferenceUtilities.UpdateSchemaReferencePaths(this, new SwaggerServiceSchemaDefinitionAppender(this, typeNameGenerator));
             var data = JsonConvert.SerializeObject(this, settings);
             JsonSchemaReferenceUtilities.UpdateSchemaReferences(this);
 

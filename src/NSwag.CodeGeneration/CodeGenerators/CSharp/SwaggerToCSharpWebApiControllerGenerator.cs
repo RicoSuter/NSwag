@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NJsonSchema.CodeGeneration;
 using NSwag.CodeGeneration.CodeGenerators.CSharp.Templates;
 using NSwag.CodeGeneration.CodeGenerators.Models;
 
@@ -34,8 +33,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             Settings = settings; 
 
             _service = service;
-            foreach (var definition in _service.Definitions)
-                definition.Value.TypeName = definition.Key;
+            foreach (var definition in _service.Definitions.Where(p => string.IsNullOrEmpty(p.Value.TypeNameRaw)))
+                definition.Value.TypeNameRaw = definition.Key;
         }
 
         /// <summary>Gets or sets the generator settings.</summary>
@@ -56,7 +55,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         internal override string RenderFile(string clientCode, string[] clientClasses)
         {
             var template = new FileTemplate();
-            template.Initialize(new
+            template.Initialize(new // TODO: Add typed class
             {
                 Namespace = Settings.CSharpGeneratorSettings.Namespace, 
                 Toolchain = SwaggerService.ToolchainVersion, 
@@ -72,7 +71,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             var hasClientBaseClass = !string.IsNullOrEmpty(Settings.ControllerBaseClass);
             
             var template = new WebApiControllerTemplate();
-            template.Initialize(new
+            template.Initialize(new // TODO: Add typed class
             {
                 Class = controllerName,
                 BaseClass = Settings.ControllerBaseClass,

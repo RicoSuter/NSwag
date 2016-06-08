@@ -26,13 +26,13 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 
         public string StatusCode { get; }
         
-        public string Type => _clientGeneratorBase.GetType(_response.ActualResponseSchema, _response.IsNullable, "Response");
+        public string Type => _clientGeneratorBase.GetType(_response.ActualResponseSchema, IsNullable, "Response");
 
         public bool HasType => Schema != null; 
 
         public bool IsSuccess => HttpUtilities.IsSuccessStatusCode(StatusCode);
 
-        public bool IsDate => _clientGeneratorBase.GetType(_response.ActualResponseSchema, _response.IsNullable, "Response") == "Date";
+        public bool IsDate => _clientGeneratorBase.GetType(_response.ActualResponseSchema, IsNullable, "Response") == "Date";
 
         public bool IsFile => Schema != null && Schema.ActualSchema.Type == JsonObjectType.File;
 
@@ -40,7 +40,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 
         private JsonSchema4 Schema => _response.Schema?.ActualSchema;
 
-        public bool IsNullable => Schema.ActualSchema?.IsNullable ?? false;
+        public bool IsNullable => _response.IsNullable(_clientGeneratorBase.BaseSettings.CodeGeneratorSettings.NullHandling);
 
         // TODO: Find way to remove TypeScript only properties
 

@@ -109,16 +109,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
                             if (p.ActualSchema.Type == JsonObjectType.File)
                                 p.ActualSchema.Type = JsonObjectType.String; // TODO: Implement File type handling
 
-                            return new ParameterModel(ResolveParameterType(p, resolver))
-                            {
-                                Schema = p.ActualSchema,
-                                Name = p.Name,
-                                VariableNameLower = ConversionUtilities.ConvertToLowerCamelCase(p.Name.Replace("-", "_").Replace(".", "_")),
-                                Kind = p.Kind,
-                                IsRequired = p.IsRequired,
-                                IsLast = operation.Parameters.LastOrDefault() == p,
-                                Description = ConversionUtilities.TrimWhiteSpaces(p.Description)
-                            };
+                            return new ParameterModel(ResolveParameterType(p, resolver), operation, p, BaseSettings.CodeGeneratorSettings);
                         }).ToList(),
                     };
                 }).ToList();
@@ -133,12 +124,13 @@ namespace NSwag.CodeGeneration.CodeGenerators
         private string ResolveParameterType<TGenerator>(SwaggerParameter parameter, TypeResolverBase<TGenerator> resolver)
             where TGenerator : TypeGeneratorBase
         {
-            var schema = parameter.ActualParameterSchema; 
+            var schema = parameter.ActualSchema; 
 
-            if (parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi)
+            if (parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
                 schema = new JsonSchema4 { Type = JsonObjectType.Array, Item = schema };
 
-            return resolver.Resolve(schema, !parameter.IsRequired && parameter.IsNullable, parameter.Name);
+            var typeNameHint = ConversionUtilities.ConvertToUpperCamelCase(parameter.Name);
+            return resolver.Resolve(schema, parameter.IsRequired == false || parameter.IsNullable(BaseSettings.CodeGeneratorSettings.NullHandling), typeNameHint);
         }
 
         internal SwaggerResponse GetSuccessResponse(SwaggerOperation operation)

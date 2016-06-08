@@ -28,7 +28,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
                 return "Exception";
 
             var response = operation.Responses.Single(r => !HttpUtilities.IsSuccessStatusCode(r.Key)).Value; 
-            return GetType(response.ActualResponseSchema, response.IsNullable, "Exception");
+            return GetType(response.ActualResponseSchema, response.IsNullable(BaseSettings.CodeGeneratorSettings.NullHandling), "Exception");
         }
 
         internal override string GetResultType(SwaggerOperation operation)
@@ -37,7 +37,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             if (response?.Schema == null)
                 return "Task";
 
-            return "Task<" + GetType(response.ActualResponseSchema, response.IsNullable, "Response") + ">";
+            return "Task<" + GetType(response.ActualResponseSchema, response.IsNullable(BaseSettings.CodeGeneratorSettings.NullHandling), "Response") + ">";
         }
 
         internal override string GetType(JsonSchema4 schema, bool isNullable, string typeNameHint)

@@ -581,7 +581,7 @@ foreach(var parameter in operation.QueryParameters){
             #line hidden
             
             #line 60 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
-  if(parameter.IsOptional){
+  if(parameter.IsNullable){
             
             #line default
             #line hidden
@@ -732,7 +732,7 @@ foreach(var parameter in operation.QueryParameters){
             
             #line default
             #line hidden
-            this.Write("\r\n\r\n        $.ajax(");
+            this.Write("\r\n\r\n        jQuery.ajax(");
             
             #line 80 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt"
 if(Model.IsExtended){

@@ -57,7 +57,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 }#>
 
 <#foreach(var parameter in operation.QueryParameters){#>
-<#  if(parameter.IsOptional){#>
+<#  if(parameter.IsNullable){#>
         if (<#=parameter.VariableNameLower#> !== undefined && <#=parameter.VariableNameLower#> !== null)
 <#  }else{#>
         if (<#=parameter.VariableNameLower#> === undefined || <#=parameter.VariableNameLower#> === null)
@@ -77,7 +77,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 
         <#=RequestBodyGenerator.Render(operation.ContentParameter, 2)#>
 
-        $.ajax(<#if(Model.IsExtended){#>this.transformOptions(<#}#>{
+        jQuery.ajax(<#if(Model.IsExtended){#>this.transformOptions(<#}#>{
             url: url,
             beforeSend: this.beforeSend,
             type: "<#=operation.HttpMethodLower#>",

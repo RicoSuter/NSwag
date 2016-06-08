@@ -36,8 +36,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             Settings = settings;
 
             _service = service;
-            foreach (var definition in _service.Definitions)
-                definition.Value.TypeName = definition.Key;
+            foreach (var definition in _service.Definitions.Where(p => string.IsNullOrEmpty(p.Value.TypeNameRaw)))
+                definition.Value.TypeNameRaw = definition.Key;
 
             _resolver = new TypeScriptTypeResolver(_service.Definitions.Select(p => p.Value).ToArray(), Settings.TypeScriptGeneratorSettings);
         }
@@ -107,7 +107,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 
             return string.Join(" | ", operation.Responses
                 .Where(r => !HttpUtilities.IsSuccessStatusCode(r.Key) && r.Value.Schema != null)
-                .Select(r => GetType(r.Value.ActualResponseSchema, r.Value.IsNullable, "Exception"))
+                .Select(r => GetType(r.Value.ActualResponseSchema, r.Value.IsNullable(Settings.CodeGeneratorSettings.NullHandling), "Exception"))
                 .Concat(new[] { "string" }));
         }
 
@@ -117,7 +117,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             if (response?.Schema == null)
                 return "void";
 
-            return GetType(response.ActualResponseSchema, response.IsNullable, "Response");
+            return GetType(response.ActualResponseSchema, response.IsNullable(Settings.CodeGeneratorSettings.NullHandling), "Response");
         }
 
         internal override string GetType(JsonSchema4 schema, bool isNullable, string typeNameHint)
@@ -128,7 +128,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             if (schema.ActualSchema.IsAnyType || schema.ActualSchema.Type == JsonObjectType.File)
                 return "any";
 
-            return _resolver.Resolve(schema.ActualSchema, schema.IsNullable, typeNameHint);
+            return _resolver.Resolve(schema.ActualSchema, isNullable, typeNameHint);
         }
 
         private string GetClassName(string className)

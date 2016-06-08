@@ -24,6 +24,8 @@ namespace NSwag.CodeGeneration.Tests.ClientGeneration
                             new SwaggerParameter
                             {
                                 Name = "foo",
+                                IsRequired = false,
+                                IsNullableRaw = true,
                                 Kind = SwaggerParameterKind.FormData,
                                 Type = JsonObjectType.String
                             },
@@ -31,6 +33,7 @@ namespace NSwag.CodeGeneration.Tests.ClientGeneration
                             {
                                 Name = "bar",
                                 IsRequired = true,
+                                IsNullableRaw = false, 
                                 Kind = SwaggerParameterKind.FormData,
                                 Type = JsonObjectType.String
                             }

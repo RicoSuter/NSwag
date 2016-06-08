@@ -6,36 +6,49 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.Linq;
 using NJsonSchema;
+using NJsonSchema.CodeGeneration;
 
 namespace NSwag.CodeGeneration.CodeGenerators.Models
 {
     internal class ParameterModel
     {
-        public ParameterModel(string typeName)
+        private readonly SwaggerOperation _operation;
+        private readonly SwaggerParameter _parameter;
+        private readonly CodeGeneratorSettingsBase _settings;
+
+        public ParameterModel(string typeName, SwaggerOperation operation, SwaggerParameter parameter, CodeGeneratorSettingsBase settings)
         {
             Type = typeName;
+            _operation = operation; 
+            _parameter = parameter;
+            _settings = settings;
         }
 
-        public string Name { get; set; }
+        public string Type { get; }
 
-        public string VariableNameLower { get; set; }
+        public string Name => _parameter.Name;
 
-        public SwaggerParameterKind Kind { get; set; }
+        public string VariableNameLower => ConversionUtilities.ConvertToLowerCamelCase(_parameter.Name.Replace("-", "_").Replace(".", "_"));
 
-        public string Type { get; set; }
+        public SwaggerParameterKind Kind => _parameter.Kind;
 
-        public string Description { get; set; }
+        public string Description => ConversionUtilities.TrimWhiteSpaces(_parameter.Description);
 
-        public JsonSchema4 Schema { get; set; }
+        public JsonSchema4 Schema => _parameter.ActualSchema;
 
-        public bool IsRequired { get; set; }
+        public bool IsRequired => _parameter.IsRequired;
+
+        public bool IsNullable => _parameter.IsNullable(_settings.NullHandling);
+
+        public bool IsOptional => _parameter.IsRequired == false; 
 
         public bool HasDescription => !string.IsNullOrEmpty(Description);
 
-        public bool HasDescriptionOrIsOptional => HasDescription || IsOptional;
+        public bool HasDescriptionOrIsOptional => HasDescription || !IsRequired;
 
-        public bool IsLast { get; set; }
+        public bool IsLast => _operation.Parameters.LastOrDefault() == _parameter;
 
         public bool IsDate => Schema.Type == JsonObjectType.String && Schema.Format == JsonFormatStrings.DateTime;
 
@@ -45,7 +58,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 
         public bool IsDateArray => IsArray && Schema.Item?.Format == JsonFormatStrings.DateTime;
 
-        public bool IsOptional => !IsRequired;
+        // TODO: Find way to remove TypeScript only properties
 
         public bool UseDtoClass { get; set; } = false;
     }

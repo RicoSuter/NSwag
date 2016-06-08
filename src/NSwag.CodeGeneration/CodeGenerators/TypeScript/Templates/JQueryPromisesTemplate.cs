@@ -668,7 +668,7 @@ foreach(var parameter in operation.QueryParameters){
             #line hidden
             
             #line 65 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesTemplate.tt"
-  if(parameter.IsOptional){
+  if(parameter.IsNullable){
             
             #line default
             #line hidden
@@ -819,7 +819,7 @@ foreach(var parameter in operation.QueryParameters){
             
             #line default
             #line hidden
-            this.Write("\r\n\r\n        $.ajax(");
+            this.Write("\r\n\r\n        jQuery.ajax(");
             
             #line 85 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesTemplate.tt"
 if(Model.IsExtended){
