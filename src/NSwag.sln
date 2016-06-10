@@ -6,6 +6,10 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.CodeGeneration", "NSwag.CodeGeneration\NSwag.CodeGeneration.csproj", "{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.CodeGeneration.Tests", "NSwag.CodeGeneration.Tests\NSwag.CodeGeneration.Tests.csproj", "{37650571-163A-4BE7-86BF-DC1B02ADACBB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{26CBD69C-EE7C-4D81-8D62-410F4AD4876B} = {26CBD69C-EE7C-4D81-8D62-410F4AD4876B}
+		{37AE85DE-B127-4861-B925-1A67A35F314A} = {37AE85DE-B127-4861-B925-1A67A35F314A}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Demo.Web", "NSwag.Demo.Web\NSwag.Demo.Web.csproj", "{37AE85DE-B127-4861-B925-1A67A35F314A}"
 EndProject
