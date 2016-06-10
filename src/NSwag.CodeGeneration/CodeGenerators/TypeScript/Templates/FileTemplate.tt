@@ -6,6 +6,8 @@
 //     Generated using the NSwag toolchain v<#=Model.Toolchain#> (http://NSwag.org)
 // </auto-generated>
 //----------------------
+
+<#=Model.ExtensionCodeBefore#>
 <#if(Model.IsAngular2){#>
 
 import 'rxjs/Rx'; 
@@ -13,8 +15,6 @@ import {Observable} from 'rxjs/Observable';
 import {Injectable, Inject, Optional, OpaqueToken} from '@angular/core';
 import {Http, Headers, Response, RequestOptionsArgs} from '@angular/http';
 <#}#>
-
-<#=Model.ExtensionCodeBefore#>
 
 <#if(Model.HasModuleName){#>
 module <#=Model.ModuleName#> {
