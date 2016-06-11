@@ -12,6 +12,7 @@
       "NSwag.Demo.Web.Controllers.PersonsController"
     ],
     "DefaultUrlTemplate": "api/{controller}/{action}/{id}",
+    "DefaultPropertyNameHandling": "CamelCase",
     "DefaultEnumHandling": "Integer",
     "FlattenInheritanceHierarchy": false,
     "GenerateKnownTypes": true,
@@ -22,6 +23,7 @@
     "ClassNames": [],
     "AssemblyConfig": null,
     "ReferencePaths": [],
+    "DefaultPropertyNameHandling": "Default",
     "DefaultEnumHandling": "Integer",
     "FlattenInheritanceHierarchy": false,
     "GenerateKnownTypes": true,
@@ -62,11 +64,22 @@
         "ArrayType": "ObservableCollection",
         "DictionaryType": "Dictionary",
         "ClassStyle": "Inpc",
-        "PropertyNullHandling": "Required",
+        "NullHandling": "Swagger",
         "PropertyNameGenerator": null,
         "TypeNameGenerator": null
       },
       "AdditionalNamespaceUsages": [],
+      "CodeGeneratorSettings": {
+        "Namespace": "NSwag.Demo.Client",
+        "RequiredPropertiesMustBeDefined": true,
+        "DateTimeType": "DateTime",
+        "ArrayType": "ObservableCollection",
+        "DictionaryType": "Dictionary",
+        "ClassStyle": "Inpc",
+        "NullHandling": "Swagger",
+        "PropertyNameGenerator": null,
+        "TypeNameGenerator": null
+      },
       "ClassName": "{controller}Client",
       "OperationGenerationMode": "MultipleClientsFromOperationId",
       "GenerateDtoTypes": true,
@@ -96,13 +109,24 @@
         "ArrayType": "IEnumerable",
         "DictionaryType": "Dictionary",
         "ClassStyle": "Inpc",
-        "PropertyNullHandling": "Required",
+        "NullHandling": "Swagger",
         "PropertyNameGenerator": null,
         "TypeNameGenerator": null
       },
       "AdditionalNamespaceUsages": [
         "System.Web.Http"
       ],
+      "CodeGeneratorSettings": {
+        "Namespace": "MyNamespace",
+        "RequiredPropertiesMustBeDefined": true,
+        "DateTimeType": "DateTime",
+        "ArrayType": "IEnumerable",
+        "DictionaryType": "Dictionary",
+        "ClassStyle": "Inpc",
+        "NullHandling": "Swagger",
+        "PropertyNameGenerator": null,
+        "TypeNameGenerator": null
+      },
       "ClassName": "{controller}",
       "OperationGenerationMode": "MultipleClientsFromOperationId",
       "GenerateDtoTypes": true,
