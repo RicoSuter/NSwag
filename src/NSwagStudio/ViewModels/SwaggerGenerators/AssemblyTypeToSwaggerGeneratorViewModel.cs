@@ -62,10 +62,16 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             }
         }
 
-        /// <summary>Gets the async types. </summary>
+        /// <summary>Gets the default enum handlings. </summary>
         public EnumHandling[] EnumHandlings
         {
             get { return Enum.GetNames(typeof(EnumHandling)).Select(t => (EnumHandling)Enum.Parse(typeof(EnumHandling), t)).ToArray(); }
+        }
+
+        /// <summary>Gets the default property name handlings. </summary>
+        public PropertyNameHandling[] PropertyNameHandlings
+        {
+            get { return Enum.GetNames(typeof(PropertyNameHandling)).Select(t => (PropertyNameHandling)Enum.Parse(typeof(PropertyNameHandling), t)).ToArray(); }
         }
 
         /// <summary>Gets or sets the command to browse for an assembly.</summary>

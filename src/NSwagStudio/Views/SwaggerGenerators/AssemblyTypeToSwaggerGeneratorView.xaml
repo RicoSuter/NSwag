@@ -60,6 +60,9 @@
         </TextBlock>
         <ComboBox SelectedItem="{Binding Command.DefaultEnumHandling, Mode=TwoWay}" ItemsSource="{Binding EnumHandlings}" Margin="0,0,0,12" />
 
+        <TextBlock Margin="0,0,0,6" Text="Default Property Name Handling" TextWrapping="Wrap" FontWeight="Bold" />
+        <ComboBox SelectedItem="{Binding Command.DefaultPropertyNameHandling, Mode=TwoWay}" ItemsSource="{Binding PropertyNameHandlings}" Margin="0,0,0,12" />
+
         <CheckBox IsChecked="{Binding Command.FlattenInheritanceHierarchy, Mode=TwoWay}" Margin="0,0,0,12">
             <TextBlock Text="Flatten the inheritance hierarchy instead of using allOf to describe inheritance" TextWrapping="Wrap" />
         </CheckBox>

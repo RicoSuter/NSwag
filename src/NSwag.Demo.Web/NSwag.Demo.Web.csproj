@@ -52,7 +52,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="NJsonSchema, Version=2.40.6005.16496, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.2.40.6005.16496\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
+      <HintPath>..\packages\NJsonSchema.2.41.6006.20160\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http" />
