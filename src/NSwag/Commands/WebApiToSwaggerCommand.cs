@@ -62,6 +62,14 @@ namespace NSwag.Commands
             set { Settings.DefaultUrlTemplate = value; }
         }
 
+        [Description("The default property name handling ('Default' or 'CamelCase').")]
+        [Argument(Name = "DefaultPropertyNameHandling", IsRequired = false)]
+        public PropertyNameHandling DefaultPropertyNameHandling
+        {
+            get { return Settings.DefaultPropertyNameHandling; }
+            set { Settings.DefaultPropertyNameHandling = value; }
+        }
+
         [Description("The default enum handling ('String' or 'Integer'), default: Integer.")]
         [Argument(Name = "DefaultEnumHandling", IsRequired = false)]
         public EnumHandling DefaultEnumHandling

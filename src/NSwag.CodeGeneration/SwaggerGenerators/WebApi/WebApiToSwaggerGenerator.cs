@@ -395,7 +395,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             {
                 var attributes = property.GetCustomAttributes().ToList();
                 var operationParameter = CreatePrimitiveParameter(// TODO: Check if there is a way to control the property name
-                    service, JsonPathUtilities.GetPropertyName(property), property.GetXmlDocumentation(), property.PropertyType, attributes, schemaResolver);
+                    service, JsonPathUtilities.GetPropertyName(property, Settings.DefaultPropertyNameHandling), 
+                        property.GetXmlDocumentation(), property.PropertyType, attributes, schemaResolver);
 
                 // TODO: Check if required can be controlled with mechanisms other than RequiredAttribute
 
