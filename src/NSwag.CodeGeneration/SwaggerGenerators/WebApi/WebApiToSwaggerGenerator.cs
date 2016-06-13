@@ -87,8 +87,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
         private void GenerateForController(SwaggerService service, Type controllerType, string excludedMethodName, SchemaResolver schemaResolver)
         {
-            var methods = controllerType.GetRuntimeMethods().Where(m => m.IsPublic);
-            foreach (var method in GetActionMethods(methods, excludedMethodName))
+            foreach (var method in GetActionMethods(controllerType, excludedMethodName))
             {
                 var operation = new SwaggerOperation
                 {
@@ -135,8 +134,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             }
         }
 
-        private static IEnumerable<MethodInfo> GetActionMethods(IEnumerable<MethodInfo> methods, string excludedMethodName)
+        private static IEnumerable<MethodInfo> GetActionMethods(Type controllerType, string excludedMethodName)
         {
+            var methods = controllerType.GetRuntimeMethods().Where(m => m.IsPublic);
             return methods.Where(m =>
                 m.Name != excludedMethodName &&
                 m.IsSpecialName == false && // avoid property methods
