@@ -117,12 +117,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             internal string[] GetControllerClasses(string assemblyPath, IEnumerable<string> referencePaths)
             {
                 RegisterReferencePaths(referencePaths);
+
                 var assembly = Assembly.LoadFrom(assemblyPath);
-                return assembly.ExportedTypes
-                    .Where(t => t.Name.EndsWith("Controller") ||
-                                t.InheritsFrom("ApiController") ||
-                                t.InheritsFrom("Controller")) // in ASP.NET Core, a Web API controller inherits from Controller
-                    .Where(t => t.GetTypeInfo().ImplementedInterfaces.All(i => i.FullName != "System.Web.Mvc.IController")) // no MVC controllers (legacy ASP.NET)
+                return WebApiToSwaggerGenerator.GetControllerClasses(assembly)
                     .Select(t => t.FullName)
                     .ToArray();
             }

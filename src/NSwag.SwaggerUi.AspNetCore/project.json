@@ -1,0 +1,19 @@
+{
+    "version": "1.0.0-*",
+    
+    "dependencies": {
+        "Microsoft.AspNetCore.Mvc.Core": "1.0.0-rc2-final",
+        "Microsoft.AspNetCore.StaticFiles": "1.0.0-rc2-final",
+        "Microsoft.Extensions.FileProviders.Embedded": "1.0.0-rc2-final"
+    },
+
+    "frameworks": {
+        "netstandard1.5": {
+            "imports": [
+                "dotnet5.6",
+                "dnxcore50",
+                "portable-net45+win8"
+            ]
+        }
+    }
+}
