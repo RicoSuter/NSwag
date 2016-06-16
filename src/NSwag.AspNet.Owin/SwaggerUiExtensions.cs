@@ -124,7 +124,7 @@ namespace NSwag.AspNet.Owin
             app.UseFileServer(new FileServerOptions
             {
                 RequestPath = new PathString(baseRoute),
-                FileSystem = new EmbeddedResourceFileSystem(typeof(SwaggerUiExtensions).Assembly, "NSwag.SwaggerUi.AspNet.SwaggerUi")
+                FileSystem = new EmbeddedResourceFileSystem(typeof(SwaggerUiExtensions).Assembly, "NSwag.AspNet.Owin.SwaggerUi")
             });
             app.UseStageMarker(PipelineStage.MapHandler);
             return app;
