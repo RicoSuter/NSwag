@@ -34,6 +34,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <returns>The controller classes.</returns>
         public static IEnumerable<Type> GetControllerClasses(Assembly assembly)
         {
+            // TODO: Move to IControllerClassLoader interface
             return assembly.ExportedTypes
                 .Where(t => t.Name.EndsWith("Controller") ||
                             t.InheritsFrom("ApiController") ||
