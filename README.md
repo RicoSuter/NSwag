@@ -18,6 +18,7 @@ The project is maintained and developed by [Rico Suter](http://rsuter.com) and o
 - Via [command line](https://github.com/NSwag/NSwag/wiki/CommandLine) (Windows, Mac and Linux support through [Mono](http://www.mono-project.com/))
 - Generate code with [T4 templates](https://github.com/NSwag/NSwag/wiki/T4) in Visual Studio
 - In your [MSBuild targets](https://github.com/NSwag/NSwag/wiki/MSBuild)
+- Via a [Swagger or Swagger UI OWIN Middleware](https://github.com/NSwag/NSwag/wiki/OwinMiddleware)
 
 **Swagger Generators:**
 
@@ -56,6 +57,7 @@ The project is maintained and developed by [Rico Suter](http://rsuter.com) and o
 - [NSwag.CodeGeneration](https://www.nuget.org/packages/NSwag.CodeGeneration/) (PCL 259): Classes to generate C# and TypeScript clients ([Source Code](https://github.com/NSwag/NSwag/tree/master/src/NSwag.CodeGeneration))
 - [NSwag.AssemblyLoader](https://www.nuget.org/packages/NSwag.AssemblyLoader/) (.NET 4.5+): Classes to load assemblies in an isolated AppDomain and generate Swagger specs from Web API controllers
 - [NSwag.MSBuild](https://www.nuget.org/packages/NSwag.MSBuild/) (MSBuild .targets): Adds a .targets file to your Visual Studio project, so that you can run the NSwag command line tool in an MSBuild target
+- [NSwag.AspNet.Owin](https://www.nuget.org/packages/NSwag.AspNet.Owin/) (.NET 4.5+): OWIN Middlewares for serving Swagger specifications and Swagger UI ([Source Code](https://github.com/NSwag/NSwag/tree/master/src/NSwag.AspNet.Owin))
 
 ### Usage in C&#35;
 

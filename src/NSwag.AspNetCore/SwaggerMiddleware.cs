@@ -9,9 +9,8 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 
-namespace NSwag.SwaggerUi.AspNetCore
+namespace NSwag.AspNetCore
 {
     internal class SwaggerMiddleware
     {

@@ -11,8 +11,8 @@
         <iconUrl>https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png</iconUrl>
     </metadata>
     <files>
-        <file src="bin\Release\NSwag.SwaggerUi.AspNet.dll" target="lib\net45" />
-        <file src="bin\Release\NSwag.SwaggerUi.AspNet.pdb" target="lib\net45" />
-        <file src="bin\Release\NSwag.SwaggerUi.AspNet.xml" target="lib\net45" />
+        <file src="bin\Release\NSwag.AspNet.Owin.dll" target="lib\net45" />
+        <file src="bin\Release\NSwag.AspNet.Owin.pdb" target="lib\net45" />
+        <file src="bin\Release\NSwag.AspNet.Owin.xml" target="lib\net45" />
     </files>
 </package>

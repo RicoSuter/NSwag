@@ -34,6 +34,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <returns>The controller classes.</returns>
         public static IEnumerable<Type> GetControllerClasses(Assembly assembly)
         {
+            // TODO: Move to IControllerClassLoader interface
             return assembly.ExportedTypes
                 .Where(t => t.Name.EndsWith("Controller") ||
                             t.InheritsFrom("ApiController") ||
@@ -137,7 +138,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             if (tagsAttribute != null)
                 operation.Tags = ((string[])tagsAttribute.Tags).ToList();
             else
-                operation.Tags.Add(controllerType.Name.Replace("Controller", string.Empty));
+                operation.Tags.Add(controllerType.Name);
         }
 
         private void AppendRequiredSchemasToDefinitions(SwaggerService service, SchemaResolver schemaResolver)

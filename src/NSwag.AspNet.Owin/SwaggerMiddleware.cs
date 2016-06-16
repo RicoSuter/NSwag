@@ -6,28 +6,27 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.Owin;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 
-namespace NSwag.SwaggerUi.AspNet
+namespace NSwag.AspNet.Owin
 {
     internal class SwaggerMiddleware : OwinMiddleware
     {
         private readonly object _lock = new object();
         private readonly string _path;
         private readonly WebApiToSwaggerGeneratorSettings _settings;
-        private readonly IEnumerable<Assembly> _webApiAssemblies;
+        private readonly IEnumerable<Type> _controllerTypes;
         private string _swaggerJson = null;
 
-        public SwaggerMiddleware(OwinMiddleware next, string path, IEnumerable<Assembly> webApiAssemblies, WebApiToSwaggerGeneratorSettings settings)
+        public SwaggerMiddleware(OwinMiddleware next, string path, IEnumerable<Type> controllerTypes, WebApiToSwaggerGeneratorSettings settings)
             : base(next)
         {
             _path = path;
-            _webApiAssemblies = webApiAssemblies;
+            _controllerTypes = controllerTypes;
             _settings = settings;
         }
 
@@ -52,8 +51,7 @@ namespace NSwag.SwaggerUi.AspNet
                     if (_swaggerJson == null)
                     {
                         var generator = new WebApiToSwaggerGenerator(_settings);
-                        var controllers = _webApiAssemblies.SelectMany(WebApiToSwaggerGenerator.GetControllerClasses);
-                        var service = generator.GenerateForControllers(controllers);
+                        var service = generator.GenerateForControllers(_controllerTypes);
 
                         service.Host = context.Request.Host.Value;
                         service.Schemes.Add(context.Request.Uri.Scheme == "http" ? SwaggerSchema.Http : SwaggerSchema.Https);

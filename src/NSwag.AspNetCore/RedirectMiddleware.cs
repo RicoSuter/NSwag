@@ -7,32 +7,31 @@
 //-----------------------------------------------------------------------
 
 using System.Threading.Tasks;
-using Microsoft.Owin;
 
-namespace NSwag.SwaggerUi.AspNet
+namespace NSwag.AspNetCore
 {
-    internal class RedirectMiddleware : OwinMiddleware
+    internal class RedirectMiddleware
     {
+        private readonly RequestDelegate _nextDelegate;
         private readonly string _fromPath;
         private readonly string _toPath;
 
-        public RedirectMiddleware(OwinMiddleware next, string fromPath, string toPath) 
-            : base(next)
+        public RedirectMiddleware(RequestDelegate nextDelegate, string fromPath, string toPath)
         {
+            _nextDelegate = nextDelegate;
             _fromPath = fromPath;
             _toPath = toPath;
         }
 
-        public override async Task Invoke(IOwinContext context)
+        public async Task Invoke(HttpContext context)
         {
-            var url = context.Request.Uri;
-            if (url.PathAndQuery.Trim('/') == _fromPath.Trim('/'))
+            if (context.Request.Path.Value.Trim('/') == _fromPath.Trim('/'))
             {
                 context.Response.StatusCode = 301;
-                context.Response.Headers.Set("Location", _toPath);
+                context.Response.Headers.Add("Location", _toPath);
             }
             else
-                await Next.Invoke(context);
+                await _nextDelegate.Invoke(context);
         }
     }
 }

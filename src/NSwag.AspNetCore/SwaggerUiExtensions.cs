@@ -6,14 +6,10 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.FileProviders;
 
-namespace NSwag.SwaggerUi.AspNetCore
+namespace NSwag.AspNetCore
 {
     /// <summary>Provides OWIN extensions to enable Swagger UI.</summary>
     public static class SwaggerUiExtensions
