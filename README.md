@@ -14,11 +14,11 @@ The project is maintained and developed by [Rico Suter](http://rsuter.com) and o
 **Ways to use the toolchain:** 
 
 - Simple to use Windows GUI, [NSwagStudio](https://github.com/NSwag/NSwag/wiki/NSwagStudio)
-- In your C# code, via [NuGet](https://www.nuget.org/packages?q=NSwag)
 - Via [command line](https://github.com/NSwag/NSwag/wiki/CommandLine) (Windows, Mac and Linux support through [Mono](http://www.mono-project.com/))
-- Generate code with [T4 templates](https://github.com/NSwag/NSwag/wiki/T4) in Visual Studio
+- By using the [Swagger or Swagger UI OWIN Middleware](https://github.com/NSwag/NSwag/wiki/OwinMiddleware)
+- In your C# code, via [NuGet](https://www.nuget.org/packages?q=NSwag)
 - In your [MSBuild targets](https://github.com/NSwag/NSwag/wiki/MSBuild)
-- Via a [Swagger or Swagger UI OWIN Middleware](https://github.com/NSwag/NSwag/wiki/OwinMiddleware)
+- Generate code with [T4 templates](https://github.com/NSwag/NSwag/wiki/T4) in Visual Studio
 
 **Swagger Generators:**
 

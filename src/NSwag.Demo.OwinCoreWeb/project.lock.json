@@ -937,13 +937,63 @@
           "System.Xml.XDocument": "4.0.11-rc2-24027"
         }
       },
-      "Newtonsoft.Json/7.0.1": {
+      "Newtonsoft.Json/8.0.3": {
         "type": "package",
         "compile": {
           "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
         },
         "runtime": {
           "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
+        }
+      },
+      "NJsonSchema/2.43.6010.35600": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "8.0.3"
+        },
+        "compile": {
+          "lib/portable45-net45+win8+wp8+wpa81/NJsonSchema.dll": {}
+        },
+        "runtime": {
+          "lib/portable45-net45+win8+wp8+wpa81/NJsonSchema.dll": {}
+        }
+      },
+      "NJsonSchema.CodeGeneration/2.43.6010.35601": {
+        "type": "package",
+        "dependencies": {
+          "NJsonSchema": "2.43.6010.35600",
+          "Newtonsoft.Json": "8.0.3"
+        },
+        "compile": {
+          "lib/portable45-net45+win8+wp8+wpa81/NJsonSchema.CodeGeneration.dll": {}
+        },
+        "runtime": {
+          "lib/portable45-net45+win8+wp8+wpa81/NJsonSchema.CodeGeneration.dll": {}
+        }
+      },
+      "NSwag.CodeGeneration/3.4.6010.38029": {
+        "type": "package",
+        "dependencies": {
+          "NJsonSchema.CodeGeneration": "2.43.6010.35601",
+          "NSwag.Core": "3.4.6010.38029"
+        },
+        "compile": {
+          "lib/portable45-net45+win8+wp8+wpa81/NSwag.CodeGeneration.dll": {}
+        },
+        "runtime": {
+          "lib/portable45-net45+win8+wp8+wpa81/NSwag.CodeGeneration.dll": {}
+        }
+      },
+      "NSwag.Core/3.4.6010.38029": {
+        "type": "package",
+        "dependencies": {
+          "NJsonSchema": "2.43.6010.35600"
+        },
+        "compile": {
+          "lib/portable45-net45+win8+wp8+wpa81/NSwag.Core.dll": {}
+        },
+        "runtime": {
+          "lib/portable45-net45+win8+wp8+wpa81/NSwag.Core.dll": {}
         }
       },
       "runtime.native.System/4.0.0-rc2-24027": {
@@ -2102,6 +2152,19 @@
           "lib/netstandard1.3/System.Runtime.Numerics.dll": {}
         }
       },
+      "System.Runtime.Serialization.Primitives/4.1.1-rc2-24027": {
+        "type": "package",
+        "dependencies": {
+          "System.Resources.ResourceManager": "4.0.1-rc2-24027",
+          "System.Runtime": "4.1.0-rc2-24027"
+        },
+        "compile": {
+          "ref/netstandard1.3/System.Runtime.Serialization.Primitives.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/System.Runtime.Serialization.Primitives.dll": {}
+        }
+      },
       "System.Security.Claims/4.0.1-rc2-24027": {
         "type": "package",
         "dependencies": {
@@ -2698,19 +2761,20 @@
           "lib/netstandard1.3/_._": {}
         }
       },
-      "NSwag.SwaggerUi.AspNetCore/1.0.0": {
+      "NSwag.AspNetCore/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v1.5",
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.Core": "1.0.0-rc2-final",
           "Microsoft.AspNetCore.StaticFiles": "1.0.0-rc2-final",
-          "Microsoft.Extensions.FileProviders.Embedded": "1.0.0-rc2-final"
+          "Microsoft.Extensions.FileProviders.Embedded": "1.0.0-rc2-final",
+          "NSwag.CodeGeneration": "3.4.6010.38029"
         },
         "compile": {
-          "netstandard1.5/NSwag.SwaggerUi.AspNetCore.dll": {}
+          "netstandard1.5/NSwag.AspNetCore.dll": {}
         },
         "runtime": {
-          "netstandard1.5/NSwag.SwaggerUi.AspNetCore.dll": {}
+          "netstandard1.5/NSwag.AspNetCore.dll": {}
         }
       }
     }
@@ -3473,11 +3537,11 @@
         "dotnet_library_license.txt"
       ]
     },
-    "Newtonsoft.Json/7.0.1": {
-      "sha512": "q3V4KLetMLnt1gpAVWgtXnHjKs0UG/RalBc29u2ZKxd5t5Ze4JBL5WiiYIklJyK/5CRiIiNwigVQUo0FgbsuWA==",
+    "Newtonsoft.Json/8.0.3": {
+      "sha512": "KGsYQdS2zLH+H8x2cZaSI7e+YZ4SFIbyy1YJQYl6GYBWjf5o4H1A68nxyq+WTyVSOJQ4GqS/DiPE+UseUizgMg==",
       "type": "package",
       "files": [
-        "Newtonsoft.Json.7.0.1.nupkg.sha512",
+        "Newtonsoft.Json.8.0.3.nupkg.sha512",
         "Newtonsoft.Json.nuspec",
         "lib/net20/Newtonsoft.Json.dll",
         "lib/net20/Newtonsoft.Json.xml",
@@ -3492,6 +3556,58 @@
         "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll",
         "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.xml",
         "tools/install.ps1"
+      ]
+    },
+    "NJsonSchema/2.43.6010.35600": {
+      "sha512": "/O7zFwVXyRTWQSpmHRCzgXEOgco3QJiRWG1eOgR/LDab990sBjNvNxv0yR9DuPUki2LgJB5rg+CWrMJn/a0Nww==",
+      "type": "package",
+      "files": [
+        "NJsonSchema.2.43.6010.35600.nupkg.sha512",
+        "NJsonSchema.nuspec",
+        "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/NJsonSchema.dll",
+        "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/NJsonSchema.pdb",
+        "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/NJsonSchema.xml",
+        "lib/portable45-net45+win8+wp8+wpa81/NJsonSchema.dll",
+        "lib/portable45-net45+win8+wp8+wpa81/NJsonSchema.xml"
+      ]
+    },
+    "NJsonSchema.CodeGeneration/2.43.6010.35601": {
+      "sha512": "hyMZaAjBVnvTjfPTeeSQLo408Z+VgBDKsSs9ECOL7dLK5KiOttzNBJRp6QdkzuGNNQjqhYfFD+ZVdkl6YWPBUA==",
+      "type": "package",
+      "files": [
+        "NJsonSchema.CodeGeneration.2.43.6010.35601.nupkg.sha512",
+        "NJsonSchema.CodeGeneration.nuspec",
+        "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/NJsonSchema.CodeGeneration.dll",
+        "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/NJsonSchema.CodeGeneration.pdb",
+        "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/NJsonSchema.CodeGeneration.xml",
+        "lib/portable45-net45+win8+wp8+wpa81/NJsonSchema.CodeGeneration.dll",
+        "lib/portable45-net45+win8+wp8+wpa81/NJsonSchema.CodeGeneration.xml"
+      ]
+    },
+    "NSwag.CodeGeneration/3.4.6010.38029": {
+      "sha512": "HkLf24HpQeGkbnOoORVlfC2cihX6UrCEF+Ei0sjlV5L8Oc3q4pQ+erkmSt1rO9Tz+S+HdG8sMxQUj8W1/wf2jA==",
+      "type": "package",
+      "files": [
+        "NSwag.CodeGeneration.3.4.6010.38029.nupkg.sha512",
+        "NSwag.CodeGeneration.nuspec",
+        "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/NSwag.CodeGeneration.dll",
+        "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/NSwag.CodeGeneration.pdb",
+        "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/NSwag.CodeGeneration.xml",
+        "lib/portable45-net45+win8+wp8+wpa81/NSwag.CodeGeneration.dll",
+        "lib/portable45-net45+win8+wp8+wpa81/NSwag.CodeGeneration.xml"
+      ]
+    },
+    "NSwag.Core/3.4.6010.38029": {
+      "sha512": "nnikD5+TYtgQHyC7L3CJ8nwdHFs/MFTgMVkBcfTH0pw1jsTGFtw84ttSU7qGLtOhvi2YhiNX/YtDGI5rUowURw==",
+      "type": "package",
+      "files": [
+        "NSwag.Core.3.4.6010.38029.nupkg.sha512",
+        "NSwag.Core.nuspec",
+        "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/NSwag.Core.dll",
+        "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/NSwag.Core.pdb",
+        "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/NSwag.Core.xml",
+        "lib/portable45-net45+win8+wp8+wpa81/NSwag.Core.dll",
+        "lib/portable45-net45+win8+wp8+wpa81/NSwag.Core.xml"
       ]
     },
     "runtime.native.System/4.0.0-rc2-24027": {
@@ -6633,6 +6749,76 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
+    "System.Runtime.Serialization.Primitives/4.1.1-rc2-24027": {
+      "sha512": "CatEVkKtMZlBrsdboi2RNediIXkYaiKtseORboHASI96mYtlPvivmHr/nw+pKx7s7enaFvs5Ovfbc8uXs5Qt7Q==",
+      "type": "package",
+      "files": [
+        "System.Runtime.Serialization.Primitives.4.1.1-rc2-24027.nupkg.sha512",
+        "System.Runtime.Serialization.Primitives.nuspec",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net45/_._",
+        "lib/net46/System.Runtime.Serialization.Primitives.dll",
+        "lib/netcore50/System.Runtime.Serialization.Primitives.dll",
+        "lib/netstandard1.3/System.Runtime.Serialization.Primitives.dll",
+        "lib/portable-net45+win8+wp8+wpa81/_._",
+        "lib/win8/_._",
+        "lib/wp80/_._",
+        "lib/wpa81/_._",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/net45/_._",
+        "ref/net46/System.Runtime.Serialization.Primitives.dll",
+        "ref/netcore50/System.Runtime.Serialization.Primitives.dll",
+        "ref/netcore50/System.Runtime.Serialization.Primitives.xml",
+        "ref/netcore50/de/System.Runtime.Serialization.Primitives.xml",
+        "ref/netcore50/es/System.Runtime.Serialization.Primitives.xml",
+        "ref/netcore50/fr/System.Runtime.Serialization.Primitives.xml",
+        "ref/netcore50/it/System.Runtime.Serialization.Primitives.xml",
+        "ref/netcore50/ja/System.Runtime.Serialization.Primitives.xml",
+        "ref/netcore50/ko/System.Runtime.Serialization.Primitives.xml",
+        "ref/netcore50/ru/System.Runtime.Serialization.Primitives.xml",
+        "ref/netcore50/zh-hans/System.Runtime.Serialization.Primitives.xml",
+        "ref/netcore50/zh-hant/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.0/System.Runtime.Serialization.Primitives.dll",
+        "ref/netstandard1.0/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.0/de/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.0/es/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.0/fr/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.0/it/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.0/ja/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.0/ko/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.0/ru/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.0/zh-hans/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.0/zh-hant/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.3/System.Runtime.Serialization.Primitives.dll",
+        "ref/netstandard1.3/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.3/de/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.3/es/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.3/fr/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.3/it/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.3/ja/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.3/ko/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.3/ru/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.3/zh-hans/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.3/zh-hant/System.Runtime.Serialization.Primitives.xml",
+        "ref/portable-net45+win8+wp8+wpa81/_._",
+        "ref/win8/_._",
+        "ref/wp80/_._",
+        "ref/wpa81/_._",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._",
+        "runtimes/aot/lib/netcore50/System.Runtime.Serialization.Primitives.dll"
+      ]
+    },
     "System.Security.Claims/4.0.1-rc2-24027": {
       "sha512": "9oxucsKjs8q2UZHHx6tQm78uXzAiCWE7MVbxUmLlVzCRXLKtzjWCgZqHzCjg37GHMvi326PhblnOI222CGW2GA==",
       "type": "package",
@@ -7806,10 +7992,10 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
-    "NSwag.SwaggerUi.AspNetCore/1.0.0": {
+    "NSwag.AspNetCore/1.0.0": {
       "type": "project",
-      "path": "../NSwag.SwaggerUi.AspNetCore/project.json",
-      "msbuildProject": "../NSwag.SwaggerUi.AspNetCore/NSwag.SwaggerUi.AspNetCore.xproj"
+      "path": "../NSwag.AspNetCore/project.json",
+      "msbuildProject": "../NSwag.AspNetCore/NSwag.AspNetCore.xproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -7817,7 +8003,8 @@
       "Microsoft.AspNetCore.Server.IISIntegration >= 1.0.0-rc2-final",
       "Microsoft.AspNetCore.Server.Kestrel >= 1.0.0-rc2-final",
       "Microsoft.NETCore.App >= 1.0.0-rc2-3002702",
-      "NSwag.SwaggerUi.AspNetCore >= 1.0.0-*"
+      "NSwag.AspNetCore >= 1.0.0-*",
+      "System.Runtime.Serialization.Primitives >= 4.1.1-rc2-24027"
     ],
     ".NETCoreApp,Version=v1.0": []
   },

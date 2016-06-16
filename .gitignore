@@ -13,3 +13,4 @@ src/packages/**
 [Oo]bj/
 *.nugetreferenceswitcher
 /src/.vs/config
+/src/NSwag.AspNetCore/project.lock.json

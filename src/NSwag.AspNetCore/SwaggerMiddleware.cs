@@ -6,9 +6,11 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 
 namespace NSwag.AspNetCore
 {
@@ -18,15 +20,16 @@ namespace NSwag.AspNetCore
 
         private readonly object _lock = new object();
         private readonly string _path;
-        private readonly IEnumerable<Assembly> _webApiAssemblies;
+        private readonly IEnumerable<Type> _controllerTypes;
         private string _swaggerJson = null;
+        private readonly WebApiToSwaggerGeneratorSettings _settings;
 
-        public SwaggerMiddleware(RequestDelegate nextDelegate, string path, IEnumerable<Assembly> webApiAssemblies/*, WebApiToSwaggerGeneratorSettings settings*/)
+        public SwaggerMiddleware(RequestDelegate nextDelegate, string path, IEnumerable<Type> controllerTypes, WebApiToSwaggerGeneratorSettings settings)
         {
             _nextDelegate = nextDelegate;
             _path = path;
-            _webApiAssemblies = webApiAssemblies;
-            //_settings = settings;
+            _controllerTypes = controllerTypes;
+            _settings = settings;
         }
 
         public async Task Invoke(HttpContext context)
@@ -42,24 +45,22 @@ namespace NSwag.AspNetCore
 
         private string GenerateSwagger(HttpContext context)
         {
-            return "foobar";
-            //if (_swaggerJson == null)
-            //{
-            //    lock (_lock)
-            //    {
-            //        if (_swaggerJson == null)
-            //        {
-            //            var generator = new WebApiToSwaggerGenerator(_settings);
-            //            var controllers = _webApiAssemblies.SelectMany(WebApiToSwaggerGenerator.GetControllerClasses);
-            //            var service = generator.GenerateForControllers(controllers);
+            if (_swaggerJson == null)
+            {
+                lock (_lock)
+                {
+                    if (_swaggerJson == null)
+                    {
+                        var generator = new WebApiToSwaggerGenerator(_settings);
+                        var service = generator.GenerateForControllers(_controllerTypes);
 
-            //            service.Host = context.Request.Host.Value;
-            //            service.Schemes.Add(context.Request.Uri.Scheme == "http" ? SwaggerSchema.Http : SwaggerSchema.Https);
+                        service.Host = context.Request.Host.Value;
+                        service.Schemes.Add(context.Request.Scheme == "http" ? SwaggerSchema.Http : SwaggerSchema.Https);
 
-            //            _swaggerJson = service.ToJson();
-            //        }
-            //    }
-            //}
+                        _swaggerJson = service.ToJson();
+                    }
+                }
+            }
 
             return _swaggerJson;
         }

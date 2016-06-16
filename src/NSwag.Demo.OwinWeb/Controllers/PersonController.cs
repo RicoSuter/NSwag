@@ -1,22 +1,21 @@
 ﻿using System.Web.Http;
-using NSwag.Annotations;
+using Newtonsoft.Json;
 
 namespace NSwag.Demo.OwinWeb.Controllers
 {
     public class PersonController : ApiController
     {
-        //[SwaggerTags("foo", "bar")]
         [HttpGet, Route("api/Person/{id}")]
-        public Person GetPerson(int id)
+        public Teacher GetPerson(int id)
         {
-            return new Person
+            return new Teacher
             {
                 FirstName = "Rico",
                 LastName = "Suter",
+                School = "Foo"
             };
         }
 
-        //[SwaggerTags("foo")]
         [HttpPost, Route("api/Person")]
         public void SavePerson(Person person)
         {
@@ -26,8 +25,14 @@ namespace NSwag.Demo.OwinWeb.Controllers
 
     public class Person
     {
+        [JsonProperty("fn")]
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
+    }
+
+    public class Teacher : Person
+    {
+        public string School { get; set; }
     }
 }

@@ -1,6 +1,12 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Runtime.Serialization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
+using NSwag.AspNetCore;
 
 namespace NSwag.Demo.OwinCoreWeb
 {
@@ -12,7 +18,7 @@ namespace NSwag.Demo.OwinCoreWeb
 
         public void Configure(IApplicationBuilder app)
         {
-            //app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly/*, new WebApiToSwaggerGeneratorSettings()*/);
+            app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, new WebApiToSwaggerGeneratorSettings());
         }
     }
 }
