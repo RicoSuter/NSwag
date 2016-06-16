@@ -18,6 +18,7 @@ The project is maintained and developed by [Rico Suter](http://rsuter.com) and o
 - Via [command line](https://github.com/NSwag/NSwag/wiki/CommandLine) (Windows, Mac and Linux support through [Mono](http://www.mono-project.com/))
 - Generate code with [T4 templates](https://github.com/NSwag/NSwag/wiki/T4) in Visual Studio
 - In your [MSBuild targets](https://github.com/NSwag/NSwag/wiki/MSBuild)
+- Via a [Swagger or Swagger UI OWIN middleware](https://github.com/NSwag/NSwag/wiki/OwinMiddlewareSwaggerUi)
 
 **Swagger Generators:**
 
