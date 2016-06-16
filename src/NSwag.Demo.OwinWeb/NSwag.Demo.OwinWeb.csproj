@@ -114,13 +114,13 @@
       <Project>{CA084154-E758-4A44-938D-7806AF2DD886}</Project>
       <Name>NSwag.Annotations</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NSwag.AspNet.Owin\NSwag.AspNet.Owin.csproj">
+      <Project>{69a692eb-c277-46ab-ba55-b33e7e6e129c}</Project>
+      <Name>NSwag.AspNet.Owin</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj">
       <Project>{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}</Project>
       <Name>NSwag.CodeGeneration</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NSwag.SwaggerUi.AspNet\NSwag.SwaggerUi.AspNet.csproj">
-      <Project>{69a692eb-c277-46ab-ba55-b33e7e6e129c}</Project>
-      <Name>NSwag.SwaggerUi.AspNet</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

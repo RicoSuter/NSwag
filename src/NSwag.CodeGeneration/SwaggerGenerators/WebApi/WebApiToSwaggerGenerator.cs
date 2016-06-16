@@ -137,7 +137,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             if (tagsAttribute != null)
                 operation.Tags = ((string[])tagsAttribute.Tags).ToList();
             else
-                operation.Tags.Add(controllerType.Name.Replace("Controller", string.Empty));
+                operation.Tags.Add(controllerType.Name);
         }
 
         private void AppendRequiredSchemasToDefinitions(SwaggerService service, SchemaResolver schemaResolver)

@@ -1,8 +1,8 @@
 ﻿using System.Web.Http;
 using Microsoft.Owin;
+using NSwag.AspNet.Owin;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 using NSwag.Demo.OwinWeb;
-using NSwag.SwaggerUi.AspNet;
 using Owin;
 
 [assembly: OwinStartup(typeof(Startup))]

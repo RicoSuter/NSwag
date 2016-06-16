@@ -9,7 +9,7 @@
 using System.Threading.Tasks;
 using Microsoft.Owin;
 
-namespace NSwag.SwaggerUi.AspNet
+namespace NSwag.AspNet.Owin
 {
     internal class RedirectMiddleware : OwinMiddleware
     {
