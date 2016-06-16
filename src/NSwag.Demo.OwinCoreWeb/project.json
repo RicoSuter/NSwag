@@ -6,7 +6,8 @@
     },
     "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0-rc2-final",
     "Microsoft.AspNetCore.Server.Kestrel": "1.0.0-rc2-final",
-    "NSwag.AspNetCore": "1.0.0-*"
+    "NSwag.AspNetCore": "1.0.0-*", 
+    "System.Runtime.Serialization.Primitives": "4.1.1-rc2-24027"
   },
 
   "tools": {

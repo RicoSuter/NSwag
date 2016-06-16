@@ -13,22 +13,10 @@ using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders;
+using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 
 namespace NSwag.AspNetCore
 {
-    public class WebApiToSwaggerGeneratorSettings
-    {
-
-    }
-
-    public class WebApiToSwaggerGenerator
-    {
-        public static Type[] GetControllerClasses(Assembly assembly)
-        {
-            return new Type[] { };
-        }
-    }
-
     /// <summary>Provides OWIN extensions to enable Swagger UI.</summary>
     public static class SwaggerUiExtensions
     {

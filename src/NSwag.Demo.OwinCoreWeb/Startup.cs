@@ -1,6 +1,11 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Runtime.Serialization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 using NSwag.AspNetCore;
 
 namespace NSwag.Demo.OwinCoreWeb
