@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using NSwag.AspNetCore;
 
 namespace NSwag.Demo.OwinCoreWeb
 {
@@ -12,7 +13,7 @@ namespace NSwag.Demo.OwinCoreWeb
 
         public void Configure(IApplicationBuilder app)
         {
-            //app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly/*, new WebApiToSwaggerGeneratorSettings()*/);
+            app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, new WebApiToSwaggerGeneratorSettings());
         }
     }
 }

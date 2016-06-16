@@ -2698,7 +2698,7 @@
           "lib/netstandard1.3/_._": {}
         }
       },
-      "NSwag.SwaggerUi.AspNetCore/1.0.0": {
+      "NSwag.AspNetCore/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v1.5",
         "dependencies": {
@@ -2707,10 +2707,10 @@
           "Microsoft.Extensions.FileProviders.Embedded": "1.0.0-rc2-final"
         },
         "compile": {
-          "netstandard1.5/NSwag.SwaggerUi.AspNetCore.dll": {}
+          "netstandard1.5/NSwag.AspNetCore.dll": {}
         },
         "runtime": {
-          "netstandard1.5/NSwag.SwaggerUi.AspNetCore.dll": {}
+          "netstandard1.5/NSwag.AspNetCore.dll": {}
         }
       }
     }
@@ -7806,10 +7806,10 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
-    "NSwag.SwaggerUi.AspNetCore/1.0.0": {
+    "NSwag.AspNetCore/1.0.0": {
       "type": "project",
-      "path": "../NSwag.SwaggerUi.AspNetCore/project.json",
-      "msbuildProject": "../NSwag.SwaggerUi.AspNetCore/NSwag.SwaggerUi.AspNetCore.xproj"
+      "path": "../NSwag.AspNetCore/project.json",
+      "msbuildProject": "../NSwag.AspNetCore/NSwag.AspNetCore.xproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -7817,7 +7817,7 @@
       "Microsoft.AspNetCore.Server.IISIntegration >= 1.0.0-rc2-final",
       "Microsoft.AspNetCore.Server.Kestrel >= 1.0.0-rc2-final",
       "Microsoft.NETCore.App >= 1.0.0-rc2-3002702",
-      "NSwag.SwaggerUi.AspNetCore >= 1.0.0-*"
+      "NSwag.AspNetCore >= 1.0.0-*"
     ],
     ".NETCoreApp,Version=v1.0": []
   },

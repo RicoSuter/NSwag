@@ -6,9 +6,11 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace NSwag.AspNetCore
 {
@@ -18,14 +20,14 @@ namespace NSwag.AspNetCore
 
         private readonly object _lock = new object();
         private readonly string _path;
-        private readonly IEnumerable<Assembly> _webApiAssemblies;
+        private readonly IEnumerable<Type> _controllerTypes;
         private string _swaggerJson = null;
 
-        public SwaggerMiddleware(RequestDelegate nextDelegate, string path, IEnumerable<Assembly> webApiAssemblies/*, WebApiToSwaggerGeneratorSettings settings*/)
+        public SwaggerMiddleware(RequestDelegate nextDelegate, string path, IEnumerable<Type> controllerTypes, WebApiToSwaggerGeneratorSettings settings)
         {
             _nextDelegate = nextDelegate;
             _path = path;
-            _webApiAssemblies = webApiAssemblies;
+            _controllerTypes = controllerTypes;
             //_settings = settings;
         }
 
