@@ -14,10 +14,12 @@ namespace NSwag.Demo.OwinCoreWeb
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
         }
 
         public void Configure(IApplicationBuilder app)
         {
+            app.UseMvc();
             app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, new WebApiToSwaggerGeneratorSettings());
         }
     }
