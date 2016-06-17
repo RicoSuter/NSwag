@@ -118,7 +118,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
 
         private string GetClassName(string operationName)
         {
-            return BaseSettings.ClassName.Replace("{controller}", ConversionUtilities.ConvertToUpperCamelCase(operationName));
+            return BaseSettings.ClassName.Replace("{controller}", ConversionUtilities.ConvertToUpperCamelCase(operationName, false));
         }
 
         private string ResolveParameterType<TGenerator>(SwaggerParameter parameter, TypeResolverBase<TGenerator> resolver)
@@ -129,7 +129,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
             if (parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
                 schema = new JsonSchema4 { Type = JsonObjectType.Array, Item = schema };
 
-            var typeNameHint = ConversionUtilities.ConvertToUpperCamelCase(parameter.Name);
+            var typeNameHint = ConversionUtilities.ConvertToUpperCamelCase(parameter.Name, true);
             return resolver.Resolve(schema, parameter.IsRequired == false || parameter.IsNullable(BaseSettings.CodeGeneratorSettings.NullHandling), typeNameHint);
         }
 

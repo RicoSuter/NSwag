@@ -24,15 +24,15 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 
         public string OperationName { get; set; }
 
-        public string HttpMethodUpper => ConversionUtilities.ConvertToUpperCamelCase(HttpMethod.ToString());
+        public string HttpMethodUpper => ConversionUtilities.ConvertToUpperCamelCase(HttpMethod.ToString(), false);
 
-        public string HttpMethodLower => ConversionUtilities.ConvertToLowerCamelCase(HttpMethod.ToString());
+        public string HttpMethodLower => ConversionUtilities.ConvertToLowerCamelCase(HttpMethod.ToString(), false);
 
         public bool IsGetOrDelete => HttpMethod == SwaggerOperationMethod.Get || HttpMethod == SwaggerOperationMethod.Delete;
 
-        public string OperationNameLower => ConversionUtilities.ConvertToLowerCamelCase(OperationName);
+        public string OperationNameLower => ConversionUtilities.ConvertToLowerCamelCase(OperationName, false);
 
-        public string OperationNameUpper => ConversionUtilities.ConvertToUpperCamelCase(OperationName);
+        public string OperationNameUpper => ConversionUtilities.ConvertToUpperCamelCase(OperationName, false);
 
         public string ResultType { get; set; }
 
