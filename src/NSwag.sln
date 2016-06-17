@@ -51,6 +51,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Demo.OwinWeb", "NSwag
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.AspNet.Owin", "NSwag.AspNet.Owin\NSwag.AspNet.Owin.csproj", "{69A692EB-C277-46AB-BA55-B33E7E6E129C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwag.AspNetCore", "NSwag.AspNetCore", "{B1B98B5E-313E-44D2-8707-9DF487E93F70}"
+	ProjectSection(SolutionItems) = preProject
+		NSwag.AspNetCore\project.json = NSwag.AspNetCore\project.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
