@@ -30,7 +30,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 
         public string Name => _parameter.Name;
 
-        public string VariableNameLower => ConversionUtilities.ConvertToLowerCamelCase(_parameter.Name.Replace("-", "_").Replace(".", "_"));
+        public string VariableNameLower => ConversionUtilities.ConvertToLowerCamelCase(_parameter.Name.Replace("-", "_").Replace(".", "_"), true);
 
         public SwaggerParameterKind Kind => _parameter.Kind;
 
