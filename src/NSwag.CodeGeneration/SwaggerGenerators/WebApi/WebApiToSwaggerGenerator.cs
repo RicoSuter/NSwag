@@ -512,7 +512,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             if (parameterType.GetTypeInfo().IsEnum)
                 operationParameter.SchemaReference = schemaGenerator.Generate<JsonSchema4>(parameterType, null, parentAttributes, schemaDefinitionAppender, schemaResolver);
             else
-                schemaGenerator.ApplyPropertyAnnotations(operationParameter, parentAttributes, typeDescription);
+                schemaGenerator.ApplyPropertyAnnotations(operationParameter, type, parentAttributes, typeDescription);
 
             operationParameter.Name = name;
             operationParameter.IsRequired = parentAttributes?.Any(a => a.GetType().Name == "RequiredAttribute") ?? false;
