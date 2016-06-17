@@ -1,5 +1,5 @@
 {
-    "version": "3.9.0-*",
+    "version": "3.10.0-*",
 
     "dependencies": {
         "Microsoft.AspNetCore.Mvc.Core": "1.0.0-rc2-final",
