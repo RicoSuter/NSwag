@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -94,26 +95,16 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         }
 
         /// <summary>Gets the name of the selected assembly.</summary>
-        public string AssemblyName
-        {
-            get { return Path.GetFileName(AssemblyPath); }
-        }
+        public string AssemblyName => Path.GetFileName(AssemblyPath);
 
-        /// <summary>Gets or sets the class name. </summary>
-        public string ClassName
+        /// <summary>Gets or sets the class names. </summary>
+        public IEnumerable<string> ClassNames
         {
-            get
-            {
-                return Command.ClassNames != null && Command.ClassNames.Any() ? Command.ClassNames.First() : null;
-            }
+            get { return Command.ClassNames; }
             set
             {
-                if (!string.IsNullOrEmpty(value))
-                    Command.ClassNames = new[] { value };
-                else
-                    Command.ClassNames = new string[] { };
-                RaisePropertyChanged(() => ClassName);
-
+                Command.ClassNames = value.ToArray();
+                RaisePropertyChanged(() => ClassNames);
             }
         }
 
@@ -145,7 +136,6 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
                     var generator = new AssemblyTypeToSwaggerGenerator(Command.Settings);
                     return generator.GetClasses();
                 });
-                ClassName = AllClassNames.FirstOrDefault();
             });
         }
 

@@ -103,6 +103,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\NumberAdditionConverter.cs" />
     <Compile Include="ISwaggerGenerator.cs" />
     <Compile Include="NSwagDocument.cs" />
     <Compile Include="Utilities\PathUtilities.cs" />

@@ -16,7 +16,7 @@ namespace NSwagStudio.Views.SwaggerGenerators
             Model.Command = command;
 
             ControllersList.SelectedItems.Clear();
-            foreach (var controller in Model.Command.ControllerNames)
+            foreach (var controller in Model.ControllerNames)
                 ControllersList.SelectedItems.Add(controller);
         }
 
