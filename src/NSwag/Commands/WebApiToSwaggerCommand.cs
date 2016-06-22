@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,12 +21,18 @@ namespace NSwag.Commands
         [JsonIgnore]
         public WebApiAssemblyToSwaggerGeneratorSettings Settings { get; set; }
 
-        [Description("The path to the Web API .NET assembly.")]
-        [Argument(Name = "Assembly")]
         public string AssemblyPath
         {
-            get { return Settings.AssemblyPath; }
-            set { Settings.AssemblyPath = value; }
+            get { return Settings.AssemblyPaths.FirstOrDefault(); }
+            set { Settings.AssemblyPaths = new[] { value }; }
+        }
+
+        [Description("The path or paths to the Web API .NET assemblies (comma separated).")]
+        [Argument(Name = "Assembly")]
+        public string[] AssemblyPaths
+        {
+            get { return Settings.AssemblyPaths; }
+            set { Settings.AssemblyPaths = value; }
         }
 
         [Description("The path to the assembly App.config or Web.config (optional).")]
@@ -38,7 +43,7 @@ namespace NSwag.Commands
             set { Settings.AssemblyConfig = value; }
         }
 
-        [Description("The paths to search for referenced assembly files.")]
+        [Description("The paths to search for referenced assembly files (comma separated).")]
         [Argument(Name = "ReferencePaths", IsRequired = false)]
         public string[] ReferencePaths
         {
@@ -99,7 +104,7 @@ namespace NSwag.Commands
             var service = await RunAsync();
             if (TryWriteFileOutput(host, () => service.ToJson()) == false)
                 return service;
-            return null; 
+            return null;
         }
 
         public async Task<SwaggerService> RunAsync()
@@ -113,7 +118,7 @@ namespace NSwag.Commands
                     controllerNames.Add(ControllerName);
 
                 controllerNames = controllerNames.Where(s => !string.IsNullOrWhiteSpace(s)).Distinct().ToList();
-                if (!controllerNames.Any() && !string.IsNullOrEmpty(Settings.AssemblyPath))
+                if (!controllerNames.Any() && Settings.AssemblyPaths?.Length > 0)
                     controllerNames = generator.GetControllerClasses().ToList();
 
                 return generator.GenerateForControllers(controllerNames);

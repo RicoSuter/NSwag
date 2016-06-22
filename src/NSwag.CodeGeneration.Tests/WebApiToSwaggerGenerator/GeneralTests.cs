@@ -18,7 +18,7 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator
             //// Arrange
             var settings = new WebApiAssemblyToSwaggerGeneratorSettings
             {
-                AssemblyPath = @"./NSwag.CodeGeneration.Tests.dll",
+                AssemblyPaths = new[] { @"./NSwag.CodeGeneration.Tests.dll" },
                 DefaultUrlTemplate = "api/{controller}/{action}/{id}"
             };
 
