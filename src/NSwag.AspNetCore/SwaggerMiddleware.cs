@@ -22,9 +22,9 @@ namespace NSwag.AspNetCore
         private readonly string _path;
         private readonly IEnumerable<Type> _controllerTypes;
         private string _swaggerJson = null;
-        private readonly WebApiToSwaggerGeneratorSettings _settings;
+        private readonly SwaggerOwinSettings _settings;
 
-        public SwaggerMiddleware(RequestDelegate nextDelegate, string path, IEnumerable<Type> controllerTypes, WebApiToSwaggerGeneratorSettings settings)
+        public SwaggerMiddleware(RequestDelegate nextDelegate, string path, IEnumerable<Type> controllerTypes, SwaggerOwinSettings settings)
         {
             _nextDelegate = nextDelegate;
             _path = path;
@@ -57,6 +57,7 @@ namespace NSwag.AspNetCore
                         service.Host = context.Request.Host.Value;
                         service.Schemes.Add(context.Request.Scheme == "http" ? SwaggerSchema.Http : SwaggerSchema.Https);
 
+                        _settings.SwaggerServiceTransformer?.Transform(service);
                         _swaggerJson = service.ToJson();
                     }
                 }

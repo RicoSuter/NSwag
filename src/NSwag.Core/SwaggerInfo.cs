@@ -14,8 +14,9 @@ namespace NSwag
     public class SwaggerInfo
     {
         /// <summary>Gets or sets the title.</summary>
-        [JsonProperty(PropertyName = "title", Required = Required.Always, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public string Title { get; set; }
+        [JsonProperty(PropertyName = "title", Required = Required.Always,
+            DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public string Title { get; set; } = "n/a";
 
         /// <summary>Gets or sets the description.</summary>
         [JsonProperty(PropertyName = "description", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
@@ -35,6 +36,6 @@ namespace NSwag
 
         /// <summary>Gets or sets the API version.</summary>
         [JsonProperty(PropertyName = "version", Required = Required.Always, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public string Version { get; set; }
+        public string Version { get; set; } = "1.0.0";
     }
 }

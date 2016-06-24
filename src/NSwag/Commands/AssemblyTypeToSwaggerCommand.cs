@@ -13,6 +13,7 @@ namespace NSwag.Commands
         public AssemblyTypeToSwaggerCommand()
         {
             Settings = new AssemblyTypeToSwaggerGeneratorSettings();
+            ClassNames = new string[] { };
         }
 
         [JsonIgnore]

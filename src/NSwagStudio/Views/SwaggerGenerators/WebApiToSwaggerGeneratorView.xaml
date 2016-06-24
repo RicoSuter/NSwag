@@ -4,113 +4,117 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:swaggerGenerators="clr-namespace:NSwagStudio.ViewModels.SwaggerGenerators"
-             xmlns:converters="clr-namespace:MyToolkit.Converters;assembly=MyToolkit.Extended"
+             xmlns:converters="clr-namespace:NSwagStudio.Converters"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
 
     <UserControl.Resources>
         <swaggerGenerators:WebApiToSwaggerGeneratorViewModel x:Key="ViewModel" />
-        <converters:VisibilityConverter x:Key="VisibilityConverter" />
-        <converters:NotConverter x:Key="NotConverter" />
+        <converters:NumberAdditionConverter x:Key="NumberAdditionConverter" />
     </UserControl.Resources>
 
-    <StackPanel Margin="8" DataContext="{StaticResource ViewModel}">
-        <GroupBox Header="Assembly" Margin="0,0,0,12">
-            <StackPanel Margin="4,8,4,-8">
-                <Grid Margin="0,0,0,12">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+    <ScrollViewer DataContext="{StaticResource ViewModel}" x:Name="ScrollViewer" 
+                  VerticalScrollBarVisibility="Visible" 
+                  HorizontalScrollBarVisibility="Hidden">
+        <StackPanel Margin="8" 
+                    Width="{Binding ElementName=ScrollViewer, Path=ActualWidth, Converter={StaticResource NumberAdditionConverter}, ConverterParameter=-32}">
+            <GroupBox Header="Assembly" Margin="0,0,0,12">
+                <StackPanel Margin="4,8,4,-8">
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
 
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                        </Grid.RowDefinitions>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
 
-                        <TextBlock Text=".NET Assembly Path" FontWeight="Bold" Margin="0,0,0,6" />
-                        <TextBox Grid.Row="1" Text="{Binding AssemblyPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                Margin="0,0,12,0" VerticalAlignment="Center" />
+                            <TextBlock Text=".NET Assembly Path" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Grid.Row="1" Text="{Binding AssemblyPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                    Margin="0,0,12,0" VerticalAlignment="Center" />
+                        </Grid>
+
+                        <Button Command="{Binding BrowseAssemblyCommand}" VerticalAlignment="Stretch"
+                                Padding="8,4,8,4" Grid.Column="1" Content="..." />
                     </Grid>
+                    <TextBlock Text="{Binding AssemblyName, Mode=OneWay}" TextWrapping="Wrap" Margin="0,-6,0,12" />
 
-                    <Button Command="{Binding BrowseAssemblyCommand}" VerticalAlignment="Stretch"
-                            Padding="8,4,8,4" Grid.Column="1" Content="..." />
-                </Grid>
-                <TextBlock Text="{Binding AssemblyName, Mode=OneWay}" TextWrapping="Wrap" Margin="0,-6,0,12" />
+                    <TextBlock Text="App.config or Web.config file path (optional, automatically searched when empty)" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBlock Text="(Required for correct binding redirects, required when assembly cannot be loaded)" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding Command.AssemblyConfig, Mode=TwoWay}" Margin="0,0,0,12" />
 
-                <TextBlock Text="App.config or Web.config file path (optional, automatically searched when empty)" FontWeight="Bold" Margin="0,0,0,6" />
-                <TextBlock Text="(Required for correct binding redirects, required when assembly cannot be loaded)" Margin="0,0,0,6" />
-                <TextBox Text="{Binding Command.AssemblyConfig, Mode=TwoWay}" Margin="0,0,0,12" />
+                    <TextBlock Text="Paths to search for referenced assembly files (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding ReferencePaths, Mode=TwoWay}" Margin="0,0,0,12" />
 
-                <TextBlock Text="Paths to search for referenced assembly files (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
-                <TextBox Text="{Binding ReferencePaths, Mode=TwoWay}" Margin="0,0,0,12" />
+                    <Button Command="{Binding LoadAssemblyCommand}" VerticalAlignment="Stretch" Margin="0,0,0,12"
+                                Padding="8,4,8,4" Content="Load Assembly" />
+                </StackPanel>
+            </GroupBox>
 
-                <Button Command="{Binding LoadAssemblyCommand}" VerticalAlignment="Stretch" Margin="0,0,0,12"
-                        Padding="8,4,8,4" Content="Load Assembly" />
-            </StackPanel>
-        </GroupBox>
-        
-        <TextBlock Text="Web API Controller Names" FontWeight="Bold" Margin="0,0,0,8" />
-        <ListBox ItemsSource="{Binding AllControllerNames}" x:Name="ControllersList" MaxHeight="300"
-                 SelectionChanged="ControllersListSelectionChanged" BorderThickness="0" Padding="0"
-                 SelectionMode="Multiple">
-            <ListBox.Resources>
-                <Style TargetType="{x:Type ListBoxItem}">
-                    <Setter Property="Background" Value="Transparent"/>
-                    <Setter Property="HorizontalContentAlignment" 
-                            Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
-                    <Setter Property="VerticalContentAlignment" 
-                            Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
-                    <Setter Property="Padding" Value="0"/>
-                    <Setter Property="Margin" Value="0"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" 
-                                        Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
-                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
-                                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
-                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </ListBox.Resources>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <CheckBox Content="{Binding}" Margin="0,0,0,4"
-                              IsChecked="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}">
-                        <CheckBox.LayoutTransform>
-                            <ScaleTransform ScaleX="1" ScaleY="1" />
-                        </CheckBox.LayoutTransform>
-                    </CheckBox>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <TextBlock Text="When multiple controllers are selected, consider selecting MultipleClientsFromOperationId or MultipleClientsFromPathSegments as operation generation mode."
-                   TextWrapping="Wrap" Margin="0,4,0,6" />
+            <TextBlock Text="Web API Controller Names" FontWeight="Bold" Margin="0,0,0,8" />
+            <ListBox ItemsSource="{Binding AllControllerNames}" x:Name="ControllersList"
+                     SelectionChanged="ControllersListSelectionChanged" BorderThickness="0" Padding="0"
+                     SelectionMode="Multiple">
+                <ListBox.Resources>
+                    <Style TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="HorizontalContentAlignment" 
+                                Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                        <Setter Property="VerticalContentAlignment" 
+                                Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                        <Setter Property="Padding" Value="0"/>
+                        <Setter Property="Margin" Value="0"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" 
+                                            Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.Resources>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <CheckBox Content="{Binding}" Margin="0,0,0,4"
+                                  IsChecked="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}">
+                            <CheckBox.LayoutTransform>
+                                <ScaleTransform ScaleX="1" ScaleY="1" />
+                            </CheckBox.LayoutTransform>
+                        </CheckBox>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <TextBlock Text="When multiple controllers are selected, consider selecting MultipleClientsFromOperationId or MultipleClientsFromPathSegments as operation generation mode."
+                       TextWrapping="Wrap" Margin="0,4,0,6" />
 
-        <TextBlock Margin="0,6,0,6" TextWrapping="Wrap">
-            <Run Text="Default Enum Handling" FontWeight="Bold" />
-            <LineBreak />
-            Choose 'Integer' if you use the default Json.NET serializer or 'String' if a global StringEnumConverter is registered.
-        </TextBlock>
-        <ComboBox SelectedItem="{Binding Command.DefaultEnumHandling, Mode=TwoWay}" ItemsSource="{Binding EnumHandlings}" Margin="0,0,0,12" />
+            <TextBlock Margin="0,6,0,6" TextWrapping="Wrap">
+                <Run Text="Default Enum Handling" FontWeight="Bold" />
+                <LineBreak />
+                Choose 'Integer' if you use the default Json.NET serializer or 'String' if a global StringEnumConverter is registered.
+            </TextBlock>
+            <ComboBox SelectedItem="{Binding Command.DefaultEnumHandling, Mode=TwoWay}" ItemsSource="{Binding EnumHandlings}" Margin="0,0,0,12" />
 
-        <TextBlock Margin="0,0,0,6" Text="Default Property Name Handling" TextWrapping="Wrap" FontWeight="Bold" />
-        <ComboBox SelectedItem="{Binding Command.DefaultPropertyNameHandling, Mode=TwoWay}" ItemsSource="{Binding PropertyNameHandlings}" Margin="0,0,0,12" />
+            <TextBlock Margin="0,0,0,6" Text="Default Property Name Handling" TextWrapping="Wrap" FontWeight="Bold" />
+            <ComboBox SelectedItem="{Binding Command.DefaultPropertyNameHandling, Mode=TwoWay}" ItemsSource="{Binding PropertyNameHandlings}" Margin="0,0,0,12" />
 
-        <CheckBox IsChecked="{Binding Command.FlattenInheritanceHierarchy, Mode=TwoWay}" Margin="0,0,0,12">
-            <TextBlock Text="Flatten the inheritance hierarchy instead of using allOf to describe inheritance" TextWrapping="Wrap" />
-        </CheckBox>
+            <CheckBox IsChecked="{Binding Command.FlattenInheritanceHierarchy, Mode=TwoWay}" Margin="0,0,0,12">
+                <TextBlock Text="Flatten the inheritance hierarchy instead of using allOf to describe inheritance" TextWrapping="Wrap" />
+            </CheckBox>
 
-        <CheckBox IsChecked="{Binding Command.GenerateKnownTypes, Mode=TwoWay}" Margin="0,0,0,12">
-            <TextBlock Text="Generate schemas for types in KnownTypeAttribute attributes" TextWrapping="Wrap" />
-        </CheckBox>
+            <CheckBox IsChecked="{Binding Command.GenerateKnownTypes, Mode=TwoWay}" Margin="0,0,0,12">
+                <TextBlock Text="Generate schemas for types in KnownTypeAttribute attributes" TextWrapping="Wrap" />
+            </CheckBox>
 
-        <TextBlock Text="Default URL Template" FontWeight="Bold" Margin="0,0,0,6" />
-        <TextBox Text="{Binding Command.DefaultUrlTemplate, Mode=TwoWay}" Margin="0,0,0,24" />
-    </StackPanel>
+            <TextBlock Text="Default URL Template" FontWeight="Bold" Margin="0,0,0,6" />
+            <TextBox Text="{Binding Command.DefaultUrlTemplate, Mode=TwoWay}" Margin="0,0,0,24" />
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

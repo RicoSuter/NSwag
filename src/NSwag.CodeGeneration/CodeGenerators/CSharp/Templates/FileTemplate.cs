@@ -44,8 +44,10 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -53,44 +55,45 @@ using System.Threading.Tasks;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 ");
             
-            #line 25 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 28 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
 foreach(var usage in Model.NamespaceUsages){
             
             #line default
             #line hidden
             this.Write("using ");
             
-            #line 25 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 28 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(usage));
             
             #line default
             #line hidden
             this.Write(";\r\n");
             
-            #line 26 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 29 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("\r\nnamespace ");
             
-            #line 28 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 31 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.Namespace));
             
             #line default
             #line hidden
             this.Write("\r\n{\r\n    ");
             
-            #line 30 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 33 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.Tab(Model.Clients, 1)));
             
             #line default
             #line hidden
             this.Write("\r\n\r\n    ");
             
-            #line 32 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 35 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.Tab(Model.Classes, 1)));
             
             #line default

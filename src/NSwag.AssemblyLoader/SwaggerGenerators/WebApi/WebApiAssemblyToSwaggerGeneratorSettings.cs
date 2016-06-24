@@ -14,11 +14,12 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <summary>Initializes a new instance of the <see cref="WebApiAssemblyToSwaggerGeneratorSettings"/> class.</summary>
         public WebApiAssemblyToSwaggerGeneratorSettings()
         {
+            AssemblyPaths = new string[] { };
             ReferencePaths = new string[] {};
         }
 
-        /// <summary>Gets or sets the Web API assembly path.</summary>
-        public string AssemblyPath { get; set; }
+        /// <summary>Gets or sets the Web API assembly paths.</summary>
+        public string[] AssemblyPaths { get; set; }
 
         /// <summary>Gets or sets the path to the assembly App.config or Web.config (optional).</summary>
         public string AssemblyConfig { get; set; }
