@@ -77,6 +77,10 @@
                                     <CheckBox IsChecked="{Binding Command.GenerateReadOnlyKeywords, Mode=TwoWay}" 
                                               Content="Generate readonly keywords in DTO types" Margin="0,0,0,12" />
 
+                                    <TextBlock Text="Date Time Type" FontWeight="Bold" Margin="0,0,0,6" />
+                                    <ComboBox SelectedItem="{Binding Command.DateTimeType, Mode=TwoWay}" 
+                                                ItemsSource="{Binding DateTimeTypes}" Margin="0,0,0,12" />
+
                                     <TextBlock Text="Type Style" FontWeight="Bold" Margin="0,0,0,6" />
                                     <ComboBox SelectedItem="{Binding Command.TypeStyle, Mode=TwoWay}" 
                                               ItemsSource="{Binding TypeStyles}" Margin="0,0,0,12" />
