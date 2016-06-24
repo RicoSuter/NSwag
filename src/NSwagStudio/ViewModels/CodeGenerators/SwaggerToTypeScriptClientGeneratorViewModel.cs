@@ -70,6 +70,17 @@ namespace NSwagStudio.ViewModels.CodeGenerators
             }
         }
 
+        /// <summary>Gets the list of date time types. </summary>
+        public TypeScriptDateTimeType[] DateTimeTypes
+        {
+            get
+            {
+                return Enum.GetNames(typeof(TypeScriptDateTimeType))
+                    .Select(t => (TypeScriptDateTimeType)Enum.Parse(typeof(TypeScriptDateTimeType), t))
+                    .ToArray();
+            }
+        }
+
         public string ClassTypes
         {
             get { return _command.ClassTypes != null ? string.Join(",", _command.ClassTypes) : ""; }

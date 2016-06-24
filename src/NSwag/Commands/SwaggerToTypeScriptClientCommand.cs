@@ -53,6 +53,14 @@ namespace NSwag.Commands
             set { Settings.PromiseType = value; }
         }
 
+        [Description("The date time type ('Date', 'MomentJS', 'string').")]
+        [Argument(Name = "DateTimeType", IsRequired = false)]
+        public TypeScriptDateTimeType DateTimeType
+        {
+            get { return Settings.TypeScriptGeneratorSettings.DateTimeType; }
+            set { Settings.TypeScriptGeneratorSettings.DateTimeType = value; }
+        }
+
         [Description("Specifies whether generate client classes.")]
         [Argument(Name = "GenerateClientClasses", IsRequired = false)]
         public bool GenerateClientClasses
