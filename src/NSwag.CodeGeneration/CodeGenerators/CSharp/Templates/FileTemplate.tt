@@ -13,8 +13,10 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -22,6 +24,7 @@ using System.Threading.Tasks;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 <#foreach(var usage in Model.NamespaceUsages){#>using <#=usage#>;
 <#}#>
 

@@ -14,7 +14,7 @@ namespace NSwag.Demo.Client
         {
             try
             {
-                var client = new PersonsClient("http://localhost:22093");
+                var client = new DataService("http://localhost:22093");
                 var result = await client.CalculateAsync(int.Parse(A.Text), int.Parse(B.Text), int.Parse(C.Text));
                 Result.Text = result.ToString();
 

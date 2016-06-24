@@ -18,11 +18,11 @@ namespace NSwag.AspNet.Owin
     {
         private readonly object _lock = new object();
         private readonly string _path;
-        private readonly WebApiToSwaggerGeneratorSettings _settings;
+        private readonly SwaggerOwinSettings _settings;
         private readonly IEnumerable<Type> _controllerTypes;
         private string _swaggerJson = null;
 
-        public SwaggerMiddleware(OwinMiddleware next, string path, IEnumerable<Type> controllerTypes, WebApiToSwaggerGeneratorSettings settings)
+        public SwaggerMiddleware(OwinMiddleware next, string path, IEnumerable<Type> controllerTypes, SwaggerOwinSettings settings)
             : base(next)
         {
             _path = path;
@@ -56,6 +56,7 @@ namespace NSwag.AspNet.Owin
                         service.Host = context.Request.Host.Value;
                         service.Schemes.Add(context.Request.Uri.Scheme == "http" ? SwaggerSchema.Http : SwaggerSchema.Https);
 
+                        _settings.SwaggerServiceTransformer?.Transform(service);
                         _swaggerJson = service.ToJson();
                     }
                 }

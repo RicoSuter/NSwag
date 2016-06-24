@@ -20,7 +20,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
-    <TypeScriptToolsVersion>1.7</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
     <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -59,8 +59,8 @@
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=2.48.6012.40848, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.2.48.6012.40848\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
+    <Reference Include="NJsonSchema, Version=2.49.6019.25463, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.2.49.6019.25463\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
@@ -72,6 +72,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -124,6 +125,8 @@
   <ItemGroup>
     <Content Include="index.html" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\App.js" />
+    <Content Include="Scripts\DataService.js" />
     <Content Include="Scripts\DataService.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>DataService.ts</LastGenOutput>
@@ -136,6 +139,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BodyInputController.cs" />
     <Compile Include="Controllers\FileController.cs" />
+    <Compile Include="Controllers\InheritanceController.cs" />
     <Compile Include="Controllers\MvcController.cs" />
     <Compile Include="Controllers\PersonsController.cs" />
     <Compile Include="Controllers\RequestParameterTestController.cs" />

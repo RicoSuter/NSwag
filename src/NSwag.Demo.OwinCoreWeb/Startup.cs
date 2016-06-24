@@ -20,7 +20,7 @@ namespace NSwag.Demo.OwinCoreWeb
         public void Configure(IApplicationBuilder app)
         {
             app.UseMvc();
-            app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, new WebApiToSwaggerGeneratorSettings());
+            app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, new SwaggerUiOwinSettings());
         }
     }
 }

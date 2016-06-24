@@ -1386,7 +1386,7 @@
           "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
         }
       },
-      "NJsonSchema/2.45.6011.39984": {
+      "NJsonSchema/2.48.6012.40848": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "8.0.3"
@@ -1398,10 +1398,10 @@
           "lib/portable45-net45+win8+wp8+wpa81/NJsonSchema.dll": {}
         }
       },
-      "NJsonSchema.CodeGeneration/2.45.6011.39986": {
+      "NJsonSchema.CodeGeneration/2.48.6012.40850": {
         "type": "package",
         "dependencies": {
-          "NJsonSchema": "2.45.6011.39984",
+          "NJsonSchema": "2.48.6012.40848",
           "Newtonsoft.Json": "8.0.3"
         },
         "compile": {
@@ -1411,11 +1411,11 @@
           "lib/portable45-net45+win8+wp8+wpa81/NJsonSchema.CodeGeneration.dll": {}
         }
       },
-      "NSwag.CodeGeneration/3.7.6011.40619": {
+      "NSwag.CodeGeneration/3.10.6012.41171": {
         "type": "package",
         "dependencies": {
-          "NJsonSchema.CodeGeneration": "2.45.6011.39986",
-          "NSwag.Core": "3.7.6011.40618"
+          "NJsonSchema.CodeGeneration": "2.48.6012.40850",
+          "NSwag.Core": "3.10.6012.41171"
         },
         "compile": {
           "lib/portable45-net45+win8+wp8+wpa81/NSwag.CodeGeneration.dll": {}
@@ -1424,10 +1424,10 @@
           "lib/portable45-net45+win8+wp8+wpa81/NSwag.CodeGeneration.dll": {}
         }
       },
-      "NSwag.Core/3.7.6011.40618": {
+      "NSwag.Core/3.10.6012.41171": {
         "type": "package",
         "dependencies": {
-          "NJsonSchema": "2.45.6011.39984"
+          "NJsonSchema": "2.48.6012.40848"
         },
         "compile": {
           "lib/portable45-net45+win8+wp8+wpa81/NSwag.Core.dll": {}
@@ -3209,7 +3209,7 @@
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
       },
-      "NSwag.AspNetCore/1.0.0": {
+      "NSwag.AspNetCore/3.10.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v1.5",
         "dependencies": {
@@ -4320,11 +4320,11 @@
         "tools/install.ps1"
       ]
     },
-    "NJsonSchema/2.45.6011.39984": {
-      "sha512": "zddMmQQXg9Q8/w2ccxSh+yQXZjUKEQ1IZ85QdqRqjYM6L/fKD5tCUi4YHVPmGF95BB+i7rE0ZCVQRPIJFGL+8w==",
+    "NJsonSchema/2.48.6012.40848": {
+      "sha512": "vtPaZfHEcTZDYo2jncEgBsO8TXtuV3zMt6BUBDwPoLKr2M3yBT+i/9FJp/0lSsDJQe24ueuk1swQiMWUu+MMcw==",
       "type": "package",
       "files": [
-        "NJsonSchema.2.45.6011.39984.nupkg.sha512",
+        "NJsonSchema.2.48.6012.40848.nupkg.sha512",
         "NJsonSchema.nuspec",
         "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/NJsonSchema.dll",
         "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/NJsonSchema.pdb",
@@ -4333,11 +4333,11 @@
         "lib/portable45-net45+win8+wp8+wpa81/NJsonSchema.xml"
       ]
     },
-    "NJsonSchema.CodeGeneration/2.45.6011.39986": {
-      "sha512": "KGMj8j/u2adulkXbsYp4qipvMZybxIRm0Wi09d58vchX5UFR1A8NBp1MXfplOERe3zVqq9Q8H/kE0vJcxNZ2zw==",
+    "NJsonSchema.CodeGeneration/2.48.6012.40850": {
+      "sha512": "64QTf4SGlDagcoof0kNrPcWa2KG6aNapN8aX0sfyO69iAuX+hw9aNRFHm8mDk8iOIau/7B8H0hLwsSE4v+pEhg==",
       "type": "package",
       "files": [
-        "NJsonSchema.CodeGeneration.2.45.6011.39986.nupkg.sha512",
+        "NJsonSchema.CodeGeneration.2.48.6012.40850.nupkg.sha512",
         "NJsonSchema.CodeGeneration.nuspec",
         "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/NJsonSchema.CodeGeneration.dll",
         "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/NJsonSchema.CodeGeneration.pdb",
@@ -4346,11 +4346,11 @@
         "lib/portable45-net45+win8+wp8+wpa81/NJsonSchema.CodeGeneration.xml"
       ]
     },
-    "NSwag.CodeGeneration/3.7.6011.40619": {
-      "sha512": "S4xBwx61w2DvNDZ46zi6Bg0z3+CXltVg+v3sFSZVERXXJ7YlwRj8FT15B1dUOsGg5m/eO1pfoojfL8fV40KDYw==",
+    "NSwag.CodeGeneration/3.10.6012.41171": {
+      "sha512": "BevHEpfqlfOvAu2rn4NW+UPZmuWoRFHufrOnOIjy2DPQ5QEpoluVb4BrheBjVAQe6bNI/8ydXbb/cQOXPoi2Vw==",
       "type": "package",
       "files": [
-        "NSwag.CodeGeneration.3.7.6011.40619.nupkg.sha512",
+        "NSwag.CodeGeneration.3.10.6012.41171.nupkg.sha512",
         "NSwag.CodeGeneration.nuspec",
         "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/NSwag.CodeGeneration.dll",
         "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/NSwag.CodeGeneration.pdb",
@@ -4359,11 +4359,11 @@
         "lib/portable45-net45+win8+wp8+wpa81/NSwag.CodeGeneration.xml"
       ]
     },
-    "NSwag.Core/3.7.6011.40618": {
-      "sha512": "QTodb5sDshHwgTFmY+RSeuEqBfjjxeGNjd1G/X0E0cU9SfSyX4rB428mJ+sCeYz1WX+lFeqaoDof8gKLLieg8g==",
+    "NSwag.Core/3.10.6012.41171": {
+      "sha512": "qNjxE0JOd1sP8xOpd6qzRYhWl1uCqHWCcFWcZ9eqLKxUG4EOIPNnTRuoTigwwBsQQYNgLk1+/40++T9NIXHVjQ==",
       "type": "package",
       "files": [
-        "NSwag.Core.3.7.6011.40618.nupkg.sha512",
+        "NSwag.Core.3.10.6012.41171.nupkg.sha512",
         "NSwag.Core.nuspec",
         "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/NSwag.Core.dll",
         "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/NSwag.Core.pdb",
@@ -8754,7 +8754,7 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
-    "NSwag.AspNetCore/1.0.0": {
+    "NSwag.AspNetCore/3.10.0": {
       "type": "project",
       "path": "../NSwag.AspNetCore/project.json",
       "msbuildProject": "../NSwag.AspNetCore/NSwag.AspNetCore.xproj"

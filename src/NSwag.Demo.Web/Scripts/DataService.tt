@@ -1,26 +1,27 @@
 ﻿<#@ template debug="false" hostspecific="true" language="C#" #>
 <#@ assembly name="System.Core" #>
 <#@ assembly name="System.Runtime" #>
-<#@ assembly name="$(SolutionDir)\NSwag.CodeGeneration\bin\Debug\NJsonSchema.dll" #>
-<#@ assembly name="$(SolutionDir)\NSwag.CodeGeneration\bin\Debug\NJsonSchema.CodeGeneration.dll" #>
-<#@ assembly name="$(SolutionDir)\NSwag.CodeGeneration\bin\Debug\NSwag.CodeGeneration.dll" #>
-<#@ assembly name="$(SolutionDir)\NSwag.CodeGeneration\bin\Debug\NSwag.Core.dll" #>
-<#@ import namespace="NSwag.CodeGeneration.SwaggerGenerators.WebApi" #>
-<#@ import namespace="NSwag.CodeGeneration.CodeGenerators.TypeScript" #>
+<#@ assembly name="$(SolutionDir)\NSwag.AssemblyLoader\bin\Debug\NJsonSchema.dll" #>
+<#@ assembly name="$(SolutionDir)\NSwag.AssemblyLoader\bin\Debug\NJsonSchema.CodeGeneration.dll" #>
+<#@ assembly name="$(SolutionDir)\NSwag.AssemblyLoader\bin\Debug\NSwag.Core.dll" #>
+<#@ assembly name="$(SolutionDir)\NSwag.AssemblyLoader\bin\Debug\NSwag.CodeGeneration.dll" #>
+<#@ assembly name="$(SolutionDir)\NSwag.AssemblyLoader\bin\Debug\NSwag.AssemblyLoader.dll" #>
 <#@ import namespace="System.IO" #>
 <#@ import namespace="Microsoft.CSharp" #>
+<#@ import namespace="NSwag.CodeGeneration.SwaggerGenerators.WebApi" #>
+<#@ import namespace="NSwag.CodeGeneration.CodeGenerators.TypeScript" #>
 <#@ output extension=".ts" #>
 <#
     // CONFIGURATION
-    var assemblyPath = @"../../NSwag.Demo.Web/bin/NSwag.Demo.Web.dll";
+    var assemblyPath = @"../../../NSwag.Demo.Web/bin/NSwag.Demo.Web.dll";
     var controllerClass = "NSwag.Demo.Web.Controllers.PersonsController";
     var defaultUrlTemplate = "api/{controller}/{action}/{id}";
     // -------------
 
     var generator = new WebApiAssemblyToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings
     {
-        AssemblyPath = Path.GetFullPath(Path.GetDirectoryName(Host.TemplateFile) + assemblyPath), 
-        DefaultUrlTemplate = defaultUrlTemplate
+        AssemblyPaths = new [] { Path.GetFullPath(Path.GetDirectoryName(Host.TemplateFile) + assemblyPath) }, 
+        DefaultUrlTemplate = defaultUrlTemplate, 
     });
     var service = generator.GenerateForController(controllerClass);
 

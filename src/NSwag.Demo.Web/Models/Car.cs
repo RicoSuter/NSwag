@@ -8,7 +8,7 @@ namespace NSwag.Demo.Web.Models
     {
         public string Name { get; set; }
         
-        [ReadOnly(true)]
+        //[ReadOnly(true)]
         public Person Driver { get; set; }
 
         [JsonConverter(typeof(StringEnumConverter))]

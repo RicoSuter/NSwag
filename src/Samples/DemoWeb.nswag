@@ -5,11 +5,14 @@
   "InputJsonSchema": null,
   "WebApiToSwaggerCommand": {
     "AssemblyPath": "..\\NSwag.Demo.Web\\bin\\NSwag.Demo.Web.dll",
+    "AssemblyPaths": [
+      "..\\NSwag.Demo.Web\\bin\\NSwag.Demo.Web.dll"
+    ],
     "AssemblyConfig": null,
     "ReferencePaths": [],
     "ControllerName": "",
     "ControllerNames": [
-      "NSwag.Demo.Web.Controllers.PersonsController"
+      "NSwag.Demo.Web.Controllers.InheritanceController"
     ],
     "DefaultUrlTemplate": "api/{controller}/{action}/{id}",
     "DefaultPropertyNameHandling": "Default",
@@ -32,14 +35,14 @@
   "SwaggerToTypeScriptCommand": {
     "ClassName": "{controller}Client",
     "ModuleName": "",
-    "Template": "JQueryPromises",
+    "Template": "JQueryCallbacks",
     "PromiseType": "Promise",
     "GenerateClientClasses": true,
     "GenerateClientInterfaces": false,
     "GenerateDtoTypes": true,
     "OperationGenerationMode": "MultipleClientsFromOperationId",
     "GenerateReadOnlyKeywords": true,
-    "TypeStyle": "KnockoutClass",
+    "TypeStyle": "Class",
     "ClassTypes": [
       "Car"
     ],

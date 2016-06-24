@@ -36,7 +36,6 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             _service = service;
             foreach (var definition in _service.Definitions.Where(p => string.IsNullOrEmpty(p.Value.TypeNameRaw)))
                 definition.Value.TypeNameRaw = definition.Key;
-
         }
 
         /// <summary>Gets or sets the generator settings.</summary>
@@ -63,7 +62,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
                 Toolchain = SwaggerService.ToolchainVersion, 
                 Clients = Settings.GenerateClientClasses ? clientCode : string.Empty,
                 NamespaceUsages = Settings.AdditionalNamespaceUsages ?? new string[] { },
-                Classes = Settings.GenerateDtoTypes ? Resolver.GenerateTypes(null) : string.Empty
+                Classes = Settings.GenerateDtoTypes ? Resolver.GenerateClasses() : string.Empty
             });
             return template.Render();
         }
