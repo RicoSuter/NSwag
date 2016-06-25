@@ -61,12 +61,12 @@
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpGeneratorBase.cs" />
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpGeneratorSettings.cs" />
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpTypeResolver.cs" />
-    <Compile Include="CodeGenerators\CSharp\Templates\ClientTemplate.cs">
+    <Compile Include="CodeGenerators\CSharp\Templates\ClientTemplate.Extensions.cs" />
+    <Compile Include="CodeGenerators\CSharp\Templates\ClientTemplate1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ClientTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="CodeGenerators\CSharp\Templates\ClientTemplate.Extensions.cs" />
     <Compile Include="CodeGenerators\CSharp\Templates\FileTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -160,6 +160,7 @@
   <ItemGroup>
     <None Include="CodeGenerators\CSharp\Templates\ClientTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>ClientTemplate1.cs</LastGenOutput>
     </None>
     <None Include="CodeGenerators\CSharp\Templates\FileTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>

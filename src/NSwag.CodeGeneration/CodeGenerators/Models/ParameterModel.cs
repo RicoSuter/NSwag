@@ -54,6 +54,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 
         public bool IsArray => Schema.Type.HasFlag(JsonObjectType.Array);
 
+        public bool IsFile => Schema.Type.HasFlag(JsonObjectType.File);
+
         public bool IsDictionary => Schema.IsDictionary;
 
         public bool IsDateArray => IsArray && Schema.Item?.Format == JsonFormatStrings.DateTime;

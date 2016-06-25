@@ -104,33 +104,30 @@ namespace NSwag.CodeGeneration.CodeGenerators
                         HasFormParameters = operation.Parameters.Any(p => p.Kind == SwaggerParameterKind.FormData),
                         Responses = responses,
                         DefaultResponse = defaultResponse,
-                        Parameters = operation.Parameters.Select(p =>
-                        {
-                            if (p.ActualSchema.Type == JsonObjectType.File)
-                                p.ActualSchema.Type = JsonObjectType.String; // TODO: Implement File type handling
-
-                            return new ParameterModel(ResolveParameterType(p, resolver), operation, p, BaseSettings.CodeGeneratorSettings);
-                        }).ToList(),
+                        Parameters = operation.Parameters.Select(p => new ParameterModel(ResolveParameterType(p, resolver), operation, p, BaseSettings.CodeGeneratorSettings)).ToList(),
                     };
                 }).ToList();
             return operations;
         }
 
-        private string GetClassName(string operationName)
+        /// <summary>Resolves the type of the parameter.</summary>
+        /// <param name="parameter">The parameter.</param>
+        /// <param name="resolver">The resolver.</param>
+        /// <returns>The parameter type name.</returns>
+        protected virtual string ResolveParameterType(SwaggerParameter parameter, ITypeResolver resolver)
         {
-            return BaseSettings.ClassName.Replace("{controller}", ConversionUtilities.ConvertToUpperCamelCase(operationName, false));
-        }
-
-        private string ResolveParameterType<TGenerator>(SwaggerParameter parameter, TypeResolverBase<TGenerator> resolver)
-            where TGenerator : TypeGeneratorBase
-        {
-            var schema = parameter.ActualSchema; 
+            var schema = parameter.ActualSchema;
 
             if (parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
                 schema = new JsonSchema4 { Type = JsonObjectType.Array, Item = schema };
 
             var typeNameHint = ConversionUtilities.ConvertToUpperCamelCase(parameter.Name, true);
             return resolver.Resolve(schema, parameter.IsRequired == false || parameter.IsNullable(BaseSettings.CodeGeneratorSettings.NullHandling), typeNameHint);
+        }
+
+        private string GetClassName(string operationName)
+        {
+            return BaseSettings.ClassName.Replace("{controller}", ConversionUtilities.ConvertToUpperCamelCase(operationName, false));
         }
 
         internal SwaggerResponse GetSuccessResponse(SwaggerOperation operation)

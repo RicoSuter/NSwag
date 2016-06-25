@@ -12,7 +12,7 @@
     "ReferencePaths": [],
     "ControllerName": "",
     "ControllerNames": [
-      "NSwag.Demo.Web.Controllers.InheritanceController"
+      "NSwag.Demo.Web.Controllers.FileController"
     ],
     "DefaultUrlTemplate": "api/{controller}/{action}/{id}",
     "DefaultPropertyNameHandling": "Default",
@@ -37,6 +37,7 @@
     "ModuleName": "",
     "Template": "JQueryCallbacks",
     "PromiseType": "Promise",
+    "DateTimeType": "Date",
     "GenerateClientClasses": true,
     "GenerateClientInterfaces": false,
     "GenerateDtoTypes": true,
