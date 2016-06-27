@@ -91,6 +91,7 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
             url_ += string.Format("<#=parameter.Name#>={0}&", Uri.EscapeUriString(<#=parameter.VariableNameLower#>.ToString()));
 <#  }
 }#>
+        
 <#      if(Model.UseHttpClientCreationMethod){#>
         var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);<#}else{#>        var client_ = new HttpClient();
 <#      }#>
@@ -120,11 +121,16 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
             throw new ArgumentNullException("<#=parameter.VariableNameLower#>");
         else
 <#  }#>
+<#  if(parameter.IsFile){#>
+            content_.Add(new StreamContent(<#=parameter.VariableNameLower#>), "<#=parameter.Name#>");
+<#  }else{#>
             content_.Add(new StringContent(<#=parameter.VariableNameLower#>.ToString()), "<#=parameter.Name#>");
+<#  }#>
 <#}#>
 <#  }else{#>
         var content_ = new StringContent(string.Empty);
 <#  }#>
+        
         var response_ = await client_.<#=operation.HttpMethodUpper#>Async(url_, content_, cancellationToken).ConfigureAwait(false);
 <#  }#>
         ProcessResponse(client_, response_);

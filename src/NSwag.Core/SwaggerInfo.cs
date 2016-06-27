@@ -16,7 +16,7 @@ namespace NSwag
         /// <summary>Gets or sets the title.</summary>
         [JsonProperty(PropertyName = "title", Required = Required.Always,
             DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public string Title { get; set; } = "n/a";
+        public string Title { get; set; } = "Swagger specification";
 
         /// <summary>Gets or sets the description.</summary>
         [JsonProperty(PropertyName = "description", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]

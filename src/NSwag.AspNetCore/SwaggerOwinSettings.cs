@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 
 namespace NSwag.AspNetCore
@@ -14,9 +15,9 @@ namespace NSwag.AspNetCore
     public class SwaggerOwinSettings : WebApiToSwaggerGeneratorSettings
     {
         /// <summary>Gets or sets the Swagger URL route.</summary>
-        public string SwaggerRoute { get; set; } = "/swagger/v1/swagger.json";
+        public string SwaggerRoute { get; set; } = "/swagger/swagger.json";
 
-        /// <summary>Gets or sets the swagger service transformer.</summary>
-        public ISwaggerServiceTransformer SwaggerServiceTransformer { get; set; }
+        /// <summary>Gets or sets the Swagger post process action.</summary>
+        public Action<SwaggerService> PostProcess { get; set; }
     }
 }

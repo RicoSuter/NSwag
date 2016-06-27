@@ -14,7 +14,10 @@ namespace NSwag.Demo.OwinWeb
         {
             var config = new HttpConfiguration();
 
-            app.UseSwaggerUi(typeof(Startup).Assembly, new SwaggerUiOwinSettings());
+            app.UseSwaggerUi(typeof(Startup).Assembly, new SwaggerUiOwinSettings
+            {
+                Title = "NSwag Sample API"
+            });
             app.UseWebApi(config);
 
             config.MapHttpAttributeRoutes();

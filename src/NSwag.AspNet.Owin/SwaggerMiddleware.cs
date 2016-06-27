@@ -52,11 +52,8 @@ namespace NSwag.AspNet.Owin
                     {
                         var generator = new WebApiToSwaggerGenerator(_settings);
                         var service = generator.GenerateForControllers(_controllerTypes);
-
-                        service.Host = context.Request.Host.Value;
-                        service.Schemes.Add(context.Request.Uri.Scheme == "http" ? SwaggerSchema.Http : SwaggerSchema.Https);
-
-                        _settings.SwaggerServiceTransformer?.Transform(service);
+                        
+                        _settings?.PostProcess(service);
                         _swaggerJson = service.ToJson();
                     }
                 }
