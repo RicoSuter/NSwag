@@ -24,7 +24,7 @@ namespace NSwag.Commands
         public string AssemblyPath
         {
             get { return Settings.AssemblyPaths.FirstOrDefault(); }
-            set { Settings.AssemblyPaths = new[] { value }; }
+            set { Settings.AssemblyPaths = !string.IsNullOrEmpty(value) ? new[] { value } : new string[] { }; }
         }
 
         [Description("The path or paths to the Web API .NET assemblies (comma separated).")]

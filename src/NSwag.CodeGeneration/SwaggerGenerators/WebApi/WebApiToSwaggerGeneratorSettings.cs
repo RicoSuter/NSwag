@@ -17,11 +17,17 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerGeneratorSettings"/> class.</summary>
         public WebApiToSwaggerGeneratorSettings()
         {
-            DefaultUrlTemplate = "api/{controller}/{action}/{id}";
             NullHandling = NullHandling.Swagger;
         }
 
         /// <summary>Gets or sets the default Web API URL template.</summary>
-        public string DefaultUrlTemplate { get; set; }
+        public string DefaultUrlTemplate { get; set; } =  "api/{controller}/{action}/{id}";
+
+        /// <summary>Gets or sets the specification title.</summary>
+        /// <value>The title.</value>
+        public string Title { get; set; } = "Web API Swagger specification";
+
+        /// <summary>Gets or sets the specification version.</summary>
+        public string Version { get; set; } = "1.0.0";
     }
 }

@@ -42,6 +42,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
                 if (Set(ref _command, value))
                 {
                     RaiseAllPropertiesChanged();
+                    LoadAssemblyCommand.RaiseCanExecuteChanged();
                     LoadAssemblyAsync();
                 }
             }

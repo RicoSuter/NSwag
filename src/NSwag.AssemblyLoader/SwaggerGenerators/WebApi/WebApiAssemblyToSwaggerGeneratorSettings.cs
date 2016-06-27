@@ -15,7 +15,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         public WebApiAssemblyToSwaggerGeneratorSettings()
         {
             AssemblyPaths = new string[] { };
-            ReferencePaths = new string[] {};
+            ReferencePaths = new string[] { };
         }
 
         /// <summary>Gets or sets the Web API assembly paths.</summary>
