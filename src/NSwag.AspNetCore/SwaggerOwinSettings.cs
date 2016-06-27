@@ -15,7 +15,7 @@ namespace NSwag.AspNetCore
     public class SwaggerOwinSettings : WebApiToSwaggerGeneratorSettings
     {
         /// <summary>Gets or sets the Swagger URL route.</summary>
-        public string SwaggerRoute { get; set; } = "/swagger/swagger.json";
+        public string SwaggerRoute { get; set; } = "/swagger/v1/swagger.json";
 
         /// <summary>Gets or sets the Swagger post process action.</summary>
         public Action<SwaggerService> PostProcess { get; set; }
