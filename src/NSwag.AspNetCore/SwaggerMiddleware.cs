@@ -53,8 +53,8 @@ namespace NSwag.AspNetCore
                     {
                         var generator = new WebApiToSwaggerGenerator(_settings);
                         var service = generator.GenerateForControllers(_controllerTypes);
-                        
-                        _settings?.PostProcess(service);
+
+                        _settings.PostProcess?.Invoke(service);
                         _swaggerJson = service.ToJson();
                     }
                 }
