@@ -541,7 +541,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             if (xmlDescription == string.Empty)
                 xmlDescription = null;
 
-            var mayBeNull = !IsParameterRequired(method.ReturnParameter);
+            var typeDescription = JsonObjectTypeDescription.FromType(returnType, method.ReturnParameter?.GetCustomAttributes(), Settings.DefaultEnumHandling);
+            var mayBeNull = typeDescription.IsNullable;
+
             var responseTypeAttributes = method.GetCustomAttributes().Where(a => a.GetType().Name == "ResponseTypeAttribute").ToList();
             if (responseTypeAttributes.Count > 0)
             {
