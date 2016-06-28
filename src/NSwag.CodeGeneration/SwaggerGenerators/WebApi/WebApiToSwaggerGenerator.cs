@@ -178,17 +178,25 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
         private string GetOperationId(SwaggerService service, string controllerName, MethodInfo method)
         {
-            if (controllerName.EndsWith("Controller"))
-                controllerName = controllerName.Substring(0, controllerName.Length - 10);
+            string operationId;
 
-            var methodName = method.Name;
-            if (methodName.EndsWith("Async"))
-                methodName = methodName.Substring(0, methodName.Length - 5);
+            dynamic swaggerOperationAttribute = method.GetCustomAttributes().FirstOrDefault(a => a.GetType().Name == "SwaggerOperationAttribute");
+            if (swaggerOperationAttribute != null && !string.IsNullOrEmpty(swaggerOperationAttribute.OperationId))
+                operationId = swaggerOperationAttribute.OperationId;
+            else
+            {
+                if (controllerName.EndsWith("Controller"))
+                    controllerName = controllerName.Substring(0, controllerName.Length - 10);
 
-            var operationId = controllerName + "_" + methodName;
+                var methodName = method.Name;
+                if (methodName.EndsWith("Async"))
+                    methodName = methodName.Substring(0, methodName.Length - 5);
+
+                operationId = controllerName + "_" + methodName;
+            }
 
             var number = 1;
-            while (service.Operations.Any(o => o.Operation.OperationId == (operationId + (number > 1 ? "_" + number : string.Empty))))
+            while (service.Operations.Any(o => o.Operation.OperationId == operationId + (number > 1 ? "_" + number : string.Empty)))
                 number++;
 
             return operationId + (number > 1 ? number.ToString() : string.Empty);
@@ -541,7 +549,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             if (xmlDescription == string.Empty)
                 xmlDescription = null;
 
-            var mayBeNull = !IsParameterRequired(method.ReturnParameter);
+            var typeDescription = JsonObjectTypeDescription.FromType(returnType, method.ReturnParameter?.GetCustomAttributes(), Settings.DefaultEnumHandling);
+            var mayBeNull = typeDescription.IsNullable;
+
             var responseTypeAttributes = method.GetCustomAttributes().Where(a => a.GetType().Name == "ResponseTypeAttribute").ToList();
             if (responseTypeAttributes.Count > 0)
             {

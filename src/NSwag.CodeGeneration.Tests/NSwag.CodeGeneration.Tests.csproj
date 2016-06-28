@@ -87,8 +87,13 @@
     <Compile Include="WebApiToSwaggerGenerator\Attributes\PrimitiveQueryParametersTests.cs" />
     <Compile Include="WebApiToSwaggerGenerator\Attributes\RouteInheritanceTests.cs" />
     <Compile Include="WebApiToSwaggerGenerator\GeneralTests.cs" />
+    <Compile Include="WebApiToSwaggerGenerator\OperationIdTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj">
+      <Project>{CA084154-E758-4A44-938D-7806AF2DD886}</Project>
+      <Name>NSwag.Annotations</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NSwag.AssemblyLoader\NSwag.AssemblyLoader.csproj">
       <Project>{46634c60-ba7d-43e6-9049-6ad461488c39}</Project>
       <Name>NSwag.AssemblyLoader</Name>
