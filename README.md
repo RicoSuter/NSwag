@@ -19,6 +19,7 @@ The project is maintained and developed by [Rico Suter](http://rsuter.com) and o
 - In your C# code, via [NuGet](https://www.nuget.org/packages?q=NSwag)
 - In your [MSBuild targets](https://github.com/NSwag/NSwag/wiki/MSBuild)
 - Generate code with [T4 templates](https://github.com/NSwag/NSwag/wiki/T4) in Visual Studio
+- In your [Cake](https://cakebuild.net) scripts using [Cake.NSwag](https://agc93.github.io/Cake.NSwag/doc/intro.html)
 
 **Swagger Generators:**
 
