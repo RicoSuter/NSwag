@@ -65,7 +65,6 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
 <#  }#>    public async <#=operation.ResultType#> <#=operation.OperationNameUpper#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableNameLower#>, <#}#>CancellationToken cancellationToken)
     {
         var url_ = string.Format("{0}/{1}?", BaseUrl, "<#=operation.Path#>");
-
 <#foreach(var parameter in operation.PathParameters){#>
         if (<#=parameter.VariableNameLower#> == null)
             throw new ArgumentNullException("<#=parameter.VariableNameLower#>");
@@ -74,29 +73,26 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
 <#}#>
 
 <#foreach(var parameter in operation.QueryParameters){#>
-<#  if(parameter.IsNullable){#>
-        if (<#=parameter.VariableNameLower#> != null)
-<#  }else{#>
+<#  if(!parameter.IsNullable){#>
         if (<#=parameter.VariableNameLower#> == null)
             throw new ArgumentNullException("<#=parameter.VariableNameLower#>");
-        else
 <#  }#>
 <#  if(parameter.IsDateArray){#>
+        if (<#=parameter.VariableNameLower#> != null)
             foreach(var item_ in <#=parameter.VariableNameLower#>) { url_ += string.Format("<#=parameter.Name#>={0}&", Uri.EscapeUriString(item_.ToString("s", CultureInfo.InvariantCulture))); }
 <#  }else if(parameter.IsDate){#>
-            url_ += string.Format("<#=parameter.Name#>={0}&", Uri.EscapeUriString(<#=parameter.VariableNameLower#>.ToString("s", CultureInfo.InvariantCulture)));
+        url_ += string.Format("<#=parameter.Name#>={0}&", Uri.EscapeUriString(<#=parameter.VariableNameLower#> != null ? <#=parameter.VariableNameLower#>.ToString("s", CultureInfo.InvariantCulture) : "null"));
 <#  }else if(parameter.IsArray){#>
+        if (<#=parameter.VariableNameLower#> != null)
             foreach(var item_ in <#=parameter.VariableNameLower#>) { url_ += string.Format("<#=parameter.Name#>={0}&", Uri.EscapeUriString(item_.ToString())); }
 <#  }else{#>
-            url_ += string.Format("<#=parameter.Name#>={0}&", Uri.EscapeUriString(<#=parameter.VariableNameLower#>.ToString()));
+        url_ += string.Format("<#=parameter.Name#>={0}&", Uri.EscapeUriString(<#=parameter.VariableNameLower#> != null ? <#=parameter.VariableNameLower#>.ToString() : "null"));
 <#  }
-}#>
-        
+}#> 
 <#      if(Model.UseHttpClientCreationMethod){#>
         var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);<#}else{#>        var client_ = new HttpClient();
 <#      }#>
         PrepareRequest(client_, ref url_);
-
 <#foreach(var parameter in operation.HeaderParameters){#>
         client_.DefaultRequestHeaders.TryAddWithoutValidation("<#=parameter.Name#>", <#=parameter.VariableNameLower#>);
 <#}#>
