@@ -1,10 +1,18 @@
 {
-    "version": "3.13.0-*",
+    "version": "3.15.0-*",
+    "authors": [ "Rico Suter" ],
+    "description": "NSwag: The Swagger API toolchain for .NET and TypeScript",
+    "packOptions": {
+        "projectUrl": "https://github.com/NSwag/NSwag",
+        "licenseUrl": "https://github.com/NSwag/NSwag/blob/master/LICENSE.md",
+        "iconUrl": "https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png",
+        "tags": [ "Swagger", "Documentation", "WebApi", "AspNet", "TypeScript", "CodeGen" ]
+    },
 
     "dependencies": {
-        "Microsoft.AspNetCore.Mvc.Core": "1.0.0-rc2-final",
-        "Microsoft.AspNetCore.StaticFiles": "1.0.0-rc2-final",
-        "Microsoft.Extensions.FileProviders.Embedded": "1.0.0-rc2-final",
+        "Microsoft.AspNetCore.Mvc.Core": "1.0.0",
+        "Microsoft.AspNetCore.StaticFiles": "1.0.0",
+        "Microsoft.Extensions.FileProviders.Embedded": "1.0.0",
         "NSwag.CodeGeneration": "*"
     },
 
@@ -16,7 +24,7 @@
     },
 
     "frameworks": {
-        "netstandard1.5": {
+        "netstandard1.6": {
             "imports": [
                 "dotnet5.6",
                 "dnxcore50",
