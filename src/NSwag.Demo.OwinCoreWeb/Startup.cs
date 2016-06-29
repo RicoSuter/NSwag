@@ -20,7 +20,11 @@ namespace NSwag.Demo.OwinCoreWeb
         public void Configure(IApplicationBuilder app)
         {
             app.UseMvc();
-            app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, new SwaggerUiOwinSettings());
+            app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, new SwaggerUiOwinSettings
+            {
+                Title = "Foo bar", 
+                Version = "1.1.0"
+            });
         }
     }
 }
