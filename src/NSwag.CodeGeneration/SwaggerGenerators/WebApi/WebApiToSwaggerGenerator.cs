@@ -223,7 +223,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             string httpPath;
 
             dynamic routeAttribute = method.GetCustomAttributes()
-                .SingleOrDefault(a => a.GetType().Name == "RouteAttribute");
+                .FirstOrDefault(a => a.GetType().Name == "RouteAttribute");
 
             if (routeAttribute != null)
             {
