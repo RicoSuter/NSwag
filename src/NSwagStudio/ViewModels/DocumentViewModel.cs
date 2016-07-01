@@ -1,6 +1,9 @@
+using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using MyToolkit.Command;
 using MyToolkit.Utilities;
+using NSwag;
 using NSwagStudio.Views.CodeGenerators;
 using NSwagStudio.Views.SwaggerGenerators;
 
@@ -13,11 +16,11 @@ namespace NSwagStudio.ViewModels
         /// <summary>Initializes a new instance of the <see cref="MainWindowModel"/> class.</summary>
         public DocumentViewModel()
         {
-            GenerateCommand = new AsyncRelayCommand(GenerateAsync);
+            GenerateCommand = new AsyncRelayCommand<string>(GenerateAsync);
         }
 
         /// <summary>Gets or sets the command to generate code from the selected Swagger generator.</summary>
-        public AsyncRelayCommand GenerateCommand { get; set; }
+        public AsyncRelayCommand<string> GenerateCommand { get; set; }
 
         /// <summary>Gets the swagger generators.</summary>
         public ISwaggerGenerator[] SwaggerGenerators { get; private set; }
@@ -44,11 +47,29 @@ namespace NSwagStudio.ViewModels
         /// <summary>Gets the application version with build time. </summary>
         public string ApplicationVersion => GetType().Assembly.GetVersionWithBuildTime();
 
-        private async Task GenerateAsync()
+        private async Task GenerateAsync(string type)
         {
-            var swaggerCode = await SwaggerGenerators[Document.SelectedSwaggerGenerator].GenerateSwaggerAsync();
-            foreach (var generator in CodeGenerators)
-                await generator.GenerateClientAsync(swaggerCode);
+            IsLoading = true;
+
+            if (type == "files")
+            {
+                try
+                {
+                    await Document.ExecuteAsync();
+                }
+                catch (Exception exception)
+                {
+                    Debug.WriteLine("Error in DocumentViewModel.GenerateAsync: " + exception);
+                }
+            }
+            else
+            {
+                var swaggerCode = await SwaggerGenerators[Document.SelectedSwaggerGenerator].GenerateSwaggerAsync();
+                foreach (var generator in CodeGenerators)
+                    await generator.GenerateClientAsync(swaggerCode);
+            }
+
+            IsLoading = false; 
         }
 
         private void LoadGeneratoers(NSwagDocument document)

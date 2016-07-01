@@ -120,8 +120,6 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 LoadMetaData(operation, method);
                 LoadOperationTags(method, operation, controllerType);
 
-                operation.OperationId = GetOperationId(service, controllerType.Name, method);
-
                 foreach (var httpMethod in GetSupportedHttpMethods(method))
                 {
                     if (!service.Paths.ContainsKey(httpPath))
@@ -130,7 +128,11 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                         service.Paths[httpPath] = path;
                     }
 
-                    service.Paths[httpPath][httpMethod] = operation;
+                    var operationCopy = operation.Clone();
+                    operationCopy.OperationId = GetOperationId(service, controllerType.Name, method);
+
+                    if (Settings.OperationProcessor == null || Settings.OperationProcessor.Process(method, httpPath, httpMethod, operationCopy))
+                        service.Paths[httpPath][httpMethod] = operationCopy;
                 }
             }
 

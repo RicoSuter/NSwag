@@ -94,7 +94,7 @@ namespace NSwag
         {
             get
             {
-                var empty = new List<SwaggerParameter>(); 
+                var empty = new List<SwaggerParameter>();
                 return (Parameters ?? empty).Concat(Parent.Parameters ?? empty).Concat(Parent.Parent.Parameters ?? empty);
             }
         }
@@ -113,5 +113,30 @@ namespace NSwag
         /// <summary>Gets the actual security description, either from the operation or from the <see cref="SwaggerService"/>.</summary>
         [JsonIgnore]
         public List<SwaggerSecurityRequirement> ActualSecurity => Security ?? Parent.Parent.Security;
+
+        /// <summary>Creates a clone of this instance.</summary>
+        /// <returns>The clone.</returns>
+        public SwaggerOperation Clone()
+        {
+            return new SwaggerOperation
+            {
+                Parent = Parent,
+
+                OperationId = OperationId,
+                IsDeprecated = IsDeprecated,
+                Summary = Summary,
+                Description = Description,
+                ExternalDocumentation = ExternalDocumentation?.Clone(),
+
+                Tags = Tags?.ToList(),
+                Parameters = Parameters?.ToList(),
+                Responses = Responses?.ToDictionary(p => p.Key, p => p.Value),
+
+                Produces = Produces?.ToList(),
+                Consumes = Consumes?.ToList(),
+                Schemes = Schemes?.ToList(),
+                Security = Security?.ToList(),
+            };
+        }
     }
 }

@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:swaggerGenerators="clr-namespace:NSwagStudio.ViewModels.SwaggerGenerators"
              xmlns:converters="clr-namespace:NSwagStudio.Converters"
+             xmlns:controls="clr-namespace:NSwagStudio.Controls"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
 
@@ -44,8 +45,11 @@
 
                     <TextBlock Text="App.config or Web.config file path (optional, automatically searched when empty)" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBlock Text="(Required for correct binding redirects, required when assembly cannot be loaded)" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.AssemblyConfig, Mode=TwoWay}" Margin="0,0,0,12" />
-
+                    <controls:FileOpenPicker Margin="0,0,0,12" 
+                                             FilePath="{Binding Command.AssemblyConfig, Mode=TwoWay}"
+                                             DefaultExtension=".config"
+                                             Filter="Config Files (.config)|*.config"/>
+                    
                     <TextBlock Text="Paths to search for referenced assembly files (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding ReferencePaths, Mode=TwoWay}" Margin="0,0,0,12" />
 

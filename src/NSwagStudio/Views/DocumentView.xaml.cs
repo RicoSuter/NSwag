@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using MyToolkit.Mvvm;
+using NSwag;
 using NSwagStudio.ViewModels;
 using ViewModelBase = NSwagStudio.ViewModels.ViewModelBase;
 

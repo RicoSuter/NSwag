@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using MyToolkit.Command;
 using Newtonsoft.Json;
+using NSwag;
 
 namespace NSwagStudio.ViewModels.SwaggerGenerators
 {

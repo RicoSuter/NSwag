@@ -26,7 +26,7 @@ namespace NSwag.Commands.Base
                     directory.Create();
 
                 File.WriteAllText(OutputFilePath, generator(), Encoding.UTF8);
-                host.WriteMessage("Code has been successfully written to file.\n");
+                host?.WriteMessage("Code has been successfully written to file.\n");
 
                 return true; 
             }

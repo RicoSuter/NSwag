@@ -8,6 +8,7 @@
              xmlns:views="clr-namespace:NSwagStudio.Views"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:codeGenerators="clr-namespace:NSwagStudio.ViewModels.CodeGenerators"
+             xmlns:controls="clr-namespace:NSwagStudio.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="800">
 
@@ -96,6 +97,11 @@
                                 </StackPanel>
                             </StackPanel>
                         </GroupBox>
+
+                        <TextBlock Text="Output file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
+                        <controls:FileSavePicker DefaultExtension=".cs" Filter="CSharp Files (.cs)|*.cs"
+                                                 FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" 
+                                                 Margin="0,0,0,12" />
                     </StackPanel>
                 </ScrollViewer>
             </Expander>
