@@ -8,6 +8,7 @@
 
 using NJsonSchema;
 using NJsonSchema.Generation;
+using NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors;
 
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 {

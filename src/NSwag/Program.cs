@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using NConsole;
 using NSwag.Commands;
 
@@ -11,7 +12,7 @@ namespace NSwag
         static void Main(string[] args)
         {
             var host = new ConsoleHost();
-            host.WriteMessage("NSwag command line: v" + typeof(SwaggerInfo).Assembly.GetName().Version + "\n");
+            host.WriteMessage("NSwag command line: v" + GetVersionWithBuildTime() + "\n");
             host.WriteMessage("Visit http://NSwag.org for more information.\n");
 
             if (args.Length == 0)
@@ -60,6 +61,20 @@ namespace NSwag
                 Console.WriteLine("Press <any> key to exit...");
                 Console.ReadKey();
             }
+        }
+
+        private static string GetVersionWithBuildTime()
+        {
+            var assembly = typeof(SwaggerInfo).Assembly; 
+            return assembly.GetName().Version + " (" + GetBuildTime(assembly) + ")";
+        }
+
+        private static DateTime GetBuildTime(Assembly assembly)
+        {
+            Version version = assembly.GetName().Version;
+            DateTime dateTime = new DateTime(2000, 1, 1);
+            dateTime = dateTime.AddDays((double)version.Build);
+            return dateTime.AddSeconds((double)(version.Revision * 2));
         }
     }
 }

@@ -9,7 +9,7 @@ namespace NSwag.Commands
     [Description("Executes an .nswag file.")]
     public class NSwagDocumentCommand : IConsoleCommand
     {
-        [Argument(Position = 0, IsRequired = false)]
+        [Argument(Position = 1, IsRequired = false)]
         public string Input { get; set; }
 
         public async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
@@ -32,9 +32,9 @@ namespace NSwag.Commands
 
         private async Task ExecuteDocumentAsync(IConsoleHost host, string filePath)
         {
-            host.WriteMessage("Executing file '" + filePath + "'...\n");
+            host.WriteMessage("\nExecuting file '" + filePath + "'...\n");
 
-            var document = NSwagDocument.LoadDocument(filePath);
+            var document = await NSwagDocument.LoadAsync(filePath);
             await document.ExecuteAsync();
 
             host.WriteMessage("Done.\n");

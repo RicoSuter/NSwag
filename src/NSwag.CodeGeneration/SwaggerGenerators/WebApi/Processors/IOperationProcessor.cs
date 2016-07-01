@@ -8,7 +8,7 @@
 
 using System.Reflection;
 
-namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
+namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
 {
     /// <summary>Post processes a generated <see cref="SwaggerOperation"/>.</summary>
     public interface IOperationProcessor
