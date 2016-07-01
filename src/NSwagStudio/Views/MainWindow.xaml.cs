@@ -11,7 +11,6 @@ using MyToolkit.UI;
 using MyToolkit.Utilities;
 using NSwagStudio.ViewModels;
 using Newtonsoft.Json;
-using NSwagStudio.Utilities;
 
 namespace NSwagStudio.Views
 {

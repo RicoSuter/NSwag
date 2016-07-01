@@ -73,14 +73,23 @@
                 </TabControl>
             </Grid>
 
-            <Button Grid.Row="1" Grid.Column="2" Height="50"
-                    Visibility="{Binding GenerateCommand.CanExecute, Converter={StaticResource VisibilityConverter}}"
-                    Command="{Binding GenerateCommand}" Click="OnGenerate" Margin="4,8,0,0" Padding="8">
-                <TextBlock Text="Generate Outputs" FontSize="16" Margin="0,4,0,4" />
-            </Button>
-
+            <Grid Grid.Row="1" Grid.Column="2" Height="50" Margin="4,8,0,0" Visibility="{Binding IsLoading, Converter={StaticResource NotConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button Command="{Binding GenerateCommand}" Click="OnGenerate" Padding="8">
+                    <TextBlock Text="Generate Outputs" FontSize="16" Margin="0,4,0,4" />
+                </Button>
+                <Button Grid.Column="1" 
+                        Command="{Binding GenerateCommand}" 
+                        CommandParameter="files"
+                        Click="OnGenerate" Padding="8" Margin="8,0,0,0">
+                    <TextBlock Text="Generate Files" FontSize="16" Margin="0,4,0,4" />
+                </Button>
+            </Grid>
             <ProgressBar Grid.Row="1" Grid.Column="2" IsIndeterminate="True" Height="50" Margin="4,8,0,0"
-                         Visibility="{Binding GenerateCommand.CanExecute, Converter={StaticResource NotConverter}}">
+                         Visibility="{Binding IsLoading, Converter={StaticResource VisibilityConverter}}">
             </ProgressBar>
         </Grid>
     </Border>

@@ -16,6 +16,7 @@ using MyToolkit.Command;
 using MyToolkit.Storage;
 using MyToolkit.Utilities;
 using Newtonsoft.Json;
+using NSwag;
 
 namespace NSwagStudio.ViewModels
 {

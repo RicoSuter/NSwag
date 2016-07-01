@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace NSwagStudio.Utilities
+namespace NSwag.Utilities
 {
     public static class PathUtilities
     {

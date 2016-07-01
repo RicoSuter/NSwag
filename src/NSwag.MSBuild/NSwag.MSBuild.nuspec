@@ -19,6 +19,7 @@
         <file src="NSwag.MSBuild.targets" target="build" />
         <file src="..\NSwag\bin\Release\NConsole.dll" target="build" />
         <file src="..\NSwag\bin\Release\Newtonsoft.Json.dll" target="build" />
+        <file src="..\NSwag\bin\Release\MyToolkit.dll" target="build" />
         <file src="..\NSwag\bin\Release\NJsonSchema.CodeGeneration.dll" target="build" />
         <file src="..\NSwag\bin\Release\NJsonSchema.dll" target="build" />
         <file src="..\NSwag\bin\Release\NSwag.AssemblyLoader.dll" target="build" />

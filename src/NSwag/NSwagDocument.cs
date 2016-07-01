@@ -8,13 +8,15 @@
 
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using MyToolkit.Model;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using NJsonSchema;
 using NSwag.Commands;
-using NSwagStudio.Utilities;
+using NSwag.Utilities;
 
-namespace NSwagStudio
+namespace NSwag
 {
     public class NSwagDocument : ObservableObject
     {
@@ -70,6 +72,12 @@ namespace NSwagStudio
             AssemblyTypeToSwaggerCommand.AssemblyConfig = ConvertToAbsolute(AssemblyTypeToSwaggerCommand.AssemblyConfig);
 
             SwaggerToTypeScriptClientCommand.ExtensionCode = ConvertToAbsolute(SwaggerToTypeScriptClientCommand.ExtensionCode);
+
+            AssemblyTypeToSwaggerCommand.OutputFilePath = ConvertToAbsolute(AssemblyTypeToSwaggerCommand.OutputFilePath);
+            SwaggerToCSharpClientCommand.OutputFilePath = ConvertToAbsolute(SwaggerToCSharpClientCommand.OutputFilePath);
+            SwaggerToCSharpControllerCommand.OutputFilePath = ConvertToAbsolute(SwaggerToCSharpControllerCommand.OutputFilePath);
+            SwaggerToTypeScriptClientCommand.OutputFilePath = ConvertToAbsolute(SwaggerToTypeScriptClientCommand.OutputFilePath);
+            WebApiToSwaggerCommand.OutputFilePath = ConvertToAbsolute(WebApiToSwaggerCommand.OutputFilePath);
         }
 
         private string ConvertToAbsolute(string path)
@@ -87,6 +95,12 @@ namespace NSwagStudio
             AssemblyTypeToSwaggerCommand.AssemblyConfig = ConvertToRelativePath(AssemblyTypeToSwaggerCommand.AssemblyConfig);
 
             SwaggerToTypeScriptClientCommand.ExtensionCode = ConvertToRelativePath(SwaggerToTypeScriptClientCommand.ExtensionCode);
+
+            AssemblyTypeToSwaggerCommand.OutputFilePath = ConvertToRelativePath(AssemblyTypeToSwaggerCommand.OutputFilePath);
+            SwaggerToCSharpClientCommand.OutputFilePath = ConvertToRelativePath(SwaggerToCSharpClientCommand.OutputFilePath);
+            SwaggerToCSharpControllerCommand.OutputFilePath = ConvertToRelativePath(SwaggerToCSharpControllerCommand.OutputFilePath);
+            SwaggerToTypeScriptClientCommand.OutputFilePath = ConvertToRelativePath(SwaggerToTypeScriptClientCommand.OutputFilePath);
+            WebApiToSwaggerCommand.OutputFilePath = ConvertToRelativePath(WebApiToSwaggerCommand.OutputFilePath);
         }
 
         private string ConvertToRelativePath(string path)
@@ -170,6 +184,60 @@ namespace NSwagStudio
                     new StringEnumConverter()
                 }
             };
+        }
+
+        public async Task ExecuteAsync()
+        {
+            // TODO: Improve whole document class!
+
+            SwaggerService service = null; 
+
+            if (!string.IsNullOrEmpty(SwaggerToCSharpClientCommand.OutputFilePath))
+            {
+                if (service == null)
+                    service = await GenerateService();
+
+                SwaggerToCSharpClientCommand.Input = service;
+                await SwaggerToCSharpClientCommand.RunAsync(null, null);
+                SwaggerToCSharpClientCommand.Input = null;
+            }
+
+            if (!string.IsNullOrEmpty(SwaggerToCSharpControllerCommand.OutputFilePath))
+            {
+                if (service == null)
+                    service = await GenerateService();
+
+                SwaggerToCSharpControllerCommand.Input = service;
+                await SwaggerToCSharpControllerCommand.RunAsync(null, null);
+                SwaggerToCSharpControllerCommand.Input = null;
+            }
+
+            if (!string.IsNullOrEmpty(SwaggerToTypeScriptClientCommand.OutputFilePath))
+            {
+                if (service == null)
+                    service = await GenerateService();
+
+                SwaggerToTypeScriptClientCommand.Input = service; 
+                await SwaggerToTypeScriptClientCommand.RunAsync(null, null);
+                SwaggerToTypeScriptClientCommand.Input = null;
+            }
+        }
+
+        private async Task<SwaggerService> GenerateService()
+        {
+            if (SelectedSwaggerGenerator == 0)
+                return SwaggerService.FromJson(InputSwagger);
+            else if (SelectedSwaggerGenerator == 1)
+                return await WebApiToSwaggerCommand.RunAsync();
+            else if (SelectedSwaggerGenerator == 2)
+            {
+                var schema = JsonSchema4.FromJson(InputJsonSchema);
+                var service = new SwaggerService();
+                service.Definitions[schema.TypeNameRaw ?? "MyType"] = schema;
+                return service;
+            }
+            else
+                return await AssemblyTypeToSwaggerCommand.RunAsync();
         }
     }
 }
