@@ -29,5 +29,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
         /// <summary>Gets or sets the specification version.</summary>
         public string Version { get; set; } = "1.0.0";
+
+        /// <summary>Gets the operation processor.</summary>
+        public IOperationProcessor OperationProcessor { get; set; }
     }
 }
