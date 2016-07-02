@@ -11,13 +11,13 @@ namespace NSwag
     /// <summary>Flattened information about an operation.</summary>
     public class SwaggerOperationDescription
     {
-        /// <summary>Gets the relative URL path.</summary>
-        public string Path { get; internal set; }
+        /// <summary>Gets or sets the relative URL path.</summary>
+        public string Path { get; set; }
 
-        /// <summary>Gets the HTTP method.</summary>
-        public SwaggerOperationMethod HttpMethod { get; internal set; }
+        /// <summary>Gets or sets the HTTP method.</summary>
+        public SwaggerOperationMethod Method { get;  set; }
 
-        /// <summary>Gets the operation.</summary>
-        public SwaggerOperation Operation { get; internal set; }
+        /// <summary>Gets or sets the operation.</summary>
+        public SwaggerOperation Operation { get; set; }
     }
 }

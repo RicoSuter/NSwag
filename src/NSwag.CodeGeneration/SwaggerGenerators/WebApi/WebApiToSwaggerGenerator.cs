@@ -93,10 +93,10 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             return new SwaggerService
             {
                 Consumes = new List<string> { "application/json" },
-                Produces = new List<string> { "application/json" }, 
+                Produces = new List<string> { "application/json" },
                 Info = new SwaggerInfo
                 {
-                    Title = settings.Title, 
+                    Title = settings.Title,
                     Version = settings.Version
                 }
             };
@@ -105,38 +105,96 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
         private void GenerateForController(SwaggerService service, Type controllerType, string excludedMethodName, SchemaResolver schemaResolver)
         {
+            var operations = new List<Tuple<SwaggerOperationDescription, MethodInfo>>();
             foreach (var method in GetActionMethods(controllerType, excludedMethodName))
             {
-                var operation = new SwaggerOperation
+                var httpPaths = GetHttpPaths(controllerType, method);
+                var httpMethods = GetSupportedHttpMethods(method).ToList();
+
+                foreach (var httpPath in httpPaths)
                 {
-                    IsDeprecated = method.GetCustomAttribute<ObsoleteAttribute>() != null
-                };
-
-                var parameters = method.GetParameters().ToList();
-                var httpPath = GetHttpPath(service, operation, controllerType, method, parameters, schemaResolver);
-
-                LoadParameters(service, operation, parameters, schemaResolver);
-                LoadReturnType(service, operation, method, schemaResolver);
-                LoadMetaData(operation, method);
-                LoadOperationTags(method, operation, controllerType);
-
-                foreach (var httpMethod in GetSupportedHttpMethods(method))
-                {
-                    if (!service.Paths.ContainsKey(httpPath))
+                    foreach (var httpMethod in httpMethods)
                     {
-                        var path = new SwaggerOperations();
-                        service.Paths[httpPath] = path;
+                        var operation = new SwaggerOperation
+                        {
+                            IsDeprecated = method.GetCustomAttribute<ObsoleteAttribute>() != null
+                        };
+
+                        var parameters = method.GetParameters().ToList();
+
+                        LoadPathParameters(service, operation, httpPath, parameters, schemaResolver);
+                        LoadParameters(service, operation, parameters, schemaResolver);
+                        LoadReturnType(service, operation, method, schemaResolver);
+                        LoadMetaData(operation, method);
+                        LoadOperationTags(method, operation, controllerType);
+
+                        var operationDescription = new SwaggerOperationDescription
+                        {
+                            Path = Regex.Replace(httpPath, "{(.*?)(:(.*?))?}", match =>
+                            {
+                                if (operation.Parameters.Any(p => p.Kind == SwaggerParameterKind.Path && match.Groups[1].Value == p.Name))
+                                    return match.Value;
+                                return string.Empty;
+                            }).TrimEnd('/'),
+                            Method = httpMethod,
+                            Operation = operation
+                        };
+
+                        operationDescription.Operation.OperationId = GetOperationId(service, controllerType.Name, method);
+                        operations.Add(new Tuple<SwaggerOperationDescription, MethodInfo>(operationDescription, method));
                     }
-
-                    var operationCopy = operation.Clone();
-                    operationCopy.OperationId = GetOperationId(service, controllerType.Name, method);
-
-                    if (Settings.OperationProcessor == null || Settings.OperationProcessor.Process(method, httpPath, httpMethod, operationCopy))
-                        service.Paths[httpPath][httpMethod] = operationCopy;
                 }
             }
 
+            AddOperationDescriptionsToDocument(service, operations, schemaResolver);
             AppendRequiredSchemasToDefinitions(service, schemaResolver);
+        }
+
+        private void AddOperationDescriptionsToDocument(SwaggerService service, List<Tuple<SwaggerOperationDescription, MethodInfo>> operations, SchemaResolver schemaResolver)
+        {
+            var allOperation = operations.Select(t => t.Item1).ToList();
+            foreach (var tuple in operations)
+            {
+                var operation = tuple.Item1;
+                var method = tuple.Item2;
+
+                var addOperation = RunOperationProcessors(method, operation, schemaResolver, allOperation);
+                if (addOperation)
+                {
+                    if (!service.Paths.ContainsKey(operation.Path))
+                        service.Paths[operation.Path] = new SwaggerOperations();
+
+                    if (service.Paths[operation.Path].ContainsKey(operation.Method))
+                        throw new InvalidOperationException("The method '" + operation.Method + "' on path '" + operation.Path + "' is registered multiple times.");
+
+                    service.Paths[operation.Path][operation.Method] = operation.Operation;
+                }
+            }
+        }
+
+        private bool RunOperationProcessors(MethodInfo method, SwaggerOperationDescription operation, SchemaResolver schemaResolver, List<SwaggerOperationDescription> allOperations)
+        {
+            // 1. Run from settings
+            foreach (var operationProcessor in Settings.OperationProcessors)
+            {
+                if (operationProcessor.Process(method, operation, schemaResolver, allOperations) == false)
+                    return false;
+            }
+
+            // 2. Run from class attributes
+            var operationProcessorAttribute = method.DeclaringType.GetTypeInfo().GetCustomAttributes()
+            // 3. Run from method attributes
+                .Concat(method.GetCustomAttributes())
+                .Where(a => a.GetType().Name == "SwaggerOperationProcessorAttribute");
+
+            foreach (dynamic attribute in operationProcessorAttribute)
+            {
+                var operationProcessor = Activator.CreateInstance(attribute.Type);
+                if (operationProcessor.Process(method, operation, schemaResolver, allOperations) == false)
+                    return false;
+            }
+
+            return true;
         }
 
         private void LoadOperationTags(MethodInfo method, SwaggerOperation operation, Type controllerType)
@@ -219,32 +277,42 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             }
         }
 
-        private string GetHttpPath(SwaggerService service, SwaggerOperation operation, Type controllerType,
-            MethodInfo method, List<ParameterInfo> parameters, ISchemaResolver schemaResolver)
+        private IEnumerable<string> GetHttpPaths(Type controllerType, MethodInfo method)
         {
-            string httpPath;
+            var httpPaths = new List<string>();
+            var routeAttributes = method.GetCustomAttributes()
+                .Where(a => a.GetType().Name == "RouteAttribute")
+                .ToList();
 
-            dynamic routeAttribute = method.GetCustomAttributes()
-                .FirstOrDefault(a => a.GetType().Name == "RouteAttribute");
-
-            if (routeAttribute != null)
+            if (routeAttributes.Any())
             {
                 dynamic routePrefixAttribute = controllerType.GetTypeInfo().GetCustomAttributes()
                     .SingleOrDefault(a => a.GetType().Name == "RoutePrefixAttribute");
 
-                if (routePrefixAttribute != null)
-                    httpPath = routePrefixAttribute.Prefix + "/" + routeAttribute.Template;
-                else
-                    httpPath = routeAttribute.Template;
+                foreach (dynamic routeAttribute in routeAttributes)
+                {
+                    if (routePrefixAttribute != null)
+                        httpPaths.Add(routePrefixAttribute.Prefix + "/" + routeAttribute.Template);
+                    else
+                        httpPaths.Add(routeAttribute.Template);
+                }
             }
             else
             {
                 var actionName = GetActionName(method);
-                httpPath = (Settings.DefaultUrlTemplate ?? string.Empty)
+                var httpPath = (Settings.DefaultUrlTemplate ?? string.Empty)
                     .Replace("{controller}", controllerType.Name.Replace("Controller", string.Empty))
                     .Replace("{action}", actionName);
+
+                httpPaths.Add(httpPath);
             }
 
+            foreach (var httpPath in httpPaths)
+                yield return "/" + httpPath.TrimStart('/');
+        }
+
+        private void LoadPathParameters(SwaggerService service, SwaggerOperation operation, string httpPath, IList<ParameterInfo> parameters, ISchemaResolver schemaResolver)
+        {
             foreach (var match in Regex.Matches(httpPath, "\\{(.*?)\\}").OfType<Match>())
             {
                 var parameterName = match.Groups[1].Value.Split(':').First(); // first segment is parameter name in constrained route (e.g. "[Route("users/{id:int}"]")
@@ -267,8 +335,6 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                         .Trim('/');
                 }
             }
-
-            return "/" + httpPath.TrimStart('/');
         }
 
         private string GetActionName(MethodInfo method)

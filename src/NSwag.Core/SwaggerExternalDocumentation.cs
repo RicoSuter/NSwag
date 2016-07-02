@@ -20,16 +20,5 @@ namespace NSwag
         /// <summary>Gets or sets the documentation URL.</summary>
         [JsonProperty(PropertyName = "url", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Url { get; set; }
-
-        /// <summary>Creates a clone of this instance.</summary>
-        /// <returns>The clone.</returns>
-        public SwaggerExternalDocumentation Clone()
-        {
-            return new SwaggerExternalDocumentation
-            {
-                Description = Description,
-                Url = Url
-            };
-        }
     }
 }
