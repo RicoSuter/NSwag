@@ -177,7 +177,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             // 1. Run from settings
             foreach (var operationProcessor in Settings.OperationProcessors)
             {
-                if (operationProcessor.Process(method, operation, schemaResolver, allOperations) == false)
+                if (operationProcessor.Process(operation, method, schemaResolver, allOperations) == false)
                     return false;
             }
 
