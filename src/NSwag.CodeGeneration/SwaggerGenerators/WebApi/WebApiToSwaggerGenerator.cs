@@ -105,48 +105,55 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
         private void GenerateForController(SwaggerService service, Type controllerType, string excludedMethodName, SchemaResolver schemaResolver)
         {
-            var operations = new List<Tuple<SwaggerOperationDescription, MethodInfo>>();
-            foreach (var method in GetActionMethods(controllerType, excludedMethodName))
+            var hasIgnoreAttribute = controllerType.GetTypeInfo().GetCustomAttributes()
+                .Any(a => a.GetType().Name == "SwaggerIgnoreAttribute");
+
+            if (!hasIgnoreAttribute)
             {
-                var httpPaths = GetHttpPaths(controllerType, method);
-                var httpMethods = GetSupportedHttpMethods(method).ToList();
-
-                foreach (var httpPath in httpPaths)
+                var operations = new List<Tuple<SwaggerOperationDescription, MethodInfo>>();
+                foreach (var method in GetActionMethods(controllerType, excludedMethodName))
                 {
-                    foreach (var httpMethod in httpMethods)
+                    var httpPaths = GetHttpPaths(controllerType, method);
+                    var httpMethods = GetSupportedHttpMethods(method).ToList();
+
+                    foreach (var httpPath in httpPaths)
                     {
-                        var operation = new SwaggerOperation
+                        foreach (var httpMethod in httpMethods)
                         {
-                            IsDeprecated = method.GetCustomAttribute<ObsoleteAttribute>() != null
-                        };
-
-                        var parameters = method.GetParameters().ToList();
-
-                        LoadPathParameters(service, operation, httpPath, parameters, schemaResolver);
-                        LoadParameters(service, operation, parameters, schemaResolver);
-                        LoadReturnType(service, operation, method, schemaResolver);
-                        LoadMetaData(operation, method);
-                        LoadOperationTags(method, operation, controllerType);
-
-                        var operationDescription = new SwaggerOperationDescription
-                        {
-                            Path = Regex.Replace(httpPath, "{(.*?)(:(.*?))?}", match =>
+                            var operation = new SwaggerOperation
                             {
-                                if (operation.Parameters.Any(p => p.Kind == SwaggerParameterKind.Path && match.Groups[1].Value == p.Name))
-                                    return match.Value;
-                                return string.Empty;
-                            }).TrimEnd('/'),
-                            Method = httpMethod,
-                            Operation = operation
-                        };
+                                IsDeprecated = method.GetCustomAttribute<ObsoleteAttribute>() != null
+                            };
 
-                        operationDescription.Operation.OperationId = GetOperationId(service, controllerType.Name, method);
-                        operations.Add(new Tuple<SwaggerOperationDescription, MethodInfo>(operationDescription, method));
+                            var parameters = method.GetParameters().ToList();
+
+                            LoadPathParameters(service, operation, httpPath, parameters, schemaResolver);
+                            LoadParameters(service, operation, parameters, schemaResolver);
+                            LoadReturnType(service, operation, method, schemaResolver);
+                            LoadMetaData(operation, method);
+                            LoadOperationTags(method, operation, controllerType);
+
+                            var operationDescription = new SwaggerOperationDescription
+                            {
+                                Path = Regex.Replace(httpPath, "{(.*?)(:(.*?))?}", match =>
+                                {
+                                    if (operation.Parameters.Any(p => p.Kind == SwaggerParameterKind.Path && match.Groups[1].Value == p.Name))
+                                        return match.Value;
+                                    return string.Empty;
+                                }).TrimEnd('/'),
+                                Method = httpMethod,
+                                Operation = operation
+                            };
+
+                            operationDescription.Operation.OperationId = GetOperationId(service, controllerType.Name, method);
+                            operations.Add(new Tuple<SwaggerOperationDescription, MethodInfo>(operationDescription, method));
+                        }
                     }
                 }
+
+                AddOperationDescriptionsToDocument(service, operations, schemaResolver);
             }
 
-            AddOperationDescriptionsToDocument(service, operations, schemaResolver);
             AppendRequiredSchemasToDefinitions(service, schemaResolver);
         }
 
