@@ -6,7 +6,9 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.Collections.Generic;
 using System.Reflection;
+using NJsonSchema;
 
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
 {
@@ -14,11 +16,11 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
     public interface IOperationProcessor
     {
         /// <summary>Processes the specified method information.</summary>
+        /// <param name="operationDescription">The operation description.</param>
         /// <param name="methodInfo">The method information.</param>
-        /// <param name="path">The path.</param>
-        /// <param name="method">The method.</param>
-        /// <param name="operation">The operation to process.</param>
+        /// <param name="schemaResolver">The schema resolver.</param>
+        /// <param name="allOperationDescriptions">All operation descriptions.</param>
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
-        bool Process(MethodInfo methodInfo, string path, SwaggerOperationMethod method, SwaggerOperation operation);
+        bool Process(SwaggerOperationDescription operationDescription, MethodInfo methodInfo, ISchemaResolver schemaResolver, IList<SwaggerOperationDescription> allOperationDescriptions);
     }
 }

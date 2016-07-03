@@ -6,6 +6,8 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.Collections.Generic;
+using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.Generation;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors;
@@ -32,6 +34,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         public string Version { get; set; } = "1.0.0";
 
         /// <summary>Gets the operation processor.</summary>
-        public IOperationProcessor OperationProcessor { get; set; }
+        [JsonIgnore]
+        public IList<IOperationProcessor> OperationProcessors { get; } = new List<IOperationProcessor>();
     }
 }
