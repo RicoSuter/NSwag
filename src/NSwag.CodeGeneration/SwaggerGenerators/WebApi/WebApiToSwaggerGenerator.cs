@@ -646,12 +646,14 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                             description = dynResultTypeAttribute.Description;
                     }
 
-                    operation.Responses[httpStatusCode] = new SwaggerResponse
-                    {
-                        Description = description ?? string.Empty,
-                        IsNullableRaw = mayBeNull,
-                        Schema = CreateAndAddSchema(service, returnType, mayBeNull, null, schemaResolver)
-                    };
+                    operation.Responses[httpStatusCode] = IsVoidResponse(returnType) ?
+                        new SwaggerResponse() :
+                        new SwaggerResponse
+                        {
+                            Description = description ?? string.Empty,
+                            IsNullableRaw = mayBeNull,
+                            Schema = CreateAndAddSchema(service, returnType, mayBeNull, null, schemaResolver)
+                        };
                 }
             }
             else
