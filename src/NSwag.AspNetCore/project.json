@@ -14,9 +14,6 @@
         "Microsoft.AspNetCore.StaticFiles": "1.0.0",
         "Microsoft.Extensions.FileProviders.Embedded": "1.0.0",
 
-        "System.IO.FileSystem": "4.0.1",
-        "System.Xml.XPath.XDocument": "4.0.1",
-
         "NSwag.CodeGeneration": "*"
     },
 
