@@ -299,18 +299,20 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 .Where((dynamic a) => !string.IsNullOrEmpty(a.Template))
                 .ToList();
 
+            // .NET Core: RouteAttribute on class level
+            dynamic routeAttributeOnClass = controllerType.GetTypeInfo().GetCustomAttributes()
+                .SingleOrDefault(a => a.GetType().Name == "RouteAttribute");
+
             if (routeAttributes.Any() || httpMethodAttributes.Any())
             {
                 dynamic routePrefixAttribute = controllerType.GetTypeInfo().GetCustomAttributes()
                     .SingleOrDefault(a => a.GetType().Name == "RoutePrefixAttribute");
 
-                // .NET Core: RouteAttribute on class level
-                dynamic routeAttributeOnClass = controllerType.GetTypeInfo().GetCustomAttributes()
-                    .SingleOrDefault(a => a.GetType().Name == "RouteAttribute");
-
                 foreach (dynamic attribute in routeAttributes.Concat(httpMethodAttributes))
                 {
-                    if (routePrefixAttribute != null)
+                    if (attribute.Template.StartsWith("~/")) // ignore route prefixes
+                        httpPaths.Add(attribute.Template.Substring(1));
+                    else if (routePrefixAttribute != null)
                         httpPaths.Add(routePrefixAttribute.Prefix + "/" + attribute.Template);
                     else if (routeAttributeOnClass != null)
                         httpPaths.Add(routeAttributeOnClass.Template + "/" + attribute.Template);
@@ -318,6 +320,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                         httpPaths.Add(attribute.Template);
                 }
             }
+            else if (routeAttributeOnClass != null)
+                httpPaths.Add(routeAttributeOnClass.Template);
             else
             {
                 var actionName = GetActionName(method);
