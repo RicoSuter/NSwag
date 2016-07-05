@@ -697,10 +697,16 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 returnType = returnType.GenericTypeArguments[0];
 
             if (IsVoidResponse(returnType))
-                operation.Responses["204"] = new SwaggerResponse();
+            {
+                operation.Responses["204"] = new SwaggerResponse
+                {
+                    Description = xmlDescription ?? string.Empty,
+                };
+            }
             else
             {
-                var typeDescription = JsonObjectTypeDescription.FromType(returnType, method.ReturnParameter?.GetCustomAttributes(), Settings.DefaultEnumHandling);
+                var typeDescription = JsonObjectTypeDescription.FromType(returnType,
+                    method.ReturnParameter?.GetCustomAttributes(), Settings.DefaultEnumHandling);
                 operation.Responses["200"] = new SwaggerResponse
                 {
                     Description = xmlDescription ?? string.Empty,
