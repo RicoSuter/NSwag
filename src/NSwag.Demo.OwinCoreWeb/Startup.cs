@@ -5,8 +5,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
-using NSwag.AspNetCore;
+using NSwag.Demo.OwinCoreWeb.Controllers;
 
 namespace NSwag.Demo.OwinCoreWeb
 {
@@ -22,9 +21,15 @@ namespace NSwag.Demo.OwinCoreWeb
             app.UseMvc();
             app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, new SwaggerUiOwinSettings
             {
-                Title = "Foo bar", 
+                Title = "Foo bar",
                 Version = "1.1.0"
             });
+
+            //var postMethod = typeof(PersonController).GetTypeInfo().GetMethod("Post");
+            //var xml = postMethod.GetXmlDocumentation();
+
+            //var u = DynamicApis.SupportsFileApis;
+
         }
     }
 }
