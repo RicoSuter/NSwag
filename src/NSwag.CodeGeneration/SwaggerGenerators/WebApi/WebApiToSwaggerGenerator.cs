@@ -662,20 +662,17 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     }
 
                     var typeDescription = JsonObjectTypeDescription.FromType(returnType, method.ReturnParameter?.GetCustomAttributes(), Settings.DefaultEnumHandling);
-                    var mayBeNull = typeDescription.IsNullable;
-
                     operation.Responses[httpStatusCode] = new SwaggerResponse
                     {
                         Description = description ?? string.Empty,
-                        IsNullableRaw = mayBeNull,
-                        Schema = CreateAndAddSchema(service, returnType, mayBeNull, null, schemaResolver)
+                        IsNullableRaw = typeDescription.IsNullable,
+                        Schema = CreateAndAddSchema(service, returnType, typeDescription.IsNullable, null, schemaResolver)
                     };
                 }
 
                 foreach (dynamic producesResponseTypeAttribute in producesResponseTypeAttributes)
                 {
                     var returnType = producesResponseTypeAttribute.Type;
-
                     var typeDescription = JsonObjectTypeDescription.FromType(returnType, method.ReturnParameter?.GetCustomAttributes(), Settings.DefaultEnumHandling);
 
                     var httpStatusCode = producesResponseTypeAttribute.StatusCode.ToString(CultureInfo.InvariantCulture);
@@ -699,12 +696,11 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             else if (returnType.Name == "Task`1")
                 returnType = returnType.GenericTypeArguments[0];
 
-            var typeDescription = JsonObjectTypeDescription.FromType(returnType, method.ReturnParameter?.GetCustomAttributes(),
-                Settings.DefaultEnumHandling);
             if (IsVoidResponse(returnType))
                 operation.Responses["204"] = new SwaggerResponse();
             else
             {
+                var typeDescription = JsonObjectTypeDescription.FromType(returnType, method.ReturnParameter?.GetCustomAttributes(), Settings.DefaultEnumHandling);
                 operation.Responses["200"] = new SwaggerResponse
                 {
                     Description = xmlDescription ?? string.Empty,
