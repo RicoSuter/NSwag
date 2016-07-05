@@ -3417,7 +3417,9 @@
           "Microsoft.AspNetCore.Mvc.Core": "1.0.0",
           "Microsoft.AspNetCore.StaticFiles": "1.0.0",
           "Microsoft.Extensions.FileProviders.Embedded": "1.0.0",
-          "NSwag.CodeGeneration": "1.0.0"
+          "NSwag.CodeGeneration": "1.0.0",
+          "System.IO.FileSystem": "4.0.1",
+          "System.Xml.XPath.XDocument": "4.0.1"
         },
         "compile": {
           "netstandard1.6/NSwag.AspNetCore.dll": {}
@@ -9187,9 +9189,7 @@
       "Microsoft.AspNetCore.Server.IISIntegration >= 1.0.0",
       "Microsoft.AspNetCore.Server.Kestrel >= 1.0.0",
       "Microsoft.NETCore.App >= 1.0.0",
-      "NSwag.AspNetCore",
-      "System.IO.FileSystem >= 4.0.1",
-      "System.Xml.XPath.XDocument >= 4.0.1"
+      "NSwag.AspNetCore"
     ],
     ".NETCoreApp,Version=v1.0": []
   },
