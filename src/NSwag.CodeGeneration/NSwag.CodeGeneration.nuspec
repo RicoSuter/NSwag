@@ -14,5 +14,9 @@
         <file src="bin\Release\NSwag.CodeGeneration.dll" target="lib\portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10" />
         <file src="bin\Release\NSwag.CodeGeneration.pdb" target="lib\portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10" />
         <file src="bin\Release\NSwag.CodeGeneration.xml" target="lib\portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10" />
+
+        <file src="bin\Release\NSwag.CodeGeneration.dll" target="lib\netstandard1.0" />
+        <file src="bin\Release\NSwag.CodeGeneration.pdb" target="lib\netstandard1.0" />
+        <file src="bin\Release\NSwag.CodeGeneration.xml" target="lib\netstandard1.0" />
     </files>
 </package>

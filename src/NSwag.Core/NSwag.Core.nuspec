@@ -14,5 +14,9 @@
         <file src="bin\Release\NSwag.Core.dll" target="lib\portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10" />
         <file src="bin\Release\NSwag.Core.pdb" target="lib\portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10" />
         <file src="bin\Release\NSwag.Core.xml" target="lib\portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10" />
+
+        <file src="bin\Release\NSwag.Core.dll" target="lib\netstandard1.0" />
+        <file src="bin\Release\NSwag.Core.pdb" target="lib\netstandard1.0" />
+        <file src="bin\Release\NSwag.Core.xml" target="lib\netstandard1.0" />
     </files>
 </package>

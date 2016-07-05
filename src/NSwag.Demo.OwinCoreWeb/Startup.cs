@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using NSwag.Demo.OwinCoreWeb.Controllers;
+using NSwag.AspNetCore;
 
 namespace NSwag.Demo.OwinCoreWeb
 {
