@@ -7,6 +7,10 @@
         "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0",
         "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
         "Microsoft.AspNetCore.Mvc": "1.0.0",
+
+        "System.IO.FileSystem": "4.0.1",
+        "System.Xml.XPath.XDocument": "4.0.1",
+
         "NSwag.AspNetCore": "*"
     },
 
@@ -22,14 +26,16 @@
             "imports": [
                 "dotnet5.6",
                 "dnxcore50",
-                "portable-net45+win8"
+                "portable-net45+win8", 
+                "netstandard1.6"
             ]
         }
     },
 
     "buildOptions": {
         "emitEntryPoint": true,
-        "preserveCompilationContext": true
+        "preserveCompilationContext": true,
+        "xmlDoc": true
     },
 
     "runtimeOptions": {
