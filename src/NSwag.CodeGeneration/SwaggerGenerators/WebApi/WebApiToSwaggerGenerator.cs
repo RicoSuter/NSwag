@@ -9,6 +9,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -287,21 +288,34 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         private IEnumerable<string> GetHttpPaths(Type controllerType, MethodInfo method)
         {
             var httpPaths = new List<string>();
+
             var routeAttributes = method.GetCustomAttributes()
                 .Where(a => a.GetType().Name == "RouteAttribute")
                 .ToList();
 
-            if (routeAttributes.Any())
+            // .NET Core: Http*Attribute inherits from HttpMethodAttribute with Template property
+            var httpMethodAttributes = method.GetCustomAttributes()
+                .Where(a => a.GetType().InheritsFrom("HttpMethodAttribute"))
+                .Where((dynamic a) => !string.IsNullOrEmpty(a.Template))
+                .ToList();
+
+            if (routeAttributes.Any() || httpMethodAttributes.Any())
             {
                 dynamic routePrefixAttribute = controllerType.GetTypeInfo().GetCustomAttributes()
                     .SingleOrDefault(a => a.GetType().Name == "RoutePrefixAttribute");
 
-                foreach (dynamic routeAttribute in routeAttributes)
+                // .NET Core: RouteAttribute on class level
+                dynamic routeAttributeOnClass = controllerType.GetTypeInfo().GetCustomAttributes()
+                    .SingleOrDefault(a => a.GetType().Name == "RouteAttribute");
+
+                foreach (dynamic attribute in routeAttributes.Concat(httpMethodAttributes))
                 {
                     if (routePrefixAttribute != null)
-                        httpPaths.Add(routePrefixAttribute.Prefix + "/" + routeAttribute.Template);
+                        httpPaths.Add(routePrefixAttribute.Prefix + "/" + attribute.Template);
+                    else if (routeAttributeOnClass != null)
+                        httpPaths.Add(routeAttributeOnClass.Template + "/" + attribute.Template);
                     else
-                        httpPaths.Add(routeAttribute.Template);
+                        httpPaths.Add(attribute.Template);
                 }
             }
             else
@@ -315,7 +329,10 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             }
 
             foreach (var httpPath in httpPaths)
-                yield return "/" + httpPath.TrimStart('/');
+                yield return "/" + httpPath
+                    .Replace("[", "{")
+                    .Replace("]", "}")
+                    .TrimStart('/');
         }
 
         private void LoadPathParameters(SwaggerService service, SwaggerOperation operation, string httpPath, IList<ParameterInfo> parameters, ISchemaResolver schemaResolver)
@@ -614,26 +631,24 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
         private void LoadReturnType(SwaggerService service, SwaggerOperation operation, MethodInfo method, ISchemaResolver schemaResolver)
         {
-            var returnType = method.ReturnType;
-            if (returnType == typeof(Task))
-                returnType = typeof(void);
-            else if (returnType.Name == "Task`1")
-                returnType = returnType.GenericTypeArguments[0];
-
             var xmlDescription = method.ReturnParameter.GetXmlDocumentation();
             if (xmlDescription == string.Empty)
                 xmlDescription = null;
 
-            var typeDescription = JsonObjectTypeDescription.FromType(returnType, method.ReturnParameter?.GetCustomAttributes(), Settings.DefaultEnumHandling);
-            var mayBeNull = typeDescription.IsNullable;
+            var responseTypeAttributes = method.GetCustomAttributes()
+                .Where(a => a.GetType().Name == "ResponseTypeAttribute")
+                .ToList();
 
-            var responseTypeAttributes = method.GetCustomAttributes().Where(a => a.GetType().Name == "ResponseTypeAttribute").ToList();
-            if (responseTypeAttributes.Count > 0)
+            var producesResponseTypeAttributes = method.GetCustomAttributes()
+                    .Where(a => a.GetType().Name == "ProducesResponseTypeAttribute")
+                    .ToList();
+
+            if (responseTypeAttributes.Any() || producesResponseTypeAttributes.Any())
             {
                 foreach (var responseTypeAttribute in responseTypeAttributes)
                 {
                     dynamic dynResultTypeAttribute = responseTypeAttribute;
-                    returnType = dynResultTypeAttribute.ResponseType;
+                    var returnType = dynResultTypeAttribute.ResponseType;
 
                     var httpStatusCode = IsVoidResponse(returnType) ? "204" : "200";
                     if (responseTypeAttribute.GetType().GetRuntimeProperty("HttpStatusCode") != null)
@@ -646,6 +661,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                             description = dynResultTypeAttribute.Description;
                     }
 
+                    var typeDescription = JsonObjectTypeDescription.FromType(returnType, method.ReturnParameter?.GetCustomAttributes(), Settings.DefaultEnumHandling);
+                    var mayBeNull = typeDescription.IsNullable;
+
                     operation.Responses[httpStatusCode] = new SwaggerResponse
                     {
                         Description = description ?? string.Empty,
@@ -653,20 +671,46 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                         Schema = CreateAndAddSchema(service, returnType, mayBeNull, null, schemaResolver)
                     };
                 }
-            }
-            else
-            {
-                if (IsVoidResponse(returnType))
-                    operation.Responses["204"] = new SwaggerResponse();
-                else
+
+                foreach (dynamic producesResponseTypeAttribute in producesResponseTypeAttributes)
                 {
-                    operation.Responses["200"] = new SwaggerResponse
+                    var returnType = producesResponseTypeAttribute.Type;
+
+                    var typeDescription = JsonObjectTypeDescription.FromType(returnType, method.ReturnParameter?.GetCustomAttributes(), Settings.DefaultEnumHandling);
+
+                    var httpStatusCode = producesResponseTypeAttribute.StatusCode.ToString(CultureInfo.InvariantCulture);
+                    operation.Responses[httpStatusCode] = new SwaggerResponse
                     {
                         Description = xmlDescription ?? string.Empty,
-                        IsNullableRaw = mayBeNull,
-                        Schema = CreateAndAddSchema(service, returnType, mayBeNull, null, schemaResolver)
+                        IsNullableRaw = typeDescription.IsNullable,
+                        Schema = CreateAndAddSchema(service, returnType, typeDescription.IsNullable, null, schemaResolver)
                     };
                 }
+            }
+            else
+                LoadDefaultReturnType(service, operation, method, schemaResolver, xmlDescription);
+        }
+
+        private void LoadDefaultReturnType(SwaggerService service, SwaggerOperation operation, MethodInfo method, ISchemaResolver schemaResolver, string xmlDescription)
+        {
+            var returnType = method.ReturnType;
+            if (returnType == typeof(Task))
+                returnType = typeof(void);
+            else if (returnType.Name == "Task`1")
+                returnType = returnType.GenericTypeArguments[0];
+
+            var typeDescription = JsonObjectTypeDescription.FromType(returnType, method.ReturnParameter?.GetCustomAttributes(),
+                Settings.DefaultEnumHandling);
+            if (IsVoidResponse(returnType))
+                operation.Responses["204"] = new SwaggerResponse();
+            else
+            {
+                operation.Responses["200"] = new SwaggerResponse
+                {
+                    Description = xmlDescription ?? string.Empty,
+                    IsNullableRaw = typeDescription.IsNullable,
+                    Schema = CreateAndAddSchema(service, returnType, typeDescription.IsNullable, null, schemaResolver)
+                };
             }
         }
 
