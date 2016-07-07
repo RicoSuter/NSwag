@@ -38,8 +38,6 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Templates
 // </auto-generated>
 //----------------------
 
-#pragma warning disable // Disable all warnings
-
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -60,49 +58,49 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 ");
             
-            #line 30 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 28 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
 foreach(var usage in Model.NamespaceUsages){
             
             #line default
             #line hidden
             this.Write("using ");
             
-            #line 30 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 28 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(usage));
             
             #line default
             #line hidden
             this.Write(";\r\n");
             
-            #line 31 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 29 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("\r\nnamespace ");
             
-            #line 33 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 31 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.Namespace));
             
             #line default
             #line hidden
             this.Write("\r\n{\r\n    ");
             
-            #line 35 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 33 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.Tab(Model.Clients, 1)));
             
             #line default
             #line hidden
             this.Write("\r\n\r\n");
             
-            #line 37 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 35 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
 if(Model.GenerateContracts){
             
             #line default
             #line hidden
             this.Write("    ");
             
-            #line 38 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 36 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.Tab(Model.Classes, 1)));
             
             #line default
@@ -140,14 +138,14 @@ if(Model.GenerateContracts){
     }
 ");
             
-            #line 69 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 67 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 71 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 69 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
 if(Model.GenerateImplementation && Model.HasMissingHttpMethods){
             
             #line default
@@ -175,7 +173,7 @@ if(Model.GenerateImplementation && Model.HasMissingHttpMethods){
                     "       return await client.SendAsync(request, cancellationToken);\r\n        }\r\n  " +
                     "  }\r\n");
             
-            #line 102 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 100 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
 }
             
             #line default

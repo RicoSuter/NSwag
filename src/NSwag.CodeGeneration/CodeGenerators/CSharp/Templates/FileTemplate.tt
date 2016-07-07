@@ -7,8 +7,6 @@
 // </auto-generated>
 //----------------------
 
-#pragma warning disable // Disable all warnings
-
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
