@@ -168,12 +168,12 @@ if(Model.GenerateImplementation && Model.HasMissingHttpMethods){
                     "\r\n            var method = new HttpMethod(\"PATCH\");\r\n            var request = n" +
                     "ew HttpRequestMessage(method, requestUri) { Content = content };\r\n            re" +
                     "turn await client.SendAsync(request, cancellationToken);\r\n        }\r\n\r\n        p" +
-                    "ublic static async Task<HttpResponseMessage> DeleteAsync(this HttpClient httpCli" +
-                    "ent, Uri requestUri, HttpContent content, CancellationToken cancellationToken)\r\n" +
-                    "        {\r\n            var method = new HttpMethod(\"DELETE\");\r\n            var r" +
-                    "equest = new HttpRequestMessage(method, requestUri) { Content = content };\r\n    " +
-                    "        return await client.SendAsync(request, cancellationToken);\r\n        }\r\n " +
-                    "   }\r\n");
+                    "ublic static async Task<HttpResponseMessage> DeleteAsync(this HttpClient client," +
+                    " string requestUri, HttpContent content, CancellationToken cancellationToken)\r\n " +
+                    "       {\r\n            var method = new HttpMethod(\"DELETE\");\r\n            var re" +
+                    "quest = new HttpRequestMessage(method, requestUri) { Content = content };\r\n     " +
+                    "       return await client.SendAsync(request, cancellationToken);\r\n        }\r\n  " +
+                    "  }\r\n");
             
             #line 102 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
 }
