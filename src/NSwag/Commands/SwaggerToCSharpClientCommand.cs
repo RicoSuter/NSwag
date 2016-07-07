@@ -84,27 +84,35 @@ namespace NSwag.Commands
                 if (GenerateContractsOutput)
                 {
                     var result = new Dictionary<string, string>();
-
-                    var savedAdditionalNamespaceUsages = Settings.AdditionalNamespaceUsages.ToArray();
-                    Settings.AdditionalNamespaceUsages = Settings.AdditionalNamespaceUsages.Concat(new[] { ContractsNamespace }).ToArray();
-                    result[ContractsOutputFilePath] = clientGenerator.GenerateFile(ClientGeneratorOutputType.Contracts);
-                    Settings.AdditionalNamespaceUsages = savedAdditionalNamespaceUsages;
-
-                    var savedNamespace = Settings.CSharpGeneratorSettings.Namespace;
-                    Settings.CSharpGeneratorSettings.Namespace = ContractsNamespace;
-                    result[OutputFilePath] = clientGenerator.GenerateFile(ClientGeneratorOutputType.Implementation);
-                    Settings.CSharpGeneratorSettings.Namespace = savedNamespace;
-
+                    GenerateContracts(result, clientGenerator);
+                    GenerateImplementation(result, clientGenerator);
                     return result;
                 }
                 else
                 {
                     return new Dictionary<string, string>
                     {
-                        { OutputFilePath, clientGenerator.GenerateFile(ClientGeneratorOutputType.Full) }
+                        { OutputFilePath ?? "Full", clientGenerator.GenerateFile(ClientGeneratorOutputType.Full) }
                     };
                 }
             });
+        }
+
+        private void GenerateImplementation(Dictionary<string, string> result, SwaggerToCSharpClientGenerator clientGenerator)
+        {
+            var savedAdditionalNamespaceUsages = Settings.AdditionalNamespaceUsages?.ToArray();
+            Settings.AdditionalNamespaceUsages =
+                Settings.AdditionalNamespaceUsages?.Concat(new[] { ContractsNamespace }).ToArray() ?? new[] { ContractsNamespace };
+            result[OutputFilePath ?? "Implementation"] = clientGenerator.GenerateFile(ClientGeneratorOutputType.Implementation);
+            Settings.AdditionalNamespaceUsages = savedAdditionalNamespaceUsages;
+        }
+
+        private void GenerateContracts(Dictionary<string, string> result, SwaggerToCSharpClientGenerator clientGenerator)
+        {
+            var savedNamespace = Settings.CSharpGeneratorSettings.Namespace;
+            Settings.CSharpGeneratorSettings.Namespace = ContractsNamespace;
+            result[ContractsOutputFilePath ?? "Contracts"] = clientGenerator.GenerateFile(ClientGeneratorOutputType.Contracts);
+            Settings.CSharpGeneratorSettings.Namespace = savedNamespace;
         }
     }
 }

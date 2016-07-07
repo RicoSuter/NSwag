@@ -54,22 +54,10 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         {
             return GenerateFile(_service, _resolver, ClientGeneratorOutputType.Full);
         }
-
-        /// <summary>Generates the the whole file containing all needed types.</summary>
-        /// <param name="type">The file output type.</param>
-        /// <returns>The code</returns>
-        /// <exception cref="NotSupportedException">The file output type must be 'Full'.</exception>
-        public override string GenerateFile(ClientGeneratorOutputType type)
-        {
-            if (type != ClientGeneratorOutputType.Full)
-                throw new NotSupportedException("The file output type must be 'Full'.");
-
-            return GenerateFile(_service, _resolver, type);
-        }
-
+        
         internal override ClientGeneratorBaseSettings BaseSettings => Settings;
 
-        internal override string RenderFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType)
+        internal override string GenerateFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType)
         {
             var template = new FileTemplate();
             template.Initialize(new
@@ -88,7 +76,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             return template.Render();
         }
         
-        internal override string RenderClientCode(string controllerName, IList<OperationModel> operations, ClientGeneratorOutputType outputType)
+        internal override string GenerateClientClass(string controllerName, IList<OperationModel> operations, ClientGeneratorOutputType outputType)
         {
             UpdateUseDtoClassAndDataConversionCodeProperties(operations);
 

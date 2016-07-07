@@ -17,16 +17,11 @@ namespace NSwag.CodeGeneration.CodeGenerators
     /// <summary>The client generator base.</summary>
     public abstract class ClientGeneratorBase : GeneratorBase
     {
-        /// <summary>Generates the the whole file containing all needed types.</summary>
-        /// <param name="type">The file output type.</param>
-        /// <returns>The code</returns>
-        public abstract string GenerateFile(ClientGeneratorOutputType type);
-
         internal abstract ClientGeneratorBaseSettings BaseSettings { get; }
 
-        internal abstract string RenderFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType);
+        internal abstract string GenerateFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType);
 
-        internal abstract string RenderClientCode(string controllerName, IList<OperationModel> operations, ClientGeneratorOutputType outputType);
+        internal abstract string GenerateClientClass(string controllerName, IList<OperationModel> operations, ClientGeneratorOutputType outputType);
 
         internal abstract string GetType(JsonSchema4 schema, bool isNullable, string typeNameHint);
 
@@ -60,18 +55,18 @@ namespace NSwag.CodeGeneration.CodeGenerators
                 foreach (var controllerOperations in operations.GroupBy(o => BaseSettings.OperationNameGenerator.GetClientName(service, o.Path, o.HttpMethod, o.Operation)))
                 {
                     var controllerName = GetClassName(controllerOperations.Key);
-                    clientCode += RenderClientCode(controllerName, controllerOperations.ToList(), type) + "\n\n";
+                    clientCode += GenerateClientClass(controllerName, controllerOperations.ToList(), type) + "\n\n";
                     clientClasses.Add(controllerName);
                 }
             }
             else
             {
                 var controllerName = GetClassName(string.Empty);
-                clientCode = RenderClientCode(controllerName, operations, type);
+                clientCode = GenerateClientClass(controllerName, operations, type);
                 clientClasses.Add(controllerName);
             }
 
-            return RenderFile(clientCode, clientClasses, type)
+            return GenerateFile(clientCode, clientClasses, type)
                 .Replace("\r", string.Empty)
                 .Replace("\n\n\n\n", "\n\n")
                 .Replace("\n\n\n", "\n\n");

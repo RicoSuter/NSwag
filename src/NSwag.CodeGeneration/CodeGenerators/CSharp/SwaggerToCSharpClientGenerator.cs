@@ -56,11 +56,11 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         }
 
         /// <summary>Generates the the whole file containing all needed types.</summary>
-        /// <param name="type">The file output type.</param>
+        /// <param name="outputType">The output type.</param>
         /// <returns>The code</returns>
-        public override string GenerateFile(ClientGeneratorOutputType type)
+        public string GenerateFile(ClientGeneratorOutputType outputType)
         {
-            return GenerateFile(_service, Resolver, type);
+            return GenerateFile(_service, Resolver, outputType);
         }
 
         /// <summary>Resolves the type of the parameter.</summary>
@@ -81,7 +81,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             return base.ResolveParameterType(parameter, resolver);
         }
 
-        internal override string RenderClientCode(string controllerName, IList<OperationModel> operations, ClientGeneratorOutputType outputType)
+        internal override string GenerateClientClass(string controllerName, IList<OperationModel> operations, ClientGeneratorOutputType outputType)
         {
             var template = new ClientTemplate();
             template.Initialize(new ClientTemplateModel(controllerName, operations, _service, Settings)

@@ -24,13 +24,13 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         /// <param name="settings">The settings.</param>
         /// <exception cref="System.ArgumentNullException">service</exception>
         /// <exception cref="ArgumentNullException"><paramref name="service" /> is <see langword="null" />.</exception>
-        public SwaggerToCSharpWebApiControllerGenerator(SwaggerService service, SwaggerToCSharpWebApiControllerGeneratorSettings settings) 
+        public SwaggerToCSharpWebApiControllerGenerator(SwaggerService service, SwaggerToCSharpWebApiControllerGeneratorSettings settings)
             : base(service, settings)
         {
             if (service == null)
                 throw new ArgumentNullException(nameof(service));
 
-            Settings = settings; 
+            Settings = settings;
 
             _service = service;
             foreach (var definition in _service.Definitions.Where(p => string.IsNullOrEmpty(p.Value.TypeNameRaw)))
@@ -49,21 +49,13 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         /// <returns>The file contents.</returns>
         public override string GenerateFile()
         {
-            return GenerateFile(ClientGeneratorOutputType.Full);
+            return GenerateFile(_service, Resolver, ClientGeneratorOutputType.Full);
         }
 
-        /// <summary>Generates the the whole file containing all needed types.</summary>
-        /// <param name="type">The file output type.</param>
-        /// <returns>The code</returns>
-        public override string GenerateFile(ClientGeneratorOutputType type)
-        {
-            return GenerateFile(_service, Resolver, type);
-        }
-        
-        internal override string RenderClientCode(string controllerName, IList<OperationModel> operations, ClientGeneratorOutputType outputType)
+        internal override string GenerateClientClass(string controllerName, IList<OperationModel> operations, ClientGeneratorOutputType outputType)
         {
             var hasClientBaseClass = !string.IsNullOrEmpty(Settings.ControllerBaseClass);
-            
+
             var template = new WebApiControllerTemplate();
             template.Initialize(new // TODO: Add typed class
             {

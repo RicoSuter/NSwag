@@ -29,7 +29,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             Resolver = new SwaggerToCSharpTypeResolver(settings.CSharpGeneratorSettings, service.Definitions);
         }
 
-        internal override string RenderFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType)
+        internal override string GenerateFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType)
         {
             var generateOnlyContracts = outputType == ClientGeneratorOutputType.Contracts;
             var generateImplementation = outputType == ClientGeneratorOutputType.Full || outputType == ClientGeneratorOutputType.Implementation;
