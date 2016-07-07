@@ -30,7 +30,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Templates
                     "oolchain v");
             
             #line 6 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.Toolchain));
+            this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerService.ToolchainVersion));
             
             #line default
             #line hidden
@@ -91,14 +91,96 @@ foreach(var usage in Model.NamespaceUsages){
             
             #line default
             #line hidden
-            this.Write("\r\n\r\n    ");
+            this.Write("\r\n\r\n");
             
             #line 35 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+if(Model.GenerateContracts){
+            
+            #line default
+            #line hidden
+            this.Write("    ");
+            
+            #line 36 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.Tab(Model.Classes, 1)));
             
             #line default
             #line hidden
-            this.Write("\r\n}");
+            this.Write(@"
+
+    public class SwaggerException : Exception
+    {
+        public string StatusCode { get; private set; }
+
+        public byte[] ResponseData { get; private set; }
+
+        public SwaggerException(string message, string statusCode, byte[] responseData, Exception innerException) 
+            : base(message, innerException)
+        {
+            StatusCode = statusCode;
+            ResponseData = responseData;
+        }
+
+        public override string ToString()
+        {
+            return string.Format(""HTTP Response: n{0}n{1}"", Encoding.UTF8.GetString(ResponseData), base.ToString());
+        }
+    }
+
+    public class SwaggerException<TResponse> : SwaggerException
+    {
+        public TResponse Response { get; private set; }
+
+        public SwaggerException(string message, string statusCode, byte[] responseData, TResponse response, Exception innerException) 
+            : base(message, statusCode, responseData, innerException)
+        {
+            Response = response;
+        }
+    }
+");
+            
+            #line 67 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("\r\n");
+            
+            #line 69 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+if(Model.GenerateImplementation && Model.HasMissingHttpMethods){
+            
+            #line default
+            #line hidden
+            this.Write(@"    internal static class HttpExtensions
+    {
+        public static async Task<HttpResponseMessage> OptionsAsync(this HttpClient client, string requestUri, HttpContent content, CancellationToken cancellationToken)
+        {
+            var method = new HttpMethod(""OPTIONS"");
+            var request = new HttpRequestMessage(method, requestUri) { Content = content };
+            return await client.SendAsync(request, cancellationToken);
+        }
+
+        public static async Task<HttpResponseMessage> HeadAsync(this HttpClient client, string requestUri, HttpContent content, CancellationToken cancellationToken)
+        {
+            var method = new HttpMethod(""HEAD"");
+            var request = new HttpRequestMessage(method, requestUri) { Content = content };
+            return await client.SendAsync(request, cancellationToken);
+        }
+
+        public static async Task<HttpResponseMessage> PatchAsync(this HttpClient client, string requestUri, HttpContent content, CancellationToken cancellationToken)
+        {
+            var method = new HttpMethod(""PATCH"");
+            var request = new HttpRequestMessage(method, requestUri) { Content = content };
+            return await client.SendAsync(request, cancellationToken);
+        }
+    }
+");
+            
+            #line 93 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("}");
             return this.GenerationEnvironment.ToString();
         }
     }

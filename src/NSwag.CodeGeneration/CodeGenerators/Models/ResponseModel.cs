@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Linq;
 using NJsonSchema;
 
 namespace NSwag.CodeGeneration.CodeGenerators.Models
@@ -25,10 +26,10 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         }
 
         public string StatusCode { get; }
-        
+
         public string Type => _clientGeneratorBase.GetType(_response.ActualResponseSchema, IsNullable, "Response");
 
-        public bool HasType => Schema != null; 
+        public bool HasType => Schema != null;
 
         public bool IsSuccess => HttpUtilities.IsSuccessStatusCode(StatusCode);
 
@@ -41,6 +42,11 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         private JsonSchema4 Schema => _response.Schema?.ActualSchema;
 
         public bool IsNullable => _response.IsNullable(_clientGeneratorBase.BaseSettings.CodeGeneratorSettings.NullHandling);
+
+        public bool TypeInheritsFromException => _response
+            .ActualResponseSchema?
+            .InheritedSchemas
+            .Any(s => new[] { "innerexception", "message", "source", "stacktrace" }.All(p => s.ActualSchema.Properties.Any(i => i.Key.ToLowerInvariant() == p))) == true;
 
         // TODO: Find way to remove TypeScript only properties
 

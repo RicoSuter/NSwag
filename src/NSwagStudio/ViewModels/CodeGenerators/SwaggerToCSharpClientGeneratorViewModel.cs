@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -89,18 +90,17 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         {
             return RunTaskAsync(async () =>
             {
-                var code = string.Empty;
+                Dictionary<string, string> result = null;
                 await Task.Run(async () =>
                 {
                     if (!string.IsNullOrEmpty(swaggerData))
                     {
                         Command.Input = swaggerData;
-                        code = await Command.RunAsync();
+                        result = await Command.RunAsync();
                         Command.Input = null;
                     }
                 });
-
-                ClientCode = code ?? string.Empty;
+                ClientCode = string.Join("\n\n", result.Values);
             });
         }
 

@@ -52,17 +52,28 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         /// <returns>The file contents.</returns>
         public override string GenerateFile()
         {
-            return GenerateFile(_service, _resolver);
+            return GenerateFile(_service, _resolver, ClientGeneratorOutputType.Full);
+        }
+
+        /// <summary>Generates the the whole file containing all needed types.</summary>
+        /// <param name="type">The file output type.</param>
+        /// <returns>The code</returns>
+        /// <exception cref="NotSupportedException">The file output type must be 'Full'.</exception>
+        public override string GenerateFile(ClientGeneratorOutputType type)
+        {
+            if (type != ClientGeneratorOutputType.Full)
+                throw new NotSupportedException("The file output type must be 'Full'.");
+
+            return GenerateFile(_service, _resolver, type);
         }
 
         internal override ClientGeneratorBaseSettings BaseSettings => Settings;
 
-        internal override string RenderFile(string clientCode, string[] clientClasses)
+        internal override string RenderFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType)
         {
             var template = new FileTemplate();
             template.Initialize(new
             {
-                Toolchain = SwaggerService.ToolchainVersion,
                 IsAngular2 = Settings.GenerateClientClasses && Settings.Template == TypeScriptTemplate.Angular2,
 
                 Clients = Settings.GenerateClientClasses ? clientCode : string.Empty,
@@ -76,8 +87,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             });
             return template.Render();
         }
-
-        internal override string RenderClientCode(string controllerName, IList<OperationModel> operations)
+        
+        internal override string RenderClientCode(string controllerName, IList<OperationModel> operations, ClientGeneratorOutputType outputType)
         {
             UpdateUseDtoClassAndDataConversionCodeProperties(operations);
 
@@ -139,7 +150,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             return className;
         }
 
-        private string GenerateExtensionCodeAfter(string[] clientClasses)
+        private string GenerateExtensionCodeAfter(IEnumerable<string> clientClasses)
         {
             var clientClassesVariable = "{" + string.Join(", ", clientClasses.Select(c => "'" + c + "': " + c)) + "}";
             return Settings.TypeScriptGeneratorSettings.ProcessedExtensionCode.CodeAfter.Replace("{clientClasses}", clientClassesVariable);

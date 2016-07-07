@@ -37,6 +37,13 @@
                         <TextBlock Text="Namespace" FontWeight="Bold" Margin="0,0,0,6" />
                         <TextBox Text="{Binding Command.Namespace, Mode=TwoWay}" Margin="0,0,0,12" />
 
+                        <CheckBox IsChecked="{Binding Command.GenerateContractsOutput, Mode=TwoWay}" 
+                                  Content="Generate contracts output" Margin="0,0,0,12" />
+                        <StackPanel Visibility="{Binding Command.GenerateContractsOutput, Converter={StaticResource VisibilityConverter}}">
+                            <TextBlock Text="Contracts Namespace" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Text="{Binding Command.ContractsNamespace, Mode=TwoWay}" Margin="0,0,0,12" />
+                        </StackPanel>
+
                         <TextBlock Text="Additional Namespace Usages (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
                         <TextBox Text="{Binding AdditionalNamespaceUsages, Mode=TwoWay}" Margin="0,0,0,12" />
 
@@ -102,6 +109,13 @@
                         <controls:FileSavePicker DefaultExtension=".cs" Filter="CSharp Files (.cs)|*.cs"
                                                  FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" 
                                                  Margin="0,0,0,12" />
+
+                        <StackPanel Visibility="{Binding Command.GenerateContractsOutput, Converter={StaticResource VisibilityConverter}}">
+                            <TextBlock Text="Contracts output file path (empty: single output file output)" FontWeight="Bold" Margin="0,0,0,6" />
+                            <controls:FileSavePicker DefaultExtension=".cs" Filter="CSharp Files (.cs)|*.cs"
+                                                     FilePath="{Binding Command.ContractsOutputFilePath, Mode=TwoWay}" 
+                                                     Margin="0,0,0,12" />
+                        </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
             </Expander>
