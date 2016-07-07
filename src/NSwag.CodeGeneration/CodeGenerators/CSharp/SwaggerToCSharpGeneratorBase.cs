@@ -47,6 +47,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
                 Classes = _settings.GenerateDtoTypes ? Resolver.GenerateClasses() : string.Empty,
 
                 HasMissingHttpMethods = _service.Operations.Any(o =>
+                    (o.Method == SwaggerOperationMethod.Delete && o.Operation.Parameters.Any(p => p.Kind == SwaggerParameterKind.Body)) ||
                     o.Method == SwaggerOperationMethod.Options ||
                     o.Method == SwaggerOperationMethod.Head ||
                     o.Method == SwaggerOperationMethod.Patch)

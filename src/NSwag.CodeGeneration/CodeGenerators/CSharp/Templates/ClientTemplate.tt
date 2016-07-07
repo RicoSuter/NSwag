@@ -91,7 +91,9 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
 <#  }
 }#> 
 <#      if(Model.UseHttpClientCreationMethod){#>
-        var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);<#}else{#>        var client_ = new HttpClient();
+        var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+<#      }else{#>
+        var client_ = new HttpClient();
 <#      }#>
         PrepareRequest(client_, ref url_);
 <#foreach(var parameter in operation.HeaderParameters){#>

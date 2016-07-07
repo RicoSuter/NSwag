@@ -7,6 +7,8 @@
 // </auto-generated>
 //----------------------
 
+#pragma warning disable // Disable all warnings
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -86,6 +88,13 @@ namespace <#=Model.Namespace#>
         public static async Task<HttpResponseMessage> PatchAsync(this HttpClient client, string requestUri, HttpContent content, CancellationToken cancellationToken)
         {
             var method = new HttpMethod("PATCH");
+            var request = new HttpRequestMessage(method, requestUri) { Content = content };
+            return await client.SendAsync(request, cancellationToken);
+        }
+
+        public static async Task<HttpResponseMessage> DeleteAsync(this HttpClient httpClient, Uri requestUri, HttpContent content, CancellationToken cancellationToken)
+        {
+            var method = new HttpMethod("DELETE");
             var request = new HttpRequestMessage(method, requestUri) { Content = content };
             return await client.SendAsync(request, cancellationToken);
         }
