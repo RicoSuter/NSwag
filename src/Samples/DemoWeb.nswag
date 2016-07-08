@@ -35,7 +35,7 @@
   "SwaggerToTypeScriptCommand": {
     "ClassName": "{controller}Client",
     "ModuleName": "",
-    "Template": "JQueryCallbacks",
+    "Template": "Angular2",
     "PromiseType": "Promise",
     "DateTimeType": "Date",
     "GenerateClientClasses": true,
@@ -64,8 +64,6 @@
     "Settings": {
       "ClientBaseClass": null,
       "UseHttpClientCreationMethod": false,
-      "GenerateContractsOutput": false,
-      "ContractsNamespace": "NSwag.Demo.Client.Contracts",
       "CSharpGeneratorSettings": {
         "Namespace": "NSwag.Demo.Client",
         "RequiredPropertiesMustBeDefined": true,
