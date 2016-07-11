@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using NConsole;
-using Newtonsoft.Json;
+using NSwag.CodeGeneration.CodeGenerators;
 using NSwag.CodeGeneration.CodeGenerators.CSharp;
 
 namespace NSwag.Commands
@@ -53,20 +55,64 @@ namespace NSwag.Commands
             set { Settings.UseHttpClientCreationMethod = value; }
         }
 
+        [Description("Specifies whether to generate contracts output (interface and models in a separate file set with the ContractsOutput parameter).")]
+        [Argument(Name = "GenerateContractsOutput", IsRequired = false)]
+        public bool GenerateContractsOutput { get; set; }
+
+        [Description("The contracts .NET namespace.")]
+        [Argument(Name = "ContractsNamespace", IsRequired = false)]
+        public string ContractsNamespace { get; set; }
+
+        [Description("The contracts output file path (optional, if no path is set then a single file with the implementation and contracts is generated).")]
+        [Argument(Name = "ContractsOutput", IsRequired = false)]
+        public string ContractsOutputFilePath { get; set; }
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            var code = await RunAsync();
-            TryWriteFileOutput(host, () => code);
-            return code;
+            var result = await RunAsync();
+            foreach (var pair in result)
+                TryWriteFileOutput(pair.Key, host, () => pair.Value);
+            return result;
         }
 
-        public async Task<string> RunAsync()
+        public async Task<Dictionary<string, string>> RunAsync()
         {
             return await Task.Run(() =>
             {
                 var clientGenerator = new SwaggerToCSharpClientGenerator(InputSwaggerService, Settings);
-                return clientGenerator.GenerateFile();
+
+                if (GenerateContractsOutput)
+                {
+                    var result = new Dictionary<string, string>();
+                    GenerateContracts(result, clientGenerator);
+                    GenerateImplementation(result, clientGenerator);
+                    return result;
+                }
+                else
+                {
+                    return new Dictionary<string, string>
+                    {
+                        { OutputFilePath ?? "Full", clientGenerator.GenerateFile(ClientGeneratorOutputType.Full) }
+                    };
+                }
             });
+        }
+
+        private void GenerateImplementation(Dictionary<string, string> result, SwaggerToCSharpClientGenerator clientGenerator)
+        {
+            var savedAdditionalNamespaceUsages = Settings.AdditionalNamespaceUsages?.ToArray();
+            Settings.AdditionalNamespaceUsages =
+                Settings.AdditionalNamespaceUsages?.Concat(new[] { ContractsNamespace }).ToArray() ?? new[] { ContractsNamespace };
+            result[OutputFilePath ?? "Implementation"] = clientGenerator.GenerateFile(ClientGeneratorOutputType.Implementation);
+            Settings.AdditionalNamespaceUsages = savedAdditionalNamespaceUsages;
+        }
+
+        private void GenerateContracts(Dictionary<string, string> result, SwaggerToCSharpClientGenerator clientGenerator)
+        {
+            var savedNamespace = Settings.CSharpGeneratorSettings.Namespace;
+            Settings.CSharpGeneratorSettings.Namespace = ContractsNamespace;
+            result[ContractsOutputFilePath ?? "Contracts"] = clientGenerator.GenerateFile(ClientGeneratorOutputType.Contracts);
+            Settings.CSharpGeneratorSettings.Namespace = savedNamespace;
         }
     }
 }

@@ -28,7 +28,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         /// <exception cref="System.ArgumentNullException">service</exception>
         /// <exception cref="ArgumentNullException"><paramref name="service" /> is <see langword="null" />.</exception>
         public SwaggerToCSharpClientGenerator(SwaggerService service, SwaggerToCSharpClientGeneratorSettings settings)
-            : base(service, settings.CSharpGeneratorSettings)
+            : base(service, settings)
         {
             if (service == null)
                 throw new ArgumentNullException(nameof(service));
@@ -52,7 +52,15 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         /// <returns>The file contents.</returns>
         public override string GenerateFile()
         {
-            return GenerateFile(_service, Resolver);
+            return GenerateFile(ClientGeneratorOutputType.Full);
+        }
+
+        /// <summary>Generates the the whole file containing all needed types.</summary>
+        /// <param name="outputType">The output type.</param>
+        /// <returns>The code</returns>
+        public string GenerateFile(ClientGeneratorOutputType outputType)
+        {
+            return GenerateFile(_service, Resolver, outputType);
         }
 
         /// <summary>Resolves the type of the parameter.</summary>
@@ -61,7 +69,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         /// <returns>The parameter type name.</returns>
         protected override string ResolveParameterType(SwaggerParameter parameter, ITypeResolver resolver)
         {
-            var schema = parameter.ActualSchema; 
+            var schema = parameter.ActualSchema;
             if (schema.Type == JsonObjectType.File)
             {
                 if (parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
@@ -73,24 +81,14 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             return base.ResolveParameterType(parameter, resolver);
         }
 
-        internal override string RenderFile(string clientCode, string[] clientClasses)
-        {
-            var template = new FileTemplate();
-            template.Initialize(new // TODO: Add typed class
-            {
-                Namespace = Settings.CSharpGeneratorSettings.Namespace ?? string.Empty,
-                Toolchain = SwaggerService.ToolchainVersion,
-                Clients = Settings.GenerateClientClasses ? clientCode : string.Empty,
-                NamespaceUsages = Settings.AdditionalNamespaceUsages ?? new string[] { },
-                Classes = Settings.GenerateDtoTypes ? Resolver.GenerateClasses() : string.Empty
-            });
-            return template.Render();
-        }
-
-        internal override string RenderClientCode(string controllerName, IList<OperationModel> operations)
+        internal override string GenerateClientClass(string controllerName, IList<OperationModel> operations, ClientGeneratorOutputType outputType)
         {
             var template = new ClientTemplate();
-            template.Initialize(new ClientTemplateModel(controllerName, operations, _service, Settings));
+            template.Initialize(new ClientTemplateModel(controllerName, operations, _service, Settings)
+            {
+                GenerateContracts = outputType == ClientGeneratorOutputType.Full || outputType == ClientGeneratorOutputType.Contracts,
+                GenerateImplementation = outputType == ClientGeneratorOutputType.Full || outputType == ClientGeneratorOutputType.Implementation,
+            });
             return template.Render();
         }
     }

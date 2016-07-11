@@ -22,7 +22,7 @@
         
         <TextBlock Text="Swagger Specification (JSON):" FontWeight="Bold" Margin="0,0,0,8"  />
         <Border Grid.Row="1" Margin="-8,0,-8,-8" BorderThickness="0,1,0,0" BorderBrush="LightGray">
-            <avalonedit:TextEditor Padding="8" Background="GhostWhite" FontFamily="Consolas" IsReadOnly="True" 
+            <avalonedit:TextEditor Padding="8" Background="GhostWhite" FontFamily="Consolas" IsReadOnly="True" ShowLineNumbers="True" 
                                    SyntaxHighlighting="JavaScript" FontSize="10pt">
                 <i:Interaction.Behaviors>
                     <views:AvalonEditBehavior Text="{Binding SwaggerCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>

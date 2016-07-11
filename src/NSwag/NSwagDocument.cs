@@ -202,6 +202,7 @@ namespace NSwag
             AssemblyTypeToSwaggerCommand.AssemblyConfig = ConvertToAbsolutePath(AssemblyTypeToSwaggerCommand.AssemblyConfig);
 
             SwaggerToTypeScriptClientCommand.ExtensionCode = ConvertToAbsolutePath(SwaggerToTypeScriptClientCommand.ExtensionCode);
+            SwaggerToCSharpClientCommand.ContractsOutputFilePath = ConvertToAbsolutePath(SwaggerToCSharpClientCommand.ContractsOutputFilePath);
 
             foreach (var generator in _codeGenerators.Concat(_swaggerGenerators))
                 generator.OutputFilePath = ConvertToAbsolutePath(generator.OutputFilePath);
@@ -216,6 +217,7 @@ namespace NSwag
             AssemblyTypeToSwaggerCommand.AssemblyConfig = ConvertToRelativePath(AssemblyTypeToSwaggerCommand.AssemblyConfig);
 
             SwaggerToTypeScriptClientCommand.ExtensionCode = ConvertToRelativePath(SwaggerToTypeScriptClientCommand.ExtensionCode);
+            SwaggerToCSharpClientCommand.ContractsOutputFilePath = ConvertToRelativePath(SwaggerToCSharpClientCommand.ContractsOutputFilePath);
 
             foreach (var generator in _codeGenerators.Concat(_swaggerGenerators))
                 generator.OutputFilePath = ConvertToRelativePath(generator.OutputFilePath);

@@ -30,7 +30,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates
                     "oolchain v");
             
             #line 6 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FileTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.Toolchain));
+            this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerService.ToolchainVersion));
             
             #line default
             #line hidden

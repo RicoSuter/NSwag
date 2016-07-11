@@ -24,13 +24,13 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         /// <param name="settings">The settings.</param>
         /// <exception cref="System.ArgumentNullException">service</exception>
         /// <exception cref="ArgumentNullException"><paramref name="service" /> is <see langword="null" />.</exception>
-        public SwaggerToCSharpWebApiControllerGenerator(SwaggerService service, SwaggerToCSharpWebApiControllerGeneratorSettings settings) 
-            : base(service, settings.CSharpGeneratorSettings)
+        public SwaggerToCSharpWebApiControllerGenerator(SwaggerService service, SwaggerToCSharpWebApiControllerGeneratorSettings settings)
+            : base(service, settings)
         {
             if (service == null)
                 throw new ArgumentNullException(nameof(service));
 
-            Settings = settings; 
+            Settings = settings;
 
             _service = service;
             foreach (var definition in _service.Definitions.Where(p => string.IsNullOrEmpty(p.Value.TypeNameRaw)))
@@ -49,27 +49,13 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         /// <returns>The file contents.</returns>
         public override string GenerateFile()
         {
-            return GenerateFile(_service, Resolver);
+            return GenerateFile(_service, Resolver, ClientGeneratorOutputType.Full);
         }
 
-        internal override string RenderFile(string clientCode, string[] clientClasses)
-        {
-            var template = new FileTemplate();
-            template.Initialize(new // TODO: Add typed class
-            {
-                Namespace = Settings.CSharpGeneratorSettings.Namespace, 
-                Toolchain = SwaggerService.ToolchainVersion, 
-                Clients = Settings.GenerateClientClasses ? clientCode : string.Empty, 
-                NamespaceUsages = Settings.AdditionalNamespaceUsages ?? new string[] { }, 
-                Classes = Settings.GenerateDtoTypes ? Resolver.GenerateClasses() : string.Empty
-            });
-            return template.Render();
-        }
-
-        internal override string RenderClientCode(string controllerName, IList<OperationModel> operations)
+        internal override string GenerateClientClass(string controllerName, IList<OperationModel> operations, ClientGeneratorOutputType outputType)
         {
             var hasClientBaseClass = !string.IsNullOrEmpty(Settings.ControllerBaseClass);
-            
+
             var template = new WebApiControllerTemplate();
             template.Initialize(new // TODO: Add typed class
             {

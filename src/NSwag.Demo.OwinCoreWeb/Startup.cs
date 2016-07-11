@@ -6,6 +6,8 @@ using System.Runtime.Serialization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using NSwag.AspNetCore;
+using NSwag.Demo.OwinCoreWeb.Controllers;
+using NJsonSchema.Infrastructure;
 
 namespace NSwag.Demo.OwinCoreWeb
 {
@@ -24,12 +26,6 @@ namespace NSwag.Demo.OwinCoreWeb
                 Title = "Foo bar",
                 Version = "1.1.0"
             });
-
-            //var postMethod = typeof(PersonController).GetTypeInfo().GetMethod("Post");
-            //var xml = postMethod.GetXmlDocumentation();
-
-            //var u = DynamicApis.SupportsFileApis;
-
         }
     }
 }

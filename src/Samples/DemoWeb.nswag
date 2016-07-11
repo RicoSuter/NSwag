@@ -12,7 +12,7 @@
     "ReferencePaths": [],
     "ControllerName": "",
     "ControllerNames": [
-      "NSwag.Demo.Web.Controllers.FileController"
+      "NSwag.Demo.Web.Controllers.PersonsController"
     ],
     "DefaultUrlTemplate": "api/{controller}/{action}/{id}",
     "DefaultPropertyNameHandling": "Default",
@@ -35,7 +35,7 @@
   "SwaggerToTypeScriptCommand": {
     "ClassName": "{controller}Client",
     "ModuleName": "",
-    "Template": "JQueryCallbacks",
+    "Template": "Angular2",
     "PromiseType": "Promise",
     "DateTimeType": "Date",
     "GenerateClientClasses": true,
@@ -55,9 +55,12 @@
   "SwaggerToCSharpClientCommand": {
     "ClientBaseClass": null,
     "GenerateClientClasses": true,
-    "GenerateClientInterfaces": false,
+    "GenerateClientInterfaces": true,
     "GenerateDtoTypes": true,
     "UseHttpClientCreationMethod": false,
+    "GenerateContractsOutput": false,
+    "ContractsNamespace": "NSwag.Demo.Client.Contracts",
+    "ContractsOutputFilePath": "..\\..\\..\\..\\..\\Users\\mail\\Desktop\\bar.cs",
     "Settings": {
       "ClientBaseClass": null,
       "UseHttpClientCreationMethod": false,
@@ -87,7 +90,7 @@
       "ClassName": "{controller}Client",
       "OperationGenerationMode": "MultipleClientsFromOperationId",
       "GenerateDtoTypes": true,
-      "GenerateClientInterfaces": false,
+      "GenerateClientInterfaces": true,
       "GenerateClientClasses": true
     },
     "ClassName": "{controller}Client",
@@ -100,7 +103,7 @@
     "ClassStyle": "Inpc",
     "OperationGenerationMode": "MultipleClientsFromOperationId",
     "Input": null,
-    "OutputFilePath": null
+    "OutputFilePath": "..\\..\\..\\..\\..\\Users\\mail\\Desktop\\foo.cs"
   },
   "SwaggerToCSharpControllerGenerator": {
     "ControllerBaseClass": null,

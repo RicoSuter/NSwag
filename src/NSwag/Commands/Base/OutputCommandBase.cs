@@ -17,15 +17,20 @@ namespace NSwag.Commands.Base
 
         protected bool TryWriteFileOutput(IConsoleHost host, Func<string> generator)
         {
-            if (!string.IsNullOrEmpty(OutputFilePath))
+            return TryWriteFileOutput(OutputFilePath, host, generator);
+        }
+
+        protected bool TryWriteFileOutput(string path, IConsoleHost host, Func<string> generator)
+        {
+            if (!string.IsNullOrEmpty(path))
             {
-                var file = new FileInfo(OutputFilePath);
+                var file = new FileInfo(path);
                 var directory = file.Directory;
 
                 if (!directory.Exists)
                     directory.Create();
 
-                File.WriteAllText(OutputFilePath, generator(), Encoding.UTF8);
+                File.WriteAllText(path, generator(), Encoding.UTF8);
                 host?.WriteMessage("Code has been successfully written to file.\n");
 
                 return true; 

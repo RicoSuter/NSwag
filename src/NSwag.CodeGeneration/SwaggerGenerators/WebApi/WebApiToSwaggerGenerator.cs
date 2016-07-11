@@ -128,8 +128,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
                             var parameters = method.GetParameters().ToList();
 
-                            LoadPathParameters(service, operation, httpPath, parameters, schemaResolver);
-                            LoadParameters(service, operation, parameters, schemaResolver);
+                            LoadParameters(service, operation, parameters, httpPath, schemaResolver);
                             LoadReturnType(service, operation, method, schemaResolver);
                             LoadMetaData(operation, method);
                             LoadOperationTags(method, operation, controllerType);
@@ -339,32 +338,6 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     .TrimStart('/');
         }
 
-        private void LoadPathParameters(SwaggerService service, SwaggerOperation operation, string httpPath, IList<ParameterInfo> parameters, ISchemaResolver schemaResolver)
-        {
-            foreach (var match in Regex.Matches(httpPath, "\\{(.*?)\\}").OfType<Match>())
-            {
-                var parameterName = match.Groups[1].Value.Split(':').First(); // first segment is parameter name in constrained route (e.g. "[Route("users/{id:int}"]")
-                var parameter = parameters.SingleOrDefault(p => p.Name == parameterName);
-                if (parameter != null)
-                {
-                    var operationParameter = CreatePrimitiveParameter(service, parameter, schemaResolver);
-                    operationParameter.Kind = SwaggerParameterKind.Path;
-                    operationParameter.IsNullableRaw = false;
-                    operationParameter.IsRequired = true; // Path is always required => property not needed
-
-                    operation.Parameters.Add(operationParameter);
-                    parameters.Remove(parameter);
-                }
-                else
-                {
-                    httpPath = httpPath
-                        .Replace(match.Value, string.Empty)
-                        .Replace("//", "/")
-                        .Trim('/');
-                }
-            }
-        }
-
         private string GetActionName(MethodInfo method)
         {
             dynamic actionNameAttribute = method.GetCustomAttributes()
@@ -444,36 +417,50 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         }
 
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
-        private void LoadParameters(SwaggerService service, SwaggerOperation operation, List<ParameterInfo> parameters, ISchemaResolver schemaResolver)
+        private void LoadParameters(SwaggerService service, SwaggerOperation operation, List<ParameterInfo> parameters, string httpPath, ISchemaResolver schemaResolver)
         {
             foreach (var parameter in parameters)
             {
-                var parameterInfo = JsonObjectTypeDescription.FromType(parameter.ParameterType, parameter.GetCustomAttributes(), Settings.DefaultEnumHandling);
-                if (TryAddFileParameter(parameterInfo, service, operation, schemaResolver, parameter) == false)
+                var nameLower = parameter.Name.ToLowerInvariant();
+                if (httpPath.ToLowerInvariant().Contains("{" + nameLower + "}") ||
+                    httpPath.ToLowerInvariant().Contains("{" + nameLower + ":")) // path parameter
                 {
-                    // http://blogs.msdn.com/b/jmstall/archive/2012/04/16/how-webapi-does-parameter-binding.aspx
+                    var operationParameter = CreatePrimitiveParameter(service, parameter, schemaResolver);
+                    operationParameter.Kind = SwaggerParameterKind.Path;
+                    operationParameter.IsNullableRaw = false;
+                    operationParameter.IsRequired = true; // Path is always required => property not needed
 
-                    dynamic fromBodyAttribute = parameter.GetCustomAttributes()
-                        .SingleOrDefault(a => a.GetType().Name == "FromBodyAttribute");
-
-                    dynamic fromUriAttribute = parameter.GetCustomAttributes()
-                        .SingleOrDefault(a => a.GetType().Name == "FromUriAttribute");
-
-                    // TODO: Add support for ModelBinder attribute
-
-                    if (parameterInfo.IsComplexType)
+                    operation.Parameters.Add(operationParameter);
+                }
+                else
+                {
+                    var parameterInfo = JsonObjectTypeDescription.FromType(parameter.ParameterType, parameter.GetCustomAttributes(), Settings.DefaultEnumHandling);
+                    if (TryAddFileParameter(parameterInfo, service, operation, schemaResolver, parameter) == false)
                     {
-                        if (fromUriAttribute != null)
-                            AddPrimitiveParametersFromUri(service, operation, parameter, schemaResolver);
+                        // http://blogs.msdn.com/b/jmstall/archive/2012/04/16/how-webapi-does-parameter-binding.aspx
+
+                        dynamic fromBodyAttribute = parameter.GetCustomAttributes()
+                            .SingleOrDefault(a => a.GetType().Name == "FromBodyAttribute");
+
+                        dynamic fromUriAttribute = parameter.GetCustomAttributes()
+                            .SingleOrDefault(a => a.GetType().Name == "FromUriAttribute");
+
+                        // TODO: Add support for ModelBinder attribute
+
+                        if (parameterInfo.IsComplexType)
+                        {
+                            if (fromUriAttribute != null)
+                                AddPrimitiveParametersFromUri(service, operation, parameter, schemaResolver);
+                            else
+                                AddBodyParameter(service, operation, parameter, schemaResolver);
+                        }
                         else
-                            AddBodyParameter(service, operation, parameter, schemaResolver);
-                    }
-                    else
-                    {
-                        if (fromBodyAttribute != null)
-                            AddBodyParameter(service, operation, parameter, schemaResolver);
-                        else
-                            AddPrimitiveParameter(service, operation, parameter, schemaResolver);
+                        {
+                            if (fromBodyAttribute != null)
+                                AddBodyParameter(service, operation, parameter, schemaResolver);
+                            else
+                                AddPrimitiveParameter(service, operation, parameter, schemaResolver);
+                        }
                     }
                 }
             }

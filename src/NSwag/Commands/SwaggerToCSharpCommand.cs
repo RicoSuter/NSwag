@@ -18,7 +18,7 @@ namespace NSwag.Commands
         public TSettings Settings { get; set; }
         
         [Description("The class name of the generated client.")]
-        [Argument(Name = "ClassName")]
+        [Argument(Name = "ClassName", IsRequired = false)]
         public string ClassName
         {
             get { return Settings.ClassName; }

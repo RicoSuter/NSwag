@@ -39,7 +39,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             foreach (var definition in _service.Definitions.Where(p => string.IsNullOrEmpty(p.Value.TypeNameRaw)))
                 definition.Value.TypeNameRaw = definition.Key;
 
-            _resolver = new TypeScriptTypeResolver(_service.Definitions.Select(p => p.Value).ToArray(), Settings.TypeScriptGeneratorSettings);
+            var schemas = _service.Definitions.Select(p => p.Value).ToArray();
+            _resolver = new TypeScriptTypeResolver(Settings.TypeScriptGeneratorSettings, service, schemas);
         }
 
         /// <summary>Gets or sets the generator settings.</summary>
@@ -52,23 +53,22 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         /// <returns>The file contents.</returns>
         public override string GenerateFile()
         {
-            return GenerateFile(_service, _resolver);
+            return GenerateFile(_service, _resolver, ClientGeneratorOutputType.Full);
         }
 
         internal override ClientGeneratorBaseSettings BaseSettings => Settings;
 
-        internal override string RenderFile(string clientCode, string[] clientClasses)
+        internal override string GenerateFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType)
         {
             var template = new FileTemplate();
             template.Initialize(new
             {
-                Toolchain = SwaggerService.ToolchainVersion,
                 IsAngular2 = Settings.GenerateClientClasses && Settings.Template == TypeScriptTemplate.Angular2,
 
                 Clients = Settings.GenerateClientClasses ? clientCode : string.Empty,
                 Types = GenerateDtoTypes(),
 
-                ExtensionCodeBefore = Settings.TypeScriptGeneratorSettings.ProcessedExtensionCode.CodeBefore, 
+                ExtensionCodeBefore = Settings.TypeScriptGeneratorSettings.ProcessedExtensionCode.CodeBefore,
                 ExtensionCodeAfter = GenerateExtensionCodeAfter(clientClasses),
 
                 HasModuleName = !string.IsNullOrEmpty(Settings.TypeScriptGeneratorSettings.ModuleName),
@@ -77,7 +77,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             return template.Render();
         }
 
-        internal override string RenderClientCode(string controllerName, IList<OperationModel> operations)
+        internal override string GenerateClientClass(string controllerName, IList<OperationModel> operations, ClientGeneratorOutputType outputType)
         {
             UpdateUseDtoClassAndDataConversionCodeProperties(operations);
 
@@ -139,7 +139,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             return className;
         }
 
-        private string GenerateExtensionCodeAfter(string[] clientClasses)
+        private string GenerateExtensionCodeAfter(IEnumerable<string> clientClasses)
         {
             var clientClassesVariable = "{" + string.Join(", ", clientClasses.Select(c => "'" + c + "': " + c)) + "}";
             return Settings.TypeScriptGeneratorSettings.ProcessedExtensionCode.CodeAfter.Replace("{clientClasses}", clientClassesVariable);

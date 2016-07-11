@@ -9,7 +9,7 @@ namespace NSwag
 {
     public class Program
     {
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
             var host = new ConsoleHost();
             host.WriteMessage("NSwag command line: v" + GetVersionWithBuildTime() + "\n");
@@ -54,8 +54,17 @@ namespace NSwag
                 Console.ForegroundColor = ConsoleColor.Red;
                 host.WriteMessage(exception.ToString());
                 Console.ForegroundColor = savedForegroundColor;
+
+                WaitWhenDebuggerAttached();
+                return -1;
             }
 
+            WaitWhenDebuggerAttached();
+            return 0;
+        }
+
+        private static void WaitWhenDebuggerAttached()
+        {
             if (Debugger.IsAttached)
             {
                 Console.WriteLine("Press <any> key to exit...");

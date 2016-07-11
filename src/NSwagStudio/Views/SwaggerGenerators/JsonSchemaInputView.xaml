@@ -6,11 +6,11 @@
              xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:views="clr-namespace:NSwagStudio.Views"
-             xmlns:nSwagStudio="clr-namespace:NSwagStudio"
+             xmlns:nSwag="clr-namespace:NSwag;assembly=NSwag"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     
-    <Grid Margin="8" d:DataContext="{d:DesignInstance nSwagStudio:NSwagDocument}">
+    <Grid Margin="8" d:DataContext="{d:DesignInstance nSwag:NSwagDocument}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -19,7 +19,7 @@
         <TextBlock Text="JSON Schema: " FontWeight="Bold" Margin="0,0,0,8" />
 
         <Border Grid.Row="1" Margin="-8,0,-8,-8" BorderThickness="0,1,0,0" BorderBrush="LightGray">
-            <avalonedit:TextEditor x:Name="JsonSchema" Padding="8" FontFamily="Consolas" Background="GhostWhite"
+            <avalonedit:TextEditor x:Name="JsonSchema" Padding="8" FontFamily="Consolas" Background="GhostWhite" ShowLineNumbers="True"
                                    SyntaxHighlighting="JavaScript" FontSize="10pt">
                 <i:Interaction.Behaviors>
                     <views:AvalonEditBehavior Text="{Binding InputJsonSchema, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>

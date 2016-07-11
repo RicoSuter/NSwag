@@ -26,6 +26,10 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
             Operations = operations;
         }
 
+        public bool GenerateContracts { get; set; }
+
+        public bool GenerateImplementation { get; set; }
+
         public string Class { get; }
 
         public string BaseClass => _settings.ClientBaseClass;
@@ -39,11 +43,6 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
         public bool GenerateClientInterfaces => _settings.GenerateClientInterfaces;
 
         public string BaseUrl => _service.BaseUrl;
-
-        public bool HasMissingHttpMethods => Operations.Any(o =>
-            o.HttpMethod == SwaggerOperationMethod.Options ||
-            o.HttpMethod == SwaggerOperationMethod.Head ||
-            o.HttpMethod == SwaggerOperationMethod.Patch);
 
         public IList<OperationModel> Operations { get; }
 
