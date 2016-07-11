@@ -36,7 +36,7 @@
         </StackPanel>
         
         <Border Grid.Row="1" Margin="-8,0,-8,-8" BorderThickness="0,1,0,0" BorderBrush="LightGray">
-            <avalonedit:TextEditor Padding="8" FontFamily="Consolas" Background="GhostWhite"
+            <avalonedit:TextEditor Padding="8" FontFamily="Consolas" Background="GhostWhite" ShowLineNumbers="True"
                                    SyntaxHighlighting="JavaScript" FontSize="10pt">
                 <i:Interaction.Behaviors>
                     <views:AvalonEditBehavior Text="{Binding Document.InputSwagger, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>

@@ -122,7 +122,7 @@
         </Border>
 
         <Border Grid.Row="2" Margin="-8,-8,-8,-8" BorderThickness="0,1,0,0" BorderBrush="LightGray">
-            <avalonedit:TextEditor Background="GhostWhite" FontFamily="Consolas" IsReadOnly="True" 
+            <avalonedit:TextEditor Background="GhostWhite" FontFamily="Consolas" IsReadOnly="True" ShowLineNumbers="True"
                                    SyntaxHighlighting="C#" FontSize="10pt" Padding="8">
                 <i:Interaction.Behaviors>
                     <views:AvalonEditBehavior Text="{Binding ClientCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
