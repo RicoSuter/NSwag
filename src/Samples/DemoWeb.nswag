@@ -12,7 +12,13 @@
     "ReferencePaths": [],
     "ControllerName": "",
     "ControllerNames": [
-      "NSwag.Demo.Web.Controllers.PersonsController"
+      "NSwag.Demo.Web.Controllers.BodyInputController",
+      "NSwag.Demo.Web.Controllers.FileController",
+      "NSwag.Demo.Web.Controllers.InheritanceController",
+      "NSwag.Demo.Web.Controllers.PersonsController",
+      "NSwag.Demo.Web.Controllers.RequestParameterTestController",
+      "NSwag.Demo.Web.Controllers.TestController",
+      "NSwag.Demo.Web.Controllers.VerbsController"
     ],
     "DefaultUrlTemplate": "api/{controller}/{action}/{id}",
     "DefaultPropertyNameHandling": "Default",
@@ -70,7 +76,7 @@
         "DateTimeType": "DateTime",
         "ArrayType": "ObservableCollection",
         "DictionaryType": "Dictionary",
-        "ClassStyle": "Inpc",
+        "ClassStyle": "Poco",
         "NullHandling": "Swagger",
         "PropertyNameGenerator": null,
         "TypeNameGenerator": null
@@ -82,7 +88,7 @@
         "DateTimeType": "DateTime",
         "ArrayType": "ObservableCollection",
         "DictionaryType": "Dictionary",
-        "ClassStyle": "Inpc",
+        "ClassStyle": "Poco",
         "NullHandling": "Swagger",
         "PropertyNameGenerator": null,
         "TypeNameGenerator": null
@@ -100,10 +106,10 @@
     "DateTimeType": "DateTime",
     "ArrayType": "ObservableCollection",
     "DictionaryType": "Dictionary",
-    "ClassStyle": "Inpc",
+    "ClassStyle": "Poco",
     "OperationGenerationMode": "MultipleClientsFromOperationId",
     "Input": null,
-    "OutputFilePath": "..\\..\\..\\..\\..\\Users\\mail\\Desktop\\foo.cs"
+    "OutputFilePath": ""
   },
   "SwaggerToCSharpControllerGenerator": {
     "ControllerBaseClass": null,

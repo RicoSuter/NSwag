@@ -24,11 +24,11 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         private string _clientCode;
         private SwaggerToTypeScriptClientCommand _command = new SwaggerToTypeScriptClientCommand();
 
-        public bool ShowSettings
-        {
-            get { return ApplicationSettings.GetSetting("SwaggerToTypeScriptClientGeneratorModel.ShowSettings", true); }
-            set { ApplicationSettings.SetSetting("SwaggerToTypeScriptClientGeneratorModel.ShowSettings", value); }
-        }
+        //public bool ShowSettings
+        //{
+        //    get { return ApplicationSettings.GetSetting("SwaggerToTypeScriptClientGeneratorModel.ShowSettings", true); }
+        //    set { ApplicationSettings.SetSetting("SwaggerToTypeScriptClientGeneratorModel.ShowSettings", value); }
+        //}
 
         /// <summary>Gets the settings.</summary>
         public SwaggerToTypeScriptClientCommand Command
