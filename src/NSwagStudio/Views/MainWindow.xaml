@@ -10,16 +10,6 @@
 
     <Window.Resources>
         <viewModels:MainWindowModel x:Key="ViewModel" />
-        <DataTemplate x:Key="RotatedTabItem">
-            <ContentPresenter Margin="4,8,4,8">
-                <ContentPresenter.LayoutTransform>
-                    <RotateTransform Angle="270" />
-                </ContentPresenter.LayoutTransform>
-                <ContentPresenter.Content>
-                    <TextBlock Text="{TemplateBinding Content}" FontSize="14" />
-                </ContentPresenter.Content>
-            </ContentPresenter>
-        </DataTemplate>
     </Window.Resources>
 
     <Grid DataContext="{StaticResource ViewModel}">

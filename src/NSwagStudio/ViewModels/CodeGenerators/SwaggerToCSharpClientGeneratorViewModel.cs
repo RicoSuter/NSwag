@@ -23,11 +23,11 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         private string _clientCode;
         private SwaggerToCSharpClientCommand _command = new SwaggerToCSharpClientCommand();
 
-        public bool ShowSettings
-        {
-            get { return ApplicationSettings.GetSetting("SwaggerToCSharpClientGeneratorViewModel.ShowSettings", true); }
-            set { ApplicationSettings.SetSetting("SwaggerToCSharpClientGeneratorViewModel.ShowSettings", value); }
-        }
+        //public bool ShowSettings
+        //{
+        //    get { return ApplicationSettings.GetSetting("SwaggerToCSharpClientGeneratorViewModel.ShowSettings", true); }
+        //    set { ApplicationSettings.SetSetting("SwaggerToCSharpClientGeneratorViewModel.ShowSettings", value); }
+        //}
 
         /// <summary>Gets the settings.</summary>
         public SwaggerToCSharpClientCommand Command

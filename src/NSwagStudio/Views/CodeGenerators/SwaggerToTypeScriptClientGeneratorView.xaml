@@ -15,110 +15,101 @@
         <codeGenerators:SwaggerToTypeScriptClientGeneratorViewModel x:Key="ViewModel" />
         <converters:VisibilityConverter x:Key="VisibilityConverter" />
         <converters:EqualityConverter x:Key="EqualityConverter" />
+        <converters:NotConverter x:Key="NotConverter" />
     </UserControl.Resources>
 
-    <Grid Margin="8" DataContext="{StaticResource ViewModel}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+    <TabControl TabStripPlacement="Left" Margin="8" Name="TabControl" DataContext="{StaticResource ViewModel}">
+        <TabItem Header="Settings" HeaderTemplate="{StaticResource RotatedTabItem}">
+            <ScrollViewer VerticalScrollBarVisibility="Visible" 
+                          HorizontalScrollBarVisibility="Hidden"
+                          IsEnabled="{Binding IsLoading, Converter={StaticResource NotConverter}}">
+                <StackPanel Margin="8,8,8,0">
+                    <TextBlock Text="Module name (empty for no module declaration)" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding Command.ModuleName, Mode=TwoWay}" Margin="0,0,0,12" />
 
-        <Border MaxHeight="620" Margin="-10,-10,-10,6" BorderThickness="0,0,0,1" BorderBrush="LightGray">
-            <Expander Margin="8" IsExpanded="{Binding ShowSettings, Mode=TwoWay}">
-                <Expander.HeaderTemplate>
-                    <DataTemplate>
-                        <TextBlock Margin="2,0,0,0" FontSize="16" FontWeight="Bold">Settings</TextBlock>
-                    </DataTemplate>
-                </Expander.HeaderTemplate>
-                <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Hidden" Margin="-8,0,-8,-8">
-                    <StackPanel Margin="8,8,8,0">
-                        <TextBlock Text="Module name (empty for no module declaration)" FontWeight="Bold" Margin="0,0,0,6" />
-                        <TextBox Text="{Binding Command.ModuleName, Mode=TwoWay}" Margin="0,0,0,12" />
-
-                        <GroupBox Header="Client" Margin="0,0,0,12">
-                            <StackPanel Margin="4,4,4,-8">
-                                <CheckBox IsChecked="{Binding Command.GenerateClientClasses, Mode=TwoWay}" 
+                    <GroupBox Header="Client" Margin="0,0,0,12">
+                        <StackPanel Margin="4,4,4,-8">
+                            <CheckBox IsChecked="{Binding Command.GenerateClientClasses, Mode=TwoWay}" 
                                           Content="Generate Client Classes" Margin="0,4,0,12" />
 
-                                <StackPanel Visibility="{Binding Command.GenerateClientClasses, Converter={StaticResource VisibilityConverter}}">
-                                    <CheckBox IsChecked="{Binding Command.GenerateClientInterfaces, Mode=TwoWay}" 
+                            <StackPanel Visibility="{Binding Command.GenerateClientClasses, Converter={StaticResource VisibilityConverter}}">
+                                <CheckBox IsChecked="{Binding Command.GenerateClientInterfaces, Mode=TwoWay}" 
                                               Content="Generate Client Interfaces" Margin="0,0,0,12" />
 
-                                    <TextBlock Text="Class Name" FontWeight="Bold" Margin="0,0,0,6" />
-                                    <TextBox Text="{Binding Command.ClassName, Mode=TwoWay}" Margin="0,0,0,12" />
+                                <TextBlock Text="Class Name" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.ClassName, Mode=TwoWay}" Margin="0,0,0,12" />
 
-                                    <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
+                                <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
                                         <Run Text="Operation Generation Mode" FontWeight="Bold" />
                                         <LineBreak />
                                         The {controller} placeholder of the Class Name is replaced by generated client name (depends on the OperationGenerationMode strategy).
-                                    </TextBlock>
-                                    <ComboBox SelectedItem="{Binding Command.OperationGenerationMode, Mode=TwoWay}" 
+                                </TextBlock>
+                                <ComboBox SelectedItem="{Binding Command.OperationGenerationMode, Mode=TwoWay}" 
                                           ItemsSource="{Binding OperationGenerationModes}" Margin="0,0,0,12" />
 
-                                    <TextBlock Text="Template" FontWeight="Bold" Margin="0,0,0,6" />
-                                    <ComboBox SelectedItem="{Binding Command.Template, Mode=TwoWay}" 
+                                <TextBlock Text="Template" FontWeight="Bold" Margin="0,0,0,6" />
+                                <ComboBox SelectedItem="{Binding Command.Template, Mode=TwoWay}" 
                                               ItemsSource="{Binding Templates}" Margin="0,0,0,12" />
 
-                                    <StackPanel Visibility="{Binding Command.Template, ConverterParameter='JQueryPromises', Converter={StaticResource EqualityConverter}}">
-                                        <TextBlock Text="Promise Type" FontWeight="Bold" Margin="0,0,0,6" />
-                                        <ComboBox SelectedItem="{Binding Command.PromiseType, Mode=TwoWay}" 
+                                <StackPanel Visibility="{Binding Command.Template, ConverterParameter='JQueryPromises', Converter={StaticResource EqualityConverter}}">
+                                    <TextBlock Text="Promise Type" FontWeight="Bold" Margin="0,0,0,6" />
+                                    <ComboBox SelectedItem="{Binding Command.PromiseType, Mode=TwoWay}" 
                                                   ItemsSource="{Binding PromiseTypes}" Margin="0,0,0,12" />
-                                    </StackPanel>
                                 </StackPanel>
                             </StackPanel>
-                        </GroupBox>
+                        </StackPanel>
+                    </GroupBox>
 
-                        <GroupBox Header="DTO Types" Margin="0,0,0,12">
-                            <StackPanel Margin="4,8,4,-8">
-                                <CheckBox IsChecked="{Binding Command.GenerateDtoTypes, Mode=TwoWay}" 
+                    <GroupBox Header="DTO Types" Margin="0,0,0,12">
+                        <StackPanel Margin="4,8,4,-8">
+                            <CheckBox IsChecked="{Binding Command.GenerateDtoTypes, Mode=TwoWay}" 
                                           Content="Generate DTO interfaces (e.g. request and response types)" Margin="0,0,0,12" />
 
-                                <StackPanel Visibility="{Binding Command.GenerateDtoTypes, Converter={StaticResource VisibilityConverter}}">
-                                    <CheckBox IsChecked="{Binding Command.GenerateReadOnlyKeywords, Mode=TwoWay}" 
+                            <StackPanel Visibility="{Binding Command.GenerateDtoTypes, Converter={StaticResource VisibilityConverter}}">
+                                <CheckBox IsChecked="{Binding Command.GenerateReadOnlyKeywords, Mode=TwoWay}" 
                                               Content="Generate readonly keywords in DTO types" Margin="0,0,0,12" />
 
-                                    <TextBlock Text="Date Time Type" FontWeight="Bold" Margin="0,0,0,6" />
-                                    <ComboBox SelectedItem="{Binding Command.DateTimeType, Mode=TwoWay}" 
+                                <TextBlock Text="Date Time Type" FontWeight="Bold" Margin="0,0,0,6" />
+                                <ComboBox SelectedItem="{Binding Command.DateTimeType, Mode=TwoWay}" 
                                                 ItemsSource="{Binding DateTimeTypes}" Margin="0,0,0,12" />
 
-                                    <TextBlock Text="Type Style" FontWeight="Bold" Margin="0,0,0,6" />
-                                    <ComboBox SelectedItem="{Binding Command.TypeStyle, Mode=TwoWay}" 
+                                <TextBlock Text="Type Style" FontWeight="Bold" Margin="0,0,0,6" />
+                                <ComboBox SelectedItem="{Binding Command.TypeStyle, Mode=TwoWay}" 
                                               ItemsSource="{Binding TypeStyles}" Margin="0,0,0,12" />
 
-                                    <StackPanel Visibility="{Binding Command.TypeStyle, ConverterParameter='!Class', Converter={StaticResource EqualityConverter}}">
-                                        <TextBlock Text="The type names which always generate plain TypeScript classes (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
-                                        <TextBox Text="{Binding ClassTypes, Mode=TwoWay}" Margin="0,0,0,12" />
-                                    </StackPanel>
+                                <StackPanel Visibility="{Binding Command.TypeStyle, ConverterParameter='!Class', Converter={StaticResource EqualityConverter}}">
+                                    <TextBlock Text="The type names which always generate plain TypeScript classes (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
+                                    <TextBox Text="{Binding ClassTypes, Mode=TwoWay}" Margin="0,0,0,12" />
                                 </StackPanel>
                             </StackPanel>
-                        </GroupBox>
+                        </StackPanel>
+                    </GroupBox>
 
-                        <TextBlock Text="Extended classes (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
-                        <TextBox Text="{Binding ExtendedClasses, Mode=TwoWay}" Margin="0,0,0,12" />
+                    <TextBlock Text="Extended classes (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding ExtendedClasses, Mode=TwoWay}" Margin="0,0,0,12" />
 
-                        <TextBlock Text="Path to class extension code file (the module import 'generated' is removed and class export keywords are added)" 
+                    <TextBlock Text="Path to class extension code file (the module import 'generated' is removed and class export keywords are added)" 
                                    FontWeight="Bold" Margin="0,0,0,6" />
-                        <controls:FileOpenPicker DefaultExtension=".ts" Filter="TypeScript Files (.ts)|*.ts"
+                    <controls:FileOpenPicker DefaultExtension=".ts" Filter="TypeScript Files (.ts)|*.ts"
                                                  FilePath="{Binding Command.ExtensionCode, Mode=TwoWay}" 
                                                  Margin="0,0,0,12" />
 
-                        <TextBlock Text="Output file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
-                        <controls:FileSavePicker DefaultExtension=".ts" Filter="TypeScript Files (.ts)|*.ts"
+                    <TextBlock Text="Output file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
+                    <controls:FileSavePicker DefaultExtension=".ts" Filter="TypeScript Files (.ts)|*.ts"
                                                  FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" 
                                                  Margin="0,0,0,12" />
-                    </StackPanel>
-                </ScrollViewer>
-            </Expander>
-        </Border>
-
-        <Border Grid.Row="2" Margin="-8,-8,-8,-8" BorderThickness="0,1,0,0" BorderBrush="LightGray">
-            <avalonedit:TextEditor Background="GhostWhite" FontFamily="Consolas" IsReadOnly="True" ShowLineNumbers="True"
-                                   SyntaxHighlighting="JavaScript" FontSize="10pt" Padding="8">
-                <i:Interaction.Behaviors>
-                    <views:AvalonEditBehavior Text="{Binding ClientCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                </i:Interaction.Behaviors>
-            </avalonedit:TextEditor>
-        </Border>
-    </Grid>
+                </StackPanel>
+            </ScrollViewer>
+        </TabItem>
+        <TabItem Header="Output" HeaderTemplate="{StaticResource RotatedTabItem}">
+            <Border Margin="-2">
+                <avalonedit:TextEditor Background="GhostWhite" FontFamily="Consolas" IsReadOnly="True" ShowLineNumbers="True"
+                                       SyntaxHighlighting="JavaScript" FontSize="10pt" Padding="8">
+                    <i:Interaction.Behaviors>
+                        <views:AvalonEditBehavior Text="{Binding ClientCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </i:Interaction.Behaviors>
+                </avalonedit:TextEditor>
+            </Border>
+        </TabItem>
+    </TabControl>
 </UserControl>

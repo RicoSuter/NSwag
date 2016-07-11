@@ -18,9 +18,10 @@ namespace NSwagStudio.Views.CodeGenerators
 
         public string Title => "TypeScript Client";
 
-        public Task GenerateClientAsync(string swaggerData)
+        public async Task GenerateClientAsync(string swaggerData)
         {
-            return Model.GenerateClientAsync(swaggerData);
+            await Model.GenerateClientAsync(swaggerData);
+            TabControl.SelectedIndex = 1;
         }
 
         public override string ToString()
