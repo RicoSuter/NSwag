@@ -24,6 +24,8 @@
                           HorizontalScrollBarVisibility="Hidden"
                           IsEnabled="{Binding IsLoading, Converter={StaticResource NotConverter}}">
                 <StackPanel Margin="8,8,8,0">
+                    <TextBlock Text="TypeScript Client Settings" FontSize="15" FontWeight="Bold" Margin="0,0,0,12" />
+
                     <TextBlock Text="Module name (empty for no module declaration)" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding Command.ModuleName, Mode=TwoWay}" Margin="0,0,0,12" />
 
