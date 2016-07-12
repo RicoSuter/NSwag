@@ -9,6 +9,7 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:codeGenerators="clr-namespace:NSwagStudio.ViewModels.CodeGenerators"
              xmlns:controls="clr-namespace:NSwagStudio.Controls"
+             xmlns:converters1="clr-namespace:NSwagStudio.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="800">
 
@@ -16,14 +17,15 @@
         <codeGenerators:SwaggerToCSharpControllerGeneratorViewModel x:Key="ViewModel" />
         <converters:VisibilityConverter x:Key="VisibilityConverter" />
         <converters:NotConverter x:Key="NotConverter" />
+        <converters1:NumberAdditionConverter x:Key="NumberAdditionConverter" />
     </UserControl.Resources>
 
     <TabControl TabStripPlacement="Left" Margin="8" Name="TabControl" DataContext="{StaticResource ViewModel}">
         <TabItem Header="Settings" HeaderTemplate="{StaticResource RotatedTabItem}">
-            <ScrollViewer VerticalScrollBarVisibility="Visible" 
+            <ScrollViewer x:Name="ScrollViewer" VerticalScrollBarVisibility="Visible" 
                           HorizontalScrollBarVisibility="Hidden"
                           IsEnabled="{Binding IsLoading, Converter={StaticResource NotConverter}}">
-                <StackPanel Margin="8,8,8,0">
+                <StackPanel Margin="8,8,8,0" Width="{Binding ElementName=ScrollViewer, Path=ActualWidth, Converter={StaticResource NumberAdditionConverter}, ConverterParameter=-32}">
                     <TextBlock Text="CSharp Controller Settings" FontSize="15" FontWeight="Bold" Margin="0,0,0,12" />
 
                     <TextBlock Text="Namespace" FontWeight="Bold" Margin="0,0,0,6" />

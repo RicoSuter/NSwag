@@ -4,9 +4,9 @@
         xmlns:viewModels="clr-namespace:NSwagStudio.ViewModels"
         xmlns:views="clr-namespace:NSwagStudio.Views"
         Title="NSwagStudio: The Swagger API toolchain for .NET and TypeScript" 
-        MinHeight="600" MinWidth="700" UseLayoutRounding="True"
+        MinHeight="800" MinWidth="1100" UseLayoutRounding="True"
         WindowStartupLocation="CenterScreen"
-        Height="700" Width="1000">
+        Height="800" Width="1100">
 
     <Window.Resources>
         <viewModels:MainWindowModel x:Key="ViewModel" />
