@@ -55,11 +55,16 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#foreach(var parameter in operation.PathParameters){#>
         if (<#=parameter.VariableNameLower#> === undefined || <#=parameter.VariableNameLower#> === null)
             throw new Error("The parameter '<#=parameter.VariableNameLower#>' must be defined.");
-<#  if(parameter.IsDate){#>
+<#  if(parameter.IsDateArray){#>
+        url = url.replace("{<#=parameter.Name#>}", encodeURIComponent(<#=parameter.VariableNameLower#>.map(s_ => s_.toJSON()).join())); 
+<#  }else if(parameter.IsDate){#>
         url = url.replace("{<#=parameter.Name#>}", encodeURIComponent("" + <#=parameter.VariableNameLower#>.toJSON())); 
+<#  }else if(parameter.IsArray){#>
+        url = url.replace("{<#=parameter.Name#>}", encodeURIComponent(<#=parameter.VariableNameLower#>.join())); 
 <#  }else{#>
         url = url.replace("{<#=parameter.Name#>}", encodeURIComponent("" + <#=parameter.VariableNameLower#>)); 
-<#  }}#>
+<#  }#>
+<#}#>
 
 <#foreach(var parameter in operation.QueryParameters){#>
 <#  if (parameter.IsRequired) { 

@@ -600,11 +600,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             var schemaGenerator = new RootTypeJsonSchemaGenerator(service, schemaDefinitionAppender, Settings);
 
             var typeDescription = JsonObjectTypeDescription.FromType(type, parentAttributes, Settings.DefaultEnumHandling);
-            var parameterType = typeDescription.IsComplexType ? typeof(string) : type; // complex types must be treated as string
+            var parameterType = typeDescription.Type.HasFlag(JsonObjectType.Object) ? typeof(string) : type; // object types must be treated as string
 
-            var operationParameter = new SwaggerParameter();
-            typeDescription.ApplyType(operationParameter);
-
+            var operationParameter = schemaGenerator.Generate<SwaggerParameter>(parameterType, null, parentAttributes, schemaDefinitionAppender, schemaResolver);
             if (parameterType.GetTypeInfo().IsEnum)
                 operationParameter.SchemaReference = schemaGenerator.Generate<JsonSchema4>(parameterType, null, parentAttributes, schemaDefinitionAppender, schemaResolver);
             else

@@ -1,5 +1,5 @@
 {
-    "version": "3.22.0-*",
+    "version": "3.23.0-*",
     "authors": [ "Rico Suter" ],
     "description": "NSwag: The Swagger API toolchain for .NET and TypeScript",
     "packOptions": {
@@ -14,9 +14,6 @@
         "Microsoft.AspNetCore.StaticFiles": "1.0.0",
         "Microsoft.Extensions.FileProviders.Embedded": "1.0.0",
 
-        "System.IO.FileSystem": "4.0.1",
-        "System.Xml.XPath.XDocument": "4.0.1",
-
         "NSwag.CodeGeneration": "*"
     },
 
@@ -28,6 +25,7 @@
     },
 
     "frameworks": {
+        "net451": {},
         "netstandard1.6": {
             "imports": [
                 "dotnet5.6",
@@ -35,6 +33,8 @@
                 "portable-net45+win8"
             ],
             "dependencies": {
+                "System.IO.FileSystem": "4.0.1",
+                "System.Xml.XPath.XDocument": "4.0.1"
             }
         }
     }
