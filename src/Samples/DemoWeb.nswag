@@ -12,13 +12,7 @@
     "ReferencePaths": [],
     "ControllerName": "",
     "ControllerNames": [
-      "NSwag.Demo.Web.Controllers.BodyInputController",
-      "NSwag.Demo.Web.Controllers.FileController",
-      "NSwag.Demo.Web.Controllers.InheritanceController",
-      "NSwag.Demo.Web.Controllers.PersonsController",
-      "NSwag.Demo.Web.Controllers.RequestParameterTestController",
-      "NSwag.Demo.Web.Controllers.TestController",
-      "NSwag.Demo.Web.Controllers.VerbsController"
+      "NSwag.Demo.Web.Controllers.TestController"
     ],
     "DefaultUrlTemplate": "api/{controller}/{action}/{id}",
     "DefaultPropertyNameHandling": "Default",

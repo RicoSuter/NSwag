@@ -70,7 +70,15 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
         if (<#=parameter.VariableNameLower#> == null)
             throw new ArgumentNullException("<#=parameter.VariableNameLower#>");
 
+<#  if(parameter.IsDateArray){#>
+        url_ = url_.Replace("{<#=parameter.Name#>}", Uri.EscapeUriString(string.Join(",", <#=parameter.VariableNameLower#>.Select(s_ => s_.ToString("s", CultureInfo.InvariantCulture)))));
+<#  }else if(parameter.IsDate){#>
+        url_ = url_.Replace("{<#=parameter.Name#>}", Uri.EscapeUriString(<#=parameter.VariableNameLower#>.ToString("s", CultureInfo.InvariantCulture)));
+<#  }else if(parameter.IsArray){#>
+        url_ = url_.Replace("{<#=parameter.Name#>}", Uri.EscapeUriString(string.Join(",", <#=parameter.VariableNameLower#>.Select(s_ => s_.ToString()))));
+<#  }else{#>
         url_ = url_.Replace("{<#=parameter.Name#>}", Uri.EscapeUriString(<#=parameter.VariableNameLower#>.ToString()));
+<#  }#>
 <#}#>
 
 <#foreach(var parameter in operation.QueryParameters){#>
@@ -82,12 +90,12 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
         if (<#=parameter.VariableNameLower#> != null)
             foreach(var item_ in <#=parameter.VariableNameLower#>) { url_ += string.Format("<#=parameter.Name#>={0}&", Uri.EscapeUriString(item_.ToString("s", CultureInfo.InvariantCulture))); }
 <#  }else if(parameter.IsDate){#>
-        url_ += string.Format("<#=parameter.Name#>={0}&", Uri.EscapeUriString(<#=parameter.VariableNameLower#> != null ? <#=parameter.VariableNameLower#>.ToString("s", CultureInfo.InvariantCulture) : "null"));
+        url_ += string.Format("<#=parameter.Name#>={0}&", Uri.EscapeUriString(<#=parameter.VariableNameLower#> != null ? <#=parameter.VariableNameLower#><#if(parameter.IsNullable){#>.Value<#}#>.ToString("s", CultureInfo.InvariantCulture) : "null"));
 <#  }else if(parameter.IsArray){#>
         if (<#=parameter.VariableNameLower#> != null)
             foreach(var item_ in <#=parameter.VariableNameLower#>) { url_ += string.Format("<#=parameter.Name#>={0}&", Uri.EscapeUriString(item_.ToString())); }
 <#  }else{#>
-        url_ += string.Format("<#=parameter.Name#>={0}&", Uri.EscapeUriString(<#=parameter.VariableNameLower#> != null ? <#=parameter.VariableNameLower#>.ToString() : "null"));
+        url_ += string.Format("<#=parameter.Name#>={0}&", Uri.EscapeUriString(<#=parameter.VariableNameLower#> != null ? <#=parameter.VariableNameLower#><#if(parameter.IsNullable){#>.Value<#}#>.ToString() : "null"));
 <#  }
 }#> 
 <#      if(Model.UseHttpClientCreationMethod){#>
