@@ -30,6 +30,8 @@ using Newtonsoft.Json.Linq;
 
 namespace <#=Model.Namespace#>
 {
+    #pragma warning disable // Disable all warnings
+
     <#=ConversionUtilities.Tab(Model.Clients, 1)#>
 
 <#if(Model.GenerateContracts){#>
