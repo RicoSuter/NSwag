@@ -18,6 +18,7 @@ namespace NSwag.AspNet.Owin
         public string SwaggerRoute { get; set; } = "/swagger/v1/swagger.json";
 
         /// <summary>Gets or sets the Swagger post process action.</summary>
+        [Obsolete("Use DocumentProcessors instead.")]
         public Action<SwaggerService> PostProcess { get; set; }
     }
 }

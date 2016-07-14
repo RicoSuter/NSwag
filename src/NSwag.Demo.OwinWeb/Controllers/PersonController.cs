@@ -5,6 +5,7 @@ namespace NSwag.Demo.OwinWeb.Controllers
 {
     public class PersonController : ApiController
     {
+        [Authorize(Roles = "read")]
         [HttpGet, Route("api/Person/{id}")]
         public Teacher GetPerson(int id)
         {
@@ -16,6 +17,7 @@ namespace NSwag.Demo.OwinWeb.Controllers
             };
         }
 
+        [Authorize(Roles = "write")]
         [HttpPost, Route("api/Person")]
         public void SavePerson(Person person)
         {
