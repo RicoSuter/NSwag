@@ -19,11 +19,11 @@ namespace NSwag.Demo.OwinWeb
                 Title = "NSwag Sample API",
                 OperationProcessors =
                 {
-                    new OAuth2OperationSecurityBuilder()
+                    new OAuth2OperationSecurityAppender()
                 },
                 DocumentProcessors =
                 {
-                    new OAuth2SchemeBuilder(new SwaggerSecurityScheme
+                    new OAuth2SchemeAppender(new SwaggerSecurityScheme
                     {
                         Description = "Foo", 
                         Flow = "implicit", 

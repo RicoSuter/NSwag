@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="OAuth2OperationSecurityBuilder.cs" company="NSwag">
+// <copyright file="OAuth2OperationSecurityAppender.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -14,7 +14,7 @@ using NJsonSchema;
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
 {
     /// <summary>Generates the OAuth2 security scopes for an operation by reflecting the AuthorizeAttribute attributes.</summary>
-    public class OAuth2OperationSecurityBuilder : IOperationProcessor
+    public class OAuth2OperationSecurityAppender : IOperationProcessor
     {
         /// <summary>Processes the specified method information.</summary>
         /// <param name="operationDescription">The operation description.</param>

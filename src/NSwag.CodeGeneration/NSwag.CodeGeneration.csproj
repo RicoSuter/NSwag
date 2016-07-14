@@ -141,8 +141,8 @@
     <Compile Include="SwaggerGenerators\RootTypeJsonSchemaGenerator.cs" />
     <Compile Include="SwaggerGenerators\WebApi\Processors\IDocumentProcessor.cs" />
     <Compile Include="SwaggerGenerators\WebApi\Processors\IOperationProcessor.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\Processors\OAuth2SchemeBuilder.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\Processors\OAuth2OperationSecurityBuilder.cs" />
+    <Compile Include="SwaggerGenerators\WebApi\Processors\OAuth2SchemeAppender.cs" />
+    <Compile Include="SwaggerGenerators\WebApi\Processors\OAuth2OperationSecurityAppender.cs" />
     <Compile Include="SwaggerGenerators\WebApi\WebApiToSwaggerGenerator.cs" />
     <Compile Include="SwaggerGenerators\WebApi\WebApiToSwaggerGeneratorSettings.cs" />
   </ItemGroup>

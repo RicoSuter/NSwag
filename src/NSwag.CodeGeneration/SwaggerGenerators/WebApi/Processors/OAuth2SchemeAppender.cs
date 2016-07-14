@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="OAuth2SchemeBuilder.cs" company="NSwag">
+// <copyright file="OAuth2SchemeAppender.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -9,13 +9,13 @@
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
 {
     /// <summary>Appends the OAuth2 security scheme to the document's security definitions.</summary>
-    public class OAuth2SchemeBuilder : IDocumentProcessor
+    public class OAuth2SchemeAppender : IDocumentProcessor
     {
         private readonly SwaggerSecurityScheme _swaggerSecurityScheme;
 
-        /// <summary>Initializes a new instance of the <see cref="OAuth2SchemeBuilder"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="OAuth2SchemeAppender"/> class.</summary>
         /// <param name="swaggerSecurityScheme">The swagger security scheme.</param>
-        public OAuth2SchemeBuilder(SwaggerSecurityScheme swaggerSecurityScheme)
+        public OAuth2SchemeAppender(SwaggerSecurityScheme swaggerSecurityScheme)
         {
             _swaggerSecurityScheme = swaggerSecurityScheme;
         }
