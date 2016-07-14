@@ -926,7 +926,7 @@ foreach(var parameter in operation.QueryParameters){
             #line hidden
             
             #line 93 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
-if(parameter.IsNullable){
+if(parameter.Type.EndsWith("?")){
             
             #line default
             #line hidden
@@ -995,7 +995,7 @@ if(parameter.IsNullable){
             #line hidden
             
             #line 98 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
-if(parameter.IsNullable){
+if(parameter.Type.EndsWith("?")){
             
             #line default
             #line hidden
