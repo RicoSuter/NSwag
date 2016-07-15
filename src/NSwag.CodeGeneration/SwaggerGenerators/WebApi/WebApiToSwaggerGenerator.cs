@@ -443,8 +443,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                             .SingleOrDefault(a => a.GetType().Name == "FromBodyAttribute");
 
                         dynamic fromUriAttribute = parameter.GetCustomAttributes()
-                            .SingleOrDefault(a => a.GetType().Name == "FromUriAttribute");
+                            .SingleOrDefault(a => a.GetType().Name == "FromUriAttribute" || a.GetType().Name == "FromQueryAttribute");
 
+                        // TODO: Process fromUriAttribute.Name property
                         // TODO: Add support for ModelBinder attribute
 
                         if (parameterInfo.IsComplexType)
