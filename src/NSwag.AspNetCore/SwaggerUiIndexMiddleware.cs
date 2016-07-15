@@ -25,7 +25,7 @@ namespace NSwag.AspNetCore
             var url = context.Request.Path.Value;
             if (url.Trim('/').StartsWith(_indexPath.Trim('/')))
             {
-                var stream = typeof(SwaggerUiIndexMiddleware).GetTypeInfo().Assembly.GetManifestResourceStream("NSwag.AspNet.Owin.SwaggerUi.index.html");
+                var stream = typeof(SwaggerUiIndexMiddleware).GetTypeInfo().Assembly.GetManifestResourceStream("NSwag.AspNetCore.SwaggerUi.index.html");
                 using (var reader = new StreamReader(stream))
                 {
                     var html = reader.ReadToEnd();

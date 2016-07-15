@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NSwag.AspNetCore;
 using NSwag.Demo.OwinCoreWeb.Controllers;
 using NJsonSchema.Infrastructure;
+using NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors;
 
 namespace NSwag.Demo.OwinCoreWeb
 {
