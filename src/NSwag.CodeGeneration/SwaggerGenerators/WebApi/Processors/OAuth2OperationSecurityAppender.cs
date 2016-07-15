@@ -46,7 +46,10 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
         protected virtual IEnumerable<string> GetScopes(SwaggerOperationDescription operationDescription, MethodInfo methodInfo,
             ISchemaResolver schemaResolver, IList<SwaggerOperationDescription> allOperationDescriptions)
         {
-            var authorizeAttributes = methodInfo.GetCustomAttributes().Where(a => a.GetType().Name == "AuthorizeAttribute").ToList();
+            var allAttributes = methodInfo.GetCustomAttributes().Concat(
+                methodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes());
+
+            var authorizeAttributes = allAttributes.Where(a => a.GetType().Name == "AuthorizeAttribute").ToList();
             if (!authorizeAttributes.Any())
                 return Enumerable.Empty<string>();
 
