@@ -17,6 +17,17 @@ namespace NSwag.Demo.OwinWeb
             app.UseSwaggerUi(typeof(Startup).Assembly, new SwaggerUiOwinSettings
             {
                 Title = "NSwag Sample API",
+                OAuth2 = new OAuth2Settings
+                {
+                    ClientId = "foo",
+                    ClientSecret = "bar",
+                    AppName = "my_app",
+                    Realm = "my_realm",
+                    AdditionalQueryStringParameters =
+                    {
+                        { "foo", "bar" }
+                    }
+                },
                 OperationProcessors =
                 {
                     new OAuth2OperationSecurityAppender()
@@ -25,11 +36,11 @@ namespace NSwag.Demo.OwinWeb
                 {
                     new OAuth2SchemeAppender("auth", new SwaggerSecurityScheme
                     {
-                        Description = "Foo", 
-                        Flow = "implicit", 
+                        Description = "Foo",
+                        Flow = "implicit",
                         AuthorizationUrl = "https://localhost:44333/core/connect/authorize",
-                        TokenUrl = "https://localhost:44333/core/connect/token", 
-                        Scopes = 
+                        TokenUrl = "https://localhost:44333/core/connect/token",
+                        Scopes =
                         {
                             { "read", "Read access to protected resources" },
                             { "write", "Write access to protected resources" }

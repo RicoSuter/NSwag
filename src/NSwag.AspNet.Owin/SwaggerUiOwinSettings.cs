@@ -6,9 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-
 namespace NSwag.AspNet.Owin
 {
     /// <summary>The settings for UseSwaggerUi.</summary>
@@ -17,15 +14,7 @@ namespace NSwag.AspNet.Owin
         /// <summary>Gets or sets the swagger UI route.</summary>
         public string SwaggerUiRoute { get; set; } = "/swagger";
 
-        private IDictionary<string, string> SwaggerUiParameters
-        {
-            get
-            {
-                return new Dictionary<string, string>
-                {
-                    
-                };
-            }
-        }
+        /// <summary>Gets or sets the OAuth2 settings.</summary>
+        public OAuth2Settings OAuth2 { get; set; }
     }
 }

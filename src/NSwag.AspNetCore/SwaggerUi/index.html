@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -56,12 +56,12 @@
         onComplete: function(swaggerApi, swaggerUi){
           if(typeof initOAuth == "function") {
             initOAuth({
-              clientId: "your-client-id",
-              clientSecret: "your-client-secret-if-required",
-              realm: "your-realms",
-              appName: "your-app-name",
-              scopeSeparator: ",",
-              additionalQueryStringParams: {}
+              clientId: "{ClientId}",
+              clientSecret: "{ClientSecret}",
+              realm: "{Realm}",
+              appName: "{AppName}",
+              scopeSeparator: "{ScopeSeparator}",
+              additionalQueryStringParams: {AdditionalQueryStringParameters}
             });
           }
 

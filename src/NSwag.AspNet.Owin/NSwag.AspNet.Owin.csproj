@@ -69,6 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OAuth2Settings.cs" />
     <Compile Include="SwaggerUiIndexMiddleware.cs" />
     <Compile Include="SwaggerUiOwinSettings.cs" />
     <Compile Include="SwaggerOwinSettings.cs" />
