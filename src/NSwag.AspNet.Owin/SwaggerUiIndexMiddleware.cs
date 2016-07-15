@@ -28,6 +28,7 @@ namespace NSwag.AspNet.Owin
                 using (var reader = new StreamReader(stream))
                 {
                     var html = reader.ReadToEnd();
+
                     var oauth2Settings = _settings.OAuth2 ?? new OAuth2Settings();
                     foreach (var property in oauth2Settings.GetType().GetRuntimeProperties())
                     {

@@ -64,8 +64,6 @@ namespace NSwag.AspNet.Owin
             return app;
         }
 
-
-
         /// <summary>Addes the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
         /// <param name="app">The app.</param>
         /// <param name="webApiAssembly">The Web API assembly to search for controller types.</param>

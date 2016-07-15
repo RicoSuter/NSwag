@@ -1,6 +1,18 @@
-﻿using System.Collections.Generic;
+﻿//-----------------------------------------------------------------------
+// <copyright file="OAuth2Settings.cs" company="NSwag">
+//     Copyright (c) Rico Suter. All rights reserved.
+// </copyright>
+// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <author>Rico Suter, mail@rsuter.com</author>
+//-----------------------------------------------------------------------
 
+using System.Collections.Generic;
+
+#if AspNetOwin
+namespace NSwag.AspNet.Owin
+#else
 namespace NSwag.AspNetCore
+#endif
 {
     /// <summary>The OAuth client settings.</summary>
     public class OAuth2Settings

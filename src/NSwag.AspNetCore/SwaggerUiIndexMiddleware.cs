@@ -9,9 +9,9 @@ namespace NSwag.AspNetCore
 {
     internal class SwaggerUiIndexMiddleware
     {
+        private readonly RequestDelegate _nextDelegate;
         private readonly string _indexPath;
         private readonly SwaggerUiOwinSettings _settings;
-        private RequestDelegate _nextDelegate;
 
         public SwaggerUiIndexMiddleware(RequestDelegate nextDelegate, string indexPath, SwaggerUiOwinSettings settings)
         {
@@ -29,6 +29,7 @@ namespace NSwag.AspNetCore
                 using (var reader = new StreamReader(stream))
                 {
                     var html = reader.ReadToEnd();
+
                     var oauth2Settings = _settings.OAuth2 ?? new OAuth2Settings();
                     foreach (var property in oauth2Settings.GetType().GetTypeInfo().GetProperties())
                     {
