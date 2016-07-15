@@ -23,7 +23,7 @@ namespace NSwag.Demo.OwinWeb
                 },
                 DocumentProcessors =
                 {
-                    new OAuth2SchemeAppender(new SwaggerSecurityScheme
+                    new OAuth2SchemeAppender("auth", new SwaggerSecurityScheme
                     {
                         Description = "Foo", 
                         Flow = "implicit", 

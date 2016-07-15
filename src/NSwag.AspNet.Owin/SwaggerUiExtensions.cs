@@ -105,6 +105,7 @@ namespace NSwag.AspNet.Owin
         {
             app.Use<RedirectMiddleware>(settings.SwaggerUiRoute, settings.SwaggerUiRoute + "/index.html?url=" + Uri.EscapeDataString(settings.SwaggerRoute));
             app.Use<SwaggerMiddleware>(settings.SwaggerRoute, controllerTypes, settings);
+            //app.Use<SwaggerUiIndexMiddleware>(settings.SwaggerUiRoute, settings);
             app.UseFileServer(new FileServerOptions
             {
                 RequestPath = new PathString(settings.SwaggerUiRoute),

@@ -69,6 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SwaggerUiIndexMiddleware.cs" />
     <Compile Include="SwaggerUiOwinSettings.cs" />
     <Compile Include="SwaggerOwinSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -77,11 +78,28 @@
     <Compile Include="SwaggerUiExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
+    <None Include="NSwag.AspNet.Owin.nuspec" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj">
+      <Project>{75b3f91d-687e-4fb3-ad45-ccfa3c406db4}</Project>
+      <Name>NSwag.CodeGeneration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj">
+      <Project>{2E6174AA-FC75-4821-9E86-51B30568BEC0}</Project>
+      <Name>NSwag.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="SwaggerUi\css\print.css" />
     <EmbeddedResource Include="SwaggerUi\css\reset.css" />
     <EmbeddedResource Include="SwaggerUi\css\screen.css" />
     <EmbeddedResource Include="SwaggerUi\css\style.css" />
     <EmbeddedResource Include="SwaggerUi\css\typography.css" />
+    <EmbeddedResource Include="SwaggerUi\fonts\DroidSans-Bold.ttf" />
+    <EmbeddedResource Include="SwaggerUi\fonts\DroidSans.ttf" />
     <EmbeddedResource Include="SwaggerUi\images\collapse.gif" />
     <EmbeddedResource Include="SwaggerUi\images\expand.gif" />
     <EmbeddedResource Include="SwaggerUi\images\explorer_icons.png" />
@@ -106,7 +124,6 @@
     <EmbeddedResource Include="SwaggerUi\lang\zh-cn.js" />
     <EmbeddedResource Include="SwaggerUi\lib\backbone-min.js" />
     <EmbeddedResource Include="SwaggerUi\lib\handlebars-2.0.0.js" />
-    <EmbeddedResource Include="SwaggerUi\lib\highlight.7.3.pack.js" />
     <EmbeddedResource Include="SwaggerUi\lib\jquery-1.8.0.min.js" />
     <EmbeddedResource Include="SwaggerUi\lib\jquery.ba-bbq.min.js" />
     <EmbeddedResource Include="SwaggerUi\lib\jquery.slideto.min.js" />
@@ -114,28 +131,18 @@
     <EmbeddedResource Include="SwaggerUi\lib\jsoneditor.min.js" />
     <EmbeddedResource Include="SwaggerUi\lib\marked.js" />
     <EmbeddedResource Include="SwaggerUi\lib\swagger-oauth.js" />
-    <EmbeddedResource Include="SwaggerUi\lib\underscore-min.js" />
     <EmbeddedResource Include="SwaggerUi\o2c.html" />
     <EmbeddedResource Include="SwaggerUi\swagger-ui.js" />
     <EmbeddedResource Include="SwaggerUi\swagger-ui.min.js" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="SwaggerUi\fonts\DroidSans-Bold.ttf" />
-    <EmbeddedResource Include="SwaggerUi\fonts\DroidSans.ttf" />
-    <EmbeddedResource Include="SwaggerUi\lib\underscore-min.map" />
-    <None Include="app.config" />
-    <None Include="NSwag.AspNet.Owin.nuspec" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj">
-      <Project>{75b3f91d-687e-4fb3-ad45-ccfa3c406db4}</Project>
-      <Name>NSwag.CodeGeneration</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj">
-      <Project>{2E6174AA-FC75-4821-9E86-51B30568BEC0}</Project>
-      <Name>NSwag.Core</Name>
-    </ProjectReference>
+    <EmbeddedResource Include="SwaggerUi\lang\geo.js" />
+    <EmbeddedResource Include="SwaggerUi\lang\ko-kr.js" />
+    <EmbeddedResource Include="SwaggerUi\lib\highlight.9.1.0.pack.js" />
+    <EmbeddedResource Include="SwaggerUi\lib\highlight.9.1.0.pack_extended.js" />
+    <EmbeddedResource Include="SwaggerUi\lib\js-yaml.min.js" />
+    <EmbeddedResource Include="SwaggerUi\lib\lodash.min.js" />
+    <EmbeddedResource Include="SwaggerUi\lib\object-assign-pollyfill.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
