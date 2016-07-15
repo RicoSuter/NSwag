@@ -6,7 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using Newtonsoft.Json;
+using System.Runtime.Serialization;
 
 namespace NSwag
 {
@@ -17,15 +17,15 @@ namespace NSwag
         Undefined,
 
         /// <summary>Basic authentication.</summary>
-        [JsonProperty("basic")]
+        [EnumMember(Value = "basic")]
         Basic,
 
         /// <summary>API key authentication.</summary>
-        [JsonProperty("apiKey")]
+        [EnumMember(Value = "apiKey")]
         ApiKey,
 
         /// <summary>OAuth2 authentication.</summary>
-        [JsonProperty("oauth2")]
+        [EnumMember(Value = "oauth2")]
         OAuth2
     }
 }

@@ -64,8 +64,6 @@ namespace NSwag.AspNet.Owin
             return app;
         }
 
-
-
         /// <summary>Addes the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
         /// <param name="app">The app.</param>
         /// <param name="webApiAssembly">The Web API assembly to search for controller types.</param>
@@ -105,6 +103,7 @@ namespace NSwag.AspNet.Owin
         {
             app.Use<RedirectMiddleware>(settings.SwaggerUiRoute, settings.SwaggerUiRoute + "/index.html?url=" + Uri.EscapeDataString(settings.SwaggerRoute));
             app.Use<SwaggerMiddleware>(settings.SwaggerRoute, controllerTypes, settings);
+            app.Use<SwaggerUiIndexMiddleware>(settings.SwaggerUiRoute + "/index.html", settings);
             app.UseFileServer(new FileServerOptions
             {
                 RequestPath = new PathString(settings.SwaggerUiRoute),

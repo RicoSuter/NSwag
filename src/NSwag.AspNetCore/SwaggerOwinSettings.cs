@@ -9,7 +9,11 @@
 using System;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 
+#if AspNetOwin
+namespace NSwag.AspNet.Owin
+#else
 namespace NSwag.AspNetCore
+#endif
 {
     /// <summary>The settings for UseSwagger.</summary>
     public class SwaggerOwinSettings : WebApiToSwaggerGeneratorSettings
