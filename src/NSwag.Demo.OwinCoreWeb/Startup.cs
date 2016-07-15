@@ -23,8 +23,37 @@ namespace NSwag.Demo.OwinCoreWeb
             app.UseMvc();
             app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, new SwaggerUiOwinSettings
             {
-                Title = "Foo bar",
-                Version = "1.1.0"
+                Title = "NSwag Sample API",
+                OAuth2 = new OAuth2Settings
+                {
+                    ClientId = "foo",
+                    ClientSecret = "bar",
+                    AppName = "my_app",
+                    Realm = "my_realm",
+                    AdditionalQueryStringParameters =
+                    {
+                        { "foo", "bar" }
+                    }
+                },
+                //OperationProcessors =
+                //{
+                //    new OAuth2OperationSecurityAppender()
+                //},
+                //DocumentProcessors =
+                //{
+                //    new OAuth2SchemeAppender("auth", new SwaggerSecurityScheme
+                //    {
+                //        Description = "Foo",
+                //        Flow = "implicit",
+                //        AuthorizationUrl = "https://localhost:44333/core/connect/authorize",
+                //        TokenUrl = "https://localhost:44333/core/connect/token",
+                //        Scopes =
+                //        {
+                //            { "read", "Read access to protected resources" },
+                //            { "write", "Write access to protected resources" }
+                //        }
+                //    })
+                //}
             });
         }
     }

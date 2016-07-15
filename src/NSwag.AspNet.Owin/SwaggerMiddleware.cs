@@ -53,7 +53,12 @@ namespace NSwag.AspNet.Owin
                         var generator = new WebApiToSwaggerGenerator(_settings);
                         var service = generator.GenerateForControllers(_controllerTypes);
 
+                        foreach (var processor in _settings.DocumentProcessors)
+                            processor.Process(service);
+
+#pragma warning disable 618
                         _settings.PostProcess?.Invoke(service);
+#pragma warning restore 618
                         _swaggerJson = service.ToJson();
                     }
                 }

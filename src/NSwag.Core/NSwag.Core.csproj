@@ -46,8 +46,8 @@
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=2.56.6036.39820, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.2.56.6036.39820\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
+    <Reference Include="NJsonSchema, Version=2.58.6038.30299, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.2.58.6038.30299\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -74,6 +74,7 @@
     <Compile Include="SwaggerResponse.cs" />
     <Compile Include="SwaggerResponses.cs" />
     <Compile Include="SwaggerSchema.cs" />
+    <Compile Include="SwaggerSecurityApiKeyLocation.cs" />
     <Compile Include="SwaggerSecurityRequirement.cs" />
     <Compile Include="SwaggerSecurityScheme.cs" />
     <Compile Include="SwaggerSecuritySchemeType.cs" />

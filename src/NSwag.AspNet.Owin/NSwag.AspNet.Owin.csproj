@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;AspNetOwin</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\NSwag.AspNet.Owin.xml</DocumentationFile>
@@ -28,7 +28,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;AspNetOwin</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\NSwag.AspNet.Owin.xml</DocumentationFile>
@@ -51,8 +51,8 @@
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=2.56.6036.39820, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.2.56.6036.39820\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
+    <Reference Include="NJsonSchema, Version=2.58.6038.30299, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.2.58.6038.30299\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
@@ -69,12 +69,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SwaggerUiOwinSettings.cs" />
-    <Compile Include="SwaggerOwinSettings.cs" />
+    <Compile Include="..\NSwag.AspNetCore\OAuth2Settings.cs">
+      <Link>OAuth2Settings.cs</Link>
+    </Compile>
+    <Compile Include="..\NSwag.AspNetCore\SwaggerOwinSettings.cs">
+      <Link>SwaggerOwinSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\NSwag.AspNetCore\SwaggerUiOwinSettings.cs">
+      <Link>SwaggerUiOwinSettings.cs</Link>
+    </Compile>
+    <Compile Include="SwaggerUiIndexMiddleware.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RedirectMiddleware.cs" />
     <Compile Include="SwaggerMiddleware.cs" />
     <Compile Include="SwaggerUiExtensions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="NSwag.AspNet.Owin.nuspec" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj">
+      <Project>{75b3f91d-687e-4fb3-ad45-ccfa3c406db4}</Project>
+      <Name>NSwag.CodeGeneration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj">
+      <Project>{2E6174AA-FC75-4821-9E86-51B30568BEC0}</Project>
+      <Name>NSwag.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="SwaggerUi\css\print.css" />
@@ -82,6 +105,8 @@
     <EmbeddedResource Include="SwaggerUi\css\screen.css" />
     <EmbeddedResource Include="SwaggerUi\css\style.css" />
     <EmbeddedResource Include="SwaggerUi\css\typography.css" />
+    <EmbeddedResource Include="SwaggerUi\fonts\DroidSans-Bold.ttf" />
+    <EmbeddedResource Include="SwaggerUi\fonts\DroidSans.ttf" />
     <EmbeddedResource Include="SwaggerUi\images\collapse.gif" />
     <EmbeddedResource Include="SwaggerUi\images\expand.gif" />
     <EmbeddedResource Include="SwaggerUi\images\explorer_icons.png" />
@@ -106,7 +131,6 @@
     <EmbeddedResource Include="SwaggerUi\lang\zh-cn.js" />
     <EmbeddedResource Include="SwaggerUi\lib\backbone-min.js" />
     <EmbeddedResource Include="SwaggerUi\lib\handlebars-2.0.0.js" />
-    <EmbeddedResource Include="SwaggerUi\lib\highlight.7.3.pack.js" />
     <EmbeddedResource Include="SwaggerUi\lib\jquery-1.8.0.min.js" />
     <EmbeddedResource Include="SwaggerUi\lib\jquery.ba-bbq.min.js" />
     <EmbeddedResource Include="SwaggerUi\lib\jquery.slideto.min.js" />
@@ -114,28 +138,18 @@
     <EmbeddedResource Include="SwaggerUi\lib\jsoneditor.min.js" />
     <EmbeddedResource Include="SwaggerUi\lib\marked.js" />
     <EmbeddedResource Include="SwaggerUi\lib\swagger-oauth.js" />
-    <EmbeddedResource Include="SwaggerUi\lib\underscore-min.js" />
     <EmbeddedResource Include="SwaggerUi\o2c.html" />
     <EmbeddedResource Include="SwaggerUi\swagger-ui.js" />
     <EmbeddedResource Include="SwaggerUi\swagger-ui.min.js" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="SwaggerUi\fonts\DroidSans-Bold.ttf" />
-    <EmbeddedResource Include="SwaggerUi\fonts\DroidSans.ttf" />
-    <EmbeddedResource Include="SwaggerUi\lib\underscore-min.map" />
-    <None Include="app.config" />
-    <None Include="NSwag.AspNet.Owin.nuspec" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj">
-      <Project>{75b3f91d-687e-4fb3-ad45-ccfa3c406db4}</Project>
-      <Name>NSwag.CodeGeneration</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj">
-      <Project>{2E6174AA-FC75-4821-9E86-51B30568BEC0}</Project>
-      <Name>NSwag.Core</Name>
-    </ProjectReference>
+    <EmbeddedResource Include="SwaggerUi\lang\geo.js" />
+    <EmbeddedResource Include="SwaggerUi\lang\ko-kr.js" />
+    <EmbeddedResource Include="SwaggerUi\lib\highlight.9.1.0.pack.js" />
+    <EmbeddedResource Include="SwaggerUi\lib\highlight.9.1.0.pack_extended.js" />
+    <EmbeddedResource Include="SwaggerUi\lib\js-yaml.min.js" />
+    <EmbeddedResource Include="SwaggerUi\lib\lodash.min.js" />
+    <EmbeddedResource Include="SwaggerUi\lib\object-assign-pollyfill.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

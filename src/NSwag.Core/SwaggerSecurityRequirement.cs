@@ -11,7 +11,7 @@ using System.Collections.Generic;
 namespace NSwag
 {
     /// <summary>The operation security requirements.</summary>
-    public class SwaggerSecurityRequirement : Dictionary<string, string[]>
+    public class SwaggerSecurityRequirement : Dictionary<string, IEnumerable<string>>
     {
 
     }
