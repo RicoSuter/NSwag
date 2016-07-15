@@ -36,5 +36,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <summary>Gets the operation processor.</summary>
         [JsonIgnore]
         public IList<IOperationProcessor> OperationProcessors { get; } = new List<IOperationProcessor>();
+
+        /// <summary>Gets the operation processor.</summary>
+        [JsonIgnore]
+        public IList<IDocumentProcessor> DocumentProcessors { get; } = new List<IDocumentProcessor>();
     }
 }
