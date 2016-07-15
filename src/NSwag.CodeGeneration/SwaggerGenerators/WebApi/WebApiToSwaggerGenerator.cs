@@ -13,6 +13,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
@@ -419,7 +420,12 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
         private void LoadParameters(SwaggerService service, SwaggerOperation operation, List<ParameterInfo> parameters, string httpPath, ISchemaResolver schemaResolver)
         {
-            foreach (var parameter in parameters)
+            // TODO: Also check other attributes (e.g. FromHeader, ...) 
+            // https://docs.asp.net/en/latest/mvc/models/model-binding.html#customize-model-binding-behavior-with-attributes
+
+            foreach (var parameter in parameters.Where(p => p.ParameterType != typeof(CancellationToken) && 
+                                                            p.GetCustomAttributes().All(a => a.GetType().Name != "FromServicesAttribute") &&
+                                                            p.GetCustomAttributes().All(a => a.GetType().Name != "BindNeverAttribute")))
             {
                 var nameLower = parameter.Name.ToLowerInvariant();
                 if (httpPath.ToLowerInvariant().Contains("{" + nameLower + "}") ||
