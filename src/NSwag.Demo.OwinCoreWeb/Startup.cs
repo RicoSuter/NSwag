@@ -35,25 +35,32 @@ namespace NSwag.Demo.OwinCoreWeb
                         { "foo", "bar" }
                     }
                 },
-                //OperationProcessors =
-                //{
-                //    new OAuth2OperationSecurityAppender()
-                //},
-                //DocumentProcessors =
-                //{
-                //    new OAuth2SchemeAppender("auth", new SwaggerSecurityScheme
-                //    {
-                //        Description = "Foo",
-                //        Flow = "implicit",
-                //        AuthorizationUrl = "https://localhost:44333/core/connect/authorize",
-                //        TokenUrl = "https://localhost:44333/core/connect/token",
-                //        Scopes =
-                //        {
-                //            { "read", "Read access to protected resources" },
-                //            { "write", "Write access to protected resources" }
-                //        }
-                //    })
-                //}
+                OperationProcessors =
+                {
+                    new OperationSecurityScopeAppender("oauth2")
+                },
+                DocumentProcessors =
+                {
+                    new SecurityDefinitionAppender("oauth2", new SwaggerSecurityScheme
+                    {
+                        Type = SwaggerSecuritySchemeType.OAuth2,
+                        Description = "Foo",
+                        Flow = "implicit",
+                        AuthorizationUrl = "https://localhost:44333/core/connect/authorize",
+                        TokenUrl = "https://localhost:44333/core/connect/token",
+                        Scopes =
+                        {
+                            { "read", "Read access to protected resources" },
+                            { "write", "Write access to protected resources" }
+                        }
+                    }),
+                    new SecurityDefinitionAppender("apikey", new SwaggerSecurityScheme
+                    {
+                        Type = SwaggerSecuritySchemeType.ApiKey,
+                        Name = "api_key",
+                        In = SwaggerSecurityApiKeyLocation.Header
+                    })
+                }
             });
         }
     }
