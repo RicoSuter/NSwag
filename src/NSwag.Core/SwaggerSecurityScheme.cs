@@ -30,13 +30,14 @@ namespace NSwag
         [JsonProperty(PropertyName = "description", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Description { get; set; }
 
-        /// <summary>Gets or sets the name of the header or query parameter to be used.</summary>
+        /// <summary>Gets or sets the name of the header or query parameter to be used to transmit the API key.</summary>
         [JsonProperty(PropertyName = "name", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Name { get; set; }
-
-        /// <summary>Gets or sets the location of the API key.</summary>
+        
+        /// <summary>Gets or sets the type of the API key.</summary>
         [JsonProperty(PropertyName = "in", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public string ApiKeyLocation { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public SwaggerSecurityApiKeyLocation In { get; set; }
 
         /// <summary>Gets or sets the used by the OAuth2 security scheme.</summary>
         [JsonProperty(PropertyName = "flow", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]

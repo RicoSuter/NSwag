@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="OAuth2OperationSecurityAppender.cs" company="NSwag">
+// <copyright file="OperationSecurityScopeAppender.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -14,8 +14,17 @@ using NJsonSchema;
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
 {
     /// <summary>Generates the OAuth2 security scopes for an operation by reflecting the AuthorizeAttribute attributes.</summary>
-    public class OAuth2OperationSecurityAppender : IOperationProcessor
+    public class OperationSecurityScopeAppender : IOperationProcessor
     {
+        private readonly string _name;
+
+        /// <summary>Initializes a new instance of the <see cref="OperationSecurityScopeAppender"/> class.</summary>
+        /// <param name="name">The security definition name.</param>
+        public OperationSecurityScopeAppender(string name)
+        {
+            _name = name;
+        }
+
         /// <summary>Processes the specified method information.</summary>
         /// <param name="operationDescription">The operation description.</param>
         /// <param name="methodInfo">The method information.</param>
@@ -31,7 +40,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
             var scopes = GetScopes(operationDescription, methodInfo, schemaResolver, allOperationDescriptions);
             operationDescription.Operation.Security.Add(new SwaggerSecurityRequirement
             {
-                { "oauth2", scopes }
+                { _name, scopes }
             });
 
             return true;
