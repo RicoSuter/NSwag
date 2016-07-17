@@ -64,6 +64,7 @@
     <Compile Include="SwaggerHeaders.cs" />
     <Compile Include="SwaggerInfo.cs" />
     <Compile Include="SwaggerLicense.cs" />
+    <Compile Include="SwaggerOAuth2Flow.cs" />
     <Compile Include="SwaggerOperation.cs" />
     <Compile Include="SwaggerOperationDescription.cs" />
     <Compile Include="SwaggerOperationMethod.cs" />
