@@ -46,7 +46,7 @@ namespace NSwag.Demo.OwinCoreWeb
                     {
                         Type = SwaggerSecuritySchemeType.OAuth2,
                         Description = "Foo",
-                        Flow = "implicit",
+                        Flow = SwaggerOAuth2Flow.Implicit,
                         AuthorizationUrl = "https://localhost:44333/core/connect/authorize",
                         TokenUrl = "https://localhost:44333/core/connect/token",
                         Scopes =
