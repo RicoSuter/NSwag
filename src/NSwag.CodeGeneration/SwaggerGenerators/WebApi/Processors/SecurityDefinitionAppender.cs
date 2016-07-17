@@ -15,8 +15,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
         private readonly SwaggerSecurityScheme _swaggerSecurityScheme;
 
         /// <summary>Initializes a new instance of the <see cref="SecurityDefinitionAppender" /> class.</summary>
-        /// <param name="name">The name of the schema.</param>
-        /// <param name="swaggerSecurityScheme">The swagger security scheme.</param>
+        /// <param name="name">The name/key of the security scheme/definition.</param>
+        /// <param name="swaggerSecurityScheme">The Swagger security scheme.</param>
         public SecurityDefinitionAppender(string name, SwaggerSecurityScheme swaggerSecurityScheme)
         {
             _name = name; 
