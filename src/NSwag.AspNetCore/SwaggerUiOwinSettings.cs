@@ -19,6 +19,6 @@ namespace NSwag.AspNetCore
         public string SwaggerUiRoute { get; set; } = "/swagger";
 
         /// <summary>Gets or sets the Swagger UI OAuth2 client settings.</summary>
-        public OAuth2Settings OAuth2Client { get; set; }
+        public OAuth2ClientSettings OAuth2Client { get; set; }
     }
 }
