@@ -30,7 +30,7 @@ namespace NSwag.AspNetCore
                 {
                     var html = reader.ReadToEnd();
 
-                    var oauth2Settings = _settings.OAuth2 ?? new OAuth2Settings();
+                    var oauth2Settings = _settings.OAuth2Client ?? new OAuth2Settings();
                     foreach (var property in oauth2Settings.GetType().GetTypeInfo().GetProperties())
                     {
                         var value = property.GetValue(oauth2Settings);
