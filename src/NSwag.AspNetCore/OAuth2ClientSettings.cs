@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="OAuth2Settings.cs" company="NSwag">
+// <copyright file="OAuth2ClientSettings.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -15,7 +15,7 @@ namespace NSwag.AspNetCore
 #endif
 {
     /// <summary>The OAuth client settings.</summary>
-    public class OAuth2Settings
+    public class OAuth2ClientSettings
     {
         /// <summary>Gets or sets the client identifier.</summary>
         public string ClientId { get; set; } = "client_id";

@@ -41,7 +41,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the used by the OAuth2 security scheme.</summary>
         [JsonProperty(PropertyName = "flow", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public string Flow { get; set; }
+        public SwaggerOAuth2Flow Flow { get; set; }
 
         /// <summary>Gets or sets the authorization URL to be used for this flow.</summary>
         [JsonProperty(PropertyName = "authorizationUrl", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]

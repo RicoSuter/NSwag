@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NSwag.AspNetCore;
 using NSwag.Demo.OwinCoreWeb.Controllers;
 using NJsonSchema.Infrastructure;
+using NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors;
 
 namespace NSwag.Demo.OwinCoreWeb
 {
@@ -24,7 +25,7 @@ namespace NSwag.Demo.OwinCoreWeb
             app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, new SwaggerUiOwinSettings
             {
                 Title = "NSwag Sample API",
-                OAuth2 = new OAuth2Settings
+                OAuth2Client = new OAuth2ClientSettings
                 {
                     ClientId = "foo",
                     ClientSecret = "bar",

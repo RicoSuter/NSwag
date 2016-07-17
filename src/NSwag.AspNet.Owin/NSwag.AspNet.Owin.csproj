@@ -69,8 +69,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\NSwag.AspNetCore\OAuth2Settings.cs">
-      <Link>OAuth2Settings.cs</Link>
+    <Compile Include="..\NSwag.AspNetCore\OAuth2ClientSettings.cs">
+      <Link>OAuth2ClientSettings.cs</Link>
     </Compile>
     <Compile Include="..\NSwag.AspNetCore\SwaggerOwinSettings.cs">
       <Link>SwaggerOwinSettings.cs</Link>

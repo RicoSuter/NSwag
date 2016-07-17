@@ -1,5 +1,5 @@
 {
-    "version": "3.26.0-*",
+    "version": "3.27.0-*",
     "authors": [ "Rico Suter" ],
     "description": "NSwag: The Swagger API toolchain for .NET and TypeScript",
     "packOptions": {
@@ -13,7 +13,6 @@
         "Microsoft.AspNetCore.Mvc.Core": "1.0.0",
         "Microsoft.AspNetCore.StaticFiles": "1.0.0",
         "Microsoft.Extensions.FileProviders.Embedded": "1.0.0",
-
         "NSwag.CodeGeneration": "*"
     },
 

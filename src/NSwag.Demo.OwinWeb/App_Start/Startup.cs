@@ -17,7 +17,7 @@ namespace NSwag.Demo.OwinWeb
             app.UseSwaggerUi(typeof(Startup).Assembly, new SwaggerUiOwinSettings
             {
                 Title = "NSwag Sample API",
-                OAuth2 = new OAuth2Settings
+                OAuth2Client = new OAuth2ClientSettings
                 {
                     ClientId = "foo",
                     ClientSecret = "bar",
@@ -38,7 +38,7 @@ namespace NSwag.Demo.OwinWeb
                     {
                         Type = SwaggerSecuritySchemeType.OAuth2,
                         Description = "Foo",
-                        Flow = "implicit",
+                        Flow = SwaggerOAuth2Flow.Implicit,
                         AuthorizationUrl = "https://localhost:44333/core/connect/authorize",
                         TokenUrl = "https://localhost:44333/core/connect/token",
                         Scopes =
