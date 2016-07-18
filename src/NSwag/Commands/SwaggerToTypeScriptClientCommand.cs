@@ -129,6 +129,14 @@ namespace NSwag.Commands
         [Argument(Name = "ExtensionCode", IsRequired = false)]
         public string ExtensionCode { get; set; }
 
+        [Description("Specifies whether to generate default values for properties (default: true).")]
+        [Argument(Name = "GenerateDefaultValues", IsRequired = false)]
+        public bool GenerateDefaultValues
+        {
+            get { return Settings.TypeScriptGeneratorSettings.GenerateDefaultValues; }
+            set { Settings.TypeScriptGeneratorSettings.GenerateDefaultValues = value; }
+        }
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var code = await RunAsync();
