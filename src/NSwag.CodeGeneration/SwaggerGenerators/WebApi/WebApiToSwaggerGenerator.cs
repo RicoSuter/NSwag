@@ -139,7 +139,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                                 Path = Regex.Replace(httpPath, "{(.*?)(:(.*?))?}", match =>
                                 {
                                     if (operation.Parameters.Any(p => p.Kind == SwaggerParameterKind.Path && match.Groups[1].Value == p.Name))
-                                        return match.Value;
+                                        return "{" + match.Groups[1].Value + "}";
                                     return string.Empty;
                                 }).TrimEnd('/'),
                                 Method = httpMethod,
@@ -423,7 +423,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             // TODO: Also check other attributes (e.g. FromHeader, ...) 
             // https://docs.asp.net/en/latest/mvc/models/model-binding.html#customize-model-binding-behavior-with-attributes
 
-            foreach (var parameter in parameters.Where(p => p.ParameterType != typeof(CancellationToken) && 
+            foreach (var parameter in parameters.Where(p => p.ParameterType != typeof(CancellationToken) &&
                                                             p.GetCustomAttributes().All(a => a.GetType().Name != "FromServicesAttribute") &&
                                                             p.GetCustomAttributes().All(a => a.GetType().Name != "BindNeverAttribute")))
             {

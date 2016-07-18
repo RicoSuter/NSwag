@@ -1,6 +1,7 @@
 ﻿<#@ template visibility="internal" #>
 <#@ assembly name="System.Core" #>
 <#@ import namespace="NJsonSchema.CodeGeneration" #>
+[GeneratedCode("NSwag", "<#=SwaggerService.ToolchainVersion#>")]
 public interface I<#=Model.Class#>Controller
 {
 <#foreach(var operation in Model.Operations){#>
@@ -14,6 +15,7 @@ public interface I<#=Model.Class#>Controller
 <#}#>
 }
 
+[GeneratedCode("NSwag", "<#=SwaggerService.ToolchainVersion#>")]
 public class <#=Model.Class#>Controller : <#if(Model.HasBaseClass){#><#=Model.BaseClass#><#}else{#>ApiController<#}#> 
 {
     private I<#=Model.Class#>Controller _implementation; 

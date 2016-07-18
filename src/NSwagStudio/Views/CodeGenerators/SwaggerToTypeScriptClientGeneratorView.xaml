@@ -73,6 +73,10 @@
                                 <CheckBox IsChecked="{Binding Command.GenerateReadOnlyKeywords, Mode=TwoWay}" 
                                               Content="Generate readonly keywords in DTO types" Margin="0,0,0,12" />
 
+                                <CheckBox IsChecked="{Binding Command.GenerateDefaultValues, Mode=TwoWay}" Margin="0,0,0,12">
+                                    <TextBlock Text="Generate default values for properties (if default value is specified)" TextWrapping="Wrap" />
+                                </CheckBox>
+
                                 <TextBlock Text="Date Time Type" FontWeight="Bold" Margin="0,0,0,6" />
                                 <ComboBox SelectedItem="{Binding Command.DateTimeType, Mode=TwoWay}" 
                                                 ItemsSource="{Binding DateTimeTypes}" Margin="0,0,0,12" />

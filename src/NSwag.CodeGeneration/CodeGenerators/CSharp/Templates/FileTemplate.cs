@@ -39,6 +39,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Templates
 //----------------------
 
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -58,55 +59,61 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 ");
             
-            #line 28 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 29 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
 foreach(var usage in Model.NamespaceUsages){
             
             #line default
             #line hidden
             this.Write("using ");
             
-            #line 28 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 29 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(usage));
             
             #line default
             #line hidden
             this.Write(";\r\n");
             
-            #line 29 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 30 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("\r\nnamespace ");
             
-            #line 31 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 32 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.Namespace));
             
             #line default
             #line hidden
             this.Write("\r\n{\r\n    #pragma warning disable // Disable all warnings\r\n\r\n    ");
             
-            #line 35 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 36 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.Tab(Model.Clients, 1)));
             
             #line default
             #line hidden
             this.Write("\r\n\r\n");
             
-            #line 37 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 38 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
 if(Model.GenerateContracts){
             
             #line default
             #line hidden
             this.Write("    ");
             
-            #line 38 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 39 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.Tab(Model.Classes, 1)));
             
             #line default
             #line hidden
-            this.Write(@"
-
+            this.Write("\r\n\r\n    [GeneratedCode(\"NSwag\", \"");
+            
+            #line 41 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerService.ToolchainVersion));
+            
+            #line default
+            #line hidden
+            this.Write(@""")]
     public class SwaggerException : Exception
     {
         public string StatusCode { get; private set; }
@@ -126,6 +133,14 @@ if(Model.GenerateContracts){
         }
     }
 
+    [GeneratedCode(""NSwag"", """);
+            
+            #line 61 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerService.ToolchainVersion));
+            
+            #line default
+            #line hidden
+            this.Write(@""")]
     public class SwaggerException<TResponse> : SwaggerException
     {
         public TResponse Response { get; private set; }
@@ -138,42 +153,49 @@ if(Model.GenerateContracts){
     }
 ");
             
-            #line 69 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 72 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 71 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 74 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
 if(Model.GenerateImplementation && Model.HasMissingHttpMethods){
             
             #line default
             #line hidden
-            this.Write("    internal static class HttpExtensions\r\n    {\r\n        public static async Task" +
-                    "<HttpResponseMessage> OptionsAsync(this HttpClient client, string requestUri, Ht" +
-                    "tpContent content, CancellationToken cancellationToken)\r\n        {\r\n            " +
-                    "var method = new HttpMethod(\"OPTIONS\");\r\n            var request = new HttpReque" +
-                    "stMessage(method, requestUri) { Content = content };\r\n            return await c" +
-                    "lient.SendAsync(request, cancellationToken);\r\n        }\r\n\r\n        public static" +
-                    " async Task<HttpResponseMessage> HeadAsync(this HttpClient client, string reques" +
-                    "tUri, HttpContent content, CancellationToken cancellationToken)\r\n        {\r\n    " +
-                    "        var method = new HttpMethod(\"HEAD\");\r\n            var request = new Http" +
+            this.Write("    [GeneratedCode(\"NSwag\", \"");
+            
+            #line 75 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerService.ToolchainVersion));
+            
+            #line default
+            #line hidden
+            this.Write("\")]\r\n    internal static class HttpExtensions\r\n    {\r\n        public static async" +
+                    " Task<HttpResponseMessage> OptionsAsync(this HttpClient client, string requestUr" +
+                    "i, HttpContent content, CancellationToken cancellationToken)\r\n        {\r\n       " +
+                    "     var method = new HttpMethod(\"OPTIONS\");\r\n            var request = new Http" +
                     "RequestMessage(method, requestUri) { Content = content };\r\n            return aw" +
                     "ait client.SendAsync(request, cancellationToken);\r\n        }\r\n\r\n        public s" +
-                    "tatic async Task<HttpResponseMessage> PatchAsync(this HttpClient client, string " +
-                    "requestUri, HttpContent content, CancellationToken cancellationToken)\r\n        {" +
-                    "\r\n            var method = new HttpMethod(\"PATCH\");\r\n            var request = n" +
-                    "ew HttpRequestMessage(method, requestUri) { Content = content };\r\n            re" +
-                    "turn await client.SendAsync(request, cancellationToken);\r\n        }\r\n\r\n        p" +
-                    "ublic static async Task<HttpResponseMessage> DeleteAsync(this HttpClient client," +
-                    " string requestUri, HttpContent content, CancellationToken cancellationToken)\r\n " +
-                    "       {\r\n            var method = new HttpMethod(\"DELETE\");\r\n            var re" +
-                    "quest = new HttpRequestMessage(method, requestUri) { Content = content };\r\n     " +
-                    "       return await client.SendAsync(request, cancellationToken);\r\n        }\r\n  " +
-                    "  }\r\n");
+                    "tatic async Task<HttpResponseMessage> HeadAsync(this HttpClient client, string r" +
+                    "equestUri, HttpContent content, CancellationToken cancellationToken)\r\n        {\r" +
+                    "\n            var method = new HttpMethod(\"HEAD\");\r\n            var request = new" +
+                    " HttpRequestMessage(method, requestUri) { Content = content };\r\n            retu" +
+                    "rn await client.SendAsync(request, cancellationToken);\r\n        }\r\n\r\n        pub" +
+                    "lic static async Task<HttpResponseMessage> PatchAsync(this HttpClient client, st" +
+                    "ring requestUri, HttpContent content, CancellationToken cancellationToken)\r\n    " +
+                    "    {\r\n            var method = new HttpMethod(\"PATCH\");\r\n            var reques" +
+                    "t = new HttpRequestMessage(method, requestUri) { Content = content };\r\n         " +
+                    "   return await client.SendAsync(request, cancellationToken);\r\n        }\r\n\r\n    " +
+                    "    public static async Task<HttpResponseMessage> DeleteAsync(this HttpClient cl" +
+                    "ient, string requestUri, HttpContent content, CancellationToken cancellationToke" +
+                    "n)\r\n        {\r\n            var method = new HttpMethod(\"DELETE\");\r\n            v" +
+                    "ar request = new HttpRequestMessage(method, requestUri) { Content = content };\r\n" +
+                    "            return await client.SendAsync(request, cancellationToken);\r\n        " +
+                    "}\r\n    }\r\n");
             
-            #line 102 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 106 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
 }
             
             #line default

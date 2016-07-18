@@ -88,5 +88,13 @@ namespace NSwag.Commands
             get { return Settings.OperationGenerationMode; }
             set { Settings.OperationGenerationMode = value; }
         }
+
+        [Description("Specifies whether to generate default values for properties (default: true).")]
+        [Argument(Name = "GenerateDefaultValues", IsRequired = false)]
+        public bool GenerateDefaultValues
+        {
+            get { return Settings.CSharpGeneratorSettings.GenerateDefaultValues; }
+            set { Settings.CSharpGeneratorSettings.GenerateDefaultValues = value; }
+        }
     }
 }

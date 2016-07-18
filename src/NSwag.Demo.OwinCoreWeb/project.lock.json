@@ -1474,11 +1474,11 @@
           "lib/netstandard1.0/NJsonSchema.CodeGeneration.dll": {}
         }
       },
-      "NSwag.CodeGeneration/3.26.6040.40945": {
+      "NSwag.CodeGeneration/3.27.6042.26096": {
         "type": "package",
         "dependencies": {
           "NJsonSchema.CodeGeneration": "2.59.6040.32733",
-          "NSwag.Core": "3.26.6040.40944"
+          "NSwag.Core": "3.27.6042.26096"
         },
         "compile": {
           "lib/netstandard1.0/NSwag.CodeGeneration.dll": {}
@@ -1487,7 +1487,7 @@
           "lib/netstandard1.0/NSwag.CodeGeneration.dll": {}
         }
       },
-      "NSwag.Core/3.26.6040.40944": {
+      "NSwag.Core/3.27.6042.26096": {
         "type": "package",
         "dependencies": {
           "NJsonSchema": "2.59.6040.32732"
@@ -3410,14 +3410,14 @@
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
       },
-      "NSwag.AspNetCore/3.26.1": {
+      "NSwag.AspNetCore/3.27.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v1.6",
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.Core": "1.0.0",
           "Microsoft.AspNetCore.StaticFiles": "1.0.0",
           "Microsoft.Extensions.FileProviders.Embedded": "1.0.0",
-          "NSwag.CodeGeneration": "3.26.6040.40945",
+          "NSwag.CodeGeneration": "1.0.0",
           "System.IO.FileSystem": "4.0.1",
           "System.Xml.XPath.XDocument": "4.0.1"
         },
@@ -4613,12 +4613,12 @@
         "lib/portable45-net45+win8+wp8+wpa81/NJsonSchema.CodeGeneration.xml"
       ]
     },
-    "NSwag.CodeGeneration/3.26.6040.40945": {
-      "sha512": "4O22D7V3KuEjhVw6WdaPkOJvmTqXHLOFX2Cb+3aCs7+USFVDSv9U+S8TVhk7nkHOrC7E7cJP/729EH2gGooQ5w==",
+    "NSwag.CodeGeneration/3.27.6042.26096": {
+      "sha512": "+Yhwp7A5Y53rKURTZ78PoIn5dTCCIa/FOJHwD7b0pTafgg+eyDTMQaHf6ZZ6FddOtHWQlChqYzcBI1zAzEVuHg==",
       "type": "package",
-      "path": "NSwag.CodeGeneration/3.26.6040.40945",
+      "path": "NSwag.CodeGeneration/3.27.6042.26096",
       "files": [
-        "NSwag.CodeGeneration.3.26.6040.40945.nupkg.sha512",
+        "NSwag.CodeGeneration.3.27.6042.26096.nupkg.sha512",
         "NSwag.CodeGeneration.nuspec",
         "lib/netstandard1.0/NSwag.CodeGeneration.dll",
         "lib/netstandard1.0/NSwag.CodeGeneration.pdb",
@@ -4630,12 +4630,12 @@
         "lib/portable45-net45+win8+wp8+wpa81/NSwag.CodeGeneration.xml"
       ]
     },
-    "NSwag.Core/3.26.6040.40944": {
-      "sha512": "xoOarIaLJFZPNt6grYDHAoByQPVJKMR0n4TOffkKrTT57YLrMgfcLsISWflelTgY8OGi5nodn2l7KllWfGZUkQ==",
+    "NSwag.Core/3.27.6042.26096": {
+      "sha512": "fTWe4AZGGxMxc49+xzUTiamcgjI6Dsh56lAzUhijQvyuTuOIU1tjCX/ldQpsoW9dTnoJKaIzA2jd3HVoHOLngw==",
       "type": "package",
-      "path": "NSwag.Core/3.26.6040.40944",
+      "path": "NSwag.Core/3.27.6042.26096",
       "files": [
-        "NSwag.Core.3.26.6040.40944.nupkg.sha512",
+        "NSwag.Core.3.27.6042.26096.nupkg.sha512",
         "NSwag.Core.nuspec",
         "lib/netstandard1.0/NSwag.Core.dll",
         "lib/netstandard1.0/NSwag.Core.pdb",
@@ -9177,7 +9177,7 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
-    "NSwag.AspNetCore/3.26.1": {
+    "NSwag.AspNetCore/3.27.0": {
       "type": "project",
       "path": "../NSwag.AspNetCore/project.json",
       "msbuildProject": "../NSwag.AspNetCore/NSwag.AspNetCore.xproj"
