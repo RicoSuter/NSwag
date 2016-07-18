@@ -3,6 +3,7 @@
 <#@ import namespace="NJsonSchema.CodeGeneration" #>
 <#if(Model.HasOperations){#>
 <#if(Model.GenerateContracts && Model.GenerateClientInterfaces){#>
+[GeneratedCode("NSwag", "<#=SwaggerService.ToolchainVersion#>")]
 public partial interface I<#=Model.Class#>
 {
 <#foreach(var operation in Model.Operations){#>
@@ -28,6 +29,7 @@ public partial interface I<#=Model.Class#>
 <#}#>
 
 <#if(Model.GenerateImplementation){#>
+[GeneratedCode("NSwag", "<#=SwaggerService.ToolchainVersion#>")]
 public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Model.HasBaseClass){#><#=Model.BaseClass#><#if(Model.GenerateClientInterfaces){#>, <#}#><#}#><#if(Model.GenerateClientInterfaces){#>I<#=Model.Class#><#}#>
 
 {
