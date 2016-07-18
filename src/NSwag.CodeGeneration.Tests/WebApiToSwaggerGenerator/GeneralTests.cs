@@ -142,5 +142,29 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator
 
             Assert.IsNull(operation.Consumes);
         }
+
+        public class ConstrainedRoutePathController : ApiController
+        {
+            [Route("{id:long:min(1)}")]
+            public object Get(long id)
+            {
+                return null;
+            }
+        }
+
+        [TestMethod]
+        public void When_web_api_path_has_constraints_then_they_are_removed_in_the_swagger_spec()
+        {
+            //// Arrange
+            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+
+            //// Act
+            var service = generator.GenerateForController(typeof(ConstrainedRoutePathController));
+
+            //// Assert
+            var path = service.Paths.First().Key;
+
+            Assert.AreEqual("/{id}", path);
+        }
     }
 }
