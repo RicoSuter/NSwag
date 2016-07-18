@@ -1,2 +1,2 @@
-src/Nswag.AspNetCore/SwaggerUi/* linguist-vendored
-src/Nswag.AspNet.Owin/SwaggerUi/* linguist-vendored
+src/NSwag.AspNetCore/SwaggerUi/**/* linguist-vendored
+src/NSwag.AspNet.Owin/SwaggerUi/**/* linguist-vendored
