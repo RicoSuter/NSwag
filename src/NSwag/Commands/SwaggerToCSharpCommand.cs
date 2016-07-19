@@ -89,7 +89,7 @@ namespace NSwag.Commands
             set { Settings.OperationGenerationMode = value; }
         }
 
-        [Description("Specifies whether to generate default values for properties (may generate C# 6 code, default: true).")]
+        [Description("Specifies whether to generate default values for properties (may generate CSharp 6 code, default: true).")]
         [Argument(Name = "GenerateDefaultValues", IsRequired = false)]
         public bool GenerateDefaultValues
         {
