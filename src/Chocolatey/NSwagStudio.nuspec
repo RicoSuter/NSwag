@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>NSwagStudio</id>
+        <version>3.28</version>
+        <authors>Rico Suter</authors>
+        <owners>Rico Suter</owners>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <licenseUrl>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</licenseUrl>
+        <projectUrl>https://github.com/NSwag/NSwag</projectUrl>
+        <iconUrl>https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png</iconUrl>
+        <description>NSwag: The Swagger API toolchain for .NET and TypeScript</description>
+        <tags>Swagger Documentation WebApi AspNet TypeScript CodeGen</tags>
+        <dependencies />
+        <references />
+    </metadata>
+    <files>
+        <file src="..\NSwagStudio.Installer\bin\Release\NSwagStudio.msi" target="tools"/>
+        <file src="chocolateyInstall.ps1" target="tools"/>
+        <file src="chocolateyUninstall.ps1" target="tools"/>
+    </files>
+</package>
