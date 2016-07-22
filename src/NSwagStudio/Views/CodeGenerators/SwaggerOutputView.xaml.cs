@@ -14,9 +14,9 @@ namespace NSwagStudio.Views.CodeGenerators
 
         private SwaggerOutputViewModel Model => (SwaggerOutputViewModel)Resources["ViewModel"];
 
-        public Task GenerateClientAsync(string swaggerData)
+        public Task GenerateClientAsync(string swaggerData, string documentPath)
         {
-            return Model.GenerateClientAsync(swaggerData);
+            return Model.GenerateClientAsync(swaggerData, documentPath);
         }
     }
 }

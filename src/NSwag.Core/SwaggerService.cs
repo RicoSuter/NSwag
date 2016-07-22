@@ -14,12 +14,13 @@ using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using NJsonSchema;
+using NJsonSchema.Infrastructure;
 using NSwag.Collections;
 
 namespace NSwag
 {
     /// <summary>Describes a JSON web service.</summary>
-    public class SwaggerService
+    public class SwaggerService : IDocumentPathProvider
     {
         /// <summary>Initializes a new instance of the <see cref="SwaggerService"/> class.</summary>
         public SwaggerService()
@@ -32,7 +33,7 @@ namespace NSwag
 
             Info = new SwaggerInfo
             {
-                Version = string.Empty, 
+                Version = string.Empty,
                 Title = string.Empty
             };
 
@@ -53,6 +54,10 @@ namespace NSwag
 
         /// <summary>Gets the NSwag toolchain version.</summary>
         public static string ToolchainVersion => typeof(SwaggerService).GetTypeInfo().Assembly.GetName().Version.ToString();
+
+        /// <summary>Gets the document path (URI or file path).</summary>
+        [JsonIgnore]
+        public string DocumentPath { get; private set; }
 
         /// <summary>Gets or sets the Swagger specification version being used.</summary>
         [JsonProperty(PropertyName = "swagger", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
@@ -157,10 +162,11 @@ namespace NSwag
             return JsonSchemaReferenceUtilities.ConvertPropertyReferences(data);
         }
 
-        /// <summary>Creates a description object from a JSON string.</summary>
+        /// <summary>Creates a Swagger specification from a JSON string.</summary>
         /// <param name="data">The JSON data.</param>
+        /// <param name="documentPath">The document path (URL or file path) for resolving relative document references.</param>
         /// <returns>The <see cref="SwaggerService"/>.</returns>
-        public static SwaggerService FromJson(string data)
+        public static SwaggerService FromJson(string data, string documentPath = null)
         {
             data = JsonSchemaReferenceUtilities.ConvertJsonReferences(data);
             var service = JsonConvert.DeserializeObject<SwaggerService>(data, new JsonSerializerSettings
@@ -169,21 +175,27 @@ namespace NSwag
                 ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
                 PreserveReferencesHandling = PreserveReferencesHandling.Objects
             });
+            service.DocumentPath = documentPath;
             JsonSchemaReferenceUtilities.UpdateSchemaReferences(service);
             return service;
         }
 
-        /// <summary>Creates a description object from a JSON string.</summary>
+        /// <summary>Creates a Swagger specification from a JSON file.</summary>
+        /// <param name="filePath">The file path.</param>
+        /// <returns>The <see cref="SwaggerService" />.</returns>
+        public static SwaggerService FromFile(string filePath)
+        {
+            var data = DynamicApis.FileReadAllText(filePath);
+            return FromJson(data, filePath);
+        }
+
+        /// <summary>Creates a Swagger specification from an URL.</summary>
         /// <param name="url">The URL.</param>
         /// <returns>The <see cref="SwaggerService"/>.</returns>
         public static SwaggerService FromUrl(string url)
         {
-            dynamic client = Activator.CreateInstance(Type.GetType("System.Net.WebClient, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089", true));
-            using (client)
-            {
-                var data = client.DownloadString(url);
-                return FromJson(data);
-            }
+            var data = DynamicApis.HttpGet(url);
+            return FromJson(data, url);
         }
 
         /// <summary>Gets the operations.</summary>

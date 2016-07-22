@@ -18,9 +18,9 @@ namespace NSwagStudio.Views.CodeGenerators
 
         private SwaggerToCSharpControllerGeneratorViewModel Model => (SwaggerToCSharpControllerGeneratorViewModel) Resources["ViewModel"];
 
-        public async Task GenerateClientAsync(string swaggerData)
+        public async Task GenerateClientAsync(string swaggerData, string documentPath)
         {
-            await Model.GenerateClientAsync(swaggerData);
+            await Model.GenerateClientAsync(swaggerData, documentPath);
             TabControl.SelectedIndex = 1;
         }
     }

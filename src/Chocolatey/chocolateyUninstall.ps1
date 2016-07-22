@@ -1,6 +1,6 @@
 $packageName = "NSwagStudio";
 $fileType = 'msi';
-$silentArgs = '/quiet /qr /norestart'
+$silentArgs = '/qn /norestart'
 $validExitCodes = @(0)
 
 try {
