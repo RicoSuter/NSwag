@@ -56,12 +56,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwag.AspNetCore", "NSwag.A
 		NSwag.AspNetCore\project.json = NSwag.AspNetCore\project.json
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Chocolatey", "Chocolatey", "{19DD88A1-6C11-4D99-B753-9878048E8935}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwagStudio.Chocolatey", "NSwagStudio.Chocolatey", "{19DD88A1-6C11-4D99-B753-9878048E8935}"
 	ProjectSection(SolutionItems) = preProject
-		Chocolatey\build.bat = Chocolatey\build.bat
-		Chocolatey\chocolateyInstall.ps1 = Chocolatey\chocolateyInstall.ps1
-		Chocolatey\chocolateyUninstall.ps1 = Chocolatey\chocolateyUninstall.ps1
-		Chocolatey\NSwagStudio.nuspec = Chocolatey\NSwagStudio.nuspec
+		NSwagStudio.Chocolatey\build.bat = NSwagStudio.Chocolatey\build.bat
+		NSwagStudio.Chocolatey\NSwagStudio.ChocolateyInstall.ps1 = NSwagStudio.Chocolatey\NSwagStudio.ChocolateyInstall.ps1
+		NSwagStudio.Chocolatey\NSwagStudio.ChocolateyUninstall.ps1 = NSwagStudio.Chocolatey\NSwagStudio.ChocolateyUninstall.ps1
+		NSwagStudio.Chocolatey\NSwagStudio.nuspec = NSwagStudio.Chocolatey\NSwagStudio.nuspec
 	EndProjectSection
 EndProject
 Global

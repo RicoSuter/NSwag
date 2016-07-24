@@ -2,7 +2,8 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>NSwagStudio</id>
-        <version>3.28</version>
+        <title>NSwagStudio</title>
+        <version>3.29</version>
         <authors>Rico Suter</authors>
         <owners>Rico Suter</owners>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -10,7 +11,7 @@
         <projectUrl>https://github.com/NSwag/NSwag</projectUrl>
         <iconUrl>https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png</iconUrl>
         <description>NSwag: The Swagger API toolchain for .NET and TypeScript</description>
-        <tags>Swagger Documentation WebApi AspNet TypeScript CodeGen</tags>
+        <tags>Swagger Documentation WebApi AspNet TypeScript CodeGen admin</tags>
         <dependencies />
         <references />
     </metadata>

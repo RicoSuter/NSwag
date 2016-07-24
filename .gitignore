@@ -17,3 +17,4 @@ src/packages/**
 /src/NSwag.AspNetCore/Output
 /src/Chocolatey/Output
 /src/NSwagStudio.Installer/Generated.wxs
+/src/NSwagStudio.Chocolatey/Output
