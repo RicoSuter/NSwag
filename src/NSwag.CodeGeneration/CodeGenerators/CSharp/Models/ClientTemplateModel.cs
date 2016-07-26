@@ -36,6 +36,10 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
 
         public bool HasBaseClass => !string.IsNullOrEmpty(_settings.ClientBaseClass);
 
+        public string ConfigurationClass => _settings.ConfigurationClass;
+
+        public bool HasConfigurationClass => !string.IsNullOrEmpty(_settings.ConfigurationClass);
+
         public bool HasBaseType => _settings.GenerateClientInterfaces || HasBaseClass;
 
         public bool UseHttpClientCreationMethod => _settings.UseHttpClientCreationMethod;

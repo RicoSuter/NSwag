@@ -33,12 +33,23 @@ public partial interface I<#=Model.Class#>
 public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Model.HasBaseClass){#><#=Model.BaseClass#><#if(Model.GenerateClientInterfaces){#>, <#}#><#}#><#if(Model.GenerateClientInterfaces){#>I<#=Model.Class#><#}#>
 
 {
+<#if(Model.HasConfigurationClass){#>
+    public <#=Model.Class#>() : this("<#=Model.BaseUrl#>", null) { }
+
+    public <#=Model.Class#>(string baseUrl) : this(baseUrl, null) { }
+
+    public <#=Model.Class#>(string baseUrl, <#=Model.ConfigurationClass#> configuration) : base(configuration)
+    {
+        BaseUrl = baseUrl; 
+    }
+<#}else{#>
     public <#=Model.Class#>() : this("<#=Model.BaseUrl#>") { }
 
     public <#=Model.Class#>(string baseUrl)
     {
         BaseUrl = baseUrl; 
     }
+<#}#>
 
     partial void PrepareRequest(HttpClient request, ref string url);
 
