@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NJsonSchema;
+using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag.CodeGeneration.CodeGenerators.CSharp;
 using NSwag.CodeGeneration.CodeGenerators.TypeScript;
 
@@ -41,7 +42,11 @@ namespace NSwag.CodeGeneration.Tests
             //// Act
             var generator = new SwaggerToTypeScriptClientGenerator(service, new SwaggerToTypeScriptClientGeneratorSettings
             {
-                ClassName = "MyClass"
+                ClassName = "MyClass",
+                TypeScriptGeneratorSettings = new TypeScriptGeneratorSettings
+                {
+                    TypeStyle = TypeScriptTypeStyle.Interface
+                }
             });
             var code = generator.GenerateFile();
 
