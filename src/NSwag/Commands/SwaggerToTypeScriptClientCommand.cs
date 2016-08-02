@@ -101,7 +101,7 @@ namespace NSwag.Commands
             set { Settings.TypeScriptGeneratorSettings.GenerateReadOnlyKeywords = value; }
         }
 
-        [Description("The type style (default: Interface).")]
+        [Description("The type style (default: Class).")]
         [Argument(Name = "TypeStyle", IsRequired = false)]
         public TypeScriptTypeStyle TypeStyle
         {
