@@ -1,9 +1,9 @@
 ## NSwag: The Swagger API toolchain for .NET and TypeScript
 
-[![Gitter](https://img.shields.io/badge/gitter-join%20chat-1dce73.svg)](https://gitter.im/NSwag/NSwag)
 [![NuGet Version](https://img.shields.io/nuget/v/NSwag.Core.svg)](https://www.nuget.org/packages?q=NSwag)
 [![Build status](https://ci.appveyor.com/api/projects/status/aajfgxqf5dic7tkk?svg=true)](https://ci.appveyor.com/project/rsuter/nswag)
-[![Build status](https://ci.appveyor.com/api/projects/status/sfoha01b3i841iky?svg=true)](https://ci.appveyor.com/project/rsuter/nswag-25x6o)
+CI: [![Build status](https://ci.appveyor.com/api/projects/status/sfoha01b3i841iky?svg=true)](https://ci.appveyor.com/project/rsuter/nswag-25x6o)
+[![Gitter](https://img.shields.io/badge/gitter-join%20chat-1dce73.svg)](https://gitter.im/NSwag/NSwag)
 [![Issues](https://img.shields.io/github/issues-raw/nswag/nswag.svg)](https://github.com/NSwag/NSwag/issues)
 [![StackOverflow](https://img.shields.io/badge/questions-on%20StackOverflow-orange.svg?style=flat)](http://stackoverflow.com/questions/tagged/nswag)
 
