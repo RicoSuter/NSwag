@@ -37,7 +37,7 @@ namespace NSwag.CodeGeneration.Tests.CommandLine
             var output = RunCommandLine(command);
 
             //// Assert
-            Assert.IsTrue(output.Contains("export interface Test {"));
+            Assert.IsTrue(output.Contains("export class Test {"));
         }
 
         private const string OutputFile = "Output.json";
