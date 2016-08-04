@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using NSwag.Collections;
 
@@ -42,6 +43,13 @@ namespace NSwag
             {
                 var operations = (SwaggerOperations)value;
                 writer.WriteStartObject();
+
+                if (operations.Parameters != null && operations.Parameters.Any())
+                {
+                    writer.WritePropertyName("parameters");
+                    serializer.Serialize(writer, operations.Parameters);
+                }
+
                 foreach (var pair in operations)
                 {
                     writer.WritePropertyName(pair.Key.ToString().ToLower());
@@ -58,10 +66,18 @@ namespace NSwag
                 var operations = new SwaggerOperations();
                 while (reader.Read() && reader.TokenType == JsonToken.PropertyName)
                 {
-                    var key = (SwaggerOperationMethod)Enum.Parse(typeof(SwaggerOperationMethod), reader.Value.ToString(), true);
+                    var propertyName = reader.Value.ToString();
                     reader.Read();
-                    var value = (SwaggerOperation)serializer.Deserialize(reader, typeof(SwaggerOperation));
-                    operations.Add(key, value);
+
+                    if (propertyName == "parameters")
+                        operations.Parameters = (List<SwaggerParameter>)serializer.Deserialize(reader, typeof(List<SwaggerParameter>));
+                    else
+                    {
+                        var key = (SwaggerOperationMethod)Enum.Parse(typeof(SwaggerOperationMethod), propertyName, true);
+                        var value = (SwaggerOperation)serializer.Deserialize(reader, typeof(SwaggerOperation));
+                        operations.Add(key, value);
+                    }
+
                 }
                 return operations;
             }

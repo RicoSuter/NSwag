@@ -48,7 +48,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 
         public bool HasDescriptionOrIsOptional => HasDescription || !IsRequired;
 
-        public bool IsLast => _operation.Parameters.LastOrDefault() == _parameter;
+        public bool IsLast => _operation.ActualParameters.LastOrDefault() == _parameter;
 
         public bool IsDate => Schema.Type == JsonObjectType.String && Schema.Format == JsonFormatStrings.DateTime;
 

@@ -138,7 +138,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                             {
                                 Path = Regex.Replace(httpPath, "{(.*?)(:(.*?))?}", match =>
                                 {
-                                    if (operation.Parameters.Any(p => p.Kind == SwaggerParameterKind.Path && match.Groups[1].Value == p.Name))
+                                    if (operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.Path && match.Groups[1].Value == p.Name))
                                         return "{" + match.Groups[1].Value + "}";
                                     return string.Empty;
                                 }).TrimEnd('/'),
@@ -288,6 +288,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         private IEnumerable<string> GetHttpPaths(Type controllerType, MethodInfo method)
         {
             var httpPaths = new List<string>();
+            var controllerName = controllerType.Name.Replace("Controller", string.Empty);
 
             var routeAttributes = method.GetCustomAttributes()
                 .Where(a => a.GetType().Name == "RouteAttribute")
@@ -326,7 +327,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             {
                 var actionName = GetActionName(method);
                 var httpPath = (Settings.DefaultUrlTemplate ?? string.Empty)
-                    .Replace("{controller}", controllerType.Name.Replace("Controller", string.Empty))
+                    .Replace("{controller}", controllerName)
                     .Replace("{action}", actionName);
 
                 httpPaths.Add(httpPath);
@@ -334,8 +335,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
             foreach (var httpPath in httpPaths)
                 yield return "/" + httpPath
-                    .Replace("[", "{")
-                    .Replace("]", "}")
+                    .Replace("[controller]", controllerName)
                     .TrimStart('/');
         }
 
@@ -473,10 +473,10 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 }
             }
 
-            if (operation.Parameters.Any(p => p.Type == JsonObjectType.File))
+            if (operation.ActualParameters.Any(p => p.Type == JsonObjectType.File))
                 operation.Consumes = new List<string> { "multipart/form-data" };
 
-            if (operation.Parameters.Count(p => p.Kind == SwaggerParameterKind.Body) > 1)
+            if (operation.ActualParameters.Count(p => p.Kind == SwaggerParameterKind.Body) > 1)
                 throw new InvalidOperationException("The operation '" + operation.OperationId + "' has more than one body parameter.");
         }
 

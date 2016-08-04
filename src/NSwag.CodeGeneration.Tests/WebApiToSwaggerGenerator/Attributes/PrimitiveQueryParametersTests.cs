@@ -37,7 +37,7 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator.Attributes
             var operation = service.Operations.Single(o => o.Operation.OperationId == "Test_WithoutAttribute").Operation;
 
             //// Assert
-            Assert.AreEqual(SwaggerParameterKind.Query, operation.Parameters[0].Kind);
+            Assert.AreEqual(SwaggerParameterKind.Query, operation.ActualParameters[0].Kind);
         }
 
         [TestMethod]
@@ -51,7 +51,7 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator.Attributes
             var operation = service.Operations.Single(o => o.Operation.OperationId == "Test_WithFromUriAttribute").Operation;
 
             //// Assert
-            Assert.AreEqual(SwaggerParameterKind.Query, operation.Parameters[0].Kind);
+            Assert.AreEqual(SwaggerParameterKind.Query, operation.ActualParameters[0].Kind);
         }
 
 
@@ -66,7 +66,7 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator.Attributes
             var operation = service.Operations.Single(o => o.Operation.OperationId == "Test_WithFromBodyAttribute").Operation;
 
             //// Assert
-            Assert.AreEqual(SwaggerParameterKind.Body, operation.Parameters[0].Kind);
+            Assert.AreEqual(SwaggerParameterKind.Body, operation.ActualParameters[0].Kind);
         }
     }
 }
