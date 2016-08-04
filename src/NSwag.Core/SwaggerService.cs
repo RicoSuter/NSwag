@@ -6,10 +6,8 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -97,7 +95,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the parameters which can be used for all operations.</summary>
         [JsonProperty(PropertyName = "parameters", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public List<SwaggerParameter> Parameters { get; set; }
+        public Dictionary<string, SwaggerParameter> Parameters { get; set; }
 
         /// <summary>Gets or sets the responses which can be used for all operations.</summary>
         [JsonProperty(PropertyName = "responses", DefaultValueHandling = DefaultValueHandling.Ignore)]

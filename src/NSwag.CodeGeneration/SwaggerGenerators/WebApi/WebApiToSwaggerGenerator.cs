@@ -138,7 +138,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                             {
                                 Path = Regex.Replace(httpPath, "{(.*?)(:(.*?))?}", match =>
                                 {
-                                    if (operation.Parameters.Any(p => p.Kind == SwaggerParameterKind.Path && match.Groups[1].Value == p.Name))
+                                    if (operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.Path && match.Groups[1].Value == p.Name))
                                         return "{" + match.Groups[1].Value + "}";
                                     return string.Empty;
                                 }).TrimEnd('/'),
@@ -473,10 +473,10 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 }
             }
 
-            if (operation.Parameters.Any(p => p.Type == JsonObjectType.File))
+            if (operation.ActualParameters.Any(p => p.Type == JsonObjectType.File))
                 operation.Consumes = new List<string> { "multipart/form-data" };
 
-            if (operation.Parameters.Count(p => p.Kind == SwaggerParameterKind.Body) > 1)
+            if (operation.ActualParameters.Count(p => p.Kind == SwaggerParameterKind.Body) > 1)
                 throw new InvalidOperationException("The operation '" + operation.OperationId + "' has more than one body parameter.");
         }
 

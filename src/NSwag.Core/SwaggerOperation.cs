@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -64,6 +65,21 @@ namespace NSwag
         [JsonProperty(PropertyName = "parameters", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public List<SwaggerParameter> Parameters { get; set; }
 
+        /// <summary>Gets the actual parameters (a combination of all inherited and local parameters).</summary>
+        [JsonIgnore]
+        public IReadOnlyList<SwaggerParameter> ActualParameters
+        {
+            get
+            {
+                var allParameters = Parent?.Parameters == null ? Parameters :
+                    Parameters.Concat(Parent.Parameters.Where(p => Parameters.All(op => op.Name != p.Name && op.Kind != p.Kind)));
+
+                return new ReadOnlyCollection<SwaggerParameter>(allParameters
+                    .Select(p => p.ActualSchema is SwaggerParameter ? (SwaggerParameter)p.ActualSchema : p)
+                    .ToList());
+            }
+        }
+
         /// <summary>Gets or sets the HTTP Status Code/Response pairs.</summary>
         [JsonProperty(PropertyName = "responses", Required = Required.Always, DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Dictionary<string, SwaggerResponse> Responses { get; set; }
@@ -87,17 +103,6 @@ namespace NSwag
         /// <summary>Gets the actual schemes, either from the operation or from the <see cref="SwaggerService"/>.</summary>
         [JsonIgnore]
         public IEnumerable<SwaggerSchema> ActualSchemes => Schemes ?? Parent.Parent.Schemes;
-
-        /// <summary>Gets the parameters from the operation and from the <see cref="SwaggerService"/>.</summary>
-        [JsonIgnore]
-        public IEnumerable<SwaggerParameter> AllParameters
-        {
-            get
-            {
-                var empty = new List<SwaggerParameter>();
-                return (Parameters ?? empty).Concat(Parent.Parameters ?? empty).Concat(Parent.Parent.Parameters ?? empty);
-            }
-        }
 
         /// <summary>Gets the responses from the operation and from the <see cref="SwaggerService"/>.</summary>
         [JsonIgnore]
