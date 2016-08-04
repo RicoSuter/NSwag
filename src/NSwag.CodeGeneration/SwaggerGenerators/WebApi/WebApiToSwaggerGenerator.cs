@@ -288,6 +288,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         private IEnumerable<string> GetHttpPaths(Type controllerType, MethodInfo method)
         {
             var httpPaths = new List<string>();
+            var controllerName = controllerType.Name.Replace("Controller", string.Empty);
 
             var routeAttributes = method.GetCustomAttributes()
                 .Where(a => a.GetType().Name == "RouteAttribute")
@@ -326,7 +327,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             {
                 var actionName = GetActionName(method);
                 var httpPath = (Settings.DefaultUrlTemplate ?? string.Empty)
-                    .Replace("{controller}", controllerType.Name.Replace("Controller", string.Empty))
+                    .Replace("{controller}", controllerName)
                     .Replace("{action}", actionName);
 
                 httpPaths.Add(httpPath);
@@ -334,8 +335,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
             foreach (var httpPath in httpPaths)
                 yield return "/" + httpPath
-                    .Replace("[", "{")
-                    .Replace("]", "}")
+                    .Replace("[controller]", controllerName)
                     .TrimStart('/');
         }
 
