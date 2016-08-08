@@ -1,11 +1,57 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace NSwag.Utilities
 {
     public static class PathUtilities
     {
         // TODO: Move to MyToolkit
+
+        public static IEnumerable<string> ExpandWildcards(string path)
+        {
+            return ExpandWildcards(new[] { path });
+        }
+
+        public static IEnumerable<string> ExpandWildcards(IEnumerable<string> paths)
+        {
+            var allFiles = new List<string>();
+            foreach (var path in paths)
+            {
+                if (path.Contains("*"))
+                {
+                    var starIndex = path.IndexOf("*", StringComparison.InvariantCulture);
+
+                    var rootIndex = path.IndexOf("\\", 0, starIndex, StringComparison.InvariantCulture);
+                    if (rootIndex == -1)
+                        rootIndex = path.IndexOf("/", 0, starIndex, StringComparison.InvariantCulture);
+
+                    var rootPath = rootIndex >= 0 ? path.Substring(0, rootIndex + 1) : Directory.GetCurrentDirectory();
+                    var files = Directory.GetFiles(rootPath, "*", SearchOption.AllDirectories);
+
+                    var regex = new Regex(
+                        Regex.Escape(path.Substring(rootIndex + 1)
+                        .Replace("/", "__del__")
+                        .Replace("\\", "__del__")
+                        .Replace("**", "__starstar__")
+                        .Replace("*", "__star__"))
+                        .Replace("__del__", "[\\\\/]")
+                        .Replace("__starstar__", "(.*?)")
+                        .Replace("__star__", "([^\\/]*?)"));
+
+                    allFiles.AddRange(files
+                        .Where(f => regex.Match(f).Success)
+                        .Select(Path.GetFullPath));
+                }
+                else
+                    allFiles.Add(path);
+            }
+
+            return allFiles.Distinct();
+        }
 
         public static string MakeAbsolutePath(string relativePath, string relTo)
         {

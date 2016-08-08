@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NSwag.Tests</RootNamespace>
     <AssemblyName>NSwag.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -16,6 +16,7 @@
     <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
     <IsCodedUITest>False</IsCodedUITest>
     <TestProjectType>UnitTest</TestProjectType>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -71,6 +72,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Commands\WildcardTests.cs" />
     <Compile Include="Specification\InheritanceTests.cs" />
     <Compile Include="Specification\OperationIdTests.cs" />
     <Compile Include="Specification\GeneralTests.cs" />
@@ -89,6 +91,10 @@
     <ProjectReference Include="..\NSwag.Demo.Web\NSwag.Demo.Web.csproj">
       <Project>{37AE85DE-B127-4861-B925-1A67A35F314A}</Project>
       <Name>NSwag.Demo.Web</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NSwag\NSwag.csproj">
+      <Project>{26cbd69c-ee7c-4d81-8d62-410f4ad4876b}</Project>
+      <Name>NSwag</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
