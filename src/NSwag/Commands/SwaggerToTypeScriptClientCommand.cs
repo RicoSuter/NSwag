@@ -101,7 +101,7 @@ namespace NSwag.Commands
             set { Settings.TypeScriptGeneratorSettings.GenerateReadOnlyKeywords = value; }
         }
 
-        [Description("The type style (default: Interface).")]
+        [Description("The type style (default: Class).")]
         [Argument(Name = "TypeStyle", IsRequired = false)]
         public TypeScriptTypeStyle TypeStyle
         {
@@ -128,6 +128,14 @@ namespace NSwag.Commands
         [Description("The extension code (string or file path).")]
         [Argument(Name = "ExtensionCode", IsRequired = false)]
         public string ExtensionCode { get; set; }
+
+        [Description("Specifies whether to generate default values for properties (default: true).")]
+        [Argument(Name = "GenerateDefaultValues", IsRequired = false)]
+        public bool GenerateDefaultValues
+        {
+            get { return Settings.TypeScriptGeneratorSettings.GenerateDefaultValues; }
+            set { Settings.TypeScriptGeneratorSettings.GenerateDefaultValues = value; }
+        }
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {

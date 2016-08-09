@@ -70,6 +70,10 @@
                             <TextBlock Text="Class Style" FontWeight="Bold" Margin="0,0,0,6" />
                             <ComboBox SelectedItem="{Binding Command.ClassStyle, Mode=TwoWay}" 
                                           ItemsSource="{Binding ClassStyles}" Margin="0,0,0,12" />
+
+                            <CheckBox IsChecked="{Binding Command.GenerateDefaultValues, Mode=TwoWay}" Margin="0,0,0,12">
+                                <TextBlock Text="Generate default values for properties (if default value is specified)" TextWrapping="Wrap" />
+                            </CheckBox>
                         </StackPanel>
                     </GroupBox>
 

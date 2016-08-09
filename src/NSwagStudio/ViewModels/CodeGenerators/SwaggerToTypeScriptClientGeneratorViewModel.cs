@@ -10,9 +10,8 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using MyToolkit.Storage;
-using Newtonsoft.Json;
 using NJsonSchema.CodeGeneration.TypeScript;
+using NSwag;
 using NSwag.CodeGeneration.CodeGenerators;
 using NSwag.CodeGeneration.CodeGenerators.TypeScript;
 using NSwag.Commands;
@@ -108,7 +107,7 @@ namespace NSwagStudio.ViewModels.CodeGenerators
             set { Set(ref _clientCode, value); }
         }
 
-        public Task GenerateClientAsync(string swaggerData)
+        public Task GenerateClientAsync(string swaggerData, string documentPath)
         {
             return RunTaskAsync(async () =>
             {
@@ -117,7 +116,7 @@ namespace NSwagStudio.ViewModels.CodeGenerators
                 {
                     if (!string.IsNullOrEmpty(swaggerData))
                     {
-                        Command.Input = swaggerData;
+                        Command.Input = SwaggerService.FromJson(swaggerData, documentPath);
                         code = await Command.RunAsync();
                         Command.Input = null;
                     }

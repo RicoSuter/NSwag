@@ -17,6 +17,6 @@ namespace NSwagStudio
         string Title { get; }
 
         /// <summary>Generates the client code.</summary>
-        Task GenerateClientAsync(string swaggerData);
+        Task GenerateClientAsync(string swaggerData, string documentPath);
     }
 }

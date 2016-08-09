@@ -42,16 +42,16 @@
       <HintPath>..\packages\NConsole.2.0.5992.40924\lib\net45\NConsole.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=2.56.6036.39820, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.2.56.6036.39820\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
+    <Reference Include="NJsonSchema, Version=3.3.6061.16591, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.3.3.6061.16591\lib\net45\NJsonSchema.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema.CodeGeneration, Version=2.56.6036.39821, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.CodeGeneration.2.56.6036.39821\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
+    <Reference Include="NJsonSchema.CodeGeneration, Version=3.3.6061.16591, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.CodeGeneration.3.3.6061.16591\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

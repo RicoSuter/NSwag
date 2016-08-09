@@ -3,6 +3,7 @@
 <#@ import namespace="NJsonSchema.CodeGeneration" #>
 <#if(Model.HasOperations){#>
 <#if(Model.GenerateContracts && Model.GenerateClientInterfaces){#>
+[GeneratedCode("NSwag", "<#=SwaggerService.ToolchainVersion#>")]
 public partial interface I<#=Model.Class#>
 {
 <#foreach(var operation in Model.Operations){#>
@@ -28,15 +29,27 @@ public partial interface I<#=Model.Class#>
 <#}#>
 
 <#if(Model.GenerateImplementation){#>
+[GeneratedCode("NSwag", "<#=SwaggerService.ToolchainVersion#>")]
 public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Model.HasBaseClass){#><#=Model.BaseClass#><#if(Model.GenerateClientInterfaces){#>, <#}#><#}#><#if(Model.GenerateClientInterfaces){#>I<#=Model.Class#><#}#>
 
 {
+<#if(Model.HasConfigurationClass){#>
+    public <#=Model.Class#>() : this("<#=Model.BaseUrl#>", null) { }
+
+    public <#=Model.Class#>(string baseUrl) : this(baseUrl, null) { }
+
+    public <#=Model.Class#>(string baseUrl, <#=Model.ConfigurationClass#> configuration) : base(configuration)
+    {
+        BaseUrl = baseUrl; 
+    }
+<#}else{#>
     public <#=Model.Class#>() : this("<#=Model.BaseUrl#>") { }
 
     public <#=Model.Class#>(string baseUrl)
     {
         BaseUrl = baseUrl; 
     }
+<#}#>
 
     partial void PrepareRequest(HttpClient request, ref string url);
 
@@ -67,9 +80,9 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
     {
         var url_ = string.Format("{0}/{1}?", BaseUrl, "<#=operation.Path#>");
 <#foreach(var parameter in operation.PathParameters){#>
+
         if (<#=parameter.VariableNameLower#> == null)
             throw new ArgumentNullException("<#=parameter.VariableNameLower#>");
-
 <#  if(parameter.IsDateArray){#>
         url_ = url_.Replace("{<#=parameter.Name#>}", Uri.EscapeUriString(string.Join(",", <#=parameter.VariableNameLower#>.Select(s_ => s_.ToString("s", CultureInfo.InvariantCulture)))));
 <#  }else if(parameter.IsDate){#>
@@ -80,24 +93,26 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
         url_ = url_.Replace("{<#=parameter.Name#>}", Uri.EscapeUriString(<#=parameter.VariableNameLower#>.ToString()));
 <#  }#>
 <#}#>
-
 <#foreach(var parameter in operation.QueryParameters){#>
+
 <#  if(!parameter.IsNullable){#>
         if (<#=parameter.VariableNameLower#> == null)
             throw new ArgumentNullException("<#=parameter.VariableNameLower#>");
+        else
+<#  }else{#>
+        if (<#=parameter.VariableNameLower#> != null)
 <#  }#>
 <#  if(parameter.IsDateArray){#>
-        if (<#=parameter.VariableNameLower#> != null)
             foreach(var item_ in <#=parameter.VariableNameLower#>) { url_ += string.Format("<#=parameter.Name#>={0}&", Uri.EscapeUriString(item_.ToString("s", CultureInfo.InvariantCulture))); }
 <#  }else if(parameter.IsDate){#>
-        url_ += string.Format("<#=parameter.Name#>={0}&", Uri.EscapeUriString(<#=parameter.VariableNameLower#> != null ? <#=parameter.VariableNameLower#><#if(parameter.Type.EndsWith("?")){#>.Value<#}#>.ToString("s", CultureInfo.InvariantCulture) : "null"));
+            url_ += string.Format("<#=parameter.Name#>={0}&", Uri.EscapeUriString(<#=parameter.VariableNameLower#><#if(parameter.Type.EndsWith("?")){#>.Value<#}#>.ToString("s", CultureInfo.InvariantCulture)));
 <#  }else if(parameter.IsArray){#>
-        if (<#=parameter.VariableNameLower#> != null)
             foreach(var item_ in <#=parameter.VariableNameLower#>) { url_ += string.Format("<#=parameter.Name#>={0}&", Uri.EscapeUriString(item_.ToString())); }
 <#  }else{#>
-        url_ += string.Format("<#=parameter.Name#>={0}&", Uri.EscapeUriString(<#=parameter.VariableNameLower#> != null ? <#=parameter.VariableNameLower#><#if(parameter.Type.EndsWith("?")){#>.Value<#}#>.ToString() : "null"));
-<#  }
-}#> 
+            url_ += string.Format("<#=parameter.Name#>={0}&", Uri.EscapeUriString(<#=parameter.VariableNameLower#><#if(parameter.Type.EndsWith("?")){#>.Value<#}#>.ToString()));
+<#  }#>
+<#}#>
+
 <#      if(Model.UseHttpClientCreationMethod){#>
         var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
 <#      }else{#>

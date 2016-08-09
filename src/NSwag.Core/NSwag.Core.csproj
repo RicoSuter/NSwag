@@ -42,12 +42,12 @@
     <AssemblyOriginatorKeyFile>../NSwag.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=2.56.6036.39820, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.2.56.6036.39820\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
+    <Reference Include="NJsonSchema, Version=3.3.6061.16591, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.3.3.6061.16591\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -64,6 +64,7 @@
     <Compile Include="SwaggerHeaders.cs" />
     <Compile Include="SwaggerInfo.cs" />
     <Compile Include="SwaggerLicense.cs" />
+    <Compile Include="SwaggerOAuth2Flow.cs" />
     <Compile Include="SwaggerOperation.cs" />
     <Compile Include="SwaggerOperationDescription.cs" />
     <Compile Include="SwaggerOperationMethod.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="SwaggerResponse.cs" />
     <Compile Include="SwaggerResponses.cs" />
     <Compile Include="SwaggerSchema.cs" />
+    <Compile Include="SwaggerSecurityApiKeyLocation.cs" />
     <Compile Include="SwaggerSecurityRequirement.cs" />
     <Compile Include="SwaggerSecurityScheme.cs" />
     <Compile Include="SwaggerSecuritySchemeType.cs" />

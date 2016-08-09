@@ -53,10 +53,15 @@
                                 <TextBlock Text="Base Class Name (optional)" FontWeight="Bold" Margin="0,0,0,6" />
                                 <TextBox Text="{Binding Command.ClientBaseClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,12" />
 
-                                <CheckBox IsChecked="{Binding Command.UseHttpClientCreationMethod, Mode=TwoWay}"
-                                              IsEnabled="{Binding Command.ClientBaseClass, Converter={StaticResource VisibilityConverter}}" Margin="0,0,0,12">
-                                    <TextBlock Text="Call the CreateHttpClientAsync method on the client base class to create a new HttpClient instance" TextWrapping="Wrap" />
-                                </CheckBox>
+                                <StackPanel Visibility="{Binding Command.ClientBaseClass, Converter={StaticResource VisibilityConverter}}">
+                                    <CheckBox IsChecked="{Binding Command.UseHttpClientCreationMethod, Mode=TwoWay}" Margin="0,0,0,12">
+                                        <TextBlock Text="Call the CreateHttpClientAsync method on the client base class to create a new HttpClient instance" TextWrapping="Wrap" />
+                                    </CheckBox>
+                                    
+                                    <TextBlock Text="Configuration Class Name (passed to base class ctor, optional)" FontWeight="Bold" Margin="0,0,0,6" />
+                                    <TextBox Text="{Binding Command.ConfigurationClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             Margin="0,0,0,12" />
+                                </StackPanel>
 
                                 <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
                                         <Run Text="Operation Generation Mode" FontWeight="Bold" />
@@ -89,6 +94,10 @@
 
                             <CheckBox IsChecked="{Binding Command.GenerateDtoTypes, Mode=TwoWay}" Margin="0,0,0,12">
                                 <TextBlock Text="Generate DTO Types (e.g. request and response classes)" TextWrapping="Wrap" />
+                            </CheckBox>
+
+                            <CheckBox IsChecked="{Binding Command.GenerateDefaultValues, Mode=TwoWay}" Margin="0,0,0,12">
+                                <TextBlock Text="Generate default values for properties (if default value is specified)" TextWrapping="Wrap" />
                             </CheckBox>
 
                             <StackPanel Visibility="{Binding Command.GenerateDtoTypes, Converter={StaticResource VisibilityConverter}}">

@@ -12,7 +12,7 @@ namespace NSwagStudio.ViewModels
     public class DocumentViewModel : ViewModelBase
     {
         private static NSwagDocument _document;
-        
+
         /// <summary>Initializes a new instance of the <see cref="MainWindowModel"/> class.</summary>
         public DocumentViewModel()
         {
@@ -27,7 +27,7 @@ namespace NSwagStudio.ViewModels
 
         /// <summary>Gets the client generators.</summary>
         public ICodeGenerator[] CodeGenerators { get; private set; }
-        
+
         /// <summary>Gets or sets the settings. </summary>
         public NSwagDocument Document
         {
@@ -64,12 +64,17 @@ namespace NSwagStudio.ViewModels
             }
             else
             {
-                var swaggerCode = await SwaggerGenerators[Document.SelectedSwaggerGenerator].GenerateSwaggerAsync();
-                foreach (var generator in CodeGenerators)
-                    await generator.GenerateClientAsync(swaggerCode);
+                var generator = SwaggerGenerators[Document.SelectedSwaggerGenerator];
+
+                var documentPath = generator is SwaggerInputView && !string.IsNullOrEmpty(Document.InputSwaggerUrl) ? 
+                    Document.InputSwaggerUrl : null;
+
+                var swaggerCode = await generator.GenerateSwaggerAsync();
+                foreach (var codeGenerator in CodeGenerators)
+                    await codeGenerator.GenerateClientAsync(swaggerCode, documentPath);
             }
 
-            IsLoading = false; 
+            IsLoading = false;
         }
 
         private void LoadGeneratoers(NSwagDocument document)
@@ -92,6 +97,6 @@ namespace NSwagStudio.ViewModels
 
             RaisePropertyChanged(() => SwaggerGenerators);
             RaisePropertyChanged(() => CodeGenerators);
-        }               
+        }
     }
 }

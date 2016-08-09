@@ -17,23 +17,41 @@ namespace NSwag.Demo.OwinWeb
             app.UseSwaggerUi(typeof(Startup).Assembly, new SwaggerUiOwinSettings
             {
                 Title = "NSwag Sample API",
+                OAuth2Client = new OAuth2ClientSettings
+                {
+                    ClientId = "foo",
+                    ClientSecret = "bar",
+                    AppName = "my_app",
+                    Realm = "my_realm",
+                    AdditionalQueryStringParameters =
+                    {
+                        { "foo", "bar" }
+                    }
+                },
                 OperationProcessors =
                 {
-                    new OAuth2OperationSecurityBuilder()
+                    new OperationSecurityScopeAppender("oauth2")
                 },
                 DocumentProcessors =
                 {
-                    new OAuth2SchemeBuilder(new SwaggerSecurityScheme
+                    new SecurityDefinitionAppender("oauth2", new SwaggerSecurityScheme
                     {
-                        Description = "Foo", 
-                        Flow = "implicit", 
+                        Type = SwaggerSecuritySchemeType.OAuth2,
+                        Description = "Foo",
+                        Flow = SwaggerOAuth2Flow.Implicit,
                         AuthorizationUrl = "https://localhost:44333/core/connect/authorize",
-                        TokenUrl = "https://localhost:44333/core/connect/token", 
-                        Scopes = 
+                        TokenUrl = "https://localhost:44333/core/connect/token",
+                        Scopes =
                         {
                             { "read", "Read access to protected resources" },
                             { "write", "Write access to protected resources" }
                         }
+                    }),
+                    new SecurityDefinitionAppender("apikey", new SwaggerSecurityScheme
+                    {
+                        Type = SwaggerSecuritySchemeType.ApiKey,
+                        Name = "api_key",
+                        In = SwaggerSecurityApiKeyLocation.Header
                     })
                 }
             });

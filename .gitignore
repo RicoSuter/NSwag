@@ -15,3 +15,6 @@ src/packages/**
 /src/.vs/config
 **.lock.json
 /src/NSwag.AspNetCore/Output
+/src/Chocolatey/Output
+/src/NSwagStudio.Installer/Generated.wxs
+/src/NSwagStudio.Chocolatey/Output

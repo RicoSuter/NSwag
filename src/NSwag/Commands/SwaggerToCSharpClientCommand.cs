@@ -23,6 +23,14 @@ namespace NSwag.Commands
             set { Settings.ClientBaseClass = value; }
         }
 
+        [Description("The configuration class. The setting ClientBaseClass must be set. (empty for no configuration class).")]
+        [Argument(Name = "ConfigurationClass", IsRequired = false)]
+        public string ConfigurationClass
+        {
+            get { return Settings.ConfigurationClass; }
+            set { Settings.ConfigurationClass = value; }
+        }
+
         [Description("Specifies whether generate client classes.")]
         [Argument(Name = "GenerateClientClasses", IsRequired = false)]
         public bool GenerateClientClasses

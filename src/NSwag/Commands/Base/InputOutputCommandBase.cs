@@ -32,7 +32,7 @@ namespace NSwag.Commands.Base
                     return SwaggerService.FromJson(inputString);
 
                 if (File.Exists(inputString))
-                    return SwaggerService.FromJson(File.ReadAllText(inputString, Encoding.UTF8));
+                    return SwaggerService.FromFile(inputString);
 
                 return SwaggerService.FromUrl(inputString);
             }
