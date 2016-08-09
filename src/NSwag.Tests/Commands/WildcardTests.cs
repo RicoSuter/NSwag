@@ -13,7 +13,7 @@ namespace NSwag.Tests.Commands
     public class WildcardTests
     {
         [TestMethod]
-        public void METHOD()
+        public void When_path_has_wildcards_then_they_are_expanded_correctly()
         {
             //// Arrange
             
