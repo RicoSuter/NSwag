@@ -40,14 +40,6 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=3.3.6061.16591, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.3.3.6061.16591\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NJsonSchema.CodeGeneration, Version=3.3.6061.16591, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.CodeGeneration.3.3.6061.16591\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -74,12 +66,12 @@
       <DependentUpon>FileTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="CodeGenerators\CSharp\Templates\FileTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\CSharp\Templates\WebApiControllerTemplate.cs">
+    <Compile Include="CodeGenerators\CSharp\Templates\ControllerTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>WebApiControllerTemplate.tt</DependentUpon>
+      <DependentUpon>ControllerTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="CodeGenerators\CSharp\Templates\WebApiControllerTemplate.Extensions.cs" />
+    <Compile Include="CodeGenerators\CSharp\Templates\ControllerTemplate.Extensions.cs" />
     <Compile Include="CodeGenerators\OperationNameGenerators\IOperationNameGenerator.cs" />
     <Compile Include="CodeGenerators\Models\OperationModel.cs" />
     <Compile Include="CodeGenerators\Models\ParameterModel.cs" />
@@ -94,17 +86,17 @@
     <Compile Include="CodeGenerators\TypeScript\Models\ClientTemplateModel.cs" />
     <Compile Include="CodeGenerators\TypeScript\PromiseType.cs" />
     <Compile Include="CodeGenerators\TypeScript\SwaggerToTypeScriptClientGeneratorSettings.cs" />
-    <Compile Include="CodeGenerators\TypeScript\Templates\Angular2Template.Extensions.cs" />
-    <Compile Include="CodeGenerators\TypeScript\Templates\Angular2Template1.cs">
+    <Compile Include="CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.Extensions.cs" />
+    <Compile Include="CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Angular2Template.tt</DependentUpon>
+      <DependentUpon>Angular2ClientTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="CodeGenerators\TypeScript\Templates\AngularJSTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\TypeScript\Templates\AngularJSTemplate1.cs">
+    <Compile Include="CodeGenerators\TypeScript\Templates\AngularJSClientTemplate.Extensions.cs" />
+    <Compile Include="CodeGenerators\TypeScript\Templates\AngularJSClientTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>AngularJSTemplate.tt</DependentUpon>
+      <DependentUpon>AngularJSClientTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="CodeGenerators\TypeScript\Templates\FileTemplate.cs">
       <AutoGen>True</AutoGen>
@@ -112,17 +104,17 @@
       <DependentUpon>FileTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="CodeGenerators\TypeScript\Templates\FileTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate1.cs">
+    <Compile Include="CodeGenerators\TypeScript\Templates\JQueryCallbacksClientTemplate.Extensions.cs" />
+    <Compile Include="CodeGenerators\TypeScript\Templates\JQueryCallbacksClientTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>JQueryCallbacksTemplate.tt</DependentUpon>
+      <DependentUpon>JQueryCallbacksClientTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="CodeGenerators\TypeScript\Templates\JQueryPromisesTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\TypeScript\Templates\JQueryPromisesTemplate.cs">
+    <Compile Include="CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.Extensions.cs" />
+    <Compile Include="CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>JQueryPromisesTemplate.tt</DependentUpon>
+      <DependentUpon>JQueryPromisesClientTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="CodeGenerators\TypeScript\RequestBodyGenerator.cs" />
     <Compile Include="CodeGenerators\TypeScript\Templates\RequestBodyTemplate.cs">
@@ -154,6 +146,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\NJsonSchema\src\NJsonSchema.CodeGeneration\NJsonSchema.CodeGeneration.csproj">
+      <Project>{8A463FA0-DAAF-483C-813E-AE9C6153CBF7}</Project>
+      <Name>NJsonSchema.CodeGeneration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\NJsonSchema\src\NJsonSchema\NJsonSchema.csproj">
+      <Project>{7B7A2E32-E808-4A19-98B1-37E766580F8C}</Project>
+      <Name>NJsonSchema</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj">
       <Project>{2E6174AA-FC75-4821-9E86-51B30568BEC0}</Project>
       <Name>NSwag.Core</Name>
@@ -171,29 +171,29 @@
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>FileTemplate.cs</LastGenOutput>
     </None>
-    <None Include="CodeGenerators\CSharp\Templates\WebApiControllerTemplate.tt">
+    <None Include="CodeGenerators\CSharp\Templates\ControllerTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>WebApiControllerTemplate.cs</LastGenOutput>
+      <LastGenOutput>ControllerTemplate1.cs</LastGenOutput>
     </None>
-    <None Include="CodeGenerators\TypeScript\Templates\Angular2Template.tt">
+    <None Include="CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>Angular2Template1.cs</LastGenOutput>
+      <LastGenOutput>Angular2ClientTemplate.cs</LastGenOutput>
     </None>
-    <None Include="CodeGenerators\TypeScript\Templates\AngularJSTemplate.tt">
+    <None Include="CodeGenerators\TypeScript\Templates\AngularJSClientTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>AngularJSTemplate1.cs</LastGenOutput>
+      <LastGenOutput>AngularJSClientTemplate.cs</LastGenOutput>
     </None>
     <None Include="CodeGenerators\TypeScript\Templates\FileTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>FileTemplate.cs</LastGenOutput>
     </None>
-    <None Include="CodeGenerators\TypeScript\Templates\JQueryCallbacksTemplate.tt">
+    <None Include="CodeGenerators\TypeScript\Templates\JQueryCallbacksClientTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>JQueryCallbacksTemplate1.cs</LastGenOutput>
+      <LastGenOutput>JQueryCallbacksClientTemplate.cs</LastGenOutput>
     </None>
-    <None Include="CodeGenerators\TypeScript\Templates\JQueryPromisesTemplate.tt">
+    <None Include="CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>JQueryPromisesTemplate.cs</LastGenOutput>
+      <LastGenOutput>JQueryPromisesClientTemplate.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

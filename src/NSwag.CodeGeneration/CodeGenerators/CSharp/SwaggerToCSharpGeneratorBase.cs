@@ -9,7 +9,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
-using NSwag.CodeGeneration.CodeGenerators.CSharp.Templates;
 
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp
 {
@@ -34,8 +33,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             var generateOnlyContracts = outputType == ClientGeneratorOutputType.Contracts;
             var generateImplementation = outputType == ClientGeneratorOutputType.Full || outputType == ClientGeneratorOutputType.Implementation;
 
-            var template = new FileTemplate();
-            template.Initialize(new // TODO: Add typed class
+            var model = new // TODO: Add typed class
             {
                 Namespace = _settings.CSharpGeneratorSettings.Namespace ?? string.Empty,
                 NamespaceUsages = generateOnlyContracts || _settings.AdditionalNamespaceUsages == null ? new string[] { } : _settings.AdditionalNamespaceUsages,
@@ -51,8 +49,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
                     o.Method == SwaggerOperationMethod.Options ||
                     o.Method == SwaggerOperationMethod.Head ||
                     o.Method == SwaggerOperationMethod.Patch)
-            });
+            };
 
+            var template = _settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "File", model);
             return template.Render();
         }
         

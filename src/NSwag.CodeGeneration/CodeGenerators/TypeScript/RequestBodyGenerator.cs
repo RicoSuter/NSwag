@@ -8,8 +8,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
     {
         internal static string Render(ParameterModel model, int tabCount = 0)
         {
-            var tpl = new RequestBodyTemplate();
-            tpl.Initialize(model);
+            var tpl = new RequestBodyTemplate(model);
             return ConversionUtilities.Tab(tpl.Render(), tabCount);
         }
     }

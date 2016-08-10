@@ -6,11 +6,9 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.TypeScript;
-using NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates;
 
 namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 {
@@ -41,21 +39,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         /// <summary>Gets or sets the promise type.</summary>
         public PromiseType PromiseType { get; set; }
 
-        internal ITemplate CreateTemplate()
+        internal ITemplate CreateTemplate(object model)
         {
-            if (Template == TypeScriptTemplate.Angular2)
-                return new Angular2Template();
-
-            if (Template == TypeScriptTemplate.AngularJS)
-                return new AngularJSTemplate();
-
-            if (Template == TypeScriptTemplate.JQueryCallbacks)
-                return new JQueryCallbacksTemplate();
-
-            if (Template == TypeScriptTemplate.JQueryPromises)
-                return new JQueryPromisesTemplate();
-
-            throw new NotImplementedException();
+            return CodeGeneratorSettings.TemplateFactory.CreateTemplate("TypeScript", Template + "Client", model);
         }
     }
 }

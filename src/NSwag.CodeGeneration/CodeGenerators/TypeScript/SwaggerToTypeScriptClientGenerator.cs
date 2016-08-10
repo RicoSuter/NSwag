@@ -10,10 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
+using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag.CodeGeneration.CodeGenerators.Models;
 using NSwag.CodeGeneration.CodeGenerators.TypeScript.Models;
-using NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates;
 
 namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 {
@@ -60,8 +60,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 
         internal override string GenerateFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType)
         {
-            var template = new FileTemplate();
-            template.Initialize(new
+            var model = new
             {
                 IsAngular2 = Settings.GenerateClientClasses && Settings.Template == TypeScriptTemplate.Angular2,
 
@@ -73,7 +72,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 
                 HasModuleName = !string.IsNullOrEmpty(Settings.TypeScriptGeneratorSettings.ModuleName),
                 ModuleName = Settings.TypeScriptGeneratorSettings.ModuleName
-            });
+            };
+            var template = BaseSettings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("TypeScript", "File", model);
             return template.Render();
         }
 
@@ -81,8 +81,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         {
             UpdateUseDtoClassAndDataConversionCodeProperties(operations);
 
-            var template = Settings.CreateTemplate();
-            template.Initialize(new ClientTemplateModel(GetClassName(controllerName), operations, _service, Settings));
+            var model = new ClientTemplateModel(GetClassName(controllerName), operations, _service, Settings); 
+            var template = Settings.CreateTemplate(model);
             var code = template.Render();
 
             return AppendExtensionClassIfNecessary(controllerName, code);

@@ -5,17 +5,13 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates
 {
     internal partial class RequestBodyTemplate : ITemplate
     {
-        public ParameterModel Model { get; set; }
-
-        /// <summary>Initializes the template with a model.</summary>
-        /// <param name="model">The model.</param>
-        public void Initialize(object model)
+        public RequestBodyTemplate(ParameterModel model)
         {
-            Model = (ParameterModel)model;
+            Model = model;
         }
 
-        /// <summary>Renders the template.</summary>
-        /// <returns>The output.</returns>
+        public ParameterModel Model { get; }
+        
         public string Render()
         {
             return ConversionUtilities.TrimWhiteSpaces(TransformText());

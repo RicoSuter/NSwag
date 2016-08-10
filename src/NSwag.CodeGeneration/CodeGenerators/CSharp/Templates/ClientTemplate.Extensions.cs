@@ -5,17 +5,13 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Templates
 {
     internal partial class ClientTemplate : ITemplate
     {
-        public ClientTemplateModel Model { get; set; }
-
-        /// <summary>Initializes the template with a model.</summary>
-        /// <param name="model">The model.</param>
-        public void Initialize(object model)
+        public ClientTemplate(ClientTemplateModel model)
         {
-            Model = (ClientTemplateModel)model;
+            Model = model;
         }
 
-        /// <summary>Renders the template.</summary>
-        /// <returns>The output.</returns>
+        public ClientTemplateModel Model { get; }
+
         public string Render()
         {
             return ConversionUtilities.TrimWhiteSpaces(TransformText());
