@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSwag.Utilities;
+using NSwag.CodeGeneration.Utilities;
 
 namespace NSwag.Tests.Commands
 {
@@ -19,11 +14,10 @@ namespace NSwag.Tests.Commands
             
 
             //// Act
-            var x = Directory.GetCurrentDirectory();
-            var files = PathUtilities.ExpandWildcards("../../**/*.dll");
+            var files = PathUtilities.ExpandFileWildcards("../../**/NSwag.*.dll").ToList();
 
             //// Assert
-
+            Assert.IsTrue(files.Any(f => f.Contains("bin\\Debug")) || files.Any(f => f.Contains("bin\\Release")));
         }
     }
 }
