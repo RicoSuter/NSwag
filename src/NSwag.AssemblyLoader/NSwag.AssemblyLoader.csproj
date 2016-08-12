@@ -57,6 +57,7 @@
     <Compile Include="SwaggerGenerators\AssemblyTypeToSwaggerGeneratorSettings.cs" />
     <Compile Include="SwaggerGenerators\WebApi\WebApiAssemblyToSwaggerGenerator.cs" />
     <Compile Include="SwaggerGenerators\WebApi\WebApiAssemblyToSwaggerGeneratorSettings.cs" />
+    <Compile Include="Utilities\PathUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\NJsonSchema\src\NJsonSchema\NJsonSchema.csproj">

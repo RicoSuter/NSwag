@@ -80,6 +80,10 @@
       <Project>{7B7A2E32-E808-4A19-98B1-37E766580F8C}</Project>
       <Name>NJsonSchema</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NSwag.AssemblyLoader\NSwag.AssemblyLoader.csproj">
+      <Project>{46634C60-BA7D-43E6-9049-6AD461488C39}</Project>
+      <Name>NSwag.AssemblyLoader</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj">
       <Project>{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}</Project>
       <Name>NSwag.CodeGeneration</Name>
