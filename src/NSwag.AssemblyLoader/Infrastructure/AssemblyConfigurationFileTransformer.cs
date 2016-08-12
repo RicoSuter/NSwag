@@ -38,15 +38,15 @@ namespace NSwag.CodeGeneration.Infrastructure
 
         private string _transformedConfigurationPath = null;
 
-        public string GetConfigurationPath(string assemblyDirectory)
+        public string GetConfigurationPath(string assemblyDirectory, string configurationPath)
         {
-            var configPath = TryFindConfigurationPath(assemblyDirectory);
-            var content = configPath != null ? File.ReadAllText(configPath, Encoding.UTF8) : EmptyConfig;
+            configurationPath = configurationPath ?? TryFindConfigurationPath(assemblyDirectory);
+            var content = configurationPath != null ? File.ReadAllText(configurationPath, Encoding.UTF8) : EmptyConfig;
 
             content = UpdateOrAddBindingRedirect(content, "Newtonsoft.Json", "9.0.0.0", JsonNetAssemblyBinding);
             content = UpdateOrAddBindingRedirect(content, "NSwag.Core", SwaggerService.ToolchainVersion, NSwagCoreAssemblyBinding);
 
-            _transformedConfigurationPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".nswagtemp");
+            _transformedConfigurationPath = Path.Combine(Path.GetTempPath(), "NSwag_" + Guid.NewGuid() + ".nswagtemp");
             File.WriteAllText(_transformedConfigurationPath, content, Encoding.UTF8);
             return _transformedConfigurationPath;
         }
