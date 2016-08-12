@@ -67,7 +67,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
                 Operations = operations
             };
 
-            var template = Settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "WebApiController", model);
+            var template = Settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Controller", model);
             return template.Render();
         }
     }
