@@ -71,7 +71,6 @@
     <Compile Include="NSwagDocument.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utilities\PathUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config">
