@@ -608,7 +608,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         private SwaggerParameter CreatePrimitiveParameter(string name, string description, Type type, SwaggerService service, IList<Attribute> parentAttributes, ISchemaResolver schemaResolver)
         {
             var schemaDefinitionAppender = new SwaggerServiceSchemaDefinitionAppender(service, Settings.TypeNameGenerator);
-            var schemaGenerator = new RootTypeJsonSchemaGenerator(service, schemaDefinitionAppender, Settings);
+            var schemaGenerator = new ReferencedJsonSchemaGenerator(service, schemaDefinitionAppender, Settings);
 
             var typeDescription = JsonObjectTypeDescription.FromType(type, parentAttributes, Settings.DefaultEnumHandling);
             var parameterType = typeDescription.Type.HasFlag(JsonObjectType.Object) ? typeof(string) : type; // object types must be treated as string
@@ -758,7 +758,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
                 if (!schemaResolver.HasSchema(type, false))
                 {
-                    var schemaGenerator = new RootTypeJsonSchemaGenerator(service, schemaDefinitionAppender, Settings);
+                    var schemaGenerator = new ReferencedJsonSchemaGenerator(service, schemaDefinitionAppender, Settings);
                     schemaGenerator.Generate(type, null, null, schemaDefinitionAppender, schemaResolver);
                 }
 
@@ -792,7 +792,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 };
             }
 
-            var generator = new RootTypeJsonSchemaGenerator(service, schemaDefinitionAppender, Settings);
+            var generator = new ReferencedJsonSchemaGenerator(service, schemaDefinitionAppender, Settings);
             return generator.Generate(type, null, null, schemaDefinitionAppender, schemaResolver);
         }
     }
