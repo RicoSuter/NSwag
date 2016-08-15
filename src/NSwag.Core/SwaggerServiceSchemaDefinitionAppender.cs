@@ -26,10 +26,11 @@ namespace NSwag
             _typeNameGenerator = typeNameGenerator; 
         }
 
+        public object RootObject { get; set; }
+
         /// <summary>Appends the schema to the root object.</summary>
-        /// <param name="root">The root object.</param>
         /// <param name="objectToAppend">The object to append.</param>
-        public void Append(object root, JsonSchema4 objectToAppend)
+        public void Append(JsonSchema4 objectToAppend)
         {
             var typeName = objectToAppend.GetTypeName(_typeNameGenerator); 
             if (!string.IsNullOrEmpty(typeName) && !_service.Definitions.ContainsKey(typeName))

@@ -130,7 +130,7 @@
     <Compile Include="Infrastructure\ReflectionExtensions.cs" />
     <Compile Include="Infrastructure\T4Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SwaggerGenerators\RootTypeJsonSchemaGenerator.cs" />
+    <Compile Include="SwaggerGenerators\ReferencedJsonSchemaGenerator.cs" />
     <Compile Include="SwaggerGenerators\WebApi\Processors\IDocumentProcessor.cs" />
     <Compile Include="SwaggerGenerators\WebApi\Processors\IOperationProcessor.cs" />
     <Compile Include="SwaggerGenerators\WebApi\Processors\SecurityDefinitionAppender.cs" />
