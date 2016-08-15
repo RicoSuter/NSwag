@@ -59,14 +59,13 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
                 RegisterReferencePaths(settings.ReferencePaths);
 
                 var generator = new JsonSchemaGenerator(settings);
-                var resolver = new SchemaResolver();
                 var service = new SwaggerService();
 
                 var assembly = Assembly.LoadFrom(settings.AssemblyPath);
                 foreach (var className in classNames)
                 {
                     var type = assembly.GetType(className);
-                    var schema = generator.Generate(type, resolver);
+                    var schema = generator.Generate(type);
                     service.Definitions[type.Name] = schema;
                 }
 

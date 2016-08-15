@@ -14,7 +14,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
 {
     /// <summary>A <see cref="JsonSchemaGenerator"/> which only generate the schema for the root type. 
     /// Referenced types are added to the service's Definitions collection. </summary>
-    internal class ReferencedJsonSchemaGenerator : JsonSchemaGenerator
+    public class ReferencedJsonSchemaGenerator : JsonSchemaGenerator
     {
         private bool _isRootType = true;
 
@@ -47,14 +47,14 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
             }
             else
             {
-                if (!Resolver.HasSchema(type, false))
+                if (!SchemaResolver.HasSchema(type, false))
                 {
                     _isRootType = true;
                     Generate(type);
                     _isRootType = false;
                 }
 
-                schema.SchemaReference = Resolver.GetSchema(type, false);
+                schema.SchemaReference = SchemaResolver.GetSchema(type, false);
             }
         }
     }

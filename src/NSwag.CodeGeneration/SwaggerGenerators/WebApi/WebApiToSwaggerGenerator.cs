@@ -24,11 +24,22 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
     /// <summary>Generates a <see cref="SwaggerService"/> object for the given Web API class type. </summary>
     public class WebApiToSwaggerGenerator
     {
+        private readonly ReferencedJsonSchemaGenerator _schemaGenerator;
+
         /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerGenerator" /> class.</summary>
         /// <param name="settings">The settings.</param>
         public WebApiToSwaggerGenerator(WebApiToSwaggerGeneratorSettings settings)
+            : this(settings, new ReferencedJsonSchemaGenerator(settings))
+        {
+        }
+
+        /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerGenerator" /> class.</summary>
+        /// <param name="settings">The settings.</param>
+        /// <param name="schemaGenerator">The schema generator.</param>
+        public WebApiToSwaggerGenerator(WebApiToSwaggerGeneratorSettings settings, ReferencedJsonSchemaGenerator schemaGenerator)
         {
             Settings = settings;
+            _schemaGenerator = schemaGenerator; 
         }
 
         /// <summary>Gets all controller class types of the given assembly.</summary>
@@ -65,10 +76,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         public SwaggerService GenerateForController(Type controllerType, string excludedMethodName = "Swagger")
         {
             var service = CreateService(Settings);
-            var schemaResolver = new SchemaResolver();
-
-            GenerateForController(service, controllerType, excludedMethodName, schemaResolver);
-
+            GenerateForController(service, controllerType, excludedMethodName);
             service.GenerateOperationIds();
             return service;
         }
@@ -84,7 +92,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             var schemaResolver = new SchemaResolver();
 
             foreach (var controllerType in controllerTypes)
-                GenerateForController(service, controllerType, excludedMethodName, schemaResolver);
+                GenerateForController(service, controllerType, excludedMethodName);
 
             service.GenerateOperationIds();
             return service;
@@ -105,7 +113,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         }
 
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
-        private void GenerateForController(SwaggerService service, Type controllerType, string excludedMethodName, SchemaResolver schemaResolver)
+        private void GenerateForController(SwaggerService service, Type controllerType, string excludedMethodName)
         {
             var hasIgnoreAttribute = controllerType.GetTypeInfo().GetCustomAttributes()
                 .Any(a => a.GetType().Name == "SwaggerIgnoreAttribute");
@@ -129,8 +137,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
                             var parameters = method.GetParameters().ToList();
 
-                            LoadParameters(service, operation, parameters, httpPath, schemaResolver);
-                            LoadReturnType(service, operation, method, schemaResolver);
+                            LoadParameters(service, operation, parameters, httpPath);
+                            LoadReturnType(service, operation, method);
                             LoadMetaData(operation, method);
                             LoadOperationTags(method, operation, controllerType);
 
@@ -152,13 +160,13 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     }
                 }
 
-                AddOperationDescriptionsToDocument(service, operations, schemaResolver);
+                AddOperationDescriptionsToDocument(service, operations);
             }
 
-            AppendRequiredSchemasToDefinitions(service, schemaResolver);
+            AppendRequiredSchemasToDefinitions(service);
         }
 
-        private void AddOperationDescriptionsToDocument(SwaggerService service, List<Tuple<SwaggerOperationDescription, MethodInfo>> operations, SchemaResolver schemaResolver)
+        private void AddOperationDescriptionsToDocument(SwaggerService service, List<Tuple<SwaggerOperationDescription, MethodInfo>> operations)
         {
             var allOperation = operations.Select(t => t.Item1).ToList();
             foreach (var tuple in operations)
@@ -166,7 +174,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 var operation = tuple.Item1;
                 var method = tuple.Item2;
 
-                var addOperation = RunOperationProcessors(method, operation, schemaResolver, allOperation);
+                var addOperation = RunOperationProcessors(method, operation, allOperation);
                 if (addOperation)
                 {
                     if (!service.Paths.ContainsKey(operation.Path))
@@ -180,12 +188,12 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             }
         }
 
-        private bool RunOperationProcessors(MethodInfo method, SwaggerOperationDescription operation, SchemaResolver schemaResolver, List<SwaggerOperationDescription> allOperations)
+        private bool RunOperationProcessors(MethodInfo method, SwaggerOperationDescription operation, List<SwaggerOperationDescription> allOperations)
         {
             // 1. Run from settings
             foreach (var operationProcessor in Settings.OperationProcessors)
             {
-                if (operationProcessor.Process(operation, method, schemaResolver, allOperations) == false)
+                if (operationProcessor.Process(operation, method, _schemaGenerator.SchemaResolver, allOperations) == false)
                     return false;
             }
 
@@ -198,7 +206,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             foreach (dynamic attribute in operationProcessorAttribute)
             {
                 var operationProcessor = Activator.CreateInstance(attribute.Type);
-                if (operationProcessor.Process(method, operation, schemaResolver, allOperations) == false)
+                if (operationProcessor.Process(method, operation, _schemaGenerator.SchemaResolver, allOperations) == false)
                     return false;
             }
 
@@ -214,9 +222,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 operation.Tags.Add(controllerType.Name);
         }
 
-        private void AppendRequiredSchemasToDefinitions(SwaggerService service, SchemaResolver schemaResolver)
+        private void AppendRequiredSchemasToDefinitions(SwaggerService service)
         {
-            foreach (var schema in schemaResolver.Schemes)
+            foreach (var schema in _schemaGenerator.SchemaResolver.Schemas)
             {
                 if (!service.Definitions.Values.Contains(schema))
                 {
@@ -418,7 +426,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         }
 
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
-        private void LoadParameters(SwaggerService service, SwaggerOperation operation, List<ParameterInfo> parameters, string httpPath, ISchemaResolver schemaResolver)
+        private void LoadParameters(SwaggerService service, SwaggerOperation operation, List<ParameterInfo> parameters, string httpPath)
         {
             // TODO: Also check other attributes (e.g. FromHeader, ...) 
             // https://docs.asp.net/en/latest/mvc/models/model-binding.html#customize-model-binding-behavior-with-attributes
@@ -431,7 +439,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 if (httpPath.ToLowerInvariant().Contains("{" + nameLower + "}") ||
                     httpPath.ToLowerInvariant().Contains("{" + nameLower + ":")) // path parameter
                 {
-                    var operationParameter = CreatePrimitiveParameter(parameter.Name, service, parameter, schemaResolver);
+                    var operationParameter = CreatePrimitiveParameter(parameter.Name, parameter);
                     operationParameter.Kind = SwaggerParameterKind.Path;
                     operationParameter.IsNullableRaw = false;
                     operationParameter.IsRequired = true; // Path is always required => property not needed
@@ -441,7 +449,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 else
                 {
                     var parameterInfo = JsonObjectTypeDescription.FromType(parameter.ParameterType, parameter.GetCustomAttributes(), Settings.DefaultEnumHandling);
-                    if (TryAddFileParameter(parameterInfo, service, operation, schemaResolver, parameter) == false)
+                    if (TryAddFileParameter(parameterInfo, operation, parameter) == false)
                     {
                         // http://blogs.msdn.com/b/jmstall/archive/2012/04/16/how-webapi-does-parameter-binding.aspx
                         // TODO: Add support for ModelBinder attribute
@@ -458,16 +466,16 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                         if (parameterInfo.IsComplexType)
                         {
                             if (fromUriAttribute != null)
-                                AddPrimitiveParametersFromUri(service, operation, parameter, schemaResolver);
+                                AddPrimitiveParametersFromUri(operation, parameter);
                             else
-                                AddBodyParameter(bodyParameterName, parameter, operation, service, schemaResolver);
+                                AddBodyParameter(bodyParameterName, parameter, operation, service);
                         }
                         else
                         {
                             if (fromBodyAttribute != null)
-                                AddBodyParameter(bodyParameterName, parameter, operation, service, schemaResolver);
+                                AddBodyParameter(bodyParameterName, parameter, operation, service);
                             else
-                                AddPrimitiveParameter(uriParameterName, service, operation, parameter, schemaResolver);
+                                AddPrimitiveParameter(uriParameterName, operation, parameter);
                         }
                     }
                 }
@@ -485,23 +493,23 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             return ((object)obj)?.GetType().GetRuntimeProperty(propertyName) != null && !string.IsNullOrEmpty(obj.Name) ? obj.Name : null;
         }
 
-        private bool TryAddFileParameter(JsonObjectTypeDescription info, SwaggerService service, SwaggerOperation operation, ISchemaResolver schemaResolver, ParameterInfo parameter)
+        private bool TryAddFileParameter(JsonObjectTypeDescription info, SwaggerOperation operation, ParameterInfo parameter)
         {
             var isFileArray = IsFileArray(parameter.ParameterType, info);
             if (info.Type == JsonObjectType.File || isFileArray)
             {
-                AddFileParameter(parameter, isFileArray, operation, service, schemaResolver);
+                AddFileParameter(parameter, isFileArray, operation);
                 return true;
             }
 
             return false;
         }
 
-        private void AddFileParameter(ParameterInfo parameter, bool isFileArray, SwaggerOperation operation, SwaggerService service, ISchemaResolver schemaResolver)
+        private void AddFileParameter(ParameterInfo parameter, bool isFileArray, SwaggerOperation operation)
         {
             var attributes = parameter.GetCustomAttributes().ToList();
-            var operationParameter = CreatePrimitiveParameter( // TODO: Check if there is a way to control the property name
-                parameter.Name, parameter.GetXmlDocumentation(), parameter.ParameterType, service, attributes, schemaResolver);
+            // TODO: Check if there is a way to control the property name
+            var operationParameter = CreatePrimitiveParameter(parameter.Name, parameter.GetXmlDocumentation(), parameter.ParameterType, attributes);
 
             InitializeFileParameter(operationParameter, isFileArray);
             operation.Parameters.Add(operationParameter);
@@ -515,20 +523,20 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             return isFormFileCollection || isFileArray;
         }
 
-        private void AddBodyParameter(string name, ParameterInfo parameter, SwaggerOperation operation, SwaggerService service, ISchemaResolver schemaResolver)
+        private void AddBodyParameter(string name, ParameterInfo parameter, SwaggerOperation operation, SwaggerService service)
         {
-            var operationParameter = CreateBodyParameter(name, parameter, service, schemaResolver);
+            var operationParameter = CreateBodyParameter(name, parameter, service);
             operation.Parameters.Add(operationParameter);
         }
 
-        private void AddPrimitiveParametersFromUri(SwaggerService service, SwaggerOperation operation, ParameterInfo parameter, ISchemaResolver schemaResolver)
+        private void AddPrimitiveParametersFromUri(SwaggerOperation operation, ParameterInfo parameter)
         {
             foreach (var property in parameter.ParameterType.GetRuntimeProperties())
             {
                 var attributes = property.GetCustomAttributes().ToList();
                 var operationParameter = CreatePrimitiveParameter(// TODO: Check if there is a way to control the property name
                     JsonPathUtilities.GetPropertyName(property, Settings.DefaultPropertyNameHandling),
-                        property.GetXmlDocumentation(), property.PropertyType, service, attributes, schemaResolver);
+                        property.GetXmlDocumentation(), property.PropertyType, attributes);
 
                 // TODO: Check if required can be controlled with mechanisms other than RequiredAttribute
 
@@ -552,15 +560,15 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 operationParameter.CollectionFormat = SwaggerParameterCollectionFormat.Multi;
         }
 
-        private void AddPrimitiveParameter(string name, SwaggerService service, SwaggerOperation operation, ParameterInfo parameter, ISchemaResolver schemaResolver)
+        private void AddPrimitiveParameter(string name, SwaggerOperation operation, ParameterInfo parameter)
         {
-            var operationParameter = CreatePrimitiveParameter(name, service, parameter, schemaResolver);
+            var operationParameter = CreatePrimitiveParameter(name, parameter);
             operationParameter.Kind = SwaggerParameterKind.Query;
             operationParameter.IsRequired = operationParameter.IsRequired || parameter.HasDefaultValue == false;
             operation.Parameters.Add(operationParameter);
         }
 
-        private SwaggerParameter CreateBodyParameter(string name, ParameterInfo parameter, SwaggerService service, ISchemaResolver schemaResolver)
+        private SwaggerParameter CreateBodyParameter(string name, ParameterInfo parameter, SwaggerService service)
         {
             var isRequired = IsParameterRequired(parameter);
 
@@ -571,7 +579,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 Kind = SwaggerParameterKind.Body,
                 IsRequired = isRequired,
                 IsNullableRaw = typeDescription.IsNullable,
-                Schema = CreateAndAddSchema(service, parameter.ParameterType, !isRequired, parameter.GetCustomAttributes(), schemaResolver),
+                Schema = CreateAndAddSchema(service, parameter.ParameterType, !isRequired, parameter.GetCustomAttributes()),
             };
 
             var description = parameter.GetXmlDocumentation();
@@ -599,25 +607,21 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             return parameter.ParameterType.GetTypeInfo().IsValueType;
         }
 
-        private SwaggerParameter CreatePrimitiveParameter(string name, SwaggerService service, ParameterInfo parameter, ISchemaResolver schemaResolver)
+        private SwaggerParameter CreatePrimitiveParameter(string name, ParameterInfo parameter)
         {
-            return CreatePrimitiveParameter(name, parameter.GetXmlDocumentation(),
-                parameter.ParameterType, service, parameter.GetCustomAttributes().ToList(), schemaResolver);
+            return CreatePrimitiveParameter(name, parameter.GetXmlDocumentation(), parameter.ParameterType, parameter.GetCustomAttributes().ToList());
         }
 
-        private SwaggerParameter CreatePrimitiveParameter(string name, string description, Type type, SwaggerService service, IList<Attribute> parentAttributes, ISchemaResolver schemaResolver)
+        private SwaggerParameter CreatePrimitiveParameter(string name, string description, Type type, IList<Attribute> parentAttributes)
         {
-            var schemaDefinitionAppender = new SwaggerServiceSchemaDefinitionAppender(service, Settings.TypeNameGenerator);
-            var schemaGenerator = new ReferencedJsonSchemaGenerator(service, schemaDefinitionAppender, Settings);
-
             var typeDescription = JsonObjectTypeDescription.FromType(type, parentAttributes, Settings.DefaultEnumHandling);
             var parameterType = typeDescription.Type.HasFlag(JsonObjectType.Object) ? typeof(string) : type; // object types must be treated as string
 
-            var operationParameter = schemaGenerator.Generate<SwaggerParameter>(parameterType, null, parentAttributes, schemaDefinitionAppender, schemaResolver);
+            var operationParameter = _schemaGenerator.Generate<SwaggerParameter>(parameterType, parentAttributes);
             if (parameterType.GetTypeInfo().IsEnum)
-                operationParameter.SchemaReference = schemaGenerator.Generate<JsonSchema4>(parameterType, null, parentAttributes, schemaDefinitionAppender, schemaResolver);
+                operationParameter.SchemaReference = _schemaGenerator.Generate<JsonSchema4>(parameterType, parentAttributes);
             else
-                schemaGenerator.ApplyPropertyAnnotations(operationParameter, type, parentAttributes, typeDescription);
+                _schemaGenerator.ApplyPropertyAnnotations(operationParameter, type, parentAttributes, typeDescription);
 
             operationParameter.Name = name;
             operationParameter.IsRequired = parentAttributes?.Any(a => a.GetType().Name == "RequiredAttribute") ?? false;
@@ -629,7 +633,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             return operationParameter;
         }
 
-        private void LoadReturnType(SwaggerService service, SwaggerOperation operation, MethodInfo method, ISchemaResolver schemaResolver)
+        private void LoadReturnType(SwaggerService service, SwaggerOperation operation, MethodInfo method)
         {
             var xmlDescription = method.ReturnParameter.GetXmlDocumentation();
             if (xmlDescription == string.Empty)
@@ -666,7 +670,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     {
                         Description = description ?? string.Empty,
                         IsNullableRaw = typeDescription.IsNullable,
-                        Schema = CreateAndAddSchema(service, returnType, typeDescription.IsNullable, null, schemaResolver)
+                        Schema = CreateAndAddSchema(service, returnType, typeDescription.IsNullable, null)
                     };
                 }
 
@@ -680,15 +684,15 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     {
                         Description = xmlDescription ?? string.Empty,
                         IsNullableRaw = typeDescription.IsNullable,
-                        Schema = CreateAndAddSchema(service, returnType, typeDescription.IsNullable, null, schemaResolver)
+                        Schema = CreateAndAddSchema(service, returnType, typeDescription.IsNullable, null)
                     };
                 }
             }
             else
-                LoadDefaultReturnType(service, operation, method, schemaResolver, xmlDescription);
+                LoadDefaultReturnType(service, operation, method, xmlDescription);
         }
 
-        private void LoadDefaultReturnType(SwaggerService service, SwaggerOperation operation, MethodInfo method, ISchemaResolver schemaResolver, string xmlDescription)
+        private void LoadDefaultReturnType(SwaggerService service, SwaggerOperation operation, MethodInfo method, string xmlDescription)
         {
             var returnType = method.ReturnType;
             if (returnType == typeof(Task))
@@ -711,7 +715,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 {
                     Description = xmlDescription ?? string.Empty,
                     IsNullableRaw = typeDescription.IsNullable,
-                    Schema = CreateAndAddSchema(service, returnType, typeDescription.IsNullable, null, schemaResolver)
+                    Schema = CreateAndAddSchema(service, returnType, typeDescription.IsNullable, null)
                 };
             }
         }
@@ -731,7 +735,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                    returnType.InheritsFrom("HttpResponseMessage");
         }
 
-        private JsonSchema4 CreateAndAddSchema(SwaggerService service, Type type, bool mayBeNull, IEnumerable<Attribute> parentAttributes, ISchemaResolver schemaResolver)
+        private JsonSchema4 CreateAndAddSchema(SwaggerService service, Type type, bool mayBeNull, IEnumerable<Attribute> parentAttributes)
         {
             if (type.Name == "Task`1")
                 type = type.GenericTypeArguments[0];
@@ -756,11 +760,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     };
                 }
 
-                if (!schemaResolver.HasSchema(type, false))
-                {
-                    var schemaGenerator = new ReferencedJsonSchemaGenerator(service, schemaDefinitionAppender, Settings);
-                    schemaGenerator.Generate(type, null, null, schemaDefinitionAppender, schemaResolver);
-                }
+                if (!_schemaGenerator.SchemaResolver.HasSchema(type, false))
+                    _schemaGenerator.Generate(type);
 
                 if (mayBeNull)
                 {
@@ -768,17 +769,17 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     {
                         var schema = new JsonSchema4();
                         schema.OneOf.Add(new JsonSchema4 { Type = JsonObjectType.Null });
-                        schema.OneOf.Add(new JsonSchema4 { SchemaReference = schemaResolver.GetSchema(type, false) });
+                        schema.OneOf.Add(new JsonSchema4 { SchemaReference = _schemaGenerator.SchemaResolver.GetSchema(type, false) });
                         return schema;
                     }
                     else
                     {
                         // IsNullable is directly set on SwaggerParameter or SwaggerResponse
-                        return new JsonSchema4 { SchemaReference = schemaResolver.GetSchema(type, false) };
+                        return new JsonSchema4 { SchemaReference = _schemaGenerator.SchemaResolver.GetSchema(type, false) };
                     }
                 }
                 else
-                    return new JsonSchema4 { SchemaReference = schemaResolver.GetSchema(type, false) };
+                    return new JsonSchema4 { SchemaReference = _schemaGenerator.SchemaResolver.GetSchema(type, false) };
             }
 
             if (typeDescription.Type.HasFlag(JsonObjectType.Array))
@@ -788,12 +789,11 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 {
                     // IsNullable is directly set on SwaggerParameter or SwaggerResponse
                     Type = Settings.NullHandling == NullHandling.JsonSchema ? JsonObjectType.Array | JsonObjectType.Null : JsonObjectType.Array,
-                    Item = CreateAndAddSchema(service, itemType, false, null, schemaResolver)
+                    Item = CreateAndAddSchema(service, itemType, false, null)
                 };
             }
 
-            var generator = new ReferencedJsonSchemaGenerator(service, schemaDefinitionAppender, Settings);
-            return generator.Generate(type, null, null, schemaDefinitionAppender, schemaResolver);
+            return _schemaGenerator.Generate(type);
         }
     }
 }
