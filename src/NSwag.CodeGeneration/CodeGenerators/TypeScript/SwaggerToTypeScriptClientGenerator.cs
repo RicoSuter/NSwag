@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
-using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag.CodeGeneration.CodeGenerators.Models;
 using NSwag.CodeGeneration.CodeGenerators.TypeScript.Models;
@@ -36,11 +35,12 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             Settings = settings;
 
             _service = service;
+
             foreach (var definition in _service.Definitions.Where(p => string.IsNullOrEmpty(p.Value.TypeNameRaw)))
                 definition.Value.TypeNameRaw = definition.Key;
 
-            var schemas = _service.Definitions.Select(p => p.Value).ToArray();
-            _resolver = new TypeScriptTypeResolver(Settings.TypeScriptGeneratorSettings, service, schemas);
+            _resolver = new TypeScriptTypeResolver(Settings.TypeScriptGeneratorSettings, service);
+            _resolver.AddSchemas(_service.Definitions);
         }
 
         /// <summary>Gets or sets the generator settings.</summary>

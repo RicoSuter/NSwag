@@ -25,7 +25,13 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             _service = service;
             _settings = settings;
 
-            Resolver = new SwaggerToCSharpTypeResolver(settings.CSharpGeneratorSettings, service.Definitions);
+            foreach (var definition in _service.Definitions.Where(p => string.IsNullOrEmpty(p.Value.TypeNameRaw)))
+                definition.Value.TypeNameRaw = definition.Key;
+
+            var exceptionSchema = _service.Definitions.ContainsKey("Exception") ? _service.Definitions["Exception"] : null;
+
+            Resolver = new SwaggerToCSharpTypeResolver(settings.CSharpGeneratorSettings, exceptionSchema);
+            Resolver.AddSchemas(service.Definitions.Where(p => p.Value != exceptionSchema).ToDictionary(p => p.Key, p => p.Value));
         }
 
         internal override string GenerateFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType)
@@ -54,7 +60,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             var template = _settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "File", model);
             return template.Render();
         }
-        
+
         internal override string GetExceptionType(SwaggerOperation operation)
         {
             if (operation.Responses.Count(r => !HttpUtilities.IsSuccessStatusCode(r.Key)) != 1)
