@@ -89,7 +89,7 @@ namespace NSwag.AspNet.Owin
             SwaggerUiOwinSettings settings)
         {
             var controllerTypes = webApiAssemblies.SelectMany(WebApiToSwaggerGenerator.GetControllerClasses);
-            return app.UseSwaggerUi(controllerTypes, settings, new ReferencedJsonSchemaGenerator(settings));
+            return app.UseSwaggerUi(controllerTypes, settings, new SwaggerJsonSchemaGenerator(settings));
         }
 
         /// <summary>Addes the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
@@ -102,7 +102,7 @@ namespace NSwag.AspNet.Owin
             this IAppBuilder app,
             IEnumerable<Type> controllerTypes,
             SwaggerUiOwinSettings settings,
-            ReferencedJsonSchemaGenerator schemaGenerator)
+            SwaggerJsonSchemaGenerator schemaGenerator)
         {
             app.Use<RedirectMiddleware>(settings.SwaggerUiRoute, settings.SwaggerUiRoute + "/index.html?url=" + Uri.EscapeDataString(settings.SwaggerRoute));
             app.Use<SwaggerMiddleware>(settings.SwaggerRoute, controllerTypes, settings, schemaGenerator);

@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Remoting.Channels;
 using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.Generation;
@@ -58,14 +59,17 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
                 var settings = JsonConvert.DeserializeObject<AssemblyTypeToSwaggerGeneratorSettings>(settingsData);
                 RegisterReferencePaths(settings.ReferencePaths);
 
-                var generator = new JsonSchemaGenerator(settings);
                 var service = new SwaggerService();
+
+                var generator = new JsonSchemaGenerator(settings);
+                var schemaResolver = new SchemaResolver();
+                var schemaDefinitionAppender = new SwaggerServiceSchemaDefinitionAppender(service, settings.TypeNameGenerator);
 
                 var assembly = Assembly.LoadFrom(settings.AssemblyPath);
                 foreach (var className in classNames)
                 {
                     var type = assembly.GetType(className);
-                    var schema = generator.Generate(type);
+                    var schema = generator.Generate(type, schemaResolver, schemaDefinitionAppender);
                     service.Definitions[type.Name] = schema;
                 }
 

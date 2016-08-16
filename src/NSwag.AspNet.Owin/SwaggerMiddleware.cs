@@ -22,9 +22,9 @@ namespace NSwag.AspNet.Owin
         private readonly SwaggerOwinSettings _settings;
         private readonly IEnumerable<Type> _controllerTypes;
         private string _swaggerJson = null;
-        private readonly ReferencedJsonSchemaGenerator _schemaGenerator;
+        private readonly SwaggerJsonSchemaGenerator _schemaGenerator;
 
-        public SwaggerMiddleware(OwinMiddleware next, string path, IEnumerable<Type> controllerTypes, SwaggerOwinSettings settings, ReferencedJsonSchemaGenerator schemaGenerator)
+        public SwaggerMiddleware(OwinMiddleware next, string path, IEnumerable<Type> controllerTypes, SwaggerOwinSettings settings, SwaggerJsonSchemaGenerator schemaGenerator)
             : base(next)
         {
             _path = path;
