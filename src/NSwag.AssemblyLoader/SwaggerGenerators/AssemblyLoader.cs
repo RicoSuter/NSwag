@@ -24,11 +24,14 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
             foreach (var path in referencePaths.Where(p => !string.IsNullOrWhiteSpace(p)))
                 allReferencePaths.AddRange(GetAllDirectories(path));
 
+            // Add path to nswag directory
+            allReferencePaths.Add(Path.GetDirectoryName(typeof(AssemblyLoader).Assembly.CodeBase.Replace("file:///", string.Empty)));
+
             domain.AssemblyResolve += (sender, args) =>
             {
                 foreach (var path in allReferencePaths)
                 {
-                    var assemblyName = args.Name.Substring(0, args.Name.IndexOf(",", StringComparison.InvariantCulture)) + ".dll"; 
+                    var assemblyName = args.Name.Substring(0, args.Name.IndexOf(",", StringComparison.InvariantCulture)) + ".dll";
                     var files = Directory.GetFiles(path, assemblyName, SearchOption.TopDirectoryOnly);
                     foreach (var file in files)
                     {
