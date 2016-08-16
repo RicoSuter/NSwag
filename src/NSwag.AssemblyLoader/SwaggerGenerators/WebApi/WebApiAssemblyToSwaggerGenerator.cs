@@ -108,7 +108,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 if (settings.AssemblyPaths == null || settings.AssemblyPaths.Length == 0)
                     throw new InvalidOperationException("No assembly paths have been provided.");
 
-                var assemblies = settings.AssemblyPaths.Select(path => Assembly.LoadFrom(path)).ToArray();
+                var assemblies = PathUtilities.ExpandFileWildcards(settings.AssemblyPaths)
+                    .Select(path => Assembly.LoadFrom(path)).ToArray();
+
                 var controllerTypes = new List<Type>();
                 foreach (var className in controllerClassNames)
                 {
