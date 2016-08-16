@@ -400,6 +400,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             if (method.GetCustomAttributes().Any(a => a.GetType().Name == "HttpOptionsAttribute"))
                 yield return SwaggerOperationMethod.Options;
 
+            if (method.GetCustomAttributes().Any(a => a.GetType().Name == "HttpPatchAttribute"))
+                yield return SwaggerOperationMethod.Patch;
+
             dynamic acceptVerbsAttribute = method.GetCustomAttributes()
                 .SingleOrDefault(a => a.GetType().Name == "AcceptVerbsAttribute");
 
