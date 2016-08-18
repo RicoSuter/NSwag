@@ -131,6 +131,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     .Select(Assembly.LoadFrom)
                     .SelectMany(WebApiToSwaggerGenerator.GetControllerClasses)
                     .Select(t => t.FullName)
+                    .OrderBy(c => c)
                     .ToArray();
             }
         }
