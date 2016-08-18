@@ -14,6 +14,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Extensions;
 using Microsoft.Owin.FileSystems;
 using Microsoft.Owin.StaticFiles;
+using NSwag.CodeGeneration.SwaggerGenerators;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 using Owin;
 
@@ -88,21 +89,23 @@ namespace NSwag.AspNet.Owin
             SwaggerUiOwinSettings settings)
         {
             var controllerTypes = webApiAssemblies.SelectMany(WebApiToSwaggerGenerator.GetControllerClasses);
-            return app.UseSwaggerUi(controllerTypes, settings);
+            return app.UseSwaggerUi(controllerTypes, settings, new SwaggerJsonSchemaGenerator(settings));
         }
 
         /// <summary>Addes the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
         /// <param name="app">The app.</param>
         /// <param name="controllerTypes">The Web API controller types.</param>
         /// <param name="settings">The Swagger generator settings.</param>
+        /// <param name="schemaGenerator">The schema generator.</param>
         /// <returns>The app builder.</returns>
         public static IAppBuilder UseSwaggerUi(
             this IAppBuilder app,
             IEnumerable<Type> controllerTypes,
-            SwaggerUiOwinSettings settings)
+            SwaggerUiOwinSettings settings,
+            SwaggerJsonSchemaGenerator schemaGenerator)
         {
             app.Use<RedirectMiddleware>(settings.SwaggerUiRoute, settings.SwaggerUiRoute + "/index.html?url=" + Uri.EscapeDataString(settings.SwaggerRoute));
-            app.Use<SwaggerMiddleware>(settings.SwaggerRoute, controllerTypes, settings);
+            app.Use<SwaggerMiddleware>(settings.SwaggerRoute, controllerTypes, settings, schemaGenerator);
             app.Use<SwaggerUiIndexMiddleware>(settings.SwaggerUiRoute + "/index.html", settings);
             app.UseFileServer(new FileServerOptions
             {

@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NSwag.CodeGeneration.CodeGenerators.CSharp.Templates;
 using NSwag.CodeGeneration.CodeGenerators.Models;
 
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp
@@ -56,8 +55,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         {
             var hasClientBaseClass = !string.IsNullOrEmpty(Settings.ControllerBaseClass);
 
-            var template = new WebApiControllerTemplate();
-            template.Initialize(new // TODO: Add typed class
+            var model = new // TODO: Add typed class
             {
                 Class = controllerName,
                 BaseClass = Settings.ControllerBaseClass,
@@ -67,8 +65,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
 
                 HasOperations = operations.Any(),
                 Operations = operations
-            });
+            };
 
+            var template = Settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Controller", model);
             return template.Render();
         }
     }

@@ -13,6 +13,7 @@ using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json;
 using NSwag.CodeGeneration.Infrastructure;
+using NSwag.CodeGeneration.Utilities;
 
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 {
@@ -107,7 +108,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 if (settings.AssemblyPaths == null || settings.AssemblyPaths.Length == 0)
                     throw new InvalidOperationException("No assembly paths have been provided.");
 
-                var assemblies = settings.AssemblyPaths.Select(path => Assembly.LoadFrom(path)).ToArray();
+                var assemblies = PathUtilities.ExpandFileWildcards(settings.AssemblyPaths)
+                    .Select(path => Assembly.LoadFrom(path)).ToArray();
+
                 var controllerTypes = new List<Type>();
                 foreach (var className in controllerClassNames)
                 {
@@ -124,7 +127,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             {
                 RegisterReferencePaths(referencePaths);
 
-                return assemblyPaths
+                return PathUtilities.ExpandFileWildcards(assemblyPaths)
                     .Select(Assembly.LoadFrom)
                     .SelectMany(WebApiToSwaggerGenerator.GetControllerClasses)
                     .Select(t => t.FullName)

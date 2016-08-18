@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
-using System.Linq;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration.CSharp;
 
@@ -19,12 +17,12 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         private readonly JsonSchema4 _exceptionSchema;
 
         /// <summary>Initializes a new instance of the <see cref="CSharpTypeResolver" /> class.</summary>
-        /// <param name="definition">The definition.</param>
         /// <param name="settings">The generator settings.</param>
-        public SwaggerToCSharpTypeResolver(CSharpGeneratorSettings settings, IDictionary<string, JsonSchema4> definition)
-            : base(settings, definition.Where(p => p.Key != "Exception").Select(p => p.Value).ToArray())
+        /// <param name="exceptionSchema">The exception type schema.</param>
+        public SwaggerToCSharpTypeResolver(CSharpGeneratorSettings settings, JsonSchema4 exceptionSchema)
+            : base(settings)
         {
-            _exceptionSchema = definition.ContainsKey("Exception") ? definition["Exception"] : null;
+            _exceptionSchema = exceptionSchema;
         }
 
         /// <summary>Resolves and possibly generates the specified schema.</summary>

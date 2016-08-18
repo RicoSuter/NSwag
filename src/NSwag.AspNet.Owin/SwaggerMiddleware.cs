@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Owin;
+using NSwag.CodeGeneration.SwaggerGenerators;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 
 namespace NSwag.AspNet.Owin
@@ -21,13 +22,15 @@ namespace NSwag.AspNet.Owin
         private readonly SwaggerOwinSettings _settings;
         private readonly IEnumerable<Type> _controllerTypes;
         private string _swaggerJson = null;
+        private readonly SwaggerJsonSchemaGenerator _schemaGenerator;
 
-        public SwaggerMiddleware(OwinMiddleware next, string path, IEnumerable<Type> controllerTypes, SwaggerOwinSettings settings)
+        public SwaggerMiddleware(OwinMiddleware next, string path, IEnumerable<Type> controllerTypes, SwaggerOwinSettings settings, SwaggerJsonSchemaGenerator schemaGenerator)
             : base(next)
         {
             _path = path;
             _controllerTypes = controllerTypes;
             _settings = settings;
+            _schemaGenerator = schemaGenerator; 
         }
 
         public override async Task Invoke(IOwinContext context)
@@ -50,7 +53,7 @@ namespace NSwag.AspNet.Owin
                 {
                     if (_swaggerJson == null)
                     {
-                        var generator = new WebApiToSwaggerGenerator(_settings);
+                        var generator = new WebApiToSwaggerGenerator(_settings, _schemaGenerator);
                         var service = generator.GenerateForControllers(_controllerTypes);
 
                         foreach (var processor in _settings.DocumentProcessors)

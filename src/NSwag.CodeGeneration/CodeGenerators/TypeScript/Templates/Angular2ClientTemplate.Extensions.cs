@@ -1,15 +1,16 @@
 ﻿using NJsonSchema.CodeGeneration;
+using NSwag.CodeGeneration.CodeGenerators.TypeScript.Models;
 
 namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates
 {
-    internal partial class FileTemplate : ITemplate
+    internal partial class Angular2ClientTemplate : ITemplate
     {
-        public FileTemplate(object model)
+        public Angular2ClientTemplate(ClientTemplateModel model)
         {
             Model = model;
         }
 
-        public dynamic Model { get; }
+        public ClientTemplateModel Model { get; }
         
         public string Render()
         {
