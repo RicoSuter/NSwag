@@ -26,6 +26,7 @@ namespace NSwag
             _typeNameGenerator = typeNameGenerator; 
         }
 
+        /// <summary>Gets or sets the root object to append schemas to.</summary>
         public object RootObject { get; set; }
 
         /// <summary>Appends the schema to the root object.</summary>
