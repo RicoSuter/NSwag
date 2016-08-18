@@ -12,7 +12,6 @@ using System.Linq;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 using NSwag.CodeGeneration.CodeGenerators.CSharp.Models;
-using NSwag.CodeGeneration.CodeGenerators.CSharp.Templates;
 using NSwag.CodeGeneration.CodeGenerators.Models;
 
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp
@@ -83,12 +82,13 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
 
         internal override string GenerateClientClass(string controllerName, IList<OperationModel> operations, ClientGeneratorOutputType outputType)
         {
-            var template = new ClientTemplate();
-            template.Initialize(new ClientTemplateModel(controllerName, operations, _service, Settings)
+            var model = new ClientTemplateModel(controllerName, operations, _service, Settings)
             {
                 GenerateContracts = outputType == ClientGeneratorOutputType.Full || outputType == ClientGeneratorOutputType.Contracts,
                 GenerateImplementation = outputType == ClientGeneratorOutputType.Full || outputType == ClientGeneratorOutputType.Implementation,
-            });
+            };
+
+            var template = Settings.CSharpGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Client", model);
             return template.Render();
         }
     }

@@ -23,13 +23,15 @@ namespace NSwag.AspNetCore
         private readonly IEnumerable<Type> _controllerTypes;
         private string _swaggerJson = null;
         private readonly SwaggerOwinSettings _settings;
+        private readonly ReferencedJsonSchemaGenerator _schemaGenerator;
 
-        public SwaggerMiddleware(RequestDelegate nextDelegate, string path, IEnumerable<Type> controllerTypes, SwaggerOwinSettings settings)
+        public SwaggerMiddleware(RequestDelegate nextDelegate, string path, IEnumerable<Type> controllerTypes, SwaggerOwinSettings settings, ReferencedJsonSchemaGenerator schemaGenerator)
         {
             _nextDelegate = nextDelegate;
             _path = path;
             _controllerTypes = controllerTypes;
             _settings = settings;
+            _schemaGenerator = schemaGenerator;
         }
 
         public async Task Invoke(HttpContext context)
@@ -51,7 +53,7 @@ namespace NSwag.AspNetCore
                 {
                     if (_swaggerJson == null)
                     {
-                        var generator = new WebApiToSwaggerGenerator(_settings);
+                        var generator = new WebApiToSwaggerGenerator(_settings, _schemaGenerator);
                         var service = generator.GenerateForControllers(_controllerTypes);
 
                         foreach (var processor in _settings.DocumentProcessors)

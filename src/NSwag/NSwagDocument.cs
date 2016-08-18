@@ -16,7 +16,7 @@ using Newtonsoft.Json.Converters;
 using NJsonSchema;
 using NSwag.Commands;
 using NSwag.Commands.Base;
-using NSwag.Utilities;
+using NSwag.CodeGeneration.Utilities;
 
 namespace NSwag
 {

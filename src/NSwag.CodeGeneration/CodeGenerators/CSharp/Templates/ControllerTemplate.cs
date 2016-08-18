@@ -18,7 +18,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Templates
     
     #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\WebApiControllerTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "14.0.0.0")]
-    internal partial class WebApiControllerTemplate : WebApiControllerTemplateBase
+    internal partial class ControllerTemplate : WebApiControllerTemplateBase
     {
 #line hidden
         /// <summary>

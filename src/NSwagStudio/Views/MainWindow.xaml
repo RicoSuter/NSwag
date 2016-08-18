@@ -4,9 +4,9 @@
         xmlns:viewModels="clr-namespace:NSwagStudio.ViewModels"
         xmlns:views="clr-namespace:NSwagStudio.Views"
         Title="NSwagStudio: The Swagger API toolchain for .NET and TypeScript" 
-        MinHeight="800" MinWidth="1100" UseLayoutRounding="True"
+        MinHeight="650" MinWidth="1000" UseLayoutRounding="True"
         WindowStartupLocation="CenterScreen"
-        Height="800" Width="1100">
+        Height="650" Width="1000">
 
     <Window.Resources>
         <viewModels:MainWindowModel x:Key="ViewModel" />
@@ -77,7 +77,8 @@
                         <Hyperlink NavigateUri="http://www.rsuter.com" Click="OnOpenHyperlink">Rico Suter</Hyperlink> and other contributors.
                     </TextBlock>
                     <TextBlock Margin="0,0,0,8">
-                        Application Version: <Run Text="{Binding ApplicationVersion, Mode=OneWay}" />
+                        NSwag Version: <Run Text="{Binding NSwagVersion, Mode=OneWay}" /> <LineBreak />
+                        NJsonSchema Version: <Run Text="{Binding NJsonSchemaVersion, Mode=OneWay}" />
                     </TextBlock>
                     <TextBlock Margin="0,0,0,8">
                         License: <Hyperlink NavigateUri="https://github.com/NSwag/NSwag/blob/master/LICENSE.md" Click="OnOpenHyperlink">Ms-PL</Hyperlink>

@@ -9,7 +9,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
-using NSwag.CodeGeneration.CodeGenerators.CSharp.Templates;
 
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp
 {
@@ -26,7 +25,13 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             _service = service;
             _settings = settings;
 
-            Resolver = new SwaggerToCSharpTypeResolver(settings.CSharpGeneratorSettings, service.Definitions);
+            foreach (var definition in _service.Definitions.Where(p => string.IsNullOrEmpty(p.Value.TypeNameRaw)))
+                definition.Value.TypeNameRaw = definition.Key;
+
+            var exceptionSchema = _service.Definitions.ContainsKey("Exception") ? _service.Definitions["Exception"] : null;
+
+            Resolver = new SwaggerToCSharpTypeResolver(settings.CSharpGeneratorSettings, exceptionSchema);
+            Resolver.AddSchemas(service.Definitions.Where(p => p.Value != exceptionSchema).ToDictionary(p => p.Key, p => p.Value));
         }
 
         internal override string GenerateFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType)
@@ -34,8 +39,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             var generateOnlyContracts = outputType == ClientGeneratorOutputType.Contracts;
             var generateImplementation = outputType == ClientGeneratorOutputType.Full || outputType == ClientGeneratorOutputType.Implementation;
 
-            var template = new FileTemplate();
-            template.Initialize(new // TODO: Add typed class
+            var model = new // TODO: Add typed class
             {
                 Namespace = _settings.CSharpGeneratorSettings.Namespace ?? string.Empty,
                 NamespaceUsages = generateOnlyContracts || _settings.AdditionalNamespaceUsages == null ? new string[] { } : _settings.AdditionalNamespaceUsages,
@@ -51,11 +55,12 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
                     o.Method == SwaggerOperationMethod.Options ||
                     o.Method == SwaggerOperationMethod.Head ||
                     o.Method == SwaggerOperationMethod.Patch)
-            });
+            };
 
+            var template = _settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "File", model);
             return template.Render();
         }
-        
+
         internal override string GetExceptionType(SwaggerOperation operation)
         {
             if (operation.Responses.Count(r => !HttpUtilities.IsSuccessStatusCode(r.Key)) != 1)

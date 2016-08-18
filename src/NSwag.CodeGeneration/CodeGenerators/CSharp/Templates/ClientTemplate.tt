@@ -176,7 +176,7 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
             try
             {
                 if (responseData_.Length > 0)
-                    result_ = JsonConvert.DeserializeObject<<#=response.Type#>>(Encoding.UTF8.GetString(responseData_));                                
+                    result_ = JsonConvert.DeserializeObject<<#=response.Type#>>(Encoding.UTF8.GetString(responseData_, 0, responseData_.Length));                                
 <#      if(response.IsSuccess){#>
                 return result_; 
             } 
@@ -217,7 +217,7 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
             try
             {
                 if (responseData_.Length > 0)
-                    result_ = JsonConvert.DeserializeObject<<#=operation.DefaultResponse.Type#>>(Encoding.UTF8.GetString(responseData_));
+                    result_ = JsonConvert.DeserializeObject<<#=operation.DefaultResponse.Type#>>(Encoding.UTF8.GetString(responseData_, 0, responseData_.Length));
 
 <#  if(operation.HasOnlyDefaultResponse){#>
                 if (status_.Length == 3 && status_.StartsWith("2"))
