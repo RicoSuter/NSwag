@@ -14,8 +14,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MyToolkit.Command;
 using MyToolkit.Storage;
-using MyToolkit.Utilities;
 using Newtonsoft.Json;
+using NJsonSchema;
 using NSwag;
 
 namespace NSwagStudio.ViewModels
@@ -65,8 +65,9 @@ namespace NSwagStudio.ViewModels
 
         public AsyncRelayCommand<NSwagDocument> SaveAsDocumentCommand { get; private set; }
 
-        /// <summary>Gets the application version with build time. </summary>
-        public string ApplicationVersion => GetType().Assembly.GetVersionWithBuildTime();
+        public string NSwagVersion => SwaggerService.ToolchainVersion;
+
+        public string NJsonSchemaVersion => JsonSchema4.ToolchainVersion;
 
         protected override async void OnLoaded()
         {

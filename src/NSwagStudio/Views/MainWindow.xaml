@@ -77,7 +77,8 @@
                         <Hyperlink NavigateUri="http://www.rsuter.com" Click="OnOpenHyperlink">Rico Suter</Hyperlink> and other contributors.
                     </TextBlock>
                     <TextBlock Margin="0,0,0,8">
-                        Application Version: <Run Text="{Binding ApplicationVersion, Mode=OneWay}" />
+                        NSwag Version: <Run Text="{Binding NSwagVersion, Mode=OneWay}" /> <LineBreak />
+                        NJsonSchema Version: <Run Text="{Binding NJsonSchemaVersion, Mode=OneWay}" />
                     </TextBlock>
                     <TextBlock Margin="0,0,0,8">
                         License: <Hyperlink NavigateUri="https://github.com/NSwag/NSwag/blob/master/LICENSE.md" Click="OnOpenHyperlink">Ms-PL</Hyperlink>
