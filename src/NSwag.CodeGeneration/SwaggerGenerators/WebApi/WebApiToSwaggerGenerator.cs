@@ -303,7 +303,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 .ToList();
 
             // .NET Core: Http*Attribute inherits from HttpMethodAttribute with Template property
-            var httpMethodAttributes = method.GetCustomAttributes()
+            var httpMethodWithTemplateAttributes = method.GetCustomAttributes()
                 .Where(a => a.GetType().InheritsFrom("HttpMethodAttribute"))
                 .Where((dynamic a) => !string.IsNullOrEmpty(a.Template))
                 .ToList();
@@ -312,12 +312,12 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             dynamic routeAttributeOnClass = controllerType.GetTypeInfo().GetCustomAttributes()
                 .SingleOrDefault(a => a.GetType().Name == "RouteAttribute");
 
-            if (routeAttributes.Any() || httpMethodAttributes.Any())
-            {
-                dynamic routePrefixAttribute = controllerType.GetTypeInfo().GetCustomAttributes()
-                    .SingleOrDefault(a => a.GetType().Name == "RoutePrefixAttribute");
+            dynamic routePrefixAttribute = controllerType.GetTypeInfo().GetCustomAttributes()
+                .SingleOrDefault(a => a.GetType().Name == "RoutePrefixAttribute");
 
-                foreach (dynamic attribute in routeAttributes.Concat(httpMethodAttributes))
+            if (routeAttributes.Any() || httpMethodWithTemplateAttributes.Any())
+            {
+                foreach (dynamic attribute in routeAttributes.Concat(httpMethodWithTemplateAttributes))
                 {
                     if (attribute.Template.StartsWith("~/")) // ignore route prefixes
                         httpPaths.Add(attribute.Template.Substring(1));
@@ -328,6 +328,14 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     else
                         httpPaths.Add(attribute.Template);
                 }
+            }
+            // TODO: Check if this is correct
+            else if (routePrefixAttribute != null && ((method.GetParameters().Length == 0 && method.Name == "Get") ||
+                                                      method.Name == "Post" ||
+                                                      method.Name == "Put" ||
+                                                      method.Name == "Delete"))
+            {
+                httpPaths.Add(routePrefixAttribute.Prefix);
             }
             else if (routeAttributeOnClass != null)
                 httpPaths.Add(routeAttributeOnClass.Template);
