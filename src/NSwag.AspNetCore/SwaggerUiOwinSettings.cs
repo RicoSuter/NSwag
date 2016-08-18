@@ -15,6 +15,11 @@ namespace NSwag.AspNetCore
     /// <summary>The settings for UseSwaggerUi.</summary>
     public class SwaggerUiOwinSettings : SwaggerOwinSettings
     {
+#if AspNetOwin
+        /// <summary>Gets or sets the OWIN base path (when mapped via app.MapOwinPath()).</summary>
+        public string OwinBasePath { get; set; }
+#endif
+
         /// <summary>Gets or sets the swagger UI route.</summary>
         public string SwaggerUiRoute { get; set; } = "/swagger";
 
