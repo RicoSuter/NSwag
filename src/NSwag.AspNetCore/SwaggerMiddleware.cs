@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using NSwag.CodeGeneration.SwaggerGenerators;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 
 namespace NSwag.AspNetCore
@@ -23,9 +24,9 @@ namespace NSwag.AspNetCore
         private readonly IEnumerable<Type> _controllerTypes;
         private string _swaggerJson = null;
         private readonly SwaggerOwinSettings _settings;
-        private readonly ReferencedJsonSchemaGenerator _schemaGenerator;
+        private readonly SwaggerJsonSchemaGenerator _schemaGenerator;
 
-        public SwaggerMiddleware(RequestDelegate nextDelegate, string path, IEnumerable<Type> controllerTypes, SwaggerOwinSettings settings, ReferencedJsonSchemaGenerator schemaGenerator)
+        public SwaggerMiddleware(RequestDelegate nextDelegate, string path, IEnumerable<Type> controllerTypes, SwaggerOwinSettings settings, SwaggerJsonSchemaGenerator schemaGenerator)
         {
             _nextDelegate = nextDelegate;
             _path = path;

@@ -13,6 +13,7 @@ using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders;
+using NSwag.CodeGeneration.SwaggerGenerators;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 
 namespace NSwag.AspNetCore
@@ -87,7 +88,7 @@ namespace NSwag.AspNetCore
             SwaggerUiOwinSettings settings)
         {
             var controllerTypes = webApiAssemblies.SelectMany(WebApiToSwaggerGenerator.GetControllerClasses);
-            return app.UseSwaggerUi(controllerTypes, settings, new ReferencedJsonSchemaGenerator(settings));
+            return app.UseSwaggerUi(controllerTypes, settings, new SwaggerJsonSchemaGenerator(settings));
         }
 
         /// <summary>Addes the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
@@ -100,7 +101,7 @@ namespace NSwag.AspNetCore
             this IApplicationBuilder app,
             IEnumerable<Type> controllerTypes,
             SwaggerUiOwinSettings settings,
-            ReferencedJsonSchemaGenerator schemaGenerator)
+            SwaggerJsonSchemaGenerator schemaGenerator)
         {
             app.UseMiddleware<RedirectMiddleware>(settings.SwaggerUiRoute, settings.SwaggerUiRoute + "/index.html?url=" + Uri.EscapeDataString(settings.SwaggerRoute));
             app.UseMiddleware<SwaggerMiddleware>(settings.SwaggerRoute, controllerTypes, settings, schemaGenerator);
