@@ -1474,11 +1474,11 @@
           "lib/netstandard1.0/NJsonSchema.CodeGeneration.dll": {}
         }
       },
-      "NSwag.CodeGeneration/5.0.6074.31719": {
+      "NSwag.CodeGeneration/5.1.6075.28200": {
         "type": "package",
         "dependencies": {
           "NJsonSchema.CodeGeneration": "4.0.6074.30968",
-          "NSwag.Core": "5.0.6074.31719"
+          "NSwag.Core": "5.1.6075.28200"
         },
         "compile": {
           "lib/netstandard1.0/NSwag.CodeGeneration.dll": {}
@@ -1487,7 +1487,7 @@
           "lib/netstandard1.0/NSwag.CodeGeneration.dll": {}
         }
       },
-      "NSwag.Core/5.0.6074.31719": {
+      "NSwag.Core/5.1.6075.28200": {
         "type": "package",
         "dependencies": {
           "NJsonSchema": "4.0.6074.30968"
@@ -3410,7 +3410,7 @@
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
       },
-      "NSwag.AspNetCore/5.0.0": {
+      "NSwag.AspNetCore/5.1.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v1.6",
         "dependencies": {
@@ -4619,12 +4619,12 @@
         "lib/portable45-net45+win8+wp8+wpa81/NJsonSchema.CodeGeneration.xml"
       ]
     },
-    "NSwag.CodeGeneration/5.0.6074.31719": {
-      "sha512": "F9qzGodz5n0hl2K5/qupG2yZFX8Hcs7tmvHJSrtywr5kT+16mYdMBlqTY17C14MRTPj0dQ2yZX85avbRClWKLg==",
+    "NSwag.CodeGeneration/5.1.6075.28200": {
+      "sha512": "/oZUOu00hF305mzBvKXxYdpaxwHh5rjKXskApATiteXCT58iKX8Vpsl96FP2EJwscReAdHjDiO0cL85ExeeN+A==",
       "type": "package",
-      "path": "NSwag.CodeGeneration/5.0.6074.31719",
+      "path": "NSwag.CodeGeneration/5.1.6075.28200",
       "files": [
-        "NSwag.CodeGeneration.5.0.6074.31719.nupkg.sha512",
+        "NSwag.CodeGeneration.5.1.6075.28200.nupkg.sha512",
         "NSwag.CodeGeneration.nuspec",
         "lib/netstandard1.0/NSwag.CodeGeneration.dll",
         "lib/netstandard1.0/NSwag.CodeGeneration.pdb",
@@ -4636,12 +4636,12 @@
         "lib/portable45-net45+win8+wp8+wpa81/NSwag.CodeGeneration.xml"
       ]
     },
-    "NSwag.Core/5.0.6074.31719": {
-      "sha512": "U2bWNr7TuLexHO5ydNfcmaiJs06p6UP1pkZdsY1yCgb4yucMf9yo0ZYH2lxHJw5u23LsT0vLd9iW3sYD7O7rNQ==",
+    "NSwag.Core/5.1.6075.28200": {
+      "sha512": "pNFbsV7c46CwMCmWDl1+7Q3XFco1y5Rd5ERYWj7qh+AybAuJ4iGJ4KKe0b1Yue9kJLPxww5hoLp1YVECqKXhQA==",
       "type": "package",
-      "path": "NSwag.Core/5.0.6074.31719",
+      "path": "NSwag.Core/5.1.6075.28200",
       "files": [
-        "NSwag.Core.5.0.6074.31719.nupkg.sha512",
+        "NSwag.Core.5.1.6075.28200.nupkg.sha512",
         "NSwag.Core.nuspec",
         "lib/netstandard1.0/NSwag.Core.dll",
         "lib/netstandard1.0/NSwag.Core.pdb",
@@ -9183,7 +9183,7 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
-    "NSwag.AspNetCore/5.0.0": {
+    "NSwag.AspNetCore/5.1.0": {
       "type": "project",
       "path": "../NSwag.AspNetCore/project.json",
       "msbuildProject": "../NSwag.AspNetCore/NSwag.AspNetCore.xproj"
