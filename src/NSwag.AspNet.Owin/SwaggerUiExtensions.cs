@@ -109,7 +109,7 @@ namespace NSwag.AspNet.Owin
             app.Use<SwaggerUiIndexMiddleware>(settings.SwaggerUiRoute + "/index.html", settings);
             app.UseFileServer(new FileServerOptions
             {
-                RequestPath = new PathString(settings.SwaggerUiRoute),
+                RequestPath = new PathString(settings.SwaggerUiRoute.Substring(settings.OwinBasePath?.Length ?? 0)),
                 FileSystem = new EmbeddedResourceFileSystem(typeof(SwaggerUiExtensions).Assembly, "NSwag.AspNet.Owin.SwaggerUi")
             });
             app.UseStageMarker(PipelineStage.MapHandler);
