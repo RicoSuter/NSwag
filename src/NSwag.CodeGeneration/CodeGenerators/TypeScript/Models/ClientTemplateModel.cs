@@ -13,14 +13,10 @@ using NSwag.CodeGeneration.CodeGenerators.Models;
 
 namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
 {
-    /// <summary>
-    /// 
-    /// </summary>
+    /// <summary>The TypeScript client template model.</summary>
     public class ClientTemplateModel
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ClientTemplateModel"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="ClientTemplateModel" /> class.</summary>
         /// <param name="controllerName">Name of the controller.</param>
         /// <param name="operations">The operations.</param>
         /// <param name="service">The service.</param>
@@ -41,76 +37,31 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
             PromiseConstructor = settings.PromiseType == TypeScript.PromiseType.Promise ? "new Promise" : "Q.Promise";
         }
 
-        /// <summary>
-        /// Gets the class.
-        /// </summary>
-        /// <value>
-        /// The class.
-        /// </value>
+        /// <summary>Gets the class name.</summary>
         public string Class { get; }
 
-        /// <summary>
-        /// Gets a value indicating whether this instance is extended.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance is extended; otherwise, <c>false</c>.
-        /// </value>
+        /// <summary>Gets a value indicating whether the client is extended with an extension class.</summary>
         public bool IsExtended { get; }
 
-        /// <summary>
-        /// Gets a value indicating whether this instance has operations.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance has operations; otherwise, <c>false</c>.
-        /// </value>
+        /// <summary>Gets a value indicating whether the client has operations.</summary>
         public bool HasOperations { get; }
 
-        /// <summary>
-        /// Gets the operations.
-        /// </summary>
-        /// <value>
-        /// The operations.
-        /// </value>
+        /// <summary>Gets the operations.</summary>
         public IList<OperationModel> Operations { get; }
 
-        /// <summary>
-        /// Gets a value indicating whether [uses knockout].
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if [uses knockout]; otherwise, <c>false</c>.
-        /// </value>
+        /// <summary>Gets a value indicating whether the client uses KnockoutJS.</summary>
         public bool UsesKnockout { get; }
 
-        /// <summary>
-        /// Gets the base URL.
-        /// </summary>
-        /// <value>
-        /// The base URL.
-        /// </value>
+        /// <summary>Gets the service base URL.</summary>
         public string BaseUrl { get; }
 
-        /// <summary>
-        /// Gets a value indicating whether [generate client interfaces].
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if [generate client interfaces]; otherwise, <c>false</c>.
-        /// </value>
+        /// <summary>Gets a value indicating whether to generate client interfaces.</summary>
         public bool GenerateClientInterfaces { get; }
 
-        /// <summary>
-        /// Gets the type of the promise.
-        /// </summary>
-        /// <value>
-        /// The type of the promise.
-        /// </value>
+        /// <summary>Gets the promise type.</summary>
         public string PromiseType { get; }
 
-        /// <summary>
-        /// Gets the promise constructor.
-        /// </summary>
-        /// <value>
-        /// The promise constructor.
-        /// </value>
+        /// <summary>Gets the promise constructor code.</summary>
         public string PromiseConstructor { get; }
     }
 }
