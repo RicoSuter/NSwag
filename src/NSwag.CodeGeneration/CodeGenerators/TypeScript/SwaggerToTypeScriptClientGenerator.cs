@@ -60,7 +60,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 
         internal override string GenerateFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType)
         {
-            var model = new
+            var model = new // TODO: Create model class
             {
                 IsAngular2 = Settings.GenerateClientClasses && Settings.Template == TypeScriptTemplate.Angular2,
 
@@ -71,7 +71,10 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
                 ExtensionCodeAfter = GenerateExtensionCodeAfter(clientClasses),
 
                 HasModuleName = !string.IsNullOrEmpty(Settings.TypeScriptGeneratorSettings.ModuleName),
-                ModuleName = Settings.TypeScriptGeneratorSettings.ModuleName
+                ModuleName = Settings.TypeScriptGeneratorSettings.ModuleName,
+
+                HasNamespace = !string.IsNullOrEmpty(Settings.TypeScriptGeneratorSettings.Namespace ),
+                Namespace = Settings.TypeScriptGeneratorSettings.Namespace
             };
             var template = BaseSettings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("TypeScript", "File", model);
             return template.Render();

@@ -18,6 +18,9 @@ import {Http, Headers, Response, RequestOptionsArgs} from '@angular/http';
 
 <#if(Model.HasModuleName){#>
 module <#=Model.ModuleName#> {
+<#}
+  if(Model.HasNamespace){#>
+namespace <#=Model.Namespace#> {
 <#}#>
 <#if(Model.IsAngular2){#>
 export const API_BASE_URL = new OpaqueToken('API_BASE_URL');
@@ -29,6 +32,9 @@ export const JSON_PARSE_REVIVER = new OpaqueToken('JSON_PARSE_REVIVER');
 <#=Model.Types#>
 
 <#=Model.ExtensionCodeAfter#>
-<#if(Model.HasModuleName){#>
+<#if(Model.HasNamespace){#>
+}
+<#}
+  if(Model.HasModuleName){#>
 }
 <#}#>
