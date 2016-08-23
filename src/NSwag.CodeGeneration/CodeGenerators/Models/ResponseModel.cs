@@ -19,7 +19,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         private readonly SwaggerResponse _response;
         private readonly ClientGeneratorBase _clientGeneratorBase;
 
-        /// <summary>Initializes a new instance of the <see cref="ResponseModel"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="ResponseModel" /> class.</summary>
         /// <param name="response">The response.</param>
         /// <param name="clientGeneratorBase">The client generator base.</param>
         public ResponseModel(KeyValuePair<string, SwaggerResponse> response, ClientGeneratorBase clientGeneratorBase)
@@ -30,22 +30,22 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
             StatusCode = response.Key;
         }
 
-        /// <summary>Gets the status code.</summary>
+        /// <summary>Gets the HTTP status code.</summary>
         public string StatusCode { get; }
 
-        /// <summary>Gets the type.</summary>
+        /// <summary>Gets the type of the response.</summary>
         public string Type => _clientGeneratorBase.GetType(_response.ActualResponseSchema, IsNullable, "Response");
 
-        /// <summary>Gets a value indicating whether response has type.</summary>
+        /// <summary>Gets a value indicating whether the response has a type (i.e. not void).</summary>
         public bool HasType => Schema != null;
 
-        /// <summary>Gets a value indicating whether response was successful.</summary>
+        /// <summary>Gets a value indicating whether this is success response.</summary>
         public bool IsSuccess => HttpUtilities.IsSuccessStatusCode(StatusCode);
 
-        /// <summary>Gets a value indicating whether response has date.</summary>
+        /// <summary>Gets a value indicating whether the response is of type date.</summary>
         public bool IsDate => _clientGeneratorBase.GetType(_response.ActualResponseSchema, IsNullable, "Response") == "Date";
 
-        /// <summary>Gets a value indicating whether response has file.</summary>
+        /// <summary>Gets a value indicating whether this is a file response.</summary>
         public bool IsFile => Schema != null && Schema.ActualSchema.Type == JsonObjectType.File;
 
         /// <summary>Gets the actual response schema.</summary>
@@ -54,7 +54,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         /// <summary>Gets the schema.</summary>
         private JsonSchema4 Schema => _response.Schema?.ActualSchema;
 
-        /// <summary> Gets a value indicating whether response type is nullable.</summary>
+        /// <summary>Gets a value indicating whether the response is nullable.</summary>
         public bool IsNullable => _response.IsNullable(_clientGeneratorBase.BaseSettings.CodeGeneratorSettings.NullHandling);
 
         /// <summary>Gets a value indicating whether response type inherits from <see cref="Exception"/>.</summary>
@@ -68,7 +68,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         /// <summary>Gets or sets the data conversion code.</summary>
         public string DataConversionCode { get; set; }
 
-        /// <summary>Gets or sets a value indicating whether DTO class should be used.</summary>
+        /// <summary>Gets or sets a value indicating whether to use a DTO class.</summary>
         public bool UseDtoClass { get; set; }
     }
 }

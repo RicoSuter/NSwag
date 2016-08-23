@@ -12,7 +12,7 @@ using NJsonSchema.CodeGeneration.CSharp;
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp
 {
     /// <summary>A resolver which returns Exception without generating the class (uses System.Exception instead of own class).</summary>
-    internal class SwaggerToCSharpTypeResolver : CSharpTypeResolver
+    public class SwaggerToCSharpTypeResolver : CSharpTypeResolver
     {
         private readonly JsonSchema4 _exceptionSchema;
 

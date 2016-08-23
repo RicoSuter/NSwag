@@ -37,6 +37,14 @@ namespace NSwag.Commands
             set { Settings.TypeScriptGeneratorSettings.ModuleName = value; }
         }
 
+        [Description("The TypeScript namespace (default: '', no namespace).")]
+        [Argument(Name = "Namespace", IsRequired = false)]
+        public string Namespace
+        {
+            get { return Settings.TypeScriptGeneratorSettings.Namespace; }
+            set { Settings.TypeScriptGeneratorSettings.Namespace = value; }
+        }
+
         [Description("The type of the asynchronism handling ('JQueryCallbacks', 'JQueryPromises', 'AngularJS', 'Angular2').")]
         [Argument(Name = "Template", IsRequired = false)]
         public TypeScriptTemplate Template
