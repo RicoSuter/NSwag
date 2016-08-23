@@ -15,14 +15,14 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
     /// <summary>The Swagger operation template model.</summary>
     public class OperationModel
     {
+        /// <summary>Gets or sets the operation.</summary>
+        public SwaggerOperation Operation { get; set; }
+
         /// <summary>Gets the operation ID.</summary>
         public string Id => Operation.OperationId;
 
         /// <summary>Gets or sets the HTTP path (i.e. the absolute route).</summary>
         public string Path { get; set; }
-
-        /// <summary>Gets or sets the operation.</summary>
-        public SwaggerOperation Operation { get; set; }
 
         /// <summary>Gets or sets the HTTP method.</summary>
         public SwaggerOperationMethod HttpMethod { get; set; }
