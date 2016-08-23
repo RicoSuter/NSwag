@@ -13,7 +13,7 @@ using NJsonSchema;
 
 namespace NSwag.CodeGeneration.CodeGenerators.Models
 {
-    /// <summary>This is response model which will be passed into client generation template.</summary>
+    /// <summary>The response template model.</summary>
     public class ResponseModel
     {
         private readonly SwaggerResponse _response;
@@ -57,7 +57,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         /// <summary>Gets a value indicating whether the response is nullable.</summary>
         public bool IsNullable => _response.IsNullable(_clientGeneratorBase.BaseSettings.CodeGeneratorSettings.NullHandling);
 
-        /// <summary>Gets a value indicating whether response type inherits from <see cref="Exception"/>.</summary>
+        /// <summary>Gets a value indicating whether the response type inherits from exception.</summary>
         public bool TypeInheritsFromException => _response
             .ActualResponseSchema?
             .InheritedSchemas

@@ -13,7 +13,7 @@ using NSwag.CodeGeneration.CodeGenerators.Models;
 
 namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
 {
-    /// <summary>This is base model used in TypeScript client generation process. It is passed to T4 template.</summary>
+    /// <summary>The TypeScript client template model.</summary>
     public class ClientTemplateModel
     {
         /// <summary>Initializes a new instance of the <see cref="ClientTemplateModel" /> class.</summary>

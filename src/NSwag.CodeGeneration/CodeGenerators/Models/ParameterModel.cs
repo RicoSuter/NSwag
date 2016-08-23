@@ -12,7 +12,7 @@ using NJsonSchema.CodeGeneration;
 
 namespace NSwag.CodeGeneration.CodeGenerators.Models
 {
-    /// <summary>This is model which contains information about single parameter. It will be passed into <see cref="ITemplate"/> to generate client.</summary>
+    /// <summary>The parameter template model.</summary>
     public class ParameterModel
     {
         private readonly SwaggerOperation _operation;
