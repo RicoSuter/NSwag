@@ -60,22 +60,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 
         internal override string GenerateFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType)
         {
-            var model = new // TODO: Create model class
-            {
-                IsAngular2 = Settings.GenerateClientClasses && Settings.Template == TypeScriptTemplate.Angular2,
-
-                Clients = Settings.GenerateClientClasses ? clientCode : string.Empty,
-                Types = GenerateDtoTypes(),
-
-                ExtensionCodeBefore = Settings.TypeScriptGeneratorSettings.ProcessedExtensionCode.CodeBefore,
-                ExtensionCodeAfter = GenerateExtensionCodeAfter(clientClasses),
-
-                HasModuleName = !string.IsNullOrEmpty(Settings.TypeScriptGeneratorSettings.ModuleName),
-                ModuleName = Settings.TypeScriptGeneratorSettings.ModuleName,
-
-                HasNamespace = !string.IsNullOrEmpty(Settings.TypeScriptGeneratorSettings.Namespace ),
-                Namespace = Settings.TypeScriptGeneratorSettings.Namespace
-            };
+            var model = new FileTemplateModel(Settings, _resolver, clientCode, clientClasses);
             var template = BaseSettings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("TypeScript", "File", model);
             return template.Render();
         }
@@ -140,17 +125,6 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
                 return className + "Base";
 
             return className;
-        }
-
-        private string GenerateExtensionCodeAfter(IEnumerable<string> clientClasses)
-        {
-            var clientClassesVariable = "{" + string.Join(", ", clientClasses.Select(c => "'" + c + "': " + c)) + "}";
-            return Settings.TypeScriptGeneratorSettings.ProcessedExtensionCode.CodeAfter.Replace("{clientClasses}", clientClassesVariable);
-        }
-
-        private string GenerateDtoTypes()
-        {
-            return Settings.GenerateDtoTypes ? _resolver.GenerateTypes(Settings.TypeScriptGeneratorSettings.ProcessedExtensionCode) : string.Empty;
         }
 
         private void UpdateUseDtoClassAndDataConversionCodeProperties(IEnumerable<OperationModel> operations)

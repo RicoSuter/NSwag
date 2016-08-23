@@ -85,6 +85,7 @@
     <Compile Include="CodeGenerators\OperationGenerationMode.cs" />
     <Compile Include="CodeGenerators\ClientGeneratorBaseSettings.cs" />
     <Compile Include="CodeGenerators\OperationNameGenerators\SingleClientFromOperationIdOperationNameGenerator.cs" />
+    <Compile Include="CodeGenerators\TypeScript\Models\FileTemplateModel.cs" />
     <Compile Include="CodeGenerators\TypeScript\Models\ClientTemplateModel.cs" />
     <Compile Include="CodeGenerators\TypeScript\PromiseType.cs" />
     <Compile Include="CodeGenerators\TypeScript\SwaggerToTypeScriptClientGeneratorSettings.cs" />
