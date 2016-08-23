@@ -39,7 +39,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             {
                 return AssemblyPaths.Select(p => Path.GetDirectoryName(PathUtilities.MakeAbsolutePath(p, Directory.GetCurrentDirectory())))
                     .Concat(ReferencePaths)
-                    .Distinct();
+                    .Distinct()
+                    .ToArray();
             }
         }
     }

@@ -99,6 +99,20 @@ namespace NSwag.Commands
             set { Settings.GenerateKnownTypes = value; }
         }
 
+
+        [Description("Specify the title of the Swagger specification.")]
+        [Argument(Name = "InfoTitle", IsRequired = false)]
+        public string InfoTitle { get; set; }
+
+        [Description("Specify the description of the Swagger specification.")]
+        [Argument(Name = "InfoDescription", IsRequired = false)]
+        public string InfoDescription { get; set; }
+
+        [Description("Specify the version of the Swagger specification (default: 1.0.0).")]
+        [Argument(Name = "InfoVersion", IsRequired = false)]
+        public string InfoVersion { get; set; }
+
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var service = await RunAsync();
@@ -121,7 +135,16 @@ namespace NSwag.Commands
                 if (!controllerNames.Any() && Settings.AssemblyPaths?.Length > 0)
                     controllerNames = generator.GetControllerClasses().ToList();
 
-                return generator.GenerateForControllers(controllerNames);
+                var service = generator.GenerateForControllers(controllerNames);
+
+                if (!string.IsNullOrEmpty(InfoTitle))
+                    service.Info.Title = InfoTitle;
+                if (!string.IsNullOrEmpty(InfoDescription))
+                    service.Info.Description = InfoDescription;
+                if (!string.IsNullOrEmpty(InfoVersion))
+                    service.Info.Version = InfoVersion;
+
+                return service;
             });
         }
     }
