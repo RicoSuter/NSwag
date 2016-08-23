@@ -12,257 +12,100 @@ using NJsonSchema.CodeGeneration;
 
 namespace NSwag.CodeGeneration.CodeGenerators.Models
 {
-    /// <summary>
-    /// 
-    /// </summary>
+    /// <summary>This is model which contains information about single operation. It will be passed into <see cref="ITemplate"/> to generate client.</summary>
     public class OperationModel
     {
-        /// <summary>
-        /// Gets the identifier.
-        /// </summary>
-        /// <value>
-        /// The identifier.
-        /// </value>
+        /// <summary>Gets the identifier.</summary>
         public string Id => Operation.OperationId;
 
-        /// <summary>
-        /// Gets or sets the path.
-        /// </summary>
-        /// <value>
-        /// The path.
-        /// </value>
+        /// <summary>Gets or sets the path.</summary>
         public string Path { get; set; }
 
-        /// <summary>
-        /// Gets or sets the operation.
-        /// </summary>
-        /// <value>
-        /// The operation.
-        /// </value>
+        /// <summary>Gets or sets the Swagger operation.</summary>
         public SwaggerOperation Operation { get; set; }
 
-        /// <summary>
-        /// Gets or sets the HTTP method.
-        /// </summary>
-        /// <value>
-        /// The HTTP method.
-        /// </value>
+        /// <summary>Gets or sets the HTTP method.</summary>
         public SwaggerOperationMethod HttpMethod { get; set; }
 
-        /// <summary>
-        /// Gets or sets the name of the operation.
-        /// </summary>
-        /// <value>
-        /// The name of the operation.
-        /// </value>
+        /// <summary>Gets or sets the name of the operation.</summary>
         public string OperationName { get; set; }
 
-        /// <summary>
-        /// Gets the HTTP method upper.
-        /// </summary>
-        /// <value>
-        /// The HTTP method upper.
-        /// </value>
+        /// <summary>Gets the HTTP method as upper case.</summary>
         public string HttpMethodUpper => ConversionUtilities.ConvertToUpperCamelCase(HttpMethod.ToString(), false);
 
-        /// <summary>
-        /// Gets the HTTP method lower.
-        /// </summary>
-        /// <value>
-        /// The HTTP method lower.
-        /// </value>
+        /// <summary>Gets the HTTP method as lower case.</summary>
         public string HttpMethodLower => ConversionUtilities.ConvertToLowerCamelCase(HttpMethod.ToString(), false);
 
-        /// <summary>
-        /// Gets a value indicating whether this instance is get or delete.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance is get or delete; otherwise, <c>false</c>.
-        /// </value>
+        /// <summary>Gets a value indicating whether this operation is get or delete method.</summary>
         public bool IsGetOrDelete => HttpMethod == SwaggerOperationMethod.Get || HttpMethod == SwaggerOperationMethod.Delete;
 
-        /// <summary>
-        /// Gets the operation name lower.
-        /// </summary>
-        /// <value>
-        /// The operation name lower.
-        /// </value>
+        /// <summary>Gets the operation name as lower case.</summary>
         public string OperationNameLower => ConversionUtilities.ConvertToLowerCamelCase(OperationName, false);
 
-        /// <summary>
-        /// Gets the operation name upper.
-        /// </summary>
-        /// <value>
-        /// The operation name upper.
-        /// </value>
+        /// <summary>Gets the operation name as upper case.</summary>
         public string OperationNameUpper => ConversionUtilities.ConvertToUpperCamelCase(OperationName, false);
 
-        /// <summary>
-        /// Gets or sets the type of the result.
-        /// </summary>
-        /// <value>
-        /// The type of the result.
-        /// </value>
+        /// <summary>Gets or sets the type of the result.</summary>
         public string ResultType { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether this instance has result type.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance has result type; otherwise, <c>false</c>.
-        /// </value>
+        /// <summary>Gets or sets a value indicating whether this operation has result type.</summary>
         public bool HasResultType { get; set; }
 
-        /// <summary>
-        /// Gets or sets the result description.
-        /// </summary>
-        /// <value>
-        /// The result description.
-        /// </value>
+        /// <summary>Gets or sets the result description.</summary>
         public string ResultDescription { get; set; }
 
-        /// <summary>
-        /// Gets a value indicating whether this instance has result description.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance has result description; otherwise, <c>false</c>.
-        /// </value>
+        /// <summary>Gets a value indicating whether this operation has result description.</summary>
         public bool HasResultDescription => !string.IsNullOrEmpty(ResultDescription);
 
-        /// <summary>
-        /// Gets or sets the type of the exception.
-        /// </summary>
-        /// <value>
-        /// The type of the exception.
-        /// </value>
+        /// <summary>Gets or sets the type of the exception if any.</summary>
         public string ExceptionType { get; set; }
 
-        /// <summary>
-        /// Gets or sets the responses.
-        /// </summary>
-        /// <value>
-        /// The responses.
-        /// </value>
+        /// <summary>Gets or sets the responses.</summary>
         public List<ResponseModel> Responses { get; set; }
 
-        /// <summary>
-        /// Gets or sets the default response.
-        /// </summary>
-        /// <value>
-        /// The default response.
-        /// </value>
+        /// <summary>Gets or sets the default response.</summary>
         public ResponseModel DefaultResponse { get; set; }
 
-        /// <summary>
-        /// Gets or sets the parameters.
-        /// </summary>
-        /// <value>
-        /// The parameters.
-        /// </value>
+        /// <summary>Gets or sets the parameters.</summary>
         public IEnumerable<ParameterModel> Parameters { get; set; }
 
-        /// <summary>
-        /// Gets a value indicating whether this instance has default response.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance has default response; otherwise, <c>false</c>.
-        /// </value>
+        /// <summary>Gets a value indicating whether this operation has default response.</summary>
         public bool HasDefaultResponse => DefaultResponse != null;
 
-        /// <summary>
-        /// Gets a value indicating whether this instance has only default response.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance has only default response; otherwise, <c>false</c>.
-        /// </value>
+        /// <summary>Gets a value indicating whether this operation has only default response.</summary>
         public bool HasOnlyDefaultResponse => Responses.Count == 0 && HasDefaultResponse;
 
-        /// <summary>
-        /// Gets a value indicating whether this instance has content.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance has content; otherwise, <c>false</c>.
-        /// </value>
+        /// <summary>Gets a value indicating whether this operation has content.</summary>
         public bool HasContent => ContentParameter != null;
 
-        /// <summary>
-        /// Gets the content parameter.
-        /// </summary>
-        /// <value>
-        /// The content parameter.
-        /// </value>
+        /// <summary>Gets the content parameter.</summary>
         public ParameterModel ContentParameter => Parameters.SingleOrDefault(p => p.Kind == SwaggerParameterKind.Body);
 
-        /// <summary>
-        /// Gets the path parameters.
-        /// </summary>
-        /// <value>
-        /// The path parameters.
-        /// </value>
+        /// <summary>Gets the path parameters.</summary>
         public IEnumerable<ParameterModel> PathParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.Path);
 
-        /// <summary>
-        /// Gets the query parameters.
-        /// </summary>
-        /// <value>
-        /// The query parameters.
-        /// </value>
+        /// <summary>Gets the query parameters.</summary>
         public IEnumerable<ParameterModel> QueryParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.Query);
 
-        /// <summary>
-        /// Gets the header parameters.
-        /// </summary>
-        /// <value>
-        /// The header parameters.
-        /// </value>
+        /// <summary>Gets the header parameters.</summary>
         public IEnumerable<ParameterModel> HeaderParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.Header);
 
-        /// <summary>
-        /// Gets the form parameters.
-        /// </summary>
-        /// <value>
-        /// The form parameters.
-        /// </value>
+        /// <summary>Gets the form parameters.</summary>
         public IEnumerable<ParameterModel> FormParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.FormData);
 
-        /// <summary>
-        /// Gets the summary.
-        /// </summary>
-        /// <value>
-        /// The summary.
-        /// </value>
+        /// <summary>Gets the summary.</summary>
         public string Summary => ConversionUtilities.TrimWhiteSpaces(Operation.Summary);
 
-        /// <summary>
-        /// Gets a value indicating whether this instance has summary.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance has summary; otherwise, <c>false</c>.
-        /// </value>
+        /// <summary>Gets a value indicating whether this operation has summary.</summary>
         public bool HasSummary => !string.IsNullOrEmpty(Summary);
 
-        /// <summary>
-        /// Gets a value indicating whether this instance has documentation.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance has documentation; otherwise, <c>false</c>.
-        /// </value>
+        /// <summary>Gets a value indicating whether this operation has documentation.</summary>
         public bool HasDocumentation => HasSummary || HasResultDescription || Parameters.Any(p => p.HasDescription) || Operation.IsDeprecated;
 
-        /// <summary>
-        /// Gets or sets a value indicating whether this instance has form parameters.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance has form parameters; otherwise, <c>false</c>.
-        /// </value>
+        /// <summary>Gets or sets a value indicating whether this operation has form parameters.</summary>
         public bool HasFormParameters { get; set; }
 
-        /// <summary>
-        /// Gets a value indicating whether this instance is deprecated.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance is deprecated; otherwise, <c>false</c>.
-        /// </value>
+        /// <summary>Gets a value indicating whether this operation is deprecated.</summary>
         public bool IsDeprecated => Operation.IsDeprecated;
     }
 }
