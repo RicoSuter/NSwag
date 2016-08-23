@@ -12,51 +12,19 @@ using NJsonSchema.CodeGeneration.TypeScript;
 
 namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
 {
-    /// <summary>The Typescript file template model.</summary>
+    /// <summary>The TypeScript file template model.</summary>
     public class FileTemplateModel
     {
         private readonly SwaggerToTypeScriptClientGeneratorSettings _settings;
         private readonly TypeScriptTypeResolver _resolver;
         private readonly string _clientCode;
 
-        /// <summary>Gets a value indicating whether this instance is angular2.</summary>
-        public bool IsAngular2 => _settings.GenerateClientClasses && _settings.Template == TypeScriptTemplate.Angular2;
-
-        /// <summary>Gets the clients.</summary>
-        public string Clients =>_settings.GenerateClientClasses ? _clientCode : string.Empty;
-
-        /// <summary>Gets the types.</summary>
-        public string Types { get; }
-
-        /// <summary>Gets the extension code before rendering.</summary>
-        public string ExtensionCodeBefore => _settings.TypeScriptGeneratorSettings.ProcessedExtensionCode.CodeBefore;
-
-        /// <summary>Gets the extension code after rendering.</summary>
-        public string ExtensionCodeAfter { get; }
-
-        /// <summary>Gets a value indicating whether this instance has module name.</summary>
-        public bool HasModuleName => !string.IsNullOrEmpty(_settings.TypeScriptGeneratorSettings.ModuleName);
-
-        /// <summary>Gets the name of the module.</summary>
-        public string ModuleName => _settings.TypeScriptGeneratorSettings.ModuleName;
-
-        /// <summary>Gets a value indicating whether this instance has namespace.</summary>
-        public bool HasNamespace => !string.IsNullOrEmpty(_settings.TypeScriptGeneratorSettings.Namespace);
-
-        /// <summary>Gets the namespace.</summary>
-        public string Namespace => _settings.TypeScriptGeneratorSettings.Namespace;
-
         /// <summary>Initializes a new instance of the <see cref="FileTemplateModel"/> class.</summary>
-        /// <param name="settings">The settings.</param>
-        /// <param name="resolver">The resolver.</param>
         /// <param name="clientCode">The client code.</param>
         /// <param name="clientClasses">The client classes.</param>
-        public FileTemplateModel(
-           SwaggerToTypeScriptClientGeneratorSettings settings,
-           TypeScriptTypeResolver resolver,
-           string clientCode,
-           IEnumerable<string> clientClasses
-            )
+        /// <param name="settings">The settings.</param>
+        /// <param name="resolver">The resolver.</param>
+        public FileTemplateModel(string clientCode, IEnumerable<string> clientClasses, SwaggerToTypeScriptClientGeneratorSettings settings, TypeScriptTypeResolver resolver)
         {
             _settings = settings;
             _resolver = resolver;
@@ -65,6 +33,33 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
             Types = GenerateDtoTypes();
             ExtensionCodeAfter = GenerateExtensionCodeAfter(clientClasses);
         }
+
+        /// <summary>Gets a value indicating whether the generated code is for Angular 2.</summary>
+        public bool IsAngular2 => _settings.GenerateClientClasses && _settings.Template == TypeScriptTemplate.Angular2;
+
+        /// <summary>Gets the clients code.</summary>
+        public string Clients => _settings.GenerateClientClasses ? _clientCode : string.Empty;
+
+        /// <summary>Gets the types code.</summary>
+        public string Types { get; }
+
+        /// <summary>Gets or sets the extension code to insert at the beginning.</summary>
+        public string ExtensionCodeBefore => _settings.TypeScriptGeneratorSettings.ProcessedExtensionCode.CodeBefore;
+
+        /// <summary>Gets or sets the extension code to insert at the end.</summary>
+        public string ExtensionCodeAfter { get; }
+
+        /// <summary>Gets a value indicating whether the file has module name.</summary>
+        public bool HasModuleName => !string.IsNullOrEmpty(_settings.TypeScriptGeneratorSettings.ModuleName);
+
+        /// <summary>Gets the name of the module.</summary>
+        public string ModuleName => _settings.TypeScriptGeneratorSettings.ModuleName;
+
+        /// <summary>Gets a value indicating whether the file has a namespace.</summary>
+        public bool HasNamespace => !string.IsNullOrEmpty(_settings.TypeScriptGeneratorSettings.Namespace);
+
+        /// <summary>Gets the namespace.</summary>
+        public string Namespace => _settings.TypeScriptGeneratorSettings.Namespace;
 
         private string GenerateDtoTypes()
         {

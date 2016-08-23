@@ -60,7 +60,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 
         internal override string GenerateFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType)
         {
-            var model = new FileTemplateModel(Settings, _resolver, clientCode, clientClasses);
+            var model = new FileTemplateModel(clientCode, clientClasses, Settings, _resolver);
             var template = BaseSettings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("TypeScript", "File", model);
             return template.Render();
         }
