@@ -9,6 +9,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
+using NSwag.CodeGeneration.CodeGenerators.CSharp.Models;
 
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp
 {
@@ -36,27 +37,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
 
         internal override string GenerateFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType)
         {
-            var generateOnlyContracts = outputType == ClientGeneratorOutputType.Contracts;
-            var generateImplementation = outputType == ClientGeneratorOutputType.Full || outputType == ClientGeneratorOutputType.Implementation;
-
-            var model = new // TODO: Add typed class
-            {
-                Namespace = _settings.CSharpGeneratorSettings.Namespace ?? string.Empty,
-                NamespaceUsages = generateOnlyContracts || _settings.AdditionalNamespaceUsages == null ? new string[] { } : _settings.AdditionalNamespaceUsages,
-
-                GenerateContracts = outputType == ClientGeneratorOutputType.Full || outputType == ClientGeneratorOutputType.Contracts,
-                GenerateImplementation = generateImplementation,
-
-                Clients = _settings.GenerateClientClasses ? clientCode : string.Empty,
-                Classes = _settings.GenerateDtoTypes ? Resolver.GenerateClasses() : string.Empty,
-
-                HasMissingHttpMethods = _service.Operations.Any(o =>
-                    (o.Method == SwaggerOperationMethod.Delete && o.Operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.Body)) ||
-                    o.Method == SwaggerOperationMethod.Options ||
-                    o.Method == SwaggerOperationMethod.Head ||
-                    o.Method == SwaggerOperationMethod.Patch)
-            };
-
+            var model = new FileTemplateModel(clientCode, outputType, _service, _settings, Resolver);
             var template = _settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "File", model);
             return template.Render();
         }
