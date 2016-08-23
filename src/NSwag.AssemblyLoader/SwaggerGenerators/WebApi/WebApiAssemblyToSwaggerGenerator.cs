@@ -47,7 +47,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 throw new FileNotFoundException("The assembly config file could not be found.", Settings.AssemblyConfig);
 
             using (var isolated = new AppDomainIsolation<WebApiAssemblyLoader>(Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPaths.First())), Settings.AssemblyConfig))
-                return isolated.Object.GetControllerClasses(Settings.AssemblyPaths, Settings.ReferencePaths);
+                return isolated.Object.GetControllerClasses(Settings.AssemblyPaths, Settings.AllReferencePaths);
         }
 
         /// <summary>Generates the Swagger definition for the given controller.</summary>
@@ -82,7 +82,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             internal string GenerateForController(string controllerClassName, string settingsData)
             {
                 var settings = JsonConvert.DeserializeObject<WebApiAssemblyToSwaggerGeneratorSettings>(settingsData);
-                RegisterReferencePaths(settings.ReferencePaths);
+                RegisterReferencePaths(settings.AllReferencePaths);
 
                 IEnumerable<Type> controllers = GetControllerTypes(new string[] { controllerClassName }, settings);
                 var type = controllers.First();
@@ -95,7 +95,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             internal string GenerateForControllers(IEnumerable<string> controllerClassNames, string settingsData)
             {
                 var settings = JsonConvert.DeserializeObject<WebApiAssemblyToSwaggerGeneratorSettings>(settingsData);
-                RegisterReferencePaths(settings.ReferencePaths);
+                RegisterReferencePaths(settings.AllReferencePaths);
                 IEnumerable<Type> controllers = GetControllerTypes(controllerClassNames, settings);
 
                 var generator = new WebApiToSwaggerGenerator(settings);
