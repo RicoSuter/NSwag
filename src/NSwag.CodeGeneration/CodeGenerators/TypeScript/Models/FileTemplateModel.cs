@@ -29,9 +29,10 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
             _settings = settings;
             _resolver = resolver;
             _clientCode = clientCode;
+            ClientClasses = clientClasses.ToArray();
 
             Types = GenerateDtoTypes();
-            ExtensionCodeAfter = GenerateExtensionCodeAfter(clientClasses);
+            ExtensionCodeAfter = GenerateExtensionCodeAfter();
         }
 
         /// <summary>Gets a value indicating whether the generated code is for Angular 2.</summary>
@@ -61,14 +62,17 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
         /// <summary>Gets the namespace.</summary>
         public string Namespace => _settings.TypeScriptGeneratorSettings.Namespace;
 
+        /// <summary>Table containing list of the generated classes.</summary>
+        public string[] ClientClasses { get; }
+
         private string GenerateDtoTypes()
         {
             return _settings.GenerateDtoTypes ? _resolver.GenerateTypes(_settings.TypeScriptGeneratorSettings.ProcessedExtensionCode) : string.Empty;
         }
 
-        private string GenerateExtensionCodeAfter(IEnumerable<string> clientClasses)
+        private string GenerateExtensionCodeAfter()
         {
-            var clientClassesVariable = "{" + string.Join(", ", clientClasses.Select(c => "'" + c + "': " + c)) + "}";
+            var clientClassesVariable = "{" + string.Join(", ", ClientClasses.Select(c => "'" + c + "': " + c)) + "}";
             return _settings.TypeScriptGeneratorSettings.ProcessedExtensionCode.CodeAfter.Replace("{clientClasses}", clientClassesVariable);
         }
     }

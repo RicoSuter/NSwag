@@ -1,4 +1,5 @@
 ﻿using NJsonSchema.CodeGeneration;
+using NSwag.CodeGeneration.CodeGenerators.TypeScript.Models;
 
 namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates
 {
@@ -6,10 +7,10 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates
     {
         public FileTemplate(object model)
         {
-            Model = model;
+            Model = (FileTemplateModel)model;
         }
 
-        public dynamic Model { get; }
+        public FileTemplateModel Model { get; }
         
         public string Render()
         {
