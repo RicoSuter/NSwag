@@ -2,6 +2,8 @@
 <#@ assembly name="System.Core" #>
 <#@ import namespace="NJsonSchema.CodeGeneration" #>
 <#@ import namespace="NSwag.CodeGeneration.CodeGenerators.TypeScript" #>
+<#@ import namespace="System.Linq" #>
+
 <#if(Model.HasOperations){#>
 <#if(Model.GenerateClientInterfaces){#>
 export interface I<#=Model.Class#> {
@@ -44,7 +46,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
 <#}#>    <#=operation.OperationNameLower#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableNameLower#>: <#=parameter.Type#>, <#}#>onSuccess?: (<#if(operation.HasResultType){#>result: <#=operation.ResultType#><#}#>) => void, onFail?: (exception: <#=operation.ExceptionType#>, reason: string) => void) {
-        var url = this.baseUrl + "/<#=operation.Path#>?"; 
+        var url = this.baseUrl + "/<#=operation.Path#><#if(operation.QueryParameters.Any()){#>?<#}#>"; 
 
 <#foreach(var parameter in operation.PathParameters){#>
         if (<#=parameter.VariableNameLower#> === undefined || <#=parameter.VariableNameLower#> === null)

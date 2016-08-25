@@ -56,12 +56,12 @@
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpGeneratorBase.cs" />
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpGeneratorSettings.cs" />
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpTypeResolver.cs" />
-    <Compile Include="CodeGenerators\CSharp\Templates\ClientTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\CSharp\Templates\ClientTemplate1.cs">
+    <Compile Include="CodeGenerators\CSharp\Templates\ClientTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ClientTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Include="CodeGenerators\CSharp\Templates\ClientTemplate.Extensions.cs" />
     <Compile Include="CodeGenerators\CSharp\Templates\FileTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -113,12 +113,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>JQueryCallbacksClientTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.Extensions.cs" />
     <Compile Include="CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>JQueryPromisesClientTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Include="CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.Extensions.cs" />
     <Compile Include="CodeGenerators\TypeScript\RequestBodyGenerator.cs" />
     <Compile Include="CodeGenerators\TypeScript\Templates\RequestBodyTemplate.cs">
       <AutoGen>True</AutoGen>
@@ -168,7 +168,7 @@
   <ItemGroup>
     <None Include="CodeGenerators\CSharp\Templates\ClientTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>ClientTemplate1.cs</LastGenOutput>
+      <LastGenOutput>ClientTemplate.cs</LastGenOutput>
     </None>
     <None Include="CodeGenerators\CSharp\Templates\FileTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
