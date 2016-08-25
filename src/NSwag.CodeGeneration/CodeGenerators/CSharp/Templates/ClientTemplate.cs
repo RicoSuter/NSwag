@@ -783,7 +783,7 @@ if(operation.QueryParameters.Any()){
             this.Write("?");
             
             #line 83 "C:\projects\Own\Forked\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
- } 
+}
             
             #line default
             #line hidden

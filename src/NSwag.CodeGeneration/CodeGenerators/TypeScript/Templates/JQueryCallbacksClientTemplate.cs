@@ -505,7 +505,7 @@ if(operation.QueryParameters.Any()){
             this.Write("?");
             
             #line 49 "C:\projects\Own\Forked\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
- } 
+}
             
             #line default
             #line hidden

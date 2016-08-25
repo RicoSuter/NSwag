@@ -469,7 +469,7 @@ if(operation.QueryParameters.Any()){
             this.Write("?");
             
             #line 52 "C:\projects\Own\Forked\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt"
- } 
+}
             
             #line default
             #line hidden
