@@ -49,7 +49,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
 <#}#>    <#=operation.OperationNameLower#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableNameLower#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): ng.IPromise<<#=operation.ResultType#>> {
-        var url = this.baseUrl + "/<#=operation.Path#><#if(operation.PathParameters.Any()){#>?<# } #>"; 
+        var url = this.baseUrl + "/<#=operation.Path#><#if(operation.QueryParameters.Any()){#>?<# } #>"; 
 
 <#foreach(var parameter in operation.PathParameters){#>
         if (<#=parameter.VariableNameLower#> === undefined || <#=parameter.VariableNameLower#> === null)

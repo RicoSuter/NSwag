@@ -1,6 +1,8 @@
 ﻿<#@ template visibility="internal" #>
 <#@ assembly name="System.Core" #>
 <#@ import namespace="NJsonSchema.CodeGeneration" #>
+<#@ import namespace="System.Linq" #>
+
 <#if(Model.HasOperations){#>
 <#if(Model.GenerateContracts && Model.GenerateClientInterfaces){#>
 [GeneratedCode("NSwag", "<#=SwaggerService.ToolchainVersion#>")]
@@ -78,7 +80,7 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
 <#  if(operation.IsDeprecated){#>    [Obsolete]
 <#  }#>    public async <#=operation.ResultType#> <#=operation.OperationNameUpper#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableNameLower#>, <#}#>CancellationToken cancellationToken)
     {
-        var url_ = string.Format("{0}/{1}?", BaseUrl, "<#=operation.Path#>");
+        var url_ = string.Format("{0}/{1}<#if(operation.QueryParameters.Any()){#>?<# } #>", BaseUrl, "<#=operation.Path#>");
 <#foreach(var parameter in operation.PathParameters){#>
 
         if (<#=parameter.VariableNameLower#> == null)
