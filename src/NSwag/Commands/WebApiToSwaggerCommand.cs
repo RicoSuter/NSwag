@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -99,6 +100,13 @@ namespace NSwag.Commands
             set { Settings.GenerateKnownTypes = value; }
         }
 
+        [Description("Specify the service host of the web service.")]
+        [Argument(Name = "ServiceHost", IsRequired = false)]
+        public string ServiceHost { get; set; }
+
+        [Description("Specify the allowed schemes of the web service (comma separated, 'http', 'https', 'ws', 'wss').")]
+        [Argument(Name = "ServiceSchemes", IsRequired = false)]
+        public string[] ServiceSchemes { get; set; }
 
         [Description("Specify the title of the Swagger specification.")]
         [Argument(Name = "InfoTitle", IsRequired = false)]
@@ -111,7 +119,6 @@ namespace NSwag.Commands
         [Description("Specify the version of the Swagger specification (default: 1.0.0).")]
         [Argument(Name = "InfoVersion", IsRequired = false)]
         public string InfoVersion { get; set; }
-
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
@@ -137,6 +144,10 @@ namespace NSwag.Commands
 
                 var service = generator.GenerateForControllers(controllerNames);
 
+                if (!string.IsNullOrEmpty(ServiceHost))
+                    service.Host = ServiceHost;
+                if (ServiceSchemes != null)
+                    service.Schemes = ServiceSchemes.Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true)).ToList();
                 if (!string.IsNullOrEmpty(InfoTitle))
                     service.Info.Title = InfoTitle;
                 if (!string.IsNullOrEmpty(InfoDescription))
