@@ -6,27 +6,31 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using Newtonsoft.Json;
+using System.Runtime.Serialization;
 
 namespace NSwag
 {
     /// <summary>The enumeration of Swagger protocol schemes.</summary>
     public enum SwaggerSchema
     {
+        /// <summary>An undefined schema.</summary>
+        [EnumMember(Value = "undefined")]
+        Undefined,
+
         /// <summary>The HTTP schema.</summary>
-        [JsonProperty("http")]
+        [EnumMember(Value = "http")]
         Http,
 
         /// <summary>The HTTPS schema.</summary>
-        [JsonProperty("https")]
+        [EnumMember(Value = "https")]
         Https,
 
         /// <summary>The WS schema.</summary>
-        [JsonProperty("ws")]
+        [EnumMember(Value = "ws")]
         Ws,
 
         /// <summary>The WSS schema.</summary>
-        [JsonProperty("wss")]
+        [EnumMember(Value = "wss")]
         Wss
     }
 }

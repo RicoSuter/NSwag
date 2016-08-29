@@ -15,7 +15,6 @@
 
     <UserControl.Resources>
         <codeGenerators:SwaggerToCSharpControllerGeneratorViewModel x:Key="ViewModel" />
-        <converters:VisibilityConverter x:Key="VisibilityConverter" />
         <converters:NotConverter x:Key="NotConverter" />
         <converters1:NumberAdditionConverter x:Key="NumberAdditionConverter" />
     </UserControl.Resources>

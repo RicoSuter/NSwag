@@ -26,11 +26,13 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <summary>Gets or sets the default Web API URL template.</summary>
         public string DefaultUrlTemplate { get; set; } =  "api/{controller}/{action}/{id}";
 
-        /// <summary>Gets or sets the specification title.</summary>
-        /// <value>The title.</value>
+        /// <summary>Gets or sets the Swagger specification title.</summary>
         public string Title { get; set; } = "Web API Swagger specification";
 
-        /// <summary>Gets or sets the specification version.</summary>
+        /// <summary>Gets or sets the Swagger specification description.</summary>
+        public string Description { get; set; }
+
+        /// <summary>Gets or sets the Swagger specification version.</summary>
         public string Version { get; set; } = "1.0.0";
 
         /// <summary>Gets the operation processor.</summary>

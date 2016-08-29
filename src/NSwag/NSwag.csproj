@@ -38,12 +38,20 @@
       <HintPath>..\packages\MyToolkit.2.5.12.0\lib\portable-net45+wp8+win8+wpa81\MyToolkit.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NConsole, Version=2.0.5992.40924, Culture=neutral, PublicKeyToken=0f839b9a5b9cbd65, processorArchitecture=MSIL">
-      <HintPath>..\packages\NConsole.2.0.5992.40924\lib\net45\NConsole.dll</HintPath>
+    <Reference Include="NConsole, Version=3.0.6082.29122, Culture=neutral, PublicKeyToken=0f839b9a5b9cbd65, processorArchitecture=MSIL">
+      <HintPath>..\packages\NConsole.3.0.6082.29122\lib\net45\NConsole.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NJsonSchema, Version=4.2.6085.38782, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.4.2.6085.38782\lib\net45\NJsonSchema.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NJsonSchema.CodeGeneration, Version=4.2.6085.38782, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.CodeGeneration.4.2.6085.38782\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -82,14 +90,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\NJsonSchema\src\NJsonSchema.CodeGeneration\NJsonSchema.CodeGeneration.csproj">
-      <Project>{8A463FA0-DAAF-483C-813E-AE9C6153CBF7}</Project>
-      <Name>NJsonSchema.CodeGeneration</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\NJsonSchema\src\NJsonSchema\NJsonSchema.csproj">
-      <Project>{7B7A2E32-E808-4A19-98B1-37E766580F8C}</Project>
-      <Name>NJsonSchema</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NSwag.AssemblyLoader\NSwag.AssemblyLoader.csproj">
       <Project>{46634C60-BA7D-43E6-9049-6AD461488C39}</Project>
       <Name>NSwag.AssemblyLoader</Name>

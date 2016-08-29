@@ -100,25 +100,39 @@ namespace NSwag.Commands
             set { Settings.GenerateKnownTypes = value; }
         }
 
-        [Description("Specify the service host of the web service.")]
+
+        [Description("Overrides the service host of the web service (optional).")]
         [Argument(Name = "ServiceHost", IsRequired = false)]
         public string ServiceHost { get; set; }
 
-        [Description("Specify the allowed schemes of the web service (comma separated, 'http', 'https', 'ws', 'wss').")]
+        [Description("Overrides the allowed schemes of the web service (optional, comma separated, 'http', 'https', 'ws', 'wss').")]
         [Argument(Name = "ServiceSchemes", IsRequired = false)]
         public string[] ServiceSchemes { get; set; }
 
+
         [Description("Specify the title of the Swagger specification.")]
         [Argument(Name = "InfoTitle", IsRequired = false)]
-        public string InfoTitle { get; set; }
+        public string InfoTitle
+        {
+            get { return Settings.Title; }
+            set { Settings.Title = value; }
+        }
 
         [Description("Specify the description of the Swagger specification.")]
         [Argument(Name = "InfoDescription", IsRequired = false)]
-        public string InfoDescription { get; set; }
+        public string InfoDescription
+        {
+            get { return Settings.Description; }
+            set { Settings.Description = value; }
+        }
 
         [Description("Specify the version of the Swagger specification (default: 1.0.0).")]
         [Argument(Name = "InfoVersion", IsRequired = false)]
-        public string InfoVersion { get; set; }
+        public string InfoVersion
+        {
+            get { return Settings.Version; }
+            set { Settings.Version = value; }
+        }
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
@@ -146,14 +160,8 @@ namespace NSwag.Commands
 
                 if (!string.IsNullOrEmpty(ServiceHost))
                     service.Host = ServiceHost;
-                if (ServiceSchemes != null)
+                if (ServiceSchemes != null && ServiceSchemes.Any())
                     service.Schemes = ServiceSchemes.Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true)).ToList();
-                if (!string.IsNullOrEmpty(InfoTitle))
-                    service.Info.Title = InfoTitle;
-                if (!string.IsNullOrEmpty(InfoDescription))
-                    service.Info.Description = InfoDescription;
-                if (!string.IsNullOrEmpty(InfoVersion))
-                    service.Info.Version = InfoVersion;
 
                 return service;
             });
