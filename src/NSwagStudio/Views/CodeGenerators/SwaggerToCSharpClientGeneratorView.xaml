@@ -18,6 +18,7 @@
         <converters:VisibilityConverter x:Key="VisibilityConverter" />
         <converters:NotConverter x:Key="NotConverter" />
         <converters1:NumberAdditionConverter x:Key="NumberAdditionConverter" />
+        <converters1:StringArrayConverter x:Key="StringArrayConverter" />
     </UserControl.Resources>
 
     <TabControl TabStripPlacement="Left" Margin="8" Name="TabControl" DataContext="{StaticResource ViewModel}">
@@ -57,7 +58,7 @@
                                     <CheckBox IsChecked="{Binding Command.UseHttpClientCreationMethod, Mode=TwoWay}" Margin="0,0,0,12">
                                         <TextBlock Text="Call the CreateHttpClientAsync method on the client base class to create a new HttpClient instance" TextWrapping="Wrap" />
                                     </CheckBox>
-                                    
+
                                     <TextBlock Text="Configuration Class Name (passed to base class ctor, optional)" FontWeight="Bold" Margin="0,0,0,6" />
                                     <TextBox Text="{Binding Command.ConfigurationClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                              Margin="0,0,0,12" />
@@ -108,16 +109,26 @@
                         </StackPanel>
                     </GroupBox>
 
+                    <GroupBox Header="Swagger Information" Margin="0,0,0,12">
+                        <StackPanel Margin="4,8,4,-8">
+                            <TextBlock Text="Service host (optional)" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Text="{Binding Command.ServiceHost, Mode=TwoWay}" Margin="0,0,0,12" />
+
+                            <TextBlock Text="Service schemes (optional, 'http', 'https', 'ws', 'wss')" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Text="{Binding Command.ServiceSchemes, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" Margin="0,0,0,12" />
+                        </StackPanel>
+                    </GroupBox>
+
                     <TextBlock Text="Output file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
                     <controls:FileSavePicker DefaultExtension=".cs" Filter="CSharp Files (.cs)|*.cs"
-                                                 FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" 
-                                                 Margin="0,0,0,12" />
+                                             FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" 
+                                             Margin="0,0,0,12" />
 
                     <StackPanel Visibility="{Binding Command.GenerateContractsOutput, Converter={StaticResource VisibilityConverter}}">
                         <TextBlock Text="Contracts output file path (empty: single output file output)" FontWeight="Bold" Margin="0,0,0,6" />
                         <controls:FileSavePicker DefaultExtension=".cs" Filter="CSharp Files (.cs)|*.cs"
-                                                     FilePath="{Binding Command.ContractsOutputFilePath, Mode=TwoWay}" 
-                                                     Margin="0,0,0,12" />
+                                                 FilePath="{Binding Command.ContractsOutputFilePath, Mode=TwoWay}" 
+                                                 Margin="0,0,0,12" />
                     </StackPanel>
                 </StackPanel>
             </ScrollViewer>

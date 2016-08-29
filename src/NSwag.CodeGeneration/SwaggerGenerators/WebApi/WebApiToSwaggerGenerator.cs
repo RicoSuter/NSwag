@@ -106,6 +106,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 Info = new SwaggerInfo
                 {
                     Title = settings.Title,
+                    Description = settings.Description, 
                     Version = settings.Version
                 }
             };

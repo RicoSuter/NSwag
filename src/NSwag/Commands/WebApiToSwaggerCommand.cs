@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -99,6 +100,40 @@ namespace NSwag.Commands
             set { Settings.GenerateKnownTypes = value; }
         }
 
+
+        [Description("Overrides the service host of the web service (optional).")]
+        [Argument(Name = "ServiceHost", IsRequired = false)]
+        public string ServiceHost { get; set; }
+
+        [Description("Overrides the allowed schemes of the web service (optional, comma separated, 'http', 'https', 'ws', 'wss').")]
+        [Argument(Name = "ServiceSchemes", IsRequired = false)]
+        public string[] ServiceSchemes { get; set; }
+
+
+        [Description("Specify the title of the Swagger specification.")]
+        [Argument(Name = "InfoTitle", IsRequired = false)]
+        public string InfoTitle
+        {
+            get { return Settings.Title; }
+            set { Settings.Title = value; }
+        }
+
+        [Description("Specify the description of the Swagger specification.")]
+        [Argument(Name = "InfoDescription", IsRequired = false)]
+        public string InfoDescription
+        {
+            get { return Settings.Description; }
+            set { Settings.Description = value; }
+        }
+
+        [Description("Specify the version of the Swagger specification (default: 1.0.0).")]
+        [Argument(Name = "InfoVersion", IsRequired = false)]
+        public string InfoVersion
+        {
+            get { return Settings.Version; }
+            set { Settings.Version = value; }
+        }
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var service = await RunAsync();
@@ -121,7 +156,14 @@ namespace NSwag.Commands
                 if (!controllerNames.Any() && Settings.AssemblyPaths?.Length > 0)
                     controllerNames = generator.GetControllerClasses().ToList();
 
-                return generator.GenerateForControllers(controllerNames);
+                var service = generator.GenerateForControllers(controllerNames);
+
+                if (!string.IsNullOrEmpty(ServiceHost))
+                    service.Host = ServiceHost;
+                if (ServiceSchemes != null && ServiceSchemes.Any())
+                    service.Schemes = ServiceSchemes.Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true)).ToList();
+
+                return service;
             });
         }
     }

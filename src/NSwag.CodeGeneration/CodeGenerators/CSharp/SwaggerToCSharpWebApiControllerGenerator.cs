@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NSwag.CodeGeneration.CodeGenerators.CSharp.Models;
 using NSwag.CodeGeneration.CodeGenerators.Models;
 
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp
@@ -53,17 +54,10 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
 
         internal override string GenerateClientClass(string controllerName, IList<OperationModel> operations, ClientGeneratorOutputType outputType)
         {
-            var hasClientBaseClass = !string.IsNullOrEmpty(Settings.ControllerBaseClass);
-
-            var model = new // TODO: Add typed class
+            var model = new ControllerTemplateModel(Settings)
             {
                 Class = controllerName,
-                BaseClass = Settings.ControllerBaseClass,
-
-                HasBaseClass = hasClientBaseClass,
                 BaseUrl = _service.BaseUrl,
-
-                HasOperations = operations.Any(),
                 Operations = operations
             };
 

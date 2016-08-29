@@ -6,6 +6,11 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using NSwag.CodeGeneration.Utilities;
+
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 {
     /// <summary>Settings for the <see cref="WebApiAssemblyToSwaggerGenerator"/>.</summary>
@@ -26,5 +31,17 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
         /// <summary>Gets ot sets the paths where to search for referenced assemblies</summary>
         public string[] ReferencePaths { get; set; }
+
+        /// <summary>Gets all reference paths.</summary>
+        public IEnumerable<string> AllReferencePaths
+        {
+            get
+            {
+                return AssemblyPaths.Select(p => Path.GetDirectoryName(PathUtilities.MakeAbsolutePath(p, Directory.GetCurrentDirectory())))
+                    .Concat(ReferencePaths)
+                    .Distinct()
+                    .ToArray();
+            }
+        }
     }
 }

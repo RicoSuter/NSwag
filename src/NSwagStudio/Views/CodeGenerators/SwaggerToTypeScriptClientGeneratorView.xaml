@@ -18,6 +18,7 @@
         <converters:EqualityConverter x:Key="EqualityConverter" />
         <converters:NotConverter x:Key="NotConverter" />
         <converters1:NumberAdditionConverter x:Key="NumberAdditionConverter" />
+        <converters1:StringArrayConverter x:Key="StringArrayConverter" />
     </UserControl.Resources>
 
     <TabControl TabStripPlacement="Left" Margin="8" Name="TabControl" DataContext="{StaticResource ViewModel}">
@@ -30,6 +31,9 @@
 
                     <TextBlock Text="Module name (empty for no module declaration)" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding Command.ModuleName, Mode=TwoWay}" Margin="0,0,0,12" />
+
+                    <TextBlock Text="Namespace (empty for no namespace declaration)" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding Command.Namespace, Mode=TwoWay}" Margin="0,0,0,12" />
 
                     <GroupBox Header="Client" Margin="0,0,0,12">
                         <StackPanel Margin="4,4,4,-8">
@@ -93,19 +97,33 @@
                         </StackPanel>
                     </GroupBox>
 
-                    <TextBlock Text="Extended classes (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding ExtendedClasses, Mode=TwoWay}" Margin="0,0,0,12" />
+                    <GroupBox Header="Class Extensions" Margin="0,0,0,12">
+                        <StackPanel Margin="4,8,4,-8">
+                            <TextBlock Text="Extended classes (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Text="{Binding ExtendedClasses, Mode=TwoWay}" Margin="0,0,0,12" />
 
-                    <TextBlock Text="Path to class extension code file (the module import 'generated' is removed and class export keywords are added)" 
-                                   FontWeight="Bold" Margin="0,0,0,6" />
-                    <controls:FileOpenPicker DefaultExtension=".ts" Filter="TypeScript Files (.ts)|*.ts"
-                                                 FilePath="{Binding Command.ExtensionCode, Mode=TwoWay}" 
-                                                 Margin="0,0,0,12" />
+                            <TextBlock Text="Path to class extension code file (the module import 'generated' is removed and class export keywords are added)" 
+                                       FontWeight="Bold" Margin="0,0,0,6" />
+                            <controls:FileOpenPicker DefaultExtension=".ts" Filter="TypeScript Files (.ts)|*.ts"
+                                                     FilePath="{Binding Command.ExtensionCode, Mode=TwoWay}" 
+                                                     Margin="0,0,0,12" />
+                        </StackPanel>
+                    </GroupBox>
+                    
+                    <GroupBox Header="Swagger Information" Margin="0,0,0,12">
+                        <StackPanel Margin="4,8,4,-8">
+                            <TextBlock Text="Service host (optional)" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Text="{Binding Command.ServiceHost, Mode=TwoWay}" Margin="0,0,0,12" />
+
+                            <TextBlock Text="Service schemes (optional, 'http', 'https', 'ws', 'wss')" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Text="{Binding Command.ServiceSchemes, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" Margin="0,0,0,12" />
+                        </StackPanel>
+                    </GroupBox>
 
                     <TextBlock Text="Output file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
                     <controls:FileSavePicker DefaultExtension=".ts" Filter="TypeScript Files (.ts)|*.ts"
-                                                 FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" 
-                                                 Margin="0,0,0,12" />
+                                             FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" 
+                                             Margin="0,0,0,12" />
                 </StackPanel>
             </ScrollViewer>
         </TabItem>

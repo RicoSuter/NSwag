@@ -40,12 +40,12 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=4.1.6075.30950, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.4.1.6075.30950\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
+    <Reference Include="NJsonSchema, Version=4.2.6085.38782, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.4.2.6085.38782\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema.CodeGeneration, Version=4.1.6075.30950, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.CodeGeneration.4.1.6075.30950\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
+    <Reference Include="NJsonSchema.CodeGeneration, Version=4.2.6085.38782, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.CodeGeneration.4.2.6085.38782\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -57,17 +57,19 @@
   <ItemGroup>
     <Compile Include="CodeGenerators\ClientGeneratorOutputType.cs" />
     <Compile Include="CodeGenerators\ControllerGeneratorBaseSettings.cs" />
+    <Compile Include="CodeGenerators\CSharp\Models\FileTemplateModel.cs" />
+    <Compile Include="CodeGenerators\CSharp\Models\ControllerTemplateModel.cs" />
     <Compile Include="CodeGenerators\CSharp\Models\ClientTemplateModel.cs" />
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpClientGeneratorSettings.cs" />
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpGeneratorBase.cs" />
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpGeneratorSettings.cs" />
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpTypeResolver.cs" />
-    <Compile Include="CodeGenerators\CSharp\Templates\ClientTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\CSharp\Templates\ClientTemplate1.cs">
+    <Compile Include="CodeGenerators\CSharp\Templates\ClientTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ClientTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Include="CodeGenerators\CSharp\Templates\ClientTemplate.Extensions.cs" />
     <Compile Include="CodeGenerators\CSharp\Templates\FileTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -91,6 +93,7 @@
     <Compile Include="CodeGenerators\OperationGenerationMode.cs" />
     <Compile Include="CodeGenerators\ClientGeneratorBaseSettings.cs" />
     <Compile Include="CodeGenerators\OperationNameGenerators\SingleClientFromOperationIdOperationNameGenerator.cs" />
+    <Compile Include="CodeGenerators\TypeScript\Models\FileTemplateModel.cs" />
     <Compile Include="CodeGenerators\TypeScript\Models\ClientTemplateModel.cs" />
     <Compile Include="CodeGenerators\TypeScript\PromiseType.cs" />
     <Compile Include="CodeGenerators\TypeScript\SwaggerToTypeScriptClientGeneratorSettings.cs" />
@@ -118,12 +121,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>JQueryCallbacksClientTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.Extensions.cs" />
     <Compile Include="CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>JQueryPromisesClientTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Include="CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.Extensions.cs" />
     <Compile Include="CodeGenerators\TypeScript\RequestBodyGenerator.cs" />
     <Compile Include="CodeGenerators\TypeScript\Templates\RequestBodyTemplate.cs">
       <AutoGen>True</AutoGen>
@@ -165,7 +168,7 @@
   <ItemGroup>
     <None Include="CodeGenerators\CSharp\Templates\ClientTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>ClientTemplate1.cs</LastGenOutput>
+      <LastGenOutput>ClientTemplate.cs</LastGenOutput>
     </None>
     <None Include="CodeGenerators\CSharp\Templates\FileTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
