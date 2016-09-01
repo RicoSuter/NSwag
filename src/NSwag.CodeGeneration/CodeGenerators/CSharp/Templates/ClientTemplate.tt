@@ -196,7 +196,7 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
             if (result_ == null)
                 result_ = new <#=response.Type#>();
             result_.Data.Add("HttpStatus", status_);
-            result_.Data.Add("ResponseData", Encoding.UTF8.GetString(responseData_));
+            result_.Data.Add("ResponseData", Encoding.UTF8.GetString(responseData_, 0, responseData_.Length));
             throw result_;
 <#          }else{#>
             throw new SwaggerException<<#=response.Type#>>("A server side error occurred.", status_, responseData_, result_, null);
