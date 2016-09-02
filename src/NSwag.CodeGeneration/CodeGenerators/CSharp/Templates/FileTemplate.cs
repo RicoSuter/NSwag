@@ -129,7 +129,7 @@ if(Model.GenerateContracts){
 
         public override string ToString()
         {
-            return string.Format(""HTTP Response: n{0}n{1}"", Encoding.UTF8.GetString(ResponseData), base.ToString());
+            return string.Format(""HTTP Response: n{0}n{1}"", Encoding.UTF8.GetString(ResponseData, 0, ResponseData.Length), base.ToString());
         }
     }
 
