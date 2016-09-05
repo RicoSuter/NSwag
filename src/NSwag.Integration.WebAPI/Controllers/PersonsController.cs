@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Web.Http;
 using NSwag.Integration.WebAPI.Models;
+using NSwag.Annotations;
 
 namespace NSwag.Integration.WebAPI.Controllers
 {
@@ -15,6 +16,8 @@ namespace NSwag.Integration.WebAPI.Controllers
         }
 
         [Route("{id}")]
+        [ResponseType(typeof(Person))]
+        [ResponseType("500", typeof(PersonNotFoundException))]
         public Person Get(Guid id)
         {
             return new Person();
@@ -24,6 +27,8 @@ namespace NSwag.Integration.WebAPI.Controllers
         /// <param name="id">The person ID.</param>
         /// <returns>The person's name.</returns>
         [Route("{id}/Name")]
+        [ResponseType(typeof(string))]
+        [ResponseType("500", typeof(PersonNotFoundException))]
         public string GetName(Guid id)
         {
             return "Foo Bar: " + id;
