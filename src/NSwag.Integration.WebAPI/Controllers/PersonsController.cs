@@ -24,5 +24,17 @@ namespace NSwag.Integration.WebAPI.Controllers
         {
             return "Foo Bar: " + id;
         }
+
+        [HttpPost, Route("")]
+        public void Add(Person person)
+        {
+
+        }
+
+        [HttpDelete, Route("{id}")]
+        public void Delete(int id)
+        {
+
+        }
     }
 }

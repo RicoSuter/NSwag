@@ -162,16 +162,26 @@ var PersonsClient = (function () {
 exports.PersonsClient = PersonsClient;
 var Person = (function () {
     function Person(data) {
+        this.address = new Address();
         this.children = [];
         if (data !== undefined) {
             this.firstName = data["FirstName"] !== undefined ? data["FirstName"] : null;
             this.lastName = data["LastName"] !== undefined ? data["LastName"] : null;
+            this.gender = data["Gender"] !== undefined ? data["Gender"] : null;
             this.dateOfBirth = data["DateOfBirth"] ? new Date(data["DateOfBirth"].toString()) : null;
+            this.address = data["Address"] ? Address.fromJS(data["Address"]) : new Address();
             if (data["Children"] && data["Children"].constructor === Array) {
                 this.children = [];
                 for (var _i = 0, _a = data["Children"]; _i < _a.length; _i++) {
                     var item = _a[_i];
                     this.children.push(Person.fromJS(item));
+                }
+            }
+            if (data["Skills"]) {
+                this.skills = {};
+                for (var key in data["Skills"]) {
+                    if (data["Skills"].hasOwnProperty(key))
+                        this.skills[key] = data["Skills"][key] !== undefined ? data["Skills"][key] : null;
                 }
             }
         }
@@ -183,12 +193,21 @@ var Person = (function () {
         data = data === undefined ? {} : data;
         data["FirstName"] = this.firstName !== undefined ? this.firstName : null;
         data["LastName"] = this.lastName !== undefined ? this.lastName : null;
+        data["Gender"] = this.gender !== undefined ? this.gender : null;
         data["DateOfBirth"] = this.dateOfBirth ? this.dateOfBirth.toISOString() : null;
+        data["Address"] = this.address ? this.address.toJS() : null;
         if (this.children && this.children.constructor === Array) {
             data["Children"] = [];
             for (var _i = 0, _a = this.children; _i < _a.length; _i++) {
                 var item = _a[_i];
                 data["Children"].push(item.toJS());
+            }
+        }
+        if (this.skills) {
+            data["Skills"] = {};
+            for (var key in this.skills) {
+                if (this.skills.hasOwnProperty(key))
+                    data["Skills"][key] = this.skills[key] !== undefined ? this.skills[key] : null;
             }
         }
         return data;
@@ -203,4 +222,39 @@ var Person = (function () {
     return Person;
 }());
 exports.Person = Person;
+(function (GenderAsInteger) {
+    GenderAsInteger[GenderAsInteger["Male"] = 0] = "Male";
+    GenderAsInteger[GenderAsInteger["Female"] = 1] = "Female";
+})(exports.GenderAsInteger || (exports.GenderAsInteger = {}));
+var GenderAsInteger = exports.GenderAsInteger;
+var Address = (function () {
+    function Address(data) {
+        if (data !== undefined) {
+            this.city = data["City"] !== undefined ? data["City"] : null;
+        }
+    }
+    Address.fromJS = function (data) {
+        return new Address(data);
+    };
+    Address.prototype.toJS = function (data) {
+        data = data === undefined ? {} : data;
+        data["City"] = this.city !== undefined ? this.city : null;
+        return data;
+    };
+    Address.prototype.toJSON = function () {
+        return JSON.stringify(this.toJS());
+    };
+    Address.prototype.clone = function () {
+        var json = this.toJSON();
+        return new Address(JSON.parse(json));
+    };
+    return Address;
+}());
+exports.Address = Address;
+(function (SkillLevelAsInteger) {
+    SkillLevelAsInteger[SkillLevelAsInteger["Low"] = 0] = "Low";
+    SkillLevelAsInteger[SkillLevelAsInteger["Medium"] = 1] = "Medium";
+    SkillLevelAsInteger[SkillLevelAsInteger["Height"] = 2] = "Height";
+})(exports.SkillLevelAsInteger || (exports.SkillLevelAsInteger = {}));
+var SkillLevelAsInteger = exports.SkillLevelAsInteger;
 //# sourceMappingURL=serviceClientsJQueryCallbacks.js.map

@@ -89,11 +89,13 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Models\Address.cs" />
+    <Compile Include="Models\Gender.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Controllers\PersonsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\SkillLevel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

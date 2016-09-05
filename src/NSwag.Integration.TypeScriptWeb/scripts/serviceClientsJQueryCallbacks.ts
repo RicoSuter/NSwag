@@ -66,6 +66,52 @@ export class PersonsClient {
         }
     }
 
+    add(person: Person, onSuccess?: () => void, onFail?: (exception: string, reason: string) => void) {
+        var url = this.baseUrl + "/api/Persons"; 
+
+        var content = JSON.stringify(person ? person.toJS() : null);
+
+        jQuery.ajax({
+            url: url,
+            beforeSend: this.beforeSend,
+            type: "post",
+            data: content,
+            dataType: "text",
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8"
+            }
+        }).done((data, textStatus, xhr) => {
+            this.processAddWithCallbacks(url, xhr, onSuccess, onFail);
+        }).fail((xhr) => {
+            this.processAddWithCallbacks(url, xhr, onSuccess, onFail);
+        });
+    }
+
+    private processAddWithCallbacks(url: string, xhr: any, onSuccess?: any, onFail?: any) {
+        try {
+            var result = this.processAdd(xhr);
+            if (onSuccess !== undefined)
+                onSuccess(result);
+        } catch (e) {
+            if (onFail !== undefined)
+                onFail(e, "http_service_exception");
+        }
+    }
+
+    private processAdd(xhr: any) {
+        var data = xhr.responseText; 
+        var status = xhr.status.toString(); 
+
+        if (status === "204") {
+            var result204: any = undefined; 
+            return result204;
+        }
+        else
+        {
+            throw new Error("error_no_callback_for_the_received_http_status");
+        }
+    }
+
     get(id: number, onSuccess?: (result: Person) => void, onFail?: (exception: string, reason: string) => void) {
         var url = this.baseUrl + "/api/Persons/{id}"; 
 
@@ -113,6 +159,56 @@ export class PersonsClient {
                 result200 = resultData200 ? Person.fromJS(resultData200) : new Person();
             }
             return result200;
+        }
+        else
+        {
+            throw new Error("error_no_callback_for_the_received_http_status");
+        }
+    }
+
+    delete(id: number, onSuccess?: () => void, onFail?: (exception: string, reason: string) => void) {
+        var url = this.baseUrl + "/api/Persons/{id}"; 
+
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url = url.replace("{id}", encodeURIComponent("" + id)); 
+
+        var content = "";
+
+        jQuery.ajax({
+            url: url,
+            beforeSend: this.beforeSend,
+            type: "delete",
+            data: content,
+            dataType: "text",
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8"
+            }
+        }).done((data, textStatus, xhr) => {
+            this.processDeleteWithCallbacks(url, xhr, onSuccess, onFail);
+        }).fail((xhr) => {
+            this.processDeleteWithCallbacks(url, xhr, onSuccess, onFail);
+        });
+    }
+
+    private processDeleteWithCallbacks(url: string, xhr: any, onSuccess?: any, onFail?: any) {
+        try {
+            var result = this.processDelete(xhr);
+            if (onSuccess !== undefined)
+                onSuccess(result);
+        } catch (e) {
+            if (onFail !== undefined)
+                onFail(e, "http_service_exception");
+        }
+    }
+
+    private processDelete(xhr: any) {
+        var data = xhr.responseText; 
+        var status = xhr.status.toString(); 
+
+        if (status === "204") {
+            var result204: any = undefined; 
+            return result204;
         }
         else
         {
@@ -178,20 +274,30 @@ export class PersonsClient {
 export class Person { 
     firstName: string; 
     lastName: string; 
+    gender: GenderAsInteger; 
     dateOfBirth: Date; 
     address: Address = new Address(); 
-    children: Person[] = [];
+    children: Person[] = []; 
+    skills: { [key: string] : SkillLevelAsInteger; };
 
     constructor(data?: any) {
         if (data !== undefined) {
             this.firstName = data["FirstName"] !== undefined ? data["FirstName"] : null;
             this.lastName = data["LastName"] !== undefined ? data["LastName"] : null;
+            this.gender = data["Gender"] !== undefined ? data["Gender"] : null;
             this.dateOfBirth = data["DateOfBirth"] ? new Date(data["DateOfBirth"].toString()) : null;
             this.address = data["Address"] ? Address.fromJS(data["Address"]) : new Address();
             if (data["Children"] && data["Children"].constructor === Array) {
                 this.children = [];
                 for (let item of data["Children"])
                     this.children.push(Person.fromJS(item));
+            }
+            if (data["Skills"]) {
+                this.skills = {};
+                for (let key in data["Skills"]) {
+                    if (data["Skills"].hasOwnProperty(key))
+                        this.skills[key] = data["Skills"][key] !== undefined ? data["Skills"][key] : null;
+                }
             }
         }
     }
@@ -204,12 +310,20 @@ export class Person {
         data = data === undefined ? {} : data;
         data["FirstName"] = this.firstName !== undefined ? this.firstName : null;
         data["LastName"] = this.lastName !== undefined ? this.lastName : null;
+        data["Gender"] = this.gender !== undefined ? this.gender : null;
         data["DateOfBirth"] = this.dateOfBirth ? this.dateOfBirth.toISOString() : null;
         data["Address"] = this.address ? this.address.toJS() : null;
         if (this.children && this.children.constructor === Array) {
             data["Children"] = [];
             for (let item of this.children)
                 data["Children"].push(item.toJS());
+        }
+        if (this.skills) {
+            data["Skills"] = {};
+            for (let key in this.skills) {
+                if (this.skills.hasOwnProperty(key))
+                    data["Skills"][key] = this.skills[key] !== undefined ? this.skills[key] : null;
+            }
         }
         return data; 
     }
@@ -222,6 +336,11 @@ export class Person {
         var json = this.toJSON();
         return new Person(JSON.parse(json));
     }
+}
+
+export enum GenderAsInteger {
+    Male = 0, 
+    Female = 1, 
 }
 
 export class Address { 
@@ -251,4 +370,10 @@ export class Address {
         var json = this.toJSON();
         return new Address(JSON.parse(json));
     }
+}
+
+export enum SkillLevelAsInteger {
+    Low = 0, 
+    Medium = 1, 
+    Height = 2, 
 }

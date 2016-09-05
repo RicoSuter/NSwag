@@ -87,6 +87,42 @@ namespace NSwag.Integration.WebAPI
         }
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        public Task AddAsync(Person person)
+        {
+            return AddAsync(person, CancellationToken.None);
+        }
+    
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        public async Task AddAsync(Person person, CancellationToken cancellationToken)
+        {
+            var url_ = string.Format("{0}/{1}", BaseUrl, "api/Persons");
+    
+            var client_ = new HttpClient();
+            PrepareRequest(client_, ref url_);
+    
+            var content_ = new StringContent(JsonConvert.SerializeObject(person));
+            content_.Headers.ContentType.MediaType = "application/json";
+    
+            var response_ = await client_.PostAsync(url_, content_, cancellationToken).ConfigureAwait(false);
+            ProcessResponse(client_, response_);
+    
+            var responseData_ = await response_.Content.ReadAsByteArrayAsync().ConfigureAwait(false); 
+            var status_ = ((int)response_.StatusCode).ToString();
+    
+            if (status_ == "204") 
+            {
+                return;     
+     
+            }
+            else
+            {
+            }
+    
+            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
+        }
+    
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public Task<Person> GetAsync(int id)
         {
             return GetAsync(id, CancellationToken.None);
@@ -124,6 +160,43 @@ namespace NSwag.Integration.WebAPI
                 {
                     throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, exception);
                 }
+            }
+            else
+            {
+            }
+    
+            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
+        }
+    
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        public Task DeleteAsync(int id)
+        {
+            return DeleteAsync(id, CancellationToken.None);
+        }
+    
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        public async Task DeleteAsync(int id, CancellationToken cancellationToken)
+        {
+            var url_ = string.Format("{0}/{1}", BaseUrl, "api/Persons/{id}");
+    
+            if (id == null)
+                throw new ArgumentNullException("id");
+            url_ = url_.Replace("{id}", Uri.EscapeUriString(id.ToString()));
+    
+            var client_ = new HttpClient();
+            PrepareRequest(client_, ref url_);
+    
+            var response_ = await client_.DeleteAsync(url_, cancellationToken).ConfigureAwait(false);
+            ProcessResponse(client_, response_);
+    
+            var responseData_ = await response_.Content.ReadAsByteArrayAsync().ConfigureAwait(false); 
+            var status_ = ((int)response_.StatusCode).ToString();
+    
+            if (status_ == "204") 
+            {
+                return;     
+     
             }
             else
             {
@@ -195,6 +268,9 @@ namespace NSwag.Integration.WebAPI
         [Required]
         public string LastName { get; set; }
     
+        [JsonProperty("Gender", Required = Required.Always)]
+        public Gender Gender { get; set; }
+    
         [JsonProperty("DateOfBirth", Required = Required.Always)]
         [Required]
         public DateTime DateOfBirth { get; set; }
@@ -207,6 +283,9 @@ namespace NSwag.Integration.WebAPI
         [Required]
         public ObservableCollection<Person> Children { get; set; } = new ObservableCollection<Person>();
     
+        [JsonProperty("Skills", Required = Required.Default, NullValueHandling = NullValueHandling.Ignore)]
+        public Dictionary<string, SkillLevel> Skills { get; set; }
+    
         public string ToJson() 
         {
             return JsonConvert.SerializeObject(this);
@@ -216,6 +295,15 @@ namespace NSwag.Integration.WebAPI
         {
             return JsonConvert.DeserializeObject<Person>(data);
         }
+    }
+    
+    [GeneratedCode("NJsonSchema", "4.5.6091.37159")]
+    public enum Gender
+    {
+        Male = 0,
+    
+        Female = 1,
+    
     }
     
     [JsonObject(MemberSerialization.OptIn)]
@@ -235,6 +323,17 @@ namespace NSwag.Integration.WebAPI
         {
             return JsonConvert.DeserializeObject<Address>(data);
         }
+    }
+    
+    [GeneratedCode("NJsonSchema", "4.5.6091.37159")]
+    public enum SkillLevel
+    {
+        Low = 0,
+    
+        Medium = 1,
+    
+        Height = 2,
+    
     }
 
     [GeneratedCode("NSwag", "5.4.6091.41181")]

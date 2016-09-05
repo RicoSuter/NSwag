@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace NSwag.Integration.WebAPI.Models
@@ -11,6 +12,8 @@ namespace NSwag.Integration.WebAPI.Models
         [Required]
         public string LastName { get; set; }
 
+        public Gender Gender { get; set; }
+
         public DateTime DateOfBirth { get; set; }
 
         [Required]
@@ -18,5 +21,7 @@ namespace NSwag.Integration.WebAPI.Models
 
         [Required]
         public Person[] Children { get; set; }
+
+        public Dictionary<string, SkillLevel> Skills { get; set; }
     }
 }
