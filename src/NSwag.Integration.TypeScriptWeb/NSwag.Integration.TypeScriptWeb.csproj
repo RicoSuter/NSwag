@@ -86,6 +86,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="scripts\serviceClientsAngular2.ts" />
+    <None Include="scripts\serviceClientsAngularJS.ts" />
     <TypeScriptCompile Include="scripts\serviceClientsJQueryCallbacks.ts" />
     <TypeScriptCompile Include="scripts\serviceClientsJQueryPromises.ts" />
     <TypeScriptCompile Include="scripts\typings\es6-promise\es6-promise.d.ts" />
