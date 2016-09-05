@@ -266,6 +266,7 @@ var Person = (function () {
             this.lastName = data["LastName"] !== undefined ? data["LastName"] : null;
             this.gender = data["Gender"] !== undefined ? data["Gender"] : null;
             this.dateOfBirth = data["DateOfBirth"] ? new Date(data["DateOfBirth"].toString()) : null;
+            this.weight = data["Weight"] !== undefined ? data["Weight"] : null;
             this.address = data["Address"] ? Address.fromJS(data["Address"]) : new Address();
             if (data["Children"] && data["Children"].constructor === Array) {
                 this.children = [];
@@ -296,6 +297,7 @@ var Person = (function () {
         data["LastName"] = this.lastName !== undefined ? this.lastName : null;
         data["Gender"] = this.gender !== undefined ? this.gender : null;
         data["DateOfBirth"] = this.dateOfBirth ? this.dateOfBirth.toISOString() : null;
+        data["Weight"] = this.weight !== undefined ? this.weight : null;
         data["Address"] = this.address ? this.address.toJS() : null;
         if (this.children && this.children.constructor === Array) {
             data["Children"] = [];
@@ -360,6 +362,7 @@ var GenderAsInteger = exports.GenderAsInteger;
 var Address = (function () {
     function Address(data) {
         if (data !== undefined) {
+            this.isPrimary = data["IsPrimary"] !== undefined ? data["IsPrimary"] : null;
             this.city = data["City"] !== undefined ? data["City"] : null;
         }
     }
@@ -368,6 +371,7 @@ var Address = (function () {
     };
     Address.prototype.toJS = function (data) {
         data = data === undefined ? {} : data;
+        data["IsPrimary"] = this.isPrimary !== undefined ? this.isPrimary : null;
         data["City"] = this.city !== undefined ? this.city : null;
         return data;
     };

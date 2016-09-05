@@ -284,6 +284,9 @@ export class Person {
     lastName: string; 
     gender: GenderAsInteger; 
     dateOfBirth: Date; 
+    weight: number; 
+    height: number; 
+    age: number; 
     address: Address = new Address(); 
     children: Person[] = []; 
     skills: { [key: string] : SkillLevelAsInteger; }; 
@@ -297,6 +300,9 @@ export class Person {
             this.lastName = data["LastName"] !== undefined ? data["LastName"] : null;
             this.gender = data["Gender"] !== undefined ? data["Gender"] : null;
             this.dateOfBirth = data["DateOfBirth"] ? new Date(data["DateOfBirth"].toString()) : null;
+            this.weight = data["Weight"] !== undefined ? data["Weight"] : null;
+            this.height = data["Height"] !== undefined ? data["Height"] : null;
+            this.age = data["Age"] !== undefined ? data["Age"] : null;
             this.address = data["Address"] ? Address.fromJS(data["Address"]) : new Address();
             if (data["Children"] && data["Children"].constructor === Array) {
                 this.children = [];
@@ -327,6 +333,9 @@ export class Person {
         data["LastName"] = this.lastName !== undefined ? this.lastName : null;
         data["Gender"] = this.gender !== undefined ? this.gender : null;
         data["DateOfBirth"] = this.dateOfBirth ? this.dateOfBirth.toISOString() : null;
+        data["Weight"] = this.weight !== undefined ? this.weight : null;
+        data["Height"] = this.height !== undefined ? this.height : null;
+        data["Age"] = this.age !== undefined ? this.age : null;
         data["Address"] = this.address ? this.address.toJS() : null;
         if (this.children && this.children.constructor === Array) {
             data["Children"] = [];
@@ -392,10 +401,12 @@ export enum GenderAsInteger {
 }
 
 export class Address { 
+    isPrimary: boolean; 
     city: string;
 
     constructor(data?: any) {
         if (data !== undefined) {
+            this.isPrimary = data["IsPrimary"] !== undefined ? data["IsPrimary"] : null;
             this.city = data["City"] !== undefined ? data["City"] : null;
         }
     }
@@ -406,6 +417,7 @@ export class Address {
 
     toJS(data?: any) {
         data = data === undefined ? {} : data;
+        data["IsPrimary"] = this.isPrimary !== undefined ? this.isPrimary : null;
         data["City"] = this.city !== undefined ? this.city : null;
         return data; 
     }

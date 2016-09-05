@@ -288,6 +288,15 @@ namespace NSwag.Integration.WebAPI
         [Required]
         public DateTime DateOfBirth { get; set; }
     
+        [JsonProperty("Weight", Required = Required.Always)]
+        public decimal Weight { get; set; }
+    
+        [JsonProperty("Height", Required = Required.Always)]
+        public double Height { get; set; }
+    
+        [JsonProperty("Age", Required = Required.Always)]
+        public int Age { get; set; }
+    
         [JsonProperty("Address", Required = Required.Always)]
         [Required]
         public Address Address { get; set; } = new Address();
@@ -342,6 +351,9 @@ namespace NSwag.Integration.WebAPI
     [GeneratedCode("NJsonSchema", "4.5.6091.37159")]
     public partial class Address 
     {
+    
+        [JsonProperty("IsPrimary", Required = Required.Always)]
+        public bool IsPrimary { get; set; }
     
         [JsonProperty("City", Required = Required.Default, NullValueHandling = NullValueHandling.Ignore)]
         public string City { get; set; }
