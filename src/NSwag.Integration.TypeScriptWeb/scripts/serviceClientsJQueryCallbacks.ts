@@ -112,7 +112,7 @@ export class PersonsClient {
         }
     }
 
-    get(id: number, onSuccess?: (result: Person) => void, onFail?: (exception: string, reason: string) => void) {
+    get(id: string, onSuccess?: (result: Person) => void, onFail?: (exception: string, reason: string) => void) {
         var url = this.baseUrl + "/api/Persons/{id}"; 
 
         if (id === undefined || id === null)
@@ -166,7 +166,7 @@ export class PersonsClient {
         }
     }
 
-    delete(id: number, onSuccess?: () => void, onFail?: (exception: string, reason: string) => void) {
+    delete(id: string, onSuccess?: () => void, onFail?: (exception: string, reason: string) => void) {
         var url = this.baseUrl + "/api/Persons/{id}"; 
 
         if (id === undefined || id === null)
@@ -216,7 +216,12 @@ export class PersonsClient {
         }
     }
 
-    getName(id: number, onSuccess?: (result: string) => void, onFail?: (exception: string, reason: string) => void) {
+    /**
+     * Gets the name of a person.
+     * @id The person ID.
+     * @return The person's name.
+     */
+    getName(id: string, onSuccess?: (result: string) => void, onFail?: (exception: string, reason: string) => void) {
         var url = this.baseUrl + "/api/Persons/{id}/Name"; 
 
         if (id === undefined || id === null)
@@ -272,16 +277,22 @@ export class PersonsClient {
 }
 
 export class Person { 
+    id: string; 
+    /** Gets or sets the first name. */
     firstName: string; 
+    /** Gets or sets the last name. */
     lastName: string; 
     gender: GenderAsInteger; 
     dateOfBirth: Date; 
     address: Address = new Address(); 
     children: Person[] = []; 
-    skills: { [key: string] : SkillLevelAsInteger; };
+    skills: { [key: string] : SkillLevelAsInteger; }; 
+    protected discriminator: string;
 
     constructor(data?: any) {
+        this.discriminator = "Person";
         if (data !== undefined) {
+            this.id = data["Id"] !== undefined ? data["Id"] : null;
             this.firstName = data["FirstName"] !== undefined ? data["FirstName"] : null;
             this.lastName = data["LastName"] !== undefined ? data["LastName"] : null;
             this.gender = data["Gender"] !== undefined ? data["Gender"] : null;
@@ -299,15 +310,19 @@ export class Person {
                         this.skills[key] = data["Skills"][key] !== undefined ? data["Skills"][key] : null;
                 }
             }
+            this.discriminator = data["discriminator"] !== undefined ? data["discriminator"] : null;
         }
     }
 
     static fromJS(data: any): Person {
+        if (data["discriminator"] === "Teacher")
+            return new Teacher(data);
         return new Person(data);
     }
 
     toJS(data?: any) {
         data = data === undefined ? {} : data;
+        data["Id"] = this.id !== undefined ? this.id : null;
         data["FirstName"] = this.firstName !== undefined ? this.firstName : null;
         data["LastName"] = this.lastName !== undefined ? this.lastName : null;
         data["Gender"] = this.gender !== undefined ? this.gender : null;
@@ -325,6 +340,7 @@ export class Person {
                     data["Skills"][key] = this.skills[key] !== undefined ? this.skills[key] : null;
             }
         }
+        data["discriminator"] = this.discriminator !== undefined ? this.discriminator : null;
         return data; 
     }
 
@@ -335,6 +351,38 @@ export class Person {
     clone() {
         var json = this.toJSON();
         return new Person(JSON.parse(json));
+    }
+}
+
+export class Teacher extends Person { 
+    course: string;
+
+    constructor(data?: any) {
+        super(data);
+        this.discriminator = "Teacher";
+        if (data !== undefined) {
+            this.course = data["Course"] !== undefined ? data["Course"] : null;
+        }
+    }
+
+    static fromJS(data: any): Teacher {
+        return new Teacher(data);
+    }
+
+    toJS(data?: any) {
+        data = data === undefined ? {} : data;
+        data["Course"] = this.course !== undefined ? this.course : null;
+        super.toJS(data);
+        return data; 
+    }
+
+    toJSON() {
+        return JSON.stringify(this.toJS());
+    }
+
+    clone() {
+        var json = this.toJSON();
+        return new Teacher(JSON.parse(json));
     }
 }
 

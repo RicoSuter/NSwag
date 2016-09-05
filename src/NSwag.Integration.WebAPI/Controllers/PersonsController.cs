@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Http;
 using NSwag.Integration.WebAPI.Models;
 
@@ -14,13 +15,16 @@ namespace NSwag.Integration.WebAPI.Controllers
         }
 
         [Route("{id}")]
-        public Person Get(int id)
+        public Person Get(Guid id)
         {
             return new Person();
         }
 
+        /// <summary>Gets the name of a person.</summary>
+        /// <param name="id">The person ID.</param>
+        /// <returns>The person's name.</returns>
         [Route("{id}/Name")]
-        public string GetName(int id)
+        public string GetName(Guid id)
         {
             return "Foo Bar: " + id;
         }
@@ -32,7 +36,7 @@ namespace NSwag.Integration.WebAPI.Controllers
         }
 
         [HttpDelete, Route("{id}")]
-        public void Delete(int id)
+        public void Delete(Guid id)
         {
 
         }

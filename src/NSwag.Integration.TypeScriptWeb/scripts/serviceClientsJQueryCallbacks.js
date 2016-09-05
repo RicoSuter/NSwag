@@ -4,6 +4,11 @@
 // </auto-generated>
 //----------------------
 "use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var PersonsClient = (function () {
     function PersonsClient(baseUrl) {
         this.baseUrl = undefined;
@@ -61,6 +66,47 @@ var PersonsClient = (function () {
             throw new Error("error_no_callback_for_the_received_http_status");
         }
     };
+    PersonsClient.prototype.add = function (person, onSuccess, onFail) {
+        var _this = this;
+        var url = this.baseUrl + "/api/Persons";
+        var content = JSON.stringify(person ? person.toJS() : null);
+        jQuery.ajax({
+            url: url,
+            beforeSend: this.beforeSend,
+            type: "post",
+            data: content,
+            dataType: "text",
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8"
+            }
+        }).done(function (data, textStatus, xhr) {
+            _this.processAddWithCallbacks(url, xhr, onSuccess, onFail);
+        }).fail(function (xhr) {
+            _this.processAddWithCallbacks(url, xhr, onSuccess, onFail);
+        });
+    };
+    PersonsClient.prototype.processAddWithCallbacks = function (url, xhr, onSuccess, onFail) {
+        try {
+            var result = this.processAdd(xhr);
+            if (onSuccess !== undefined)
+                onSuccess(result);
+        }
+        catch (e) {
+            if (onFail !== undefined)
+                onFail(e, "http_service_exception");
+        }
+    };
+    PersonsClient.prototype.processAdd = function (xhr) {
+        var data = xhr.responseText;
+        var status = xhr.status.toString();
+        if (status === "204") {
+            var result204 = undefined;
+            return result204;
+        }
+        else {
+            throw new Error("error_no_callback_for_the_received_http_status");
+        }
+    };
     PersonsClient.prototype.get = function (id, onSuccess, onFail) {
         var _this = this;
         var url = this.baseUrl + "/api/Persons/{id}";
@@ -109,6 +155,55 @@ var PersonsClient = (function () {
             throw new Error("error_no_callback_for_the_received_http_status");
         }
     };
+    PersonsClient.prototype.delete = function (id, onSuccess, onFail) {
+        var _this = this;
+        var url = this.baseUrl + "/api/Persons/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url = url.replace("{id}", encodeURIComponent("" + id));
+        var content = "";
+        jQuery.ajax({
+            url: url,
+            beforeSend: this.beforeSend,
+            type: "delete",
+            data: content,
+            dataType: "text",
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8"
+            }
+        }).done(function (data, textStatus, xhr) {
+            _this.processDeleteWithCallbacks(url, xhr, onSuccess, onFail);
+        }).fail(function (xhr) {
+            _this.processDeleteWithCallbacks(url, xhr, onSuccess, onFail);
+        });
+    };
+    PersonsClient.prototype.processDeleteWithCallbacks = function (url, xhr, onSuccess, onFail) {
+        try {
+            var result = this.processDelete(xhr);
+            if (onSuccess !== undefined)
+                onSuccess(result);
+        }
+        catch (e) {
+            if (onFail !== undefined)
+                onFail(e, "http_service_exception");
+        }
+    };
+    PersonsClient.prototype.processDelete = function (xhr) {
+        var data = xhr.responseText;
+        var status = xhr.status.toString();
+        if (status === "204") {
+            var result204 = undefined;
+            return result204;
+        }
+        else {
+            throw new Error("error_no_callback_for_the_received_http_status");
+        }
+    };
+    /**
+     * Gets the name of a person.
+     * @id The person ID.
+     * @return The person's name.
+     */
     PersonsClient.prototype.getName = function (id, onSuccess, onFail) {
         var _this = this;
         var url = this.baseUrl + "/api/Persons/{id}/Name";
@@ -164,7 +259,9 @@ var Person = (function () {
     function Person(data) {
         this.address = new Address();
         this.children = [];
+        this.discriminator = "Person";
         if (data !== undefined) {
+            this.id = data["Id"] !== undefined ? data["Id"] : null;
             this.firstName = data["FirstName"] !== undefined ? data["FirstName"] : null;
             this.lastName = data["LastName"] !== undefined ? data["LastName"] : null;
             this.gender = data["Gender"] !== undefined ? data["Gender"] : null;
@@ -184,13 +281,17 @@ var Person = (function () {
                         this.skills[key] = data["Skills"][key] !== undefined ? data["Skills"][key] : null;
                 }
             }
+            this.discriminator = data["discriminator"] !== undefined ? data["discriminator"] : null;
         }
     }
     Person.fromJS = function (data) {
+        if (data["discriminator"] === "Teacher")
+            return new Teacher(data);
         return new Person(data);
     };
     Person.prototype.toJS = function (data) {
         data = data === undefined ? {} : data;
+        data["Id"] = this.id !== undefined ? this.id : null;
         data["FirstName"] = this.firstName !== undefined ? this.firstName : null;
         data["LastName"] = this.lastName !== undefined ? this.lastName : null;
         data["Gender"] = this.gender !== undefined ? this.gender : null;
@@ -210,6 +311,7 @@ var Person = (function () {
                     data["Skills"][key] = this.skills[key] !== undefined ? this.skills[key] : null;
             }
         }
+        data["discriminator"] = this.discriminator !== undefined ? this.discriminator : null;
         return data;
     };
     Person.prototype.toJSON = function () {
@@ -222,6 +324,34 @@ var Person = (function () {
     return Person;
 }());
 exports.Person = Person;
+var Teacher = (function (_super) {
+    __extends(Teacher, _super);
+    function Teacher(data) {
+        _super.call(this, data);
+        this.discriminator = "Teacher";
+        if (data !== undefined) {
+            this.course = data["Course"] !== undefined ? data["Course"] : null;
+        }
+    }
+    Teacher.fromJS = function (data) {
+        return new Teacher(data);
+    };
+    Teacher.prototype.toJS = function (data) {
+        data = data === undefined ? {} : data;
+        data["Course"] = this.course !== undefined ? this.course : null;
+        _super.prototype.toJS.call(this, data);
+        return data;
+    };
+    Teacher.prototype.toJSON = function () {
+        return JSON.stringify(this.toJS());
+    };
+    Teacher.prototype.clone = function () {
+        var json = this.toJSON();
+        return new Teacher(JSON.parse(json));
+    };
+    return Teacher;
+}(Person));
+exports.Teacher = Teacher;
 (function (GenderAsInteger) {
     GenderAsInteger[GenderAsInteger["Male"] = 0] = "Male";
     GenderAsInteger[GenderAsInteger["Female"] = 1] = "Female";

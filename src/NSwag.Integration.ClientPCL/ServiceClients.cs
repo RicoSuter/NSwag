@@ -123,14 +123,14 @@ namespace NSwag.Integration.WebAPI
         }
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public Task<Person> GetAsync(int id)
+        public Task<Person> GetAsync(Guid id)
         {
             return GetAsync(id, CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async Task<Person> GetAsync(int id, CancellationToken cancellationToken)
+        public async Task<Person> GetAsync(Guid id, CancellationToken cancellationToken)
         {
             var url_ = string.Format("{0}/{1}", BaseUrl, "api/Persons/{id}");
     
@@ -169,14 +169,14 @@ namespace NSwag.Integration.WebAPI
         }
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public Task DeleteAsync(int id)
+        public Task DeleteAsync(Guid id)
         {
             return DeleteAsync(id, CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async Task DeleteAsync(int id, CancellationToken cancellationToken)
+        public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
             var url_ = string.Format("{0}/{1}", BaseUrl, "api/Persons/{id}");
     
@@ -205,15 +205,21 @@ namespace NSwag.Integration.WebAPI
             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
         }
     
+        /// <summary>Gets the name of a person.</summary>
+        /// <param name="id">The person ID.</param>
+        /// <returns>The person's name.</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public Task<string> GetNameAsync(int id)
+        public Task<string> GetNameAsync(Guid id)
         {
             return GetNameAsync(id, CancellationToken.None);
         }
     
+        /// <summary>Gets the name of a person.</summary>
+        /// <param name="id">The person ID.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>The person's name.</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async Task<string> GetNameAsync(int id, CancellationToken cancellationToken)
+        public async Task<string> GetNameAsync(Guid id, CancellationToken cancellationToken)
         {
             var url_ = string.Format("{0}/{1}", BaseUrl, "api/Persons/{id}/Name");
     
@@ -255,15 +261,22 @@ namespace NSwag.Integration.WebAPI
     
     
 
+    [JsonConverter(typeof(JsonInheritanceConverter), "discriminator")]
     [JsonObject(MemberSerialization.OptIn)]
     [GeneratedCode("NJsonSchema", "4.5.6091.37159")]
     public partial class Person 
     {
     
+        [JsonProperty("Id", Required = Required.Always)]
+        [Required]
+        public Guid Id { get; set; }
+    
+        /// <summary>Gets or sets the first name.</summary>
         [JsonProperty("FirstName", Required = Required.Always)]
         [Required]
         public string FirstName { get; set; }
     
+        /// <summary>Gets or sets the last name.</summary>
         [JsonProperty("LastName", Required = Required.Always)]
         [Required]
         public string LastName { get; set; }
@@ -294,6 +307,25 @@ namespace NSwag.Integration.WebAPI
         public static Person FromJson(string data)
         {
             return JsonConvert.DeserializeObject<Person>(data);
+        }
+    }
+    
+    [JsonObject(MemberSerialization.OptIn)]
+    [GeneratedCode("NJsonSchema", "4.5.6091.37159")]
+    public partial class Teacher : Person
+    {
+    
+        [JsonProperty("Course", Required = Required.Default, NullValueHandling = NullValueHandling.Ignore)]
+        public string Course { get; set; }
+    
+        public string ToJson() 
+        {
+            return JsonConvert.SerializeObject(this);
+        }
+        
+        public static Teacher FromJson(string data)
+        {
+            return JsonConvert.DeserializeObject<Teacher>(data);
         }
     }
     
@@ -334,6 +366,71 @@ namespace NSwag.Integration.WebAPI
     
         Height = 2,
     
+    }
+    
+    internal class JsonInheritanceConverter : JsonConverter
+    {
+        internal static readonly string DefaultDiscriminatorName = "discriminator";
+    
+        private readonly string _discriminator;
+    
+        public JsonInheritanceConverter()
+        {
+            _discriminator = DefaultDiscriminatorName;
+        }
+    
+        public JsonInheritanceConverter(string discriminator)
+        {
+            _discriminator = discriminator;
+        }
+    
+        public override bool CanWrite => true;
+    
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            var contract = serializer.ContractResolver.ResolveContract(value.GetType());
+            contract.Converter = null;
+    
+            var jObject = JObject.FromObject(value, serializer);
+            jObject.AddFirst(new JProperty(_discriminator, value.GetType().Name));
+            writer.WriteToken(jObject.CreateReader());
+    
+            contract.Converter = this;
+        }
+    
+        public override bool CanConvert(Type objectType)
+        {
+            return true;
+        }
+    
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            var jObject = serializer.Deserialize<JObject>(reader);
+            var discriminator = jObject.GetValue(_discriminator).Value<string>();
+            var subtype = GetObjectSubtype(objectType, discriminator);
+    
+            var contract = serializer.ContractResolver.ResolveContract(subtype);
+            contract.Converter = null;
+            var value = serializer.Deserialize(jObject.CreateReader(), subtype);
+            contract.Converter = this;
+            return value;
+        }
+    
+        private Type GetObjectSubtype(Type objectType, string discriminator)
+        {
+            var knownTypeAttributes = objectType.GetTypeInfo().GetCustomAttributes().Where(a => a.GetType().Name == "KnownTypeAttribute");
+            dynamic knownTypeAttribute = knownTypeAttributes.SingleOrDefault(a => IsKnwonTypeTargetType(a, discriminator));
+            if (knownTypeAttribute != null)
+                return knownTypeAttribute.Type;
+    
+            var typeName = objectType.Namespace + "." + discriminator;
+            return objectType.GetTypeInfo().Assembly.GetType(typeName);
+        }
+    
+        private bool IsKnwonTypeTargetType(dynamic attribute, string discriminator)
+        {
+            return attribute?.Type.Name == discriminator;
+        }
     }
 
     [GeneratedCode("NSwag", "5.4.6091.41181")]
