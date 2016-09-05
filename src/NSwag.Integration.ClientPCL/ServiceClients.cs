@@ -394,6 +394,42 @@ namespace NSwag.Integration.WebAPI
             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
         }
     
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        public Task AddPolygonAsync(ObservableCollection<GeoPoint> points)
+        {
+            return AddPolygonAsync(points, CancellationToken.None);
+        }
+    
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        public async Task AddPolygonAsync(ObservableCollection<GeoPoint> points, CancellationToken cancellationToken)
+        {
+            var url_ = string.Format("{0}/{1}", BaseUrl, "api/Geo/AddPolygon");
+    
+            var client_ = new HttpClient();
+            PrepareRequest(client_, ref url_);
+    
+            var content_ = new StringContent(JsonConvert.SerializeObject(points));
+            content_.Headers.ContentType.MediaType = "application/json";
+    
+            var response_ = await client_.PostAsync(url_, content_, cancellationToken).ConfigureAwait(false);
+            ProcessResponse(client_, response_);
+    
+            var responseData_ = await response_.Content.ReadAsByteArrayAsync().ConfigureAwait(false); 
+            var status_ = ((int)response_.StatusCode).ToString();
+    
+            if (status_ == "204") 
+            {
+                return;     
+     
+            }
+            else
+            {
+            }
+    
+            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
+        }
+    
     }
     
     

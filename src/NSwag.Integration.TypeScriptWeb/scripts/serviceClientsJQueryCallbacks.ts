@@ -402,6 +402,57 @@ export class GeoClient {
             throw new Error("error_no_callback_for_the_received_http_status");
         }
     }
+
+    addPolygon(points: GeoPoint[], onSuccess?: () => void, onFail?: (exception: string, reason: string) => void) {
+        var url = this.baseUrl + "/api/Geo/AddPolygon"; 
+
+        var contentData = [];
+        if (points) {
+            for (let item of points)
+                contentData.push(item.toJS());
+        }
+        var content = JSON.stringify(points ? contentData : null);
+
+        jQuery.ajax({
+            url: url,
+            beforeSend: this.beforeSend,
+            type: "post",
+            data: content,
+            dataType: "text",
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8"
+            }
+        }).done((data, textStatus, xhr) => {
+            this.processAddPolygonWithCallbacks(url, xhr, onSuccess, onFail);
+        }).fail((xhr) => {
+            this.processAddPolygonWithCallbacks(url, xhr, onSuccess, onFail);
+        });
+    }
+
+    private processAddPolygonWithCallbacks(url: string, xhr: any, onSuccess?: any, onFail?: any) {
+        try {
+            var result = this.processAddPolygon(xhr);
+            if (onSuccess !== undefined)
+                onSuccess(result);
+        } catch (e) {
+            if (onFail !== undefined)
+                onFail(e, "http_service_exception");
+        }
+    }
+
+    private processAddPolygon(xhr: any) {
+        var data = xhr.responseText; 
+        var status = xhr.status.toString(); 
+
+        if (status === "204") {
+            var result204: any = undefined; 
+            return result204;
+        }
+        else
+        {
+            throw new Error("error_no_callback_for_the_received_http_status");
+        }
+    }
 }
 
 export class Person { 

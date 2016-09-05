@@ -302,6 +302,171 @@ define(["require", "exports"], function (require, exports) {
         return PersonsClient;
     }());
     exports.PersonsClient = PersonsClient;
+    var GeoClient = (function () {
+        function GeoClient(baseUrl) {
+            this.baseUrl = undefined;
+            this.beforeSend = undefined;
+            this.baseUrl = baseUrl !== undefined ? baseUrl : "http://localhost:13452";
+        }
+        GeoClient.prototype.fromBodyTest = function (location) {
+            var _this = this;
+            return new Promise(function (resolve, reject) {
+                _this.fromBodyTestWithCallbacks(location, function (result) { return resolve(result); }, function (exception, reason) { return reject(exception); });
+            });
+        };
+        GeoClient.prototype.fromBodyTestWithCallbacks = function (location, onSuccess, onFail) {
+            var _this = this;
+            var url = this.baseUrl + "/api/Geo/FromBodyTest";
+            var content = JSON.stringify(location ? location.toJS() : null);
+            jQuery.ajax({
+                url: url,
+                beforeSend: this.beforeSend,
+                type: "post",
+                data: content,
+                dataType: "text",
+                headers: {
+                    "Content-Type": "application/json; charset=UTF-8"
+                }
+            }).done(function (data, textStatus, xhr) {
+                _this.processFromBodyTestWithCallbacks(url, xhr, onSuccess, onFail);
+            }).fail(function (xhr) {
+                _this.processFromBodyTestWithCallbacks(url, xhr, onSuccess, onFail);
+            });
+        };
+        GeoClient.prototype.processFromBodyTestWithCallbacks = function (url, xhr, onSuccess, onFail) {
+            try {
+                var result = this.processFromBodyTest(xhr);
+                if (onSuccess !== undefined)
+                    onSuccess(result);
+            }
+            catch (e) {
+                if (onFail !== undefined)
+                    onFail(e, "http_service_exception");
+            }
+        };
+        GeoClient.prototype.processFromBodyTest = function (xhr) {
+            var data = xhr.responseText;
+            var status = xhr.status.toString();
+            if (status === "204") {
+                var result204 = undefined;
+                return result204;
+            }
+            else {
+                throw new Error("error_no_callback_for_the_received_http_status");
+            }
+        };
+        GeoClient.prototype.fromUriTest = function (latitude, longitude) {
+            var _this = this;
+            return new Promise(function (resolve, reject) {
+                _this.fromUriTestWithCallbacks(latitude, longitude, function (result) { return resolve(result); }, function (exception, reason) { return reject(exception); });
+            });
+        };
+        GeoClient.prototype.fromUriTestWithCallbacks = function (latitude, longitude, onSuccess, onFail) {
+            var _this = this;
+            var url = this.baseUrl + "/api/Geo/FromUriTest?";
+            if (latitude === null)
+                throw new Error("The parameter 'latitude' cannot be null.");
+            else if (latitude !== undefined)
+                url += "Latitude=" + encodeURIComponent("" + latitude) + "&";
+            if (longitude === null)
+                throw new Error("The parameter 'longitude' cannot be null.");
+            else if (longitude !== undefined)
+                url += "Longitude=" + encodeURIComponent("" + longitude) + "&";
+            var content = "";
+            jQuery.ajax({
+                url: url,
+                beforeSend: this.beforeSend,
+                type: "post",
+                data: content,
+                dataType: "text",
+                headers: {
+                    "Content-Type": "application/json; charset=UTF-8"
+                }
+            }).done(function (data, textStatus, xhr) {
+                _this.processFromUriTestWithCallbacks(url, xhr, onSuccess, onFail);
+            }).fail(function (xhr) {
+                _this.processFromUriTestWithCallbacks(url, xhr, onSuccess, onFail);
+            });
+        };
+        GeoClient.prototype.processFromUriTestWithCallbacks = function (url, xhr, onSuccess, onFail) {
+            try {
+                var result = this.processFromUriTest(xhr);
+                if (onSuccess !== undefined)
+                    onSuccess(result);
+            }
+            catch (e) {
+                if (onFail !== undefined)
+                    onFail(e, "http_service_exception");
+            }
+        };
+        GeoClient.prototype.processFromUriTest = function (xhr) {
+            var data = xhr.responseText;
+            var status = xhr.status.toString();
+            if (status === "204") {
+                var result204 = undefined;
+                return result204;
+            }
+            else {
+                throw new Error("error_no_callback_for_the_received_http_status");
+            }
+        };
+        GeoClient.prototype.addPolygon = function (points) {
+            var _this = this;
+            return new Promise(function (resolve, reject) {
+                _this.addPolygonWithCallbacks(points, function (result) { return resolve(result); }, function (exception, reason) { return reject(exception); });
+            });
+        };
+        GeoClient.prototype.addPolygonWithCallbacks = function (points, onSuccess, onFail) {
+            var _this = this;
+            var url = this.baseUrl + "/api/Geo/AddPolygon";
+            var contentData = [];
+            if (points) {
+                for (var _i = 0, points_1 = points; _i < points_1.length; _i++) {
+                    var item = points_1[_i];
+                    contentData.push(item.toJS());
+                }
+            }
+            var content = JSON.stringify(points ? contentData : null);
+            jQuery.ajax({
+                url: url,
+                beforeSend: this.beforeSend,
+                type: "post",
+                data: content,
+                dataType: "text",
+                headers: {
+                    "Content-Type": "application/json; charset=UTF-8"
+                }
+            }).done(function (data, textStatus, xhr) {
+                _this.processAddPolygonWithCallbacks(url, xhr, onSuccess, onFail);
+            }).fail(function (xhr) {
+                _this.processAddPolygonWithCallbacks(url, xhr, onSuccess, onFail);
+            });
+        };
+        GeoClient.prototype.processAddPolygonWithCallbacks = function (url, xhr, onSuccess, onFail) {
+            try {
+                var result = this.processAddPolygon(xhr);
+                if (onSuccess !== undefined)
+                    onSuccess(result);
+            }
+            catch (e) {
+                if (onFail !== undefined)
+                    onFail(e, "http_service_exception");
+            }
+        };
+        GeoClient.prototype.processAddPolygon = function (xhr) {
+            var data = xhr.responseText;
+            var status = xhr.status.toString();
+            if (status === "204") {
+                var result204 = undefined;
+                return result204;
+            }
+            else {
+                throw new Error("error_no_callback_for_the_received_http_status");
+            }
+        };
+        return GeoClient;
+    }());
+    exports.GeoClient = GeoClient;
     var PersonBase = (function () {
         function PersonBase(data) {
             this.address = new Address();
@@ -515,5 +680,31 @@ define(["require", "exports"], function (require, exports) {
         return PersonNotFoundException;
     }(Exception));
     exports.PersonNotFoundException = PersonNotFoundException;
+    var GeoPoint = (function () {
+        function GeoPoint(data) {
+            if (data !== undefined) {
+                this.latitude = data["Latitude"] !== undefined ? data["Latitude"] : null;
+                this.longitude = data["Longitude"] !== undefined ? data["Longitude"] : null;
+            }
+        }
+        GeoPoint.fromJS = function (data) {
+            return new GeoPoint(data);
+        };
+        GeoPoint.prototype.toJS = function (data) {
+            data = data === undefined ? {} : data;
+            data["Latitude"] = this.latitude !== undefined ? this.latitude : null;
+            data["Longitude"] = this.longitude !== undefined ? this.longitude : null;
+            return data;
+        };
+        GeoPoint.prototype.toJSON = function () {
+            return JSON.stringify(this.toJS());
+        };
+        GeoPoint.prototype.clone = function () {
+            var json = this.toJSON();
+            return new GeoPoint(JSON.parse(json));
+        };
+        return GeoPoint;
+    }());
+    exports.GeoPoint = GeoPoint;
 });
 //# sourceMappingURL=serviceClientsJQueryPromises.js.map

@@ -292,6 +292,41 @@ export class GeoClient {
             throw "error_no_callback_for_the_received_http_status"; 
         }
     }
+
+    addPolygon(points: GeoPoint[]): ng.IPromise<void> {
+        var url = this.baseUrl + "/api/Geo/AddPolygon"; 
+
+        var contentData = [];
+        if (points) {
+            for (let item of points)
+                contentData.push(item.toJS());
+        }
+        var content = JSON.stringify(points ? contentData : null);
+
+        return this.http({
+            url: url,
+            method: "Post",
+            data: content,
+            transformResponse: [], 
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8"
+            }
+        }).then((response) => {
+            return this.processAddPolygon(response);
+        });
+    }
+
+    private processAddPolygon(response: any) {
+        var data = response.data;
+        var status = response.status; 
+
+        if (status === 204) {
+        }
+        else
+        {
+            throw "error_no_callback_for_the_received_http_status"; 
+        }
+    }
 }
 
 export class Person { 

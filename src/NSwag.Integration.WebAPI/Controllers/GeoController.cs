@@ -14,5 +14,11 @@ namespace NSwag.Integration.WebAPI.Controllers
         {
 
         }
+
+        [HttpPost]
+        public void AddPolygon(GeoPoint[] points)
+        {
+
+        }
     }
 }
