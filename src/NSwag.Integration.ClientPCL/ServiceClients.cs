@@ -282,6 +282,8 @@ namespace NSwag.Integration.WebAPI
         public string LastName { get; set; }
     
         [JsonProperty("Gender", Required = Required.Always)]
+        [Required]
+        [JsonConverter(typeof(StringEnumConverter))]
         public Gender Gender { get; set; }
     
         [JsonProperty("DateOfBirth", Required = Required.Always)]
@@ -341,8 +343,10 @@ namespace NSwag.Integration.WebAPI
     [GeneratedCode("NJsonSchema", "4.5.6091.37159")]
     public enum Gender
     {
+        [EnumMember(Value = "Male")]
         Male = 0,
     
+        [EnumMember(Value = "Female")]
         Female = 1,
     
     }

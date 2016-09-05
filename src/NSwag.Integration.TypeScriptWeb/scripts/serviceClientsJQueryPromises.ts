@@ -312,7 +312,7 @@ export class Person {
     firstName: string; 
     /** Gets or sets the last name. */
     lastName: string; 
-    gender: GenderAsInteger; 
+    gender: Gender; 
     dateOfBirth: Date; 
     weight: number; 
     height: number; 
@@ -425,9 +425,9 @@ export class Teacher extends Person {
     }
 }
 
-export enum GenderAsInteger {
-    Male = 0, 
-    Female = 1, 
+export enum Gender {
+    Male = <any>"Male", 
+    Female = <any>"Female", 
 }
 
 export class Address { 

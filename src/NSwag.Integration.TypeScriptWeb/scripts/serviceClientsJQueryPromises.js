@@ -297,6 +297,8 @@ var Person = (function () {
             this.gender = data["Gender"] !== undefined ? data["Gender"] : null;
             this.dateOfBirth = data["DateOfBirth"] ? new Date(data["DateOfBirth"].toString()) : null;
             this.weight = data["Weight"] !== undefined ? data["Weight"] : null;
+            this.height = data["Height"] !== undefined ? data["Height"] : null;
+            this.age = data["Age"] !== undefined ? data["Age"] : null;
             this.address = data["Address"] ? Address.fromJS(data["Address"]) : new Address();
             if (data["Children"] && data["Children"].constructor === Array) {
                 this.children = [];
@@ -328,6 +330,8 @@ var Person = (function () {
         data["Gender"] = this.gender !== undefined ? this.gender : null;
         data["DateOfBirth"] = this.dateOfBirth ? this.dateOfBirth.toISOString() : null;
         data["Weight"] = this.weight !== undefined ? this.weight : null;
+        data["Height"] = this.height !== undefined ? this.height : null;
+        data["Age"] = this.age !== undefined ? this.age : null;
         data["Address"] = this.address ? this.address.toJS() : null;
         if (this.children && this.children.constructor === Array) {
             data["Children"] = [];
