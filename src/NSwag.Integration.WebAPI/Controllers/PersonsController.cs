@@ -10,7 +10,7 @@ namespace NSwag.Integration.WebAPI.Controllers
     [RoutePrefix("api/Persons")]
     public class PersonsController
     {
-        [Route("")]
+        [Route("/")]
         public IEnumerable<Person> GetAll()
         {
             return new List<Person>();
@@ -35,7 +35,7 @@ namespace NSwag.Integration.WebAPI.Controllers
             return "Foo Bar: " + id;
         }
 
-        [HttpPost, Route("")]
+        [HttpPost, Route("/")]
         public void Add(Person person)
         {
 

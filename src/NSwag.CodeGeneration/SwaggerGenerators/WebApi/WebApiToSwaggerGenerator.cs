@@ -352,7 +352,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             foreach (var httpPath in httpPaths)
                 yield return "/" + httpPath
                     .Replace("[controller]", controllerName)
-                    .TrimStart('/');
+                    .Trim('/');
         }
 
         private string GetActionName(MethodInfo method)
