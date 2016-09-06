@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace NSwag.Integration.WebAPI.Controllers
+namespace NSwag.Integration.WebAPI.Models.Exceptions
 {
     public class PersonNotFoundException : Exception
     {

@@ -97,7 +97,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Models\GeoPoint.cs" />
-    <Compile Include="Controllers\PersonNotFoundException.cs" />
+    <Compile Include="Models\Exceptions\PersonNotFoundException.cs" />
     <Compile Include="Controllers\GeoController.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Gender.cs" />

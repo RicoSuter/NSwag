@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web.Http;
 using NSwag.Integration.WebAPI.Models;
 using NSwag.Annotations;
+using NSwag.Integration.WebAPI.Models.Exceptions;
 
 namespace NSwag.Integration.WebAPI.Controllers
 {

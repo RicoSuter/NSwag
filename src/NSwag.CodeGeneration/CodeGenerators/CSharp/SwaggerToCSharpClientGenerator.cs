@@ -77,7 +77,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
                 return "System.IO.Stream";
             }
 
-            return base.ResolveParameterType(parameter, resolver);
+            return base.ResolveParameterType(parameter, resolver)
+                .Replace(Settings.CSharpGeneratorSettings.ArrayType + "<", "IEnumerable<")
+                .Replace(Settings.CSharpGeneratorSettings.DictionaryType + "<", "IDictionary<");
         }
 
         internal override string GenerateClientClass(string controllerName, IList<OperationModel> operations, ClientGeneratorOutputType outputType)
