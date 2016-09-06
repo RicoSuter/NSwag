@@ -829,7 +829,7 @@ foreach(var parameter in operation.PathParameters){
             
             #line default
             #line hidden
-            this.Write("}\", Uri.EscapeUriString(string.Join(\",\", ");
+            this.Write("}\", Uri.EscapeDataString(string.Join(\",\", ");
             
             #line 89 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableNameLower));
@@ -850,7 +850,7 @@ foreach(var parameter in operation.PathParameters){
             
             #line default
             #line hidden
-            this.Write("}\", Uri.EscapeUriString(");
+            this.Write("}\", Uri.EscapeDataString(");
             
             #line 91 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableNameLower));
@@ -871,7 +871,7 @@ foreach(var parameter in operation.PathParameters){
             
             #line default
             #line hidden
-            this.Write("}\", Uri.EscapeUriString(string.Join(\",\", ");
+            this.Write("}\", Uri.EscapeDataString(string.Join(\",\", ");
             
             #line 93 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableNameLower));
@@ -892,7 +892,7 @@ foreach(var parameter in operation.PathParameters){
             
             #line default
             #line hidden
-            this.Write("}\", Uri.EscapeUriString(");
+            this.Write("}\", Uri.EscapeDataString(");
             
             #line 95 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableNameLower));
@@ -980,8 +980,8 @@ foreach(var parameter in operation.QueryParameters){
             
             #line default
             #line hidden
-            this.Write("={0}&\", Uri.EscapeUriString(item_.ToString(\"s\", CultureInfo.InvariantCulture))); " +
-                    "}\r\n");
+            this.Write("={0}&\", Uri.EscapeDataString(item_.ToString(\"s\", CultureInfo.InvariantCulture)));" +
+                    " }\r\n");
             
             #line 109 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
   }else if(parameter.IsDate){
@@ -995,7 +995,7 @@ foreach(var parameter in operation.QueryParameters){
             
             #line default
             #line hidden
-            this.Write("={0}&\", Uri.EscapeUriString(");
+            this.Write("={0}&\", Uri.EscapeDataString(");
             
             #line 110 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableNameLower));
@@ -1036,7 +1036,7 @@ if(parameter.Type.EndsWith("?")){
             
             #line default
             #line hidden
-            this.Write("={0}&\", Uri.EscapeUriString(item_.ToString())); }\r\n");
+            this.Write("={0}&\", Uri.EscapeDataString(item_.ToString())); }\r\n");
             
             #line 113 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
   }else{
@@ -1050,7 +1050,7 @@ if(parameter.Type.EndsWith("?")){
             
             #line default
             #line hidden
-            this.Write("={0}&\", Uri.EscapeUriString(");
+            this.Write("={0}&\", Uri.EscapeDataString(");
             
             #line 114 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableNameLower));

@@ -1,0 +1,1 @@
+"../NSwag/bin/Debug/nswag.exe" run

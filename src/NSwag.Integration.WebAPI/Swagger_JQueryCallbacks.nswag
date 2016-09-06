@@ -1,0 +1,171 @@
+{
+  "SelectedSwaggerGenerator": 1,
+  "InputSwagger": null,
+  "InputSwaggerUrl": null,
+  "InputJsonSchema": null,
+  "WebApiToSwaggerCommand": {
+    "AssemblyPath": "bin\\NSwag.Integration.WebAPI.dll",
+    "AssemblyPaths": [
+      "bin\\NSwag.Integration.WebAPI.dll"
+    ],
+    "AssemblyConfig": "Web.config",
+    "ReferencePaths": [],
+    "ControllerName": "",
+    "ControllerNames": [
+        "NSwag.Integration.WebAPI.Controllers.PersonsController",
+        "NSwag.Integration.WebAPI.Controllers.GeoController"
+    ],
+    "DefaultUrlTemplate": "api/{controller}/{action}/{id}",
+    "DefaultPropertyNameHandling": "Default",
+    "DefaultEnumHandling": "Integer",
+    "FlattenInheritanceHierarchy": false,
+    "GenerateKnownTypes": true,
+    "ServiceHost": "localhost:13452",
+    "ServiceSchemes": [
+      "http"
+    ],
+    "InfoTitle": "Web API Swagger specification",
+    "InfoDescription": null,
+    "InfoVersion": "1.0.0",
+    "OutputFilePath": null
+  },
+  "AssemblyTypeToSwaggerCommand": {
+    "AssemblyPath": null,
+    "ClassNames": [],
+    "AssemblyConfig": null,
+    "ReferencePaths": [],
+    "DefaultPropertyNameHandling": "Default",
+    "DefaultEnumHandling": "Integer",
+    "FlattenInheritanceHierarchy": false,
+    "GenerateKnownTypes": true,
+    "OutputFilePath": null
+  },
+  "SwaggerToTypeScriptCommand": {
+    "ClassName": "{controller}Client",
+    "ModuleName": "",
+    "Namespace": "",
+    "Template": "JQueryCallbacks",
+    "PromiseType": "Promise",
+    "DateTimeType": "Date",
+    "GenerateClientClasses": true,
+    "GenerateClientInterfaces": false,
+    "GenerateDtoTypes": true,
+    "OperationGenerationMode": "MultipleClientsFromOperationId",
+    "GenerateReadOnlyKeywords": true,
+    "TypeStyle": "Class",
+    "ClassTypes": null,
+    "ExtendedClasses": null,
+    "ExtensionCode": null,
+    "GenerateDefaultValues": true,
+    "Input": null,
+    "ServiceHost": null,
+    "ServiceSchemes": null,
+    "OutputFilePath": "..\\NSwag.Integration.TypeScriptWeb\\scripts\\serviceClientsJQueryCallbacks.ts"
+  },
+  "SwaggerToCSharpClientCommand": {
+    "ClientBaseClass": null,
+    "ConfigurationClass": null,
+    "GenerateClientClasses": true,
+    "GenerateClientInterfaces": false,
+    "GenerateDtoTypes": true,
+    "UseHttpClientCreationMethod": false,
+    "GenerateContractsOutput": false,
+    "ContractsNamespace": null,
+    "ContractsOutputFilePath": null,
+    "Settings": {
+      "ClientBaseClass": null,
+      "ConfigurationClass": null,
+      "UseHttpClientCreationMethod": false,
+      "CSharpGeneratorSettings": {
+        "Namespace": "MyNamespace",
+        "RequiredPropertiesMustBeDefined": true,
+        "DateTimeType": "DateTime",
+        "ArrayType": "ObservableCollection",
+        "DictionaryType": "Dictionary",
+        "ClassStyle": "Inpc",
+        "NullHandling": "Swagger",
+        "GenerateDefaultValues": true
+      },
+      "AdditionalNamespaceUsages": null,
+      "CodeGeneratorSettings": {
+        "Namespace": "MyNamespace",
+        "RequiredPropertiesMustBeDefined": true,
+        "DateTimeType": "DateTime",
+        "ArrayType": "ObservableCollection",
+        "DictionaryType": "Dictionary",
+        "ClassStyle": "Inpc",
+        "NullHandling": "Swagger",
+        "GenerateDefaultValues": true
+      },
+      "ClassName": "{controller}Client",
+      "OperationGenerationMode": "MultipleClientsFromOperationId",
+      "GenerateDtoTypes": true,
+      "GenerateClientInterfaces": false,
+      "GenerateClientClasses": true
+    },
+    "ClassName": "{controller}Client",
+    "Namespace": "MyNamespace",
+    "AdditionalNamespaceUsages": null,
+    "RequiredPropertiesMustBeDefined": true,
+    "DateTimeType": "DateTime",
+    "ArrayType": "ObservableCollection",
+    "DictionaryType": "Dictionary",
+    "ClassStyle": "Inpc",
+    "OperationGenerationMode": "MultipleClientsFromOperationId",
+    "GenerateDefaultValues": true,
+    "Input": null,
+    "ServiceHost": null,
+    "ServiceSchemes": null,
+    "OutputFilePath": null
+  },
+  "SwaggerToCSharpControllerGenerator": {
+    "ControllerBaseClass": null,
+    "Settings": {
+      "ControllerBaseClass": null,
+      "CSharpGeneratorSettings": {
+        "Namespace": "MyNamespace",
+        "RequiredPropertiesMustBeDefined": true,
+        "DateTimeType": "DateTime",
+        "ArrayType": "IEnumerable",
+        "DictionaryType": "Dictionary",
+        "ClassStyle": "Inpc",
+        "NullHandling": "Swagger",
+        "GenerateDefaultValues": true
+      },
+      "AdditionalNamespaceUsages": [
+        "System.Web.Http"
+      ],
+      "CodeGeneratorSettings": {
+        "Namespace": "MyNamespace",
+        "RequiredPropertiesMustBeDefined": true,
+        "DateTimeType": "DateTime",
+        "ArrayType": "IEnumerable",
+        "DictionaryType": "Dictionary",
+        "ClassStyle": "Inpc",
+        "NullHandling": "Swagger",
+        "GenerateDefaultValues": true
+      },
+      "ClassName": "{controller}",
+      "OperationGenerationMode": "MultipleClientsFromOperationId",
+      "GenerateDtoTypes": true,
+      "GenerateClientInterfaces": false,
+      "GenerateClientClasses": true
+    },
+    "ClassName": "{controller}",
+    "Namespace": "MyNamespace",
+    "AdditionalNamespaceUsages": [
+      "System.Web.Http"
+    ],
+    "RequiredPropertiesMustBeDefined": true,
+    "DateTimeType": "DateTime",
+    "ArrayType": "IEnumerable",
+    "DictionaryType": "Dictionary",
+    "ClassStyle": "Inpc",
+    "OperationGenerationMode": "MultipleClientsFromOperationId",
+    "GenerateDefaultValues": true,
+    "Input": null,
+    "ServiceHost": null,
+    "ServiceSchemes": null,
+    "OutputFilePath": null
+  }
+}
