@@ -78,11 +78,11 @@
     <Compile Include="..\NSwag.AspNetCore\SwaggerUiOwinSettings.cs">
       <Link>SwaggerUiOwinSettings.cs</Link>
     </Compile>
+    <Compile Include="SwaggerExtensions.cs" />
     <Compile Include="SwaggerUiIndexMiddleware.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RedirectMiddleware.cs" />
     <Compile Include="SwaggerMiddleware.cs" />
-    <Compile Include="SwaggerUiExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
