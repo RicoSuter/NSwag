@@ -503,47 +503,83 @@ export class GeoClient {
     }
 }
 
-export class PersonBase { 
-    id: string; 
+export class Person {
+    id = ko.observable<string>();
     /** Gets or sets the first name. */
-    firstName: string; 
+    firstName = ko.observable<string>();
     /** Gets or sets the last name. */
-    lastName: string; 
-    gender: Gender; 
-    dateOfBirth: Date; 
-    weight: number; 
-    height: number; 
-    age: number; 
-    address: Address = new Address(); 
-    children: Person[] = []; 
-    skills: { [key: string] : SkillLevelAsInteger; }; 
-    protected discriminator: string;
+    lastName = ko.observable<string>();
+    gender = ko.observable<Gender>();
+    dateOfBirth = ko.observable<Date>();
+    weight = ko.observable<number>();
+    height = ko.observable<number>();
+    age = ko.observable<number>();
+    address = ko.observable<Address>(new Address());
+    children = ko.observableArray<Person>([]);
+    skills = ko.observable<{ [key: string] : SkillLevelAsInteger; }>();
+    protected discriminator = ko.observable<string>();
 
     constructor(data?: any) {
-        this.discriminator = "Person";
+        this.discriminator("Person");
         if (data !== undefined) {
-            this.id = data["Id"] !== undefined ? data["Id"] : null;
-            this.firstName = data["FirstName"] !== undefined ? data["FirstName"] : null;
-            this.lastName = data["LastName"] !== undefined ? data["LastName"] : null;
-            this.gender = data["Gender"] !== undefined ? data["Gender"] : null;
-            this.dateOfBirth = data["DateOfBirth"] ? new Date(data["DateOfBirth"].toString()) : null;
-            this.weight = data["Weight"] !== undefined ? data["Weight"] : null;
-            this.height = data["Height"] !== undefined ? data["Height"] : null;
-            this.age = data["Age"] !== undefined ? data["Age"] : null;
-            this.address = data["Address"] ? Address.fromJS(data["Address"]) : new Address();
+            var id_: string = null; 
+            id_ = data["Id"] !== undefined ? data["Id"] : null;
+            this.id(id_);
+
+            var firstName_: string = null; 
+            firstName_ = data["FirstName"] !== undefined ? data["FirstName"] : null;
+            this.firstName(firstName_);
+
+            var lastName_: string = null; 
+            lastName_ = data["LastName"] !== undefined ? data["LastName"] : null;
+            this.lastName(lastName_);
+
+            var gender_: Gender = null; 
+            gender_ = data["Gender"] !== undefined ? data["Gender"] : null;
+            this.gender(gender_);
+
+            var dateOfBirth_: Date = null; 
+            dateOfBirth_ = data["DateOfBirth"] ? new Date(data["DateOfBirth"].toString()) : null;
+            this.dateOfBirth(dateOfBirth_);
+
+            var weight_: number = null; 
+            weight_ = data["Weight"] !== undefined ? data["Weight"] : null;
+            this.weight(weight_);
+
+            var height_: number = null; 
+            height_ = data["Height"] !== undefined ? data["Height"] : null;
+            this.height(height_);
+
+            var age_: number = null; 
+            age_ = data["Age"] !== undefined ? data["Age"] : null;
+            this.age(age_);
+
+            var address_: Address = null; 
+            address_ = data["Address"] ? Address.fromJS(data["Address"]) : new Address();
+            this.address(address_);
+
+            var children_: Person[] = null; 
             if (data["Children"] && data["Children"].constructor === Array) {
-                this.children = [];
+                children_ = [];
                 for (let item of data["Children"])
-                    this.children.push(Person.fromJS(item));
+                    children_.push(Person.fromJS(item));
             }
+            this.children(children_);
+
+            var skills_: { [key: string] : SkillLevelAsInteger; } = null; 
             if (data["Skills"]) {
-                this.skills = {};
+                skills_ = {};
                 for (let key in data["Skills"]) {
                     if (data["Skills"].hasOwnProperty(key))
-                        this.skills[key] = data["Skills"][key] !== undefined ? data["Skills"][key] : null;
+                        skills_[key] = data["Skills"][key] !== undefined ? data["Skills"][key] : null;
                 }
             }
-            this.discriminator = data["discriminator"] !== undefined ? data["discriminator"] : null;
+            this.skills(skills_);
+
+            var discriminator_: string = null; 
+            discriminator_ = data["discriminator"] !== undefined ? data["discriminator"] : null;
+            this.discriminator(discriminator_);
+
         }
     }
 
@@ -555,28 +591,52 @@ export class PersonBase {
 
     toJS(data?: any) {
         data = data === undefined ? {} : data;
-        data["Id"] = this.id !== undefined ? this.id : null;
-        data["FirstName"] = this.firstName !== undefined ? this.firstName : null;
-        data["LastName"] = this.lastName !== undefined ? this.lastName : null;
-        data["Gender"] = this.gender !== undefined ? this.gender : null;
-        data["DateOfBirth"] = this.dateOfBirth ? this.dateOfBirth.toISOString() : null;
-        data["Weight"] = this.weight !== undefined ? this.weight : null;
-        data["Height"] = this.height !== undefined ? this.height : null;
-        data["Age"] = this.age !== undefined ? this.age : null;
-        data["Address"] = this.address ? this.address.toJS() : null;
-        if (this.children && this.children.constructor === Array) {
+        var id_ = this.id(); 
+        data["Id"] = id_ !== undefined ? id_ : null;
+
+        var firstName_ = this.firstName(); 
+        data["FirstName"] = firstName_ !== undefined ? firstName_ : null;
+
+        var lastName_ = this.lastName(); 
+        data["LastName"] = lastName_ !== undefined ? lastName_ : null;
+
+        var gender_ = this.gender(); 
+        data["Gender"] = gender_ !== undefined ? gender_ : null;
+
+        var dateOfBirth_ = this.dateOfBirth(); 
+        data["DateOfBirth"] = dateOfBirth_ ? dateOfBirth_.toISOString() : null;
+
+        var weight_ = this.weight(); 
+        data["Weight"] = weight_ !== undefined ? weight_ : null;
+
+        var height_ = this.height(); 
+        data["Height"] = height_ !== undefined ? height_ : null;
+
+        var age_ = this.age(); 
+        data["Age"] = age_ !== undefined ? age_ : null;
+
+        var address_ = this.address(); 
+        data["Address"] = address_ ? address_.toJS() : null;
+
+        var children_ = this.children(); 
+        if (children_ && children_.constructor === Array) {
             data["Children"] = [];
-            for (let item of this.children)
+            for (let item of children_)
                 data["Children"].push(item.toJS());
         }
-        if (this.skills) {
+
+        var skills_ = this.skills(); 
+        if (skills_) {
             data["Skills"] = {};
-            for (let key in this.skills) {
-                if (this.skills.hasOwnProperty(key))
-                    data["Skills"][key] = this.skills[key] !== undefined ? this.skills[key] : null;
+            for (let key in skills_) {
+                if (skills_.hasOwnProperty(key))
+                    data["Skills"][key] = skills_[key] !== undefined ? skills_[key] : null;
             }
         }
-        data["discriminator"] = this.discriminator !== undefined ? this.discriminator : null;
+
+        var discriminator_ = this.discriminator(); 
+        data["discriminator"] = discriminator_ !== undefined ? discriminator_ : null;
+
         return data; 
     }
 
@@ -590,20 +650,17 @@ export class PersonBase {
     }
 }
 
-export class Person extends PersonBase {
-    get fullName() {
-        return this.firstName + " " + this.lastName;
-    }
-}
-
-export class Teacher extends Person { 
-    course: string;
+export class Teacher extends Person {
+    course = ko.observable<string>();
 
     constructor(data?: any) {
         super(data);
-        this.discriminator = "Teacher";
+        this.discriminator("Teacher");
         if (data !== undefined) {
-            this.course = data["Course"] !== undefined ? data["Course"] : null;
+            var course_: string = null; 
+            course_ = data["Course"] !== undefined ? data["Course"] : null;
+            this.course(course_);
+
         }
     }
 
@@ -613,7 +670,9 @@ export class Teacher extends Person {
 
     toJS(data?: any) {
         data = data === undefined ? {} : data;
-        data["Course"] = this.course !== undefined ? this.course : null;
+        var course_ = this.course(); 
+        data["Course"] = course_ !== undefined ? course_ : null;
+
         super.toJS(data);
         return data; 
     }
@@ -633,14 +692,20 @@ export enum Gender {
     Female = <any>"Female", 
 }
 
-export class Address { 
-    isPrimary: boolean; 
-    city: string;
+export class Address {
+    isPrimary = ko.observable<boolean>();
+    city = ko.observable<string>();
 
     constructor(data?: any) {
         if (data !== undefined) {
-            this.isPrimary = data["IsPrimary"] !== undefined ? data["IsPrimary"] : null;
-            this.city = data["City"] !== undefined ? data["City"] : null;
+            var isPrimary_: boolean = null; 
+            isPrimary_ = data["IsPrimary"] !== undefined ? data["IsPrimary"] : null;
+            this.isPrimary(isPrimary_);
+
+            var city_: string = null; 
+            city_ = data["City"] !== undefined ? data["City"] : null;
+            this.city(city_);
+
         }
     }
 
@@ -650,8 +715,12 @@ export class Address {
 
     toJS(data?: any) {
         data = data === undefined ? {} : data;
-        data["IsPrimary"] = this.isPrimary !== undefined ? this.isPrimary : null;
-        data["City"] = this.city !== undefined ? this.city : null;
+        var isPrimary_ = this.isPrimary(); 
+        data["IsPrimary"] = isPrimary_ !== undefined ? isPrimary_ : null;
+
+        var city_ = this.city(); 
+        data["City"] = city_ !== undefined ? city_ : null;
+
         return data; 
     }
 
@@ -671,18 +740,30 @@ export enum SkillLevelAsInteger {
     Height = 2, 
 }
 
-export class Exception { 
-    message: string; 
-    innerException: Exception = new Exception(); 
-    stackTrace: string; 
-    source: string;
+export class Exception {
+    message = ko.observable<string>();
+    innerException = ko.observable<Exception>(new Exception());
+    stackTrace = ko.observable<string>();
+    source = ko.observable<string>();
 
     constructor(data?: any) {
         if (data !== undefined) {
-            this.message = data["Message"] !== undefined ? data["Message"] : null;
-            this.innerException = data["InnerException"] ? Exception.fromJS(data["InnerException"]) : new Exception();
-            this.stackTrace = data["StackTrace"] !== undefined ? data["StackTrace"] : null;
-            this.source = data["Source"] !== undefined ? data["Source"] : null;
+            var message_: string = null; 
+            message_ = data["Message"] !== undefined ? data["Message"] : null;
+            this.message(message_);
+
+            var innerException_: Exception = null; 
+            innerException_ = data["InnerException"] ? Exception.fromJS(data["InnerException"]) : new Exception();
+            this.innerException(innerException_);
+
+            var stackTrace_: string = null; 
+            stackTrace_ = data["StackTrace"] !== undefined ? data["StackTrace"] : null;
+            this.stackTrace(stackTrace_);
+
+            var source_: string = null; 
+            source_ = data["Source"] !== undefined ? data["Source"] : null;
+            this.source(source_);
+
         }
     }
 
@@ -692,10 +773,18 @@ export class Exception {
 
     toJS(data?: any) {
         data = data === undefined ? {} : data;
-        data["Message"] = this.message !== undefined ? this.message : null;
-        data["InnerException"] = this.innerException ? this.innerException.toJS() : null;
-        data["StackTrace"] = this.stackTrace !== undefined ? this.stackTrace : null;
-        data["Source"] = this.source !== undefined ? this.source : null;
+        var message_ = this.message(); 
+        data["Message"] = message_ !== undefined ? message_ : null;
+
+        var innerException_ = this.innerException(); 
+        data["InnerException"] = innerException_ ? innerException_.toJS() : null;
+
+        var stackTrace_ = this.stackTrace(); 
+        data["StackTrace"] = stackTrace_ !== undefined ? stackTrace_ : null;
+
+        var source_ = this.source(); 
+        data["Source"] = source_ !== undefined ? source_ : null;
+
         return data; 
     }
 
@@ -709,13 +798,16 @@ export class Exception {
     }
 }
 
-export class PersonNotFoundException extends Exception { 
-    id: string;
+export class PersonNotFoundException extends Exception {
+    id = ko.observable<string>();
 
     constructor(data?: any) {
         super(data);
         if (data !== undefined) {
-            this.id = data["id"] !== undefined ? data["id"] : null;
+            var id_: string = null; 
+            id_ = data["id"] !== undefined ? data["id"] : null;
+            this.id(id_);
+
         }
     }
 
@@ -725,7 +817,9 @@ export class PersonNotFoundException extends Exception {
 
     toJS(data?: any) {
         data = data === undefined ? {} : data;
-        data["id"] = this.id !== undefined ? this.id : null;
+        var id_ = this.id(); 
+        data["id"] = id_ !== undefined ? id_ : null;
+
         super.toJS(data);
         return data; 
     }
@@ -740,14 +834,20 @@ export class PersonNotFoundException extends Exception {
     }
 }
 
-export class GeoPoint { 
-    latitude: number; 
-    longitude: number;
+export class GeoPoint {
+    latitude = ko.observable<number>();
+    longitude = ko.observable<number>();
 
     constructor(data?: any) {
         if (data !== undefined) {
-            this.latitude = data["Latitude"] !== undefined ? data["Latitude"] : null;
-            this.longitude = data["Longitude"] !== undefined ? data["Longitude"] : null;
+            var latitude_: number = null; 
+            latitude_ = data["Latitude"] !== undefined ? data["Latitude"] : null;
+            this.latitude(latitude_);
+
+            var longitude_: number = null; 
+            longitude_ = data["Longitude"] !== undefined ? data["Longitude"] : null;
+            this.longitude(longitude_);
+
         }
     }
 
@@ -757,8 +857,12 @@ export class GeoPoint {
 
     toJS(data?: any) {
         data = data === undefined ? {} : data;
-        data["Latitude"] = this.latitude !== undefined ? this.latitude : null;
-        data["Longitude"] = this.longitude !== undefined ? this.longitude : null;
+        var latitude_ = this.latitude(); 
+        data["Latitude"] = latitude_ !== undefined ? latitude_ : null;
+
+        var longitude_ = this.longitude(); 
+        data["Longitude"] = longitude_ !== undefined ? longitude_ : null;
+
         return data; 
     }
 

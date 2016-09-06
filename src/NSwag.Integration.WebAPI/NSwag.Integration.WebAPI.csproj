@@ -55,8 +55,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="NJsonSchema, Version=4.6.6093.13919, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NJsonSchema.4.6.6093.13919\lib\net45\NJsonSchema.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Runtime.Serialization" />
@@ -120,6 +120,7 @@
     <Content Include="Swagger_JQueryPromises.nswag" />
     <Content Include="Swagger_Angular2.nswag" />
     <Content Include="Swagger_AngularJS.nswag" />
+    <Content Include="Swagger_JQueryPromises_KO.nswag" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
