@@ -20,16 +20,16 @@ namespace NSwag.AspNetCore
         private readonly RequestDelegate _nextDelegate;
 
         private readonly object _lock = new object();
-        private readonly string _fromPath;
+        private readonly string _path;
         private readonly IEnumerable<Type> _controllerTypes;
         private string _swaggerJson = null;
         private readonly SwaggerOwinSettings _settings;
         private readonly SwaggerJsonSchemaGenerator _schemaGenerator;
 
-        public SwaggerMiddleware(RequestDelegate nextDelegate, string fromPath, IEnumerable<Type> controllerTypes, SwaggerOwinSettings settings, SwaggerJsonSchemaGenerator schemaGenerator)
+        public SwaggerMiddleware(RequestDelegate nextDelegate, string path, IEnumerable<Type> controllerTypes, SwaggerOwinSettings settings, SwaggerJsonSchemaGenerator schemaGenerator)
         {
             _nextDelegate = nextDelegate;
-            _fromPath = fromPath;
+            _path = path;
             _controllerTypes = controllerTypes;
             _settings = settings;
             _schemaGenerator = schemaGenerator;
@@ -37,7 +37,7 @@ namespace NSwag.AspNetCore
 
         public async Task Invoke(HttpContext context)
         {
-            if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value.Trim('/'), _fromPath.Trim('/'), StringComparison.OrdinalIgnoreCase))
+            if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value.Trim('/'), _path.Trim('/'), StringComparison.OrdinalIgnoreCase))
             {
                 context.Response.StatusCode = 200;
                 await context.Response.WriteAsync(GenerateSwagger(context));
