@@ -30,13 +30,12 @@ namespace NSwag.AspNet.Owin
             _path = path;
             _controllerTypes = controllerTypes;
             _settings = settings;
-            _schemaGenerator = schemaGenerator; 
+            _schemaGenerator = schemaGenerator;
         }
 
         public override async Task Invoke(IOwinContext context)
         {
-            var url = context.Request.Uri;
-            if (url.PathAndQuery.Trim('/') == _path.Trim('/'))
+            if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value.Trim('/'), _path.Trim('/'), StringComparison.OrdinalIgnoreCase))
             {
                 context.Response.StatusCode = 200;
                 context.Response.Write(GenerateSwagger(context));

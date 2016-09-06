@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using System.Threading.Tasks;
 using Microsoft.Owin;
 
@@ -16,7 +17,7 @@ namespace NSwag.AspNet.Owin
         private readonly string _fromPath;
         private readonly string _toPath;
 
-        public RedirectMiddleware(OwinMiddleware next, string fromPath, string toPath) 
+        public RedirectMiddleware(OwinMiddleware next, string fromPath, string toPath)
             : base(next)
         {
             _fromPath = fromPath;
@@ -25,8 +26,7 @@ namespace NSwag.AspNet.Owin
 
         public override async Task Invoke(IOwinContext context)
         {
-            var url = context.Request.Uri;
-            if (url.PathAndQuery.Trim('/') == _fromPath.Trim('/'))
+            if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value.Trim('/'), _fromPath.Trim('/'), StringComparison.OrdinalIgnoreCase))
             {
                 context.Response.StatusCode = 301;
                 context.Response.Headers.Set("Location", _toPath);

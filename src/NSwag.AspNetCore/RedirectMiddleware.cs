@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
@@ -26,7 +27,7 @@ namespace NSwag.AspNetCore
 
         public async Task Invoke(HttpContext context)
         {
-            if (context.Request.Path.Value.Trim('/') == _fromPath.Trim('/'))
+            if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value.Trim('/'), _fromPath.Trim('/'), StringComparison.OrdinalIgnoreCase))
             {
                 context.Response.StatusCode = 301;
                 context.Response.Headers.Add("Location", _toPath);

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.IO;
 using System.Reflection;
@@ -22,8 +23,7 @@ namespace NSwag.AspNetCore
 
         public async Task Invoke(HttpContext context)
         {
-            var url = context.Request.Path.Value;
-            if (url.Trim('/').StartsWith(_indexPath.Trim('/')))
+            if (context.Request.Path.HasValue && context.Request.Path.Value.Trim('/').StartsWith(_indexPath.Trim('/'), StringComparison.OrdinalIgnoreCase))
             {
                 var stream = typeof(SwaggerUiIndexMiddleware).GetTypeInfo().Assembly.GetManifestResourceStream("NSwag.AspNetCore.SwaggerUi.index.html");
                 using (var reader = new StreamReader(stream))
