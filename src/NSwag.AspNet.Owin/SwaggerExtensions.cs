@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="SwaggerUiExtensions.cs" company="NSwag">
+// <copyright file="SwaggerExtensions.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -21,7 +21,7 @@ using Owin;
 namespace NSwag.AspNet.Owin
 {
     /// <summary>Provides OWIN extensions to enable Swagger UI.</summary>
-    public static class SwaggerUiExtensions
+    public static class SwaggerExtensions
     {
         /// <summary>Addes the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
         /// <param name="app">The app.</param>
@@ -104,13 +104,16 @@ namespace NSwag.AspNet.Owin
             SwaggerUiOwinSettings settings,
             SwaggerJsonSchemaGenerator schemaGenerator)
         {
-            app.Use<RedirectMiddleware>(settings.SwaggerUiRoute, settings.SwaggerUiRoute + "/index.html?url=" + Uri.EscapeDataString(settings.SwaggerRoute));
-            app.Use<SwaggerMiddleware>(settings.SwaggerRoute, controllerTypes, settings, schemaGenerator);
-            app.Use<SwaggerUiIndexMiddleware>(settings.SwaggerUiRoute + "/index.html", settings);
+            var swaggerUiRoute = settings.SwaggerUiRoute.Substring(settings.MiddlewareBasePath?.Length ?? 0);
+            var swaggerRoute = settings.SwaggerRoute.Substring(settings.MiddlewareBasePath?.Length ?? 0);
+
+            app.Use<RedirectMiddleware>(swaggerUiRoute, settings.SwaggerUiRoute + "/index.html?url=" + Uri.EscapeDataString(settings.SwaggerRoute));
+            app.Use<SwaggerMiddleware>(swaggerRoute, controllerTypes, settings, schemaGenerator);
+            app.Use<SwaggerUiIndexMiddleware>(swaggerUiRoute + "/index.html", settings);
             app.UseFileServer(new FileServerOptions
             {
-                RequestPath = new PathString(settings.SwaggerUiRoute.Substring(settings.OwinBasePath?.Length ?? 0)),
-                FileSystem = new EmbeddedResourceFileSystem(typeof(SwaggerUiExtensions).Assembly, "NSwag.AspNet.Owin.SwaggerUi")
+                RequestPath = new PathString(swaggerUiRoute),
+                FileSystem = new EmbeddedResourceFileSystem(typeof(SwaggerExtensions).Assembly, "NSwag.AspNet.Owin.SwaggerUi")
             });
             app.UseStageMarker(PipelineStage.MapHandler);
             return app;
