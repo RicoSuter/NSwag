@@ -17,7 +17,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
-using NSwag.CodeGeneration.Infrastructure;
 
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 {
@@ -50,8 +49,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             // TODO: Move to IControllerClassLoader interface
             return assembly.ExportedTypes
                 .Where(t => t.Name.EndsWith("Controller") ||
-                            t.InheritsFrom("ApiController") ||
-                            t.InheritsFrom("Controller")) // in ASP.NET Core, a Web API controller inherits from Controller
+                            t.InheritsFrom("ApiController", TypeNameStyle.Name) ||
+                            t.InheritsFrom("Controller", TypeNameStyle.Name)) // in ASP.NET Core, a Web API controller inherits from Controller
                 .Where(t => t.GetTypeInfo().ImplementedInterfaces.All(i => i.FullName != "System.Web.Mvc.IController")); // no MVC controllers (legacy ASP.NET)
         }
 
@@ -305,7 +304,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
             // .NET Core: Http*Attribute inherits from HttpMethodAttribute with Template property
             var httpMethodWithTemplateAttributes = method.GetCustomAttributes()
-                .Where(a => a.GetType().InheritsFrom("HttpMethodAttribute"))
+                .Where(a => a.GetType().InheritsFrom("HttpMethodAttribute", TypeNameStyle.Name))
                 .Where((dynamic a) => !string.IsNullOrEmpty(a.Template))
                 .ToList();
 
@@ -754,8 +753,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             return returnType.Name == "IActionResult" ||
                    returnType.Name == "IHttpActionResult" ||
                    returnType.Name == "HttpResponseMessage" ||
-                   returnType.InheritsFrom("ActionResult") ||
-                   returnType.InheritsFrom("HttpResponseMessage");
+                   returnType.InheritsFrom("ActionResult", TypeNameStyle.Name) ||
+                   returnType.InheritsFrom("HttpResponseMessage", TypeNameStyle.Name);
         }
 
         private JsonSchema4 CreateAndAddSchema(Type type, bool mayBeNull, IEnumerable<Attribute> parentAttributes,
