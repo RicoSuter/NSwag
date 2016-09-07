@@ -60,7 +60,7 @@ namespace NSwag.AspNet.Owin
             IEnumerable<Type> controllerTypes,
             SwaggerOwinSettings settings)
         {
-            app.Use<SwaggerMiddleware>(settings.SwaggerRoute, controllerTypes, settings);
+            app.Use<SwaggerMiddleware>(settings.ActualSwaggerRoute, controllerTypes, settings);
             app.UseStageMarker(PipelineStage.MapHandler);
             return app;
         }
@@ -104,15 +104,12 @@ namespace NSwag.AspNet.Owin
             SwaggerUiOwinSettings settings,
             SwaggerJsonSchemaGenerator schemaGenerator)
         {
-            var swaggerUiRoute = settings.SwaggerUiRoute.Substring(settings.MiddlewareBasePath?.Length ?? 0);
-            var swaggerRoute = settings.SwaggerRoute.Substring(settings.MiddlewareBasePath?.Length ?? 0);
-
-            app.Use<RedirectMiddleware>(swaggerUiRoute, settings.SwaggerUiRoute + "/index.html?url=" + Uri.EscapeDataString(settings.SwaggerRoute));
-            app.Use<SwaggerMiddleware>(swaggerRoute, controllerTypes, settings, schemaGenerator);
-            app.Use<SwaggerUiIndexMiddleware>(swaggerUiRoute + "/index.html", settings);
+            app.Use<RedirectMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute);
+            app.Use<SwaggerMiddleware>(settings.ActualSwaggerRoute, controllerTypes, settings, schemaGenerator);
+            app.Use<SwaggerUiIndexMiddleware>(settings.ActualSwaggerUiRoute + "/index.html", settings);
             app.UseFileServer(new FileServerOptions
             {
-                RequestPath = new PathString(swaggerUiRoute),
+                RequestPath = new PathString(settings.ActualSwaggerUiRoute),
                 FileSystem = new EmbeddedResourceFileSystem(typeof(SwaggerExtensions).Assembly, "NSwag.AspNet.Owin.SwaggerUi")
             });
             app.UseStageMarker(PipelineStage.MapHandler);

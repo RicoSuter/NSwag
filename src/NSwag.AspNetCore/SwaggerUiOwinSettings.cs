@@ -15,13 +15,12 @@ namespace NSwag.AspNetCore
     /// <summary>The settings for UseSwaggerUi.</summary>
     public class SwaggerUiOwinSettings : SwaggerOwinSettings
     {
-        /// <summary>Gets or sets the OWIN base path (when mapped via app.MapOwinPath()).</summary>
-        public string MiddlewareBasePath { get; set; }
-
-        /// <summary>Gets or sets the swagger UI route.</summary>
+        /// <summary>Gets or sets the swagger UI route (must start with '/').</summary>
         public string SwaggerUiRoute { get; set; } = "/swagger";
 
         /// <summary>Gets or sets the Swagger UI OAuth2 client settings.</summary>
         public OAuth2ClientSettings OAuth2Client { get; set; }
+
+        internal string ActualSwaggerUiRoute => SwaggerUiRoute.Substring(MiddlewareBasePath?.Length ?? 0);
     }
 }

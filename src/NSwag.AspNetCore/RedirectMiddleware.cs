@@ -16,21 +16,22 @@ namespace NSwag.AspNetCore
     {
         private readonly RequestDelegate _nextDelegate;
         private readonly string _fromPath;
-        private readonly string _toPath;
+        private readonly string _swaggerPath;
 
-        public RedirectMiddleware(RequestDelegate nextDelegate, string fromPath, string toPath)
+        public RedirectMiddleware(RequestDelegate nextDelegate, string fromPath, string swaggerPath)
         {
             _nextDelegate = nextDelegate;
             _fromPath = fromPath;
-            _toPath = toPath;
+            _swaggerPath = swaggerPath;
         }
 
         public async Task Invoke(HttpContext context)
         {
-            if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value.Trim('/'), _fromPath.Trim('/'), StringComparison.OrdinalIgnoreCase))
+            if (context.Request.Path.HasValue && context.Request.PathBase.HasValue && 
+                string.Equals(context.Request.Path.Value.Trim('/'), _fromPath.Trim('/'), StringComparison.OrdinalIgnoreCase))
             {
-                context.Response.StatusCode = 301;
-                context.Response.Headers.Add("Location", _toPath);
+                context.Response.StatusCode = 302;
+                context.Response.Headers.Add("Location", context.Request.PathBase.Value + _fromPath + "/index.html?url=" + context.Request.PathBase.Value + _swaggerPath);
             }
             else
                 await _nextDelegate.Invoke(context);
