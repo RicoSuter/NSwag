@@ -105,7 +105,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 Info = new SwaggerInfo
                 {
                     Title = settings.Title,
-                    Description = settings.Description, 
+                    Description = settings.Description,
                     Version = settings.Version
                 }
             };
@@ -687,12 +687,19 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     }
 
                     var typeDescription = JsonObjectTypeDescription.FromType(returnType, method.ReturnParameter?.GetCustomAttributes(), Settings.DefaultEnumHandling);
-                    operation.Responses[httpStatusCode] = new SwaggerResponse
+                    var response = new SwaggerResponse
                     {
                         Description = description ?? string.Empty,
-                        IsNullableRaw = typeDescription.IsNullable,
-                        Schema = CreateAndAddSchema(returnType, typeDescription.IsNullable, null, schemaResolver, schemaDefinitionAppender)
+                        IsNullableRaw = typeDescription.IsNullable
                     };
+
+                    if (IsVoidResponse(returnType) == false)
+                    {
+                        response.Schema = CreateAndAddSchema(returnType, typeDescription.IsNullable, null,
+                            schemaResolver, schemaDefinitionAppender);
+                    }
+
+                    operation.Responses[httpStatusCode] = response;
                 }
 
                 foreach (dynamic producesResponseTypeAttribute in producesResponseTypeAttributes)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -12,7 +13,7 @@ namespace NSwag.Demo.OwinCoreWeb.Controllers
             return new Teacher
             {
                 FirstName = "Rico",
-                LastName = "Suter", 
+                LastName = "Suter",
                 School = "Foo"
             };
         }
@@ -31,7 +32,13 @@ namespace NSwag.Demo.OwinCoreWeb.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] IList<EventModel> events)
         {
-            return null; 
+            return null;
+        }
+
+        [ProducesResponseType(typeof(void), 204)]
+        public ActionResult Refresh()
+        {
+            throw new NotSupportedException();
         }
     }
 
