@@ -15,12 +15,6 @@ namespace NSwag
     /// <summary>The definition of a security scheme that can be used by the operations.</summary>
     public class SwaggerSecurityScheme
     {
-        /// <summary>Initializes a new instance of the <see cref="SwaggerSecurityScheme"/> class.</summary>
-        public SwaggerSecurityScheme()
-        {
-            Scopes = new Dictionary<string, string>();   
-        }
-
         /// <summary>Gets or sets the type of the security scheme.</summary>
         [JsonProperty(PropertyName = "type", Required = Required.Always, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         [JsonConverter(typeof(StringEnumConverter))]
@@ -53,6 +47,6 @@ namespace NSwag
 
         /// <summary>Gets the available scopes for the OAuth2 security scheme.</summary>
         [JsonProperty(PropertyName = "scopes", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public Dictionary<string, string> Scopes { get; private set; }
+        public IDictionary<string, string> Scopes { get; set; }
     }
 }
