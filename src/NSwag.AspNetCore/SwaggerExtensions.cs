@@ -58,11 +58,24 @@ namespace NSwag.AspNetCore
             IEnumerable<Type> controllerTypes,
             SwaggerOwinSettings settings)
         {
-            app.UseMiddleware<SwaggerMiddleware>(settings.ActualSwaggerRoute, controllerTypes, settings);
-            return app;
+            return app.UseSwagger(controllerTypes, settings, new SwaggerJsonSchemaGenerator(settings));
         }
 
-
+        /// <summary>Addes the Swagger generator to the OWIN pipeline.</summary>
+        /// <param name="app">The app.</param>
+        /// <param name="controllerTypes">The Web API controller types.</param>
+        /// <param name="settings">The Swagger generator settings.</param>
+        /// <param name="schemaGenerator">The schema generator.</param>
+        /// <returns>The app builder.</returns>
+        public static IApplicationBuilder UseSwagger(
+            this IApplicationBuilder app,
+            IEnumerable<Type> controllerTypes,
+            SwaggerOwinSettings settings,
+            SwaggerJsonSchemaGenerator schemaGenerator)
+        {
+            app.UseMiddleware<SwaggerMiddleware>(settings.ActualSwaggerRoute, controllerTypes, settings, schemaGenerator);
+            return app;
+        }
 
         /// <summary>Addes the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
         /// <param name="app">The app.</param>
