@@ -340,18 +340,15 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             else if (routeAttributeOnClass != null)
                 httpPaths.Add(routeAttributeOnClass.Template);
             else
-            {
-                var actionName = GetActionName(method);
-                var httpPath = (Settings.DefaultUrlTemplate ?? string.Empty)
-                    .Replace("{controller}", controllerName)
-                    .Replace("{action}", actionName);
+                httpPaths.Add(Settings.DefaultUrlTemplate ?? string.Empty);
 
-                httpPaths.Add(httpPath);
-            }
-
+            var actionName = GetActionName(method);
             foreach (var httpPath in httpPaths)
                 yield return "/" + httpPath
-                    .Replace("[controller]", controllerName)
+                    .Replace("[", "{")
+                    .Replace("]", "}")
+                    .Replace("{controller}", controllerName)
+                    .Replace("{action}", actionName)
                     .Trim('/');
         }
 
