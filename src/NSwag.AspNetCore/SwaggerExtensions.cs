@@ -116,7 +116,7 @@ namespace NSwag.AspNetCore
             SwaggerUiOwinSettings settings,
             SwaggerJsonSchemaGenerator schemaGenerator)
         {
-            app.UseMiddleware<RedirectMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerUiRoute);
+            app.UseMiddleware<RedirectMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute);
             app.UseMiddleware<SwaggerMiddleware>(settings.ActualSwaggerRoute, controllerTypes, settings, schemaGenerator);
             app.UseMiddleware<SwaggerUiIndexMiddleware>(settings.ActualSwaggerUiRoute + "/index.html", settings);
             app.UseFileServer(new FileServerOptions
