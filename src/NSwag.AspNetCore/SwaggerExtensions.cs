@@ -80,7 +80,7 @@ namespace NSwag.AspNetCore
         /// <summary>Addes the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
         /// <param name="app">The app.</param>
         /// <param name="webApiAssembly">The Web API assembly to search for controller types.</param>
-        /// <param name="settings">The Swagger generator settings.</param>
+        /// <param name="settings">The Swagger UI and generator settings.</param>
         /// <returns>The app builder.</returns>
         public static IApplicationBuilder UseSwaggerUi(
             this IApplicationBuilder app,
@@ -93,7 +93,7 @@ namespace NSwag.AspNetCore
         /// <summary>Addes the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
         /// <param name="app">The app.</param>
         /// <param name="webApiAssemblies">The Web API assemblies to search for controller types.</param>
-        /// <param name="settings">The Swagger generator settings.</param>
+        /// <param name="settings">The Swagger UI and generator settings.</param>
         /// <returns>The app builder.</returns>
         public static IApplicationBuilder UseSwaggerUi(
             this IApplicationBuilder app,
@@ -104,10 +104,21 @@ namespace NSwag.AspNetCore
             return app.UseSwaggerUi(controllerTypes, settings, new SwaggerJsonSchemaGenerator(settings));
         }
 
+        /// <summary>Addes the Swagger UI (only) to the OWIN pipeline.</summary>
+        /// <param name="app">The app.</param>
+        /// <param name="settings">The Swagger UI settings.</param>
+        /// <returns>The app builder.</returns>
+        public static IApplicationBuilder UseSwaggerUi(
+            this IApplicationBuilder app,
+            SwaggerUiOwinSettings settings)
+        {
+            return app.UseSwaggerUi(null, settings, null);
+        }
+
         /// <summary>Addes the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
         /// <param name="app">The app.</param>
         /// <param name="controllerTypes">The Web API controller types.</param>
-        /// <param name="settings">The Swagger generator settings.</param>
+        /// <param name="settings">The Swagger UI and generator settings.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
         /// <returns>The app builder.</returns>
         public static IApplicationBuilder UseSwaggerUi(
@@ -116,8 +127,10 @@ namespace NSwag.AspNetCore
             SwaggerUiOwinSettings settings,
             SwaggerJsonSchemaGenerator schemaGenerator)
         {
+            if (controllerTypes != null)
+                app.UseMiddleware<SwaggerMiddleware>(settings.ActualSwaggerRoute, controllerTypes, settings, schemaGenerator);
+
             app.UseMiddleware<RedirectMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute);
-            app.UseMiddleware<SwaggerMiddleware>(settings.ActualSwaggerRoute, controllerTypes, settings, schemaGenerator);
             app.UseMiddleware<SwaggerUiIndexMiddleware>(settings.ActualSwaggerUiRoute + "/index.html", settings);
             app.UseFileServer(new FileServerOptions
             {
