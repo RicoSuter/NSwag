@@ -708,12 +708,19 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     var typeDescription = JsonObjectTypeDescription.FromType(returnType, method.ReturnParameter?.GetCustomAttributes(), Settings.DefaultEnumHandling);
 
                     var httpStatusCode = producesResponseTypeAttribute.StatusCode.ToString(CultureInfo.InvariantCulture);
-                    operation.Responses[httpStatusCode] = new SwaggerResponse
+                    var response = new SwaggerResponse
                     {
                         Description = xmlDescription ?? string.Empty,
                         IsNullableRaw = typeDescription.IsNullable,
-                        Schema = CreateAndAddSchema(returnType, typeDescription.IsNullable, null, schemaResolver, schemaDefinitionAppender)
                     };
+
+                    if (IsVoidResponse(returnType) == false)
+                    {
+                        response.Schema = CreateAndAddSchema(returnType, typeDescription.IsNullable, null,
+                            schemaResolver, schemaDefinitionAppender);
+                    }
+
+                    operation.Responses[httpStatusCode] = response;
                 }
             }
             else
