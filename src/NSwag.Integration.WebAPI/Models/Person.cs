@@ -15,11 +15,11 @@ namespace NSwag.Integration.WebAPI.Models
 
         /// <summary>Gets or sets the first name.</summary>
         [Required]
-        public string FirstName { get; set; }
+        public string FirstName { get; set; } = "Rico";
 
         /// <summary>Gets or sets the last name.</summary>
         [Required]
-        public string LastName { get; set; }
+        public string LastName { get; set; } = "Suter";
 
         public Gender Gender { get; set; }
 
@@ -32,10 +32,10 @@ namespace NSwag.Integration.WebAPI.Models
         public int Age { get; set; }
 
         [Required]
-        public Address Address { get; set; }
+        public Address Address { get; set; } = new Address();
 
         [Required]
-        public Person[] Children { get; set; }
+        public Person[] Children { get; set; } = new Person[] { };
 
         public Dictionary<string, SkillLevel> Skills { get; set; }
     }

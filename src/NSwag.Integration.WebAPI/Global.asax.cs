@@ -22,6 +22,7 @@ namespace NSwag.Integration.WebAPI
 
 
             GlobalConfiguration.Configure(WebApiConfig.Register);
+            GlobalConfiguration.Configuration.EnsureInitialized();
         }
     }
 }
