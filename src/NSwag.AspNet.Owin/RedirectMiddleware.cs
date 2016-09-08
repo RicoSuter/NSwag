@@ -26,11 +26,15 @@ namespace NSwag.AspNet.Owin
 
         public override async Task Invoke(IOwinContext context)
         {
-            if (context.Request.Path.HasValue && context.Request.PathBase.HasValue &&
+            if (context.Request.Path.HasValue &&
                 string.Equals(context.Request.Path.Value.Trim('/'), _fromPath.Trim('/'), StringComparison.OrdinalIgnoreCase))
             {
                 context.Response.StatusCode = 302;
-                context.Response.Headers.Set("Location", context.Request.PathBase.Value + _fromPath + "/index.html?url=" + context.Request.PathBase.Value + _swaggerPath);
+
+                if (context.Request.PathBase.HasValue)
+                    context.Response.Headers.Set("Location", context.Request.PathBase.Value + _fromPath + "/index.html?url=" + context.Request.PathBase.Value + _swaggerPath);
+                else
+                    context.Response.Headers.Set("Location", _fromPath + "/index.html?url=" + _swaggerPath);
             }
             else
                 await Next.Invoke(context);
