@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using NJsonSchema;
 using NSwag.AspNetCore;
 using NSwag.Demo.OwinCoreWeb.Controllers;
 using NJsonSchema.Infrastructure;
@@ -24,6 +25,7 @@ namespace NSwag.Demo.OwinCoreWeb
             app.UseMvc();
             app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, new SwaggerUiOwinSettings
             {
+                DefaultPropertyNameHandling = PropertyNameHandling.CamelCase,
                 Title = "NSwag Sample API",
                 OAuth2Client = new OAuth2ClientSettings
                 {
@@ -49,7 +51,7 @@ namespace NSwag.Demo.OwinCoreWeb
                         Flow = SwaggerOAuth2Flow.Implicit,
                         AuthorizationUrl = "https://localhost:44333/core/connect/authorize",
                         TokenUrl = "https://localhost:44333/core/connect/token",
-                        Scopes =
+                        Scopes = 
                         {
                             { "read", "Read access to protected resources" },
                             { "write", "Write access to protected resources" }

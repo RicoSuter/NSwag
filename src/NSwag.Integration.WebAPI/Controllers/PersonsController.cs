@@ -8,12 +8,16 @@ using NSwag.Integration.WebAPI.Models.Exceptions;
 namespace NSwag.Integration.WebAPI.Controllers
 {
     [RoutePrefix("api/Persons")]
-    public class PersonsController
+    public class PersonsController : ApiController
     {
         [Route("")]
         public IEnumerable<Person> GetAll()
         {
-            return new List<Person>();
+            return new List<Person>
+            {
+                new Person(), 
+                new Person()
+            };
         }
 
         [Route("{id}")]

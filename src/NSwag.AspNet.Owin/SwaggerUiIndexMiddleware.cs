@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.IO;
 using System.Reflection;
@@ -21,8 +22,7 @@ namespace NSwag.AspNet.Owin
 
         public override async Task Invoke(IOwinContext context)
         {
-            var url = context.Request.Uri;
-            if (url.PathAndQuery.Trim('/').StartsWith(_indexPath.Trim('/')))
+            if (context.Request.Path.HasValue && context.Request.Path.Value.Trim('/').StartsWith(_indexPath.Trim('/'), StringComparison.OrdinalIgnoreCase))
             {
                 var stream = typeof(SwaggerUiIndexMiddleware).Assembly.GetManifestResourceStream("NSwag.AspNet.Owin.SwaggerUi.index.html");
                 using (var reader = new StreamReader(stream))

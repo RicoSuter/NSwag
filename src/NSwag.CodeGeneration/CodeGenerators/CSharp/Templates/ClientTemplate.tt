@@ -204,11 +204,15 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
 <#      }#>
 <#  }#>
 <#}else{#>
-<#  if(operation.HasResultType){#>
+<#  if(response.IsSuccess){#>
+<#      if(operation.HasResultType){#>
             return default(<#=operation.ResultType.Substring(5, operation.ResultType.Length - 6)#>);
-<#  }else{#>
+<#      }else{#>
             return;     
-<#  }#> 
+<#      }#> 
+<#  }else{#>
+            throw new SwaggerException("A server side error occurred.", status_, responseData_, null);
+<#  }#>
 <#}#>
         }
         else

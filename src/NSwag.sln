@@ -65,6 +65,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwagStudio.Chocolatey", "N
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration", "{492F35DB-5245-4F5A-8DA9-E9C532C2DDA7}"
+	ProjectSection(SolutionItems) = preProject
+		readme.txt = readme.txt
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Integration.WebAPI", "NSwag.Integration.WebAPI\NSwag.Integration.WebAPI.csproj", "{6DF73809-53CA-4A82-AAE6-3C2C62C2D8E8}"
 EndProject

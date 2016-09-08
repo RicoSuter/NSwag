@@ -3,14 +3,14 @@
 <#if(Model != null){
     if (Model.UseDtoClass){ 
         if(Model.IsArray){#>
-var contentData = [];
+var contentData: any = [];
 if (<#=Model.VariableNameLower#>) {
     for (let item of <#=Model.VariableNameLower#>)
         contentData.push(item.toJS());
 }
 var content = JSON.stringify(<#=Model.VariableNameLower#> ? contentData : null);
 <#      }else if(Model.IsDictionary){#>
-var contentData = {};
+var contentData: any = {};
 if (<#=Model.VariableNameLower#>) {
     for (let key in <#=Model.VariableNameLower#>) {
         if (<#=Model.VariableNameLower#>.hasOwnProperty(key))

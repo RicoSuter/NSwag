@@ -58,16 +58,29 @@ namespace NSwag.AspNetCore
             IEnumerable<Type> controllerTypes,
             SwaggerOwinSettings settings)
         {
-            app.UseMiddleware<SwaggerMiddleware>(settings.SwaggerRoute, controllerTypes, settings);
-            return app;
+            return app.UseSwagger(controllerTypes, settings, new SwaggerJsonSchemaGenerator(settings));
         }
 
-
+        /// <summary>Addes the Swagger generator to the OWIN pipeline.</summary>
+        /// <param name="app">The app.</param>
+        /// <param name="controllerTypes">The Web API controller types.</param>
+        /// <param name="settings">The Swagger generator settings.</param>
+        /// <param name="schemaGenerator">The schema generator.</param>
+        /// <returns>The app builder.</returns>
+        public static IApplicationBuilder UseSwagger(
+            this IApplicationBuilder app,
+            IEnumerable<Type> controllerTypes,
+            SwaggerOwinSettings settings,
+            SwaggerJsonSchemaGenerator schemaGenerator)
+        {
+            app.UseMiddleware<SwaggerMiddleware>(settings.ActualSwaggerRoute, controllerTypes, settings, schemaGenerator);
+            return app;
+        }
 
         /// <summary>Addes the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
         /// <param name="app">The app.</param>
         /// <param name="webApiAssembly">The Web API assembly to search for controller types.</param>
-        /// <param name="settings">The Swagger generator settings.</param>
+        /// <param name="settings">The Swagger UI and generator settings.</param>
         /// <returns>The app builder.</returns>
         public static IApplicationBuilder UseSwaggerUi(
             this IApplicationBuilder app,
@@ -80,7 +93,7 @@ namespace NSwag.AspNetCore
         /// <summary>Addes the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
         /// <param name="app">The app.</param>
         /// <param name="webApiAssemblies">The Web API assemblies to search for controller types.</param>
-        /// <param name="settings">The Swagger generator settings.</param>
+        /// <param name="settings">The Swagger UI and generator settings.</param>
         /// <returns>The app builder.</returns>
         public static IApplicationBuilder UseSwaggerUi(
             this IApplicationBuilder app,
@@ -91,10 +104,21 @@ namespace NSwag.AspNetCore
             return app.UseSwaggerUi(controllerTypes, settings, new SwaggerJsonSchemaGenerator(settings));
         }
 
+        /// <summary>Addes the Swagger UI (only) to the OWIN pipeline.</summary>
+        /// <param name="app">The app.</param>
+        /// <param name="settings">The Swagger UI settings.</param>
+        /// <returns>The app builder.</returns>
+        public static IApplicationBuilder UseSwaggerUi(
+            this IApplicationBuilder app,
+            SwaggerUiOwinSettings settings)
+        {
+            return app.UseSwaggerUi(null, settings, null);
+        }
+
         /// <summary>Addes the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
         /// <param name="app">The app.</param>
         /// <param name="controllerTypes">The Web API controller types.</param>
-        /// <param name="settings">The Swagger generator settings.</param>
+        /// <param name="settings">The Swagger UI and generator settings.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
         /// <returns>The app builder.</returns>
         public static IApplicationBuilder UseSwaggerUi(
@@ -103,12 +127,14 @@ namespace NSwag.AspNetCore
             SwaggerUiOwinSettings settings,
             SwaggerJsonSchemaGenerator schemaGenerator)
         {
-            app.UseMiddleware<RedirectMiddleware>(settings.SwaggerUiRoute, settings.SwaggerUiRoute + "/index.html?url=" + Uri.EscapeDataString(settings.SwaggerRoute));
-            app.UseMiddleware<SwaggerMiddleware>(settings.SwaggerRoute, controllerTypes, settings, schemaGenerator);
-            app.UseMiddleware<SwaggerUiIndexMiddleware>(settings.SwaggerUiRoute + "/index.html", settings);
+            if (controllerTypes != null)
+                app.UseMiddleware<SwaggerMiddleware>(settings.ActualSwaggerRoute, controllerTypes, settings, schemaGenerator);
+
+            app.UseMiddleware<RedirectMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute);
+            app.UseMiddleware<SwaggerUiIndexMiddleware>(settings.ActualSwaggerUiRoute + "/index.html", settings);
             app.UseFileServer(new FileServerOptions
             {
-                RequestPath = new PathString(settings.SwaggerUiRoute),
+                RequestPath = new PathString(settings.ActualSwaggerUiRoute),
                 FileProvider = new EmbeddedFileProvider(typeof(SwaggerExtensions).GetTypeInfo().Assembly, "NSwag.AspNetCore.SwaggerUi")
             });
 

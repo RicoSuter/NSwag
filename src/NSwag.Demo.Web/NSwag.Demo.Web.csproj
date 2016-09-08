@@ -51,6 +51,10 @@
       <HintPath>..\packages\Microsoft.Owin.FileSystems.3.0.1\lib\net45\Microsoft.Owin.FileSystems.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
@@ -59,8 +63,8 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=4.6.6093.13919, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.4.6.6093.13919\lib\net45\NJsonSchema.dll</HintPath>
+    <Reference Include="NJsonSchema, Version=4.8.6094.34027, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.4.8.6094.34027\lib\net45\NJsonSchema.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
@@ -172,6 +176,10 @@
       <Project>{CA084154-E758-4A44-938D-7806AF2DD886}</Project>
       <Name>NSwag.Annotations</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NSwag.AspNet.Owin\NSwag.AspNet.Owin.csproj">
+      <Project>{69a692eb-c277-46ab-ba55-b33e7e6e129c}</Project>
+      <Name>NSwag.AspNet.Owin</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NSwag.AssemblyLoader\NSwag.AssemblyLoader.csproj">
       <Project>{46634c60-ba7d-43e6-9049-6ad461488c39}</Project>
       <Name>NSwag.AssemblyLoader</Name>
@@ -251,11 +259,11 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>22093</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:22093/</IISUrl>
+          <IISUrl>http://localhost:22093</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -50,12 +50,24 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=4.6.6093.13919, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.4.6.6093.13919\lib\net45\NJsonSchema.dll</HintPath>
+    <Reference Include="NJsonSchema, Version=4.8.6094.34027, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.4.8.6094.34027\lib\net45\NJsonSchema.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http" />
@@ -120,6 +132,7 @@
     <Content Include="Swagger_JQueryPromises.nswag" />
     <Content Include="Swagger_Angular2.nswag" />
     <Content Include="Swagger_AngularJS.nswag" />
+    <Content Include="Swagger_JQueryPromises_KO.nswag" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -134,6 +147,10 @@
     <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj">
       <Project>{ca084154-e758-4a44-938d-7806af2dd886}</Project>
       <Name>NSwag.Annotations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NSwag.AspNet.Owin\NSwag.AspNet.Owin.csproj">
+      <Project>{69A692EB-C277-46AB-BA55-B33E7E6E129C}</Project>
+      <Name>NSwag.AspNet.Owin</Name>
     </ProjectReference>
     <ProjectReference Include="..\NSwag.Demo.Client\NSwag.Demo.Client.csproj">
       <Project>{267D875B-3481-465D-AD2C-4BB18EB911BA}</Project>
@@ -155,7 +172,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>16489</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:13452/</IISUrl>
+          <IISUrl>http://localhost:13452</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

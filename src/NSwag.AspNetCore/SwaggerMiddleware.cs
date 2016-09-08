@@ -15,7 +15,8 @@ using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 
 namespace NSwag.AspNetCore
 {
-    internal class SwaggerMiddleware
+    /// <summary>Generates a Swagger specification on a given path.</summary>
+    public class SwaggerMiddleware
     {
         private readonly RequestDelegate _nextDelegate;
 
@@ -26,6 +27,12 @@ namespace NSwag.AspNetCore
         private readonly SwaggerOwinSettings _settings;
         private readonly SwaggerJsonSchemaGenerator _schemaGenerator;
 
+        /// <summary>Initializes a new instance of the <see cref="SwaggerMiddleware"/> class.</summary>
+        /// <param name="nextDelegate">The next delegate.</param>
+        /// <param name="path">The path.</param>
+        /// <param name="controllerTypes">The controller types.</param>
+        /// <param name="settings">The settings.</param>
+        /// <param name="schemaGenerator">The schema generator.</param>
         public SwaggerMiddleware(RequestDelegate nextDelegate, string path, IEnumerable<Type> controllerTypes, SwaggerOwinSettings settings, SwaggerJsonSchemaGenerator schemaGenerator)
         {
             _nextDelegate = nextDelegate;
@@ -35,9 +42,12 @@ namespace NSwag.AspNetCore
             _schemaGenerator = schemaGenerator;
         }
 
+        /// <summary>Invokes the specified context.</summary>
+        /// <param name="context">The context.</param>
+        /// <returns>The task.</returns>
         public async Task Invoke(HttpContext context)
         {
-            if (context.Request.Path.Value.Trim('/') == _path.Trim('/'))
+            if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value.Trim('/'), _path.Trim('/'), StringComparison.OrdinalIgnoreCase))
             {
                 context.Response.StatusCode = 200;
                 await context.Response.WriteAsync(GenerateSwagger(context));
@@ -46,7 +56,10 @@ namespace NSwag.AspNetCore
                 await _nextDelegate(context);
         }
 
-        private string GenerateSwagger(HttpContext context)
+        /// <summary>Generates the Swagger specification.</summary>
+        /// <param name="context">The context.</param>
+        /// <returns>The Swagger specification.</returns>
+        protected virtual string GenerateSwagger(HttpContext context)
         {
             if (_swaggerJson == null)
             {
@@ -56,6 +69,10 @@ namespace NSwag.AspNetCore
                     {
                         var generator = new WebApiToSwaggerGenerator(_settings, _schemaGenerator);
                         var service = generator.GenerateForControllers(_controllerTypes);
+
+                        service.Host = context.Request.Host.Value ?? "";
+                        service.Schemes.Add(context.Request.Scheme == "http" ? SwaggerSchema.Http : SwaggerSchema.Https);
+                        service.BasePath = context.Request.PathBase.Value?.Substring(0, context.Request.PathBase.Value.Length - _settings.MiddlewareBasePath?.Length ?? 0) ?? "";
 
                         foreach (var processor in _settings.DocumentProcessors)
                             processor.Process(service);

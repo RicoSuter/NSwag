@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using System.Collections.Generic;
+using System.Web.Http;
 using Microsoft.Owin;
 using NSwag.AspNet.Owin;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors;
@@ -41,7 +42,7 @@ namespace NSwag.Demo.OwinWeb
                         Flow = SwaggerOAuth2Flow.Implicit,
                         AuthorizationUrl = "https://localhost:44333/core/connect/authorize",
                         TokenUrl = "https://localhost:44333/core/connect/token",
-                        Scopes =
+                        Scopes = new Dictionary<string,string>
                         {
                             { "read", "Read access to protected resources" },
                             { "write", "Write access to protected resources" }

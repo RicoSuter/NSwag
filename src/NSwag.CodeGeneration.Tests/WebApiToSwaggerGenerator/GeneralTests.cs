@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
@@ -165,6 +166,57 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator
             var path = service.Paths.First().Key;
 
             Assert.AreEqual("/{id}", path);
+        }
+
+        [Route("account/{action}/{id?}")]
+        public class AccountController : ApiController
+        {
+            [HttpGet]
+            public string Get()
+            {
+                return null;
+            }
+
+            [HttpGet]
+            public string GetAll()
+            {
+                return null;
+            }
+
+            [HttpPost]
+            public async Task<IHttpActionResult> Post([FromBody] object model)
+            {
+                return null;
+            }
+
+            [HttpPost]
+            public async Task<IHttpActionResult> Verify([FromBody] object model)
+            {
+                return null;
+            }
+
+            [HttpPost]
+            public async Task<IHttpActionResult> Confirm([FromBody] object model)
+            {
+                return null;
+            }
+        }
+
+        [TestMethod]
+        public void When_class_has_RouteAttribute_with_placeholders_then_they_are_correctly_replaced()
+        {
+            //// Arrange
+            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+
+            //// Act
+            var service = generator.GenerateForController(typeof(AccountController));
+
+            //// Assert
+            Assert.IsTrue(service.Paths.ContainsKey("/account/Get"));
+            Assert.IsTrue(service.Paths.ContainsKey("/account/GetAll"));
+            Assert.IsTrue(service.Paths.ContainsKey("/account/Post"));
+            Assert.IsTrue(service.Paths.ContainsKey("/account/Verify"));
+            Assert.IsTrue(service.Paths.ContainsKey("/account/Confirm"));
         }
     }
 }
