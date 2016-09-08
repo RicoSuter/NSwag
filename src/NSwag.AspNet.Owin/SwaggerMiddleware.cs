@@ -15,7 +15,8 @@ using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 
 namespace NSwag.AspNet.Owin
 {
-    internal class SwaggerMiddleware : OwinMiddleware
+    /// <summary>Generates a Swagger specification on a given path.</summary>
+    public class SwaggerMiddleware : OwinMiddleware
     {
         private readonly object _lock = new object();
         private readonly string _path;
@@ -24,6 +25,12 @@ namespace NSwag.AspNet.Owin
         private string _swaggerJson = null;
         private readonly SwaggerJsonSchemaGenerator _schemaGenerator;
 
+        /// <summary>Initializes a new instance of the <see cref="SwaggerMiddleware"/> class.</summary>
+        /// <param name="next">The next middleware.</param>
+        /// <param name="path">The path.</param>
+        /// <param name="controllerTypes">The controller types.</param>
+        /// <param name="settings">The settings.</param>
+        /// <param name="schemaGenerator">The schema generator.</param>
         public SwaggerMiddleware(OwinMiddleware next, string path, IEnumerable<Type> controllerTypes, SwaggerOwinSettings settings, SwaggerJsonSchemaGenerator schemaGenerator)
             : base(next)
         {
@@ -33,6 +40,9 @@ namespace NSwag.AspNet.Owin
             _schemaGenerator = schemaGenerator;
         }
 
+        /// <summary>Process an individual request.</summary>
+        /// <param name="context">The context.</param>
+        /// <returns>The task.</returns>
         public override async Task Invoke(IOwinContext context)
         {
             if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value.Trim('/'), _path.Trim('/'), StringComparison.OrdinalIgnoreCase))
@@ -44,7 +54,10 @@ namespace NSwag.AspNet.Owin
                 await Next.Invoke(context);
         }
 
-        private string GenerateSwagger(IOwinContext context)
+        /// <summary>Generates the Swagger specification.</summary>
+        /// <param name="context">The context.</param>
+        /// <returns>The Swagger specification.</returns>
+        protected virtual string GenerateSwagger(IOwinContext context)
         {
             if (_swaggerJson == null)
             {
