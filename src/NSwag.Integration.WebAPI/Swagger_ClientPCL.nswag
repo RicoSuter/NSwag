@@ -12,8 +12,8 @@
     "ReferencePaths": [],
     "ControllerName": "",
     "ControllerNames": [
-        "NSwag.Integration.WebAPI.Controllers.PersonsController",
-        "NSwag.Integration.WebAPI.Controllers.GeoController"
+      "NSwag.Integration.WebAPI.Controllers.GeoController",
+      "NSwag.Integration.WebAPI.Controllers.PersonsController"
     ],
     "DefaultUrlTemplate": "api/{controller}/{action}/{id}",
     "DefaultPropertyNameHandling": "Default",

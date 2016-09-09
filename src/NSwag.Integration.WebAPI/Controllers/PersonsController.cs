@@ -20,6 +20,16 @@ namespace NSwag.Integration.WebAPI.Controllers
             };
         }
 
+        [Route("find/{gender}")]
+        public IEnumerable<Person> Find(Gender gender)
+        {
+            return new List<Person>
+            {
+                new Person(),
+                new Person()
+            };
+        }
+
         [Route("{id}")]
         [ResponseType(typeof(Person))]
         [ResponseType("500", typeof(PersonNotFoundException))]

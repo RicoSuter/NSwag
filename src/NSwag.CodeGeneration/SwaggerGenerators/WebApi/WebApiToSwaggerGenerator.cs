@@ -636,7 +636,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
             var operationParameter = _schemaGenerator.Generate<SwaggerParameter>(parameterType, parentAttributes, schemaResolver, schemaDefinitionAppender);
             if (parameterType.GetTypeInfo().IsEnum)
-                operationParameter.SchemaReference = _schemaGenerator.Generate<JsonSchema4>(parameterType, parentAttributes, schemaResolver, schemaDefinitionAppender);
+                operationParameter.Schema = _schemaGenerator.Generate<JsonSchema4>(parameterType, parentAttributes, schemaResolver, schemaDefinitionAppender);
             else
                 _schemaGenerator.ApplyPropertyAnnotations(operationParameter, type, parentAttributes, typeDescription);
 
