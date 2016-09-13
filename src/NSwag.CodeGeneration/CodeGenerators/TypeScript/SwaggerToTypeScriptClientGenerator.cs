@@ -181,6 +181,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
                         Schema = operation.DefaultResponse.ActualResponseSchema,
                         IsPropertyNullable = operation.DefaultResponse.IsNullable,
                         TypeNameHint = string.Empty,
+                        Settings = Settings.TypeScriptGeneratorSettings,
                         Resolver = _resolver
                     });
                 }
