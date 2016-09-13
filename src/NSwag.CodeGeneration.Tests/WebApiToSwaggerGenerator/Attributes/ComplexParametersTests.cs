@@ -39,7 +39,10 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator.Attributes
         public void When_parameter_is_complex_then_it_is_a_body_parameter()
         {
             //// Arrange
-            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
+            {
+                DefaultUrlTemplate = "api/{controller}/{action}/{id}"
+            });
 
             //// Act
             var service = generator.GenerateForController<TestController>();
@@ -54,7 +57,10 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator.Attributes
         public void When_parameter_is_complex_and_has_FromUri_then_complex_object_properties_are_added()
         {
             //// Arrange
-            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
+            {
+                DefaultUrlTemplate = "api/{controller}/{action}/{id}"
+            });
 
             //// Act
             var service = generator.GenerateForController<TestController>();
@@ -71,7 +77,10 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator.Attributes
         public void When_parameter_is_complex_and_has_FromBody_then_it_is_a_body_parameter()
         {
             //// Arrange
-            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
+            {
+                DefaultUrlTemplate = "api/{controller}/{action}/{id}"
+            });
 
             //// Act
             var service = generator.GenerateForController<TestController>();

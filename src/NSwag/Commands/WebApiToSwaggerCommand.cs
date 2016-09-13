@@ -60,7 +60,7 @@ namespace NSwag.Commands
         [Argument(Name = "Controllers", IsRequired = false)]
         public string[] ControllerNames { get; set; }
 
-        [Description("The Web API default URL template.")]
+        [Description("The Web API default URL template (default: 'api/{controller}/{id}').")]
         [Argument(Name = "DefaultUrlTemplate", IsRequired = false)]
         public string DefaultUrlTemplate
         {
