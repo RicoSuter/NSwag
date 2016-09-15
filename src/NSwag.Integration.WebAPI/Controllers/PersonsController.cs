@@ -15,13 +15,23 @@ namespace NSwag.Integration.WebAPI.Controllers
         {
             return new List<Person>
             {
-                new Person(), 
+                new Person(),
                 new Person()
             };
         }
 
         [Route("find/{gender}")]
         public IEnumerable<Person> Find(Gender gender)
+        {
+            return new List<Person>
+            {
+                new Person(),
+                new Person()
+            };
+        }
+
+        [Route("find2")]
+        public IEnumerable<Person> Find2(Gender? gender)
         {
             return new List<Person>
             {

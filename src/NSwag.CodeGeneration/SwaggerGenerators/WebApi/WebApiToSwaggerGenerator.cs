@@ -632,13 +632,23 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             ISchemaResolver schemaResolver, ISchemaDefinitionAppender schemaDefinitionAppender)
         {
             var typeDescription = JsonObjectTypeDescription.FromType(type, parentAttributes, Settings.DefaultEnumHandling);
-            var parameterType = typeDescription.Type.HasFlag(JsonObjectType.Object) ? typeof(string) : type; // object types must be treated as string
 
-            var operationParameter = _schemaGenerator.Generate<SwaggerParameter>(parameterType, parentAttributes, schemaResolver, schemaDefinitionAppender);
-            if (parameterType.GetTypeInfo().IsEnum)
-                operationParameter.Schema = _schemaGenerator.Generate<JsonSchema4>(parameterType, parentAttributes, schemaResolver, schemaDefinitionAppender);
+            // TODO: Improve this code
+            SwaggerParameter operationParameter;
+            if (typeDescription.IsEnum)
+            {
+                var parameterType = type.Name == "Nullable`1" ? type.GetGenericTypeArguments().Single() : type;
+                operationParameter = new SwaggerParameter
+                {
+                    Schema = _schemaGenerator.Generate<JsonSchema4>(parameterType, parentAttributes, schemaResolver, schemaDefinitionAppender)
+                };
+            }
             else
+            {
+                var parameterType = typeDescription.Type.HasFlag(JsonObjectType.Object) ? typeof(string) : type; // object types must be treated as string
+                operationParameter = _schemaGenerator.Generate<SwaggerParameter>(parameterType, parentAttributes, schemaResolver, schemaDefinitionAppender);
                 _schemaGenerator.ApplyPropertyAnnotations(operationParameter, type, parentAttributes, typeDescription);
+            }
 
             operationParameter.Name = name;
             operationParameter.IsRequired = parentAttributes?.Any(a => a.GetType().Name == "RequiredAttribute") ?? false;

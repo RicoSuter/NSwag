@@ -14,7 +14,6 @@ using Newtonsoft.Json.Linq;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration.CSharp;
 using NSwag.Annotations;
-using NSwag.CodeGeneration.CodeGenerators.CSharp;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 
 namespace NSwag.CodeGeneration.Infrastructure
