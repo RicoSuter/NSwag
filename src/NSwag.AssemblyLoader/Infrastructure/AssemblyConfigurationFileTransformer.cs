@@ -10,6 +10,12 @@ using System;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json.Linq;
+using NJsonSchema;
+using NJsonSchema.CodeGeneration.CSharp;
+using NSwag.Annotations;
+using NSwag.CodeGeneration.CodeGenerators.CSharp;
+using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 
 namespace NSwag.CodeGeneration.Infrastructure
 {
@@ -26,14 +32,20 @@ namespace NSwag.CodeGeneration.Infrastructure
 
         private readonly string JsonNetAssemblyBinding =
 @"<dependentAssembly>
-  <assemblyIdentity name=""Newtonsoft.Json"" publicKeyToken=""30ad4fe6b2a6aeed"" culture=""neutral"" />
-  <bindingRedirect oldVersion=""0.0.0.0-9999.0.0.0"" newVersion=""9.0.0.0"" />
+  <assemblyIdentity name=""{name}"" publicKeyToken=""30ad4fe6b2a6aeed"" culture=""neutral"" />
+  <bindingRedirect oldVersion=""0.0.0.0-9999.0.0.0"" newVersion=""{newVersion}"" />
 </dependentAssembly>";
 
-        private readonly string NSwagCoreAssemblyBinding =
+        private readonly string NSwagAssemblyBinding =
 @"<dependentAssembly>
-  <assemblyIdentity name=""NSwag.Core"" publicKeyToken=""c2d88086e098d109"" culture=""neutral"" />
-  <bindingRedirect oldVersion=""0.0.0.0-9999.0.0.0"" newVersion=""" + SwaggerService.ToolchainVersion + @""" />
+  <assemblyIdentity name=""{name}"" publicKeyToken=""c2d88086e098d109"" culture=""neutral"" />
+  <bindingRedirect oldVersion=""0.0.0.0-9999.0.0.0"" newVersion=""{newVersion}"" />
+</dependentAssembly>";
+
+        private readonly string NJsonSchemaAssemblyBinding =
+@"<dependentAssembly>
+  <assemblyIdentity name=""{name}"" publicKeyToken=""c2f9c3bdfae56102"" culture=""neutral"" />
+  <bindingRedirect oldVersion=""0.0.0.0-9999.0.0.0"" newVersion=""{newVersion}"" />
 </dependentAssembly>";
 
         private string _transformedConfigurationPath = null;
@@ -43,30 +55,39 @@ namespace NSwag.CodeGeneration.Infrastructure
             configurationPath = configurationPath ?? TryFindConfigurationPath(assemblyDirectory);
             var content = configurationPath != null ? File.ReadAllText(configurationPath, Encoding.UTF8) : EmptyConfig;
 
-            content = UpdateOrAddBindingRedirect(content, "Newtonsoft.Json", "9.0.0.0", JsonNetAssemblyBinding);
-            content = UpdateOrAddBindingRedirect(content, "NSwag.Core", SwaggerService.ToolchainVersion, NSwagCoreAssemblyBinding);
+            content = UpdateOrAddBindingRedirect(content, "Newtonsoft.Json", typeof(JToken), JsonNetAssemblyBinding);
+
+            content = UpdateOrAddBindingRedirect(content, "NJsonSchema", typeof(JsonSchema4), NJsonSchemaAssemblyBinding);
+            content = UpdateOrAddBindingRedirect(content, "NJsonSchema.CodeGeneration", typeof(CSharpGenerator), NJsonSchemaAssemblyBinding);
+
+            content = UpdateOrAddBindingRedirect(content, "NSwag.Core", typeof(SwaggerService), NSwagAssemblyBinding);
+            content = UpdateOrAddBindingRedirect(content, "NSwag.CodeGeneration", typeof(WebApiToSwaggerGenerator), NSwagAssemblyBinding);
+            content = UpdateOrAddBindingRedirect(content, "NSwag.Annotations", typeof(SwaggerTagsAttribute), NSwagAssemblyBinding);
 
             _transformedConfigurationPath = Path.Combine(Path.GetTempPath(), "NSwag_" + Guid.NewGuid() + ".nswagtemp");
             File.WriteAllText(_transformedConfigurationPath, content, Encoding.UTF8);
             return _transformedConfigurationPath;
         }
 
-        private string UpdateOrAddBindingRedirect(string content, string name, string newVersion, string assemblyBinding)
+        private string UpdateOrAddBindingRedirect(string content, string name, Type newVersionType, string assemblyBinding)
         {
+            var newVersion = newVersionType.Assembly.GetName().Version.ToString();
             if (content.Contains(@"assemblyIdentity name=""" + name + @""""))
             {
-                content = Regex.Replace(content, "<assemblyIdentity name=\"" + name + "\"((.|\n|\r)*?)</dependentAssembly>",
+                content = Regex.Replace(content, "<assemblyIdentity name=\"" + Regex.Escape(name) + "\"((.|\n|\r)*?)</dependentAssembly>",
                     match => Regex.Replace(match.Value, "oldVersion=\"(.*?)\"", "oldVersion=\"0.0.0.0-9999.0.0.0\""),
                     RegexOptions.Singleline);
 
-                content = Regex.Replace(content, "<assemblyIdentity name=\"" + name + "\"((.|\n|\r)*?)</dependentAssembly>",
+                content = Regex.Replace(content, "<assemblyIdentity name=\"" + Regex.Escape(name) + "\"((.|\n|\r)*?)</dependentAssembly>",
                     match => Regex.Replace(match.Value, "newVersion=\"(.*?)\"", "newVersion=\"" + newVersion + "\""),
                     RegexOptions.Singleline);
 
                 return content;
             }
             else
-                return content.Replace(" </assemblyBinding>", assemblyBinding + "</assemblyBinding>");
+                return content.Replace("</assemblyBinding>", assemblyBinding
+                    .Replace("{name}", name)
+                    .Replace("{newVersion}", newVersion) + "</assemblyBinding>");
         }
 
         public void Dispose()

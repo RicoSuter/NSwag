@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Remoting.Channels;
 using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.Generation;
@@ -38,7 +37,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
             if (File.Exists(Settings.AssemblyPath))
             {
                 using (var isolated = new AppDomainIsolation<NetAssemblyLoader>(Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPath)), Settings.AssemblyConfig))
-                    return isolated.Object.GetClasses(Settings.AssemblyPath, Settings.ReferencePaths);
+                    return isolated.Object.GetClasses(Settings.AssemblyPath, Settings.AllReferencePaths);
             }
             return new string[] { };
         }
@@ -57,7 +56,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
             internal string FromAssemblyType(string[] classNames, string settingsData)
             {
                 var settings = JsonConvert.DeserializeObject<AssemblyTypeToSwaggerGeneratorSettings>(settingsData);
-                RegisterReferencePaths(settings.ReferencePaths);
+                RegisterReferencePaths(settings.AllReferencePaths);
 
                 var service = new SwaggerService();
 
