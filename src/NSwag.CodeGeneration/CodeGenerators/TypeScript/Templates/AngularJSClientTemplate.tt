@@ -49,7 +49,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
 <#}#>    <#=operation.OperationNameLower#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableNameLower#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): ng.IPromise<<#=operation.ResultType#>> {
-        var url = this.baseUrl + "/<#=operation.Path#><#if(operation.PathParameters.Any()){#>?<#}#>"; 
+        let url = this.baseUrl + "/<#=operation.Path#><#if(operation.PathParameters.Any()){#>?<#}#>"; 
 
 <#foreach(var parameter in operation.PathParameters){#>
         if (<#=parameter.VariableNameLower#> === undefined || <#=parameter.VariableNameLower#> === null)
@@ -118,18 +118,18 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
     }
 
     private process<#=operation.OperationNameUpper#>(response: any) {
-        var data = response.data;
-        var status = response.status; 
+        const data = response.data;
+        const status = response.status; 
 
 <#foreach(var response in operation.Responses){#>
         if (status === <#=response.StatusCode#>) {
 <#if(response.HasType){#>
-            var result<#=response.StatusCode#>: <#=response.Type#> = null; 
+            let result<#=response.StatusCode#>: <#=response.Type#> = null; 
 <#  if(response.IsDate){#>
             result<#=response.StatusCode#> = new Date(data);
 <#  }else{#>
 <#      if(response.UseDtoClass){#>
-            var resultData<#=response.StatusCode#> = data === "" ? null : JSON.parse(data, this.jsonParseReviver);
+            let resultData<#=response.StatusCode#> = data === "" ? null : JSON.parse(data, this.jsonParseReviver);
             <#=ConversionUtilities.Tab(response.DataConversionCode, 3)#>
 <#      }else{#>
             result<#=response.StatusCode#> = data === "" ? null : <<#=response.Type#>>JSON.parse(data, this.jsonParseReviver);
@@ -146,12 +146,12 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#}#>
         {
 <#if(operation.HasDefaultResponse){#>
-            var result: <#=operation.DefaultResponse.Type#> = null; 
+            let result: <#=operation.DefaultResponse.Type#> = null; 
 <#  if(operation.DefaultResponse.IsDate){#>
             result = new Date(data);
 <#  }else{#>
 <#      if(operation.DefaultResponse.UseDtoClass){#>
-            var resultData = data === "" ? null : JSON.parse(data, this.jsonParseReviver);
+            let resultData = data === "" ? null : JSON.parse(data, this.jsonParseReviver);
             <#=ConversionUtilities.Tab(operation.DefaultResponse.DataConversionCode, 3)#>
 <#      }else{#>
             result = data === "" ? null : <<#=operation.DefaultResponse.Type#>>JSON.parse(data, this.jsonParseReviver);
