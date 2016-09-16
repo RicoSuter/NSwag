@@ -32,6 +32,12 @@ export const JSON_PARSE_REVIVER = new OpaqueToken('JSON_PARSE_REVIVER');
 
 <#=Model.Types#>
 
+export interface FileParameter
+{
+    data: any;
+    fileName: string;
+}
+
 <#=Model.ExtensionCodeAfter#>
 <#if(Model.HasNamespace){#>
 }

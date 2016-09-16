@@ -8,12 +8,12 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
     public class RequestBodyGenerator
     {
         /// <summary>Renders the reqeust body.</summary>
-        /// <param name="model">The model.</param>
+        /// <param name="operation">The operation.</param>
         /// <param name="tabCount">The tab count.</param>
         /// <returns>Rendered request body</returns>
-        public static string Render(ParameterModel model, int tabCount = 0)
+        public static string Render(OperationModel operation, int tabCount = 0)
         {
-            var tpl = new RequestBodyTemplate(model);
+            var tpl = new RequestBodyTemplate(operation);
             return ConversionUtilities.Tab(tpl.Render(), tabCount);
         }
     }

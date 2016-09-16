@@ -5,13 +5,13 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates
 {
     internal partial class RequestBodyTemplate : ITemplate
     {
-        public RequestBodyTemplate(ParameterModel model)
+        public RequestBodyTemplate(OperationModel model)
         {
             Model = model;
         }
 
-        public ParameterModel Model { get; }
-        
+        public OperationModel Model { get; }
+
         public string Render()
         {
             return ConversionUtilities.TrimWhiteSpaces(TransformText());

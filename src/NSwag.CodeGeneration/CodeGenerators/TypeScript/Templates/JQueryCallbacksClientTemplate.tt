@@ -93,14 +93,19 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#  }
 }#>
 
-        <#=RequestBodyGenerator.Render(operation.ContentParameter, 2)#>
+        <#=RequestBodyGenerator.Render(operation, 2)#>
 
         jQuery.ajax(<#if(Model.IsExtended){#>this.transformOptions(<#}#>{
             url: url,
             beforeSend: this.beforeSend,
             type: "<#=operation.HttpMethodLower#>",
-            data: content,
+            data: content_,
+<#  if(operation.HasFormParameters){#>
+            mimeType: "multipart/form-data",
+            contentType: false,
+<#  }else{#>
             dataType: "text",
+<#  }#>
             headers: {
 <#foreach(var parameter in operation.HeaderParameters){#>
                 "<#=parameter.Name#>": <#=parameter.VariableNameLower#>, 
