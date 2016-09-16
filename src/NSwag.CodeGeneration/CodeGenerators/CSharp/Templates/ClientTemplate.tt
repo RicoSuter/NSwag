@@ -145,9 +145,13 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
             throw new ArgumentNullException("<#=parameter.VariableNameLower#>");
         else
 <#  }#>
-<#  if(parameter.IsFile){#>
-            content_.Add(new StreamContent(<#=parameter.VariableNameLower#>), "<#=parameter.Name#>");
-<#  }else{#>
+<#  if(parameter.IsFile){
+        if(parameter.IsArray){#>
+            foreach(var item_ in <#=parameter.VariableNameLower#>) { content_.Add(new StreamContent(item_.Data), "<#=parameter.Name#>", item_.FileName ?? "<#=parameter.Name#>"); }
+<#      }else{#>
+            content_.Add(new StreamContent(<#=parameter.VariableNameLower#>.Data), "<#=parameter.Name#>", <#=parameter.VariableNameLower#>.FileName ?? "<#=parameter.Name#>");
+<#      }
+    }else{#>
             content_.Add(new StringContent(<#=parameter.VariableNameLower#>.ToString()), "<#=parameter.Name#>");
 <#  }#>
 <#}#>

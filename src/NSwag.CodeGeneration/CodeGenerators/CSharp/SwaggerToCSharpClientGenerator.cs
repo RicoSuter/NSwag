@@ -72,9 +72,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             if (schema.Type == JsonObjectType.File)
             {
                 if (parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
-                    return "IEnumerable<System.IO.Stream>";
+                    return "IEnumerable<FileParameter>";
 
-                return "System.IO.Stream";
+                return "FileParameter";
             }
 
             return base.ResolveParameterType(parameter, resolver)

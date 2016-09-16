@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Web;
 using System.Web.Http;
 using NSwag.Annotations;
 using NSwag.Integration.WebAPI.Models;
@@ -27,6 +29,16 @@ namespace NSwag.Integration.WebAPI.Controllers
         public object Refresh()
         {
             throw new NotSupportedException();
+        }
+
+        public void UploadFile(HttpPostedFileBase file)
+        {
+            
+        }
+
+        public void UploadFiles(IEnumerable<HttpPostedFileBase> files)
+        {
+
         }
     }
 }

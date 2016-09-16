@@ -75,7 +75,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         public bool IsDate => Schema.Type == JsonObjectType.String && Schema.Format == JsonFormatStrings.DateTime;
 
         /// <summary>Gets a value indicating whether the parameter is of type array.</summary>
-        public bool IsArray => Schema.Type.HasFlag(JsonObjectType.Array);
+        public bool IsArray => Schema.Type.HasFlag(JsonObjectType.Array) || _parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi;
 
         /// <summary>Gets a value indicating whether this is a file parameter.</summary>
         public bool IsFile => Schema.Type.HasFlag(JsonObjectType.File);
