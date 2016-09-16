@@ -41,6 +41,8 @@ export class PersonsClient {
     }
 
     private processGetAll(response: Response) {
+        const data = response.text();
+        const status = response.status.toString(); 
 
         if (status === "200") {
             let result200: Person[] = null; 
@@ -75,6 +77,8 @@ export class PersonsClient {
     }
 
     private processAdd(response: Response) {
+        const data = response.text();
+        const status = response.status.toString(); 
 
         if (status === "204") {
         }
@@ -105,6 +109,8 @@ export class PersonsClient {
     }
 
     private processFind(response: Response) {
+        const data = response.text();
+        const status = response.status.toString(); 
 
         if (status === "200") {
             let result200: Person[] = null; 
@@ -144,6 +150,8 @@ export class PersonsClient {
     }
 
     private processFind2(response: Response) {
+        const data = response.text();
+        const status = response.status.toString(); 
 
         if (status === "200") {
             let result200: Person[] = null; 
@@ -182,6 +190,8 @@ export class PersonsClient {
     }
 
     private processGet(response: Response) {
+        const data = response.text();
+        const status = response.status.toString(); 
 
         if (status === "200") {
             let result200: Person = null; 
@@ -223,6 +233,8 @@ export class PersonsClient {
     }
 
     private processDelete(response: Response) {
+        const data = response.text();
+        const status = response.status.toString(); 
 
         if (status === "204") {
         }
@@ -258,6 +270,8 @@ export class PersonsClient {
     }
 
     private processGetName(response: Response) {
+        const data = response.text();
+        const status = response.status.toString(); 
 
         if (status === "200") {
             let result200: string = null; 
@@ -308,6 +322,8 @@ export class GeoClient {
     }
 
     private processFromBodyTest(response: Response) {
+        const data = response.text();
+        const status = response.status.toString(); 
 
         if (status === "204") {
         }
@@ -343,6 +359,8 @@ export class GeoClient {
     }
 
     private processFromUriTest(response: Response) {
+        const data = response.text();
+        const status = response.status.toString(); 
 
         if (status === "204") {
         }
@@ -374,6 +392,8 @@ export class GeoClient {
     }
 
     private processAddPolygon(response: Response) {
+        const data = response.text();
+        const status = response.status.toString(); 
 
         if (status === "204") {
         }
@@ -400,6 +420,8 @@ export class GeoClient {
     }
 
     private processRefresh(response: Response) {
+        const data = response.text();
+        const status = response.status.toString(); 
 
         if (status === "204") {
         }
@@ -426,6 +448,8 @@ export class GeoClient {
     }
 
     private processUploadFile(response: Response) {
+        const data = response.text();
+        const status = response.status.toString(); 
 
         if (status === "204") {
         }
@@ -452,6 +476,8 @@ export class GeoClient {
     }
 
     private processUploadFiles(response: Response) {
+        const data = response.text();
+        const status = response.status.toString(); 
 
         if (status === "204") {
         }
