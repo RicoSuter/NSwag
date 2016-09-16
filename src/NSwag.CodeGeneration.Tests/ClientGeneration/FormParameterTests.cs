@@ -77,9 +77,9 @@ namespace NSwag.CodeGeneration.Tests.ClientGeneration
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("Stream file"));
+            Assert.IsTrue(code.Contains("FileParameter file"));
             Assert.IsTrue(code.Contains("var content_ = new MultipartFormDataContent();"));
-            Assert.IsTrue(code.Contains("content_.Add(new StreamContent(file), \"file\");"));
+            Assert.IsTrue(code.Contains("content_.Add(new StreamContent(file.Data), \"file\""));
         }
 
         // TODO: Implement for JQuery, AngularJS and Angular 2
