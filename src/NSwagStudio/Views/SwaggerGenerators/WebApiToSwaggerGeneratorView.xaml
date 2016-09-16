@@ -136,6 +136,12 @@
 
                     <TextBlock Text="Service schemes (optional, 'http', 'https', 'ws', 'wss')" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding Command.ServiceSchemes, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" Margin="0,0,0,12" />
+
+                    <TextBlock Text="Document Template" FontWeight="Bold" Margin="0,0,0,6" />
+                    <controls:FileOpenPicker Margin="0,0,0,12" 
+                                             FilePath="{Binding Command.DocumentTemplate, Mode=TwoWay}"
+                                             DefaultExtension=".json"
+                                             Filter="Swagger specifications (.json)|*.json"/>
                 </StackPanel>
             </GroupBox>
         </StackPanel>

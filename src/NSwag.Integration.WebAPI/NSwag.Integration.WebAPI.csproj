@@ -133,6 +133,7 @@
     <Content Include="Swagger_Angular2.nswag" />
     <Content Include="Swagger_AngularJS.nswag" />
     <Content Include="Swagger_JQueryPromises_KO.nswag" />
+    <Content Include="SwaggerDocumentTemplate.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

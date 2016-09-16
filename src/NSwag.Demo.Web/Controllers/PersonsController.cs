@@ -99,13 +99,14 @@ namespace NSwag.Demo.Web.Controllers
         }
 
         [HttpGet]
+        [SwaggerIgnore]
         public HttpResponseMessage Swagger()
         {
             var generator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings
             {
                 DefaultUrlTemplate = Configuration.Routes.First(r => !string.IsNullOrEmpty(r.RouteTemplate)).RouteTemplate
             });
-            var service = generator.GenerateForController(GetType(), "Swagger");
+            var service = generator.GenerateForController(GetType());
             return new HttpResponseMessage { Content = new StringContent(service.ToJson(), Encoding.UTF8) };
         }
     }

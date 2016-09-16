@@ -59,60 +59,58 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
         /// <summary>Generates a Swagger specification for the given controller type.</summary>
         /// <typeparam name="TController">The type of the controller.</typeparam>
-        /// <param name="excludedMethodName">The name of the excluded method name.</param>
         /// <returns>The <see cref="SwaggerService" />.</returns>
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
-        public SwaggerService GenerateForController<TController>(string excludedMethodName = "Swagger")
+        public SwaggerService GenerateForController<TController>()
         {
-            return GenerateForControllers(new[] { typeof(TController) }, excludedMethodName);
+            return GenerateForControllers(new[] { typeof(TController) });
         }
 
         /// <summary>Generates a Swagger specification for the given controller type.</summary>
         /// <param name="controllerType">The type of the controller.</param>
-        /// <param name="excludedMethodName">The name of the excluded method name.</param>
         /// <returns>The <see cref="SwaggerService" />.</returns>
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
-        public SwaggerService GenerateForController(Type controllerType, string excludedMethodName = "Swagger")
+        public SwaggerService GenerateForController(Type controllerType)
         {
-            return GenerateForControllers(new[] { controllerType }, excludedMethodName);
+            return GenerateForControllers(new[] { controllerType });
         }
 
         /// <summary>Generates a Swagger specification for the given controller types.</summary>
         /// <param name="controllerTypes">The types of the controller.</param>
-        /// <param name="excludedMethodName">The name of the excluded method name.</param>
         /// <returns>The <see cref="SwaggerService" />.</returns>
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
-        public SwaggerService GenerateForControllers(IEnumerable<Type> controllerTypes, string excludedMethodName = "Swagger")
+        public SwaggerService GenerateForControllers(IEnumerable<Type> controllerTypes)
         {
-            var service = CreateService(Settings);
+            var service = CreateDocument(Settings);
 
             var schemaResolver = new SchemaResolver();
             var schemaDefinitionAppender = new SwaggerServiceSchemaDefinitionAppender(service, Settings.TypeNameGenerator);
 
             foreach (var controllerType in controllerTypes)
-                GenerateForController(service, controllerType, excludedMethodName, schemaResolver, schemaDefinitionAppender);
+                GenerateForController(service, controllerType, schemaResolver, schemaDefinitionAppender);
 
             service.GenerateOperationIds();
             return service;
         }
 
-        private static SwaggerService CreateService(WebApiToSwaggerGeneratorSettings settings)
+        private static SwaggerService CreateDocument(WebApiToSwaggerGeneratorSettings settings)
         {
-            return new SwaggerService
+            var service = !string.IsNullOrEmpty(settings.DocumentTemplate) ? SwaggerService.FromJson(settings.DocumentTemplate) : new SwaggerService();
+
+            service.Consumes = new List<string> { "application/json" };
+            service.Produces = new List<string> { "application/json" };
+            service.Info = new SwaggerInfo
             {
-                Consumes = new List<string> { "application/json" },
-                Produces = new List<string> { "application/json" },
-                Info = new SwaggerInfo
-                {
-                    Title = settings.Title,
-                    Description = settings.Description,
-                    Version = settings.Version
-                }
+                Title = settings.Title,
+                Description = settings.Description,
+                Version = settings.Version
             };
+
+            return service;
         }
 
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
-        private void GenerateForController(SwaggerService service, Type controllerType, string excludedMethodName,
+        private void GenerateForController(SwaggerService service, Type controllerType,
             ISchemaResolver schemaResolver, ISchemaDefinitionAppender schemaDefinitionAppender)
         {
             var hasIgnoreAttribute = controllerType.GetTypeInfo().GetCustomAttributes()
@@ -121,7 +119,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             if (!hasIgnoreAttribute)
             {
                 var operations = new List<Tuple<SwaggerOperationDescription, MethodInfo>>();
-                foreach (var method in GetActionMethods(controllerType, excludedMethodName))
+                foreach (var method in GetActionMethods(controllerType))
                 {
                     var httpPaths = GetHttpPaths(controllerType, method);
                     var httpMethods = GetSupportedHttpMethods(method).ToList();
@@ -238,11 +236,10 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             }
         }
 
-        private static IEnumerable<MethodInfo> GetActionMethods(Type controllerType, string excludedMethodName)
+        private static IEnumerable<MethodInfo> GetActionMethods(Type controllerType)
         {
             var methods = controllerType.GetRuntimeMethods().Where(m => m.IsPublic);
             return methods.Where(m =>
-                m.Name != excludedMethodName &&
                 m.IsSpecialName == false && // avoid property methods
                 m.DeclaringType != null &&
                 m.DeclaringType != typeof(object) &&

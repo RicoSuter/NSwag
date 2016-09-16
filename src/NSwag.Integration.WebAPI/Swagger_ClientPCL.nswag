@@ -27,6 +27,7 @@
     "InfoTitle": "Web API Swagger specification",
     "InfoDescription": null,
     "InfoVersion": "1.0.0",
+    "DocumentTemplate": "SwaggerDocumentTemplate.json",
     "OutputFilePath": null
   },
   "AssemblyTypeToSwaggerCommand": {
@@ -83,6 +84,7 @@
         "ArrayType": "ObservableCollection",
         "DictionaryType": "Dictionary",
         "ClassStyle": "Poco",
+        "JsonConverters": null,
         "NullHandling": "Swagger",
         "GenerateDefaultValues": true
       },
@@ -94,6 +96,7 @@
         "ArrayType": "ObservableCollection",
         "DictionaryType": "Dictionary",
         "ClassStyle": "Poco",
+        "JsonConverters": null,
         "NullHandling": "Swagger",
         "GenerateDefaultValues": true
       },
@@ -129,6 +132,7 @@
         "ArrayType": "IEnumerable",
         "DictionaryType": "Dictionary",
         "ClassStyle": "Inpc",
+        "JsonConverters": null,
         "NullHandling": "Swagger",
         "GenerateDefaultValues": true
       },
@@ -142,6 +146,7 @@
         "ArrayType": "IEnumerable",
         "DictionaryType": "Dictionary",
         "ClassStyle": "Inpc",
+        "JsonConverters": null,
         "NullHandling": "Swagger",
         "GenerateDefaultValues": true
       },
