@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using NConsole;
+using Newtonsoft.Json;
 using NJsonSchema.CodeGeneration.CSharp;
 using NSwag.CodeGeneration.CodeGenerators;
 using NSwag.CodeGeneration.CodeGenerators.CSharp;
@@ -15,6 +16,7 @@ namespace NSwag.Commands
             Settings = settings; 
         }
 
+        [JsonIgnore]
         public TSettings Settings { get; set; }
         
         [Description("The class name of the generated client.")]
