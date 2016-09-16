@@ -44,12 +44,12 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="NJsonSchema, Version=4.11.6103.32935, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NJsonSchema.4.11.6103.32935\lib\net45\NJsonSchema.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="NJsonSchema.CodeGeneration, Version=4.11.6103.32936, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NJsonSchema.CodeGeneration.4.11.6103.32936\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>

@@ -70,6 +70,9 @@
     "GenerateClientInterfaces": false,
     "GenerateDtoTypes": true,
     "UseHttpClientCreationMethod": false,
+    "JsonConverters": [
+      "Newtonsoft.Json.Converters.StringEnumConverter"
+    ],
     "GenerateContractsOutput": false,
     "ContractsNamespace": null,
     "ContractsOutputFilePath": null,
@@ -84,7 +87,9 @@
         "ArrayType": "ObservableCollection",
         "DictionaryType": "Dictionary",
         "ClassStyle": "Poco",
-        "JsonConverters": null,
+        "JsonConverters": [
+          "Newtonsoft.Json.Converters.StringEnumConverter"
+        ],
         "NullHandling": "Swagger",
         "GenerateDefaultValues": true
       },
@@ -96,7 +101,9 @@
         "ArrayType": "ObservableCollection",
         "DictionaryType": "Dictionary",
         "ClassStyle": "Poco",
-        "JsonConverters": null,
+        "JsonConverters": [
+          "Newtonsoft.Json.Converters.StringEnumConverter"
+        ],
         "NullHandling": "Swagger",
         "GenerateDefaultValues": true
       },

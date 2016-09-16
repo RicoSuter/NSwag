@@ -8,6 +8,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using NJsonSchema.CodeGeneration.CSharp;
 using NSwag.CodeGeneration.CodeGenerators.Models;
 
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
@@ -70,5 +71,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
 
         /// <summary>Gets the operations.</summary>
         public IList<OperationModel> Operations { get; }
+
+        /// <summary>Gets the JSON converters code.</summary>
+        public string JsonConverters => CSharpJsonConverters.GenerateConverters(_settings.CSharpGeneratorSettings);
     }
 }

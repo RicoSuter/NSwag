@@ -1147,6 +1147,12 @@ if(operation.HasContent){
             
             #line default
             #line hidden
+            
+            #line 129 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.JsonConverters));
+            
+            #line default
+            #line hidden
             this.Write("));\r\n        content_.Headers.ContentType.MediaType = \"application/json\";\r\n\r\n    " +
                     "    var response_ = await client_.");
             
@@ -1440,8 +1446,14 @@ if(response.HasType){
             
             #line default
             #line hidden
-            this.Write(">(Encoding.UTF8.GetString(responseData_, 0, responseData_.Length));              " +
-                    "                  \r\n");
+            this.Write(">(Encoding.UTF8.GetString(responseData_, 0, responseData_.Length)");
+            
+            #line 185 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.JsonConverters));
+            
+            #line default
+            #line hidden
+            this.Write(");                                \r\n");
             
             #line 186 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
       if(response.IsSuccess){
@@ -1598,7 +1610,14 @@ if(operation.HasDefaultResponse){
             
             #line default
             #line hidden
-            this.Write(">(Encoding.UTF8.GetString(responseData_, 0, responseData_.Length));\r\n\r\n");
+            this.Write(">(Encoding.UTF8.GetString(responseData_, 0, responseData_.Length)");
+            
+            #line 230 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.JsonConverters));
+            
+            #line default
+            #line hidden
+            this.Write(");\r\n\r\n");
             
             #line 232 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
   if(operation.HasOnlyDefaultResponse){
