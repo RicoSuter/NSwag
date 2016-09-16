@@ -633,13 +633,14 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         {
             var typeDescription = JsonObjectTypeDescription.FromType(type, parentAttributes, Settings.DefaultEnumHandling);
 
-            // TODO: Improve this code
             SwaggerParameter operationParameter;
             if (typeDescription.IsEnum)
             {
+                // TODO(incompatibility): We use "schema" even it is not allowed in non-body parameters
                 var parameterType = type.Name == "Nullable`1" ? type.GetGenericTypeArguments().Single() : type;
                 operationParameter = new SwaggerParameter
                 {
+                    Type = typeDescription.Type, // Used as fallback for generators which do not check the "schema" property
                     Schema = _schemaGenerator.Generate<JsonSchema4>(parameterType, parentAttributes, schemaResolver, schemaDefinitionAppender)
                 };
             }
