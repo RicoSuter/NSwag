@@ -120,49 +120,50 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
 <#      }else{#>
         var client_ = new HttpClient();
 <#      }#>
+<#      if(Model.UseHttpRequestMessageCreationMethod){#>
+        var request_ = CreateHttpRequestMessage();
+<#      }else{#>
+        var request_ = new HttpRequestMessage();
+<#      }#>
         PrepareRequest(client_, ref url_);
 <#foreach(var parameter in operation.HeaderParameters){#>
-        client_.DefaultRequestHeaders.TryAddWithoutValidation("<#=parameter.Name#>", <#=parameter.VariableNameLower#>);
+        request_.Headers.TryAddWithoutValidation("<#=parameter.Name#>", <#=parameter.VariableNameLower#>);
 <#}#>
-
 <#if(operation.HasContent){#>
         var content_ = new StringContent(JsonConvert.SerializeObject(<#=operation.ContentParameter.VariableNameLower#>));
         content_.Headers.ContentType.MediaType = "application/json";
-
-        var response_ = await client_.<#=operation.HttpMethodUpper#>Async(url_, content_, cancellationToken).ConfigureAwait(false);
-        ProcessResponse(client_, response_);
 <#}else{#>
-<#  if(operation.IsGetOrDelete){#>
-        var response_ = await client_.<#=operation.HttpMethodUpper#>Async(url_, cancellationToken).ConfigureAwait(false);
-<#  }else{#>
 <#  if(operation.HasFormParameters){#>
-        var content_ = new MultipartFormDataContent();
-<#foreach(var parameter in operation.FormParameters){#>
-<#  if(parameter.IsNullable){#>
-        if (<#=parameter.VariableNameLower#> != null)
-<#  }else{#>
-        if (<#=parameter.VariableNameLower#> == null)
-            throw new ArgumentNullException("<#=parameter.VariableNameLower#>");
-        else
-<#  }#>
-<#  if(parameter.IsFile){
-        if(parameter.IsArray){#>
-            foreach(var item_ in <#=parameter.VariableNameLower#>) { content_.Add(new StreamContent(item_.Data), "<#=parameter.Name#>", item_.FileName ?? "<#=parameter.Name#>"); }
+      var content_ = new MultipartFormDataContent();
+<#    foreach(var parameter in operation.FormParameters){#>
+<#      if(parameter.IsNullable){#>
+          if (<#=parameter.VariableNameLower#> != null)
 <#      }else{#>
-            content_.Add(new StreamContent(<#=parameter.VariableNameLower#>.Data), "<#=parameter.Name#>", <#=parameter.VariableNameLower#>.FileName ?? "<#=parameter.Name#>");
-<#      }
-    }else{#>
-            content_.Add(new StringContent(<#=parameter.VariableNameLower#>.ToString()), "<#=parameter.Name#>");
-<#  }#>
-<#}#>
-<#  }else{#>
+          if (<#=parameter.VariableNameLower#> == null)
+              throw new ArgumentNullException("<#=parameter.VariableNameLower#>");
+          else
+<#      }#>
+<#      if(parameter.IsFile){
+          if(parameter.IsArray){#>
+              foreach(var item_ in <#=parameter.VariableNameLower#>) { content_.Add(new StreamContent(item_.Data), "<#=parameter.Name#>", item_.FileName ?? "<#=parameter.Name#>"); }
+<#        }else{#>
+              content_.Add(new StreamContent(<#=parameter.VariableNameLower#>.Data), "<#=parameter.Name#>", <#=parameter.VariableNameLower#>.FileName ?? "<#=parameter.Name#>");
+<#        }
+        }else{#>
+              content_.Add(new StringContent(<#=parameter.VariableNameLower#>.ToString()), "<#=parameter.Name#>");
+<#      }#>
+<#    }#>
+<#  }else if(!operation.IsGetOrDelete){#>
         var content_ = new StringContent(string.Empty);
 <#  }#>
-        
-        var response_ = await client_.<#=operation.HttpMethodUpper#>Async(url_, content_, cancellationToken).ConfigureAwait(false);
-<#  }#>
-        ProcessResponse(client_, response_);
 <#}#>
+<#  if(!operation.IsGetOrDelete){#>
+        request_.Content = content_;
+<#  }#>
+        request_.Method = HttpMethod.<#=operation.HttpMethod.ToString()#>;
+        request_.RequestUri = new Uri(url_);
+        var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseContentRead, cancellationToken).ConfigureAwait(false);
+        ProcessResponse(client_, response_);
 
         var responseData_ = await response_.Content.ReadAsByteArrayAsync().ConfigureAwait(false); 
         var status_ = ((int)response_.StatusCode).ToString();
