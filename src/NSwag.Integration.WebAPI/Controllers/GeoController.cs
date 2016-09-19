@@ -40,5 +40,11 @@ namespace NSwag.Integration.WebAPI.Controllers
         {
 
         }
+
+        [HttpPost]
+        public void SaveItems(GenericRequest<Address, Person> request)
+        {
+            
+        }
     }
 }
