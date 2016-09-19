@@ -195,6 +195,8 @@ namespace NSwag
 
         private void ConvertToAbsolutePaths()
         {
+            WebApiToSwaggerCommand.DocumentTemplate = ConvertToAbsolutePath(WebApiToSwaggerCommand.DocumentTemplate);
+
             WebApiToSwaggerCommand.AssemblyPath = ConvertToAbsolutePath(WebApiToSwaggerCommand.AssemblyPath);
             AssemblyTypeToSwaggerCommand.AssemblyPath = ConvertToAbsolutePath(AssemblyTypeToSwaggerCommand.AssemblyPath);
 
@@ -210,6 +212,8 @@ namespace NSwag
 
         private void ConvertToRelativePaths()
         {
+            WebApiToSwaggerCommand.DocumentTemplate = ConvertToRelativePath(WebApiToSwaggerCommand.DocumentTemplate);
+
             WebApiToSwaggerCommand.AssemblyPath = ConvertToRelativePath(WebApiToSwaggerCommand.AssemblyPath);
             AssemblyTypeToSwaggerCommand.AssemblyPath = ConvertToRelativePath(AssemblyTypeToSwaggerCommand.AssemblyPath);
 

@@ -1,29 +1,51 @@
 ﻿<#@ template visibility="internal" #>
 <#@ import namespace="NJsonSchema.CodeGeneration" #>
-<#if(Model != null){
-    if (Model.UseDtoClass){ 
-        if(Model.IsArray){#>
-var contentData: any = [];
-if (<#=Model.VariableNameLower#>) {
-    for (let item of <#=Model.VariableNameLower#>)
-        contentData.push(item.toJS());
-}
-var content = JSON.stringify(<#=Model.VariableNameLower#> ? contentData : null);
-<#      }else if(Model.IsDictionary){#>
-var contentData: any = {};
-if (<#=Model.VariableNameLower#>) {
-    for (let key in <#=Model.VariableNameLower#>) {
-        if (<#=Model.VariableNameLower#>.hasOwnProperty(key))
-            contentData[key] = <#=Model.VariableNameLower#>[key].toJS();
-    }
-}
-var content = JSON.stringify(<#=Model.VariableNameLower#> ? contentData : null);
+<#  if(Model.HasFormParameters){#>
+var content_ = new FormData();
+<#foreach(var parameter in Model.FormParameters){#>
+<#  if(parameter.IsNullable){#>
+if (<#=parameter.VariableNameLower#> !== null)
+<#  }else{#>
+if (<#=parameter.VariableNameLower#> === null)
+    throw new Error("The parameter '<#=parameter.VariableNameLower#>' cannot be null.");
+else
+<#  }#>
+<#  if(parameter.IsFile){
+        if(parameter.IsArray){#>
+    <#=parameter.VariableNameLower#>.forEach(item_ => content_.append("<#=parameter.Name#>", item_.data, item_.fileName ? item_.fileName : "<#=parameter.Name#>") );
 <#      }else{#>
-var content = JSON.stringify(<#=Model.VariableNameLower#> ? <#=Model.VariableNameLower#>.toJS() : null);
+    content_.append("<#=parameter.Name#>", <#=parameter.VariableNameLower#>.data, <#=parameter.VariableNameLower#>.fileName ? <#=parameter.VariableNameLower#>.fileName : "<#=parameter.Name#>");
 <#      }
     }else{#>
-var content = JSON.stringify(<#=Model.VariableNameLower#>);
-<#  }
-  }else{#>
-var content = "";
+    content_.append("<#=parameter.Name#>", <#=parameter.VariableNameLower#>.ToString()));
+<#  }#>
 <#}#>
+<#  }else{#>
+<#      if(Model.ContentParameter != null){
+            if (Model.ContentParameter.UseDtoClass){ 
+                if(Model.ContentParameter.IsArray){#>
+var contentData_: any = [];
+if (<#=Model.ContentParameter.VariableNameLower#>) {
+    for (let item of <#=Model.ContentParameter.VariableNameLower#>)
+        contentData_.push(item.toJS());
+}
+var content_ = JSON.stringify(<#=Model.ContentParameter.VariableNameLower#> ? contentData_ : null);
+<#              }else if(Model.ContentParameter.IsDictionary){#>
+var contentData_: any = {};
+if (<#=Model.ContentParameter.VariableNameLower#>) {
+    for (let key in <#=Model.ContentParameter.VariableNameLower#>) {
+        if (<#=Model.ContentParameter.VariableNameLower#>.hasOwnProperty(key))
+            contentData_[key] = <#=Model.ContentParameter.VariableNameLower#>[key].toJS();
+    }
+}
+var content_ = JSON.stringify(<#=Model.ContentParameter.VariableNameLower#> ? contentData_ : null);
+<#              }else{#>
+var content_ = JSON.stringify(<#=Model.ContentParameter.VariableNameLower#> ? <#=Model.ContentParameter.VariableNameLower#>.toJS() : null);
+<#              }
+            }else{#>
+var content_ = JSON.stringify(<#=Model.ContentParameter.VariableNameLower#>);
+<#          }
+        }else{#>
+var content_ = "";
+<#  }
+  }#>

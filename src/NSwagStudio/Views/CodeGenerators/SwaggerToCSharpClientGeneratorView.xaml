@@ -42,6 +42,9 @@
                     <TextBlock Text="Additional Namespace Usages (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding AdditionalNamespaceUsages, Mode=TwoWay}" Margin="0,0,0,12" />
 
+                    <TextBlock Text="Custom Json.NET converter types (optional, comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding Command.JsonConverters, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" Margin="0,0,0,12" />
+
                     <GroupBox Header="Client" Margin="0,0,0,12">
                         <StackPanel Margin="4,8,4,-8">
                             <CheckBox IsChecked="{Binding Command.GenerateClientClasses, Mode=TwoWay}" 

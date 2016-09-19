@@ -96,15 +96,19 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#  }
 }#>
 
-        <#=RequestBodyGenerator.Render(operation.ContentParameter, 2)#>
+        <#=RequestBodyGenerator.Render(operation, 2)#>
         
         return this.http.request(url, <#if(Model.IsExtended){#>this.transformOptions(<#}#>{
-            body: content,
+            body: content_,
             method: "<#=operation.HttpMethodLower#>",
             headers: new Headers({
 <#foreach(var parameter in operation.HeaderParameters){#>
                 "<#=parameter.Name#>": <#=parameter.VariableNameLower#>, 
-<#}#>                "Content-Type": "application/json; charset=UTF-8"
+<#}#>
+<#if(operation.HasFormParameters){#>                'Content-Type': undefined
+<#}else{#>
+                "Content-Type": "application/json; charset=UTF-8"
+<#}#>
             })
         }<#if(Model.IsExtended){#>)<#}#>).map((response) => {
 <#if(Model.IsExtended){#>

@@ -42,5 +42,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <summary>Gets the operation processor.</summary>
         [JsonIgnore]
         public IList<IDocumentProcessor> DocumentProcessors { get; } = new List<IDocumentProcessor>();
+
+        /// <summary>Gets or sets the document template representing the initial Swagger specification (JSON data).</summary>
+        public string DocumentTemplate { get; set; }
     }
 }

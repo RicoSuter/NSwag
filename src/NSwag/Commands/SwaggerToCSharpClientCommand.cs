@@ -62,6 +62,14 @@ namespace NSwag.Commands
             get { return Settings.UseHttpClientCreationMethod; }
             set { Settings.UseHttpClientCreationMethod = value; }
         }
+        
+        [Description("Specifies the custom Json.NET converter types (optional, comma separated).")]
+        [Argument(Name = "UseHttpClientCreationMethod", IsRequired = false)]
+        public string[] JsonConverters
+        {
+            get { return Settings.CSharpGeneratorSettings.JsonConverters; }
+            set { Settings.CSharpGeneratorSettings.JsonConverters = value; }
+        }
 
         [Description("Specifies whether to call CreateHttpRequestMessage on the base class to create a new HttpRequestMethod.")]
         [Argument(Name = "UseHttpRequestMessageCreationMethod", IsRequired = false)]

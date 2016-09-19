@@ -86,7 +86,7 @@ namespace NSwag
         public List<string> Produces { get; set; }
 
         /// <summary>Gets or sets the operations.</summary>
-        [JsonProperty(PropertyName = "paths", Required = Required.Always, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(PropertyName = "paths", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public ObservableDictionary<string, SwaggerOperations> Paths { get; private set; }
 
         /// <summary>Gets or sets the types.</summary>

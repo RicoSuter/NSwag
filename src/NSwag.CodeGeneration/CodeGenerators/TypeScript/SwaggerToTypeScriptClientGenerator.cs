@@ -113,6 +113,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             if (schema == null)
                 return "void";
 
+            if (schema.ActualSchema.Type == JsonObjectType.File)
+                return "FileParameter";
+
             if (schema.ActualSchema.IsAnyType || schema.ActualSchema.Type == JsonObjectType.File)
                 return "any";
 
