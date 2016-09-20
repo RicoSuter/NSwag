@@ -577,7 +577,7 @@ foreach(var parameter in operation.Parameters){
             
             #line default
             #line hidden
-            this.Write(", reason: string) => void) {\r\n        var url = this.baseUrl + \"/");
+            this.Write(", reason: string) => void) {\r\n        let url = this.baseUrl + \"/");
             
             #line 55 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.Path));
@@ -1045,7 +1045,7 @@ if(Model.IsExtended){
             
             #line default
             #line hidden
-            this.Write("            var result = this.transformResult(url, xhr, (xhr) => this.process");
+            this.Write("            let result = this.transformResult(url, xhr, (xhr) => this.process");
             
             #line 130 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
@@ -1059,7 +1059,7 @@ if(Model.IsExtended){
             
             #line default
             #line hidden
-            this.Write("            var result = this.process");
+            this.Write("            let result = this.process");
             
             #line 132 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
@@ -1082,8 +1082,8 @@ if(Model.IsExtended){
             
             #line default
             #line hidden
-            this.Write("(xhr: any) {\r\n        var data = xhr.responseText; \r\n        var status = xhr.sta" +
-                    "tus.toString(); \r\n\r\n");
+            this.Write("(xhr: any) {\r\n        const data = xhr.responseText; \r\n        const status = xhr" +
+                    ".status.toString(); \r\n\r\n");
             
             #line 146 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 foreach(var response in operation.Responses){
@@ -1104,7 +1104,7 @@ foreach(var response in operation.Responses){
             
             #line default
             #line hidden
-            this.Write("            var result");
+            this.Write("            let result");
             
             #line 149 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
@@ -1166,7 +1166,7 @@ foreach(var response in operation.Responses){
             
             #line default
             #line hidden
-            this.Write("                var resultData");
+            this.Write("                let resultData");
             
             #line 158 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
@@ -1222,7 +1222,7 @@ foreach(var response in operation.Responses){
             
             #line default
             #line hidden
-            this.Write("            var result");
+            this.Write("            let result");
             
             #line 167 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
@@ -1290,7 +1290,7 @@ if(operation.HasDefaultResponse){
             
             #line default
             #line hidden
-            this.Write("            var result: ");
+            this.Write("            let result: ");
             
             #line 180 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.DefaultResponse.Type));
@@ -1331,7 +1331,7 @@ if(operation.HasDefaultResponse){
             
             #line default
             #line hidden
-            this.Write("                var resultData = data === \"\" ? null : jQuery.parseJSON(data);\r\n  " +
+            this.Write("                let resultData = data === \"\" ? null : jQuery.parseJSON(data);\r\n  " +
                     "              ");
             
             #line 190 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.tt"
@@ -1379,7 +1379,7 @@ if(operation.HasDefaultResponse){
             
             #line default
             #line hidden
-            this.Write("            var result: any = undefined; \r\n");
+            this.Write("            let result: any = undefined; \r\n");
             
             #line 199 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.tt"
   }

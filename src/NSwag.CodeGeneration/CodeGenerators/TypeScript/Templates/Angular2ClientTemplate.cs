@@ -453,7 +453,7 @@ if(!parameter.IsLast){
             
             #line default
             #line hidden
-            this.Write("> {\r\n        var url = this.baseUrl + \"/");
+            this.Write("> {\r\n        let url = this.baseUrl + \"/");
             
             #line 52 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.Path));
@@ -930,8 +930,8 @@ if(Model.IsExtended){
             
             #line default
             #line hidden
-            this.Write("(response: Response) {\r\n        var data = response.text();\r\n        var status =" +
-                    " response.status.toString(); \r\n\r\n");
+            this.Write("(response: Response) {\r\n        const data = response.text();\r\n        const stat" +
+                    "us = response.status.toString(); \r\n\r\n");
             
             #line 126 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt"
 foreach(var response in operation.Responses){
@@ -952,7 +952,7 @@ if(response.HasType){
             
             #line default
             #line hidden
-            this.Write("            var result");
+            this.Write("            let result");
             
             #line 129 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
@@ -993,7 +993,7 @@ if(response.HasType){
             
             #line default
             #line hidden
-            this.Write("            var resultData");
+            this.Write("            let resultData");
             
             #line 134 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
@@ -1090,7 +1090,7 @@ if(operation.HasDefaultResponse){
             
             #line default
             #line hidden
-            this.Write("            var result: ");
+            this.Write("            let result: ");
             
             #line 150 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.DefaultResponse.Type));
@@ -1117,7 +1117,7 @@ if(operation.HasDefaultResponse){
             
             #line default
             #line hidden
-            this.Write("            var resultData = data === \"\" ? null : JSON.parse(data, this.jsonParse" +
+            this.Write("            let resultData = data === \"\" ? null : JSON.parse(data, this.jsonParse" +
                     "Reviver);\r\n            ");
             
             #line 156 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt"

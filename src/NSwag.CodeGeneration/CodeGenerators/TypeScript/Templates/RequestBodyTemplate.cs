@@ -32,7 +32,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates
             
             #line default
             #line hidden
-            this.Write("var content_ = new FormData();\r\n");
+            this.Write("const content_ = new FormData();\r\n");
             
             #line 5 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestBodyTemplate.tt"
 foreach(var parameter in Model.FormParameters){
@@ -199,7 +199,7 @@ foreach(var parameter in Model.FormParameters){
             
             #line default
             #line hidden
-            this.Write("var contentData_: any = [];\r\nif (");
+            this.Write("let contentData_: any = [];\r\nif (");
             
             #line 28 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestBodyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ContentParameter.VariableNameLower));
@@ -213,7 +213,7 @@ foreach(var parameter in Model.FormParameters){
             
             #line default
             #line hidden
-            this.Write(")\r\n        contentData_.push(item.toJS());\r\n}\r\nvar content_ = JSON.stringify(");
+            this.Write(")\r\n        contentData_.push(item.toJS());\r\n}\r\nconst content_ = JSON.stringify(");
             
             #line 32 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestBodyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ContentParameter.VariableNameLower));
@@ -227,7 +227,7 @@ foreach(var parameter in Model.FormParameters){
             
             #line default
             #line hidden
-            this.Write("var contentData_: any = {};\r\nif (");
+            this.Write("let contentData_: any = {};\r\nif (");
             
             #line 35 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestBodyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ContentParameter.VariableNameLower));
@@ -255,7 +255,7 @@ foreach(var parameter in Model.FormParameters){
             
             #line default
             #line hidden
-            this.Write("[key].toJS();\r\n    }\r\n}\r\nvar content_ = JSON.stringify(");
+            this.Write("[key].toJS();\r\n    }\r\n}\r\nconst content_ = JSON.stringify(");
             
             #line 41 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestBodyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ContentParameter.VariableNameLower));
@@ -269,7 +269,7 @@ foreach(var parameter in Model.FormParameters){
             
             #line default
             #line hidden
-            this.Write("var content_ = JSON.stringify(");
+            this.Write("const content_ = JSON.stringify(");
             
             #line 43 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestBodyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ContentParameter.VariableNameLower));
@@ -291,7 +291,7 @@ foreach(var parameter in Model.FormParameters){
             
             #line default
             #line hidden
-            this.Write("var content_ = JSON.stringify(");
+            this.Write("const content_ = JSON.stringify(");
             
             #line 46 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestBodyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ContentParameter.VariableNameLower));
@@ -306,7 +306,7 @@ foreach(var parameter in Model.FormParameters){
             
             #line default
             #line hidden
-            this.Write("var content_ = \"\";\r\n");
+            this.Write("const content_ = \"\";\r\n");
             
             #line 50 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestBodyTemplate.tt"
   }
