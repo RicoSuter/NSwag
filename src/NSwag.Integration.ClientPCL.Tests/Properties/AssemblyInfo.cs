@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("NSwag.Integration.Console")]
+[assembly: AssemblyTitle("NSwag.Integration.ClientPCL.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("NSwag.Integration.Console")]
+[assembly: AssemblyProduct("NSwag.Integration.ClientPCL.Tests")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("5d08c2e6-25b3-487d-b413-57f78bc3eb84")]
+[assembly: Guid("a46ed5e6-95ee-448b-aa88-e43fa32482b6")]
 
 // Version information for an assembly consists of the following four values:
 //
