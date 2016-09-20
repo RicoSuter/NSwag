@@ -71,7 +71,7 @@ namespace NSwag.Commands
             set { Settings.CSharpGeneratorSettings.JsonConverters = value; }
         }
 
-        [Description("Specifies whether to call CreateHttpRequestMessage on the base class to create a new HttpRequestMethod.")]
+        [Description("Specifies whether to call CreateHttpRequestMessageAsync on the base class to create a new HttpRequestMethod.")]
         [Argument(Name = "UseHttpRequestMessageCreationMethod", IsRequired = false)]
         public bool UseHttpRequestMessageCreationMethod
         {

@@ -121,7 +121,7 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
         var client_ = new HttpClient();
 <#      }#>
 <#      if(Model.UseHttpRequestMessageCreationMethod){#>
-        var request_ = CreateHttpRequestMessage();
+        var request_ = await CreateHttpRequestMessageAsync(cancellationToken).ConfigureAwait(false);
 <#      }else{#>
         var request_ = new HttpRequestMessage();
 <#      }#>

@@ -26,7 +26,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         /// <summary>Gets or sets a value indicating whether to call CreateHttpClientAsync on the base class to create a new HttpClient instance.</summary>
         public bool UseHttpClientCreationMethod { get; set; }
 
-        /// <summary>Gets or sets a value indicating whether to call CreateHttpRequestMessage on the base class to create a new HttpRequestMethod.</summary>
+        /// <summary>Gets or sets a value indicating whether to call CreateHttpRequestMessageAsync on the base class to create a new HttpRequestMethod.</summary>
         public bool UseHttpRequestMessageCreationMethod { get; set; }
     }
 }

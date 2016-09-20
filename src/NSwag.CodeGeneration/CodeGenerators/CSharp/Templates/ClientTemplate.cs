@@ -1111,7 +1111,8 @@ if(parameter.Type.EndsWith("?")){
             
             #line default
             #line hidden
-            this.Write("        var request_ = CreateHttpRequestMessage();\r\n");
+            this.Write("        var request_ = await CreateHttpRequestMessageAsync(cancellationToken).Con" +
+                    "figureAwait(false);\r\n");
             
             #line 125 "C:\dev\git\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
       }else{

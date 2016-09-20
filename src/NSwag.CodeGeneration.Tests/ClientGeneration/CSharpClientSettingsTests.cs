@@ -54,7 +54,7 @@ namespace NSwag.CodeGeneration.Tests.ClientGeneration
             var code = generator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("var request_ = CreateHttpRequestMessage();"));
+            Assert.IsTrue(code.Contains("var request_ = await CreateHttpRequestMessageAsync(cancellationToken).ConfigureAwait(false);"));
         }
     }
 }
