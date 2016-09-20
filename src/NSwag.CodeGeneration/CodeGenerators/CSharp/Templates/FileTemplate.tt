@@ -98,39 +98,5 @@ namespace <#=Model.Namespace#>
 <#  if(Model.RequiresJsonExceptionConverter){#>
     <#=SwaggerToCSharpClientGenerator.GetJsonExceptionConverterCode(1)#>
 <#  }#>
-
-<#  if(Model.HasMissingHttpMethods){#>
-    [GeneratedCode("NSwag", "<#=SwaggerService.ToolchainVersion#>")]
-    internal static class HttpExtensions
-    {
-        public static async Task<HttpResponseMessage> OptionsAsync(this HttpClient client, string requestUri, HttpContent content, CancellationToken cancellationToken)
-        {
-            var method = new HttpMethod("OPTIONS");
-            var request = new HttpRequestMessage(method, requestUri) { Content = content };
-            return await client.SendAsync(request, cancellationToken);
-        }
-
-        public static async Task<HttpResponseMessage> HeadAsync(this HttpClient client, string requestUri, HttpContent content, CancellationToken cancellationToken)
-        {
-            var method = new HttpMethod("HEAD");
-            var request = new HttpRequestMessage(method, requestUri) { Content = content };
-            return await client.SendAsync(request, cancellationToken);
-        }
-
-        public static async Task<HttpResponseMessage> PatchAsync(this HttpClient client, string requestUri, HttpContent content, CancellationToken cancellationToken)
-        {
-            var method = new HttpMethod("PATCH");
-            var request = new HttpRequestMessage(method, requestUri) { Content = content };
-            return await client.SendAsync(request, cancellationToken);
-        }
-
-        public static async Task<HttpResponseMessage> DeleteAsync(this HttpClient client, string requestUri, HttpContent content, CancellationToken cancellationToken)
-        {
-            var method = new HttpMethod("DELETE");
-            var request = new HttpRequestMessage(method, requestUri) { Content = content };
-            return await client.SendAsync(request, cancellationToken);
-        }
-    }
-<#  }#>
 <#}#>
 }

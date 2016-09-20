@@ -61,12 +61,5 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
         /// <summary>Gets a value indicating whether the generated code requires a JSON exception converter.</summary>
         public bool RequiresJsonExceptionConverter =>
             _service.Operations.Any(o => o.Operation.AllResponses.Any(r => r.Value.HasExceptionSchema));
-
-        /// <summary>Gets a value indicating whether missing HTTP methods are used.</summary>
-        public bool HasMissingHttpMethods => _service.Operations.Any(o =>
-            (o.Method == SwaggerOperationMethod.Delete && o.Operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.Body)) ||
-            o.Method == SwaggerOperationMethod.Options ||
-            o.Method == SwaggerOperationMethod.Head ||
-            o.Method == SwaggerOperationMethod.Patch);
     }
 }

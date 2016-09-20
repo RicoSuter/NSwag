@@ -222,50 +222,8 @@ if(Model.GenerateImplementation){
             
             #line default
             #line hidden
-            this.Write("\r\n");
             
-            #line 102 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
-  if(Model.HasMissingHttpMethods){
-            
-            #line default
-            #line hidden
-            this.Write("    [GeneratedCode(\"NSwag\", \"");
-            
-            #line 103 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerService.ToolchainVersion));
-            
-            #line default
-            #line hidden
-            this.Write("\")]\r\n    internal static class HttpExtensions\r\n    {\r\n        public static async" +
-                    " Task<HttpResponseMessage> OptionsAsync(this HttpClient client, string requestUr" +
-                    "i, HttpContent content, CancellationToken cancellationToken)\r\n        {\r\n       " +
-                    "     var method = new HttpMethod(\"OPTIONS\");\r\n            var request = new Http" +
-                    "RequestMessage(method, requestUri) { Content = content };\r\n            return aw" +
-                    "ait client.SendAsync(request, cancellationToken);\r\n        }\r\n\r\n        public s" +
-                    "tatic async Task<HttpResponseMessage> HeadAsync(this HttpClient client, string r" +
-                    "equestUri, HttpContent content, CancellationToken cancellationToken)\r\n        {\r" +
-                    "\n            var method = new HttpMethod(\"HEAD\");\r\n            var request = new" +
-                    " HttpRequestMessage(method, requestUri) { Content = content };\r\n            retu" +
-                    "rn await client.SendAsync(request, cancellationToken);\r\n        }\r\n\r\n        pub" +
-                    "lic static async Task<HttpResponseMessage> PatchAsync(this HttpClient client, st" +
-                    "ring requestUri, HttpContent content, CancellationToken cancellationToken)\r\n    " +
-                    "    {\r\n            var method = new HttpMethod(\"PATCH\");\r\n            var reques" +
-                    "t = new HttpRequestMessage(method, requestUri) { Content = content };\r\n         " +
-                    "   return await client.SendAsync(request, cancellationToken);\r\n        }\r\n\r\n    " +
-                    "    public static async Task<HttpResponseMessage> DeleteAsync(this HttpClient cl" +
-                    "ient, string requestUri, HttpContent content, CancellationToken cancellationToke" +
-                    "n)\r\n        {\r\n            var method = new HttpMethod(\"DELETE\");\r\n            v" +
-                    "ar request = new HttpRequestMessage(method, requestUri) { Content = content };\r\n" +
-                    "            return await client.SendAsync(request, cancellationToken);\r\n        " +
-                    "}\r\n    }\r\n");
-            
-            #line 134 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
-  }
-            
-            #line default
-            #line hidden
-            
-            #line 135 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 101 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
 }
             
             #line default
