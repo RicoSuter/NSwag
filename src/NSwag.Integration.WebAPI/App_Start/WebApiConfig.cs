@@ -12,6 +12,8 @@ namespace NSwag.Integration.WebAPI
                 routeTemplate: "api/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            GlobalConfiguration.Configuration.Filters.Add(new JsonExceptionFilterAttribute());
         }
     }
 }

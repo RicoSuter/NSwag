@@ -1475,7 +1475,7 @@ if(response.HasType){
                     "tatus_, responseData_, exception);\r\n            }\r\n");
             
             #line 199 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
-          if(response.TypeInheritsFromException){
+          if(response.HasExceptionSchema){
             
             #line default
             #line hidden
@@ -1488,7 +1488,14 @@ if(response.HasType){
             #line hidden
             this.Write("();\r\n            result_.Data.Add(\"HttpStatus\", status_);\r\n            result_.Da" +
                     "ta.Add(\"ResponseData\", Encoding.UTF8.GetString(responseData_, 0, responseData_.L" +
-                    "ength));\r\n            throw result_;\r\n");
+                    "ength));\r\n            throw new SwaggerException<");
+            
+            #line 204 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(response.Type));
+            
+            #line default
+            #line hidden
+            this.Write(">(\"A server side error occurred.\", status_, responseData_, result_, result_);\r\n");
             
             #line 205 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
           }else{

@@ -33,12 +33,20 @@ namespace NSwag.Integration.WebAPI.Controllers
 
         public void UploadFile(HttpPostedFileBase file)
         {
-            
+
         }
 
         public void UploadFiles(IEnumerable<HttpPostedFileBase> files)
         {
 
+        }
+
+        [HttpPost]
+        [ResponseType("204", typeof(void))]
+        [ResponseType("500", typeof(Exception))]
+        public void SaveItems(GenericRequest<Address, Person> request)
+        {
+            throw new ArgumentException("Test");
         }
     }
 }

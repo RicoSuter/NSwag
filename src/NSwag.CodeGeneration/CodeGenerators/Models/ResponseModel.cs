@@ -57,10 +57,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         public bool IsNullable => _response.IsNullable(_clientGeneratorBase.BaseSettings.CodeGeneratorSettings.NullHandling);
 
         /// <summary>Gets a value indicating whether the response type inherits from exception.</summary>
-        public bool TypeInheritsFromException => _response
-            .ActualResponseSchema?
-            .InheritedSchemas
-            .Any(s => new[] { "innerexception", "message", "source", "stacktrace" }.All(p => s.ActualSchema.Properties.Any(i => i.Key.ToLowerInvariant() == p))) == true;
+        public bool HasExceptionSchema => _response.HasExceptionSchema;
 
         // TODO: Find way to remove TypeScript only properties
 

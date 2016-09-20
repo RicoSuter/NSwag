@@ -40,11 +40,13 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema">
-      <HintPath>..\packages\NJsonSchema.4.11.6103.32935\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
+    <Reference Include="NJsonSchema, Version=4.13.6107.31015, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.4.13.6107.31015\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema.CodeGeneration">
-      <HintPath>..\packages\NJsonSchema.CodeGeneration.4.11.6103.32936\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
+    <Reference Include="NJsonSchema.CodeGeneration, Version=4.13.6107.31016, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.CodeGeneration.4.13.6107.31016\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -68,11 +70,6 @@
       <DependentUpon>ClientTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="CodeGenerators\CSharp\Templates\ClientTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\CSharp\Templates\FileTemplate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FileTemplate.tt</DependentUpon>
-    </Compile>
     <Compile Include="CodeGenerators\CSharp\Templates\FileTemplate.Extensions.cs" />
     <Compile Include="CodeGenerators\CSharp\Templates\ControllerTemplate.cs">
       <AutoGen>True</AutoGen>
@@ -80,6 +77,16 @@
       <DependentUpon>ControllerTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="CodeGenerators\CSharp\Templates\ControllerTemplate.Extensions.cs" />
+    <Compile Include="CodeGenerators\CSharp\Templates\FileTemplate1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FileTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CodeGenerators\CSharp\Templates\JsonExceptionConverterTemplate.cs">
+      <DependentUpon>JsonExceptionConverterTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="CodeGenerators\OperationNameGenerators\IOperationNameGenerator.cs" />
     <Compile Include="CodeGenerators\Models\OperationModel.cs" />
     <Compile Include="CodeGenerators\Models\ParameterModel.cs" />
@@ -169,7 +176,7 @@
     </None>
     <None Include="CodeGenerators\CSharp\Templates\FileTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>FileTemplate.cs</LastGenOutput>
+      <LastGenOutput>FileTemplate1.cs</LastGenOutput>
     </None>
     <None Include="CodeGenerators\CSharp\Templates\ControllerTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
@@ -200,6 +207,12 @@
     <None Include="CodeGenerators\TypeScript\Templates\RequestBodyTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>RequestBodyTemplate.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CodeGenerators\CSharp\Templates\JsonExceptionConverterTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>JsonExceptionConverterTemplate.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

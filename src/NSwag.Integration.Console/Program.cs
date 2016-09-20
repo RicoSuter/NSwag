@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using NSwag.Integration.WebAPI;
+using NSwag.Integration.ClientPCL;
+using NSwag.Integration.ClientPCL.Contracts;
 
 namespace NSwag.Integration.Console
 {
@@ -17,11 +17,26 @@ namespace NSwag.Integration.Console
             try
             {
                 var errors = 0;
-                var client = new PersonsClient("http://localhost:13452");
+                var personsClient = new PersonsClient("http://localhost:13452");
+                var geoClient = new GeoClient("http://localhost:13452");
 
-                var persons = await client.GetAllAsync();
+                var persons = await personsClient.GetAllAsync();
                 if (persons.Count == 0)
                     errors++;
+
+                try
+                {
+                    await geoClient.SaveItemsAsync(null);
+                    errors++;
+                }
+                catch (SwaggerException exception)
+                {
+                    if (exception.InnerException is ArgumentException == false)
+                        errors++;
+
+                    if (!exception.InnerException.StackTrace.Contains("NSwag.Integration.WebAPI.Controllers.GeoController.SaveItems"))
+                        errors++;
+                }
 
                 System.Console.WriteLine("Errors: " + errors);
             }
