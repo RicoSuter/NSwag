@@ -46,7 +46,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
 <#}#>    <#=operation.OperationNameLower#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableNameLower#>: <#=parameter.Type#>, <#}#>onSuccess?: (<#if(operation.HasResultType){#>result: <#=operation.ResultType#><#}#>) => void, onFail?: (exception: <#=operation.ExceptionType#>, reason: string) => void) {
-        var url = this.baseUrl + "/<#=operation.Path#><#if(operation.QueryParameters.Any()){#>?<#}#>"; 
+        let url = this.baseUrl + "/<#=operation.Path#><#if(operation.QueryParameters.Any()){#>?<#}#>"; 
 
 <#foreach(var parameter in operation.PathParameters){#>
         if (<#=parameter.VariableNameLower#> === undefined || <#=parameter.VariableNameLower#> === null)
@@ -121,9 +121,9 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
     private process<#=operation.OperationNameUpper#>WithCallbacks(url: string, xhr: any, onSuccess?: any, onFail?: any) {
         try {
 <#if(Model.IsExtended){#>
-            var result = this.transformResult(url, xhr, (xhr) => this.process<#=operation.OperationNameUpper#>(xhr));
+            let result = this.transformResult(url, xhr, (xhr) => this.process<#=operation.OperationNameUpper#>(xhr));
 <#}else{#>
-            var result = this.process<#=operation.OperationNameUpper#>(xhr);
+            let result = this.process<#=operation.OperationNameUpper#>(xhr);
 <#}#>
             if (onSuccess !== undefined)
                 onSuccess(result);
@@ -134,13 +134,13 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
     }
 
     private process<#=operation.OperationNameUpper#>(xhr: any) {
-        var data = xhr.responseText; 
-        var status = xhr.status.toString(); 
+        const data = xhr.responseText; 
+        const status = xhr.status.toString(); 
 
 <#foreach(var response in operation.Responses){#>
         if (status === "<#=response.StatusCode#>") {
 <#  if(response.HasType){#>
-            var result<#=response.StatusCode#>: <#=response.Type#> = null; 
+            let result<#=response.StatusCode#>: <#=response.Type#> = null; 
             if (data !== undefined && data !== null && data !== "") {
 <#      if(response.IsDate){#>
                 result<#=response.StatusCode#> = new Date(data);
@@ -149,7 +149,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
                 result<#=response.StatusCode#> = data;
 <#          }else{#>
 <#              if(response.UseDtoClass){#>
-                var resultData<#=response.StatusCode#> = data === "" ? null : jQuery.parseJSON(data);
+                let resultData<#=response.StatusCode#> = data === "" ? null : jQuery.parseJSON(data);
                 <#=ConversionUtilities.Tab(response.DataConversionCode, 4)#>
 <#              }else{#>
                 result<#=response.StatusCode#> = data === "" ? null : <<#=response.Type#>>jQuery.parseJSON(data);
@@ -158,7 +158,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
         }#>
             }
 <#  }else{#>
-            var result<#=response.StatusCode#>: any = undefined; 
+            let result<#=response.StatusCode#>: any = undefined; 
 <#  }#>
 <#  if(response.IsSuccess){#>
             return result<#=response.StatusCode#>;
@@ -171,7 +171,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
         {
 <#if(operation.HasDefaultResponse){#>
 <#  if(operation.DefaultResponse.HasType){#>
-            var result: <#=operation.DefaultResponse.Type#> = null; 
+            let result: <#=operation.DefaultResponse.Type#> = null; 
             if (data !== undefined && data !== null && data !== "") {
 <#      if(operation.DefaultResponse.IsDate){#>
                 result = new Date(data);
@@ -180,7 +180,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
                 result = data;
 <#          }else{#>
 <#              if(operation.DefaultResponse.UseDtoClass){#>
-                var resultData = data === "" ? null : jQuery.parseJSON(data);
+                let resultData = data === "" ? null : jQuery.parseJSON(data);
                 <#=ConversionUtilities.Tab(operation.DefaultResponse.DataConversionCode, 4)#>
 <#              }else{#>
                 result = data === "" ? null : <<#=operation.DefaultResponse.Type#>>jQuery.parseJSON(data);
@@ -189,7 +189,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#      }#>
             }
 <#  }else{#>
-            var result: any = undefined; 
+            let result: any = undefined; 
 <#  }#>
 
 <#  if(operation.HasOnlyDefaultResponse){#>
