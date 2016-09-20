@@ -1475,7 +1475,7 @@ if(response.HasType){
                     "tatus_, responseData_, exception);\r\n            }\r\n");
             
             #line 199 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
-          if(response.TypeInheritsFromException){
+          if(response.HasExceptionSchema){
             
             #line default
             #line hidden

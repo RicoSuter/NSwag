@@ -12,6 +12,7 @@ using System.Linq;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 using NSwag.CodeGeneration.CodeGenerators.CSharp.Models;
+using NSwag.CodeGeneration.CodeGenerators.CSharp.Templates;
 using NSwag.CodeGeneration.CodeGenerators.Models;
 
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp
@@ -60,6 +61,13 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         public string GenerateFile(ClientGeneratorOutputType outputType)
         {
             return GenerateFile(_service, Resolver, outputType);
+        }
+
+        /// <summary>Gets the JSON exception converter code.</summary>
+        /// <returns>The code.</returns>
+        public static string GetJsonExceptionConverterCode(int tabCount)
+        {
+            return ConversionUtilities.Tab(new JsonExceptionConverterTemplate().TransformText(), tabCount);
         }
 
         /// <summary>Resolves the type of the parameter.</summary>

@@ -74,6 +74,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FileTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Include="CodeGenerators\CSharp\Templates\JsonExceptionConverterTemplate.cs">
+      <DependentUpon>JsonExceptionConverterTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="CodeGenerators\OperationNameGenerators\IOperationNameGenerator.cs" />
     <Compile Include="CodeGenerators\Models\OperationModel.cs" />
     <Compile Include="CodeGenerators\Models\ParameterModel.cs" />
@@ -202,6 +207,12 @@
     <None Include="CodeGenerators\TypeScript\Templates\RequestBodyTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>RequestBodyTemplate.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CodeGenerators\CSharp\Templates\JsonExceptionConverterTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>JsonExceptionConverterTemplate.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

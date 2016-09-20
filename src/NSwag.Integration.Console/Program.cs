@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using NSwag.Integration.WebAPI;
+using NSwag.Integration.ClientPCL;
+using NSwag.Integration.ClientPCL.Contracts;
 
 namespace NSwag.Integration.Console
 {

@@ -72,11 +72,11 @@
     "JsonConverters": [
       "Newtonsoft.Json.Converters.StringEnumConverter"
     ],
-    "GenerateContractsOutput": false,
-    "ContractsNamespace": null,
-    "ContractsOutputFilePath": null,
+    "GenerateContractsOutput": true,
+    "ContractsNamespace": "NSwag.Integration.ClientPCL.Contracts",
+    "ContractsOutputFilePath": "..\\NSwag.Integration.ClientPCL\\ServiceClientsContracts.cs",
     "ClassName": "{controller}Client",
-    "Namespace": "NSwag.Integration.WebAPI",
+    "Namespace": "NSwag.Integration.ClientPCL",
     "AdditionalNamespaceUsages": null,
     "RequiredPropertiesMustBeDefined": true,
     "DateTimeType": "DateTime",
