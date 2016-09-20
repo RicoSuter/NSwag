@@ -188,45 +188,30 @@ if(Model.GenerateContracts){
             Response = response;
         }
     }
-");
+
+    ");
             
-            #line 95 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 96 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(CSharpJsonConverters.GetJsonExceptionConverterCode(1)));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n\r\n");
+            
+            #line 98 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
 }
             
             #line default
             #line hidden
-            this.Write("\r\n");
             
-            #line 97 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
-if(Model.GenerateImplementation){
-            
-            #line default
-            #line hidden
-            this.Write("    ");
-            
-            #line 98 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
-
-        // TODO(exceptionhandling): Correctly implement this
-        CSharpJsonConverters.GetJsonExceptionConverterCode(1);
-            
-            #line default
-            #line hidden
-            
-            #line 101 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
- }
-            
-            #line default
-            #line hidden
-            this.Write("\r\n");
-            
-            #line 103 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 99 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
 if(Model.GenerateImplementation && Model.HasMissingHttpMethods){
             
             #line default
             #line hidden
             this.Write("    [GeneratedCode(\"NSwag\", \"");
             
-            #line 104 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 100 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerService.ToolchainVersion));
             
             #line default
@@ -254,7 +239,7 @@ if(Model.GenerateImplementation && Model.HasMissingHttpMethods){
                     "            return await client.SendAsync(request, cancellationToken);\r\n        " +
                     "}\r\n    }\r\n");
             
-            #line 135 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 131 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
 }
             
             #line default

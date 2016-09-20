@@ -59,7 +59,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         /// <summary>Gets a value indicating whether the response type inherits from exception.</summary>
         public bool TypeInheritsFromException => _response
             .ActualResponseSchema?
-            .InheritedSchemas
+            .InheritedSchemas.Concat(new List<JsonSchema4> { _response.ActualResponseSchema })
             .Any(s => new[] { "innerexception", "message", "source", "stacktrace" }.All(p => s.ActualSchema.Properties.Any(i => i.Key.ToLowerInvariant() == p))) == true;
 
         // TODO: Find way to remove TypeScript only properties

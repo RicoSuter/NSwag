@@ -104,6 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="JsonExceptionFilterAttribute.cs" />
     <Compile Include="Models\GenericRequest.cs" />
     <Compile Include="Models\GeoPoint.cs" />
     <Compile Include="Models\Exceptions\PersonNotFoundException.cs" />

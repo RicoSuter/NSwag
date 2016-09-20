@@ -92,14 +92,10 @@ namespace <#=Model.Namespace#>
             Response = response;
         }
     }
+
+    <#=CSharpJsonConverters.GetJsonExceptionConverterCode(1)#>
+
 <#}#>
-
-<#if(Model.GenerateImplementation){#>
-    <#
-        // TODO(exceptionhandling): Correctly implement this
-        CSharpJsonConverters.GetJsonExceptionConverterCode(1);#>
-<# }#>
-
 <#if(Model.GenerateImplementation && Model.HasMissingHttpMethods){#>
     [GeneratedCode("NSwag", "<#=SwaggerService.ToolchainVersion#>")]
     internal static class HttpExtensions

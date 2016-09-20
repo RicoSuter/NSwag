@@ -73,9 +73,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
         public IList<OperationModel> Operations { get; }
 
         /// <summary>Gets the JSON converters code.</summary>
-        public string JsonConverters => CSharpJsonConverters.GenerateConverters(_settings.CSharpGeneratorSettings.JsonConverters);
-        // TODO(exceptionhandling): Correctly implement this
-        //public string JsonConverters => CSharpJsonConverters.GenerateConverters(
-        //    (_settings.CSharpGeneratorSettings.JsonConverters ?? new string[] {}).Concat(new string[] { "JsonExceptionConverter" }));
+        public string JsonConverters => CSharpJsonConverters.GenerateConverters(
+            (_settings.CSharpGeneratorSettings.JsonConverters ?? new string[] { }).Concat(new string[] { "JsonExceptionConverter" }));
     }
 }
