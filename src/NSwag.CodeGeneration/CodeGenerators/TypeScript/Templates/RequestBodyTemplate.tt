@@ -1,7 +1,7 @@
 ﻿<#@ template visibility="internal" #>
 <#@ import namespace="NJsonSchema.CodeGeneration" #>
 <#  if(Model.HasFormParameters){#>
-var content_ = new FormData();
+const content_ = new FormData();
 <#foreach(var parameter in Model.FormParameters){#>
 <#  if(parameter.IsNullable){#>
 if (<#=parameter.VariableNameLower#> !== null)
@@ -24,28 +24,28 @@ else
 <#      if(Model.ContentParameter != null){
             if (Model.ContentParameter.UseDtoClass){ 
                 if(Model.ContentParameter.IsArray){#>
-var contentData_: any = [];
+let contentData_: any = [];
 if (<#=Model.ContentParameter.VariableNameLower#>) {
     for (let item of <#=Model.ContentParameter.VariableNameLower#>)
         contentData_.push(item.toJS());
 }
-var content_ = JSON.stringify(<#=Model.ContentParameter.VariableNameLower#> ? contentData_ : null);
+const content_ = JSON.stringify(<#=Model.ContentParameter.VariableNameLower#> ? contentData_ : null);
 <#              }else if(Model.ContentParameter.IsDictionary){#>
-var contentData_: any = {};
+let contentData_: any = {};
 if (<#=Model.ContentParameter.VariableNameLower#>) {
     for (let key in <#=Model.ContentParameter.VariableNameLower#>) {
         if (<#=Model.ContentParameter.VariableNameLower#>.hasOwnProperty(key))
             contentData_[key] = <#=Model.ContentParameter.VariableNameLower#>[key].toJS();
     }
 }
-var content_ = JSON.stringify(<#=Model.ContentParameter.VariableNameLower#> ? contentData_ : null);
+const content_ = JSON.stringify(<#=Model.ContentParameter.VariableNameLower#> ? contentData_ : null);
 <#              }else{#>
-var content_ = JSON.stringify(<#=Model.ContentParameter.VariableNameLower#> ? <#=Model.ContentParameter.VariableNameLower#>.toJS() : null);
+const content_ = JSON.stringify(<#=Model.ContentParameter.VariableNameLower#> ? <#=Model.ContentParameter.VariableNameLower#>.toJS() : null);
 <#              }
             }else{#>
-var content_ = JSON.stringify(<#=Model.ContentParameter.VariableNameLower#>);
+const content_ = JSON.stringify(<#=Model.ContentParameter.VariableNameLower#>);
 <#          }
         }else{#>
-var content_ = "";
+const content_ = "";
 <#  }
   }#>

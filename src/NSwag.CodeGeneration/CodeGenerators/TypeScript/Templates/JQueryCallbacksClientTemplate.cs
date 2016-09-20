@@ -489,7 +489,7 @@ if(operation.HasResultType){
             
             #line default
             #line hidden
-            this.Write(", reason: string) => void) {\r\n        var url = this.baseUrl + \"/");
+            this.Write(", reason: string) => void) {\r\n        let url = this.baseUrl + \"/");
             
             #line 49 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.Path));
@@ -957,7 +957,7 @@ if(Model.IsExtended){
             
             #line default
             #line hidden
-            this.Write("            var result = this.transformResult(url, xhr, (xhr) => this.process");
+            this.Write("            let result = this.transformResult(url, xhr, (xhr) => this.process");
             
             #line 124 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
@@ -971,7 +971,7 @@ if(Model.IsExtended){
             
             #line default
             #line hidden
-            this.Write("            var result = this.process");
+            this.Write("            let result = this.process");
             
             #line 126 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
@@ -994,8 +994,8 @@ if(Model.IsExtended){
             
             #line default
             #line hidden
-            this.Write("(xhr: any) {\r\n        var data = xhr.responseText; \r\n        var status = xhr.sta" +
-                    "tus.toString(); \r\n\r\n");
+            this.Write("(xhr: any) {\r\n        const data = xhr.responseText; \r\n        const status = xhr" +
+                    ".status.toString(); \r\n\r\n");
             
             #line 140 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
 foreach(var response in operation.Responses){
@@ -1016,7 +1016,7 @@ foreach(var response in operation.Responses){
             
             #line default
             #line hidden
-            this.Write("            var result");
+            this.Write("            let result");
             
             #line 143 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
@@ -1078,7 +1078,7 @@ foreach(var response in operation.Responses){
             
             #line default
             #line hidden
-            this.Write("                var resultData");
+            this.Write("                let resultData");
             
             #line 152 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
@@ -1134,7 +1134,7 @@ foreach(var response in operation.Responses){
             
             #line default
             #line hidden
-            this.Write("            var result");
+            this.Write("            let result");
             
             #line 161 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
@@ -1202,7 +1202,7 @@ if(operation.HasDefaultResponse){
             
             #line default
             #line hidden
-            this.Write("            var result: ");
+            this.Write("            let result: ");
             
             #line 174 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.DefaultResponse.Type));
@@ -1243,7 +1243,7 @@ if(operation.HasDefaultResponse){
             
             #line default
             #line hidden
-            this.Write("                var resultData = data === \"\" ? null : jQuery.parseJSON(data);\r\n  " +
+            this.Write("                let resultData = data === \"\" ? null : jQuery.parseJSON(data);\r\n  " +
                     "              ");
             
             #line 184 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
@@ -1291,7 +1291,7 @@ if(operation.HasDefaultResponse){
             
             #line default
             #line hidden
-            this.Write("            var result: any = undefined; \r\n");
+            this.Write("            let result: any = undefined; \r\n");
             
             #line 193 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
   }
