@@ -62,6 +62,10 @@
                                         <TextBlock Text="Call the CreateHttpClientAsync method on the client base class to create a new HttpClient instance" TextWrapping="Wrap" />
                                     </CheckBox>
 
+                                    <CheckBox IsChecked="{Binding Command.UseHttpRequestMessageCreationMethod, Mode=TwoWay}" Margin="0,0,0,12">
+                                        <TextBlock Text="Call the CreateHttpRequestMessageAsync method on the client base class to create a new HttpRequestMessage instance" TextWrapping="Wrap" />
+                                    </CheckBox>
+
                                     <TextBlock Text="Configuration Class Name (passed to base class ctor, optional)" FontWeight="Bold" Margin="0,0,0,6" />
                                     <TextBox Text="{Binding Command.ConfigurationClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                              Margin="0,0,0,12" />
