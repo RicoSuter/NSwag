@@ -71,6 +71,14 @@ namespace NSwag.Commands
             set { Settings.CSharpGeneratorSettings.JsonConverters = value; }
         }
 
+        [Description("Specifies whether to call CreateHttpRequestMessageAsync on the base class to create a new HttpRequestMethod.")]
+        [Argument(Name = "UseHttpRequestMessageCreationMethod", IsRequired = false)]
+        public bool UseHttpRequestMessageCreationMethod
+        {
+            get { return Settings.UseHttpRequestMessageCreationMethod; }
+            set { Settings.UseHttpRequestMessageCreationMethod = value; }
+        }
+
         [Description("Specifies whether to generate contracts output (interface and models in a separate file set with the ContractsOutput parameter).")]
         [Argument(Name = "GenerateContractsOutput", IsRequired = false)]
         public bool GenerateContractsOutput { get; set; }

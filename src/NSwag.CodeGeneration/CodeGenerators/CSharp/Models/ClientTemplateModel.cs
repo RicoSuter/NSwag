@@ -60,6 +60,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
         /// <summary>Gets a value indicating whether to use a HTTP client creation method.</summary>
         public bool UseHttpClientCreationMethod => _settings.UseHttpClientCreationMethod;
 
+        /// <summary>Gets a value indicating whether to use a HTTP request message creation method.</summary>
+        public bool UseHttpRequestMessageCreationMethod => _settings.UseHttpRequestMessageCreationMethod;
+
         /// <summary>Gets a value indicating whether to generate client interfaces.</summary>
         public bool GenerateClientInterfaces => _settings.GenerateClientInterfaces;
 
