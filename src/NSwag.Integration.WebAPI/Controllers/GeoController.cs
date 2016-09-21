@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using NSwag.Annotations;
@@ -47,6 +48,11 @@ namespace NSwag.Integration.WebAPI.Controllers
         public void SaveItems(GenericRequest<Address, Person> request)
         {
             throw new ArgumentException("Test");
+        }
+
+        public HttpResponseMessage GetUploadedFile(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

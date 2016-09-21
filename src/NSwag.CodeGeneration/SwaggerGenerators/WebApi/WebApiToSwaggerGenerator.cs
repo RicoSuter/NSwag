@@ -295,9 +295,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             var httpPaths = new List<string>();
             var controllerName = controllerType.Name.Replace("Controller", string.Empty);
 
-            var routeAttributes = method.GetCustomAttributes()
-                .Where(a => a.GetType().Name == "RouteAttribute")
-                .ToList();
+            var routeAttributes = GetRouteAttributes(method.GetCustomAttributes()).ToList();
 
             // .NET Core: Http*Attribute inherits from HttpMethodAttribute with Template property
             var httpMethodWithTemplateAttributes = method.GetCustomAttributes()
@@ -306,11 +304,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 .ToList();
 
             // .NET Core: RouteAttribute on class level
-            dynamic routeAttributeOnClass = controllerType.GetTypeInfo().GetCustomAttributes()
-                .SingleOrDefault(a => a.GetType().Name == "RouteAttribute");
-
-            dynamic routePrefixAttribute = controllerType.GetTypeInfo().GetCustomAttributes()
-                .SingleOrDefault(a => a.GetType().Name == "RoutePrefixAttribute");
+            dynamic routeAttributeOnClass = GetRouteAttributes(controllerType.GetTypeInfo().GetCustomAttributes()).SingleOrDefault();
+            dynamic routePrefixAttribute = GetRoutePrefixAttributes(controllerType.GetTypeInfo().GetCustomAttributes()).SingleOrDefault();
 
             if (routeAttributes.Any() || httpMethodWithTemplateAttributes.Any())
             {
@@ -347,6 +342,19 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     .Replace("{controller}", controllerName)
                     .Replace("{action}", actionName)
                     .Trim('/');
+        }
+
+        private IEnumerable<Attribute> GetRouteAttributes(IEnumerable<Attribute> attributes)
+        {
+            return attributes.Where(a => a.GetType().Name == "RouteAttribute" ||
+                                         a.GetType().InheritsFrom("IHttpRouteInfoProvider", TypeNameStyle.Name) ||
+                                         a.GetType().InheritsFrom("IRouteTemplateProvider", TypeNameStyle.Name)); // .NET Core
+        }
+
+        private IEnumerable<Attribute> GetRoutePrefixAttributes(IEnumerable<Attribute> attributes)
+        {
+            return attributes.Where(a => a.GetType().Name == "RoutePrefixAttribute" ||
+                                         a.GetType().InheritsFrom("IRoutePrefix", TypeNameStyle.Name));
         }
 
         private string GetActionName(MethodInfo method)

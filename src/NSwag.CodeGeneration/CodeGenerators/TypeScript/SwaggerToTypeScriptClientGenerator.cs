@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
+using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag.CodeGeneration.CodeGenerators.Models;
 using NSwag.CodeGeneration.CodeGenerators.TypeScript.Models;
@@ -56,6 +57,24 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             return GenerateFile(_service, _resolver, ClientGeneratorOutputType.Full);
         }
 
+        /// <summary>Resolves the type of the parameter.</summary>
+        /// <param name="parameter">The parameter.</param>
+        /// <param name="resolver">The resolver.</param>
+        /// <returns>The parameter type name.</returns>
+        protected override string ResolveParameterType(SwaggerParameter parameter, ITypeResolver resolver)
+        {
+            var schema = parameter.ActualSchema;
+            if (schema.Type == JsonObjectType.File)
+            {
+                if (parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
+                    return "FileParameter[]";
+
+                return "FileParameter";
+            }
+
+            return base.ResolveParameterType(parameter, resolver);
+        }
+
         internal override ClientGeneratorBaseSettings BaseSettings => Settings;
 
         internal override string GenerateFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType)
@@ -69,7 +88,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         {
             UpdateUseDtoClassAndDataConversionCodeProperties(operations);
 
-            var model = new ClientTemplateModel(GetClassName(controllerName), operations, _service, Settings); 
+            var model = new ClientTemplateModel(GetClassName(controllerName), operations, _service, Settings);
             var template = Settings.CreateTemplate(model);
             var code = template.Render();
 
@@ -114,7 +133,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
                 return "void";
 
             if (schema.ActualSchema.Type == JsonObjectType.File)
-                return "FileParameter";
+                return "any";
 
             if (schema.ActualSchema.IsAnyType || schema.ActualSchema.Type == JsonObjectType.File)
                 return "any";
