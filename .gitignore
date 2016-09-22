@@ -29,3 +29,13 @@ src/packages/**
 /src/NSwag.Integration.TypeScriptWeb/scripts/serviceClientsJQueryPromises.js.map
 /src/NSwag.Integration.TypeScriptWeb/scripts/serviceClientsJQueryPromisesKO.js
 /src/NSwag.Integration.TypeScriptWeb/scripts/serviceClientsJQueryPromisesKO.js.map
+/src/NSwag.Integration.TypeScriptWeb/scripts/serviceClientsJQueryPromisesKO.js.map
+/src/NSwag.Integration.TypeScriptWeb/scripts/serviceClientsAngularJS.js
+/src/NSwag.Integration.TypeScriptWeb/scripts/serviceClientsJQueryCallbacks.js
+/src/NSwag.Integration.TypeScriptWeb/scripts/serviceClientsJQueryPromises.extensions.js
+/src/NSwag.Integration.TypeScriptWeb/scripts/serviceClientsJQueryPromises.js
+/src/NSwag.Integration.TypeScriptWeb/scripts/serviceClientsJQueryPromisesKO.js
+/src/NSwag.Integration.TypeScriptWeb/scripts/serviceClientsAngularJS.js.map
+/src/NSwag.Integration.TypeScriptWeb/scripts/serviceClientsJQueryCallbacks.js.map
+/src/NSwag.Integration.TypeScriptWeb/scripts/serviceClientsJQueryPromises.extensions.js.map
+/src/NSwag.Integration.TypeScriptWeb/scripts/serviceClientsJQueryPromises.js.map
