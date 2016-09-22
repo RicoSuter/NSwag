@@ -1474,6 +1474,15 @@
           "lib/netstandard1.0/NJsonSchema.CodeGeneration.dll": {}
         }
       },
+      "NSwag.Annotations/5.6.6095.40773": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard1.0/NSwag.Annotations.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/NSwag.Annotations.dll": {}
+        }
+      },
       "NSwag.CodeGeneration/5.6.6095.40773": {
         "type": "package",
         "dependencies": {
@@ -3417,6 +3426,7 @@
           "Microsoft.AspNetCore.Mvc.Core": "1.0.0",
           "Microsoft.AspNetCore.StaticFiles": "1.0.0",
           "Microsoft.Extensions.FileProviders.Embedded": "1.0.0",
+          "NSwag.Annotations": "1.0.0",
           "NSwag.CodeGeneration": "1.0.0",
           "System.IO.FileSystem": "4.0.1",
           "System.Xml.XPath.XDocument": "4.0.1"
@@ -4621,6 +4631,23 @@
         "lib/portable45-net45+win8+wp8+wpa81/NJsonSchema.CodeGeneration.xml"
       ]
     },
+    "NSwag.Annotations/5.6.6095.40773": {
+      "sha512": "U+5DCdhS3/rS2T/dudQ2TJcBqErSv1fXpVZ96G+pYeR9Ss9x5GT/Kd93oZlvv4+wGweh3fix8vgQDRzf55TdSg==",
+      "type": "package",
+      "path": "NSwag.Annotations/5.6.6095.40773",
+      "files": [
+        "NSwag.Annotations.5.6.6095.40773.nupkg.sha512",
+        "NSwag.Annotations.nuspec",
+        "lib/netstandard1.0/NSwag.Annotations.dll",
+        "lib/netstandard1.0/NSwag.Annotations.pdb",
+        "lib/netstandard1.0/NSwag.Annotations.xml",
+        "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/NSwag.Annotations.dll",
+        "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/NSwag.Annotations.pdb",
+        "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/NSwag.Annotations.xml",
+        "lib/portable40-net40+sl5+win8+wp8+wpa81/NSwag.Annotations.dll",
+        "lib/portable40-net40+sl5+win8+wp8+wpa81/NSwag.Annotations.xml"
+      ]
+    },
     "NSwag.CodeGeneration/5.6.6095.40773": {
       "sha512": "3oaKx620jLwVdYPTeBLC0RuF9BSg8RZhAooD+aBNSjCJziGK5JqHKDG3f7ve4TkPeqxN22FN82bTgSuNkkYIrQ==",
       "type": "package",
@@ -4680,7 +4707,7 @@
       ]
     },
     "runtime.native.System.Net.Http/4.0.1": {
-      "sha512": "Nh0UPZx2Vifh8r+J+H2jxifZUD3sBrmolgiFWJd2yiNrxO0xTa6bAw3YwRn1VOiSen/tUXMS31ttNItCZ6lKuA==",
+      "sha512": "qRijl1gTABbUJtZtM/auD32mh0UBvLeECEdj7h4yoicE/asDEEISm4hpv8H+KzZ/irKEi/p5OQaysIbeuPd/JQ==",
       "type": "package",
       "path": "runtime.native.System.Net.Http/4.0.1",
       "files": [
@@ -4692,7 +4719,7 @@
       ]
     },
     "runtime.native.System.Net.Security/4.0.1": {
-      "sha512": "Az6Ff6rZFb8nYGAaejFR6jr8ktt9f3e1Q/yKdw0pwHNTLaO/1eCAC9vzBoR9YAb0QeZD6fZXl1A9tRB5stpzXA==",
+      "sha512": "Dcx3WZJkweZNIewzgoR3o7yxPcjkMEFhDrQXJgsDLbwV6yJsGvr24iBzksHAjpYu46v8w1SjnZv3k8/sK5rIWw==",
       "type": "package",
       "path": "runtime.native.System.Net.Security/4.0.1",
       "files": [
@@ -7217,7 +7244,7 @@
       ]
     },
     "System.Reflection.Emit.Lightweight/4.0.1": {
-      "sha512": "sSzHHXueZ5Uh0OLpUQprhr+ZYJrLPA2Cmr4gn0wj9+FftNKXx8RIMKvO9qnjk2ebPYUjZ+F2ulGdPOsvj+MEjA==",
+      "sha512": "lVGYHZZcFUZkduA7bKTKG0ZVKqFhJjRF5NnvdVUc6KtjMGd+mQ6HU1j2St/Z17QaWHNH4H6wgWWlp1uNl2IqGQ==",
       "type": "package",
       "path": "System.Reflection.Emit.Lightweight/4.0.1",
       "files": [
@@ -8033,7 +8060,7 @@
       ]
     },
     "System.Security.Cryptography.Cng/4.2.0": {
-      "sha512": "cUJ2h+ZvONDe28Szw3st5dOHdjndhJzQ2WObDEXAWRPEQBtVItVoxbXM/OEsTthl3cNn2dk2k0I3y45igCQcLw==",
+      "sha512": "9CD7eEmyTjnMrorRilmfI885p2FLwnXYafu33nhGgmyyHSZxsou4vsZurO9dQiP5axZD1W08F42ryPrgTBsAPQ==",
       "type": "package",
       "path": "System.Security.Cryptography.Cng/4.2.0",
       "files": [
@@ -8059,7 +8086,7 @@
       ]
     },
     "System.Security.Cryptography.Csp/4.0.0": {
-      "sha512": "/i1Usuo4PgAqgbPNC0NjbO3jPW//BoBlTpcWFD1EHVbidH21y4c1ap5bbEMSGAXjAShhMH4abi/K8fILrnu4BQ==",
+      "sha512": "AzB3o2PXd9r4SAZdXyroOfYopm3qqzmB8q15W3TYkdAlWHbjFk4w41iXDdre3Gh8udSsut9MkW8mF3/hPW67Nw==",
       "type": "package",
       "path": "System.Security.Cryptography.Csp/4.0.0",
       "files": [
@@ -8127,7 +8154,7 @@
       ]
     },
     "System.Security.Cryptography.OpenSsl/4.0.0": {
-      "sha512": "HUG/zNUJwEiLkoURDixzkzZdB5yGA5pQhDP93ArOpDPQMteURIGERRNzzoJlmTreLBWr5lkFSjjMSk8ySEpQMw==",
+      "sha512": "x/Wum+BPoy1cNcWN/MPOaMDLlZMuKmbJe7q9HhDlm1uVea76h3kxJMoAHF1vf9Im6D1yPARNjFzb98nl3P860g==",
       "type": "package",
       "path": "System.Security.Cryptography.OpenSsl/4.0.0",
       "files": [

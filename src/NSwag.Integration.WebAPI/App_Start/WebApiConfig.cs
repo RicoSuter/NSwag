@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using NSwag.AspNet.WebApi;
 
 namespace NSwag.Integration.WebAPI
 {
