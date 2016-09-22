@@ -16,7 +16,8 @@ namespace NSwag.Integration.WebAPI
             {
                 app.UseSwaggerUi(typeof(WebApiApplication).Assembly, new SwaggerUiOwinSettings
                 {
-                    MiddlewareBasePath = "/swagger"
+                    MiddlewareBasePath = "/swagger", 
+                    DefaultUrlTemplate = "api/{controller}/{action}/{id}"
                 });
             });
 

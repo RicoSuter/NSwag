@@ -155,8 +155,12 @@
       <Name>NSwag.AspNet.Owin</Name>
     </ProjectReference>
     <ProjectReference Include="..\NSwag.AspNet.WebApi\NSwag.AspNet.WebApi.csproj">
-      <Project>{E5AC8F27-F9E2-4E98-AC98-6F9361132A2E}</Project>
+      <Project>{e5ac8f27-f9e2-4e98-ac98-6f9361132a2e}</Project>
       <Name>NSwag.AspNet.WebApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj">
+      <Project>{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}</Project>
+      <Name>NSwag.CodeGeneration</Name>
     </ProjectReference>
     <ProjectReference Include="..\NSwag.Demo.Client\NSwag.Demo.Client.csproj">
       <Project>{267D875B-3481-465D-AD2C-4BB18EB911BA}</Project>

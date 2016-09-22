@@ -10,6 +10,7 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
 using System.Text;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
@@ -48,7 +49,7 @@ namespace NSwag.AspNet.WebApi
                 var exceptionType = exception.GetType();
 
                 var responseTypeAttributes = methodInfo.GetCustomAttributes(true).OfType<ResponseTypeAttribute>();
-                var responseTypeAttribute = responseTypeAttributes.FirstOrDefault((dynamic a) => exceptionType.IsInstanceOfType((Type)a.ResponseType));
+                var responseTypeAttribute = responseTypeAttributes.FirstOrDefault(a => a.ResponseType.IsAssignableFrom(exceptionType.GetTypeInfo()));
                 if (responseTypeAttribute != null)
                 {
                     var statusCode = 0;
