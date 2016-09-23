@@ -32,9 +32,9 @@ namespace NSwag.Integration.WebAPI.Controllers
             throw new NotSupportedException();
         }
 
-        public void UploadFile(HttpPostedFileBase file)
+        public bool UploadFile(HttpPostedFileBase file)
         {
-
+            return file.InputStream.ReadByte() == 1 && file.InputStream.ReadByte() == 2;
         }
 
         public void UploadFiles(IEnumerable<HttpPostedFileBase> files)

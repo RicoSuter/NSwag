@@ -102,6 +102,12 @@
     <Compile Include="CodeGenerators\TypeScript\Models\ClientTemplateModel.cs" />
     <Compile Include="CodeGenerators\TypeScript\PromiseType.cs" />
     <Compile Include="CodeGenerators\TypeScript\SwaggerToTypeScriptClientGeneratorSettings.cs" />
+    <Compile Include="CodeGenerators\TypeScript\Templates\FetchClientTemplate.cs">
+      <DependentUpon>FetchClientTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CodeGenerators\TypeScript\Templates\FetchClientTemplate.Extensions.cs" />
     <Compile Include="CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.Extensions.cs" />
     <Compile Include="CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.cs">
       <AutoGen>True</AutoGen>
@@ -213,6 +219,12 @@
     <None Include="CodeGenerators\CSharp\Templates\JsonExceptionConverterTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>JsonExceptionConverterTemplate.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>FetchClientTemplate.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

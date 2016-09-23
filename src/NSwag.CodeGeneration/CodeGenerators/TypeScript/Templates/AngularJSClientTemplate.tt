@@ -49,19 +49,19 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
 <#}#>    <#=operation.OperationNameLower#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableNameLower#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): ng.IPromise<<#=operation.ResultType#>> {
-        let url = this.baseUrl + "/<#=operation.Path#><#if(operation.PathParameters.Any()){#>?<#}#>"; 
+        let url_ = this.baseUrl + "/<#=operation.Path#><#if(operation.PathParameters.Any()){#>?<#}#>"; 
 
 <#foreach(var parameter in operation.PathParameters){#>
         if (<#=parameter.VariableNameLower#> === undefined || <#=parameter.VariableNameLower#> === null)
             throw new Error("The parameter '<#=parameter.VariableNameLower#>' must be defined.");
 <#  if(parameter.IsDateArray){#>
-        url = url.replace("{<#=parameter.Name#>}", encodeURIComponent(<#=parameter.VariableNameLower#>.map(s_ => s_.toJSON()).join())); 
+        url_ = url_.replace("{<#=parameter.Name#>}", encodeURIComponent(<#=parameter.VariableNameLower#>.map(s_ => s_.toJSON()).join())); 
 <#  }else if(parameter.IsDate){#>
-        url = url.replace("{<#=parameter.Name#>}", encodeURIComponent("" + <#=parameter.VariableNameLower#>.toJSON())); 
+        url_ = url_.replace("{<#=parameter.Name#>}", encodeURIComponent("" + <#=parameter.VariableNameLower#>.toJSON())); 
 <#  }else if(parameter.IsArray){#>
-        url = url.replace("{<#=parameter.Name#>}", encodeURIComponent(<#=parameter.VariableNameLower#>.join())); 
+        url_ = url_.replace("{<#=parameter.Name#>}", encodeURIComponent(<#=parameter.VariableNameLower#>.join())); 
 <#  }else{#>
-        url = url.replace("{<#=parameter.Name#>}", encodeURIComponent("" + <#=parameter.VariableNameLower#>)); 
+        url_ = url_.replace("{<#=parameter.Name#>}", encodeURIComponent("" + <#=parameter.VariableNameLower#>)); 
 <#  }#>
 <#}#>
 
@@ -86,20 +86,20 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#      }
     }#>
 <#  if(parameter.IsDateArray){#>
-            <#=parameter.VariableNameLower#>.forEach(item => { url += "<#=parameter.Name#>=" + encodeURIComponent("" + item.toJSON()) + "&"; });
+            <#=parameter.VariableNameLower#>.forEach(item => { url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + item.toJSON()) + "&"; });
 <#  }else if(parameter.IsDate){#>
-            url += "<#=parameter.Name#>=" + encodeURIComponent("" + <#=parameter.VariableNameLower#>.toJSON()) + "&"; 
+            url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + <#=parameter.VariableNameLower#>.toJSON()) + "&"; 
 <#  }else if(parameter.IsArray){#>
-            <#=parameter.VariableNameLower#>.forEach(item => { url += "<#=parameter.Name#>=" + encodeURIComponent("" + item) + "&"; });
+            <#=parameter.VariableNameLower#>.forEach(item => { url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + item) + "&"; });
 <#  }else{#>
-            url += "<#=parameter.Name#>=" + encodeURIComponent("" + <#=parameter.VariableNameLower#>) + "&"; 
+            url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + <#=parameter.VariableNameLower#>) + "&"; 
 <#  }
 }#>
 
         <#=RequestBodyGenerator.Render(operation, 2)#>
 
         return this.http(<#if(Model.IsExtended){#>this.transformOptions(<#}#>{
-            url: url,
+            url: url_,
             method: "<#=operation.HttpMethodUpper.ToUpperInvariant()#>",
             data: content_,
             transformResponse: [], 
@@ -114,7 +114,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
             }
         }<#if(Model.IsExtended){#>)<#}#>).then((response) => {
 <#if(Model.IsExtended){#>
-            return this.transformResult(url, response, (response) => this.process<#=operation.OperationNameUpper#>(response));
+            return this.transformResult(url_, response, (response) => this.process<#=operation.OperationNameUpper#>(response));
 <#}else{#>
             return this.process<#=operation.OperationNameUpper#>(response);
 <#}#>

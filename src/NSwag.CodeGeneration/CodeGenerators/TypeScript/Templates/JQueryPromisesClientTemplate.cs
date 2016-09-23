@@ -577,7 +577,7 @@ foreach(var parameter in operation.Parameters){
             
             #line default
             #line hidden
-            this.Write(", reason: string) => void) {\r\n        let url = this.baseUrl + \"/");
+            this.Write(", reason: string) => void) {\r\n        let url_ = this.baseUrl + \"/");
             
             #line 55 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.Path));
@@ -632,7 +632,7 @@ foreach(var parameter in operation.PathParameters){
             
             #line default
             #line hidden
-            this.Write("        url = url.replace(\"{");
+            this.Write("        url_ = url_.replace(\"{");
             
             #line 61 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
@@ -653,7 +653,7 @@ foreach(var parameter in operation.PathParameters){
             
             #line default
             #line hidden
-            this.Write("        url = url.replace(\"{");
+            this.Write("        url_ = url_.replace(\"{");
             
             #line 63 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
@@ -674,7 +674,7 @@ foreach(var parameter in operation.PathParameters){
             
             #line default
             #line hidden
-            this.Write("        url = url.replace(\"{");
+            this.Write("        url_ = url_.replace(\"{");
             
             #line 65 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
@@ -695,7 +695,7 @@ foreach(var parameter in operation.PathParameters){
             
             #line default
             #line hidden
-            this.Write("        url = url.replace(\"{");
+            this.Write("        url_ = url_.replace(\"{");
             
             #line 67 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
@@ -843,7 +843,7 @@ foreach(var parameter in operation.QueryParameters){
             
             #line default
             #line hidden
-            this.Write(".forEach(item => { url += \"");
+            this.Write(".forEach(item => { url_ += \"");
             
             #line 92 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
@@ -857,7 +857,7 @@ foreach(var parameter in operation.QueryParameters){
             
             #line default
             #line hidden
-            this.Write("            url += \"");
+            this.Write("            url_ += \"");
             
             #line 94 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
@@ -885,7 +885,7 @@ foreach(var parameter in operation.QueryParameters){
             
             #line default
             #line hidden
-            this.Write(".forEach(item => { url += \"");
+            this.Write(".forEach(item => { url_ += \"");
             
             #line 96 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
@@ -899,7 +899,7 @@ foreach(var parameter in operation.QueryParameters){
             
             #line default
             #line hidden
-            this.Write("            url += \"");
+            this.Write("            url_ += \"");
             
             #line 98 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
@@ -942,8 +942,8 @@ if(Model.IsExtended){
             
             #line default
             #line hidden
-            this.Write("{\r\n            url: url,\r\n            beforeSend: this.beforeSend,\r\n            t" +
-                    "ype: \"");
+            this.Write("{\r\n            url: url_,\r\n            beforeSend: this.beforeSend,\r\n            " +
+                    "type: \"");
             
             #line 107 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.HttpMethodLower));
@@ -1021,16 +1021,16 @@ if(Model.IsExtended){
             
             #line default
             #line hidden
-            this.Write("WithCallbacks(url, xhr, onSuccess, onFail);\r\n        }).fail((xhr) => {\r\n        " +
-                    "    this.process");
+            this.Write("WithCallbacks(url_, xhr, onSuccess, onFail);\r\n        }).fail((xhr) => {\r\n       " +
+                    "     this.process");
             
             #line 123 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
             
             #line default
             #line hidden
-            this.Write("WithCallbacks(url, xhr, onSuccess, onFail);\r\n        });\r\n    }\r\n\r\n    private pr" +
-                    "ocess");
+            this.Write("WithCallbacks(url_, xhr, onSuccess, onFail);\r\n        });\r\n    }\r\n\r\n    private p" +
+                    "rocess");
             
             #line 127 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));

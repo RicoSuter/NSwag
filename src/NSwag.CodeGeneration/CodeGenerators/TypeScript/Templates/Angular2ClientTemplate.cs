@@ -453,7 +453,7 @@ if(!parameter.IsLast){
             
             #line default
             #line hidden
-            this.Write("> {\r\n        let url = this.baseUrl + \"/");
+            this.Write("> {\r\n        let url_ = this.baseUrl + \"/");
             
             #line 52 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.Path));
@@ -508,7 +508,7 @@ foreach(var parameter in operation.PathParameters){
             
             #line default
             #line hidden
-            this.Write("        url = url.replace(\"{");
+            this.Write("        url_ = url_.replace(\"{");
             
             #line 58 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
@@ -529,7 +529,7 @@ foreach(var parameter in operation.PathParameters){
             
             #line default
             #line hidden
-            this.Write("        url = url.replace(\"{");
+            this.Write("        url_ = url_.replace(\"{");
             
             #line 60 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
@@ -550,7 +550,7 @@ foreach(var parameter in operation.PathParameters){
             
             #line default
             #line hidden
-            this.Write("        url = url.replace(\"{");
+            this.Write("        url_ = url_.replace(\"{");
             
             #line 62 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
@@ -571,7 +571,7 @@ foreach(var parameter in operation.PathParameters){
             
             #line default
             #line hidden
-            this.Write("        url = url.replace(\"{");
+            this.Write("        url_ = url_.replace(\"{");
             
             #line 64 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
@@ -719,7 +719,7 @@ foreach(var parameter in operation.QueryParameters){
             
             #line default
             #line hidden
-            this.Write(".forEach(item => { url += \"");
+            this.Write(".forEach(item => { url_ += \"");
             
             #line 89 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
@@ -733,7 +733,7 @@ foreach(var parameter in operation.QueryParameters){
             
             #line default
             #line hidden
-            this.Write("            url += \"");
+            this.Write("            url_ += \"");
             
             #line 91 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
@@ -761,7 +761,7 @@ foreach(var parameter in operation.QueryParameters){
             
             #line default
             #line hidden
-            this.Write(".forEach(item => { url += \"");
+            this.Write(".forEach(item => { url_ += \"");
             
             #line 93 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
@@ -775,7 +775,7 @@ foreach(var parameter in operation.QueryParameters){
             
             #line default
             #line hidden
-            this.Write("            url += \"");
+            this.Write("            url_ += \"");
             
             #line 95 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
@@ -804,7 +804,7 @@ foreach(var parameter in operation.QueryParameters){
             
             #line default
             #line hidden
-            this.Write("\r\n        \r\n        return this.http.request(url, ");
+            this.Write("\r\n        \r\n        return this.http.request(url_, ");
             
             #line 101 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt"
 if(Model.IsExtended){
@@ -894,8 +894,8 @@ if(Model.IsExtended){
             
             #line default
             #line hidden
-            this.Write("            return this.transformResult(url, response, (response) => this.process" +
-                    "");
+            this.Write("            return this.transformResult(url_, response, (response) => this.proces" +
+                    "s");
             
             #line 115 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));

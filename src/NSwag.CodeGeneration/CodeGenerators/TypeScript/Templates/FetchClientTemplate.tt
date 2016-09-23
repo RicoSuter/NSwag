@@ -14,20 +14,15 @@ export interface I<#=Model.Class#> {
 <#}#><#}#><#if(operation.HasResultDescription){#>     * @return <#=operation.ResultDescription#>
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
-<#}#>    <#=operation.OperationNameLower#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableNameLower#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): Observable<<#=operation.ResultType#>>;
+<#}#>    <#=operation.OperationNameLower#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableNameLower#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): Promise<<#=operation.ResultType#>>;
 <#}#>}
 <#}#>
 
-@Injectable()
 export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements I<#=Model.Class#> <#}#>{
-    private http: Http = null; 
     private baseUrl: string = undefined; 
-    private jsonParseReviver: (key: string, value: any) => any = undefined; 
 
-    constructor(@Inject(Http) http: Http, @Optional() @Inject(API_BASE_URL) baseUrl?: string, @Optional() @Inject(JSON_PARSE_REVIVER) jsonParseReviver?: (key: string, value: any) => any) {
-        this.http = http; 
+    constructor(baseUrl?: string) {
         this.baseUrl = baseUrl ? baseUrl : "<#=Model.BaseUrl#>"; 
-        this.jsonParseReviver = jsonParseReviver;
     }
 <#if(Model.IsExtended){#>
 
@@ -48,7 +43,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#}#><#}#><#if(operation.HasResultDescription){#>     * @return <#=operation.ResultDescription#>
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
-<#}#>    <#=operation.OperationNameLower#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableNameLower#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): Observable<<#=operation.ResultType#>> {
+<#}#>    <#=operation.OperationNameLower#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableNameLower#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): Promise<<#=operation.ResultType#>> {
         let url_ = this.baseUrl + "/<#=operation.Path#><#if(operation.QueryParameters.Any()){#>?<#}#>"; 
 
 <#foreach(var parameter in operation.PathParameters){#>
@@ -98,10 +93,10 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 
         <#=RequestBodyGenerator.Render(operation, 2)#>
         
-        return this.http.request(url_, <#if(Model.IsExtended){#>this.transformOptions(<#}#>{
+        return fetch(url_, <#if(Model.IsExtended){#>this.transformOptions(<#}#>{
             body: content_,
-            method: "<#=operation.HttpMethodLower#>",
-            headers: new Headers({
+            method: "<#=operation.HttpMethodUpper.ToUpperInvariant()#>",
+            headers: {
 <#foreach(var parameter in operation.HeaderParameters){#>
                 "<#=parameter.Name#>": <#=parameter.VariableNameLower#>, 
 <#}#>
@@ -109,8 +104,8 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#}else{#>
                 "Content-Type": "application/json; charset=UTF-8"
 <#}#>
-            })
-        }<#if(Model.IsExtended){#>)<#}#>).map((response) => {
+            }
+        }<#if(Model.IsExtended){#>)<#}#>).then((response) => {
 <#if(Model.IsExtended){#>
             return this.transformResult(url_, response, (response) => this.process<#=operation.OperationNameUpper#>(response));
 <#}else{#>
@@ -120,53 +115,54 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
     }
 
     private process<#=operation.OperationNameUpper#>(response: Response) {
-        const data = response.text();
-        const status = response.status.toString(); 
+        return response.text().then((data) => {
+            const status = response.status.toString(); 
 
 <#foreach(var response in operation.Responses){#>
-        if (status === "<#=response.StatusCode#>") {
+            if (status === "<#=response.StatusCode#>") {
 <#if(response.HasType){#>
-            let result<#=response.StatusCode#>: <#=response.Type#> = null; 
+                let result<#=response.StatusCode#>: <#=response.Type#> = null; 
 <#  if(response.IsDate){#>
-            result<#=response.StatusCode#> = new Date(data);
+                result<#=response.StatusCode#> = new Date(data);
 <#  }else{#>
 <#      if(response.UseDtoClass){#>
-            let resultData<#=response.StatusCode#> = data === "" ? null : JSON.parse(data, this.jsonParseReviver);
-            <#=ConversionUtilities.Tab(response.DataConversionCode, 3)#>
+                let resultData<#=response.StatusCode#> = data === "" ? null : JSON.parse(data);
+                <#=ConversionUtilities.Tab(response.DataConversionCode, 4)#>
 <#      }else{#>
-            result<#=response.StatusCode#> = data === "" ? null : <<#=response.Type#>>JSON.parse(data, this.jsonParseReviver);
+                result<#=response.StatusCode#> = data === "" ? null : <<#=response.Type#>>JSON.parse(data);
 <#      }#>
 <#  }#>
 <#  if(response.IsSuccess){#>
-            return result<#=response.StatusCode#>; 
+                return result<#=response.StatusCode#>; 
 <#  }else{#>
-            throw result<#=response.StatusCode#>; 
+                throw result<#=response.StatusCode#>; 
 <#  }
 }#>
-        }
-        else
-<#}#>        {
+            }
+            else
+<#}#>            {
 <#if(operation.HasDefaultResponse){#>
-            let result: <#=operation.DefaultResponse.Type#> = null; 
+                let result: <#=operation.DefaultResponse.Type#> = null; 
 <#  if(operation.DefaultResponse.IsDate){#>
-            result = new Date(data);
+                result = new Date(data);
 <#  }else{#>
 <#      if(operation.DefaultResponse.UseDtoClass){#>
-            let resultData = data === "" ? null : JSON.parse(data, this.jsonParseReviver);
+                let resultData = data === "" ? null : JSON.parse(data);
             <#=ConversionUtilities.Tab(operation.DefaultResponse.DataConversionCode, 3)#>
 <#      }else{#>
-            result = data === "" ? null : <<#=operation.DefaultResponse.Type#>>JSON.parse(data, this.jsonParseReviver);
+                result = data === "" ? null : <<#=operation.DefaultResponse.Type#>>JSON.parse(data);
 <#      }#>
 <#  }#>
 <#  if(operation.DefaultResponse.IsSuccess){#>
-            return result; 
+                return result; 
 <#  }else{#>
-            throw result; 
+                throw result; 
 <#  }
 }else{#>
-            throw "error_no_callback_for_the_received_http_status"; 
+                throw "error_no_callback_for_the_received_http_status"; 
 <#}#>
-        }
+            }
+        });
     }
 <#}#>}
 <#}#>
