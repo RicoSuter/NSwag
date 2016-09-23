@@ -41,6 +41,7 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 		- JQuery with promises `JQueryPromises`
 		- AngularJS using $http, `AngularJS`
 		- Angular 2 using the http service, `Angular2`
+		- window.fetch API and ES6 promises, `Fetch`
 - **CSharp Client**
 	- [SwaggerToCSharpClientGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToCSharpClientGenerator)
 	- With [INotifyPropertyChanged](https://msdn.microsoft.com/en-us/library/system.componentmodel.inotifypropertychanged(v=vs.110).aspx) supporting DTOs
