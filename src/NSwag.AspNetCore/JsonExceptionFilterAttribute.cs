@@ -37,7 +37,7 @@ namespace NSwag.AspNetCore
             else
                 base.OnActionExecuted(context);
         }
-        
+
         private int GetStatusCode(Exception exception, ActionExecutedContext context)
         {
             var controllerActionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
@@ -52,7 +52,7 @@ namespace NSwag.AspNetCore
                     return producesResponseTypeAttribute.StatusCode;
 
                 var responseTypeAttributes = methodInfo.GetCustomAttributes().OfType<ResponseTypeAttribute>();
-                var responseTypeAttribute = responseTypeAttributes.FirstOrDefault((dynamic a) => exceptionType.IsInstanceOfType((Type)a.ResponseType));
+                var responseTypeAttribute = responseTypeAttributes.FirstOrDefault((dynamic a) => exceptionType.IsAssignableFrom((Type)a.ResponseType));
                 if (responseTypeAttribute != null)
                 {
                     var statusCode = 0;
