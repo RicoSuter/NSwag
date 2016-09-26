@@ -31,6 +31,8 @@ namespace NSwag.Integration.WebAPI.Models
 
         public int Age { get; set; }
 
+        public TimeSpan AverageSleepTime { get; set; }
+
         [Required]
         public Address Address { get; set; } = new Address();
 

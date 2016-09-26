@@ -91,8 +91,17 @@
                                 <TextBlock Text="Required properties must be defined in JSON (sets Required.Always when the property is required)" TextWrapping="Wrap" />
                             </CheckBox>
 
+                            <TextBlock Text="Date Type" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Text="{Binding Command.DateType, Mode=TwoWay}" Margin="0,0,0,12" />
+
                             <TextBlock Text="Date Time Type" FontWeight="Bold" Margin="0,0,0,6" />
                             <TextBox Text="{Binding Command.DateTimeType, Mode=TwoWay}" Margin="0,0,0,12" />
+
+                            <TextBlock Text="Time Type" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Text="{Binding Command.TimeType, Mode=TwoWay}" Margin="0,0,0,12" />
+
+                            <TextBlock Text="Time Span Type" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Text="{Binding Command.TimeSpanType, Mode=TwoWay}" Margin="0,0,0,12" />
 
                             <TextBlock Text="Generic Array Type" FontWeight="Bold" Margin="0,0,0,6" />
                             <TextBox Text="{Binding Command.ArrayType, Mode=TwoWay}" Margin="0,0,0,12" />
