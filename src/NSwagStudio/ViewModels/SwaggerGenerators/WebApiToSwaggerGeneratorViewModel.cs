@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Win32;
@@ -29,8 +28,8 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         {
             BrowseAssemblyCommand = new AsyncRelayCommand(BrowseAssembly);
 
-            LoadAssemblyCommand = new AsyncRelayCommand(async () => await LoadAssemblyAsync(), () => !string.IsNullOrEmpty(AssemblyPath));
-            LoadAssemblyCommand.TryExecute();
+            LoadAssembliesCommand = new AsyncRelayCommand(async () => await LoadAssembliesAsync(), () => AssemblyPaths?.Length > 0);
+            LoadAssembliesCommand.TryExecute();
         }
 
         /// <summary>Gets the default enum handlings. </summary>
@@ -49,7 +48,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         public AsyncRelayCommand BrowseAssemblyCommand { get; set; }
 
         /// <summary>Gets or sets the command to load the controller types from an assembly.</summary>
-        public AsyncRelayCommand LoadAssemblyCommand { get; set; }
+        public AsyncRelayCommand LoadAssembliesCommand { get; set; }
 
         /// <summary>Gets or sets the generator settings. </summary>
         public WebApiToSwaggerCommand Command
@@ -60,27 +59,23 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
                 if (Set(ref _command, value))
                 {
                     RaiseAllPropertiesChanged();
-                    LoadAssemblyCommand.RaiseCanExecuteChanged();
-                    LoadAssemblyAsync();
+                    LoadAssembliesCommand.RaiseCanExecuteChanged();
+                    LoadAssembliesAsync();
                 }
             }
         }
-        
+
         /// <summary>Gets or sets the assembly path. </summary>
-        public string AssemblyPath
+        public string[] AssemblyPaths
         {
-            get { return Command.AssemblyPath; }
+            get { return Command.AssemblyPaths; }
             set
             {
-                Command.AssemblyPath = value;
-                LoadAssemblyCommand.RaiseCanExecuteChanged();
-                RaisePropertyChanged(() => AssemblyPath);
-                RaisePropertyChanged(() => AssemblyName);
+                Command.AssemblyPaths = value;
+                LoadAssembliesCommand.RaiseCanExecuteChanged();
+                RaisePropertyChanged(() => AssemblyPaths);
             }
         }
-
-        /// <summary>Gets the name of the selected assembly.</summary>
-        public string AssemblyName => Path.GetFileName(AssemblyPath);
 
         /// <summary>Gets or sets the class name. </summary>
         public IEnumerable<string> ControllerNames
@@ -112,12 +107,12 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             dlg.Filter = ".NET Assemblies (.dll)|*.dll";
             if (dlg.ShowDialog() == true)
             {
-                AssemblyPath = dlg.FileName;
-                await LoadAssemblyAsync();
+                AssemblyPaths = new [] { dlg.FileName };
+                await LoadAssembliesAsync();
             }
         }
 
-        private Task LoadAssemblyAsync()
+        private Task LoadAssembliesAsync()
         {
             return RunTaskAsync(async () =>
             {

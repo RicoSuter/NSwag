@@ -22,13 +22,7 @@ namespace NSwag.Commands
 
         [JsonIgnore]
         public WebApiAssemblyToSwaggerGeneratorSettings Settings { get; set; }
-
-        public string AssemblyPath
-        {
-            get { return Settings.AssemblyPaths.FirstOrDefault(); }
-            set { Settings.AssemblyPaths = !string.IsNullOrEmpty(value) ? new[] { value } : new string[] { }; }
-        }
-
+        
         [Description("The path or paths to the Web API .NET assemblies (comma separated).")]
         [Argument(Name = "Assembly")]
         public string[] AssemblyPaths

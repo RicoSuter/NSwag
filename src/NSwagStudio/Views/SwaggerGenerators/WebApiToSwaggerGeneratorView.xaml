@@ -33,15 +33,14 @@
                                 <RowDefinition Height="Auto"></RowDefinition>
                             </Grid.RowDefinitions>
 
-                            <TextBlock Text=".NET Assembly Path" FontWeight="Bold" Margin="0,0,0,6" />
-                            <TextBox Grid.Row="1" Text="{Binding AssemblyPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            <TextBlock Text=".NET Assembly Paths (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Grid.Row="1" Text="{Binding AssemblyPaths, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
                                     Margin="0,0,12,0" VerticalAlignment="Center" />
                         </Grid>
 
                         <Button Command="{Binding BrowseAssemblyCommand}" VerticalAlignment="Stretch"
                                 Padding="8,4,8,4" Grid.Column="1" Content="..." />
                     </Grid>
-                    <TextBlock Text="{Binding AssemblyName, Mode=OneWay}" TextWrapping="Wrap" Margin="0,-6,0,12" />
 
                     <TextBlock Text="App.config or Web.config file path (optional, automatically searched when empty)" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBlock Text="(Required for correct binding redirects, required when assembly cannot be loaded)" Margin="0,0,0,6" />
@@ -53,8 +52,8 @@
                     <TextBlock Text="Paths to search for referenced assembly files (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding Command.ReferencePaths, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" Margin="0,0,0,12" />
 
-                    <Button Command="{Binding LoadAssemblyCommand}" VerticalAlignment="Stretch" Margin="0,0,0,12"
-                                Padding="8,4,8,4" Content="Load Assembly" />
+                    <Button Command="{Binding LoadAssembliesCommand}" VerticalAlignment="Stretch" Margin="0,0,0,12"
+                            Padding="8,4,8,4" Content="Load Assemblies" />
                 </StackPanel>
             </GroupBox>
 
