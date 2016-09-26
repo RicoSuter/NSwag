@@ -52,19 +52,19 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
     }
     
     private <#=operation.OperationNameLower#>WithCallbacks(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableNameLower#>: <#=parameter.Type#>, <#}#>onSuccess?: (result: <#=operation.ResultType#>) => void, onFail?: (exception: <#=operation.ExceptionType#>, reason: string) => void) {
-        let url = this.baseUrl + "/<#=operation.Path#><#if(operation.QueryParameters.Any()){#>?<#}#>"; 
+        let url_ = this.baseUrl + "/<#=operation.Path#><#if(operation.QueryParameters.Any()){#>?<#}#>"; 
 
 <#foreach(var parameter in operation.PathParameters){#>
         if (<#=parameter.VariableNameLower#> === undefined || <#=parameter.VariableNameLower#> === null)
             throw new Error("The parameter '<#=parameter.VariableNameLower#>' must be defined.");
 <#  if(parameter.IsDateArray){#>
-        url = url.replace("{<#=parameter.Name#>}", encodeURIComponent(<#=parameter.VariableNameLower#>.map(s_ => s_.toJSON()).join())); 
+        url_ = url_.replace("{<#=parameter.Name#>}", encodeURIComponent(<#=parameter.VariableNameLower#>.map(s_ => s_.toJSON()).join())); 
 <#  }else if(parameter.IsDate){#>
-        url = url.replace("{<#=parameter.Name#>}", encodeURIComponent("" + <#=parameter.VariableNameLower#>.toJSON())); 
+        url_ = url_.replace("{<#=parameter.Name#>}", encodeURIComponent("" + <#=parameter.VariableNameLower#>.toJSON())); 
 <#  }else if(parameter.IsArray){#>
-        url = url.replace("{<#=parameter.Name#>}", encodeURIComponent(<#=parameter.VariableNameLower#>.join())); 
+        url_ = url_.replace("{<#=parameter.Name#>}", encodeURIComponent(<#=parameter.VariableNameLower#>.join())); 
 <#  }else{#>
-        url = url.replace("{<#=parameter.Name#>}", encodeURIComponent("" + <#=parameter.VariableNameLower#>)); 
+        url_ = url_.replace("{<#=parameter.Name#>}", encodeURIComponent("" + <#=parameter.VariableNameLower#>)); 
 <#  }#>
 <#}#>
 
@@ -89,20 +89,20 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#      }
     }#>
 <#  if(parameter.IsDateArray){#>
-            <#=parameter.VariableNameLower#>.forEach(item => { url += "<#=parameter.Name#>=" + encodeURIComponent("" + item.toJSON()) + "&"; });
+            <#=parameter.VariableNameLower#>.forEach(item => { url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + item.toJSON()) + "&"; });
 <#  }else if(parameter.IsDate){#>
-            url += "<#=parameter.Name#>=" + encodeURIComponent("" + <#=parameter.VariableNameLower#>.toJSON()) + "&"; 
+            url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + <#=parameter.VariableNameLower#>.toJSON()) + "&"; 
 <#  }else if(parameter.IsArray){#>
-            <#=parameter.VariableNameLower#>.forEach(item => { url += "<#=parameter.Name#>=" + encodeURIComponent("" + item) + "&"; });
+            <#=parameter.VariableNameLower#>.forEach(item => { url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + item) + "&"; });
 <#  }else{#>
-            url += "<#=parameter.Name#>=" + encodeURIComponent("" + <#=parameter.VariableNameLower#>) + "&"; 
+            url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + <#=parameter.VariableNameLower#>) + "&"; 
 <#  }
 }#>
 
         <#=RequestBodyGenerator.Render(operation, 2)#>
 
         jQuery.ajax(<#if(Model.IsExtended){#>this.transformOptions(<#}#>{
-            url: url,
+            url: url_,
             beforeSend: this.beforeSend,
             type: "<#=operation.HttpMethodLower#>",
             data: content_,
@@ -118,9 +118,9 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#}#>                "Content-Type": "application/json; charset=UTF-8"
             }
         }<#if(Model.IsExtended){#>)<#}#>).done((data, textStatus, xhr) => {
-            this.process<#=operation.OperationNameUpper#>WithCallbacks(url, xhr, onSuccess, onFail);
+            this.process<#=operation.OperationNameUpper#>WithCallbacks(url_, xhr, onSuccess, onFail);
         }).fail((xhr) => {
-            this.process<#=operation.OperationNameUpper#>WithCallbacks(url, xhr, onSuccess, onFail);
+            this.process<#=operation.OperationNameUpper#>WithCallbacks(url_, xhr, onSuccess, onFail);
         });
     }
 

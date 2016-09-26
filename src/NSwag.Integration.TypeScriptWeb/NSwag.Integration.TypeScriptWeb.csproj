@@ -114,6 +114,7 @@
   <ItemGroup>
     <None Include="scripts\serviceClientsAngular2.ts" />
     <TypeScriptCompile Include="scripts\serviceClientsAngularJS.ts" />
+    <TypeScriptCompile Include="scripts\serviceClientsFetch.ts" />
     <TypeScriptCompile Include="scripts\serviceClientsJQueryCallbacks.ts" />
     <TypeScriptCompile Include="scripts\serviceClientsJQueryPromises.extensions.ts" />
     <TypeScriptCompile Include="scripts\serviceClientsJQueryPromises.ts" />
@@ -131,6 +132,8 @@
     <TypeScriptCompile Include="scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="scripts\typings\knockout\knockout.d.ts" />
     <TypeScriptCompile Include="scripts\typings\knockout\tests\jasmine.extensions.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\whatwg-fetch\whatwg-fetch.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\whatwg-streams\whatwg-streams.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

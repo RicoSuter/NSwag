@@ -347,14 +347,14 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         private IEnumerable<Attribute> GetRouteAttributes(IEnumerable<Attribute> attributes)
         {
             return attributes.Where(a => a.GetType().Name == "RouteAttribute" ||
-                                         a.GetType().InheritsFrom("IHttpRouteInfoProvider", TypeNameStyle.Name) ||
-                                         a.GetType().InheritsFrom("IRouteTemplateProvider", TypeNameStyle.Name)); // .NET Core
+                                         a.GetType().GetTypeInfo().ImplementedInterfaces.Any(t => t.Name == "IHttpRouteInfoProvider") ||
+                                         a.GetType().GetTypeInfo().ImplementedInterfaces.Any(t => t.Name == "IRouteTemplateProvider")); // .NET Core
         }
 
         private IEnumerable<Attribute> GetRoutePrefixAttributes(IEnumerable<Attribute> attributes)
         {
             return attributes.Where(a => a.GetType().Name == "RoutePrefixAttribute" ||
-                                         a.GetType().InheritsFrom("IRoutePrefix", TypeNameStyle.Name));
+                                         a.GetType().GetTypeInfo().ImplementedInterfaces.Any(t => t.Name == "IRoutePrefix"));
         }
 
         private string GetActionName(MethodInfo method)

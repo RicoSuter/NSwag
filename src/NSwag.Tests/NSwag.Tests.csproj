@@ -73,6 +73,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Commands\WildcardTests.cs" />
+    <Compile Include="Converters\ExceptionSerializationTests.cs" />
     <Compile Include="Specification\InheritanceTests.cs" />
     <Compile Include="Specification\OperationIdTests.cs" />
     <Compile Include="Specification\GeneralTests.cs" />
@@ -80,6 +81,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj">
+      <Project>{ca084154-e758-4a44-938d-7806af2dd886}</Project>
+      <Name>NSwag.Annotations</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NSwag.AssemblyLoader\NSwag.AssemblyLoader.csproj">
       <Project>{46634C60-BA7D-43E6-9049-6AD461488C39}</Project>
       <Name>NSwag.AssemblyLoader</Name>

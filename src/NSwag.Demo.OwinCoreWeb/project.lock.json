@@ -1474,6 +1474,15 @@
           "lib/netstandard1.0/NJsonSchema.CodeGeneration.dll": {}
         }
       },
+      "NSwag.Annotations/5.6.6095.40773": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard1.0/NSwag.Annotations.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/NSwag.Annotations.dll": {}
+        }
+      },
       "NSwag.CodeGeneration/5.6.6095.40773": {
         "type": "package",
         "dependencies": {
@@ -3417,6 +3426,7 @@
           "Microsoft.AspNetCore.Mvc.Core": "1.0.0",
           "Microsoft.AspNetCore.StaticFiles": "1.0.0",
           "Microsoft.Extensions.FileProviders.Embedded": "1.0.0",
+          "NSwag.Annotations": "1.0.0",
           "NSwag.CodeGeneration": "1.0.0",
           "System.IO.FileSystem": "4.0.1",
           "System.Xml.XPath.XDocument": "4.0.1"
@@ -4619,6 +4629,23 @@
         "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/NJsonSchema.CodeGeneration.xml",
         "lib/portable45-net45+win8+wp8+wpa81/NJsonSchema.CodeGeneration.dll",
         "lib/portable45-net45+win8+wp8+wpa81/NJsonSchema.CodeGeneration.xml"
+      ]
+    },
+    "NSwag.Annotations/5.6.6095.40773": {
+      "sha512": "U+5DCdhS3/rS2T/dudQ2TJcBqErSv1fXpVZ96G+pYeR9Ss9x5GT/Kd93oZlvv4+wGweh3fix8vgQDRzf55TdSg==",
+      "type": "package",
+      "path": "NSwag.Annotations/5.6.6095.40773",
+      "files": [
+        "NSwag.Annotations.5.6.6095.40773.nupkg.sha512",
+        "NSwag.Annotations.nuspec",
+        "lib/netstandard1.0/NSwag.Annotations.dll",
+        "lib/netstandard1.0/NSwag.Annotations.pdb",
+        "lib/netstandard1.0/NSwag.Annotations.xml",
+        "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/NSwag.Annotations.dll",
+        "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/NSwag.Annotations.pdb",
+        "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/NSwag.Annotations.xml",
+        "lib/portable40-net40+sl5+win8+wp8+wpa81/NSwag.Annotations.dll",
+        "lib/portable40-net40+sl5+win8+wp8+wpa81/NSwag.Annotations.xml"
       ]
     },
     "NSwag.CodeGeneration/5.6.6095.40773": {

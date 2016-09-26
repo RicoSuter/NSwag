@@ -32,9 +32,9 @@ namespace NSwag.Integration.WebAPI.Controllers
             throw new NotSupportedException();
         }
 
-        public void UploadFile(HttpPostedFileBase file)
+        public bool UploadFile(HttpPostedFileBase file)
         {
-
+            return file.InputStream.ReadByte() == 1 && file.InputStream.ReadByte() == 2;
         }
 
         public void UploadFiles(IEnumerable<HttpPostedFileBase> files)
@@ -44,7 +44,7 @@ namespace NSwag.Integration.WebAPI.Controllers
 
         [HttpPost]
         [ResponseType("204", typeof(void))]
-        [ResponseType("500", typeof(Exception))]
+        [ResponseType("450", typeof(Exception))]
         public void SaveItems(GenericRequest<Address, Person> request)
         {
             throw new ArgumentException("Test");

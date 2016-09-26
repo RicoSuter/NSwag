@@ -30,7 +30,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;AspNetOwin</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\NSwag.Integration.WebAPI.XML</DocumentationFile>
@@ -39,7 +39,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;AspNetOwin</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\NSwag.Integration.WebAPI.XML</DocumentationFile>
@@ -108,7 +108,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="JsonExceptionFilterAttribute.cs" />
     <Compile Include="Models\GenericRequest.cs" />
     <Compile Include="Models\GeoPoint.cs" />
     <Compile Include="Models\Exceptions\PersonNotFoundException.cs" />
@@ -136,6 +135,7 @@
     <Content Include="Swagger_AngularJS.nswag" />
     <Content Include="Swagger_JQueryPromises_KO.nswag" />
     <Content Include="SwaggerDocumentTemplate.json" />
+    <Content Include="Swagger_Fetch.nswag" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -154,6 +154,14 @@
     <ProjectReference Include="..\NSwag.AspNet.Owin\NSwag.AspNet.Owin.csproj">
       <Project>{69A692EB-C277-46AB-BA55-B33E7E6E129C}</Project>
       <Name>NSwag.AspNet.Owin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NSwag.AspNet.WebApi\NSwag.AspNet.WebApi.csproj">
+      <Project>{e5ac8f27-f9e2-4e98-ac98-6f9361132a2e}</Project>
+      <Name>NSwag.AspNet.WebApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj">
+      <Project>{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}</Project>
+      <Name>NSwag.CodeGeneration</Name>
     </ProjectReference>
     <ProjectReference Include="..\NSwag.Demo.Client\NSwag.Demo.Client.csproj">
       <Project>{267D875B-3481-465D-AD2C-4BB18EB911BA}</Project>

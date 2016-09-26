@@ -6,25 +6,19 @@
 
 export class GeoClient {
     private baseUrl: string = undefined; 
-    private http: ng.IHttpService = null; 
-    private jsonParseReviver: (key: string, value: any) => any = undefined; 
 
-    constructor($http: ng.IHttpService, baseUrl?: string, jsonParseReviver?: (key: string, value: any) => any) {
-        this.http = $http; 
-        this.baseUrl = baseUrl !== undefined ? baseUrl : "http://localhost:13452"; 
-        this.jsonParseReviver = jsonParseReviver;
+    constructor(baseUrl?: string) {
+        this.baseUrl = baseUrl ? baseUrl : "http://localhost:13452"; 
     }
 
-    fromBodyTest(location: GeoPoint): ng.IPromise<void> {
+    fromBodyTest(location: GeoPoint): Promise<void> {
         let url_ = this.baseUrl + "/api/Geo/FromBodyTest"; 
 
         const content_ = JSON.stringify(location ? location.toJS() : null);
-
-        return this.http({
-            url: url_,
+        
+        return fetch(url_, {
+            body: content_,
             method: "POST",
-            data: content_,
-            transformResponse: [], 
             headers: {
                 "Content-Type": "application/json; charset=UTF-8"
             }
@@ -33,20 +27,21 @@ export class GeoClient {
         });
     }
 
-    private processFromBodyTest(response: any) {
-        const data = response.data;
-        const status = response.status; 
+    private processFromBodyTest(response: Response) {
+        return response.text().then((data) => {
+            const status = response.status.toString(); 
 
-        if (status === 204) {
-        }
-        else
-        {
-            throw "error_no_callback_for_the_received_http_status"; 
-        }
+            if (status === "204") {
+            }
+            else
+            {
+                throw "error_no_callback_for_the_received_http_status"; 
+            }
+        });
     }
 
-    fromUriTest(latitude: number, longitude: number): ng.IPromise<void> {
-        let url_ = this.baseUrl + "/api/Geo/FromUriTest"; 
+    fromUriTest(latitude: number, longitude: number): Promise<void> {
+        let url_ = this.baseUrl + "/api/Geo/FromUriTest?"; 
 
         if (latitude === null)
             throw new Error("The parameter 'latitude' cannot be null.");
@@ -58,12 +53,10 @@ export class GeoClient {
             url_ += "Longitude=" + encodeURIComponent("" + longitude) + "&"; 
 
         const content_ = "";
-
-        return this.http({
-            url: url_,
+        
+        return fetch(url_, {
+            body: content_,
             method: "POST",
-            data: content_,
-            transformResponse: [], 
             headers: {
                 "Content-Type": "application/json; charset=UTF-8"
             }
@@ -72,19 +65,20 @@ export class GeoClient {
         });
     }
 
-    private processFromUriTest(response: any) {
-        const data = response.data;
-        const status = response.status; 
+    private processFromUriTest(response: Response) {
+        return response.text().then((data) => {
+            const status = response.status.toString(); 
 
-        if (status === 204) {
-        }
-        else
-        {
-            throw "error_no_callback_for_the_received_http_status"; 
-        }
+            if (status === "204") {
+            }
+            else
+            {
+                throw "error_no_callback_for_the_received_http_status"; 
+            }
+        });
     }
 
-    addPolygon(points: GeoPoint[]): ng.IPromise<void> {
+    addPolygon(points: GeoPoint[]): Promise<void> {
         let url_ = this.baseUrl + "/api/Geo/AddPolygon"; 
 
         let contentData_: any = [];
@@ -93,12 +87,10 @@ export class GeoClient {
                 contentData_.push(item.toJS());
         }
         const content_ = JSON.stringify(points ? contentData_ : null);
-
-        return this.http({
-            url: url_,
+        
+        return fetch(url_, {
+            body: content_,
             method: "POST",
-            data: content_,
-            transformResponse: [], 
             headers: {
                 "Content-Type": "application/json; charset=UTF-8"
             }
@@ -107,28 +99,27 @@ export class GeoClient {
         });
     }
 
-    private processAddPolygon(response: any) {
-        const data = response.data;
-        const status = response.status; 
+    private processAddPolygon(response: Response) {
+        return response.text().then((data) => {
+            const status = response.status.toString(); 
 
-        if (status === 204) {
-        }
-        else
-        {
-            throw "error_no_callback_for_the_received_http_status"; 
-        }
+            if (status === "204") {
+            }
+            else
+            {
+                throw "error_no_callback_for_the_received_http_status"; 
+            }
+        });
     }
 
-    refresh(): ng.IPromise<void> {
+    refresh(): Promise<void> {
         let url_ = this.baseUrl + "/api/Geo/Refresh"; 
 
         const content_ = "";
-
-        return this.http({
-            url: url_,
+        
+        return fetch(url_, {
+            body: content_,
             method: "POST",
-            data: content_,
-            transformResponse: [], 
             headers: {
                 "Content-Type": "application/json; charset=UTF-8"
             }
@@ -137,30 +128,29 @@ export class GeoClient {
         });
     }
 
-    private processRefresh(response: any) {
-        const data = response.data;
-        const status = response.status; 
+    private processRefresh(response: Response) {
+        return response.text().then((data) => {
+            const status = response.status.toString(); 
 
-        if (status === 204) {
-        }
-        else
-        {
-            throw "error_no_callback_for_the_received_http_status"; 
-        }
+            if (status === "204") {
+            }
+            else
+            {
+                throw "error_no_callback_for_the_received_http_status"; 
+            }
+        });
     }
 
-    uploadFile(file: FileParameter): ng.IPromise<boolean> {
+    uploadFile(file: FileParameter): Promise<boolean> {
         let url_ = this.baseUrl + "/api/Geo/UploadFile"; 
 
         const content_ = new FormData();
         if (file !== null)
             content_.append("file", file.data, file.fileName ? file.fileName : "file");
-
-        return this.http({
-            url: url_,
+        
+        return fetch(url_, {
+            body: content_,
             method: "POST",
-            data: content_,
-            transformResponse: [], 
             headers: {
                 'Content-Type': undefined
             }
@@ -169,34 +159,33 @@ export class GeoClient {
         });
     }
 
-    private processUploadFile(response: any) {
-        const data = response.data;
-        const status = response.status; 
+    private processUploadFile(response: Response) {
+        return response.text().then((data) => {
+            const status = response.status.toString(); 
 
-        if (status === 200) {
-            let result200: boolean = null; 
-            let resultData200 = data === "" ? null : JSON.parse(data, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : null;
-            return result200; 
-        }
-        else
-        {
-            throw "error_no_callback_for_the_received_http_status"; 
-        }
+            if (status === "200") {
+                let result200: boolean = null; 
+                let resultData200 = data === "" ? null : JSON.parse(data);
+                result200 = resultData200 !== undefined ? resultData200 : null;
+                return result200; 
+            }
+            else
+            {
+                throw "error_no_callback_for_the_received_http_status"; 
+            }
+        });
     }
 
-    uploadFiles(files: FileParameter[]): ng.IPromise<void> {
+    uploadFiles(files: FileParameter[]): Promise<void> {
         let url_ = this.baseUrl + "/api/Geo/UploadFiles"; 
 
         const content_ = new FormData();
         if (files !== null)
             files.forEach(item_ => content_.append("files", item_.data, item_.fileName ? item_.fileName : "files") );
-
-        return this.http({
-            url: url_,
+        
+        return fetch(url_, {
+            body: content_,
             method: "POST",
-            data: content_,
-            transformResponse: [], 
             headers: {
                 'Content-Type': undefined
             }
@@ -205,28 +194,27 @@ export class GeoClient {
         });
     }
 
-    private processUploadFiles(response: any) {
-        const data = response.data;
-        const status = response.status; 
+    private processUploadFiles(response: Response) {
+        return response.text().then((data) => {
+            const status = response.status.toString(); 
 
-        if (status === 204) {
-        }
-        else
-        {
-            throw "error_no_callback_for_the_received_http_status"; 
-        }
+            if (status === "204") {
+            }
+            else
+            {
+                throw "error_no_callback_for_the_received_http_status"; 
+            }
+        });
     }
 
-    saveItems(request: GenericRequestOfAddressAndPerson): ng.IPromise<void> {
+    saveItems(request: GenericRequestOfAddressAndPerson): Promise<void> {
         let url_ = this.baseUrl + "/api/Geo/SaveItems"; 
 
         const content_ = JSON.stringify(request ? request.toJS() : null);
-
-        return this.http({
-            url: url_,
+        
+        return fetch(url_, {
+            body: content_,
             method: "POST",
-            data: content_,
-            transformResponse: [], 
             headers: {
                 "Content-Type": "application/json; charset=UTF-8"
             }
@@ -235,39 +223,38 @@ export class GeoClient {
         });
     }
 
-    private processSaveItems(response: any) {
-        const data = response.data;
-        const status = response.status; 
+    private processSaveItems(response: Response) {
+        return response.text().then((data) => {
+            const status = response.status.toString(); 
 
-        if (status === 204) {
-        }
-        else
-        if (status === 450) {
-            let result450: Exception = null; 
-            let resultData450 = data === "" ? null : JSON.parse(data, this.jsonParseReviver);
-            result450 = resultData450 ? Exception.fromJS(resultData450) : null;
-            throw result450; 
-        }
-        else
-        {
-            throw "error_no_callback_for_the_received_http_status"; 
-        }
+            if (status === "204") {
+            }
+            else
+            if (status === "450") {
+                let result450: Exception = null; 
+                let resultData450 = data === "" ? null : JSON.parse(data);
+                result450 = resultData450 ? Exception.fromJS(resultData450) : null;
+                throw result450; 
+            }
+            else
+            {
+                throw "error_no_callback_for_the_received_http_status"; 
+            }
+        });
     }
 
-    getUploadedFile(id: number): ng.IPromise<any> {
-        let url_ = this.baseUrl + "/api/Geo/GetUploadedFile/{id}?"; 
+    getUploadedFile(id: number): Promise<any> {
+        let url_ = this.baseUrl + "/api/Geo/GetUploadedFile/{id}"; 
 
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
 
         const content_ = "";
-
-        return this.http({
-            url: url_,
+        
+        return fetch(url_, {
+            body: content_,
             method: "GET",
-            data: content_,
-            transformResponse: [], 
             headers: {
                 "Content-Type": "application/json; charset=UTF-8"
             }
@@ -276,44 +263,39 @@ export class GeoClient {
         });
     }
 
-    private processGetUploadedFile(response: any) {
-        const data = response.data;
-        const status = response.status; 
+    private processGetUploadedFile(response: Response) {
+        return response.text().then((data) => {
+            const status = response.status.toString(); 
 
-        if (status === 200) {
-            let result200: any = null; 
-            let resultData200 = data === "" ? null : JSON.parse(data, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : null;
-            return result200; 
-        }
-        else
-        {
-            throw "error_no_callback_for_the_received_http_status"; 
-        }
+            if (status === "200") {
+                let result200: any = null; 
+                let resultData200 = data === "" ? null : JSON.parse(data);
+                result200 = resultData200 !== undefined ? resultData200 : null;
+                return result200; 
+            }
+            else
+            {
+                throw "error_no_callback_for_the_received_http_status"; 
+            }
+        });
     }
 }
 
 export class PersonsClient {
     private baseUrl: string = undefined; 
-    private http: ng.IHttpService = null; 
-    private jsonParseReviver: (key: string, value: any) => any = undefined; 
 
-    constructor($http: ng.IHttpService, baseUrl?: string, jsonParseReviver?: (key: string, value: any) => any) {
-        this.http = $http; 
-        this.baseUrl = baseUrl !== undefined ? baseUrl : "http://localhost:13452"; 
-        this.jsonParseReviver = jsonParseReviver;
+    constructor(baseUrl?: string) {
+        this.baseUrl = baseUrl ? baseUrl : "http://localhost:13452"; 
     }
 
-    getAll(): ng.IPromise<Person[]> {
+    getAll(): Promise<Person[]> {
         let url_ = this.baseUrl + "/api/Persons"; 
 
         const content_ = "";
-
-        return this.http({
-            url: url_,
+        
+        return fetch(url_, {
+            body: content_,
             method: "GET",
-            data: content_,
-            transformResponse: [], 
             headers: {
                 "Content-Type": "application/json; charset=UTF-8"
             }
@@ -322,36 +304,35 @@ export class PersonsClient {
         });
     }
 
-    private processGetAll(response: any) {
-        const data = response.data;
-        const status = response.status; 
+    private processGetAll(response: Response) {
+        return response.text().then((data) => {
+            const status = response.status.toString(); 
 
-        if (status === 200) {
-            let result200: Person[] = null; 
-            let resultData200 = data === "" ? null : JSON.parse(data, this.jsonParseReviver);
-            if (resultData200 && resultData200.constructor === Array) {
-                result200 = [];
-                for (let item of resultData200)
-                    result200.push(Person.fromJS(item));
+            if (status === "200") {
+                let result200: Person[] = null; 
+                let resultData200 = data === "" ? null : JSON.parse(data);
+                if (resultData200 && resultData200.constructor === Array) {
+                    result200 = [];
+                    for (let item of resultData200)
+                        result200.push(Person.fromJS(item));
+                }
+                return result200; 
             }
-            return result200; 
-        }
-        else
-        {
-            throw "error_no_callback_for_the_received_http_status"; 
-        }
+            else
+            {
+                throw "error_no_callback_for_the_received_http_status"; 
+            }
+        });
     }
 
-    add(person: Person): ng.IPromise<void> {
+    add(person: Person): Promise<void> {
         let url_ = this.baseUrl + "/api/Persons"; 
 
         const content_ = JSON.stringify(person ? person.toJS() : null);
-
-        return this.http({
-            url: url_,
+        
+        return fetch(url_, {
+            body: content_,
             method: "POST",
-            data: content_,
-            transformResponse: [], 
             headers: {
                 "Content-Type": "application/json; charset=UTF-8"
             }
@@ -360,32 +341,31 @@ export class PersonsClient {
         });
     }
 
-    private processAdd(response: any) {
-        const data = response.data;
-        const status = response.status; 
+    private processAdd(response: Response) {
+        return response.text().then((data) => {
+            const status = response.status.toString(); 
 
-        if (status === 204) {
-        }
-        else
-        {
-            throw "error_no_callback_for_the_received_http_status"; 
-        }
+            if (status === "204") {
+            }
+            else
+            {
+                throw "error_no_callback_for_the_received_http_status"; 
+            }
+        });
     }
 
-    find(gender: Gender): ng.IPromise<Person[]> {
-        let url_ = this.baseUrl + "/api/Persons/find/{gender}?"; 
+    find(gender: Gender): Promise<Person[]> {
+        let url_ = this.baseUrl + "/api/Persons/find/{gender}"; 
 
         if (gender === undefined || gender === null)
             throw new Error("The parameter 'gender' must be defined.");
         url_ = url_.replace("{gender}", encodeURIComponent("" + gender)); 
 
         const content_ = "";
-
-        return this.http({
-            url: url_,
+        
+        return fetch(url_, {
+            body: content_,
             method: "POST",
-            data: content_,
-            transformResponse: [], 
             headers: {
                 "Content-Type": "application/json; charset=UTF-8"
             }
@@ -394,28 +374,29 @@ export class PersonsClient {
         });
     }
 
-    private processFind(response: any) {
-        const data = response.data;
-        const status = response.status; 
+    private processFind(response: Response) {
+        return response.text().then((data) => {
+            const status = response.status.toString(); 
 
-        if (status === 200) {
-            let result200: Person[] = null; 
-            let resultData200 = data === "" ? null : JSON.parse(data, this.jsonParseReviver);
-            if (resultData200 && resultData200.constructor === Array) {
-                result200 = [];
-                for (let item of resultData200)
-                    result200.push(Person.fromJS(item));
+            if (status === "200") {
+                let result200: Person[] = null; 
+                let resultData200 = data === "" ? null : JSON.parse(data);
+                if (resultData200 && resultData200.constructor === Array) {
+                    result200 = [];
+                    for (let item of resultData200)
+                        result200.push(Person.fromJS(item));
+                }
+                return result200; 
             }
-            return result200; 
-        }
-        else
-        {
-            throw "error_no_callback_for_the_received_http_status"; 
-        }
+            else
+            {
+                throw "error_no_callback_for_the_received_http_status"; 
+            }
+        });
     }
 
-    find2(gender: Gender): ng.IPromise<Person[]> {
-        let url_ = this.baseUrl + "/api/Persons/find2"; 
+    find2(gender: Gender): Promise<Person[]> {
+        let url_ = this.baseUrl + "/api/Persons/find2?"; 
 
         if (gender === undefined)
             throw new Error("The parameter 'gender' must be defined.");
@@ -423,12 +404,10 @@ export class PersonsClient {
             url_ += "gender=" + encodeURIComponent("" + gender) + "&"; 
 
         const content_ = "";
-
-        return this.http({
-            url: url_,
+        
+        return fetch(url_, {
+            body: content_,
             method: "POST",
-            data: content_,
-            transformResponse: [], 
             headers: {
                 "Content-Type": "application/json; charset=UTF-8"
             }
@@ -437,40 +416,39 @@ export class PersonsClient {
         });
     }
 
-    private processFind2(response: any) {
-        const data = response.data;
-        const status = response.status; 
+    private processFind2(response: Response) {
+        return response.text().then((data) => {
+            const status = response.status.toString(); 
 
-        if (status === 200) {
-            let result200: Person[] = null; 
-            let resultData200 = data === "" ? null : JSON.parse(data, this.jsonParseReviver);
-            if (resultData200 && resultData200.constructor === Array) {
-                result200 = [];
-                for (let item of resultData200)
-                    result200.push(Person.fromJS(item));
+            if (status === "200") {
+                let result200: Person[] = null; 
+                let resultData200 = data === "" ? null : JSON.parse(data);
+                if (resultData200 && resultData200.constructor === Array) {
+                    result200 = [];
+                    for (let item of resultData200)
+                        result200.push(Person.fromJS(item));
+                }
+                return result200; 
             }
-            return result200; 
-        }
-        else
-        {
-            throw "error_no_callback_for_the_received_http_status"; 
-        }
+            else
+            {
+                throw "error_no_callback_for_the_received_http_status"; 
+            }
+        });
     }
 
-    get(id: string): ng.IPromise<Person> {
-        let url_ = this.baseUrl + "/api/Persons/{id}?"; 
+    get(id: string): Promise<Person> {
+        let url_ = this.baseUrl + "/api/Persons/{id}"; 
 
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
 
         const content_ = "";
-
-        return this.http({
-            url: url_,
+        
+        return fetch(url_, {
+            body: content_,
             method: "GET",
-            data: content_,
-            transformResponse: [], 
             headers: {
                 "Content-Type": "application/json; charset=UTF-8"
             }
@@ -479,43 +457,42 @@ export class PersonsClient {
         });
     }
 
-    private processGet(response: any) {
-        const data = response.data;
-        const status = response.status; 
+    private processGet(response: Response) {
+        return response.text().then((data) => {
+            const status = response.status.toString(); 
 
-        if (status === 200) {
-            let result200: Person = null; 
-            let resultData200 = data === "" ? null : JSON.parse(data, this.jsonParseReviver);
-            result200 = resultData200 ? Person.fromJS(resultData200) : null;
-            return result200; 
-        }
-        else
-        if (status === 500) {
-            let result500: PersonNotFoundException = null; 
-            let resultData500 = data === "" ? null : JSON.parse(data, this.jsonParseReviver);
-            result500 = resultData500 ? PersonNotFoundException.fromJS(resultData500) : null;
-            throw result500; 
-        }
-        else
-        {
-            throw "error_no_callback_for_the_received_http_status"; 
-        }
+            if (status === "200") {
+                let result200: Person = null; 
+                let resultData200 = data === "" ? null : JSON.parse(data);
+                result200 = resultData200 ? Person.fromJS(resultData200) : null;
+                return result200; 
+            }
+            else
+            if (status === "500") {
+                let result500: PersonNotFoundException = null; 
+                let resultData500 = data === "" ? null : JSON.parse(data);
+                result500 = resultData500 ? PersonNotFoundException.fromJS(resultData500) : null;
+                throw result500; 
+            }
+            else
+            {
+                throw "error_no_callback_for_the_received_http_status"; 
+            }
+        });
     }
 
-    delete(id: string): ng.IPromise<void> {
-        let url_ = this.baseUrl + "/api/Persons/{id}?"; 
+    delete(id: string): Promise<void> {
+        let url_ = this.baseUrl + "/api/Persons/{id}"; 
 
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
 
         const content_ = "";
-
-        return this.http({
-            url: url_,
+        
+        return fetch(url_, {
+            body: content_,
             method: "DELETE",
-            data: content_,
-            transformResponse: [], 
             headers: {
                 "Content-Type": "application/json; charset=UTF-8"
             }
@@ -524,16 +501,17 @@ export class PersonsClient {
         });
     }
 
-    private processDelete(response: any) {
-        const data = response.data;
-        const status = response.status; 
+    private processDelete(response: Response) {
+        return response.text().then((data) => {
+            const status = response.status.toString(); 
 
-        if (status === 204) {
-        }
-        else
-        {
-            throw "error_no_callback_for_the_received_http_status"; 
-        }
+            if (status === "204") {
+            }
+            else
+            {
+                throw "error_no_callback_for_the_received_http_status"; 
+            }
+        });
     }
 
     /**
@@ -541,20 +519,18 @@ export class PersonsClient {
      * @id The person ID.
      * @return The person's name.
      */
-    getName(id: string): ng.IPromise<string> {
-        let url_ = this.baseUrl + "/api/Persons/{id}/Name?"; 
+    getName(id: string): Promise<string> {
+        let url_ = this.baseUrl + "/api/Persons/{id}/Name"; 
 
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
 
         const content_ = "";
-
-        return this.http({
-            url: url_,
+        
+        return fetch(url_, {
+            body: content_,
             method: "GET",
-            data: content_,
-            transformResponse: [], 
             headers: {
                 "Content-Type": "application/json; charset=UTF-8"
             }
@@ -563,27 +539,28 @@ export class PersonsClient {
         });
     }
 
-    private processGetName(response: any) {
-        const data = response.data;
-        const status = response.status; 
+    private processGetName(response: Response) {
+        return response.text().then((data) => {
+            const status = response.status.toString(); 
 
-        if (status === 200) {
-            let result200: string = null; 
-            let resultData200 = data === "" ? null : JSON.parse(data, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : null;
-            return result200; 
-        }
-        else
-        if (status === 500) {
-            let result500: PersonNotFoundException = null; 
-            let resultData500 = data === "" ? null : JSON.parse(data, this.jsonParseReviver);
-            result500 = resultData500 ? PersonNotFoundException.fromJS(resultData500) : null;
-            throw result500; 
-        }
-        else
-        {
-            throw "error_no_callback_for_the_received_http_status"; 
-        }
+            if (status === "200") {
+                let result200: string = null; 
+                let resultData200 = data === "" ? null : JSON.parse(data);
+                result200 = resultData200 !== undefined ? resultData200 : null;
+                return result200; 
+            }
+            else
+            if (status === "500") {
+                let result500: PersonNotFoundException = null; 
+                let resultData500 = data === "" ? null : JSON.parse(data);
+                result500 = resultData500 ? PersonNotFoundException.fromJS(resultData500) : null;
+                throw result500; 
+            }
+            else
+            {
+                throw "error_no_callback_for_the_received_http_status"; 
+            }
+        });
     }
 }
 

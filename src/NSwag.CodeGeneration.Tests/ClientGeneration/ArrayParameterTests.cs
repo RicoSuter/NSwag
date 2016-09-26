@@ -74,7 +74,7 @@ namespace NSwag.CodeGeneration.Tests.ClientGeneration
             //// Assert
             Assert.IsTrue(
                 code.Contains(
-                    @"elementId.forEach(item => { url += ""elementId="" + encodeURIComponent("""" + item) + ""&""; });"));
+                    @"elementId.forEach(item => { url_ += ""elementId="" + encodeURIComponent("""" + item) + ""&""; });"));
         }
 
         [TestMethod]
