@@ -156,6 +156,7 @@
     <Compile Include="SwaggerGenerators\WebApi\Processors\IOperationProcessor.cs" />
     <Compile Include="SwaggerGenerators\WebApi\Processors\SecurityDefinitionAppender.cs" />
     <Compile Include="SwaggerGenerators\WebApi\Processors\OperationSecurityScopeAppender.cs" />
+    <Compile Include="SwaggerGenerators\SwaggerGenerator.cs" />
     <Compile Include="SwaggerGenerators\WebApi\WebApiToSwaggerGenerator.cs" />
     <Compile Include="SwaggerGenerators\WebApi\WebApiToSwaggerGeneratorSettings.cs" />
   </ItemGroup>

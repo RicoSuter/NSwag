@@ -84,7 +84,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 var settings = JsonConvert.DeserializeObject<WebApiAssemblyToSwaggerGeneratorSettings>(settingsData);
                 RegisterReferencePaths(settings.AllReferencePaths);
 
-                IEnumerable<Type> controllers = GetControllerTypes(new string[] { controllerClassName }, settings);
+                IEnumerable<Type> controllers = GetControllerTypes(new[] { controllerClassName }, settings);
                 var type = controllers.First();
 
                 var generator = new WebApiToSwaggerGenerator(settings);

@@ -43,17 +43,20 @@ namespace NSwag.CodeGeneration.CodeGenerators.OperationNameGenerators
                 .Where(o => o.Operation != operation)
                 .Any(o => GetClientName(o.Operation) == clientName && GetOperationName(o.Operation) == operationName);
 
-            if (hasOperationWithSameName && operationName.ToLowerInvariant().StartsWith("get"))
+            if (hasOperationWithSameName)
             {
-                var isArrayResponse = operation.Responses.ContainsKey("200") &&
-                                      operation.Responses["200"].Schema != null &&
-                                      operation.Responses["200"].Schema.Type.HasFlag(JsonObjectType.Array);
+                if (operationName.ToLowerInvariant().StartsWith("get"))
+                {
+                    var isArrayResponse = operation.Responses.ContainsKey("200") &&
+                                          operation.Responses["200"].Schema != null &&
+                                          operation.Responses["200"].Schema.Type.HasFlag(JsonObjectType.Array);
 
-                if (isArrayResponse)
-                    return "GetAll" + operationName.Substring(3);
+                    if (isArrayResponse)
+                        return "GetAll" + operationName.Substring(3);
+                }
             }
 
-            return GetOperationName(operation);
+            return operationName;
         }
 
         private string GetClientName(SwaggerOperation operation)
