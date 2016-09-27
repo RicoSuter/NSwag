@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
-using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag.CodeGeneration.CodeGenerators.Models;
 using NSwag.CodeGeneration.CodeGenerators.TypeScript.Models;
@@ -29,6 +28,19 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         /// <exception cref="System.ArgumentNullException">service</exception>
         /// <exception cref="ArgumentNullException"><paramref name="service" /> is <see langword="null" />.</exception>
         public SwaggerToTypeScriptClientGenerator(SwaggerService service, SwaggerToTypeScriptClientGeneratorSettings settings)
+            : this(service, settings, new TypeScriptTypeResolver(settings.TypeScriptGeneratorSettings, service))
+        {
+
+        }
+
+        /// <summary>Initializes a new instance of the <see cref="SwaggerToTypeScriptClientGenerator" /> class.</summary>
+        /// <param name="service">The service.</param>
+        /// <param name="settings">The settings.</param>
+        /// <param name="resolver">The resolver.</param>
+        /// <exception cref="System.ArgumentNullException">service</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="service" /> is <see langword="null" />.</exception>
+        public SwaggerToTypeScriptClientGenerator(SwaggerService service, SwaggerToTypeScriptClientGeneratorSettings settings, TypeScriptTypeResolver resolver)
+            : base(resolver)
         {
             if (service == null)
                 throw new ArgumentNullException(nameof(service));
@@ -36,11 +48,11 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             Settings = settings;
 
             _service = service;
+            _resolver = resolver;
 
             foreach (var definition in _service.Definitions.Where(p => string.IsNullOrEmpty(p.Value.TypeNameRaw)))
                 definition.Value.TypeNameRaw = definition.Key;
 
-            _resolver = new TypeScriptTypeResolver(Settings.TypeScriptGeneratorSettings, service);
             _resolver.AddSchemas(_service.Definitions);
         }
 
@@ -54,14 +66,13 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         /// <returns>The file contents.</returns>
         public override string GenerateFile()
         {
-            return GenerateFile(_service, _resolver, ClientGeneratorOutputType.Full);
+            return GenerateFile(_service, ClientGeneratorOutputType.Full);
         }
 
         /// <summary>Resolves the type of the parameter.</summary>
         /// <param name="parameter">The parameter.</param>
-        /// <param name="resolver">The resolver.</param>
         /// <returns>The parameter type name.</returns>
-        protected override string ResolveParameterType(SwaggerParameter parameter, ITypeResolver resolver)
+        protected override string ResolveParameterType(SwaggerParameter parameter)
         {
             var schema = parameter.ActualSchema;
             if (schema.Type == JsonObjectType.File)
@@ -72,7 +83,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
                 return "FileParameter";
             }
 
-            return base.ResolveParameterType(parameter, resolver);
+            return base.ResolveParameterType(parameter);
         }
 
         internal override ClientGeneratorBaseSettings BaseSettings => Settings;
