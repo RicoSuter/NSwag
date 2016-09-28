@@ -51,8 +51,8 @@ namespace NSwag.CodeGeneration.Infrastructure
 
         public string GetConfigurationPath(string assemblyDirectory, string configurationPath)
         {
-            configurationPath = configurationPath ?? TryFindConfigurationPath(assemblyDirectory);
-            var content = configurationPath != null ? File.ReadAllText(configurationPath, Encoding.UTF8) : EmptyConfig;
+            configurationPath = !string.IsNullOrEmpty(configurationPath) ? configurationPath : TryFindConfigurationPath(assemblyDirectory);
+            var content = !string.IsNullOrEmpty(configurationPath) ? File.ReadAllText(configurationPath, Encoding.UTF8) : EmptyConfig;
 
             content = UpdateOrAddBindingRedirect(content, "Newtonsoft.Json", typeof(JToken), JsonNetAssemblyBinding);
 
