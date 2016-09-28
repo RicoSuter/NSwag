@@ -26,7 +26,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
-namespace NSwag.Integration.ClientPCL.Contracts
+namespace NSwag.Integration.Console.Contracts
 {
     #pragma warning disable // Disable all warnings
 
