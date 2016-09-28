@@ -45,6 +45,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         /// <summary>Gets the operation name in uppercase.</summary>
         public string OperationNameUpper => ConversionUtilities.ConvertToUpperCamelCase(OperationName, false);
 
+        // TODO: Remove this (not may not work correctly)
         /// <summary>Gets or sets a value indicating whether the operation has a result type (i.e. not void).</summary>
         public bool HasResultType { get; set; }
 

@@ -224,6 +224,14 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
 <#      }#>
         {
 <#if(operation.HasDefaultResponse){#>
+<#  if(operation.DefaultResponse.HasType){#>
+<#      if(operation.DefaultResponse.IsFile){#>
+<#          if(operation.DefaultResponse.IsSuccess){#>
+            return responseData_; 
+<#          }else{#>
+            throw new SwaggerException<byte[]>("A server side error occurred.", status_, responseData_, responseData_, null);
+<#          }#>
+<#      }else{#>
             var result_ = default(<#=operation.DefaultResponse.Type#>); 
             try
             {
@@ -241,6 +249,10 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
             }
 
             throw new SwaggerException<<#=operation.DefaultResponse.Type#>>("A server side error occurred.", status_, responseData_, result_, null);
+<#      }#>
+<#  }else{#>
+            return;
+<#  }#>
 <#}#>
         }
 
