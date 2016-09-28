@@ -26,7 +26,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
     }
 <#if(Model.IsExtended){#>
 
-    protected transformOptions(options: RequestOptionsArgs) {
+    protected transformOptions(options: RequestInit) {
         return options; 
     }
 

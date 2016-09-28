@@ -271,10 +271,10 @@ if(Model.IsExtended){
             
             #line default
             #line hidden
-            this.Write("\r\n    protected transformOptions(options: RequestOptionsArgs) {\r\n        return o" +
-                    "ptions; \r\n    }\r\n\r\n    protected transformResult(url: string, response: Response" +
-                    ", processor: (response: Response) => any) {\r\n        return processor(response);" +
-                    "\r\n    }\r\n");
+            this.Write("\r\n    protected transformOptions(options: RequestInit) {\r\n        return options;" +
+                    " \r\n    }\r\n\r\n    protected transformResult(url: string, response: Response, proce" +
+                    "ssor: (response: Response) => any) {\r\n        return processor(response);\r\n    }" +
+                    "\r\n");
             
             #line 36 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
