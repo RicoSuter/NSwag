@@ -89,12 +89,14 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#  }else{#>
             url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + <#=parameter.VariableNameLower#>) + "&"; 
 <#  }
-}#>
-
+}
+if(!operation.IsGetOrHead){#>
         <#=RequestBodyGenerator.Render(operation, 2)#>
-        
+<#}#>
         return fetch(url_, <#if(Model.IsExtended){#>this.transformOptions(<#}#>{
-            body: content_,
+<#if(!operation.IsGetOrHead){#>
+			body: content_,
+<#}#>
             method: "<#=operation.HttpMethodUpper.ToUpperInvariant()#>",
             headers: {
 <#foreach(var parameter in operation.HeaderParameters){#>
