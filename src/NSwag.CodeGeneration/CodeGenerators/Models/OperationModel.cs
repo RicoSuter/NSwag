@@ -39,6 +39,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         /// <summary>Gets a value indicating whether the HTTP method is GET or DELETE.</summary>
         public bool IsGetOrDelete => HttpMethod == SwaggerOperationMethod.Get || HttpMethod == SwaggerOperationMethod.Delete;
 
+        /// <summary>Gets a value indicating whether the HTTP method is GET or HEAD.</summary>
+        public bool IsGetOrHead => HttpMethod == SwaggerOperationMethod.Get || HttpMethod == SwaggerOperationMethod.Head;
+
         /// <summary>Gets the operation name in lowercase.</summary>
         public string OperationNameLower => ConversionUtilities.ConvertToLowerCamelCase(OperationName, false);
 
