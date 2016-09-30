@@ -51,7 +51,7 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator
             Assert.AreEqual("OperationId_Bar", service.Operations.First(o => o.Path == "/Bar").Operation.OperationId);
         }
 
-        //[TestMethod]
+        [TestMethod]
         public void When_method_has_overload_then_operation_ids_are_still_unique()
         {
             //// Arrange

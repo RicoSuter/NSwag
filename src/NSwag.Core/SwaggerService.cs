@@ -211,64 +211,53 @@ namespace NSwag
             }
         }
 
-        /// <summary>Generates the missing or non-unique operation IDs.</summary>
+        /// <summary>Generates missing or non-unique operation IDs.</summary>
         public void GenerateOperationIds()
         {
-            // TODO: Check this method for correctness
+            // TODO: Improve this method
 
-            var groups = Operations.GroupBy(o => o.Operation.OperationId);
-            foreach (var group in groups)
+            // Generate missing IDs
+            foreach (var operation in Operations.Where(o => string.IsNullOrEmpty(o.Operation.OperationId)))
+                operation.Operation.OperationId = GetOperationNameFromPath(operation);
+
+            // Find non-unique operation IDs
+            foreach (var group in Operations.GroupBy(o => o.Operation.OperationId))
             {
                 var operations = group.ToList();
-
                 if (group.Count() > 1)
                 {
+                    // Append "All" if possible
                     var arrayResponseOperation = operations.FirstOrDefault(
                         a => a.Operation.Responses.Any(r => HttpUtilities.IsSuccessStatusCode(r.Key) && r.Value.Schema != null && r.Value.Schema.Type == JsonObjectType.Array));
 
                     if (arrayResponseOperation != null)
                     {
-                        var name = GetOperationName(arrayResponseOperation) + "All";
+                        var name = arrayResponseOperation.Operation.OperationId + "All";
                         if (Operations.All(o => o.Operation.OperationId != name))
                         {
                             arrayResponseOperation.Operation.OperationId = name;
                             operations.Remove(arrayResponseOperation);
+                            GenerateOperationIds();
+                            return;
                         }
                     }
 
-                    // TODO: Also implement numbering, see When_method_has_overload_then_operation_ids_are_still_unique
+                    // Add numbers
+                    var i = 2;
+                    foreach (var operation in operations.Skip(1))
+                        operation.Operation.OperationId += i++;
 
-                    var index = 0;
-                    foreach (var operation in operations)
-                    {
-                        var name = GetOperationName(operation);
-                        if (operation.Operation.OperationId != name)
-                        {
-                            string fullName;
-                            do
-                            {
-                                fullName = index > 0 ? name + index : name;
-                                index++;
-                            } while (Operations.Any(o => o.Operation.OperationId == fullName));
-
-                            operation.Operation.OperationId = fullName;
-                        }
-                    }
+                    GenerateOperationIds();
+                    return;
                 }
-                else if (string.IsNullOrEmpty(group.Key))
-                    operations.First().Operation.OperationId = GetOperationName(operations.First());
             }
         }
 
-        private string GetOperationName(SwaggerOperationDescription operation)
+        private string GetOperationNameFromPath(SwaggerOperationDescription operation)
         {
             var pathSegments = operation.Path.Trim('/').Split('/');
             var lastPathSegment = pathSegments.LastOrDefault(s => !s.Contains("{"));
-
-            // TODO: Also check routes
-            return !string.IsNullOrEmpty(operation.Operation.OperationId)
-                ? operation.Operation.OperationId
-                : lastPathSegment;
+            return string.IsNullOrEmpty(lastPathSegment) ? "Anonymous" : lastPathSegment;
         }
     }
 }
