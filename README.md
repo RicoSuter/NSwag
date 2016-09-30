@@ -24,6 +24,10 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 - Generate code with [T4 templates](https://github.com/NSwag/NSwag/wiki/T4) in Visual Studio
 - In your [Cake](https://cakebuild.net) scripts using [Cake.NSwag](https://agc93.github.io/Cake.NSwag/doc/intro.html) (external community project, may not use latest NSwag version)
 
+**Tutorials**
+
+- [Integrate the NSwag toolchain into your ASP.NET Web API project](https://blog.rsuter.com/nswag-tutorial-integrate-the-nswag-toolchain-into-your-asp-net-web-api-project/)
+
 **Swagger Generators:**
 
 - ASP.NET Web API assembly to Swagger (supports .NET Core)
