@@ -94,22 +94,22 @@ namespace NSwag.Annotations.Converters
             if (jObject == null)
                 return null;
 
-            var originalResolver = serializer.ContractResolver;
-            serializer.ContractResolver = (IContractResolver)Activator.CreateInstance(serializer.ContractResolver.GetType());
+            var newSerializer = new JsonSerializer();
+            newSerializer.ContractResolver = (IContractResolver)Activator.CreateInstance(serializer.ContractResolver.GetType());
 
-            GetField(typeof(DefaultContractResolver), "_sharedCache").SetValue(serializer.ContractResolver, false);
+            GetField(typeof(DefaultContractResolver), "_sharedCache").SetValue(newSerializer.ContractResolver, false);
 
-            dynamic resolver = serializer.ContractResolver;
-            if (serializer.ContractResolver.GetType().GetRuntimeProperty("IgnoreSerializableAttribute") != null)
+            dynamic resolver = newSerializer.ContractResolver;
+            if (newSerializer.ContractResolver.GetType().GetRuntimeProperty("IgnoreSerializableAttribute") != null)
                 resolver.IgnoreSerializableAttribute = true;
-            if (serializer.ContractResolver.GetType().GetRuntimeProperty("IgnoreSerializableInterface") != null)
+            if (newSerializer.ContractResolver.GetType().GetRuntimeProperty("IgnoreSerializableInterface") != null)
                 resolver.IgnoreSerializableInterface = true;
 
             JToken token;
             if (jObject.TryGetValue("discriminator", StringComparison.OrdinalIgnoreCase, out token))
             {
                 var discriminator = token.Value<string>();
-                if (objectType.GetType().Name.Equals(discriminator) == false)
+                if (objectType.Name.Equals(discriminator) == false)
                 {
                     var exceptionType = Type.GetType("System." + discriminator, false);
                     if (exceptionType != null)
@@ -130,10 +130,7 @@ namespace NSwag.Annotations.Converters
                 }
             }
 
-            serializer.Converters.Remove(this);
-            var value = jObject.ToObject(objectType, serializer);
-            serializer.Converters.Add(this);
-
+            var value = jObject.ToObject(objectType, newSerializer);
             foreach (var property in GetExceptionProperties(value.GetType()))
             {
                 var jValue = jObject.GetValue(resolver.GetResolvedPropertyName(property.Value));
@@ -148,12 +145,11 @@ namespace NSwag.Annotations.Converters
                 }
             }
 
-            SetExceptionFieldValue(jObject, "Message", value, "_message", resolver, serializer);
-            SetExceptionFieldValue(jObject, "StackTrace", value, "_stackTraceString", resolver, serializer);
-            SetExceptionFieldValue(jObject, "Source", value, "_source", resolver, serializer);
+            SetExceptionFieldValue(jObject, "Message", value, "_message", resolver, newSerializer);
+            SetExceptionFieldValue(jObject, "StackTrace", value, "_stackTraceString", resolver, newSerializer);
+            SetExceptionFieldValue(jObject, "Source", value, "_source", resolver, newSerializer);
             SetExceptionFieldValue(jObject, "InnerException", value, "_innerException", resolver, serializer);
 
-            serializer.ContractResolver = originalResolver;
             return value;
         }
 

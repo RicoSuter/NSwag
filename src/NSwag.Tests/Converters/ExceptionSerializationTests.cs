@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -60,6 +61,26 @@ namespace NSwag.Tests.Converters
 
                 Assert.AreEqual(exception.StackTrace, newException.StackTrace);
             }
+        }
+
+        [TestMethod]
+        public void JsonExceptionConverter_is_thread_safe()
+        {
+            //// Arrange
+            var tasks = new List<Task>();
+            for (int i = 0; i < 100; i++)
+            {
+                tasks.Add(Task.Run(() =>
+                {
+                    When_custom_exception_is_serialized_then_everything_works();
+                }));
+            }
+
+            //// Act
+            Task.WaitAll(tasks.ToArray());
+
+            //// Assert
+            // No exceptions
         }
 
         private static JsonSerializerSettings CreateSettings()
