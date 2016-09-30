@@ -4,13 +4,9 @@ internal class JsonExceptionConverter : JsonConverter
     private readonly DefaultContractResolver _defaultContractResolver = new DefaultContractResolver();
     private readonly IDictionary<string, Assembly> _searchedNamespaces;
 
-    public JsonExceptionConverter() : this(new Dictionary<string, Assembly> { { typeof(FileParameter).Name, typeof(FileParameter).GetTypeInfo().Assembly } })
+    public JsonExceptionConverter()
     {
-    }
-
-    public JsonExceptionConverter(IDictionary<string, Assembly> searchedNamespaces)
-    {
-        _searchedNamespaces = searchedNamespaces;
+        _searchedNamespaces = new Dictionary<string, Assembly> { { typeof(FileParameter).Name, typeof(FileParameter).GetTypeInfo().Assembly } };
     }
 
     public override bool CanWrite => true;
@@ -25,7 +21,7 @@ internal class JsonExceptionConverter : JsonConverter
             var jObject = new JObject();
             jObject.Add(resolver.GetResolvedPropertyName("discriminator"), exception.GetType().Name);
             jObject.Add(resolver.GetResolvedPropertyName("Message"), exception.Message);
-            jObject.Add(resolver.GetResolvedPropertyName("StackTrace"), exception.StackTrace);
+            jObject.Add(resolver.GetResolvedPropertyName("StackTrace"), _hideStackTrace ? "HIDDEN" : exception.StackTrace);
             jObject.Add(resolver.GetResolvedPropertyName("Source"), exception.Source);
             jObject.Add(resolver.GetResolvedPropertyName("InnerException"),
                 exception.InnerException != null ? JToken.FromObject(exception.InnerException, serializer) : null);
@@ -142,7 +138,10 @@ internal class JsonExceptionConverter : JsonConverter
     {
         var field = typeof(Exception).GetTypeInfo().GetDeclaredField(fieldName);
         var jsonPropertyName = resolver is DefaultContractResolver ? ((DefaultContractResolver)resolver).GetResolvedPropertyName(propertyName) : propertyName;
-        var fieldValue = jObject[jsonPropertyName].ToObject(field.FieldType, serializer);
-        field.SetValue(value, fieldValue);
+        if (jObject[jsonPropertyName] != null)
+        {
+            var fieldValue = jObject[jsonPropertyName].ToObject(field.FieldType, serializer);
+            field.SetValue(value, fieldValue);
+        }
     }
 }

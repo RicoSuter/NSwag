@@ -16,7 +16,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace NSwag.Annotations.Converters
 {
-    // IMPORTANT: Always sync with JsonExceptionConverterTemplate.tt, important: Ctor is different!!! => see diff
+    // IMPORTANT: Always sync with JsonExceptionConverterTemplate.tt, IMPORTANT: Copy from CanWrite property
 
     /// <summary>A converter to correctly serialize exception objects.</summary>
     public class JsonExceptionConverter : JsonConverter

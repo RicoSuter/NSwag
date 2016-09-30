@@ -34,7 +34,14 @@ namespace NSwag.AspNet.WebApi
         }
 
         /// <summary> Initializes a new instance of the <see cref="JsonExceptionFilterAttribute"/> class.</summary>
-        /// <param name="hideStackTrace">If set to <c>true</c> [hide stack trace].</param>
+        /// <param name="hideStackTrace">If set to <c>true</c> the serializer hides stack trace (i.e. sets the StackTrace to 'HIDDEN').</param>
+        public JsonExceptionFilterAttribute(bool hideStackTrace)
+            : this(hideStackTrace, new Dictionary<string, Assembly>())
+        {
+        }
+
+        /// <summary> Initializes a new instance of the <see cref="JsonExceptionFilterAttribute"/> class.</summary>
+        /// <param name="hideStackTrace">If set to <c>true</c> the serializer hides stack trace (i.e. sets the StackTrace to 'HIDDEN').</param>
         /// <param name="searchedNamespaces">The namespaces and assemblies to search for exception types.</param>
         public JsonExceptionFilterAttribute(bool hideStackTrace, IDictionary<string, Assembly> searchedNamespaces)
         {
