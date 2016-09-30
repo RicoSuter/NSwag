@@ -27,90 +27,91 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Templates
         {
             this.Write("internal class JsonExceptionConverter : JsonConverter\r\n{\r\n    private readonly De" +
                     "faultContractResolver _defaultContractResolver = new DefaultContractResolver();\r" +
-                    "\n    private readonly IDictionary<string, Assembly> _searchedNamespaces;\r\n\r\n    " +
-                    "public JsonExceptionConverter()\r\n    {\r\n        _searchedNamespaces = new Dictio" +
-                    "nary<string, Assembly> { { typeof(FileParameter).Name, typeof(FileParameter).Get" +
-                    "TypeInfo().Assembly } };\r\n    }\r\n\r\n    public override bool CanWrite => true;\r\n\r" +
-                    "\n    public override void WriteJson(JsonWriter writer, object value, JsonSeriali" +
-                    "zer serializer)\r\n    {\r\n        var exception = value as Exception;\r\n        if " +
-                    "(exception != null)\r\n        {\r\n            var resolver = serializer.ContractRe" +
-                    "solver as DefaultContractResolver ?? _defaultContractResolver;\r\n\r\n            va" +
-                    "r jObject = new JObject();\r\n            jObject.Add(resolver.GetResolvedProperty" +
-                    "Name(\"discriminator\"), exception.GetType().Name);\r\n            jObject.Add(resol" +
-                    "ver.GetResolvedPropertyName(\"Message\"), exception.Message);\r\n            jObject" +
-                    ".Add(resolver.GetResolvedPropertyName(\"StackTrace\"), _hideStackTrace ? \"HIDDEN\" " +
-                    ": exception.StackTrace);\r\n            jObject.Add(resolver.GetResolvedPropertyNa" +
-                    "me(\"Source\"), exception.Source);\r\n            jObject.Add(resolver.GetResolvedPr" +
-                    "opertyName(\"InnerException\"),\r\n                exception.InnerException != null " +
-                    "? JToken.FromObject(exception.InnerException, serializer) : null);\r\n\r\n          " +
-                    "  foreach (var property in GetExceptionProperties(value.GetType()))\r\n           " +
-                    " {\r\n                var propertyValue = property.Key.GetValue(exception);\r\n     " +
-                    "           if (propertyValue != null)\r\n                {\r\n                    jO" +
-                    "bject.AddFirst(new JProperty(resolver.GetResolvedPropertyName(property.Value),\r\n" +
-                    "                        JToken.FromObject(propertyValue, serializer)));\r\n       " +
-                    "         }\r\n            }\r\n\r\n            value = jObject;\r\n        }\r\n\r\n        " +
-                    "serializer.Serialize(writer, value);\r\n    }\r\n\r\n    public override bool CanConve" +
-                    "rt(Type objectType)\r\n    {\r\n        return typeof(Exception).GetTypeInfo().IsAss" +
-                    "ignableFrom(objectType.GetTypeInfo());\r\n    }\r\n\r\n    public override object Read" +
-                    "Json(JsonReader reader, Type objectType, object existingValue, JsonSerializer se" +
-                    "rializer)\r\n    {\r\n        var jObject = serializer.Deserialize<JObject>(reader);" +
-                    "\r\n        if (jObject == null)\r\n            return null;\r\n\r\n        var newSeria" +
-                    "lizer = new JsonSerializer();\r\n        newSerializer.ContractResolver = (IContra" +
-                    "ctResolver)Activator.CreateInstance(serializer.ContractResolver.GetType());\r\n\r\n " +
-                    "       GetField(typeof(DefaultContractResolver), \"_sharedCache\").SetValue(newSer" +
-                    "ializer.ContractResolver, false);\r\n\r\n        dynamic resolver = newSerializer.Co" +
-                    "ntractResolver;\r\n        if (newSerializer.ContractResolver.GetType().GetRuntime" +
-                    "Property(\"IgnoreSerializableAttribute\") != null)\r\n            resolver.IgnoreSer" +
-                    "ializableAttribute = true;\r\n        if (newSerializer.ContractResolver.GetType()" +
-                    ".GetRuntimeProperty(\"IgnoreSerializableInterface\") != null)\r\n            resolve" +
-                    "r.IgnoreSerializableInterface = true;\r\n\r\n        JToken token;\r\n        if (jObj" +
-                    "ect.TryGetValue(\"discriminator\", StringComparison.OrdinalIgnoreCase, out token))" +
-                    "\r\n        {\r\n            var discriminator = token.Value<string>();\r\n           " +
-                    " if (objectType.Name.Equals(discriminator) == false)\r\n            {\r\n           " +
-                    "     var exceptionType = Type.GetType(\"System.\" + discriminator, false);\r\n      " +
-                    "          if (exceptionType != null)\r\n                    objectType = exception" +
-                    "Type;\r\n                else\r\n                {\r\n                    foreach (var" +
-                    " pair in _searchedNamespaces)\r\n                    {\r\n                        ex" +
-                    "ceptionType = pair.Value.GetType(pair.Key + \".\" + discriminator);\r\n             " +
-                    "           if (exceptionType != null)\r\n                        {\r\n              " +
-                    "              objectType = exceptionType;\r\n                            break;\r\n " +
-                    "                       }\r\n                    }\r\n\r\n                }\r\n          " +
-                    "  }\r\n        }\r\n\r\n        var value = jObject.ToObject(objectType, newSerializer" +
-                    ");\r\n        foreach (var property in GetExceptionProperties(value.GetType()))\r\n " +
-                    "       {\r\n            var jValue = jObject.GetValue(resolver.GetResolvedProperty" +
-                    "Name(property.Value));\r\n            var propertyValue = (object)jValue?.ToObject" +
-                    "(property.Key.PropertyType);\r\n            if (property.Key.SetMethod != null)\r\n " +
-                    "               property.Key.SetValue(value, propertyValue);\r\n            else\r\n " +
-                    "           {\r\n                var field = GetField(objectType, \"m_\" + property.V" +
-                    "alue.Substring(0, 1).ToLowerInvariant() + property.Value.Substring(1));\r\n       " +
-                    "         if (field != null)\r\n                    field.SetValue(value, propertyV" +
-                    "alue);\r\n            }\r\n        }\r\n\r\n        SetExceptionFieldValue(jObject, \"Mes" +
-                    "sage\", value, \"_message\", resolver, newSerializer);\r\n        SetExceptionFieldVa" +
-                    "lue(jObject, \"StackTrace\", value, \"_stackTraceString\", resolver, newSerializer);" +
-                    "\r\n        SetExceptionFieldValue(jObject, \"Source\", value, \"_source\", resolver, " +
-                    "newSerializer);\r\n        SetExceptionFieldValue(jObject, \"InnerException\", value" +
-                    ", \"_innerException\", resolver, serializer);\r\n\r\n        return value;\r\n    }\r\n\r\n " +
-                    "   private FieldInfo GetField(Type type, string fieldName)\r\n    {\r\n        var f" +
-                    "ield = type.GetTypeInfo().GetDeclaredField(fieldName);\r\n        if (field == nul" +
-                    "l && type.GetTypeInfo().BaseType != null)\r\n            return GetField(type.GetT" +
-                    "ypeInfo().BaseType, fieldName);\r\n        return field;\r\n    }\r\n\r\n    private IDi" +
-                    "ctionary<PropertyInfo, string> GetExceptionProperties(Type exceptionType)\r\n    {" +
-                    "\r\n        var result = new Dictionary<PropertyInfo, string>();\r\n        foreach " +
-                    "(var property in exceptionType.GetRuntimeProperties().Where(p => p.GetMethod?.Is" +
-                    "Public == true))\r\n        {\r\n            var attribute = property.GetCustomAttri" +
-                    "bute<JsonPropertyAttribute>();\r\n            var propertyName = attribute != null" +
-                    " ? attribute.PropertyName : property.Name;\r\n\r\n            if (!new[] { \"Message\"" +
-                    ", \"StackTrace\", \"Source\", \"InnerException\", \"Data\", \"TargetSite\", \"HelpLink\", \"H" +
-                    "Result\" }.Contains(propertyName))\r\n                result[property] = propertyNa" +
-                    "me;\r\n        }\r\n        return result;\r\n    }\r\n\r\n    private void SetExceptionFi" +
-                    "eldValue(JObject jObject, string propertyName, object value, string fieldName, I" +
-                    "ContractResolver resolver, JsonSerializer serializer)\r\n    {\r\n        var field " +
-                    "= typeof(Exception).GetTypeInfo().GetDeclaredField(fieldName);\r\n        var json" +
-                    "PropertyName = resolver is DefaultContractResolver ? ((DefaultContractResolver)r" +
-                    "esolver).GetResolvedPropertyName(propertyName) : propertyName;\r\n        if (jObj" +
-                    "ect[jsonPropertyName] != null)\r\n        {\r\n            var fieldValue = jObject[" +
-                    "jsonPropertyName].ToObject(field.FieldType, serializer);\r\n            field.SetV" +
-                    "alue(value, fieldValue);\r\n        }\r\n    }\r\n}");
+                    "\n    private readonly IDictionary<string, Assembly> _searchedNamespaces;\r\n    pr" +
+                    "ivate readonly bool _hideStackTrace = false;\r\n\r\n    public JsonExceptionConverte" +
+                    "r()\r\n    {\r\n        _searchedNamespaces = new Dictionary<string, Assembly> { { t" +
+                    "ypeof(FileParameter).Name, typeof(FileParameter).GetTypeInfo().Assembly } };\r\n  " +
+                    "  }\r\n\r\n    public override bool CanWrite => true;\r\n\r\n    public override void Wr" +
+                    "iteJson(JsonWriter writer, object value, JsonSerializer serializer)\r\n    {\r\n    " +
+                    "    var exception = value as Exception;\r\n        if (exception != null)\r\n       " +
+                    " {\r\n            var resolver = serializer.ContractResolver as DefaultContractRes" +
+                    "olver ?? _defaultContractResolver;\r\n\r\n            var jObject = new JObject();\r\n" +
+                    "            jObject.Add(resolver.GetResolvedPropertyName(\"discriminator\"), excep" +
+                    "tion.GetType().Name);\r\n            jObject.Add(resolver.GetResolvedPropertyName(" +
+                    "\"Message\"), exception.Message);\r\n            jObject.Add(resolver.GetResolvedPro" +
+                    "pertyName(\"StackTrace\"), _hideStackTrace ? \"HIDDEN\" : exception.StackTrace);\r\n  " +
+                    "          jObject.Add(resolver.GetResolvedPropertyName(\"Source\"), exception.Sour" +
+                    "ce);\r\n            jObject.Add(resolver.GetResolvedPropertyName(\"InnerException\")" +
+                    ",\r\n                exception.InnerException != null ? JToken.FromObject(exceptio" +
+                    "n.InnerException, serializer) : null);\r\n\r\n            foreach (var property in G" +
+                    "etExceptionProperties(value.GetType()))\r\n            {\r\n                var prop" +
+                    "ertyValue = property.Key.GetValue(exception);\r\n                if (propertyValue" +
+                    " != null)\r\n                {\r\n                    jObject.AddFirst(new JProperty" +
+                    "(resolver.GetResolvedPropertyName(property.Value),\r\n                        JTok" +
+                    "en.FromObject(propertyValue, serializer)));\r\n                }\r\n            }\r\n\r" +
+                    "\n            value = jObject;\r\n        }\r\n\r\n        serializer.Serialize(writer," +
+                    " value);\r\n    }\r\n\r\n    public override bool CanConvert(Type objectType)\r\n    {\r\n" +
+                    "        return typeof(Exception).GetTypeInfo().IsAssignableFrom(objectType.GetTy" +
+                    "peInfo());\r\n    }\r\n\r\n    public override object ReadJson(JsonReader reader, Type" +
+                    " objectType, object existingValue, JsonSerializer serializer)\r\n    {\r\n        va" +
+                    "r jObject = serializer.Deserialize<JObject>(reader);\r\n        if (jObject == nul" +
+                    "l)\r\n            return null;\r\n\r\n        var newSerializer = new JsonSerializer()" +
+                    ";\r\n        newSerializer.ContractResolver = (IContractResolver)Activator.CreateI" +
+                    "nstance(serializer.ContractResolver.GetType());\r\n\r\n        GetField(typeof(Defau" +
+                    "ltContractResolver), \"_sharedCache\").SetValue(newSerializer.ContractResolver, fa" +
+                    "lse);\r\n\r\n        dynamic resolver = newSerializer.ContractResolver;\r\n        if " +
+                    "(newSerializer.ContractResolver.GetType().GetRuntimeProperty(\"IgnoreSerializable" +
+                    "Attribute\") != null)\r\n            resolver.IgnoreSerializableAttribute = true;\r\n" +
+                    "        if (newSerializer.ContractResolver.GetType().GetRuntimeProperty(\"IgnoreS" +
+                    "erializableInterface\") != null)\r\n            resolver.IgnoreSerializableInterfac" +
+                    "e = true;\r\n\r\n        JToken token;\r\n        if (jObject.TryGetValue(\"discriminat" +
+                    "or\", StringComparison.OrdinalIgnoreCase, out token))\r\n        {\r\n            var" +
+                    " discriminator = token.Value<string>();\r\n            if (objectType.Name.Equals(" +
+                    "discriminator) == false)\r\n            {\r\n                var exceptionType = Typ" +
+                    "e.GetType(\"System.\" + discriminator, false);\r\n                if (exceptionType " +
+                    "!= null)\r\n                    objectType = exceptionType;\r\n                else\r" +
+                    "\n                {\r\n                    foreach (var pair in _searchedNamespaces" +
+                    ")\r\n                    {\r\n                        exceptionType = pair.Value.Get" +
+                    "Type(pair.Key + \".\" + discriminator);\r\n                        if (exceptionType" +
+                    " != null)\r\n                        {\r\n                            objectType = e" +
+                    "xceptionType;\r\n                            break;\r\n                        }\r\n  " +
+                    "                  }\r\n\r\n                }\r\n            }\r\n        }\r\n\r\n        va" +
+                    "r value = jObject.ToObject(objectType, newSerializer);\r\n        foreach (var pro" +
+                    "perty in GetExceptionProperties(value.GetType()))\r\n        {\r\n            var jV" +
+                    "alue = jObject.GetValue(resolver.GetResolvedPropertyName(property.Value));\r\n    " +
+                    "        var propertyValue = (object)jValue?.ToObject(property.Key.PropertyType);" +
+                    "\r\n            if (property.Key.SetMethod != null)\r\n                property.Key." +
+                    "SetValue(value, propertyValue);\r\n            else\r\n            {\r\n              " +
+                    "  var field = GetField(objectType, \"m_\" + property.Value.Substring(0, 1).ToLower" +
+                    "Invariant() + property.Value.Substring(1));\r\n                if (field != null)\r" +
+                    "\n                    field.SetValue(value, propertyValue);\r\n            }\r\n     " +
+                    "   }\r\n\r\n        SetExceptionFieldValue(jObject, \"Message\", value, \"_message\", re" +
+                    "solver, newSerializer);\r\n        SetExceptionFieldValue(jObject, \"StackTrace\", v" +
+                    "alue, \"_stackTraceString\", resolver, newSerializer);\r\n        SetExceptionFieldV" +
+                    "alue(jObject, \"Source\", value, \"_source\", resolver, newSerializer);\r\n        Set" +
+                    "ExceptionFieldValue(jObject, \"InnerException\", value, \"_innerException\", resolve" +
+                    "r, serializer);\r\n\r\n        return value;\r\n    }\r\n\r\n    private FieldInfo GetFiel" +
+                    "d(Type type, string fieldName)\r\n    {\r\n        var field = type.GetTypeInfo().Ge" +
+                    "tDeclaredField(fieldName);\r\n        if (field == null && type.GetTypeInfo().Base" +
+                    "Type != null)\r\n            return GetField(type.GetTypeInfo().BaseType, fieldNam" +
+                    "e);\r\n        return field;\r\n    }\r\n\r\n    private IDictionary<PropertyInfo, strin" +
+                    "g> GetExceptionProperties(Type exceptionType)\r\n    {\r\n        var result = new D" +
+                    "ictionary<PropertyInfo, string>();\r\n        foreach (var property in exceptionTy" +
+                    "pe.GetRuntimeProperties().Where(p => p.GetMethod?.IsPublic == true))\r\n        {\r" +
+                    "\n            var attribute = property.GetCustomAttribute<JsonPropertyAttribute>(" +
+                    ");\r\n            var propertyName = attribute != null ? attribute.PropertyName : " +
+                    "property.Name;\r\n\r\n            if (!new[] { \"Message\", \"StackTrace\", \"Source\", \"I" +
+                    "nnerException\", \"Data\", \"TargetSite\", \"HelpLink\", \"HResult\" }.Contains(propertyN" +
+                    "ame))\r\n                result[property] = propertyName;\r\n        }\r\n        retu" +
+                    "rn result;\r\n    }\r\n\r\n    private void SetExceptionFieldValue(JObject jObject, st" +
+                    "ring propertyName, object value, string fieldName, IContractResolver resolver, J" +
+                    "sonSerializer serializer)\r\n    {\r\n        var field = typeof(Exception).GetTypeI" +
+                    "nfo().GetDeclaredField(fieldName);\r\n        var jsonPropertyName = resolver is D" +
+                    "efaultContractResolver ? ((DefaultContractResolver)resolver).GetResolvedProperty" +
+                    "Name(propertyName) : propertyName;\r\n        if (jObject[jsonPropertyName] != nul" +
+                    "l)\r\n        {\r\n            var fieldValue = jObject[jsonPropertyName].ToObject(f" +
+                    "ield.FieldType, serializer);\r\n            field.SetValue(value, fieldValue);\r\n  " +
+                    "      }\r\n    }\r\n}");
             return this.GenerationEnvironment.ToString();
         }
     }

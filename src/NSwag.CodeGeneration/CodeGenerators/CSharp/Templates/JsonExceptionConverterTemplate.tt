@@ -3,6 +3,7 @@ internal class JsonExceptionConverter : JsonConverter
 {
     private readonly DefaultContractResolver _defaultContractResolver = new DefaultContractResolver();
     private readonly IDictionary<string, Assembly> _searchedNamespaces;
+    private readonly bool _hideStackTrace = false;
 
     public JsonExceptionConverter()
     {

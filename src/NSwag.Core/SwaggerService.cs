@@ -236,6 +236,8 @@ namespace NSwag
                         }
                     }
 
+                    // TODO: Also implement numbering, see When_method_has_overload_then_operation_ids_are_still_unique
+
                     var index = 0;
                     foreach (var operation in operations)
                     {
