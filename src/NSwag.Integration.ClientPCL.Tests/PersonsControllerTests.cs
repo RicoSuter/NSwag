@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSwag.Integration.ClientPCL.Contracts;
 
 namespace NSwag.Integration.ClientPCL.Tests
 {
@@ -18,6 +19,7 @@ namespace NSwag.Integration.ClientPCL.Tests
 
             //// Assert
             Assert.AreEqual(2, persons.Count);
+            Assert.AreEqual("SE", ((Teacher)persons[1]).Course);
         }
     }
 }
