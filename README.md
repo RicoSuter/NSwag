@@ -18,11 +18,15 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 
 - Simple to use Windows GUI, [NSwagStudio](https://github.com/NSwag/NSwag/wiki/NSwagStudio)
 - Via [command line](https://github.com/NSwag/NSwag/wiki/CommandLine) (Windows, Mac and Linux support through [Mono](http://www.mono-project.com/))
-- By using the [Swagger or Swagger UI OWIN Middleware](https://github.com/NSwag/NSwag/wiki/OwinMiddleware) (also supports ASP.NET Core)
+- By using the [Swagger or Swagger UI OWIN and ASP.NET Core Middlewares](https://github.com/NSwag/NSwag/wiki/Middlewares)
 - In your C# code, via [NuGet](https://www.nuget.org/packages?q=NSwag)
 - In your [MSBuild targets](https://github.com/NSwag/NSwag/wiki/MSBuild)
 - Generate code with [T4 templates](https://github.com/NSwag/NSwag/wiki/T4) in Visual Studio
 - In your [Cake](https://cakebuild.net) scripts using [Cake.NSwag](https://agc93.github.io/Cake.NSwag/doc/intro.html) (external community project, may not use latest NSwag version)
+
+**Tutorials**
+
+- [Integrate the NSwag Swagger toolchain into your ASP.NET Web API project](https://blog.rsuter.com/nswag-tutorial-integrate-the-nswag-toolchain-into-your-asp-net-web-api-project/)
 
 **Swagger Generators:**
 
