@@ -41,7 +41,7 @@ namespace NSwag
         /// Get or set the schema less extensions (this can be used as vendor extensions as well) in response schema
         /// </summary>
         [JsonExtensionData]
-        public IDictionary<string, object> VendorExtensionData { get; set; }
+        public IDictionary<string, object> ExtensionData { get; set; }
 
         /// <summary>Gets a value indicating whether the response schema is an exception.</summary>
         [JsonIgnore]

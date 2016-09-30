@@ -51,7 +51,7 @@ namespace NSwag.Tests
         }
 
         [TestMethod]
-        public void VendorExtensionDataTest()
+        public void ExtensionDataTest()
         {
             //// Arrange
             var json = _jsonVendorExtensionData;
@@ -60,7 +60,7 @@ namespace NSwag.Tests
             var service = SwaggerService.FromJson(json);
 
             //// Assert
-            Assert.IsNotNull(service.Operations.First().Operation.Responses["202"].VendorExtensionData);
+            Assert.IsNotNull(service.Operations.First().Operation.Responses["202"].ExtensionData);
         }
 
         private string _sampleServiceCode = 

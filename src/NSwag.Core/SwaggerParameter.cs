@@ -46,12 +46,6 @@ namespace NSwag
         [JsonProperty(PropertyName = "collectionFormat", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public SwaggerParameterCollectionFormat CollectionFormat { get; set; }
 
-        /// <summary>
-        /// Get or set the schema less extensions (this can be used as vendor extensions as well) in response schema
-        /// </summary>
-        [JsonExtensionData]
-        public System.Collections.Generic.IDictionary<string, object> VendorExtensionData { get; set; }
-
         /// <summary>Gets a value indicating whether the validated data can be null.</summary>
         /// <param name="nullHandling">The null handling.</param>
         /// <returns>The result.</returns>
