@@ -49,10 +49,10 @@ namespace NSwag.Integration.ClientPCL.Tests
             {
                 var persons = await personsClient.ThrowAsync(id);
             }
-            catch (PersonNotFoundException exception)
+            catch (SwaggerException<PersonNotFoundException> exception)
             {
                 //// Assert
-                Assert.AreEqual(id, exception.Id); 
+                Assert.AreEqual(id, exception.Response.Id); 
             }
         }
     }

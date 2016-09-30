@@ -16,7 +16,7 @@ namespace NSwag.Integration.WebAPI.Controllers
             return new List<Person>
             {
                 new Person(),
-                new Person()
+                new Teacher { Course = "SE" }
             };
         }
 
@@ -36,7 +36,7 @@ namespace NSwag.Integration.WebAPI.Controllers
             return new List<Person>
             {
                 new Person(),
-                new Person()
+                new Teacher { Course = "SE" }
             };
         }
 

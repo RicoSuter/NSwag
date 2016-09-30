@@ -31,7 +31,7 @@ namespace NSwag.Integration.ClientPCL.Tests
             }
         }
 
-        [TestMethod]
+        //[TestMethod]
         [TestCategory("integration")]
         public async Task UploadFile()
         {
