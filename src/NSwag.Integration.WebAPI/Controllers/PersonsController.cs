@@ -48,6 +48,14 @@ namespace NSwag.Integration.WebAPI.Controllers
             return new Person();
         }
 
+        [Route("Throw")]
+        [ResponseType(typeof(Person))]
+        [ResponseType("500", typeof(PersonNotFoundException))]
+        public Person Throw(Guid id)
+        {
+            throw new PersonNotFoundException(id);
+        }
+
         /// <summary>Gets the name of a person.</summary>
         /// <param name="id">The person ID.</param>
         /// <returns>The person's name.</returns>
