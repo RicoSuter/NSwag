@@ -23,16 +23,19 @@ namespace NSwag.Annotations.Converters
     {
         private readonly DefaultContractResolver _defaultContractResolver = new DefaultContractResolver();
         private readonly IDictionary<string, Assembly> _searchedNamespaces;
+        private readonly bool _hideStackTrace;
 
         /// <summary>Initializes a new instance of the <see cref="JsonExceptionConverter"/> class.</summary>
-        public JsonExceptionConverter() : this(new Dictionary<string, Assembly>())
+        public JsonExceptionConverter() : this(true, new Dictionary<string, Assembly>())
         {
         }
 
-        /// <summary>Initializes a new instance of the <see cref="JsonExceptionConverter"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="JsonExceptionConverter" /> class.</summary>
+        /// <param name="hideStackTrace">If set to <c>true</c> the serializer hides stack trace (i.e. sets the StackTrace to 'HIDDEN').</param>
         /// <param name="searchedNamespaces">The namespaces to search for exception types.</param>
-        public JsonExceptionConverter(IDictionary<string, Assembly> searchedNamespaces)
+        public JsonExceptionConverter(bool hideStackTrace, IDictionary<string, Assembly> searchedNamespaces)
         {
+            _hideStackTrace = hideStackTrace; 
             _searchedNamespaces = searchedNamespaces;
         }
 
@@ -53,7 +56,7 @@ namespace NSwag.Annotations.Converters
                 var jObject = new JObject();
                 jObject.Add(resolver.GetResolvedPropertyName("discriminator"), exception.GetType().Name);
                 jObject.Add(resolver.GetResolvedPropertyName("Message"), exception.Message);
-                jObject.Add(resolver.GetResolvedPropertyName("StackTrace"), exception.StackTrace);
+                jObject.Add(resolver.GetResolvedPropertyName("StackTrace"), _hideStackTrace ? "HIDDEN" : exception.StackTrace);
                 jObject.Add(resolver.GetResolvedPropertyName("Source"), exception.Source);
                 jObject.Add(resolver.GetResolvedPropertyName("InnerException"),
                     exception.InnerException != null ? JToken.FromObject(exception.InnerException, serializer) : null);
@@ -179,8 +182,11 @@ namespace NSwag.Annotations.Converters
         {
             var field = typeof(Exception).GetTypeInfo().GetDeclaredField(fieldName);
             var jsonPropertyName = resolver is DefaultContractResolver ? ((DefaultContractResolver)resolver).GetResolvedPropertyName(propertyName) : propertyName;
-            var fieldValue = jObject[jsonPropertyName].ToObject(field.FieldType, serializer);
-            field.SetValue(value, fieldValue);
+            if (jObject[jsonPropertyName] != null)
+            {
+                var fieldValue = jObject[jsonPropertyName].ToObject(field.FieldType, serializer);
+                field.SetValue(value, fieldValue);
+            }
         }
     }
 }

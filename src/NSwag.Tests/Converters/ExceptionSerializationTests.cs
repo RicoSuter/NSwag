@@ -64,6 +64,26 @@ namespace NSwag.Tests.Converters
         }
 
         [TestMethod]
+        public void When_stack_trace_hiding_is_enabled_then_stack_trace_is_HIDDEN()
+        {
+            //// Arrange
+            var settings = CreateSettings(true);
+            try
+            {
+                throw new CompanyNotFoundException();
+            }
+            catch (CompanyNotFoundException exception)
+            {
+                //// Act
+                var json = JsonConvert.SerializeObject(exception, settings);
+                var newException = JsonConvert.DeserializeObject<Exception>(json, settings) as CompanyNotFoundException;
+
+                //// Assert
+                Assert.AreEqual("HIDDEN", newException.StackTrace);
+            }
+        }
+
+        [TestMethod]
         public void JsonExceptionConverter_is_thread_safe()
         {
             //// Arrange
@@ -83,7 +103,7 @@ namespace NSwag.Tests.Converters
             // No exceptions
         }
 
-        private static JsonSerializerSettings CreateSettings()
+        private static JsonSerializerSettings CreateSettings(bool hideStackTrace = false)
         {
             var settings = new JsonSerializerSettings
             {
@@ -92,7 +112,7 @@ namespace NSwag.Tests.Converters
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                 Converters =
                 {
-                    new JsonExceptionConverter(new Dictionary<string, Assembly>
+                    new JsonExceptionConverter(hideStackTrace, new Dictionary<string, Assembly>
                     {
                         { typeof(ExceptionSerializationTests).Namespace , typeof(ExceptionSerializationTests).Assembly}
                     })
