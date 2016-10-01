@@ -27,6 +27,7 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 **Tutorials**
 
 - [Integrate the NSwag Swagger toolchain into your ASP.NET Web API project](https://blog.rsuter.com/nswag-tutorial-integrate-the-nswag-toolchain-into-your-asp-net-web-api-project/)
+- [Generate an Angular 2 TypeScript client from an existing ASP.NET Web API web assembly](https://blog.rsuter.com/nswag-tutorial-generate-an-angular-2-typescript-client-from-an-existing-asp-net-web-api-web-assembly/)
 
 **Swagger Generators:**
 
