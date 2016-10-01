@@ -25,7 +25,6 @@ namespace <#=Model.Namespace#> {
 <#}#>
 <#if(Model.IsAngular2){#>
 export const API_BASE_URL = new OpaqueToken('API_BASE_URL');
-export const JSON_PARSE_REVIVER = new OpaqueToken('JSON_PARSE_REVIVER');
 
 <#}#>
 <#=Model.Clients#>
