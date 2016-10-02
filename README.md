@@ -71,6 +71,8 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 - [NSwag.AspNet.Owin](https://www.nuget.org/packages/NSwag.AspNet.Owin/) (.NET 4.5+): OWIN Middlewares for serving Swagger specifications and Swagger UI
 - [NSwagStudio](https://chocolatey.org/packages/nswagstudio) (Chocolatey): Package to install the NSwagStudio and command line tools via Chocolatey
 
+The NuGet packages may require the "Microsoft.NETCore.Portable.Compatibility" package on .NET Core/UWP targets (if mscorlib is missing). 
+
 ### Usage in C&#35;
 
 The following code shows how to read a Swagger specification and generate C# client classes to call the described web services: 
