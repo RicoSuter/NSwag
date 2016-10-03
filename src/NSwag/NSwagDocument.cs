@@ -230,7 +230,7 @@ namespace NSwag
         private string ConvertToAbsolutePath(string pathToConvert)
         {
             if (!string.IsNullOrEmpty(pathToConvert) && !System.IO.Path.IsPathRooted(pathToConvert))
-                return PathUtilities.MakeAbsolutePath(System.IO.Path.GetDirectoryName(Path), pathToConvert);
+                return PathUtilities.MakeAbsolutePath(pathToConvert, System.IO.Path.GetDirectoryName(Path));
             return pathToConvert;
         }
 

@@ -22,10 +22,14 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
 
             var allReferencePaths = new List<string>(GetAllDirectories(domain.SetupInformation.ApplicationBase));
             foreach (var path in referencePaths.Where(p => !string.IsNullOrWhiteSpace(p)))
+            {
+                allReferencePaths.Add(path);
                 allReferencePaths.AddRange(GetAllDirectories(path));
+            }
 
             // Add path to nswag directory
             allReferencePaths.Add(Path.GetDirectoryName(typeof(AssemblyLoader).Assembly.CodeBase.Replace("file:///", string.Empty)));
+            allReferencePaths = allReferencePaths.Distinct().ToList();
 
             domain.AssemblyResolve += (sender, args) =>
             {
@@ -38,8 +42,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
                         try
                         {
                             var assembly = Assembly.LoadFrom(file);
-                            if (assembly.FullName == args.Name)
-                                return assembly;
+                            // if (assembly.FullName == args.Name) // TODO: Check FullName but also respect binding redirects
+                            return assembly;
                         }
                         catch
                         {

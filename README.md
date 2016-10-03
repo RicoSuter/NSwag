@@ -69,9 +69,10 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 - [NSwag.MSBuild](https://www.nuget.org/packages/NSwag.MSBuild/) (MSBuild .targets): Adds a .targets file to your Visual Studio project, so that you can run the NSwag command line tool in an MSBuild target
 - [NSwag.AspNetCore](https://www.nuget.org/packages/NSwag.AspNetCore/) (.NETStandard 1.6 and .NET 4.5.1+): 
 - [NSwag.AspNet.Owin](https://www.nuget.org/packages/NSwag.AspNet.Owin/) (.NET 4.5+): OWIN Middlewares for serving Swagger specifications and Swagger UI
+- [NSwag.AspNet.WebApi](https://www.nuget.org/packages/NSwag.AspNet.WebApi/) (.NET 4.5+): ASP.NET Web API filter which serializes exceptions ([JsonExceptionFilterAttribute](https://github.com/NSwag/NSwag/wiki/JsonExceptionFilterAttribute))
 - [NSwagStudio](https://chocolatey.org/packages/nswagstudio) (Chocolatey): Package to install the NSwagStudio and command line tools via Chocolatey
 
-The NuGet packages may require the "Microsoft.NETCore.Portable.Compatibility" package on .NET Core/UWP targets (if mscorlib is missing). 
+The NuGet packages may require the **Microsoft.NETCore.Portable.Compatibility** package on .NET Core/UWP targets (if mscorlib is missing). 
 
 ### Usage in C&#35;
 
