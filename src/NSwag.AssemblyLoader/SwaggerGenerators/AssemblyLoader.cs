@@ -33,23 +33,27 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
 
             domain.AssemblyResolve += (sender, args) =>
             {
+                var assemblyName = args.Name.Substring(0, args.Name.IndexOf(",", StringComparison.InvariantCulture));
+
+                var existingAssembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetName().Name == assemblyName);
+                if (existingAssembly != null)
+                    return existingAssembly;
+
                 foreach (var path in allReferencePaths)
                 {
-                    var assemblyName = args.Name.Substring(0, args.Name.IndexOf(",", StringComparison.InvariantCulture)) + ".dll";
-                    var files = Directory.GetFiles(path, assemblyName, SearchOption.TopDirectoryOnly);
+                    var files = Directory.GetFiles(path, assemblyName + ".dll", SearchOption.TopDirectoryOnly);
                     foreach (var file in files)
                     {
                         try
                         {
-                            var assembly = Assembly.LoadFrom(file);
-                            // if (assembly.FullName == args.Name) // TODO: Check FullName but also respect binding redirects
-                            return assembly;
+                            return Assembly.LoadFrom(file);
                         }
                         catch
                         {
                         }
                     }
                 }
+
                 return null;
             };
         }
