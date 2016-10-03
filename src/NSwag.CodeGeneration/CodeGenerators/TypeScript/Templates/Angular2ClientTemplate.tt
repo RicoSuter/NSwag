@@ -22,12 +22,10 @@ export interface I<#=Model.Class#> {
 export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements I<#=Model.Class#> <#}#>{
     private http: Http = null; 
     private baseUrl: string = undefined; 
-    private jsonParseReviver: (key: string, value: any) => any = undefined; 
 
-    constructor(@Inject(Http) http: Http, @Optional() @Inject(API_BASE_URL) baseUrl?: string, @Optional() @Inject(JSON_PARSE_REVIVER) jsonParseReviver?: (key: string, value: any) => any) {
+    constructor(@Inject(Http) http: Http, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http; 
         this.baseUrl = baseUrl ? baseUrl : "<#=Model.BaseUrl#>"; 
-        this.jsonParseReviver = jsonParseReviver;
     }
 <#if(Model.IsExtended){#>
 
@@ -49,19 +47,19 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
 <#}#>    <#=operation.OperationNameLower#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableNameLower#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): Observable<<#=operation.ResultType#>> {
-        var url = this.baseUrl + "/<#=operation.Path#><#if(operation.QueryParameters.Any()){#>?<#}#>"; 
+        let url_ = this.baseUrl + "/<#=operation.Path#><#if(operation.QueryParameters.Any()){#>?<#}#>"; 
 
 <#foreach(var parameter in operation.PathParameters){#>
         if (<#=parameter.VariableNameLower#> === undefined || <#=parameter.VariableNameLower#> === null)
             throw new Error("The parameter '<#=parameter.VariableNameLower#>' must be defined.");
 <#  if(parameter.IsDateArray){#>
-        url = url.replace("{<#=parameter.Name#>}", encodeURIComponent(<#=parameter.VariableNameLower#>.map(s_ => s_.toJSON()).join())); 
+        url_ = url_.replace("{<#=parameter.Name#>}", encodeURIComponent(<#=parameter.VariableNameLower#>.map(s_ => s_.toJSON()).join())); 
 <#  }else if(parameter.IsDate){#>
-        url = url.replace("{<#=parameter.Name#>}", encodeURIComponent("" + <#=parameter.VariableNameLower#>.toJSON())); 
+        url_ = url_.replace("{<#=parameter.Name#>}", encodeURIComponent("" + <#=parameter.VariableNameLower#>.toJSON())); 
 <#  }else if(parameter.IsArray){#>
-        url = url.replace("{<#=parameter.Name#>}", encodeURIComponent(<#=parameter.VariableNameLower#>.join())); 
+        url_ = url_.replace("{<#=parameter.Name#>}", encodeURIComponent(<#=parameter.VariableNameLower#>.join())); 
 <#  }else{#>
-        url = url.replace("{<#=parameter.Name#>}", encodeURIComponent("" + <#=parameter.VariableNameLower#>)); 
+        url_ = url_.replace("{<#=parameter.Name#>}", encodeURIComponent("" + <#=parameter.VariableNameLower#>)); 
 <#  }#>
 <#}#>
 
@@ -86,29 +84,33 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#      }
     }#>
 <#  if(parameter.IsDateArray){#>
-            <#=parameter.VariableNameLower#>.forEach(item => { url += "<#=parameter.Name#>=" + encodeURIComponent("" + item.toJSON()) + "&"; });
+            <#=parameter.VariableNameLower#>.forEach(item => { url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + item.toJSON()) + "&"; });
 <#  }else if(parameter.IsDate){#>
-            url += "<#=parameter.Name#>=" + encodeURIComponent("" + <#=parameter.VariableNameLower#>.toJSON()) + "&"; 
+            url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + <#=parameter.VariableNameLower#>.toJSON()) + "&"; 
 <#  }else if(parameter.IsArray){#>
-            <#=parameter.VariableNameLower#>.forEach(item => { url += "<#=parameter.Name#>=" + encodeURIComponent("" + item) + "&"; });
+            <#=parameter.VariableNameLower#>.forEach(item => { url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + item) + "&"; });
 <#  }else{#>
-            url += "<#=parameter.Name#>=" + encodeURIComponent("" + <#=parameter.VariableNameLower#>) + "&"; 
+            url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + <#=parameter.VariableNameLower#>) + "&"; 
 <#  }
 }#>
 
-        <#=RequestBodyGenerator.Render(operation.ContentParameter, 2)#>
+        <#=RequestBodyGenerator.Render(operation, 2)#>
         
-        return this.http.request(url, <#if(Model.IsExtended){#>this.transformOptions(<#}#>{
-            body: content,
+        return this.http.request(url_, <#if(Model.IsExtended){#>this.transformOptions(<#}#>{
+            body: content_,
             method: "<#=operation.HttpMethodLower#>",
             headers: new Headers({
 <#foreach(var parameter in operation.HeaderParameters){#>
                 "<#=parameter.Name#>": <#=parameter.VariableNameLower#>, 
-<#}#>                "Content-Type": "application/json; charset=UTF-8"
+<#}#>
+<#if(operation.HasFormParameters){#>                'Content-Type': undefined
+<#}else{#>
+                "Content-Type": "application/json; charset=UTF-8"
+<#}#>
             })
         }<#if(Model.IsExtended){#>)<#}#>).map((response) => {
 <#if(Model.IsExtended){#>
-            return this.transformResult(url, response, (response) => this.process<#=operation.OperationNameUpper#>(response));
+            return this.transformResult(url_, response, (response) => this.process<#=operation.OperationNameUpper#>(response));
 <#}else{#>
             return this.process<#=operation.OperationNameUpper#>(response);
 <#}#>
@@ -116,21 +118,21 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
     }
 
     private process<#=operation.OperationNameUpper#>(response: Response) {
-        var data = response.text();
-        var status = response.status.toString(); 
+        const data = response.text();
+        const status = response.status.toString(); 
 
 <#foreach(var response in operation.Responses){#>
         if (status === "<#=response.StatusCode#>") {
 <#if(response.HasType){#>
-            var result<#=response.StatusCode#>: <#=response.Type#> = null; 
+            let result<#=response.StatusCode#>: <#=response.Type#> = null; 
 <#  if(response.IsDate){#>
             result<#=response.StatusCode#> = new Date(data);
 <#  }else{#>
 <#      if(response.UseDtoClass){#>
-            var resultData<#=response.StatusCode#> = data === "" ? null : JSON.parse(data, this.jsonParseReviver);
+            let resultData<#=response.StatusCode#> = data === "" ? null : JSON.parse(data);
             <#=ConversionUtilities.Tab(response.DataConversionCode, 3)#>
 <#      }else{#>
-            result<#=response.StatusCode#> = data === "" ? null : <<#=response.Type#>>JSON.parse(data, this.jsonParseReviver);
+            result<#=response.StatusCode#> = data === "" ? null : <<#=response.Type#>>JSON.parse(data);
 <#      }#>
 <#  }#>
 <#  if(response.IsSuccess){#>
@@ -143,15 +145,15 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
         else
 <#}#>        {
 <#if(operation.HasDefaultResponse){#>
-            var result: <#=operation.DefaultResponse.Type#> = null; 
+            let result: <#=operation.DefaultResponse.Type#> = null; 
 <#  if(operation.DefaultResponse.IsDate){#>
             result = new Date(data);
 <#  }else{#>
 <#      if(operation.DefaultResponse.UseDtoClass){#>
-            var resultData = data === "" ? null : JSON.parse(data, this.jsonParseReviver);
+            let resultData = data === "" ? null : JSON.parse(data);
             <#=ConversionUtilities.Tab(operation.DefaultResponse.DataConversionCode, 3)#>
 <#      }else{#>
-            result = data === "" ? null : <<#=operation.DefaultResponse.Type#>>JSON.parse(data, this.jsonParseReviver);
+            result = data === "" ? null : <<#=operation.DefaultResponse.Type#>>JSON.parse(data);
 <#      }#>
 <#  }#>
 <#  if(operation.DefaultResponse.IsSuccess){#>

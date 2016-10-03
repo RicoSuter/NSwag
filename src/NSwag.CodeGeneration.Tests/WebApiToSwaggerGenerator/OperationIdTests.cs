@@ -23,6 +23,18 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator
             {
                 
             }
+
+            [Route("Overload1")]
+            public void Overload()
+            {
+
+            }
+
+            [Route("Overload2")]
+            public void Overload(int id)
+            {
+
+            }
         }
 
         [TestMethod]
@@ -37,6 +49,20 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator
             //// Assert
             Assert.AreEqual("MyFoo", service.Operations.First(o => o.Path == "/Foo").Operation.OperationId);
             Assert.AreEqual("OperationId_Bar", service.Operations.First(o => o.Path == "/Bar").Operation.OperationId);
+        }
+
+        [TestMethod]
+        public void When_method_has_overload_then_operation_ids_are_still_unique()
+        {
+            //// Arrange
+            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings());
+
+            //// Act
+            var service = generator.GenerateForController<OperationIdController>();
+
+            //// Assert
+            var allIds = service.Operations.Select(o => o.Operation.OperationId).ToArray();
+            Assert.AreEqual(4, allIds.Distinct().Count());
         }
     }
 }

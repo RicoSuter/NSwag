@@ -17,6 +17,16 @@ namespace NSwag.CodeGeneration.CodeGenerators
     /// <summary>The client generator base.</summary>
     public abstract class ClientGeneratorBase : GeneratorBase
     {
+        /// <summary>Initializes a new instance of the <see cref="ClientGeneratorBase"/> class.</summary>
+        /// <param name="resolver">The type resolver.</param>
+        protected ClientGeneratorBase(ITypeResolver resolver)
+        {
+            Resolver = resolver;
+        }
+
+        /// <summary>Gets the type resolver.</summary>
+        protected ITypeResolver Resolver { get; private set; }
+
         internal abstract ClientGeneratorBaseSettings BaseSettings { get; }
 
         internal abstract string GenerateFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType);
@@ -43,11 +53,10 @@ namespace NSwag.CodeGeneration.CodeGenerators
             return null;
         }
 
-        internal string GenerateFile<TGenerator>(SwaggerService service, TypeResolverBase<TGenerator> resolver, ClientGeneratorOutputType type)
-            where TGenerator : TypeGeneratorBase
+        internal string GenerateFile(SwaggerService service, ClientGeneratorOutputType type)
         {
             var clientCode = string.Empty;
-            var operations = GetOperations(service, resolver);
+            var operations = GetOperations(service);
             var clientClasses = new List<string>();
 
             if (BaseSettings.OperationNameGenerator.SupportsMultipleClients)
@@ -72,8 +81,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
                 .Replace("\n\n\n", "\n\n");
         }
 
-        internal List<OperationModel> GetOperations<TGenerator>(SwaggerService service, TypeResolverBase<TGenerator> resolver)
-            where TGenerator : TypeGeneratorBase
+        internal List<OperationModel> GetOperations(SwaggerService service)
         {
             service.GenerateOperationIds();
 
@@ -104,7 +112,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
                         Responses = responses,
                         DefaultResponse = defaultResponse,
                         Parameters = operation.ActualParameters.Select(p => new ParameterModel(
-                            ResolveParameterType(p, resolver), operation, p, BaseSettings.CodeGeneratorSettings)).ToList(),
+                            ResolveParameterType(p), operation, p, BaseSettings.CodeGeneratorSettings)).ToList(),
                     };
                 }).ToList();
             return operations;
@@ -112,9 +120,8 @@ namespace NSwag.CodeGeneration.CodeGenerators
 
         /// <summary>Resolves the type of the parameter.</summary>
         /// <param name="parameter">The parameter.</param>
-        /// <param name="resolver">The resolver.</param>
         /// <returns>The parameter type name.</returns>
-        protected virtual string ResolveParameterType(SwaggerParameter parameter, ITypeResolver resolver)
+        protected virtual string ResolveParameterType(SwaggerParameter parameter)
         {
             var schema = parameter.ActualSchema;
 
@@ -122,7 +129,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
                 schema = new JsonSchema4 { Type = JsonObjectType.Array, Item = schema };
 
             var typeNameHint = ConversionUtilities.ConvertToUpperCamelCase(parameter.Name, true);
-            return resolver.Resolve(schema, parameter.IsRequired == false || parameter.IsNullable(BaseSettings.CodeGeneratorSettings.NullHandling), typeNameHint);
+            return Resolver.Resolve(schema, parameter.IsRequired == false || parameter.IsNullable(BaseSettings.CodeGeneratorSettings.NullHandling), typeNameHint);
         }
 
         private string GetClassName(string operationName)

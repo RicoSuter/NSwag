@@ -40,12 +40,12 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=4.8.6094.34027, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.4.8.6094.34027\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
+    <Reference Include="NJsonSchema, Version=4.21.6119.18328, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.4.21.6119.18328\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema.CodeGeneration, Version=4.8.6094.34028, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.CodeGeneration.4.8.6094.34028\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
+    <Reference Include="NJsonSchema.CodeGeneration, Version=4.21.6119.18329, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.CodeGeneration.4.21.6119.18329\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -70,11 +70,6 @@
       <DependentUpon>ClientTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="CodeGenerators\CSharp\Templates\ClientTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\CSharp\Templates\FileTemplate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FileTemplate.tt</DependentUpon>
-    </Compile>
     <Compile Include="CodeGenerators\CSharp\Templates\FileTemplate.Extensions.cs" />
     <Compile Include="CodeGenerators\CSharp\Templates\ControllerTemplate.cs">
       <AutoGen>True</AutoGen>
@@ -82,6 +77,16 @@
       <DependentUpon>ControllerTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="CodeGenerators\CSharp\Templates\ControllerTemplate.Extensions.cs" />
+    <Compile Include="CodeGenerators\CSharp\Templates\FileTemplate1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FileTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CodeGenerators\CSharp\Templates\JsonExceptionConverterTemplate.cs">
+      <DependentUpon>JsonExceptionConverterTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="CodeGenerators\OperationNameGenerators\IOperationNameGenerator.cs" />
     <Compile Include="CodeGenerators\Models\OperationModel.cs" />
     <Compile Include="CodeGenerators\Models\ParameterModel.cs" />
@@ -97,6 +102,12 @@
     <Compile Include="CodeGenerators\TypeScript\Models\ClientTemplateModel.cs" />
     <Compile Include="CodeGenerators\TypeScript\PromiseType.cs" />
     <Compile Include="CodeGenerators\TypeScript\SwaggerToTypeScriptClientGeneratorSettings.cs" />
+    <Compile Include="CodeGenerators\TypeScript\Templates\FetchClientTemplate.cs">
+      <DependentUpon>FetchClientTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CodeGenerators\TypeScript\Templates\FetchClientTemplate.Extensions.cs" />
     <Compile Include="CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.Extensions.cs" />
     <Compile Include="CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.cs">
       <AutoGen>True</AutoGen>
@@ -145,6 +156,7 @@
     <Compile Include="SwaggerGenerators\WebApi\Processors\IOperationProcessor.cs" />
     <Compile Include="SwaggerGenerators\WebApi\Processors\SecurityDefinitionAppender.cs" />
     <Compile Include="SwaggerGenerators\WebApi\Processors\OperationSecurityScopeAppender.cs" />
+    <Compile Include="SwaggerGenerators\SwaggerGenerator.cs" />
     <Compile Include="SwaggerGenerators\WebApi\WebApiToSwaggerGenerator.cs" />
     <Compile Include="SwaggerGenerators\WebApi\WebApiToSwaggerGeneratorSettings.cs" />
   </ItemGroup>
@@ -171,7 +183,7 @@
     </None>
     <None Include="CodeGenerators\CSharp\Templates\FileTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>FileTemplate.cs</LastGenOutput>
+      <LastGenOutput>FileTemplate1.cs</LastGenOutput>
     </None>
     <None Include="CodeGenerators\CSharp\Templates\ControllerTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
@@ -202,6 +214,18 @@
     <None Include="CodeGenerators\TypeScript\Templates\RequestBodyTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>RequestBodyTemplate.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CodeGenerators\CSharp\Templates\JsonExceptionConverterTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>JsonExceptionConverterTemplate.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>FetchClientTemplate.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

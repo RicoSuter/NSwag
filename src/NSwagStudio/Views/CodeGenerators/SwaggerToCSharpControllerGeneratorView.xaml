@@ -57,8 +57,17 @@
                                 <TextBlock Text="Required properties must be defined in JSON (sets Required.Always when the property is required)" TextWrapping="Wrap" />
                             </CheckBox>
 
+                            <TextBlock Text="Date Type" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Text="{Binding Command.DateType, Mode=TwoWay}" Margin="0,0,0,12" />
+
                             <TextBlock Text="Date Time Type" FontWeight="Bold" Margin="0,0,0,6" />
                             <TextBox Text="{Binding Command.DateTimeType, Mode=TwoWay}" Margin="0,0,0,12" />
+
+                            <TextBlock Text="Time Type" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Text="{Binding Command.TimeType, Mode=TwoWay}" Margin="0,0,0,12" />
+
+                            <TextBlock Text="Time Span Type" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Text="{Binding Command.TimeSpanType, Mode=TwoWay}" Margin="0,0,0,12" />
 
                             <TextBlock Text="Generic Array Type" FontWeight="Bold" Margin="0,0,0,6" />
                             <TextBox Text="{Binding Command.ArrayType, Mode=TwoWay}" Margin="0,0,0,12" />
@@ -68,7 +77,7 @@
 
                             <TextBlock Text="Class Style" FontWeight="Bold" Margin="0,0,0,6" />
                             <ComboBox SelectedItem="{Binding Command.ClassStyle, Mode=TwoWay}" 
-                                          ItemsSource="{Binding ClassStyles}" Margin="0,0,0,12" />
+                                      ItemsSource="{Binding ClassStyles}" Margin="0,0,0,12" />
 
                             <CheckBox IsChecked="{Binding Command.GenerateDefaultValues, Mode=TwoWay}" Margin="0,0,0,12">
                                 <TextBlock Text="Generate default values for properties (if default value is specified)" TextWrapping="Wrap" />

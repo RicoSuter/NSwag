@@ -12,8 +12,8 @@
     "ReferencePaths": [],
     "ControllerName": "",
     "ControllerNames": [
-        "NSwag.Integration.WebAPI.Controllers.PersonsController",
-        "NSwag.Integration.WebAPI.Controllers.GeoController"
+      "NSwag.Integration.WebAPI.Controllers.GeoController",
+      "NSwag.Integration.WebAPI.Controllers.PersonsController"
     ],
     "DefaultUrlTemplate": "api/{controller}/{action}/{id}",
     "DefaultPropertyNameHandling": "Default",
@@ -27,6 +27,7 @@
     "InfoTitle": "Web API Swagger specification",
     "InfoDescription": null,
     "InfoVersion": "1.0.0",
+    "DocumentTemplate": null,
     "OutputFilePath": null
   },
   "AssemblyTypeToSwaggerCommand": {
@@ -57,7 +58,6 @@
     "ExtendedClasses": null,
     "ExtensionCode": null,
     "GenerateDefaultValues": true,
-    "Input": null,
     "ServiceHost": null,
     "ServiceSchemes": null,
     "OutputFilePath": "..\\NSwag.Integration.TypeScriptWeb\\scripts\\serviceClientsJQueryCallbacks.ts"
@@ -69,40 +69,10 @@
     "GenerateClientInterfaces": false,
     "GenerateDtoTypes": true,
     "UseHttpClientCreationMethod": false,
+    "JsonConverters": null,
     "GenerateContractsOutput": false,
     "ContractsNamespace": null,
     "ContractsOutputFilePath": null,
-    "Settings": {
-      "ClientBaseClass": null,
-      "ConfigurationClass": null,
-      "UseHttpClientCreationMethod": false,
-      "CSharpGeneratorSettings": {
-        "Namespace": "MyNamespace",
-        "RequiredPropertiesMustBeDefined": true,
-        "DateTimeType": "DateTime",
-        "ArrayType": "ObservableCollection",
-        "DictionaryType": "Dictionary",
-        "ClassStyle": "Inpc",
-        "NullHandling": "Swagger",
-        "GenerateDefaultValues": true
-      },
-      "AdditionalNamespaceUsages": null,
-      "CodeGeneratorSettings": {
-        "Namespace": "MyNamespace",
-        "RequiredPropertiesMustBeDefined": true,
-        "DateTimeType": "DateTime",
-        "ArrayType": "ObservableCollection",
-        "DictionaryType": "Dictionary",
-        "ClassStyle": "Inpc",
-        "NullHandling": "Swagger",
-        "GenerateDefaultValues": true
-      },
-      "ClassName": "{controller}Client",
-      "OperationGenerationMode": "MultipleClientsFromOperationId",
-      "GenerateDtoTypes": true,
-      "GenerateClientInterfaces": false,
-      "GenerateClientClasses": true
-    },
     "ClassName": "{controller}Client",
     "Namespace": "MyNamespace",
     "AdditionalNamespaceUsages": null,
@@ -113,44 +83,12 @@
     "ClassStyle": "Inpc",
     "OperationGenerationMode": "MultipleClientsFromOperationId",
     "GenerateDefaultValues": true,
-    "Input": null,
     "ServiceHost": null,
     "ServiceSchemes": null,
     "OutputFilePath": null
   },
   "SwaggerToCSharpControllerGenerator": {
     "ControllerBaseClass": null,
-    "Settings": {
-      "ControllerBaseClass": null,
-      "CSharpGeneratorSettings": {
-        "Namespace": "MyNamespace",
-        "RequiredPropertiesMustBeDefined": true,
-        "DateTimeType": "DateTime",
-        "ArrayType": "IEnumerable",
-        "DictionaryType": "Dictionary",
-        "ClassStyle": "Inpc",
-        "NullHandling": "Swagger",
-        "GenerateDefaultValues": true
-      },
-      "AdditionalNamespaceUsages": [
-        "System.Web.Http"
-      ],
-      "CodeGeneratorSettings": {
-        "Namespace": "MyNamespace",
-        "RequiredPropertiesMustBeDefined": true,
-        "DateTimeType": "DateTime",
-        "ArrayType": "IEnumerable",
-        "DictionaryType": "Dictionary",
-        "ClassStyle": "Inpc",
-        "NullHandling": "Swagger",
-        "GenerateDefaultValues": true
-      },
-      "ClassName": "{controller}",
-      "OperationGenerationMode": "MultipleClientsFromOperationId",
-      "GenerateDtoTypes": true,
-      "GenerateClientInterfaces": false,
-      "GenerateClientClasses": true
-    },
     "ClassName": "{controller}",
     "Namespace": "MyNamespace",
     "AdditionalNamespaceUsages": [
@@ -163,7 +101,6 @@
     "ClassStyle": "Inpc",
     "OperationGenerationMode": "MultipleClientsFromOperationId",
     "GenerateDefaultValues": true,
-    "Input": null,
     "ServiceHost": null,
     "ServiceSchemes": null,
     "OutputFilePath": null

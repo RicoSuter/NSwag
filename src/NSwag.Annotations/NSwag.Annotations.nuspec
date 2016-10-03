@@ -8,7 +8,13 @@
         <tags>Swagger Documentation WebApi AspNet TypeScript CodeGen</tags>
         <projectUrl>https://github.com/NSwag/NSwag</projectUrl>
         <licenseUrl>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</licenseUrl>
-		<iconUrl>https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png</iconUrl>
+        <iconUrl>https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png</iconUrl>
+
+        <!--<dependencies>
+            <group targetFramework=".NETCore5.0">
+                <dependency id="Microsoft.NETCore.Portable.Compatibility" version="1.0.0" />
+            </group>
+        </dependencies>-->
     </metadata>
     <files>
         <file src="bin\Release\NSwag.Annotations.dll" target="lib\portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10" />

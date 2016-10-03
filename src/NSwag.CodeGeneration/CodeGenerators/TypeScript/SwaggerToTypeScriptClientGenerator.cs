@@ -28,6 +28,19 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         /// <exception cref="System.ArgumentNullException">service</exception>
         /// <exception cref="ArgumentNullException"><paramref name="service" /> is <see langword="null" />.</exception>
         public SwaggerToTypeScriptClientGenerator(SwaggerService service, SwaggerToTypeScriptClientGeneratorSettings settings)
+            : this(service, settings, new TypeScriptTypeResolver(settings.TypeScriptGeneratorSettings, service))
+        {
+
+        }
+
+        /// <summary>Initializes a new instance of the <see cref="SwaggerToTypeScriptClientGenerator" /> class.</summary>
+        /// <param name="service">The service.</param>
+        /// <param name="settings">The settings.</param>
+        /// <param name="resolver">The resolver.</param>
+        /// <exception cref="System.ArgumentNullException">service</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="service" /> is <see langword="null" />.</exception>
+        public SwaggerToTypeScriptClientGenerator(SwaggerService service, SwaggerToTypeScriptClientGeneratorSettings settings, TypeScriptTypeResolver resolver)
+            : base(resolver)
         {
             if (service == null)
                 throw new ArgumentNullException(nameof(service));
@@ -35,11 +48,11 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             Settings = settings;
 
             _service = service;
+            _resolver = resolver;
 
             foreach (var definition in _service.Definitions.Where(p => string.IsNullOrEmpty(p.Value.TypeNameRaw)))
                 definition.Value.TypeNameRaw = definition.Key;
 
-            _resolver = new TypeScriptTypeResolver(Settings.TypeScriptGeneratorSettings, service);
             _resolver.AddSchemas(_service.Definitions);
         }
 
@@ -53,14 +66,31 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         /// <returns>The file contents.</returns>
         public override string GenerateFile()
         {
-            return GenerateFile(_service, _resolver, ClientGeneratorOutputType.Full);
+            return GenerateFile(_service, ClientGeneratorOutputType.Full);
+        }
+
+        /// <summary>Resolves the type of the parameter.</summary>
+        /// <param name="parameter">The parameter.</param>
+        /// <returns>The parameter type name.</returns>
+        protected override string ResolveParameterType(SwaggerParameter parameter)
+        {
+            var schema = parameter.ActualSchema;
+            if (schema.Type == JsonObjectType.File)
+            {
+                if (parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
+                    return "FileParameter[]";
+
+                return "FileParameter";
+            }
+
+            return base.ResolveParameterType(parameter);
         }
 
         internal override ClientGeneratorBaseSettings BaseSettings => Settings;
 
         internal override string GenerateFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType)
         {
-            var model = new FileTemplateModel(clientCode, clientClasses, Settings, _resolver);
+            var model = new FileTemplateModel(_service, clientCode, clientClasses, Settings, _resolver);
             var template = BaseSettings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("TypeScript", "File", model);
             return template.Render();
         }
@@ -69,7 +99,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         {
             UpdateUseDtoClassAndDataConversionCodeProperties(operations);
 
-            var model = new ClientTemplateModel(GetClassName(controllerName), operations, _service, Settings); 
+            var model = new ClientTemplateModel(GetClassName(controllerName), operations, _service, Settings);
             var template = Settings.CreateTemplate(model);
             var code = template.Render();
 
@@ -112,6 +142,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         {
             if (schema == null)
                 return "void";
+
+            if (schema.ActualSchema.Type == JsonObjectType.File)
+                return "any";
 
             if (schema.ActualSchema.IsAnyType || schema.ActualSchema.Type == JsonObjectType.File)
                 return "any";
@@ -181,6 +214,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
                         Schema = operation.DefaultResponse.ActualResponseSchema,
                         IsPropertyNullable = operation.DefaultResponse.IsNullable,
                         TypeNameHint = string.Empty,
+                        Settings = Settings.TypeScriptGeneratorSettings,
                         Resolver = _resolver
                     });
                 }

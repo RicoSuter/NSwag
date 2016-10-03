@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using NConsole;
+using Newtonsoft.Json;
 using NJsonSchema.CodeGeneration.CSharp;
 using NSwag.CodeGeneration.CodeGenerators;
 using NSwag.CodeGeneration.CodeGenerators.CSharp;
@@ -15,6 +16,7 @@ namespace NSwag.Commands
             Settings = settings; 
         }
 
+        [JsonIgnore]
         public TSettings Settings { get; set; }
         
         [Description("The class name of the generated client.")]
@@ -49,12 +51,36 @@ namespace NSwag.Commands
             set { Settings.CSharpGeneratorSettings.RequiredPropertiesMustBeDefined = value; }
         }
 
+        [Description("The date .NET type (default: 'DateTime').")]
+        [Argument(Name = "DateType", IsRequired = false)]
+        public string DateType
+        {
+            get { return Settings.CSharpGeneratorSettings.DateType; }
+            set { Settings.CSharpGeneratorSettings.DateType = value; }
+        }
+
         [Description("The date time .NET type (default: 'DateTime').")]
         [Argument(Name = "DateTimeType", IsRequired = false)]
         public string DateTimeType
         {
             get { return Settings.CSharpGeneratorSettings.DateTimeType; }
             set { Settings.CSharpGeneratorSettings.DateTimeType = value; }
+        }
+
+        [Description("The time .NET type (default: 'TimeSpan').")]
+        [Argument(Name = "TimeType", IsRequired = false)]
+        public string TimeType
+        {
+            get { return Settings.CSharpGeneratorSettings.TimeType; }
+            set { Settings.CSharpGeneratorSettings.TimeType = value; }
+        }
+
+        [Description("The time span .NET type (default: 'TimeSpan').")]
+        [Argument(Name = "TimeSpanType", IsRequired = false)]
+        public string TimeSpanType
+        {
+            get { return Settings.CSharpGeneratorSettings.TimeSpanType; }
+            set { Settings.CSharpGeneratorSettings.TimeSpanType = value; }
         }
 
         [Description("The generic array .NET type (default: 'ObservableCollection').")]

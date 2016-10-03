@@ -42,6 +42,9 @@
                     <TextBlock Text="Additional Namespace Usages (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding AdditionalNamespaceUsages, Mode=TwoWay}" Margin="0,0,0,12" />
 
+                    <TextBlock Text="Custom Json.NET converter types (optional, comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding Command.JsonConverters, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" Margin="0,0,0,12" />
+
                     <GroupBox Header="Client" Margin="0,0,0,12">
                         <StackPanel Margin="4,8,4,-8">
                             <CheckBox IsChecked="{Binding Command.GenerateClientClasses, Mode=TwoWay}" 
@@ -57,6 +60,10 @@
                                 <StackPanel Visibility="{Binding Command.ClientBaseClass, Converter={StaticResource VisibilityConverter}}">
                                     <CheckBox IsChecked="{Binding Command.UseHttpClientCreationMethod, Mode=TwoWay}" Margin="0,0,0,12">
                                         <TextBlock Text="Call the CreateHttpClientAsync method on the client base class to create a new HttpClient instance" TextWrapping="Wrap" />
+                                    </CheckBox>
+
+                                    <CheckBox IsChecked="{Binding Command.UseHttpRequestMessageCreationMethod, Mode=TwoWay}" Margin="0,0,0,12">
+                                        <TextBlock Text="Call the CreateHttpRequestMessageAsync method on the client base class to create a new HttpRequestMessage instance" TextWrapping="Wrap" />
                                     </CheckBox>
 
                                     <TextBlock Text="Configuration Class Name (passed to base class ctor, optional)" FontWeight="Bold" Margin="0,0,0,6" />
@@ -84,8 +91,17 @@
                                 <TextBlock Text="Required properties must be defined in JSON (sets Required.Always when the property is required)" TextWrapping="Wrap" />
                             </CheckBox>
 
+                            <TextBlock Text="Date Type" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Text="{Binding Command.DateType, Mode=TwoWay}" Margin="0,0,0,12" />
+
                             <TextBlock Text="Date Time Type" FontWeight="Bold" Margin="0,0,0,6" />
                             <TextBox Text="{Binding Command.DateTimeType, Mode=TwoWay}" Margin="0,0,0,12" />
+
+                            <TextBlock Text="Time Type" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Text="{Binding Command.TimeType, Mode=TwoWay}" Margin="0,0,0,12" />
+
+                            <TextBlock Text="Time Span Type" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Text="{Binding Command.TimeSpanType, Mode=TwoWay}" Margin="0,0,0,12" />
 
                             <TextBlock Text="Generic Array Type" FontWeight="Bold" Margin="0,0,0,6" />
                             <TextBox Text="{Binding Command.ArrayType, Mode=TwoWay}" Margin="0,0,0,12" />

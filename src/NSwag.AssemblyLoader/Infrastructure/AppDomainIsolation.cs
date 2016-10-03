@@ -23,7 +23,6 @@ namespace NSwag.CodeGeneration.Infrastructure
                 var setup = new AppDomainSetup
                 {
                     ShadowCopyFiles = "true",
-                    ApplicationBase = assemblyDirectory,
                     ConfigurationFile = transformer.GetConfigurationPath(assemblyDirectory, assemblyConfiguration)
                 };
 

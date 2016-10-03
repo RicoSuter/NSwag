@@ -27,7 +27,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         public ParameterModel(string typeName, SwaggerOperation operation, SwaggerParameter parameter, CodeGeneratorSettingsBase settings)
         {
             Type = typeName;
-            _operation = operation; 
+            _operation = operation;
             _parameter = parameter;
             _settings = settings;
         }
@@ -39,11 +39,14 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         public string Name => _parameter.Name;
 
         /// <summary>Gets the variable name in lowercase.</summary>
-        public string VariableNameLower => ConversionUtilities.ConvertToLowerCamelCase(_parameter.Name.Replace("-", "_").Replace(".", "_"), true);
+        public string VariableNameLower => ConversionUtilities.ConvertToLowerCamelCase(_parameter.Name
+            .Replace("-", "_")
+            .Replace(".", "_")
+            .Replace("$", string.Empty), true);
 
         /// <summary>Gets the parameter kind.</summary>
         public SwaggerParameterKind Kind => _parameter.Kind;
-        
+
         /// <summary>Gets a value indicating whether the parameter has a description.</summary>
         public bool HasDescription => !string.IsNullOrEmpty(Description);
 
@@ -72,7 +75,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         public bool IsDate => Schema.Type == JsonObjectType.String && Schema.Format == JsonFormatStrings.DateTime;
 
         /// <summary>Gets a value indicating whether the parameter is of type array.</summary>
-        public bool IsArray => Schema.Type.HasFlag(JsonObjectType.Array);
+        public bool IsArray => Schema.Type.HasFlag(JsonObjectType.Array) || _parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi;
 
         /// <summary>Gets a value indicating whether this is a file parameter.</summary>
         public bool IsFile => Schema.Type.HasFlag(JsonObjectType.File);

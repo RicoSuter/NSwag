@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using NSwag.AspNet.WebApi;
 
 namespace NSwag.Integration.WebAPI
 {
@@ -12,6 +13,8 @@ namespace NSwag.Integration.WebAPI
                 routeTemplate: "api/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            GlobalConfiguration.Configuration.Filters.Add(new JsonExceptionFilterAttribute(false));
         }
     }
 }

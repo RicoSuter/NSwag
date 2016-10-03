@@ -12,6 +12,7 @@ using System.Linq;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 using NSwag.CodeGeneration.CodeGenerators.CSharp.Models;
+using NSwag.CodeGeneration.CodeGenerators.CSharp.Templates;
 using NSwag.CodeGeneration.CodeGenerators.Models;
 
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp
@@ -27,7 +28,18 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         /// <exception cref="System.ArgumentNullException">service</exception>
         /// <exception cref="ArgumentNullException"><paramref name="service" /> is <see langword="null" />.</exception>
         public SwaggerToCSharpClientGenerator(SwaggerService service, SwaggerToCSharpClientGeneratorSettings settings)
-            : base(service, settings)
+            : this(service, settings, SwaggerToCSharpTypeResolver.CreateWithDefinitions(settings.CSharpGeneratorSettings, service.Definitions))
+        {
+
+        }
+
+        /// <summary>Initializes a new instance of the <see cref="SwaggerToCSharpClientGenerator" /> class.</summary>
+        /// <param name="service">The service.</param>
+        /// <param name="settings">The settings.</param>
+        /// <param name="resolver">The resolver.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="service" /> is <see langword="null" />.</exception>
+        public SwaggerToCSharpClientGenerator(SwaggerService service, SwaggerToCSharpClientGeneratorSettings settings, SwaggerToCSharpTypeResolver resolver)
+            : base(service, settings, resolver)
         {
             if (service == null)
                 throw new ArgumentNullException(nameof(service));
@@ -59,25 +71,31 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         /// <returns>The code</returns>
         public string GenerateFile(ClientGeneratorOutputType outputType)
         {
-            return GenerateFile(_service, Resolver, outputType);
+            return GenerateFile(_service, outputType);
+        }
+
+        /// <summary>Gets the JSON exception converter code.</summary>
+        /// <returns>The code.</returns>
+        public static string GetJsonExceptionConverterCode(int tabCount)
+        {
+            return ConversionUtilities.Tab(new JsonExceptionConverterTemplate().TransformText(), tabCount);
         }
 
         /// <summary>Resolves the type of the parameter.</summary>
         /// <param name="parameter">The parameter.</param>
-        /// <param name="resolver">The resolver.</param>
         /// <returns>The parameter type name.</returns>
-        protected override string ResolveParameterType(SwaggerParameter parameter, ITypeResolver resolver)
+        protected override string ResolveParameterType(SwaggerParameter parameter)
         {
             var schema = parameter.ActualSchema;
             if (schema.Type == JsonObjectType.File)
             {
                 if (parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
-                    return "IEnumerable<System.IO.Stream>";
+                    return "IEnumerable<FileParameter>";
 
-                return "System.IO.Stream";
+                return "FileParameter";
             }
 
-            return base.ResolveParameterType(parameter, resolver)
+            return base.ResolveParameterType(parameter)
                 .Replace(Settings.CSharpGeneratorSettings.ArrayType + "<", "IEnumerable<")
                 .Replace(Settings.CSharpGeneratorSettings.DictionaryType + "<", "IDictionary<");
         }

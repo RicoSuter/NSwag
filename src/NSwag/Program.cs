@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using NConsole;
+using NJsonSchema;
 using NSwag.Commands;
 
 namespace NSwag
@@ -12,7 +13,7 @@ namespace NSwag
         static int Main(string[] args)
         {
             var host = new ConsoleHost();
-            host.WriteMessage("NSwag command line: v" + GetVersionWithBuildTime() + "\n");
+            host.WriteMessage("NSwag command line: NSwag toolchain v"+ SwaggerService.ToolchainVersion + " (NJsonSchema v"+ JsonSchema4.ToolchainVersion + ")\n");
             host.WriteMessage("Visit http://NSwag.org for more information.\n");
 
             if (args.Length == 0)

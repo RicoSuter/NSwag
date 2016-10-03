@@ -51,8 +51,8 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=4.8.6094.34027, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.4.8.6094.34027\lib\net45\NJsonSchema.dll</HintPath>
+    <Reference Include="NJsonSchema, Version=4.21.6119.18328, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.4.21.6119.18328\lib\net45\NJsonSchema.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
@@ -120,6 +120,7 @@
     <EmbeddedResource Include="SwaggerUi\images\throbber.gif" />
     <EmbeddedResource Include="SwaggerUi\images\wordnik_api.png" />
     <EmbeddedResource Include="SwaggerUi\index.html" />
+    <EmbeddedResource Include="SwaggerUi\lang\ca.js" />
     <EmbeddedResource Include="SwaggerUi\lang\en.js" />
     <EmbeddedResource Include="SwaggerUi\lang\es.js" />
     <EmbeddedResource Include="SwaggerUi\lang\fr.js" />
@@ -134,6 +135,8 @@
     <EmbeddedResource Include="SwaggerUi\lang\translator.js" />
     <EmbeddedResource Include="SwaggerUi\lang\zh-cn.js" />
     <EmbeddedResource Include="SwaggerUi\lib\backbone-min.js" />
+    <EmbeddedResource Include="SwaggerUi\lib\es5-shim.js" />
+    <EmbeddedResource Include="SwaggerUi\lib\handlebars-4.0.5.js" />
     <EmbeddedResource Include="SwaggerUi\lib\highlight.9.1.0.pack.js" />
     <EmbeddedResource Include="SwaggerUi\lib\highlight.9.1.0.pack_extended.js" />
     <EmbeddedResource Include="SwaggerUi\lib\jquery-1.8.0.min.js" />
@@ -145,14 +148,11 @@
     <EmbeddedResource Include="SwaggerUi\lib\lodash.min.js" />
     <EmbeddedResource Include="SwaggerUi\lib\marked.js" />
     <EmbeddedResource Include="SwaggerUi\lib\object-assign-pollyfill.js" />
+    <EmbeddedResource Include="SwaggerUi\lib\sanitize-html.min.js" />
     <EmbeddedResource Include="SwaggerUi\lib\swagger-oauth.js" />
     <EmbeddedResource Include="SwaggerUi\o2c.html" />
     <EmbeddedResource Include="SwaggerUi\swagger-ui.js" />
     <EmbeddedResource Include="SwaggerUi\swagger-ui.min.js" />
-    <EmbeddedResource Include="SwaggerUi\lang\ca.js" />
-    <EmbeddedResource Include="SwaggerUi\lib\es5-shim.js" />
-    <EmbeddedResource Include="SwaggerUi\lib\handlebars-4.0.5.js" />
-    <EmbeddedResource Include="SwaggerUi\lib\sanitize-html.min.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

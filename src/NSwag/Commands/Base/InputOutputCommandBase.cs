@@ -11,6 +11,7 @@ namespace NSwag.Commands.Base
 {
     public abstract class InputOutputCommandBase : OutputCommandBase
     {
+        [JsonIgnore]
         [Description("A file path or URL to the data or the JSON data itself.")]
         [Argument(Name = "Input", IsRequired = true, AcceptsCommandInput = true)]
         public object Input { get; set; }

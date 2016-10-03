@@ -14,7 +14,7 @@ using NJsonSchema;
 namespace NSwag
 {
     /// <summary>Describes an operation parameter. </summary>
-    public class SwaggerParameter : JsonSchema4 
+    public class SwaggerParameter : JsonSchema4
     {
         /// <summary>Gets or sets the name.</summary>
         [JsonProperty(PropertyName = "name", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
@@ -40,7 +40,7 @@ namespace NSwag
         /// <summary>Gets the actual schema, either the parameter schema itself (or its reference) or the <see cref="Schema"/> property when <see cref="Kind"/> == body.</summary>
         /// <exception cref="InvalidOperationException" accessor="get">The schema reference path is not resolved.</exception>
         [JsonIgnore]
-        public override JsonSchema4 ActualSchema => Kind == SwaggerParameterKind.Body ? Schema.ActualSchema : base.ActualSchema;
+        public override JsonSchema4 ActualSchema => Schema?.ActualSchema ?? base.ActualSchema;
 
         /// <summary>Gets or sets the format of the array if type array is used.</summary>
         [JsonProperty(PropertyName = "collectionFormat", DefaultValueHandling = DefaultValueHandling.Ignore)]
