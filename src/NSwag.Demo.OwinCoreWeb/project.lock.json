@@ -1284,6 +1284,44 @@
           "lib/netstandard1.0/_._": {}
         }
       },
+      "Microsoft.NETCore.Portable.Compatibility/1.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.Runtime": "1.0.0"
+        },
+        "compile": {
+          "ref/dotnet/System.ComponentModel.DataAnnotations.dll": {},
+          "ref/dotnet/System.Core.dll": {},
+          "ref/dotnet/System.Net.dll": {},
+          "ref/dotnet/System.Numerics.dll": {},
+          "ref/dotnet/System.Runtime.Serialization.dll": {},
+          "ref/dotnet/System.ServiceModel.Web.dll": {},
+          "ref/dotnet/System.ServiceModel.dll": {},
+          "ref/dotnet/System.Windows.dll": {},
+          "ref/dotnet/System.Xml.Linq.dll": {},
+          "ref/dotnet/System.Xml.Serialization.dll": {},
+          "ref/dotnet/System.Xml.dll": {},
+          "ref/dotnet/System.dll": {},
+          "ref/dotnet/mscorlib.dll": {}
+        },
+        "runtime": {
+          "lib/dnxcore50/System.ComponentModel.DataAnnotations.dll": {},
+          "lib/dnxcore50/System.Core.dll": {},
+          "lib/dnxcore50/System.Net.dll": {},
+          "lib/dnxcore50/System.Numerics.dll": {},
+          "lib/dnxcore50/System.Runtime.Serialization.dll": {},
+          "lib/dnxcore50/System.ServiceModel.Web.dll": {},
+          "lib/dnxcore50/System.ServiceModel.dll": {},
+          "lib/dnxcore50/System.Windows.dll": {},
+          "lib/dnxcore50/System.Xml.Linq.dll": {},
+          "lib/dnxcore50/System.Xml.Serialization.dll": {},
+          "lib/dnxcore50/System.Xml.dll": {},
+          "lib/dnxcore50/System.dll": {}
+        }
+      },
+      "Microsoft.NETCore.Runtime/1.0.0": {
+        "type": "package"
+      },
       "Microsoft.NETCore.Runtime.CoreCLR/1.0.2": {
         "type": "package",
         "dependencies": {
@@ -1474,8 +1512,12 @@
           "lib/netstandard1.0/NJsonSchema.CodeGeneration.dll": {}
         }
       },
-      "NSwag.Annotations/5.6.6095.40773": {
+      "NSwag.Annotations/5.6.6118.34669": {
         "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.Portable.Compatibility": "1.0.0",
+          "Newtonsoft.Json": "6.0.4"
+        },
         "compile": {
           "lib/netstandard1.0/NSwag.Annotations.dll": {}
         },
@@ -3419,7 +3461,7 @@
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
       },
-      "NSwag.AspNetCore/5.6.0": {
+      "NSwag.AspNetCore/6.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v1.6",
         "dependencies": {
@@ -4414,6 +4456,96 @@
         "runtime.json"
       ]
     },
+    "Microsoft.NETCore.Portable.Compatibility/1.0.0": {
+      "sha512": "5/IFqf2zN1jzktRJitxO+5kQ+0AilcIbPvSojSJwDG3cGNSMZg44LXLB5E9RkSETE0Wh4QoALdNh1koKoF7/mA==",
+      "type": "package",
+      "path": "Microsoft.NETCore.Portable.Compatibility/1.0.0",
+      "files": [
+        "Microsoft.NETCore.Portable.Compatibility.1.0.0.nupkg.sha512",
+        "Microsoft.NETCore.Portable.Compatibility.nuspec",
+        "lib/dnxcore50/System.ComponentModel.DataAnnotations.dll",
+        "lib/dnxcore50/System.Core.dll",
+        "lib/dnxcore50/System.Net.dll",
+        "lib/dnxcore50/System.Numerics.dll",
+        "lib/dnxcore50/System.Runtime.Serialization.dll",
+        "lib/dnxcore50/System.ServiceModel.Web.dll",
+        "lib/dnxcore50/System.ServiceModel.dll",
+        "lib/dnxcore50/System.Windows.dll",
+        "lib/dnxcore50/System.Xml.Linq.dll",
+        "lib/dnxcore50/System.Xml.Serialization.dll",
+        "lib/dnxcore50/System.Xml.dll",
+        "lib/dnxcore50/System.dll",
+        "lib/net45/_._",
+        "lib/netcore50/System.ComponentModel.DataAnnotations.dll",
+        "lib/netcore50/System.Core.dll",
+        "lib/netcore50/System.Net.dll",
+        "lib/netcore50/System.Numerics.dll",
+        "lib/netcore50/System.Runtime.Serialization.dll",
+        "lib/netcore50/System.ServiceModel.Web.dll",
+        "lib/netcore50/System.ServiceModel.dll",
+        "lib/netcore50/System.Windows.dll",
+        "lib/netcore50/System.Xml.Linq.dll",
+        "lib/netcore50/System.Xml.Serialization.dll",
+        "lib/netcore50/System.Xml.dll",
+        "lib/netcore50/System.dll",
+        "lib/win8/_._",
+        "lib/wp80/_._",
+        "lib/wpa81/_._",
+        "ref/dotnet/System.ComponentModel.DataAnnotations.dll",
+        "ref/dotnet/System.Core.dll",
+        "ref/dotnet/System.Net.dll",
+        "ref/dotnet/System.Numerics.dll",
+        "ref/dotnet/System.Runtime.Serialization.dll",
+        "ref/dotnet/System.ServiceModel.Web.dll",
+        "ref/dotnet/System.ServiceModel.dll",
+        "ref/dotnet/System.Windows.dll",
+        "ref/dotnet/System.Xml.Linq.dll",
+        "ref/dotnet/System.Xml.Serialization.dll",
+        "ref/dotnet/System.Xml.dll",
+        "ref/dotnet/System.dll",
+        "ref/dotnet/mscorlib.dll",
+        "ref/net45/_._",
+        "ref/netcore50/System.ComponentModel.DataAnnotations.dll",
+        "ref/netcore50/System.Core.dll",
+        "ref/netcore50/System.Net.dll",
+        "ref/netcore50/System.Numerics.dll",
+        "ref/netcore50/System.Runtime.Serialization.dll",
+        "ref/netcore50/System.ServiceModel.Web.dll",
+        "ref/netcore50/System.ServiceModel.dll",
+        "ref/netcore50/System.Windows.dll",
+        "ref/netcore50/System.Xml.Linq.dll",
+        "ref/netcore50/System.Xml.Serialization.dll",
+        "ref/netcore50/System.Xml.dll",
+        "ref/netcore50/System.dll",
+        "ref/netcore50/mscorlib.dll",
+        "ref/win8/_._",
+        "ref/wp80/_._",
+        "ref/wpa81/_._",
+        "runtimes/aot/lib/netcore50/System.ComponentModel.DataAnnotations.dll",
+        "runtimes/aot/lib/netcore50/System.Core.dll",
+        "runtimes/aot/lib/netcore50/System.Net.dll",
+        "runtimes/aot/lib/netcore50/System.Numerics.dll",
+        "runtimes/aot/lib/netcore50/System.Runtime.Serialization.dll",
+        "runtimes/aot/lib/netcore50/System.ServiceModel.Web.dll",
+        "runtimes/aot/lib/netcore50/System.ServiceModel.dll",
+        "runtimes/aot/lib/netcore50/System.Windows.dll",
+        "runtimes/aot/lib/netcore50/System.Xml.Linq.dll",
+        "runtimes/aot/lib/netcore50/System.Xml.Serialization.dll",
+        "runtimes/aot/lib/netcore50/System.Xml.dll",
+        "runtimes/aot/lib/netcore50/System.dll",
+        "runtimes/aot/lib/netcore50/mscorlib.dll"
+      ]
+    },
+    "Microsoft.NETCore.Runtime/1.0.0": {
+      "sha512": "AjaMNpXLW4miEQorIqyn6iQ+BZBId6qXkhwyeh1vl6kXLqosZusbwmLNlvj/xllSQrd3aImJbvlHusam85g+xQ==",
+      "type": "package",
+      "path": "Microsoft.NETCore.Runtime/1.0.0",
+      "files": [
+        "Microsoft.NETCore.Runtime.1.0.0.nupkg.sha512",
+        "Microsoft.NETCore.Runtime.nuspec",
+        "runtime.json"
+      ]
+    },
     "Microsoft.NETCore.Runtime.CoreCLR/1.0.2": {
       "sha512": "A0x1xtTjYJWZr2DRzgfCOXgB0JkQg8twnmtTJ79wFje+IihlLbXtx6Z2AxyVokBM5ruwTedR6YdCmHk39QJdtQ==",
       "type": "package",
@@ -4631,12 +4763,12 @@
         "lib/portable45-net45+win8+wp8+wpa81/NJsonSchema.CodeGeneration.xml"
       ]
     },
-    "NSwag.Annotations/5.6.6095.40773": {
-      "sha512": "U+5DCdhS3/rS2T/dudQ2TJcBqErSv1fXpVZ96G+pYeR9Ss9x5GT/Kd93oZlvv4+wGweh3fix8vgQDRzf55TdSg==",
+    "NSwag.Annotations/5.6.6118.34669": {
+      "sha512": "qdNn6cLbc85SWHDe2chd1G+2AtYZ+qYMuK+sMzRrr0aVIWHgT/SWFu2q+ZaM7IJCBMWmfzlZ9rXqFpA2BJjOng==",
       "type": "package",
-      "path": "NSwag.Annotations/5.6.6095.40773",
+      "path": "NSwag.Annotations/5.6.6118.34669",
       "files": [
-        "NSwag.Annotations.5.6.6095.40773.nupkg.sha512",
+        "NSwag.Annotations.5.6.6118.34669.nupkg.sha512",
         "NSwag.Annotations.nuspec",
         "lib/netstandard1.0/NSwag.Annotations.dll",
         "lib/netstandard1.0/NSwag.Annotations.pdb",
@@ -4644,8 +4776,8 @@
         "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/NSwag.Annotations.dll",
         "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/NSwag.Annotations.pdb",
         "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/NSwag.Annotations.xml",
-        "lib/portable40-net40+sl5+win8+wp8+wpa81/NSwag.Annotations.dll",
-        "lib/portable40-net40+sl5+win8+wp8+wpa81/NSwag.Annotations.xml"
+        "lib/portable45-net45+win8+wp8+wpa81/NSwag.Annotations.dll",
+        "lib/portable45-net45+win8+wp8+wpa81/NSwag.Annotations.xml"
       ]
     },
     "NSwag.CodeGeneration/5.6.6095.40773": {
@@ -9212,7 +9344,7 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
-    "NSwag.AspNetCore/5.6.0": {
+    "NSwag.AspNetCore/6.0.0": {
       "type": "project",
       "path": "../NSwag.AspNetCore/project.json",
       "msbuildProject": "../NSwag.AspNetCore/NSwag.AspNetCore.xproj"
