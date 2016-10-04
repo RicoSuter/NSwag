@@ -29,13 +29,13 @@ namespace NSwag.Demo.OwinCoreWeb.Controllers
         /// </summary>
         /// <param name="events">List of events which should be appended.</param>
         /// <returns>HTTP Response code 201 with location header.</returns>
-        [HttpPost]
+        [HttpPost, Route("api/Person/SaveEvents")]
         public IActionResult Post([FromBody] IList<EventModel> events)
         {
             return null;
         }
 
-        [ProducesResponseType(typeof(void), 204)]
+        [ProducesResponseType(typeof(void), 204), Route("api/Person/Refresh")]
         public ActionResult Refresh()
         {
             throw new NotSupportedException();

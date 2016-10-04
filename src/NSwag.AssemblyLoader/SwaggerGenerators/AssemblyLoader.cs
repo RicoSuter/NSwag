@@ -22,30 +22,38 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
 
             var allReferencePaths = new List<string>(GetAllDirectories(domain.SetupInformation.ApplicationBase));
             foreach (var path in referencePaths.Where(p => !string.IsNullOrWhiteSpace(p)))
+            {
+                allReferencePaths.Add(path);
                 allReferencePaths.AddRange(GetAllDirectories(path));
+            }
 
             // Add path to nswag directory
             allReferencePaths.Add(Path.GetDirectoryName(typeof(AssemblyLoader).Assembly.CodeBase.Replace("file:///", string.Empty)));
+            allReferencePaths = allReferencePaths.Distinct().ToList();
 
             domain.AssemblyResolve += (sender, args) =>
             {
+                var assemblyName = args.Name.Substring(0, args.Name.IndexOf(",", StringComparison.InvariantCulture));
+
+                var existingAssembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetName().Name == assemblyName);
+                if (existingAssembly != null)
+                    return existingAssembly;
+
                 foreach (var path in allReferencePaths)
                 {
-                    var assemblyName = args.Name.Substring(0, args.Name.IndexOf(",", StringComparison.InvariantCulture)) + ".dll";
-                    var files = Directory.GetFiles(path, assemblyName, SearchOption.TopDirectoryOnly);
+                    var files = Directory.GetFiles(path, assemblyName + ".dll", SearchOption.TopDirectoryOnly);
                     foreach (var file in files)
                     {
                         try
                         {
-                            var assembly = Assembly.LoadFrom(file);
-                            if (assembly.FullName == args.Name)
-                                return assembly;
+                            return Assembly.LoadFrom(file);
                         }
                         catch
                         {
                         }
                     }
                 }
+
                 return null;
             };
         }

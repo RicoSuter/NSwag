@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Serialization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.DependencyInjection;
 using NJsonSchema;
 using NSwag.AspNetCore;
@@ -33,7 +34,7 @@ namespace NSwag.Demo.OwinCoreWeb
                     ClientSecret = "bar",
                     AppName = "my_app",
                     Realm = "my_realm",
-                    AdditionalQueryStringParameters =
+                    AdditionalQueryStringParameters = 
                     {
                         { "foo", "bar" }
                     }
@@ -51,7 +52,7 @@ namespace NSwag.Demo.OwinCoreWeb
                         Flow = SwaggerOAuth2Flow.Implicit,
                         AuthorizationUrl = "https://localhost:44333/core/connect/authorize",
                         TokenUrl = "https://localhost:44333/core/connect/token",
-                        Scopes = 
+                        Scopes = new Dictionary<string, string>
                         {
                             { "read", "Read access to protected resources" },
                             { "write", "Write access to protected resources" }

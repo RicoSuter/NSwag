@@ -76,7 +76,10 @@ namespace NSwag.CodeGeneration.Utilities
         /// <returns>The absolute path.</returns>
         public static string MakeAbsolutePath(string relativePath, string relativeTo)
         {
-            var absolutePath = Path.Combine(relativePath, relativeTo);
+            if (Path.IsPathRooted(relativePath))
+                return relativePath; 
+
+            var absolutePath = Path.Combine(relativeTo, relativePath);
             return Path.GetFullPath(new Uri(absolutePath).LocalPath);
         }
 
