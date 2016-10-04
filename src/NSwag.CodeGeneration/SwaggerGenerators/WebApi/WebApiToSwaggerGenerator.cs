@@ -608,7 +608,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
                     var httpStatusCode = IsVoidResponse(returnType) ? "204" : "200";
                     if (responseTypeAttribute.GetType().GetRuntimeProperty("HttpStatusCode") != null)
-                        httpStatusCode = dynResultTypeAttribute.HttpStatusCode;
+                        httpStatusCode = dynResultTypeAttribute.HttpStatusCode.ToString();
 
                     var description = xmlDescription;
                     if (responseTypeAttribute.GetType().GetRuntimeProperty("Description") != null)
