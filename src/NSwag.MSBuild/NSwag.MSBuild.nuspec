@@ -24,6 +24,7 @@
         <file src="..\NSwag\bin\Release\NJsonSchema.dll" target="build" />
         <file src="..\NSwag\bin\Release\NSwag.AssemblyLoader.dll" target="build" />
         <file src="..\NSwag\bin\Release\NSwag.CodeGeneration.dll" target="build" />
+        <file src="..\NSwag\bin\Release\NSwag.Annotations.dll" target="build" />
         <file src="..\NSwag\bin\Release\NSwag.Core.dll" target="build" />
         <file src="..\NSwag\bin\Release\NSwag.exe" target="build" />
         <file src="..\NSwag\bin\Release\NSwag.exe.config" target="build" />
