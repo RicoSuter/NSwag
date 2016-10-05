@@ -336,13 +336,13 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 httpPaths.Add(Settings.DefaultUrlTemplate ?? string.Empty);
 
             var actionName = GetActionName(method);
-            foreach (var httpPath in httpPaths)
-                yield return "/" + httpPath
+            return httpPaths.Select(p =>
+                "/" + p
                     .Replace("[", "{")
                     .Replace("]", "}")
                     .Replace("{controller}", controllerName)
                     .Replace("{action}", actionName)
-                    .Trim('/');
+                    .Trim('/')).Distinct();
         }
 
         private IEnumerable<Attribute> GetRouteAttributes(IEnumerable<Attribute> attributes)
