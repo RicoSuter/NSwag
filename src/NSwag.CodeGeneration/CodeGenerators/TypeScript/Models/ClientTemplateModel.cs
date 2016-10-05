@@ -17,14 +17,14 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
     public class ClientTemplateModel
     {
         /// <summary>Initializes a new instance of the <see cref="ClientTemplateModel" /> class.</summary>
-        /// <param name="controllerName">Name of the controller.</param>
+        /// <param name="controllerClassName">Name of the controller.</param>
         /// <param name="operations">The operations.</param>
         /// <param name="service">The service.</param>
         /// <param name="settings">The settings.</param>
-        public ClientTemplateModel(string controllerName, IList<OperationModel> operations, SwaggerService service, SwaggerToTypeScriptClientGeneratorSettings settings)
+        public ClientTemplateModel(string controllerClassName, IList<OperationModel> operations, SwaggerService service, SwaggerToTypeScriptClientGeneratorSettings settings)
         {
-            Class = controllerName;
-            IsExtended = settings.TypeScriptGeneratorSettings.ExtendedClasses?.Any(c => c + "Base" == controllerName) == true;
+            Class = controllerClassName;
+            IsExtended = settings.TypeScriptGeneratorSettings.ExtendedClasses?.Any(c => c + "Base" == controllerClassName) == true;
 
             HasOperations = operations.Any();
             Operations = operations;

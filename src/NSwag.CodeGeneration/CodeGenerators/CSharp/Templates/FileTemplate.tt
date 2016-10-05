@@ -61,14 +61,15 @@ namespace <#=Model.Namespace#>
         public string FileName { get; private set; }
     }
 
+<#foreach (var exceptionClassName in Model.ExceptionClassNames){#>
     [GeneratedCode("NSwag", "<#=SwaggerService.ToolchainVersion#>")]
-    public class SwaggerException : Exception
+    public class <#=exceptionClassName#> : Exception
     {
         public string StatusCode { get; private set; }
 
         public byte[] ResponseData { get; private set; }
 
-        public SwaggerException(string message, string statusCode, byte[] responseData, Exception innerException) 
+        public <#=exceptionClassName#>(string message, string statusCode, byte[] responseData, Exception innerException) 
             : base(message, innerException)
         {
             StatusCode = statusCode;
@@ -82,17 +83,18 @@ namespace <#=Model.Namespace#>
     }
 
     [GeneratedCode("NSwag", "<#=SwaggerService.ToolchainVersion#>")]
-    public class SwaggerException<TResponse> : SwaggerException
+    public class <#=exceptionClassName#><TResponse> : <#=exceptionClassName#>
     {
         public TResponse Response { get; private set; }
 
-        public SwaggerException(string message, string statusCode, byte[] responseData, TResponse response, Exception innerException) 
+        public <#=exceptionClassName#>(string message, string statusCode, byte[] responseData, TResponse response, Exception innerException) 
             : base(message, statusCode, responseData, innerException)
         {
             Response = response;
         }
     }
 
+<#}#>
 <#}#>
 <#if(Model.GenerateImplementation){#>
 <#  if(Model.RequiresJsonExceptionConverter){#>

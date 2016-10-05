@@ -13,7 +13,7 @@ public partial interface I<#=Model.Class#>
 <#  }foreach (var parameter in operation.Parameters){#>
 <#      if(parameter.HasDescription){#>    /// <param name="<#=parameter.VariableNameLower#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
 <#  }}if(operation.HasResultDescription){#>    /// <returns><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)#></returns>
-<#  }#>    /// <exception cref="SwaggerException">A server side error occurred.</exception>
+<#  }#>    /// <exception cref="<#=Model.ExceptionClass#>">A server side error occurred.</exception>
 <#  if(operation.IsDeprecated){#>    [Obsolete]
 <#  }#>    <#=operation.ResultType#> <#=operation.OperationNameUpper#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableNameLower#><#if(!parameter.IsLast){#>, <#}}#>);
 
@@ -22,7 +22,7 @@ public partial interface I<#=Model.Class#>
 <#      if(parameter.HasDescription){#>    /// <param name="<#=parameter.VariableNameLower#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
 <#  }}#>    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
 <#  if(operation.HasResultDescription){#>    /// <returns><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)#></returns>
-<#  }#>    /// <exception cref="SwaggerException">A server side error occurred.</exception>
+<#  }#>    /// <exception cref="<#=Model.ExceptionClass#>">A server side error occurred.</exception>
 <#  if(operation.IsDeprecated){#>    [Obsolete]
 <#  }#>    <#=operation.ResultType#> <#=operation.OperationNameUpper#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableNameLower#>, <#}#>CancellationToken cancellationToken);
 
@@ -64,7 +64,7 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
 <#  }foreach (var parameter in operation.Parameters){#>
 <#      if(parameter.HasDescription){#>    /// <param name="<#=parameter.VariableNameLower#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
 <#  }}if(operation.HasResultDescription){#>    /// <returns><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)#></returns>
-<#  }#>    /// <exception cref="SwaggerException">A server side error occurred.</exception>
+<#  }#>    /// <exception cref="<#=Model.ExceptionClass#>">A server side error occurred.</exception>
 <#  if(operation.IsDeprecated){#>    [Obsolete]
 <#  }#>    public <#=operation.ResultType#> <#=operation.OperationNameUpper#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableNameLower#><#if(!parameter.IsLast){#>, <#}}#>)
     {
@@ -76,7 +76,7 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
 <#      if(parameter.HasDescription){#>    /// <param name="<#=parameter.VariableNameLower#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
 <#  }}#>    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
 <#  if(operation.HasResultDescription){#>    /// <returns><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)#></returns>
-<#  }#>    /// <exception cref="SwaggerException">A server side error occurred.</exception>
+<#  }#>    /// <exception cref="<#=Model.ExceptionClass#>">A server side error occurred.</exception>
 <#  if(operation.IsDeprecated){#>    [Obsolete]
 <#  }#>    public async <#=operation.ResultType#> <#=operation.OperationNameUpper#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableNameLower#>, <#}#>CancellationToken cancellationToken)
     {
@@ -176,7 +176,7 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
 <#      if(response.IsSuccess){#>
             return responseData_; 
 <#      }else{#>
-            throw new SwaggerException<byte[]>("A server side error occurred.", status_, responseData_, responseData_, null);
+            throw new <#=Model.ExceptionClass#><byte[]>("A server side error occurred.", status_, responseData_, responseData_, null);
 <#      }#>
 <#  }else{#>
             var result_ = default(<#=response.Type#>); 
@@ -189,22 +189,22 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
             } 
             catch (Exception exception) 
             {
-                throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, exception);
+                throw new <#=Model.ExceptionClass#>("Could not deserialize the response body.", status_, responseData_, exception);
             }
 <#      }else{#>
             } 
             catch (Exception exception) 
             {
-                throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, exception);
+                throw new <#=Model.ExceptionClass#>("Could not deserialize the response body.", status_, responseData_, exception);
             }
 <#          if(response.HasExceptionSchema){#>
             if (result_ == null)
                 result_ = new <#=response.Type#>();
             result_.Data.Add("HttpStatus", status_);
             result_.Data.Add("ResponseData", Encoding.UTF8.GetString(responseData_, 0, responseData_.Length));
-            throw new SwaggerException<<#=response.Type#>>("A server side error occurred.", status_, responseData_, result_, result_);
+            throw new <#=Model.ExceptionClass#><<#=response.Type#>>("A server side error occurred.", status_, responseData_, result_, result_);
 <#          }else{#>
-            throw new SwaggerException<<#=response.Type#>>("A server side error occurred.", status_, responseData_, result_, null);
+            throw new <#=Model.ExceptionClass#><<#=response.Type#>>("A server side error occurred.", status_, responseData_, result_, null);
 <#          }#>
 <#      }#>
 <#  }#>
@@ -216,7 +216,7 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
             return;     
 <#      }#> 
 <#  }else{#>
-            throw new SwaggerException("A server side error occurred.", status_, responseData_, null);
+            throw new <#=Model.ExceptionClass#>("A server side error occurred.", status_, responseData_, null);
 <#  }#>
 <#}#>
         }
@@ -229,7 +229,7 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
 <#          if(operation.DefaultResponse.IsSuccess){#>
             return responseData_; 
 <#          }else{#>
-            throw new SwaggerException<byte[]>("A server side error occurred.", status_, responseData_, responseData_, null);
+            throw new <#=Model.ExceptionClass#><byte[]>("A server side error occurred.", status_, responseData_, responseData_, null);
 <#          }#>
 <#      }else{#>
             var result_ = default(<#=operation.DefaultResponse.Type#>); 
@@ -245,10 +245,10 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
             } 
             catch (Exception exception_) 
             {
-                throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, exception_);
+                throw new <#=Model.ExceptionClass#>("Could not deserialize the response body.", status_, responseData_, exception_);
             }
 
-            throw new SwaggerException<<#=operation.DefaultResponse.Type#>>("A server side error occurred.", status_, responseData_, result_, null);
+            throw new <#=Model.ExceptionClass#><<#=operation.DefaultResponse.Type#>>("A server side error occurred.", status_, responseData_, result_, null);
 <#      }#>
 <#  }else{#>
             return;
@@ -256,7 +256,7 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
 <#}#>
         }
 
-        throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
+        throw new <#=Model.ExceptionClass#>("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
     }
 
 <#}#>

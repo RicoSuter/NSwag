@@ -31,7 +31,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
 
         internal abstract string GenerateFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType);
 
-        internal abstract string GenerateClientClass(string controllerName, IList<OperationModel> operations, ClientGeneratorOutputType outputType);
+        internal abstract string GenerateClientClass(string controllerName, string controllerClassName, IList<OperationModel> operations, ClientGeneratorOutputType outputType);
 
         internal abstract string GetType(JsonSchema4 schema, bool isNullable, string typeNameHint);
 
@@ -63,16 +63,18 @@ namespace NSwag.CodeGeneration.CodeGenerators
             {
                 foreach (var controllerOperations in operations.GroupBy(o => BaseSettings.OperationNameGenerator.GetClientName(service, o.Path, o.HttpMethod, o.Operation)))
                 {
-                    var controllerName = GetClassName(controllerOperations.Key);
-                    clientCode += GenerateClientClass(controllerName, controllerOperations.ToList(), type) + "\n\n";
-                    clientClasses.Add(controllerName);
+                    var controllerName = controllerOperations.Key;
+                    var controllerClassName = GetClassName(controllerOperations.Key);
+                    clientCode += GenerateClientClass(controllerName, controllerClassName, controllerOperations.ToList(), type) + "\n\n";
+                    clientClasses.Add(controllerClassName);
                 }
             }
             else
             {
-                var controllerName = GetClassName(string.Empty);
-                clientCode = GenerateClientClass(controllerName, operations, type);
-                clientClasses.Add(controllerName);
+                var controllerName = string.Empty;
+                var controllerClassName = GetClassName(controllerName);
+                clientCode = GenerateClientClass(controllerName, controllerClassName, operations, type);
+                clientClasses.Add(controllerClassName);
             }
 
             return GenerateFile(clientCode, clientClasses, type)
@@ -132,9 +134,9 @@ namespace NSwag.CodeGeneration.CodeGenerators
             return Resolver.Resolve(schema, parameter.IsRequired == false || parameter.IsNullable(BaseSettings.CodeGeneratorSettings.NullHandling), typeNameHint);
         }
 
-        private string GetClassName(string operationName)
+        private string GetClassName(string controllerName)
         {
-            return BaseSettings.ClassName.Replace("{controller}", ConversionUtilities.ConvertToUpperCamelCase(operationName, false));
+            return BaseSettings.ClassName.Replace("{controller}", ConversionUtilities.ConvertToUpperCamelCase(controllerName, false));
         }
 
         internal SwaggerResponse GetSuccessResponse(SwaggerOperation operation)

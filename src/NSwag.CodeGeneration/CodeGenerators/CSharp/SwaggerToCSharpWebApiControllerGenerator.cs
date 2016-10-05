@@ -64,11 +64,11 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             return GenerateFile(_service, ClientGeneratorOutputType.Full);
         }
 
-        internal override string GenerateClientClass(string controllerName, IList<OperationModel> operations, ClientGeneratorOutputType outputType)
+        internal override string GenerateClientClass(string controllerName, string controllerClassName, IList<OperationModel> operations, ClientGeneratorOutputType outputType)
         {
             var model = new ControllerTemplateModel(Settings)
             {
-                Class = controllerName,
+                Class = controllerClassName,
                 BaseUrl = _service.BaseUrl,
                 Operations = operations
             };
