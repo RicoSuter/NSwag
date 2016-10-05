@@ -24,7 +24,7 @@ namespace NSwag.Integration.ClientPCL.Tests
                 //// Assert
                 Assert.Fail();
             }
-            catch (SwaggerException exception)
+            catch (GeoClientException exception)
             {
                 Assert.IsTrue(exception.InnerException is ArgumentException);
                 Assert.IsTrue(exception.InnerException.StackTrace.Contains("NSwag.Integration.WebAPI.Controllers.GeoController.SaveItems"));
