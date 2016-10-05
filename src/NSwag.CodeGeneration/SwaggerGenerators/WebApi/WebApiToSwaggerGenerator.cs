@@ -91,6 +91,10 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 GenerateForController(service, controllerType, schemaResolver, new SwaggerGenerator(_schemaGenerator, Settings, schemaResolver, schemaDefinitionAppender));
 
             service.GenerateOperationIds();
+
+            foreach (var processor in Settings.DocumentProcessors)
+                processor.Process(service);
+
             return service;
         }
 
