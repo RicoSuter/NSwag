@@ -91,6 +91,10 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 GenerateForController(service, controllerType, schemaResolver, new SwaggerGenerator(_schemaGenerator, Settings, schemaResolver, schemaDefinitionAppender));
 
             service.GenerateOperationIds();
+
+            foreach (var processor in Settings.DocumentProcessors)
+                processor.Process(service);
+
             return service;
         }
 
@@ -298,19 +302,13 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
             var routeAttributes = GetRouteAttributes(method.GetCustomAttributes()).ToList();
 
-            // .NET Core: Http*Attribute inherits from HttpMethodAttribute with Template property
-            var httpMethodWithTemplateAttributes = method.GetCustomAttributes()
-                .Where(a => a.GetType().InheritsFrom("HttpMethodAttribute", TypeNameStyle.Name))
-                .Where((dynamic a) => !string.IsNullOrEmpty(a.Template))
-                .ToList();
-
             // .NET Core: RouteAttribute on class level
             dynamic routeAttributeOnClass = GetRouteAttributes(controllerType.GetTypeInfo().GetCustomAttributes()).SingleOrDefault();
             dynamic routePrefixAttribute = GetRoutePrefixAttributes(controllerType.GetTypeInfo().GetCustomAttributes()).SingleOrDefault();
 
-            if (routeAttributes.Any() || httpMethodWithTemplateAttributes.Any())
+            if (routeAttributes.Any())
             {
-                foreach (dynamic attribute in routeAttributes.Concat(httpMethodWithTemplateAttributes))
+                foreach (dynamic attribute in routeAttributes)
                 {
                     if (attribute.Template.StartsWith("~/")) // ignore route prefixes
                         httpPaths.Add(attribute.Template.Substring(1));
@@ -336,13 +334,13 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 httpPaths.Add(Settings.DefaultUrlTemplate ?? string.Empty);
 
             var actionName = GetActionName(method);
-            foreach (var httpPath in httpPaths)
-                yield return "/" + httpPath
+            return httpPaths.Select(p =>
+                "/" + p
                     .Replace("[", "{")
                     .Replace("]", "}")
                     .Replace("{controller}", controllerName)
                     .Replace("{action}", actionName)
-                    .Trim('/');
+                    .Trim('/')).Distinct();
         }
 
         private IEnumerable<Attribute> GetRouteAttributes(IEnumerable<Attribute> attributes)
@@ -482,7 +480,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                         if (parameterInfo.IsComplexType)
                         {
                             if (fromUriAttribute != null)
-                                AddPrimitiveParametersFromUri(operation, parameter, swaggerGenerator);
+                                AddPrimitiveParametersFromUri(uriParameterName, operation, parameter, parameterInfo, swaggerGenerator);
                             else
                                 AddBodyParameter(bodyParameterName, parameter, operation, swaggerGenerator);
                         }
@@ -546,25 +544,37 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             operation.Parameters.Add(operationParameter);
         }
 
-        private void AddPrimitiveParametersFromUri(SwaggerOperation operation, ParameterInfo parameter, SwaggerGenerator swaggerGenerator)
+        private void AddPrimitiveParametersFromUri(string name, SwaggerOperation operation, ParameterInfo parameter, JsonObjectTypeDescription typeDescription, SwaggerGenerator swaggerGenerator)
         {
-            foreach (var property in parameter.ParameterType.GetRuntimeProperties())
+            if (typeDescription.Type.HasFlag(JsonObjectType.Array))
             {
-                var attributes = property.GetCustomAttributes().ToList();
-                var operationParameter = swaggerGenerator.CreatePrimitiveParameter(// TODO: Check if there is a way to control the property name
-                    JsonPathUtilities.GetPropertyName(property, Settings.DefaultPropertyNameHandling),
-                        property.GetXmlDocumentation(), property.PropertyType, attributes);
+                var operationParameter = swaggerGenerator.CreatePrimitiveParameter(name, 
+                    parameter.GetXmlDocumentation(), parameter.ParameterType.GetEnumerableItemType(), parameter.GetCustomAttributes().ToList());
 
-                // TODO: Check if required can be controlled with mechanisms other than RequiredAttribute
-
-                var parameterInfo = JsonObjectTypeDescription.FromType(property.PropertyType, attributes, Settings.DefaultEnumHandling);
-                var isFileArray = IsFileArray(property.PropertyType, parameterInfo);
-                if (parameterInfo.Type == JsonObjectType.File || isFileArray)
-                    InitializeFileParameter(operationParameter, isFileArray);
-                else
-                    operationParameter.Kind = SwaggerParameterKind.Query;
-
+                operationParameter.Kind = SwaggerParameterKind.Query;
+                operationParameter.CollectionFormat = SwaggerParameterCollectionFormat.Multi;
                 operation.Parameters.Add(operationParameter);
+            }
+            else
+            {
+                foreach (var property in parameter.ParameterType.GetRuntimeProperties())
+                {
+                    var attributes = property.GetCustomAttributes().ToList();
+                    var operationParameter = swaggerGenerator.CreatePrimitiveParameter(// TODO: Check if there is a way to control the property name
+                        JsonPathUtilities.GetPropertyName(property, Settings.DefaultPropertyNameHandling),
+                            property.GetXmlDocumentation(), property.PropertyType, attributes);
+
+                    // TODO: Check if required can be controlled with mechanisms other than RequiredAttribute
+
+                    var parameterInfo = JsonObjectTypeDescription.FromType(property.PropertyType, attributes, Settings.DefaultEnumHandling);
+                    var isFileArray = IsFileArray(property.PropertyType, parameterInfo);
+                    if (parameterInfo.Type == JsonObjectType.File || isFileArray)
+                        InitializeFileParameter(operationParameter, isFileArray);
+                    else
+                        operationParameter.Kind = SwaggerParameterKind.Query;
+
+                    operation.Parameters.Add(operationParameter);
+                }
             }
         }
 
