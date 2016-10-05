@@ -302,19 +302,13 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
             var routeAttributes = GetRouteAttributes(method.GetCustomAttributes()).ToList();
 
-            // .NET Core: Http*Attribute inherits from HttpMethodAttribute with Template property
-            var httpMethodWithTemplateAttributes = method.GetCustomAttributes()
-                .Where(a => a.GetType().InheritsFrom("HttpMethodAttribute", TypeNameStyle.Name))
-                .Where((dynamic a) => !string.IsNullOrEmpty(a.Template))
-                .ToList();
-
             // .NET Core: RouteAttribute on class level
             dynamic routeAttributeOnClass = GetRouteAttributes(controllerType.GetTypeInfo().GetCustomAttributes()).SingleOrDefault();
             dynamic routePrefixAttribute = GetRoutePrefixAttributes(controllerType.GetTypeInfo().GetCustomAttributes()).SingleOrDefault();
 
-            if (routeAttributes.Any() || httpMethodWithTemplateAttributes.Any())
+            if (routeAttributes.Any())
             {
-                foreach (dynamic attribute in routeAttributes.Concat(httpMethodWithTemplateAttributes))
+                foreach (dynamic attribute in routeAttributes)
                 {
                     if (attribute.Template.StartsWith("~/")) // ignore route prefixes
                         httpPaths.Add(attribute.Template.Substring(1));
