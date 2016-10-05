@@ -480,7 +480,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                         if (parameterInfo.IsComplexType)
                         {
                             if (fromUriAttribute != null)
-                                AddPrimitiveParametersFromUri(operation, parameter, swaggerGenerator);
+                                AddPrimitiveParametersFromUri(uriParameterName, operation, parameter, parameterInfo, swaggerGenerator);
                             else
                                 AddBodyParameter(bodyParameterName, parameter, operation, swaggerGenerator);
                         }
@@ -544,25 +544,41 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             operation.Parameters.Add(operationParameter);
         }
 
-        private void AddPrimitiveParametersFromUri(SwaggerOperation operation, ParameterInfo parameter, SwaggerGenerator swaggerGenerator)
+        private void AddPrimitiveParametersFromUri(string name, SwaggerOperation operation, ParameterInfo parameter, JsonObjectTypeDescription typeDescription, SwaggerGenerator swaggerGenerator)
         {
-            foreach (var property in parameter.ParameterType.GetRuntimeProperties())
+            if (typeDescription.Type.HasFlag(JsonObjectType.Array))
             {
-                var attributes = property.GetCustomAttributes().ToList();
-                var operationParameter = swaggerGenerator.CreatePrimitiveParameter(// TODO: Check if there is a way to control the property name
-                    JsonPathUtilities.GetPropertyName(property, Settings.DefaultPropertyNameHandling),
-                        property.GetXmlDocumentation(), property.PropertyType, attributes);
+                // TODO: Use type.GetEnumerableItemType(); 
+                var genericTypeArguments = ReflectionExtensions.GetGenericTypeArguments(parameter.ParameterType);
+                var itemType = genericTypeArguments.Length == 0
+                    ? parameter.ParameterType.GetElementType()
+                    : genericTypeArguments[0];
 
-                // TODO: Check if required can be controlled with mechanisms other than RequiredAttribute
-
-                var parameterInfo = JsonObjectTypeDescription.FromType(property.PropertyType, attributes, Settings.DefaultEnumHandling);
-                var isFileArray = IsFileArray(property.PropertyType, parameterInfo);
-                if (parameterInfo.Type == JsonObjectType.File || isFileArray)
-                    InitializeFileParameter(operationParameter, isFileArray);
-                else
-                    operationParameter.Kind = SwaggerParameterKind.Query;
-
+                var operationParameter = swaggerGenerator.CreatePrimitiveParameter(name, parameter.GetXmlDocumentation(), itemType, parameter.GetCustomAttributes().ToList());
+                operationParameter.Kind = SwaggerParameterKind.Query;
+                operationParameter.CollectionFormat = SwaggerParameterCollectionFormat.Multi;
                 operation.Parameters.Add(operationParameter);
+            }
+            else
+            {
+                foreach (var property in parameter.ParameterType.GetRuntimeProperties())
+                {
+                    var attributes = property.GetCustomAttributes().ToList();
+                    var operationParameter = swaggerGenerator.CreatePrimitiveParameter(// TODO: Check if there is a way to control the property name
+                        JsonPathUtilities.GetPropertyName(property, Settings.DefaultPropertyNameHandling),
+                            property.GetXmlDocumentation(), property.PropertyType, attributes);
+
+                    // TODO: Check if required can be controlled with mechanisms other than RequiredAttribute
+
+                    var parameterInfo = JsonObjectTypeDescription.FromType(property.PropertyType, attributes, Settings.DefaultEnumHandling);
+                    var isFileArray = IsFileArray(property.PropertyType, parameterInfo);
+                    if (parameterInfo.Type == JsonObjectType.File || isFileArray)
+                        InitializeFileParameter(operationParameter, isFileArray);
+                    else
+                        operationParameter.Kind = SwaggerParameterKind.Query;
+
+                    operation.Parameters.Add(operationParameter);
+                }
             }
         }
 
