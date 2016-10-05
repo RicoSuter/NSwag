@@ -31,6 +31,14 @@ namespace NSwag.Commands
             set { Settings.ConfigurationClass = value; }
         }
 
+        [Description("The exception class (default 'SwaggerException', may use '{controller}' placeholder).")]
+        [Argument(Name = "ExceptionClass", IsRequired = false)]
+        public string ExceptionClass
+        {
+            get { return Settings.ExceptionClass; }
+            set { Settings.ExceptionClass = value; }
+        }
+
         [Description("Specifies whether generate client classes.")]
         [Argument(Name = "GenerateClientClasses", IsRequired = false)]
         public bool GenerateClientClasses

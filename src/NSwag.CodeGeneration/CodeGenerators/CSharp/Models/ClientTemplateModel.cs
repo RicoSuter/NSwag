@@ -21,15 +21,17 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
 
         /// <summary>Initializes a new instance of the <see cref="ClientTemplateModel" /> class.</summary>
         /// <param name="controllerName">Name of the controller.</param>
+        /// <param name="controllerClassName">The class name of the controller.</param>
         /// <param name="operations">The operations.</param>
         /// <param name="service">The service.</param>
         /// <param name="settings">The settings.</param>
-        public ClientTemplateModel(string controllerName, IList<OperationModel> operations, SwaggerService service, SwaggerToCSharpClientGeneratorSettings settings)
+        public ClientTemplateModel(string controllerName, string controllerClassName, IList<OperationModel> operations, SwaggerService service, SwaggerToCSharpClientGeneratorSettings settings)
         {
             _service = service;
             _settings = settings;
 
-            Class = controllerName;
+            Class = controllerClassName;
+            ExceptionClass = _settings.ExceptionClass.Replace("{controller}", controllerName);
             Operations = operations;
         }
 
@@ -71,6 +73,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
 
         /// <summary>Gets a value indicating whether the client has operations.</summary>
         public bool HasOperations => Operations.Any();
+
+        /// <summary>Gets the exception class name.</summary>
+        public string ExceptionClass { get; }
 
         /// <summary>Gets the operations.</summary>
         public IList<OperationModel> Operations { get; }

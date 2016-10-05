@@ -100,9 +100,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
                 .Replace(Settings.CSharpGeneratorSettings.DictionaryType + "<", "IDictionary<");
         }
 
-        internal override string GenerateClientClass(string controllerName, IList<OperationModel> operations, ClientGeneratorOutputType outputType)
+        internal override string GenerateClientClass(string controllerName, string controllerClassName, IList<OperationModel> operations, ClientGeneratorOutputType outputType)
         {
-            var model = new ClientTemplateModel(controllerName, operations, _service, Settings)
+            var model = new ClientTemplateModel(controllerName, controllerClassName, operations, _service, Settings)
             {
                 GenerateContracts = outputType == ClientGeneratorOutputType.Full || outputType == ClientGeneratorOutputType.Contracts,
                 GenerateImplementation = outputType == ClientGeneratorOutputType.Full || outputType == ClientGeneratorOutputType.Implementation,

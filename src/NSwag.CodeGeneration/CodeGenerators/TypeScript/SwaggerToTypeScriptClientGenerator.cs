@@ -95,15 +95,15 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             return template.Render();
         }
 
-        internal override string GenerateClientClass(string controllerName, IList<OperationModel> operations, ClientGeneratorOutputType outputType)
+        internal override string GenerateClientClass(string controllerName, string controllerClassName, IList<OperationModel> operations, ClientGeneratorOutputType outputType)
         {
             UpdateUseDtoClassAndDataConversionCodeProperties(operations);
 
-            var model = new ClientTemplateModel(GetClassName(controllerName), operations, _service, Settings);
+            var model = new ClientTemplateModel(GetClassName(controllerClassName), operations, _service, Settings);
             var template = Settings.CreateTemplate(model);
             var code = template.Render();
 
-            return AppendExtensionClassIfNecessary(controllerName, code);
+            return AppendExtensionClassIfNecessary(controllerClassName, code);
         }
 
         private string AppendExtensionClassIfNecessary(string controllerName, string code)

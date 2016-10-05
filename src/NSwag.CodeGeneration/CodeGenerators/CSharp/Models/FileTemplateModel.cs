@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
@@ -61,5 +62,27 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
         /// <summary>Gets a value indicating whether the generated code requires a JSON exception converter.</summary>
         public bool RequiresJsonExceptionConverter =>
             _service.Operations.Any(o => o.Operation.AllResponses.Any(r => r.Value.HasExceptionSchema));
+
+        /// <summary>Gets the exception class names.</summary>
+        public IEnumerable<string> ExceptionClassNames
+        {
+            get
+            {
+                if (_settings is SwaggerToCSharpClientGeneratorSettings)
+                {
+                    var settings = (SwaggerToCSharpClientGeneratorSettings)_settings;
+                    if (_settings.OperationNameGenerator.SupportsMultipleClients)
+                    {
+                        return _service.Operations
+                            .GroupBy(o => _settings.OperationNameGenerator.GetClientName(_service, o.Path, o.Method, o.Operation))
+                            .Select(g => settings.ExceptionClass.Replace("{controller}", g.Key))
+                            .Distinct();
+                    }
+                    else
+                        return new string[] { settings.ExceptionClass.Replace("{controller}", string.Empty) };
+                }
+                return new string[] { };
+            }
+        }
     }
 }

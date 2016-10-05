@@ -4,7 +4,6 @@
   "InputSwaggerUrl": null,
   "InputJsonSchema": null,
   "WebApiToSwaggerCommand": {
-    "AssemblyPath": "bin\\NSwag.Integration.WebAPI.dll",
     "AssemblyPaths": [
       "bin\\NSwag.Integration.WebAPI.dll"
     ],
@@ -65,6 +64,7 @@
   "SwaggerToCSharpClientCommand": {
     "ClientBaseClass": null,
     "ConfigurationClass": null,
+    "ExceptionClass": "{controller}ClientException",
     "GenerateClientClasses": true,
     "GenerateClientInterfaces": false,
     "GenerateDtoTypes": true,
@@ -72,6 +72,7 @@
     "JsonConverters": [
       "Newtonsoft.Json.Converters.StringEnumConverter"
     ],
+    "UseHttpRequestMessageCreationMethod": false,
     "GenerateContractsOutput": true,
     "ContractsNamespace": "NSwag.Integration.ClientPCL.Contracts",
     "ContractsOutputFilePath": "..\\NSwag.Integration.ClientPCL\\ServiceClientsContracts.cs",
@@ -79,7 +80,10 @@
     "Namespace": "NSwag.Integration.ClientPCL",
     "AdditionalNamespaceUsages": null,
     "RequiredPropertiesMustBeDefined": true,
+    "DateType": "DateTime",
     "DateTimeType": "DateTime",
+    "TimeType": "TimeSpan",
+    "TimeSpanType": "TimeSpan",
     "ArrayType": "ObservableCollection",
     "DictionaryType": "Dictionary",
     "ClassStyle": "Poco",
@@ -97,7 +101,10 @@
       "System.Web.Http"
     ],
     "RequiredPropertiesMustBeDefined": true,
+    "DateType": "DateTime",
     "DateTimeType": "DateTime",
+    "TimeType": "TimeSpan",
+    "TimeSpanType": "TimeSpan",
     "ArrayType": "IEnumerable",
     "DictionaryType": "Dictionary",
     "ClassStyle": "Inpc",
