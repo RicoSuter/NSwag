@@ -548,13 +548,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         {
             if (typeDescription.Type.HasFlag(JsonObjectType.Array))
             {
-                // TODO: Use type.GetEnumerableItemType(); 
-                var genericTypeArguments = ReflectionExtensions.GetGenericTypeArguments(parameter.ParameterType);
-                var itemType = genericTypeArguments.Length == 0
-                    ? parameter.ParameterType.GetElementType()
-                    : genericTypeArguments[0];
+                var operationParameter = swaggerGenerator.CreatePrimitiveParameter(name, 
+                    parameter.GetXmlDocumentation(), parameter.ParameterType.GetEnumerableItemType(), parameter.GetCustomAttributes().ToList());
 
-                var operationParameter = swaggerGenerator.CreatePrimitiveParameter(name, parameter.GetXmlDocumentation(), itemType, parameter.GetCustomAttributes().ToList());
                 operationParameter.Kind = SwaggerParameterKind.Query;
                 operationParameter.CollectionFormat = SwaggerParameterCollectionFormat.Multi;
                 operation.Parameters.Add(operationParameter);
