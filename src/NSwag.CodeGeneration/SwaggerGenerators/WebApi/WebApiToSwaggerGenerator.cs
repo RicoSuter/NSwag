@@ -479,10 +479,10 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
                         if (parameterInfo.IsComplexType)
                         {
-                            if (fromUriAttribute != null)
-                                AddPrimitiveParametersFromUri(uriParameterName, operation, parameter, parameterInfo, swaggerGenerator);
-                            else
+                            if (fromBodyAttribute != null || (fromUriAttribute == null && Settings.IsAspNetCore == false))
                                 AddBodyParameter(bodyParameterName, parameter, operation, swaggerGenerator);
+                            else
+                                AddPrimitiveParametersFromUri(uriParameterName, operation, parameter, parameterInfo, swaggerGenerator);
                         }
                         else
                         {
@@ -560,9 +560,10 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 foreach (var property in parameter.ParameterType.GetRuntimeProperties())
                 {
                     var attributes = property.GetCustomAttributes().ToList();
-                    var operationParameter = swaggerGenerator.CreatePrimitiveParameter(// TODO: Check if there is a way to control the property name
-                        JsonPathUtilities.GetPropertyName(property, Settings.DefaultPropertyNameHandling),
-                            property.GetXmlDocumentation(), property.PropertyType, attributes);
+                    var fromQueryAttribute = attributes.SingleOrDefault(a => a.GetType().Name == "FromQueryAttribute");
+
+                    var propertyName = TryGetStringPropertyValue(fromQueryAttribute, "Name") ?? JsonPathUtilities.GetPropertyName(property, Settings.DefaultPropertyNameHandling);
+                    var operationParameter = swaggerGenerator.CreatePrimitiveParameter(propertyName, property.GetXmlDocumentation(), property.PropertyType, attributes);
 
                     // TODO: Check if required can be controlled with mechanisms other than RequiredAttribute
 
@@ -616,7 +617,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     dynamic dynResultTypeAttribute = responseTypeAttribute;
                     var returnType = dynResultTypeAttribute.ResponseType;
 
-                    var httpStatusCode = IsVoidResponse(returnType) ? "204" : "200";
+                    var httpStatusCode = IsVoidResponse(returnType) ? GetVoidResponseStatusCode() : "200";
                     if (responseTypeAttribute.GetType().GetRuntimeProperty("HttpStatusCode") != null)
                         httpStatusCode = dynResultTypeAttribute.HttpStatusCode.ToString();
 
@@ -676,7 +677,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
             if (IsVoidResponse(returnType))
             {
-                operation.Responses["204"] = new SwaggerResponse
+                operation.Responses[GetVoidResponseStatusCode()] = new SwaggerResponse
                 {
                     Description = xmlDescription ?? string.Empty
                 };
@@ -698,6 +699,11 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         {
             return returnType == null ||
                    returnType.FullName == "System.Void";
+        }
+
+        private string GetVoidResponseStatusCode()
+        {
+            return Settings.IsAspNetCore ? "200" : "204";
         }
     }
 }
