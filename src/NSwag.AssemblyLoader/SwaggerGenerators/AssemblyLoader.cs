@@ -28,12 +28,14 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
             }
 
             // Add path to nswag directory
-            allReferencePaths.Add(Path.GetDirectoryName(typeof(AssemblyLoader).Assembly.CodeBase.Replace("file:///", string.Empty)));
+            allReferencePaths.Add(
+                Path.GetDirectoryName(typeof(AssemblyLoader).Assembly.CodeBase.Replace("file:///", string.Empty)));
             allReferencePaths = allReferencePaths.Distinct().ToList();
 
             domain.AssemblyResolve += (sender, args) =>
             {
-                var assemblyName = args.Name.Substring(0, args.Name.IndexOf(",", StringComparison.InvariantCulture));
+                var separatorIndex = args.Name.IndexOf(",", StringComparison.InvariantCulture);
+                var assemblyName = separatorIndex > 0 ? args.Name.Substring(0, separatorIndex) : args.Name;
 
                 var existingAssembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetName().Name == assemblyName);
                 if (existingAssembly != null)
