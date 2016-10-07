@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -28,8 +29,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
             }
 
             // Add path to nswag directory
-            allReferencePaths.Add(
-                Path.GetDirectoryName(typeof(AssemblyLoader).Assembly.CodeBase.Replace("file:///", string.Empty)));
+            allReferencePaths.Add(Path.GetDirectoryName(typeof(AssemblyLoader).Assembly.CodeBase.Replace("file:///", string.Empty)));
             allReferencePaths = allReferencePaths.Distinct().ToList();
 
             domain.AssemblyResolve += (sender, args) =>
@@ -50,8 +50,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
                         {
                             return Assembly.LoadFrom(file);
                         }
-                        catch
+                        catch (Exception exception)
                         {
+                            Debug.WriteLine("AssemblyLoader.AssemblyResolve exception when loading DLL '" + file + "': \n" + exception.ToString());
                         }
                     }
                 }
