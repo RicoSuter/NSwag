@@ -92,6 +92,10 @@ namespace NSwag
         [JsonProperty(PropertyName = "security", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public List<SwaggerSecurityRequirement> Security { get; set; }
 
+        /// <summary>Get or set the schema less extensions (this can be used as vendor extensions as well).</summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> ExtensionData { get; set; }
+
         /// <summary>Gets the list of MIME types the operation can consume, either from the operation or from the <see cref="SwaggerService"/>.</summary>
         [JsonIgnore]
         public IEnumerable<string> ActualConsumes => Consumes ?? Parent.Parent.Consumes;

@@ -13,6 +13,7 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator.Attributes
         {
             public string Foo { get; set; }
 
+            /// <summary>My comment.</summary>
             [JsonProperty("bar")]
             public string Bar { get; set; }
         }
@@ -24,6 +25,7 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator.Attributes
                 return string.Empty;
             }
 
+            /// <summary>My comment.</summary>
             public string WithFromUriAttribute([FromUri] MyParameter data)
             {
                 return string.Empty;
@@ -67,10 +69,12 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator.Attributes
             var operation = service.Operations.Single(o => o.Operation.OperationId == "Test_WithFromUriAttribute").Operation;
 
             //// Assert
+            Assert.AreEqual("My comment.", operation.Summary);
             Assert.AreEqual(SwaggerParameterKind.Query, operation.ActualParameters[0].Kind);
             Assert.AreEqual(SwaggerParameterKind.Query, operation.ActualParameters[1].Kind);
             Assert.AreEqual("Foo", operation.ActualParameters[0].Name);
             Assert.AreEqual("bar", operation.ActualParameters[1].Name);
+            Assert.AreEqual("My comment.", operation.ActualParameters[1].Description);
         }
 
         [TestMethod]

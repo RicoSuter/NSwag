@@ -47,6 +47,14 @@ namespace NSwag.Commands
             set { Settings.ReferencePaths = value; }
         }
 
+        [Description("Specifies whether the controllers are hosted by ASP.NET Core.")]
+        [Argument(Name = "AspNetCore", IsRequired = false)]
+        public bool IsAspNetCore
+        {
+            get { return Settings.IsAspNetCore; }
+            set { Settings.IsAspNetCore = value; }
+        }
+
         [Description("The Web API controller full class name or empty to load all controllers from the assembly.")]
         [Argument(Name = "Controller", IsRequired = false)]
         public string ControllerName { get; set; }
