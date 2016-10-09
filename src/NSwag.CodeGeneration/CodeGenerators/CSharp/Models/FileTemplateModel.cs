@@ -8,6 +8,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using NJsonSchema;
 
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
 {
@@ -62,6 +63,10 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
         /// <summary>Gets a value indicating whether the generated code requires a JSON exception converter.</summary>
         public bool RequiresJsonExceptionConverter =>
             _service.Operations.Any(o => o.Operation.AllResponses.Any(r => r.Value.HasExceptionSchema));
+
+        /// <summary>Gets a value indicating whether the generated code requires the FileParameter type.</summary>
+        public bool RequiresFileParameterType => 
+            _service.Operations.Any(o => o.Operation.Parameters.Any(p => p.Type.HasFlag(JsonObjectType.File)));
 
         /// <summary>Gets the exception class names.</summary>
         public IEnumerable<string> ExceptionClassNames
