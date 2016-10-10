@@ -104,7 +104,7 @@ namespace NSwag.Commands
         }
 
 
-        [Description("Overrides the service host of the web service (optional, use '.' to for relative URLs).")]
+        [Description("Overrides the service host of the web service (optional, use '.' to remove the hostname).")]
         [Argument(Name = "ServiceHost", IsRequired = false)]
         public string ServiceHost { get; set; }
 
