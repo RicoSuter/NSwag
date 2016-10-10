@@ -134,7 +134,7 @@
                     <TextBlock Text="Version" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding Command.InfoVersion, Mode=TwoWay}" Margin="0,0,0,12" />
 
-                    <TextBlock Text="Service host (optional)" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBlock Text="Service host (optional, use '.' to use relative URLs)" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding Command.ServiceHost, Mode=TwoWay}" Margin="0,0,0,12" />
 
                     <TextBlock Text="Service schemes (optional, 'http', 'https', 'ws', 'wss')" FontWeight="Bold" Margin="0,0,0,6" />

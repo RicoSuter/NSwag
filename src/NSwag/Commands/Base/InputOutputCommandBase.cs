@@ -16,7 +16,7 @@ namespace NSwag.Commands.Base
         [Argument(Name = "Input", IsRequired = true, AcceptsCommandInput = true)]
         public object Input { get; set; }
 
-        [Description("Overrides the service host of the web service (optional, use '.' to use relative URLs).")]
+        [Description("Overrides the service host of the web service (optional, use '.' to for relative URLs).")]
         [Argument(Name = "ServiceHost", IsRequired = false)]
         public string ServiceHost { get; set; }
 
