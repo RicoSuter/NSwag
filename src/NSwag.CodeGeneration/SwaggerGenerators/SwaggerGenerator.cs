@@ -65,7 +65,10 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
                 operationParameter = new SwaggerParameter
                 {
                     Type = typeDescription.Type, // Used as fallback for generators which do not check the "schema" property
-                    Schema = _schemaGenerator.Generate<JsonSchema4>(parameterType, parentAttributes, _schemaResolver, _schemaDefinitionAppender)
+                    Schema = new JsonSchema4
+                    {
+                        SchemaReference = _schemaGenerator.Generate<JsonSchema4>(parameterType, parentAttributes, _schemaResolver, _schemaDefinitionAppender)
+                    }
                 };
             }
             else

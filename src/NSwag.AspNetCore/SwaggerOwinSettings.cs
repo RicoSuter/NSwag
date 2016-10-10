@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System;
+using NJsonSchema;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 
 #if AspNetOwin
@@ -18,6 +19,15 @@ namespace NSwag.AspNetCore
     /// <summary>The settings for UseSwagger.</summary>
     public class SwaggerOwinSettings : WebApiToSwaggerGeneratorSettings
     {
+        #if AspNetOwin
+        /// <summary>Initializes a new instance of the <see cref="SwaggerOwinSettings"/> class.</summary>
+        public SwaggerOwinSettings ()
+        {
+            IsAspNetCore = true; 
+            DefaultPropertyNameHandling = PropertyNameHandling.CamelCase;
+        }
+        #endif
+
         /// <summary>Gets or sets the OWIN base path (when mapped via app.MapOwinPath()) (must start with '/').</summary>
         public string MiddlewareBasePath { get; set; }
 

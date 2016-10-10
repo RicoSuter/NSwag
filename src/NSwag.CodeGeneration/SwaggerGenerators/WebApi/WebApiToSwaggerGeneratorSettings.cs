@@ -45,5 +45,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
         /// <summary>Gets or sets the document template representing the initial Swagger specification (JSON data).</summary>
         public string DocumentTemplate { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether the controllers are hosted by ASP.NET Core.</summary>
+        public bool IsAspNetCore { get; set; }
     }
 }

@@ -108,5 +108,48 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator.Attributes
             Assert.AreEqual(JsonObjectType.String, parameter.Type);
             Assert.AreEqual(SwaggerParameterCollectionFormat.Multi, parameter.CollectionFormat);
         }
+
+        public class FooController : ApiController
+        {
+            [Route("foos/")]
+            public Foo[] GetFoos([FromUri] Bar[] bars)
+            {
+                return new Foo[0];
+            }
+        }
+
+        public enum Bar
+        {
+            Baz,
+            Foo
+        }
+
+        public class Foo
+        {
+            public Bar Bar { get; set; }
+
+            public Bar Bar2 { get; set; }
+        }
+
+        [TestMethod]
+        public void When_query_parameter_is_enum_array_then_the_enum_is_referenced()
+        {
+            //// Arrange
+            var settings = new WebApiToSwaggerGeneratorSettings
+            {
+                DefaultUrlTemplate = "api/{controller}/{action}/{id}",
+                DefaultEnumHandling = EnumHandling.String,
+                DefaultPropertyNameHandling = PropertyNameHandling.Default,
+                NullHandling = NullHandling.Swagger
+            };
+            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(settings);
+
+            //// Act
+            var service = generator.GenerateForController<FooController>();
+            var json = service.ToJson();
+
+            //// Assert
+            Assert.IsNotNull(service.Operations.First().Operation.Parameters.First().Schema.SchemaReference);
+        }
     }
 }
