@@ -87,6 +87,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="CodeGenerators\CSharp\Templates\JsonExceptionConverterTemplate.Extensions.cs" />
     <Compile Include="CodeGenerators\OperationNameGenerators\IOperationNameGenerator.cs" />
     <Compile Include="CodeGenerators\Models\OperationModel.cs" />
     <Compile Include="CodeGenerators\Models\ParameterModel.cs" />

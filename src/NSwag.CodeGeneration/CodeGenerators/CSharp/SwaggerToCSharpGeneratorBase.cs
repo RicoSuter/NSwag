@@ -31,7 +31,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
 
         internal override string GenerateFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType)
         {
-            var model = new FileTemplateModel(clientCode, outputType, _service, _settings, (SwaggerToCSharpTypeResolver)Resolver);
+            var model = new FileTemplateModel(clientCode, outputType, _service, this, _settings, (SwaggerToCSharpTypeResolver)Resolver);
             var template = _settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "File", model);
             return template.Render();
         }

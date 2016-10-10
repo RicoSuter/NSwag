@@ -100,7 +100,7 @@ namespace <#=Model.Namespace#>
 <#}#>
 <#if(Model.GenerateImplementation){#>
 <#  if(Model.RequiresJsonExceptionConverter){#>
-    <#=SwaggerToCSharpClientGenerator.GetJsonExceptionConverterCode(1)#>
+    <#=Model.JsonExceptionConverterCode#>
 <#  }#>
 <#}#>
 }

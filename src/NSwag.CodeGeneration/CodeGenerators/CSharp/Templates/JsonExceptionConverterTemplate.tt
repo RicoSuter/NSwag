@@ -7,7 +7,7 @@ internal class JsonExceptionConverter : JsonConverter
 
     public JsonExceptionConverter()
     {
-        _searchedNamespaces = new Dictionary<string, Assembly> { { typeof(FileParameter).Namespace, typeof(FileParameter).GetTypeInfo().Assembly } };
+        _searchedNamespaces = new Dictionary<string, Assembly> { { typeof(FileParameter).Namespace, typeof(<#=ExceptionModelClass#>).GetTypeInfo().Assembly } };
     }
 
     public override bool CanWrite => true;

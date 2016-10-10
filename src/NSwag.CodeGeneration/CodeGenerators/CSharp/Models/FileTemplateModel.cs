@@ -8,6 +8,8 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using NJsonSchema.CodeGeneration;
+using NSwag.CodeGeneration.CodeGenerators.CSharp.Templates;
 
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
 {
@@ -19,19 +21,22 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
         private readonly SwaggerToCSharpGeneratorSettings _settings;
         private readonly SwaggerToCSharpTypeResolver _resolver;
         private readonly ClientGeneratorOutputType _outputType;
+        private readonly ClientGeneratorBase _clientGeneratorBase;
 
         /// <summary>Initializes a new instance of the <see cref="FileTemplateModel" /> class.</summary>
-        /// <param name="clientCode"></param>
-        /// <param name="outputType"></param>
+        /// <param name="clientCode">The client code.</param>
+        /// <param name="outputType">Type of the output.</param>
         /// <param name="service">The service.</param>
+        /// <param name="clientGeneratorBase">The client generator base.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="resolver">The resolver.</param>
         public FileTemplateModel(string clientCode, ClientGeneratorOutputType outputType, SwaggerService service,
-            SwaggerToCSharpGeneratorSettings settings, SwaggerToCSharpTypeResolver resolver)
+            ClientGeneratorBase clientGeneratorBase, SwaggerToCSharpGeneratorSettings settings, SwaggerToCSharpTypeResolver resolver)
         {
             _clientCode = clientCode;
             _outputType = outputType;
             _service = service;
+            _clientGeneratorBase = clientGeneratorBase;
             _settings = settings;
             _resolver = resolver;
         }
@@ -60,8 +65,17 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
         public string Classes => _settings.GenerateDtoTypes ? _resolver.GenerateClasses() : string.Empty;
 
         /// <summary>Gets a value indicating whether the generated code requires a JSON exception converter.</summary>
-        public bool RequiresJsonExceptionConverter =>
-            _service.Operations.Any(o => o.Operation.AllResponses.Any(r => r.Value.HasExceptionSchema));
+        public bool RequiresJsonExceptionConverter => JsonExceptionTypes.Any();
+
+        /// <summary>Gets the JsonExceptionConverter code.</summary>
+        public string JsonExceptionConverterCode => RequiresJsonExceptionConverter ?
+            ConversionUtilities.Tab(new JsonExceptionConverterTemplate(JsonExceptionTypes.FirstOrDefault(t => t != "Exception") ?? "Exception").TransformText(), 1) : string.Empty;
+
+        private IEnumerable<string> JsonExceptionTypes => ExceptionResponses.Select(r =>
+            _clientGeneratorBase.GetType(r.ActualResponseSchema, r.IsNullable(_settings.CSharpGeneratorSettings.NullHandling), "Response"));
+
+        private IEnumerable<SwaggerResponse> ExceptionResponses =>
+            _service.Operations.SelectMany(o => o.Operation.AllResponses.Values.Where(r => r.HasExceptionSchema));
 
         /// <summary>Gets the exception class names.</summary>
         public IEnumerable<string> ExceptionClassNames
