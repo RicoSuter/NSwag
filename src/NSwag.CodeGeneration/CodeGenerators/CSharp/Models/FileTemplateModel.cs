@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema.CodeGeneration;
 using NSwag.CodeGeneration.CodeGenerators.CSharp.Templates;
+using NJsonSchema;
 
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
 {
@@ -76,6 +77,10 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
 
         private IEnumerable<SwaggerResponse> ExceptionResponses =>
             _service.Operations.SelectMany(o => o.Operation.AllResponses.Values.Where(r => r.HasExceptionSchema));
+
+        /// <summary>Gets a value indicating whether the generated code requires the FileParameter type.</summary>
+        public bool RequiresFileParameterType => 
+            _service.Operations.Any(o => o.Operation.Parameters.Any(p => p.Type.HasFlag(JsonObjectType.File)));
 
         /// <summary>Gets the exception class names.</summary>
         public IEnumerable<string> ExceptionClassNames
