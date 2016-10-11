@@ -9,13 +9,14 @@ namespace NSwagStudio.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value != null ? string.Join(",", (string[])value) : string.Empty;
+            return value != null ? string.Join("\n", (string[])value) : string.Empty;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return value?.ToString()
-                .Split(',')
+                .Trim('\r')
+                .Split('\n')
                 .Select(s => s.Trim())
                 .Where(n => !string.IsNullOrEmpty(n))
                 .ToArray() ?? new string[] { };
