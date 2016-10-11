@@ -148,8 +148,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                             {
                                 Path = Regex.Replace(httpPath, "{(.*?)(:(.*?))?}", match =>
                                 {
-                                    if (operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.Path && p.Name == match.Groups[1].Value))
-                                        return "{" + match.Groups[1].Value + "}";
+                                    var parameterName = match.Groups[1].Value.TrimEnd('?');
+                                    if (operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.Path && p.Name == parameterName))
+                                        return "{" + parameterName + "}";
                                     return string.Empty;
                                 }).TrimEnd('/'),
                                 Method = httpMethod,
