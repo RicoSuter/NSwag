@@ -125,7 +125,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 var operations = new List<Tuple<SwaggerOperationDescription, MethodInfo>>();
                 foreach (var method in GetActionMethods(controllerType))
                 {
-                    var httpPaths = GetHttpPaths(controllerType, method);
+                    var httpPaths = GetHttpPaths(controllerType, method).ToList();
                     var httpMethods = GetSupportedHttpMethods(method).ToList();
 
                     foreach (var httpPath in httpPaths)
@@ -329,13 +329,37 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 httpPaths.Add(Settings.DefaultUrlTemplate ?? string.Empty);
 
             var actionName = GetActionName(method);
-            return httpPaths.Select(p =>
-                "/" + p
-                    .Replace("[", "{")
-                    .Replace("]", "}")
-                    .Replace("{controller}", controllerName)
-                    .Replace("{action}", actionName)
-                    .Trim('/')).Distinct();
+            return httpPaths
+                .Select(p =>
+                    "/" + p
+                        .Replace("[", "{")
+                        .Replace("]", "}")
+                        .Replace("{controller}", controllerName)
+                        .Replace("{action}", actionName)
+                        .Trim('/'))
+                .SelectMany(ExpandHttpPath)
+                .Distinct()
+                .ToList();
+        }
+
+        private IEnumerable<string> ExpandHttpPath(string path)
+        {
+            var segments = path.Split('/');
+            for (int i = 0; i < segments.Length; i++)
+            {
+                var segment = segments[i];
+                if (segment.StartsWith("{") && segment.Contains("?"))
+                {
+                    foreach (var p in ExpandHttpPath(string.Join("/", segments.Take(i).Concat(segments.Skip(i + 1)))))
+                        yield return p;
+
+                    foreach (var p in ExpandHttpPath(string.Join("/", segments.Take(i).Concat(new [] { segment.Replace("?", "") }).Concat(segments.Skip(i + 1)))))
+                        yield return p;
+
+                    yield break;
+                }
+            }
+            yield return path;
         }
 
         private IEnumerable<Attribute> GetRouteAttributes(IEnumerable<Attribute> attributes)
@@ -493,12 +517,11 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             // Handle path parameters which are not action method parameters
             foreach (Match match in Regex.Matches(httpPath, "{(.*?)(:(.*?))?}"))
             {
-                var parameterName = match.Groups[1].Value.TrimEnd('?');
+                var parameterName = match.Groups[1].Value;
                 if (operation.Parameters.All(p => p.Name != parameterName))
                 {
-                    var isNullable = match.Groups[1].Value.EndsWith("?");
                     var parameterType = match.Groups.Count == 4 ? match.Groups[3].Value : "string";
-                    var operationParameter = swaggerGenerator.CreatePathParameter(parameterName, parameterType, isNullable);
+                    var operationParameter = swaggerGenerator.CreatePathParameter(parameterName, parameterType);
                     operation.Parameters.Add(operationParameter);
                 }
             }
@@ -556,7 +579,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         {
             if (typeDescription.Type.HasFlag(JsonObjectType.Array))
             {
-                var operationParameter = swaggerGenerator.CreatePrimitiveParameter(name,
+                var operationParameter = swaggerGenerator.CreatePrimitiveParameter(name, 
                     parameter.GetXmlDocumentation(), parameter.ParameterType.GetEnumerableItemType(), parameter.GetCustomAttributes().ToList());
 
                 operationParameter.Kind = SwaggerParameterKind.Query;

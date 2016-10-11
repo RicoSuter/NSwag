@@ -50,15 +50,14 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
         /// <summary>Creates a path parameter for a given type.</summary>
         /// <param name="parameterName">Name of the parameter.</param>
         /// <param name="parameterType">Type of the parameter.</param>
-        /// <param name="isNullable">if set to <c>true</c> [is nullable].</param>
         /// <returns>The parameter.</returns>
-        public SwaggerParameter CreatePathParameter(string parameterName, string parameterType, bool isNullable)
+        public SwaggerParameter CreatePathParameter(string parameterName, string parameterType)
         {
             var parameter = new SwaggerParameter();
             parameter.Name = parameterName;
             parameter.Kind = SwaggerParameterKind.Path;
             parameter.IsRequired = true;
-            parameter.IsNullableRaw = isNullable;
+            parameter.IsNullableRaw = false;
 
             if (parameterType == "guid")
             {
