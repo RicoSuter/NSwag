@@ -148,8 +148,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                             {
                                 Path = Regex.Replace(httpPath, "{(.*?)(:(.*?))?}", match =>
                                 {
-                                    if (operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.Path && p.Name == match.Groups[1].Value))
-                                        return "{" + match.Groups[1].Value + "}";
+                                    var parameterName = match.Groups[1].Value.TrimEnd('?');
+                                    if (operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.Path && p.Name == parameterName))
+                                        return "{" + parameterName + "}";
                                     return string.Empty;
                                 }).TrimEnd('/'),
                                 Method = httpMethod,
@@ -342,26 +343,26 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                         .Replace("{controller}", controllerName)
                         .Replace("{action}", actionName)
                         .Trim('/'))
-                .SelectMany(p => ExpandHttpPath(p, method))
+                .SelectMany(p => ExpandOptionalHttpPathParameters(p, method))
                 .Distinct()
                 .ToList();
         }
 
-        private IEnumerable<string> ExpandHttpPath(string path, MethodInfo method)
+        private IEnumerable<string> ExpandOptionalHttpPathParameters(string path, MethodInfo method)
         {
             var segments = path.Split('/');
             for (int i = 0; i < segments.Length; i++)
             {
                 var segment = segments[i];
-                if (segment.StartsWith("{") && segment.Contains("?"))
+                if (segment.EndsWith("?}"))
                 {
-                    foreach (var p in ExpandHttpPath(string.Join("/", segments.Take(i).Concat(segments.Skip(i + 1))), method))
+                    foreach (var p in ExpandOptionalHttpPathParameters(string.Join("/", segments.Take(i).Concat(segments.Skip(i + 1))), method))
                         yield return p;
 
                     // Only expand if optional parameter is available in action method
-                    if (method.GetParameters().Any(p => segment.StartsWith("{" + p.Name + "?")))
+                    if (method.GetParameters().Any(p => segment.StartsWith("{" + p.Name + ":") || segment.StartsWith("{" + p.Name + "?")))
                     {
-                        foreach (var p in ExpandHttpPath(string.Join("/", segments.Take(i).Concat(new[] { segment.Replace("?", "") }).Concat(segments.Skip(i + 1))), method))
+                        foreach (var p in ExpandOptionalHttpPathParameters(string.Join("/", segments.Take(i).Concat(new[] { segment.Replace("?", "") }).Concat(segments.Skip(i + 1))), method))
                             yield return p;
                     }
 
@@ -493,9 +494,6 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     var parameterInfo = JsonObjectTypeDescription.FromType(parameter.ParameterType, parameter.GetCustomAttributes(), Settings.DefaultEnumHandling);
                     if (TryAddFileParameter(parameterInfo, operation, parameter, swaggerGenerator) == false)
                     {
-                        // http://blogs.msdn.com/b/jmstall/archive/2012/04/16/how-webapi-does-parameter-binding.aspx
-                        // TODO: Add support for ModelBinder attribute
-
                         dynamic fromBodyAttribute = parameter.GetCustomAttributes()
                             .SingleOrDefault(a => a.GetType().Name == "FromBodyAttribute");
 
