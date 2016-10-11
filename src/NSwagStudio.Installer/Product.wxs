@@ -17,7 +17,7 @@
         </Feature>
 
         <UI>
-            <UIRef Id="WixUI_InstallDir" />h
+            <UIRef Id="WixUI_InstallDir" />
             <UIRef Id="WixUI_ErrorProgressText" />
 
             <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="PrepareDlg" Order="3">1</Publish>
