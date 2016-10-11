@@ -493,9 +493,6 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     var parameterInfo = JsonObjectTypeDescription.FromType(parameter.ParameterType, parameter.GetCustomAttributes(), Settings.DefaultEnumHandling);
                     if (TryAddFileParameter(parameterInfo, operation, parameter, swaggerGenerator) == false)
                     {
-                        // http://blogs.msdn.com/b/jmstall/archive/2012/04/16/how-webapi-does-parameter-binding.aspx
-                        // TODO: Add support for ModelBinder attribute
-
                         dynamic fromBodyAttribute = parameter.GetCustomAttributes()
                             .SingleOrDefault(a => a.GetType().Name == "FromBodyAttribute");
 
