@@ -13,7 +13,10 @@ namespace NSwag
         static int Main(string[] args)
         {
             var host = new ConsoleHost();
-            host.WriteMessage("NSwag command line: NSwag toolchain v"+ SwaggerService.ToolchainVersion + " (NJsonSchema v"+ JsonSchema4.ToolchainVersion + ")\n");
+            host.WriteMessage("NSwag command line: NSwag toolchain v" + SwaggerService.ToolchainVersion +
+                " (NJsonSchema v" + JsonSchema4.ToolchainVersion + ")" +
+                (IntPtr.Size == 4 ? " (x86)" : " (x64)") + "\n");
+
             host.WriteMessage("Visit http://NSwag.org for more information.\n");
 
             if (args.Length == 0)
@@ -75,7 +78,7 @@ namespace NSwag
 
         private static string GetVersionWithBuildTime()
         {
-            var assembly = typeof(SwaggerInfo).Assembly; 
+            var assembly = typeof(SwaggerInfo).Assembly;
             return assembly.GetName().Version + " (" + GetBuildTime(assembly) + ")";
         }
 
