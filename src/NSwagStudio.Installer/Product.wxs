@@ -36,7 +36,7 @@
     </Product>
     <Fragment>
         <Directory Id="TARGETDIR" Name="SourceDir">
-            <Directory Id="ProgramFilesFolder">
+            <Directory Id="ProgramFiles64Folder">
                 <Directory Id="INSTALLFOLDER" Name="Rico Suter" />
             </Directory>
             <Directory Id="ProgramMenuFolder">
