@@ -74,13 +74,6 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             return GenerateFile(_service, outputType);
         }
 
-        /// <summary>Gets the JSON exception converter code.</summary>
-        /// <returns>The code.</returns>
-        public static string GetJsonExceptionConverterCode(int tabCount)
-        {
-            return ConversionUtilities.Tab(new JsonExceptionConverterTemplate().TransformText(), tabCount);
-        }
-
         /// <summary>Resolves the type of the parameter.</summary>
         /// <param name="parameter">The parameter.</param>
         /// <returns>The parameter type name.</returns>

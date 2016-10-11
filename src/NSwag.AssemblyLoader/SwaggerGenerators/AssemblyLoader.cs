@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -33,7 +34,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
 
             domain.AssemblyResolve += (sender, args) =>
             {
-                var assemblyName = args.Name.Substring(0, args.Name.IndexOf(",", StringComparison.InvariantCulture));
+                var separatorIndex = args.Name.IndexOf(",", StringComparison.InvariantCulture);
+                var assemblyName = separatorIndex > 0 ? args.Name.Substring(0, separatorIndex) : args.Name;
 
                 var existingAssembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetName().Name == assemblyName);
                 if (existingAssembly != null)
@@ -48,8 +50,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
                         {
                             return Assembly.LoadFrom(file);
                         }
-                        catch
+                        catch (Exception exception)
                         {
+                            Debug.WriteLine("AssemblyLoader.AssemblyResolve exception when loading DLL '" + file + "': \n" + exception.ToString());
                         }
                     }
                 }

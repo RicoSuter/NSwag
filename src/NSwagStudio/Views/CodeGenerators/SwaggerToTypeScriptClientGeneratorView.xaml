@@ -112,11 +112,11 @@
                     
                     <GroupBox Header="Swagger Information" Margin="0,0,0,12">
                         <StackPanel Margin="4,8,4,-8">
-                            <TextBlock Text="Service host (optional)" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBlock Text="Service host (optional, use '.' to remove the hostname)" FontWeight="Bold" Margin="0,0,0,6" />
                             <TextBox Text="{Binding Command.ServiceHost, Mode=TwoWay}" Margin="0,0,0,12" />
 
-                            <TextBlock Text="Service schemes (optional, 'http', 'https', 'ws', 'wss')" FontWeight="Bold" Margin="0,0,0,6" />
-                            <TextBox Text="{Binding Command.ServiceSchemes, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" Margin="0,0,0,12" />
+                            <TextBlock Text="Service schemes (optional, 'http', 'https', 'ws', 'wss', multiple on separate lines)" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Text="{Binding Command.ServiceSchemes, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
                         </StackPanel>
                     </GroupBox>
 

@@ -104,7 +104,7 @@ namespace NSwag.Commands
         }
 
 
-        [Description("Overrides the service host of the web service (optional).")]
+        [Description("Overrides the service host of the web service (optional, use '.' to remove the hostname).")]
         [Argument(Name = "ServiceHost", IsRequired = false)]
         public string ServiceHost { get; set; }
 
@@ -175,8 +175,11 @@ namespace NSwag.Commands
 
                 var service = generator.GenerateForControllers(controllerNames);
 
-                if (!string.IsNullOrEmpty(ServiceHost))
+                if (ServiceHost == ".")
+                    service.Host = string.Empty;
+                else if (!string.IsNullOrEmpty(ServiceHost))
                     service.Host = ServiceHost;
+
                 if (ServiceSchemes != null && ServiceSchemes.Any())
                     service.Schemes = ServiceSchemes.Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true)).ToList();
 

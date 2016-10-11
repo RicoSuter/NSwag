@@ -33,8 +33,8 @@
                                 <RowDefinition Height="Auto"></RowDefinition>
                             </Grid.RowDefinitions>
 
-                            <TextBlock Text=".NET Assembly Paths (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
-                            <TextBox Grid.Row="1" Text="{Binding AssemblyPaths, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
+                            <TextBlock Text=".NET Assembly Paths (multiple on separate lines)" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Grid.Row="1" Text="{Binding AssemblyPaths, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"  
                                     Margin="0,0,12,0" VerticalAlignment="Center" />
                         </Grid>
 
@@ -48,9 +48,9 @@
                                              FilePath="{Binding Command.AssemblyConfig, Mode=TwoWay}"
                                              DefaultExtension=".config"
                                              Filter="Config Files (.config)|*.config"/>
-                    
-                    <TextBlock Text="Paths to search for referenced assembly files (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.ReferencePaths, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" Margin="0,0,0,12" />
+
+                    <TextBlock Text="Paths to search for referenced assembly files (multiple on separate lines)" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding Command.ReferencePaths, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
 
                     <CheckBox IsChecked="{Binding Command.IsAspNetCore, Mode=TwoWay}" Margin="0,0,0,12">
                         <TextBlock Text="Assembly is using ASP.NET Core" TextWrapping="Wrap" />
@@ -134,11 +134,11 @@
                     <TextBlock Text="Version" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding Command.InfoVersion, Mode=TwoWay}" Margin="0,0,0,12" />
 
-                    <TextBlock Text="Service host (optional)" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBlock Text="Service host (optional, use '.' to remove the hostname)" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding Command.ServiceHost, Mode=TwoWay}" Margin="0,0,0,12" />
 
-                    <TextBlock Text="Service schemes (optional, 'http', 'https', 'ws', 'wss')" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.ServiceSchemes, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" Margin="0,0,0,12" />
+                    <TextBlock Text="Service schemes (optional, 'http', 'https', 'ws', 'wss', multiple on separate lines)" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding Command.ServiceSchemes, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
 
                     <TextBlock Text="Document Template" FontWeight="Bold" Margin="0,0,0,6" />
                     <controls:FileOpenPicker Margin="0,0,0,12" 

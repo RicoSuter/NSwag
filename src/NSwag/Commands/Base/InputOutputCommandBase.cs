@@ -16,7 +16,7 @@ namespace NSwag.Commands.Base
         [Argument(Name = "Input", IsRequired = true, AcceptsCommandInput = true)]
         public object Input { get; set; }
 
-        [Description("Overrides the service host of the web service (optional).")]
+        [Description("Overrides the service host of the web service (optional, use '.' to remove the hostname).")]
         [Argument(Name = "ServiceHost", IsRequired = false)]
         public string ServiceHost { get; set; }
 
@@ -30,25 +30,28 @@ namespace NSwag.Commands.Base
         {
             get
             {
-                var swaggerService = Input as SwaggerService;
-                if (swaggerService == null)
+                var service = Input as SwaggerService;
+                if (service == null)
                 {
                     var inputString = Input.ToString();
                     if (string.IsNullOrEmpty(inputString))
                         throw new ArgumentException("The argument 'Input' was empty.");
 
                     if (IsJson(inputString))
-                        swaggerService = SwaggerService.FromJson(inputString);
+                        service = SwaggerService.FromJson(inputString);
                     else 
-                        swaggerService = SwaggerService.FromUrl(inputString);
+                        service = SwaggerService.FromUrl(inputString);
                 }
 
-                if (!string.IsNullOrEmpty(ServiceHost))
-                    swaggerService.Host = ServiceHost;
-                if (ServiceSchemes != null && ServiceSchemes.Any())
-                    swaggerService.Schemes = ServiceSchemes.Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true)).ToList();
+                if (ServiceHost == ".")
+                    service.Host = string.Empty;
+                else if (!string.IsNullOrEmpty(ServiceHost))
+                    service.Host = ServiceHost;
 
-                return swaggerService; 
+                if (ServiceSchemes != null && ServiceSchemes.Any())
+                    service.Schemes = ServiceSchemes.Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true)).ToList();
+
+                return service; 
             }
         }
 

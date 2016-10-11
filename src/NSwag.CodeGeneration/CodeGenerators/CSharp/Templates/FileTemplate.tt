@@ -44,6 +44,7 @@ namespace <#=Model.Namespace#>
 <#if(Model.GenerateContracts){#>
     <#=ConversionUtilities.Tab(Model.Classes, 1)#>
 
+	<#if(Model.RequiresFileParameterType){#>
     [GeneratedCode("NSwag", "<#=SwaggerService.ToolchainVersion#>")]
     public class FileParameter
     {
@@ -62,6 +63,7 @@ namespace <#=Model.Namespace#>
 
         public string FileName { get; private set; }
     }
+	<#}#>
 
 <#foreach (var exceptionClassName in Model.ExceptionClassNames){#>
     [GeneratedCode("NSwag", "<#=SwaggerService.ToolchainVersion#>")]
@@ -100,7 +102,7 @@ namespace <#=Model.Namespace#>
 <#}#>
 <#if(Model.GenerateImplementation){#>
 <#  if(Model.RequiresJsonExceptionConverter){#>
-    <#=SwaggerToCSharpClientGenerator.GetJsonExceptionConverterCode(1)#>
+    <#=Model.JsonExceptionConverterCode#>
 <#  }#>
 <#}#>
 }
