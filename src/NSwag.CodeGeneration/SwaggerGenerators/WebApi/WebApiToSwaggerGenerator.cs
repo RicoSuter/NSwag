@@ -342,26 +342,26 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                         .Replace("{controller}", controllerName)
                         .Replace("{action}", actionName)
                         .Trim('/'))
-                .SelectMany(p => ExpandHttpPath(p, method))
+                .SelectMany(p => ExpandOptionalHttpPathParameters(p, method))
                 .Distinct()
                 .ToList();
         }
 
-        private IEnumerable<string> ExpandHttpPath(string path, MethodInfo method)
+        private IEnumerable<string> ExpandOptionalHttpPathParameters(string path, MethodInfo method)
         {
             var segments = path.Split('/');
             for (int i = 0; i < segments.Length; i++)
             {
                 var segment = segments[i];
-                if (segment.StartsWith("{") && segment.Contains("?"))
+                if (segment.EndsWith("?}"))
                 {
-                    foreach (var p in ExpandHttpPath(string.Join("/", segments.Take(i).Concat(segments.Skip(i + 1))), method))
+                    foreach (var p in ExpandOptionalHttpPathParameters(string.Join("/", segments.Take(i).Concat(segments.Skip(i + 1))), method))
                         yield return p;
 
                     // Only expand if optional parameter is available in action method
                     if (method.GetParameters().Any(p => segment.StartsWith("{" + p.Name + ":") || segment.StartsWith("{" + p.Name + "?")))
                     {
-                        foreach (var p in ExpandHttpPath(string.Join("/", segments.Take(i).Concat(new[] { segment.Replace("?", "") }).Concat(segments.Skip(i + 1))), method))
+                        foreach (var p in ExpandOptionalHttpPathParameters(string.Join("/", segments.Take(i).Concat(new[] { segment.Replace("?", "") }).Concat(segments.Skip(i + 1))), method))
                             yield return p;
                     }
 
