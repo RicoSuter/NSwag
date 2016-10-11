@@ -495,6 +495,19 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 }
             }
 
+            // Handle path parameters which are not action method parameters
+            foreach (Match match in Regex.Matches(httpPath, "{(.*?)(:(.*?))?}"))
+            {
+                var parameterName = match.Groups[1].Value.TrimEnd('?');
+                if (operation.Parameters.All(p => p.Name != parameterName))
+                {
+                    var isNullable = match.Groups[1].Value.EndsWith("?");
+                    var parameterType = match.Groups.Count == 4 ? match.Groups[3].Value : "string";
+                    var operationParameter = swaggerGenerator.CreatePathParameter(parameterName, parameterType, isNullable);
+                    operation.Parameters.Add(operationParameter);
+                }
+            }
+            
             if (operation.ActualParameters.Any(p => p.Type == JsonObjectType.File))
                 operation.Consumes = new List<string> { "multipart/form-data" };
 

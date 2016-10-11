@@ -149,6 +149,7 @@
     <Compile Include="Controllers\MvcController.cs" />
     <Compile Include="Controllers\PersonsController.cs" />
     <Compile Include="Controllers\RequestParameterTestController.cs" />
+    <Compile Include="Controllers\RoutePrefixWithPathsController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\VerbsController.cs" />
     <Compile Include="Global.asax.cs">

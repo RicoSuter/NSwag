@@ -46,6 +46,34 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
         {
             return CreatePrimitiveParameter(name, parameter.GetXmlDocumentation(), parameter.ParameterType, parameter.GetCustomAttributes().ToList());
         }
+        
+        /// <summary>Creates a path parameter for a given type.</summary>
+        /// <param name="parameterName">Name of the parameter.</param>
+        /// <param name="parameterType">Type of the parameter.</param>
+        /// <param name="isNullable">if set to <c>true</c> [is nullable].</param>
+        /// <returns>The parameter.</returns>
+        public SwaggerParameter CreatePathParameter(string parameterName, string parameterType, bool isNullable)
+        {
+            var parameter = new SwaggerParameter();
+            parameter.Name = parameterName;
+            parameter.Kind = SwaggerParameterKind.Path;
+            parameter.IsRequired = true;
+            parameter.IsNullableRaw = isNullable;
+
+            if (parameterType == "guid")
+            {
+                parameter.Type = JsonObjectType.String;
+                parameter.Format = JsonFormatStrings.Guid;
+            }
+            else if (parameterType == "int" || parameterType == "integer" || parameterType == "short" || parameterType == "long")
+                parameter.Type = JsonObjectType.Integer;
+            else if (parameterType == "number" || parameterType == "decimal" || parameterType == "double")
+                parameter.Type = JsonObjectType.Number;
+            else
+                parameter.Type = JsonObjectType.String;
+
+            return parameter;
+        }
 
         /// <summary>Creates a primitive parameter for the given parameter information reflection object.</summary>
         /// <param name="name">The name.</param>
