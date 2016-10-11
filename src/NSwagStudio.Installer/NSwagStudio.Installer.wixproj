@@ -56,8 +56,8 @@
   <Import Project="$(WixTargetsPath)" />
   <Target Name="BeforeBuild">
     <PropertyGroup>
-      <DefineConstants>SourcePath=..\NSwagStudio\bin\$(Configuration)</DefineConstants>
+      <DefineConstants>SourcePath=..\NSwagStudio\bin\x64\$(Configuration)</DefineConstants>
     </PropertyGroup>
-    <HeatDirectory DirectoryRefId="RootDirectory" VerboseOutput="true" AutogenerateGuids="true" GenerateGuidsNow="true" SuppressRootDirectory="true" OutputFile="Generated.wxs" RunAsSeparateProcess="true" PreprocessorVariable="var.SourcePath" Directory="..\NSwagStudio\bin\$(Configuration)" ComponentGroupName="SourceComponentGroup" ToolPath="$(WixToolPath)" />
+    <HeatDirectory DirectoryRefId="RootDirectory" VerboseOutput="true" AutogenerateGuids="true" GenerateGuidsNow="true" SuppressRootDirectory="true" OutputFile="Generated.wxs" RunAsSeparateProcess="true" PreprocessorVariable="var.SourcePath" Directory="..\NSwagStudio\bin\x64\$(Configuration)" ComponentGroupName="SourceComponentGroup" ToolPath="$(WixToolPath)" />
   </Target>
 </Project>
