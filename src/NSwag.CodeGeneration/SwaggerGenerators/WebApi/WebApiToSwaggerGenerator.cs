@@ -359,7 +359,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                         yield return p;
 
                     // Only expand if optional parameter is available in action method
-                    if (method.GetParameters().Any(p => segment.StartsWith("{" + p.Name + "?")))
+                    if (method.GetParameters().Any(p => segment.StartsWith("{" + p.Name + ":") || segment.StartsWith("{" + p.Name + "?")))
                     {
                         foreach (var p in ExpandHttpPath(string.Join("/", segments.Take(i).Concat(new[] { segment.Replace("?", "") }).Concat(segments.Skip(i + 1))), method))
                             yield return p;
