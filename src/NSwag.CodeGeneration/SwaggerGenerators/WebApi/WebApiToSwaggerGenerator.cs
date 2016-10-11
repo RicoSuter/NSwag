@@ -146,7 +146,12 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
                             var operationDescription = new SwaggerOperationDescription
                             {
-                                Path = Regex.Replace(httpPath, "{(.*?)(:(.*?))?}", match => "{" + match.Groups[1].Value + "}").TrimEnd('/'),
+                                Path = Regex.Replace(httpPath, "{(.*?)(:(.*?))?}", match =>
+                                {
+                                    if (operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.Path && p.Name == match.Groups[1].Value))
+                                        return "{" + match.Groups[1].Value + "}";
+                                    return string.Empty;
+                                }).TrimEnd('/'),
                                 Method = httpMethod,
                                 Operation = operation
                             };
@@ -337,12 +342,12 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                         .Replace("{controller}", controllerName)
                         .Replace("{action}", actionName)
                         .Trim('/'))
-                .SelectMany(ExpandHttpPath)
+                .SelectMany(p => ExpandHttpPath(p, method))
                 .Distinct()
                 .ToList();
         }
 
-        private IEnumerable<string> ExpandHttpPath(string path)
+        private IEnumerable<string> ExpandHttpPath(string path, MethodInfo method)
         {
             var segments = path.Split('/');
             for (int i = 0; i < segments.Length; i++)
@@ -350,11 +355,15 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 var segment = segments[i];
                 if (segment.StartsWith("{") && segment.Contains("?"))
                 {
-                    foreach (var p in ExpandHttpPath(string.Join("/", segments.Take(i).Concat(segments.Skip(i + 1)))))
+                    foreach (var p in ExpandHttpPath(string.Join("/", segments.Take(i).Concat(segments.Skip(i + 1))), method))
                         yield return p;
 
-                    foreach (var p in ExpandHttpPath(string.Join("/", segments.Take(i).Concat(new [] { segment.Replace("?", "") }).Concat(segments.Skip(i + 1)))))
-                        yield return p;
+                    // Only expand if optional parameter is available in action method
+                    if (method.GetParameters().Any(p => segment.StartsWith("{" + p.Name + "?")))
+                    {
+                        foreach (var p in ExpandHttpPath(string.Join("/", segments.Take(i).Concat(new[] { segment.Replace("?", "") }).Concat(segments.Skip(i + 1))), method))
+                            yield return p;
+                    }
 
                     yield break;
                 }
@@ -514,15 +523,17 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 }
             }
 
-            // Handle path parameters which are not action method parameters
-            foreach (Match match in Regex.Matches(httpPath, "{(.*?)(:(.*?))?}"))
+            if (Settings.AddMissingPathParameters)
             {
-                var parameterName = match.Groups[1].Value;
-                if (operation.Parameters.All(p => p.Name != parameterName))
+                foreach (Match match in Regex.Matches(httpPath, "{(.*?)(:(.*?))?}"))
                 {
-                    var parameterType = match.Groups.Count == 4 ? match.Groups[3].Value : "string";
-                    var operationParameter = swaggerGenerator.CreatePathParameter(parameterName, parameterType);
-                    operation.Parameters.Add(operationParameter);
+                    var parameterName = match.Groups[1].Value;
+                    if (operation.Parameters.All(p => p.Name != parameterName))
+                    {
+                        var parameterType = match.Groups.Count == 4 ? match.Groups[3].Value : "string";
+                        var operationParameter = swaggerGenerator.CreatePathParameter(parameterName, parameterType);
+                        operation.Parameters.Add(operationParameter);
+                    }
                 }
             }
 
@@ -579,7 +590,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         {
             if (typeDescription.Type.HasFlag(JsonObjectType.Array))
             {
-                var operationParameter = swaggerGenerator.CreatePrimitiveParameter(name, 
+                var operationParameter = swaggerGenerator.CreatePrimitiveParameter(name,
                     parameter.GetXmlDocumentation(), parameter.ParameterType.GetEnumerableItemType(), parameter.GetCustomAttributes().ToList());
 
                 operationParameter.Kind = SwaggerParameterKind.Query;
