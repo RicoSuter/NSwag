@@ -146,12 +146,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
                             var operationDescription = new SwaggerOperationDescription
                             {
-                                Path = Regex.Replace(httpPath, "{(.*?)(:(.*?))?}", match =>
-                                {
-                                    if (operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.Path && match.Groups[1].Value == p.Name))
-                                        return "{" + match.Groups[1].Value + "}";
-                                    return string.Empty;
-                                }).TrimEnd('/'),
+                                Path = Regex.Replace(httpPath, "{(.*?)(:(.*?))?}", match => "{" + match.Groups[1].Value + "}").TrimEnd('/'),
                                 Method = httpMethod,
                                 Operation = operation
                             };
@@ -507,7 +502,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     operation.Parameters.Add(operationParameter);
                 }
             }
-            
+
             if (operation.ActualParameters.Any(p => p.Type == JsonObjectType.File))
                 operation.Consumes = new List<string> { "multipart/form-data" };
 
@@ -561,7 +556,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         {
             if (typeDescription.Type.HasFlag(JsonObjectType.Array))
             {
-                var operationParameter = swaggerGenerator.CreatePrimitiveParameter(name, 
+                var operationParameter = swaggerGenerator.CreatePrimitiveParameter(name,
                     parameter.GetXmlDocumentation(), parameter.ParameterType.GetEnumerableItemType(), parameter.GetCustomAttributes().ToList());
 
                 operationParameter.Kind = SwaggerParameterKind.Query;
