@@ -26,6 +26,8 @@ namespace NSwagStudio.Views
             CheckForApplicationUpdate();
             LoadWindowState();
             RegisterFileOpenHandler();
+
+            Title += IntPtr.Size == 4 ? " (x86)" : " (x64)";
         }
 
         private MainWindowModel Model => (MainWindowModel)Resources["ViewModel"];

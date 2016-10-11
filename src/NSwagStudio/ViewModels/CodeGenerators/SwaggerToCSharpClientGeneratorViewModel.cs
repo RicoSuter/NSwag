@@ -100,7 +100,8 @@ namespace NSwagStudio.ViewModels.CodeGenerators
                         Command.Input = null;
                     }
                 });
-                ClientCode = string.Join("\n\n", result.Values);
+
+                ClientCode = result != null ? string.Join("\n\n", result.Values) : string.Empty;
             });
         }
 
