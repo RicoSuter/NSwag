@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-    <Product Id="*" Name="NSwagStudio (x64)" Language="1033"
+    <Product Id="*" Name="NSwagStudio" Language="1033"
              Version="!(bind.FileVersion.filF3BD24AA0D122986D3F6250EA6C47D5B)"
              Manufacturer="Rico Suter"
              UpgradeCode="571BBE29-70A5-4062-B478-A8BA84A7F90A">
@@ -36,7 +36,7 @@
     </Product>
     <Fragment>
         <Directory Id="TARGETDIR" Name="SourceDir">
-            <Directory Id="ProgramFiles64Folder">
+            <Directory Id="ProgramFilesFolder">
                 <Directory Id="INSTALLFOLDER" Name="Rico Suter" />
             </Directory>
             <Directory Id="ProgramMenuFolder">
