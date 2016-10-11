@@ -97,7 +97,8 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator.Attributes
             //// Arrange
             var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
             {
-                DefaultUrlTemplate = "api/{controller}/{action}/{id}"
+                DefaultUrlTemplate = "api/{controller}/{action}/{id}", 
+                AddMissingPathParameters = true
             });
 
             //// Act

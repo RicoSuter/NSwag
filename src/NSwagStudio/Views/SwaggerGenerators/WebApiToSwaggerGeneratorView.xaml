@@ -102,6 +102,10 @@
             <TextBlock Text="When multiple controllers are selected, consider selecting MultipleClientsFromOperationId or MultipleClientsFromPathSegments as operation generation mode."
                        TextWrapping="Wrap" Margin="0,4,0,6" />
 
+            <CheckBox IsChecked="{Binding Command.AddMissingPathParameters, Mode=TwoWay}" Margin="0,0,0,12">
+                <TextBlock Text="Add path parameters which are missing in the action method" TextWrapping="Wrap" />
+            </CheckBox>
+
             <TextBlock Margin="0,6,0,6" TextWrapping="Wrap">
                 <Run Text="Default Enum Handling" FontWeight="Bold" />
                 <LineBreak />

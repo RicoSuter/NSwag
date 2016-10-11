@@ -48,5 +48,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
         /// <summary>Gets or sets a value indicating whether the controllers are hosted by ASP.NET Core.</summary>
         public bool IsAspNetCore { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether to add path parameters which are missing in the action method.</summary>
+        public bool AddMissingPathParameters { get; set; }
     }
 }

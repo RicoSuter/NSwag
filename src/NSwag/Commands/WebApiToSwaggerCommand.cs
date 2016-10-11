@@ -103,6 +103,13 @@ namespace NSwag.Commands
             set { Settings.GenerateKnownTypes = value; }
         }
 
+        [Description("Specifies whether to add path parameters which are missing in the action method (default: false).")]
+        [Argument(Name = "AddMissingPathParameters", IsRequired = false)]
+        public bool AddMissingPathParameters
+        {
+            get { return Settings.AddMissingPathParameters; }
+            set { Settings.AddMissingPathParameters = value; }
+        }
 
         [Description("Overrides the service host of the web service (optional, use '.' to remove the hostname).")]
         [Argument(Name = "ServiceHost", IsRequired = false)]
