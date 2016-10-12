@@ -48,5 +48,10 @@ namespace NSwag
         /// <summary>Gets the available scopes for the OAuth2 security scheme.</summary>
         [JsonProperty(PropertyName = "scopes", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public IDictionary<string, string> Scopes { get; set; }
+
+        /// <summary>Get or set the schema less extensions (this can be used as vendor extensions as well) in security schema</summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> ExtensionData { get; set; }
+
     }
 }
