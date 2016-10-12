@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace NSwag
 {
@@ -40,7 +41,7 @@ namespace NSwag
 
         /// <summary>Get or set the schema less extensions (this can be used as vendor extensions as well) in Path schema</summary>
         [JsonExtensionData]
-        public System.Collections.Generic.IDictionary<string, object> ExtensionData { get; set; }
+        public IDictionary<string, object> ExtensionData { get; set; }
 
     }
 }
