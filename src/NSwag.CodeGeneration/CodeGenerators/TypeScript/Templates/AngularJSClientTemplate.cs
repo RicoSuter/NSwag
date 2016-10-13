@@ -461,7 +461,7 @@ if(!parameter.IsLast){
             #line hidden
             
             #line 52 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSClientTemplate.tt"
-if(operation.PathParameters.Any()){
+if(operation.QueryParameters.Any()){
             
             #line default
             #line hidden
