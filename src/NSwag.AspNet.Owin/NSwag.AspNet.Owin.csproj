@@ -73,7 +73,7 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=4.28.6128.27588, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+    <Reference Include="NJsonSchema, Version=5.1.6130.30069, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
       <HintPath>..\packages\NJsonSchema.5.1.6130.30069\lib\net45\NJsonSchema.dll</HintPath>
       <Private>True</Private>
     </Reference>
