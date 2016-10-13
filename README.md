@@ -35,11 +35,10 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
     - [WebApiToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/WebApiToSwaggerGenerator)
         - Generates a Swagger specification for Web API controllers
     - [WebApiAssemblyToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/WebApiAssemblyToSwaggerGenerator)
-- Types from .NET assemblies
         - Generates a Swagger specification for controllers in an external Web API assembly
         - (Supports .NET Core)[https://github.com/NSwag/NSwag/wiki/WebApiAssemblyToSwaggerGenerator#net-core]
     - [AssemblyTypeToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/AssemblyTypeToSwaggerGenerator)
-
+         - Generates a Swagger specification containing only types from .NET assemblies
 **Code Generators:** 
 
 - **TypeScript Client**
