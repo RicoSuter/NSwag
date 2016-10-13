@@ -1,183 +1,193 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{69A692EB-C277-46AB-BA55-B33E7E6E129C}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NSwag.AspNet.Owin</RootNamespace>
-    <AssemblyName>NSwag.AspNet.Owin</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;AspNetOwin</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\NSwag.AspNet.Owin.xml</DocumentationFile>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;AspNetOwin</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\NSwag.AspNet.Owin.xml</DocumentationFile>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;AspNetOwin</DefineConstants>
-    <DocumentationFile>bin\Debug\NSwag.AspNet.Owin.xml</DocumentationFile>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE;AspNetOwin</DefineConstants>
-    <DocumentationFile>bin\Release\NSwag.AspNet.Owin.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Owin.FileSystems, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.FileSystems.3.0.1\lib\net45\Microsoft.Owin.FileSystems.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Owin.StaticFiles, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.StaticFiles.3.0.1\lib\net45\Microsoft.Owin.StaticFiles.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NJsonSchema, Version=4.28.6128.27588, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.4.28.6128.27588\lib\net45\NJsonSchema.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\NSwag.AspNetCore\OAuth2ClientSettings.cs">
-      <Link>OAuth2ClientSettings.cs</Link>
-    </Compile>
-    <Compile Include="..\NSwag.AspNetCore\SwaggerOwinSettings.cs">
-      <Link>SwaggerOwinSettings.cs</Link>
-    </Compile>
-    <Compile Include="..\NSwag.AspNetCore\SwaggerUiOwinSettings.cs">
-      <Link>SwaggerUiOwinSettings.cs</Link>
-    </Compile>
-    <Compile Include="SwaggerExtensions.cs" />
-    <Compile Include="SwaggerUiIndexMiddleware.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RedirectMiddleware.cs" />
-    <Compile Include="SwaggerMiddleware.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="NSwag.AspNet.Owin.nuspec" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj">
-      <Project>{75b3f91d-687e-4fb3-ad45-ccfa3c406db4}</Project>
-      <Name>NSwag.CodeGeneration</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj">
-      <Project>{2E6174AA-FC75-4821-9E86-51B30568BEC0}</Project>
-      <Name>NSwag.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="SwaggerUi\css\print.css" />
-    <EmbeddedResource Include="SwaggerUi\css\reset.css" />
-    <EmbeddedResource Include="SwaggerUi\css\screen.css" />
-    <EmbeddedResource Include="SwaggerUi\css\style.css" />
-    <EmbeddedResource Include="SwaggerUi\css\typography.css" />
-    <EmbeddedResource Include="SwaggerUi\fonts\DroidSans-Bold.ttf" />
-    <EmbeddedResource Include="SwaggerUi\fonts\DroidSans.ttf" />
-    <EmbeddedResource Include="SwaggerUi\images\collapse.gif" />
-    <EmbeddedResource Include="SwaggerUi\images\expand.gif" />
-    <EmbeddedResource Include="SwaggerUi\images\explorer_icons.png" />
-    <EmbeddedResource Include="SwaggerUi\images\favicon-16x16.png" />
-    <EmbeddedResource Include="SwaggerUi\images\favicon-32x32.png" />
-    <EmbeddedResource Include="SwaggerUi\images\favicon.ico" />
-    <EmbeddedResource Include="SwaggerUi\images\logo_small.png" />
-    <EmbeddedResource Include="SwaggerUi\images\pet_store_api.png" />
-    <EmbeddedResource Include="SwaggerUi\images\throbber.gif" />
-    <EmbeddedResource Include="SwaggerUi\images\wordnik_api.png" />
-    <EmbeddedResource Include="SwaggerUi\index.html" />
-    <EmbeddedResource Include="SwaggerUi\lang\ca.js" />
-    <EmbeddedResource Include="SwaggerUi\lang\en.js" />
-    <EmbeddedResource Include="SwaggerUi\lang\es.js" />
-    <EmbeddedResource Include="SwaggerUi\lang\fr.js" />
-    <EmbeddedResource Include="SwaggerUi\lang\geo.js" />
-    <EmbeddedResource Include="SwaggerUi\lang\it.js" />
-    <EmbeddedResource Include="SwaggerUi\lang\ja.js" />
-    <EmbeddedResource Include="SwaggerUi\lang\ko-kr.js" />
-    <EmbeddedResource Include="SwaggerUi\lang\pl.js" />
-    <EmbeddedResource Include="SwaggerUi\lang\pt.js" />
-    <EmbeddedResource Include="SwaggerUi\lang\ru.js" />
-    <EmbeddedResource Include="SwaggerUi\lang\tr.js" />
-    <EmbeddedResource Include="SwaggerUi\lang\translator.js" />
-    <EmbeddedResource Include="SwaggerUi\lang\zh-cn.js" />
-    <EmbeddedResource Include="SwaggerUi\lib\backbone-min.js" />
-    <EmbeddedResource Include="SwaggerUi\lib\es5-shim.js" />
-    <EmbeddedResource Include="SwaggerUi\lib\handlebars-4.0.5.js" />
-    <EmbeddedResource Include="SwaggerUi\lib\highlight.9.1.0.pack.js" />
-    <EmbeddedResource Include="SwaggerUi\lib\highlight.9.1.0.pack_extended.js" />
-    <EmbeddedResource Include="SwaggerUi\lib\jquery-1.8.0.min.js" />
-    <EmbeddedResource Include="SwaggerUi\lib\jquery.ba-bbq.min.js" />
-    <EmbeddedResource Include="SwaggerUi\lib\jquery.slideto.min.js" />
-    <EmbeddedResource Include="SwaggerUi\lib\jquery.wiggle.min.js" />
-    <EmbeddedResource Include="SwaggerUi\lib\js-yaml.min.js" />
-    <EmbeddedResource Include="SwaggerUi\lib\jsoneditor.min.js" />
-    <EmbeddedResource Include="SwaggerUi\lib\lodash.min.js" />
-    <EmbeddedResource Include="SwaggerUi\lib\marked.js" />
-    <EmbeddedResource Include="SwaggerUi\lib\object-assign-pollyfill.js" />
-    <EmbeddedResource Include="SwaggerUi\lib\sanitize-html.min.js" />
-    <EmbeddedResource Include="SwaggerUi\lib\swagger-oauth.js" />
-    <EmbeddedResource Include="SwaggerUi\o2c.html" />
-    <EmbeddedResource Include="SwaggerUi\swagger-ui.js" />
-    <EmbeddedResource Include="SwaggerUi\swagger-ui.min.js" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProjectGuid>{69A692EB-C277-46AB-BA55-B33E7E6E129C}</ProjectGuid>
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>NSwag.AspNet.Owin</RootNamespace>
+        <AssemblyName>NSwag.AspNet.Owin</AssemblyName>
+        <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+        <FileAlignment>512</FileAlignment>
+        <TargetFrameworkProfile />
+    </PropertyGroup>
+    <PropertyGroup>
+        <AssemblyOriginatorKeyFile>../NSwag.snk</AssemblyOriginatorKeyFile>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>TRACE;DEBUG;AspNetOwin</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <DocumentationFile>bin\Debug\NSwag.AspNet.Owin.xml</DocumentationFile>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE;AspNetOwin</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <DocumentationFile>bin\Release\NSwag.AspNet.Owin.xml</DocumentationFile>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+        <DebugSymbols>true</DebugSymbols>
+        <OutputPath>bin\x64\Debug\</OutputPath>
+        <DefineConstants>TRACE;DEBUG;AspNetOwin</DefineConstants>
+        <DocumentationFile>bin\Debug\NSwag.AspNet.Owin.xml</DocumentationFile>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <DebugType>full</DebugType>
+        <PlatformTarget>x64</PlatformTarget>
+        <ErrorReport>prompt</ErrorReport>
+        <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+        <OutputPath>bin\x64\Release\</OutputPath>
+        <DefineConstants>TRACE;AspNetOwin</DefineConstants>
+        <DocumentationFile>bin\Release\NSwag.AspNet.Owin.xml</DocumentationFile>
+        <Optimize>true</Optimize>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <DebugType>pdbonly</DebugType>
+        <PlatformTarget>x64</PlatformTarget>
+        <ErrorReport>prompt</ErrorReport>
+        <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    <PropertyGroup>
+        <SignAssembly>true</SignAssembly>
+    </PropertyGroup>
+    <PropertyGroup>
+        <AssemblyOriginatorKeyFile>
+        </AssemblyOriginatorKeyFile>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+            <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+            <Private>True</Private>
+        </Reference>
+        <Reference Include="Microsoft.Owin.FileSystems, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+            <HintPath>..\packages\Microsoft.Owin.FileSystems.3.0.1\lib\net45\Microsoft.Owin.FileSystems.dll</HintPath>
+            <Private>True</Private>
+        </Reference>
+        <Reference Include="Microsoft.Owin.StaticFiles, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+            <HintPath>..\packages\Microsoft.Owin.StaticFiles.3.0.1\lib\net45\Microsoft.Owin.StaticFiles.dll</HintPath>
+            <Private>True</Private>
+        </Reference>
+        <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+            <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+            <Private>True</Private>
+        </Reference>
+        <Reference Include="NJsonSchema, Version=5.1.6130.30069, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+            <HintPath>..\packages\NJsonSchema.5.1.6130.30069\lib\net45\NJsonSchema.dll</HintPath>
+            <Private>True</Private>
+        </Reference>
+        <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+            <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+            <Private>True</Private>
+        </Reference>
+        <Reference Include="System" />
+        <Reference Include="System.Core" />
+        <Reference Include="System.Xml.Linq" />
+        <Reference Include="System.Data.DataSetExtensions" />
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="System.Data" />
+        <Reference Include="System.Net.Http" />
+        <Reference Include="System.Xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="..\NSwag.AspNetCore\OAuth2ClientSettings.cs">
+            <Link>OAuth2ClientSettings.cs</Link>
+        </Compile>
+        <Compile Include="..\NSwag.AspNetCore\SwaggerOwinSettings.cs">
+            <Link>SwaggerOwinSettings.cs</Link>
+        </Compile>
+        <Compile Include="..\NSwag.AspNetCore\SwaggerUiOwinSettings.cs">
+            <Link>SwaggerUiOwinSettings.cs</Link>
+        </Compile>
+        <Compile Include="SwaggerExtensions.cs" />
+        <Compile Include="SwaggerUiIndexMiddleware.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="RedirectMiddleware.cs" />
+        <Compile Include="SwaggerMiddleware.cs" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="app.config">
+            <SubType>Designer</SubType>
+        </None>
+        <None Include="NSwag.AspNet.Owin.nuspec" />
+        <None Include="packages.config" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj">
+            <Project>{75b3f91d-687e-4fb3-ad45-ccfa3c406db4}</Project>
+            <Name>NSwag.CodeGeneration</Name>
+        </ProjectReference>
+        <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj">
+            <Project>{2E6174AA-FC75-4821-9E86-51B30568BEC0}</Project>
+            <Name>NSwag.Core</Name>
+        </ProjectReference>
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="SwaggerUi\css\print.css" />
+        <EmbeddedResource Include="SwaggerUi\css\reset.css" />
+        <EmbeddedResource Include="SwaggerUi\css\screen.css" />
+        <EmbeddedResource Include="SwaggerUi\css\style.css" />
+        <EmbeddedResource Include="SwaggerUi\css\typography.css" />
+        <EmbeddedResource Include="SwaggerUi\fonts\DroidSans-Bold.ttf" />
+        <EmbeddedResource Include="SwaggerUi\fonts\DroidSans.ttf" />
+        <EmbeddedResource Include="SwaggerUi\images\collapse.gif" />
+        <EmbeddedResource Include="SwaggerUi\images\expand.gif" />
+        <EmbeddedResource Include="SwaggerUi\images\explorer_icons.png" />
+        <EmbeddedResource Include="SwaggerUi\images\favicon-16x16.png" />
+        <EmbeddedResource Include="SwaggerUi\images\favicon-32x32.png" />
+        <EmbeddedResource Include="SwaggerUi\images\favicon.ico" />
+        <EmbeddedResource Include="SwaggerUi\images\logo_small.png" />
+        <EmbeddedResource Include="SwaggerUi\images\pet_store_api.png" />
+        <EmbeddedResource Include="SwaggerUi\images\throbber.gif" />
+        <EmbeddedResource Include="SwaggerUi\images\wordnik_api.png" />
+        <EmbeddedResource Include="SwaggerUi\index.html" />
+        <EmbeddedResource Include="SwaggerUi\lang\ca.js" />
+        <EmbeddedResource Include="SwaggerUi\lang\en.js" />
+        <EmbeddedResource Include="SwaggerUi\lang\es.js" />
+        <EmbeddedResource Include="SwaggerUi\lang\fr.js" />
+        <EmbeddedResource Include="SwaggerUi\lang\geo.js" />
+        <EmbeddedResource Include="SwaggerUi\lang\it.js" />
+        <EmbeddedResource Include="SwaggerUi\lang\ja.js" />
+        <EmbeddedResource Include="SwaggerUi\lang\ko-kr.js" />
+        <EmbeddedResource Include="SwaggerUi\lang\pl.js" />
+        <EmbeddedResource Include="SwaggerUi\lang\pt.js" />
+        <EmbeddedResource Include="SwaggerUi\lang\ru.js" />
+        <EmbeddedResource Include="SwaggerUi\lang\tr.js" />
+        <EmbeddedResource Include="SwaggerUi\lang\translator.js" />
+        <EmbeddedResource Include="SwaggerUi\lang\zh-cn.js" />
+        <EmbeddedResource Include="SwaggerUi\lib\backbone-min.js" />
+        <EmbeddedResource Include="SwaggerUi\lib\es5-shim.js" />
+        <EmbeddedResource Include="SwaggerUi\lib\handlebars-4.0.5.js" />
+        <EmbeddedResource Include="SwaggerUi\lib\highlight.9.1.0.pack.js" />
+        <EmbeddedResource Include="SwaggerUi\lib\highlight.9.1.0.pack_extended.js" />
+        <EmbeddedResource Include="SwaggerUi\lib\jquery-1.8.0.min.js" />
+        <EmbeddedResource Include="SwaggerUi\lib\jquery.ba-bbq.min.js" />
+        <EmbeddedResource Include="SwaggerUi\lib\jquery.slideto.min.js" />
+        <EmbeddedResource Include="SwaggerUi\lib\jquery.wiggle.min.js" />
+        <EmbeddedResource Include="SwaggerUi\lib\js-yaml.min.js" />
+        <EmbeddedResource Include="SwaggerUi\lib\jsoneditor.min.js" />
+        <EmbeddedResource Include="SwaggerUi\lib\lodash.min.js" />
+        <EmbeddedResource Include="SwaggerUi\lib\marked.js" />
+        <EmbeddedResource Include="SwaggerUi\lib\object-assign-pollyfill.js" />
+        <EmbeddedResource Include="SwaggerUi\lib\sanitize-html.min.js" />
+        <EmbeddedResource Include="SwaggerUi\lib\swagger-oauth.js" />
+        <EmbeddedResource Include="SwaggerUi\o2c.html" />
+        <EmbeddedResource Include="SwaggerUi\swagger-ui.js" />
+        <EmbeddedResource Include="SwaggerUi\swagger-ui.min.js" />
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+    <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
