@@ -9,6 +9,7 @@
 // ------------------------------------------------------------------------------
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Templates
 {
+    using NJsonSchema;
     using System;
     
     /// <summary>
@@ -25,7 +26,15 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write(@"internal class JsonExceptionConverter : JsonConverter
+            this.Write("[GeneratedCode(\"NJsonSchema\", \"");
+            
+            #line 3 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\JsonExceptionConverterTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(JsonSchema4.ToolchainVersion));
+            
+            #line default
+            #line hidden
+            this.Write(@""")]
+internal class JsonExceptionConverter : JsonConverter
 {
     private readonly DefaultContractResolver _defaultContractResolver = new DefaultContractResolver();
     private readonly IDictionary<string, Assembly> _searchedNamespaces;
@@ -35,7 +44,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Templates
     {
         _searchedNamespaces = new Dictionary<string, Assembly> { { typeof(FileParameter).Namespace, typeof(");
             
-            #line 10 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\JsonExceptionConverterTemplate.tt"
+            #line 12 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\JsonExceptionConverterTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ExceptionModelClass));
             
             #line default

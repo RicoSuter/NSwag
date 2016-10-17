@@ -1,4 +1,6 @@
 ﻿<#@ template visibility="internal" #>
+<#@ import namespace="NJsonSchema" #>
+[GeneratedCode("NJsonSchema", "<#=JsonSchema4.ToolchainVersion#>")]
 internal class JsonExceptionConverter : JsonConverter
 {
     private readonly DefaultContractResolver _defaultContractResolver = new DefaultContractResolver();
