@@ -18,6 +18,9 @@ namespace NSwag.AspNetCore
         /// <summary>Gets or sets the swagger UI route (must start with '/').</summary>
         public string SwaggerUiRoute { get; set; } = "/swagger";
 
+        /// <summary>Gets or sets a value indicating whether the Swagger specification should be validated.</summary>
+        public bool ValidateSpecification { get; set; } = true;
+
         /// <summary>Gets or sets the Swagger UI OAuth2 client settings.</summary>
         public OAuth2ClientSettings OAuth2Client { get; set; }
 

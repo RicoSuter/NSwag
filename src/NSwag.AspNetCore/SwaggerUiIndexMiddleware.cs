@@ -37,6 +37,8 @@ namespace NSwag.AspNetCore
                         html = html.Replace("{" + property.Name + "}", value is IDictionary ? JsonConvert.SerializeObject(value) : value?.ToString() ?? "");
                     }
 
+                    html = html.Replace("{ValidatorUrl}", _settings.ValidateSpecification ? "undefined" : "null");
+
                     context.Response.StatusCode = 200;
                     await context.Response.WriteAsync(html);
                 }
