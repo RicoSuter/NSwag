@@ -197,7 +197,7 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
             {
                 throw new <#=Model.ExceptionClass#>("Could not deserialize the response body.", status_, responseData_, exception);
             }
-<#          if(response.HasExceptionSchema){#>
+<#          if(response.InheritsExceptionSchema){#>
             if (result_ == null)
                 result_ = new <#=response.Type#>();
             result_.Data.Add("HttpStatus", status_);

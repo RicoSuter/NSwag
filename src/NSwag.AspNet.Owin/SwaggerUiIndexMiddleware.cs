@@ -36,6 +36,8 @@ namespace NSwag.AspNet.Owin
                         html = html.Replace("{" + property.Name + "}", value is IDictionary ? JsonConvert.SerializeObject(value) : value?.ToString() ?? "");
                     }
 
+                    html = html.Replace("{ValidatorUrl}", _settings.ValidateSpecification ? "undefined" : "null");
+
                     context.Response.StatusCode = 200;
                     context.Response.Write(html);
                 }

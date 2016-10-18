@@ -8,6 +8,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using NJsonSchema;
 using NJsonSchema.CodeGeneration.CSharp;
 using NSwag.CodeGeneration.CodeGenerators.Models;
 
@@ -17,6 +18,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
     public class ClientTemplateModel
     {
         private readonly SwaggerService _service;
+        private readonly JsonSchema4 _exceptionSchema;
         private readonly SwaggerToCSharpClientGeneratorSettings _settings;
 
         /// <summary>Initializes a new instance of the <see cref="ClientTemplateModel" /> class.</summary>
@@ -24,10 +26,13 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
         /// <param name="controllerClassName">The class name of the controller.</param>
         /// <param name="operations">The operations.</param>
         /// <param name="service">The service.</param>
+        /// <param name="exceptionSchema">The exception schema.</param>
         /// <param name="settings">The settings.</param>
-        public ClientTemplateModel(string controllerName, string controllerClassName, IList<OperationModel> operations, SwaggerService service, SwaggerToCSharpClientGeneratorSettings settings)
+        public ClientTemplateModel(string controllerName, string controllerClassName, IList<OperationModel> operations,
+            SwaggerService service, JsonSchema4 exceptionSchema, SwaggerToCSharpClientGeneratorSettings settings)
         {
             _service = service;
+            _exceptionSchema = exceptionSchema;
             _settings = settings;
 
             Class = controllerClassName;
@@ -86,6 +91,6 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
             .Concat(RequiresJsonExceptionConverter ? new[] { "JsonExceptionConverter" } : new string[] { }));
 
         private bool RequiresJsonExceptionConverter =>
-            _service.Operations.Any(o => o.Operation.AllResponses.Any(r => r.Value.HasExceptionSchema));
+            _service.Operations.Any(o => o.Operation.AllResponses.Any(r => r.Value.InheritsExceptionSchema(_exceptionSchema)));
     }
 }

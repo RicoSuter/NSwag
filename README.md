@@ -33,23 +33,27 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 
 - ASP.NET Web API assembly to Swagger (supports .NET Core)
     - [WebApiToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/WebApiToSwaggerGenerator)
+        - Generates a Swagger specification for Web API controllers
     - [WebApiAssemblyToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/WebApiAssemblyToSwaggerGenerator)
-- Types from .NET assemblies
+        - Generates a Swagger specification for controllers in an external Web API assembly
+        - [Also supports loading of .NET Core assemblies](https://github.com/NSwag/NSwag/wiki/WebApiAssemblyToSwaggerGenerator#net-core)
     - [AssemblyTypeToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/AssemblyTypeToSwaggerGenerator)
-
+         - Generates a Swagger specification containing only types from .NET assemblies
 **Code Generators:** 
 
 - **TypeScript Client**
 	- [SwaggerToTypeScriptClientGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToTypeScriptClientGenerator)
-	- Available templates/supported libraries: 
-		- JQuery with Callbacks, `JQueryCallbacks`
-		- JQuery with promises `JQueryPromises`
-		- AngularJS using $http, `AngularJS`
-		- Angular 2 using the http service, `Angular2`
-		- window.fetch API and ES6 promises, `Fetch` (use this template in your Aurelia project). 
+		- Generates TypeScript clients from a Swagger specification
+		- Available templates/supported libraries: 
+			- JQuery with Callbacks, `JQueryCallbacks`
+			- JQuery with promises `JQueryPromises`
+			- AngularJS using $http, `AngularJS`
+			- Angular 2 using the http service, `Angular2`
+			- window.fetch API and ES6 promises, `Fetch` (use this template in your Aurelia project). 
 - **CSharp Client**
 	- [SwaggerToCSharpClientGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToCSharpClientGenerator)
-	- With [INotifyPropertyChanged](https://msdn.microsoft.com/en-us/library/system.componentmodel.inotifypropertychanged(v=vs.110).aspx) supporting DTOs
+		- Generates C# clients from a Swagger specification
+		- Generates POCOs or classes implementing [INotifyPropertyChanged](https://msdn.microsoft.com/en-us/library/system.componentmodel.inotifypropertychanged(v=vs.110).aspx) supporting DTOs
 - **CSharp WebAPI Controllers** (contract first/schema first development)
 	- [SwaggerToCSharpControllerGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToCSharpControllerGenerator)
 	    - Generates Web API Controllers based on a Swagger specification

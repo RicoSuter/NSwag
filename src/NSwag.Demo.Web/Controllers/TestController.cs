@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.Description;
+using NSwag.Demo.Web.Models;
 
 namespace NSwag.Demo.Web.Controllers
 {
@@ -12,12 +13,22 @@ namespace NSwag.Demo.Web.Controllers
         //    return null; 
         //}
 
-        [ResponseType(typeof(List<int>))]
-        [Route("Report/{ids}/{from}")]
-        public IHttpActionResult Get(List<int> ids, DateTime from, DateTime? to = null)
+        //[ResponseType(typeof(List<int>))]
+        //[Route("Report/{ids}/{from}")]
+        //public IHttpActionResult Get(List<int> ids, DateTime from, DateTime? to = null)
+        //{
+        //    return Ok(ids);
+        //}
+
+        public class Foo
         {
-            return Ok(ids);
+            public string Bar { get; set; }
         }
 
+        [Annotations.ResponseType("200", typeof(List<Foo>))]
+        public HttpResponseMessage GetPersons()
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, new[] { new Foo { Bar = "Test" } });
+        }
     }
 }
