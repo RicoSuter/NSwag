@@ -114,6 +114,19 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#}else{#>
             return this.process<#=operation.OperationNameUpper#>(response);
 <#}#>
+        }).catch((response: any, caught: any) => {
+            if (response instanceof Response) {
+                try {
+<#if(Model.IsExtended){#>
+                    return Observable.of(this.transformResult(url_, response, (response) => this.process<#=operation.OperationNameUpper#>(response)));
+<#}else{#>
+                    return Observable.of(this.process<#=operation.OperationNameUpper#>(response));
+<#}#>
+                } catch (e) {
+                    return Observable.throw(e);
+                }
+            } else
+                return Observable.throw(response);
         });
     }
 
