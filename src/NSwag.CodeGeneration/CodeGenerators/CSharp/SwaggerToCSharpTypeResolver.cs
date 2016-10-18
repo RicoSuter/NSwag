@@ -16,7 +16,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
     /// <summary>A resolver which returns Exception without generating the class (uses System.Exception instead of own class).</summary>
     public class SwaggerToCSharpTypeResolver : CSharpTypeResolver
     {
-        private readonly JsonSchema4 _exceptionSchema;
+        /// <summary>Gets the exception schema.</summary>
+        public JsonSchema4 ExceptionSchema { get; private set; }
 
         /// <summary>Initializes a new instance of the <see cref="CSharpTypeResolver" /> class.</summary>
         /// <param name="settings">The generator settings.</param>
@@ -24,7 +25,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         public SwaggerToCSharpTypeResolver(CSharpGeneratorSettings settings, JsonSchema4 exceptionSchema)
             : base(settings)
         {
-            _exceptionSchema = exceptionSchema;
+            ExceptionSchema = exceptionSchema;
         }
 
         /// <summary>Creates a new resolver, adds the given schema definitions and registers an exception schema if available.</summary>
@@ -49,7 +50,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         /// <returns>The type name.</returns>
         public override string Resolve(JsonSchema4 schema, bool isNullable, string typeNameHint)
         {
-            if (schema.ActualSchema == _exceptionSchema)
+            if (schema.ActualSchema == ExceptionSchema)
                 return "Exception";
 
             return base.Resolve(schema, isNullable, typeNameHint);

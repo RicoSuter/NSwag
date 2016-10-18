@@ -1521,7 +1521,7 @@ if(response.HasType){
                     "\n            }\r\n");
             
             #line 200 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
-          if(response.HasExceptionSchema){
+          if(response.InheritsExceptionSchema){
             
             #line default
             #line hidden

@@ -1,137 +1,137 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-    <PropertyGroup>
-        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-        <ProjectGuid>{26CBD69C-EE7C-4D81-8D62-410F4AD4876B}</ProjectGuid>
-        <OutputType>Exe</OutputType>
-        <AppDesignerFolder>Properties</AppDesignerFolder>
-        <RootNamespace>NSwag</RootNamespace>
-        <AssemblyName>NSwag</AssemblyName>
-        <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
-        <FileAlignment>512</FileAlignment>
-        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-        <TargetFrameworkProfile />
-    </PropertyGroup>
-    <PropertyGroup>
-        <AssemblyOriginatorKeyFile>../NSwag.snk</AssemblyOriginatorKeyFile>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-        <PlatformTarget>AnyCPU</PlatformTarget>
-        <DebugSymbols>true</DebugSymbols>
-        <DebugType>full</DebugType>
-        <Optimize>false</Optimize>
-        <OutputPath>bin\Debug\</OutputPath>
-        <DefineConstants>DEBUG;TRACE</DefineConstants>
-        <ErrorReport>prompt</ErrorReport>
-        <WarningLevel>4</WarningLevel>
-        <Prefer32Bit>false</Prefer32Bit>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-        <PlatformTarget>AnyCPU</PlatformTarget>
-        <DebugType>pdbonly</DebugType>
-        <Optimize>true</Optimize>
-        <OutputPath>bin\Release\</OutputPath>
-        <DefineConstants>TRACE</DefineConstants>
-        <ErrorReport>prompt</ErrorReport>
-        <WarningLevel>4</WarningLevel>
-        <Prefer32Bit>false</Prefer32Bit>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-        <DebugSymbols>true</DebugSymbols>
-        <OutputPath>bin\x64\Debug\</OutputPath>
-        <DefineConstants>DEBUG;TRACE</DefineConstants>
-        <DebugType>full</DebugType>
-        <PlatformTarget>x64</PlatformTarget>
-        <ErrorReport>prompt</ErrorReport>
-        <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-        <OutputPath>bin\x64\Release\</OutputPath>
-        <DefineConstants>TRACE</DefineConstants>
-        <Optimize>true</Optimize>
-        <DebugType>pdbonly</DebugType>
-        <PlatformTarget>x64</PlatformTarget>
-        <ErrorReport>prompt</ErrorReport>
-        <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-        <Prefer32Bit>true</Prefer32Bit>
-    </PropertyGroup>
-    <ItemGroup>
-        <Reference Include="MyToolkit, Version=2.5.13.0, Culture=neutral, PublicKeyToken=3e349a1360994d26, processorArchitecture=MSIL">
-            <HintPath>..\packages\MyToolkit.2.5.13\lib\portable-net45+wp8+win8+wpa81\MyToolkit.dll</HintPath>
-            <Private>True</Private>
-        </Reference>
-        <Reference Include="NConsole, Version=3.0.6082.29122, Culture=neutral, PublicKeyToken=0f839b9a5b9cbd65, processorArchitecture=MSIL">
-            <HintPath>..\packages\NConsole.3.0.6082.29122\lib\net45\NConsole.dll</HintPath>
-            <Private>True</Private>
-        </Reference>
-        <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-            <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-            <Private>True</Private>
-        </Reference>
-        <Reference Include="NJsonSchema, Version=5.1.6130.30069, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-            <HintPath>..\packages\NJsonSchema.5.1.6130.30069\lib\net45\NJsonSchema.dll</HintPath>
-            <Private>True</Private>
-        </Reference>
-        <Reference Include="NJsonSchema.CodeGeneration, Version=5.1.6130.30070, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-            <HintPath>..\packages\NJsonSchema.CodeGeneration.5.1.6130.30070\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
-            <Private>True</Private>
-        </Reference>
-        <Reference Include="System" />
-        <Reference Include="System.ComponentModel.DataAnnotations" />
-        <Reference Include="System.Core" />
-        <Reference Include="System.Xml.Linq" />
-        <Reference Include="System.Data.DataSetExtensions" />
-        <Reference Include="Microsoft.CSharp" />
-        <Reference Include="System.Data" />
-        <Reference Include="System.Net.Http" />
-        <Reference Include="System.Xml" />
-    </ItemGroup>
-    <ItemGroup>
-        <Compile Include="Commands\AssemblyTypeToSwaggerCommand.cs" />
-        <Compile Include="Commands\JsonSchemaToCSharpCommand.cs" />
-        <Compile Include="Commands\JsonSchemaToTypeScriptCommand.cs" />
-        <Compile Include="Commands\Base\OutputCommandBase.cs" />
-        <Compile Include="Commands\NSwagDocumentCommand.cs" />
-        <Compile Include="Commands\SwaggerToCSharpClientCommand.cs" />
-        <Compile Include="Commands\Base\InputOutputCommandBase.cs" />
-        <Compile Include="Commands\SwaggerToCSharpCommand.cs" />
-        <Compile Include="Commands\SwaggerToCSharpControllerCommand.cs" />
-        <Compile Include="Commands\SwaggerToTypeScriptClientCommand.cs" />
-        <Compile Include="Commands\WebApiToSwaggerCommand.cs" />
-        <Compile Include="NSwagDocument.cs" />
-        <Compile Include="Program.cs" />
-        <Compile Include="Properties\AssemblyInfo.cs" />
-    </ItemGroup>
-    <ItemGroup>
-        <Content Include="App.config">
-            <SubType>Designer</SubType>
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
-        <None Include="packages.config">
-            <SubType>Designer</SubType>
-        </None>
-    </ItemGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\NSwag.AssemblyLoader\NSwag.AssemblyLoader.csproj">
-            <Project>{46634C60-BA7D-43E6-9049-6AD461488C39}</Project>
-            <Name>NSwag.AssemblyLoader</Name>
-        </ProjectReference>
-        <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj">
-            <Project>{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}</Project>
-            <Name>NSwag.CodeGeneration</Name>
-        </ProjectReference>
-        <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj">
-            <Project>{2E6174AA-FC75-4821-9E86-51B30568BEC0}</Project>
-            <Name>NSwag.Core</Name>
-        </ProjectReference>
-    </ItemGroup>
-    <ItemGroup>
-        <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-    </ItemGroup>
-    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-    <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{26CBD69C-EE7C-4D81-8D62-410F4AD4876B}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NSwag</RootNamespace>
+    <AssemblyName>NSwag</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>../NSwag.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MyToolkit, Version=2.5.13.0, Culture=neutral, PublicKeyToken=3e349a1360994d26, processorArchitecture=MSIL">
+      <HintPath>..\packages\MyToolkit.2.5.13\lib\portable-net45+wp8+win8+wpa81\MyToolkit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NConsole, Version=3.0.6082.29122, Culture=neutral, PublicKeyToken=0f839b9a5b9cbd65, processorArchitecture=MSIL">
+      <HintPath>..\packages\NConsole.3.0.6082.29122\lib\net45\NConsole.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NJsonSchema, Version=5.2.6135.25892, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.5.2.6135.25892\lib\net45\NJsonSchema.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NJsonSchema.CodeGeneration, Version=5.2.6135.25892, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.CodeGeneration.5.2.6135.25892\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Commands\AssemblyTypeToSwaggerCommand.cs" />
+    <Compile Include="Commands\JsonSchemaToCSharpCommand.cs" />
+    <Compile Include="Commands\JsonSchemaToTypeScriptCommand.cs" />
+    <Compile Include="Commands\Base\OutputCommandBase.cs" />
+    <Compile Include="Commands\NSwagDocumentCommand.cs" />
+    <Compile Include="Commands\SwaggerToCSharpClientCommand.cs" />
+    <Compile Include="Commands\Base\InputOutputCommandBase.cs" />
+    <Compile Include="Commands\SwaggerToCSharpCommand.cs" />
+    <Compile Include="Commands\SwaggerToCSharpControllerCommand.cs" />
+    <Compile Include="Commands\SwaggerToTypeScriptClientCommand.cs" />
+    <Compile Include="Commands\WebApiToSwaggerCommand.cs" />
+    <Compile Include="NSwagDocument.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NSwag.AssemblyLoader\NSwag.AssemblyLoader.csproj">
+      <Project>{46634C60-BA7D-43E6-9049-6AD461488C39}</Project>
+      <Name>NSwag.AssemblyLoader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj">
+      <Project>{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}</Project>
+      <Name>NSwag.CodeGeneration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj">
+      <Project>{2E6174AA-FC75-4821-9E86-51B30568BEC0}</Project>
+      <Name>NSwag.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

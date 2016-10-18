@@ -9,6 +9,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
+using NSwag.CodeGeneration.CodeGenerators.CSharp;
 
 namespace NSwag.CodeGeneration.CodeGenerators.Models
 {
@@ -16,14 +17,17 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
     public class ResponseModel
     {
         private readonly SwaggerResponse _response;
+        private readonly JsonSchema4 _exceptionSchema;
         private readonly ClientGeneratorBase _clientGeneratorBase;
 
         /// <summary>Initializes a new instance of the <see cref="ResponseModel" /> class.</summary>
         /// <param name="response">The response.</param>
+        /// <param name="exceptionSchema">The exception schema.</param>
         /// <param name="clientGeneratorBase">The client generator base.</param>
-        public ResponseModel(KeyValuePair<string, SwaggerResponse> response, ClientGeneratorBase clientGeneratorBase)
+        public ResponseModel(KeyValuePair<string, SwaggerResponse> response, JsonSchema4 exceptionSchema, ClientGeneratorBase clientGeneratorBase)
         {
             _response = response.Value;
+            _exceptionSchema = exceptionSchema;
             _clientGeneratorBase = clientGeneratorBase;
 
             StatusCode = response.Key;
@@ -57,7 +61,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         public bool IsNullable => _response.IsNullable(_clientGeneratorBase.BaseSettings.CodeGeneratorSettings.NullHandling);
 
         /// <summary>Gets a value indicating whether the response type inherits from exception.</summary>
-        public bool HasExceptionSchema => _response.HasExceptionSchema;
+        public bool InheritsExceptionSchema => _response.InheritsExceptionSchema(_exceptionSchema);
 
         // TODO: Find way to remove TypeScript only properties
 
