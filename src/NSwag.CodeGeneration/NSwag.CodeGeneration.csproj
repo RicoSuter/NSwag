@@ -15,7 +15,8 @@
     <TargetFrameworkProfile>Profile259</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>../NSwag.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>NSwag.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -189,6 +190,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="NSwag.CodeGeneration.nuspec" />
+    <None Include="NSwag.snk" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

@@ -39,7 +39,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>../NSwag.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>NSwag.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -107,6 +107,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="NSwag.Core.nuspec" />
+    <None Include="NSwag.snk" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
