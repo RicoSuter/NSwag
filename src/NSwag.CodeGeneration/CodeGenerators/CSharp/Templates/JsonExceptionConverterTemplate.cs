@@ -26,10 +26,10 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("[GeneratedCode(\"NJsonSchema\", \"");
+            this.Write("[GeneratedCode(\"NSwag\", \"");
             
             #line 3 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\JsonExceptionConverterTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(JsonSchema4.ToolchainVersion));
+            this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerService.ToolchainVersion));
             
             #line default
             #line hidden
