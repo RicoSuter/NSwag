@@ -59,7 +59,7 @@ using System.Linq;
 ");
             
             #line 21 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
-if(Model.GenerateImplementation){
+if(Model.GenerateImplementation && Model.GenerateClientClasses){
             
             #line default
             #line hidden

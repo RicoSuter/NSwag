@@ -59,6 +59,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
             _outputType == ClientGeneratorOutputType.Full ||
             _outputType == ClientGeneratorOutputType.Implementation;
 
+        /// <summary>Gets or sets a value indicating whether to generate client types.</summary>
+        public bool GenerateClientClasses => _settings.GenerateClientClasses;
+
         /// <summary>Gets the clients code.</summary>
         public string Clients => _settings.GenerateClientClasses ? _clientCode : string.Empty;
 
