@@ -42,11 +42,12 @@ namespace NSwag
         public IDictionary<string, object> ExtensionData { get; set; }
 
         /// <summary>Gets a value indicating whether the response schema is an exception.</summary>
-        [JsonIgnore]
-        public bool HasExceptionSchema =>
-            ActualResponseSchema?
-            .InheritedSchemas.Concat(new List<JsonSchema4> { ActualResponseSchema })
-            .Any(s => new[] { "innerexception", "message", "source", "stacktrace" }.All(p => s.ActualSchema.Properties.Any(i => i.Key.ToLowerInvariant() == p))) == true;
+        public bool InheritsExceptionSchema(JsonSchema4 exceptionSchema)
+        {
+            return exceptionSchema != null && ActualResponseSchema?
+                .AllInheritedSchemas.Concat(new List<JsonSchema4> { ActualResponseSchema })
+                .Any(s => s.ActualSchema == exceptionSchema.ActualSchema) == true;
+        }
 
         /// <summary>Determines whether the specified null handling is nullable.</summary>
         /// <param name="nullHandling">The null handling.</param>

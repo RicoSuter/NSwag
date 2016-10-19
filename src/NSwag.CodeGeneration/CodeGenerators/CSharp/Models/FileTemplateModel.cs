@@ -75,11 +75,11 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
         public string JsonExceptionConverterCode => RequiresJsonExceptionConverter ?
             ConversionUtilities.Tab(new JsonExceptionConverterTemplate(JsonExceptionTypes.FirstOrDefault(t => t != "Exception") ?? "Exception").TransformText(), 1) : string.Empty;
 
-        private IEnumerable<string> JsonExceptionTypes => ExceptionResponses.Select(r =>
+        private IEnumerable<string> JsonExceptionTypes => ResponsesInheritingFromException.Select(r =>
             _clientGeneratorBase.GetType(r.ActualResponseSchema, r.IsNullable(_settings.CSharpGeneratorSettings.NullHandling), "Response"));
 
-        private IEnumerable<SwaggerResponse> ExceptionResponses =>
-            _service.Operations.SelectMany(o => o.Operation.AllResponses.Values.Where(r => r.HasExceptionSchema));
+        private IEnumerable<SwaggerResponse> ResponsesInheritingFromException =>
+            _service.Operations.SelectMany(o => o.Operation.AllResponses.Values.Where(r => r.InheritsExceptionSchema(_resolver.ExceptionSchema)));
 
         /// <summary>Gets a value indicating whether the generated code requires the FileParameter type.</summary>
         public bool RequiresFileParameterType => 

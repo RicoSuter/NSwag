@@ -95,7 +95,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
 
         internal override string GenerateClientClass(string controllerName, string controllerClassName, IList<OperationModel> operations, ClientGeneratorOutputType outputType)
         {
-            var model = new ClientTemplateModel(controllerName, controllerClassName, operations, _service, Settings)
+            var exceptionSchema = (Resolver as SwaggerToCSharpTypeResolver)?.ExceptionSchema;
+            var model = new ClientTemplateModel(controllerName, controllerClassName, operations, _service, exceptionSchema, Settings)
             {
                 GenerateContracts = outputType == ClientGeneratorOutputType.Full || outputType == ClientGeneratorOutputType.Contracts,
                 GenerateImplementation = outputType == ClientGeneratorOutputType.Full || outputType == ClientGeneratorOutputType.Implementation,

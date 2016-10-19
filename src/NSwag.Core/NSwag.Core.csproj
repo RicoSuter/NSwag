@@ -39,7 +39,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>../NSwag.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>NSwag.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -67,8 +67,8 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=5.1.6130.30069, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.5.1.6130.30069\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
+    <Reference Include="NJsonSchema, Version=5.2.6135.25892, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.5.2.6135.25892\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -107,6 +107,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="NSwag.Core.nuspec" />
+    <None Include="NSwag.snk" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

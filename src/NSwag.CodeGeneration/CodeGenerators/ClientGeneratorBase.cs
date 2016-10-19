@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
+using NSwag.CodeGeneration.CodeGenerators.CSharp;
 using NSwag.CodeGeneration.CodeGenerators.Models;
 
 namespace NSwag.CodeGeneration.CodeGenerators
@@ -92,7 +93,8 @@ namespace NSwag.CodeGeneration.CodeGenerators
                 .Select(tuple =>
                 {
                     var operation = tuple.Operation;
-                    var responses = operation.Responses.Select(response => new ResponseModel(response, this)).ToList();
+                    var exceptionSchema = (Resolver as SwaggerToCSharpTypeResolver)?.ExceptionSchema; 
+                    var responses = operation.Responses.Select(response => new ResponseModel(response, exceptionSchema, this)).ToList();
 
                     var defaultResponse = responses.SingleOrDefault(r => r.StatusCode == "default");
                     if (defaultResponse != null)
