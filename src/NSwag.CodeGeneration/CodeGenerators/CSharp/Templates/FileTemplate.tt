@@ -18,7 +18,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-<#if(Model.GenerateImplementation){#>
+<#if(Model.GenerateImplementation && Model.GenerateClientClasses){#>
 using System.Net;
 using System.Net.Http;
 <#}#>
@@ -44,7 +44,7 @@ namespace <#=Model.Namespace#>
 <#if(Model.GenerateContracts){#>
     <#=ConversionUtilities.Tab(Model.Classes, 1)#>
 
-	<#if(Model.RequiresFileParameterType){#>
+<#  if(Model.RequiresFileParameterType){#>
     [GeneratedCode("NSwag", "<#=SwaggerService.ToolchainVersion#>")]
     public class FileParameter
     {
