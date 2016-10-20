@@ -44,7 +44,7 @@ namespace <#=Model.Namespace#>
 <#if(Model.GenerateContracts){#>
     <#=ConversionUtilities.Tab(Model.Classes, 1)#>
 
-	<#if(Model.RequiresFileParameterType){#>
+<#  if(Model.RequiresFileParameterType){#>
     [GeneratedCode("NSwag", "<#=SwaggerService.ToolchainVersion#>")]
     public class FileParameter
     {

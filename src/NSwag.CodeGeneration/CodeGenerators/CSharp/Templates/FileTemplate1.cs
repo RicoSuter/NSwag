@@ -129,10 +129,10 @@ if(Model.GenerateContracts){
             
             #line default
             #line hidden
-            this.Write("\r\n\r\n\t");
+            this.Write("\r\n\r\n");
             
             #line 47 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
-if(Model.RequiresFileParameterType){
+  if(Model.RequiresFileParameterType){
             
             #line default
             #line hidden

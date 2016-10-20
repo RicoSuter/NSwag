@@ -161,7 +161,7 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
         request_.Content = content_;
 <#  }#>
         request_.Method = new HttpMethod("<#=operation.HttpMethod.ToString().ToUpperInvariant()#>");
-        request_.RequestUri = new Uri(url_);
+        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
         var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseContentRead, cancellationToken).ConfigureAwait(false);
         ProcessResponse(client_, response_);
 
