@@ -20,7 +20,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         private readonly SwaggerService _service;
 
         internal SwaggerToCSharpGeneratorBase(SwaggerService service, SwaggerToCSharpGeneratorSettings settings, SwaggerToCSharpTypeResolver resolver)
-            : base(resolver)
+            : base(resolver, settings.CodeGeneratorSettings)
         {
             _service = service;
             _settings = settings;

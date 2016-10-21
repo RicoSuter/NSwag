@@ -40,7 +40,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         /// <exception cref="System.ArgumentNullException">service</exception>
         /// <exception cref="ArgumentNullException"><paramref name="service" /> is <see langword="null" />.</exception>
         public SwaggerToTypeScriptClientGenerator(SwaggerService service, SwaggerToTypeScriptClientGeneratorSettings settings, TypeScriptTypeResolver resolver)
-            : base(resolver)
+            : base(resolver, settings.CodeGeneratorSettings)
         {
             if (service == null)
                 throw new ArgumentNullException(nameof(service));
