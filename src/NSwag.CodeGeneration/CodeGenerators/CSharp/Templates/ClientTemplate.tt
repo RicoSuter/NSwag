@@ -176,7 +176,7 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
 <#      if(response.IsSuccess){#>
             return responseData_; 
 <#      }else{#>
-            throw new <#=Model.ExceptionClass#><byte[]>("A server side error occurred.", status_, responseData_, responseData_, null);
+            throw new <#=Model.ExceptionClass#><byte[]>("<#=response.ExceptionDescription#>", status_, responseData_, responseData_, null);
 <#      }#>
 <#  }else{#>
             var result_ = default(<#=response.Type#>); 
@@ -202,9 +202,9 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
                 result_ = new <#=response.Type#>();
             result_.Data.Add("HttpStatus", status_);
             result_.Data.Add("ResponseData", Encoding.UTF8.GetString(responseData_, 0, responseData_.Length));
-            throw new <#=Model.ExceptionClass#><<#=response.Type#>>("A server side error occurred.", status_, responseData_, result_, result_);
+            throw new <#=Model.ExceptionClass#><<#=response.Type#>>("<#=response.ExceptionDescription#>", status_, responseData_, result_, result_);
 <#          }else{#>
-            throw new <#=Model.ExceptionClass#><<#=response.Type#>>("A server side error occurred.", status_, responseData_, result_, null);
+            throw new <#=Model.ExceptionClass#><<#=response.Type#>>("<#=response.ExceptionDescription#>", status_, responseData_, result_, null);
 <#          }#>
 <#      }#>
 <#  }#>
@@ -216,7 +216,7 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
             return;     
 <#      }#> 
 <#  }else{#>
-            throw new <#=Model.ExceptionClass#>("A server side error occurred.", status_, responseData_, null);
+            throw new <#=Model.ExceptionClass#>("<#=response.ExceptionDescription#>", status_, responseData_, null);
 <#  }#>
 <#}#>
         }
@@ -229,7 +229,7 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
 <#          if(operation.DefaultResponse.IsSuccess){#>
             return responseData_; 
 <#          }else{#>
-            throw new <#=Model.ExceptionClass#><byte[]>("A server side error occurred.", status_, responseData_, responseData_, null);
+            throw new <#=Model.ExceptionClass#><byte[]>("<#=operation.DefaultResponse.ExceptionDescription#>", status_, responseData_, responseData_, null);
 <#          }#>
 <#      }else{#>
             var result_ = default(<#=operation.DefaultResponse.Type#>); 
@@ -248,7 +248,7 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
                 throw new <#=Model.ExceptionClass#>("Could not deserialize the response body.", status_, responseData_, exception_);
             }
 
-            throw new <#=Model.ExceptionClass#><<#=operation.DefaultResponse.Type#>>("A server side error occurred.", status_, responseData_, result_, null);
+            throw new <#=Model.ExceptionClass#><<#=operation.DefaultResponse.Type#>>("<#=operation.DefaultResponse.ExceptionDescription#>", status_, responseData_, result_, null);
 <#      }#>
 <#  }else{#>
             return;

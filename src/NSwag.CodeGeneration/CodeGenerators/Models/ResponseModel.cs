@@ -51,6 +51,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         /// <summary>Gets a value indicating whether this is a file response.</summary>
         public bool IsFile => Schema != null && Schema.ActualSchema.Type == JsonObjectType.File;
 
+        /// <summary>Gets the response's exception description.</summary>
+        public string ExceptionDescription => !string.IsNullOrEmpty(_response.Description) ? _response.Description : "A server side error occurred.";
+
         /// <summary>Gets the actual response schema.</summary>
         public JsonSchema4 ActualResponseSchema => _response.ActualResponseSchema;
 

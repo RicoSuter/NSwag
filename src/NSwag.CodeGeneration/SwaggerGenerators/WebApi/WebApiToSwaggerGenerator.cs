@@ -638,9 +638,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
         private void LoadReturnType(SwaggerOperation operation, MethodInfo method, SwaggerGenerator swaggerGenerator)
         {
-            var xmlDescription = method.ReturnParameter.GetXmlDocumentation();
-            if (xmlDescription == string.Empty)
-                xmlDescription = null;
+            var successXmlDescription = method.ReturnParameter.GetXmlDocumentation() ?? string.Empty;
 
             var responseTypeAttributes = method.GetCustomAttributes()
                 .Where(a => a.GetType().Name == "ResponseTypeAttribute")
@@ -661,7 +659,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     if (responseTypeAttribute.GetType().GetRuntimeProperty("HttpStatusCode") != null)
                         httpStatusCode = dynResultTypeAttribute.HttpStatusCode.ToString();
 
-                    var description = xmlDescription;
+                    var description = HttpUtilities.IsSuccessStatusCode(httpStatusCode) ? successXmlDescription : string.Empty;
                     if (responseTypeAttribute.GetType().GetRuntimeProperty("Description") != null)
                     {
                         if (!string.IsNullOrEmpty(dynResultTypeAttribute.Description))
@@ -691,7 +689,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     var httpStatusCode = producesResponseTypeAttribute.StatusCode.ToString(CultureInfo.InvariantCulture);
                     var response = new SwaggerResponse
                     {
-                        Description = xmlDescription ?? string.Empty
+                        Description = HttpUtilities.IsSuccessStatusCode(httpStatusCode) ? successXmlDescription : string.Empty
                     };
 
                     if (IsVoidResponse(returnType) == false)
@@ -704,10 +702,10 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 }
             }
             else
-                LoadDefaultReturnType(operation, method, xmlDescription, swaggerGenerator);
+                LoadDefaultSuccessResponse(operation, method, successXmlDescription, swaggerGenerator);
         }
 
-        private void LoadDefaultReturnType(SwaggerOperation operation, MethodInfo method, string xmlDescription, SwaggerGenerator swaggerGenerator)
+        private void LoadDefaultSuccessResponse(SwaggerOperation operation, MethodInfo method, string xmlDescription, SwaggerGenerator swaggerGenerator)
         {
             var returnType = method.ReturnType;
             if (returnType == typeof(Task))
@@ -719,7 +717,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             {
                 operation.Responses[GetVoidResponseStatusCode()] = new SwaggerResponse
                 {
-                    Description = xmlDescription ?? string.Empty
+                    Description = xmlDescription
                 };
             }
             else
@@ -728,7 +726,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     method.ReturnParameter?.GetCustomAttributes(), Settings.DefaultEnumHandling);
                 operation.Responses["200"] = new SwaggerResponse
                 {
-                    Description = xmlDescription ?? string.Empty,
+                    Description = xmlDescription,
                     IsNullableRaw = typeDescription.IsNullable,
                     Schema = swaggerGenerator.GenerateAndAppendSchemaFromType(returnType, typeDescription.IsNullable, null)
                 };
