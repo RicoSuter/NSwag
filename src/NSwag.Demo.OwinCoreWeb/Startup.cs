@@ -1,15 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
-using System.Runtime.Serialization;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.DependencyInjection;
 using NJsonSchema;
 using NSwag.AspNetCore;
-using NSwag.Demo.OwinCoreWeb.Controllers;
-using NJsonSchema.Infrastructure;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors;
 
 namespace NSwag.Demo.OwinCoreWeb

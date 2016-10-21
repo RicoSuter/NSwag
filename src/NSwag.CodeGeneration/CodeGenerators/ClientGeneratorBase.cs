@@ -24,7 +24,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
         protected ClientGeneratorBase(ITypeResolver resolver, CodeGeneratorSettingsBase codeGeneratorSettings)
         {
             Resolver = resolver;
-            codeGeneratorSettings.NullHandling = NullHandling.Swagger; // enforce Swagger null handling. 
+            codeGeneratorSettings.NullHandling = NullHandling.Swagger; // Enforce Swagger null handling 
         }
 
         /// <summary>Gets the type resolver.</summary>

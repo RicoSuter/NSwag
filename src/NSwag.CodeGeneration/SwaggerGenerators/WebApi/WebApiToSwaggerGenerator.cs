@@ -232,7 +232,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             {
                 if (!service.Definitions.Values.Contains(schema))
                 {
-                    var typeName = schema.GetTypeName(Settings.TypeNameGenerator);
+                    var typeName = schema.GetTypeName(Settings.TypeNameGenerator, string.Empty);
 
                     if (!service.Definitions.ContainsKey(typeName))
                         service.Definitions[typeName] = schema;

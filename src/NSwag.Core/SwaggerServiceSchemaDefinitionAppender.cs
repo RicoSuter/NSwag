@@ -33,7 +33,7 @@ namespace NSwag
         /// <param name="objectToAppend">The object to append.</param>
         public void Append(JsonSchema4 objectToAppend)
         {
-            var typeName = objectToAppend.GetTypeName(_typeNameGenerator); 
+            var typeName = objectToAppend.GetTypeName(_typeNameGenerator, string.Empty); 
             if (!string.IsNullOrEmpty(typeName) && !_service.Definitions.ContainsKey(typeName))
                 _service.Definitions[typeName] = objectToAppend;
             else
