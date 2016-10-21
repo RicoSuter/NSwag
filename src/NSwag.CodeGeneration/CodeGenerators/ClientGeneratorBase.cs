@@ -18,11 +18,13 @@ namespace NSwag.CodeGeneration.CodeGenerators
     /// <summary>The client generator base.</summary>
     public abstract class ClientGeneratorBase : GeneratorBase
     {
-        /// <summary>Initializes a new instance of the <see cref="ClientGeneratorBase"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="ClientGeneratorBase" /> class.</summary>
         /// <param name="resolver">The type resolver.</param>
-        protected ClientGeneratorBase(ITypeResolver resolver)
+        /// <param name="codeGeneratorSettings">The code generator settings.</param>
+        protected ClientGeneratorBase(ITypeResolver resolver, CodeGeneratorSettingsBase codeGeneratorSettings)
         {
             Resolver = resolver;
+            codeGeneratorSettings.NullHandling = NullHandling.Swagger; // Enforce Swagger null handling 
         }
 
         /// <summary>Gets the type resolver.</summary>
