@@ -18,18 +18,22 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         private readonly SwaggerOperation _operation;
         private readonly SwaggerParameter _parameter;
         private readonly CodeGeneratorSettingsBase _settings;
+        private readonly ClientGeneratorBase _clientGeneratorBase;
 
         /// <summary>Initializes a new instance of the <see cref="ParameterModel" /> class.</summary>
         /// <param name="typeName">The type name.</param>
         /// <param name="operation">The operation.</param>
         /// <param name="parameter">The parameter.</param>
         /// <param name="settings">The settings.</param>
-        public ParameterModel(string typeName, SwaggerOperation operation, SwaggerParameter parameter, CodeGeneratorSettingsBase settings)
+        /// <param name="clientGeneratorBase">The client generator base.</param>
+        public ParameterModel(string typeName, SwaggerOperation operation, SwaggerParameter parameter, 
+            CodeGeneratorSettingsBase settings, ClientGeneratorBase clientGeneratorBase)
         {
             Type = typeName;
             _operation = operation;
             _parameter = parameter;
             _settings = settings;
+            _clientGeneratorBase = clientGeneratorBase;
         }
 
         /// <summary>Gets the type of the parameter.</summary>
@@ -72,7 +76,10 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         public bool IsLast => _operation.ActualParameters.LastOrDefault() == _parameter;
 
         /// <summary>Gets a value indicating whether the parameter is of type date.</summary>
-        public bool IsDate => Schema.Type == JsonObjectType.String && Schema.Format == JsonFormatStrings.DateTime;
+        public bool IsDate =>
+            (Schema.Format == JsonFormatStrings.DateTime ||
+            Schema.Format == JsonFormatStrings.Date) &&
+            _clientGeneratorBase.GetType(Schema, IsNullable, "Response") != "string";
 
         /// <summary>Gets a value indicating whether the parameter is of type array.</summary>
         public bool IsArray => Schema.Type.HasFlag(JsonObjectType.Array) || _parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi;
@@ -84,7 +91,11 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         public bool IsDictionary => Schema.IsDictionary;
 
         /// <summary>Gets a value indicating whether the parameter is of type date array.</summary>
-        public bool IsDateArray => IsArray && Schema.Item?.Format == JsonFormatStrings.DateTime;
+        public bool IsDateArray =>
+            IsArray && 
+            (Schema.Item?.ActualSchema.Format == JsonFormatStrings.DateTime ||
+            Schema.Item?.ActualSchema.Format == JsonFormatStrings.Date) &&
+            _clientGeneratorBase.GetType(Schema.Item.ActualSchema, IsNullable, "Response") != "string";
 
         // TODO: Find way to remove TypeScript only properties
 
