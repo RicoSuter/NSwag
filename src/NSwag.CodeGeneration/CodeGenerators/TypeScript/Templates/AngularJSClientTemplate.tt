@@ -118,7 +118,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#}else{#>
             return this.process<#=operation.OperationNameUpper#>(response);
 <#}#>
-        },(response) => {
+        }, (response) => {
 <#if(Model.IsExtended){#>
             return this.transformResult(url_, response, (response) => this.process<#=operation.OperationNameUpper#>(response));
 <#}else{#>
