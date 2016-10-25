@@ -214,7 +214,7 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
             return default(<#=operation.ResultType.Substring(5, operation.ResultType.Length - 6)#>);
 <#      }else{#>
             return;     
-<#      }#> 
+<#      }#>
 <#  }else{#>
             throw new <#=Model.ExceptionClass#>("<#=response.ExceptionDescription#>", status_, responseData_, null);
 <#  }#>
@@ -251,7 +251,11 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
             throw new <#=Model.ExceptionClass#><<#=operation.DefaultResponse.Type#>>("<#=operation.DefaultResponse.ExceptionDescription#>", status_, responseData_, result_, null);
 <#      }#>
 <#  }else{#>
-            return;
+<#      if(operation.HasResultType){#>
+            return default(<#=operation.ResultType.Substring(5, operation.ResultType.Length - 6)#>);
+<#      }else{#>
+            return;     
+<#      }#>
 <#  }#>
 <#}#>
         }
