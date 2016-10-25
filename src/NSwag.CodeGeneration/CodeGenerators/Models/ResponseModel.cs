@@ -7,9 +7,8 @@
 //-----------------------------------------------------------------------
 
 using System.Collections.Generic;
-using System.Linq;
 using NJsonSchema;
-using NSwag.CodeGeneration.CodeGenerators.CSharp;
+using NJsonSchema.CodeGeneration;
 
 namespace NSwag.CodeGeneration.CodeGenerators.Models
 {
@@ -46,10 +45,18 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         public bool IsSuccess => HttpUtilities.IsSuccessStatusCode(StatusCode);
 
         /// <summary>Gets a value indicating whether the response is of type date.</summary>
-        public bool IsDate => _clientGeneratorBase.GetType(_response.ActualResponseSchema, IsNullable, "Response") == "Date";
+        public bool IsDate =>
+            (_response.ActualResponseSchema.Format == JsonFormatStrings.DateTime ||
+            _response.ActualResponseSchema.Format == JsonFormatStrings.Date) &&
+            _clientGeneratorBase.GetType(_response.ActualResponseSchema, IsNullable, "Response") != "string";
 
         /// <summary>Gets a value indicating whether this is a file response.</summary>
         public bool IsFile => Schema != null && Schema.ActualSchema.Type == JsonObjectType.File;
+
+        /// <summary>Gets the response's exception description.</summary>
+        public string ExceptionDescription => !string.IsNullOrEmpty(_response.Description) ?
+            ConversionUtilities.ConvertToStringLiteral(_response.Description) :
+            "A server side error occurred.";
 
         /// <summary>Gets the actual response schema.</summary>
         public JsonSchema4 ActualResponseSchema => _response.ActualResponseSchema;

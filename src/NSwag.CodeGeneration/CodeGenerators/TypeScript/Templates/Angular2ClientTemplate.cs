@@ -1208,7 +1208,8 @@ if(operation.HasDefaultResponse){
             
             #line default
             #line hidden
-            this.Write("            throw \"error_no_callback_for_the_received_http_status\"; \r\n");
+            this.Write("            throw new Error(\"error_no_callback_for_the_received_http_status\"); \r\n" +
+                    "");
             
             #line 168 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt"
 }

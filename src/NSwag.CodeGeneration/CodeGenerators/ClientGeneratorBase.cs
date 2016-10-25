@@ -118,7 +118,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
                         Responses = responses,
                         DefaultResponse = defaultResponse,
                         Parameters = operation.ActualParameters.Select(p => new ParameterModel(
-                            ResolveParameterType(p), operation, p, BaseSettings.CodeGeneratorSettings)).ToList(),
+                            ResolveParameterType(p), operation, p, BaseSettings.CodeGeneratorSettings, this)).ToList(),
                     };
                 }).ToList();
             return operations;
