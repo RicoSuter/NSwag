@@ -19,23 +19,16 @@ export interface I<#=Model.Class#> {
 <#}#>
 
 <#if(Model.UseAureliaHttpInjection){#>
-@inject(HttpClient)
+@inject(String, HttpClient)
 <#}#>
 export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements I<#=Model.Class#> <#}#>{
     private baseUrl: string; 
-<#if(Model.UseAureliaHttpInjection == false){#>
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
         this.baseUrl = baseUrl ? baseUrl : "";
         this.http = http ? http : window;
     }
-<#}else{#>
-
-    constructor(private http: HttpClient, baseUrl?: string) {
-        this.baseUrl = baseUrl ? baseUrl : "";
-    }
-<#}#>
 <#if(Model.IsExtended){#>
 
     protected transformOptions(options: RequestInit) {
