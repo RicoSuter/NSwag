@@ -119,11 +119,13 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
             return this.process<#=operation.OperationNameUpper#>(response);
 <#}#>
         }, (response) => {
+            if (response.status)
 <#if(Model.IsExtended){#>
-            return this.transformResult(url_, response, (response) => this.process<#=operation.OperationNameUpper#>(response));
+                return this.transformResult(url_, response, (response) => this.process<#=operation.OperationNameUpper#>(response));
 <#}else{#>
-            return this.process<#=operation.OperationNameUpper#>(response);
+                return this.process<#=operation.OperationNameUpper#>(response);
 <#}#>
+            throw response;
         });
     }
 
