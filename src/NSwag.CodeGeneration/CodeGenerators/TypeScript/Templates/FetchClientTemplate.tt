@@ -18,12 +18,24 @@ export interface I<#=Model.Class#> {
 <#}#>}
 <#}#>
 
+<#if(Model.UseAureliaHttpInjection){#>
+@inject(HttpClient)
+<#}#>
 export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements I<#=Model.Class#> <#}#>{
-    private baseUrl: string = undefined; 
+    private baseUrl: string; 
+<#if(Model.UseAureliaHttpInjection == false){#>
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
 
     constructor(baseUrl?: string) {
-        this.baseUrl = baseUrl ? baseUrl : "<#=Model.BaseUrl#>"; 
+        this.baseUrl = baseUrl ? baseUrl : "";
+        this.http = window;
     }
+<#}else{#>
+
+    constructor(private http: HttpClient, baseUrl?: string) {
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+<#}#>
 <#if(Model.IsExtended){#>
 
     protected transformOptions(options: RequestInit) {
@@ -93,7 +105,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 if(!operation.IsGetOrHead){#>
         <#=RequestBodyGenerator.Render(operation, 2)#>
 <#}#>
-        return fetch(url_, <#if(Model.IsExtended){#>this.transformOptions(<#}#>{
+        return this.http.fetch(url_, <#if(Model.IsExtended){#>this.transformOptions(<#}#>{
 <#if(!operation.IsGetOrHead){#>
 			body: content_,
 <#}#>

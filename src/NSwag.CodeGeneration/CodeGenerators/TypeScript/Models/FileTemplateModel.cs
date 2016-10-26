@@ -43,6 +43,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
         /// <summary>Gets a value indicating whether the generated code is for Angular 2.</summary>
         public bool IsAngular2 => _settings.GenerateClientClasses && _settings.Template == TypeScriptTemplate.Angular2;
 
+        /// <summary>Gets a value indicating whether the generated code is for Aurelia.</summary>
+        public bool IsAurelia => _settings.GenerateClientClasses && _settings.Template == TypeScriptTemplate.Aurelia;
+
         /// <summary>Gets the clients code.</summary>
         public string Clients => _settings.GenerateClientClasses ? _clientCode : string.Empty;
 
