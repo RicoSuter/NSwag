@@ -114,6 +114,7 @@
   <ItemGroup>
     <None Include="scripts\serviceClientsAngular2.ts" />
     <TypeScriptCompile Include="scripts\serviceClientsAngularJS.ts" />
+    <None Include="scripts\serviceClientsAurelia.ts" />
     <TypeScriptCompile Include="scripts\serviceClientsFetch.ts" />
     <TypeScriptCompile Include="scripts\serviceClientsJQueryCallbacks.ts" />
     <TypeScriptCompile Include="scripts\serviceClientsJQueryPromises.extensions.ts" />
