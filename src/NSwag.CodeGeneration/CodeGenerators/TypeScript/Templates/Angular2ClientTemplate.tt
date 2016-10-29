@@ -123,10 +123,10 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
                     return Observable.of(this.process<#=operation.OperationNameUpper#>(response));
 <#}#>
                 } catch (e) {
-                    return Observable.throw(e);
+                    return <Observable<<#=operation.ResultType#>>><any>Observable.throw(e);
                 }
             } else
-                return Observable.throw(response);
+                return <Observable<<#=operation.ResultType#>>><any>Observable.throw(response);
         });
     }
 

@@ -24,6 +24,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         Angular2,
 
         /// <summary>Uses the window.fetch API.</summary>
-        Fetch
+        Fetch,
+
+        /// <summary>Uses the Aurelia fetch service.</summary>
+        Aurelia
     }
 }

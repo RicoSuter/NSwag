@@ -1,0 +1,108 @@
+{
+  "SelectedSwaggerGenerator": 1,
+  "InputSwagger": null,
+  "InputSwaggerUrl": null,
+  "InputJsonSchema": null,
+  "WebApiToSwaggerCommand": {
+    "AssemblyPath": "bin\\NSwag.Integration.WebAPI.dll",
+    "AssemblyPaths": [
+      "bin\\NSwag.Integration.WebAPI.dll"
+    ],
+    "AssemblyConfig": "Web.config",
+    "ReferencePaths": [],
+    "ControllerName": "",
+    "ControllerNames": [
+      "NSwag.Integration.WebAPI.Controllers.GeoController",
+      "NSwag.Integration.WebAPI.Controllers.PersonsController"
+    ],
+    "DefaultUrlTemplate": "api/{controller}/{action}/{id}",
+    "DefaultPropertyNameHandling": "Default",
+    "DefaultEnumHandling": "Integer",
+    "FlattenInheritanceHierarchy": false,
+    "GenerateKnownTypes": true,
+    "ServiceHost": "localhost:13452",
+    "ServiceSchemes": [
+      "http"
+    ],
+    "InfoTitle": "Web API Swagger specification",
+    "InfoDescription": null,
+    "InfoVersion": "1.0.0",
+    "DocumentTemplate": null,
+    "OutputFilePath": null
+  },
+  "AssemblyTypeToSwaggerCommand": {
+    "AssemblyPath": null,
+    "ClassNames": [],
+    "AssemblyConfig": null,
+    "ReferencePaths": [],
+    "DefaultPropertyNameHandling": "Default",
+    "DefaultEnumHandling": "Integer",
+    "FlattenInheritanceHierarchy": false,
+    "GenerateKnownTypes": true,
+    "OutputFilePath": null
+  },
+  "SwaggerToTypeScriptCommand": {
+    "ClassName": "{controller}Client",
+    "ModuleName": "",
+    "Namespace": "",
+    "Template": "Aurelia",
+    "PromiseType": "Promise",
+    "DateTimeType": "Date",
+    "GenerateClientClasses": true,
+    "GenerateClientInterfaces": false,
+    "GenerateDtoTypes": true,
+    "OperationGenerationMode": "MultipleClientsFromOperationId",
+    "GenerateReadOnlyKeywords": true,
+    "TypeStyle": "Class",
+    "ClassTypes": null,
+    "ExtendedClasses": [],
+    "ExtensionCode": null,
+    "GenerateDefaultValues": true,
+    "ServiceHost": null,
+    "ServiceSchemes": null,
+    "OutputFilePath": "..\\NSwag.Integration.TypeScriptWeb\\scripts\\serviceClientsAurelia.ts"
+  },
+  "SwaggerToCSharpClientCommand": {
+    "ClientBaseClass": null,
+    "ConfigurationClass": null,
+    "GenerateClientClasses": true,
+    "GenerateClientInterfaces": false,
+    "GenerateDtoTypes": true,
+    "UseHttpClientCreationMethod": false,
+    "JsonConverters": null,
+    "GenerateContractsOutput": false,
+    "ContractsNamespace": null,
+    "ContractsOutputFilePath": null,
+    "ClassName": "{controller}Client",
+    "Namespace": "MyNamespace",
+    "AdditionalNamespaceUsages": null,
+    "RequiredPropertiesMustBeDefined": true,
+    "DateTimeType": "DateTime",
+    "ArrayType": "ObservableCollection",
+    "DictionaryType": "Dictionary",
+    "ClassStyle": "Inpc",
+    "OperationGenerationMode": "MultipleClientsFromOperationId",
+    "GenerateDefaultValues": true,
+    "ServiceHost": null,
+    "ServiceSchemes": null,
+    "OutputFilePath": null
+  },
+  "SwaggerToCSharpControllerGenerator": {
+    "ControllerBaseClass": null,
+    "ClassName": "{controller}",
+    "Namespace": "MyNamespace",
+    "AdditionalNamespaceUsages": [
+      "System.Web.Http"
+    ],
+    "RequiredPropertiesMustBeDefined": true,
+    "DateTimeType": "DateTime",
+    "ArrayType": "IEnumerable",
+    "DictionaryType": "Dictionary",
+    "ClassStyle": "Inpc",
+    "OperationGenerationMode": "MultipleClientsFromOperationId",
+    "GenerateDefaultValues": true,
+    "ServiceHost": null,
+    "ServiceSchemes": null,
+    "OutputFilePath": null
+  }
+}

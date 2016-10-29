@@ -41,6 +41,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 
         internal ITemplate CreateTemplate(object model)
         {
+            if (Template == TypeScriptTemplate.Aurelia)
+                return CodeGeneratorSettings.TemplateFactory.CreateTemplate("TypeScript", TypeScriptTemplate.Fetch + "Client", model);
+
             return CodeGeneratorSettings.TemplateFactory.CreateTemplate("TypeScript", Template + "Client", model);
         }
     }

@@ -35,6 +35,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
 
             PromiseType = settings.PromiseType == TypeScript.PromiseType.Promise ? "Promise" : "Q.Promise";
             PromiseConstructor = settings.PromiseType == TypeScript.PromiseType.Promise ? "new Promise" : "Q.Promise";
+
+            UseAureliaHttpInjection = settings.Template == TypeScriptTemplate.Aurelia;
         }
 
         /// <summary>Gets the class name.</summary>
@@ -63,5 +65,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
 
         /// <summary>Gets the promise constructor code.</summary>
         public string PromiseConstructor { get; }
+
+        /// <summary>Gets or sets a value indicating whether to use Aurelia HTTP injection.</summary>
+        public bool UseAureliaHttpInjection { get; set; }
     }
 }
