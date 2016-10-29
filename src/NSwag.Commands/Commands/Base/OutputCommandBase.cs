@@ -1,5 +1,5 @@
 using System;
-using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +9,7 @@ namespace NSwag.Commands.Base
 {
     public abstract class OutputCommandBase : IConsoleCommand
     {
-        [Description("The output file path (optional).")]
+        [Display(Description = "The output file path (optional).")]
         [Argument(Name = "Output", IsRequired = false)]
         public string OutputFilePath { get; set; }
 

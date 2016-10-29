@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using NConsole;
@@ -8,14 +8,14 @@ using NSwag.CodeGeneration.CodeGenerators.CSharp;
 
 namespace NSwag.Commands
 {
-    [Description("Generates CSharp client code from a Swagger specification.")]
+    //[Display(Description = "Generates CSharp client code from a Swagger specification.")]
     public class SwaggerToCSharpClientCommand : SwaggerToCSharpCommand<SwaggerToCSharpClientGeneratorSettings>
     {
         public SwaggerToCSharpClientCommand() : base(new SwaggerToCSharpClientGeneratorSettings())
         {
         }
 
-        [Description("The client base class (empty for no base class).")]
+        [Display(Description = "The client base class (empty for no base class).")]
         [Argument(Name = "ClientBaseClass", IsRequired = false)]
         public string ClientBaseClass
         {
@@ -23,7 +23,7 @@ namespace NSwag.Commands
             set { Settings.ClientBaseClass = value; }
         }
 
-        [Description("The configuration class. The setting ClientBaseClass must be set. (empty for no configuration class).")]
+        [Display(Description = "The configuration class. The setting ClientBaseClass must be set. (empty for no configuration class).")]
         [Argument(Name = "ConfigurationClass", IsRequired = false)]
         public string ConfigurationClass
         {
@@ -31,7 +31,7 @@ namespace NSwag.Commands
             set { Settings.ConfigurationClass = value; }
         }
 
-        [Description("The exception class (default 'SwaggerException', may use '{controller}' placeholder).")]
+        [Display(Description = "The exception class (default 'SwaggerException', may use '{controller}' placeholder).")]
         [Argument(Name = "ExceptionClass", IsRequired = false)]
         public string ExceptionClass
         {
@@ -39,7 +39,7 @@ namespace NSwag.Commands
             set { Settings.ExceptionClass = value; }
         }
 
-        [Description("Specifies whether generate client classes.")]
+        [Display(Description = "Specifies whether generate client classes.")]
         [Argument(Name = "GenerateClientClasses", IsRequired = false)]
         public bool GenerateClientClasses
         {
@@ -47,7 +47,7 @@ namespace NSwag.Commands
             set { Settings.GenerateClientClasses = value; }
         }
 
-        [Description("Specifies whether generate interfaces for the client classes.")]
+        [Display(Description = "Specifies whether generate interfaces for the client classes.")]
         [Argument(Name = "GenerateClientInterfaces", IsRequired = false)]
         public bool GenerateClientInterfaces
         {
@@ -55,7 +55,7 @@ namespace NSwag.Commands
             set { Settings.GenerateClientInterfaces = value; }
         }
 
-        [Description("Specifies whether to generate DTO classes.")]
+        [Display(Description = "Specifies whether to generate DTO classes.")]
         [Argument(Name = "GenerateDtoTypes", IsRequired = false)]
         public bool GenerateDtoTypes
         {
@@ -63,7 +63,7 @@ namespace NSwag.Commands
             set { Settings.GenerateDtoTypes = value; }
         }
 
-        [Description("Specifies whether to call CreateHttpClientAsync on the base class to create a new HttpClient.")]
+        [Display(Description = "Specifies whether to call CreateHttpClientAsync on the base class to create a new HttpClient.")]
         [Argument(Name = "UseHttpClientCreationMethod", IsRequired = false)]
         public bool UseHttpClientCreationMethod
         {
@@ -71,7 +71,7 @@ namespace NSwag.Commands
             set { Settings.UseHttpClientCreationMethod = value; }
         }
         
-        [Description("Specifies the custom Json.NET converter types (optional, comma separated).")]
+        [Display(Description = "Specifies the custom Json.NET converter types (optional, comma separated).")]
         [Argument(Name = "UseHttpClientCreationMethod", IsRequired = false)]
         public string[] JsonConverters
         {
@@ -79,7 +79,7 @@ namespace NSwag.Commands
             set { Settings.CSharpGeneratorSettings.JsonConverters = value; }
         }
 
-        [Description("Specifies whether to call CreateHttpRequestMessageAsync on the base class to create a new HttpRequestMethod.")]
+        [Display(Description = "Specifies whether to call CreateHttpRequestMessageAsync on the base class to create a new HttpRequestMethod.")]
         [Argument(Name = "UseHttpRequestMessageCreationMethod", IsRequired = false)]
         public bool UseHttpRequestMessageCreationMethod
         {
@@ -87,15 +87,15 @@ namespace NSwag.Commands
             set { Settings.UseHttpRequestMessageCreationMethod = value; }
         }
 
-        [Description("Specifies whether to generate contracts output (interface and models in a separate file set with the ContractsOutput parameter).")]
+        [Display(Description = "Specifies whether to generate contracts output (interface and models in a separate file set with the ContractsOutput parameter).")]
         [Argument(Name = "GenerateContractsOutput", IsRequired = false)]
         public bool GenerateContractsOutput { get; set; }
 
-        [Description("The contracts .NET namespace.")]
+        [Display(Description = "The contracts .NET namespace.")]
         [Argument(Name = "ContractsNamespace", IsRequired = false)]
         public string ContractsNamespace { get; set; }
 
-        [Description("The contracts output file path (optional, if no path is set then a single file with the implementation and contracts is generated).")]
+        [Display(Description = "The contracts output file path (optional, if no path is set then a single file with the implementation and contracts is generated).")]
         [Argument(Name = "ContractsOutput", IsRequired = false)]
         public string ContractsOutputFilePath { get; set; }
 

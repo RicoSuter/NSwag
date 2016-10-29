@@ -1,4 +1,4 @@
-using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using NConsole;
 using Newtonsoft.Json;
 using NJsonSchema.CodeGeneration.CSharp;
@@ -19,7 +19,7 @@ namespace NSwag.Commands
         [JsonIgnore]
         public TSettings Settings { get; set; }
         
-        [Description("The class name of the generated client.")]
+        [Display(Description = "The class name of the generated client.")]
         [Argument(Name = "ClassName", IsRequired = false)]
         public string ClassName
         {
@@ -27,7 +27,7 @@ namespace NSwag.Commands
             set { Settings.ClassName = value; }
         }
 
-        [Description("The namespace of the generated classes.")]
+        [Display(Description = "The namespace of the generated classes.")]
         [Argument(Name = "Namespace")]
         public string Namespace
         {
@@ -35,7 +35,7 @@ namespace NSwag.Commands
             set { Settings.CSharpGeneratorSettings.Namespace = value; }
         }
 
-        [Description("The additional namespace usages.")]
+        [Display(Description = "The additional namespace usages.")]
         [Argument(Name = "AdditionalNamespaceUsages", IsRequired = false)]
         public string[] AdditionalNamespaceUsages
         {
@@ -43,7 +43,7 @@ namespace NSwag.Commands
             set { Settings.AdditionalNamespaceUsages = value; }
         }
 
-        [Description("Specifies whether a required property must be defined in JSON (sets Required.Always when the property is required).")]
+        [Display(Description = "Specifies whether a required property must be defined in JSON (sets Required.Always when the property is required).")]
         [Argument(Name = "RequiredPropertiesMustBeDefined", IsRequired = false)]
         public bool RequiredPropertiesMustBeDefined
         {
@@ -51,7 +51,7 @@ namespace NSwag.Commands
             set { Settings.CSharpGeneratorSettings.RequiredPropertiesMustBeDefined = value; }
         }
 
-        [Description("The date .NET type (default: 'DateTime').")]
+        [Display(Description = "The date .NET type (default: 'DateTime').")]
         [Argument(Name = "DateType", IsRequired = false)]
         public string DateType
         {
@@ -59,7 +59,7 @@ namespace NSwag.Commands
             set { Settings.CSharpGeneratorSettings.DateType = value; }
         }
 
-        [Description("The date time .NET type (default: 'DateTime').")]
+        [Display(Description = "The date time .NET type (default: 'DateTime').")]
         [Argument(Name = "DateTimeType", IsRequired = false)]
         public string DateTimeType
         {
@@ -67,7 +67,7 @@ namespace NSwag.Commands
             set { Settings.CSharpGeneratorSettings.DateTimeType = value; }
         }
 
-        [Description("The time .NET type (default: 'TimeSpan').")]
+        [Display(Description = "The time .NET type (default: 'TimeSpan').")]
         [Argument(Name = "TimeType", IsRequired = false)]
         public string TimeType
         {
@@ -75,7 +75,7 @@ namespace NSwag.Commands
             set { Settings.CSharpGeneratorSettings.TimeType = value; }
         }
 
-        [Description("The time span .NET type (default: 'TimeSpan').")]
+        [Display(Description = "The time span .NET type (default: 'TimeSpan').")]
         [Argument(Name = "TimeSpanType", IsRequired = false)]
         public string TimeSpanType
         {
@@ -83,7 +83,7 @@ namespace NSwag.Commands
             set { Settings.CSharpGeneratorSettings.TimeSpanType = value; }
         }
 
-        [Description("The generic array .NET type (default: 'ObservableCollection').")]
+        [Display(Description = "The generic array .NET type (default: 'ObservableCollection').")]
         [Argument(Name = "ArrayType", IsRequired = false)]
         public string ArrayType
         {
@@ -91,7 +91,7 @@ namespace NSwag.Commands
             set { Settings.CSharpGeneratorSettings.ArrayType = value; }
         }
 
-        [Description("The generic dictionary .NET type (default: 'Dictionary').")]
+        [Display(Description = "The generic dictionary .NET type (default: 'Dictionary').")]
         [Argument(Name = "DictionaryType", IsRequired = false)]
         public string DictionaryType
         {
@@ -99,7 +99,7 @@ namespace NSwag.Commands
             set { Settings.CSharpGeneratorSettings.DictionaryType = value; }
         }
 
-        [Description("The CSharp class style, 'Poco' or 'Inpc' (default: 'Inpc').")]
+        [Display(Description = "The CSharp class style, 'Poco' or 'Inpc' (default: 'Inpc').")]
         [Argument(Name = "ClassStyle", IsRequired = false)]
         public CSharpClassStyle ClassStyle
         {
@@ -107,7 +107,7 @@ namespace NSwag.Commands
             set { Settings.CSharpGeneratorSettings.ClassStyle = value; }
         }
 
-        [Description("The operation generation mode ('SingleClientFromOperationId' or 'MultipleClientsFromPathSegments').")]
+        [Display(Description = "The operation generation mode ('SingleClientFromOperationId' or 'MultipleClientsFromPathSegments').")]
         [Argument(Name = "OperationGenerationMode", IsRequired = false)]
         public OperationGenerationMode OperationGenerationMode
         {
@@ -115,7 +115,7 @@ namespace NSwag.Commands
             set { Settings.OperationGenerationMode = value; }
         }
 
-        [Description("Specifies whether to generate default values for properties (may generate CSharp 6 code, default: true).")]
+        [Display(Description = "Specifies whether to generate default values for properties (may generate CSharp 6 code, default: true).")]
         [Argument(Name = "GenerateDefaultValues", IsRequired = false)]
         public bool GenerateDefaultValues
         {

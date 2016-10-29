@@ -1,18 +1,18 @@
-using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using NConsole;
 using NSwag.CodeGeneration.CodeGenerators.CSharp;
 
 namespace NSwag.Commands
 {
-    [Description("Generates CSharp Web API controller code from a Swagger specification.")]
+    //[Display(Description = "Generates CSharp Web API controller code from a Swagger specification.")]
     public class SwaggerToCSharpControllerCommand : SwaggerToCSharpCommand<SwaggerToCSharpWebApiControllerGeneratorSettings>
     {
         public SwaggerToCSharpControllerCommand() : base(new SwaggerToCSharpWebApiControllerGeneratorSettings())
         {
         }
 
-        [Description("The controller base class (empty for 'ApiController').")]
+        [Display(Description = "The controller base class (empty for 'ApiController').")]
         [Argument(Name = "ControllerBaseClass", IsRequired = false)]
         public string ControllerBaseClass
         {

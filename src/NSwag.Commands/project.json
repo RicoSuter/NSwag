@@ -1,0 +1,16 @@
+﻿{
+  "supports": {},
+  "dependencies": {
+    "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
+    "MyToolkit": "2.5.13.1",
+    "NConsole": "3.1.6145.35283",
+    "NETStandard.Library": "1.6.0",
+    "NJsonSchema.CodeGeneration": "5.9.6144.17990",
+    "System.ComponentModel.Annotations": "4.1.0",
+    "System.IO": "4.1.0",
+    "System.Net.Http": "4.1.0"
+  },
+  "frameworks": {
+    "netstandard1.3": {}
+  }
+}
