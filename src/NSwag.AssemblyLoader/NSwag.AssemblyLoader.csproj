@@ -65,14 +65,6 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=5.10.6148.26188, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.5.10.6148.26188\lib\net45\NJsonSchema.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NJsonSchema.CodeGeneration, Version=5.10.6148.26189, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.CodeGeneration.5.10.6148.26189\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -83,17 +75,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\AssemblyTypeToSwaggerCommand.cs" />
+    <Compile Include="Commands\NSwagDocumentCommand.cs" />
+    <Compile Include="Commands\WebApiToSwaggerCommand.cs" />
     <Compile Include="Infrastructure\AppDomainIsolation.cs" />
     <Compile Include="Infrastructure\AssemblyConfigurationFileTransformer.cs" />
+    <Compile Include="NSwagDocument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SwaggerGenerators\AssemblyLoader.cs" />
+    <Compile Include="Infrastructure\AssemblyLoader.cs" />
     <Compile Include="SwaggerGenerators\AssemblyTypeToSwaggerGenerator.cs" />
-    <Compile Include="SwaggerGenerators\AssemblyTypeToSwaggerGeneratorSettings.cs" />
     <Compile Include="SwaggerGenerators\WebApi\WebApiAssemblyToSwaggerGenerator.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\WebApiAssemblyToSwaggerGeneratorSettings.cs" />
     <Compile Include="Utilities\PathUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\NConsole\src\NConsole\NConsole.csproj">
+      <Project>{72219bbe-a7ae-4d69-b246-cb96ae266956}</Project>
+      <Name>NConsole</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\NJsonSchema\src\NJsonSchema.CodeGeneration\NJsonSchema.CodeGeneration.csproj">
+      <Project>{8A463FA0-DAAF-483C-813E-AE9C6153CBF7}</Project>
+      <Name>NJsonSchema.CodeGeneration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\NJsonSchema\src\NJsonSchema\NJsonSchema.csproj">
+      <Project>{7B7A2E32-E808-4A19-98B1-37E766580F8C}</Project>
+      <Name>NJsonSchema</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj">
       <Project>{CA084154-E758-4A44-938D-7806AF2DD886}</Project>
       <Name>NSwag.Annotations</Name>
@@ -101,6 +107,10 @@
     <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj">
       <Project>{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}</Project>
       <Name>NSwag.CodeGeneration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NSwag.Commands\NSwag.Commands.csproj">
+      <Project>{71B39C21-46A2-471B-AACE-226C575B8AC1}</Project>
+      <Name>NSwag.Commands</Name>
     </ProjectReference>
     <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj">
       <Project>{2E6174AA-FC75-4821-9E86-51B30568BEC0}</Project>

@@ -3,7 +3,8 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using MyToolkit.Command;
 using MyToolkit.Utilities;
-using NSwag;
+using NSwag.CodeGeneration;
+using NSwag.CodeGeneration.Commands;
 using NSwagStudio.Views.CodeGenerators;
 using NSwagStudio.Views.SwaggerGenerators;
 
@@ -66,7 +67,7 @@ namespace NSwagStudio.ViewModels
             {
                 var generator = SwaggerGenerators[Document.SelectedSwaggerGenerator];
 
-                var documentPath = generator is SwaggerInputView && !string.IsNullOrEmpty(Document.InputSwaggerUrl) ? 
+                var documentPath = generator is SwaggerInputView && !string.IsNullOrEmpty(Document.InputSwaggerUrl) ?
                     Document.InputSwaggerUrl : null;
 
                 var swaggerCode = await generator.GenerateSwaggerAsync();
@@ -82,9 +83,9 @@ namespace NSwagStudio.ViewModels
             SwaggerGenerators = new ISwaggerGenerator[]
             {
                 new SwaggerInputView(Document),
-                new WebApiToSwaggerGeneratorView(Document.WebApiToSwaggerCommand),
+                new WebApiToSwaggerGeneratorView((WebApiToSwaggerCommand) Document.WebApiToSwaggerCommand),
                 new JsonSchemaInputView(Document),
-                new AssemblyTypeToSwaggerGeneratorView(Document.AssemblyTypeToSwaggerCommand),
+                new AssemblyTypeToSwaggerGeneratorView((AssemblyTypeToSwaggerCommand) Document.AssemblyTypeToSwaggerCommand),
             };
 
             CodeGenerators = new ICodeGenerator[]

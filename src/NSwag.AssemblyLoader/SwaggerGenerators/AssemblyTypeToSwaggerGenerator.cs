@@ -14,30 +14,27 @@ using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.Generation;
 using NSwag.CodeGeneration.Infrastructure;
+using NSwag.CodeGeneration.Utilities;
 
 namespace NSwag.CodeGeneration.SwaggerGenerators
 {
     /// <summary>Generates a <see cref="SwaggerService"/> from a Web API controller or type which is located in a .NET assembly.</summary>
-    public class AssemblyTypeToSwaggerGenerator
+    public class AssemblyTypeToSwaggerGenerator : AssemblyTypeToSwaggerGeneratorBase
     {
-        /// <summary>Initializes a new instance of the <see cref="AssemblyTypeToSwaggerGenerator" /> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="AssemblyTypeToSwaggerGenerator"/> class.</summary>
         /// <param name="settings">The settings.</param>
-        public AssemblyTypeToSwaggerGenerator(AssemblyTypeToSwaggerGeneratorSettings settings)
+        public AssemblyTypeToSwaggerGenerator(AssemblyTypeToSwaggerGeneratorSettings settings) : base(settings)
         {
-            Settings = settings;
         }
-
-        /// <summary>Gets or sets the generator settings.</summary>
-        public AssemblyTypeToSwaggerGeneratorSettings Settings { get; set; }
 
         /// <summary>Gets the available controller classes from the given assembly.</summary>
         /// <returns>The controller classes.</returns>
-        public string[] GetClasses()
+        public override string[] GetClasses()
         {
             if (File.Exists(Settings.AssemblyPath))
             {
                 using (var isolated = new AppDomainIsolation<NetAssemblyLoader>(Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPath)), Settings.AssemblyConfig))
-                    return isolated.Object.GetClasses(Settings.AssemblyPath, Settings.AllReferencePaths);
+                    return isolated.Object.GetClasses(Settings.AssemblyPath, GetAllReferencePaths(Settings));
             }
             return new string[] { };
         }
@@ -45,10 +42,18 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
         /// <summary>Generates the Swagger definition for the given classes without operations (used for class generation).</summary>
         /// <param name="classNames">The class names.</param>
         /// <returns>The Swagger definition.</returns>
-        public SwaggerService Generate(string[] classNames)
+        public override SwaggerService Generate(string[] classNames)
         {
             using (var isolated = new AppDomainIsolation<NetAssemblyLoader>(Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPath)), Settings.AssemblyConfig))
                 return SwaggerService.FromJson(isolated.Object.FromAssemblyType(classNames, JsonConvert.SerializeObject(Settings)));
+        }
+
+        private static string[] GetAllReferencePaths(AssemblyTypeToSwaggerGeneratorSettings settings)
+        {
+            return new[] { Path.GetDirectoryName(PathUtilities.MakeAbsolutePath(settings.AssemblyPath, Directory.GetCurrentDirectory())) }
+                .Concat(settings.ReferencePaths)
+                .Distinct()
+                .ToArray();
         }
 
         private class NetAssemblyLoader : AssemblyLoader
@@ -56,7 +61,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
             internal string FromAssemblyType(string[] classNames, string settingsData)
             {
                 var settings = JsonConvert.DeserializeObject<AssemblyTypeToSwaggerGeneratorSettings>(settingsData);
-                RegisterReferencePaths(settings.AllReferencePaths);
+                RegisterReferencePaths(GetAllReferencePaths(settings));
 
                 var service = new SwaggerService();
 

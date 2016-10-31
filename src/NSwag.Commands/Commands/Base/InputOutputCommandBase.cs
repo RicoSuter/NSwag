@@ -1,27 +1,31 @@
+//-----------------------------------------------------------------------
+// <copyright file="InputOutputCommandBase.cs" company="NSwag">
+//     Copyright (c) Rico Suter. All rights reserved.
+// </copyright>
+// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <author>Rico Suter, mail@rsuter.com</author>
+//-----------------------------------------------------------------------
+
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Text;
 using NConsole;
 using Newtonsoft.Json;
+using NJsonSchema.Infrastructure;
+
+#pragma warning disable 1591
 
 namespace NSwag.Commands.Base
 {
     public abstract class InputOutputCommandBase : OutputCommandBase
     {
         [JsonIgnore]
-        [Display(Description = "A file path or URL to the data or the JSON data itself.")]
-        [Argument(Name = "Input", IsRequired = true, AcceptsCommandInput = true)]
+        [Argument(Name = "Input", IsRequired = true, AcceptsCommandInput = true, Description = "A file path or URL to the data or the JSON data itself.")]
         public object Input { get; set; }
 
-        [Display(Description = "Overrides the service host of the web service (optional, use '.' to remove the hostname).")]
-        [Argument(Name = "ServiceHost", IsRequired = false)]
+        [Argument(Name = "ServiceHost", IsRequired = false, Description = "Overrides the service host of the web service (optional, use '.' to remove the hostname).")]
         public string ServiceHost { get; set; }
 
-        [Display(Description = "Overrides the allowed schemes of the web service (optional, comma separated, 'http', 'https', 'ws', 'wss').")]
-        [Argument(Name = "ServiceSchemes", IsRequired = false)]
+        [Argument(Name = "ServiceSchemes", IsRequired = false, Description = "Overrides the allowed schemes of the web service (optional, comma separated, 'http', 'https', 'ws', 'wss').")]
         public string[] ServiceSchemes { get; set; }
 
         /// <exception cref="ArgumentException" accessor="get">The argument 'Input' was empty.</exception>
@@ -68,13 +72,10 @@ namespace NSwag.Commands.Base
                 if (IsJson(inputString))
                     return inputString;
 
-                if (File.Exists(inputString))
-                    return File.ReadAllText(inputString, Encoding.UTF8);
+                if (DynamicApis.FileExists(inputString))
+                    return DynamicApis.FileReadAllText(inputString);
 
-
-                using (var client = new HttpClient())
-                    return client.GetAsync(inputString).Result
-                                 .Content.ReadAsStringAsync().Result;
+                return DynamicApis.HttpGet(inputString);
             }
         }
 

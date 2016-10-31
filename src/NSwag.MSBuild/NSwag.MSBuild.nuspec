@@ -17,16 +17,16 @@
     </metadata>
     <files>
         <file src="NSwag.MSBuild.targets" target="build" />
-        <file src="..\NSwag\bin\Release\NConsole.dll" target="build" />
-        <file src="..\NSwag\bin\Release\Newtonsoft.Json.dll" target="build" />
-        <file src="..\NSwag\bin\Release\MyToolkit.dll" target="build" />
-        <file src="..\NSwag\bin\Release\NJsonSchema.CodeGeneration.dll" target="build" />
-        <file src="..\NSwag\bin\Release\NJsonSchema.dll" target="build" />
-        <file src="..\NSwag\bin\Release\NSwag.AssemblyLoader.dll" target="build" />
-        <file src="..\NSwag\bin\Release\NSwag.CodeGeneration.dll" target="build" />
-        <file src="..\NSwag\bin\Release\NSwag.Annotations.dll" target="build" />
-        <file src="..\NSwag\bin\Release\NSwag.Core.dll" target="build" />
-        <file src="..\NSwag\bin\Release\NSwag.exe" target="build" />
-        <file src="..\NSwag\bin\Release\NSwag.exe.config" target="build" />
+        <file src="..\NSwagTerminal\bin\Release\NConsole.dll" target="build" />
+        <file src="..\NSwagTerminal\bin\Release\Newtonsoft.Json.dll" target="build" />
+        <file src="..\NSwagTerminal\bin\Release\MyToolkit.dll" target="build" />
+        <file src="..\NSwagTerminal\bin\Release\NJsonSchema.CodeGeneration.dll" target="build" />
+        <file src="..\NSwagTerminal\bin\Release\NJsonSchema.dll" target="build" />
+        <file src="..\NSwagTerminal\bin\Release\NSwag.AssemblyLoader.dll" target="build" />
+        <file src="..\NSwagTerminal\bin\Release\NSwag.CodeGeneration.dll" target="build" />
+        <file src="..\NSwagTerminal\bin\Release\NSwag.Annotations.dll" target="build" />
+        <file src="..\NSwagTerminal\bin\Release\NSwag.Core.dll" target="build" />
+        <file src="..\NSwagTerminal\bin\Release\NSwag.exe" target="build" />
+        <file src="..\NSwagTerminal\bin\Release\NSwag.exe.config" target="build" />
     </files>
 </package>

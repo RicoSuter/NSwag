@@ -18,24 +18,20 @@ using NSwag.CodeGeneration.Utilities;
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 {
     /// <summary>Generates a <see cref="SwaggerService"/> from a Web API controller or type which is located in a .NET assembly.</summary>
-    public class WebApiAssemblyToSwaggerGenerator
+    public class WebApiAssemblyToSwaggerGenerator : WebApiAssemblyToSwaggerGeneratorBase
     {
-        /// <summary>Initializes a new instance of the <see cref="WebApiAssemblyToSwaggerGenerator" /> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="WebApiAssemblyToSwaggerGenerator"/> class.</summary>
         /// <param name="settings">The generator settings.</param>
-        public WebApiAssemblyToSwaggerGenerator(WebApiAssemblyToSwaggerGeneratorSettings settings)
+        public WebApiAssemblyToSwaggerGenerator(WebApiAssemblyToSwaggerGeneratorSettings settings) : base(settings)
         {
-            Settings = settings;
         }
-
-        /// <summary>Gets or sets the generator settings.</summary>
-        public WebApiAssemblyToSwaggerGeneratorSettings Settings { get; set; }
 
         /// <summary>Gets the available controller classes from the given assembly.</summary>
         /// <returns>The controller classes.</returns>
         /// <exception cref="FileNotFoundException">The assembly could not be found.</exception>
         /// <exception cref="FileNotFoundException">The assembly config file could not be found..</exception>
         /// <exception cref="InvalidOperationException">No assembly paths have been provided.</exception>
-        public string[] GetControllerClasses()
+        public override string[] GetControllerClasses()
         {
             if (Settings.AssemblyPaths == null || Settings.AssemblyPaths.Length == 0)
                 throw new InvalidOperationException("No assembly paths have been provided.");
@@ -47,27 +43,14 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 throw new FileNotFoundException("The assembly config file could not be found.", Settings.AssemblyConfig);
 
             using (var isolated = new AppDomainIsolation<WebApiAssemblyLoader>(Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPaths.First())), Settings.AssemblyConfig))
-                return isolated.Object.GetControllerClasses(Settings.AssemblyPaths, Settings.AllReferencePaths);
+                return isolated.Object.GetControllerClasses(Settings.AssemblyPaths, GetAllReferencePaths(Settings));
         }
-
-        /// <summary>Generates the Swagger definition for the given controller.</summary>
-        /// <param name="controllerClassName">The full name of the controller class.</param>
-        /// <returns>The Swagger definition.</returns>
-        /// <exception cref="InvalidOperationException">No assembly paths have been provided.</exception>
-        public SwaggerService GenerateForController(string controllerClassName)
-        {
-            using (var isolated = new AppDomainIsolation<WebApiAssemblyLoader>(Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPaths.First())), Settings.AssemblyConfig))
-            {
-                var service = isolated.Object.GenerateForController(controllerClassName, JsonConvert.SerializeObject(Settings));
-                return SwaggerService.FromJson(service);
-            }
-        }
-
+        
         /// <summary>Generates the Swagger definition for all controllers in the assembly.</summary>
         /// <param name="controllerClassNames">The controller class names.</param>
         /// <exception cref="InvalidOperationException">No assembly paths have been provided.</exception>
         /// <returns>The Swagger definition.</returns>
-        public SwaggerService GenerateForControllers(IEnumerable<string> controllerClassNames)
+        public override SwaggerService GenerateForControllers(IEnumerable<string> controllerClassNames)
         {
             using (var isolated = new AppDomainIsolation<WebApiAssemblyLoader>(Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPaths.First())), Settings.AssemblyConfig))
             {
@@ -76,26 +59,21 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             }
         }
 
+        private static string[] GetAllReferencePaths(WebApiAssemblyToSwaggerGeneratorSettings settings)
+        {
+            return settings.AssemblyPaths.Select(p => Path.GetDirectoryName(PathUtilities.MakeAbsolutePath(p, Directory.GetCurrentDirectory())))
+                .Concat(settings.ReferencePaths)
+                .Distinct()
+                .ToArray();
+        }
+
         private class WebApiAssemblyLoader : AssemblyLoader
         {
-            /// <exception cref="InvalidOperationException">No assembly paths have been provided.</exception>
-            internal string GenerateForController(string controllerClassName, string settingsData)
-            {
-                var settings = JsonConvert.DeserializeObject<WebApiAssemblyToSwaggerGeneratorSettings>(settingsData);
-                RegisterReferencePaths(settings.AllReferencePaths);
-
-                IEnumerable<Type> controllers = GetControllerTypes(new[] { controllerClassName }, settings);
-                var type = controllers.First();
-
-                var generator = new WebApiToSwaggerGenerator(settings);
-                return generator.GenerateForController(type).ToJson();
-            }
-
             /// <exception cref="InvalidOperationException">No assembly paths have been provided.</exception>
             internal string GenerateForControllers(IEnumerable<string> controllerClassNames, string settingsData)
             {
                 var settings = JsonConvert.DeserializeObject<WebApiAssemblyToSwaggerGeneratorSettings>(settingsData);
-                RegisterReferencePaths(settings.AllReferencePaths);
+                RegisterReferencePaths(GetAllReferencePaths(settings));
                 IEnumerable<Type> controllers = GetControllerTypes(controllerClassNames, settings);
 
                 var generator = new WebApiToSwaggerGenerator(settings);

@@ -1,102 +1,102 @@
+//-----------------------------------------------------------------------
+// <copyright file="SwaggerToCSharpClientCommand.cs" company="NSwag">
+//     Copyright (c) Rico Suter. All rights reserved.
+// </copyright>
+// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <author>Rico Suter, mail@rsuter.com</author>
+//-----------------------------------------------------------------------
+
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using NConsole;
 using NSwag.CodeGeneration.CodeGenerators;
 using NSwag.CodeGeneration.CodeGenerators.CSharp;
 
+#pragma warning disable 1591
+
 namespace NSwag.Commands
 {
-    //[Display(Description = "Generates CSharp client code from a Swagger specification.")]
+    [Command(Name = "swagger2csclient", Description = "Generates CSharp client code from a Swagger specification.")]
     public class SwaggerToCSharpClientCommand : SwaggerToCSharpCommand<SwaggerToCSharpClientGeneratorSettings>
     {
         public SwaggerToCSharpClientCommand() : base(new SwaggerToCSharpClientGeneratorSettings())
         {
         }
 
-        [Display(Description = "The client base class (empty for no base class).")]
-        [Argument(Name = "ClientBaseClass", IsRequired = false)]
+        [Argument(Name = "ClientBaseClass", IsRequired = false, Description = "The client base class (empty for no base class).")]
         public string ClientBaseClass
         {
             get { return Settings.ClientBaseClass; }
             set { Settings.ClientBaseClass = value; }
         }
 
-        [Display(Description = "The configuration class. The setting ClientBaseClass must be set. (empty for no configuration class).")]
-        [Argument(Name = "ConfigurationClass", IsRequired = false)]
+        [Argument(Name = "ConfigurationClass", IsRequired = false, Description = "The configuration class. The setting ClientBaseClass must be set. (empty for no configuration class).")]
         public string ConfigurationClass
         {
             get { return Settings.ConfigurationClass; }
             set { Settings.ConfigurationClass = value; }
         }
 
-        [Display(Description = "The exception class (default 'SwaggerException', may use '{controller}' placeholder).")]
-        [Argument(Name = "ExceptionClass", IsRequired = false)]
+        [Argument(Name = "ExceptionClass", IsRequired = false, Description = "The exception class (default 'SwaggerException', may use '{controller}' placeholder).")]
         public string ExceptionClass
         {
             get { return Settings.ExceptionClass; }
             set { Settings.ExceptionClass = value; }
         }
 
-        [Display(Description = "Specifies whether generate client classes.")]
-        [Argument(Name = "GenerateClientClasses", IsRequired = false)]
+        [Argument(Name = "GenerateClientClasses", IsRequired = false, Description = "Specifies whether generate client classes.")]
         public bool GenerateClientClasses
         {
             get { return Settings.GenerateClientClasses; }
             set { Settings.GenerateClientClasses = value; }
         }
 
-        [Display(Description = "Specifies whether generate interfaces for the client classes.")]
-        [Argument(Name = "GenerateClientInterfaces", IsRequired = false)]
+        [Argument(Name = "GenerateClientInterfaces", IsRequired = false, Description = "Specifies whether generate interfaces for the client classes.")]
         public bool GenerateClientInterfaces
         {
             get { return Settings.GenerateClientInterfaces; }
             set { Settings.GenerateClientInterfaces = value; }
         }
 
-        [Display(Description = "Specifies whether to generate DTO classes.")]
-        [Argument(Name = "GenerateDtoTypes", IsRequired = false)]
+        [Argument(Name = "GenerateDtoTypes", IsRequired = false, Description = "Specifies whether to generate DTO classes.")]
         public bool GenerateDtoTypes
         {
             get { return Settings.GenerateDtoTypes; }
             set { Settings.GenerateDtoTypes = value; }
         }
 
-        [Display(Description = "Specifies whether to call CreateHttpClientAsync on the base class to create a new HttpClient.")]
-        [Argument(Name = "UseHttpClientCreationMethod", IsRequired = false)]
+        [Argument(Name = "UseHttpClientCreationMethod", IsRequired = false, Description = "Specifies whether to call CreateHttpClientAsync on the base class to create a new HttpClient.")]
         public bool UseHttpClientCreationMethod
         {
             get { return Settings.UseHttpClientCreationMethod; }
             set { Settings.UseHttpClientCreationMethod = value; }
         }
         
-        [Display(Description = "Specifies the custom Json.NET converter types (optional, comma separated).")]
-        [Argument(Name = "JsonConverters", IsRequired = false)]
+        [Argument(Name = "JsonConverters", IsRequired = false, Description = "Specifies the custom Json.NET converter types (optional, comma separated).")]
         public string[] JsonConverters
         {
             get { return Settings.CSharpGeneratorSettings.JsonConverters; }
             set { Settings.CSharpGeneratorSettings.JsonConverters = value; }
         }
 
-        [Display(Description = "Specifies whether to call CreateHttpRequestMessageAsync on the base class to create a new HttpRequestMethod.")]
-        [Argument(Name = "UseHttpRequestMessageCreationMethod", IsRequired = false)]
+        [Argument(Name = "UseHttpRequestMessageCreationMethod", IsRequired = false, 
+                  Description = "Specifies whether to call CreateHttpRequestMessageAsync on the base class to create a new HttpRequestMethod.")]
         public bool UseHttpRequestMessageCreationMethod
         {
             get { return Settings.UseHttpRequestMessageCreationMethod; }
             set { Settings.UseHttpRequestMessageCreationMethod = value; }
         }
 
-        [Display(Description = "Specifies whether to generate contracts output (interface and models in a separate file set with the ContractsOutput parameter).")]
-        [Argument(Name = "GenerateContractsOutput", IsRequired = false)]
+        [Argument(Name = "GenerateContractsOutput", IsRequired = false,
+                  Description = "Specifies whether to generate contracts output (interface and models in a separate file set with the ContractsOutput parameter).")]
         public bool GenerateContractsOutput { get; set; }
 
-        [Display(Description = "The contracts .NET namespace.")]
-        [Argument(Name = "ContractsNamespace", IsRequired = false)]
+        [Argument(Name = "ContractsNamespace", IsRequired = false, Description = "The contracts .NET namespace.")]
         public string ContractsNamespace { get; set; }
 
-        [Display(Description = "The contracts output file path (optional, if no path is set then a single file with the implementation and contracts is generated).")]
-        [Argument(Name = "ContractsOutput", IsRequired = false)]
+        [Argument(Name = "ContractsOutput", IsRequired = false, 
+                  Description = "The contracts output file path (optional, if no path is set then a single file with the implementation and contracts is generated).")]
         public string ContractsOutputFilePath { get; set; }
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)

@@ -15,6 +15,8 @@ using System.Text.RegularExpressions;
 
 namespace NSwag.CodeGeneration.Utilities
 {
+    // TODO: Move to MyToolkit
+
     /// <summary>Provides file path utility methods.</summary>
     public static class PathUtilities
     {

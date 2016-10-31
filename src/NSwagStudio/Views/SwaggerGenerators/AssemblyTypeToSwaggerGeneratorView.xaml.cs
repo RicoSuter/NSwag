@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using MyToolkit.Mvvm;
-using NSwag.Commands;
+using NSwag.CodeGeneration.Commands;
 using NSwagStudio.ViewModels.SwaggerGenerators;
 
 namespace NSwagStudio.Views.SwaggerGenerators
