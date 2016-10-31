@@ -115,6 +115,10 @@ namespace NSwag.Commands
         [Argument(Name = "ServiceHost", IsRequired = false)]
         public string ServiceHost { get; set; }
 
+        [Description("The basePath of the Swagger specification (optional).")]
+        [Argument(Name = "ServiceBasePath", IsRequired = false)]
+        public string ServiceBasePath { get; set; }
+
         [Description("Overrides the allowed schemes of the web service (optional, comma separated, 'http', 'https', 'ws', 'wss').")]
         [Argument(Name = "ServiceSchemes", IsRequired = false)]
         public string[] ServiceSchemes { get; set; }
@@ -189,6 +193,9 @@ namespace NSwag.Commands
 
                 if (ServiceSchemes != null && ServiceSchemes.Any())
                     service.Schemes = ServiceSchemes.Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true)).ToList();
+
+                if (!string.IsNullOrEmpty(ServiceBasePath))
+                    service.BasePath = ServiceBasePath;
 
                 return service;
             });

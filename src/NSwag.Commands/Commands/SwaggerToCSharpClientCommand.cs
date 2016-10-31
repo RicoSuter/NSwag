@@ -72,7 +72,7 @@ namespace NSwag.Commands
         }
         
         [Display(Description = "Specifies the custom Json.NET converter types (optional, comma separated).")]
-        [Argument(Name = "UseHttpClientCreationMethod", IsRequired = false)]
+        [Argument(Name = "JsonConverters", IsRequired = false)]
         public string[] JsonConverters
         {
             get { return Settings.CSharpGeneratorSettings.JsonConverters; }
