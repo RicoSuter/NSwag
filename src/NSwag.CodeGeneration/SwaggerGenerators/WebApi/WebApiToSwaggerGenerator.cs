@@ -443,6 +443,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             if (method.GetCustomAttributes().Any(a => a.GetType().Name == "HttpPatchAttribute"))
                 yield return SwaggerOperationMethod.Patch;
 
+            if (method.GetCustomAttributes().Any(a => a.GetType().Name == "HttpHeadAttribute"))
+                yield return SwaggerOperationMethod.Head;
+
             dynamic acceptVerbsAttribute = method.GetCustomAttributes()
                 .SingleOrDefault(a => a.GetType().Name == "AcceptVerbsAttribute");
 
