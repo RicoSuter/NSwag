@@ -90,6 +90,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwag.AssemblyLoaderCore", 
 		NSwag.AssemblyLoaderCore\project.json = NSwag.AssemblyLoaderCore\project.json
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwag.TerminalCore", "NSwag.TerminalCore", "{5FAD23FB-4F58-49CA-AB21-5EA13B202E22}"
+	ProjectSection(SolutionItems) = preProject
+		NSwag.TerminalCore\project.json = NSwag.TerminalCore\project.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -355,5 +360,6 @@ Global
 		{A46ED5E6-95EE-448B-AA88-E43FA32482B6} = {492F35DB-5245-4F5A-8DA9-E9C532C2DDA7}
 		{C683AABE-5FE5-47B8-BB4D-EE5C5E89D9DE} = {492F35DB-5245-4F5A-8DA9-E9C532C2DDA7}
 		{C8E685E7-06E6-483C-88D6-7F351E966A34} = {DDBB05AC-B066-48C4-933C-034F401EBB6A}
+		{5FAD23FB-4F58-49CA-AB21-5EA13B202E22} = {DDBB05AC-B066-48C4-933C-034F401EBB6A}
 	EndGlobalSection
 EndGlobal

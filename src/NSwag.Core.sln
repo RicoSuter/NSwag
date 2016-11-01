@@ -11,7 +11,7 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NSwag.Demo.OwinCoreWeb", "N
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NSwag.AssemblyLoaderCore", "NSwag.AssemblyLoaderCore\NSwag.AssemblyLoaderCore.xproj", "{79619C2E-AC7D-430A-9A0B-2C9D2D62C87D}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NSwag.Terminal.Core", "NSwag.TerminalCore\NSwag.Terminal.Core.xproj", "{6ECFF26D-BB69-4F1D-BB18-3C722E6A73A6}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NSwag.TerminalCore", "NSwag.TerminalCore\NSwag.TerminalCore.xproj", "{6ECFF26D-BB69-4F1D-BB18-3C722E6A73A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
