@@ -11,10 +11,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Loader;
 using Newtonsoft.Json;
 using NSwag.CodeGeneration.Infrastructure;
 using NSwag.CodeGeneration.Utilities;
+
+#if !FullNet
+using System.Runtime.Loader;
+#endif
 
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 {
