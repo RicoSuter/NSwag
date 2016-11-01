@@ -3,7 +3,10 @@
 
     "dependencies": {
         "NETStandard.Library": "1.6.0",
-        "NSwag.CodeGeneration": "6.20.6148.29950"
+        "NSwag.Annotations": "6.20.6149.1429",
+        "NSwag.CodeGeneration": "6.20.6149.1429",
+        "NSwag.Commands": "6.20.6149.1429",
+        "NSwag.Core": "6.20.6149.1429"
     },
 
   "frameworks": {

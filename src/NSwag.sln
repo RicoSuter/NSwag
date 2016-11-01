@@ -85,6 +85,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Commands", "NSwag.Com
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Terminal", "NSwag.Terminal\NSwag.Terminal.csproj", "{26CBD69C-EE7C-4D81-8D62-410F4AD4876B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwag.AssemblyLoaderCore", "NSwag.AssemblyLoaderCore", "{C8E685E7-06E6-483C-88D6-7F351E966A34}"
+	ProjectSection(SolutionItems) = preProject
+		NSwag.AssemblyLoaderCore\project.json = NSwag.AssemblyLoaderCore\project.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -349,5 +354,6 @@ Global
 		{987EDAA3-9D9D-4F88-87C6-B81AE8213FCF} = {492F35DB-5245-4F5A-8DA9-E9C532C2DDA7}
 		{A46ED5E6-95EE-448B-AA88-E43FA32482B6} = {492F35DB-5245-4F5A-8DA9-E9C532C2DDA7}
 		{C683AABE-5FE5-47B8-BB4D-EE5C5E89D9DE} = {492F35DB-5245-4F5A-8DA9-E9C532C2DDA7}
+		{C8E685E7-06E6-483C-88D6-7F351E966A34} = {DDBB05AC-B066-48C4-933C-034F401EBB6A}
 	EndGlobalSection
 EndGlobal

@@ -41,3 +41,4 @@ src/packages/**
 /src/NSwag.Integration.TypeScriptWeb/scripts/serviceClientsJQueryPromises.js.map
 /src/NSwag.Integration.TypeScriptWeb/scripts/serviceClientsFetch.js.map
 /src/NSwag.Integration.TypeScriptWeb/scripts/serviceClientsFetch.js
+/build/Packages
