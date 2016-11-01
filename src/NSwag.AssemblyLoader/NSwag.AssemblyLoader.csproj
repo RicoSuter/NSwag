@@ -96,6 +96,9 @@
     <Compile Include="..\NSwag.AssemblyLoaderCore\Commands\WebApiToSwaggerCommand.cs">
       <Link>Commands\WebApiToSwaggerCommand.cs</Link>
     </Compile>
+    <Compile Include="..\NSwag.AssemblyLoaderCore\Infrastructure\AssemblyLoader.cs">
+      <Link>Infrastructure\AssemblyLoader.cs</Link>
+    </Compile>
     <Compile Include="..\NSwag.AssemblyLoaderCore\NSwagDocument.cs">
       <Link>NSwagDocument.cs</Link>
     </Compile>
@@ -111,7 +114,6 @@
     <Compile Include="Infrastructure\AppDomainIsolation.cs" />
     <Compile Include="Infrastructure\AssemblyConfigurationFileTransformer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Infrastructure\AssemblyLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj">
