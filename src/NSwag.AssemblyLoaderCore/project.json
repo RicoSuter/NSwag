@@ -8,7 +8,8 @@
         "NSwag.Commands": "6.20.6149.2835",
         "NSwag.Core": "6.20.6149.2835",
         "System.IO.FileSystem": "4.0.1",
-        "System.Net.Http": "4.1.0"
+        "System.Net.Http": "4.1.0",
+        "System.Runtime.Loader": "4.0.0"
     },
 
     "frameworks": {

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Loader;
 using Newtonsoft.Json;
 using NSwag.CodeGeneration.Infrastructure;
 using NSwag.CodeGeneration.Utilities;
@@ -63,6 +64,19 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 return SwaggerService.FromJson(service);
             }
 #else
+            var assemblies = new List<Assembly>();
+            foreach (var path in Settings.AssemblyPaths)
+            {
+                var assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(path);
+                assemblies.Add(assembly);
+            }
+
+            var controllers = assemblies.SelectMany(a => a.ExportedTypes).Where(t => controllerClassNames.Contains(t.FullName));
+
+            var generator = new WebApiToSwaggerGenerator(Settings);
+            var service =  generator.GenerateForControllers(controllers);
+
+
             throw new NotImplementedException();
 #endif
         }
