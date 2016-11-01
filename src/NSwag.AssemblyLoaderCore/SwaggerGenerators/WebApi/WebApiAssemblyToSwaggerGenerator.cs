@@ -69,7 +69,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             }
 #else
             var loader = new WebApiAssemblyLoader();
-            return loader.GenerateForControllers(controllerClassNames, Settings);
+            var data = loader.GenerateForControllers(controllerClassNames, JsonConvert.SerializeObject(Settings));
+            return SwaggerService.FromJson(data);
 #endif
         }
 
@@ -83,24 +84,16 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
         private class WebApiAssemblyLoader : AssemblyLoader
         {
-#if !FullNet
-            internal SwaggerService GenerateForControllers(IEnumerable<string> controllerClassNames, WebApiAssemblyToSwaggerGeneratorSettings settings)
-            {
-#else
             /// <exception cref="InvalidOperationException">No assembly paths have been provided.</exception>
             internal string GenerateForControllers(IEnumerable<string> controllerClassNames, string settingsData)
             {
                 var settings = JsonConvert.DeserializeObject<WebApiAssemblyToSwaggerGeneratorSettings>(settingsData);
-#endif
+
                 RegisterReferencePaths(GetAllReferencePaths(settings));
                 IEnumerable<Type> controllers = GetControllerTypes(controllerClassNames, settings);
 
                 var generator = new WebApiToSwaggerGenerator(settings);
-#if FullNet
                 return generator.GenerateForControllers(controllers).ToJson();
-#else
-                return generator.GenerateForControllers(controllers);
-#endif
             }
 
             /// <exception cref="InvalidOperationException">No assembly paths have been provided.</exception>

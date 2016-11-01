@@ -60,7 +60,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
                 return SwaggerService.FromJson(isolated.Object.FromAssemblyType(classNames, JsonConvert.SerializeObject(Settings)));
 #else
             var loader = new NetAssemblyLoader();
-            return loader.FromAssemblyType(classNames, Settings);
+            var data = loader.FromAssemblyType(classNames, JsonConvert.SerializeObject(Settings));
+            return SwaggerService.FromJson(data);
 #endif
         }
 
@@ -74,14 +75,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
 
         private class NetAssemblyLoader : AssemblyLoader
         {
-#if !FullNet
-            internal SwaggerService FromAssemblyType(string[] classNames, AssemblyTypeToSwaggerGeneratorSettings settings)
-            {
-#else
             internal string FromAssemblyType(string[] classNames, string settingsData)
             {
-                var settings = JsonConvert.DeserializeObject<WebApiAssemblyToSwaggerGeneratorSettings>(settingsData);
-#endif
+                var settings = JsonConvert.DeserializeObject<AssemblyTypeToSwaggerGeneratorSettings>(settingsData);
                 RegisterReferencePaths(GetAllReferencePaths(settings));
 
                 var service = new SwaggerService();
@@ -102,11 +98,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
                     service.Definitions[type.Name] = schema;
                 }
 
-#if FullNet
                 return service.ToJson();
-#else
-                return service;
-#endif
             }
 
             internal string[] GetClasses(string assemblyPath, IEnumerable<string> referencePaths)
