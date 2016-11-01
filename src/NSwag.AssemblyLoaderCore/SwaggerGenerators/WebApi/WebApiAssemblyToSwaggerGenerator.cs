@@ -50,7 +50,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             using (var isolated = new AppDomainIsolation<WebApiAssemblyLoader>(Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPaths.First())), Settings.AssemblyConfig))
                 return isolated.Object.GetControllerClasses(Settings.AssemblyPaths, GetAllReferencePaths(Settings));
 #else
-            throw new NotImplementedException();
+            var loader = new WebApiAssemblyLoader();
+            return loader.GetControllerClasses(Settings.AssemblyPaths, GetAllReferencePaths(Settings));
 #endif
         }
 
@@ -67,20 +68,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 return SwaggerService.FromJson(service);
             }
 #else
-            var assemblies = new List<Assembly>();
-            foreach (var path in Settings.AssemblyPaths)
-            {
-                var assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(path);
-                assemblies.Add(assembly);
-            }
-
-            var controllers = assemblies.SelectMany(a => a.ExportedTypes).Where(t => controllerClassNames.Contains(t.FullName));
-
-            var generator = new WebApiToSwaggerGenerator(Settings);
-            var service =  generator.GenerateForControllers(controllers);
-
-
-            throw new NotImplementedException();
+            var loader = new WebApiAssemblyLoader();
+            return loader.GenerateForControllers(controllerClassNames, Settings);
 #endif
         }
 
@@ -92,19 +81,26 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 .ToArray();
         }
 
-#if FullNet
-
         private class WebApiAssemblyLoader : AssemblyLoader
         {
+#if !FullNet
+            internal SwaggerService GenerateForControllers(IEnumerable<string> controllerClassNames, WebApiAssemblyToSwaggerGeneratorSettings settings)
+            {
+#else
             /// <exception cref="InvalidOperationException">No assembly paths have been provided.</exception>
             internal string GenerateForControllers(IEnumerable<string> controllerClassNames, string settingsData)
             {
                 var settings = JsonConvert.DeserializeObject<WebApiAssemblyToSwaggerGeneratorSettings>(settingsData);
+#endif
                 RegisterReferencePaths(GetAllReferencePaths(settings));
                 IEnumerable<Type> controllers = GetControllerTypes(controllerClassNames, settings);
 
                 var generator = new WebApiToSwaggerGenerator(settings);
+#if FullNet
                 return generator.GenerateForControllers(controllers).ToJson();
+#else
+                return generator.GenerateForControllers(controllers);
+#endif
             }
 
             /// <exception cref="InvalidOperationException">No assembly paths have been provided.</exception>
@@ -113,8 +109,13 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 if (settings.AssemblyPaths == null || settings.AssemblyPaths.Length == 0)
                     throw new InvalidOperationException("No assembly paths have been provided.");
 
+#if FullNet
                 var assemblies = PathUtilities.ExpandFileWildcards(settings.AssemblyPaths)
                     .Select(path => Assembly.LoadFrom(path)).ToArray();
+#else
+                var assemblies = PathUtilities.ExpandFileWildcards(settings.AssemblyPaths)
+                    .Select(path => AssemblyLoadContext.Default.LoadFromAssemblyPath(path)).ToArray();
+#endif
 
                 var controllerTypes = new List<Type>();
                 foreach (var className in controllerClassNames)
@@ -133,14 +134,16 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 RegisterReferencePaths(referencePaths);
 
                 return PathUtilities.ExpandFileWildcards(assemblyPaths)
+#if FullNet
                     .Select(Assembly.LoadFrom)
+#else
+                    .Select(AssemblyLoadContext.Default.LoadFromAssemblyPath)
+#endif
                     .SelectMany(WebApiToSwaggerGenerator.GetControllerClasses)
                     .Select(t => t.FullName)
                     .OrderBy(c => c)
                     .ToArray();
             }
         }
-
-#endif
     }
 }
