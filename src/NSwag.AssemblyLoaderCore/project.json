@@ -1,17 +1,19 @@
 {
-  "version": "1.0.0-*",
+    "version": "1.0.0-*",
 
     "dependencies": {
         "NETStandard.Library": "1.6.0",
-        "NSwag.Annotations": "6.20.6149.1429",
-        "NSwag.CodeGeneration": "6.20.6149.1429",
-        "NSwag.Commands": "6.20.6149.1429",
-        "NSwag.Core": "6.20.6149.1429"
+        "NSwag.Annotations": "6.20.6149.2835",
+        "NSwag.CodeGeneration": "6.20.6149.2835",
+        "NSwag.Commands": "6.20.6149.2835",
+        "NSwag.Core": "6.20.6149.2835",
+        "System.IO.FileSystem": "4.0.1",
+        "System.Net.Http": "4.1.0"
     },
 
-  "frameworks": {
-    "netstandard1.6": {
-      "imports": "dnxcore50"
+    "frameworks": {
+        "netstandard1.6": {
+            "imports": "dnxcore50"
+        }
     }
-  }
 }

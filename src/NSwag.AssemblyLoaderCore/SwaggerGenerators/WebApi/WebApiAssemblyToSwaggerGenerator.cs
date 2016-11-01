@@ -46,7 +46,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             using (var isolated = new AppDomainIsolation<WebApiAssemblyLoader>(Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPaths.First())), Settings.AssemblyConfig))
                 return isolated.Object.GetControllerClasses(Settings.AssemblyPaths, GetAllReferencePaths(Settings));
 #else
-            return new string[] { };
+            throw new NotImplementedException();
 #endif
         }
 
@@ -63,7 +63,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 return SwaggerService.FromJson(service);
             }
 #else
-            return new SwaggerService();
+            throw new NotImplementedException();
 #endif
         }
 

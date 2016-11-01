@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -39,7 +40,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
             }
             return new string[] { };
 #else
-            return new string[] { };
+            throw new NotImplementedException();
 #endif
         }
 
@@ -52,7 +53,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
             using (var isolated = new AppDomainIsolation<NetAssemblyLoader>(Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPath)), Settings.AssemblyConfig))
                 return SwaggerService.FromJson(isolated.Object.FromAssemblyType(classNames, JsonConvert.SerializeObject(Settings)));
 #else
-            return new SwaggerService();
+            throw new NotImplementedException();
 #endif
         }
 
