@@ -24,12 +24,11 @@ export interface I<#=Model.Class#> {
 export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements I<#=Model.Class#> <#}#>{
     private baseUrl: string; 
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
-	private jsonParseReviver: (key: string, value: any) => any = undefined; 
+	protected jsonParseReviver: (key: string, value: any) => any = undefined; 
 
-    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }, jsonParseReviver?: (key: string, value: any) => any) {
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
         this.baseUrl = baseUrl ? baseUrl : "";
         this.http = http ? http : window;
-        this.jsonParseReviver = jsonParseReviver;
     }
 <#if(Model.IsExtended){#>
 
