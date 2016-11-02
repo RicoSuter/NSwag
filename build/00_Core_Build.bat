@@ -1,4 +1,4 @@
-REM rmdir Output /Q /S nonemptydir
+REM rmdir Packages /Q /S nonemptydir
 
 cd "../src/NSwag.AspNetCore"
 
