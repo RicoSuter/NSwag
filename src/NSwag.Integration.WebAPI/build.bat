@@ -1,1 +1,1 @@
-"../NSwag/bin/Debug/nswag.exe" run
+"../NSwag.Terminal/bin/Debug/nswag.exe" run
