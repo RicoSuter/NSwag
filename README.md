@@ -70,12 +70,15 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 - [NSwag.Core](https://www.nuget.org/packages/NSwag.Core/) (PCL 259): The Swagger reader and writer classes ([Source Code](https://github.com/NSwag/NSwag/tree/master/src/NSwag.Core))
 - [NSwag.Annotations](https://www.nuget.org/packages/NSwag.Annotations/) (PCL 259): Attributes to decorate Web API controllers to control the Swagger generation ([Source Code](https://github.com/NSwag/NSwag/tree/master/src/NSwag.Annotations))
 - [NSwag.CodeGeneration](https://www.nuget.org/packages/NSwag.CodeGeneration/) (PCL 259): Classes to generate Swagger specifications from Web API controllers and C# and TypeScript clients ([Source Code](https://github.com/NSwag/NSwag/tree/master/src/NSwag.CodeGeneration))
+- [NSwag.AssemblyLoaderCore](https://www.nuget.org/packages/NSwag.AssemblyLoaderCore/) (.NET Core, .NETStandard 1.6): Classes to load assemblies in an AssemblyLoaderContext and generate Swagger specs from Web API controllers
 - [NSwag.AssemblyLoader](https://www.nuget.org/packages/NSwag.AssemblyLoader/) (.NET 4.5+): Classes to load assemblies in an isolated AppDomain and generate Swagger specs from Web API controllers
 - [NSwag.MSBuild](https://www.nuget.org/packages/NSwag.MSBuild/) (MSBuild .targets): Adds a .targets file to your Visual Studio project, so that you can run the NSwag command line tool in an MSBuild target
 - [NSwag.AspNetCore](https://www.nuget.org/packages/NSwag.AspNetCore/) (.NETStandard 1.6 and .NET 4.5.1+): 
 - [NSwag.AspNet.Owin](https://www.nuget.org/packages/NSwag.AspNet.Owin/) (.NET 4.5+): OWIN Middlewares for serving Swagger specifications and Swagger UI
 - [NSwag.AspNet.WebApi](https://www.nuget.org/packages/NSwag.AspNet.WebApi/) (.NET 4.5+): ASP.NET Web API filter which serializes exceptions ([JsonExceptionFilterAttribute](https://github.com/NSwag/NSwag/wiki/JsonExceptionFilterAttribute))
 - [NSwagStudio](https://chocolatey.org/packages/nswagstudio) (Chocolatey): Package to install the NSwagStudio and command line tools via Chocolatey
+- [NSwag.Commands](https://www.nuget.org/packages/NSwag.Commands/) (PCL 259): Commands for the command line tools
+- [NSwag.TerminalCore](https://www.nuget.org/packages/NSwag.AspNetCore/) (PCL 259): Command line tool for .NET Core (`dotnet nswag.dll`)
 
 The NuGet packages may require the **Microsoft.NETCore.Portable.Compatibility** package on .NET Core/UWP targets (if mscorlib is missing). 
 
