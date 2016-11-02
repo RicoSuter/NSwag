@@ -1,12 +1,12 @@
 {
-    "version": "6.20.0-*",
+    "version": "6.21.0-*",
 
     "dependencies": {
+        "NSwag.Annotations": "*",
+        "NSwag.CodeGeneration": "*",
+        "NSwag.Commands": "*",
+        "NSwag.Core": "*",
         "NETStandard.Library": "1.6.0",
-        "NSwag.Annotations": "6.20.6149.2835",
-        "NSwag.CodeGeneration": "6.20.6149.2835",
-        "NSwag.Commands": "6.20.6149.2835",
-        "NSwag.Core": "6.20.6149.2835",
         "System.IO.FileSystem": "4.0.1",
         "System.Net.Http": "4.1.0",
         "System.Runtime.Loader": "4.0.0"
