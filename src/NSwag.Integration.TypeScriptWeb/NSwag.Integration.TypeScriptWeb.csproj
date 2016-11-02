@@ -117,6 +117,7 @@
     <None Include="scripts\serviceClientsAurelia.ts" />
     <TypeScriptCompile Include="scripts\serviceClientsFetch.ts" />
     <TypeScriptCompile Include="scripts\serviceClientsJQueryCallbacks.ts" />
+    <TypeScriptCompile Include="scripts\serviceClientsFetch.extensions.ts" />
     <TypeScriptCompile Include="scripts\serviceClientsJQueryPromises.extensions.ts" />
     <TypeScriptCompile Include="scripts\serviceClientsJQueryPromises.ts" />
     <TypeScriptCompile Include="scripts\serviceClientsJQueryPromisesKO.ts" />
