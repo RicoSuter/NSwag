@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "NSwag.TerminalCore": {
+    "NSwag.ConsoleCore": {
       "commandName": "Project"
     }
   }

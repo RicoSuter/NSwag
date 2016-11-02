@@ -279,10 +279,6 @@
       <Project>{2E6174AA-FC75-4821-9E86-51B30568BEC0}</Project>
       <Name>NSwag.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NSwag.Terminal\NSwag.Terminal.csproj">
-      <Project>{26CBD69C-EE7C-4D81-8D62-410F4AD4876B}</Project>
-      <Name>NSwag.Terminal</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="ApplicationIcon.ico">

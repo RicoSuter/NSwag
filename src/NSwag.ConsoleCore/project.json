@@ -1,5 +1,14 @@
 {
     "version": "6.21.0-*",
+    "authors": [ "Rico Suter" ],
+    "description": "NSwag: The Swagger API toolchain for .NET and TypeScript",
+    "packOptions": {
+        "projectUrl": "https://github.com/NSwag/NSwag",
+        "licenseUrl": "https://github.com/NSwag/NSwag/blob/master/LICENSE.md",
+        "iconUrl": "https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png",
+        "tags": [ "Swagger", "Documentation", "WebApi", "AspNet", "TypeScript", "CodeGen" ]
+    },
+
     "buildOptions": {
         "emitEntryPoint": true,
         "outputName": "NSwag"
