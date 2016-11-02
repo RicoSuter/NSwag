@@ -78,7 +78,7 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 - [NSwag.AspNet.WebApi](https://www.nuget.org/packages/NSwag.AspNet.WebApi/) (.NET 4.5+): ASP.NET Web API filter which serializes exceptions ([JsonExceptionFilterAttribute](https://github.com/NSwag/NSwag/wiki/JsonExceptionFilterAttribute))
 - [NSwagStudio](https://chocolatey.org/packages/nswagstudio) (Chocolatey, Windows): Package to install the NSwagStudio and command line tools via Chocolatey
 - [NSwag.Commands](https://www.nuget.org/packages/NSwag.Commands/) (PCL 259): Commands for the command line tool implementations and UI
-- [NSwag.ConsoleCore](https://www.nuget.org/packages/NSwag.AspNetCore/) (PCL 259): Command line tool for .NET Core (`dotnet nswag.dll`)
+- [NSwag.ConsoleCore](https://www.nuget.org/packages/NSwag.ConsoleCore/) (PCL 259): Command line tool for .NET Core (`dotnet nswag.dll`)
 
 The NuGet packages may require the **Microsoft.NETCore.Portable.Compatibility** package on .NET Core/UWP targets (if mscorlib is missing). 
 
