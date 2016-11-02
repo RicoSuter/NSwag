@@ -76,7 +76,7 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 - [NSwag.AspNetCore](https://www.nuget.org/packages/NSwag.AspNetCore/) (.NETStandard 1.6 and .NET 4.5.1+): 
 - [NSwag.AspNet.Owin](https://www.nuget.org/packages/NSwag.AspNet.Owin/) (.NET 4.5+): OWIN Middlewares for serving Swagger specifications and Swagger UI
 - [NSwag.AspNet.WebApi](https://www.nuget.org/packages/NSwag.AspNet.WebApi/) (.NET 4.5+): ASP.NET Web API filter which serializes exceptions ([JsonExceptionFilterAttribute](https://github.com/NSwag/NSwag/wiki/JsonExceptionFilterAttribute))
-- [NSwagStudio](https://chocolatey.org/packages/nswagstudio) (Chocolatey): Package to install the NSwagStudio and command line tools via Chocolatey
+- [NSwagStudio](https://chocolatey.org/packages/nswagstudio) (Chocolatey, Windows): Package to install the NSwagStudio and command line tools via Chocolatey
 - [NSwag.Commands](https://www.nuget.org/packages/NSwag.Commands/) (PCL 259): Commands for the command line tool implementations and UI
 - [NSwag.ConsoleCore](https://www.nuget.org/packages/NSwag.AspNetCore/) (PCL 259): Command line tool for .NET Core (`dotnet nswag.dll`)
 
