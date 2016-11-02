@@ -89,7 +89,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
 #if FullNet
                 var assembly = Assembly.LoadFrom(settings.AssemblyPath);
 #else
-                var assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(settings.AssemblyPath);
+                var assembly = Context.LoadFromAssemblyPath(settings.AssemblyPath);
 #endif
                 foreach (var className in classNames)
                 {
@@ -108,7 +108,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
 #if FullNet
                 var assembly = Assembly.LoadFrom(assemblyPath);
 #else
-                var assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(assemblyPath);
+                var assembly = Context.LoadFromAssemblyPath(assemblyPath);
 #endif
                 return assembly.ExportedTypes
                     .Select(t => t.FullName)

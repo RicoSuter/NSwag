@@ -21,17 +21,24 @@ namespace NSwag.CodeGeneration.Infrastructure
 {
 #if FullNet
     internal class AssemblyLoader : MarshalByRefObject
+    {
 #else
     internal class AssemblyLoader
-#endif
     {
+        public AssemblyLoadContext Context { get; }
+
+        public AssemblyLoader()
+        {
+            Context = new CustomAssemblyLoadContext();
+        }
+
+#endif
+
         protected void RegisterReferencePaths(IEnumerable<string> referencePaths)
         {
 #if FullNet
-            var domain = AppDomain.CurrentDomain;
-            var allReferencePaths = new List<string>(GetAllDirectories(domain.SetupInformation.ApplicationBase));
+            var allReferencePaths = new List<string>(GetAllDirectories(AppDomain.CurrentDomain.SetupInformation.ApplicationBase));
 #else
-            var domain = AssemblyLoadContext.Default;
             var allReferencePaths = new List<string>();
 #endif
 
@@ -46,16 +53,16 @@ namespace NSwag.CodeGeneration.Infrastructure
             allReferencePaths = allReferencePaths.Distinct().ToList();
 
 #if FullNet
-            domain.AssemblyResolve += (sender, args) =>
+            AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
 #else
-            domain.Resolving += (context, args) =>
+            Context.Resolving += (context, args) =>
 #endif
             {
                 var separatorIndex = args.Name.IndexOf(",", StringComparison.Ordinal);
                 var assemblyName = separatorIndex > 0 ? args.Name.Substring(0, separatorIndex) : args.Name;
 
 #if FullNet
-                var existingAssembly = domain.GetAssemblies().FirstOrDefault(a => a.GetName().Name == assemblyName);
+                var existingAssembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetName().Name == assemblyName);
                 if (existingAssembly != null)
                     return existingAssembly;
 #endif
@@ -70,7 +77,7 @@ namespace NSwag.CodeGeneration.Infrastructure
 #if FullNet
                             return Assembly.LoadFrom(file);
 #else
-                            return domain.LoadFromAssemblyPath(file);
+                            return Context.LoadFromAssemblyPath(file);
 #endif
                         }
                         catch (Exception exception)

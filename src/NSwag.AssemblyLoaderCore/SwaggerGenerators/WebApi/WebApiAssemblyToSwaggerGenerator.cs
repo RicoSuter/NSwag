@@ -107,7 +107,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     .Select(path => Assembly.LoadFrom(path)).ToArray();
 #else
                 var assemblies = PathUtilities.ExpandFileWildcards(settings.AssemblyPaths)
-                    .Select(path => AssemblyLoadContext.Default.LoadFromAssemblyPath(path)).ToArray();
+                    .Select(path => Context.LoadFromAssemblyPath(path)).ToArray();
 #endif
 
                 var controllerTypes = new List<Type>();
@@ -130,7 +130,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 #if FullNet
                     .Select(Assembly.LoadFrom)
 #else
-                    .Select(AssemblyLoadContext.Default.LoadFromAssemblyPath)
+                    .Select(Context.LoadFromAssemblyPath)
 #endif
                     .SelectMany(WebApiToSwaggerGenerator.GetControllerClasses)
                     .Select(t => t.FullName)
