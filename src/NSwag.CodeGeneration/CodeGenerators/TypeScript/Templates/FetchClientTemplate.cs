@@ -278,7 +278,7 @@ if(Model.GenerateClientInterfaces){
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }, jsonParseReviver?: (key: string, value: any) => any) {
         this.baseUrl = baseUrl ? baseUrl : """";
         this.http = http ? http : window;
-		this.jsonParseReviver = jsonParseReviver;
+        this.jsonParseReviver = jsonParseReviver;
     }
 ");
             
