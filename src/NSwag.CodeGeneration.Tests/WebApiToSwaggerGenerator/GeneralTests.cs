@@ -26,7 +26,7 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator
             var generator = new WebApiAssemblyToSwaggerGenerator(settings);
 
             //// Act
-            var swaggerService = generator.GenerateForController("NonExistingClass"); // Should throw exception
+            var swaggerService = generator.GenerateForControllers(new[] { "NonExistingClass" }); // Should throw exception
 
             //// Assert
         }

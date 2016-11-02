@@ -24,6 +24,7 @@ export interface I<#=Model.Class#> {
 export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements I<#=Model.Class#> <#}#>{
     private baseUrl: string; 
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+	protected jsonParseReviver: (key: string, value: any) => any = undefined; 
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
         this.baseUrl = baseUrl ? baseUrl : "";
@@ -133,10 +134,10 @@ if(!operation.IsGetOrHead){#>
                 result<#=response.StatusCode#> = new Date(data);
 <#  }else{#>
 <#      if(response.UseDtoClass){#>
-                let resultData<#=response.StatusCode#> = data === "" ? null : JSON.parse(data);
+                let resultData<#=response.StatusCode#> = data === "" ? null : JSON.parse(data, this.jsonParseReviver);
                 <#=ConversionUtilities.Tab(response.DataConversionCode, 4)#>
 <#      }else{#>
-                result<#=response.StatusCode#> = data === "" ? null : <<#=response.Type#>>JSON.parse(data);
+                result<#=response.StatusCode#> = data === "" ? null : <<#=response.Type#>>JSON.parse(data, this.jsonParseReviver);
 <#      }#>
 <#  }#>
 <#  if(response.IsSuccess){#>
@@ -154,10 +155,10 @@ if(!operation.IsGetOrHead){#>
                 result = new Date(data);
 <#  }else{#>
 <#      if(operation.DefaultResponse.UseDtoClass){#>
-                let resultData = data === "" ? null : JSON.parse(data);
+                let resultData = data === "" ? null : JSON.parse(data, this.jsonParseReviver);
             <#=ConversionUtilities.Tab(operation.DefaultResponse.DataConversionCode, 3)#>
 <#      }else{#>
-                result = data === "" ? null : <<#=operation.DefaultResponse.Type#>>JSON.parse(data);
+                result = data === "" ? null : <<#=operation.DefaultResponse.Type#>>JSON.parse(data, this.jsonParseReviver);
 <#      }#>
 <#  }#>
 <#  if(operation.DefaultResponse.IsSuccess){#>

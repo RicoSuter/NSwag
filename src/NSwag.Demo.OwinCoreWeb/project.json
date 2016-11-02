@@ -8,10 +8,8 @@
         "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
         "Microsoft.AspNetCore.Mvc": "1.0.0",
         "System.Xml.XDocument": "4.0.11",
-
-        "NSwag.AspNetCore": "*", 
-        "NSwag.CodeGeneration": "*"
-    },
+        "NSwag.AspNetCore": "*",
+        "NSwag.CodeGeneration": "6.20.6149.2835" },
 
     "tools": {
         "Microsoft.AspNetCore.Server.IISIntegration.Tools": {

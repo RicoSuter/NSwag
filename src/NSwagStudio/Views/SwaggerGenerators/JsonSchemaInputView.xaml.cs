@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using NJsonSchema;
 using NSwag;
+using NSwag.CodeGeneration;
 
 namespace NSwagStudio.Views.SwaggerGenerators
 {

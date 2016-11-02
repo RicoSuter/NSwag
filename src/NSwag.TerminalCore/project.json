@@ -1,0 +1,27 @@
+{
+    "version": "6.21.0-*",
+    "buildOptions": {
+        "emitEntryPoint": true,
+        "outputName": "NSwag"
+    },
+
+    "dependencies": {
+        "Microsoft.NETCore.App": {
+            "type": "platform",
+            "version": "1.0.1"
+        },
+        "System.IO.FileSystem": "4.0.1",
+        "System.Net.Http": "4.1.0",
+        "NSwag.AssemblyLoaderCore": "*",
+        "NSwag.Annotations": "*",
+        "NSwag.CodeGeneration": "*",
+        "NSwag.Commands": "*",
+        "NSwag.Core": "*"
+    },
+
+    "frameworks": {
+        "netcoreapp1.0": {
+            "imports": "dnxcore50"
+        }
+    }
+}

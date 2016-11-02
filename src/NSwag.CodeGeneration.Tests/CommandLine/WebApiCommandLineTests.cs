@@ -51,7 +51,7 @@ namespace NSwag.CodeGeneration.Tests.CommandLine
             var configuration = Directory.GetCurrentDirectory().Contains("bin\\Release") ? "Release" : "Debug";
             var process = Process.Start(new ProcessStartInfo
             {
-                FileName = Path.GetFullPath("../../../NSwag/bin/" + configuration + "/NSwag.exe"),
+                FileName = Path.GetFullPath("../../../NSwag.Terminal/bin/" + configuration + "/NSwag.exe"),
                 Arguments = command,
                 CreateNoWindow = true, 
                 WindowStyle = ProcessWindowStyle.Hidden
