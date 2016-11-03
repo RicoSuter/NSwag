@@ -82,6 +82,8 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 
 The NuGet packages may require the **Microsoft.NETCore.Portable.Compatibility** package on .NET Core/UWP targets (if mscorlib is missing). 
 
+![LayerDiagram](assets/LayerDiagram.png)
+
 ### Usage in C&#35;
 
 The following code shows how to read a Swagger specification and generate C# client classes to call the described web services: 
