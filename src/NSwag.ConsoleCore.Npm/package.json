@@ -1,0 +1,32 @@
+{
+  "name": "nswag",
+  "version": "0.0.5",
+  "optionalDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NSwag/NSwag.git"
+  },
+  "scripts": {},
+  "author": {
+    "name": "Rico Suter",
+    "email": "mail@rsuter.com",
+    "url": "http://rsuter.com"
+  },
+  "bin": {
+    "nswag": "bin/nswag.js"
+  },
+  "bugs": {
+    "url": "https://github.com/NSwag/NSwag/issues"
+  },
+  "dependencies": {
+    "npm": "^3.10.8"
+  },
+  "description": "The Swagger API toolchain for .NET, Web API and TypeScript.",
+  "directories": {},
+  "homepage": "http://nswag.org",
+  "installable": true,
+  "keywords": [
+    "nswag"
+  ],
+  "license": "MS-PL"
+}
