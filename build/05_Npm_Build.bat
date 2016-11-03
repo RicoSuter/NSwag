@@ -1,12 +1,16 @@
-cd ../src/NSwag.ConsoleCore
+rmdir "..\src\NSwag.ConsoleCore.Npm\bin\binaries" /Q /S nonemptydir
+mkdir "..\src\NSwag.ConsoleCore.Npm\bin\binaries"
 
-dotnet restore --no-cache
-dotnet build
+REM Build and copy full .NET command line
+nuget restore ../src/NSwag.sln
+msbuild ../src/NSwag.sln /p:Configuration=Release /t:rebuild
 
-dotnet publish -c release
+xcopy "../src/NSwag.Console/bin/Release" "../src/NSwag.ConsoleCore.Npm/bin/binaries/full" /E /I /y
 
-rmdir "..\NSwag.ConsoleCore.Npm\bin\binaries" /Q /S nonemptydir
-mkdir "..\NSwag.ConsoleCore.Npm\bin\binaries"
-xcopy "bin\release\netcoreapp1.0\publish" "..\NSwag.ConsoleCore.Npm\bin\binaries" /E /I /y
+REM Build and copy .NET Core command line
 
-cd ../../build
+dotnet restore "../src/NSwag.ConsoleCore" --no-cache
+dotnet build "../src/NSwag.ConsoleCore"
+dotnet publish "../src/NSwag.ConsoleCore" -c release
+
+xcopy "../src/NSwag.ConsoleCore/bin/release/netcoreapp1.0/publish" "../src/NSwag.ConsoleCore.Npm/bin/binaries/core" /E /I /y

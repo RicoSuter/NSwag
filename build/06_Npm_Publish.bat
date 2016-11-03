@@ -1,2 +1,1 @@
-cd ../src/NSwag.ConsoleCore.Npm
-npm publish
+npm publish "../src/NSwag.ConsoleCore.Npm"
