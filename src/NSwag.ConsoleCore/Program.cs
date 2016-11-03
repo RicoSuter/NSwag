@@ -9,7 +9,7 @@ namespace NSwag
         static int Main(string[] args)
         {
             var processor = new NSwagCommandProcessor(typeof(NSwagDocument).GetTypeInfo().Assembly, new CoreConsoleHost());
-            return processor.Process(new[] { "run" });
+            return processor.Process(args);
         }
     }
 }
