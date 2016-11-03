@@ -16,7 +16,6 @@
 
     "dependencies": {
         "Microsoft.NETCore.App": {
-            "type": "platform",
             "version": "1.0.1"
         },
         "System.IO.FileSystem": "4.0.1",
@@ -28,9 +27,38 @@
         "NSwag.Core": "*"
     },
 
+    "runtimes": {
+        "win7-x86": {},
+        "win7-x64": {},
+
+        "win8-x86": {},
+        "win8-x64": {},
+
+        "win81-x86": {},
+        "win81-x64": {},
+
+        "win10-x86": {},
+        "win10-x64": {},
+
+        "osx.10.10-x64": {},
+
+        "linuxmint.17-x64": {},
+        "ol.7-x64": {},
+        "opensuse.13.2-x64": {},
+        "fedora.23-x64": {},
+        "centos.7-x64": {},
+        "ubuntu.14.04-x64": {},
+        "rhel.7.0-x64": {},
+        "debian.8-x64": {}
+    },
+
     "frameworks": {
         "netcoreapp1.0": {
-            "imports": "dnxcore50"
+            "dependencies": {
+                "Microsoft.NETCore.App": {
+                    "version": "1.0.1"
+                }
+            }
         }
     }
 }
