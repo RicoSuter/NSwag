@@ -3,12 +3,31 @@
 
 process.title = 'nswag';
 
-console.log("NSwag NPM module (experimental, currently requires installation of .NET Core)");
+console.log("NSwag NPM module (requires installation of .NET 4.6+ or .NET Core)");
 var args = process.argv.splice(2, process.argv.length - 2).join(" ");
 
-// TODO: Try to run "full" version first, if this fails (i.e. full .NET not installed), run .NET Core version
+// Search for full .NET installation
+var hasFullDotNet = false; 
+var fs = require('fs');
+if (process.env["windir"]) {
+    try {
+	    var stats = fs.lstatSync(process.env["windir"] + '/Microsoft.NET');
+        if (stats.isDirectory())
+    		hasFullDotNet = true; 
+    }
+    catch (e) {
+	    console.log(e);
+    }
+}
 
-// Run .NET Core version
-var cmd = 'dotnet "' + __dirname + '/binaries/core/nswag.dll" ' + args;
-const execSync = require('child_process').execSync;
-var code = execSync(cmd, {stdio:[0,1,2]});
+if (hasFullDotNet) {
+    // Run full .NET version
+    var cmd = '"' + __dirname + '/binaries/full/nswag.exe" ' + args;
+    const execSync = require('child_process').execSync;
+    var code = execSync(cmd, {stdio:[0,1,2]});	
+} else {
+    // Run .NET Core version
+    var cmd = 'dotnet "' + __dirname + '/binaries/core/nswag.dll" ' + args;
+    const execSync = require('child_process').execSync;
+    var code = execSync(cmd, {stdio:[0,1,2]});	
+}
