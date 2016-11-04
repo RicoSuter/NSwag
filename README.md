@@ -49,7 +49,7 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 			- JQuery with promises `JQueryPromises`
 			- AngularJS using $http, `AngularJS`
 			- Angular 2 using the http service, `Angular2`
-			- window.fetch API and ES6 promises, `Fetch` (use this template in your Aurelia project). 
+			- window.fetch API and ES6 promises, `Fetch` 
 			- Aurelia using the HttpClient from aurelia-fetch-client, `Aurelia` (based on the Fetch template)
 - **CSharp Client**
 	- [SwaggerToCSharpClientGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToCSharpClientGenerator)
