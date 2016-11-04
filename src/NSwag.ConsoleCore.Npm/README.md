@@ -7,13 +7,25 @@ NSwag is a Swagger 2.0 API (OpenAPI) toolchain for .NET, Web API, TypeScript (jQ
 
 ## Usage
 
-Global installation: 
+### Global installation
+
+Install the package globally: 
 
     npm install nswag -g
 
 Show available commands: 
 
     nswag help
+
+### Project installation
+	
+Install the package for the current project: 
+
+    npm install nswag --save-dev
+	
+Show available commands: 
+
+    "node_modules/.bin/nswag" help
 	
 ## Development
 
