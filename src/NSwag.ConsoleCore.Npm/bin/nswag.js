@@ -3,7 +3,7 @@
 
 process.title = 'nswag';
 
-console.log("NSwag NPM module (requires installation of .NET 4.6+ or .NET Core)");
+console.log("NSwag NPM CLI");
 var args = process.argv.splice(2, process.argv.length - 2).join(" ");
 
 // Search for full .NET installation
