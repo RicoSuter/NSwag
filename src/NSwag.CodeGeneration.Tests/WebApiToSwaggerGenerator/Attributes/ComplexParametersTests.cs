@@ -26,6 +26,7 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator.Attributes
             }
 
             /// <summary>My comment.</summary>
+            /// <remarks>My remarks.</remarks>
             public string WithFromUriAttribute([FromUri] MyParameter data)
             {
                 return string.Empty;
@@ -70,6 +71,7 @@ namespace NSwag.CodeGeneration.Tests.WebApiToSwaggerGenerator.Attributes
 
             //// Assert
             Assert.AreEqual("My comment.", operation.Summary);
+            Assert.AreEqual("My remarks.", operation.Description);
             Assert.AreEqual(SwaggerParameterKind.Query, operation.ActualParameters[0].Kind);
             Assert.AreEqual(SwaggerParameterKind.Query, operation.ActualParameters[1].Kind);
             Assert.AreEqual("Foo", operation.ActualParameters[0].Name);

@@ -284,16 +284,20 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         private void LoadMetaData(SwaggerOperation operation, MethodInfo method)
         {
             dynamic descriptionAttribute = method.GetCustomAttributes()
-                .SingleOrDefault(a => a.GetType().Name == "DescriptionAttribute");
+                 .SingleOrDefault(a => a.GetType().Name == "DescriptionAttribute");
 
             if (descriptionAttribute != null)
                 operation.Summary = descriptionAttribute.Description;
             else
             {
-                var summary = method.GetXmlDocumentation();
+                var summary = method.GetXmlSummary();
                 if (summary != string.Empty)
                     operation.Summary = summary;
             }
+
+            var remarks = method.GetXmlRemarks();
+            if (remarks != string.Empty)
+                operation.Description = remarks;
         }
 
         private IEnumerable<string> GetHttpPaths(Type controllerType, MethodInfo method)
