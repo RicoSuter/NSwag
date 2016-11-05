@@ -627,7 +627,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             var successXmlDescription = method.ReturnParameter.GetXmlDocumentation() ?? string.Empty;
 
             var responseTypeAttributes = method.GetCustomAttributes()
-                .Where(a => a.GetType().Name == "ResponseTypeAttribute")
+                .Where(a => a.GetType().Name == "ResponseTypeAttribute" ||
+                            a.GetType().Name == "SwaggerResponseAttribute")
                 .ToList();
 
             var producesResponseTypeAttributes = method.GetCustomAttributes()
@@ -636,20 +637,28 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
             if (responseTypeAttributes.Any() || producesResponseTypeAttributes.Any())
             {
-                foreach (var responseTypeAttribute in responseTypeAttributes)
+                foreach (var attribute in responseTypeAttributes)
                 {
-                    dynamic dynResultTypeAttribute = responseTypeAttribute;
-                    var returnType = dynResultTypeAttribute.ResponseType;
+                    dynamic responseTypeAttribute = attribute;
+                    var attributeType = attribute.GetType();
+
+                    var returnType = typeof(void);
+                    if (attributeType.GetRuntimeProperty("ResponseType") != null)
+                        returnType = responseTypeAttribute.ResponseType;
+                    else if (attributeType.GetRuntimeProperty("Type") != null)
+                        returnType = responseTypeAttribute.Type;
 
                     var httpStatusCode = IsVoidResponse(returnType) ? GetVoidResponseStatusCode() : "200";
-                    if (responseTypeAttribute.GetType().GetRuntimeProperty("HttpStatusCode") != null)
-                        httpStatusCode = dynResultTypeAttribute.HttpStatusCode.ToString();
+                    if (attributeType.GetRuntimeProperty("HttpStatusCode") != null && responseTypeAttribute.HttpStatusCode != null)
+                        httpStatusCode = responseTypeAttribute.HttpStatusCode.ToString();
+                    else if (attributeType.GetRuntimeProperty("StatusCode") != null && responseTypeAttribute.StatusCode != null)
+                        httpStatusCode = responseTypeAttribute.StatusCode.ToString();
 
                     var description = HttpUtilities.IsSuccessStatusCode(httpStatusCode) ? successXmlDescription : string.Empty;
-                    if (responseTypeAttribute.GetType().GetRuntimeProperty("Description") != null)
+                    if (attributeType.GetRuntimeProperty("Description") != null)
                     {
-                        if (!string.IsNullOrEmpty(dynResultTypeAttribute.Description))
-                            description = dynResultTypeAttribute.Description;
+                        if (!string.IsNullOrEmpty(responseTypeAttribute.Description))
+                            description = responseTypeAttribute.Description;
                     }
 
                     var typeDescription = JsonObjectTypeDescription.FromType(returnType, method.ReturnParameter?.GetCustomAttributes(), Settings.DefaultEnumHandling);

@@ -110,6 +110,7 @@
     <Compile Include="WebApi\Attributes\PrimitiveQueryParametersTests.cs" />
     <Compile Include="WebApi\Attributes\RouteInheritanceTests.cs" />
     <Compile Include="WebApi\Attributes\RoutePrefixTests.cs" />
+    <Compile Include="WebApi\Attributes\ResponseAttributeTests.cs" />
     <Compile Include="WebApi\Attributes\TagsTests.cs" />
     <Compile Include="WebApi\GeneralTests.cs" />
     <Compile Include="WebApi\OperationIdTests.cs" />
