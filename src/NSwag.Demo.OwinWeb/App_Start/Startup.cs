@@ -31,11 +31,11 @@ namespace NSwag.Demo.OwinWeb
                 },
                 OperationProcessors =
                 {
-                    new OperationSecurityScopeAppender("oauth2")
+                    new OperationSecurityScopeProcessor("oauth2")
                 },
                 DocumentProcessors =
                 {
-                    new SecurityDefinitionAppender("oauth2", new SwaggerSecurityScheme
+                    new DocumentSecurityDefinitionProcessor("oauth2", new SwaggerSecurityScheme
                     {
                         Type = SwaggerSecuritySchemeType.OAuth2,
                         Description = "Foo",
@@ -48,7 +48,7 @@ namespace NSwag.Demo.OwinWeb
                             { "write", "Write access to protected resources" }
                         }
                     }),
-                    new SecurityDefinitionAppender("apikey", new SwaggerSecurityScheme
+                    new DocumentSecurityDefinitionProcessor("apikey", new SwaggerSecurityScheme
                     {
                         Type = SwaggerSecuritySchemeType.ApiKey,
                         Name = "api_key",

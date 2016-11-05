@@ -6,6 +6,9 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
 {
     /// <summary>Post processes a generated <see cref="SwaggerService"/>.</summary>
@@ -13,6 +16,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
     {
         /// <summary>Processes the specified Swagger document.</summary>
         /// <param name="document">The document.</param>
-        void Process(SwaggerService document);
+        /// <param name="controllerTypes">The controller types.</param>
+        void Process(SwaggerService document, IEnumerable<Type> controllerTypes);
     }
 }

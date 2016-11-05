@@ -24,7 +24,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         }
 
         /// <summary>Gets or sets the default Web API URL template.</summary>
-        public string DefaultUrlTemplate { get; set; } =  "api/{controller}/{id}";
+        public string DefaultUrlTemplate { get; set; } = "api/{controller}/{id}";
 
         /// <summary>Gets or sets the Swagger specification title.</summary>
         public string Title { get; set; } = "Web API Swagger specification";
@@ -37,11 +37,18 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
         /// <summary>Gets the operation processor.</summary>
         [JsonIgnore]
-        public IList<IOperationProcessor> OperationProcessors { get; } = new List<IOperationProcessor>();
+        public IList<IOperationProcessor> OperationProcessors { get; } = new List<IOperationProcessor>
+        {
+            new OperationSummaryAndDescriptionProcessor(),
+            new OperationTagsProcessor()
+        };
 
         /// <summary>Gets the operation processor.</summary>
         [JsonIgnore]
-        public IList<IDocumentProcessor> DocumentProcessors { get; } = new List<IDocumentProcessor>();
+        public IList<IDocumentProcessor> DocumentProcessors { get; } = new List<IDocumentProcessor>
+        {
+            new DocumentTagsProcessor()
+        };
 
         /// <summary>Gets or sets the document template representing the initial Swagger specification (JSON data).</summary>
         public string DocumentTemplate { get; set; }

@@ -10,7 +10,8 @@ using System;
 
 namespace NSwag.Annotations
 {
-    /// <summary>Specifies the tags for an operation.</summary>
+    /// <summary>Specifies the tags for an operation or a document.</summary>
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class SwaggerTagsAttribute : Attribute
     {
         /// <summary>Initializes a new instance of the <see cref="ResponseTypeAttribute"/> class.</summary>

@@ -93,7 +93,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             service.GenerateOperationIds();
 
             foreach (var processor in Settings.DocumentProcessors)
-                processor.Process(service);
+                processor.Process(service, controllerTypes);
 
             return service;
         }
@@ -141,8 +141,6 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
                             LoadParameters(operation, parameters, httpPath, swaggerGenerator);
                             LoadReturnType(operation, method, swaggerGenerator);
-                            LoadMetaData(operation, method);
-                            LoadOperationTags(method, operation, controllerType);
 
                             var operationDescription = new SwaggerOperationDescription
                             {
@@ -279,25 +277,6 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 number++;
 
             return operationId + (number > 1 ? number.ToString() : string.Empty);
-        }
-
-        private void LoadMetaData(SwaggerOperation operation, MethodInfo method)
-        {
-            dynamic descriptionAttribute = method.GetCustomAttributes()
-                 .SingleOrDefault(a => a.GetType().Name == "DescriptionAttribute");
-
-            if (descriptionAttribute != null)
-                operation.Summary = descriptionAttribute.Description;
-            else
-            {
-                var summary = method.GetXmlSummary();
-                if (summary != string.Empty)
-                    operation.Summary = summary;
-            }
-
-            var remarks = method.GetXmlRemarks();
-            if (remarks != string.Empty)
-                operation.Description = remarks;
         }
 
         private IEnumerable<string> GetHttpPaths(Type controllerType, MethodInfo method)
@@ -610,7 +589,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     var fromQueryAttribute = attributes.SingleOrDefault(a => a.GetType().Name == "FromQueryAttribute");
 
                     var propertyName = TryGetStringPropertyValue(fromQueryAttribute, "Name") ?? JsonPathUtilities.GetPropertyName(property, Settings.DefaultPropertyNameHandling);
-                    var operationParameter = swaggerGenerator.CreatePrimitiveParameter(propertyName, property.GetXmlDocumentation(), property.PropertyType, attributes);
+                    var operationParameter = swaggerGenerator.CreatePrimitiveParameter(propertyName, property.GetXmlSummary(), property.PropertyType, attributes);
 
                     // TODO: Check if required can be controlled with mechanisms other than RequiredAttribute
 

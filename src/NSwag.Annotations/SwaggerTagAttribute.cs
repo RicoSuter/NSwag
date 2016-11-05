@@ -1,0 +1,35 @@
+﻿//-----------------------------------------------------------------------
+// <copyright file="SwaggerTagAttribute.cs" company="NSwag">
+//     Copyright (c) Rico Suter. All rights reserved.
+// </copyright>
+// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <author>Rico Suter, mail@rsuter.com</author>
+//-----------------------------------------------------------------------
+
+using System;
+
+namespace NSwag.Annotations
+{
+    /// <summary>Specifies the tags for an operation.</summary>
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    public class SwaggerTagAttribute : Attribute
+    {
+        /// <summary>Initializes a new instance of the <see cref="ResponseTypeAttribute"/> class.</summary>
+        public SwaggerTagAttribute(string name)
+        {
+            Name = name; 
+        }
+
+        /// <summary>Gets or sets the name.</summary>
+        public string Name { get; set; }
+
+        /// <summary>Gets or sets the description.</summary>
+        public string Description { get; set; }
+
+        /// <summary>Gets or sets the external documentation description.</summary>
+        public string DocumentationDescription { get; set; }
+
+        /// <summary>Gets or sets the external documentation URL.</summary>
+        public string DocumentationUrl { get; set; }
+    }
+}

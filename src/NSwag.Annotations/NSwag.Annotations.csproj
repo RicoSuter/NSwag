@@ -70,6 +70,7 @@
     <Compile Include="SwaggerIgnoreAttribute.cs" />
     <Compile Include="SwaggerOperationAttribute.cs" />
     <Compile Include="SwaggerOperationProcessorAttribute.cs" />
+    <Compile Include="SwaggerTagAttribute.cs" />
     <Compile Include="SwaggerTagsAttribute.cs" />
   </ItemGroup>
   <ItemGroup>

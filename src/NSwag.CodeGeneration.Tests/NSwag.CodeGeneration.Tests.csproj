@@ -104,14 +104,15 @@
     <Compile Include="CommandLine\WebApiCommandLineTests.cs" />
     <Compile Include="OperationNameGenerator\MultipleClientsFromOperationIdOperationNameGeneratorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WebApiToSwaggerGenerator\Attributes\AcceptVerbsTests.cs" />
-    <Compile Include="WebApiToSwaggerGenerator\Attributes\ComplexParametersTests.cs" />
-    <Compile Include="WebApiToSwaggerGenerator\Attributes\PrimitivePathParametersTests.cs" />
-    <Compile Include="WebApiToSwaggerGenerator\Attributes\PrimitiveQueryParametersTests.cs" />
-    <Compile Include="WebApiToSwaggerGenerator\Attributes\RouteInheritanceTests.cs" />
-    <Compile Include="WebApiToSwaggerGenerator\Attributes\RoutePrefixTests.cs" />
-    <Compile Include="WebApiToSwaggerGenerator\GeneralTests.cs" />
-    <Compile Include="WebApiToSwaggerGenerator\OperationIdTests.cs" />
+    <Compile Include="WebApi\Attributes\AcceptVerbsTests.cs" />
+    <Compile Include="WebApi\Attributes\ComplexParametersTests.cs" />
+    <Compile Include="WebApi\Attributes\PrimitivePathParametersTests.cs" />
+    <Compile Include="WebApi\Attributes\PrimitiveQueryParametersTests.cs" />
+    <Compile Include="WebApi\Attributes\RouteInheritanceTests.cs" />
+    <Compile Include="WebApi\Attributes\RoutePrefixTests.cs" />
+    <Compile Include="WebApi\Attributes\TagsTests.cs" />
+    <Compile Include="WebApi\GeneralTests.cs" />
+    <Compile Include="WebApi\OperationIdTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj">
