@@ -181,12 +181,14 @@
     <Compile Include="SwaggerGenerators\AssemblyTypeToSwaggerGeneratorBase.cs" />
     <Compile Include="SwaggerGenerators\AssemblyTypeToSwaggerGeneratorSettings.cs" />
     <Compile Include="SwaggerGenerators\SwaggerJsonSchemaGenerator.cs" />
+    <Compile Include="SwaggerGenerators\WebApi\Processors\OperationParameterProcessor.cs" />
+    <Compile Include="SwaggerGenerators\WebApi\Processors\OperationResponseProcessor.cs" />
     <Compile Include="SwaggerGenerators\WebApi\Processors\OperationSummaryAndDescriptionProcessor.cs" />
     <Compile Include="SwaggerGenerators\WebApi\Processors\DocumentTagsProcessor.cs" />
     <Compile Include="SwaggerGenerators\WebApi\Processors\IDocumentProcessor.cs" />
     <Compile Include="SwaggerGenerators\WebApi\Processors\IOperationProcessor.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\Processors\DocumentSecurityDefinitionProcessor.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\Processors\OperationSecurityScopeProcessor.cs" />
+    <Compile Include="SwaggerGenerators\WebApi\Processors\Security\SecurityDefinitionAppender.cs" />
+    <Compile Include="SwaggerGenerators\WebApi\Processors\Security\OperationSecurityScopeProcessor.cs" />
     <Compile Include="SwaggerGenerators\SwaggerGenerator.cs" />
     <Compile Include="SwaggerGenerators\WebApi\Processors\OperationTagsProcessor.cs" />
     <Compile Include="SwaggerGenerators\WebApi\WebApiAssemblyToSwaggerGeneratorBase.cs" />

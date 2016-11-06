@@ -31,7 +31,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
         public void When_parameter_is_primitive_then_it_is_a_path_parameter()
         {
             //// Arrange
-            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
             {
                 DefaultUrlTemplate = "api/{controller}/{action}/{id}"
             });
@@ -48,7 +48,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
         public void When_parameter_is_primitive_and_has_FromUri_then_it_is_a_path_parameter()
         {
             //// Arrange
-            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
             {
                 DefaultUrlTemplate = "api/{controller}/{action}/{id}"
             });
@@ -66,7 +66,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
         public void When_parameter_is_primitive_and_has_FromBody_then_it_is_a_path_parameter()
         {
             //// Arrange
-            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
             {
                 DefaultUrlTemplate = "api/{controller}/{action}/{id}"
             });
@@ -95,7 +95,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
         public void When_route_has_path_parameter_which_is_not_an_action_parameter_then_it_is_still_added_as_path_parameter()
         {
             //// Arrange
-            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
             {
                 DefaultUrlTemplate = "api/{controller}/{action}/{id}", 
                 AddMissingPathParameters = true

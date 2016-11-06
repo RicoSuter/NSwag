@@ -19,10 +19,10 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
         /// <summary>Processes the specified method information.</summary>
         /// <param name="operationDescription">The operation description.</param>
         /// <param name="methodInfo">The method information.</param>
-        /// <param name="schemaResolver">The schema resolver.</param>
+        /// <param name="swaggerGenerator">The Swagger generator.</param>
         /// <param name="allOperationDescriptions">All operation descriptions.</param>
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
-        public bool Process(SwaggerOperationDescription operationDescription, MethodInfo methodInfo, ISchemaResolver schemaResolver, IList<SwaggerOperationDescription> allOperationDescriptions)
+        public bool Process(SwaggerOperationDescription operationDescription, MethodInfo methodInfo, SwaggerGenerator swaggerGenerator, IList<SwaggerOperationDescription> allOperationDescriptions)
         {
             dynamic tagsAttribute = methodInfo.GetCustomAttributes().SingleOrDefault(a => a.GetType().Name == "SwaggerTagsAttribute");
             if (tagsAttribute != null)

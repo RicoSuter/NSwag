@@ -9,9 +9,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using NJsonSchema;
 
-namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
+namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Security
 {
     /// <summary>Generates the OAuth2 security scopes for an operation by reflecting the AuthorizeAttribute attributes.</summary>
     public class OperationSecurityScopeProcessor : IOperationProcessor
@@ -28,16 +27,16 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
         /// <summary>Processes the specified method information.</summary>
         /// <param name="operationDescription">The operation description.</param>
         /// <param name="methodInfo">The method information.</param>
-        /// <param name="schemaResolver">The schema resolver.</param>
+        /// <param name="swaggerGenerator">The swagger generator.</param>
         /// <param name="allOperationDescriptions">All operation descriptions.</param>
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
         public bool Process(SwaggerOperationDescription operationDescription, MethodInfo methodInfo,
-            ISchemaResolver schemaResolver, IList<SwaggerOperationDescription> allOperationDescriptions)
+            SwaggerGenerator swaggerGenerator, IList<SwaggerOperationDescription> allOperationDescriptions)
         {
             if (operationDescription.Operation.Security == null)
                 operationDescription.Operation.Security = new List<SwaggerSecurityRequirement>();
 
-            var scopes = GetScopes(operationDescription, methodInfo, schemaResolver, allOperationDescriptions);
+            var scopes = GetScopes(operationDescription, methodInfo);
             operationDescription.Operation.Security.Add(new SwaggerSecurityRequirement
             {
                 { _name, scopes }
@@ -49,11 +48,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
         /// <summary>Gets the security scopes for an operation.</summary>
         /// <param name="operationDescription">The operation description.</param>
         /// <param name="methodInfo">The method information.</param>
-        /// <param name="schemaResolver">The schema resolver.</param>
-        /// <param name="allOperationDescriptions">All operation descriptions.</param>
         /// <returns>The scopes.</returns>
-        protected virtual IEnumerable<string> GetScopes(SwaggerOperationDescription operationDescription, MethodInfo methodInfo,
-            ISchemaResolver schemaResolver, IList<SwaggerOperationDescription> allOperationDescriptions)
+        protected virtual IEnumerable<string> GetScopes(SwaggerOperationDescription operationDescription, MethodInfo methodInfo)
         {
             var allAttributes = methodInfo.GetCustomAttributes().Concat(
                 methodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes());

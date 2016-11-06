@@ -2,7 +2,7 @@
 using System.Web.Http;
 using Microsoft.Owin;
 using NSwag.AspNet.Owin;
-using NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors;
+using NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Security;
 using NSwag.Demo.OwinWeb;
 using Owin;
 
@@ -35,7 +35,7 @@ namespace NSwag.Demo.OwinWeb
                 },
                 DocumentProcessors =
                 {
-                    new DocumentSecurityDefinitionProcessor("oauth2", new SwaggerSecurityScheme
+                    new SecurityDefinitionAppender("oauth2", new SwaggerSecurityScheme
                     {
                         Type = SwaggerSecuritySchemeType.OAuth2,
                         Description = "Foo",
@@ -48,7 +48,7 @@ namespace NSwag.Demo.OwinWeb
                             { "write", "Write access to protected resources" }
                         }
                     }),
-                    new DocumentSecurityDefinitionProcessor("apikey", new SwaggerSecurityScheme
+                    new SecurityDefinitionAppender("apikey", new SwaggerSecurityScheme
                     {
                         Type = SwaggerSecuritySchemeType.ApiKey,
                         Name = "api_key",

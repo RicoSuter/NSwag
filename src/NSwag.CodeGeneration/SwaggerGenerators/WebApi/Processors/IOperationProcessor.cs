@@ -8,7 +8,6 @@
 
 using System.Collections.Generic;
 using System.Reflection;
-using NJsonSchema;
 
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
 {
@@ -18,9 +17,10 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
         /// <summary>Processes the specified method information.</summary>
         /// <param name="operationDescription">The operation description.</param>
         /// <param name="methodInfo">The method information.</param>
-        /// <param name="schemaResolver">The schema resolver.</param>
+        /// <param name="swaggerGenerator">The Swagger generator.</param>
         /// <param name="allOperationDescriptions">All operation descriptions.</param>
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
-        bool Process(SwaggerOperationDescription operationDescription, MethodInfo methodInfo, ISchemaResolver schemaResolver, IList<SwaggerOperationDescription> allOperationDescriptions);
+        bool Process(SwaggerOperationDescription operationDescription, MethodInfo methodInfo, 
+            SwaggerGenerator swaggerGenerator, IList<SwaggerOperationDescription> allOperationDescriptions);
     }
 }

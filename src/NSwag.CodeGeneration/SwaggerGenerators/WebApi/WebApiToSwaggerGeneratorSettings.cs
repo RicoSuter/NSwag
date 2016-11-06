@@ -21,6 +21,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         public WebApiToSwaggerGeneratorSettings()
         {
             NullHandling = NullHandling.Swagger;
+
+            OperationProcessors.Add(new OperationParameterProcessor(this));
+            OperationProcessors.Add(new OperationResponseProcessor(this));
         }
 
         /// <summary>Gets or sets the default Web API URL template.</summary>
