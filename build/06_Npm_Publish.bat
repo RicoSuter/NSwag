@@ -1,1 +1,0 @@
-npm publish "../src/NSwag.ConsoleCore.Npm"

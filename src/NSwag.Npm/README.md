@@ -31,13 +31,13 @@ Show available commands:
 
 Compile and copy the current NSwag console binaries into the NPM module directory `binaries` directory: 
 
-    build/05_Npm_Build.bat
+    build/03_Npm_Build.bat
 
 To run the NodeJS binary locally: 
 
-    cd "src/NSwag.ConsoleCore.Npm"
+    cd "src/NSwag.Npm"
     node "bin/nswag" help
 	
 Publish package: 
 
-    build/06_Npm_Publish.bat
+    build/04_Npm_Publish.bat

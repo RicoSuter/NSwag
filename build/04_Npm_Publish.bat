@@ -1,0 +1,1 @@
+npm publish "../src/NSwag.Npm"
