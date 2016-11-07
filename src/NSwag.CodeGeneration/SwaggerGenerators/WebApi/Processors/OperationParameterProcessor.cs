@@ -30,12 +30,13 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
         }
 
         /// <summary>Processes the specified method information.</summary>
+        /// <param name="document"></param>
         /// <param name="operationDescription">The operation description.</param>
         /// <param name="methodInfo">The method information.</param>
         /// <param name="swaggerGenerator">The swagger generator.</param>
         /// <param name="allOperationDescriptions">All operation descriptions.</param>
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
-        public bool Process(SwaggerOperationDescription operationDescription, MethodInfo methodInfo, 
+        public bool Process(SwaggerService document, SwaggerOperationDescription operationDescription, MethodInfo methodInfo,
             SwaggerGenerator swaggerGenerator, IList<SwaggerOperationDescription> allOperationDescriptions)
         {
             var httpPath = operationDescription.Path;
@@ -220,6 +221,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
             if (isFileArray)
                 operationParameter.CollectionFormat = SwaggerParameterCollectionFormat.Multi;
         }
+
         private string TryGetStringPropertyValue(dynamic obj, string propertyName)
         {
             return ((object)obj)?.GetType().GetRuntimeProperty(propertyName) != null && !string.IsNullOrEmpty(obj.Name) ? obj.Name : null;
