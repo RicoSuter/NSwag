@@ -1,278 +1,251 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NSwag.CodeGeneration</RootNamespace>
-    <AssemblyName>NSwag.CodeGeneration</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>Profile259</TargetFrameworkProfile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>NSwag.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>bin\Debug\NSwag.CodeGeneration.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\NSwag.CodeGeneration.xml</DocumentationFile>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DocumentationFile>bin\Debug\NSwag.CodeGeneration.xml</DocumentationFile>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <DocumentationFile>bin\Release\NSwag.CodeGeneration.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NJsonSchema, Version=5.14.6153.20987, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.5.14.6153.20987\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NJsonSchema.CodeGeneration, Version=5.14.6153.20988, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.CodeGeneration.5.14.6153.20988\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="CodeGenerators\ClientGeneratorOutputType.cs" />
-    <Compile Include="CodeGenerators\ControllerGeneratorBaseSettings.cs" />
-    <Compile Include="CodeGenerators\CSharp\Models\FileTemplateModel.cs" />
-    <Compile Include="CodeGenerators\CSharp\Models\ControllerTemplateModel.cs" />
-    <Compile Include="CodeGenerators\CSharp\Models\ClientTemplateModel.cs" />
-    <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpClientGeneratorSettings.cs" />
-    <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpGeneratorBase.cs" />
-    <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpGeneratorSettings.cs" />
-    <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpTypeResolver.cs" />
-    <Compile Include="CodeGenerators\CSharp\Templates\ClientTemplate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ClientTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CodeGenerators\CSharp\Templates\ClientTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\CSharp\Templates\ControllerTemplate1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ControllerTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CodeGenerators\CSharp\Templates\FileTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\CSharp\Templates\ControllerTemplate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ControllerTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CodeGenerators\CSharp\Templates\ControllerTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\CSharp\Templates\FileTemplate1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FileTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CodeGenerators\CSharp\Templates\JsonExceptionConverterTemplate.cs">
-      <DependentUpon>JsonExceptionConverterTemplate.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="CodeGenerators\CSharp\Templates\JsonExceptionConverterTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\OperationNameGenerators\IOperationNameGenerator.cs" />
-    <Compile Include="CodeGenerators\Models\OperationModel.cs" />
-    <Compile Include="CodeGenerators\Models\ParameterModel.cs" />
-    <Compile Include="CodeGenerators\Models\ResponseModel.cs" />
-    <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpClientGenerator.cs" />
-    <Compile Include="CodeGenerators\ClientGeneratorBase.cs" />
-    <Compile Include="CodeGenerators\OperationNameGenerators\MultipleClientsFromOperationIdOperationNameGenerator.cs" />
-    <Compile Include="CodeGenerators\OperationNameGenerators\MultipleClientsFromPathSegmentsOperationNameGenerator.cs" />
-    <Compile Include="CodeGenerators\OperationGenerationMode.cs" />
-    <Compile Include="CodeGenerators\ClientGeneratorBaseSettings.cs" />
-    <Compile Include="CodeGenerators\OperationNameGenerators\SingleClientFromOperationIdOperationNameGenerator.cs" />
-    <Compile Include="CodeGenerators\TypeScript\Models\FileTemplateModel.cs" />
-    <Compile Include="CodeGenerators\TypeScript\Models\ClientTemplateModel.cs" />
-    <Compile Include="CodeGenerators\TypeScript\PromiseType.cs" />
-    <Compile Include="CodeGenerators\TypeScript\SwaggerToTypeScriptClientGeneratorSettings.cs" />
-    <Compile Include="CodeGenerators\TypeScript\Templates\FetchClientTemplate.cs">
-      <DependentUpon>FetchClientTemplate.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="CodeGenerators\TypeScript\Templates\FetchClientTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Angular2ClientTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CodeGenerators\TypeScript\Templates\AngularJSClientTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\TypeScript\Templates\AngularJSClientTemplate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AngularJSClientTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CodeGenerators\TypeScript\Templates\FileTemplate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FileTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CodeGenerators\TypeScript\Templates\FileTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\TypeScript\Templates\JQueryCallbacksClientTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\TypeScript\Templates\JQueryCallbacksClientTemplate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>JQueryCallbacksClientTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>JQueryPromisesClientTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\TypeScript\RequestBodyGenerator.cs" />
-    <Compile Include="CodeGenerators\TypeScript\Templates\RequestBodyTemplate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>RequestBodyTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CodeGenerators\TypeScript\Templates\RequestBodyTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\TypeScript\TypeScriptTemplate.cs" />
-    <Compile Include="CodeGenerators\TypeScript\SwaggerToTypeScriptClientGenerator.cs" />
-    <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpWebApiControllerGenerator.cs" />
-    <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpWebApiControllerGeneratorSettings.cs" />
-    <Compile Include="Infrastructure\ObjectExtensions.cs" />
-    <Compile Include="Infrastructure\T4Extensions.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SwaggerGenerators\AssemblyTypeToSwaggerGeneratorBase.cs" />
-    <Compile Include="SwaggerGenerators\AssemblyTypeToSwaggerGeneratorSettings.cs" />
-    <Compile Include="SwaggerGenerators\SwaggerJsonSchemaGenerator.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\Processors\OperationParameterProcessor.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\Processors\OperationResponseProcessor.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\Processors\OperationSummaryAndDescriptionProcessor.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\Processors\DocumentTagsProcessor.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\Processors\IDocumentProcessor.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\Processors\IOperationProcessor.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\Processors\Security\SecurityDefinitionAppender.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\Processors\Security\OperationSecurityScopeProcessor.cs" />
-    <Compile Include="SwaggerGenerators\SwaggerGenerator.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\Processors\OperationTagsProcessor.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\WebApiAssemblyToSwaggerGeneratorBase.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\WebApiAssemblyToSwaggerGeneratorSettings.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\WebApiToSwaggerGenerator.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\WebApiToSwaggerGeneratorSettings.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="NSwag.CodeGeneration.nuspec" />
-    <None Include="NSwag.snk" />
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj">
-      <Project>{2E6174AA-FC75-4821-9E86-51B30568BEC0}</Project>
-      <Name>NSwag.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="CodeGenerators\CSharp\Templates\ClientTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>ClientTemplate.cs</LastGenOutput>
-    </None>
-    <None Include="CodeGenerators\CSharp\Templates\FileTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>FileTemplate1.cs</LastGenOutput>
-    </None>
-    <None Include="CodeGenerators\CSharp\Templates\ControllerTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>ControllerTemplate1.cs</LastGenOutput>
-    </None>
-    <None Include="CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>Angular2ClientTemplate.cs</LastGenOutput>
-    </None>
-    <None Include="CodeGenerators\TypeScript\Templates\AngularJSClientTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>AngularJSClientTemplate.cs</LastGenOutput>
-    </None>
-    <None Include="CodeGenerators\TypeScript\Templates\FileTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>FileTemplate.cs</LastGenOutput>
-    </None>
-    <None Include="CodeGenerators\TypeScript\Templates\JQueryCallbacksClientTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>JQueryCallbacksClientTemplate.cs</LastGenOutput>
-    </None>
-    <None Include="CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>JQueryPromisesClientTemplate.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="CodeGenerators\TypeScript\Templates\RequestBodyTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>RequestBodyTemplate.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="CodeGenerators\CSharp\Templates\JsonExceptionConverterTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>JsonExceptionConverterTemplate.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>FetchClientTemplate.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProjectGuid>{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}</ProjectGuid>
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>NSwag.CodeGeneration</RootNamespace>
+        <AssemblyName>NSwag.CodeGeneration</AssemblyName>
+        <FileAlignment>512</FileAlignment>
+        <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+        <TargetFrameworkProfile>Profile259</TargetFrameworkProfile>
+        <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    </PropertyGroup>
+    <PropertyGroup>
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile>NSwag.snk</AssemblyOriginatorKeyFile>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <DocumentationFile>bin\Debug\NSwag.CodeGeneration.xml</DocumentationFile>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <DocumentationFile>bin\Release\NSwag.CodeGeneration.xml</DocumentationFile>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+            <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+            <Private>True</Private>
+        </Reference>
+        <Reference Include="NJsonSchema, Version=5.14.6153.20987, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+            <HintPath>..\packages\NJsonSchema.5.14.6153.20987\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
+            <Private>True</Private>
+        </Reference>
+        <Reference Include="NJsonSchema.CodeGeneration, Version=5.14.6153.20988, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+            <HintPath>..\packages\NJsonSchema.CodeGeneration.5.14.6153.20988\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
+            <Private>True</Private>
+        </Reference>
+        <Reference Include="System" />
+        <Reference Include="System.Core" />
+        <Reference Include="System.Xml.Linq" />
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="System.Xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="CodeGenerators\ClientGeneratorOutputType.cs" />
+        <Compile Include="CodeGenerators\ControllerGeneratorBaseSettings.cs" />
+        <Compile Include="CodeGenerators\CSharp\Models\FileTemplateModel.cs" />
+        <Compile Include="CodeGenerators\CSharp\Models\ControllerTemplateModel.cs" />
+        <Compile Include="CodeGenerators\CSharp\Models\ClientTemplateModel.cs" />
+        <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpClientGeneratorSettings.cs" />
+        <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpGeneratorBase.cs" />
+        <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpGeneratorSettings.cs" />
+        <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpTypeResolver.cs" />
+        <Compile Include="CodeGenerators\CSharp\Templates\ClientTemplate.cs">
+            <AutoGen>True</AutoGen>
+            <DesignTime>True</DesignTime>
+            <DependentUpon>ClientTemplate.tt</DependentUpon>
+        </Compile>
+        <Compile Include="CodeGenerators\CSharp\Templates\ClientTemplate.Extensions.cs" />
+        <Compile Include="CodeGenerators\CSharp\Templates\ControllerTemplate1.cs">
+            <AutoGen>True</AutoGen>
+            <DesignTime>True</DesignTime>
+            <DependentUpon>ControllerTemplate.tt</DependentUpon>
+        </Compile>
+        <Compile Include="CodeGenerators\CSharp\Templates\FileTemplate.Extensions.cs" />
+        <Compile Include="CodeGenerators\CSharp\Templates\ControllerTemplate.Extensions.cs" />
+        <Compile Include="CodeGenerators\CSharp\Templates\FileTemplate1.cs">
+            <AutoGen>True</AutoGen>
+            <DesignTime>True</DesignTime>
+            <DependentUpon>FileTemplate.tt</DependentUpon>
+        </Compile>
+        <Compile Include="CodeGenerators\CSharp\Templates\JsonExceptionConverterTemplate.cs">
+            <DependentUpon>JsonExceptionConverterTemplate.tt</DependentUpon>
+            <AutoGen>True</AutoGen>
+            <DesignTime>True</DesignTime>
+        </Compile>
+        <Compile Include="CodeGenerators\CSharp\Templates\JsonExceptionConverterTemplate.Extensions.cs" />
+        <Compile Include="CodeGenerators\OperationNameGenerators\IOperationNameGenerator.cs" />
+        <Compile Include="CodeGenerators\Models\OperationModel.cs" />
+        <Compile Include="CodeGenerators\Models\ParameterModel.cs" />
+        <Compile Include="CodeGenerators\Models\ResponseModel.cs" />
+        <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpClientGenerator.cs" />
+        <Compile Include="CodeGenerators\ClientGeneratorBase.cs" />
+        <Compile Include="CodeGenerators\OperationNameGenerators\MultipleClientsFromOperationIdOperationNameGenerator.cs" />
+        <Compile Include="CodeGenerators\OperationNameGenerators\MultipleClientsFromPathSegmentsOperationNameGenerator.cs" />
+        <Compile Include="CodeGenerators\OperationGenerationMode.cs" />
+        <Compile Include="CodeGenerators\ClientGeneratorBaseSettings.cs" />
+        <Compile Include="CodeGenerators\OperationNameGenerators\SingleClientFromOperationIdOperationNameGenerator.cs" />
+        <Compile Include="CodeGenerators\TypeScript\Models\FileTemplateModel.cs" />
+        <Compile Include="CodeGenerators\TypeScript\Models\ClientTemplateModel.cs" />
+        <Compile Include="CodeGenerators\TypeScript\PromiseType.cs" />
+        <Compile Include="CodeGenerators\TypeScript\SwaggerToTypeScriptClientGeneratorSettings.cs" />
+        <Compile Include="CodeGenerators\TypeScript\Templates\FetchClientTemplate.cs">
+            <DependentUpon>FetchClientTemplate.tt</DependentUpon>
+            <AutoGen>True</AutoGen>
+            <DesignTime>True</DesignTime>
+        </Compile>
+        <Compile Include="CodeGenerators\TypeScript\Templates\FetchClientTemplate.Extensions.cs" />
+        <Compile Include="CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.Extensions.cs" />
+        <Compile Include="CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.cs">
+            <AutoGen>True</AutoGen>
+            <DesignTime>True</DesignTime>
+            <DependentUpon>Angular2ClientTemplate.tt</DependentUpon>
+        </Compile>
+        <Compile Include="CodeGenerators\TypeScript\Templates\AngularJSClientTemplate.Extensions.cs" />
+        <Compile Include="CodeGenerators\TypeScript\Templates\AngularJSClientTemplate.cs">
+            <AutoGen>True</AutoGen>
+            <DesignTime>True</DesignTime>
+            <DependentUpon>AngularJSClientTemplate.tt</DependentUpon>
+        </Compile>
+        <Compile Include="CodeGenerators\TypeScript\Templates\FileTemplate.cs">
+            <AutoGen>True</AutoGen>
+            <DesignTime>True</DesignTime>
+            <DependentUpon>FileTemplate.tt</DependentUpon>
+        </Compile>
+        <Compile Include="CodeGenerators\TypeScript\Templates\FileTemplate.Extensions.cs" />
+        <Compile Include="CodeGenerators\TypeScript\Templates\JQueryCallbacksClientTemplate.Extensions.cs" />
+        <Compile Include="CodeGenerators\TypeScript\Templates\JQueryCallbacksClientTemplate.cs">
+            <AutoGen>True</AutoGen>
+            <DesignTime>True</DesignTime>
+            <DependentUpon>JQueryCallbacksClientTemplate.tt</DependentUpon>
+        </Compile>
+        <Compile Include="CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.cs">
+            <AutoGen>True</AutoGen>
+            <DesignTime>True</DesignTime>
+            <DependentUpon>JQueryPromisesClientTemplate.tt</DependentUpon>
+        </Compile>
+        <Compile Include="CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.Extensions.cs" />
+        <Compile Include="CodeGenerators\TypeScript\RequestBodyGenerator.cs" />
+        <Compile Include="CodeGenerators\TypeScript\Templates\RequestBodyTemplate.cs">
+            <AutoGen>True</AutoGen>
+            <DesignTime>True</DesignTime>
+            <DependentUpon>RequestBodyTemplate.tt</DependentUpon>
+        </Compile>
+        <Compile Include="CodeGenerators\TypeScript\Templates\RequestBodyTemplate.Extensions.cs" />
+        <Compile Include="CodeGenerators\TypeScript\TypeScriptTemplate.cs" />
+        <Compile Include="CodeGenerators\TypeScript\SwaggerToTypeScriptClientGenerator.cs" />
+        <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpWebApiControllerGenerator.cs" />
+        <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpWebApiControllerGeneratorSettings.cs" />
+        <Compile Include="Infrastructure\ObjectExtensions.cs" />
+        <Compile Include="Infrastructure\T4Extensions.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="SwaggerGenerators\AssemblyTypeToSwaggerGeneratorBase.cs" />
+        <Compile Include="SwaggerGenerators\AssemblyTypeToSwaggerGeneratorSettings.cs" />
+        <Compile Include="SwaggerGenerators\SwaggerJsonSchemaGenerator.cs" />
+        <Compile Include="SwaggerGenerators\WebApi\Processors\OperationParameterProcessor.cs" />
+        <Compile Include="SwaggerGenerators\WebApi\Processors\OperationResponseProcessor.cs" />
+        <Compile Include="SwaggerGenerators\WebApi\Processors\OperationSummaryAndDescriptionProcessor.cs" />
+        <Compile Include="SwaggerGenerators\WebApi\Processors\DocumentTagsProcessor.cs" />
+        <Compile Include="SwaggerGenerators\WebApi\Processors\IDocumentProcessor.cs" />
+        <Compile Include="SwaggerGenerators\WebApi\Processors\IOperationProcessor.cs" />
+        <Compile Include="SwaggerGenerators\WebApi\Processors\Security\SecurityDefinitionAppender.cs" />
+        <Compile Include="SwaggerGenerators\WebApi\Processors\Security\OperationSecurityScopeProcessor.cs" />
+        <Compile Include="SwaggerGenerators\SwaggerGenerator.cs" />
+        <Compile Include="SwaggerGenerators\WebApi\Processors\OperationTagsProcessor.cs" />
+        <Compile Include="SwaggerGenerators\WebApi\WebApiAssemblyToSwaggerGeneratorBase.cs" />
+        <Compile Include="SwaggerGenerators\WebApi\WebApiAssemblyToSwaggerGeneratorSettings.cs" />
+        <Compile Include="SwaggerGenerators\WebApi\WebApiToSwaggerGenerator.cs" />
+        <Compile Include="SwaggerGenerators\WebApi\WebApiToSwaggerGeneratorSettings.cs" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="app.config" />
+        <None Include="NSwag.CodeGeneration.nuspec" />
+        <None Include="NSwag.snk" />
+        <None Include="packages.config">
+            <SubType>Designer</SubType>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj">
+            <Project>{2E6174AA-FC75-4821-9E86-51B30568BEC0}</Project>
+            <Name>NSwag.Core</Name>
+        </ProjectReference>
+    </ItemGroup>
+    <ItemGroup>
+        <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="CodeGenerators\CSharp\Templates\ClientTemplate.tt">
+            <Generator>TextTemplatingFilePreprocessor</Generator>
+            <LastGenOutput>ClientTemplate.cs</LastGenOutput>
+        </None>
+        <None Include="CodeGenerators\CSharp\Templates\FileTemplate.tt">
+            <Generator>TextTemplatingFilePreprocessor</Generator>
+            <LastGenOutput>FileTemplate1.cs</LastGenOutput>
+        </None>
+        <None Include="CodeGenerators\CSharp\Templates\ControllerTemplate.tt">
+            <Generator>TextTemplatingFilePreprocessor</Generator>
+            <LastGenOutput>ControllerTemplate1.cs</LastGenOutput>
+        </None>
+        <None Include="CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt">
+            <Generator>TextTemplatingFilePreprocessor</Generator>
+            <LastGenOutput>Angular2ClientTemplate.cs</LastGenOutput>
+        </None>
+        <None Include="CodeGenerators\TypeScript\Templates\AngularJSClientTemplate.tt">
+            <Generator>TextTemplatingFilePreprocessor</Generator>
+            <LastGenOutput>AngularJSClientTemplate.cs</LastGenOutput>
+        </None>
+        <None Include="CodeGenerators\TypeScript\Templates\FileTemplate.tt">
+            <Generator>TextTemplatingFilePreprocessor</Generator>
+            <LastGenOutput>FileTemplate.cs</LastGenOutput>
+        </None>
+        <None Include="CodeGenerators\TypeScript\Templates\JQueryCallbacksClientTemplate.tt">
+            <Generator>TextTemplatingFilePreprocessor</Generator>
+            <LastGenOutput>JQueryCallbacksClientTemplate.cs</LastGenOutput>
+        </None>
+        <None Include="CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.tt">
+            <Generator>TextTemplatingFilePreprocessor</Generator>
+            <LastGenOutput>JQueryPromisesClientTemplate.cs</LastGenOutput>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="CodeGenerators\TypeScript\Templates\RequestBodyTemplate.tt">
+            <Generator>TextTemplatingFilePreprocessor</Generator>
+            <LastGenOutput>RequestBodyTemplate.cs</LastGenOutput>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="CodeGenerators\CSharp\Templates\JsonExceptionConverterTemplate.tt">
+            <Generator>TextTemplatingFilePreprocessor</Generator>
+            <LastGenOutput>JsonExceptionConverterTemplate.cs</LastGenOutput>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt">
+            <Generator>TextTemplatingFilePreprocessor</Generator>
+            <LastGenOutput>FetchClientTemplate.cs</LastGenOutput>
+        </None>
+    </ItemGroup>
+    <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+    <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
