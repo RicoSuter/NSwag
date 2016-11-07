@@ -96,6 +96,11 @@
       <DependentUpon>ClientTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="CodeGenerators\CSharp\Templates\ClientTemplate.Extensions.cs" />
+    <Compile Include="CodeGenerators\CSharp\Templates\ControllerTemplate1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ControllerTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Include="CodeGenerators\CSharp\Templates\FileTemplate.Extensions.cs" />
     <Compile Include="CodeGenerators\CSharp\Templates\ControllerTemplate.cs">
       <AutoGen>True</AutoGen>
