@@ -158,7 +158,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 var operation = tuple.Item1;
                 var method = tuple.Item2;
 
-                var addOperation = RunOperationProcessors(method, operation, allOperation, swaggerGenerator);
+                var addOperation = RunOperationProcessors(service, method, operation, allOperation, swaggerGenerator);
                 if (addOperation)
                 {
                     if (!service.Paths.ContainsKey(operation.Path))
@@ -172,12 +172,13 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             }
         }
 
-        private bool RunOperationProcessors(MethodInfo method, SwaggerOperationDescription operation, List<SwaggerOperationDescription> allOperations, SwaggerGenerator swaggerGenerator)
+        private bool RunOperationProcessors(SwaggerService service, MethodInfo method, 
+            SwaggerOperationDescription operation, List<SwaggerOperationDescription> allOperations, SwaggerGenerator swaggerGenerator)
         {
             // 1. Run from settings
             foreach (var operationProcessor in Settings.OperationProcessors)
             {
-                if (operationProcessor.Process(operation, method, swaggerGenerator, allOperations) == false)
+                if (operationProcessor.Process(service, operation, method, swaggerGenerator, allOperations) == false)
                     return false;
             }
 

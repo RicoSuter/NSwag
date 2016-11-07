@@ -23,5 +23,8 @@ namespace NSwag.Annotations
         
         /// <summary>Gets the tags.</summary>
         public string[] Tags { get; private set; }
+
+        /// <summary>Gets or sets a value indicating whether the tags should be added to document's 'tags' property (only needed on operation methods, default: false).</summary>
+        public bool AddToDocument { get; set; }
     }
 }

@@ -11,7 +11,7 @@ using System;
 namespace NSwag.Annotations
 {
     /// <summary>Specifies the tags for an operation.</summary>
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
     public class SwaggerTagAttribute : Attribute
     {
         /// <summary>Initializes a new instance of the <see cref="ResponseTypeAttribute"/> class.</summary>
@@ -31,5 +31,8 @@ namespace NSwag.Annotations
 
         /// <summary>Gets or sets the external documentation URL.</summary>
         public string DocumentationUrl { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether the tags should be added to document's 'tags' property (only needed on operation methods, default: false).</summary>
+        public bool AddToDocument { get; set; }
     }
 }

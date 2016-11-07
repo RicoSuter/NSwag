@@ -30,7 +30,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
 
         private static void ProcessSwaggerTagsAttribute(SwaggerService document, Type controllerType)
         {
-            dynamic tagsAttribute = controllerType.GetTypeInfo().GetCustomAttributes()
+            dynamic tagsAttribute = controllerType.GetTypeInfo()
+                .GetCustomAttributes()
                 .SingleOrDefault(a => a.GetType().Name == "SwaggerTagsAttribute");
 
             if (tagsAttribute != null)
@@ -45,7 +46,10 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
                         document.Tags = new List<SwaggerTag>();
 
                     foreach (var tag in tags)
-                        document.Tags.Add(tag);
+                    {
+                        if (document.Tags.All(t => t.Name != tag.Name))
+                            document.Tags.Add(tag);
+                    }
                 }
             }
         }
@@ -59,29 +63,34 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
 
             if (tagAttributes.Any())
             {
-                if (document.Tags == null)
-                    document.Tags = new List<SwaggerTag>();
-
                 foreach (var tagAttribute in tagAttributes)
+                    AddTagFromSwaggerTagAttribute(document, tagAttribute);
+            }
+        }
+
+        internal static void AddTagFromSwaggerTagAttribute(SwaggerService document, dynamic tagAttribute)
+        {
+            if (document.Tags == null)
+                document.Tags = new List<SwaggerTag>();
+
+            var tag = document.Tags.SingleOrDefault(t => t.Name == tagAttribute.Name);
+            if (tag == null)
+            {
+                tag = new SwaggerTag();
+                document.Tags.Add(tag);
+            }
+
+            tag.Description = tagAttribute.Description;
+            tag.Name = tagAttribute.Name;
+
+            if (!string.IsNullOrEmpty(tagAttribute.DocumentationDescription) ||
+                !string.IsNullOrEmpty(tagAttribute.DocumentationUrl))
+            {
+                tag.ExternalDocumentation = new SwaggerExternalDocumentation
                 {
-                    var tag = new SwaggerTag
-                    {
-                        Name = tagAttribute.Name,
-                        Description = tagAttribute.Description
-                    };
-
-                    if (!string.IsNullOrEmpty(tagAttribute.DocumentationDescription) ||
-                        !string.IsNullOrEmpty(tagAttribute.DocumentationUrl))
-                    {
-                        tag.ExternalDocumentation = new SwaggerExternalDocumentation
-                        {
-                            Description = tagAttribute.DocumentationDescription,
-                            Url = tagAttribute.DocumentationUrl
-                        };
-                    }
-
-                    document.Tags.Add(tag);
-                }
+                    Description = tagAttribute.DocumentationDescription,
+                    Url = tagAttribute.DocumentationUrl
+                };
             }
         }
     }
