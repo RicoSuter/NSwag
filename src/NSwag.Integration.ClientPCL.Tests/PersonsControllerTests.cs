@@ -13,7 +13,7 @@ namespace NSwag.Integration.ClientPCL.Tests
         public async Task GetAll_SerializationTest()
         {
             //// Arrange
-            var personsClient = new PersonsClient("http://localhost:13452");
+            var personsClient = new PersonsClient { BaseUrl = "http://localhost:13452" }; ;
 
             //// Act
             var persons = await personsClient.GetAllAsync();
@@ -27,7 +27,7 @@ namespace NSwag.Integration.ClientPCL.Tests
         public async Task GetAll_InheritanceTest()
         {
             //// Arrange
-            var personsClient = new PersonsClient("http://localhost:13452");
+            var personsClient = new PersonsClient { BaseUrl = "http://localhost:13452" };
 
             //// Act
             var persons = await personsClient.GetAllAsync();
@@ -42,7 +42,7 @@ namespace NSwag.Integration.ClientPCL.Tests
         {
             //// Arrange
             var id = Guid.NewGuid();
-            var personsClient = new PersonsClient("http://localhost:13452");
+            var personsClient = new PersonsClient { BaseUrl = "http://localhost:13452" };
 
             //// Act
             try

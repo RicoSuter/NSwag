@@ -111,7 +111,7 @@ namespace NSwag.Commands
         {
             return await Task.Run(() =>
             {
-                var clientGenerator = new SwaggerToCSharpClientGenerator(InputSwaggerService, Settings);
+                var clientGenerator = new SwaggerToCSharpClientGenerator(InputSwaggerDocument, Settings);
 
                 if (GenerateContractsOutput)
                 {

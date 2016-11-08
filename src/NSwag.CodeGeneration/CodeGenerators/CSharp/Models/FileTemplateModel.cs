@@ -18,7 +18,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
     public class FileTemplateModel
     {
         private readonly string _clientCode;
-        private readonly SwaggerService _service;
+        private readonly SwaggerDocument _document;
         private readonly SwaggerToCSharpGeneratorSettings _settings;
         private readonly SwaggerToCSharpTypeResolver _resolver;
         private readonly ClientGeneratorOutputType _outputType;
@@ -27,16 +27,16 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
         /// <summary>Initializes a new instance of the <see cref="FileTemplateModel" /> class.</summary>
         /// <param name="clientCode">The client code.</param>
         /// <param name="outputType">Type of the output.</param>
-        /// <param name="service">The service.</param>
+        /// <param name="document">The Swagger document.</param>
         /// <param name="clientGeneratorBase">The client generator base.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="resolver">The resolver.</param>
-        public FileTemplateModel(string clientCode, ClientGeneratorOutputType outputType, SwaggerService service,
+        public FileTemplateModel(string clientCode, ClientGeneratorOutputType outputType, SwaggerDocument document,
             ClientGeneratorBase clientGeneratorBase, SwaggerToCSharpGeneratorSettings settings, SwaggerToCSharpTypeResolver resolver)
         {
             _clientCode = clientCode;
             _outputType = outputType;
-            _service = service;
+            _document = document;
             _clientGeneratorBase = clientGeneratorBase;
             _settings = settings;
             _resolver = resolver;
@@ -79,11 +79,11 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
             _clientGeneratorBase.GetType(r.ActualResponseSchema, r.IsNullable(_settings.CSharpGeneratorSettings.NullHandling), "Response"));
 
         private IEnumerable<SwaggerResponse> ResponsesInheritingFromException =>
-            _service.Operations.SelectMany(o => o.Operation.AllResponses.Values.Where(r => r.InheritsExceptionSchema(_resolver.ExceptionSchema)));
+            _document.Operations.SelectMany(o => o.Operation.AllResponses.Values.Where(r => r.InheritsExceptionSchema(_resolver.ExceptionSchema)));
 
         /// <summary>Gets a value indicating whether the generated code requires the FileParameter type.</summary>
         public bool RequiresFileParameterType => 
-            _service.Operations.Any(o => o.Operation.Parameters.Any(p => p.Type.HasFlag(JsonObjectType.File)));
+            _document.Operations.Any(o => o.Operation.Parameters.Any(p => p.Type.HasFlag(JsonObjectType.File)));
 
         /// <summary>Gets the exception class names.</summary>
         public IEnumerable<string> ExceptionClassNames
@@ -95,8 +95,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
                     var settings = (SwaggerToCSharpClientGeneratorSettings)_settings;
                     if (_settings.OperationNameGenerator.SupportsMultipleClients)
                     {
-                        return _service.Operations
-                            .GroupBy(o => _settings.OperationNameGenerator.GetClientName(_service, o.Path, o.Method, o.Operation))
+                        return _document.Operations
+                            .GroupBy(o => _settings.OperationNameGenerator.GetClientName(_document, o.Path, o.Method, o.Operation))
                             .Select(g => settings.ExceptionClass.Replace("{controller}", g.Key))
                             .Distinct();
                     }

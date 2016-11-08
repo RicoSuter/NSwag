@@ -31,8 +31,8 @@ namespace NSwag.CodeGeneration.Tests.OperationNameGenerator
         {
             //// Arrange
             var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
-            var service = generator.GenerateForController<PointController>();
-            var codeGenerator = new SwaggerToTypeScriptClientGenerator(service, new SwaggerToTypeScriptClientGeneratorSettings
+            var document = generator.GenerateForController<PointController>();
+            var codeGenerator = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
             {
                 OperationGenerationMode = OperationGenerationMode.MultipleClientsFromOperationId
             });

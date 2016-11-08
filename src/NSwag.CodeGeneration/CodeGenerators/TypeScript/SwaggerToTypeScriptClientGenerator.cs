@@ -19,41 +19,39 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
     /// <summary>Generates the CSharp service client code. </summary>
     public class SwaggerToTypeScriptClientGenerator : ClientGeneratorBase
     {
-        private readonly SwaggerService _service;
+        private readonly SwaggerDocument _document;
         private readonly TypeScriptTypeResolver _resolver;
 
         /// <summary>Initializes a new instance of the <see cref="SwaggerToTypeScriptClientGenerator" /> class.</summary>
-        /// <param name="service">The service.</param>
+        /// <param name="document">The Swagger document.</param>
         /// <param name="settings">The settings.</param>
-        /// <exception cref="System.ArgumentNullException">service</exception>
-        /// <exception cref="ArgumentNullException"><paramref name="service" /> is <see langword="null" />.</exception>
-        public SwaggerToTypeScriptClientGenerator(SwaggerService service, SwaggerToTypeScriptClientGeneratorSettings settings)
-            : this(service, settings, new TypeScriptTypeResolver(settings.TypeScriptGeneratorSettings, service))
+        /// <exception cref="ArgumentNullException"><paramref name="document" /> is <see langword="null" />.</exception>
+        public SwaggerToTypeScriptClientGenerator(SwaggerDocument document, SwaggerToTypeScriptClientGeneratorSettings settings)
+            : this(document, settings, new TypeScriptTypeResolver(settings.TypeScriptGeneratorSettings, document))
         {
 
         }
 
         /// <summary>Initializes a new instance of the <see cref="SwaggerToTypeScriptClientGenerator" /> class.</summary>
-        /// <param name="service">The service.</param>
+        /// <param name="document">The Swagger document.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="resolver">The resolver.</param>
-        /// <exception cref="System.ArgumentNullException">service</exception>
-        /// <exception cref="ArgumentNullException"><paramref name="service" /> is <see langword="null" />.</exception>
-        public SwaggerToTypeScriptClientGenerator(SwaggerService service, SwaggerToTypeScriptClientGeneratorSettings settings, TypeScriptTypeResolver resolver)
+        /// <exception cref="ArgumentNullException"><paramref name="document" /> is <see langword="null" />.</exception>
+        public SwaggerToTypeScriptClientGenerator(SwaggerDocument document, SwaggerToTypeScriptClientGeneratorSettings settings, TypeScriptTypeResolver resolver)
             : base(resolver, settings.CodeGeneratorSettings)
         {
-            if (service == null)
-                throw new ArgumentNullException(nameof(service));
+            if (document == null)
+                throw new ArgumentNullException(nameof(document));
 
             Settings = settings;
 
-            _service = service;
+            _document = document;
             _resolver = resolver;
 
-            foreach (var definition in _service.Definitions.Where(p => string.IsNullOrEmpty(p.Value.TypeNameRaw)))
+            foreach (var definition in _document.Definitions.Where(p => string.IsNullOrEmpty(p.Value.TypeNameRaw)))
                 definition.Value.TypeNameRaw = definition.Key;
 
-            _resolver.AddSchemas(_service.Definitions);
+            _resolver.AddSchemas(_document.Definitions);
         }
 
         /// <summary>Gets or sets the generator settings.</summary>
@@ -66,7 +64,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         /// <returns>The file contents.</returns>
         public override string GenerateFile()
         {
-            return GenerateFile(_service, ClientGeneratorOutputType.Full);
+            return GenerateFile(_document, ClientGeneratorOutputType.Full);
         }
 
         /// <summary>Resolves the type of the parameter.</summary>
@@ -90,7 +88,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 
         internal override string GenerateFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType)
         {
-            var model = new FileTemplateModel(_service, clientCode, clientClasses, Settings, _resolver);
+            var model = new FileTemplateModel(_document, clientCode, clientClasses, Settings, _resolver);
             var template = BaseSettings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("TypeScript", "File", model);
             return template.Render();
         }
@@ -99,7 +97,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         {
             UpdateUseDtoClassAndDataConversionCodeProperties(operations);
 
-            var model = new ClientTemplateModel(GetClassName(controllerClassName), operations, _service, Settings);
+            var model = new ClientTemplateModel(GetClassName(controllerClassName), operations, _document, Settings);
             var template = Settings.CreateTemplate(model);
             var code = template.Render();
 

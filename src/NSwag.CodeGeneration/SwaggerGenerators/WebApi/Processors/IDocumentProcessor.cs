@@ -6,13 +6,15 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Contexts;
+
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
 {
-    /// <summary>Post processes a generated <see cref="SwaggerService"/>.</summary>
+    /// <summary>Post processes a generated <see cref="SwaggerDocument"/>.</summary>
     public interface IDocumentProcessor
     {
         /// <summary>Processes the specified Swagger document.</summary>
-        /// <param name="document">The document.</param>
-        void Process(SwaggerService document);
+        /// <param name="context">The processor context.</param>
+        void Process(DocumentProcessorContext context);
     }
 }

@@ -2,7 +2,6 @@
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{71B39C21-46A2-471B-AACE-226C575B8AC1}</ProjectGuid>
@@ -15,6 +14,10 @@
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkProfile>Profile259</TargetFrameworkProfile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>NSwag.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,12 +39,6 @@
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>bin\Release\NSwag.Commands.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>NSwag.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Commands\AssemblyTypeToSwaggerCommandBase.cs" />
@@ -83,12 +80,12 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=5.12.6149.949, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.5.12.6149.949\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
+    <Reference Include="NJsonSchema, Version=5.16.6156.29215, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.5.16.6156.29215\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema.CodeGeneration, Version=5.12.6149.950, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.CodeGeneration.5.12.6149.950\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
+    <Reference Include="NJsonSchema.CodeGeneration, Version=5.16.6156.29215, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.CodeGeneration.5.16.6156.29215\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

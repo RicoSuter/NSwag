@@ -61,12 +61,12 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=5.12.6149.949, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.5.12.6149.949\lib\net45\NJsonSchema.dll</HintPath>
+    <Reference Include="NJsonSchema, Version=5.16.6156.29215, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.5.16.6156.29215\lib\net45\NJsonSchema.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema.CodeGeneration, Version=5.12.6149.950, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.CodeGeneration.5.12.6149.950\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
+    <Reference Include="NJsonSchema.CodeGeneration, Version=5.16.6156.29215, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.CodeGeneration.5.16.6156.29215\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -104,14 +104,16 @@
     <Compile Include="CommandLine\WebApiCommandLineTests.cs" />
     <Compile Include="OperationNameGenerator\MultipleClientsFromOperationIdOperationNameGeneratorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WebApiToSwaggerGenerator\Attributes\AcceptVerbsTests.cs" />
-    <Compile Include="WebApiToSwaggerGenerator\Attributes\ComplexParametersTests.cs" />
-    <Compile Include="WebApiToSwaggerGenerator\Attributes\PrimitivePathParametersTests.cs" />
-    <Compile Include="WebApiToSwaggerGenerator\Attributes\PrimitiveQueryParametersTests.cs" />
-    <Compile Include="WebApiToSwaggerGenerator\Attributes\RouteInheritanceTests.cs" />
-    <Compile Include="WebApiToSwaggerGenerator\Attributes\RoutePrefixTests.cs" />
-    <Compile Include="WebApiToSwaggerGenerator\GeneralTests.cs" />
-    <Compile Include="WebApiToSwaggerGenerator\OperationIdTests.cs" />
+    <Compile Include="WebApi\Attributes\AcceptVerbsTests.cs" />
+    <Compile Include="WebApi\Attributes\ComplexParametersTests.cs" />
+    <Compile Include="WebApi\Attributes\PrimitivePathParametersTests.cs" />
+    <Compile Include="WebApi\Attributes\PrimitiveQueryParametersTests.cs" />
+    <Compile Include="WebApi\Attributes\RouteInheritanceTests.cs" />
+    <Compile Include="WebApi\Attributes\RoutePrefixTests.cs" />
+    <Compile Include="WebApi\Attributes\ResponseAttributeTests.cs" />
+    <Compile Include="WebApi\Attributes\TagsTests.cs" />
+    <Compile Include="WebApi\GeneralTests.cs" />
+    <Compile Include="WebApi\OperationIdTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj">

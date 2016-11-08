@@ -23,8 +23,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
 
         /// <summary>Generates the specified class names.</summary>
         /// <param name="classNames">The class names.</param>
-        /// <returns>The Swagger specification.</returns>
-        public abstract SwaggerService Generate(string[] classNames);
+        /// <returns>The Swagger document.</returns>
+        public abstract SwaggerDocument Generate(string[] classNames);
 
         /// <summary>Gets the classes.</summary>
         /// <returns>The class names.</returns>

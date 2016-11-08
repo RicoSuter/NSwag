@@ -28,9 +28,9 @@ namespace NSwag
             };
         }
 
-        /// <summary>Gets the parent <see cref="SwaggerService"/>.</summary>
+        /// <summary>Gets the parent <see cref="SwaggerDocument"/>.</summary>
         [JsonIgnore]
-        public SwaggerService Parent { get; internal set; }
+        public SwaggerDocument Parent { get; internal set; }
 
         /// <summary>Gets or sets the parameters.</summary>
         [JsonProperty(PropertyName = "parameters", DefaultValueHandling = DefaultValueHandling.Ignore)]

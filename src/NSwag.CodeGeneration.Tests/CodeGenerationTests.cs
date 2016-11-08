@@ -16,13 +16,13 @@ namespace NSwag.CodeGeneration.Tests
         public void When_generating_CSharp_code_then_output_contains_expected_classes()
         {
             // Arrange
-            var service = CreateService();
+            var document = CreateService();
 
             //// Act
             var settings = new SwaggerToCSharpClientGeneratorSettings { ClassName = "MyClass" };
             settings.CSharpGeneratorSettings.Namespace = "MyNamespace";
 
-            var generator = new SwaggerToCSharpClientGenerator(service, settings);
+            var generator = new SwaggerToCSharpClientGenerator(document, settings);
 
             var code = generator.GenerateFile();
 
@@ -37,10 +37,10 @@ namespace NSwag.CodeGeneration.Tests
         public void When_generating_TypeScript_code_then_output_contains_expected_classes()
         {
             // Arrange
-            var service = CreateService();
+            var document = CreateService();
 
             //// Act
-            var generator = new SwaggerToTypeScriptClientGenerator(service, new SwaggerToTypeScriptClientGeneratorSettings
+            var generator = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
             {
                 ClassName = "MyClass",
                 TypeScriptGeneratorSettings = new TypeScriptGeneratorSettings
@@ -88,18 +88,18 @@ namespace NSwag.CodeGeneration.Tests
 
             //// Act
             var schema = JsonSchema4.FromJson(jsonSchema);
-            var service = new SwaggerService();
-            service.Definitions["Foo"] = schema;
+            var document = new SwaggerDocument();
+            document.Definitions["Foo"] = schema;
 
             //// Assert
-            var jsonService = service.ToJson(); // no exception expected
+            var jsonService = document.ToJson(); // no exception expected
         }
 
-        private static SwaggerService CreateService()
+        private static SwaggerDocument CreateService()
         {
-            var service = new SwaggerService();
-            service.Paths["/Person"] = new SwaggerOperations();
-            service.Paths["/Person"][SwaggerOperationMethod.Get] = new SwaggerOperation
+            var document = new SwaggerDocument();
+            document.Paths["/Person"] = new SwaggerOperations();
+            document.Paths["/Person"][SwaggerOperationMethod.Get] = new SwaggerOperation
             {
                 Responses = new Dictionary<string, SwaggerResponse>
                 {
@@ -111,7 +111,7 @@ namespace NSwag.CodeGeneration.Tests
                     }
                 }
             };
-            return service;
+            return document;
         }
     }
 

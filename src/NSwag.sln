@@ -51,6 +51,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.AspNet.Owin", "NSwag.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwag.AspNetCore", "NSwag.AspNetCore", "{B1B98B5E-313E-44D2-8707-9DF487E93F70}"
 	ProjectSection(SolutionItems) = preProject
+		NSwag.AspNetCore\Properties\AssemblyInfo.cs = NSwag.AspNetCore\Properties\AssemblyInfo.cs
 		NSwag.AspNetCore\project.json = NSwag.AspNetCore\project.json
 	EndProjectSection
 EndProject
@@ -83,16 +84,23 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Integration.Console",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Commands", "NSwag.Commands\NSwag.Commands.csproj", "{71B39C21-46A2-471B-AACE-226C575B8AC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Terminal", "NSwag.Terminal\NSwag.Terminal.csproj", "{26CBD69C-EE7C-4D81-8D62-410F4AD4876B}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwag.AssemblyLoaderCore", "NSwag.AssemblyLoaderCore", "{C8E685E7-06E6-483C-88D6-7F351E966A34}"
 	ProjectSection(SolutionItems) = preProject
+		NSwag.AssemblyLoaderCore\Properties\AssemblyInfo.cs = NSwag.AssemblyLoaderCore\Properties\AssemblyInfo.cs
 		NSwag.AssemblyLoaderCore\project.json = NSwag.AssemblyLoaderCore\project.json
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwag.TerminalCore", "NSwag.TerminalCore", "{5FAD23FB-4F58-49CA-AB21-5EA13B202E22}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwag.ConsoleCore", "NSwag.ConsoleCore", "{5FAD23FB-4F58-49CA-AB21-5EA13B202E22}"
 	ProjectSection(SolutionItems) = preProject
-		NSwag.TerminalCore\project.json = NSwag.TerminalCore\project.json
+		NSwag.ConsoleCore\Properties\AssemblyInfo.cs = NSwag.ConsoleCore\Properties\AssemblyInfo.cs
+		NSwag.ConsoleCore\project.json = NSwag.ConsoleCore\project.json
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Console", "NSwag.Console\NSwag.Console.csproj", "{26CBD69C-EE7C-4D81-8D62-410F4AD4876B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwag.Npm", "NSwag.Npm", "{E0EE88B9-E6AD-434A-A11E-FC6A987CC02B}"
+	ProjectSection(SolutionItems) = preProject
+		NSwag.Npm\package.json = NSwag.Npm\package.json
 	EndProjectSection
 EndProject
 Global
@@ -107,14 +115,14 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}.Debug|x64.ActiveCfg = Debug|x64
-		{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}.Debug|x64.Build.0 = Debug|x64
+		{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}.Debug|x64.Build.0 = Debug|Any CPU
 		{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}.Debug|x86.Build.0 = Debug|Any CPU
 		{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}.Release|x64.ActiveCfg = Release|x64
-		{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}.Release|x64.Build.0 = Release|x64
+		{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}.Release|x64.ActiveCfg = Release|Any CPU
+		{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}.Release|x64.Build.0 = Release|Any CPU
 		{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}.Release|x86.ActiveCfg = Release|Any CPU
 		{37650571-163A-4BE7-86BF-DC1B02ADACBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{37650571-163A-4BE7-86BF-DC1B02ADACBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
@@ -361,5 +369,6 @@ Global
 		{C683AABE-5FE5-47B8-BB4D-EE5C5E89D9DE} = {492F35DB-5245-4F5A-8DA9-E9C532C2DDA7}
 		{C8E685E7-06E6-483C-88D6-7F351E966A34} = {DDBB05AC-B066-48C4-933C-034F401EBB6A}
 		{5FAD23FB-4F58-49CA-AB21-5EA13B202E22} = {DDBB05AC-B066-48C4-933C-034F401EBB6A}
+		{E0EE88B9-E6AD-434A-A11E-FC6A987CC02B} = {DDBB05AC-B066-48C4-933C-034F401EBB6A}
 	EndGlobalSection
 EndGlobal

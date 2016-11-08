@@ -32,7 +32,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Templates
                     "oolchain v");
             
             #line 8 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerService.ToolchainVersion));
+            this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerDocument.ToolchainVersion));
             
             #line default
             #line hidden
@@ -139,7 +139,7 @@ if(Model.GenerateContracts){
             this.Write("    [GeneratedCode(\"NSwag\", \"");
             
             #line 48 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerService.ToolchainVersion));
+            this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerDocument.ToolchainVersion));
             
             #line default
             #line hidden
@@ -178,7 +178,7 @@ foreach (var exceptionClassName in Model.ExceptionClassNames){
             this.Write("    [GeneratedCode(\"NSwag\", \"");
             
             #line 69 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerService.ToolchainVersion));
+            this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerDocument.ToolchainVersion));
             
             #line default
             #line hidden
@@ -213,7 +213,7 @@ foreach (var exceptionClassName in Model.ExceptionClassNames){
     [GeneratedCode(""NSwag"", """);
             
             #line 89 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerService.ToolchainVersion));
+            this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerDocument.ToolchainVersion));
             
             #line default
             #line hidden

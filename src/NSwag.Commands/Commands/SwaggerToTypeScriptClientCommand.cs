@@ -155,7 +155,7 @@ namespace NSwag.Commands
                     additionalCode = DynamicApis.FileReadAllText(additionalCode);
                 Settings.TypeScriptGeneratorSettings.ExtensionCode = additionalCode;
 
-                var clientGenerator = new SwaggerToTypeScriptClientGenerator(InputSwaggerService, Settings);
+                var clientGenerator = new SwaggerToTypeScriptClientGenerator(InputSwaggerDocument, Settings);
                 return clientGenerator.GenerateFile();
             });
         }

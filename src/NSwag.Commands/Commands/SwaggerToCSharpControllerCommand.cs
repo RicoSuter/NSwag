@@ -40,7 +40,7 @@ namespace NSwag.Commands
         {
             return await Task.Run(() =>
             {
-                var clientGenerator = new SwaggerToCSharpWebApiControllerGenerator(InputSwaggerService, Settings);
+                var clientGenerator = new SwaggerToCSharpWebApiControllerGenerator(InputSwaggerDocument, Settings);
                 return clientGenerator.GenerateFile();
             });
         }

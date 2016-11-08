@@ -10,8 +10,8 @@ namespace NSwag.Tests.Specification
         public void When_generating_operation_id()
         {
             //// Arrange
-            var service = new SwaggerService();
-            service.Paths["path"] = new SwaggerOperations
+            var document = new SwaggerDocument();
+            document.Paths["path"] = new SwaggerOperations
             {
                 {
                     SwaggerOperationMethod.Get,
@@ -24,10 +24,10 @@ namespace NSwag.Tests.Specification
             };
 
             //// Act
-            service.GenerateOperationIds();
+            document.GenerateOperationIds();
 
             //// Assert
-            Assert.IsTrue(service.Operations.GroupBy(o => o.Operation.OperationId).All(g => g.Count() == 1));
+            Assert.IsTrue(document.Operations.GroupBy(o => o.Operation.OperationId).All(g => g.Count() == 1));
         }
     }
 }

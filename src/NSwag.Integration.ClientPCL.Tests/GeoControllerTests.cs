@@ -14,7 +14,7 @@ namespace NSwag.Integration.ClientPCL.Tests
         public async Task SaveItems()
         {
             //// Arrange
-            var geoClient = new GeoClient("http://localhost:13452");
+            var geoClient = new GeoClient { BaseUrl = "http://localhost:13452" };
 
             //// Act
             try
@@ -36,7 +36,7 @@ namespace NSwag.Integration.ClientPCL.Tests
         public async Task UploadFile()
         {
             //// Arrange
-            var geoClient = new GeoClient("http://localhost:13452");
+            var geoClient = new GeoClient { BaseUrl = "http://localhost:13452" };
 
             //// Act
             var result = await geoClient.UploadFileAsync(new FileParameter(new MemoryStream(new byte[] { 1, 2 })));

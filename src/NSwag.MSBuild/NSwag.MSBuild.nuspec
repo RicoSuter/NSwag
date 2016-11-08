@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>NSwag.MSBuild</id>
-        <version>6.21</version>
+        <version>7.0.0</version>
         <authors>Rico Suter</authors>
         <owners>Rico Suter</owners>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -17,17 +17,17 @@
     </metadata>
     <files>
         <file src="NSwag.MSBuild.targets" target="build" />
-        <file src="..\NSwag.Terminal\bin\Release\NConsole.dll" target="build" />
-        <file src="..\NSwag.Terminal\bin\Release\Newtonsoft.Json.dll" target="build" />
-        <file src="..\NSwag.Terminal\bin\Release\MyToolkit.dll" target="build" />
-        <file src="..\NSwag.Terminal\bin\Release\NJsonSchema.CodeGeneration.dll" target="build" />
-        <file src="..\NSwag.Terminal\bin\Release\NJsonSchema.dll" target="build" />
-        <file src="..\NSwag.Terminal\bin\Release\NSwag.AssemblyLoader.dll" target="build" />
-        <file src="..\NSwag.Terminal\bin\Release\NSwag.Commands.dll" target="build" />
-        <file src="..\NSwag.Terminal\bin\Release\NSwag.CodeGeneration.dll" target="build" />
-        <file src="..\NSwag.Terminal\bin\Release\NSwag.Annotations.dll" target="build" />
-        <file src="..\NSwag.Terminal\bin\Release\NSwag.Core.dll" target="build" />
-        <file src="..\NSwag.Terminal\bin\Release\NSwag.exe" target="build" />
-        <file src="..\NSwag.Terminal\bin\Release\NSwag.exe.config" target="build" />
+        <file src="..\NSwag.Console\bin\Release\NConsole.dll" target="build" />
+        <file src="..\NSwag.Console\bin\Release\Newtonsoft.Json.dll" target="build" />
+        <file src="..\NSwag.Console\bin\Release\MyToolkit.dll" target="build" />
+        <file src="..\NSwag.Console\bin\Release\NJsonSchema.CodeGeneration.dll" target="build" />
+        <file src="..\NSwag.Console\bin\Release\NJsonSchema.dll" target="build" />
+        <file src="..\NSwag.Console\bin\Release\NSwag.AssemblyLoader.dll" target="build" />
+        <file src="..\NSwag.Console\bin\Release\NSwag.Commands.dll" target="build" />
+        <file src="..\NSwag.Console\bin\Release\NSwag.CodeGeneration.dll" target="build" />
+        <file src="..\NSwag.Console\bin\Release\NSwag.Annotations.dll" target="build" />
+        <file src="..\NSwag.Console\bin\Release\NSwag.Core.dll" target="build" />
+        <file src="..\NSwag.Console\bin\Release\NSwag.exe" target="build" />
+        <file src="..\NSwag.Console\bin\Release\NSwag.exe.config" target="build" />
     </files>
 </package>

@@ -10,10 +10,11 @@ using System;
 
 namespace NSwag.Annotations
 {
-    /// <summary>Specifies the tags for an operation.</summary>
+    /// <summary>Specifies the tags for an operation or a document.</summary>
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class SwaggerTagsAttribute : Attribute
     {
-        /// <summary>Initializes a new instance of the <see cref="ResponseTypeAttribute"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="SwaggerTagsAttribute"/> class.</summary>
         /// <param name="tags">The tags.</param>
         public SwaggerTagsAttribute(params string[] tags)
         {
@@ -22,5 +23,8 @@ namespace NSwag.Annotations
         
         /// <summary>Gets the tags.</summary>
         public string[] Tags { get; private set; }
+
+        /// <summary>Gets or sets a value indicating whether the tags should be added to document's 'tags' property (only needed on operation methods, default: false).</summary>
+        public bool AddToDocument { get; set; }
     }
 }

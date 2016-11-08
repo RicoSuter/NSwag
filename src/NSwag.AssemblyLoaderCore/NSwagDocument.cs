@@ -61,14 +61,14 @@ namespace NSwag.CodeGeneration
 
         /// <summary>Generates the Swagger specification.</summary>
         /// <returns>The Swagger specification.</returns>
-        protected override async Task<SwaggerService> GenerateServiceAsync()
+        protected override async Task<SwaggerDocument> GenerateDocumentAsync()
         {
             if (SelectedSwaggerGenerator == 1)
                 return await WebApiToSwaggerCommand.RunAsync();
             else if (SelectedSwaggerGenerator == 3)
                 return await AssemblyTypeToSwaggerCommand.RunAsync();
             else
-                return await base.GenerateServiceAsync();
+                return await base.GenerateDocumentAsync();
         }
     }
 }

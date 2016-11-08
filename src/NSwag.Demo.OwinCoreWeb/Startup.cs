@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NJsonSchema;
 using NSwag.AspNetCore;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors;
+using NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Security;
 
 namespace NSwag.Demo.OwinCoreWeb
 {
@@ -35,7 +36,7 @@ namespace NSwag.Demo.OwinCoreWeb
                 },
                 OperationProcessors =
                 {
-                    new OperationSecurityScopeAppender("oauth2")
+                    new OperationSecurityScopeProcessor("oauth2")
                 },
                 DocumentProcessors =
                 {

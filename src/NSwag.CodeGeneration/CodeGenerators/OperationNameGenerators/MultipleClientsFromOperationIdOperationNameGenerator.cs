@@ -18,28 +18,28 @@ namespace NSwag.CodeGeneration.CodeGenerators.OperationNameGenerators
         public bool SupportsMultipleClients { get; } = true;
 
         /// <summary>Gets the client name for a given operation.</summary>
-        /// <param name="service">The Swagger service.</param>
+        /// <param name="document">The Swagger document.</param>
         /// <param name="path">The HTTP path.</param>
         /// <param name="httpMethod">The HTTP method.</param>
         /// <param name="operation">The operation.</param>
         /// <returns>The client name.</returns>
-        public string GetClientName(SwaggerService service, string path, SwaggerOperationMethod httpMethod, SwaggerOperation operation)
+        public string GetClientName(SwaggerDocument document, string path, SwaggerOperationMethod httpMethod, SwaggerOperation operation)
         {
             return GetClientName(operation);
         }
 
         /// <summary>Gets the operation name for a given operation.</summary>
-        /// <param name="service">The Swagger service.</param>
+        /// <param name="document">The Swagger document.</param>
         /// <param name="path">The HTTP path.</param>
         /// <param name="httpMethod">The HTTP method.</param>
         /// <param name="operation">The operation.</param>
         /// <returns>The operation name.</returns>
-        public string GetOperationName(SwaggerService service, string path, SwaggerOperationMethod httpMethod, SwaggerOperation operation)
+        public string GetOperationName(SwaggerDocument document, string path, SwaggerOperationMethod httpMethod, SwaggerOperation operation)
         {
             var clientName = GetClientName(operation);
             var operationName = GetOperationName(operation);
 
-            var hasOperationWithSameName = service.Operations
+            var hasOperationWithSameName = document.Operations
                 .Where(o => o.Operation != operation)
                 .Any(o => GetClientName(o.Operation) == clientName && GetOperationName(o.Operation) == operationName);
 

@@ -25,8 +25,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
         /// <summary>Generates for controllers.</summary>
         /// <param name="controllerClassNames">The controller class names.</param>
-        /// <returns>The Swagger specification.</returns>
-        public abstract SwaggerService GenerateForControllers(IEnumerable<string> controllerClassNames);
+        /// <returns>The Swagger document.</returns>
+        public abstract SwaggerDocument GenerateForControllers(IEnumerable<string> controllerClassNames);
 
         /// <summary>Gets the controller classes.</summary>
         /// <returns>The controller class names.</returns>

@@ -17,10 +17,10 @@ namespace NSwag.CodeGeneration.Tests
             });
 
             //// Act
-            var service = generator.Generate(new[] { "NSwag.Demo.Web.Models.Person" });
+            var document = generator.Generate(new[] { "NSwag.Demo.Web.Models.Person" });
 
             //// Assert
-            Assert.AreEqual(6, service.Definitions["Person"].Properties.Count);
+            Assert.AreEqual(6, document.Definitions["Person"].Properties.Count);
         }
     }
 }

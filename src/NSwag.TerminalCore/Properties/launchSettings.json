@@ -1,7 +1,0 @@
-{
-  "profiles": {
-    "NSwag.TerminalCore": {
-      "commandName": "Project"
-    }
-  }
-}

@@ -19,18 +19,18 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
         private readonly SwaggerToTypeScriptClientGeneratorSettings _settings;
         private readonly TypeScriptTypeResolver _resolver;
         private readonly string _clientCode;
-        private readonly SwaggerService _service;
+        private readonly SwaggerDocument _document;
 
         /// <summary>Initializes a new instance of the <see cref="FileTemplateModel" /> class.</summary>
-        /// <param name="service">The service.</param>
+        /// <param name="document">The Swagger document.</param>
         /// <param name="clientCode">The client code.</param>
         /// <param name="clientClasses">The client classes.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="resolver">The resolver.</param>
-        public FileTemplateModel(SwaggerService service, string clientCode, IEnumerable<string> clientClasses, 
+        public FileTemplateModel(SwaggerDocument document, string clientCode, IEnumerable<string> clientClasses, 
             SwaggerToTypeScriptClientGeneratorSettings settings, TypeScriptTypeResolver resolver)
         {
-            _service = service; 
+            _document = document; 
             _settings = settings;
             _resolver = resolver;
             _clientCode = clientCode;
@@ -71,7 +71,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
         public string Namespace => _settings.TypeScriptGeneratorSettings.Namespace;
 
         /// <summary>Gets a value indicating whether the FileParameter interface should be rendered.</summary>
-        public bool RequiresFileParameterInterface => _service.Operations.Any(o => o.Operation.Parameters.Any(p => p.Type.HasFlag(JsonObjectType.File)));
+        public bool RequiresFileParameterInterface => _document.Operations.Any(o => o.Operation.Parameters.Any(p => p.Type.HasFlag(JsonObjectType.File)));
 
         /// <summary>Table containing list of the generated classes.</summary>
         public string[] ClientClasses { get; }

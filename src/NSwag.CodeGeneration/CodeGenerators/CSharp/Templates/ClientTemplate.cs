@@ -43,7 +43,7 @@ if(Model.GenerateContracts && Model.GenerateClientInterfaces){
             this.Write("[GeneratedCode(\"NSwag\", \"");
             
             #line 8 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerService.ToolchainVersion));
+            this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerDocument.ToolchainVersion));
             
             #line default
             #line hidden
@@ -346,7 +346,7 @@ if(Model.GenerateImplementation){
             this.Write("[GeneratedCode(\"NSwag\", \"");
             
             #line 34 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerService.ToolchainVersion));
+            this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerDocument.ToolchainVersion));
             
             #line default
             #line hidden
@@ -421,87 +421,66 @@ if(Model.GenerateClientInterfaces){
             
             #line default
             #line hidden
-            this.Write("\r\n{\r\n");
+            this.Write("\r\n{\r\n    private string _baseUrl = \"");
             
             #line 38 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.BaseUrl));
+            
+            #line default
+            #line hidden
+            this.Write("\";\r\n    \r\n");
+            
+            #line 40 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
 if(Model.HasConfigurationClass){
             
             #line default
             #line hidden
             this.Write("    public ");
             
-            #line 39 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.Class));
-            
-            #line default
-            #line hidden
-            this.Write("() : this(\"");
-            
-            #line 39 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.BaseUrl));
-            
-            #line default
-            #line hidden
-            this.Write("\", null) { }\r\n\r\n    public ");
-            
             #line 41 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.Class));
             
             #line default
             #line hidden
-            this.Write("(string baseUrl) : this(baseUrl, null) { }\r\n\r\n    public ");
+            this.Write("(");
             
-            #line 43 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.Class));
-            
-            #line default
-            #line hidden
-            this.Write("(string baseUrl, ");
-            
-            #line 43 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
+            #line 41 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ConfigurationClass));
             
             #line default
             #line hidden
-            this.Write(" configuration) : base(configuration)\r\n    {\r\n        BaseUrl = baseUrl; \r\n    }\r" +
-                    "\n");
+            this.Write(" configuration) : base(configuration)\r\n    {\r\n    }\r\n\r\n");
             
-            #line 47 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
-}else{
+            #line 45 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
+}else if(string.IsNullOrEmpty(Model.BaseUrl)){
             
             #line default
             #line hidden
             this.Write("    public ");
             
-            #line 48 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
+            #line 46 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.Class));
             
             #line default
             #line hidden
-            this.Write("() : this(\"");
+            this.Write("(string baseUrl)\r\n    {\r\n        BaseUrl = baseUrl; \r\n    }\r\n\r\n");
             
-            #line 48 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.BaseUrl));
-            
-            #line default
-            #line hidden
-            this.Write("\") { }\r\n\r\n    public ");
-            
-            #line 50 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.Class));
-            
-            #line default
-            #line hidden
-            this.Write("(string baseUrl)\r\n    {\r\n        BaseUrl = baseUrl; \r\n    }\r\n");
-            
-            #line 54 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
+            #line 51 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
 }
             
             #line default
             #line hidden
-            this.Write("\r\n    partial void PrepareRequest(HttpClient request, ref string url);\r\n\r\n    par" +
-                    "tial void ProcessResponse(HttpClient request, HttpResponseMessage response);\r\n\r\n" +
-                    "    public string BaseUrl { get; set; }\r\n\r\n");
+            this.Write(@"    public string BaseUrl 
+    {
+        get { return _baseUrl; }
+        set { _baseUrl = value; }
+    }
+
+    partial void PrepareRequest(HttpClient request, ref string url);
+
+    partial void ProcessResponse(HttpClient request, HttpResponseMessage response);
+
+");
             
             #line 62 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
 foreach(var operation in Model.Operations){

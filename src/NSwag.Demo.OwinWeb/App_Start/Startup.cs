@@ -2,7 +2,7 @@
 using System.Web.Http;
 using Microsoft.Owin;
 using NSwag.AspNet.Owin;
-using NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors;
+using NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Security;
 using NSwag.Demo.OwinWeb;
 using Owin;
 
@@ -31,7 +31,7 @@ namespace NSwag.Demo.OwinWeb
                 },
                 OperationProcessors =
                 {
-                    new OperationSecurityScopeAppender("oauth2")
+                    new OperationSecurityScopeProcessor("oauth2")
                 },
                 DocumentProcessors =
                 {

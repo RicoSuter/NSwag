@@ -19,9 +19,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
         /// <summary>Initializes a new instance of the <see cref="ClientTemplateModel" /> class.</summary>
         /// <param name="controllerClassName">Name of the controller.</param>
         /// <param name="operations">The operations.</param>
-        /// <param name="service">The service.</param>
+        /// <param name="document">The Swagger document.</param>
         /// <param name="settings">The settings.</param>
-        public ClientTemplateModel(string controllerClassName, IList<OperationModel> operations, SwaggerService service, SwaggerToTypeScriptClientGeneratorSettings settings)
+        public ClientTemplateModel(string controllerClassName, IList<OperationModel> operations, SwaggerDocument document, SwaggerToTypeScriptClientGeneratorSettings settings)
         {
             Class = controllerClassName;
             IsExtended = settings.TypeScriptGeneratorSettings.ExtendedClasses?.Any(c => c + "Base" == controllerClassName) == true;
@@ -30,7 +30,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
             Operations = operations;
             UsesKnockout = settings.TypeScriptGeneratorSettings.TypeStyle == TypeScriptTypeStyle.KnockoutClass;
 
-            BaseUrl = service.BaseUrl;
+            BaseUrl = document.BaseUrl;
             GenerateClientInterfaces = settings.GenerateClientInterfaces;
 
             PromiseType = settings.PromiseType == TypeScript.PromiseType.Promise ? "Promise" : "Q.Promise";

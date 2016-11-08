@@ -59,7 +59,7 @@ namespace NSwag.CodeGeneration.Infrastructure
             content = UpdateOrAddBindingRedirect(content, "NJsonSchema", typeof(JsonSchema4), NJsonSchemaAssemblyBinding);
             content = UpdateOrAddBindingRedirect(content, "NJsonSchema.CodeGeneration", typeof(CSharpGenerator), NJsonSchemaAssemblyBinding);
 
-            content = UpdateOrAddBindingRedirect(content, "NSwag.Core", typeof(SwaggerService), NSwagAssemblyBinding);
+            content = UpdateOrAddBindingRedirect(content, "NSwag.Core", typeof(SwaggerDocument), NSwagAssemblyBinding);
             content = UpdateOrAddBindingRedirect(content, "NSwag.CodeGeneration", typeof(WebApiToSwaggerGenerator), NSwagAssemblyBinding);
             content = UpdateOrAddBindingRedirect(content, "NSwag.Annotations", typeof(SwaggerTagsAttribute), NSwagAssemblyBinding);
 

@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "NSwag.ConsoleCore": {
+      "commandName": "Project"
+    }
+  }
+}

@@ -1,6 +1,6 @@
 ﻿<#@ template visibility="internal" #>
 <#@ import namespace="NJsonSchema" #>
-[GeneratedCode("NSwag", "<#=SwaggerService.ToolchainVersion#>")]
+[GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
 internal class JsonExceptionConverter : JsonConverter
 {
     private readonly DefaultContractResolver _defaultContractResolver = new DefaultContractResolver();

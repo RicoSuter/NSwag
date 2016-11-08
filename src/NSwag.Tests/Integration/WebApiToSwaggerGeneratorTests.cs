@@ -19,11 +19,11 @@ namespace NSwag.Tests.Integration
             });
 
             //// Act
-            var service = generator.GenerateForController<PersonsController>();
-            var swaggerSpecification = service.ToJson();
+            var document = generator.GenerateForController<PersonsController>();
+            var swaggerSpecification = document.ToJson();
 
             //// Assert
-            Assert.AreEqual(10, service.Operations.Count());
+            Assert.AreEqual(10, document.Operations.Count());
         }
 
         [TestMethod]
@@ -36,8 +36,8 @@ namespace NSwag.Tests.Integration
             });
 
             //// Act
-            var service = generator.GenerateForController<PersonsController>();
-            var operation = service.Operations.Single(o => o.Path == "/api/Persons/Get/{id}");
+            var document = generator.GenerateForController<PersonsController>();
+            var operation = document.Operations.Single(o => o.Path == "/api/Persons/Get/{id}");
 
             //// Assert
             Assert.AreEqual(2, operation.Operation.Responses.Count);

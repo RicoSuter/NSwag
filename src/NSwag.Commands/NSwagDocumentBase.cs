@@ -188,15 +188,15 @@ namespace NSwag.Commands
         /// <returns>The task.</returns>
         public async Task ExecuteAsync()
         {
-            SwaggerService service = null;
+            SwaggerDocument document = null;
             foreach (var codeGenerator in CodeGenerators)
             {
                 if (!string.IsNullOrEmpty(codeGenerator.OutputFilePath))
                 {
-                    if (service == null)
-                        service = await GenerateServiceAsync();
+                    if (document == null)
+                        document = await GenerateDocumentAsync();
 
-                    codeGenerator.Input = service;
+                    codeGenerator.Input = document;
                     await codeGenerator.RunAsync(null, null);
                     codeGenerator.Input = null;
                 }
@@ -205,23 +205,23 @@ namespace NSwag.Commands
 
         /// <summary>Generates the Swagger specification.</summary>
         /// <returns>The Swagger specification.</returns>
-        protected virtual Task<SwaggerService> GenerateServiceAsync()
+        protected virtual Task<SwaggerDocument> GenerateDocumentAsync()
         {
             // TODO: Add a command for all 4 input types, then just call RunAsync on the selected generator
 
             if (SelectedSwaggerGenerator == 0)
             {
                 if (!string.IsNullOrEmpty(InputSwaggerUrl))
-                    return Task.FromResult(SwaggerService.FromUrl(InputSwaggerUrl));
+                    return Task.FromResult(SwaggerDocument.FromUrl(InputSwaggerUrl));
                 else
-                    return Task.FromResult(SwaggerService.FromJson(InputSwagger));
+                    return Task.FromResult(SwaggerDocument.FromJson(InputSwagger));
             }
             else if (SelectedSwaggerGenerator == 2)
             {
                 var schema = JsonSchema4.FromJson(InputJsonSchema);
-                var service = new SwaggerService();
-                service.Definitions[schema.TypeNameRaw ?? "MyType"] = schema;
-                return Task.FromResult(service);
+                var document = new SwaggerDocument();
+                document.Definitions[schema.TypeNameRaw ?? "MyType"] = schema;
+                return Task.FromResult(document);
             }
 
             return null;
