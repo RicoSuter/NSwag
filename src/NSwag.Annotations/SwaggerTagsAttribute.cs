@@ -14,7 +14,7 @@ namespace NSwag.Annotations
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class SwaggerTagsAttribute : Attribute
     {
-        /// <summary>Initializes a new instance of the <see cref="ResponseTypeAttribute"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="SwaggerTagsAttribute"/> class.</summary>
         /// <param name="tags">The tags.</param>
         public SwaggerTagsAttribute(params string[] tags)
         {

@@ -14,7 +14,7 @@ namespace NSwag.Annotations
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
     public class SwaggerTagAttribute : Attribute
     {
-        /// <summary>Initializes a new instance of the <see cref="ResponseTypeAttribute"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="SwaggerTagAttribute"/> class.</summary>
         public SwaggerTagAttribute(string name)
         {
             Name = name; 
