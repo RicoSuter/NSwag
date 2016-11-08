@@ -27,7 +27,7 @@ if (hasFullDotNet) {
     var code = execSync(cmd, {stdio:[0,1,2]});	
 } else {
     // Run .NET Core version
-    var cmd = 'dotnet "' + __dirname + '/binaries/core/nswag.dll" ' + args;
+    var cmd = 'dotnet "' + __dirname + '/binaries/core/dotnet-nswag.dll" ' + args;
     const execSync = require('child_process').execSync;
     var code = execSync(cmd, {stdio:[0,1,2]});	
 }

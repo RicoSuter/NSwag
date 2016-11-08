@@ -11,7 +11,7 @@
 
     "buildOptions": {
         "emitEntryPoint": true,
-        "outputName": "NSwag"
+        "outputName": "dotnet-nswag"
     },
 
     "dependencies": {
