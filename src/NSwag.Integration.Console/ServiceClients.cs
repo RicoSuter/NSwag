@@ -34,18 +34,17 @@ namespace NSwag.Integration.Console
     [GeneratedCode("NSwag", "6.21.6156.29508")]
     public partial class GeoClient 
     {
-        public GeoClient() : this("http://localhost:13452") { }
-    
-        public GeoClient(string baseUrl)
+        private string _baseUrl = "http://localhost:13452";
+        
+        public string BaseUrl 
         {
-            BaseUrl = baseUrl; 
+            get { return _baseUrl; }
+            set { _baseUrl = value; }
         }
     
         partial void PrepareRequest(HttpClient request, ref string url);
     
         partial void ProcessResponse(HttpClient request, HttpResponseMessage response);
-    
-        public string BaseUrl { get; set; }
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public Task FromBodyTestAsync(GeoPoint location)
@@ -388,18 +387,17 @@ namespace NSwag.Integration.Console
     [GeneratedCode("NSwag", "6.21.6156.29508")]
     public partial class PersonsClient 
     {
-        public PersonsClient() : this("http://localhost:13452") { }
-    
-        public PersonsClient(string baseUrl)
+        private string _baseUrl = "http://localhost:13452";
+        
+        public string BaseUrl 
         {
-            BaseUrl = baseUrl; 
+            get { return _baseUrl; }
+            set { _baseUrl = value; }
         }
     
         partial void PrepareRequest(HttpClient request, ref string url);
     
         partial void ProcessResponse(HttpClient request, HttpResponseMessage response);
-    
-        public string BaseUrl { get; set; }
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public Task<ObservableCollection<Person>> GetAllAsync()

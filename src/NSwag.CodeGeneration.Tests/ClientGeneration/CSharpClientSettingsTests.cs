@@ -33,7 +33,7 @@ namespace NSwag.CodeGeneration.Tests.ClientGeneration
             var code = generator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("public FooClient(string baseUrl, MyConfig configuration) : base(configuration)"));
+            Assert.IsTrue(code.Contains("public FooClient(MyConfig configuration) : base(configuration)"));
         }
 
         [TestMethod]
