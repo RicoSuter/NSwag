@@ -11,11 +11,10 @@ using System.Net;
 
 namespace NSwag.Annotations
 {
-    // TODO: Make this obsolete => change wiki
-
     /// <summary>Specifies the result type of a HTTP operation to correctly generate a Swagger definition.</summary>
     /// <remarks>Use <see cref="SwaggerResponseAttribute"/>, this attribute will be obsolete soon.</remarks>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    [Obsolete("Use SwaggerResponseAttribute instead.")]
     public class ResponseTypeAttribute : Attribute
     {
         /// <summary>Initializes a new instance of the <see cref="ResponseTypeAttribute"/> class.</summary>
