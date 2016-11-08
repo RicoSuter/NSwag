@@ -29,7 +29,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Templates
             this.Write("[GeneratedCode(\"NSwag\", \"");
             
             #line 3 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\JsonExceptionConverterTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerService.ToolchainVersion));
+            this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerDocument.ToolchainVersion));
             
             #line default
             #line hidden

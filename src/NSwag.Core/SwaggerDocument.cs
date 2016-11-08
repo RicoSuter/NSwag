@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="SwaggerService.cs" company="NSwag">
+// <copyright file="SwaggerDocument.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -18,10 +18,10 @@ using NSwag.Collections;
 namespace NSwag
 {
     /// <summary>Describes a JSON web service.</summary>
-    public class SwaggerService : IDocumentPathProvider
+    public class SwaggerDocument : IDocumentPathProvider
     {
-        /// <summary>Initializes a new instance of the <see cref="SwaggerService"/> class.</summary>
-        public SwaggerService()
+        /// <summary>Initializes a new instance of the <see cref="SwaggerDocument"/> class.</summary>
+        public SwaggerDocument()
         {
             Swagger = "2.0";
             Info = new SwaggerInfo();
@@ -51,7 +51,7 @@ namespace NSwag
         }
 
         /// <summary>Gets the NSwag toolchain version.</summary>
-        public static string ToolchainVersion => typeof(SwaggerService).GetTypeInfo().Assembly.GetName().Version.ToString();
+        public static string ToolchainVersion => typeof(SwaggerDocument).GetTypeInfo().Assembly.GetName().Version.ToString();
 
         /// <summary>Gets the document path (URI or file path).</summary>
         [JsonIgnore]
@@ -153,7 +153,7 @@ namespace NSwag
 
             GenerateOperationIds();
 
-            JsonSchemaReferenceUtilities.UpdateSchemaReferencePaths(this, new SwaggerServiceSchemaDefinitionAppender(this, typeNameGenerator));
+            JsonSchemaReferenceUtilities.UpdateSchemaReferencePaths(this, new SwaggerDocumentSchemaDefinitionAppender(this, typeNameGenerator));
             var data = JsonConvert.SerializeObject(this, settings);
             JsonSchemaReferenceUtilities.UpdateSchemaReferences(this);
 
@@ -163,11 +163,11 @@ namespace NSwag
         /// <summary>Creates a Swagger specification from a JSON string.</summary>
         /// <param name="data">The JSON data.</param>
         /// <param name="documentPath">The document path (URL or file path) for resolving relative document references.</param>
-        /// <returns>The <see cref="SwaggerService"/>.</returns>
-        public static SwaggerService FromJson(string data, string documentPath = null)
+        /// <returns>The <see cref="SwaggerDocument"/>.</returns>
+        public static SwaggerDocument FromJson(string data, string documentPath = null)
         {
             data = JsonSchemaReferenceUtilities.ConvertJsonReferences(data);
-            var service = JsonConvert.DeserializeObject<SwaggerService>(data, new JsonSerializerSettings
+            var service = JsonConvert.DeserializeObject<SwaggerDocument>(data, new JsonSerializerSettings
             {
                 ConstructorHandling = ConstructorHandling.Default,
                 ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
@@ -180,8 +180,8 @@ namespace NSwag
 
         /// <summary>Creates a Swagger specification from a JSON file.</summary>
         /// <param name="filePath">The file path.</param>
-        /// <returns>The <see cref="SwaggerService" />.</returns>
-        public static SwaggerService FromFile(string filePath)
+        /// <returns>The <see cref="SwaggerDocument" />.</returns>
+        public static SwaggerDocument FromFile(string filePath)
         {
             var data = DynamicApis.FileReadAllText(filePath);
             return FromJson(data, filePath);
@@ -189,8 +189,8 @@ namespace NSwag
 
         /// <summary>Creates a Swagger specification from an URL.</summary>
         /// <param name="url">The URL.</param>
-        /// <returns>The <see cref="SwaggerService"/>.</returns>
-        public static SwaggerService FromUrl(string url)
+        /// <returns>The <see cref="SwaggerDocument"/>.</returns>
+        public static SwaggerDocument FromUrl(string url)
         {
             var data = DynamicApis.HttpGet(url);
             return FromJson(data, url);

@@ -23,12 +23,6 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         private string _clientCode;
         private SwaggerToCSharpClientCommand _command = new SwaggerToCSharpClientCommand();
 
-        //public bool ShowSettings
-        //{
-        //    get { return ApplicationSettings.GetSetting("SwaggerToCSharpClientGeneratorViewModel.ShowSettings", true); }
-        //    set { ApplicationSettings.SetSetting("SwaggerToCSharpClientGeneratorViewModel.ShowSettings", value); }
-        //}
-
         /// <summary>Gets the settings.</summary>
         public SwaggerToCSharpClientCommand Command
         {
@@ -95,7 +89,7 @@ namespace NSwagStudio.ViewModels.CodeGenerators
                 {
                     if (!string.IsNullOrEmpty(swaggerData))
                     {
-                        Command.Input = SwaggerService.FromJson(swaggerData, documentPath);
+                        Command.Input = SwaggerDocument.FromJson(swaggerData, documentPath);
                         result = await Command.RunAsync();
                         Command.Input = null;
                     }

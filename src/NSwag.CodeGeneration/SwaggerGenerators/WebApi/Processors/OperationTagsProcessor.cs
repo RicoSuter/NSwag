@@ -17,13 +17,13 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
     public class OperationTagsProcessor : IOperationProcessor
     {
         /// <summary>Processes the specified method information.</summary>
-        /// <param name="document"></param>
+        /// <param name="document">The Swagger document.</param>
         /// <param name="operationDescription">The operation description.</param>
         /// <param name="methodInfo">The method information.</param>
         /// <param name="swaggerGenerator">The Swagger generator.</param>
         /// <param name="allOperationDescriptions">All operation descriptions.</param>
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
-        public bool Process(SwaggerService document, SwaggerOperationDescription operationDescription, MethodInfo methodInfo,
+        public bool Process(SwaggerDocument document, SwaggerOperationDescription operationDescription, MethodInfo methodInfo,
             SwaggerGenerator swaggerGenerator, IList<SwaggerOperationDescription> allOperationDescriptions)
         {
             ProcessSwaggerTagsAttribute(document, operationDescription, methodInfo);
@@ -35,7 +35,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
             return true;
         }
 
-        private void ProcessSwaggerTagAttributes(SwaggerService document, SwaggerOperationDescription operationDescription, MethodInfo methodInfo)
+        private void ProcessSwaggerTagAttributes(SwaggerDocument document, SwaggerOperationDescription operationDescription, MethodInfo methodInfo)
         {
             var tagAttributes = methodInfo.GetCustomAttributes()
                 .Where(a => a.GetType().Name == "SwaggerTagAttribute")
@@ -55,7 +55,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
             }
         }
 
-        private void ProcessSwaggerTagsAttribute(SwaggerService document, SwaggerOperationDescription operationDescription, MethodInfo methodInfo)
+        private void ProcessSwaggerTagsAttribute(SwaggerDocument document, SwaggerOperationDescription operationDescription, MethodInfo methodInfo)
         {
             dynamic tagsAttribute = methodInfo
                 .GetCustomAttributes()

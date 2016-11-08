@@ -27,9 +27,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Security
         }
 
         /// <summary>Processes the specified Swagger document.</summary>
-        /// <param name="document">The document.</param>
+        /// <param name="document">The Swagger document.</param>
         /// <param name="controllerTypes"></param>
-        public void Process(SwaggerService document, IEnumerable<Type> controllerTypes)
+        public void Process(SwaggerDocument document, IEnumerable<Type> controllerTypes)
         {
             document.SecurityDefinitions[_name] = _swaggerSecurityScheme;
         }

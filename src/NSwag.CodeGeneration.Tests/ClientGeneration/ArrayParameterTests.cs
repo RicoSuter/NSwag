@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSwag.CodeGeneration.CodeGenerators.CSharp;
 using NSwag.CodeGeneration.CodeGenerators.TypeScript;
 
@@ -64,11 +60,11 @@ namespace NSwag.CodeGeneration.Tests.ClientGeneration
     ""definitions"" : { }
 }
 ";
-            var service = SwaggerService.FromJson(swagger);
+            var document = SwaggerDocument.FromJson(swagger);
 
             //// Act
             var settings = new SwaggerToTypeScriptClientGeneratorSettings { ClassName = "MyClass" };
-            var generator = new SwaggerToTypeScriptClientGenerator(service, settings);
+            var generator = new SwaggerToTypeScriptClientGenerator(document, settings);
             var code = generator.GenerateFile();
 
             //// Assert
@@ -130,11 +126,11 @@ namespace NSwag.CodeGeneration.Tests.ClientGeneration
     ""definitions"" : { }
 }
 ";
-            var service = SwaggerService.FromJson(swagger);
+            var document = SwaggerDocument.FromJson(swagger);
 
             //// Act
             var settings = new SwaggerToCSharpClientGeneratorSettings { ClassName = "MyClass" };
-            var generator = new SwaggerToCSharpClientGenerator(service, settings);
+            var generator = new SwaggerToCSharpClientGenerator(document, settings);
             var code = generator.GenerateFile();
 
             //// Assert

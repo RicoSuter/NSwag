@@ -26,7 +26,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi
             var generator = new WebApiAssemblyToSwaggerGenerator(settings);
 
             //// Act
-            var swaggerService = generator.GenerateForControllers(new[] { "NonExistingClass" }); // Should throw exception
+            var document = generator.GenerateForControllers(new[] { "NonExistingClass" }); // Should throw exception
 
             //// Assert
         }
@@ -61,13 +61,13 @@ namespace NSwag.CodeGeneration.Tests.WebApi
         public void When_parameter_is_from_uri_and_has_file_then_two_params_and_consumes_is_correct()
         {
             //// Arrange
-            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
-            var service = generator.GenerateForController(typeof(FromUriFileParameterController));
+            var document = generator.GenerateForController(typeof(FromUriFileParameterController));
 
             //// Assert
-            var operation = service.Paths["/upload"][SwaggerOperationMethod.Post];
+            var operation = document.Paths["/upload"][SwaggerOperationMethod.Post];
 
             Assert.AreEqual(JsonObjectType.File, operation.ActualParameters.Single(p => p.Name == "formFile").Type);
             Assert.IsTrue(operation.ActualParameters.Any(p => p.Name == "formFile"));
@@ -92,13 +92,13 @@ namespace NSwag.CodeGeneration.Tests.WebApi
         public void When_parameter_is_file_collection_then_type_is_correct_and_collection_format_is_multi()
         {
             //// Arrange
-            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
-            var service = generator.GenerateForController(typeof(FileCollectionController));
+            var document = generator.GenerateForController(typeof(FileCollectionController));
 
             //// Assert
-            var operation = service.Paths["/upload"][SwaggerOperationMethod.Post];
+            var operation = document.Paths["/upload"][SwaggerOperationMethod.Post];
             var parameter = operation.ActualParameters.Single(p => p.Name == "files");
 
             Assert.AreEqual(JsonObjectType.File, parameter.Type);
@@ -127,13 +127,13 @@ namespace NSwag.CodeGeneration.Tests.WebApi
         public void When_parameter_is_from_uri_then_two_params_are_generated()
         {
             //// Arrange
-            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
-            var service = generator.GenerateForController(typeof(FromUriParameterController));
+            var document = generator.GenerateForController(typeof(FromUriParameterController));
 
             //// Assert
-            var operation = service.Paths["/upload"][SwaggerOperationMethod.Post];
+            var operation = document.Paths["/upload"][SwaggerOperationMethod.Post];
 
             Assert.AreEqual(JsonObjectType.String, operation.ActualParameters.Single(p => p.Name == "Foo").Type);
             Assert.AreEqual(JsonObjectType.String, operation.ActualParameters.Single(p => p.Name == "Bar").Type);
@@ -157,13 +157,13 @@ namespace NSwag.CodeGeneration.Tests.WebApi
         public void When_web_api_path_has_constraints_then_they_are_removed_in_the_swagger_spec()
         {
             //// Arrange
-            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
-            var service = generator.GenerateForController(typeof(ConstrainedRoutePathController));
+            var document = generator.GenerateForController(typeof(ConstrainedRoutePathController));
 
             //// Assert
-            var path = service.Paths.First().Key;
+            var path = document.Paths.First().Key;
 
             Assert.AreEqual("/{id}", path);
         }
@@ -206,17 +206,17 @@ namespace NSwag.CodeGeneration.Tests.WebApi
         public void When_class_has_RouteAttribute_with_placeholders_then_they_are_correctly_replaced()
         {
             //// Arrange
-            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
-            var service = generator.GenerateForController(typeof(AccountController));
+            var document = generator.GenerateForController(typeof(AccountController));
 
             //// Assert
-            Assert.IsTrue(service.Paths.ContainsKey("/account/Get"));
-            Assert.IsTrue(service.Paths.ContainsKey("/account/GetAll"));
-            Assert.IsTrue(service.Paths.ContainsKey("/account/Post"));
-            Assert.IsTrue(service.Paths.ContainsKey("/account/Verify"));
-            Assert.IsTrue(service.Paths.ContainsKey("/account/Confirm"));
+            Assert.IsTrue(document.Paths.ContainsKey("/account/Get"));
+            Assert.IsTrue(document.Paths.ContainsKey("/account/GetAll"));
+            Assert.IsTrue(document.Paths.ContainsKey("/account/Post"));
+            Assert.IsTrue(document.Paths.ContainsKey("/account/Verify"));
+            Assert.IsTrue(document.Paths.ContainsKey("/account/Confirm"));
         }
     }
 }

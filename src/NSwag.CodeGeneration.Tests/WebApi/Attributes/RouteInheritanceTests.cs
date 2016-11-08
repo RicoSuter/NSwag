@@ -14,13 +14,13 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
         public void When_route_is_on_inherited_parent_class_and_route_prefix_on_class_then_it_is_used_for_swagger_generation()
         {
             //// Arrange
-            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
-            var service = generator.GenerateForController<MyController>();
+            var document = generator.GenerateForController<MyController>();
 
             //// Assert
-            Assert.AreEqual("/api/My/Foo", service.Operations.First().Path);
+            Assert.AreEqual("/api/My/Foo", document.Operations.First().Path);
         }
 
         [RoutePrefix("api/My")]
@@ -42,13 +42,13 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
         public void When_route_is_on_inherited_parent_class_then_it_is_used_for_swagger_generation()
         {
             //// Arrange
-            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
-            var service = generator.GenerateForController<MyController2>();
+            var document = generator.GenerateForController<MyController2>();
 
             //// Assert
-            Assert.AreEqual("/Foo", service.Operations.First().Path);
+            Assert.AreEqual("/Foo", document.Operations.First().Path);
         }
 
         public class MyController2 : BaseController2

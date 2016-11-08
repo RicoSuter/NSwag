@@ -66,7 +66,7 @@ namespace NSwagStudio.ViewModels
 
         public AsyncRelayCommand<NSwagDocument> SaveAsDocumentCommand { get; private set; }
 
-        public string NSwagVersion => SwaggerService.ToolchainVersion;
+        public string NSwagVersion => SwaggerDocument.ToolchainVersion;
 
         public string NJsonSchemaVersion => JsonSchema4.ToolchainVersion;
 

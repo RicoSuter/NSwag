@@ -70,14 +70,14 @@ namespace NSwag.AspNetCore
                         try
                         {
                             var generator = new WebApiToSwaggerGenerator(_settings, _schemaGenerator);
-                            var service = generator.GenerateForControllers(_controllerTypes);
+                            var document = generator.GenerateForControllers(_controllerTypes);
 
-                            service.Host = context.Request.Host.Value ?? "";
-                            service.Schemes.Add(context.Request.Scheme == "http" ? SwaggerSchema.Http : SwaggerSchema.Https);
-                            service.BasePath = context.Request.PathBase.Value?.Substring(0, context.Request.PathBase.Value.Length - _settings.MiddlewareBasePath?.Length ?? 0) ?? "";
+                            document.Host = context.Request.Host.Value ?? "";
+                            document.Schemes.Add(context.Request.Scheme == "http" ? SwaggerSchema.Http : SwaggerSchema.Https);
+                            document.BasePath = context.Request.PathBase.Value?.Substring(0, context.Request.PathBase.Value.Length - _settings.MiddlewareBasePath?.Length ?? 0) ?? "";
 
-                            _settings.PostProcess?.Invoke(service);
-                            _swaggerJson = service.ToJson();
+                            _settings.PostProcess?.Invoke(document);
+                            _swaggerJson = document.ToJson();
                         }
                         catch (Exception exception)
                         {

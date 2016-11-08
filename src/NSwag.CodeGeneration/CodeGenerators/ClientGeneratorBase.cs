@@ -56,15 +56,15 @@ namespace NSwag.CodeGeneration.CodeGenerators
             return null;
         }
 
-        internal string GenerateFile(SwaggerService service, ClientGeneratorOutputType type)
+        internal string GenerateFile(SwaggerDocument document, ClientGeneratorOutputType type)
         {
             var clientCode = string.Empty;
-            var operations = GetOperations(service);
+            var operations = GetOperations(document);
             var clientClasses = new List<string>();
 
             if (BaseSettings.OperationNameGenerator.SupportsMultipleClients)
             {
-                foreach (var controllerOperations in operations.GroupBy(o => BaseSettings.OperationNameGenerator.GetClientName(service, o.Path, o.HttpMethod, o.Operation)))
+                foreach (var controllerOperations in operations.GroupBy(o => BaseSettings.OperationNameGenerator.GetClientName(document, o.Path, o.HttpMethod, o.Operation)))
                 {
                     var controllerName = controllerOperations.Key;
                     var controllerClassName = GetClassName(controllerOperations.Key);
@@ -86,11 +86,11 @@ namespace NSwag.CodeGeneration.CodeGenerators
                 .Replace("\n\n\n", "\n\n");
         }
 
-        internal List<OperationModel> GetOperations(SwaggerService service)
+        internal List<OperationModel> GetOperations(SwaggerDocument document)
         {
-            service.GenerateOperationIds();
+            document.GenerateOperationIds();
 
-            var operations = service.Paths
+            var operations = document.Paths
                 .SelectMany(pair => pair.Value.Select(p => new { Path = pair.Key.Trim('/'), HttpMethod = p.Key, Operation = p.Value }))
                 .Select(tuple =>
                 {
@@ -107,7 +107,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
                         Path = tuple.Path,
                         HttpMethod = tuple.HttpMethod,
                         Operation = tuple.Operation,
-                        OperationName = BaseSettings.OperationNameGenerator.GetOperationName(service, tuple.Path, tuple.HttpMethod, tuple.Operation),
+                        OperationName = BaseSettings.OperationNameGenerator.GetOperationName(document, tuple.Path, tuple.HttpMethod, tuple.Operation),
 
                         ResultType = GetResultType(operation),
                         HasResultType = HasResultType(operation),

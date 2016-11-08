@@ -20,10 +20,10 @@ namespace NSwag.CodeGeneration.Tests.CommandLine
 
             //// Act
             var output = RunCommandLine(command);
-            var service = SwaggerService.FromJson(output);
+            var document = SwaggerDocument.FromJson(output);
 
             //// Assert
-            Assert.IsNotNull(service);
+            Assert.IsNotNull(document);
         }
 
         [TestMethod]

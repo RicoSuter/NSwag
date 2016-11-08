@@ -18,13 +18,13 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
     public class OperationSummaryAndDescriptionProcessor : IOperationProcessor
     {
         /// <summary>Processes the specified method information.</summary>
-        /// <param name="document"></param>
+        /// <param name="document">The Swagger document.</param>
         /// <param name="operationDescription">The operation description.</param>
         /// <param name="methodInfo">The method information.</param>
         /// <param name="swaggerGenerator">The swagger generator.</param>
         /// <param name="allOperationDescriptions">All operation descriptions.</param>
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
-        public bool Process(SwaggerService document, SwaggerOperationDescription operationDescription, MethodInfo methodInfo, 
+        public bool Process(SwaggerDocument document, SwaggerOperationDescription operationDescription, MethodInfo methodInfo, 
             SwaggerGenerator swaggerGenerator, IList<SwaggerOperationDescription> allOperationDescriptions)
         {
             dynamic descriptionAttribute = methodInfo.GetCustomAttributes()

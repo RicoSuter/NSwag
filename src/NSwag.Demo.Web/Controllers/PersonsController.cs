@@ -106,8 +106,8 @@ namespace NSwag.Demo.Web.Controllers
             {
                 DefaultUrlTemplate = Configuration.Routes.First(r => !string.IsNullOrEmpty(r.RouteTemplate)).RouteTemplate
             });
-            var service = generator.GenerateForController(GetType());
-            return new HttpResponseMessage { Content = new StringContent(service.ToJson(), Encoding.UTF8) };
+            var document = generator.GenerateForController(GetType());
+            return new HttpResponseMessage { Content = new StringContent(document.ToJson(), Encoding.UTF8) };
         }
     }
 

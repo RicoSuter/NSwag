@@ -8,45 +8,40 @@
         "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
         "Microsoft.AspNetCore.Mvc": "1.0.0",
         "System.Xml.XDocument": "4.0.11",
-        "NSwag.AspNetCore": "*",
-        "NSwag.CodeGeneration": "*" },
-
+        "NSwag.AspNetCore": "*"
+    },
     "tools": {
         "Microsoft.AspNetCore.Server.IISIntegration.Tools": {
             "version": "1.0.0-preview2-final",
             "imports": "portable-net45+win8+dnxcore50"
         }
     },
-
     "frameworks": {
         "netcoreapp1.0": {
             "imports": [
                 "dotnet5.6",
                 "dnxcore50",
-                "portable-net45+win8", 
+                "portable-net45+win8",
                 "netstandard1.6"
             ]
         }
     },
-
     "buildOptions": {
         "emitEntryPoint": true,
         "preserveCompilationContext": true,
         "xmlDoc": true
     },
-
     "runtimeOptions": {
         "gcServer": true
     },
-
     "publishOptions": {
         "include": [
             "wwwroot",
             "web.config"
         ]
     },
-
     "scripts": {
         "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
-    }
+    },
+    "NSwag.CodeGeneration": "6.21.6156.537"
 }

@@ -31,7 +31,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Security
         /// <param name="swaggerGenerator">The swagger generator.</param>
         /// <param name="allOperationDescriptions">All operation descriptions.</param>
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
-        public bool Process(SwaggerService document, SwaggerOperationDescription operationDescription, MethodInfo methodInfo, SwaggerGenerator swaggerGenerator, IList<SwaggerOperationDescription> allOperationDescriptions)
+        public bool Process(SwaggerDocument document, SwaggerOperationDescription operationDescription, MethodInfo methodInfo, SwaggerGenerator swaggerGenerator, IList<SwaggerOperationDescription> allOperationDescriptions)
         {
             if (operationDescription.Operation.Security == null)
                 operationDescription.Operation.Security = new List<SwaggerSecurityRequirement>();

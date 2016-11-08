@@ -37,8 +37,8 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             });
 
             //// Act
-            var service = generator.GenerateForController<TestController>();
-            var operation = service.Operations.Single(o => o.Operation.OperationId == "Test_WithoutAttribute").Operation;
+            var document = generator.GenerateForController<TestController>();
+            var operation = document.Operations.Single(o => o.Operation.OperationId == "Test_WithoutAttribute").Operation;
 
             //// Assert
             Assert.AreEqual(SwaggerParameterKind.Path, operation.ActualParameters[0].Kind);
@@ -54,8 +54,8 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             });
 
             //// Act
-            var service = generator.GenerateForController<TestController>();
-            var operation = service.Operations.Single(o => o.Operation.OperationId == "Test_WithFromUriAttribute").Operation;
+            var document = generator.GenerateForController<TestController>();
+            var operation = document.Operations.Single(o => o.Operation.OperationId == "Test_WithFromUriAttribute").Operation;
 
             //// Assert
             Assert.AreEqual(SwaggerParameterKind.Path, operation.ActualParameters[0].Kind);
@@ -72,8 +72,8 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             });
 
             //// Act
-            var service = generator.GenerateForController<TestController>();
-            var operation = service.Operations.Single(o => o.Operation.OperationId == "Test_WithFromBodyAttribute").Operation;
+            var document = generator.GenerateForController<TestController>();
+            var operation = document.Operations.Single(o => o.Operation.OperationId == "Test_WithFromBodyAttribute").Operation;
 
             //// Assert
             Assert.AreEqual(SwaggerParameterKind.Path, operation.ActualParameters[0].Kind); // TODO: What is correct?
@@ -102,10 +102,10 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             });
 
             //// Act
-            var service = generator.GenerateForController<RoutePrefixWithPathsController>();
+            var document = generator.GenerateForController<RoutePrefixWithPathsController>();
             
             //// Assert
-            var operation = service.Operations.First().Operation;
+            var operation = document.Operations.First().Operation;
             var parameter = operation.Parameters.Single(p => p.Name == "companyIdentifier");
 
             Assert.AreEqual(2, operation.ActualParameters.Count);

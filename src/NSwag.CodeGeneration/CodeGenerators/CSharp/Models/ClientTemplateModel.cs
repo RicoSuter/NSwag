@@ -17,7 +17,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
     /// <summary>The CSharp client template model.</summary>
     public class ClientTemplateModel
     {
-        private readonly SwaggerService _service;
+        private readonly SwaggerDocument _document;
         private readonly JsonSchema4 _exceptionSchema;
         private readonly SwaggerToCSharpClientGeneratorSettings _settings;
 
@@ -25,13 +25,13 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
         /// <param name="controllerName">Name of the controller.</param>
         /// <param name="controllerClassName">The class name of the controller.</param>
         /// <param name="operations">The operations.</param>
-        /// <param name="service">The service.</param>
+        /// <param name="document">The Swagger document.</param>
         /// <param name="exceptionSchema">The exception schema.</param>
         /// <param name="settings">The settings.</param>
         public ClientTemplateModel(string controllerName, string controllerClassName, IList<OperationModel> operations,
-            SwaggerService service, JsonSchema4 exceptionSchema, SwaggerToCSharpClientGeneratorSettings settings)
+            SwaggerDocument document, JsonSchema4 exceptionSchema, SwaggerToCSharpClientGeneratorSettings settings)
         {
-            _service = service;
+            _document = document;
             _exceptionSchema = exceptionSchema;
             _settings = settings;
 
@@ -74,7 +74,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
         public bool GenerateClientInterfaces => _settings.GenerateClientInterfaces;
 
         /// <summary>Gets the service base URL.</summary>
-        public string BaseUrl => _service.BaseUrl;
+        public string BaseUrl => _document.BaseUrl;
 
         /// <summary>Gets a value indicating whether the client has operations.</summary>
         public bool HasOperations => Operations.Any();
@@ -91,6 +91,6 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
             .Concat(RequiresJsonExceptionConverter ? new[] { "JsonExceptionConverter" } : new string[] { }));
 
         private bool RequiresJsonExceptionConverter =>
-            _service.Operations.Any(o => o.Operation.AllResponses.Any(r => r.Value.InheritsExceptionSchema(_exceptionSchema)));
+            _document.Operations.Any(o => o.Operation.AllResponses.Any(r => r.Value.InheritsExceptionSchema(_exceptionSchema)));
     }
 }

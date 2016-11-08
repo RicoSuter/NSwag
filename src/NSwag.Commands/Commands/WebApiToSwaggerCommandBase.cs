@@ -150,7 +150,7 @@ namespace NSwag.Commands
             return null;
         }
 
-        public async Task<SwaggerService> RunAsync()
+        public async Task<SwaggerDocument> RunAsync()
         {
             return await Task.Run(() =>
             {
@@ -174,20 +174,20 @@ namespace NSwag.Commands
                 if (!controllerNames.Any() && Settings.AssemblyPaths?.Length > 0)
                     controllerNames = generator.GetControllerClasses().ToList();
 
-                var service = generator.GenerateForControllers(controllerNames);
+                var document = generator.GenerateForControllers(controllerNames);
 
                 if (ServiceHost == ".")
-                    service.Host = string.Empty;
+                    document.Host = string.Empty;
                 else if (!string.IsNullOrEmpty(ServiceHost))
-                    service.Host = ServiceHost;
+                    document.Host = ServiceHost;
 
                 if (ServiceSchemes != null && ServiceSchemes.Any())
-                    service.Schemes = ServiceSchemes.Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true)).ToList();
+                    document.Schemes = ServiceSchemes.Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true)).ToList();
 
                 if (!string.IsNullOrEmpty(ServiceBasePath))
-                    service.BasePath = ServiceBasePath;
+                    document.BasePath = ServiceBasePath;
 
-                return service;
+                return document;
             });
         }
 

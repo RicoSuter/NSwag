@@ -11,12 +11,12 @@ using System.Collections.Generic;
 
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
 {
-    /// <summary>Post processes a generated <see cref="SwaggerService"/>.</summary>
+    /// <summary>Post processes a generated <see cref="SwaggerDocument"/>.</summary>
     public interface IDocumentProcessor
     {
         /// <summary>Processes the specified Swagger document.</summary>
-        /// <param name="document">The document.</param>
+        /// <param name="document">The Swagger document.</param>
         /// <param name="controllerTypes">The controller types.</param>
-        void Process(SwaggerService document, IEnumerable<Type> controllerTypes);
+        void Process(SwaggerDocument document, IEnumerable<Type> controllerTypes);
     }
 }

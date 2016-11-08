@@ -37,7 +37,7 @@ namespace NSwag.Commands
         public int Process(string[] args)
         {
             var architecture = IntPtr.Size == 4 ? " (x86)" : " (x64)";
-            _host.WriteMessage("toolchain v" + SwaggerService.ToolchainVersion + " (NJsonSchema v" + JsonSchema4.ToolchainVersion + ")" + architecture + "\n");
+            _host.WriteMessage("toolchain v" + SwaggerDocument.ToolchainVersion + " (NJsonSchema v" + JsonSchema4.ToolchainVersion + ")" + architecture + "\n");
             _host.WriteMessage("Visit http://NSwag.org for more information.\n");
 
             var binDirectory = DynamicApis.PathGetDirectoryName(((dynamic)typeof(NSwagCommandProcessor).GetTypeInfo().Assembly).CodeBase.Replace("file:///", string.Empty));
@@ -59,9 +59,9 @@ namespace NSwag.Commands
                 stopwatch.Stop();
 
                 var output = results.Last()?.Output;
-                var service = output as SwaggerService;
-                if (service != null)
-                    _host.WriteMessage(service.ToJson());
+                var document = output as SwaggerDocument;
+                if (document != null)
+                    _host.WriteMessage(document.ToJson());
                 else if (output != null)
                     _host.WriteMessage(output.ToString());
 

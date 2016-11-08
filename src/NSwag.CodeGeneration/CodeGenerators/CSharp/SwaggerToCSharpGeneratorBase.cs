@@ -17,21 +17,21 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
     public abstract class SwaggerToCSharpGeneratorBase : ClientGeneratorBase
     {
         private readonly SwaggerToCSharpGeneratorSettings _settings;
-        private readonly SwaggerService _service;
+        private readonly SwaggerDocument _document;
 
-        internal SwaggerToCSharpGeneratorBase(SwaggerService service, SwaggerToCSharpGeneratorSettings settings, SwaggerToCSharpTypeResolver resolver)
+        internal SwaggerToCSharpGeneratorBase(SwaggerDocument document, SwaggerToCSharpGeneratorSettings settings, SwaggerToCSharpTypeResolver resolver)
             : base(resolver, settings.CodeGeneratorSettings)
         {
-            _service = service;
+            _document = document;
             _settings = settings;
 
-            foreach (var definition in _service.Definitions.Where(p => string.IsNullOrEmpty(p.Value.TypeNameRaw)))
+            foreach (var definition in _document.Definitions.Where(p => string.IsNullOrEmpty(p.Value.TypeNameRaw)))
                 definition.Value.TypeNameRaw = definition.Key;
         }
 
         internal override string GenerateFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType)
         {
-            var model = new FileTemplateModel(clientCode, outputType, _service, this, _settings, (SwaggerToCSharpTypeResolver)Resolver);
+            var model = new FileTemplateModel(clientCode, outputType, _document, this, _settings, (SwaggerToCSharpTypeResolver)Resolver);
             var template = _settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "File", model);
             return template.Render();
         }

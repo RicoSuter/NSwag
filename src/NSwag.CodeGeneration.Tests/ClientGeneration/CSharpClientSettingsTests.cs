@@ -20,10 +20,10 @@ namespace NSwag.CodeGeneration.Tests.ClientGeneration
         public void When_ConfigurationClass_is_set_then_correct_ctor_is_generated()
         {
             //// Arrange
-            var swaggerGenerator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
-            var service = swaggerGenerator.GenerateForController<FooController>();
+            var swaggerGenerator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var document = swaggerGenerator.GenerateForController<FooController>();
 
-            var generator = new SwaggerToCSharpClientGenerator(service, new SwaggerToCSharpClientGeneratorSettings
+            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
             {
                 ConfigurationClass = "MyConfig", 
                 ClientBaseClass = "MyBaseClass"
@@ -40,10 +40,10 @@ namespace NSwag.CodeGeneration.Tests.ClientGeneration
         public void When_UseHttpRequestMessageCreationMethod_is_set_then_CreateRequestMessage_is_generated()
         {
             //// Arrange
-            var swaggerGenerator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
-            var service = swaggerGenerator.GenerateForController<FooController>();
+            var swaggerGenerator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var document = swaggerGenerator.GenerateForController<FooController>();
 
-            var generator = new SwaggerToCSharpClientGenerator(service, new SwaggerToCSharpClientGeneratorSettings
+            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
             {
                 ConfigurationClass = "MyConfig",
                 ClientBaseClass = "MyBaseClass",

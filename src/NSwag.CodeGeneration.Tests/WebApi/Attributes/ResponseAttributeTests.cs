@@ -35,10 +35,10 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             var generator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings());
 
             //// Act
-            var service = generator.GenerateForController<ResponseAttributeTestController>();
+            var document = generator.GenerateForController<ResponseAttributeTestController>();
 
             //// Assert
-            var fooOperation = service.Operations.Single(o => o.Operation.OperationId == "ResponseAttributeTest_Foo");
+            var fooOperation = document.Operations.Single(o => o.Operation.OperationId == "ResponseAttributeTest_Foo");
             Assert.AreEqual("409", fooOperation.Operation.Responses.First().Key);
             Assert.AreEqual(JsonObjectType.String, fooOperation.Operation.Responses.First().Value.Schema.Type);
         }
@@ -50,10 +50,10 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             var generator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings());
 
             //// Act
-            var service = generator.GenerateForController<ResponseAttributeTestController>();
+            var document = generator.GenerateForController<ResponseAttributeTestController>();
 
             //// Assert
-            var barOperation = service.Operations.Single(o => o.Operation.OperationId == "ResponseAttributeTest_Bar");
+            var barOperation = document.Operations.Single(o => o.Operation.OperationId == "ResponseAttributeTest_Bar");
             Assert.AreEqual("201", barOperation.Operation.Responses.First().Key);
             Assert.AreEqual(JsonObjectType.Integer, barOperation.Operation.Responses.First().Value.Schema.Type);
         }

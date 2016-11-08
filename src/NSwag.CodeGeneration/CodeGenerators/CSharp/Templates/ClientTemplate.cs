@@ -43,7 +43,7 @@ if(Model.GenerateContracts && Model.GenerateClientInterfaces){
             this.Write("[GeneratedCode(\"NSwag\", \"");
             
             #line 8 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerService.ToolchainVersion));
+            this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerDocument.ToolchainVersion));
             
             #line default
             #line hidden
@@ -346,7 +346,7 @@ if(Model.GenerateImplementation){
             this.Write("[GeneratedCode(\"NSwag\", \"");
             
             #line 34 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerService.ToolchainVersion));
+            this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerDocument.ToolchainVersion));
             
             #line default
             #line hidden

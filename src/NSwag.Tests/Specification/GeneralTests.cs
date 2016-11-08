@@ -13,10 +13,10 @@ namespace NSwag.Tests
 
 
             //// Act
-            var swagger = SwaggerService.FromUrl("http://petstore.swagger.io/v2/swagger.json");
+            var document = SwaggerDocument.FromUrl("http://petstore.swagger.io/v2/swagger.json");
 
             //// Assert
-            Assert.IsNotNull(swagger);
+            Assert.IsNotNull(document);
         }
 
         [TestMethod]
@@ -26,9 +26,9 @@ namespace NSwag.Tests
             var json = _sampleServiceCode;
 
             //// Act
-            var service = SwaggerService.FromJson(json);
-            var json2 = service.ToJson();
-            var reference = service.Paths["/pets"][SwaggerOperationMethod.Get].Responses["200"].Schema.Item.SchemaReference;
+            var document = SwaggerDocument.FromJson(json);
+            var json2 = document.ToJson();
+            var reference = document.Paths["/pets"][SwaggerOperationMethod.Get].Responses["200"].Schema.Item.SchemaReference;
 
             //// Assert
             Assert.IsNotNull(json2);
@@ -43,11 +43,11 @@ namespace NSwag.Tests
             var json = _sampleServiceCode;
 
             //// Act
-            var service = SwaggerService.FromJson(json);
-            service.GenerateOperationIds();
+            var document = SwaggerDocument.FromJson(json);
+            document.GenerateOperationIds();
 
             //// Assert
-            Assert.AreEqual("pets", service.Operations.First().Operation.OperationId);
+            Assert.AreEqual("pets", document.Operations.First().Operation.OperationId);
         }
 
         [TestMethod]
@@ -57,10 +57,10 @@ namespace NSwag.Tests
             var json = _jsonVendorExtensionData;
 
             //// Act
-            var service = SwaggerService.FromJson(json);
+            var document = SwaggerDocument.FromJson(json);
 
             //// Assert
-            Assert.IsNotNull(service.Operations.First().Operation.Responses["202"].ExtensionData);
+            Assert.IsNotNull(document.Operations.First().Operation.Responses["202"].ExtensionData);
         }
 
         private string _sampleServiceCode = 

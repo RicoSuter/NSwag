@@ -22,7 +22,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
         /// <param name="allOperationDescriptions">All operation descriptions.</param>
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
         bool Process(
-            SwaggerService document, 
+            SwaggerDocument document, 
             SwaggerOperationDescription operationDescription, 
             MethodInfo methodInfo, 
             SwaggerGenerator swaggerGenerator, 

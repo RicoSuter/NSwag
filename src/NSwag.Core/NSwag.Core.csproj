@@ -100,8 +100,8 @@
     <Compile Include="SwaggerSecurityRequirement.cs" />
     <Compile Include="SwaggerSecurityScheme.cs" />
     <Compile Include="SwaggerSecuritySchemeType.cs" />
-    <Compile Include="SwaggerService.cs" />
-    <Compile Include="SwaggerServiceSchemaDefinitionAppender.cs" />
+    <Compile Include="SwaggerDocument.cs" />
+    <Compile Include="SwaggerDocumentSchemaDefinitionAppender.cs" />
     <Compile Include="SwaggerTag.cs" />
   </ItemGroup>
   <ItemGroup>

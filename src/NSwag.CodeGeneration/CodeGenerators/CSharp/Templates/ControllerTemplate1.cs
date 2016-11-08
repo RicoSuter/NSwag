@@ -29,7 +29,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Templates
             this.Write("[GeneratedCode(\"NSwag\", \"");
             
             #line 4 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ControllerTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerService.ToolchainVersion));
+            this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerDocument.ToolchainVersion));
             
             #line default
             #line hidden
@@ -172,7 +172,7 @@ if(!parameter.IsLast){
             this.Write("}\r\n\r\n[GeneratedCode(\"NSwag\", \"");
             
             #line 18 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ControllerTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerService.ToolchainVersion));
+            this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerDocument.ToolchainVersion));
             
             #line default
             #line hidden

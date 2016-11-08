@@ -15,8 +15,8 @@ namespace NSwag.CodeGeneration.Tests.ClientGeneration
         public void When_form_parameters_are_defined_then_MultipartFormDataContent_is_generated()
         {
             //// Arrange
-            var service = new SwaggerService();
-            service.Paths["foo/bar"] = new SwaggerOperations
+            var document = new SwaggerDocument();
+            document.Paths["foo/bar"] = new SwaggerOperations
             {
                 {
                     SwaggerOperationMethod.Post,
@@ -46,10 +46,7 @@ namespace NSwag.CodeGeneration.Tests.ClientGeneration
             };
 
             //// Act
-            var generator = new SwaggerToCSharpClientGenerator(service, new SwaggerToCSharpClientGeneratorSettings
-            {
-
-            });
+            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
             var code = generator.GenerateFile();
 
             //// Assert
@@ -69,11 +66,11 @@ namespace NSwag.CodeGeneration.Tests.ClientGeneration
         public void When_action_has_file_parameter_then_Stream_is_generated_in_CSharp_code()
         {
             //// Arrange
-            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
-            var service = generator.GenerateForController<FileUploadController>();
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var document = generator.GenerateForController<FileUploadController>();
 
             //// Act
-            var codeGen = new SwaggerToCSharpClientGenerator(service, new SwaggerToCSharpClientGeneratorSettings());
+            var codeGen = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
             var code = codeGen.GenerateFile();
 
             //// Assert

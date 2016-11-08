@@ -37,8 +37,8 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             });
 
             //// Act
-            var service = generator.GenerateForController<TestController>();
-            var operation = service.Operations.Single(o => o.Operation.OperationId == "Test_WithoutAttribute").Operation;
+            var document = generator.GenerateForController<TestController>();
+            var operation = document.Operations.Single(o => o.Operation.OperationId == "Test_WithoutAttribute").Operation;
 
             //// Assert
             Assert.AreEqual(SwaggerParameterKind.Query, operation.ActualParameters[0].Kind);
@@ -54,8 +54,8 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             });
 
             //// Act
-            var service = generator.GenerateForController<TestController>();
-            var operation = service.Operations.Single(o => o.Operation.OperationId == "Test_WithFromUriAttribute").Operation;
+            var document = generator.GenerateForController<TestController>();
+            var operation = document.Operations.Single(o => o.Operation.OperationId == "Test_WithFromUriAttribute").Operation;
 
             //// Assert
             Assert.AreEqual(SwaggerParameterKind.Query, operation.ActualParameters[0].Kind);
@@ -72,8 +72,8 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             });
 
             //// Act
-            var service = generator.GenerateForController<TestController>();
-            var operation = service.Operations.Single(o => o.Operation.OperationId == "Test_WithFromBodyAttribute").Operation;
+            var document = generator.GenerateForController<TestController>();
+            var operation = document.Operations.Single(o => o.Operation.OperationId == "Test_WithFromBodyAttribute").Operation;
 
             //// Assert
             Assert.AreEqual(SwaggerParameterKind.Body, operation.ActualParameters[0].Kind);
@@ -97,11 +97,11 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             });
 
             //// Act
-            var service = generator.GenerateForController<ControllerWithArrayQueryParameter>();
-            var json = service.ToJson();
+            var document = generator.GenerateForController<ControllerWithArrayQueryParameter>();
+            var json = document.ToJson();
 
             //// Assert
-            var operation = service.Operations.First().Operation;
+            var operation = document.Operations.First().Operation;
             var parameter = operation.ActualParameters.First();
 
             Assert.AreEqual(SwaggerParameterKind.Query, parameter.Kind);
@@ -145,11 +145,11 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(settings);
 
             //// Act
-            var service = generator.GenerateForController<FooController>();
-            var json = service.ToJson();
+            var document = generator.GenerateForController<FooController>();
+            var json = document.ToJson();
 
             //// Assert
-            Assert.IsNotNull(service.Operations.First().Operation.Parameters.First().Schema.SchemaReference);
+            Assert.IsNotNull(document.Operations.First().Operation.Parameters.First().Schema.SchemaReference);
         }
     }
 }

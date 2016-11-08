@@ -17,9 +17,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
     public class DocumentTagsProcessor : IDocumentProcessor
     {
         /// <summary>Processes the specified Swagger document.</summary>
-        /// <param name="document">The document.</param>
+        /// <param name="document">The Swagger document.</param>
         /// <param name="controllerTypes">The controller types.</param>
-        public void Process(SwaggerService document, IEnumerable<Type> controllerTypes)
+        public void Process(SwaggerDocument document, IEnumerable<Type> controllerTypes)
         {
             foreach (var controllerType in controllerTypes)
             {
@@ -28,7 +28,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
             }
         }
 
-        private static void ProcessSwaggerTagsAttribute(SwaggerService document, Type controllerType)
+        private static void ProcessSwaggerTagsAttribute(SwaggerDocument document, Type controllerType)
         {
             dynamic tagsAttribute = controllerType.GetTypeInfo()
                 .GetCustomAttributes()
@@ -54,7 +54,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
             }
         }
 
-        private static void ProcessSwaggerTagAttributes(SwaggerService document, Type controllerType)
+        private static void ProcessSwaggerTagAttributes(SwaggerDocument document, Type controllerType)
         {
             var tagAttributes = controllerType.GetTypeInfo().GetCustomAttributes()
                 .Where(a => a.GetType().Name == "SwaggerTagAttribute")
@@ -68,7 +68,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
             }
         }
 
-        internal static void AddTagFromSwaggerTagAttribute(SwaggerService document, dynamic tagAttribute)
+        internal static void AddTagFromSwaggerTagAttribute(SwaggerDocument document, dynamic tagAttribute)
         {
             if (document.Tags == null)
                 document.Tags = new List<SwaggerTag>();

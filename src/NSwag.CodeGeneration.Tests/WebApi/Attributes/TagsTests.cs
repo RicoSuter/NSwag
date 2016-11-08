@@ -25,22 +25,22 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             var generator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings());
 
             //// Act
-            var service = generator.GenerateForController<TagsTest1Controller>();
+            var document = generator.GenerateForController<TagsTest1Controller>();
 
             //// Assert
-            Assert.AreEqual(4, service.Tags.Count);
+            Assert.AreEqual(4, document.Tags.Count);
 
-            Assert.AreEqual("x", service.Tags[0].Name);
-            Assert.AreEqual("y", service.Tags[1].Name);
+            Assert.AreEqual("x", document.Tags[0].Name);
+            Assert.AreEqual("y", document.Tags[1].Name);
 
-            Assert.AreEqual("a1", service.Tags[2].Name);
-            Assert.AreEqual("a2", service.Tags[2].Description);
-            Assert.AreEqual(null, service.Tags[2].ExternalDocumentation);
+            Assert.AreEqual("a1", document.Tags[2].Name);
+            Assert.AreEqual("a2", document.Tags[2].Description);
+            Assert.AreEqual(null, document.Tags[2].ExternalDocumentation);
 
-            Assert.AreEqual("b1", service.Tags[3].Name);
-            Assert.AreEqual("b2", service.Tags[3].Description);
-            Assert.AreEqual("b3", service.Tags[3].ExternalDocumentation.Description);
-            Assert.AreEqual("b4", service.Tags[3].ExternalDocumentation.Url);
+            Assert.AreEqual("b1", document.Tags[3].Name);
+            Assert.AreEqual("b2", document.Tags[3].Description);
+            Assert.AreEqual("b3", document.Tags[3].ExternalDocumentation.Description);
+            Assert.AreEqual("b4", document.Tags[3].ExternalDocumentation.Url);
         }
 
         public class TagsTest2Controller : ApiController
@@ -59,10 +59,10 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             var generator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings());
 
             //// Act
-            var service = generator.GenerateForController<TagsTest2Controller>();
+            var document = generator.GenerateForController<TagsTest2Controller>();
 
             //// Assert
-            Assert.AreEqual("[\"foo\",\"bar\"]", JsonConvert.SerializeObject(service.Operations.First().Operation.Tags));
+            Assert.AreEqual("[\"foo\",\"bar\"]", JsonConvert.SerializeObject(document.Operations.First().Operation.Tags));
         }
 
 
@@ -85,14 +85,14 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             var generator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings());
 
             //// Act
-            var service = generator.GenerateForController<TagsTest3Controller>();
+            var document = generator.GenerateForController<TagsTest3Controller>();
 
             //// Assert
-            Assert.AreEqual(1, service.Tags.Count);
-            Assert.AreEqual("foo", service.Tags[0].Name);
+            Assert.AreEqual(1, document.Tags.Count);
+            Assert.AreEqual("foo", document.Tags[0].Name);
 
-            Assert.AreEqual(1, service.Operations.First().Operation.Tags.Count);
-            Assert.AreEqual("foo", service.Operations.First().Operation.Tags[0]);
+            Assert.AreEqual(1, document.Operations.First().Operation.Tags.Count);
+            Assert.AreEqual("foo", document.Operations.First().Operation.Tags[0]);
         }
 
         public class TagsTest4Controller : ApiController
@@ -111,16 +111,16 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             var generator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings());
 
             //// Act
-            var service = generator.GenerateForController<TagsTest4Controller>();
+            var document = generator.GenerateForController<TagsTest4Controller>();
 
             //// Assert
-            Assert.AreEqual(2, service.Tags.Count);
-            Assert.AreEqual("foo", service.Tags[0].Name);
-            Assert.AreEqual("bar", service.Tags[1].Name);
+            Assert.AreEqual(2, document.Tags.Count);
+            Assert.AreEqual("foo", document.Tags[0].Name);
+            Assert.AreEqual("bar", document.Tags[1].Name);
 
-            Assert.AreEqual(2, service.Operations.First().Operation.Tags.Count);
-            Assert.AreEqual("foo", service.Operations.First().Operation.Tags[0]);
-            Assert.AreEqual("bar", service.Operations.First().Operation.Tags[1]);
+            Assert.AreEqual(2, document.Operations.First().Operation.Tags.Count);
+            Assert.AreEqual("foo", document.Operations.First().Operation.Tags[0]);
+            Assert.AreEqual("bar", document.Operations.First().Operation.Tags[1]);
         }
     }
 }

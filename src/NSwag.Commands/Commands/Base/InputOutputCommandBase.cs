@@ -22,7 +22,7 @@ namespace NSwag.Commands.Base
         [Argument(Name = "Input", IsRequired = true, AcceptsCommandInput = true, Description = "A file path or URL to the data or the JSON data itself.")]
         public object Input { get; set; }
 
-        [Argument(Name = "ServiceHost", IsRequired = false, Description = "Overrides the service host of the web service (optional, use '.' to remove the hostname).")]
+        [Argument(Name = "ServiceHost", IsRequired = false, Description = "Overrides the service host of the web document (optional, use '.' to remove the hostname).")]
         public string ServiceHost { get; set; }
 
         [Argument(Name = "ServiceSchemes", IsRequired = false, Description = "Overrides the allowed schemes of the web service (optional, comma separated, 'http', 'https', 'ws', 'wss').")]
@@ -30,32 +30,32 @@ namespace NSwag.Commands.Base
 
         /// <exception cref="ArgumentException" accessor="get">The argument 'Input' was empty.</exception>
         [JsonIgnore]
-        protected SwaggerService InputSwaggerService
+        protected SwaggerDocument InputSwaggerDocument
         {
             get
             {
-                var service = Input as SwaggerService;
-                if (service == null)
+                var document = Input as SwaggerDocument;
+                if (document == null)
                 {
                     var inputString = Input.ToString();
                     if (string.IsNullOrEmpty(inputString))
                         throw new ArgumentException("The argument 'Input' was empty.");
 
                     if (IsJson(inputString))
-                        service = SwaggerService.FromJson(inputString);
+                        document = SwaggerDocument.FromJson(inputString);
                     else 
-                        service = SwaggerService.FromUrl(inputString);
+                        document = SwaggerDocument.FromUrl(inputString);
                 }
 
                 if (ServiceHost == ".")
-                    service.Host = string.Empty;
+                    document.Host = string.Empty;
                 else if (!string.IsNullOrEmpty(ServiceHost))
-                    service.Host = ServiceHost;
+                    document.Host = ServiceHost;
 
                 if (ServiceSchemes != null && ServiceSchemes.Any())
-                    service.Schemes = ServiceSchemes.Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true)).ToList();
+                    document.Schemes = ServiceSchemes.Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true)).ToList();
 
-                return service; 
+                return document; 
             }
         }
 

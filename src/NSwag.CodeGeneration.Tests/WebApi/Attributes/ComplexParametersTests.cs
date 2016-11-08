@@ -48,8 +48,8 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             });
 
             //// Act
-            var service = generator.GenerateForController<TestController>();
-            var operation = service.Operations.Single(o => o.Operation.OperationId == "Test_WithoutAttribute").Operation;
+            var document = generator.GenerateForController<TestController>();
+            var operation = document.Operations.Single(o => o.Operation.OperationId == "Test_WithoutAttribute").Operation;
 
             //// Assert
             Assert.AreEqual(SwaggerParameterKind.Body, operation.ActualParameters[0].Kind);
@@ -66,8 +66,8 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             });
 
             //// Act
-            var service = generator.GenerateForController<TestController>();
-            var operation = service.Operations.Single(o => o.Operation.OperationId == "Test_WithFromUriAttribute").Operation;
+            var document = generator.GenerateForController<TestController>();
+            var operation = document.Operations.Single(o => o.Operation.OperationId == "Test_WithFromUriAttribute").Operation;
 
             //// Assert
             Assert.AreEqual("My comment.", operation.Summary);
@@ -89,8 +89,8 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             });
 
             //// Act
-            var service = generator.GenerateForController<TestController>();
-            var operation = service.Operations.Single(o => o.Operation.OperationId == "Test_WithFromBodyAttribute").Operation;
+            var document = generator.GenerateForController<TestController>();
+            var operation = document.Operations.Single(o => o.Operation.OperationId == "Test_WithFromBodyAttribute").Operation;
 
             //// Assert
             Assert.AreEqual(SwaggerParameterKind.Body, operation.ActualParameters[0].Kind);

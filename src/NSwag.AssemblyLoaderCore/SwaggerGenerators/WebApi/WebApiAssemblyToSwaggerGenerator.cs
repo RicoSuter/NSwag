@@ -21,7 +21,7 @@ using System.Runtime.Loader;
 
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 {
-    /// <summary>Generates a <see cref="SwaggerService"/> from a Web API controller or type which is located in a .NET assembly.</summary>
+    /// <summary>Generates a <see cref="SwaggerDocument"/> from a Web API controller or type which is located in a .NET assembly.</summary>
     public class WebApiAssemblyToSwaggerGenerator : WebApiAssemblyToSwaggerGeneratorBase
     {
         /// <summary>Initializes a new instance of the <see cref="WebApiAssemblyToSwaggerGenerator"/> class.</summary>
@@ -59,18 +59,18 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <param name="controllerClassNames">The controller class names.</param>
         /// <exception cref="InvalidOperationException">No assembly paths have been provided.</exception>
         /// <returns>The Swagger definition.</returns>
-        public override SwaggerService GenerateForControllers(IEnumerable<string> controllerClassNames)
+        public override SwaggerDocument GenerateForControllers(IEnumerable<string> controllerClassNames)
         {
 #if FullNet
             using (var isolated = new AppDomainIsolation<WebApiAssemblyLoader>(Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPaths.First())), Settings.AssemblyConfig))
             {
-                var service = isolated.Object.GenerateForControllers(controllerClassNames, JsonConvert.SerializeObject(Settings));
-                return SwaggerService.FromJson(service);
+                var document = isolated.Object.GenerateForControllers(controllerClassNames, JsonConvert.SerializeObject(Settings));
+                return SwaggerDocument.FromJson(document);
             }
 #else
             var loader = new WebApiAssemblyLoader();
             var data = loader.GenerateForControllers(controllerClassNames, JsonConvert.SerializeObject(Settings));
-            return SwaggerService.FromJson(data);
+            return SwaggerDocument.FromJson(data);
 #endif
         }
 

@@ -31,7 +31,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates
                     "rated using the NSwag toolchain v");
             
             #line 8 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FileTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerService.ToolchainVersion));
+            this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerDocument.ToolchainVersion));
             
             #line default
             #line hidden

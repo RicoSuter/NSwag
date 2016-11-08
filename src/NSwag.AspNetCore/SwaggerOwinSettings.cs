@@ -35,7 +35,7 @@ namespace NSwag.AspNetCore
         public string SwaggerRoute { get; set; } = "/swagger/v1/swagger.json";
 
         /// <summary>Gets or sets the Swagger post process action.</summary>
-        public Action<SwaggerService> PostProcess { get; set; }
+        public Action<SwaggerDocument> PostProcess { get; set; }
 
         internal string ActualSwaggerRoute => SwaggerRoute.Substring(MiddlewareBasePath?.Length ?? 0);
     }

@@ -44,3 +44,4 @@ src/packages/**
 /build/Packages
 /src/.vs
 /src/NSwag.ConsoleCore/Output
+/src/NSwag.Npm/node_modules
