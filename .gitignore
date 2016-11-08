@@ -13,7 +13,7 @@ src/packages/**
 [Oo]bj/
 *.nugetreferenceswitcher
 /src/.vs/config
-**.lock.json
+**/project.lock.json
 /src/NSwag.AspNetCore/Output
 /src/Chocolatey/Output
 /src/NSwagStudio.Installer/Generated.wxs
