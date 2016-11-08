@@ -93,7 +93,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwag.ConsoleCore", "NSwag.ConsoleCore", "{5FAD23FB-4F58-49CA-AB21-5EA13B202E22}"
 	ProjectSection(SolutionItems) = preProject
 		NSwag.ConsoleCore\Properties\AssemblyInfo.cs = NSwag.ConsoleCore\Properties\AssemblyInfo.cs
-		NSwag.TerminalCore\project.json = NSwag.TerminalCore\project.json
+		NSwag.ConsoleCore\project.json = NSwag.ConsoleCore\project.json
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Console", "NSwag.Console\NSwag.Console.csproj", "{26CBD69C-EE7C-4D81-8D62-410F4AD4876B}"
