@@ -31,13 +31,10 @@ namespace NSwag.Commands.Base
         {
             if (!string.IsNullOrEmpty(path))
             {
-                // TODO: Implement this
-                //var file = new FileInfo(path);
-                //var directory = file.Directory;
-
-                //if (!directory.Exists)
-                //    directory.Create();
-
+                var directory = DynamicApis.PathGetDirectoryName(path);
+                if (!string.IsNullOrEmpty(directory) && !DynamicApis.DirectoryExists(directory))
+                    DynamicApis.DirectoryCreateDirectory(directory);
+                
                 DynamicApis.FileWriteAllText(path, generator());
                 host?.WriteMessage("Code has been successfully written to file.\n");
 

@@ -35,29 +35,29 @@ public partial interface I<#=Model.Class#>
 public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Model.HasBaseClass){#><#=Model.BaseClass#><#if(Model.GenerateClientInterfaces){#>, <#}#><#}#><#if(Model.GenerateClientInterfaces){#>I<#=Model.Class#><#}#>
 
 {
+    private string _baseUrl = "<#=Model.BaseUrl#>";
+    
 <#if(Model.HasConfigurationClass){#>
-    public <#=Model.Class#>() : this("<#=Model.BaseUrl#>", null) { }
-
-    public <#=Model.Class#>(string baseUrl) : this(baseUrl, null) { }
-
-    public <#=Model.Class#>(string baseUrl, <#=Model.ConfigurationClass#> configuration) : base(configuration)
+    public <#=Model.Class#>(<#=Model.ConfigurationClass#> configuration) : base(configuration)
     {
-        BaseUrl = baseUrl; 
     }
-<#}else{#>
-    public <#=Model.Class#>() : this("<#=Model.BaseUrl#>") { }
 
+<#}else if(string.IsNullOrEmpty(Model.BaseUrl)){#>
     public <#=Model.Class#>(string baseUrl)
     {
         BaseUrl = baseUrl; 
     }
+
 <#}#>
+    public string BaseUrl 
+    {
+        get { return _baseUrl; }
+        set { _baseUrl = value; }
+    }
 
     partial void PrepareRequest(HttpClient request, ref string url);
 
     partial void ProcessResponse(HttpClient request, HttpResponseMessage response);
-
-    public string BaseUrl { get; set; }
 
 <#foreach(var operation in Model.Operations){#>
 <#  if(operation.HasSummary){#>    /// <summary><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)#></summary>

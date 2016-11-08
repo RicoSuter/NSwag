@@ -14,6 +14,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
+using NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Contexts;
 
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
 {

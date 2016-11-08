@@ -6,6 +6,8 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Contexts;
+
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Security
 {
     /// <summary>Appends the OAuth2 security scheme to the document's security definitions.</summary>
