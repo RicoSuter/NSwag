@@ -160,9 +160,9 @@
     <Compile Include="SwaggerGenerators\AssemblyTypeToSwaggerGeneratorBase.cs" />
     <Compile Include="SwaggerGenerators\AssemblyTypeToSwaggerGeneratorSettings.cs" />
     <Compile Include="SwaggerGenerators\SwaggerJsonSchemaGenerator.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\Processors\DocumentProcessorContext.cs" />
+    <Compile Include="SwaggerGenerators\WebApi\Processors\Contexts\DocumentProcessorContext.cs" />
     <Compile Include="SwaggerGenerators\WebApi\Processors\OperationParameterProcessor.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\Processors\OperationProcessorContext.cs" />
+    <Compile Include="SwaggerGenerators\WebApi\Processors\Contexts\OperationProcessorContext.cs" />
     <Compile Include="SwaggerGenerators\WebApi\Processors\OperationResponseProcessor.cs" />
     <Compile Include="SwaggerGenerators\WebApi\Processors\OperationSummaryAndDescriptionProcessor.cs" />
     <Compile Include="SwaggerGenerators\WebApi\Processors\DocumentTagsProcessor.cs" />

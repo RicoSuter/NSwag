@@ -6,6 +6,8 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Contexts;
+
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
 {
     /// <summary>Post processes a generated <see cref="SwaggerDocument"/>.</summary>
