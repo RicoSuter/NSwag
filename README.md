@@ -59,6 +59,8 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 	- [SwaggerToCSharpControllerGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToCSharpControllerGenerator)
 	    - Generates Web API Controllers based on a Swagger specification
 
+![ToolchainDiagram](assets/ToolchainDiagram.png)
+
 **Downloads**
 
 - [Download latest **NSwagStudio MSI installer**](http://rsuter.com/Projects/NSwagStudio/installer.php) (Windows Desktop application)
