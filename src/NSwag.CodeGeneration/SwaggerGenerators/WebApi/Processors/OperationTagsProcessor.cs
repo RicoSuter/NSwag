@@ -17,20 +17,15 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
     public class OperationTagsProcessor : IOperationProcessor
     {
         /// <summary>Processes the specified method information.</summary>
-        /// <param name="document">The Swagger document.</param>
-        /// <param name="operationDescription">The operation description.</param>
-        /// <param name="methodInfo">The method information.</param>
-        /// <param name="swaggerGenerator">The Swagger generator.</param>
-        /// <param name="allOperationDescriptions">All operation descriptions.</param>
+        /// <param name="context"></param>
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
-        public bool Process(SwaggerDocument document, SwaggerOperationDescription operationDescription, MethodInfo methodInfo,
-            SwaggerGenerator swaggerGenerator, IList<SwaggerOperationDescription> allOperationDescriptions)
+        public bool Process(OperationProcessorContext context)
         {
-            ProcessSwaggerTagsAttribute(document, operationDescription, methodInfo);
-            ProcessSwaggerTagAttributes(document, operationDescription, methodInfo);
+            ProcessSwaggerTagsAttribute(context.Document, context.OperationDescription, context.MethodInfo);
+            ProcessSwaggerTagAttributes(context.Document, context.OperationDescription, context.MethodInfo);
 
-            if (!operationDescription.Operation.Tags.Any())
-                operationDescription.Operation.Tags.Add(methodInfo.DeclaringType.Name);
+            if (!context.OperationDescription.Operation.Tags.Any())
+                context.OperationDescription.Operation.Tags.Add(context.MethodInfo.DeclaringType.Name);
 
             return true;
         }

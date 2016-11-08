@@ -25,19 +25,15 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Security
         }
 
         /// <summary>Processes the specified method information.</summary>
-        /// <param name="document"></param>
-        /// <param name="operationDescription">The operation description.</param>
-        /// <param name="methodInfo">The method information.</param>
-        /// <param name="swaggerGenerator">The swagger generator.</param>
-        /// <param name="allOperationDescriptions">All operation descriptions.</param>
+        /// <param name="context"></param>
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
-        public bool Process(SwaggerDocument document, SwaggerOperationDescription operationDescription, MethodInfo methodInfo, SwaggerGenerator swaggerGenerator, IList<SwaggerOperationDescription> allOperationDescriptions)
+        public bool Process(OperationProcessorContext context)
         {
-            if (operationDescription.Operation.Security == null)
-                operationDescription.Operation.Security = new List<SwaggerSecurityRequirement>();
+            if (context.OperationDescription.Operation.Security == null)
+                context.OperationDescription.Operation.Security = new List<SwaggerSecurityRequirement>();
 
-            var scopes = GetScopes(operationDescription, methodInfo);
-            operationDescription.Operation.Security.Add(new SwaggerSecurityRequirement
+            var scopes = GetScopes(context.OperationDescription, context.MethodInfo);
+            context.OperationDescription.Operation.Security.Add(new SwaggerSecurityRequirement
             {
                 { _name, scopes }
             });

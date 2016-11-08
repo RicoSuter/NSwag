@@ -6,17 +6,13 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
 {
     /// <summary>Post processes a generated <see cref="SwaggerDocument"/>.</summary>
     public interface IDocumentProcessor
     {
         /// <summary>Processes the specified Swagger document.</summary>
-        /// <param name="document">The Swagger document.</param>
-        /// <param name="controllerTypes">The controller types.</param>
-        void Process(SwaggerDocument document, IEnumerable<Type> controllerTypes);
+        /// <param name="context">The processor context.</param>
+        void Process(DocumentProcessorContext context);
     }
 }

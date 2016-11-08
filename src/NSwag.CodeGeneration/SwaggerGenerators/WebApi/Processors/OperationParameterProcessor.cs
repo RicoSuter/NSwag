@@ -30,17 +30,12 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
         }
 
         /// <summary>Processes the specified method information.</summary>
-        /// <param name="document">The Swagger document.</param>
-        /// <param name="operationDescription">The operation description.</param>
-        /// <param name="methodInfo">The method information.</param>
-        /// <param name="swaggerGenerator">The swagger generator.</param>
-        /// <param name="allOperationDescriptions">All operation descriptions.</param>
+        /// <param name="context"></param>
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
-        public bool Process(SwaggerDocument document, SwaggerOperationDescription operationDescription, MethodInfo methodInfo,
-            SwaggerGenerator swaggerGenerator, IList<SwaggerOperationDescription> allOperationDescriptions)
+        public bool Process(OperationProcessorContext context)
         {
-            var httpPath = operationDescription.Path;
-            var parameters = methodInfo.GetParameters().ToList();
+            var httpPath = context.OperationDescription.Path;
+            var parameters = context.MethodInfo.GetParameters().ToList();
             foreach (var parameter in parameters.Where(p => p.ParameterType != typeof(CancellationToken) &&
                                                             p.GetCustomAttributes().All(a => a.GetType().Name != "FromServicesAttribute") &&
                                                             p.GetCustomAttributes().All(a => a.GetType().Name != "BindNeverAttribute")))
@@ -49,17 +44,17 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
                 if (httpPath.ToLowerInvariant().Contains("{" + nameLower + "}") ||
                     httpPath.ToLowerInvariant().Contains("{" + nameLower + ":")) // path parameter
                 {
-                    var operationParameter = swaggerGenerator.CreatePrimitiveParameter(parameter.Name, parameter);
+                    var operationParameter = context.SwaggerGenerator.CreatePrimitiveParameter(parameter.Name, parameter);
                     operationParameter.Kind = SwaggerParameterKind.Path;
                     operationParameter.IsNullableRaw = false;
                     operationParameter.IsRequired = true; // Path is always required => property not needed
 
-                    operationDescription.Operation.Parameters.Add(operationParameter);
+                    context.OperationDescription.Operation.Parameters.Add(operationParameter);
                 }
                 else
                 {
                     var parameterInfo = JsonObjectTypeDescription.FromType(parameter.ParameterType, parameter.GetCustomAttributes(), _settings.DefaultEnumHandling);
-                    if (TryAddFileParameter(parameterInfo, operationDescription.Operation, parameter, swaggerGenerator) == false)
+                    if (TryAddFileParameter(parameterInfo, context.OperationDescription.Operation, parameter, context.SwaggerGenerator) == false)
                     {
                         dynamic fromBodyAttribute = parameter.GetCustomAttributes()
                             .SingleOrDefault(a => a.GetType().Name == "FromBodyAttribute");
@@ -73,16 +68,16 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
                         if (parameterInfo.IsComplexType)
                         {
                             if (fromBodyAttribute != null || (fromUriAttribute == null && _settings.IsAspNetCore == false))
-                                AddBodyParameter(bodyParameterName, parameter, operationDescription.Operation, swaggerGenerator);
+                                AddBodyParameter(bodyParameterName, parameter, context.OperationDescription.Operation, context.SwaggerGenerator);
                             else
-                                AddPrimitiveParametersFromUri(uriParameterName, operationDescription.Operation, parameter, parameterInfo, swaggerGenerator);
+                                AddPrimitiveParametersFromUri(uriParameterName, context.OperationDescription.Operation, parameter, parameterInfo, context.SwaggerGenerator);
                         }
                         else
                         {
                             if (fromBodyAttribute != null)
-                                AddBodyParameter(bodyParameterName, parameter, operationDescription.Operation, swaggerGenerator);
+                                AddBodyParameter(bodyParameterName, parameter, context.OperationDescription.Operation, context.SwaggerGenerator);
                             else
-                                AddPrimitiveParameter(uriParameterName, operationDescription.Operation, parameter, swaggerGenerator);
+                                AddPrimitiveParameter(uriParameterName, context.OperationDescription.Operation, parameter, context.SwaggerGenerator);
                         }
                     }
                 }
@@ -93,19 +88,19 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
                 foreach (Match match in Regex.Matches(httpPath, "{(.*?)(:(.*?))?}"))
                 {
                     var parameterName = match.Groups[1].Value;
-                    if (operationDescription.Operation.Parameters.All(p => p.Name != parameterName))
+                    if (context.OperationDescription.Operation.Parameters.All(p => p.Name != parameterName))
                     {
                         var parameterType = match.Groups.Count == 4 ? match.Groups[3].Value : "string";
-                        var operationParameter = swaggerGenerator.CreatePathParameter(parameterName, parameterType);
-                        operationDescription.Operation.Parameters.Add(operationParameter);
+                        var operationParameter = context.SwaggerGenerator.CreatePathParameter(parameterName, parameterType);
+                        context.OperationDescription.Operation.Parameters.Add(operationParameter);
                     }
                 }
             }
 
-            RemoveUnusedPathParameters(operationDescription, httpPath);
-            UpdateConsumedTypes(operationDescription);
+            RemoveUnusedPathParameters(context.OperationDescription, httpPath);
+            UpdateConsumedTypes(context.OperationDescription);
 
-            EnsureSingleBodyParameter(operationDescription);
+            EnsureSingleBodyParameter(context.OperationDescription);
 
             return true;
         }

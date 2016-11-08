@@ -6,9 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Security
 {
     /// <summary>Appends the OAuth2 security scheme to the document's security definitions.</summary>
@@ -27,11 +24,10 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Security
         }
 
         /// <summary>Processes the specified Swagger document.</summary>
-        /// <param name="document">The Swagger document.</param>
-        /// <param name="controllerTypes"></param>
-        public void Process(SwaggerDocument document, IEnumerable<Type> controllerTypes)
+        /// <param name="context"></param>
+        public void Process(DocumentProcessorContext context)
         {
-            document.SecurityDefinitions[_name] = _swaggerSecurityScheme;
+            context.Document.SecurityDefinitions[_name] = _swaggerSecurityScheme;
         }
     }
 }

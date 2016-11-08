@@ -6,10 +6,8 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using NJsonSchema;
 using NJsonSchema.Infrastructure;
 
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
@@ -18,30 +16,25 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
     public class OperationSummaryAndDescriptionProcessor : IOperationProcessor
     {
         /// <summary>Processes the specified method information.</summary>
-        /// <param name="document">The Swagger document.</param>
-        /// <param name="operationDescription">The operation description.</param>
-        /// <param name="methodInfo">The method information.</param>
-        /// <param name="swaggerGenerator">The swagger generator.</param>
-        /// <param name="allOperationDescriptions">All operation descriptions.</param>
+        /// <param name="context"></param>
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
-        public bool Process(SwaggerDocument document, SwaggerOperationDescription operationDescription, MethodInfo methodInfo, 
-            SwaggerGenerator swaggerGenerator, IList<SwaggerOperationDescription> allOperationDescriptions)
+        public bool Process(OperationProcessorContext context)
         {
-            dynamic descriptionAttribute = methodInfo.GetCustomAttributes()
+            dynamic descriptionAttribute = context.MethodInfo.GetCustomAttributes()
                 .SingleOrDefault(a => a.GetType().Name == "DescriptionAttribute");
 
             if (descriptionAttribute != null)
-                operationDescription.Operation.Summary = descriptionAttribute.Description;
+                context.OperationDescription.Operation.Summary = descriptionAttribute.Description;
             else
             {
-                var summary = methodInfo.GetXmlSummary();
+                var summary = context.MethodInfo.GetXmlSummary();
                 if (summary != string.Empty)
-                    operationDescription.Operation.Summary = summary;
+                    context.OperationDescription.Operation.Summary = summary;
             }
 
-            var remarks = methodInfo.GetXmlRemarks();
+            var remarks = context.MethodInfo.GetXmlRemarks();
             if (remarks != string.Empty)
-                operationDescription.Operation.Description = remarks;
+                context.OperationDescription.Operation.Description = remarks;
 
             return true; 
         }

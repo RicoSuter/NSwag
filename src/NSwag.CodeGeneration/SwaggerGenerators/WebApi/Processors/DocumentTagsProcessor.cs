@@ -17,14 +17,13 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
     public class DocumentTagsProcessor : IDocumentProcessor
     {
         /// <summary>Processes the specified Swagger document.</summary>
-        /// <param name="document">The Swagger document.</param>
-        /// <param name="controllerTypes">The controller types.</param>
-        public void Process(SwaggerDocument document, IEnumerable<Type> controllerTypes)
+        /// <param name="context"></param>
+        public void Process(DocumentProcessorContext context)
         {
-            foreach (var controllerType in controllerTypes)
+            foreach (var controllerType in context.ControllerTypes)
             {
-                ProcessSwaggerTagsAttribute(document, controllerType);
-                ProcessSwaggerTagAttributes(document, controllerType);
+                ProcessSwaggerTagsAttribute(context.Document, controllerType);
+                ProcessSwaggerTagAttributes(context.Document, controllerType);
             }
         }
 

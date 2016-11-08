@@ -13,6 +13,7 @@ using System.Linq;
 using System.Reflection;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
+using NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors;
 
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 {
@@ -90,7 +91,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             document.GenerateOperationIds();
 
             foreach (var processor in Settings.DocumentProcessors)
-                processor.Process(document, controllerTypes);
+                processor.Process(new DocumentProcessorContext(document, controllerTypes));
 
             return document;
         }
@@ -172,27 +173,27 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             }
         }
 
-        private bool RunOperationProcessors(SwaggerDocument document, MethodInfo method, 
-            SwaggerOperationDescription operation, List<SwaggerOperationDescription> allOperations, SwaggerGenerator swaggerGenerator)
+        private bool RunOperationProcessors(SwaggerDocument document, MethodInfo methodInfo,
+            SwaggerOperationDescription operationDescription, List<SwaggerOperationDescription> allOperations, SwaggerGenerator swaggerGenerator)
         {
             // 1. Run from settings
             foreach (var operationProcessor in Settings.OperationProcessors)
             {
-                if (operationProcessor.Process(document, operation, method, swaggerGenerator, allOperations) == false)
+                if (operationProcessor.Process(new OperationProcessorContext(document, operationDescription, methodInfo, swaggerGenerator, allOperations)) == false)
                     return false;
             }
 
             // 2. Run from class attributes
-            var operationProcessorAttribute = method.DeclaringType.GetTypeInfo()
+            var operationProcessorAttribute = methodInfo.DeclaringType.GetTypeInfo()
                 .GetCustomAttributes()
             // 3. Run from method attributes
-                .Concat(method.GetCustomAttributes())
+                .Concat(methodInfo.GetCustomAttributes())
                 .Where(a => a.GetType().Name == "SwaggerOperationProcessorAttribute");
 
             foreach (dynamic attribute in operationProcessorAttribute)
             {
                 var operationProcessor = Activator.CreateInstance(attribute.Type);
-                if (operationProcessor.Process(method, operation, swaggerGenerator, allOperations) == false)
+                if (operationProcessor.Process(methodInfo, operationDescription, swaggerGenerator, allOperations) == false)
                     return false;
             }
 

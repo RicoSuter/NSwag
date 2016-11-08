@@ -7,7 +7,6 @@
 //-----------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -30,23 +29,18 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
         }
 
         /// <summary>Processes the specified method information.</summary>
-        /// <param name="document">The Swagger document.</param>
-        /// <param name="operationDescription">The operation description.</param>
-        /// <param name="methodInfo">The method information.</param>
-        /// <param name="swaggerGenerator">The swagger generator.</param>
-        /// <param name="allOperationDescriptions">All operation descriptions.</param>
+        /// <param name="context"></param>
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
-        public bool Process(SwaggerDocument document, SwaggerOperationDescription operationDescription, MethodInfo methodInfo, 
-            SwaggerGenerator swaggerGenerator, IList<SwaggerOperationDescription> allOperationDescriptions)
+        public bool Process(OperationProcessorContext context)
         {
-            var successXmlDescription = methodInfo.ReturnParameter.GetXmlDocumentation() ?? string.Empty;
+            var successXmlDescription = context.MethodInfo.ReturnParameter.GetXmlDocumentation() ?? string.Empty;
 
-            var responseTypeAttributes = methodInfo.GetCustomAttributes()
+            var responseTypeAttributes = context.MethodInfo.GetCustomAttributes()
                 .Where(a => a.GetType().Name == "ResponseTypeAttribute" ||
                             a.GetType().Name == "SwaggerResponseAttribute")
                 .ToList();
 
-            var producesResponseTypeAttributes = methodInfo.GetCustomAttributes()
+            var producesResponseTypeAttributes = context.MethodInfo.GetCustomAttributes()
                 .Where(a => a.GetType().Name == "ProducesResponseTypeAttribute")
                 .ToList();
 
@@ -76,7 +70,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
                             description = responseTypeAttribute.Description;
                     }
 
-                    var typeDescription = JsonObjectTypeDescription.FromType(returnType, methodInfo.ReturnParameter?.GetCustomAttributes(), _settings.DefaultEnumHandling);
+                    var typeDescription = JsonObjectTypeDescription.FromType(returnType, context.MethodInfo.ReturnParameter?.GetCustomAttributes(), _settings.DefaultEnumHandling);
                     var response = new SwaggerResponse
                     {
                         Description = description ?? string.Empty
@@ -85,16 +79,16 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
                     if (IsVoidResponse(returnType) == false)
                     {
                         response.IsNullableRaw = typeDescription.IsNullable;
-                        response.Schema = swaggerGenerator.GenerateAndAppendSchemaFromType(returnType, typeDescription.IsNullable, null);
+                        response.Schema = context.SwaggerGenerator.GenerateAndAppendSchemaFromType(returnType, typeDescription.IsNullable, null);
                     }
 
-                    operationDescription.Operation.Responses[httpStatusCode] = response;
+                    context.OperationDescription.Operation.Responses[httpStatusCode] = response;
                 }
 
                 foreach (dynamic producesResponseTypeAttribute in producesResponseTypeAttributes)
                 {
                     var returnType = producesResponseTypeAttribute.Type;
-                    var typeDescription = JsonObjectTypeDescription.FromType(returnType, methodInfo.ReturnParameter?.GetCustomAttributes(), _settings.DefaultEnumHandling);
+                    var typeDescription = JsonObjectTypeDescription.FromType(returnType, context.MethodInfo.ReturnParameter?.GetCustomAttributes(), _settings.DefaultEnumHandling);
 
                     var httpStatusCode = producesResponseTypeAttribute.StatusCode.ToString(CultureInfo.InvariantCulture);
                     var response = new SwaggerResponse
@@ -105,14 +99,14 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
                     if (IsVoidResponse(returnType) == false)
                     {
                         response.IsNullableRaw = typeDescription.IsNullable;
-                        response.Schema = swaggerGenerator.GenerateAndAppendSchemaFromType(returnType, typeDescription.IsNullable, null);
+                        response.Schema = context.SwaggerGenerator.GenerateAndAppendSchemaFromType(returnType, typeDescription.IsNullable, null);
                     }
 
-                    operationDescription.Operation.Responses[httpStatusCode] = response;
+                    context.OperationDescription.Operation.Responses[httpStatusCode] = response;
                 }
             }
             else
-                LoadDefaultSuccessResponse(operationDescription.Operation, methodInfo, successXmlDescription, swaggerGenerator);
+                LoadDefaultSuccessResponse(context.OperationDescription.Operation, context.MethodInfo, successXmlDescription, context.SwaggerGenerator);
 
             return true;
         }
