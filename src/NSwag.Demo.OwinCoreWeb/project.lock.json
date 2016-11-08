@@ -3422,15 +3422,15 @@
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
       },
-      "NSwag.AspNetCore/6.21.0": {
+      "NSwag.AspNetCore/7.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v1.6",
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.Core": "1.0.0",
           "Microsoft.AspNetCore.StaticFiles": "1.0.0",
           "Microsoft.Extensions.FileProviders.Embedded": "1.0.0",
-          "NSwag.Annotations": "6.21.6156.30059",
-          "NSwag.CodeGeneration": "6.21.6156.30058",
+          "NSwag.Annotations": "1.0.0",
+          "NSwag.CodeGeneration": "1.0.0",
           "System.IO.FileSystem": "4.0.1",
           "System.Xml.XPath.XDocument": "4.0.1"
         },
@@ -9268,7 +9268,7 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
-    "NSwag.AspNetCore/6.21.0": {
+    "NSwag.AspNetCore/7.0.0": {
       "type": "project",
       "path": "../NSwag.AspNetCore/project.json",
       "msbuildProject": "../NSwag.AspNetCore/NSwag.AspNetCore.xproj"

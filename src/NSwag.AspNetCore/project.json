@@ -13,8 +13,8 @@
         "Microsoft.AspNetCore.Mvc.Core": "1.0.0",
         "Microsoft.AspNetCore.StaticFiles": "1.0.0",
         "Microsoft.Extensions.FileProviders.Embedded": "1.0.0",
-        "NSwag.Annotations": "6.21.6156.30059",
-        "NSwag.CodeGeneration": "6.21.6156.30058"
+        "NSwag.Annotations": "*",
+        "NSwag.CodeGeneration": "*"
     },
 
     "buildOptions": {

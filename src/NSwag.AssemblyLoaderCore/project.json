@@ -13,10 +13,10 @@
         "NETStandard.Library": "1.6.0",
         "System.Net.Http": "4.1.0",
         "System.Runtime.Loader": "4.0.0",
-        "NSwag.Commands": "6.21.6156.30059",
-        "NSwag.Core": "6.21.6156.30058",
-        "NSwag.Annotations": "6.21.6156.30059",
-        "NSwag.CodeGeneration": "6.21.6156.30058"
+        "NSwag.Commands": "*",
+        "NSwag.Core": "*",
+        "NSwag.Annotations": "*",
+        "NSwag.CodeGeneration": "*"
     },
 
     "frameworks": {
