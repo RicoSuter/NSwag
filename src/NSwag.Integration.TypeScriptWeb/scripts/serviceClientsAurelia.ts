@@ -243,13 +243,17 @@ export class GeoClient {
         });
     }
 
-    getUploadedFile(id: number): Promise<any> {
-        let url_ = this.baseUrl + "/api/Geo/GetUploadedFile/{id}"; 
+    getUploadedFile(id: number, override: boolean): Promise<any> {
+        let url_ = this.baseUrl + "/api/Geo/GetUploadedFile/{id}?"; 
 
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
 
+        if (override === null)
+            throw new Error("The parameter 'override' cannot be null.");
+        else if (override !== undefined)
+            url_ += "override=" + encodeURIComponent("" + override) + "&"; 
         return this.http.fetch(url_, {
             method: "GET",
             headers: {

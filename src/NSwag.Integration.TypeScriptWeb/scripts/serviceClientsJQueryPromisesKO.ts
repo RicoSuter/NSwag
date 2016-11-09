@@ -410,18 +410,23 @@ export class GeoClient {
         }
     }
 
-    getUploadedFile(id: number): Promise<any> {
+    getUploadedFile(id: number, override: boolean): Promise<any> {
         return new Promise<any>((resolve, reject) => {
-            this.getUploadedFileWithCallbacks(id, (result) => resolve(result), (exception, reason) => reject(exception));
+            this.getUploadedFileWithCallbacks(id, override, (result) => resolve(result), (exception, reason) => reject(exception));
         });
     }
     
-    private getUploadedFileWithCallbacks(id: number, onSuccess?: (result: any) => void, onFail?: (exception: string, reason: string) => void) {
-        let url_ = this.baseUrl + "/api/Geo/GetUploadedFile/{id}"; 
+    private getUploadedFileWithCallbacks(id: number, override: boolean, onSuccess?: (result: any) => void, onFail?: (exception: string, reason: string) => void) {
+        let url_ = this.baseUrl + "/api/Geo/GetUploadedFile/{id}?"; 
 
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+
+        if (override === null)
+            throw new Error("The parameter 'override' cannot be null.");
+        else if (override !== undefined)
+            url_ += "override=" + encodeURIComponent("" + override) + "&"; 
 
         const content_ = "";
 

@@ -10,7 +10,7 @@ namespace NSwag.CodeGeneration.Tests.ClientGeneration
     {
         public class FooController : ApiController
         {
-            public object GetPerson()
+            public object GetPerson(bool @override = false)
             {
                 return null; 
             }
@@ -55,6 +55,22 @@ namespace NSwag.CodeGeneration.Tests.ClientGeneration
 
             //// Assert
             Assert.IsTrue(code.Contains("var request_ = await CreateHttpRequestMessageAsync(cancellationToken).ConfigureAwait(false);"));
+        }
+
+        [TestMethod]
+        public void When_parameter_name_is_reserved_keyword_then_it_is_appended_with_at()
+        {
+            //// Arrange
+            var swaggerGenerator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var document = swaggerGenerator.GenerateForController<FooController>();
+
+            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+
+            //// Act
+            var code = generator.GenerateFile();
+
+            //// Assert
+            Assert.IsTrue(code.Contains("Task<object> GetPersonAsync(bool? @override, "));
         }
     }
 }
