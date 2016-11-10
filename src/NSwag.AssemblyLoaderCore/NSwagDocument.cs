@@ -45,7 +45,7 @@ namespace NSwag.CodeGeneration
         protected override string ConvertToAbsolutePath(string pathToConvert)
         {
             if (!string.IsNullOrEmpty(pathToConvert) && !System.IO.Path.IsPathRooted(pathToConvert))
-                return PathUtilities.MakeAbsolutePath(pathToConvert, System.IO.Path.GetDirectoryName(Path));
+                return PathUtilities.MakeAbsolutePath(pathToConvert, GetDocumentDirectory());
             return pathToConvert;
         }
 
@@ -55,7 +55,7 @@ namespace NSwag.CodeGeneration
         protected override string ConvertToRelativePath(string pathToConvert)
         {
             if (!string.IsNullOrEmpty(pathToConvert) && !pathToConvert.Contains("C:\\Program Files\\"))
-                return PathUtilities.MakeRelativePath(pathToConvert, System.IO.Path.GetDirectoryName(Path));
+                return PathUtilities.MakeRelativePath(pathToConvert, GetDocumentDirectory());
             return pathToConvert;
         }
 
@@ -69,6 +69,12 @@ namespace NSwag.CodeGeneration
                 return await AssemblyTypeToSwaggerCommand.RunAsync();
             else
                 return await base.GenerateDocumentAsync();
+        }
+
+        private string GetDocumentDirectory()
+        {
+            var absoluteDocumentPath = PathUtilities.MakeAbsolutePath(Path, System.IO.Directory.GetCurrentDirectory());
+            return System.IO.Path.GetDirectoryName(absoluteDocumentPath);
         }
     }
 }
