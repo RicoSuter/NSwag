@@ -12,6 +12,8 @@ NSwag is a Swagger 2.0 API (OpenAPI) toolchain for .NET, Web API, TypeScript (jQ
 
 The project combines the functionality of Swashbuckle (Swagger generation) and AutoRest (client generation) in one tool chain. This way a lot of incompatibilites can be avoided and features which are not well described by the Swagger specification or JSON Schema are better supported (e.g. [inheritance](https://github.com/NJsonSchema/NJsonSchema/wiki/Inheritance), [enum](https://github.com/NJsonSchema/NJsonSchema/wiki/Enums) and reference handling). The NSwag project heavily uses [NJsonSchema for .NET](http://njsonschema.org) for JSON Schema handling and C#/TypeScript class/interface generation. 
 
+![ToolchainDiagram](assets/ToolchainDiagram.png)
+
 The project is developed and maintained by [Rico Suter](http://rsuter.com) and other contributors. 
 
 **Ways to use the toolchain:** 
@@ -64,8 +66,6 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 - [Download latest **NSwagStudio MSI installer**](http://rsuter.com/Projects/NSwagStudio/installer.php) (Windows Desktop application)
 - [Download latest **NSwag command line tools** and NSwagStudio as ZIP archive](http://rsuter.com/Projects/NSwagStudio/archive.php)
 - [Download latest **Build Artifacts** from AppVeyor](https://ci.appveyor.com/project/rsuter/nswag/build/artifacts) (command line tools and NSwagStudio binaries)
-
-![ToolchainDiagram](assets/ToolchainDiagram.png)
 
 **NuGet Packages**
 
