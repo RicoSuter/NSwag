@@ -56,7 +56,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Security
                 return Enumerable.Empty<string>();
 
             return authorizeAttributes
-                .SelectMany((dynamic attr) => ((string)attr.Roles).Split(','))
+                .Select(a => (dynamic)a)
+                .Where(a => a.Roles != null)
+                .SelectMany(a => ((string)a.Roles).Split(','))
                 .Distinct();
         }
     }
