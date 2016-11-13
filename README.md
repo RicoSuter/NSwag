@@ -41,6 +41,7 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
         - [Also supports loading of .NET Core assemblies](https://github.com/NSwag/NSwag/wiki/WebApiAssemblyToSwaggerGenerator#net-core)
     - [AssemblyTypeToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/AssemblyTypeToSwaggerGenerator)
          - Generates a Swagger specification containing only types from .NET assemblies
+
 **Code Generators:** 
 
 - **TypeScript Client**
