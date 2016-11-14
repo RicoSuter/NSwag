@@ -28,18 +28,18 @@ namespace NSwagStudio.ViewModels
         {
             SwaggerGenerators = new ISwaggerGeneratorView[]
             {
-                new SwaggerInputView(Document.InputToSwaggerCommand),
-                new WebApiToSwaggerGeneratorView((WebApiToSwaggerCommand) Document.WebApiToSwaggerCommand),
-                new JsonSchemaInputView(Document.JsonSchemaToSwaggerCommand),
-                new AssemblyTypeToSwaggerGeneratorView((AssemblyTypeToSwaggerCommand) Document.AssemblyTypeToSwaggerCommand),
+                new SwaggerInputView(Document.SwaggerGenerators.InputToSwaggerCommand),
+                new WebApiToSwaggerGeneratorView((WebApiToSwaggerCommand) Document.SwaggerGenerators.WebApiToSwaggerCommand),
+                new JsonSchemaInputView(Document.SwaggerGenerators.JsonSchemaToSwaggerCommand),
+                new AssemblyTypeToSwaggerGeneratorView((AssemblyTypeToSwaggerCommand) Document.SwaggerGenerators.AssemblyTypeToSwaggerCommand),
             };
 
             CodeGenerators = new ICodeGeneratorView[]
             {
                 new SwaggerOutputView(),
-                new SwaggerToTypeScriptClientGeneratorView(Document.SwaggerToTypeScriptClientCommand),
-                new SwaggerToCSharpClientGeneratorView(Document.SwaggerToCSharpClientCommand),
-                new SwaggerToCSharpControllerGeneratorView(Document.SwaggerToCSharpControllerCommand)
+                new SwaggerToTypeScriptClientGeneratorView(Document.CodeGenerators.SwaggerToTypeScriptClientCommand),
+                new SwaggerToCSharpClientGeneratorView(Document.CodeGenerators.SwaggerToCSharpClientCommand),
+                new SwaggerToCSharpControllerGeneratorView(Document.CodeGenerators.SwaggerToCSharpControllerCommand)
             };
 
             RaisePropertyChanged(() => SwaggerGenerators);
@@ -53,8 +53,8 @@ namespace NSwagStudio.ViewModels
 
         public string GetDocumentPath(ISwaggerGeneratorView generator)
         {
-            return generator is SwaggerInputView && !string.IsNullOrEmpty(Document.InputToSwaggerCommand.Url)
-                ? Document.InputToSwaggerCommand.Url
+            return generator is SwaggerInputView && !string.IsNullOrEmpty(Document.SwaggerGenerators.InputToSwaggerCommand.Url)
+                ? Document.SwaggerGenerators.InputToSwaggerCommand.Url
                 : null;
         }
     }

@@ -20,8 +20,8 @@ namespace NSwag.CodeGeneration
         /// <summary>Initializes a new instance of the <see cref="NSwagDocument"/> class.</summary>
         public NSwagDocument()
         {
-            AddSwaggerGenerator(new WebApiToSwaggerCommand());
-            AddSwaggerGenerator(new AssemblyTypeToSwaggerCommand());
+            SwaggerGenerators.WebApiToSwaggerCommand = new WebApiToSwaggerCommand();
+            SwaggerGenerators.AssemblyTypeToSwaggerCommand = new AssemblyTypeToSwaggerCommand();
         }
 
         /// <summary>Creates a new NSwagDocument.</summary>
