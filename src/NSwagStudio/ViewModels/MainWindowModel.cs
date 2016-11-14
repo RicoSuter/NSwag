@@ -24,7 +24,7 @@ namespace NSwagStudio.ViewModels
     /// <summary>The view model for the MainWindow.</summary>
     public class MainWindowModel : ViewModelBase
     {
-        private NSwagDocument _selectedDocument;
+        private DocumentModel _selectedDocument;
 
         /// <summary>Initializes a new instance of the <see cref="MainWindowModel"/> class.</summary>
         public MainWindowModel()
@@ -32,17 +32,17 @@ namespace NSwagStudio.ViewModels
             CreateDocumentCommand = new RelayCommand(CreateDocument);
             OpenDocumentCommand = new AsyncRelayCommand(OpenDocumentAsync);
 
-            CloseDocumentCommand = new AsyncRelayCommand<NSwagDocument>(async document => await CloseDocumentAsync(document), document => document != null);
-            SaveDocumentCommand = new AsyncRelayCommand<NSwagDocument>(async document => await SaveDocumentAsync(document), document => document != null);
-            SaveAsDocumentCommand = new AsyncRelayCommand<NSwagDocument>(async document => await SaveAsDocumentAsync(document), document => document != null);
+            CloseDocumentCommand = new AsyncRelayCommand<DocumentModel>(async document => await CloseDocumentAsync(document), document => document != null);
+            SaveDocumentCommand = new AsyncRelayCommand<DocumentModel>(async document => await SaveDocumentAsync(document), document => document != null);
+            SaveAsDocumentCommand = new AsyncRelayCommand<DocumentModel>(async document => await SaveAsDocumentAsync(document), document => document != null);
 
-            Documents = new ObservableCollection<NSwagDocument>();
+            Documents = new ObservableCollection<DocumentModel>();
         }
 
-        public ObservableCollection<NSwagDocument> Documents { get; private set; }
+        public ObservableCollection<DocumentModel> Documents { get; private set; }
 
         /// <summary>Gets or sets the selected document. </summary>
-        public NSwagDocument SelectedDocument
+        public DocumentModel SelectedDocument
         {
             get { return _selectedDocument; }
             set
@@ -60,11 +60,11 @@ namespace NSwagStudio.ViewModels
 
         public AsyncRelayCommand OpenDocumentCommand { get; private set; }
 
-        public AsyncRelayCommand<NSwagDocument> CloseDocumentCommand { get; private set; }
+        public AsyncRelayCommand<DocumentModel> CloseDocumentCommand { get; private set; }
 
-        public AsyncRelayCommand<NSwagDocument> SaveDocumentCommand { get; private set; }
+        public AsyncRelayCommand<DocumentModel> SaveDocumentCommand { get; private set; }
 
-        public AsyncRelayCommand<NSwagDocument> SaveAsDocumentCommand { get; private set; }
+        public AsyncRelayCommand<DocumentModel> SaveAsDocumentCommand { get; private set; }
 
         public string NSwagVersion => SwaggerDocument.ToolchainVersion;
 
@@ -92,7 +92,10 @@ namespace NSwagStudio.ViewModels
                         foreach (var path in paths)
                             await OpenDocumentAsync(path);
 
-                        SelectedDocument = Documents.Last();
+                        if (Documents.Any())
+                            SelectedDocument = Documents.Last();
+                        else
+                            CreateDocument();
                     }
                     else if (!Documents.Any())
                         CreateDocument();
@@ -111,7 +114,7 @@ namespace NSwagStudio.ViewModels
 
         private void CreateDocument()
         {
-            var document = NSwagDocument.Create();
+            var document = new DocumentModel(NSwagDocument.Create());
             Documents.Add(document);
             SelectedDocument = document;
         }
@@ -130,12 +133,12 @@ namespace NSwagStudio.ViewModels
         {
             try
             {
-                var currentDocument = Documents.SingleOrDefault(d => d.Path == filePath);
+                var currentDocument = Documents.SingleOrDefault(d => d.Document.Path == filePath);
                 if (currentDocument != null)
                     SelectedDocument = currentDocument;
                 else
                 {
-                    var document = await NSwagDocument.LoadAsync(filePath);
+                    var document = new DocumentModel(await NSwagDocument.LoadAsync(filePath));
                     Documents.Add(document);
                     SelectedDocument = document;
                 }
@@ -146,11 +149,11 @@ namespace NSwagStudio.ViewModels
             }
         }
 
-        public async Task<bool> CloseDocumentAsync(NSwagDocument document)
+        public async Task<bool> CloseDocumentAsync(DocumentModel document)
         {
-            if (document.IsDirty)
+            if (document.Document.IsDirty)
             {
-                var result = MessageBox.Show("Do you want to save the file " + document.Name + " ?",
+                var result = MessageBox.Show("Do you want to save the file " + document.Document.Name + " ?",
                     "Save file", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
 
                 if (result == DialogResult.Yes)
@@ -167,13 +170,13 @@ namespace NSwagStudio.ViewModels
             return true;
         }
 
-        private async Task<bool> SaveDocumentAsync(NSwagDocument document)
+        private async Task<bool> SaveDocumentAsync(DocumentModel document)
         {
             try
             {
-                if (File.Exists(document.Path))
+                if (File.Exists(document.Document.Path))
                 {
-                    await document.SaveAsync();
+                    await document.Document.SaveAsync();
                     MessageBox.Show("The file has been saved.", "File saved");
                     return true;
                 }
@@ -191,7 +194,7 @@ namespace NSwagStudio.ViewModels
             return false;
         }
 
-        private async Task<bool> SaveAsDocumentAsync(NSwagDocument document)
+        private async Task<bool> SaveAsDocumentAsync(DocumentModel document)
         {
             var dlg = new SaveFileDialog();
             dlg.Filter = "NSwag settings (*.nswag)|*.nswag";
@@ -199,8 +202,8 @@ namespace NSwagStudio.ViewModels
             dlg.AddExtension = true;
             if (dlg.ShowDialog() == DialogResult.OK)
             {
-                document.Path = dlg.FileName;
-                await document.SaveAsync();
+                document.Document.Path = dlg.FileName;
+                await document.Document.SaveAsync();
                 return true;
             }
             return false;

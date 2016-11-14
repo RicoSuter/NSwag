@@ -20,8 +20,8 @@ namespace NSwag.CodeGeneration
         /// <summary>Initializes a new instance of the <see cref="NSwagDocument"/> class.</summary>
         public NSwagDocument()
         {
-            SwaggerGenerators.Add(WebApiToSwaggerCommand = new WebApiToSwaggerCommand());
-            SwaggerGenerators.Add(AssemblyTypeToSwaggerCommand = new AssemblyTypeToSwaggerCommand());
+            AddSwaggerGenerator(new WebApiToSwaggerCommand());
+            AddSwaggerGenerator(new AssemblyTypeToSwaggerCommand());
         }
 
         /// <summary>Creates a new NSwagDocument.</summary>
@@ -55,20 +55,8 @@ namespace NSwag.CodeGeneration
         protected override string ConvertToRelativePath(string pathToConvert)
         {
             if (!string.IsNullOrEmpty(pathToConvert) && !pathToConvert.Contains("C:\\Program Files\\"))
-                return PathUtilities.MakeRelativePath(pathToConvert, GetDocumentDirectory());
-            return pathToConvert;
-        }
-
-        /// <summary>Generates the Swagger specification.</summary>
-        /// <returns>The Swagger specification.</returns>
-        protected override async Task<SwaggerDocument> GenerateDocumentAsync()
-        {
-            if (SelectedSwaggerGenerator == 1)
-                return await WebApiToSwaggerCommand.RunAsync();
-            else if (SelectedSwaggerGenerator == 3)
-                return await AssemblyTypeToSwaggerCommand.RunAsync();
-            else
-                return await base.GenerateDocumentAsync();
+                return PathUtilities.MakeRelativePath(pathToConvert, GetDocumentDirectory())?.Replace("\\", "/");
+            return pathToConvert?.Replace("\\", "/");
         }
 
         private string GetDocumentDirectory()

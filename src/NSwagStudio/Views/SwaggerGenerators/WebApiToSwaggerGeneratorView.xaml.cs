@@ -3,11 +3,12 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using MyToolkit.Mvvm;
 using NSwag.CodeGeneration.Commands;
+using NSwag.Commands.Base;
 using NSwagStudio.ViewModels.SwaggerGenerators;
 
 namespace NSwagStudio.Views.SwaggerGenerators
 {
-    public partial class WebApiToSwaggerGeneratorView : ISwaggerGenerator
+    public partial class WebApiToSwaggerGeneratorView : ISwaggerGeneratorView
     {
         public WebApiToSwaggerGeneratorView(WebApiToSwaggerCommand command)
         {
@@ -23,6 +24,8 @@ namespace NSwagStudio.Views.SwaggerGenerators
         private WebApiToSwaggerGeneratorViewModel Model => (WebApiToSwaggerGeneratorViewModel)Resources["ViewModel"];
 
         public string Title => "Web API Assembly";
+
+        public OutputCommandBase Command => Model.Command;
 
         public Task<string> GenerateSwaggerAsync()
         {

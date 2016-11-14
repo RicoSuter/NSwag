@@ -7,6 +7,7 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:views="clr-namespace:NSwagStudio.Views"
              xmlns:codeGenerators="clr-namespace:NSwagStudio.ViewModels.CodeGenerators"
+             xmlns:controls="clr-namespace:NSwagStudio.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     
@@ -25,7 +26,7 @@
             <avalonedit:TextEditor Padding="8" Background="GhostWhite" FontFamily="Consolas" IsReadOnly="True" ShowLineNumbers="True" 
                                    SyntaxHighlighting="JavaScript" FontSize="10pt">
                 <i:Interaction.Behaviors>
-                    <views:AvalonEditBehavior Text="{Binding SwaggerCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <controls:AvalonEditBehavior Text="{Binding SwaggerCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </i:Interaction.Behaviors>
             </avalonedit:TextEditor>
         </Border>

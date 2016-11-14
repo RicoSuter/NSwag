@@ -44,7 +44,9 @@
     <Compile Include="Commands\AssemblyTypeToSwaggerCommandBase.cs" />
     <Compile Include="Commands\Base\InputOutputCommandBase.cs" />
     <Compile Include="Commands\Base\OutputCommandBase.cs" />
+    <Compile Include="Commands\JsonSchemaToSwaggerCommand.cs" />
     <Compile Include="Commands\JsonSchemaToCSharpCommand.cs" />
+    <Compile Include="Commands\InputToSwaggerCommand.cs" />
     <Compile Include="Commands\JsonSchemaToTypeScriptCommand.cs" />
     <Compile Include="Commands\NSwagDocumentCommandBase.cs" />
     <Compile Include="Commands\SwaggerToCSharpClientCommand.cs" />
@@ -54,6 +56,7 @@
     <Compile Include="Commands\WebApiToSwaggerCommandBase.cs" />
     <Compile Include="NSwagCommandProcessor.cs" />
     <Compile Include="NSwagDocumentBase.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

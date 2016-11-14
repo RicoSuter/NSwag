@@ -1,16 +1,15 @@
-{
+﻿{
   "SelectedSwaggerGenerator": 1,
   "InputSwagger": null,
   "InputSwaggerUrl": null,
   "InputJsonSchema": null,
   "WebApiToSwaggerCommand": {
-    "AssemblyPath": "bin\\NSwag.Integration.WebAPI.dll",
     "AssemblyPaths": [
-      "bin\\NSwag.Integration.WebAPI.dll"
+      "bin/NSwag.Integration.WebAPI.dll"
     ],
     "AssemblyConfig": "Web.config",
     "ReferencePaths": [],
-    "ControllerName": "",
+    "IsAspNetCore": false,
     "ControllerNames": [
       "NSwag.Integration.WebAPI.Controllers.GeoController",
       "NSwag.Integration.WebAPI.Controllers.PersonsController"
@@ -20,7 +19,9 @@
     "DefaultEnumHandling": "Integer",
     "FlattenInheritanceHierarchy": false,
     "GenerateKnownTypes": true,
+    "AddMissingPathParameters": false,
     "ServiceHost": "localhost:13452",
+    "ServiceBasePath": null,
     "ServiceSchemes": [
       "http"
     ],
@@ -58,20 +59,22 @@
     "ExtendedClasses": [
       "Person"
     ],
-    "ExtensionCode": "..\\NSwag.Integration.TypeScriptWeb\\scripts\\serviceClientsJQueryPromises.extensions.ts",
+    "ExtensionCode": "../NSwag.Integration.TypeScriptWeb/scripts/serviceClientsJQueryPromises.extensions.ts",
     "GenerateDefaultValues": true,
     "ServiceHost": null,
     "ServiceSchemes": null,
-    "OutputFilePath": "..\\NSwag.Integration.TypeScriptWeb\\scripts\\serviceClientsJQueryPromises.ts"
+    "OutputFilePath": "../NSwag.Integration.TypeScriptWeb/scripts/serviceClientsJQueryPromises.ts"
   },
   "SwaggerToCSharpClientCommand": {
     "ClientBaseClass": null,
     "ConfigurationClass": null,
+    "ExceptionClass": "SwaggerException",
     "GenerateClientClasses": true,
     "GenerateClientInterfaces": false,
     "GenerateDtoTypes": true,
     "UseHttpClientCreationMethod": false,
     "JsonConverters": null,
+    "UseHttpRequestMessageCreationMethod": false,
     "GenerateContractsOutput": false,
     "ContractsNamespace": null,
     "ContractsOutputFilePath": null,
@@ -79,7 +82,10 @@
     "Namespace": "MyNamespace",
     "AdditionalNamespaceUsages": null,
     "RequiredPropertiesMustBeDefined": true,
+    "DateType": "DateTime",
     "DateTimeType": "DateTime",
+    "TimeType": "TimeSpan",
+    "TimeSpanType": "TimeSpan",
     "ArrayType": "ObservableCollection",
     "DictionaryType": "Dictionary",
     "ClassStyle": "Inpc",
@@ -89,7 +95,7 @@
     "ServiceSchemes": null,
     "OutputFilePath": null
   },
-  "SwaggerToCSharpControllerGenerator": {
+  "SwaggerToCSharpControllerCommand": {
     "ControllerBaseClass": null,
     "ClassName": "{controller}",
     "Namespace": "MyNamespace",
@@ -97,7 +103,10 @@
       "System.Web.Http"
     ],
     "RequiredPropertiesMustBeDefined": true,
+    "DateType": "DateTime",
     "DateTimeType": "DateTime",
+    "TimeType": "TimeSpan",
+    "TimeSpanType": "TimeSpan",
     "ArrayType": "IEnumerable",
     "DictionaryType": "Dictionary",
     "ClassStyle": "Inpc",
