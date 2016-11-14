@@ -50,7 +50,7 @@ namespace NSwag.Integration.WebAPI.Controllers
             throw new ArgumentException("Test");
         }
 
-        public HttpResponseMessage GetUploadedFile(int id)
+        public HttpResponseMessage GetUploadedFile(int id, bool @override = false)
         {
             throw new NotImplementedException();
         }

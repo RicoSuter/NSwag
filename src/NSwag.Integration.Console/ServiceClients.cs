@@ -345,20 +345,25 @@ namespace NSwag.Integration.Console
         }
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public Task<byte[]> GetUploadedFileAsync(int id)
+        public Task<byte[]> GetUploadedFileAsync(int id, bool? @override)
         {
-            return GetUploadedFileAsync(id, CancellationToken.None);
+            return GetUploadedFileAsync(id, @override, CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async Task<byte[]> GetUploadedFileAsync(int id, CancellationToken cancellationToken)
+        public async Task<byte[]> GetUploadedFileAsync(int id, bool? @override, CancellationToken cancellationToken)
         {
-            var url_ = string.Format("{0}/{1}", BaseUrl, "api/Geo/GetUploadedFile/{id}");
+            var url_ = string.Format("{0}/{1}?", BaseUrl, "api/Geo/GetUploadedFile/{id}");
     
             if (id == null)
                 throw new ArgumentNullException("id");
             url_ = url_.Replace("{id}", Uri.EscapeDataString(id.ToString()));
+    
+            if (@override == null)
+                throw new ArgumentNullException("@override");
+            else
+                url_ += string.Format("@override={0}&", Uri.EscapeDataString(@override.Value.ToString()));
     
             var client_ = new HttpClient();
             var request_ = new HttpRequestMessage();

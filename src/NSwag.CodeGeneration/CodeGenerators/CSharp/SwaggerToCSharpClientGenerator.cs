@@ -18,6 +18,13 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
     /// <summary>Generates the CSharp service client code. </summary>
     public class SwaggerToCSharpClientGenerator : SwaggerToCSharpGeneratorBase
     {
+        private static readonly string[] ReservedKeywords = new[] { "abstract", "as", "base", "bool", "break", "byte", "case", "catch", "char", "checked", "class", "const", "continue",
+                "decimal", "default", "delegate", "do", "double", "else", "enum", "event", "explicit", "extern", "false", "finally", "fixed", "float",
+                "for", "foreach", "goto", "if", "implicit", "in", "int", "interface", "internal", "is", "lock", "long", "namespace", "new", "null", "object",
+                "operator", "out", "override", "params", "private", "protected", "public", "readonly", "ref", "return", "sbyte", "sealed", "short", "sizeof",
+                "stackalloc", "static", "string", "struct", "switch", "this", "throw", "true", "try", "typeof", "uint", "ulong", "unchecked", "unsafe",
+                "ushort", "using", "virtual", "void", "volatile", "while" };
+
         private readonly SwaggerDocument _document;
 
         /// <summary>Initializes a new instance of the <see cref="SwaggerToCSharpClientGenerator" /> class.</summary>
@@ -88,6 +95,12 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             return base.ResolveParameterType(parameter)
                 .Replace(Settings.CSharpGeneratorSettings.ArrayType + "<", "IEnumerable<")
                 .Replace(Settings.CSharpGeneratorSettings.DictionaryType + "<", "IDictionary<");
+        }
+
+        internal override string GetParameterName(SwaggerParameter parameter)
+        {
+            var name = base.GetParameterName(parameter);
+            return ReservedKeywords.Contains(name) ? "@" + name : name;
         }
 
         internal override string GenerateClientClass(string controllerName, string controllerClassName, IList<OperationModel> operations, ClientGeneratorOutputType outputType)

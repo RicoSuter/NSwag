@@ -58,6 +58,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
                     else if (attributeType.GetRuntimeProperty("Type") != null)
                         returnType = responseTypeAttribute.Type;
 
+                    if (returnType == null)
+                        returnType = typeof(void);
+
                     var httpStatusCode = IsVoidResponse(returnType) ? GetVoidResponseStatusCode() : "200";
                     if (attributeType.GetRuntimeProperty("HttpStatusCode") != null && responseTypeAttribute.HttpStatusCode != null)
                         httpStatusCode = responseTypeAttribute.HttpStatusCode.ToString();

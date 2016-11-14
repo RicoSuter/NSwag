@@ -12,6 +12,8 @@ NSwag is a Swagger 2.0 API (OpenAPI) toolchain for .NET, Web API, TypeScript (jQ
 
 The project combines the functionality of Swashbuckle (Swagger generation) and AutoRest (client generation) in one tool chain. This way a lot of incompatibilites can be avoided and features which are not well described by the Swagger specification or JSON Schema are better supported (e.g. [inheritance](https://github.com/NJsonSchema/NJsonSchema/wiki/Inheritance), [enum](https://github.com/NJsonSchema/NJsonSchema/wiki/Enums) and reference handling). The NSwag project heavily uses [NJsonSchema for .NET](http://njsonschema.org) for JSON Schema handling and C#/TypeScript class/interface generation. 
 
+![ToolchainDiagram](assets/ToolchainDiagram.png)
+
 The project is developed and maintained by [Rico Suter](http://rsuter.com) and other contributors. 
 
 **Ways to use the toolchain:** 
@@ -39,6 +41,7 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
         - [Also supports loading of .NET Core assemblies](https://github.com/NSwag/NSwag/wiki/WebApiAssemblyToSwaggerGenerator#net-core)
     - [AssemblyTypeToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/AssemblyTypeToSwaggerGenerator)
          - Generates a Swagger specification containing only types from .NET assemblies
+
 **Code Generators:** 
 
 - **TypeScript Client**
@@ -49,7 +52,7 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 			- JQuery with promises `JQueryPromises`
 			- AngularJS using $http, `AngularJS`
 			- Angular 2 using the http service, `Angular2`
-			- window.fetch API and ES6 promises, `Fetch` 
+			- window.fetch API and ES6 promises, `Fetch` (use this template in your React/Redux app)
 			- Aurelia using the HttpClient from aurelia-fetch-client, `Aurelia` (based on the Fetch template)
 - **CSharp Client**
 	- [SwaggerToCSharpClientGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToCSharpClientGenerator)
@@ -58,7 +61,7 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 - **CSharp WebAPI Controllers** (contract first/schema first development)
 	- [SwaggerToCSharpControllerGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToCSharpControllerGenerator)
 	    - Generates Web API Controllers based on a Swagger specification
-
+	    
 **Downloads**
 
 - [Download latest **NSwagStudio MSI installer**](http://rsuter.com/Projects/NSwagStudio/installer.php) (Windows Desktop application)
