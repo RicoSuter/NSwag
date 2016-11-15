@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using MyToolkit.Mvvm;
+using Newtonsoft.Json;
 using NSwag.CodeGeneration.Commands;
 using NSwag.Commands.Base;
 using NSwagStudio.ViewModels.SwaggerGenerators;

@@ -21,63 +21,6 @@ using NSwag.Commands.Base;
 
 namespace NSwag.Commands
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public class SwaggerGeneratorCollection
-    {
-        /// <summary>Gets or sets the input to swagger command.</summary>
-        [JsonIgnore]
-        public InputToSwaggerCommand InputToSwaggerCommand { get; set; }
-
-        /// <summary>Gets or sets the json schema to swagger command.</summary>
-        [JsonIgnore]
-        public JsonSchemaToSwaggerCommand JsonSchemaToSwaggerCommand { get; set; }
-
-        /// <summary>Gets or sets the Web API to swagger command.</summary>
-        [JsonIgnore]
-        public WebApiToSwaggerCommandBase WebApiToSwaggerCommand { get; set; }
-
-        /// <summary>Gets or sets the assembly type to swagger command.</summary>
-        [JsonIgnore]
-        public AssemblyTypeToSwaggerCommandBase AssemblyTypeToSwaggerCommand { get; set; }
-
-        /// <summary>Gets the items.</summary>
-        [JsonIgnore]
-        public IEnumerable<OutputCommandBase> Items => new OutputCommandBase[]
-        {
-            InputToSwaggerCommand,
-            JsonSchemaToSwaggerCommand
-        };
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public class CodeGeneratorCollection
-    {
-        /// <summary>Gets or sets the SwaggerToTypeScriptClientCommand.</summary>
-        [JsonProperty("SwaggerToTypeScriptClient")]
-        public SwaggerToTypeScriptClientCommand SwaggerToTypeScriptClientCommand { get; set; }
-
-        /// <summary>Gets or sets the SwaggerToCSharpClientCommand.</summary>
-        [JsonProperty("SwaggerToCSharpClient")]
-        public SwaggerToCSharpClientCommand SwaggerToCSharpClientCommand { get; set; }
-
-        /// <summary>Gets or sets the SwaggerToCSharpControllerCommand.</summary>
-        [JsonProperty("SwaggerToCSharpController")]
-        public SwaggerToCSharpControllerCommand SwaggerToCSharpControllerCommand { get; set; }
-
-        /// <summary>Gets the items.</summary>
-        [JsonIgnore]
-        public IEnumerable<InputOutputCommandBase> Items => new InputOutputCommandBase[]
-        {
-            SwaggerToTypeScriptClientCommand,
-            SwaggerToCSharpClientCommand,
-            SwaggerToCSharpControllerCommand
-        };
-    }
-
     /// <summary>The NSwagDocument base class.</summary>
     /// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
     public abstract class NSwagDocumentBase : INotifyPropertyChanged
@@ -89,14 +32,14 @@ namespace NSwag.Commands
         /// <summary>Initializes a new instance of the <see cref="NSwagDocumentBase"/> class.</summary>
         protected NSwagDocumentBase()
         {
-            SwaggerGenerators.InputToSwaggerCommand = new InputToSwaggerCommand();
+            SwaggerGenerators.FromSwaggerCommand = new FromSwaggerCommand();
             SwaggerGenerators.JsonSchemaToSwaggerCommand = new JsonSchemaToSwaggerCommand();
 
             CodeGenerators.SwaggerToTypeScriptClientCommand = new SwaggerToTypeScriptClientCommand();
             CodeGenerators.SwaggerToCSharpClientCommand = new SwaggerToCSharpClientCommand();
             CodeGenerators.SwaggerToCSharpControllerCommand = new SwaggerToCSharpControllerCommand();
 
-            SelectedSwaggerGenerator = SwaggerGenerators.InputToSwaggerCommand;
+            SelectedSwaggerGenerator = SwaggerGenerators.FromSwaggerCommand;
         }
 
         /// <summary>Converts a path to an absolute path.</summary>
@@ -111,20 +54,27 @@ namespace NSwag.Commands
 
         /// <summary>Gets or sets the selected swagger generator JSON.</summary>
         [JsonProperty("SwaggerGenerator")]
-        internal object SelectedSwaggerGeneratorRaw
+        internal JObject SelectedSwaggerGeneratorRaw
         {
             get
             {
-                return new Dictionary<string, OutputCommandBase>
+                var key = SelectedSwaggerGenerator.GetType().Name
+                    .Replace("CommandBase", string.Empty)
+                    .Replace("Command", string.Empty); 
+
+                return JObject.FromObject(new Dictionary<string, OutputCommandBase>
                 {
-                    { SelectedSwaggerGenerator.GetType().Name.Replace("ControllerBase", string.Empty).Replace("Controller", string.Empty), SelectedSwaggerGenerator }
-                };
+                    {
+                        key[0].ToString().ToLowerInvariant() + key.Substring(1),
+                        SelectedSwaggerGenerator
+                    }
+                });
             }
             set
             {
-                var obj = (JObject)value;
-                var generatorProperty = obj.Properties().First();
-                var collectionProperty = SwaggerGenerators.GetType().GetRuntimeProperty(generatorProperty.Name);
+                var generatorProperty = value.Properties().First();
+                var key = generatorProperty.Name + "Command";
+                var collectionProperty = SwaggerGenerators.GetType().GetRuntimeProperty(key[0].ToString().ToUpperInvariant() + key.Substring(1));
                 var generator = collectionProperty.GetValue(SwaggerGenerators);
                 var newGenerator = (OutputCommandBase)JsonConvert.DeserializeObject(generatorProperty.Value.ToString(), generator.GetType());
                 collectionProperty.SetValue(SwaggerGenerators, newGenerator);
@@ -188,20 +138,20 @@ namespace NSwag.Commands
         /// <summary>Loads an existing NSwagDocument.</summary>
         /// <typeparam name="TDocument">The type.</typeparam>
         /// <param name="filePath">The file path.</param>
+        /// <param name="mappings">The mappings.</param>
         /// <returns>The document.</returns>
-        protected static Task<TDocument> LoadAsync<TDocument>(string filePath)
+        protected static Task<TDocument> LoadAsync<TDocument>(string filePath, IDictionary<Type, Type> mappings)
             where TDocument : NSwagDocumentBase, new()
         {
             return Task.Run(() =>
             {
                 var data = DynamicApis.FileReadAllText(filePath);
 
-                var document = JsonConvert.DeserializeObject<TDocument>(data);
+                var document = JsonConvert.DeserializeObject<TDocument>(data, GetSerializerSettings(mappings));
                 document.Path = filePath;
                 document.ConvertToAbsolutePaths();
 
-                document._latestData = JsonConvert.SerializeObject(document, Formatting.Indented,
-                    GetSerializerSettings());
+                document._latestData = JsonConvert.SerializeObject(document, Formatting.Indented, GetSerializerSettings());
 
                 document.Loaded();
                 return document;
@@ -246,10 +196,13 @@ namespace NSwag.Commands
             return await ((dynamic)SelectedSwaggerGenerator).RunAsync();
         }
 
-        private static JsonSerializerSettings GetSerializerSettings()
+        private static JsonSerializerSettings GetSerializerSettings(IDictionary<Type, Type> mappings = null)
         {
             return new JsonSerializerSettings
             {
+                NullValueHandling = NullValueHandling.Ignore,
+                
+                ContractResolver = new BaseTypeMappingContractResolver(mappings), 
                 Converters = new List<JsonConverter>
                 {
                     new StringEnumConverter()

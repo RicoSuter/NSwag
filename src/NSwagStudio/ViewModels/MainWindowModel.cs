@@ -131,7 +131,7 @@ namespace NSwagStudio.ViewModels
 
         public async Task OpenDocumentAsync(string filePath)
         {
-            try
+            await RunTaskAsync(async () =>
             {
                 var currentDocument = Documents.SingleOrDefault(d => d.Document.Path == filePath);
                 if (currentDocument != null)
@@ -142,11 +142,7 @@ namespace NSwagStudio.ViewModels
                     Documents.Add(document);
                     SelectedDocument = document;
                 }
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show("File open failed: \n" + exception.Message, "Could not load the settings");
-            }
+            });
         }
 
         public async Task<bool> CloseDocumentAsync(DocumentModel document)
@@ -172,7 +168,7 @@ namespace NSwagStudio.ViewModels
 
         private async Task<bool> SaveDocumentAsync(DocumentModel document)
         {
-            try
+            return await RunTaskAsync(async () =>
             {
                 if (File.Exists(document.Document.Path))
                 {
@@ -185,13 +181,9 @@ namespace NSwagStudio.ViewModels
                     if (await SaveAsDocumentAsync(document))
                         return true;
                 }
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show("File save failed: \n" + exception.Message, "Could not save the settings");
-            }
 
-            return false;
+                return false;
+            });
         }
 
         private async Task<bool> SaveAsDocumentAsync(DocumentModel document)

@@ -15,7 +15,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             LoadSwaggerUrlCommand = new AsyncRelayCommand(async () => await LoadSwaggerUrlAsync());
         }
 
-        public InputToSwaggerCommand Command { get; set; }
+        public FromSwaggerCommand Command { get; set; }
 
         public ICommand LoadSwaggerUrlCommand { get; }
 

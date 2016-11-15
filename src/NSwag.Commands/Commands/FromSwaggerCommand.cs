@@ -10,31 +10,31 @@ namespace NSwag.Commands
 {
     /// <summary></summary>
     /// <seealso cref="NSwag.Commands.Base.OutputCommandBase" />
-    public class InputToSwaggerCommand : OutputCommandBase, INotifyPropertyChanged
+    public class FromSwaggerCommand : OutputCommandBase, INotifyPropertyChanged
     {
         private string _swagger;
         private string _url;
 
-        /// <summary>Gets or sets the input Swagger specification.</summary>
-        [JsonProperty("Swagger")]
-        public string Swagger
-        {
-            get { return _swagger; }
-            set
-            {
-                _swagger = value;
-                OnPropertyChanged();
-            }
-        }
-
         /// <summary>Gets or sets the input Swagger specification URL.</summary>
-        [JsonProperty("Url")]
+        [JsonProperty("url", NullValueHandling = NullValueHandling.Ignore)]
         public string Url
         {
             get { return _url; }
             set
             {
                 _url = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>Gets or sets the input Swagger specification.</summary>
+        [JsonProperty("json", NullValueHandling = NullValueHandling.Ignore)]
+        public string Swagger
+        {
+            get { return _swagger; }
+            set
+            {
+                _swagger = value;
                 OnPropertyChanged();
             }
         }

@@ -8,9 +8,9 @@ namespace NSwagStudio.Views.SwaggerGenerators
 {
     public partial class SwaggerInputView : ISwaggerGeneratorView
     {
-        private readonly InputToSwaggerCommand _command;
+        private readonly FromSwaggerCommand _command;
 
-        public SwaggerInputView(InputToSwaggerCommand command)
+        public SwaggerInputView(FromSwaggerCommand command)
         {
             _command = command;
             InitializeComponent();

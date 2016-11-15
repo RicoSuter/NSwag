@@ -28,7 +28,7 @@ namespace NSwagStudio.ViewModels
         {
             SwaggerGenerators = new ISwaggerGeneratorView[]
             {
-                new SwaggerInputView(Document.SwaggerGenerators.InputToSwaggerCommand),
+                new SwaggerInputView(Document.SwaggerGenerators.FromSwaggerCommand),
                 new WebApiToSwaggerGeneratorView((WebApiToSwaggerCommand) Document.SwaggerGenerators.WebApiToSwaggerCommand),
                 new JsonSchemaInputView(Document.SwaggerGenerators.JsonSchemaToSwaggerCommand),
                 new AssemblyTypeToSwaggerGeneratorView((AssemblyTypeToSwaggerCommand) Document.SwaggerGenerators.AssemblyTypeToSwaggerCommand),
@@ -53,8 +53,8 @@ namespace NSwagStudio.ViewModels
 
         public string GetDocumentPath(ISwaggerGeneratorView generator)
         {
-            return generator is SwaggerInputView && !string.IsNullOrEmpty(Document.SwaggerGenerators.InputToSwaggerCommand.Url)
-                ? Document.SwaggerGenerators.InputToSwaggerCommand.Url
+            return generator is SwaggerInputView && !string.IsNullOrEmpty(Document.SwaggerGenerators.FromSwaggerCommand.Url)
+                ? Document.SwaggerGenerators.FromSwaggerCommand.Url
                 : null;
         }
     }

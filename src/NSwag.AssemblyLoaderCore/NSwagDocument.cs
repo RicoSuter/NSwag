@@ -6,6 +6,8 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using NSwag.CodeGeneration.Commands;
 using NSwag.CodeGeneration.Utilities;
@@ -36,7 +38,11 @@ namespace NSwag.CodeGeneration
         /// <returns>The document.</returns>
         public static Task<NSwagDocument> LoadAsync(string filePath)
         {
-            return LoadAsync<NSwagDocument>(filePath);
+            return LoadAsync<NSwagDocument>(filePath, new Dictionary<Type, Type>
+            {
+                { typeof(WebApiToSwaggerCommandBase), typeof(WebApiToSwaggerCommand) },
+                { typeof(AssemblyTypeToSwaggerCommandBase), typeof(AssemblyTypeToSwaggerCommand) }
+            });
         }
 
         /// <summary>Converts to absolute path.</summary>
