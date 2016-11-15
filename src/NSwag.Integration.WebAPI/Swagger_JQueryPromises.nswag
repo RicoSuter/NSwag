@@ -1,119 +1,88 @@
 ﻿{
-  "SelectedSwaggerGenerator": 1,
-  "InputSwagger": null,
-  "InputSwaggerUrl": null,
-  "InputJsonSchema": null,
-  "WebApiToSwaggerCommand": {
-    "AssemblyPaths": [
-      "bin/NSwag.Integration.WebAPI.dll"
-    ],
-    "AssemblyConfig": "Web.config",
-    "ReferencePaths": [],
-    "IsAspNetCore": false,
-    "ControllerNames": [
-      "NSwag.Integration.WebAPI.Controllers.GeoController",
-      "NSwag.Integration.WebAPI.Controllers.PersonsController"
-    ],
-    "DefaultUrlTemplate": "api/{controller}/{action}/{id}",
-    "DefaultPropertyNameHandling": "Default",
-    "DefaultEnumHandling": "Integer",
-    "FlattenInheritanceHierarchy": false,
-    "GenerateKnownTypes": true,
-    "AddMissingPathParameters": false,
-    "ServiceHost": "localhost:13452",
-    "ServiceBasePath": null,
-    "ServiceSchemes": [
-      "http"
-    ],
-    "InfoTitle": "Web API Swagger specification",
-    "InfoDescription": null,
-    "InfoVersion": "1.0.0",
-    "DocumentTemplate": null,
-    "OutputFilePath": null
+  "swaggerGenerator": {
+    "webApiToSwagger": {
+      "assemblyPaths": [
+        "bin/NSwag.Integration.WebAPI.dll"
+      ],
+      "assemblyConfig": "Web.config",
+      "referencePaths": [],
+      "isAspNetCore": false,
+      "controllerNames": [
+        "NSwag.Integration.WebAPI.Controllers.GeoController",
+        "NSwag.Integration.WebAPI.Controllers.PersonsController"
+      ],
+      "defaultUrlTemplate": "api/{controller}/{action}/{id}",
+      "defaultPropertyNameHandling": "Default",
+      "defaultEnumHandling": "Integer",
+      "flattenInheritanceHierarchy": false,
+      "generateKnownTypes": true,
+      "addMissingPathParameters": false,
+      "serviceHost": "localhost:13452",
+      "serviceSchemes": [
+        "http"
+      ],
+      "infoTitle": "Web API Swagger specification",
+      "infoVersion": "1.0.0"
+    }
   },
-  "AssemblyTypeToSwaggerCommand": {
-    "AssemblyPath": null,
-    "ClassNames": [],
-    "AssemblyConfig": null,
-    "ReferencePaths": [],
-    "DefaultPropertyNameHandling": "Default",
-    "DefaultEnumHandling": "Integer",
-    "FlattenInheritanceHierarchy": false,
-    "GenerateKnownTypes": true,
-    "OutputFilePath": null
-  },
-  "SwaggerToTypeScriptCommand": {
-    "ClassName": "{controller}Client",
-    "ModuleName": "",
-    "Namespace": "",
-    "Template": "JQueryPromises",
-    "PromiseType": "Promise",
-    "DateTimeType": "Date",
-    "GenerateClientClasses": true,
-    "GenerateClientInterfaces": false,
-    "GenerateDtoTypes": true,
-    "OperationGenerationMode": "MultipleClientsFromOperationId",
-    "GenerateReadOnlyKeywords": true,
-    "TypeStyle": "Class",
-    "ClassTypes": null,
-    "ExtendedClasses": [
-      "Person"
-    ],
-    "ExtensionCode": "../NSwag.Integration.TypeScriptWeb/scripts/serviceClientsJQueryPromises.extensions.ts",
-    "GenerateDefaultValues": true,
-    "ServiceHost": null,
-    "ServiceSchemes": null,
-    "OutputFilePath": "../NSwag.Integration.TypeScriptWeb/scripts/serviceClientsJQueryPromises.ts"
-  },
-  "SwaggerToCSharpClientCommand": {
-    "ClientBaseClass": null,
-    "ConfigurationClass": null,
-    "ExceptionClass": "SwaggerException",
-    "GenerateClientClasses": true,
-    "GenerateClientInterfaces": false,
-    "GenerateDtoTypes": true,
-    "UseHttpClientCreationMethod": false,
-    "JsonConverters": null,
-    "UseHttpRequestMessageCreationMethod": false,
-    "GenerateContractsOutput": false,
-    "ContractsNamespace": null,
-    "ContractsOutputFilePath": null,
-    "ClassName": "{controller}Client",
-    "Namespace": "MyNamespace",
-    "AdditionalNamespaceUsages": null,
-    "RequiredPropertiesMustBeDefined": true,
-    "DateType": "DateTime",
-    "DateTimeType": "DateTime",
-    "TimeType": "TimeSpan",
-    "TimeSpanType": "TimeSpan",
-    "ArrayType": "ObservableCollection",
-    "DictionaryType": "Dictionary",
-    "ClassStyle": "Inpc",
-    "OperationGenerationMode": "MultipleClientsFromOperationId",
-    "GenerateDefaultValues": true,
-    "ServiceHost": null,
-    "ServiceSchemes": null,
-    "OutputFilePath": null
-  },
-  "SwaggerToCSharpControllerCommand": {
-    "ControllerBaseClass": null,
-    "ClassName": "{controller}",
-    "Namespace": "MyNamespace",
-    "AdditionalNamespaceUsages": [
-      "System.Web.Http"
-    ],
-    "RequiredPropertiesMustBeDefined": true,
-    "DateType": "DateTime",
-    "DateTimeType": "DateTime",
-    "TimeType": "TimeSpan",
-    "TimeSpanType": "TimeSpan",
-    "ArrayType": "IEnumerable",
-    "DictionaryType": "Dictionary",
-    "ClassStyle": "Inpc",
-    "OperationGenerationMode": "MultipleClientsFromOperationId",
-    "GenerateDefaultValues": true,
-    "ServiceHost": null,
-    "ServiceSchemes": null,
-    "OutputFilePath": null
+  "codeGenerators": {
+    "swaggerToTypeScriptClient": {
+      "className": "{controller}Client",
+      "moduleName": "",
+      "namespace": "",
+      "template": "JQueryPromises",
+      "promiseType": "Promise",
+      "dateTimeType": "Date",
+      "generateClientClasses": true,
+      "generateClientInterfaces": false,
+      "generateDtoTypes": true,
+      "operationGenerationMode": "MultipleClientsFromOperationId",
+      "generateReadOnlyKeywords": true,
+      "typeStyle": "Class",
+      "extendedClasses": [
+        "Person"
+      ],
+      "extensionCode": "../NSwag.Integration.TypeScriptWeb/scripts/serviceClientsJQueryPromises.extensions.ts",
+      "generateDefaultValues": true,
+      "output": "../NSwag.Integration.TypeScriptWeb/scripts/serviceClientsJQueryPromises.ts"
+    },
+    "swaggerToCSharpClient": {
+      "exceptionClass": "SwaggerException",
+      "generateClientClasses": true,
+      "generateClientInterfaces": false,
+      "generateDtoTypes": true,
+      "useHttpClientCreationMethod": false,
+      "useHttpRequestMessageCreationMethod": false,
+      "generateContractsOutput": false,
+      "className": "{controller}Client",
+      "namespace": "MyNamespace",
+      "requiredPropertiesMustBeDefined": true,
+      "dateType": "DateTime",
+      "dateTimeType": "DateTime",
+      "timeType": "TimeSpan",
+      "timeSpanType": "TimeSpan",
+      "arrayType": "ObservableCollection",
+      "dictionaryType": "Dictionary",
+      "classStyle": "Inpc",
+      "operationGenerationMode": "MultipleClientsFromOperationId",
+      "generateDefaultValues": true
+    },
+    "swaggerToCSharpController": {
+      "className": "{controller}",
+      "namespace": "MyNamespace",
+      "additionalNamespaceUsages": [
+        "System.Web.Http"
+      ],
+      "requiredPropertiesMustBeDefined": true,
+      "dateType": "DateTime",
+      "dateTimeType": "DateTime",
+      "timeType": "TimeSpan",
+      "timeSpanType": "TimeSpan",
+      "arrayType": "IEnumerable",
+      "dictionaryType": "Dictionary",
+      "classStyle": "Inpc",
+      "operationGenerationMode": "MultipleClientsFromOperationId",
+      "generateDefaultValues": true
+    }
   }
 }

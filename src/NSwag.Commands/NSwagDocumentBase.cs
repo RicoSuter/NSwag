@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 using NJsonSchema.Infrastructure;
 using NSwag.Commands.Base;
 
@@ -68,7 +69,7 @@ namespace NSwag.Commands
                         key[0].ToString().ToLowerInvariant() + key.Substring(1),
                         SelectedSwaggerGenerator
                     }
-                });
+                }, JsonSerializer.Create(GetSerializerSettings()));
             }
             set
             {
@@ -76,7 +77,7 @@ namespace NSwag.Commands
                 var key = generatorProperty.Name + "Command";
                 var collectionProperty = SwaggerGenerators.GetType().GetRuntimeProperty(key[0].ToString().ToUpperInvariant() + key.Substring(1));
                 var generator = collectionProperty.GetValue(SwaggerGenerators);
-                var newGenerator = (OutputCommandBase)JsonConvert.DeserializeObject(generatorProperty.Value.ToString(), generator.GetType());
+                var newGenerator = (OutputCommandBase)JsonConvert.DeserializeObject(generatorProperty.Value.ToString(), generator.GetType(), GetSerializerSettings());
                 collectionProperty.SetValue(SwaggerGenerators, newGenerator);
                 SelectedSwaggerGenerator = newGenerator;
             }
@@ -149,7 +150,10 @@ namespace NSwag.Commands
                 var data = DynamicApis.FileReadAllText(filePath);
                 data = TransformLegacyDocument(data, out saveFile); // TODO: Remove this legacy stuff later
 
-                var document = JsonConvert.DeserializeObject<TDocument>(data, GetSerializerSettings(mappings));
+                var settings = GetSerializerSettings();
+                settings.ContractResolver = new BaseTypeMappingContractResolver(mappings);
+
+                var document = JsonConvert.DeserializeObject<TDocument>(data, settings);
                 document.Path = filePath;
                 document.ConvertToAbsolutePaths();
                 document._latestData = JsonConvert.SerializeObject(document, Formatting.Indented, GetSerializerSettings());
@@ -168,7 +172,6 @@ namespace NSwag.Commands
             return Task.Run(() =>
             {
                 ConvertToRelativePaths();
-
                 _latestData = JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings());
                 ConvertToAbsolutePaths();
                 DynamicApis.FileWriteAllText(Path, _latestData);
@@ -199,13 +202,12 @@ namespace NSwag.Commands
             return await ((dynamic)SelectedSwaggerGenerator).RunAsync();
         }
 
-        private static JsonSerializerSettings GetSerializerSettings(IDictionary<Type, Type> mappings = null)
+        private static JsonSerializerSettings GetSerializerSettings()
         {
             return new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Ignore,
-
-                ContractResolver = new BaseTypeMappingContractResolver(mappings),
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
                 Converters = new List<JsonConverter>
                 {
                     new StringEnumConverter()
@@ -326,7 +328,7 @@ namespace NSwag.Commands
                     {"swaggerToCSharpController", obj["SwaggerToCSharpControllerGenerator"]}
                 };
 
-                data = obj.ToString();
+                data = obj.ToString().Replace("\"OutputFilePath\"", "\"output\"");
                 saveFile = true;
             }
             else
