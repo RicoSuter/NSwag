@@ -19,7 +19,7 @@ namespace NSwag.Commands.Base
     public abstract class OutputCommandBase : IConsoleCommand
     {
         [Argument(Name = "Output", IsRequired = false, Description = "The output file path (optional).")]
-        [JsonProperty("output", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("output", NullValueHandling = NullValueHandling.Include)]
         public string OutputFilePath { get; set; }
 
         public abstract Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host);
