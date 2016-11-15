@@ -8,12 +8,12 @@
 
 using System.Threading.Tasks;
 using NSwag.Commands;
+using NSwag.Commands.Document;
 
-namespace NSwag.CodeGeneration.Commands
+namespace NSwag.CodeGeneration.Commands.Documents
 {
-    /// <summary></summary>
-    /// <seealso cref="NSwag.Commands.NSwagDocumentCommandBase" />
-    public class NSwagDocumentCommand : NSwagDocumentCommandBase
+    /// <summary>Executes a document.</summary>
+    public class ExecuteDocumentCommand : ExecuteDocumentCommandBase
     {
         /// <summary>Loads an existing NSwagDocument.</summary>
         /// <param name="filePath">The file path.</param>

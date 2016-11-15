@@ -46,11 +46,12 @@
     <Compile Include="Commands\AssemblyTypeToSwaggerCommandBase.cs" />
     <Compile Include="Commands\Base\InputOutputCommandBase.cs" />
     <Compile Include="Commands\Base\OutputCommandBase.cs" />
+    <Compile Include="Commands\Document\CreateDocumentCommandBase.cs" />
     <Compile Include="Commands\JsonSchemaToSwaggerCommand.cs" />
     <Compile Include="Commands\JsonSchemaToCSharpCommand.cs" />
     <Compile Include="Commands\FromSwaggerCommand.cs" />
     <Compile Include="Commands\JsonSchemaToTypeScriptCommand.cs" />
-    <Compile Include="Commands\NSwagDocumentCommandBase.cs" />
+    <Compile Include="Commands\Document\ExecuteDocumentCommandBase.cs" />
     <Compile Include="Commands\SwaggerToCSharpClientCommand.cs" />
     <Compile Include="Commands\SwaggerToCSharpCommand.cs" />
     <Compile Include="Commands\SwaggerToCSharpControllerCommand.cs" />

@@ -90,8 +90,11 @@
     <Compile Include="..\NSwag.AssemblyLoaderCore\Commands\AssemblyTypeToSwaggerCommand.cs">
       <Link>Commands\AssemblyTypeToSwaggerCommand.cs</Link>
     </Compile>
-    <Compile Include="..\NSwag.AssemblyLoaderCore\Commands\NSwagDocumentCommand.cs">
-      <Link>Commands\NSwagDocumentCommand.cs</Link>
+    <Compile Include="..\NSwag.AssemblyLoaderCore\Commands\Documents\CreateDocumentCommand.cs">
+      <Link>Commands\Documents\CreateDocumentCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\NSwag.AssemblyLoaderCore\Commands\Documents\ExecuteDocumentCommand.cs">
+      <Link>Commands\Documents\ExecuteDocumentCommand.cs</Link>
     </Compile>
     <Compile Include="..\NSwag.AssemblyLoaderCore\Commands\WebApiToSwaggerCommand.cs">
       <Link>Commands\WebApiToSwaggerCommand.cs</Link>
