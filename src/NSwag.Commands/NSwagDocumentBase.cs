@@ -60,7 +60,7 @@ namespace NSwag.Commands
             {
                 var key = SelectedSwaggerGenerator.GetType().Name
                     .Replace("CommandBase", string.Empty)
-                    .Replace("Command", string.Empty); 
+                    .Replace("Command", string.Empty);
 
                 return JObject.FromObject(new Dictionary<string, OutputCommandBase>
                 {
@@ -143,17 +143,20 @@ namespace NSwag.Commands
         protected static Task<TDocument> LoadAsync<TDocument>(string filePath, IDictionary<Type, Type> mappings)
             where TDocument : NSwagDocumentBase, new()
         {
-            return Task.Run(() =>
+            return Task.Run(async () =>
             {
+                var saveFile = false; 
                 var data = DynamicApis.FileReadAllText(filePath);
+                data = TransformLegacyDocument(data, out saveFile); // TODO: Remove this legacy stuff later
 
                 var document = JsonConvert.DeserializeObject<TDocument>(data, GetSerializerSettings(mappings));
                 document.Path = filePath;
                 document.ConvertToAbsolutePaths();
-
                 document._latestData = JsonConvert.SerializeObject(document, Formatting.Indented, GetSerializerSettings());
 
-                document.Loaded();
+                if (saveFile)
+                    await document.SaveAsync();
+
                 return document;
             });
         }
@@ -201,20 +204,15 @@ namespace NSwag.Commands
             return new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Ignore,
-                
-                ContractResolver = new BaseTypeMappingContractResolver(mappings), 
+
+                ContractResolver = new BaseTypeMappingContractResolver(mappings),
                 Converters = new List<JsonConverter>
                 {
                     new StringEnumConverter()
                 }
             };
         }
-
-        private void Loaded()
-        {
-            SwaggerGenerators.WebApiToSwaggerCommand.ControllerName = "";
-        }
-
+        
         private void ConvertToAbsolutePaths()
         {
             SwaggerGenerators.WebApiToSwaggerCommand.DocumentTemplate = ConvertToAbsolutePath(SwaggerGenerators.WebApiToSwaggerCommand.DocumentTemplate);
@@ -273,6 +271,68 @@ namespace NSwag.Commands
         public void RaiseAllPropertiesChanged()
         {
             OnPropertyChanged(null);
+        }
+
+        private static string TransformLegacyDocument(string data, out bool saveFile)
+        {
+            if (data.Contains("\"SelectedSwaggerGenerator\""))
+            {
+                var obj = JsonConvert.DeserializeObject<JObject>(data);
+                var selectedSwaggerGenerator = obj["SelectedSwaggerGenerator"].Value<int>();
+                if (selectedSwaggerGenerator == 0) // swagger url/data
+                {
+                    obj["swaggerGenerator"] = new JObject
+                    {
+                        {
+                            "fromSwagger", new JObject
+                            {
+                                {"url", obj["InputSwaggerUrl"]},
+                                {"json", obj["InputSwagger"]}
+                            }
+                        }
+                    };
+                }
+                if (selectedSwaggerGenerator == 2) // json schema
+                {
+                    obj["swaggerGenerator"] = new JObject
+                    {
+                        {
+                            "jsonSchemaToSwagger", new JObject
+                            {
+                                {"schema", obj["InputJsonSchema"]},
+                            }
+                        }
+                    };
+                }
+                if (selectedSwaggerGenerator == 1) // web api
+                {
+                    obj["swaggerGenerator"] = new JObject
+                    {
+                        {"webApiToSwagger", obj["WebApiToSwaggerCommand"]}
+                    };
+                }
+                if (selectedSwaggerGenerator == 3) // types
+                {
+                    obj["swaggerGenerator"] = new JObject
+                    {
+                        {"assemblyTypeToSwagger", obj["AssemblyTypeToSwaggerCommand"]}
+                    };
+                }
+
+                obj["codeGenerators"] = new JObject
+                {
+                    {"swaggerToTypeScriptClient", obj["SwaggerToTypeScriptCommand"]},
+                    {"swaggerToCSharpClient", obj["SwaggerToCSharpClientCommand"]},
+                    {"swaggerToCSharpController", obj["SwaggerToCSharpControllerGenerator"]}
+                };
+
+                data = obj.ToString();
+                saveFile = true;
+            }
+            else
+                saveFile = false;
+
+            return data;
         }
     }
 }
