@@ -6,7 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using NConsole;
@@ -16,7 +15,7 @@ using NJsonSchema.Infrastructure;
 
 namespace NSwag.Commands
 {
-    [Command(Name = "run", Description = "Executes an .nswag file.")]
+    [Command(Name = "run", Description = "Executes an .nswag file. If 'input' is not specified then all *.nswag files and the nswag.json file is executed.")]
     public abstract class NSwagDocumentCommandBase : IConsoleCommand
     {
         [Argument(Position = 1, IsRequired = false)]
@@ -28,6 +27,9 @@ namespace NSwag.Commands
                 await ExecuteDocumentAsync(host, Input);
             else
             {
+                if (DynamicApis.FileExists("nswag.json"))
+                    await ExecuteDocumentAsync(host, "nswag.json");
+
                 var files = DynamicApis.DirectoryGetFiles(DynamicApis.DirectoryGetCurrentDirectory(), "*.nswag");
                 if (files.Any())
                 {
