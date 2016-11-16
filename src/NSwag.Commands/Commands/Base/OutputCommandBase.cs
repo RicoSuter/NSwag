@@ -9,6 +9,7 @@
 using System;
 using System.Threading.Tasks;
 using NConsole;
+using Newtonsoft.Json;
 using NJsonSchema.Infrastructure;
 
 #pragma warning disable 1591
@@ -18,6 +19,7 @@ namespace NSwag.Commands.Base
     public abstract class OutputCommandBase : IConsoleCommand
     {
         [Argument(Name = "Output", IsRequired = false, Description = "The output file path (optional).")]
+        [JsonProperty("output", NullValueHandling = NullValueHandling.Include)]
         public string OutputFilePath { get; set; }
 
         public abstract Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host);

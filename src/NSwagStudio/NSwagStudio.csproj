@@ -80,12 +80,12 @@
       <HintPath>..\packages\Expression.Interaction.3.0.40218.0\lib\net46\Microsoft.Expression.Interactions.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MyToolkit, Version=2.5.13.0, Culture=neutral, PublicKeyToken=3e349a1360994d26, processorArchitecture=MSIL">
-      <HintPath>..\packages\MyToolkit.2.5.13.1\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10\MyToolkit.dll</HintPath>
+    <Reference Include="MyToolkit, Version=2.5.15.0, Culture=neutral, PublicKeyToken=3e349a1360994d26, processorArchitecture=MSIL">
+      <HintPath>..\packages\MyToolkit.2.5.15\lib\portable-net45+wp8+win8+wpa81\MyToolkit.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MyToolkit.Extended, Version=2.5.13.0, Culture=neutral, PublicKeyToken=3e349a1360994d26, processorArchitecture=MSIL">
-      <HintPath>..\packages\MyToolkit.Extended.2.5.13\lib\net45\MyToolkit.Extended.dll</HintPath>
+    <Reference Include="MyToolkit.Extended, Version=2.5.15.0, Culture=neutral, PublicKeyToken=3e349a1360994d26, processorArchitecture=MSIL">
+      <HintPath>..\packages\MyToolkit.Extended.2.5.15\lib\net45\MyToolkit.Extended.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="NConsole, Version=3.2.6148.42382, Culture=neutral, PublicKeyToken=0f839b9a5b9cbd65, processorArchitecture=MSIL">
@@ -132,23 +132,25 @@
     </ApplicationDefinition>
     <Compile Include="Controls\FileOpenPicker.cs" />
     <Compile Include="Controls\FileSavePicker.cs" />
+    <Compile Include="Controls\TabContent.cs" />
     <Compile Include="Converters\NumberAdditionConverter.cs" />
     <Compile Include="Controls\FilePickerBase.xaml.cs">
       <DependentUpon>FilePickerBase.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\StringArrayConverter.cs" />
-    <Compile Include="ISwaggerGenerator.cs" />
+    <Compile Include="ISwaggerGeneratorView.cs" />
     <Compile Include="ViewModels\CodeGenerators\SwaggerToCSharpControllerGeneratorViewModel.cs" />
     <Compile Include="ViewModels\CodeGenerators\SwaggerOutputViewModel.cs" />
     <Compile Include="ViewModels\CodeGenerators\SwaggerToCSharpClientGeneratorViewModel.cs" />
+    <Compile Include="ViewModels\DocumentModel.cs" />
     <Compile Include="ViewModels\DocumentViewModel.cs" />
     <Compile Include="ViewModels\SwaggerGenerators\AssemblyTypeToSwaggerGeneratorViewModel.cs" />
     <Compile Include="ViewModels\SwaggerGenerators\WebApiToSwaggerGeneratorViewModel.cs" />
     <Compile Include="ViewModels\MainWindowModel.cs" />
-    <Compile Include="ICodeGenerator.cs" />
+    <Compile Include="ICodeGeneratorView.cs" />
     <Compile Include="ViewModels\CodeGenerators\SwaggerToTypeScriptClientGeneratorViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
-    <Compile Include="Views\AvalonEditBehavior.cs" />
+    <Compile Include="Controls\AvalonEditBehavior.cs" />
     <Compile Include="Views\CodeGenerators\SwaggerToCSharpControllerGeneratorView.xaml.cs">
       <DependentUpon>SwaggerToCSharpControllerGeneratorView.xaml</DependentUpon>
     </Compile>
@@ -274,6 +276,10 @@
     <ProjectReference Include="..\NSwag.Commands\NSwag.Commands.csproj">
       <Project>{71b39c21-46a2-471b-aace-226c575b8ac1}</Project>
       <Name>NSwag.Commands</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NSwag.Console\NSwag.Console.csproj">
+      <Project>{26cbd69c-ee7c-4d81-8d62-410f4ad4876b}</Project>
+      <Name>NSwag.Console</Name>
     </ProjectReference>
     <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj">
       <Project>{2E6174AA-FC75-4821-9E86-51B30568BEC0}</Project>

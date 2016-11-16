@@ -3,7 +3,7 @@ using NSwagStudio.ViewModels.CodeGenerators;
 
 namespace NSwagStudio.Views.CodeGenerators
 {
-    public partial class SwaggerOutputView : ICodeGenerator
+    public partial class SwaggerOutputView : ICodeGeneratorView
     {
         public SwaggerOutputView()
         {

@@ -41,12 +41,17 @@
     <DocumentationFile>bin\Release\NSwag.Commands.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BaseTypeMappingContractResolver.cs" />
+    <Compile Include="CodeGeneratorCollection.cs" />
     <Compile Include="Commands\AssemblyTypeToSwaggerCommandBase.cs" />
     <Compile Include="Commands\Base\InputOutputCommandBase.cs" />
     <Compile Include="Commands\Base\OutputCommandBase.cs" />
+    <Compile Include="Commands\Document\CreateDocumentCommandBase.cs" />
+    <Compile Include="Commands\JsonSchemaToSwaggerCommand.cs" />
     <Compile Include="Commands\JsonSchemaToCSharpCommand.cs" />
+    <Compile Include="Commands\FromSwaggerCommand.cs" />
     <Compile Include="Commands\JsonSchemaToTypeScriptCommand.cs" />
-    <Compile Include="Commands\NSwagDocumentCommandBase.cs" />
+    <Compile Include="Commands\Document\ExecuteDocumentCommandBase.cs" />
     <Compile Include="Commands\SwaggerToCSharpClientCommand.cs" />
     <Compile Include="Commands\SwaggerToCSharpCommand.cs" />
     <Compile Include="Commands\SwaggerToCSharpControllerCommand.cs" />
@@ -54,7 +59,9 @@
     <Compile Include="Commands\WebApiToSwaggerCommandBase.cs" />
     <Compile Include="NSwagCommandProcessor.cs" />
     <Compile Include="NSwagDocumentBase.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SwaggerGeneratorCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj">

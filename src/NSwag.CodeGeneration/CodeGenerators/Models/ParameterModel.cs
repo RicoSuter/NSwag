@@ -24,12 +24,15 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         /// <param name="typeName">The type name.</param>
         /// <param name="operation">The operation.</param>
         /// <param name="parameter">The parameter.</param>
+        /// <param name="parameterName">Name of the parameter.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="clientGeneratorBase">The client generator base.</param>
         public ParameterModel(string typeName, SwaggerOperation operation, SwaggerParameter parameter, 
-            CodeGeneratorSettingsBase settings, ClientGeneratorBase clientGeneratorBase)
+            string parameterName, CodeGeneratorSettingsBase settings, ClientGeneratorBase clientGeneratorBase)
         {
             Type = typeName;
+            Name = parameterName; 
+
             _operation = operation;
             _parameter = parameter;
             _settings = settings;
@@ -40,13 +43,10 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         public string Type { get; }
 
         /// <summary>Gets the name.</summary>
-        public string Name => _parameter.Name;
+        public string Name { get; }
 
         /// <summary>Gets the variable name in lowercase.</summary>
-        public string VariableNameLower => ConversionUtilities.ConvertToLowerCamelCase(_parameter.Name
-            .Replace("-", "_")
-            .Replace(".", "_")
-            .Replace("$", string.Empty), true);
+        public string VariableNameLower => ConversionUtilities.ConvertToLowerCamelCase(Name, true);
 
         /// <summary>Gets the parameter kind.</summary>
         public SwaggerParameterKind Kind => _parameter.Kind;

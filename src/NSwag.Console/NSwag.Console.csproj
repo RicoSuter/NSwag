@@ -63,10 +63,6 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MyToolkit, Version=2.5.13.0, Culture=neutral, PublicKeyToken=3e349a1360994d26, processorArchitecture=MSIL">
-      <HintPath>..\packages\MyToolkit.2.5.13.1\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10\MyToolkit.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="NConsole, Version=3.2.6148.42382, Culture=neutral, PublicKeyToken=0f839b9a5b9cbd65, processorArchitecture=MSIL">
       <HintPath>..\packages\NConsole.3.2.6148.42382\lib\net45\NConsole.dll</HintPath>
       <Private>True</Private>

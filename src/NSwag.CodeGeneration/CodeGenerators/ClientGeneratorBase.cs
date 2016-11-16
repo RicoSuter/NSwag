@@ -28,7 +28,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
         }
 
         /// <summary>Gets the type resolver.</summary>
-        protected ITypeResolver Resolver { get; private set; }
+        protected ITypeResolver Resolver { get; }
 
         internal abstract ClientGeneratorBaseSettings BaseSettings { get; }
 
@@ -41,6 +41,14 @@ namespace NSwag.CodeGeneration.CodeGenerators
         internal abstract string GetExceptionType(SwaggerOperation operation);
 
         internal abstract string GetResultType(SwaggerOperation operation);
+
+        internal virtual string GetParameterName(SwaggerParameter parameter)
+        {
+            return parameter.Name
+                .Replace("-", "_")
+                .Replace(".", "_")
+                .Replace("$", string.Empty);
+        }
 
         internal bool HasResultType(SwaggerOperation operation)
         {
@@ -95,7 +103,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
                 .Select(tuple =>
                 {
                     var operation = tuple.Operation;
-                    var exceptionSchema = (Resolver as SwaggerToCSharpTypeResolver)?.ExceptionSchema; 
+                    var exceptionSchema = (Resolver as SwaggerToCSharpTypeResolver)?.ExceptionSchema;
                     var responses = operation.Responses.Select(response => new ResponseModel(response, exceptionSchema, this)).ToList();
 
                     var defaultResponse = responses.SingleOrDefault(r => r.StatusCode == "default");
@@ -118,7 +126,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
                         Responses = responses,
                         DefaultResponse = defaultResponse,
                         Parameters = operation.ActualParameters.Select(p => new ParameterModel(
-                            ResolveParameterType(p), operation, p, BaseSettings.CodeGeneratorSettings, this)).ToList(),
+                            ResolveParameterType(p), operation, p, GetParameterName(p), BaseSettings.CodeGeneratorSettings, this)).ToList(),
                     };
                 }).ToList();
             return operations;

@@ -2,12 +2,14 @@
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using MyToolkit.Mvvm;
+using Newtonsoft.Json;
 using NSwag.CodeGeneration.Commands;
+using NSwag.Commands.Base;
 using NSwagStudio.ViewModels.SwaggerGenerators;
 
 namespace NSwagStudio.Views.SwaggerGenerators
 {
-    public partial class AssemblyTypeToSwaggerGeneratorView : ISwaggerGenerator
+    public partial class AssemblyTypeToSwaggerGeneratorView : ISwaggerGeneratorView
     {
         public AssemblyTypeToSwaggerGeneratorView(AssemblyTypeToSwaggerCommand command)
         {
@@ -23,6 +25,8 @@ namespace NSwagStudio.Views.SwaggerGenerators
         private AssemblyTypeToSwaggerGeneratorViewModel Model => (AssemblyTypeToSwaggerGeneratorViewModel)Resources["ViewModel"];
 
         public string Title => ".NET Assembly";
+
+        public OutputCommandBase Command => Model.Command;
 
         public Task<string> GenerateSwaggerAsync()
         {

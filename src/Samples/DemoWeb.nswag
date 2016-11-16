@@ -1,157 +1,86 @@
-{
-  "SelectedSwaggerGenerator": 1,
-  "InputSwagger": "{\r\n  \"swagger\": \"2.0\",\r\n  \"info\": {\r\n    \"title\": \"\",\r\n    \"version\": \"\"\r\n  },\r\n  \"host\": \"www.goodinfo.com\",\r\n  \"basePath\": \"/news\",\r\n  \"schemes\": [],\r\n  \"paths\": {\r\n    \"api/Person/xyz/{data}\": {\r\n      \"Put\": {\r\n        \"tags\": [],\r\n        \"operationId\": \"Persons_Xyz\",\r\n        \"parameters\": [\r\n          {\r\n            \"type\": \"object\",\r\n            \"name\": \"data\",\r\n            \"in\": \"path\"\r\n          }\r\n        ],\r\n        \"responses\": {\r\n          \"200\": {\r\n            \"schema\": {\r\n              \"type\": \"string\"\r\n            }\r\n          }\r\n        }\r\n      }\r\n    },\r\n    \"api/Persons/Get\": {\r\n      \"Get\": {\r\n        \"tags\": [],\r\n        \"operationId\": \"Persons_Get\",\r\n        \"parameters\": [],\r\n        \"responses\": {\r\n          \"200\": {\r\n            \"schema\": {\r\n              \"type\": [\r\n                \"array\",\r\n                \"null\"\r\n              ],\r\n              \"items\": {\r\n                \"type\": [\r\n                  \"null\",\r\n                  \"object\"\r\n                ],\r\n                \"$ref\": \"#/definitions/Person\"\r\n              }\r\n            }\r\n          }\r\n        }\r\n      }\r\n    },\r\n    \"api/Persons/Get/{id}\": {\r\n      \"Get\": {\r\n        \"tags\": [],\r\n        \"summary\": \"Gets a person.\",\r\n        \"operationId\": \"Persons_Get_2\",\r\n        \"parameters\": [\r\n          {\r\n            \"type\": \"integer\",\r\n            \"name\": \"id\",\r\n            \"in\": \"path\",\r\n            \"description\": \"The ID of the person.\"\r\n          }\r\n        ],\r\n        \"responses\": {\r\n          \"200\": {\r\n            \"description\": \"The person.\",\r\n            \"schema\": {\r\n              \"type\": [\r\n                \"null\",\r\n                \"object\"\r\n              ],\r\n              \"$ref\": \"#/definitions/Person\"\r\n            }\r\n          },\r\n          \"500\": {\r\n            \"description\": \"The person.\",\r\n            \"schema\": {\r\n              \"type\": [\r\n                \"null\",\r\n                \"object\"\r\n              ],\r\n              \"$ref\": \"#/definitions/PersonNotFoundException\"\r\n            }\r\n          }\r\n        }\r\n      }\r\n    },\r\n    \"api/Persons/Post\": {\r\n      \"Post\": {\r\n        \"tags\": [],\r\n        \"summary\": \"Creates a new person.\",\r\n        \"operationId\": \"Persons_Post\",\r\n        \"parameters\": [\r\n          {\r\n            \"name\": \"value\",\r\n            \"in\": \"body\",\r\n            \"required\": false,\r\n            \"schema\": {\r\n              \"type\": [\r\n                \"null\",\r\n                \"object\"\r\n              ],\r\n              \"$ref\": \"#/definitions/Person\"\r\n            },\r\n            \"description\": \"The person.\"\r\n          }\r\n        ],\r\n        \"responses\": {\r\n          \"204\": {}\r\n        }\r\n      }\r\n    },\r\n    \"api/Persons/Put/{id}\": {\r\n      \"Put\": {\r\n        \"tags\": [],\r\n        \"summary\": \"Updates the existing person.\",\r\n        \"operationId\": \"Persons_Put\",\r\n        \"parameters\": [\r\n          {\r\n            \"type\": \"integer\",\r\n            \"name\": \"id\",\r\n            \"in\": \"path\",\r\n            \"description\": \"The ID.\"\r\n          },\r\n          {\r\n            \"name\": \"value\",\r\n            \"in\": \"body\",\r\n            \"required\": false,\r\n            \"schema\": {\r\n              \"type\": [\r\n                \"null\",\r\n                \"object\"\r\n              ],\r\n              \"$ref\": \"#/definitions/Person\"\r\n            },\r\n            \"description\": \"The person.\"\r\n          }\r\n        ],\r\n        \"responses\": {\r\n          \"204\": {}\r\n        }\r\n      }\r\n    },\r\n    \"api/Persons/Delete/{id}\": {\r\n      \"Delete\": {\r\n        \"tags\": [],\r\n        \"operationId\": \"Persons_Delete\",\r\n        \"parameters\": [\r\n          {\r\n            \"type\": \"integer\",\r\n            \"name\": \"id\",\r\n            \"in\": \"path\"\r\n          }\r\n        ],\r\n        \"responses\": {\r\n          \"204\": {}\r\n        }\r\n      }\r\n    },\r\n    \"api/Person/Calculate/{a}/{b}\": {\r\n      \"Get\": {\r\n        \"tags\": [],\r\n        \"summary\": \"Calculates the sum of a, b and c.\",\r\n        \"operationId\": \"Persons_Calculate\",\r\n        \"parameters\": [\r\n          {\r\n            \"type\": \"integer\",\r\n            \"name\": \"a\",\r\n            \"in\": \"path\"\r\n          },\r\n          {\r\n            \"type\": \"integer\",\r\n            \"name\": \"b\",\r\n            \"in\": \"path\"\r\n          },\r\n          {\r\n            \"type\": \"integer\",\r\n            \"name\": \"c\",\r\n            \"in\": \"query\",\r\n            \"required\": true\r\n          }\r\n        ],\r\n        \"responses\": {\r\n          \"200\": {\r\n            \"schema\": {\r\n              \"type\": \"integer\"\r\n            }\r\n          }\r\n        }\r\n      }\r\n    },\r\n    \"api/Persons/AddHour\": {\r\n      \"Get\": {\r\n        \"tags\": [],\r\n        \"operationId\": \"Persons_AddHour\",\r\n        \"parameters\": [\r\n          {\r\n            \"type\": \"string\",\r\n            \"name\": \"time\",\r\n            \"in\": \"query\",\r\n            \"required\": true,\r\n            \"format\": \"date-time\"\r\n          }\r\n        ],\r\n        \"responses\": {\r\n          \"200\": {\r\n            \"schema\": {\r\n              \"type\": \"string\",\r\n              \"format\": \"date-time\"\r\n            }\r\n          }\r\n        }\r\n      }\r\n    },\r\n    \"api/Persons/TestAsync\": {\r\n      \"Get\": {\r\n        \"tags\": [],\r\n        \"operationId\": \"Persons_Test\",\r\n        \"parameters\": [],\r\n        \"responses\": {\r\n          \"200\": {\r\n            \"schema\": {\r\n              \"type\": \"integer\"\r\n            }\r\n          }\r\n        }\r\n      }\r\n    },\r\n    \"api/Persons/LoadComplexObject\": {\r\n      \"Get\": {\r\n        \"tags\": [],\r\n        \"operationId\": \"Persons_LoadComplexObject\",\r\n        \"parameters\": [],\r\n        \"responses\": {\r\n          \"200\": {\r\n            \"schema\": {\r\n              \"type\": [\r\n                \"null\",\r\n                \"object\"\r\n              ],\r\n              \"$ref\": \"#/definitions/Car\"\r\n            }\r\n          }\r\n        }\r\n      }\r\n    }\r\n  },\r\n  \"definitions\": {\r\n    \"Person\": {\r\n      \"type\": \"object\",\r\n      \"typeName\": \"Person\",\r\n      \"additionalProperties\": false,\r\n      \"properties\": {\r\n        \"firstName\": {\r\n          \"type\": [\r\n            \"null\",\r\n            \"string\"\r\n          ],\r\n          \"description\": \"Gets or sets the first name.\"\r\n        },\r\n        \"LastName\": {\r\n          \"type\": [\r\n            \"null\",\r\n            \"string\"\r\n          ]\r\n        },\r\n        \"Birthday\": {\r\n          \"type\": \"string\",\r\n          \"format\": \"date-time\"\r\n        },\r\n        \"Height\": {\r\n          \"type\": \"number\",\r\n          \"description\": \"Gets or sets the height in cm.\",\r\n          \"format\": \"decimal\"\r\n        },\r\n        \"Cars\": {\r\n          \"type\": [\r\n            \"array\",\r\n            \"null\"\r\n          ],\r\n          \"items\": {\r\n            \"type\": \"object\",\r\n            \"typeName\": \"Car\",\r\n            \"$ref\": \"#/definitions/Car\"\r\n          }\r\n        },\r\n        \"Type\": {\r\n          \"oneOf\": [\r\n            {\r\n              \"$ref\": \"#/definitions/ObjectType\"\r\n            }\r\n          ]\r\n        }\r\n      },\r\n      \"description\": \"The DTO class for a person.\"\r\n    },\r\n    \"Car\": {\r\n      \"type\": \"object\",\r\n      \"typeName\": \"Car\",\r\n      \"additionalProperties\": false,\r\n      \"properties\": {\r\n        \"Name\": {\r\n          \"type\": [\r\n            \"null\",\r\n            \"string\"\r\n          ]\r\n        },\r\n        \"Driver\": {\r\n          \"readonly\": true,\r\n          \"oneOf\": [\r\n            {\r\n              \"$ref\": \"#/definitions/Person\"\r\n            },\r\n            {\r\n              \"type\": \"null\"\r\n            }\r\n          ]\r\n        },\r\n        \"Type\": {\r\n          \"oneOf\": [\r\n            {\r\n              \"$ref\": \"#/definitions/ObjectType\"\r\n            }\r\n          ]\r\n        }\r\n      }\r\n    },\r\n    \"ObjectType\": {\r\n      \"type\": \"string\",\r\n      \"typeName\": \"ObjectType\",\r\n      \"enumNames\": [\r\n        \"Foo\",\r\n        \"Bar\"\r\n      ],\r\n      \"enum\": [\r\n        \"Foo\",\r\n        \"Bar\"\r\n      ]\r\n    },\r\n    \"PersonNotFoundException\": {\r\n      \"type\": \"object\",\r\n      \"typeName\": \"PersonNotFoundException\",\r\n      \"additionalProperties\": false,\r\n      \"properties\": {\r\n        \"PersonId\": {\r\n          \"type\": \"integer\"\r\n        }\r\n      },\r\n      \"allOf\": [\r\n        {\r\n          \"type\": \"object\",\r\n          \"typeName\": \"Exception\",\r\n          \"$ref\": \"#/definitions/Exception\"\r\n        }\r\n      ]\r\n    },\r\n    \"Exception\": {\r\n      \"type\": \"object\",\r\n      \"typeName\": \"Exception\",\r\n      \"additionalProperties\": false,\r\n      \"properties\": {\r\n        \"Message\": {\r\n          \"type\": [\r\n            \"null\",\r\n            \"string\"\r\n          ]\r\n        },\r\n        \"InnerException\": {\r\n          \"oneOf\": [\r\n            {\r\n              \"$ref\": \"#/definitions/Exception\"\r\n            },\r\n            {\r\n              \"type\": \"null\"\r\n            }\r\n          ]\r\n        },\r\n        \"StackTrace\": {\r\n          \"type\": [\r\n            \"null\",\r\n            \"string\"\r\n          ]\r\n        },\r\n        \"Source\": {\r\n          \"type\": [\r\n            \"null\",\r\n            \"string\"\r\n          ]\r\n        }\r\n      }\r\n    }\r\n  },\r\n  \"responses\": {},\r\n  \"securityDefinitions\": {}\r\n}",
-  "InputSwaggerUrl": null,
-  "InputJsonSchema": null,
-  "WebApiToSwaggerCommand": {
-    "AssemblyPath": "..\\NSwag.Demo.Web\\bin\\NSwag.Demo.Web.dll",
-    "AssemblyPaths": [
-      "..\\NSwag.Demo.Web\\bin\\NSwag.Demo.Web.dll"
-    ],
-    "AssemblyConfig": null,
-    "ReferencePaths": [],
-    "ControllerName": "",
-    "ControllerNames": [
-      "NSwag.Demo.Web.Controllers.TestController"
-    ],
-    "DefaultUrlTemplate": "api/{controller}/{action}/{id}",
-    "DefaultPropertyNameHandling": "Default",
-    "DefaultEnumHandling": "Integer",
-    "FlattenInheritanceHierarchy": false,
-    "GenerateKnownTypes": true,
-    "OutputFilePath": null
+﻿{
+  "swaggerGenerator": {
+    "webApiToSwagger": {
+      "AssemblyPaths": [
+        "../NSwag.Demo.Web/bin/NSwag.Demo.Web.dll"
+      ],
+      "AssemblyConfig": null,
+      "ReferencePaths": [],
+      "IsAspNetCore": false,
+      "ControllerNames": [
+        "NSwag.Demo.Web.Controllers.TestController"
+      ],
+      "DefaultUrlTemplate": "api/{controller}/{action}/{id}",
+      "DefaultPropertyNameHandling": 0,
+      "DefaultEnumHandling": 0,
+      "FlattenInheritanceHierarchy": false,
+      "GenerateKnownTypes": true,
+      "AddMissingPathParameters": false,
+      "ServiceHost": null,
+      "ServiceBasePath": null,
+      "ServiceSchemes": null,
+      "InfoTitle": "Web API Swagger specification",
+      "InfoDescription": null,
+      "InfoVersion": "1.0.0",
+      "DocumentTemplate": null
+    }
   },
-  "AssemblyTypeToSwaggerCommand": {
-    "AssemblyPath": null,
-    "ClassNames": [],
-    "AssemblyConfig": null,
-    "ReferencePaths": [],
-    "DefaultPropertyNameHandling": "Default",
-    "DefaultEnumHandling": "Integer",
-    "FlattenInheritanceHierarchy": false,
-    "GenerateKnownTypes": true,
-    "OutputFilePath": null
-  },
-  "SwaggerToTypeScriptCommand": {
-    "ClassName": "{controller}Client",
-    "ModuleName": "",
-    "Template": "Angular2",
-    "PromiseType": "Promise",
-    "DateTimeType": "Date",
-    "GenerateClientClasses": true,
-    "GenerateClientInterfaces": false,
-    "GenerateDtoTypes": true,
-    "OperationGenerationMode": "MultipleClientsFromOperationId",
-    "GenerateReadOnlyKeywords": true,
-    "TypeStyle": "Class",
-    "ClassTypes": [
-      "Car"
-    ],
-    "ExtendedClasses": null,
-    "ExtensionCode": null,
-    "Input": null,
-    "OutputFilePath": null
-  },
-  "SwaggerToCSharpClientCommand": {
-    "ClientBaseClass": null,
-    "GenerateClientClasses": true,
-    "GenerateClientInterfaces": true,
-    "GenerateDtoTypes": true,
-    "UseHttpClientCreationMethod": false,
-    "GenerateContractsOutput": false,
-    "ContractsNamespace": "NSwag.Demo.Client.Contracts",
-    "ContractsOutputFilePath": "..\\..\\..\\..\\..\\Users\\mail\\Desktop\\bar.cs",
-    "Settings": {
-      "ClientBaseClass": null,
-      "UseHttpClientCreationMethod": false,
-      "CSharpGeneratorSettings": {
-        "Namespace": "NSwag.Demo.Client",
-        "RequiredPropertiesMustBeDefined": true,
-        "DateTimeType": "DateTime",
-        "ArrayType": "ObservableCollection",
-        "DictionaryType": "Dictionary",
-        "ClassStyle": "Poco",
-        "NullHandling": "Swagger",
-        "PropertyNameGenerator": null,
-        "TypeNameGenerator": null
-      },
-      "AdditionalNamespaceUsages": [],
-      "CodeGeneratorSettings": {
-        "Namespace": "NSwag.Demo.Client",
-        "RequiredPropertiesMustBeDefined": true,
-        "DateTimeType": "DateTime",
-        "ArrayType": "ObservableCollection",
-        "DictionaryType": "Dictionary",
-        "ClassStyle": "Poco",
-        "NullHandling": "Swagger",
-        "PropertyNameGenerator": null,
-        "TypeNameGenerator": null
-      },
-      "ClassName": "{controller}Client",
-      "OperationGenerationMode": "MultipleClientsFromOperationId",
-      "GenerateDtoTypes": true,
-      "GenerateClientInterfaces": true,
-      "GenerateClientClasses": true
+  "codeGenerators": {
+    "swaggerToTypeScriptClient": {
+      "className": "{controller}Client",
+      "moduleName": "",
+      "namespace": "",
+      "template": "JQueryCallbacks",
+      "promiseType": "Promise",
+      "dateTimeType": "Date",
+      "generateClientClasses": true,
+      "generateClientInterfaces": false,
+      "generateDtoTypes": true,
+      "operationGenerationMode": "MultipleClientsFromOperationId",
+      "generateReadOnlyKeywords": true,
+      "typeStyle": "Class",
+      "generateDefaultValues": true
     },
-    "ClassName": "{controller}Client",
-    "Namespace": "NSwag.Demo.Client",
-    "AdditionalNamespaceUsages": [],
-    "RequiredPropertiesMustBeDefined": true,
-    "DateTimeType": "DateTime",
-    "ArrayType": "ObservableCollection",
-    "DictionaryType": "Dictionary",
-    "ClassStyle": "Poco",
-    "OperationGenerationMode": "MultipleClientsFromOperationId",
-    "Input": null,
-    "OutputFilePath": ""
-  },
-  "SwaggerToCSharpControllerGenerator": {
-    "ControllerBaseClass": null,
-    "Settings": {
-      "ControllerBaseClass": null,
-      "CSharpGeneratorSettings": {
-        "Namespace": "MyNamespace",
-        "RequiredPropertiesMustBeDefined": true,
-        "DateTimeType": "DateTime",
-        "ArrayType": "IEnumerable",
-        "DictionaryType": "Dictionary",
-        "ClassStyle": "Inpc",
-        "NullHandling": "Swagger",
-        "PropertyNameGenerator": null,
-        "TypeNameGenerator": null
-      },
-      "AdditionalNamespaceUsages": [
+    "swaggerToCSharpClient": {
+      "exceptionClass": "SwaggerException",
+      "generateClientClasses": true,
+      "generateClientInterfaces": true,
+      "generateDtoTypes": true,
+      "useHttpClientCreationMethod": false,
+      "useHttpRequestMessageCreationMethod": false,
+      "generateContractsOutput": false,
+      "contractsNamespace": "NSwag.Demo.Client.Contracts",
+      "contractsOutputFilePath": "../../../../Users/mail/Desktop/bar.cs",
+      "className": "{controller}Client",
+      "namespace": "NSwag.Demo.Client",
+      "additionalNamespaceUsages": [],
+      "requiredPropertiesMustBeDefined": true,
+      "dateType": "DateTime",
+      "dateTimeType": "DateTime",
+      "timeType": "TimeSpan",
+      "timeSpanType": "TimeSpan",
+      "arrayType": "ObservableCollection",
+      "dictionaryType": "Dictionary",
+      "classStyle": "Poco",
+      "operationGenerationMode": "MultipleClientsFromOperationId",
+      "generateDefaultValues": true
+    },
+    "swaggerToCSharpController": {
+      "className": "{controller}",
+      "namespace": "MyNamespace",
+      "additionalNamespaceUsages": [
         "System.Web.Http"
       ],
-      "CodeGeneratorSettings": {
-        "Namespace": "MyNamespace",
-        "RequiredPropertiesMustBeDefined": true,
-        "DateTimeType": "DateTime",
-        "ArrayType": "IEnumerable",
-        "DictionaryType": "Dictionary",
-        "ClassStyle": "Inpc",
-        "NullHandling": "Swagger",
-        "PropertyNameGenerator": null,
-        "TypeNameGenerator": null
-      },
-      "ClassName": "{controller}",
-      "OperationGenerationMode": "MultipleClientsFromOperationId",
-      "GenerateDtoTypes": true,
-      "GenerateClientInterfaces": false,
-      "GenerateClientClasses": true
-    },
-    "ClassName": "{controller}",
-    "Namespace": "MyNamespace",
-    "AdditionalNamespaceUsages": [
-      "System.Web.Http"
-    ],
-    "RequiredPropertiesMustBeDefined": true,
-    "DateTimeType": "DateTime",
-    "ArrayType": "IEnumerable",
-    "DictionaryType": "Dictionary",
-    "ClassStyle": "Inpc",
-    "OperationGenerationMode": "MultipleClientsFromOperationId",
-    "Input": null,
-    "OutputFilePath": null
+      "requiredPropertiesMustBeDefined": true,
+      "dateType": "DateTime",
+      "dateTimeType": "DateTime",
+      "timeType": "TimeSpan",
+      "timeSpanType": "TimeSpan",
+      "arrayType": "IEnumerable",
+      "dictionaryType": "Dictionary",
+      "classStyle": "Inpc",
+      "operationGenerationMode": "MultipleClientsFromOperationId",
+      "generateDefaultValues": true
+    }
   }
 }
