@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using NJsonSchema;
 using NJsonSchema.Generation;
 
 namespace NSwag.CodeGeneration.SwaggerGenerators
@@ -16,6 +17,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
         /// <summary>Initializes a new instance of the <see cref="AssemblyTypeToSwaggerGeneratorSettings"/> class.</summary>
         public AssemblyTypeToSwaggerGeneratorSettings()
         {
+            NullHandling = NullHandling.Swagger;
             ReferencePaths = new string[] { };
         }
 
