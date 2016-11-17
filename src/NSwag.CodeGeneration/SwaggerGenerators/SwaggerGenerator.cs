@@ -200,7 +200,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
 
             if (typeDescription.Type.HasFlag(JsonObjectType.Array))
             {
-                var itemType = type.GenericTypeArguments.Length == 0 ? type.GetElementType() : type.GenericTypeArguments[0];
+                var itemType = type.GetEnumerableItemType();
                 return new JsonSchema4
                 {
                     // TODO: Fix this bad design
