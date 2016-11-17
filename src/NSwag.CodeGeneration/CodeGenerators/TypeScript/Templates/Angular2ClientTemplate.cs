@@ -259,7 +259,7 @@ if(Model.GenerateClientInterfaces){
             this.Write(@"{
     private http: Http = null; 
     private baseUrl: string = undefined; 
-    protected jsonParseReviver: (key: string, value: any) => any = undefined;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
     constructor(@Inject(Http) http: Http, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http; 
