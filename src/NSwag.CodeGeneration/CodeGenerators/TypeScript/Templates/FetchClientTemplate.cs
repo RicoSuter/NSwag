@@ -273,7 +273,7 @@ if(Model.GenerateClientInterfaces){
             this.Write(@"{
     private baseUrl: string; 
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
-	protected jsonParseReviver: (key: string, value: any) => any = undefined; 
+	protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined; 
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
         this.baseUrl = baseUrl ? baseUrl : """";
