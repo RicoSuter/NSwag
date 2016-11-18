@@ -16,7 +16,7 @@ public interface I<#=Model.Class#>Controller
 }
 
 [GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
-public class <#=Model.Class#>Controller : <#if(Model.HasBaseClass){#><#=Model.BaseClass#><#}else{#>ApiController<#}#> 
+public partial class <#=Model.Class#>Controller : <#if(Model.HasBaseClass){#><#=Model.BaseClass#><#}else{#>ApiController<#}#> 
 {
     private I<#=Model.Class#>Controller _implementation; 
 
