@@ -7,10 +7,10 @@ public interface I<#=Model.Class#>Controller
 <#foreach(var operation in Model.Operations){#>
 <#  if(operation.HasSummary){#>    /// <summary><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)#></summary>
 <#  }foreach (var parameter in operation.Parameters){#>
-<#      if(parameter.HasDescription){#>    /// <param name="<#=parameter.VariableNameLower#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
+<#      if(parameter.HasDescription){#>    /// <param name="<#=parameter.VariableName#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
 <#  }}if(operation.HasResultDescription){#>    /// <returns><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)#></returns>
 <#  }if(operation.IsDeprecated){#>    [Obsolete]
-<#  }#>    <#=operation.ResultType#> <#=operation.OperationNameUpper#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableNameLower#><#if(!parameter.IsLast){#>, <#}}#>);
+<#  }#>    <#=operation.ResultType#> <#=operation.OperationNameUpper#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(!parameter.IsLast){#>, <#}}#>);
 
 <#}#>
 }
@@ -27,13 +27,13 @@ public partial class <#=Model.Class#>Controller : <#if(Model.HasBaseClass){#><#=
 <#foreach(var operation in Model.Operations){#>
 <#  if(operation.HasSummary){#>    /// <summary><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)#></summary>
 <#  }foreach (var parameter in operation.Parameters){#>
-<#      if(parameter.HasDescription){#>    /// <param name="<#=parameter.VariableNameLower#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
+<#      if(parameter.HasDescription){#>    /// <param name="<#=parameter.VariableName#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
 <#  }}if(operation.HasResultDescription){#>    /// <returns><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)#></returns>
 <#  }if(operation.IsDeprecated){#>    [Obsolete]
 <#  }#>    [Http<#=operation.HttpMethodUpper#>, Route("<#=operation.Path#>")]
-    public <#=operation.ResultType#> <#=operation.OperationNameUpper#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableNameLower#><#if(!parameter.IsLast){#>, <#}}#>)
+    public <#=operation.ResultType#> <#=operation.OperationNameUpper#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(!parameter.IsLast){#>, <#}}#>)
     {
-        return _implementation.<#=operation.OperationNameUpper#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableNameLower#><#if(!parameter.IsLast){#>, <#}}#>);
+        return _implementation.<#=operation.OperationNameUpper#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(!parameter.IsLast){#>, <#}}#>);
     }
 
 <#}#>

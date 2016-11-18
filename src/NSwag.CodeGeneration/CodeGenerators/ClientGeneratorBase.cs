@@ -42,12 +42,12 @@ namespace NSwag.CodeGeneration.CodeGenerators
 
         internal abstract string GetResultType(SwaggerOperation operation);
 
-        internal virtual string GetParameterName(SwaggerParameter parameter)
+        internal virtual string GetParameterVariableName(SwaggerParameter parameter)
         {
-            return parameter.Name
+            return ConversionUtilities.ConvertToLowerCamelCase(parameter.Name
                 .Replace("-", "_")
                 .Replace(".", "_")
-                .Replace("$", string.Empty);
+                .Replace("$", string.Empty), true);
         }
 
         internal bool HasResultType(SwaggerOperation operation)
@@ -126,7 +126,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
                         Responses = responses,
                         DefaultResponse = defaultResponse,
                         Parameters = operation.ActualParameters.Select(p => new ParameterModel(
-                            ResolveParameterType(p), operation, p, GetParameterName(p), BaseSettings.CodeGeneratorSettings, this)).ToList(),
+                            ResolveParameterType(p), operation, p, p.Name, GetParameterVariableName(p), BaseSettings.CodeGeneratorSettings, this)).ToList(),
                     };
                 }).ToList();
             return operations;

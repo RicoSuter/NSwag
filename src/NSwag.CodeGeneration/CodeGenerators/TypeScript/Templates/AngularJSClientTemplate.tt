@@ -11,11 +11,11 @@ export interface I<#=Model.Class#> {
 <#if(operation.HasDocumentation){#>    /**
 <#if(operation.HasSummary){#>     * <#=operation.Summary#>
 <#}#><#foreach(var parameter in operation.Parameters){#>
-<#if(parameter.HasDescription){#>     * @<#=parameter.VariableNameLower#> <#=parameter.Description ?? ""#>
+<#if(parameter.HasDescription){#>     * @<#=parameter.VariableName#> <#=parameter.Description ?? ""#>
 <#}#><#}#><#if(operation.HasResultDescription){#>     * @return <#=operation.ResultDescription#>
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
-<#}#>    <#=operation.OperationNameLower#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableNameLower#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): ng.IPromise<<#=operation.ResultType#>>;
+<#}#>    <#=operation.OperationNameLower#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): ng.IPromise<<#=operation.ResultType#>>;
 <#}#>}
 <#}#>
 
@@ -44,55 +44,55 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#if(operation.HasDocumentation){#>    /**
 <#if(operation.HasSummary){#>     * <#=operation.Summary#>
 <#}#><#foreach(var parameter in operation.Parameters){#>
-<#if(parameter.HasDescription){#>     * @<#=parameter.VariableNameLower#> <#=parameter.Description ?? ""#>
+<#if(parameter.HasDescription){#>     * @<#=parameter.VariableName#> <#=parameter.Description ?? ""#>
 <#}#><#}#><#if(operation.HasResultDescription){#>     * @return <#=operation.ResultDescription#>
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
-<#}#>    <#=operation.OperationNameLower#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableNameLower#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): ng.IPromise<<#=operation.ResultType#>> {
+<#}#>    <#=operation.OperationNameLower#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): ng.IPromise<<#=operation.ResultType#>> {
         let url_ = this.baseUrl + "/<#=operation.Path#><#if(operation.QueryParameters.Any()){#>?<#}#>"; 
 
 <#foreach(var parameter in operation.PathParameters){#>
-        if (<#=parameter.VariableNameLower#> === undefined || <#=parameter.VariableNameLower#> === null)
-            throw new Error("The parameter '<#=parameter.VariableNameLower#>' must be defined.");
+        if (<#=parameter.VariableName#> === undefined || <#=parameter.VariableName#> === null)
+            throw new Error("The parameter '<#=parameter.VariableName#>' must be defined.");
 <#  if(parameter.IsDateArray){#>
-        url_ = url_.replace("{<#=parameter.Name#>}", encodeURIComponent(<#=parameter.VariableNameLower#>.map(s_ => s_.toJSON()).join())); 
+        url_ = url_.replace("{<#=parameter.Name#>}", encodeURIComponent(<#=parameter.VariableName#>.map(s_ => s_.toJSON()).join())); 
 <#  }else if(parameter.IsDate){#>
-        url_ = url_.replace("{<#=parameter.Name#>}", encodeURIComponent("" + <#=parameter.VariableNameLower#>.toJSON())); 
+        url_ = url_.replace("{<#=parameter.Name#>}", encodeURIComponent("" + <#=parameter.VariableName#>.toJSON())); 
 <#  }else if(parameter.IsArray){#>
-        url_ = url_.replace("{<#=parameter.Name#>}", encodeURIComponent(<#=parameter.VariableNameLower#>.join())); 
+        url_ = url_.replace("{<#=parameter.Name#>}", encodeURIComponent(<#=parameter.VariableName#>.join())); 
 <#  }else{#>
-        url_ = url_.replace("{<#=parameter.Name#>}", encodeURIComponent("" + <#=parameter.VariableNameLower#>)); 
+        url_ = url_.replace("{<#=parameter.Name#>}", encodeURIComponent("" + <#=parameter.VariableName#>)); 
 <#  }#>
 <#}#>
 
 <#foreach(var parameter in operation.QueryParameters){#>
 <#  if (parameter.IsRequired) { 
         if(parameter.IsNullable){#>
-        if (<#=parameter.VariableNameLower#> === undefined)
-            throw new Error("The parameter '<#=parameter.VariableNameLower#>' must be defined.");
+        if (<#=parameter.VariableName#> === undefined)
+            throw new Error("The parameter '<#=parameter.VariableName#>' must be defined.");
         else
 <#      }else{#>
-        if (<#=parameter.VariableNameLower#> === undefined || <#=parameter.VariableNameLower#> === null)
-            throw new Error("The parameter '<#=parameter.VariableNameLower#>' must be defined and cannot be null.");
+        if (<#=parameter.VariableName#> === undefined || <#=parameter.VariableName#> === null)
+            throw new Error("The parameter '<#=parameter.VariableName#>' must be defined and cannot be null.");
         else
 <#      }
     }else{
         if(parameter.IsNullable){#>
-        if (<#=parameter.VariableNameLower#> !== undefined)
+        if (<#=parameter.VariableName#> !== undefined)
 <#      }else{#>
-        if (<#=parameter.VariableNameLower#> === null)
-            throw new Error("The parameter '<#=parameter.VariableNameLower#>' cannot be null.");
-        else if (<#=parameter.VariableNameLower#> !== undefined)
+        if (<#=parameter.VariableName#> === null)
+            throw new Error("The parameter '<#=parameter.VariableName#>' cannot be null.");
+        else if (<#=parameter.VariableName#> !== undefined)
 <#      }
     }#>
 <#  if(parameter.IsDateArray){#>
-            <#=parameter.VariableNameLower#>.forEach(item => { url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + item.toJSON()) + "&"; });
+            <#=parameter.VariableName#>.forEach(item => { url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + item.toJSON()) + "&"; });
 <#  }else if(parameter.IsDate){#>
-            url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + <#=parameter.VariableNameLower#>.toJSON()) + "&"; 
+            url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + <#=parameter.VariableName#>.toJSON()) + "&"; 
 <#  }else if(parameter.IsArray){#>
-            <#=parameter.VariableNameLower#>.forEach(item => { url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + item) + "&"; });
+            <#=parameter.VariableName#>.forEach(item => { url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + item) + "&"; });
 <#  }else{#>
-            url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + <#=parameter.VariableNameLower#>) + "&"; 
+            url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + <#=parameter.VariableName#>) + "&"; 
 <#  }
 }#>
 
@@ -105,7 +105,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
             transformResponse: [], 
             headers: {
 <#foreach(var parameter in operation.HeaderParameters){#>
-                "<#=parameter.Name#>": <#=parameter.VariableNameLower#>, 
+                "<#=parameter.Name#>": <#=parameter.VariableName#>, 
 <#}#>
 <#if(operation.HasFormParameters){#>                'Content-Type': undefined
 <#}else{#>
