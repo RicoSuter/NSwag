@@ -5,7 +5,7 @@ using NSwagStudio.ViewModels.CodeGenerators;
 
 namespace NSwagStudio.Views.CodeGenerators
 {
-    public partial class SwaggerToCSharpControllerGeneratorView : ICodeGenerator
+    public partial class SwaggerToCSharpControllerGeneratorView : ICodeGeneratorView
     {
         public SwaggerToCSharpControllerGeneratorView(SwaggerToCSharpControllerCommand command)
         {

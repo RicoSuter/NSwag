@@ -80,8 +80,8 @@ namespace NSwagStudio.Views
                 e.Cancel = true;
 
                 var paths = Model.Documents
-                    .Where(d => System.IO.File.Exists(d.Path))
-                    .Select(d => d.Path)
+                    .Where(d => System.IO.File.Exists(d.Document.Path))
+                    .Select(d => d.Document.Path)
                     .ToArray();
 
                 foreach (var document in Model.Documents.ToArray())

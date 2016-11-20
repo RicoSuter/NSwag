@@ -51,7 +51,8 @@ namespace NSwag.Commands
             set { Settings.TypeScriptGeneratorSettings.Namespace = value; }
         }
 
-        [Argument(Name = "Template", IsRequired = false, Description = "The type of the asynchronism handling ('JQueryCallbacks', 'JQueryPromises', 'AngularJS', 'Angular2').")]
+        [Argument(Name = "Template", IsRequired = false, Description = "The type of the asynchronism handling " +
+                                                                       "('JQueryCallbacks', 'JQueryPromises', 'AngularJS', 'Angular2', 'Fetch', 'Aurelia').")]
         public TypeScriptTemplate Template
         {
             get { return Settings.Template; }

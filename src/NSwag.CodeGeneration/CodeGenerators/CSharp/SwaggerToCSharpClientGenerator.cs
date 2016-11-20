@@ -97,9 +97,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
                 .Replace(Settings.CSharpGeneratorSettings.DictionaryType + "<", "IDictionary<");
         }
 
-        internal override string GetParameterName(SwaggerParameter parameter)
+        internal override string GetParameterVariableName(SwaggerParameter parameter)
         {
-            var name = base.GetParameterName(parameter);
+            var name = base.GetParameterVariableName(parameter);
             return ReservedKeywords.Contains(name) ? "@" + name : name;
         }
 

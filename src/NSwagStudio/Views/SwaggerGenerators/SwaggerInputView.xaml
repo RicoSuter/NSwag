@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:views="clr-namespace:NSwagStudio.Views"
              xmlns:swaggerGenerators1="clr-namespace:NSwagStudio.ViewModels.SwaggerGenerators"
+             xmlns:controls="clr-namespace:NSwagStudio.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     
@@ -21,25 +21,27 @@
         </Grid.RowDefinitions>
 
         <StackPanel>
-            <TextBlock Text="Load Swagger Specification from URL:" FontWeight="Bold" Margin="0,0,0,4"  />
+            <TextBlock Text="Swagger Specification URL:" FontWeight="Bold" Margin="0,0,0,4"  />
             <Grid Margin="0,0,0,8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBox VerticalContentAlignment="Center" Text="{Binding Document.InputSwaggerUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <Button Content="Load" Command="{Binding LoadSwaggerUrlCommand}" 
+                <TextBox VerticalContentAlignment="Center" Text="{Binding Command.Url, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Button Content="Create local Copy" 
+                        Command="{Binding LoadSwaggerUrlCommand}" 
+                        CommandParameter="{Binding Command.Url}"
                         Margin="4,0,0,0" Padding="8,4,8,4" Grid.Column="1" />
             </Grid>
 
-            <TextBlock Text="Swagger Specification (JSON):" FontWeight="Bold" Margin="0,0,0,8"  />
+            <TextBlock Text="Swagger Specification JSON (if specified, the URL is ignored): " FontWeight="Bold" Margin="0,0,0,8"  />
         </StackPanel>
         
         <Border Grid.Row="1" Margin="-8,0,-8,-8" BorderThickness="0,1,0,0" BorderBrush="LightGray">
             <avalonedit:TextEditor Padding="8" FontFamily="Consolas" Background="GhostWhite" ShowLineNumbers="True"
                                    SyntaxHighlighting="JavaScript" FontSize="10pt">
                 <i:Interaction.Behaviors>
-                    <views:AvalonEditBehavior Text="{Binding Document.InputSwagger, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <controls:AvalonEditBehavior Text="{Binding Command.Swagger, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </i:Interaction.Behaviors>
             </avalonedit:TextEditor>
         </Border>

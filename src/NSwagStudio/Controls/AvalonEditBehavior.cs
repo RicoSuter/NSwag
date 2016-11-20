@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Interactivity;
 using ICSharpCode.AvalonEdit;
 
-namespace NSwagStudio.Views
+namespace NSwagStudio.Controls
 {
     public sealed class AvalonEditBehavior : Behavior<TextEditor>
     {

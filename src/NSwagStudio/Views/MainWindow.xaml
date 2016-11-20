@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:viewModels="clr-namespace:NSwagStudio.ViewModels"
         xmlns:views="clr-namespace:NSwagStudio.Views"
+        xmlns:controls="clr-namespace:NSwagStudio.Controls"
         Title="NSwagStudio: The Swagger API toolchain for .NET and TypeScript" 
         MinHeight="650" MinWidth="1000" UseLayoutRounding="True"
         WindowStartupLocation="CenterScreen"
@@ -17,7 +18,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        
+
         <Menu>
             <MenuItem Header="_File">
                 <MenuItem Header="_New" Command="{Binding CreateDocumentCommand}" InputGestureText="Ctrl-N" />
@@ -30,34 +31,34 @@
                 <MenuItem Header="Save As" Command="{Binding SaveAsDocumentCommand}" CommandParameter="{Binding SelectedDocument}" />
             </MenuItem>
         </Menu>
-        
+
         <TabControl Grid.Row="1" TabStripPlacement="Left" Margin="8,8,0,0">
             <!-- Documents -->
             <TabItem Header="Documents" HeaderTemplate="{StaticResource RotatedTabItem}">
-                <TabControl ItemsSource="{Binding Documents}" 
+                <TabControl ItemsSource="{Binding Documents}" controls:TabContent.IsCached="True"
                             SelectedItem="{Binding SelectedDocument, Mode=TwoWay}" 
                             Margin="8">
                     <TabControl.ItemTemplate>
                         <DataTemplate>
-                            <Grid ToolTip="{Binding Path}">
+                            <Grid ToolTip="{Binding Document.Path}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock Text="{Binding Name}" Margin="0,2,0,0" />
+                                <TextBlock Text="{Binding Document.Name}" VerticalAlignment="Center" Margin="0,2,0,0" />
                                 <Button Grid.Column="1" 
-                                        Content="X" Padding="6,2,6,2" Margin="4,0,0,0"
+                                        Content="X" Padding="6,2,6,2" Margin="8,3,0,2"
                                         CommandParameter="{Binding}" 
                                         Command="{Binding CloseDocumentCommand, Source={StaticResource ViewModel}}" />
                             </Grid>
                         </DataTemplate>
                     </TabControl.ItemTemplate>
-                    <TabControl.ContentTemplate>
+                    <controls:TabContent.Template>
                         <DataTemplate>
                             <views:DocumentView Document="{Binding}" Margin="8" />
                         </DataTemplate>
-                    </TabControl.ContentTemplate>
+                    </controls:TabContent.Template>
                 </TabControl>
             </TabItem>
             <!-- About -->
@@ -86,5 +87,6 @@
                 </StackPanel>
             </TabItem>
         </TabControl>
-    </Grid>    
+    </Grid>
 </Window>
+

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using MyToolkit.Command;
 using Newtonsoft.Json;
-using NSwag.CodeGeneration;
+using NSwag.Commands;
 
 namespace NSwagStudio.ViewModels.SwaggerGenerators
 {
@@ -11,24 +11,28 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
     {
         public SwaggerInputViewModel()
         {
-            LoadSwaggerUrlCommand = new AsyncRelayCommand(async () => await LoadSwaggerUrlAsync());
+            LoadSwaggerUrlCommand = new AsyncRelayCommand<string>(async url => await LoadSwaggerUrlAsync(url));
         }
 
-        public NSwagDocument Document { get; set; }
+        public FromSwaggerCommand Command { get; set; }
 
         public ICommand LoadSwaggerUrlCommand { get; }
 
-        public async Task LoadSwaggerUrlAsync()
+        public async Task LoadSwaggerUrlAsync(string url)
         {
             var json = string.Empty;
-            var url = Document.InputSwaggerUrl;
             await RunTaskAsync(() =>
             {
                 using (var client = new WebClient())
                     json = JsonConvert.SerializeObject(JsonConvert.DeserializeObject(client.DownloadString(url)), Formatting.Indented);
             });
-            Document.InputSwagger = json;
-            Document.RaiseAllPropertiesChanged();
+
+            Command.Swagger = json;
+        }
+
+        public async Task<string> GenerateSwaggerAsync()
+        {
+            return await RunTaskAsync(async () => (await Command.RunAsync())?.ToJson());
         }
     }
 }

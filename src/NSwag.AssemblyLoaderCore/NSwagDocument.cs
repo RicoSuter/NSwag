@@ -6,6 +6,8 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using NSwag.CodeGeneration.Commands;
 using NSwag.CodeGeneration.Utilities;
@@ -20,8 +22,8 @@ namespace NSwag.CodeGeneration
         /// <summary>Initializes a new instance of the <see cref="NSwagDocument"/> class.</summary>
         public NSwagDocument()
         {
-            SwaggerGenerators.Add(WebApiToSwaggerCommand = new WebApiToSwaggerCommand());
-            SwaggerGenerators.Add(AssemblyTypeToSwaggerCommand = new AssemblyTypeToSwaggerCommand());
+            SwaggerGenerators.WebApiToSwaggerCommand = new WebApiToSwaggerCommand();
+            SwaggerGenerators.AssemblyTypeToSwaggerCommand = new AssemblyTypeToSwaggerCommand();
         }
 
         /// <summary>Creates a new NSwagDocument.</summary>
@@ -36,7 +38,11 @@ namespace NSwag.CodeGeneration
         /// <returns>The document.</returns>
         public static Task<NSwagDocument> LoadAsync(string filePath)
         {
-            return LoadAsync<NSwagDocument>(filePath);
+            return LoadAsync<NSwagDocument>(filePath, new Dictionary<Type, Type>
+            {
+                { typeof(WebApiToSwaggerCommandBase), typeof(WebApiToSwaggerCommand) },
+                { typeof(AssemblyTypeToSwaggerCommandBase), typeof(AssemblyTypeToSwaggerCommand) }
+            });
         }
 
         /// <summary>Converts to absolute path.</summary>
@@ -55,20 +61,8 @@ namespace NSwag.CodeGeneration
         protected override string ConvertToRelativePath(string pathToConvert)
         {
             if (!string.IsNullOrEmpty(pathToConvert) && !pathToConvert.Contains("C:\\Program Files\\"))
-                return PathUtilities.MakeRelativePath(pathToConvert, GetDocumentDirectory());
-            return pathToConvert;
-        }
-
-        /// <summary>Generates the Swagger specification.</summary>
-        /// <returns>The Swagger specification.</returns>
-        protected override async Task<SwaggerDocument> GenerateDocumentAsync()
-        {
-            if (SelectedSwaggerGenerator == 1)
-                return await WebApiToSwaggerCommand.RunAsync();
-            else if (SelectedSwaggerGenerator == 3)
-                return await AssemblyTypeToSwaggerCommand.RunAsync();
-            else
-                return await base.GenerateDocumentAsync();
+                return PathUtilities.MakeRelativePath(pathToConvert, GetDocumentDirectory())?.Replace("\\", "/");
+            return pathToConvert?.Replace("\\", "/");
         }
 
         private string GetDocumentDirectory()

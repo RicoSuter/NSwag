@@ -3,13 +3,12 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using MyToolkit.Mvvm;
-using NSwag.CodeGeneration;
 using NSwagStudio.ViewModels;
-using ViewModelBase = NSwagStudio.ViewModels.ViewModelBase;
+using ViewModelBase = MyToolkit.Mvvm.ViewModelBase;
 
 namespace NSwagStudio.Views
 {
-    public partial class DocumentView : UserControl
+    public partial class DocumentView
     {
         public DocumentView()
         {
@@ -18,21 +17,21 @@ namespace NSwagStudio.Views
             Unloaded += OnUnloaded;
         }
 
-        private DocumentViewModel Model { get { return (DocumentViewModel)Resources["ViewModel"]; } }
+        private DocumentViewModel Model => (DocumentViewModel)Resources["ViewModel"];
 
         public static readonly DependencyProperty DocumentProperty = DependencyProperty.Register(
-            "Document", typeof (NSwagDocument), typeof (DocumentView), new PropertyMetadata(default(NSwagDocument), OnDocumentChanged));
+            "Document", typeof (DocumentModel), typeof (DocumentView), new PropertyMetadata(default(DocumentModel), OnDocumentChanged));
 
         private static void OnDocumentChanged(DependencyObject view, DependencyPropertyChangedEventArgs args)
         {
             var vm = ((DocumentView) view).Model;
             if (vm.Document != args.NewValue)
-                vm.Document = (NSwagDocument) args.NewValue;
+                vm.Document = (DocumentModel) args.NewValue;
         }
 
-        public NSwagDocument Document
+        public DocumentModel Document
         {
-            get { return (NSwagDocument) GetValue(DocumentProperty); }
+            get { return (DocumentModel) GetValue(DocumentProperty); }
             set { SetValue(DocumentProperty, value); }
         }
 
@@ -40,18 +39,17 @@ namespace NSwagStudio.Views
         {
             App.Telemetry.TrackEvent("Generate", new Dictionary<string, string>
             {
-                { "Generator", Model.SwaggerGenerators[Document.SelectedSwaggerGenerator].Title }
+                { "Generator", Model.Document.GetSwaggerGeneratorView().Title }
             });
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            foreach (var generatorView in Model.CodeGenerators.OfType<UserControl>()
-                .Concat(Model.SwaggerGenerators.OfType<UserControl>()))
+            foreach (var generatorView in Model.Document.CodeGenerators.OfType<UserControl>()
+                .Concat(Model.Document.SwaggerGenerators.OfType<UserControl>()))
             {
                 var vm = generatorView.Resources["ViewModel"] as ViewModelBase;
-                if (vm != null)
-                    vm.CallOnUnloaded();
+                vm?.CallOnUnloaded();
             }
         }
     }
