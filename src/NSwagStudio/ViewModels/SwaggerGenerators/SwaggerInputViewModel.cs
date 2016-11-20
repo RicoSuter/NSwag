@@ -11,23 +11,28 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
     {
         public SwaggerInputViewModel()
         {
-            LoadSwaggerUrlCommand = new AsyncRelayCommand(async () => await LoadSwaggerUrlAsync());
+            LoadSwaggerUrlCommand = new AsyncRelayCommand<string>(async url => await LoadSwaggerUrlAsync(url));
         }
 
         public FromSwaggerCommand Command { get; set; }
 
         public ICommand LoadSwaggerUrlCommand { get; }
 
-        public async Task LoadSwaggerUrlAsync()
+        public async Task LoadSwaggerUrlAsync(string url)
         {
             var json = string.Empty;
-            var url = Command.Url;
             await RunTaskAsync(() =>
             {
                 using (var client = new WebClient())
                     json = JsonConvert.SerializeObject(JsonConvert.DeserializeObject(client.DownloadString(url)), Formatting.Indented);
             });
+
             Command.Swagger = json;
+        }
+
+        public async Task<string> GenerateSwaggerAsync()
+        {
+            return await RunTaskAsync(async () => (await Command.RunAsync())?.ToJson());
         }
     }
 }

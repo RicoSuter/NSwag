@@ -15,15 +15,8 @@ namespace NSwagStudio.Views.SwaggerGenerators
             _command = command;
             InitializeComponent();
 
-            var hasInputSwaggerUrl = !string.IsNullOrEmpty(_command.Url);
-            if (hasInputSwaggerUrl)
-                _command.Swagger = string.Empty;
-
             Model.Command = command;
             Model.RaiseAllPropertiesChanged();
-
-            if (hasInputSwaggerUrl)
-                Model.LoadSwaggerUrlAsync();
         }
 
         public OutputCommandBase Command => _command;
@@ -34,9 +27,9 @@ namespace NSwagStudio.Views.SwaggerGenerators
 
         public string Title => "Swagger Specification";
 
-        public async Task<string> GenerateSwaggerAsync()
+        public Task<string> GenerateSwaggerAsync()
         {
-            return Model.Command.Swagger;
+            return Model.GenerateSwaggerAsync();
         }
     }
 }

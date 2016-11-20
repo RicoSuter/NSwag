@@ -146,7 +146,7 @@ namespace NSwag.Commands
         {
             return Task.Run(async () =>
             {
-                var saveFile = false; 
+                var saveFile = false;
                 var data = DynamicApis.FileReadAllText(filePath);
                 data = TransformLegacyDocument(data, out saveFile); // TODO: Remove this legacy stuff later
 
@@ -214,7 +214,7 @@ namespace NSwag.Commands
                 }
             };
         }
-        
+
         private void ConvertToAbsolutePaths()
         {
             SwaggerGenerators.WebApiToSwaggerCommand.DocumentTemplate = ConvertToAbsolutePath(SwaggerGenerators.WebApiToSwaggerCommand.DocumentTemplate);
@@ -289,7 +289,7 @@ namespace NSwag.Commands
                             "fromSwagger", new JObject
                             {
                                 {"url", obj["InputSwaggerUrl"]},
-                                {"json", obj["InputSwagger"]}
+                                {"json", string.IsNullOrEmpty(obj["InputSwaggerUrl"].Value<string>()) ? obj["InputSwagger"] : null}
                             }
                         }
                     };

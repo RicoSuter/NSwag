@@ -50,10 +50,14 @@ namespace NSwagStudio.ViewModels
             else
             {
                 var generator = Document.GetSwaggerGeneratorView();
-                var documentPath = Document.GetDocumentPath(generator);
                 var swaggerCode = await generator.GenerateSwaggerAsync();
-                foreach (var codeGenerator in Document.CodeGenerators)
-                    await codeGenerator.GenerateClientAsync(swaggerCode, documentPath);
+
+                if (!string.IsNullOrEmpty(swaggerCode))
+                {
+                    var documentPath = Document.GetDocumentPath(generator);
+                    foreach (var codeGenerator in Document.CodeGenerators)
+                        await codeGenerator.GenerateClientAsync(swaggerCode, documentPath);
+                }
             }
 
             IsLoading = false;
