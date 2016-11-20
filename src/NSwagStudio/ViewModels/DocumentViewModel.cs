@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using MyToolkit.Command;
+using MyToolkit.Messaging;
 using MyToolkit.Utilities;
 
 namespace NSwagStudio.ViewModels
@@ -57,6 +58,12 @@ namespace NSwagStudio.ViewModels
                     var documentPath = Document.GetDocumentPath(generator);
                     foreach (var codeGenerator in Document.CodeGenerators)
                         await codeGenerator.GenerateClientAsync(swaggerCode, documentPath);
+                }
+                else
+                {
+                    await
+                        Messenger.Default.SendAsync(new TextMessage("No Swagger specification",
+                            "Could not generate code because the Swagger generator returned an empty document."));
                 }
             }
 
