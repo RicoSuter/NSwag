@@ -1,8 +1,6 @@
 ﻿<#@ template visibility="internal" #>
-<#@ assembly name="System.Core" #>
-<#@ import namespace="NJsonSchema.CodeGeneration" #>
-<#@ import namespace="NSwag.CodeGeneration.CodeGenerators.TypeScript" #>
-<#@ import namespace="System.Linq" #>
+<#@ import namespace="NJsonSchema" #>
+<#@ import namespace="CodeGenerators.TypeScript" #>
 
 <#if(Model.HasOperations){#>
 <#if(Model.GenerateClientInterfaces){#>

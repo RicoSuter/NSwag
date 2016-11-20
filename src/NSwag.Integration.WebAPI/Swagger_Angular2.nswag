@@ -22,7 +22,8 @@
         "http"
       ],
       "infoTitle": "Web API Swagger specification",
-      "infoVersion": "1.0.0"
+      "infoVersion": "1.0.0",
+      "output": null
     }
   },
   "codeGenerators": {
@@ -30,6 +31,7 @@
       "className": "{controller}Client",
       "moduleName": "",
       "namespace": "",
+      "typeScriptVersion": 2.0,
       "template": "Angular2",
       "promiseType": "Promise",
       "dateTimeType": "Date",
@@ -37,7 +39,7 @@
       "generateClientInterfaces": false,
       "generateDtoTypes": true,
       "operationGenerationMode": "MultipleClientsFromOperationId",
-      "generateReadOnlyKeywords": true,
+      "markOptionalProperties": false,
       "typeStyle": "Class",
       "generateDefaultValues": true,
       "output": "../NSwag.Integration.TypeScriptWeb/scripts/serviceClientsAngular2.ts"
@@ -61,7 +63,8 @@
       "dictionaryType": "Dictionary",
       "classStyle": "Inpc",
       "operationGenerationMode": "MultipleClientsFromOperationId",
-      "generateDefaultValues": true
+      "generateDefaultValues": true,
+      "output": null
     },
     "swaggerToCSharpController": {
       "className": "{controller}",
@@ -78,7 +81,8 @@
       "dictionaryType": "Dictionary",
       "classStyle": "Inpc",
       "operationGenerationMode": "MultipleClientsFromOperationId",
-      "generateDefaultValues": true
+      "generateDefaultValues": true,
+      "output": null
     }
   }
 }

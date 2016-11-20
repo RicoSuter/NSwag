@@ -1,4 +1,5 @@
-﻿using NJsonSchema.CodeGeneration;
+﻿using NJsonSchema;
+using NJsonSchema.CodeGeneration;
 
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Templates
 {

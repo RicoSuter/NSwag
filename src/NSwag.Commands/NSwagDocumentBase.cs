@@ -331,6 +331,16 @@ namespace NSwag.Commands
                 data = obj.ToString().Replace("\"OutputFilePath\"", "\"output\"");
                 saveFile = true;
             }
+            else if (data.Contains("generateReadOnlyKeywords") && !data.Contains("typeScriptVersion"))
+            {
+                data = data.Replace(@"""GenerateReadOnlyKeywords"": true", @"""typeScriptVersion"": 2.0");
+                data = data.Replace(@"""generateReadOnlyKeywords"": true", @"""typeScriptVersion"": 2.0");
+
+                data = data.Replace(@"""GenerateReadOnlyKeywords"": false", @"""typeScriptVersion"": 1.8");
+                data = data.Replace(@"""generateReadOnlyKeywords"": false", @"""typeScriptVersion"": 1.8");
+
+                saveFile = true;
+            }
             else
                 saveFile = false;
 

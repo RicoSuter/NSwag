@@ -35,6 +35,10 @@
                     <TextBlock Text="Namespace (empty for no namespace declaration)" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding Command.Namespace, Mode=TwoWay}" Margin="0,0,0,12" />
 
+                    <TextBlock Text="TypeScript Version" FontWeight="Bold" Margin="0,0,0,6" />
+                    <ComboBox SelectedItem="{Binding Command.TypeScriptVersion, Mode=TwoWay}" 
+                              ItemsSource="{Binding TypeScriptVersions}" Margin="0,0,0,12" />
+
                     <GroupBox Header="Client" Margin="0,0,0,12">
                         <StackPanel Margin="4,4,4,-8">
                             <CheckBox IsChecked="{Binding Command.GenerateClientClasses, Mode=TwoWay}" 
@@ -57,7 +61,7 @@
 
                                 <TextBlock Text="Template" FontWeight="Bold" Margin="0,0,0,6" />
                                 <ComboBox SelectedItem="{Binding Command.Template, Mode=TwoWay}" 
-                                              ItemsSource="{Binding Templates}" Margin="0,0,0,12" />
+                                          ItemsSource="{Binding Templates}" Margin="0,0,0,12" />
 
                                 <StackPanel Visibility="{Binding Command.Template, ConverterParameter='JQueryPromises', Converter={StaticResource EqualityConverter}}">
                                     <TextBlock Text="Promise Type" FontWeight="Bold" Margin="0,0,0,6" />
@@ -74,8 +78,8 @@
                                           Content="Generate DTO interfaces (e.g. request and response types)" Margin="0,0,0,12" />
 
                             <StackPanel Visibility="{Binding Command.GenerateDtoTypes, Converter={StaticResource VisibilityConverter}}">
-                                <CheckBox IsChecked="{Binding Command.GenerateReadOnlyKeywords, Mode=TwoWay}" 
-                                              Content="Generate readonly keywords in DTO types" Margin="0,0,0,12" />
+                                <CheckBox IsChecked="{Binding Command.MarkOptionalProperties, Mode=TwoWay}" 
+                                              Content="Mark optional properties with ?" Margin="0,0,0,12" />
 
                                 <CheckBox IsChecked="{Binding Command.GenerateDefaultValues, Mode=TwoWay}" Margin="0,0,0,12">
                                     <TextBlock Text="Generate default values for properties (if default value is specified)" TextWrapping="Wrap" />
