@@ -294,6 +294,13 @@ namespace NSwag.Commands
                         }
                     };
                 }
+                if (selectedSwaggerGenerator == 1) // web api
+                {
+                    obj["swaggerGenerator"] = new JObject
+                    {
+                        {"webApiToSwagger", obj["WebApiToSwaggerCommand"]}
+                    };
+                }
                 if (selectedSwaggerGenerator == 2) // json schema
                 {
                     obj["swaggerGenerator"] = new JObject
@@ -304,13 +311,6 @@ namespace NSwag.Commands
                                 {"schema", obj["InputJsonSchema"]},
                             }
                         }
-                    };
-                }
-                if (selectedSwaggerGenerator == 1) // web api
-                {
-                    obj["swaggerGenerator"] = new JObject
-                    {
-                        {"webApiToSwagger", obj["WebApiToSwaggerCommand"]}
                     };
                 }
                 if (selectedSwaggerGenerator == 3) // types
