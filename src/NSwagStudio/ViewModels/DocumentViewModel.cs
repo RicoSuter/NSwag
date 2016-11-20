@@ -61,9 +61,8 @@ namespace NSwagStudio.ViewModels
                 }
                 else
                 {
-                    await
-                        Messenger.Default.SendAsync(new TextMessage("No Swagger specification",
-                            "Could not generate code because the Swagger generator returned an empty document."));
+                    await Messenger.Default.SendAsync(new TextMessage("No Swagger specification",
+                        "Could not generate code because the Swagger generator returned an empty document."));
                 }
             }
 
