@@ -50,53 +50,9 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
 <#}#>    <#=operation.OperationNameLower#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): Promise<<#=operation.ResultType#>> {
-        let url_ = this.baseUrl + "/<#=operation.Path#><#if(operation.QueryParameters.Any()){#>?<#}#>"; 
+        <#=RequestUrlGenerator.Render(operation, 2)#>
 
-<#foreach(var parameter in operation.PathParameters){#>
-        if (<#=parameter.VariableName#> === undefined || <#=parameter.VariableName#> === null)
-            throw new Error("The parameter '<#=parameter.VariableName#>' must be defined.");
-<#  if(parameter.IsDateArray){#>
-        url_ = url_.replace("{<#=parameter.Name#>}", encodeURIComponent(<#=parameter.VariableName#>.map(s_ => s_.toJSON()).join())); 
-<#  }else if(parameter.IsDate){#>
-        url_ = url_.replace("{<#=parameter.Name#>}", encodeURIComponent("" + <#=parameter.VariableName#>.toJSON())); 
-<#  }else if(parameter.IsArray){#>
-        url_ = url_.replace("{<#=parameter.Name#>}", encodeURIComponent(<#=parameter.VariableName#>.join())); 
-<#  }else{#>
-        url_ = url_.replace("{<#=parameter.Name#>}", encodeURIComponent("" + <#=parameter.VariableName#>)); 
-<#  }#>
-<#}#>
-
-<#foreach(var parameter in operation.QueryParameters){#>
-<#  if (parameter.IsRequired) { 
-        if(parameter.IsNullable){#>
-        if (<#=parameter.VariableName#> === undefined)
-            throw new Error("The parameter '<#=parameter.VariableName#>' must be defined.");
-        else
-<#      }else{#>
-        if (<#=parameter.VariableName#> === undefined || <#=parameter.VariableName#> === null)
-            throw new Error("The parameter '<#=parameter.VariableName#>' must be defined and cannot be null.");
-        else
-<#      }
-    }else{
-        if(parameter.IsNullable){#>
-        if (<#=parameter.VariableName#> !== undefined)
-<#      }else{#>
-        if (<#=parameter.VariableName#> === null)
-            throw new Error("The parameter '<#=parameter.VariableName#>' cannot be null.");
-        else if (<#=parameter.VariableName#> !== undefined)
-<#      }
-    }#>
-<#  if(parameter.IsDateArray){#>
-            <#=parameter.VariableName#>.forEach(item => { url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + item.toJSON()) + "&"; });
-<#  }else if(parameter.IsDate){#>
-            url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + <#=parameter.VariableName#>.toJSON()) + "&"; 
-<#  }else if(parameter.IsArray){#>
-            <#=parameter.VariableName#>.forEach(item => { url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + item) + "&"; });
-<#  }else{#>
-            url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + <#=parameter.VariableName#>) + "&"; 
-<#  }
-}
-if(!operation.IsGetOrHead){#>
+<#if(!operation.IsGetOrHead){#>
         <#=RequestBodyGenerator.Render(operation, 2)#>
 <#}#>
         return this.http.fetch(url_, <#if(Model.IsExtended){#>this.transformOptions(<#}#>{
