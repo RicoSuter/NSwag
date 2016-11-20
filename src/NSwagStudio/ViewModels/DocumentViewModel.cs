@@ -1,7 +1,7 @@
 using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using MyToolkit.Command;
+using MyToolkit.Dialogs;
 using MyToolkit.Messaging;
 using MyToolkit.Utilities;
 
@@ -45,7 +45,7 @@ namespace NSwagStudio.ViewModels
                 }
                 catch (Exception exception)
                 {
-                    Debug.WriteLine("Error in DocumentViewModel.GenerateAsync: " + exception);
+                    ExceptionBox.Show("An error occured", exception);
                 }
             }
             else
