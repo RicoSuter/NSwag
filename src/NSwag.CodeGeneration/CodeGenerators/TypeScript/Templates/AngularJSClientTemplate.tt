@@ -22,9 +22,9 @@ export interface I<#=Model.Class#> {
 export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements I<#=Model.Class#> <#}#>{
     private baseUrl: string = undefined; 
     private http: ng.IHttpService = null; 
-    private jsonParseReviver: (key: string, value: any) => any = undefined; 
+    private jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined; 
 
-    constructor($http: ng.IHttpService, baseUrl?: string, jsonParseReviver?: (key: string, value: any) => any) {
+    constructor($http: ng.IHttpService, baseUrl?: string, jsonParseReviver?: ((key: string, value: any) => any) | undefined) {
         this.http = $http; 
         this.baseUrl = baseUrl !== undefined ? baseUrl : "<#=Model.BaseUrl#>"; 
         this.jsonParseReviver = jsonParseReviver;
