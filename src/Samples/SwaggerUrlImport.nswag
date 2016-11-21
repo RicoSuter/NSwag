@@ -10,6 +10,7 @@
       "className": "{controller}Client",
       "moduleName": "",
       "namespace": "",
+      "typeScriptVersion": 1.8,
       "template": "JQueryCallbacks",
       "promiseType": "Promise",
       "dateTimeType": "Date",
@@ -17,7 +18,7 @@
       "generateClientInterfaces": true,
       "generateDtoTypes": true,
       "operationGenerationMode": "SingleClientFromOperationId",
-      "generateReadOnlyKeywords": false,
+      "markOptionalProperties": false,
       "typeStyle": "Interface",
       "generateDefaultValues": true,
       "output": null

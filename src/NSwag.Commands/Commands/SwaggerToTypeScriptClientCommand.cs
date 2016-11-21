@@ -51,6 +51,13 @@ namespace NSwag.Commands
             set { Settings.TypeScriptGeneratorSettings.Namespace = value; }
         }
 
+        [Argument(Name = "TypeScriptVersion", IsRequired = false, Description = "The target TypeScript version (default: 1.8).")]
+        public decimal TypeScriptVersion
+        {
+            get { return Settings.TypeScriptGeneratorSettings.TypeScriptVersion; }
+            set { Settings.TypeScriptGeneratorSettings.TypeScriptVersion = value; }
+        }
+
         [Argument(Name = "Template", IsRequired = false, Description = "The type of the asynchronism handling " +
                                                                        "('JQueryCallbacks', 'JQueryPromises', 'AngularJS', 'Angular2', 'Fetch', 'Aurelia').")]
         public TypeScriptTemplate Template
@@ -101,11 +108,11 @@ namespace NSwag.Commands
             set { Settings.OperationGenerationMode = value; }
         }
 
-        [Argument(Name = "GenerateReadOnlyKeywords", IsRequired = false, Description = "Specifies whether to generate readonly keywords (only available in TS 2.0+, default: true).")]
-        public bool GenerateReadOnlyKeywords
+        [Argument(Name = "MarkOptionalProperties", IsRequired = false, Description = "Specifies whether to mark optional properties with ? (default: false).")]
+        public bool MarkOptionalProperties
         {
-            get { return Settings.TypeScriptGeneratorSettings.GenerateReadOnlyKeywords; }
-            set { Settings.TypeScriptGeneratorSettings.GenerateReadOnlyKeywords = value; }
+            get { return Settings.TypeScriptGeneratorSettings.MarkOptionalProperties; }
+            set { Settings.TypeScriptGeneratorSettings.MarkOptionalProperties = value; }
         }
 
         [Argument(Name = "TypeStyle", IsRequired = false, Description = "The type style (default: Class).")]

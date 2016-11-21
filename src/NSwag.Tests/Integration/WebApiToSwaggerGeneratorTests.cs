@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NJsonSchema;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 using NSwag.Demo.Web.Controllers;
 
@@ -41,7 +42,7 @@ namespace NSwag.Tests.Integration
 
             //// Assert
             Assert.AreEqual(2, operation.Operation.Responses.Count);
-            Assert.AreEqual("Person", operation.Operation.Responses["200"].ActualResponseSchema.GetTypeName(null, string.Empty));
+            Assert.AreEqual("Person", operation.Operation.Responses["200"].ActualResponseSchema.GetTypeName(new DefaultTypeNameGenerator(), string.Empty));
         }
     }
 }

@@ -6,7 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using NJsonSchema.CodeGeneration;
+using NJsonSchema;
 using NSwag.CodeGeneration.CodeGenerators.Models;
 using NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates;
 

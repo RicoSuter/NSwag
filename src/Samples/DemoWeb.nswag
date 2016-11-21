@@ -1,28 +1,23 @@
 ﻿{
   "swaggerGenerator": {
     "webApiToSwagger": {
-      "AssemblyPaths": [
+      "assemblyPaths": [
         "../NSwag.Demo.Web/bin/NSwag.Demo.Web.dll"
       ],
-      "AssemblyConfig": null,
-      "ReferencePaths": [],
-      "IsAspNetCore": false,
-      "ControllerNames": [
+      "referencePaths": [],
+      "isAspNetCore": false,
+      "controllerNames": [
         "NSwag.Demo.Web.Controllers.TestController"
       ],
-      "DefaultUrlTemplate": "api/{controller}/{action}/{id}",
-      "DefaultPropertyNameHandling": 0,
-      "DefaultEnumHandling": 0,
-      "FlattenInheritanceHierarchy": false,
-      "GenerateKnownTypes": true,
-      "AddMissingPathParameters": false,
-      "ServiceHost": null,
-      "ServiceBasePath": null,
-      "ServiceSchemes": null,
-      "InfoTitle": "Web API Swagger specification",
-      "InfoDescription": null,
-      "InfoVersion": "1.0.0",
-      "DocumentTemplate": null
+      "defaultUrlTemplate": "api/{controller}/{action}/{id}",
+      "defaultPropertyNameHandling": "Default",
+      "defaultEnumHandling": "Integer",
+      "flattenInheritanceHierarchy": false,
+      "generateKnownTypes": true,
+      "addMissingPathParameters": false,
+      "infoTitle": "Web API Swagger specification",
+      "infoVersion": "1.0.0",
+      "output": null
     }
   },
   "codeGenerators": {
@@ -30,6 +25,7 @@
       "className": "{controller}Client",
       "moduleName": "",
       "namespace": "",
+      "typeScriptVersion": 2.0,
       "template": "JQueryCallbacks",
       "promiseType": "Promise",
       "dateTimeType": "Date",
@@ -37,9 +33,10 @@
       "generateClientInterfaces": false,
       "generateDtoTypes": true,
       "operationGenerationMode": "MultipleClientsFromOperationId",
-      "generateReadOnlyKeywords": true,
+      "markOptionalProperties": false,
       "typeStyle": "Class",
-      "generateDefaultValues": true
+      "generateDefaultValues": true,
+      "output": null
     },
     "swaggerToCSharpClient": {
       "exceptionClass": "SwaggerException",
@@ -63,7 +60,8 @@
       "dictionaryType": "Dictionary",
       "classStyle": "Poco",
       "operationGenerationMode": "MultipleClientsFromOperationId",
-      "generateDefaultValues": true
+      "generateDefaultValues": true,
+      "output": null
     },
     "swaggerToCSharpController": {
       "className": "{controller}",
@@ -80,7 +78,8 @@
       "dictionaryType": "Dictionary",
       "classStyle": "Inpc",
       "operationGenerationMode": "MultipleClientsFromOperationId",
-      "generateDefaultValues": true
+      "generateDefaultValues": true,
+      "output": null
     }
   }
 }
