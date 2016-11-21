@@ -17,7 +17,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+    #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "14.0.0.0")]
     internal partial class FetchClientTemplate : FetchClientTemplateBase
     {
@@ -29,258 +29,273 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates
         {
             this.Write("\r\n");
             
-            #line 5 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 5 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 if(Model.HasOperations){
             
             #line default
             #line hidden
             
-            #line 6 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 6 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 if(Model.GenerateClientInterfaces){
             
             #line default
             #line hidden
             this.Write("export interface I");
             
-            #line 7 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 7 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.Class));
             
             #line default
             #line hidden
             this.Write(" {\r\n");
             
-            #line 8 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 8 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 foreach(var operation in Model.Operations){
             
             #line default
             #line hidden
             
-            #line 9 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 9 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 if(operation.HasDocumentation){
             
             #line default
             #line hidden
             this.Write("    /**\r\n");
             
-            #line 10 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 10 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 if(operation.HasSummary){
             
             #line default
             #line hidden
             this.Write("     * ");
             
-            #line 10 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 10 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.Summary));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 11 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 11 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 11 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 11 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 foreach(var parameter in operation.Parameters){
             
             #line default
             #line hidden
             
-            #line 12 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 12 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 if(parameter.HasDescription){
             
             #line default
             #line hidden
             this.Write("     * @");
             
-            #line 12 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 12 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 12 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 12 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Description ?? ""));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 13 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 13 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 13 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 13 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 13 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 13 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 if(operation.HasResultDescription){
             
             #line default
             #line hidden
             this.Write("     * @return ");
             
-            #line 13 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 13 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultDescription));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 14 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 14 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 14 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 14 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 if(operation.IsDeprecated){
             
             #line default
             #line hidden
             this.Write("     * @deprecated\r\n");
             
-            #line 15 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 15 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("     */\r\n");
             
-            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 16 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("    ");
             
-            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 16 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameLower));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 16 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 foreach(var parameter in operation.Parameters){
             
             #line default
             #line hidden
             
-            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 16 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             this.Write(": ");
             
-            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 16 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Type));
             
             #line default
             #line hidden
             
-            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 16 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 if(!parameter.IsLast){
             
             #line default
             #line hidden
             this.Write(", ");
             
-            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 16 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 16 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("): Promise<");
             
-            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 16 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultType));
             
             #line default
             #line hidden
             this.Write(">;\r\n");
             
-            #line 17 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 17 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("}\r\n");
             
-            #line 18 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 18 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 20 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 20 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 if(Model.UseAureliaHttpInjection){
             
             #line default
             #line hidden
             this.Write("@inject(String, HttpClient)\r\n");
             
-            #line 22 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 22 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("export class ");
             
-            #line 23 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 23 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.Class));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 23 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 23 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 if(Model.GenerateClientInterfaces){
             
             #line default
             #line hidden
             this.Write("implements I");
             
-            #line 23 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 23 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.Class));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 23 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 23 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
-            this.Write(@"{
-    private baseUrl: string; 
-    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
-	protected jsonParseReviver: (key: string, value: any) => any = undefined; 
-
-    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
-        this.baseUrl = baseUrl ? baseUrl : """";
-        this.http = http ? http : window;
-    }
-");
+            this.Write("{\r\n    private baseUrl: string; \r\n    private http: { fetch(url: RequestInfo, ini" +
+                    "t?: RequestInit): Promise<Response> };\r\n    protected jsonParseReviver: ");
             
-            #line 32 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 26 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+if(Model.SupportsStrictNullChecks){
+            
+            #line default
+            #line hidden
+            this.Write("((key: string, value: any) => any) | undefined");
+            
+            #line 26 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+}else{
+            
+            #line default
+            #line hidden
+            this.Write("(key: string, value: any) => any");
+            
+            #line 26 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write(" = undefined;\r\n\r\n    constructor(baseUrl?: string, http?: { fetch(url: RequestInf" +
+                    "o, init?: RequestInit): Promise<Response> }) {\r\n        this.baseUrl = baseUrl ?" +
+                    " baseUrl : \"\";\r\n        this.http = http ? http : window;\r\n    }\r\n");
+            
+            #line 32 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 if(Model.IsExtended){
             
             #line default
@@ -290,305 +305,305 @@ if(Model.IsExtended){
                     "ssor: (response: Response) => any) {\r\n        return processor(response);\r\n    }" +
                     "\r\n");
             
-            #line 41 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 41 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 42 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 42 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 foreach(var operation in Model.Operations){
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 44 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 44 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 if(operation.HasDocumentation){
             
             #line default
             #line hidden
             this.Write("    /**\r\n");
             
-            #line 45 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 45 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 if(operation.HasSummary){
             
             #line default
             #line hidden
             this.Write("     * ");
             
-            #line 45 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 45 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.Summary));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 46 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 46 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 46 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 46 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 foreach(var parameter in operation.Parameters){
             
             #line default
             #line hidden
             
-            #line 47 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 47 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 if(parameter.HasDescription){
             
             #line default
             #line hidden
             this.Write("     * @");
             
-            #line 47 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 47 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 47 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 47 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Description ?? ""));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 48 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 48 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 48 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 48 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 48 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 48 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 if(operation.HasResultDescription){
             
             #line default
             #line hidden
             this.Write("     * @return ");
             
-            #line 48 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 48 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultDescription));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 49 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 49 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 49 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 49 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 if(operation.IsDeprecated){
             
             #line default
             #line hidden
             this.Write("     * @deprecated\r\n");
             
-            #line 50 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 50 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("     */\r\n");
             
-            #line 51 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 51 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("    ");
             
-            #line 51 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 51 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameLower));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 51 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 51 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 foreach(var parameter in operation.Parameters){
             
             #line default
             #line hidden
             
-            #line 51 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 51 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             this.Write(": ");
             
-            #line 51 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 51 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Type));
             
             #line default
             #line hidden
             
-            #line 51 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 51 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 if(!parameter.IsLast){
             
             #line default
             #line hidden
             this.Write(", ");
             
-            #line 51 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 51 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 51 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 51 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("): Promise<");
             
-            #line 51 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 51 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultType));
             
             #line default
             #line hidden
             this.Write("> {\r\n        ");
             
-            #line 52 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 52 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(RequestUrlGenerator.Render(operation, 2)));
             
             #line default
             #line hidden
             this.Write("\r\n\r\n");
             
-            #line 54 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 54 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 if(!operation.IsGetOrHead){
             
             #line default
             #line hidden
             this.Write("        ");
             
-            #line 55 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 55 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(RequestBodyGenerator.Render(operation, 2)));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 56 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 56 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("        return this.http.fetch(url_, ");
             
-            #line 57 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 57 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 if(Model.IsExtended){
             
             #line default
             #line hidden
             this.Write("this.transformOptions(");
             
-            #line 57 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 57 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("{\r\n");
             
-            #line 58 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 58 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 if(!operation.IsGetOrHead){
             
             #line default
             #line hidden
             this.Write("\t\t\tbody: content_,\r\n");
             
-            #line 60 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 60 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("            method: \"");
             
-            #line 61 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 61 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.HttpMethodUpper.ToUpperInvariant()));
             
             #line default
             #line hidden
             this.Write("\",\r\n            headers: {\r\n");
             
-            #line 63 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 63 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 foreach(var parameter in operation.HeaderParameters){
             
             #line default
             #line hidden
             this.Write("                \"");
             
-            #line 64 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 64 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
             
             #line default
             #line hidden
             this.Write("\": ");
             
-            #line 64 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 64 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             this.Write(", \r\n");
             
-            #line 65 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 65 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 66 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 66 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 if(operation.HasFormParameters){
             
             #line default
             #line hidden
             this.Write("                \'Content-Type\': undefined\r\n");
             
-            #line 67 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 67 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }else{
             
             #line default
             #line hidden
             this.Write("                \"Content-Type\": \"application/json; charset=UTF-8\"\r\n");
             
-            #line 69 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 69 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("            }\r\n        }");
             
-            #line 71 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 71 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 if(Model.IsExtended){
             
             #line default
             #line hidden
             this.Write(")");
             
-            #line 71 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 71 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write(").then((response) => {\r\n");
             
-            #line 72 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 72 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 if(Model.IsExtended){
             
             #line default
@@ -596,35 +611,35 @@ if(Model.IsExtended){
             this.Write("            return this.transformResult(url_, response, (response) => this.proces" +
                     "s");
             
-            #line 73 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 73 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
             
             #line default
             #line hidden
             this.Write("(response));\r\n");
             
-            #line 74 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 74 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }else{
             
             #line default
             #line hidden
             this.Write("            return this.process");
             
-            #line 75 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 75 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
             
             #line default
             #line hidden
             this.Write("(response);\r\n");
             
-            #line 76 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 76 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("        });\r\n    }\r\n\r\n    private process");
             
-            #line 80 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 80 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
             
             #line default
@@ -632,69 +647,69 @@ if(Model.IsExtended){
             this.Write("(response: Response) {\r\n        return response.text().then((data) => {\r\n        " +
                     "    const status = response.status.toString(); \r\n\r\n");
             
-            #line 84 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 84 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 foreach(var response in operation.Responses){
             
             #line default
             #line hidden
             this.Write("            if (status === \"");
             
-            #line 85 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 85 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
             
             #line default
             #line hidden
             this.Write("\") {\r\n");
             
-            #line 86 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 86 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 if(response.HasType){
             
             #line default
             #line hidden
             this.Write("                let result");
             
-            #line 87 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 87 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
             
             #line default
             #line hidden
             this.Write(": ");
             
-            #line 87 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 87 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.Type));
             
             #line default
             #line hidden
             this.Write(" = null; \r\n");
             
-            #line 88 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 88 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
   if(response.IsDate){
             
             #line default
             #line hidden
             this.Write("                result");
             
-            #line 89 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 89 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
             
             #line default
             #line hidden
             this.Write(" = new Date(data);\r\n");
             
-            #line 90 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 90 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
   }else{
             
             #line default
             #line hidden
             
-            #line 91 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 91 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
       if(response.UseDtoClass){
             
             #line default
             #line hidden
             this.Write("                let resultData");
             
-            #line 92 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 92 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
             
             #line default
@@ -702,75 +717,75 @@ if(response.HasType){
             this.Write(" = data === \"\" ? null : JSON.parse(data, this.jsonParseReviver);\r\n               " +
                     " ");
             
-            #line 93 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 93 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.Tab(response.DataConversionCode, 4)));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 94 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 94 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
       }else{
             
             #line default
             #line hidden
             this.Write("                result");
             
-            #line 95 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 95 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
             
             #line default
             #line hidden
             this.Write(" = data === \"\" ? null : <");
             
-            #line 95 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 95 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.Type));
             
             #line default
             #line hidden
             this.Write(">JSON.parse(data, this.jsonParseReviver);\r\n");
             
-            #line 96 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 96 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
       }
             
             #line default
             #line hidden
             
-            #line 97 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 97 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
   }
             
             #line default
             #line hidden
             
-            #line 98 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 98 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
   if(response.IsSuccess){
             
             #line default
             #line hidden
             this.Write("                return result");
             
-            #line 99 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 99 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
             
             #line default
             #line hidden
             this.Write("; \r\n");
             
-            #line 100 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 100 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
   }else{
             
             #line default
             #line hidden
             this.Write("                throw result");
             
-            #line 101 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 101 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
             
             #line default
             #line hidden
             this.Write("; \r\n");
             
-            #line 102 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 102 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
   }
 }
             
@@ -778,41 +793,41 @@ if(response.HasType){
             #line hidden
             this.Write("            }\r\n            else\r\n");
             
-            #line 106 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 106 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("            {\r\n");
             
-            #line 107 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 107 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 if(operation.HasDefaultResponse){
             
             #line default
             #line hidden
             this.Write("                let result: ");
             
-            #line 108 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 108 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.DefaultResponse.Type));
             
             #line default
             #line hidden
             this.Write(" = null; \r\n");
             
-            #line 109 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 109 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
   if(operation.DefaultResponse.IsDate){
             
             #line default
             #line hidden
             this.Write("                result = new Date(data);\r\n");
             
-            #line 111 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 111 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
   }else{
             
             #line default
             #line hidden
             
-            #line 112 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 112 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
       if(operation.DefaultResponse.UseDtoClass){
             
             #line default
@@ -820,54 +835,54 @@ if(operation.HasDefaultResponse){
             this.Write("                let resultData = data === \"\" ? null : JSON.parse(data, this.jsonP" +
                     "arseReviver);\r\n            ");
             
-            #line 114 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 114 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.Tab(operation.DefaultResponse.DataConversionCode, 3)));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 115 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 115 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
       }else{
             
             #line default
             #line hidden
             this.Write("                result = data === \"\" ? null : <");
             
-            #line 116 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 116 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.DefaultResponse.Type));
             
             #line default
             #line hidden
             this.Write(">JSON.parse(data, this.jsonParseReviver);\r\n");
             
-            #line 117 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 117 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
       }
             
             #line default
             #line hidden
             
-            #line 118 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 118 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
   }
             
             #line default
             #line hidden
             
-            #line 119 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 119 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
   if(operation.DefaultResponse.IsSuccess){
             
             #line default
             #line hidden
             this.Write("                return result; \r\n");
             
-            #line 121 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 121 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
   }else{
             
             #line default
             #line hidden
             this.Write("                throw result; \r\n");
             
-            #line 123 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 123 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
   }
 }else{
             
@@ -876,21 +891,21 @@ if(operation.HasDefaultResponse){
             this.Write("                throw new Error(\"error_no_callback_for_the_received_http_status\")" +
                     "; \r\n");
             
-            #line 126 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 126 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("            }\r\n        });\r\n    }\r\n");
             
-            #line 130 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 130 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("}\r\n");
             
-            #line 131 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 131 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
