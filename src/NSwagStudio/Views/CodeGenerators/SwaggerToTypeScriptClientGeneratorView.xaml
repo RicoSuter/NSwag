@@ -6,7 +6,6 @@
              xmlns:converters="clr-namespace:MyToolkit.Converters;assembly=MyToolkit.Extended"
              xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:views="clr-namespace:NSwagStudio.Views"
              xmlns:codeGenerators="clr-namespace:NSwagStudio.ViewModels.CodeGenerators"
              xmlns:controls="clr-namespace:NSwagStudio.Controls"
              xmlns:converters1="clr-namespace:NSwagStudio.Converters"
@@ -42,11 +41,11 @@
                     <GroupBox Header="Client" Margin="0,0,0,12">
                         <StackPanel Margin="4,4,4,-8">
                             <CheckBox IsChecked="{Binding Command.GenerateClientClasses, Mode=TwoWay}" 
-                                          Content="Generate Client Classes" Margin="0,4,0,12" />
+                                      Content="Generate Client Classes" Margin="0,4,0,12" />
 
                             <StackPanel Visibility="{Binding Command.GenerateClientClasses, Converter={StaticResource VisibilityConverter}}">
                                 <CheckBox IsChecked="{Binding Command.GenerateClientInterfaces, Mode=TwoWay}" 
-                                              Content="Generate Client Interfaces" Margin="0,0,0,12" />
+                                          Content="Generate Client Interfaces" Margin="0,0,0,12" />
 
                                 <TextBlock Text="Class Name" FontWeight="Bold" Margin="0,0,0,6" />
                                 <TextBox Text="{Binding Command.ClassName, Mode=TwoWay}" Margin="0,0,0,12" />
@@ -66,7 +65,7 @@
                                 <StackPanel Visibility="{Binding Command.Template, ConverterParameter='JQueryPromises', Converter={StaticResource EqualityConverter}}">
                                     <TextBlock Text="Promise Type" FontWeight="Bold" Margin="0,0,0,6" />
                                     <ComboBox SelectedItem="{Binding Command.PromiseType, Mode=TwoWay}" 
-                                                  ItemsSource="{Binding PromiseTypes}" Margin="0,0,0,12" />
+                                              ItemsSource="{Binding PromiseTypes}" Margin="0,0,0,12" />
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>
@@ -78,20 +77,20 @@
                                           Content="Generate DTO interfaces (e.g. request and response types)" Margin="0,0,0,12" />
 
                             <StackPanel Visibility="{Binding Command.GenerateDtoTypes, Converter={StaticResource VisibilityConverter}}">
-                                <CheckBox IsChecked="{Binding Command.MarkOptionalProperties, Mode=TwoWay}" 
-                                              Content="Mark optional properties with ?" Margin="0,0,0,12" />
-
                                 <CheckBox IsChecked="{Binding Command.GenerateDefaultValues, Mode=TwoWay}" Margin="0,0,0,12">
                                     <TextBlock Text="Generate default values for properties (if default value is specified)" TextWrapping="Wrap" />
                                 </CheckBox>
 
+                                <CheckBox IsChecked="{Binding Command.MarkOptionalProperties, Mode=TwoWay}" 
+                                          Content="Mark optional properties with ?" Margin="0,0,0,12" />
+
                                 <TextBlock Text="Date Time Type" FontWeight="Bold" Margin="0,0,0,6" />
                                 <ComboBox SelectedItem="{Binding Command.DateTimeType, Mode=TwoWay}" 
-                                                ItemsSource="{Binding DateTimeTypes}" Margin="0,0,0,12" />
+                                          ItemsSource="{Binding DateTimeTypes}" Margin="0,0,0,12" />
 
                                 <TextBlock Text="Type Style" FontWeight="Bold" Margin="0,0,0,6" />
                                 <ComboBox SelectedItem="{Binding Command.TypeStyle, Mode=TwoWay}" 
-                                              ItemsSource="{Binding TypeStyles}" Margin="0,0,0,12" />
+                                          ItemsSource="{Binding TypeStyles}" Margin="0,0,0,12" />
 
                                 <StackPanel Visibility="{Binding Command.TypeStyle, ConverterParameter='!Class', Converter={StaticResource EqualityConverter}}">
                                     <TextBlock Text="The type names which always generate plain TypeScript classes (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
