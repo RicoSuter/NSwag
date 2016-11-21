@@ -137,7 +137,7 @@ namespace NSwag
         /// <returns>The JSON string.</returns>
         public string ToJson()
         {
-            return ToJson(null);
+            return ToJson(new DefaultTypeNameGenerator());
         }
 
         /// <summary>Converts the description object to JSON.</summary>

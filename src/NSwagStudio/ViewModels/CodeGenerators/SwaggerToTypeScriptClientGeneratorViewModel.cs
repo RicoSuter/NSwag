@@ -34,6 +34,9 @@ namespace NSwagStudio.ViewModels.CodeGenerators
             }
         }
 
+        /// <summary>Gets the supported TypeScript versions.</summary>
+        public decimal[] TypeScriptVersions => new[] {1.8m, 2.0m};
+
         /// <summary>Gets the output templates. </summary>
         public TypeScriptTemplate[] Templates
         {

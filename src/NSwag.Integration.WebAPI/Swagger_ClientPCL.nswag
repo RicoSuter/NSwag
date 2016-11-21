@@ -23,7 +23,8 @@
       ],
       "infoTitle": "Web API Swagger specification",
       "infoVersion": "1.0.0",
-      "documentTemplate": "SwaggerDocumentTemplate.json"
+      "documentTemplate": "SwaggerDocumentTemplate.json",
+      "output": null
     }
   },
   "codeGenerators": {
@@ -31,6 +32,7 @@
       "className": "{controller}Client",
       "moduleName": "",
       "namespace": "",
+      "typeScriptVersion": 2.0,
       "template": "JQueryCallbacks",
       "promiseType": "Promise",
       "dateTimeType": "Date",
@@ -38,9 +40,10 @@
       "generateClientInterfaces": false,
       "generateDtoTypes": true,
       "operationGenerationMode": "MultipleClientsFromOperationId",
-      "generateReadOnlyKeywords": true,
+      "markOptionalProperties": false,
       "typeStyle": "Class",
-      "generateDefaultValues": true
+      "generateDefaultValues": true,
+      "output": null
     },
     "swaggerToCSharpClient": {
       "exceptionClass": "{controller}ClientException",
@@ -84,7 +87,8 @@
       "dictionaryType": "Dictionary",
       "classStyle": "Inpc",
       "operationGenerationMode": "MultipleClientsFromOperationId",
-      "generateDefaultValues": true
+      "generateDefaultValues": true,
+      "output": null
     }
   }
 }

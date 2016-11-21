@@ -1,6 +1,6 @@
 ﻿<#@ template visibility="internal" #>
-<#@ assembly name="System.Core" #>
-<#@ import namespace="NJsonSchema.CodeGeneration" #>
+<#@ import namespace="NJsonSchema" #>
+
 [GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
 public interface I<#=Model.Class#>Controller
 {

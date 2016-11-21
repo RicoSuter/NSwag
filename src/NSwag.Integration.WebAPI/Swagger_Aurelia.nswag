@@ -22,7 +22,8 @@
         "http"
       ],
       "infoTitle": "Web API Swagger specification",
-      "infoVersion": "1.0.0"
+      "infoVersion": "1.0.0",
+      "output": null
     }
   },
   "codeGenerators": {
@@ -30,6 +31,7 @@
       "className": "{controller}Client",
       "moduleName": "",
       "namespace": "",
+      "typeScriptVersion": 2.0,
       "template": "Aurelia",
       "promiseType": "Promise",
       "dateTimeType": "Date",
@@ -37,7 +39,7 @@
       "generateClientInterfaces": false,
       "generateDtoTypes": true,
       "operationGenerationMode": "MultipleClientsFromOperationId",
-      "generateReadOnlyKeywords": true,
+      "markOptionalProperties": false,
       "typeStyle": "Class",
       "extendedClasses": [],
       "generateDefaultValues": true,
@@ -62,7 +64,8 @@
       "dictionaryType": "Dictionary",
       "classStyle": "Inpc",
       "operationGenerationMode": "MultipleClientsFromOperationId",
-      "generateDefaultValues": true
+      "generateDefaultValues": true,
+      "output": null
     },
     "swaggerToCSharpController": {
       "className": "{controller}",
@@ -79,7 +82,8 @@
       "dictionaryType": "Dictionary",
       "classStyle": "Inpc",
       "operationGenerationMode": "MultipleClientsFromOperationId",
-      "generateDefaultValues": true
+      "generateDefaultValues": true,
+      "output": null
     }
   }
 }

@@ -1,8 +1,6 @@
 ﻿<#@ template visibility="internal" #>
-<#@ assembly name="System.Core" #>
-<#@ import namespace="NJsonSchema.CodeGeneration" #>
-<#@ import namespace="NSwag.CodeGeneration.CodeGenerators.TypeScript" #>
-<#@ import namespace="System.Linq" #>
+<#@ import namespace="NJsonSchema" #>
+<#@ import namespace="CodeGenerators.TypeScript" #>
 
 <#if(Model.HasOperations){#>
 <#if(Model.GenerateClientInterfaces){#>
@@ -22,12 +20,11 @@ export interface I<#=Model.Class#> {
 export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements I<#=Model.Class#> <#}#>{
     private baseUrl: string = undefined; 
     private http: ng.IHttpService = null; 
-    private jsonParseReviver: (key: string, value: any) => any = undefined; 
+    protected jsonParseReviver: <#if(Model.SupportsStrictNullChecks){#>((key: string, value: any) => any) | undefined<#}else{#>(key: string, value: any) => any<#}#> = undefined;
 
-    constructor($http: ng.IHttpService, baseUrl?: string, jsonParseReviver?: (key: string, value: any) => any) {
+    constructor($http: ng.IHttpService, baseUrl?: string) {
         this.http = $http; 
         this.baseUrl = baseUrl !== undefined ? baseUrl : "<#=Model.BaseUrl#>"; 
-        this.jsonParseReviver = jsonParseReviver;
     }
 <#if(Model.IsExtended){#>
 

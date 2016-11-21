@@ -1,4 +1,5 @@
-﻿using NJsonSchema.CodeGeneration;
+﻿using NJsonSchema;
+using NJsonSchema.CodeGeneration;
 using NSwag.CodeGeneration.CodeGenerators.Models;
 
 namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates

@@ -1,5 +1,4 @@
 ﻿<#@ template visibility="internal" #>
-<#@ import namespace="NJsonSchema" #>
 [GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
 internal class JsonExceptionConverter : JsonConverter
 {
