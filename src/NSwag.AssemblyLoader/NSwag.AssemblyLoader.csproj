@@ -61,8 +61,8 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NConsole, Version=3.2.6148.42382, Culture=neutral, PublicKeyToken=0f839b9a5b9cbd65, processorArchitecture=MSIL">
-      <HintPath>..\packages\NConsole.3.2.6148.42382\lib\net45\NConsole.dll</HintPath>
+    <Reference Include="NConsole, Version=3.3.6170.27019, Culture=neutral, PublicKeyToken=0f839b9a5b9cbd65, processorArchitecture=MSIL">
+      <HintPath>..\packages\NConsole.3.3.6170.27019\lib\net45\NConsole.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
