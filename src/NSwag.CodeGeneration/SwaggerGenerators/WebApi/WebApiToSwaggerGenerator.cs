@@ -48,7 +48,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 .Where(t => t.GetTypeInfo().IsAbstract == false)
                 .Where(t => t.Name.EndsWith("Controller") ||
                             t.InheritsFrom("ApiController", TypeNameStyle.Name) ||
-                            t.InheritsFrom("Controller", TypeNameStyle.Name)) // in ASP.NET Core, a Web API controller inherits from Controller
+                            t.InheritsFrom("ControllerBase", TypeNameStyle.Name)) // in ASP.NET Core, a Web API controller inherits from Controller
                 .Where(t => t.GetTypeInfo().ImplementedInterfaces.All(i => i.FullName != "System.Web.Mvc.IController")); // no MVC controllers (legacy ASP.NET)
         }
 
