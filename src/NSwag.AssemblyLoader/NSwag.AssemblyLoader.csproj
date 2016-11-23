@@ -120,7 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj">
-      <Project>{CA084154-E758-4A44-938D-7806AF2DD886}</Project>
+      <Project>{ca084154-e758-4a44-938d-7806af2dd886}</Project>
       <Name>NSwag.Annotations</Name>
     </ProjectReference>
     <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj">
@@ -128,7 +128,7 @@
       <Name>NSwag.CodeGeneration</Name>
     </ProjectReference>
     <ProjectReference Include="..\NSwag.Commands\NSwag.Commands.csproj">
-      <Project>{71B39C21-46A2-471B-AACE-226C575B8AC1}</Project>
+      <Project>{71b39c21-46a2-471b-aace-226c575b8ac1}</Project>
       <Name>NSwag.Commands</Name>
     </ProjectReference>
     <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj">

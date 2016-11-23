@@ -24,7 +24,7 @@
         DefaultUrlTemplate = defaultUrlTemplate, 
         
     });
-    var service = generator.GenerateForController(controllerClass);
+    var service = generator.GenerateForControllers(new [] { controllerClass });
 
     // -------------
 
