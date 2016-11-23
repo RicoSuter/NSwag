@@ -7,6 +7,8 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.IO;
+using System.Reflection;
 
 namespace NSwag.CodeGeneration.Infrastructure
 {
@@ -30,6 +32,7 @@ namespace NSwag.CodeGeneration.Infrastructure
             }
 
             var type = typeof(T);
+            LoadToolchainAssemblies(type);
             try
             {
                 Object = (T)Domain.CreateInstanceAndUnwrap(type.Assembly.FullName, type.FullName);
@@ -51,6 +54,17 @@ namespace NSwag.CodeGeneration.Infrastructure
                 AppDomain.Unload(Domain);
                 Domain = null;
             }
+        }
+
+        private void LoadToolchainAssemblies(Type type)
+        {
+            var codeBaseDirectory = Path.GetDirectoryName(type.Assembly.CodeBase.Replace("file:///", string.Empty));
+            Domain.Load(new AssemblyName { CodeBase = codeBaseDirectory + "\\Newtonsoft.Json.dll" });
+            Domain.Load(new AssemblyName { CodeBase = codeBaseDirectory + "\\NJsonSchema.dll" });
+            Domain.Load(new AssemblyName { CodeBase = codeBaseDirectory + "\\NJsonSchema.CodeGeneration.dll" });
+            Domain.Load(new AssemblyName { CodeBase = codeBaseDirectory + "\\NSwag.Core.dll" });
+            Domain.Load(new AssemblyName { CodeBase = codeBaseDirectory + "\\NSwag.Commands.dll" });
+            Domain.Load(new AssemblyName { CodeBase = codeBaseDirectory + "\\NSwag.CodeGeneration.dll" });
         }
     }
 }
