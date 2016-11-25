@@ -106,7 +106,7 @@
     <Compile Include="CodeGenerators\TypeScript\Models\FileTemplateModel.cs" />
     <Compile Include="CodeGenerators\TypeScript\Models\ClientTemplateModel.cs" />
     <Compile Include="CodeGenerators\TypeScript\PromiseType.cs" />
-    <Compile Include="CodeGenerators\TypeScript\ProcessResponseGenerator.cs" />
+    <Compile Include="CodeGenerators\TypeScript\TemplatePartGenerator.cs" />
     <Compile Include="CodeGenerators\TypeScript\SwaggerToTypeScriptClientGeneratorSettings.cs" />
     <Compile Include="CodeGenerators\TypeScript\Templates\FetchClientTemplate.cs">
       <DependentUpon>FetchClientTemplate.tt</DependentUpon>
@@ -144,7 +144,6 @@
       <DependentUpon>JQueryPromisesClientTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\TypeScript\RequestBodyGenerator.cs" />
     <Compile Include="CodeGenerators\TypeScript\Templates\RequestBodyTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -167,7 +166,6 @@
     <Compile Include="CodeGenerators\TypeScript\SwaggerToTypeScriptClientGenerator.cs" />
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpWebApiControllerGenerator.cs" />
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpWebApiControllerGeneratorSettings.cs" />
-    <Compile Include="CodeGenerators\TypeScript\RequestUrlGenerator.cs" />
     <Compile Include="Infrastructure\ObjectExtensions.cs" />
     <Compile Include="Infrastructure\T4Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

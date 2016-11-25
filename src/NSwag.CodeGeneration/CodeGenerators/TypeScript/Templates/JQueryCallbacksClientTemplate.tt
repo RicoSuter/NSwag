@@ -45,9 +45,9 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
 <#}#>    <#=operation.OperationNameLower#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>: <#=parameter.Type#>, <#}#>onSuccess?: (<#if(operation.HasResultType){#>result: <#=operation.ResultType#><#}#>) => void, onFail?: (exception: <#=operation.ExceptionType#>, reason: string) => void) {
-        <#=RequestUrlGenerator.Render(operation, 2)#>
+        <#=TemplatePartGenerator.RenderRequestUrlCode(operation, 2)#>
 
-        <#=RequestBodyGenerator.Render(operation, 2)#>
+        <#=TemplatePartGenerator.RenderRequestBodyCode(operation, 2)#>
 
         jQuery.ajax(<#if(Model.IsExtended){#>this.transformOptions(<#}#>{
             url: url_,
@@ -91,7 +91,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
         const data = xhr.responseText; 
         const status = xhr.status.toString(); 
 
-		<#=ProcessResponseGenerator.Render(operation, 2)#>
+		<#=TemplatePartGenerator.RenderProcessResponseCode(operation, 2)#>
     }
 <#}#>}
 <#}#>

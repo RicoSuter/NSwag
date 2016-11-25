@@ -47,9 +47,9 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
 <#}#>    <#=operation.OperationNameLower#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): Observable<<#=operation.ResultType#>> {
-        <#=RequestUrlGenerator.Render(operation, 2)#>
+        <#=TemplatePartGenerator.RenderRequestUrlCode(operation, 2)#>
 
-        <#=RequestBodyGenerator.Render(operation, 2)#>
+        <#=TemplatePartGenerator.RenderRequestBodyCode(operation, 2)#>
         
         return this.http.request(url_, <#if(Model.IsExtended){#>this.transformOptions(<#}#>{
             body: content_,
@@ -89,7 +89,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
         const data = response.text();
         const status = response.status.toString(); 
 
-		<#=ProcessResponseGenerator.Render(operation, 2)#>
+		<#=TemplatePartGenerator.RenderProcessResponseCode(operation, 2)#>
     }
 <#}#>}
 <#}#>

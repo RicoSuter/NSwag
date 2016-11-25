@@ -479,7 +479,7 @@ if(!parameter.IsLast){
             this.Write("> {\r\n        ");
             
             #line 52 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(RequestUrlGenerator.Render(operation, 2)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(TemplatePartGenerator.RenderRequestUrlCode(operation, 2)));
             
             #line default
             #line hidden
@@ -493,7 +493,7 @@ if(!operation.IsGetOrHead){
             this.Write("        ");
             
             #line 55 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(RequestBodyGenerator.Render(operation, 2)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(TemplatePartGenerator.RenderRequestBodyCode(operation, 2)));
             
             #line default
             #line hidden
@@ -648,7 +648,7 @@ if(Model.IsExtended){
                     "    const status = response.status.toString(); \r\n\r\n\t\t\t");
             
             #line 84 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(ProcessResponseGenerator.Render(operation, 3)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(TemplatePartGenerator.RenderProcessResponseCode(operation, 3)));
             
             #line default
             #line hidden

@@ -49,10 +49,10 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
 <#}#>    <#=operation.OperationNameLower#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): Promise<<#=operation.ResultType#>> {
-        <#=RequestUrlGenerator.Render(operation, 2)#>
+        <#=TemplatePartGenerator.RenderRequestUrlCode(operation, 2)#>
 
 <#if(!operation.IsGetOrHead){#>
-        <#=RequestBodyGenerator.Render(operation, 2)#>
+        <#=TemplatePartGenerator.RenderRequestBodyCode(operation, 2)#>
 <#}#>
         return this.http.fetch(url_, <#if(Model.IsExtended){#>this.transformOptions(<#}#>{
 <#if(!operation.IsGetOrHead){#>
@@ -81,7 +81,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
         return response.text().then((data) => {
             const status = response.status.toString(); 
 
-			<#=ProcessResponseGenerator.Render(operation, 3)#>
+			<#=TemplatePartGenerator.RenderProcessResponseCode(operation, 3)#>
         });
     }
 <#}#>}
