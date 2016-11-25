@@ -10,6 +10,7 @@
              xmlns:codeGenerators="clr-namespace:NSwagStudio.ViewModels.CodeGenerators"
              xmlns:controls="clr-namespace:NSwagStudio.Controls"
              xmlns:converters1="clr-namespace:NSwagStudio.Converters"
+             xmlns:dialogs="clr-namespace:MyToolkit.Dialogs;assembly=MyToolkit.Extended"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="800">
 
@@ -139,15 +140,15 @@
                     </GroupBox>
 
                     <TextBlock Text="Output file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
-                    <controls:FileSavePicker DefaultExtension=".cs" Filter="CSharp Files (.cs)|*.cs"
-                                             FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" 
-                                             Margin="0,0,0,12" />
+                    <dialogs:FileSavePicker DefaultExtension=".cs" Filter="CSharp Files (.cs)|*.cs"
+                                            FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" 
+                                            Margin="0,0,0,12" />
 
                     <StackPanel Visibility="{Binding Command.GenerateContractsOutput, Converter={StaticResource VisibilityConverter}}">
                         <TextBlock Text="Contracts output file path (empty: single output file output)" FontWeight="Bold" Margin="0,0,0,6" />
-                        <controls:FileSavePicker DefaultExtension=".cs" Filter="CSharp Files (.cs)|*.cs"
-                                                 FilePath="{Binding Command.ContractsOutputFilePath, Mode=TwoWay}" 
-                                                 Margin="0,0,0,12" />
+                        <dialogs:FileSavePicker DefaultExtension=".cs" Filter="CSharp Files (.cs)|*.cs"
+                                                FilePath="{Binding Command.ContractsOutputFilePath, Mode=TwoWay}" 
+                                                Margin="0,0,0,12" />
                     </StackPanel>
                 </StackPanel>
             </ScrollViewer>
