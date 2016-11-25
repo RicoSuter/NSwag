@@ -130,13 +130,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Controls\FileOpenPicker.cs" />
-    <Compile Include="Controls\FileSavePicker.cs" />
     <Compile Include="Controls\TabContent.cs" />
     <Compile Include="Converters\NumberAdditionConverter.cs" />
-    <Compile Include="Controls\FilePickerBase.xaml.cs">
-      <DependentUpon>FilePickerBase.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Converters\StringArrayConverter.cs" />
     <Compile Include="ISwaggerGeneratorView.cs" />
     <Compile Include="ViewModels\CodeGenerators\SwaggerToCSharpControllerGeneratorViewModel.cs" />
@@ -186,10 +181,6 @@
     <Compile Include="Views\CodeGenerators\SwaggerToTypeScriptClientGeneratorView.xaml.cs">
       <DependentUpon>SwaggerToTypeScriptClientGeneratorView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Controls\FilePickerBase.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\CodeGenerators\SwaggerToCSharpControllerGeneratorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
