@@ -9,6 +9,7 @@
              xmlns:codeGenerators="clr-namespace:NSwagStudio.ViewModels.CodeGenerators"
              xmlns:controls="clr-namespace:NSwagStudio.Controls"
              xmlns:converters1="clr-namespace:NSwagStudio.Converters"
+             xmlns:dialogs="clr-namespace:MyToolkit.Dialogs;assembly=MyToolkit.Extended"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
 
     <UserControl.Resources>
@@ -107,7 +108,7 @@
 
                             <TextBlock Text="Path to class extension code file (the module import 'generated' is removed and class export keywords are added)" 
                                        FontWeight="Bold" Margin="0,0,0,6" />
-                            <controls:FileOpenPicker DefaultExtension=".ts" Filter="TypeScript Files (.ts)|*.ts"
+                            <dialogs:FileOpenPicker DefaultExtension=".ts" Filter="TypeScript Files (.ts)|*.ts"
                                                      FilePath="{Binding Command.ExtensionCode, Mode=TwoWay}" 
                                                      Margin="0,0,0,12" />
                         </StackPanel>
@@ -124,9 +125,9 @@
                     </GroupBox>
 
                     <TextBlock Text="Output file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
-                    <controls:FileSavePicker DefaultExtension=".ts" Filter="TypeScript Files (.ts)|*.ts"
-                                             FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" 
-                                             Margin="0,0,0,12" />
+                    <dialogs:FileSavePicker DefaultExtension=".ts" Filter="TypeScript Files (.ts)|*.ts"
+                                            FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" 
+                                            Margin="0,0,0,12" />
                 </StackPanel>
             </ScrollViewer>
         </TabItem>
