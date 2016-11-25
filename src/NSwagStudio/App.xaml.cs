@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using Microsoft.ApplicationInsights;
+using MyToolkit.Storage;
 
 namespace NSwagStudio
 {
