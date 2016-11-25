@@ -117,7 +117,11 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
         }#>
             }
 <#  }else{#>
+<#      if(response.IsSuccess){#>
             let result<#=response.StatusCode#>: any = undefined; 
+<#      }else{#>
+            let result<#=response.StatusCode#> = new Error("error_http_status_<#=response.StatusCode#>"); 
+<#      }#>
 <#  }#>
 <#  if(response.IsSuccess){#>
             return result<#=response.StatusCode#>;

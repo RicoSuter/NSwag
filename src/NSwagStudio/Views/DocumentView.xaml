@@ -14,7 +14,7 @@
         <converters:VisibilityConverter x:Key="VisibilityConverter" />
     </UserControl.Resources>
 
-    <Border DataContext="{StaticResource ViewModel}" IsEnabled="{Binding GenerateCommand.CanExecute}">
+    <Border DataContext="{StaticResource ViewModel}" IsEnabled="{Binding IsLoading, Converter={StaticResource NotConverter}}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*" MinWidth="400" />

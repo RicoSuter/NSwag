@@ -104,7 +104,9 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#  }else{#>
             throw result<#=response.StatusCode#>; 
 <#  }
-}#>
+}else if(!response.IsSuccess){#>
+            throw new Error("error_http_status_<#=response.StatusCode#>"); 
+<#}#>
         }
         else
 <#}#>
