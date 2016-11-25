@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using System.Windows;
 using MyToolkit.Command;
 using MyToolkit.Dialogs;
 using MyToolkit.Messaging;
@@ -9,7 +10,7 @@ namespace NSwagStudio.ViewModels
 {
     public class DocumentViewModel : ViewModelBase
     {
-        private static DocumentModel _document;
+        private DocumentModel _document;
 
         /// <summary>Initializes a new instance of the <see cref="MainWindowModel"/> class.</summary>
         public DocumentViewModel()
@@ -61,8 +62,7 @@ namespace NSwagStudio.ViewModels
                 }
                 else
                 {
-                    await Messenger.Default.SendAsync(new TextMessage("No Swagger specification",
-                        "Could not generate code because the Swagger generator returned an empty document."));
+                    MessageBox.Show("No Swagger specification", "Could not generate code because the Swagger generator returned an empty document.");
                 }
             }
 
