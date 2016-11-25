@@ -106,6 +106,7 @@
     <Compile Include="CodeGenerators\TypeScript\Models\FileTemplateModel.cs" />
     <Compile Include="CodeGenerators\TypeScript\Models\ClientTemplateModel.cs" />
     <Compile Include="CodeGenerators\TypeScript\PromiseType.cs" />
+    <Compile Include="CodeGenerators\TypeScript\TemplatePartGenerator.cs" />
     <Compile Include="CodeGenerators\TypeScript\SwaggerToTypeScriptClientGeneratorSettings.cs" />
     <Compile Include="CodeGenerators\TypeScript\Templates\FetchClientTemplate.cs">
       <DependentUpon>FetchClientTemplate.tt</DependentUpon>
@@ -143,24 +144,28 @@
       <DependentUpon>JQueryPromisesClientTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\TypeScript\RequestBodyGenerator.cs" />
     <Compile Include="CodeGenerators\TypeScript\Templates\RequestBodyTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>RequestBodyTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.cs">
+      <DependentUpon>ProcessResponseTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="CodeGenerators\TypeScript\Templates\RequestUrlTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>RequestUrlTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Include="CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.Extensions.cs" />
     <Compile Include="CodeGenerators\TypeScript\Templates\RequestUrlTemplate.Extensions.cs" />
     <Compile Include="CodeGenerators\TypeScript\Templates\RequestBodyTemplate.Extensions.cs" />
     <Compile Include="CodeGenerators\TypeScript\TypeScriptTemplate.cs" />
     <Compile Include="CodeGenerators\TypeScript\SwaggerToTypeScriptClientGenerator.cs" />
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpWebApiControllerGenerator.cs" />
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpWebApiControllerGeneratorSettings.cs" />
-    <Compile Include="CodeGenerators\TypeScript\RequestUrlGenerator.cs" />
     <Compile Include="Infrastructure\ObjectExtensions.cs" />
     <Compile Include="Infrastructure\T4Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -257,6 +262,12 @@
     <None Include="CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>RequestUrlTemplate.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>ProcessResponseTemplate.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
