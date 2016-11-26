@@ -645,8 +645,8 @@ if(Model.IsExtended){
             
             #line default
             #line hidden
-            this.Write("(response: any) {\r\n        const data = response.data;\r\n        const status = re" +
-                    "sponse.status.toString(); \r\n\r\n\t\t");
+            this.Write("(response: any) {\r\n        const responseText = response.data;\r\n        const sta" +
+                    "tus = response.status; \r\n\r\n\t\t");
             
             #line 88 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TemplatePartGenerator.RenderProcessResponseCode(operation, 2)));
@@ -660,14 +660,20 @@ if(Model.IsExtended){
             
             #line default
             #line hidden
-            this.Write("}\r\n");
+            this.Write("\r\n    ");
             
-            #line 91 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSClientTemplate.tt"
+            #line 92 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TemplatePartGenerator.RenderClientMethodsCode(Model, 1)));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n}\r\n");
+            
+            #line 94 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSClientTemplate.tt"
 }
             
             #line default
             #line hidden
-            this.Write("\r\n");
             return this.GenerationEnvironment.ToString();
         }
     }

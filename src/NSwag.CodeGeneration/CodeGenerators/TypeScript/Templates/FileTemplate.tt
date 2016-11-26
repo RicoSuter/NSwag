@@ -45,6 +45,21 @@ export interface FileParameter
 }
 <#}#>
 
+export class SwaggerException extends Error {
+	status: number; 
+	response: string; 
+	result?: any; 
+
+	constructor(message: string, status: number, response: string, result?: any) {
+		super();
+
+	    this.message = message;
+		this.status = status;
+		this.response = response;
+		this.result = result;
+	}
+}
+
 <#=Model.ExtensionCodeAfter#>
 <#if(Model.HasNamespace){#>
 }

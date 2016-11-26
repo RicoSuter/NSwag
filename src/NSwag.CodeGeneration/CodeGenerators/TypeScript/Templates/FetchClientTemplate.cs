@@ -644,8 +644,8 @@ if(Model.IsExtended){
             
             #line default
             #line hidden
-            this.Write("(response: Response) {\r\n        return response.text().then((data) => {\r\n        " +
-                    "    const status = response.status.toString(); \r\n\r\n\t\t\t");
+            this.Write("(response: Response) {\r\n        return response.text().then((responseText) => {\r\n" +
+                    "            const status = response.status; \r\n\r\n\t\t\t");
             
             #line 84 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TemplatePartGenerator.RenderProcessResponseCode(operation, 3)));
@@ -659,14 +659,20 @@ if(Model.IsExtended){
             
             #line default
             #line hidden
-            this.Write("}\r\n");
+            this.Write("\r\n    ");
             
-            #line 88 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            #line 89 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TemplatePartGenerator.RenderClientMethodsCode(Model, 1)));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n}\r\n");
+            
+            #line 91 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
-            this.Write("\r\n");
             return this.GenerationEnvironment.ToString();
         }
     }

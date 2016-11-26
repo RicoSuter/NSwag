@@ -677,8 +677,8 @@ if(Model.IsExtended){
             
             #line default
             #line hidden
-            this.Write("(xhr: any) {\r\n        const data = xhr.responseText; \r\n        const status = xhr" +
-                    ".status.toString(); \r\n\r\n\t\t");
+            this.Write("(xhr: any) {\r\n        const responseText = xhr.responseText; \r\n        const stat" +
+                    "us = xhr.status; \r\n\r\n\t\t");
             
             #line 94 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TemplatePartGenerator.RenderProcessResponseCode(operation, 2)));
@@ -692,9 +692,16 @@ if(Model.IsExtended){
             
             #line default
             #line hidden
-            this.Write("}\r\n");
+            this.Write("\r\n    ");
             
-            #line 97 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
+            #line 98 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TemplatePartGenerator.RenderClientMethodsCode(Model, 1)));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n}\r\n");
+            
+            #line 100 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
 }
             
             #line default

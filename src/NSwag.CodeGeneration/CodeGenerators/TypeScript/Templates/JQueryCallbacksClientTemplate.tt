@@ -88,10 +88,13 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
     }
 
     private process<#=operation.OperationNameUpper#>(xhr: any) {
-        const data = xhr.responseText; 
-        const status = xhr.status.toString(); 
+        const responseText = xhr.responseText; 
+        const status = xhr.status; 
 
 		<#=TemplatePartGenerator.RenderProcessResponseCode(operation, 2)#>
     }
-<#}#>}
+<#}#>
+
+    <#=TemplatePartGenerator.RenderClientMethodsCode(Model, 1)#>
+}
 <#}#>

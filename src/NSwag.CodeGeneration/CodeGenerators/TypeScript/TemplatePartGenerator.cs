@@ -8,6 +8,7 @@
 
 using NJsonSchema;
 using NSwag.CodeGeneration.CodeGenerators.Models;
+using NSwag.CodeGeneration.CodeGenerators.TypeScript.Models;
 using NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates;
 
 namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
@@ -15,6 +16,16 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
     /// <summary>Generates the code to process the response.</summary>
     public class TemplatePartGenerator
     {
+        /// <summary>Renders the client class helper methods.</summary>
+        /// <param name="model">The model.</param>
+        /// <param name="tabCount">The tab count.</param>
+        /// <returns>The helper methods.</returns>
+        public static string RenderClientMethodsCode(ClientTemplateModel model, int tabCount = 0)
+        {
+            var tpl = new ClientMethodsTemplate(model);
+            return ConversionUtilities.Tab(tpl.Render(), tabCount);
+        }
+
         /// <summary>Renders the URL generation code.</summary>
         /// <param name="operation">The operation.</param>
         /// <param name="tabCount">The tab count.</param>
