@@ -74,13 +74,11 @@ namespace NSwag.Integration.ClientPCL
     
             if (status_ == "204") 
             {
-                return;     
+                return;
             }
             else
-            {
-            }
-    
-            throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
+    		if (status_ != "200" && status_ != "204")
+    			throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
         }
     
         /// <exception cref="GeoClientException">A server side error occurred.</exception>
@@ -120,13 +118,11 @@ namespace NSwag.Integration.ClientPCL
     
             if (status_ == "204") 
             {
-                return;     
+                return;
             }
             else
-            {
-            }
-    
-            throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
+    		if (status_ != "200" && status_ != "204")
+    			throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
         }
     
         /// <exception cref="GeoClientException">A server side error occurred.</exception>
@@ -157,13 +153,11 @@ namespace NSwag.Integration.ClientPCL
     
             if (status_ == "204") 
             {
-                return;     
+                return;
             }
             else
-            {
-            }
-    
-            throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
+    		if (status_ != "200" && status_ != "204")
+    			throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
         }
     
         /// <exception cref="GeoClientException">A server side error occurred.</exception>
@@ -193,13 +187,11 @@ namespace NSwag.Integration.ClientPCL
     
             if (status_ == "204") 
             {
-                return;     
+                return;
             }
             else
-            {
-            }
-    
-            throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
+    		if (status_ != "200" && status_ != "204")
+    			throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
         }
     
         /// <exception cref="GeoClientException">A server side error occurred.</exception>
@@ -217,9 +209,9 @@ namespace NSwag.Integration.ClientPCL
             var client_ = new HttpClient();
             var request_ = new HttpRequestMessage();
             PrepareRequest(client_, ref url_);
-          var content_ = new MultipartFormDataContent();
-              if (file != null)
-                  content_.Add(new StreamContent(file.Data), "file", file.FileName ?? "file");
+    		var content_ = new MultipartFormDataContent();
+            if (file != null)
+                content_.Add(new StreamContent(file.Data), "file", file.FileName ?? "file");
             request_.Content = content_;
             request_.Method = new HttpMethod("POST");
             request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
@@ -244,10 +236,10 @@ namespace NSwag.Integration.ClientPCL
                 }
             }
             else
-            {
-            }
-    
-            throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
+    		if (status_ != "200" && status_ != "204")
+    			throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
+    		
+            return default(bool);
         }
     
         /// <exception cref="GeoClientException">A server side error occurred.</exception>
@@ -265,9 +257,9 @@ namespace NSwag.Integration.ClientPCL
             var client_ = new HttpClient();
             var request_ = new HttpRequestMessage();
             PrepareRequest(client_, ref url_);
-          var content_ = new MultipartFormDataContent();
-              if (files != null)
-                  foreach(var item_ in files) { content_.Add(new StreamContent(item_.Data), "files", item_.FileName ?? "files"); }
+    		var content_ = new MultipartFormDataContent();
+            if (files != null)
+                foreach(var item_ in files) { content_.Add(new StreamContent(item_.Data), "files", item_.FileName ?? "files"); }
             request_.Content = content_;
             request_.Method = new HttpMethod("POST");
             request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
@@ -279,13 +271,11 @@ namespace NSwag.Integration.ClientPCL
     
             if (status_ == "204") 
             {
-                return;     
+                return;
             }
             else
-            {
-            }
-    
-            throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
+    		if (status_ != "200" && status_ != "204")
+    			throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
         }
     
         /// <exception cref="GeoClientException">A server side error occurred.</exception>
@@ -316,7 +306,7 @@ namespace NSwag.Integration.ClientPCL
     
             if (status_ == "204") 
             {
-                return;     
+                return;
             }
             else
             if (status_ == "450") 
@@ -338,10 +328,8 @@ namespace NSwag.Integration.ClientPCL
                 throw new GeoClientException<Exception>("A custom error occured.", status_, responseData_, result_, result_);
             }
             else
-            {
-            }
-    
-            throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
+    		if (status_ != "200" && status_ != "204")
+    			throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
         }
     
         /// <exception cref="GeoClientException">A server side error occurred.</exception>
@@ -381,10 +369,10 @@ namespace NSwag.Integration.ClientPCL
                 return responseData_; 
             }
             else
-            {
-            }
-    
-            throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
+    		if (status_ != "200" && status_ != "204")
+    			throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
+    		
+            return default(byte[]);
         }
     
     }
@@ -442,10 +430,10 @@ namespace NSwag.Integration.ClientPCL
                 }
             }
             else
-            {
-            }
-    
-            throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
+    		if (status_ != "200" && status_ != "204")
+    			throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
+    		
+            return default(ObservableCollection<Person>);
         }
     
         /// <exception cref="PersonsClientException">A server side error occurred.</exception>
@@ -476,13 +464,11 @@ namespace NSwag.Integration.ClientPCL
     
             if (status_ == "204") 
             {
-                return;     
+                return;
             }
             else
-            {
-            }
-    
-            throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
+    		if (status_ != "200" && status_ != "204")
+    			throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
         }
     
         /// <exception cref="PersonsClientException">A server side error occurred.</exception>
@@ -529,10 +515,10 @@ namespace NSwag.Integration.ClientPCL
                 }
             }
             else
-            {
-            }
-    
-            throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
+    		if (status_ != "200" && status_ != "204")
+    			throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
+    		
+            return default(ObservableCollection<Person>);
         }
     
         /// <exception cref="PersonsClientException">A server side error occurred.</exception>
@@ -578,10 +564,10 @@ namespace NSwag.Integration.ClientPCL
                 }
             }
             else
-            {
-            }
-    
-            throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
+    		if (status_ != "200" && status_ != "204")
+    			throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
+    		
+            return default(ObservableCollection<Person>);
         }
     
         /// <exception cref="PersonsClientException">A server side error occurred.</exception>
@@ -645,10 +631,10 @@ namespace NSwag.Integration.ClientPCL
                 throw new PersonsClientException<PersonNotFoundException>("A server side error occurred.", status_, responseData_, result_, result_);
             }
             else
-            {
-            }
-    
-            throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
+    		if (status_ != "200" && status_ != "204")
+    			throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
+    		
+            return default(Person);
         }
     
         /// <exception cref="PersonsClientException">A server side error occurred.</exception>
@@ -680,13 +666,11 @@ namespace NSwag.Integration.ClientPCL
     
             if (status_ == "204") 
             {
-                return;     
+                return;
             }
             else
-            {
-            }
-    
-            throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
+    		if (status_ != "200" && status_ != "204")
+    			throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
         }
     
         /// <exception cref="PersonsClientException">A server side error occurred.</exception>
@@ -753,10 +737,10 @@ namespace NSwag.Integration.ClientPCL
                 throw new PersonsClientException<PersonNotFoundException>("A server side error occurred.", status_, responseData_, result_, result_);
             }
             else
-            {
-            }
-    
-            throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
+    		if (status_ != "200" && status_ != "204")
+    			throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
+    		
+            return default(Person);
         }
     
         /// <summary>Gets the name of a person.</summary>
@@ -826,10 +810,10 @@ namespace NSwag.Integration.ClientPCL
                 throw new PersonsClientException<PersonNotFoundException>("A server side error occurred.", status_, responseData_, result_, result_);
             }
             else
-            {
-            }
-    
-            throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
+    		if (status_ != "200" && status_ != "204")
+    			throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
+    		
+            return default(string);
         }
     
     }

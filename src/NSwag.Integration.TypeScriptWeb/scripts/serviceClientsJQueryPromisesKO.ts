@@ -57,11 +57,13 @@ export class GeoClient {
         const status = xhr.status; 
 
 		if (status === 204) {
+        	return null;
         }
         else
-        {
+        if (status !== 200 && status !== 204)
         	return this.throwException("An unexpected server error occurred.", status, responseText);
-        }
+        
+        return null;
     }
 
     fromUriTest(latitude: number, longitude: number): Promise<void> {
@@ -115,11 +117,13 @@ export class GeoClient {
         const status = xhr.status; 
 
 		if (status === 204) {
+        	return null;
         }
         else
-        {
+        if (status !== 200 && status !== 204)
         	return this.throwException("An unexpected server error occurred.", status, responseText);
-        }
+        
+        return null;
     }
 
     addPolygon(points: GeoPoint[]): Promise<void> {
@@ -170,11 +174,13 @@ export class GeoClient {
         const status = xhr.status; 
 
 		if (status === 204) {
+        	return null;
         }
         else
-        {
+        if (status !== 200 && status !== 204)
         	return this.throwException("An unexpected server error occurred.", status, responseText);
-        }
+        
+        return null;
     }
 
     refresh(): Promise<void> {
@@ -220,11 +226,13 @@ export class GeoClient {
         const status = xhr.status; 
 
 		if (status === 204) {
+        	return null;
         }
         else
-        {
+        if (status !== 200 && status !== 204)
         	return this.throwException("An unexpected server error occurred.", status, responseText);
-        }
+        
+        return null;
     }
 
     uploadFile(file: FileParameter): Promise<boolean> {
@@ -279,9 +287,10 @@ export class GeoClient {
             return result200; 
         }
         else
-        {
+        if (status !== 200 && status !== 204)
         	return this.throwException("An unexpected server error occurred.", status, responseText);
-        }
+        
+        return null;
     }
 
     uploadFiles(files: FileParameter[]): Promise<void> {
@@ -330,11 +339,13 @@ export class GeoClient {
         const status = xhr.status; 
 
 		if (status === 204) {
+        	return null;
         }
         else
-        {
+        if (status !== 200 && status !== 204)
         	return this.throwException("An unexpected server error occurred.", status, responseText);
-        }
+        
+        return null;
     }
 
     saveItems(request: GenericRequestOfAddressAndPerson): Promise<void> {
@@ -380,6 +391,7 @@ export class GeoClient {
         const status = xhr.status; 
 
 		if (status === 204) {
+        	return null;
         }
         else
         if (status === 450) {
@@ -389,9 +401,10 @@ export class GeoClient {
         	return this.throwException("A server error occurred.", status, responseText, result450);
         }
         else
-        {
+        if (status !== 200 && status !== 204)
         	return this.throwException("An unexpected server error occurred.", status, responseText);
-        }
+        
+        return null;
     }
 
     getUploadedFile(id: number, override: boolean): Promise<any> {
@@ -450,9 +463,10 @@ export class GeoClient {
             return result200; 
         }
         else
-        {
+        if (status !== 200 && status !== 204)
         	return this.throwException("An unexpected server error occurred.", status, responseText);
-        }
+        
+        return null;
     }
 
     protected throwException(message: string, status: number, response: string, result?: any): any {
@@ -525,9 +539,10 @@ export class PersonsClient {
             return result200; 
         }
         else
-        {
+        if (status !== 200 && status !== 204)
         	return this.throwException("An unexpected server error occurred.", status, responseText);
-        }
+        
+        return null;
     }
 
     add(person: Person): Promise<void> {
@@ -573,11 +588,13 @@ export class PersonsClient {
         const status = xhr.status; 
 
 		if (status === 204) {
+        	return null;
         }
         else
-        {
+        if (status !== 200 && status !== 204)
         	return this.throwException("An unexpected server error occurred.", status, responseText);
-        }
+        
+        return null;
     }
 
     find(gender: Gender): Promise<Person[]> {
@@ -636,9 +653,10 @@ export class PersonsClient {
             return result200; 
         }
         else
-        {
+        if (status !== 200 && status !== 204)
         	return this.throwException("An unexpected server error occurred.", status, responseText);
-        }
+        
+        return null;
     }
 
     find2(gender: Gender): Promise<Person[]> {
@@ -698,9 +716,10 @@ export class PersonsClient {
             return result200; 
         }
         else
-        {
+        if (status !== 200 && status !== 204)
         	return this.throwException("An unexpected server error occurred.", status, responseText);
-        }
+        
+        return null;
     }
 
     get(id: string): Promise<Person> {
@@ -762,9 +781,10 @@ export class PersonsClient {
         	return this.throwException("A server error occurred.", status, responseText, result500);
         }
         else
-        {
+        if (status !== 200 && status !== 204)
         	return this.throwException("An unexpected server error occurred.", status, responseText);
-        }
+        
+        return null;
     }
 
     delete(id: string): Promise<void> {
@@ -813,11 +833,13 @@ export class PersonsClient {
         const status = xhr.status; 
 
 		if (status === 204) {
+        	return null;
         }
         else
-        {
+        if (status !== 200 && status !== 204)
         	return this.throwException("An unexpected server error occurred.", status, responseText);
-        }
+        
+        return null;
     }
 
     throw(id: string): Promise<Person> {
@@ -880,9 +902,10 @@ export class PersonsClient {
         	return this.throwException("A server error occurred.", status, responseText, result500);
         }
         else
-        {
+        if (status !== 200 && status !== 204)
         	return this.throwException("An unexpected server error occurred.", status, responseText);
-        }
+        
+        return null;
     }
 
     /**
@@ -949,9 +972,10 @@ export class PersonsClient {
         	return this.throwException("A server error occurred.", status, responseText, result500);
         }
         else
-        {
+        if (status !== 200 && status !== 204)
         	return this.throwException("An unexpected server error occurred.", status, responseText);
-        }
+        
+        return null;
     }
 
     protected throwException(message: string, status: number, response: string, result?: any): any {

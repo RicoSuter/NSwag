@@ -43,11 +43,13 @@ export class GeoClientBase {
             const status = response.status; 
 
 			if (status === 204) {
+            	return null;
             }
             else
-            {
+            if (status !== 200 && status !== 204)
             	return this.throwException("An unexpected server error occurred.", status, responseText);
-            }
+            
+            return null;
         });
     }
 
@@ -79,11 +81,13 @@ export class GeoClientBase {
             const status = response.status; 
 
 			if (status === 204) {
+            	return null;
             }
             else
-            {
+            if (status !== 200 && status !== 204)
             	return this.throwException("An unexpected server error occurred.", status, responseText);
-            }
+            
+            return null;
         });
     }
 
@@ -112,11 +116,13 @@ export class GeoClientBase {
             const status = response.status; 
 
 			if (status === 204) {
+            	return null;
             }
             else
-            {
+            if (status !== 200 && status !== 204)
             	return this.throwException("An unexpected server error occurred.", status, responseText);
-            }
+            
+            return null;
         });
     }
 
@@ -140,11 +146,13 @@ export class GeoClientBase {
             const status = response.status; 
 
 			if (status === 204) {
+            	return null;
             }
             else
-            {
+            if (status !== 200 && status !== 204)
             	return this.throwException("An unexpected server error occurred.", status, responseText);
-            }
+            
+            return null;
         });
     }
 
@@ -176,9 +184,10 @@ export class GeoClientBase {
                 return result200; 
             }
             else
-            {
+            if (status !== 200 && status !== 204)
             	return this.throwException("An unexpected server error occurred.", status, responseText);
-            }
+            
+            return null;
         });
     }
 
@@ -204,11 +213,13 @@ export class GeoClientBase {
             const status = response.status; 
 
 			if (status === 204) {
+            	return null;
             }
             else
-            {
+            if (status !== 200 && status !== 204)
             	return this.throwException("An unexpected server error occurred.", status, responseText);
-            }
+            
+            return null;
         });
     }
 
@@ -232,6 +243,7 @@ export class GeoClientBase {
             const status = response.status; 
 
 			if (status === 204) {
+            	return null;
             }
             else
             if (status === 450) {
@@ -241,9 +253,10 @@ export class GeoClientBase {
             	return this.throwException("A server error occurred.", status, responseText, result450);
             }
             else
-            {
+            if (status !== 200 && status !== 204)
             	return this.throwException("An unexpected server error occurred.", status, responseText);
-            }
+            
+            return null;
         });
     }
 
@@ -278,9 +291,10 @@ export class GeoClientBase {
                 return result200; 
             }
             else
-            {
+            if (status !== 200 && status !== 204)
             	return this.throwException("An unexpected server error occurred.", status, responseText);
-            }
+            
+            return null;
         });
     }
 
@@ -338,9 +352,10 @@ export class PersonsClient {
                 return result200; 
             }
             else
-            {
+            if (status !== 200 && status !== 204)
             	return this.throwException("An unexpected server error occurred.", status, responseText);
-            }
+            
+            return null;
         });
     }
 
@@ -364,11 +379,13 @@ export class PersonsClient {
             const status = response.status; 
 
 			if (status === 204) {
+            	return null;
             }
             else
-            {
+            if (status !== 200 && status !== 204)
             	return this.throwException("An unexpected server error occurred.", status, responseText);
-            }
+            
+            return null;
         });
     }
 
@@ -405,9 +422,10 @@ export class PersonsClient {
                 return result200; 
             }
             else
-            {
+            if (status !== 200 && status !== 204)
             	return this.throwException("An unexpected server error occurred.", status, responseText);
-            }
+            
+            return null;
         });
     }
 
@@ -445,9 +463,10 @@ export class PersonsClient {
                 return result200; 
             }
             else
-            {
+            if (status !== 200 && status !== 204)
             	return this.throwException("An unexpected server error occurred.", status, responseText);
-            }
+            
+            return null;
         });
     }
 
@@ -485,9 +504,10 @@ export class PersonsClient {
             	return this.throwException("A server error occurred.", status, responseText, result500);
             }
             else
-            {
+            if (status !== 200 && status !== 204)
             	return this.throwException("An unexpected server error occurred.", status, responseText);
-            }
+            
+            return null;
         });
     }
 
@@ -514,11 +534,13 @@ export class PersonsClient {
             const status = response.status; 
 
 			if (status === 204) {
+            	return null;
             }
             else
-            {
+            if (status !== 200 && status !== 204)
             	return this.throwException("An unexpected server error occurred.", status, responseText);
-            }
+            
+            return null;
         });
     }
 
@@ -559,9 +581,10 @@ export class PersonsClient {
             	return this.throwException("A server error occurred.", status, responseText, result500);
             }
             else
-            {
+            if (status !== 200 && status !== 204)
             	return this.throwException("An unexpected server error occurred.", status, responseText);
-            }
+            
+            return null;
         });
     }
 
@@ -604,9 +627,10 @@ export class PersonsClient {
             	return this.throwException("A server error occurred.", status, responseText, result500);
             }
             else
-            {
+            if (status !== 200 && status !== 204)
             	return this.throwException("An unexpected server error occurred.", status, responseText);
-            }
+            
+            return null;
         });
     }
 

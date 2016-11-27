@@ -19,13 +19,15 @@ if (status === <#=response.StatusCode#>) {
 <#  }else{#>
 	return this.throwException("A server error occurred.", status, responseText, result<#=response.StatusCode#>);
 <#  }
-}else if(!response.IsSuccess){#>
+}else if(response.IsSuccess){#>
+	return null;
+<#}else{#>
 	return this.throwException("A server error occurred.", status, responseText);
 <#}#>
 }
 else
-<#}#>{
-<#if(Model.HasDefaultResponse){#>
+<#}#>
+<#if(Model.HasDefaultResponse){#>{
 <#  if(Model.DefaultResponse.HasType){#>
     let result: <#=Model.DefaultResponse.Type#> = null; 
 <#      if(Model.DefaultResponse.IsDate){#>
@@ -38,15 +40,20 @@ else
     result = responseText === "" ? null : <<#=Model.DefaultResponse.Type#>>JSON.parse(responseText, this.jsonParseReviver);
 <#          }#>
 <#      }#>
-<#      if(Model.DefaultResponse.IsSuccess){#>
+<#      if(Model.HasSuccessResponse == false){#>
     return result; 
 <#      }else{#>
 	return this.throwException("A server error occurred.", status, responseText, result);
 <#      }
-    }else if(!Model.DefaultResponse.IsSuccess){#>
+    }else if(Model.HasSuccessResponse == false){#>
+	return null;
+<#  }else{#>
 	return this.throwException("A server error occurred.", status, responseText);
 <#  }#>
-<#}else{#>
-	return this.throwException("An unexpected server error occurred.", status, responseText);
-<#}#>
 }
+<#}else{#>
+if (status !== 200 && status !== 204)
+	return this.throwException("An unexpected server error occurred.", status, responseText);
+
+return null;
+<#}#>

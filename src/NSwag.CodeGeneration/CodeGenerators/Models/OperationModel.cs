@@ -73,6 +73,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         /// <summary>Gets or sets the default response.</summary>
         public ResponseModel DefaultResponse { get; set; }
 
+        /// <summary>Gets a value indicating whether the operation has an explicit success response defined.</summary>
+        public bool HasSuccessResponse => Responses.Any(r => r.IsSuccess);
+
         /// <summary>Gets or sets the parameters.</summary>
         public IEnumerable<ParameterModel> Parameters { get; set; }
 
