@@ -26,285 +26,265 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates
         /// </summary>
         public virtual string TransformText()
         {
+            this.Write("\n");
+            this.Write("\n");
             
-            #line 3 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+            #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
 foreach(var response in Model.Responses){
+
             
             #line default
             #line hidden
             this.Write("if (status === ");
             
-            #line 4 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+            #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
             
             #line default
             #line hidden
-            this.Write(") {\r\n");
+            this.Write(") {");
             
-            #line 5 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
-if(response.HasType){
+            #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+
+    if(response.HasType){
             
             #line default
             #line hidden
-            this.Write("    let result");
+            this.Write("\n    let result");
             
-            #line 6 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+            #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
             
             #line default
             #line hidden
             this.Write(": ");
             
-            #line 6 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+            #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.Type));
             
             #line default
             #line hidden
-            this.Write(" = null; \r\n");
+            this.Write(" = null;\n");
             
-            #line 7 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
-  if(response.IsDate){
+            #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+      if(response.IsDate){
             
             #line default
             #line hidden
-            this.Write("    result");
+            this.Write("\n    result");
             
-            #line 8 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+            #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
             
             #line default
             #line hidden
-            this.Write(" = new Date(responseText);\r\n");
+            this.Write(" = new Date(responseText);");
             
-            #line 9 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
-  }else{
-            
-            #line default
-            #line hidden
-            
-            #line 10 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
-      if(response.UseDtoClass){
+            #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+
+        }else{
+            if(response.UseDtoClass){
             
             #line default
             #line hidden
-            this.Write("    let resultData");
+            this.Write("\n    let resultData");
             
-            #line 11 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+            #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
             
             #line default
             #line hidden
-            this.Write(" = responseText === \"\" ? null : JSON.parse(responseText, this.jsonParseReviver);\r" +
-                    "\n    ");
+            this.Write(" = responseText === \"\" ? null : JSON.parse(responseText, this.jsonParseReviver);\n" +
+                    "    ");
             
-            #line 12 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+            #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.Tab(response.DataConversionCode, 1)));
             
             #line default
             #line hidden
-            this.Write("\r\n");
             
-            #line 13 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
-      }else{
+            #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+
+            }else{
             
             #line default
             #line hidden
-            this.Write("    result");
+            this.Write("\n    result");
             
-            #line 14 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+            #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
             
             #line default
             #line hidden
             this.Write(" = responseText === \"\" ? null : <");
             
-            #line 14 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+            #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.Type));
             
             #line default
             #line hidden
-            this.Write(">JSON.parse(responseText, this.jsonParseReviver);\r\n");
+            this.Write(">JSON.parse(responseText, this.jsonParseReviver);");
             
-            #line 15 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
-      }
-            
-            #line default
-            #line hidden
-            
-            #line 16 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
-  }
+            #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+
+            }
+        }
+        if(response.IsSuccess){
             
             #line default
             #line hidden
+            this.Write("\n    return result");
             
-            #line 17 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
-  if(response.IsSuccess){
-            
-            #line default
-            #line hidden
-            this.Write("    return result");
-            
-            #line 18 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+            #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
             
             #line default
             #line hidden
-            this.Write("; \r\n");
+            this.Write(";");
             
-            #line 19 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
-  }else{
+            #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+
+        }else{
             
             #line default
             #line hidden
-            this.Write("\treturn this.throwException(\"A server error occurred.\", status, responseText, res" +
-                    "ult");
+            this.Write("\n    return this.throwException(\"A server error occurred.\", status, responseText," +
+                    " result");
             
-            #line 20 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+            #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
             
             #line default
             #line hidden
-            this.Write(");\r\n");
+            this.Write(");");
             
-            #line 21 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
-  }
-}else if(!response.IsSuccess){
+            #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+
+        }
+    }else if(!response.IsSuccess){
             
             #line default
             #line hidden
-            this.Write("\treturn this.throwException(\"A server error occurred.\", status, responseText);\r\n");
+            this.Write("\n    return this.throwException(\"A server error occurred.\", status, responseText)" +
+                    ";");
             
-            #line 24 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+            #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+
 }
             
             #line default
             #line hidden
-            this.Write("}\r\nelse\r\n");
+            this.Write("\n} else ");
             
-            #line 27 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+            #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+
 }
             
             #line default
             #line hidden
-            this.Write("{\r\n");
+            this.Write("{");
             
-            #line 28 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+            #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+
 if(Model.HasDefaultResponse){
+    if(Model.DefaultResponse.HasType){
             
             #line default
             #line hidden
+            this.Write("\n    let result: ");
             
-            #line 29 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
-  if(Model.DefaultResponse.HasType){
-            
-            #line default
-            #line hidden
-            this.Write("    let result: ");
-            
-            #line 30 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+            #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.DefaultResponse.Type));
             
             #line default
             #line hidden
-            this.Write(" = null; \r\n");
+            this.Write(" = null;");
             
-            #line 31 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
-      if(Model.DefaultResponse.IsDate){
-            
-            #line default
-            #line hidden
-            this.Write("    result = new Date(responseText);\r\n");
-            
-            #line 33 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
-      }else{
+            #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+
+        if(Model.DefaultResponse.IsDate){
             
             #line default
             #line hidden
+            this.Write("\n    result = new Date(responseText);");
             
-            #line 34 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
-          if(Model.DefaultResponse.UseDtoClass){
+            #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+
+        }else{
+            if(Model.DefaultResponse.UseDtoClass){
             
             #line default
             #line hidden
-            this.Write("    let resultData = responseText === \"\" ? null : JSON.parse(responseText, this.j" +
-                    "sonParseReviver);\r\n    ");
+            this.Write("\n    let resultData = responseText === \"\" ? null : JSON.parse(responseText, this." +
+                    "jsonParseReviver);\n    ");
             
-            #line 36 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+            #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.Tab(Model.DefaultResponse.DataConversionCode, 1)));
             
             #line default
             #line hidden
-            this.Write("\r\n");
             
-            #line 37 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
-          }else{
+            #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+
+            }else{
             
             #line default
             #line hidden
-            this.Write("    result = responseText === \"\" ? null : <");
+            this.Write("\n    result = responseText === \"\" ? null : <");
             
-            #line 38 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+            #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.DefaultResponse.Type));
             
             #line default
             #line hidden
-            this.Write(">JSON.parse(responseText, this.jsonParseReviver);\r\n");
+            this.Write(">JSON.parse(responseText, this.jsonParseReviver);");
             
-            #line 39 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
-          }
-            
-            #line default
-            #line hidden
-            
-            #line 40 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
-      }
+            #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+
+            }
+        }
+        if(Model.DefaultResponse.IsSuccess){
             
             #line default
             #line hidden
+            this.Write("\n    return result;");
             
-            #line 41 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
-      if(Model.DefaultResponse.IsSuccess){
-            
-            #line default
-            #line hidden
-            this.Write("    return result; \r\n");
-            
-            #line 43 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
-      }else{
+            #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+
+        }else{
             
             #line default
             #line hidden
-            this.Write("\treturn this.throwException(\"A server error occurred.\", status, responseText, res" +
-                    "ult);\r\n");
+            this.Write("\n    return this.throwException(\"A server error occurred.\", status, responseText," +
+                    " result);");
             
-            #line 45 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
-      }
+            #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+
+        }
     }else if(!Model.DefaultResponse.IsSuccess){
             
             #line default
             #line hidden
-            this.Write("\treturn this.throwException(\"A server error occurred.\", status, responseText);\r\n");
+            this.Write("\n    return this.throwException(\"A server error occurred.\", status, responseText)" +
+                    ";");
             
-            #line 48 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
-  }
-            
-            #line default
-            #line hidden
-            
-            #line 49 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+            #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+
+    }
 }else{
             
             #line default
             #line hidden
-            this.Write("\treturn this.throwException(\"An unexpected server error occurred.\", status, respo" +
-                    "nseText);\r\n");
+            this.Write("\n    return this.throwException(\"An unexpected server error occurred.\", status, r" +
+                    "esponseText);");
             
-            #line 51 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+            #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
+
 }
             
             #line default
             #line hidden
-            this.Write("}");
+            this.Write("\n}");
             return this.GenerationEnvironment.ToString();
         }
     }
