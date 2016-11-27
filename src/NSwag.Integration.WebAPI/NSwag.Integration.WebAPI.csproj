@@ -138,6 +138,8 @@
     <Content Include="Swagger_Fetch.nswag" />
     <Content Include="Swagger_ClientConsole.nswag" />
     <Content Include="Swagger_Aurelia.nswag" />
+    <Content Include="Swagger_PetStore_Fetch.nswag" />
+    <Content Include="Swagger_Uber_Fetch.nswag" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

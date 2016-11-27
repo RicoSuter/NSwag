@@ -34,7 +34,7 @@
       "useHttpRequestMessageCreationMethod": false,
       "generateContractsOutput": false,
       "className": "PetStoreClient",
-      "namespace": "MyNamespace",
+      "namespace": "PetStore",
       "requiredPropertiesMustBeDefined": true,
       "dateType": "DateTime",
       "dateTimeType": "DateTime",
