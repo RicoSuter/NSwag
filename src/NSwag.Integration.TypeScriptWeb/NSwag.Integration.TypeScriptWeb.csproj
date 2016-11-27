@@ -122,6 +122,7 @@
     <TypeScriptCompile Include="scripts\serviceClientsJQueryPromises.ts" />
     <TypeScriptCompile Include="scripts\serviceClientsJQueryPromisesKO.ts" />
     <TypeScriptCompile Include="scripts\serviceClientsPetStoreFetch.ts" />
+    <TypeScriptCompile Include="scripts\serviceClientsUberFetch.ts" />
     <TypeScriptCompile Include="scripts\typings\angularjs\angular-animate.d.ts" />
     <TypeScriptCompile Include="scripts\typings\angularjs\angular-component-router.d.ts" />
     <TypeScriptCompile Include="scripts\typings\angularjs\angular-cookies.d.ts" />
