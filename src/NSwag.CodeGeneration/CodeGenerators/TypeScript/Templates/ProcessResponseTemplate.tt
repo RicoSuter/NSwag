@@ -17,12 +17,12 @@
         if(response.IsSuccess){#>
     return result<#=response.StatusCode#>;<#
         }else{#>
-    return this.throwException("A server error occurred.", status, responseText, result<#=response.StatusCode#>);<#
+    this.throwException("A server error occurred.", status, responseText, result<#=response.StatusCode#>);<#
         }
     }else if(response.IsSuccess){#>
     return null;<#
     }else{#>
-    return this.throwException("A server error occurred.", status, responseText);<#
+    this.throwException("A server error occurred.", status, responseText);<#
     }#>
 } else <#
 }
@@ -42,17 +42,17 @@ if(Model.HasDefaultResponse){#>{<#
         if(!Model.HasSuccessResponse){#>
     return result;<#
         }else{#>
-    return this.throwException("A server error occurred.", status, responseText, result);<#
+    this.throwException("A server error occurred.", status, responseText, result);<#
         }
     }else if(!Model.HasSuccessResponse){#>
     return null;<#
     }else{#>
-    return this.throwException("A server error occurred.", status, responseText);<#
+    this.throwException("A server error occurred.", status, responseText);<#
     }#>
 }<#
 }else{
 #>if (status !== 200 && status !== 204) {
-    return this.throwException("An unexpected server error occurred.", status, responseText);
+    this.throwException("An unexpected server error occurred.", status, responseText);
 }
 return null;<#
 }#>

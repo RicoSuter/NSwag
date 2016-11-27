@@ -149,8 +149,8 @@ foreach(var response in Model.Responses){
             
             #line default
             #line hidden
-            this.Write("\n    return this.throwException(\"A server error occurred.\", status, responseText," +
-                    " result");
+            this.Write("\n    this.throwException(\"A server error occurred.\", status, responseText, result" +
+                    "");
             
             #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
@@ -174,8 +174,7 @@ foreach(var response in Model.Responses){
             
             #line default
             #line hidden
-            this.Write("\n    return this.throwException(\"A server error occurred.\", status, responseText)" +
-                    ";");
+            this.Write("\n    this.throwException(\"A server error occurred.\", status, responseText);");
             
             #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
 
@@ -264,8 +263,8 @@ if(Model.HasDefaultResponse){
             
             #line default
             #line hidden
-            this.Write("\n    return this.throwException(\"A server error occurred.\", status, responseText," +
-                    " result);");
+            this.Write("\n    this.throwException(\"A server error occurred.\", status, responseText, result" +
+                    ");");
             
             #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
 
@@ -282,8 +281,7 @@ if(Model.HasDefaultResponse){
             
             #line default
             #line hidden
-            this.Write("\n    return this.throwException(\"A server error occurred.\", status, responseText)" +
-                    ";");
+            this.Write("\n    this.throwException(\"A server error occurred.\", status, responseText);");
             
             #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
 
@@ -300,8 +298,8 @@ if(Model.HasDefaultResponse){
             
             #line default
             #line hidden
-            this.Write("if (status !== 200 && status !== 204) {\n    return this.throwException(\"An unexpe" +
-                    "cted server error occurred.\", status, responseText);\n}\nreturn null;");
+            this.Write("if (status !== 200 && status !== 204) {\n    this.throwException(\"An unexpected se" +
+                    "rver error occurred.\", status, responseText);\n}\nreturn null;");
             
             #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt"
 
