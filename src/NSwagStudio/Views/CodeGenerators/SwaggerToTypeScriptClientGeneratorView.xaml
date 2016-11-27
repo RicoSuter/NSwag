@@ -45,11 +45,11 @@
                                       Content="Generate Client Classes" Margin="0,4,0,12" />
 
                             <StackPanel Visibility="{Binding Command.GenerateClientClasses, Converter={StaticResource VisibilityConverter}}">
-                                <CheckBox IsChecked="{Binding Command.WrapExceptions, Mode=TwoWay}" 
-                                          Content="Wrap DTO exceptions in a SwaggerError instance" Margin="0,0,0,12" />
-
                                 <CheckBox IsChecked="{Binding Command.GenerateClientInterfaces, Mode=TwoWay}" 
                                           Content="Generate Client Interfaces" Margin="0,0,0,12" />
+
+                                <CheckBox IsChecked="{Binding Command.WrapExceptions, Mode=TwoWay}" 
+                                          Content="Wrap DTO exceptions in a SwaggerError instance" Margin="0,0,0,12" />
 
                                 <TextBlock Text="Class Name" FontWeight="Bold" Margin="0,0,0,6" />
                                 <TextBox Text="{Binding Command.ClassName, Mode=TwoWay}" Margin="0,0,0,12" />
