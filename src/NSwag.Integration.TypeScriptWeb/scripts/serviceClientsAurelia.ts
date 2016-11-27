@@ -886,16 +886,17 @@ export interface FileParameter
 }
 
 export class SwaggerException extends Error {
-	status: number; 
-	response: string; 
-	result?: any; 
+    message: string;
+    status: number; 
+    response: string; 
+    result?: any; 
 
-	constructor(message: string, status: number, response: string, result?: any) {
-		super();
+    constructor(message: string, status: number, response: string, result?: any) {
+        super();
 
-	    this.message = message;
-		this.status = status;
-		this.response = response;
-		this.result = result;
-	}
+        this.message = message;
+        this.status = status;
+        this.response = response;
+        this.result = result;
+    }
 }
