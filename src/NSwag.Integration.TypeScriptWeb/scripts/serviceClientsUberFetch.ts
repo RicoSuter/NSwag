@@ -47,21 +47,19 @@ export class Client {
             const status = response.status; 
 
 			if (status === 200) {
-                let result200: Product[] = null; 
+                let result200: Product[] = null;
                 let resultData200 = responseText === "" ? null : JSON.parse(responseText, this.jsonParseReviver);
                 if (resultData200 && resultData200.constructor === Array) {
                     result200 = [];
                     for (let item of resultData200)
                         result200.push(Product.fromJS(item));
                 }
-                return result200; 
-            }
-            else
-            {
-                let result: Error = null; 
+                return result200;
+            } else {
+                let result: Error = null;
                 let resultData = responseText === "" ? null : JSON.parse(responseText, this.jsonParseReviver);
                 result = resultData ? Error.fromJS(resultData) : null;
-            	return this.throwException("A server error occurred.", status, responseText, result);
+                return this.throwException("A server error occurred.", status, responseText, result);
             }
         });
     }
@@ -108,21 +106,19 @@ export class Client {
             const status = response.status; 
 
 			if (status === 200) {
-                let result200: PriceEstimate[] = null; 
+                let result200: PriceEstimate[] = null;
                 let resultData200 = responseText === "" ? null : JSON.parse(responseText, this.jsonParseReviver);
                 if (resultData200 && resultData200.constructor === Array) {
                     result200 = [];
                     for (let item of resultData200)
                         result200.push(PriceEstimate.fromJS(item));
                 }
-                return result200; 
-            }
-            else
-            {
-                let result: Error = null; 
+                return result200;
+            } else {
+                let result: Error = null;
                 let resultData = responseText === "" ? null : JSON.parse(responseText, this.jsonParseReviver);
                 result = resultData ? Error.fromJS(resultData) : null;
-            	return this.throwException("A server error occurred.", status, responseText, result);
+                return this.throwException("A server error occurred.", status, responseText, result);
             }
         });
     }
@@ -165,21 +161,19 @@ export class Client {
             const status = response.status; 
 
 			if (status === 200) {
-                let result200: Product[] = null; 
+                let result200: Product[] = null;
                 let resultData200 = responseText === "" ? null : JSON.parse(responseText, this.jsonParseReviver);
                 if (resultData200 && resultData200.constructor === Array) {
                     result200 = [];
                     for (let item of resultData200)
                         result200.push(Product.fromJS(item));
                 }
-                return result200; 
-            }
-            else
-            {
-                let result: Error = null; 
+                return result200;
+            } else {
+                let result: Error = null;
                 let resultData = responseText === "" ? null : JSON.parse(responseText, this.jsonParseReviver);
                 result = resultData ? Error.fromJS(resultData) : null;
-            	return this.throwException("A server error occurred.", status, responseText, result);
+                return this.throwException("A server error occurred.", status, responseText, result);
             }
         });
     }
@@ -206,17 +200,15 @@ export class Client {
             const status = response.status; 
 
 			if (status === 200) {
-                let result200: Profile = null; 
+                let result200: Profile = null;
                 let resultData200 = responseText === "" ? null : JSON.parse(responseText, this.jsonParseReviver);
                 result200 = resultData200 ? Profile.fromJS(resultData200) : null;
-                return result200; 
-            }
-            else
-            {
-                let result: Error = null; 
+                return result200;
+            } else {
+                let result: Error = null;
                 let resultData = responseText === "" ? null : JSON.parse(responseText, this.jsonParseReviver);
                 result = resultData ? Error.fromJS(resultData) : null;
-            	return this.throwException("A server error occurred.", status, responseText, result);
+                return this.throwException("A server error occurred.", status, responseText, result);
             }
         });
     }
@@ -249,17 +241,15 @@ export class Client {
             const status = response.status; 
 
 			if (status === 200) {
-                let result200: Activities = null; 
+                let result200: Activities = null;
                 let resultData200 = responseText === "" ? null : JSON.parse(responseText, this.jsonParseReviver);
                 result200 = resultData200 ? Activities.fromJS(resultData200) : null;
-                return result200; 
-            }
-            else
-            {
-                let result: Error = null; 
+                return result200;
+            } else {
+                let result: Error = null;
                 let resultData = responseText === "" ? null : JSON.parse(responseText, this.jsonParseReviver);
                 result = resultData ? Error.fromJS(resultData) : null;
-            	return this.throwException("A server error occurred.", status, responseText, result);
+                return this.throwException("A server error occurred.", status, responseText, result);
             }
         });
     }
@@ -533,16 +523,17 @@ export class Error {
 }
 
 export class SwaggerException extends Error {
-	status: number; 
-	response: string; 
-	result?: any; 
+    message: string;
+    status: number; 
+    response: string; 
+    result?: any; 
 
-	constructor(message: string, status: number, response: string, result?: any) {
-		super();
+    constructor(message: string, status: number, response: string, result?: any) {
+        super();
 
-	    this.message = message;
-		this.status = status;
-		this.response = response;
-		this.result = result;
-	}
+        this.message = message;
+        this.status = status;
+        this.response = response;
+        this.result = result;
+    }
 }

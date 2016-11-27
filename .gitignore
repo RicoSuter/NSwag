@@ -47,3 +47,5 @@ src/packages/**
 /src/NSwag.Npm/node_modules
 /src/NSwag.Integration.TypeScriptWeb/scripts/serviceClientsUberFetch.js.map
 /src/NSwag.Integration.TypeScriptWeb/scripts/serviceClientsUberFetch.js
+/src/NSwag.Integration.TypeScriptWeb/scripts/serviceClientsPetStoreFetch.js
+/src/NSwag.Integration.TypeScriptWeb/scripts/serviceClientsPetStoreFetch.js.map
