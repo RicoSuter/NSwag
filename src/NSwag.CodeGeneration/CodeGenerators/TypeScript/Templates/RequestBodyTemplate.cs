@@ -171,7 +171,7 @@ foreach(var parameter in Model.FormParameters){
             
             #line default
             #line hidden
-            this.Write(".ToString()));\r\n");
+            this.Write(".toString());\r\n");
             
             #line 20 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestBodyTemplate.tt"
   }
