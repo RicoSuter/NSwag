@@ -94,11 +94,11 @@ namespace NSwag.Commands
             set { Settings.GenerateClientInterfaces = value; }
         }
 
-        [Argument(Name = "WrapExceptions", IsRequired = false, Description = "Specifies whether DTO exceptions are wrapped in a SwaggerError instance (default: false).")]
-        public bool WrapExceptions
+        [Argument(Name = "WrapDtoExceptions", IsRequired = false, Description = "Specifies whether DTO exceptions are wrapped in a SwaggerError instance (default: false).")]
+        public bool WrapDtoExceptions
         {
-            get { return Settings.WrapExceptions; }
-            set { Settings.WrapExceptions = value; }
+            get { return Settings.WrapDtoExceptions; }
+            set { Settings.WrapDtoExceptions = value; }
         }
 
         [Argument(Name = "GenerateDtoTypes", IsRequired = false, Description = "Specifies whether to generate DTO classes.")]

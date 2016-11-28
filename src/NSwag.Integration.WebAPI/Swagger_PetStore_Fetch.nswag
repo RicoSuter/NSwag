@@ -17,7 +17,7 @@
       "dateTimeType": "Date",
       "generateClientClasses": true,
       "generateClientInterfaces": false,
-      "wrapExceptions": false,
+      "wrapDtoExceptions": false,
       "generateDtoTypes": true,
       "operationGenerationMode": "MultipleClientsFromOperationId",
       "markOptionalProperties": false,

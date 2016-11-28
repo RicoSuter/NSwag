@@ -1,6 +1,6 @@
 ﻿<#@ template visibility="internal" #>
 protected throwException(message: string, status: number, response: string, result?: any): any {
-<#if(Model.WrapExceptions){#>
+<#if(Model.WrapDtoExceptions){#>
 	throw new SwaggerException(message, status, response, result);
 <#}else{#>
 	if(result !== null && result !== undefined)

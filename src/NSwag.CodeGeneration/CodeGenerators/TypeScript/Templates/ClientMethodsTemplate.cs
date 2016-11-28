@@ -29,7 +29,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates
                     "t?: any): any {\r\n");
             
             #line 3 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ClientMethodsTemplate.tt"
-if(Model.WrapExceptions){
+if(Model.WrapDtoExceptions){
             
             #line default
             #line hidden

@@ -40,7 +40,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         public PromiseType PromiseType { get; set; }
 
         /// <summary>Gets or sets a value indicating whether DTO exceptions are wrapped in a SwaggerError instance (default: false).</summary>
-        public bool WrapExceptions { get; set; }
+        public bool WrapDtoExceptions { get; set; }
 
         internal ITemplate CreateTemplate(object model)
         {
