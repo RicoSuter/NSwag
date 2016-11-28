@@ -720,8 +720,8 @@ if(Model.IsExtended){
             
             #line default
             #line hidden
-            this.Write("WithCallbacks(url: string, xhr: any, onSuccess?: any, onFail?: any) {\r\n        tr" +
-                    "y {\r\n");
+            this.Write("WithCallbacks(url: string, xhr: any, onSuccess?: any, onFail?: any): void {\r\n    " +
+                    "    try {\r\n");
             
             #line 83 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(Model.IsExtended){
@@ -758,15 +758,22 @@ if(Model.IsExtended){
             #line hidden
             this.Write("            if (onSuccess !== undefined)\r\n                onSuccess(result);\r\n   " +
                     "     } catch (e) {\r\n            if (onFail !== undefined)\r\n                onFai" +
-                    "l(e, \"http_service_exception\");\r\n        }\r\n    }\r\n\r\n    private process");
+                    "l(e, \"http_service_exception\");\r\n        }\r\n    }\r\n\r\n    protected process");
             
             #line 96 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
             
             #line default
             #line hidden
-            this.Write("(xhr: any) {\r\n        const responseText = xhr.responseText; \r\n        const stat" +
-                    "us = xhr.status; \r\n\r\n\t\t");
+            this.Write("(xhr: any): ");
+            
+            #line 96 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultType));
+            
+            #line default
+            #line hidden
+            this.Write(" {\r\n        const responseText = xhr.responseText; \r\n        const status = xhr.s" +
+                    "tatus; \r\n\r\n\t\t");
             
             #line 100 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TemplatePartGenerator.RenderProcessResponseCode(operation, 2)));

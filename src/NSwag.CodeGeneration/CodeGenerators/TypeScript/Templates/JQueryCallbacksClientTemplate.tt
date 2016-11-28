@@ -72,7 +72,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
         });
     }
 
-    private process<#=operation.OperationNameUpper#>WithCallbacks(url: string, xhr: any, onSuccess?: any, onFail?: any) {
+    private process<#=operation.OperationNameUpper#>WithCallbacks(url: string, xhr: any, onSuccess?: any, onFail?: any): void {
         try {
 <#if(Model.IsExtended){#>
             let result = this.transformResult(url, xhr, (xhr) => this.process<#=operation.OperationNameUpper#>(xhr));
@@ -87,7 +87,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
         }
     }
 
-    private process<#=operation.OperationNameUpper#>(xhr: any) {
+    protected process<#=operation.OperationNameUpper#>(xhr: any): <#=operation.ResultType#> {
         const responseText = xhr.responseText; 
         const status = xhr.status; 
 

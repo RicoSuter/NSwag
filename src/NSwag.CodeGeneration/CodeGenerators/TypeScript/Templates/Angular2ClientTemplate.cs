@@ -654,15 +654,22 @@ if(Model.IsExtended){
             
             #line default
             #line hidden
-            this.Write(">><any>Observable.throw(response);\r\n        });\r\n    }\r\n\r\n    private process");
+            this.Write(">><any>Observable.throw(response);\r\n        });\r\n    }\r\n\r\n    protected process");
             
             #line 88 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
             
             #line default
             #line hidden
-            this.Write("(response: Response) {\r\n        const responseText = response.text();\r\n        co" +
-                    "nst status = response.status; \r\n\r\n\t\t");
+            this.Write("(response: Response): ");
+            
+            #line 88 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultType));
+            
+            #line default
+            #line hidden
+            this.Write(" {\r\n        const responseText = response.text();\r\n        const status = respons" +
+                    "e.status; \r\n\r\n\t\t");
             
             #line 92 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TemplatePartGenerator.RenderProcessResponseCode(operation, 2)));

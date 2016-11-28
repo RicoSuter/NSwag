@@ -77,7 +77,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
         });
     }
 
-    private process<#=operation.OperationNameUpper#>(response: Response) {
+    protected process<#=operation.OperationNameUpper#>(response: Response): Promise<<#=operation.ResultType#>> {
         return response.text().then((responseText) => {
             const status = response.status; 
 

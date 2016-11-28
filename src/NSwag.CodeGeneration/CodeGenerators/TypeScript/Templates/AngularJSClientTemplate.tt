@@ -81,7 +81,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
         });
     }
 
-    private process<#=operation.OperationNameUpper#>(response: any) {
+    protected process<#=operation.OperationNameUpper#>(response: any): <#=operation.ResultType#> {
         const responseText = response.data;
         const status = response.status; 
 

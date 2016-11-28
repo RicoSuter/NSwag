@@ -637,15 +637,22 @@ if(Model.IsExtended){
             
             #line default
             #line hidden
-            this.Write("        });\r\n    }\r\n\r\n    private process");
+            this.Write("        });\r\n    }\r\n\r\n    protected process");
             
             #line 80 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
             
             #line default
             #line hidden
-            this.Write("(response: Response) {\r\n        return response.text().then((responseText) => {\r\n" +
-                    "            const status = response.status; \r\n\r\n\t\t\t");
+            this.Write("(response: Response): Promise<");
+            
+            #line 80 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultType));
+            
+            #line default
+            #line hidden
+            this.Write("> {\r\n        return response.text().then((responseText) => {\r\n            const s" +
+                    "tatus = response.status; \r\n\r\n\t\t\t");
             
             #line 84 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TemplatePartGenerator.RenderProcessResponseCode(operation, 3)));
