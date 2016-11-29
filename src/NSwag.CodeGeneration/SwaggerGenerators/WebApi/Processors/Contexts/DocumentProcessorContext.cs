@@ -8,19 +8,25 @@
 
 using System;
 using System.Collections.Generic;
+using NJsonSchema;
+using NJsonSchema.Generation;
 
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Contexts
 {
     /// <summary>The <see cref="IDocumentProcessor"/> context.</summary>
     public class DocumentProcessorContext
     {
-        /// <summary>Initializes a new instance of the <see cref="DocumentProcessorContext"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="DocumentProcessorContext" /> class.</summary>
         /// <param name="document">The document.</param>
         /// <param name="controllerTypes">The controller types.</param>
-        public DocumentProcessorContext(SwaggerDocument document, IEnumerable<Type> controllerTypes)
+        /// <param name="schemaResolver">The schema resolver.</param>
+        /// <param name="schemaGenerator">The schema generator.</param>
+        public DocumentProcessorContext(SwaggerDocument document, IEnumerable<Type> controllerTypes, SchemaResolver schemaResolver, JsonSchemaGenerator schemaGenerator)
         {
             Document = document;
             ControllerTypes = controllerTypes;
+            SchemaResolver = schemaResolver;
+            SchemaGenerator = schemaGenerator;
         }
 
         /// <summary>Gets the Swagger document.</summary>
@@ -28,5 +34,11 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Contexts
 
         /// <summary>Gets the controller types.</summary>
         public IEnumerable<Type> ControllerTypes { get; }
+
+        /// <summary>Gets or sets the schema resolver.</summary>
+        public SchemaResolver SchemaResolver { get; set; }
+
+        /// <summary>Gets or sets the schema generator (call Generate() with SchemaResolver property!).</summary>
+        public JsonSchemaGenerator SchemaGenerator { get; set; }
     }
 }
