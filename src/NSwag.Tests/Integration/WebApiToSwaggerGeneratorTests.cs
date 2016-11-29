@@ -39,10 +39,11 @@ namespace NSwag.Tests.Integration
             //// Act
             var document = generator.GenerateForController<PersonsController>();
             var operation = document.Operations.Single(o => o.Path == "/api/Persons/Get/{id}");
+            var json = document.ToJson();
 
             //// Assert
             Assert.AreEqual(2, operation.Operation.Responses.Count);
-            Assert.AreEqual("Person", operation.Operation.Responses["200"].ActualResponseSchema.GetTypeName(new DefaultTypeNameGenerator(), string.Empty));
+            Assert.IsTrue(document.Definitions.Any(d => d.Key == "Person"));
         }
     }
 }

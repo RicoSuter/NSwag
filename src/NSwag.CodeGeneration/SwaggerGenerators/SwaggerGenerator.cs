@@ -26,23 +26,17 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
         /// <param name="schemaGenerator">The schema generator.</param>
         /// <param name="schemaGeneratorSettings">The schema generator settings.</param>
         /// <param name="schemaResolver">The schema resolver.</param>
-        /// <param name="schemaDefinitionAppender">The schema definition appender.</param>
-        public SwaggerGenerator(JsonSchemaGenerator schemaGenerator, JsonSchemaGeneratorSettings schemaGeneratorSettings, 
-            ISchemaResolver schemaResolver, ISchemaDefinitionAppender schemaDefinitionAppender)
+        public SwaggerGenerator(JsonSchemaGenerator schemaGenerator, JsonSchemaGeneratorSettings schemaGeneratorSettings, SchemaResolver schemaResolver)
         {
             SchemaResolver = schemaResolver;
-            SchemaDefinitionAppender = schemaDefinitionAppender;
 
             _schemaGenerator = schemaGenerator;
             _settings = schemaGeneratorSettings;
         }
 
         /// <summary>Gets the schema resolver.</summary>
-        public ISchemaResolver SchemaResolver { get; }
-
-        /// <summary>Gets the schema definition appender.</summary>
-        public ISchemaDefinitionAppender SchemaDefinitionAppender { get; }
-
+        public SchemaResolver SchemaResolver { get; }
+        
         /// <summary>Creates a primitive parameter for the given parameter information reflection object.</summary>
         /// <param name="name">The name.</param>
         /// <param name="parameter">The parameter information.</param>
@@ -99,7 +93,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
                     Type = typeDescription.Type, // Used as fallback for generators which do not check the "schema" property
                     Schema = new JsonSchema4
                     {
-                        SchemaReference = _schemaGenerator.Generate<JsonSchema4>(parameterType, parentAttributes, SchemaResolver, SchemaDefinitionAppender)
+                        SchemaReference = _schemaGenerator.Generate<JsonSchema4>(parameterType, parentAttributes, SchemaResolver)
                     }
                 };
             }
@@ -107,7 +101,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
             {
                 parameterType = typeDescription.Type.HasFlag(JsonObjectType.Object) ? typeof(string) : parameterType; // object types must be treated as string
 
-                operationParameter = _schemaGenerator.Generate<SwaggerParameter>(parameterType, parentAttributes, SchemaResolver, SchemaDefinitionAppender);
+                operationParameter = _schemaGenerator.Generate<SwaggerParameter>(parameterType, parentAttributes, SchemaResolver);
                 _schemaGenerator.ApplyPropertyAnnotations(operationParameter, parameterType, parentAttributes, typeDescription);
             }
 
@@ -176,7 +170,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
                 }
 
                 if (!SchemaResolver.HasSchema(type, false))
-                    _schemaGenerator.Generate(type, SchemaResolver, SchemaDefinitionAppender);
+                    _schemaGenerator.Generate(type, SchemaResolver);
 
                 if (mayBeNull)
                 {
@@ -210,7 +204,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
                 };
             }
 
-            return _schemaGenerator.Generate(type, SchemaResolver, SchemaDefinitionAppender);
+            return _schemaGenerator.Generate(type, SchemaResolver);
         }
 
         private bool IsParameterRequired(ParameterInfo parameter)

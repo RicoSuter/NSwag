@@ -36,11 +36,6 @@ namespace NSwag
             };
 
             Definitions = new ObservableDictionary<string, JsonSchema4>();
-            Definitions.CollectionChanged += (sender, args) =>
-            {
-                foreach (var pair in Definitions.Where(p => string.IsNullOrEmpty(p.Value.TypeNameRaw)))
-                    pair.Value.TypeNameRaw = pair.Key;
-            };
 
             Paths = new ObservableDictionary<string, SwaggerOperations>();
             Paths.CollectionChanged += (sender, args) =>

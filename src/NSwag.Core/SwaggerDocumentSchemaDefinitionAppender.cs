@@ -20,24 +20,38 @@ namespace NSwag
         /// <summary>Initializes a new instance of the <see cref="SwaggerDocumentSchemaDefinitionAppender" /> class.</summary>
         /// <param name="document">The Swagger document.</param>
         /// <param name="typeNameGenerator">The type name generator.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="document"/> is <see langword="null"/></exception>
         public SwaggerDocumentSchemaDefinitionAppender(SwaggerDocument document, ITypeNameGenerator typeNameGenerator)
         {
+            if (document == null)
+                throw new ArgumentNullException(nameof(document));
+
             _document = document;
-            _typeNameGenerator = typeNameGenerator; 
+            _typeNameGenerator = typeNameGenerator;
         }
 
-        /// <summary>Gets or sets the root object to append schemas to.</summary>
-        public object RootObject { get; set; }
+        /// <summary>Tries to set the root of the appender.</summary>
+        /// <param name="rootObject">The root object.</param>
+        /// <returns>true when the root was not set before.</returns>
+        public bool TrySetRoot(object rootObject)
+        {
+            return false;
+        }
 
         /// <summary>Appends the schema to the root object.</summary>
-        /// <param name="objectToAppend">The object to append.</param>
-        public void Append(JsonSchema4 objectToAppend)
+        /// <param name="schema">The schema to append.</param>
+        /// <param name="typeNameHint">The type name hint.</param>
+        public void AppendSchema(JsonSchema4 schema, string typeNameHint)
         {
-            var typeName = objectToAppend.GetTypeName(_typeNameGenerator, string.Empty); 
-            if (!string.IsNullOrEmpty(typeName) && !_document.Definitions.ContainsKey(typeName))
-                _document.Definitions[typeName] = objectToAppend;
-            else
-                _document.Definitions["ref_" + Guid.NewGuid().ToString().Replace("-", "_")] = objectToAppend;
+            schema = schema.ActualSchema;
+            if (!_document.Definitions.Values.Contains(schema))
+            {
+                var typeName = schema.GetTypeName(_typeNameGenerator, typeNameHint);
+                if (!string.IsNullOrEmpty(typeName) && !_document.Definitions.ContainsKey(typeName))
+                    _document.Definitions[typeName] = schema;
+                else
+                    _document.Definitions["ref_" + Guid.NewGuid().ToString().Replace("-", "_")] = schema;
+            }
         }
     }
 }

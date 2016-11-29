@@ -47,18 +47,12 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 
             _document = document;
             _resolver = resolver;
-
-            foreach (var definition in _document.Definitions.Where(p => string.IsNullOrEmpty(p.Value.TypeNameRaw)))
-                definition.Value.TypeNameRaw = definition.Key;
-
-            _resolver.AddSchemas(_document.Definitions);
+            
+            _resolver.AddGenerators( _document.Definitions);
         }
 
         /// <summary>Gets or sets the generator settings.</summary>
         public SwaggerToTypeScriptClientGeneratorSettings Settings { get; set; }
-
-        /// <summary>Gets the language.</summary>
-        protected override string Language => "TypeScript";
 
         /// <summary>Generates the file.</summary>
         /// <returns>The file contents.</returns>
