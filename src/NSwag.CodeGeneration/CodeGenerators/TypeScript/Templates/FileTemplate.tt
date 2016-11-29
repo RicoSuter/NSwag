@@ -45,6 +45,7 @@ export interface FileParameter
 }
 <#}#>
 
+<#if(!string.IsNullOrEmpty(Model.Clients)){#>
 export class SwaggerException extends Error {
     message: string;
     status: number; 
@@ -60,6 +61,7 @@ export class SwaggerException extends Error {
         this.result = result;
     }
 }
+<#}#>
 
 <#=Model.ExtensionCodeAfter#>
 <#if(Model.HasNamespace){#>

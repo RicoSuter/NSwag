@@ -155,8 +155,14 @@ if(Model.RequiresFileParameterInterface){
             
             #line default
             #line hidden
-            this.Write(@"
-export class SwaggerException extends Error {
+            this.Write("\r\n");
+            
+            #line 48 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FileTemplate.tt"
+if(!string.IsNullOrEmpty(Model.Clients)){
+            
+            #line default
+            #line hidden
+            this.Write(@"export class SwaggerException extends Error {
     message: string;
     status: number; 
     response: string; 
@@ -171,24 +177,30 @@ export class SwaggerException extends Error {
         this.result = result;
     }
 }
-
 ");
             
             #line 64 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FileTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("\r\n");
+            
+            #line 66 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ExtensionCodeAfter));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 65 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FileTemplate.tt"
+            #line 67 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FileTemplate.tt"
 if(Model.HasNamespace){
             
             #line default
             #line hidden
             this.Write("}\r\n");
             
-            #line 67 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FileTemplate.tt"
+            #line 69 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FileTemplate.tt"
 }
   if(Model.HasModuleName){
             
@@ -196,7 +208,7 @@ if(Model.HasNamespace){
             #line hidden
             this.Write("}\r\n");
             
-            #line 70 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FileTemplate.tt"
+            #line 72 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FileTemplate.tt"
 }
             
             #line default
