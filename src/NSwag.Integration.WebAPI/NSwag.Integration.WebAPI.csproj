@@ -148,7 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\NJsonSchema\src\NJsonSchema\NJsonSchema.csproj">
-      <Project>{7B7A2E32-E808-4A19-98B1-37E766580F8C}</Project>
+      <Project>{7b7a2e32-e808-4a19-98b1-37e766580f8c}</Project>
       <Name>NJsonSchema</Name>
     </ProjectReference>
     <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj">
