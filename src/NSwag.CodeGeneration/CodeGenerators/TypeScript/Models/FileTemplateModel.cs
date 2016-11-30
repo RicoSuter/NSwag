@@ -73,6 +73,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
         /// <summary>Gets a value indicating whether the FileParameter interface should be rendered.</summary>
         public bool RequiresFileParameterInterface => _document.Operations.Any(o => o.Operation.Parameters.Any(p => p.Type.HasFlag(JsonObjectType.File)));
 
+        /// <summary>Gets a value indicating whether the SwaggerException class is required.</summary>
+        public bool RequiresSwaggerExceptionClass => _settings.GenerateClientClasses && !string.IsNullOrEmpty(Clients);
+
         /// <summary>Table containing list of the generated classes.</summary>
         public string[] ClientClasses { get; }
 

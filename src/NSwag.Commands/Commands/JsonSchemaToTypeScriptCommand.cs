@@ -19,14 +19,18 @@ namespace NSwag.Commands
     [Command(Name = "jsonschema2tsclient", Description = "Generates TypeScript interfaces from a JSON Schema.")]
     public class JsonSchemaToTypeScriptCommand : InputOutputCommandBase
     {
+        [Argument(Name = "Name", Description = "The type name of the root schema.")]
+        public string Name { get; set; }
+
         public override Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var schema = JsonSchema4.FromJson(InputJson);
             var generator = new TypeScriptGenerator(schema);
 
-            var code = generator.GenerateFile();
+            var code = generator.GenerateFile(Name); 
             if (TryWriteFileOutput(host, () => code) == false)
                 return Task.FromResult<object>(code);
+
             return Task.FromResult<object>(null);
         }
     }

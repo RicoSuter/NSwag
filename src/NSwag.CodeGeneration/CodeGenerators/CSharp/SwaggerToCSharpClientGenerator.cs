@@ -49,17 +49,11 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
                 throw new ArgumentNullException(nameof(document));
 
             Settings = settings;
-
             _document = document;
-            foreach (var definition in _document.Definitions.Where(p => string.IsNullOrEmpty(p.Value.TypeNameRaw)))
-                definition.Value.TypeNameRaw = definition.Key;
         }
 
         /// <summary>Gets or sets the generator settings.</summary>
-        public SwaggerToCSharpClientGeneratorSettings Settings { get; set; }
-
-        /// <summary>Gets the language.</summary>
-        protected override string Language => "CSharp";
+        public SwaggerToCSharpClientGeneratorSettings Settings { get; }
 
         internal override ClientGeneratorBaseSettings BaseSettings => Settings;
 

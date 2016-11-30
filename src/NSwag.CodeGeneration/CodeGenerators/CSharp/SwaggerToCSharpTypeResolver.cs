@@ -36,7 +36,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             var exceptionSchema = definitions.ContainsKey("Exception") ? definitions["Exception"] : null;
 
             var resolver = new SwaggerToCSharpTypeResolver(settings, exceptionSchema);
-            resolver.AddSchemas(definitions
+            resolver.AddGenerators(definitions
                 .Where(p => p.Value != exceptionSchema)
                 .ToDictionary(p => p.Key, p => p.Value));
 

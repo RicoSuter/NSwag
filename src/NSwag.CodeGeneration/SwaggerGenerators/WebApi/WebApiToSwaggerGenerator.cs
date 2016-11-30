@@ -53,7 +53,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         }
 
         /// <summary>Gets or sets the generator settings.</summary>
-        public WebApiToSwaggerGeneratorSettings Settings { get; set; }
+        public WebApiToSwaggerGeneratorSettings Settings { get; }
 
         /// <summary>Generates a Swagger specification for the given controller type.</summary>
         /// <typeparam name="TController">The type of the controller.</typeparam>
@@ -80,18 +80,15 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         public SwaggerDocument GenerateForControllers(IEnumerable<Type> controllerTypes)
         {
             var document = CreateDocument(Settings);
-
-            var schemaResolver = new SchemaResolver();
-            var schemaDefinitionAppender = new SwaggerDocumentSchemaDefinitionAppender(document, Settings.TypeNameGenerator);
+            var schemaResolver = new SwaggerSchemaResolver(document, Settings);
 
             foreach (var controllerType in controllerTypes)
-                GenerateForController(document, controllerType, new SwaggerGenerator(_schemaGenerator, Settings, schemaResolver, schemaDefinitionAppender));
+                GenerateForController(document, controllerType, new SwaggerGenerator(_schemaGenerator, Settings, schemaResolver));
 
-            AppendRequiredSchemasToDefinitions(document, schemaResolver);
             document.GenerateOperationIds();
 
             foreach (var processor in Settings.DocumentProcessors)
-                processor.Process(new DocumentProcessorContext(document, controllerTypes));
+                processor.Process(new DocumentProcessorContext(document, controllerTypes, schemaResolver, _schemaGenerator));
 
             return document;
         }
@@ -199,23 +196,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
             return true;
         }
-
-        private void AppendRequiredSchemasToDefinitions(SwaggerDocument document, ISchemaResolver schemaResolver)
-        {
-            foreach (var schema in schemaResolver.Schemas)
-            {
-                if (!document.Definitions.Values.Contains(schema))
-                {
-                    var typeName = schema.GetTypeName(Settings.TypeNameGenerator, string.Empty);
-
-                    if (!document.Definitions.ContainsKey(typeName))
-                        document.Definitions[typeName] = schema;
-                    else
-                        document.Definitions["ref_" + Guid.NewGuid().ToString().Replace("-", "_")] = schema;
-                }
-            }
-        }
-
+        
         private static IEnumerable<MethodInfo> GetActionMethods(Type controllerType)
         {
             var methods = controllerType.GetRuntimeMethods().Where(m => m.IsPublic);
