@@ -82,7 +82,7 @@
                         NJsonSchema Version: <Run Text="{Binding NJsonSchemaVersion, Mode=OneWay}" />
                     </TextBlock>
                     <TextBlock Margin="0,0,0,8">
-                        License: <Hyperlink NavigateUri="https://github.com/NSwag/NSwag/blob/master/LICENSE.md" Click="OnOpenHyperlink">Ms-PL</Hyperlink>
+                        License: <Hyperlink NavigateUri="https://github.com/NSwag/NSwag/blob/master/LICENSE.md" Click="OnOpenHyperlink">MIT</Hyperlink>
                     </TextBlock>
                 </StackPanel>
             </TabItem>
