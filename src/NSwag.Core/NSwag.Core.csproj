@@ -97,7 +97,7 @@
     <Compile Include="SwaggerSecurityScheme.cs" />
     <Compile Include="SwaggerSecuritySchemeType.cs" />
     <Compile Include="SwaggerDocument.cs" />
-    <Compile Include="SwaggerDocumentSchemaDefinitionAppender.cs" />
+    <Compile Include="SwaggerSchemaResolver.cs" />
     <Compile Include="SwaggerTag.cs" />
   </ItemGroup>
   <ItemGroup>

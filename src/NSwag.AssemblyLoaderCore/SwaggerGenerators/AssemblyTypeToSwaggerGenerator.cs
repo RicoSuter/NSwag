@@ -79,12 +79,11 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
             {
                 var document = new SwaggerDocument();
                 var settings = JsonConvert.DeserializeObject<AssemblyTypeToSwaggerGeneratorSettings>(settingsData);
-                settings.SchemaDefinitionAppenderFactory = (schema, s) => new SwaggerDocumentSchemaDefinitionAppender(document, s);
 
                 RegisterReferencePaths(GetAllReferencePaths(settings));
 
                 var generator = new JsonSchemaGenerator(settings);
-                var schemaResolver = new SchemaResolver(settings);
+                var schemaResolver = new SwaggerSchemaResolver(document, settings);
 
 #if FullNet
                 var assembly = Assembly.LoadFrom(settings.AssemblyPath);

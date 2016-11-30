@@ -29,7 +29,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
         /// <param name="type">The types.</param>
         /// <param name="schema">The properties</param>
         /// <param name="schemaResolver">The schema resolver.</param>
-        protected override void GenerateObject<TSchemaType>(Type type, TSchemaType schema, SchemaResolver schemaResolver)
+        protected override void GenerateObject<TSchemaType>(Type type, TSchemaType schema, JsonSchemaResolver schemaResolver)
         {
             if (_isRootType)
             {

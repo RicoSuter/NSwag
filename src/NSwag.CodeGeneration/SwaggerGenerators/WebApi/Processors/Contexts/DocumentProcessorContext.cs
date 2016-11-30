@@ -21,7 +21,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Contexts
         /// <param name="controllerTypes">The controller types.</param>
         /// <param name="schemaResolver">The schema resolver.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
-        public DocumentProcessorContext(SwaggerDocument document, IEnumerable<Type> controllerTypes, SchemaResolver schemaResolver, JsonSchemaGenerator schemaGenerator)
+        public DocumentProcessorContext(SwaggerDocument document, IEnumerable<Type> controllerTypes, JsonSchemaResolver schemaResolver, JsonSchemaGenerator schemaGenerator)
         {
             Document = document;
             ControllerTypes = controllerTypes;
@@ -36,9 +36,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Contexts
         public IEnumerable<Type> ControllerTypes { get; }
 
         /// <summary>Gets or sets the schema resolver.</summary>
-        public SchemaResolver SchemaResolver { get; set; }
+        public JsonSchemaResolver SchemaResolver { get; set; }
 
-        /// <summary>Gets or sets the schema generator (call Generate() with SchemaResolver property!).</summary>
+        /// <summary>Gets or sets the schema generator (call Generate() with JsonSchemaResolver property!).</summary>
         public JsonSchemaGenerator SchemaGenerator { get; set; }
     }
 }

@@ -80,8 +80,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         public SwaggerDocument GenerateForControllers(IEnumerable<Type> controllerTypes)
         {
             var document = CreateDocument(Settings);
-            Settings.SchemaDefinitionAppenderFactory = (schema, settings) => new SwaggerDocumentSchemaDefinitionAppender(document, settings);
-            var schemaResolver = new SchemaResolver(Settings);
+            var schemaResolver = new SwaggerSchemaResolver(document, Settings);
 
             foreach (var controllerType in controllerTypes)
                 GenerateForController(document, controllerType, new SwaggerGenerator(_schemaGenerator, Settings, schemaResolver));

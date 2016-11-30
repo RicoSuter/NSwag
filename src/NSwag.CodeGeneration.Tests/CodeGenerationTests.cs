@@ -99,11 +99,7 @@ namespace NSwag.CodeGeneration.Tests
         private static SwaggerDocument CreateService()
         {
             var document = new SwaggerDocument();
-            var settings = new JsonSchemaGeneratorSettings
-            {
-                SchemaDefinitionAppenderFactory = (schema, s) => new SwaggerDocumentSchemaDefinitionAppender(document, s)
-            };
-
+            var settings = new JsonSchemaGeneratorSettings();
             var generator = new JsonSchemaGenerator(settings);
 
             document.Paths["/Person"] = new SwaggerOperations();
@@ -116,7 +112,7 @@ namespace NSwag.CodeGeneration.Tests
                         {
                             Schema = new JsonSchema4
                             {
-                                SchemaReference = generator.Generate(typeof(Person), new SchemaResolver(settings))
+                                SchemaReference = generator.Generate(typeof(Person), new SwaggerSchemaResolver(document, settings))
                             }
                         }
                     }
