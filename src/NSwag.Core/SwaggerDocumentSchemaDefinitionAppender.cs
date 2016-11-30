@@ -8,6 +8,7 @@
 
 using System;
 using NJsonSchema;
+using NJsonSchema.Generation;
 
 namespace NSwag
 {
@@ -19,15 +20,15 @@ namespace NSwag
 
         /// <summary>Initializes a new instance of the <see cref="SwaggerDocumentSchemaDefinitionAppender" /> class.</summary>
         /// <param name="document">The Swagger document.</param>
-        /// <param name="typeNameGenerator">The type name generator.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="document"/> is <see langword="null"/></exception>
-        public SwaggerDocumentSchemaDefinitionAppender(SwaggerDocument document, ITypeNameGenerator typeNameGenerator)
+        /// <param name="settings">The settings.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="document" /> is <see langword="null" /></exception>
+        public SwaggerDocumentSchemaDefinitionAppender(SwaggerDocument document, JsonSchemaGeneratorSettings settings)
         {
             if (document == null)
                 throw new ArgumentNullException(nameof(document));
 
             _document = document;
-            _typeNameGenerator = typeNameGenerator;
+            _typeNameGenerator = settings.TypeNameGenerator;
         }
 
         /// <summary>Tries to set the root of the appender.</summary>

@@ -77,13 +77,14 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
         {
             internal string FromAssemblyType(string[] classNames, string settingsData)
             {
+                var document = new SwaggerDocument();
                 var settings = JsonConvert.DeserializeObject<AssemblyTypeToSwaggerGeneratorSettings>(settingsData);
+                settings.SchemaDefinitionAppenderFactory = (schema, s) => new SwaggerDocumentSchemaDefinitionAppender(document, s);
+
                 RegisterReferencePaths(GetAllReferencePaths(settings));
 
-                var document = new SwaggerDocument();
                 var generator = new JsonSchemaGenerator(settings);
-                var schemaDefinitionAppender = new SwaggerDocumentSchemaDefinitionAppender(document, settings.TypeNameGenerator);
-                var schemaResolver = new SchemaResolver(schemaDefinitionAppender, settings.SchemaNameGenerator);
+                var schemaResolver = new SchemaResolver(settings);
 
 #if FullNet
                 var assembly = Assembly.LoadFrom(settings.AssemblyPath);

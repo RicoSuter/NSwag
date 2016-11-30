@@ -12,6 +12,7 @@ using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using NJsonSchema;
+using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
 using NSwag.Collections;
 
@@ -132,13 +133,13 @@ namespace NSwag
         /// <returns>The JSON string.</returns>
         public string ToJson()
         {
-            return ToJson(new DefaultTypeNameGenerator());
+            return ToJson(new JsonSchemaGeneratorSettings());
         }
 
         /// <summary>Converts the description object to JSON.</summary>
-        /// <param name="typeNameGenerator">The type name generator.</param>
+        /// <param name="jsonSchemaGenerator">The json schema generator.</param>
         /// <returns>The JSON string.</returns>
-        public string ToJson(ITypeNameGenerator typeNameGenerator)
+        public string ToJson(JsonSchemaGeneratorSettings jsonSchemaGenerator)
         {
             var settings = new JsonSerializerSettings
             {
@@ -148,7 +149,7 @@ namespace NSwag
 
             GenerateOperationIds();
 
-            JsonSchemaReferenceUtilities.UpdateSchemaReferencePaths(this, new SwaggerDocumentSchemaDefinitionAppender(this, typeNameGenerator));
+            JsonSchemaReferenceUtilities.UpdateSchemaReferencePaths(this, new SwaggerDocumentSchemaDefinitionAppender(this, jsonSchemaGenerator));
             var data = JsonConvert.SerializeObject(this, settings);
             JsonSchemaReferenceUtilities.UpdateSchemaReferences(this);
 

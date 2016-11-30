@@ -53,7 +53,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         }
 
         /// <summary>Gets or sets the generator settings.</summary>
-        public WebApiToSwaggerGeneratorSettings Settings { get; set; }
+        public WebApiToSwaggerGeneratorSettings Settings { get; }
 
         /// <summary>Generates a Swagger specification for the given controller type.</summary>
         /// <typeparam name="TController">The type of the controller.</typeparam>
@@ -80,9 +80,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         public SwaggerDocument GenerateForControllers(IEnumerable<Type> controllerTypes)
         {
             var document = CreateDocument(Settings);
-
-            var schemaDefinitionAppender = new SwaggerDocumentSchemaDefinitionAppender(document, Settings.TypeNameGenerator);
-            var schemaResolver = new SchemaResolver(schemaDefinitionAppender, Settings.SchemaNameGenerator);
+            Settings.SchemaDefinitionAppenderFactory = (schema, settings) => new SwaggerDocumentSchemaDefinitionAppender(document, settings);
+            var schemaResolver = new SchemaResolver(Settings);
 
             foreach (var controllerType in controllerTypes)
                 GenerateForController(document, controllerType, new SwaggerGenerator(_schemaGenerator, Settings, schemaResolver));
