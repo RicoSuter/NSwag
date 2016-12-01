@@ -113,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="scripts\serviceClientsAngular2.ts" />
+    <TypeScriptCompile Include="scripts\serviceClientsAngular2.extensions.ts" />
     <TypeScriptCompile Include="scripts\serviceClientsAngularJS.ts" />
     <None Include="scripts\serviceClientsAurelia.ts" />
     <TypeScriptCompile Include="scripts\serviceClientsFetch.ts" />

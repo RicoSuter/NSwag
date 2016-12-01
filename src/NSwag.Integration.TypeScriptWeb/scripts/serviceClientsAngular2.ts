@@ -12,8 +12,18 @@ import {Http, Headers, Response, RequestOptionsArgs} from '@angular/http';
 
 export const API_BASE_URL = new OpaqueToken('API_BASE_URL');
 
+export class MyBaseClass {
+    protected transformOptions(options: any) {
+        return options;
+    }
+
+    protected transformResult(url: string, response: any, processor: (response: any) => any) {
+        return processor(response);
+    }
+}
+
 @Injectable()
-export class GeoClient {
+export class GeoClient extends MyBaseClass {
     private http: Http = null; 
     private baseUrl: string = undefined; 
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -28,18 +38,18 @@ export class GeoClient {
 
         const content_ = JSON.stringify(location ? location.toJS() : null);
         
-        return this.http.request(url_, {
+        return this.http.request(url_, this.transformOptions({
             body: content_,
             method: "post",
             headers: new Headers({
                 "Content-Type": "application/json; charset=UTF-8"
             })
-        }).map((response) => {
-            return this.processFromBodyTest(response);
+        })).map((response) => {
+            return this.transformResult(url_, response, (response) => this.processFromBodyTest(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
                 try {
-                    return Observable.of(this.processFromBodyTest(response));
+                    return Observable.of(this.transformResult(url_, response, (response) => this.processFromBodyTest(response)));
                 } catch (e) {
                     return <Observable<void>><any>Observable.throw(e);
                 }
@@ -73,18 +83,18 @@ export class GeoClient {
 
         const content_ = "";
         
-        return this.http.request(url_, {
+        return this.http.request(url_, this.transformOptions({
             body: content_,
             method: "post",
             headers: new Headers({
                 "Content-Type": "application/json; charset=UTF-8"
             })
-        }).map((response) => {
-            return this.processFromUriTest(response);
+        })).map((response) => {
+            return this.transformResult(url_, response, (response) => this.processFromUriTest(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
                 try {
-                    return Observable.of(this.processFromUriTest(response));
+                    return Observable.of(this.transformResult(url_, response, (response) => this.processFromUriTest(response)));
                 } catch (e) {
                     return <Observable<void>><any>Observable.throw(e);
                 }
@@ -115,18 +125,18 @@ export class GeoClient {
         }
         const content_ = JSON.stringify(points ? contentData_ : null);
         
-        return this.http.request(url_, {
+        return this.http.request(url_, this.transformOptions({
             body: content_,
             method: "post",
             headers: new Headers({
                 "Content-Type": "application/json; charset=UTF-8"
             })
-        }).map((response) => {
-            return this.processAddPolygon(response);
+        })).map((response) => {
+            return this.transformResult(url_, response, (response) => this.processAddPolygon(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
                 try {
-                    return Observable.of(this.processAddPolygon(response));
+                    return Observable.of(this.transformResult(url_, response, (response) => this.processAddPolygon(response)));
                 } catch (e) {
                     return <Observable<void>><any>Observable.throw(e);
                 }
@@ -152,18 +162,18 @@ export class GeoClient {
 
         const content_ = "";
         
-        return this.http.request(url_, {
+        return this.http.request(url_, this.transformOptions({
             body: content_,
             method: "post",
             headers: new Headers({
                 "Content-Type": "application/json; charset=UTF-8"
             })
-        }).map((response) => {
-            return this.processRefresh(response);
+        })).map((response) => {
+            return this.transformResult(url_, response, (response) => this.processRefresh(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
                 try {
-                    return Observable.of(this.processRefresh(response));
+                    return Observable.of(this.transformResult(url_, response, (response) => this.processRefresh(response)));
                 } catch (e) {
                     return <Observable<void>><any>Observable.throw(e);
                 }
@@ -191,18 +201,18 @@ export class GeoClient {
         if (file !== null)
             content_.append("file", file.data, file.fileName ? file.fileName : "file");
         
-        return this.http.request(url_, {
+        return this.http.request(url_, this.transformOptions({
             body: content_,
             method: "post",
             headers: new Headers({
                 'Content-Type': undefined
             })
-        }).map((response) => {
-            return this.processUploadFile(response);
+        })).map((response) => {
+            return this.transformResult(url_, response, (response) => this.processUploadFile(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
                 try {
-                    return Observable.of(this.processUploadFile(response));
+                    return Observable.of(this.transformResult(url_, response, (response) => this.processUploadFile(response)));
                 } catch (e) {
                     return <Observable<boolean>><any>Observable.throw(e);
                 }
@@ -233,18 +243,18 @@ export class GeoClient {
         if (files !== null)
             files.forEach(item_ => content_.append("files", item_.data, item_.fileName ? item_.fileName : "files") );
         
-        return this.http.request(url_, {
+        return this.http.request(url_, this.transformOptions({
             body: content_,
             method: "post",
             headers: new Headers({
                 'Content-Type': undefined
             })
-        }).map((response) => {
-            return this.processUploadFiles(response);
+        })).map((response) => {
+            return this.transformResult(url_, response, (response) => this.processUploadFiles(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
                 try {
-                    return Observable.of(this.processUploadFiles(response));
+                    return Observable.of(this.transformResult(url_, response, (response) => this.processUploadFiles(response)));
                 } catch (e) {
                     return <Observable<void>><any>Observable.throw(e);
                 }
@@ -270,18 +280,18 @@ export class GeoClient {
 
         const content_ = JSON.stringify(request ? request.toJS() : null);
         
-        return this.http.request(url_, {
+        return this.http.request(url_, this.transformOptions({
             body: content_,
             method: "post",
             headers: new Headers({
                 "Content-Type": "application/json; charset=UTF-8"
             })
-        }).map((response) => {
-            return this.processSaveItems(response);
+        })).map((response) => {
+            return this.transformResult(url_, response, (response) => this.processSaveItems(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
                 try {
-                    return Observable.of(this.processSaveItems(response));
+                    return Observable.of(this.transformResult(url_, response, (response) => this.processSaveItems(response)));
                 } catch (e) {
                     return <Observable<void>><any>Observable.throw(e);
                 }
@@ -319,18 +329,18 @@ export class GeoClient {
 
         const content_ = "";
         
-        return this.http.request(url_, {
+        return this.http.request(url_, this.transformOptions({
             body: content_,
             method: "get",
             headers: new Headers({
                 "Content-Type": "application/json; charset=UTF-8"
             })
-        }).map((response) => {
-            return this.processGetUploadedFile(response);
+        })).map((response) => {
+            return this.transformResult(url_, response, (response) => this.processGetUploadedFile(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
                 try {
-                    return Observable.of(this.processGetUploadedFile(response));
+                    return Observable.of(this.transformResult(url_, response, (response) => this.processGetUploadedFile(response)));
                 } catch (e) {
                     return <Observable<any>><any>Observable.throw(e);
                 }
@@ -363,7 +373,7 @@ export class GeoClient {
 }
 
 @Injectable()
-export class PersonsClient {
+export class PersonsClient extends MyBaseClass {
     private http: Http = null; 
     private baseUrl: string = undefined; 
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -378,18 +388,18 @@ export class PersonsClient {
 
         const content_ = "";
         
-        return this.http.request(url_, {
+        return this.http.request(url_, this.transformOptions({
             body: content_,
             method: "get",
             headers: new Headers({
                 "Content-Type": "application/json; charset=UTF-8"
             })
-        }).map((response) => {
-            return this.processGetAll(response);
+        })).map((response) => {
+            return this.transformResult(url_, response, (response) => this.processGetAll(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
                 try {
-                    return Observable.of(this.processGetAll(response));
+                    return Observable.of(this.transformResult(url_, response, (response) => this.processGetAll(response)));
                 } catch (e) {
                     return <Observable<Person[]>><any>Observable.throw(e);
                 }
@@ -422,18 +432,18 @@ export class PersonsClient {
 
         const content_ = JSON.stringify(person ? person.toJS() : null);
         
-        return this.http.request(url_, {
+        return this.http.request(url_, this.transformOptions({
             body: content_,
             method: "post",
             headers: new Headers({
                 "Content-Type": "application/json; charset=UTF-8"
             })
-        }).map((response) => {
-            return this.processAdd(response);
+        })).map((response) => {
+            return this.transformResult(url_, response, (response) => this.processAdd(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
                 try {
-                    return Observable.of(this.processAdd(response));
+                    return Observable.of(this.transformResult(url_, response, (response) => this.processAdd(response)));
                 } catch (e) {
                     return <Observable<void>><any>Observable.throw(e);
                 }
@@ -462,18 +472,18 @@ export class PersonsClient {
 
         const content_ = "";
         
-        return this.http.request(url_, {
+        return this.http.request(url_, this.transformOptions({
             body: content_,
             method: "post",
             headers: new Headers({
                 "Content-Type": "application/json; charset=UTF-8"
             })
-        }).map((response) => {
-            return this.processFind(response);
+        })).map((response) => {
+            return this.transformResult(url_, response, (response) => this.processFind(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
                 try {
-                    return Observable.of(this.processFind(response));
+                    return Observable.of(this.transformResult(url_, response, (response) => this.processFind(response)));
                 } catch (e) {
                     return <Observable<Person[]>><any>Observable.throw(e);
                 }
@@ -510,18 +520,18 @@ export class PersonsClient {
 
         const content_ = "";
         
-        return this.http.request(url_, {
+        return this.http.request(url_, this.transformOptions({
             body: content_,
             method: "post",
             headers: new Headers({
                 "Content-Type": "application/json; charset=UTF-8"
             })
-        }).map((response) => {
-            return this.processFind2(response);
+        })).map((response) => {
+            return this.transformResult(url_, response, (response) => this.processFind2(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
                 try {
-                    return Observable.of(this.processFind2(response));
+                    return Observable.of(this.transformResult(url_, response, (response) => this.processFind2(response)));
                 } catch (e) {
                     return <Observable<Person[]>><any>Observable.throw(e);
                 }
@@ -557,18 +567,18 @@ export class PersonsClient {
 
         const content_ = "";
         
-        return this.http.request(url_, {
+        return this.http.request(url_, this.transformOptions({
             body: content_,
             method: "get",
             headers: new Headers({
                 "Content-Type": "application/json; charset=UTF-8"
             })
-        }).map((response) => {
-            return this.processGet(response);
+        })).map((response) => {
+            return this.transformResult(url_, response, (response) => this.processGet(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
                 try {
-                    return Observable.of(this.processGet(response));
+                    return Observable.of(this.transformResult(url_, response, (response) => this.processGet(response)));
                 } catch (e) {
                     return <Observable<Person>><any>Observable.throw(e);
                 }
@@ -605,18 +615,18 @@ export class PersonsClient {
 
         const content_ = "";
         
-        return this.http.request(url_, {
+        return this.http.request(url_, this.transformOptions({
             body: content_,
             method: "delete",
             headers: new Headers({
                 "Content-Type": "application/json; charset=UTF-8"
             })
-        }).map((response) => {
-            return this.processDelete(response);
+        })).map((response) => {
+            return this.transformResult(url_, response, (response) => this.processDelete(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
                 try {
-                    return Observable.of(this.processDelete(response));
+                    return Observable.of(this.transformResult(url_, response, (response) => this.processDelete(response)));
                 } catch (e) {
                     return <Observable<void>><any>Observable.throw(e);
                 }
@@ -646,18 +656,18 @@ export class PersonsClient {
 
         const content_ = "";
         
-        return this.http.request(url_, {
+        return this.http.request(url_, this.transformOptions({
             body: content_,
             method: "post",
             headers: new Headers({
                 "Content-Type": "application/json; charset=UTF-8"
             })
-        }).map((response) => {
-            return this.processThrow(response);
+        })).map((response) => {
+            return this.transformResult(url_, response, (response) => this.processThrow(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
                 try {
-                    return Observable.of(this.processThrow(response));
+                    return Observable.of(this.transformResult(url_, response, (response) => this.processThrow(response)));
                 } catch (e) {
                     return <Observable<Person>><any>Observable.throw(e);
                 }
@@ -699,18 +709,18 @@ export class PersonsClient {
 
         const content_ = "";
         
-        return this.http.request(url_, {
+        return this.http.request(url_, this.transformOptions({
             body: content_,
             method: "get",
             headers: new Headers({
                 "Content-Type": "application/json; charset=UTF-8"
             })
-        }).map((response) => {
-            return this.processGetName(response);
+        })).map((response) => {
+            return this.transformResult(url_, response, (response) => this.processGetName(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
                 try {
-                    return Observable.of(this.processGetName(response));
+                    return Observable.of(this.transformResult(url_, response, (response) => this.processGetName(response)));
                 } catch (e) {
                     return <Observable<string>><any>Observable.throw(e);
                 }
