@@ -23,6 +23,9 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
     protected jsonParseReviver: <#if(Model.SupportsStrictNullChecks){#>((key: string, value: any) => any) | undefined<#}else{#>(key: string, value: any) => any<#}#> = undefined;
 
     constructor($http: ng.IHttpService, baseUrl?: string) {
+<#if(Model.HasClientBaseClass){#>
+		super();
+<#}#>
         this.http = $http; 
         this.baseUrl = baseUrl !== undefined ? baseUrl : "<#=Model.BaseUrl#>"; 
     }

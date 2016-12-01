@@ -26,6 +26,9 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
     protected jsonParseReviver: <#if(Model.SupportsStrictNullChecks){#>((key: string, value: any) => any) | undefined<#}else{#>(key: string, value: any) => any<#}#> = undefined;
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+<#if(Model.HasClientBaseClass){#>
+		super();
+<#}#>
         this.baseUrl = baseUrl ? baseUrl : "";
         this.http = http ? http : window;
     }
