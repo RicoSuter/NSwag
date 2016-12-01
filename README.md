@@ -68,6 +68,10 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 - [Download latest **NSwag command line tools** and NSwagStudio as ZIP archive](http://rsuter.com/Projects/NSwagStudio/archive.php)
 - [Download latest **Build Artifacts** from AppVeyor](https://ci.appveyor.com/project/rsuter/nswag/build/artifacts) (command line tools and NSwagStudio binaries)
 
+**NPM Packages**
+
+- [NSwag](https://www.npmjs.com/package/nswag): Command line tools (.NET and .NET Core) distributed as NPM package
+
 **NuGet Packages**
 
 - [NSwag.Core](https://www.nuget.org/packages/NSwag.Core/) (PCL 259 / .NETStandard 1.0): 
