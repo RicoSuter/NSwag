@@ -36,8 +36,20 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
         /// <summary>Gets the class name.</summary>
         public string Class { get; }
 
+        /// <summary>Gets the client base class.</summary>
+        public string ClientBaseClass => _settings.ClientBaseClass;
+
+        /// <summary>Gets a value indicating whether the client class has a base class.</summary>
+        public bool HasClientBaseClass => !string.IsNullOrEmpty(ClientBaseClass);
+
+        /// <summary>Gets or sets a value indicating whether to call 'transformOptions' on the base class or extension class.</summary>
+        public bool UseTransformOptionsMethod => _settings.UseTransformOptionsMethod;
+
+        /// <summary>Gets or sets a value indicating whether to call 'transformResult' on the base class or extension class.</summary>
+        public bool UseTransformResultMethod => _settings.UseTransformResultMethod;
+
         /// <summary>Gets a value indicating whether the client is extended with an extension class.</summary>
-        public bool IsExtended => _settings.TypeScriptGeneratorSettings.ExtendedClasses?.Any(c => c + "Base" == Class) == true;
+        public bool HasExtensionClass => _settings.TypeScriptGeneratorSettings.ExtendedClasses?.Any(c => c + "Base" == Class) == true;
 
         /// <summary>Gets a value indicating whether the client has operations.</summary>
         public bool HasOperations => Operations.Any();

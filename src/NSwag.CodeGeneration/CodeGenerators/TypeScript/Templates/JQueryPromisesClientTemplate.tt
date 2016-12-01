@@ -17,7 +17,7 @@ export interface I<#=Model.Class#> {
 <#}#>}
 <#}#>
 
-export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements I<#=Model.Class#> <#}#>{
+export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.ClientBaseClass#> <#}#><#if(Model.GenerateClientInterfaces){#>implements I<#=Model.Class#> <#}#>{
     baseUrl: string = undefined; 
     beforeSend: any = undefined; 
     protected jsonParseReviver: <#if(Model.SupportsStrictNullChecks){#>((key: string, value: any) => any) | undefined<#}else{#>(key: string, value: any) => any<#}#> = undefined;
@@ -25,15 +25,19 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
     constructor(baseUrl?: string) {
         this.baseUrl = baseUrl !== undefined ? baseUrl : "<#=Model.BaseUrl#>"; 
     }
-<#if(Model.IsExtended){#>
+<#if(Model.HasExtensionClass && !Model.HasClientBaseClass){#>
+<#  if(Model.UseTransformOptionsMethod){#>
 
     protected transformOptions(options: any) {
         return options; 
     }
+<#  }#>
+<#  if(Model.UseTransformResultMethod){#>
 
     protected transformResult(url: string, xhr: any, processor: (xhr: any) => any) {
         return processor(xhr);
     }
+<#  }#>
 <#}#>
 <#foreach(var operation in Model.Operations){#>
 
@@ -55,7 +59,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 
         <#=TemplatePartGenerator.RenderRequestBodyCode(operation, 2)#>
 
-        jQuery.ajax(<#if(Model.IsExtended){#>this.transformOptions(<#}#>{
+        jQuery.ajax(<#if(Model.UseTransformOptionsMethod){#>this.transformOptions(<#}#>{
             url: url_,
             beforeSend: this.beforeSend,
             type: "<#=operation.HttpMethodLower#>",
@@ -71,7 +75,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
                 "<#=parameter.Name#>": <#=parameter.VariableName#>, 
 <#}#>                "Content-Type": "application/json; charset=UTF-8"
             }
-        }<#if(Model.IsExtended){#>)<#}#>).done((data, textStatus, xhr) => {
+        }<#if(Model.UseTransformOptionsMethod){#>)<#}#>).done((data, textStatus, xhr) => {
             this.process<#=operation.OperationNameUpper#>WithCallbacks(url_, xhr, onSuccess, onFail);
         }).fail((xhr) => {
             this.process<#=operation.OperationNameUpper#>WithCallbacks(url_, xhr, onSuccess, onFail);
@@ -80,7 +84,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 
     private process<#=operation.OperationNameUpper#>WithCallbacks(url: string, xhr: any, onSuccess?: any, onFail?: any): void {
         try {
-<#if(Model.IsExtended){#>
+<#if(Model.UseTransformResultMethod){#>
             let result = this.transformResult(url, xhr, (xhr) => this.process<#=operation.OperationNameUpper#>(xhr));
 <#}else{#>
             let result = this.process<#=operation.OperationNameUpper#>(xhr);

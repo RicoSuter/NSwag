@@ -54,6 +54,17 @@
                                 <TextBlock Text="Class Name" FontWeight="Bold" Margin="0,0,0,6" />
                                 <TextBox Text="{Binding Command.ClassName, Mode=TwoWay}" Margin="0,0,0,12" />
 
+                                <TextBlock Text="Base Class Name (optional, must be imported or implemented in the extension code)" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.ClientBaseClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,12" />
+
+                                <CheckBox IsChecked="{Binding Command.UseTransformOptionsMethod, Mode=TwoWay}" Margin="0,0,0,12">
+                                    <TextBlock Text="Call 'transformOptions' on the base class or extension class" TextWrapping="Wrap" />
+                                </CheckBox>
+
+                                <CheckBox IsChecked="{Binding Command.UseTransformResultMethod, Mode=TwoWay}" Margin="0,0,0,12">
+                                    <TextBlock Text="Call 'transformResult' on the base class or extension class" TextWrapping="Wrap" />
+                                </CheckBox>
+
                                 <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
                                         <Run Text="Operation Generation Mode" FontWeight="Bold" />
                                         <LineBreak />

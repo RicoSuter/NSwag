@@ -42,6 +42,15 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         /// <summary>Gets or sets a value indicating whether DTO exceptions are wrapped in a SwaggerError instance (default: false).</summary>
         public bool WrapDtoExceptions { get; set; }
 
+        /// <summary>Gets or sets the client base class.</summary>
+        public string ClientBaseClass { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether to call 'transformOptions' on the base class or extension class.</summary>
+        public bool UseTransformOptionsMethod { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether to call 'transformResult' on the base class or extension class.</summary>
+        public bool UseTransformResultMethod { get; set; }
+
         internal ITemplate CreateTemplate(object model)
         {
             if (Template == TypeScriptTemplate.Aurelia)

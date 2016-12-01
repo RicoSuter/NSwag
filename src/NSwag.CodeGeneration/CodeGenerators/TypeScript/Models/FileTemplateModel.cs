@@ -20,24 +20,27 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
         private readonly TypeScriptTypeResolver _resolver;
         private readonly string _clientCode;
         private readonly SwaggerDocument _document;
+        private readonly TypeScriptExtensionCode _extensionCode;
 
         /// <summary>Initializes a new instance of the <see cref="FileTemplateModel" /> class.</summary>
         /// <param name="document">The Swagger document.</param>
         /// <param name="clientCode">The client code.</param>
         /// <param name="clientClasses">The client classes.</param>
         /// <param name="settings">The settings.</param>
+        /// <param name="extensionCode">The extension code.</param>
         /// <param name="resolver">The resolver.</param>
         public FileTemplateModel(SwaggerDocument document, string clientCode, IEnumerable<string> clientClasses, 
-            SwaggerToTypeScriptClientGeneratorSettings settings, TypeScriptTypeResolver resolver)
+            SwaggerToTypeScriptClientGeneratorSettings settings, TypeScriptExtensionCode extensionCode, TypeScriptTypeResolver resolver)
         {
-            _document = document; 
+            _document = document;
+            _extensionCode = extensionCode; 
             _settings = settings;
             _resolver = resolver;
             _clientCode = clientCode;
             ClientClasses = clientClasses.ToArray();
 
             Types = GenerateDtoTypes();
-            ExtensionCodeAfter = GenerateExtensionCodeAfter();
+            ExtensionCodeBottom = GenerateExtensionCodeAfter();
         }
 
         /// <summary>Gets a value indicating whether the generated code is for Angular 2.</summary>
@@ -52,11 +55,14 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
         /// <summary>Gets the types code.</summary>
         public string Types { get; }
 
+        /// <summary>Gets or sets the extension code imports.</summary>
+        public string ExtensionCodeImport => _extensionCode.ImportCode;
+
         /// <summary>Gets or sets the extension code to insert at the beginning.</summary>
-        public string ExtensionCodeBefore => _settings.TypeScriptGeneratorSettings.ProcessedExtensionCode.CodeBefore;
+        public string ExtensionCodeTop => _extensionCode.TopCode;
 
         /// <summary>Gets or sets the extension code to insert at the end.</summary>
-        public string ExtensionCodeAfter { get; }
+        public string ExtensionCodeBottom { get; }
 
         /// <summary>Gets a value indicating whether the file has module name.</summary>
         public bool HasModuleName => !string.IsNullOrEmpty(_settings.TypeScriptGeneratorSettings.ModuleName);
@@ -81,13 +87,13 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
 
         private string GenerateDtoTypes()
         {
-            return _settings.GenerateDtoTypes ? _resolver.GenerateTypes(_settings.TypeScriptGeneratorSettings.ProcessedExtensionCode) : string.Empty;
+            return _settings.GenerateDtoTypes ? _resolver.GenerateTypes(_extensionCode) : string.Empty;
         }
 
         private string GenerateExtensionCodeAfter()
         {
             var clientClassesVariable = "{" + string.Join(", ", ClientClasses.Select(c => "'" + c + "': " + c)) + "}";
-            return _settings.TypeScriptGeneratorSettings.ProcessedExtensionCode.CodeAfter.Replace("{clientClasses}", clientClassesVariable);
+            return _extensionCode.BottomCode.Replace("{clientClasses}", clientClassesVariable);
         }
     }
 }

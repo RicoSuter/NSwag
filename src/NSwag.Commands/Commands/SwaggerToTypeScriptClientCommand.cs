@@ -101,6 +101,27 @@ namespace NSwag.Commands
             set { Settings.WrapDtoExceptions = value; }
         }
 
+        [Argument(Name = "ClientBaseClass", IsRequired = false, Description = "The base class of the generated client classes (optional, must be imported or implemented in the extension code).")]
+        public string ClientBaseClass
+        {
+            get { return Settings.ClientBaseClass; }
+            set { Settings.ClientBaseClass = value; }
+        }
+
+        [Argument(Name = "UseTransformOptionsMethod", IsRequired = false, Description = "Call 'transformOptions' on the base class or extension class (default: false).")]
+        public bool UseTransformOptionsMethod
+        {
+            get { return Settings.UseTransformOptionsMethod; }
+            set { Settings.UseTransformOptionsMethod = value; }
+        }
+
+        [Argument(Name = "UseTransformResultMethod", IsRequired = false, Description = "Call 'transformResult' on the base class or extension class (default: false).")]
+        public bool UseTransformResultMethod
+        {
+            get { return Settings.UseTransformResultMethod; }
+            set { Settings.UseTransformResultMethod = value; }
+        }
+
         [Argument(Name = "GenerateDtoTypes", IsRequired = false, Description = "Specifies whether to generate DTO classes.")]
         public bool GenerateDtoTypes
         {

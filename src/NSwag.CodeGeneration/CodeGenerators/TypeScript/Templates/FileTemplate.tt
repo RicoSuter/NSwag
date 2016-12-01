@@ -9,7 +9,7 @@
 // </auto-generated>
 //----------------------
 
-<#=Model.ExtensionCodeBefore#>
+<#=Model.ExtensionCodeImport#>
 <#if(Model.IsAngular2){#>
 
 import 'rxjs/Rx'; 
@@ -33,6 +33,8 @@ namespace <#=Model.Namespace#> {
 export const API_BASE_URL = new OpaqueToken('API_BASE_URL');
 
 <#}#>
+<#=Model.ExtensionCodeTop#>
+
 <#=Model.Clients#>
 
 <#=Model.Types#>
@@ -63,7 +65,7 @@ export class SwaggerException extends Error {
 }
 
 <#}#>
-<#=Model.ExtensionCodeAfter#>
+<#=Model.ExtensionCodeBottom#>
 <#if(Model.HasNamespace){#>
 }
 <#}

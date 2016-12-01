@@ -20,7 +20,7 @@ export interface I<#=Model.Class#> {
 <#if(Model.UseAureliaHttpInjection){#>
 @inject(String, HttpClient)
 <#}#>
-export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements I<#=Model.Class#> <#}#>{
+export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.ClientBaseClass#> <#}#><#if(Model.GenerateClientInterfaces){#>implements I<#=Model.Class#> <#}#>{
     private baseUrl: string; 
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     protected jsonParseReviver: <#if(Model.SupportsStrictNullChecks){#>((key: string, value: any) => any) | undefined<#}else{#>(key: string, value: any) => any<#}#> = undefined;
@@ -29,15 +29,19 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
         this.baseUrl = baseUrl ? baseUrl : "";
         this.http = http ? http : window;
     }
-<#if(Model.IsExtended){#>
+<#if(Model.HasExtensionClass && !Model.HasClientBaseClass){#>
+<#  if(Model.UseTransformOptionsMethod){#>
 
     protected transformOptions(options: RequestInit) {
         return options; 
     }
+<#  }#>
+<#  if(Model.UseTransformResultMethod){#>
 
     protected transformResult(url: string, response: Response, processor: (response: Response) => any) {
         return processor(response);
     }
+<#  }#>
 <#}#>
 <#foreach(var operation in Model.Operations){#>
 
@@ -54,7 +58,7 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#if(!operation.IsGetOrHead){#>
         <#=TemplatePartGenerator.RenderRequestBodyCode(operation, 2)#>
 <#}#>
-        return this.http.fetch(url_, <#if(Model.IsExtended){#>this.transformOptions(<#}#>{
+        return this.http.fetch(url_, <#if(Model.UseTransformOptionsMethod){#>this.transformOptions(<#}#>{
 <#if(!operation.IsGetOrHead){#>
 			body: content_,
 <#}#>
@@ -68,8 +72,8 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
                 "Content-Type": "application/json; charset=UTF-8"
 <#}#>
             }
-        }<#if(Model.IsExtended){#>)<#}#>).then((response) => {
-<#if(Model.IsExtended){#>
+        }<#if(Model.UseTransformOptionsMethod){#>)<#}#>).then((response) => {
+<#if(Model.UseTransformResultMethod){#>
             return this.transformResult(url_, response, (response) => this.process<#=operation.OperationNameUpper#>(response));
 <#}else{#>
             return this.process<#=operation.OperationNameUpper#>(response);
