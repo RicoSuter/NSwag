@@ -16,7 +16,7 @@ using NSwag.Commands;
 namespace NSwag.CodeGeneration
 {
     /// <summary>The NSwagDocument implementation.</summary>
-    /// <seealso cref="NSwag.Commands.NSwagDocumentBase" />
+    /// <seealso cref="NSwagDocumentBase" />
     public class NSwagDocument : NSwagDocumentBase
     {
         /// <summary>Initializes a new instance of the <see cref="NSwagDocument"/> class.</summary>

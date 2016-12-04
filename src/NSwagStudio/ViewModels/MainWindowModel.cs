@@ -114,11 +114,7 @@ namespace NSwagStudio.ViewModels
 
         private void CreateDocument()
         {
-            var doc = NSwagDocument.Create();
-            doc.SwaggerGenerators.FromSwaggerCommand.Url = "http://petstore.swagger.io/v2/swagger.json";
-
-            var document = new DocumentModel(doc);
-
+            var document = new DocumentModel(NSwagDocument.Create());
             Documents.Add(document);
             SelectedDocument = document;
         }

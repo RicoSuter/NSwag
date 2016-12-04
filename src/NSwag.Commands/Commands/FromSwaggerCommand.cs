@@ -13,7 +13,7 @@ namespace NSwag.Commands
     public class FromSwaggerCommand : OutputCommandBase, INotifyPropertyChanged
     {
         private string _swagger;
-        private string _url;
+        private string _url = "http://petstore.swagger.io/v2/swagger.json";
 
         /// <summary>Gets or sets the input Swagger specification.</summary>
         [JsonProperty("json", NullValueHandling = NullValueHandling.Ignore)]
@@ -26,7 +26,7 @@ namespace NSwag.Commands
                 OnPropertyChanged();
             }
         }
-        
+
         /// <summary>Gets or sets the input Swagger specification URL.</summary>
         [JsonProperty("url", NullValueHandling = NullValueHandling.Ignore)]
         public string Url
