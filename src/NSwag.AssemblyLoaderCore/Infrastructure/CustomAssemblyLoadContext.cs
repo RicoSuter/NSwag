@@ -11,7 +11,7 @@ using System.Runtime.Loader;
 
 namespace NSwag.CodeGeneration.Infrastructure
 {
-    public class CustomAssemblyLoadContext : AssemblyLoadContext
+    internal class CustomAssemblyLoadContext : AssemblyLoadContext
     {
         protected override Assembly Load(AssemblyName assemblyName)
         {
