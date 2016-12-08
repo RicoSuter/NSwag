@@ -26,9 +26,18 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
             ProcessSwaggerTagAttributes(context.Document, context.OperationDescription, context.MethodInfo);
 
             if (!context.OperationDescription.Operation.Tags.Any())
-                context.OperationDescription.Operation.Tags.Add(context.MethodInfo.DeclaringType.Name);
+                AddControllerNameTag(context);
 
             return true;
+        }
+
+        private void AddControllerNameTag(OperationProcessorContext context)
+        {
+            var controllerName = context.MethodInfo.DeclaringType.Name;
+            if (controllerName.EndsWith("Controller"))
+                controllerName = controllerName.Substring(0, controllerName.Length - 10);
+
+            context.OperationDescription.Operation.Tags.Add(controllerName);
         }
 
         private void ProcessSwaggerTagAttributes(SwaggerDocument document, SwaggerOperationDescription operationDescription, MethodInfo methodInfo)
