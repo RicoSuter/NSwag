@@ -29,6 +29,9 @@
   "codeGenerators": {
     "swaggerToTypeScriptClient": {
       "className": "{controller}Client",
+      "clientBaseClass": "MyBaseClass",
+      "useTransformOptionsMethod": true, 
+      "useTransformResultMethod": true, 
       "moduleName": "",
       "namespace": "",
       "typeScriptVersion": 2.0,
@@ -42,6 +45,7 @@
       "markOptionalProperties": false,
       "typeStyle": "Class",
       "generateDefaultValues": true,
+      "extensionCode": "../NSwag.Integration.TypeScriptWeb/scripts/serviceClientsAngular2.extensions.ts",
       "output": "../NSwag.Integration.TypeScriptWeb/scripts/serviceClientsAngular2.ts"
     },
     "swaggerToCSharpClient": {

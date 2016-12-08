@@ -16,7 +16,7 @@ else
     content_.append("<#=parameter.Name#>", <#=parameter.VariableName#>.data, <#=parameter.VariableName#>.fileName ? <#=parameter.VariableName#>.fileName : "<#=parameter.Name#>");
 <#      }
     }else{#>
-    content_.append("<#=parameter.Name#>", <#=parameter.VariableName#>.ToString()));
+    content_.append("<#=parameter.Name#>", <#=parameter.VariableName#>.toString());
 <#  }#>
 <#}#>
 <#  }else{#>

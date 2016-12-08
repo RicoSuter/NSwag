@@ -133,23 +133,23 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
         content_.Headers.ContentType.MediaType = "application/json";
 <#}else{#>
 <#  if(operation.HasFormParameters){#>
-      var content_ = new MultipartFormDataContent();
+		var content_ = new MultipartFormDataContent();
 <#    foreach(var parameter in operation.FormParameters){#>
 <#      if(parameter.IsNullable){#>
-          if (<#=parameter.VariableName#> != null)
+        if (<#=parameter.VariableName#> != null)
 <#      }else{#>
-          if (<#=parameter.VariableName#> == null)
-              throw new ArgumentNullException("<#=parameter.VariableName#>");
-          else
+        if (<#=parameter.VariableName#> == null)
+            throw new ArgumentNullException("<#=parameter.VariableName#>");
+        else
 <#      }#>
 <#      if(parameter.IsFile){
           if(parameter.IsArray){#>
-              foreach(var item_ in <#=parameter.VariableName#>) { content_.Add(new StreamContent(item_.Data), "<#=parameter.Name#>", item_.FileName ?? "<#=parameter.Name#>"); }
+            foreach(var item_ in <#=parameter.VariableName#>) { content_.Add(new StreamContent(item_.Data), "<#=parameter.Name#>", item_.FileName ?? "<#=parameter.Name#>"); }
 <#        }else{#>
-              content_.Add(new StreamContent(<#=parameter.VariableName#>.Data), "<#=parameter.Name#>", <#=parameter.VariableName#>.FileName ?? "<#=parameter.Name#>");
+            content_.Add(new StreamContent(<#=parameter.VariableName#>.Data), "<#=parameter.Name#>", <#=parameter.VariableName#>.FileName ?? "<#=parameter.Name#>");
 <#        }
         }else{#>
-              content_.Add(new StringContent(<#=parameter.VariableName#>.ToString()), "<#=parameter.Name#>");
+            content_.Add(new StringContent(<#=parameter.VariableName#>.ToString()), "<#=parameter.Name#>");
 <#      }#>
 <#    }#>
 <#  }else if(!operation.IsGetOrDelete){#>
@@ -212,7 +212,7 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
 <#      if(operation.HasResultType){#>
             return default(<#=operation.ResultType.Substring(5, operation.ResultType.Length - 6)#>);
 <#      }else{#>
-            return;     
+            return;
 <#      }#>
 <#  }else{#>
             throw new <#=Model.ExceptionClass#>("<#=response.ExceptionDescription#>", status_, responseData_, null);
@@ -221,9 +221,9 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
         }
         else
 <#      }#>
-        {
 <#if(operation.HasDefaultResponse){#>
 <#  if(operation.DefaultResponse.HasType){#>
+        {
 <#      if(operation.DefaultResponse.IsFile){#>
 <#          if(operation.DefaultResponse.IsSuccess){#>
             return responseData_; 
@@ -237,10 +237,10 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
                 if (responseData_.Length > 0)
                     result_ = JsonConvert.DeserializeObject<<#=operation.DefaultResponse.Type#>>(Encoding.UTF8.GetString(responseData_, 0, responseData_.Length)<#=Model.JsonConverters#>);
 
-<#  if(operation.HasOnlyDefaultResponse){#>
+<#          if(operation.HasOnlyDefaultResponse){#>
                 if (status_.Length == 3 && status_.StartsWith("2"))
                     return result_;
-<#  }#>
+<#          }#>
             } 
             catch (Exception exception_) 
             {
@@ -249,17 +249,20 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
 
             throw new <#=Model.ExceptionClass#><<#=operation.DefaultResponse.Type#>>("<#=operation.DefaultResponse.ExceptionDescription#>", status_, responseData_, result_, null);
 <#      }#>
+        }
 <#  }else{#>
-<#      if(operation.HasResultType){#>
-            return default(<#=operation.ResultType.Substring(5, operation.ResultType.Length - 6)#>);
-<#      }else{#>
-            return;     
+<#      if(operation.HasSuccessResponse){#>
+        throw new <#=Model.ExceptionClass#>("<#=operation.DefaultResponse.ExceptionDescription#>", status_, responseData_, null);
 <#      }#>
 <#  }#>
+<#}else{#>
+		if (status_ != "200" && status_ != "204")
+			throw new <#=Model.ExceptionClass#>("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
 <#}#>
-        }
-
-        throw new <#=Model.ExceptionClass#>("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
+<#      if(operation.HasResultType){#>
+		
+        return default(<#=operation.ResultType.Substring(5, operation.ResultType.Length - 6)#>);
+<#      }#>
     }
 
 <#}#>

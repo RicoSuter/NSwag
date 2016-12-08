@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
@@ -24,9 +25,6 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         {
             _document = document;
             _settings = settings;
-
-            foreach (var definition in _document.Definitions.Where(p => string.IsNullOrEmpty(p.Value.TypeNameRaw)))
-                definition.Value.TypeNameRaw = definition.Key;
         }
 
         internal override string GenerateFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType)

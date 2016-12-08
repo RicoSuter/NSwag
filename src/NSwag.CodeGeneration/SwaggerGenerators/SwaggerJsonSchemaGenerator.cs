@@ -28,14 +28,13 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
         /// <typeparam name="TSchemaType">The type of the schema type.</typeparam>
         /// <param name="type">The types.</param>
         /// <param name="schema">The properties</param>
-        /// <param name="schemaResolver"></param>
-        /// <param name="schemaDefinitionAppender"></param>
-        protected override void GenerateObject<TSchemaType>(Type type, TSchemaType schema, ISchemaResolver schemaResolver, ISchemaDefinitionAppender schemaDefinitionAppender)
+        /// <param name="schemaResolver">The schema resolver.</param>
+        protected override void GenerateObject<TSchemaType>(Type type, TSchemaType schema, JsonSchemaResolver schemaResolver)
         {
             if (_isRootType)
             {
                 _isRootType = false;
-                base.GenerateObject(type, schema, schemaResolver, schemaDefinitionAppender);
+                base.GenerateObject(type, schema, schemaResolver);
                 _isRootType = true;
             }
             else
@@ -43,7 +42,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
                 if (!schemaResolver.HasSchema(type, false))
                 {
                     _isRootType = true;
-                    Generate(type, schemaResolver, schemaDefinitionAppender);
+                    Generate(type, schemaResolver);
                     _isRootType = false;
                 }
 

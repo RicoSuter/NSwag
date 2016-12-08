@@ -1,36 +1,36 @@
 {
-    "version": "7.7.0-*",
-    "authors": [ "Rico Suter" ],
-    "description": "NSwag: The Swagger API toolchain for .NET and TypeScript",
-    "packOptions": {
-        "projectUrl": "https://github.com/NSwag/NSwag",
-        "licenseUrl": "https://github.com/NSwag/NSwag/blob/master/LICENSE.md",
-        "iconUrl": "https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png",
-        "tags": [ "Swagger", "Documentation", "WebApi", "AspNet", "TypeScript", "CodeGen" ]
-    },
+  "version": "8.0.0-*",
+  "authors": [ "Rico Suter" ],
+  "description": "NSwag: The Swagger API toolchain for .NET and TypeScript",
+  "packOptions": {
+    "projectUrl": "https://github.com/NSwag/NSwag",
+    "licenseUrl": "https://github.com/NSwag/NSwag/blob/master/LICENSE.md",
+    "iconUrl": "https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png",
+    "tags": [ "Swagger", "Documentation", "WebApi", "AspNet", "TypeScript", "CodeGen" ]
+  },
 
-    "buildOptions": {
-        "emitEntryPoint": true,
-        "outputName": "dotnet-nswag"
-    },
+  "buildOptions": {
+    "emitEntryPoint": true,
+    "outputName": "dotnet-nswag"
+  },
 
-    "dependencies": {
-        "Microsoft.NETCore.App": {
-            "type": "platform",
-            "version": "1.0.1"
-        },
-        "System.IO.FileSystem": "4.0.1",
-        "System.Net.Http": "4.1.0",
-        "NSwag.AssemblyLoaderCore": "*",
-        "NSwag.Commands": "*",
-        "NSwag.Core": "*",
-        "NSwag.Annotations": "*",
-        "NSwag.CodeGeneration": "*"
+  "dependencies": {
+    "Microsoft.NETCore.App": {
+      "type": "platform",
+      "version": "1.0.1"
     },
+    "System.IO.FileSystem": "4.0.1",
+    "System.Net.Http": "4.1.0",
+    "NSwag.AssemblyLoaderCore": "*",
+    "NSwag.Commands": "*",
+    "NSwag.Core": "*",
+    "NSwag.Annotations": "*",
+    "NSwag.CodeGeneration": "*"
+  },
 
-    "frameworks": {
-        "netcoreapp1.0": {
-            "imports": "dnxcore50"
-        }
+  "frameworks": {
+    "netcoreapp1.0": {
+      "imports": "dnxcore50"
     }
+  }
 }

@@ -86,12 +86,12 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
 
             if (_settings.AddMissingPathParameters)
             {
-                foreach (Match match in Regex.Matches(httpPath, "{(.*?)(:(.*?))?}"))
+                foreach (Match match in Regex.Matches(httpPath, "{(.*?)(:(([^/]*)?))?}"))
                 {
                     var parameterName = match.Groups[1].Value;
-                    if (context.OperationDescription.Operation.Parameters.All(p => p.Name != parameterName))
+                    if (context.OperationDescription.Operation.Parameters.All(p => !string.Equals(p.Name, parameterName, StringComparison.OrdinalIgnoreCase)))
                     {
-                        var parameterType = match.Groups.Count == 4 ? match.Groups[3].Value : "string";
+                        var parameterType = match.Groups.Count == 5 ? match.Groups[3].Value : "string";
                         var operationParameter = context.SwaggerGenerator.CreatePathParameter(parameterName, parameterType);
                         context.OperationDescription.Operation.Parameters.Add(operationParameter);
                     }
@@ -120,10 +120,10 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
 
         private void RemoveUnusedPathParameters(SwaggerOperationDescription operationDescription, string httpPath)
         {
-            operationDescription.Path = Regex.Replace(httpPath, "{(.*?)(:(.*?))?}", match =>
+            operationDescription.Path = Regex.Replace(httpPath, "{(.*?)(:(([^/]*)?))?}", match =>
             {
                 var parameterName = match.Groups[1].Value.TrimEnd('?');
-                if (operationDescription.Operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.Path && p.Name == parameterName))
+                if (operationDescription.Operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.Path && string.Equals(p.Name, parameterName, StringComparison.OrdinalIgnoreCase)))
                     return "{" + parameterName + "}";
                 return string.Empty;
             }).TrimEnd('/');

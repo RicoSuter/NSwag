@@ -1,0 +1,58 @@
+﻿<#@ template visibility="internal" #>
+<#@ import namespace="NJsonSchema" #>
+<#foreach(var response in Model.Responses){
+#>if (status === <#=response.StatusCode#>) {<#
+    if(response.HasType){#>
+    let result<#=response.StatusCode#>: <#=response.Type#> = null;<#
+        if(response.IsDate){#>
+    result<#=response.StatusCode#> = new Date(responseText);<#
+        }else{
+            if(response.UseDtoClass){#>
+    let resultData<#=response.StatusCode#> = responseText === "" ? null : JSON.parse(responseText, this.jsonParseReviver);
+    <#=ConversionUtilities.Tab(response.DataConversionCode, 1)#><#
+            }else{#>
+    result<#=response.StatusCode#> = responseText === "" ? null : <<#=response.Type#>>JSON.parse(responseText, this.jsonParseReviver);<#
+            }
+        }
+        if(response.IsSuccess){#>
+    return result<#=response.StatusCode#>;<#
+        }else{#>
+    this.throwException("A server error occurred.", status, responseText, result<#=response.StatusCode#>);<#
+        }
+    }else if(response.IsSuccess){#>
+    return null;<#
+    }else{#>
+    this.throwException("A server error occurred.", status, responseText);<#
+    }#>
+} else <#
+}
+if(Model.HasDefaultResponse){#>{<#
+    if(Model.DefaultResponse.HasType){#>
+    let result: <#=Model.DefaultResponse.Type#> = null;<#
+        if(Model.DefaultResponse.IsDate){#>
+    result = new Date(responseText);<#
+        }else{
+            if(Model.DefaultResponse.UseDtoClass){#>
+    let resultData = responseText === "" ? null : JSON.parse(responseText, this.jsonParseReviver);
+    <#=ConversionUtilities.Tab(Model.DefaultResponse.DataConversionCode, 1)#><#
+            }else{#>
+    result = responseText === "" ? null : <<#=Model.DefaultResponse.Type#>>JSON.parse(responseText, this.jsonParseReviver);<#
+            }
+        }
+        if(!Model.HasSuccessResponse){#>
+    return result;<#
+        }else{#>
+    this.throwException("A server error occurred.", status, responseText, result);<#
+        }
+    }else if(!Model.HasSuccessResponse){#>
+    return null;<#
+    }else{#>
+    this.throwException("A server error occurred.", status, responseText);<#
+    }#>
+}<#
+}else{
+#>if (status !== 200 && status !== 204) {
+    this.throwException("An unexpected server error occurred.", status, responseText);
+}
+return null;<#
+}#>

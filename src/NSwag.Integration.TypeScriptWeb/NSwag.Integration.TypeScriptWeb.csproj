@@ -113,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="scripts\serviceClientsAngular2.ts" />
+    <TypeScriptCompile Include="scripts\serviceClientsAngular2.extensions.ts" />
     <TypeScriptCompile Include="scripts\serviceClientsAngularJS.ts" />
     <None Include="scripts\serviceClientsAurelia.ts" />
     <TypeScriptCompile Include="scripts\serviceClientsFetch.ts" />
@@ -121,6 +122,8 @@
     <TypeScriptCompile Include="scripts\serviceClientsJQueryPromises.extensions.ts" />
     <TypeScriptCompile Include="scripts\serviceClientsJQueryPromises.ts" />
     <TypeScriptCompile Include="scripts\serviceClientsJQueryPromisesKO.ts" />
+    <TypeScriptCompile Include="scripts\serviceClientsPetStoreFetch.ts" />
+    <TypeScriptCompile Include="scripts\serviceClientsUberFetch.ts" />
     <TypeScriptCompile Include="scripts\typings\angularjs\angular-animate.d.ts" />
     <TypeScriptCompile Include="scripts\typings\angularjs\angular-component-router.d.ts" />
     <TypeScriptCompile Include="scripts\typings\angularjs\angular-cookies.d.ts" />

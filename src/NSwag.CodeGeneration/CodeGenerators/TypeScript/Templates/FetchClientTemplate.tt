@@ -20,24 +20,31 @@ export interface I<#=Model.Class#> {
 <#if(Model.UseAureliaHttpInjection){#>
 @inject(String, HttpClient)
 <#}#>
-export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements I<#=Model.Class#> <#}#>{
+export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.ClientBaseClass#> <#}#><#if(Model.GenerateClientInterfaces){#>implements I<#=Model.Class#> <#}#>{
     private baseUrl: string; 
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     protected jsonParseReviver: <#if(Model.SupportsStrictNullChecks){#>((key: string, value: any) => any) | undefined<#}else{#>(key: string, value: any) => any<#}#> = undefined;
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+<#if(Model.HasClientBaseClass){#>
+		super();
+<#}#>
         this.baseUrl = baseUrl ? baseUrl : "";
         this.http = http ? http : window;
     }
-<#if(Model.IsExtended){#>
+<#if(Model.HasExtensionClass && !Model.HasClientBaseClass){#>
+<#  if(Model.UseTransformOptionsMethod){#>
 
     protected transformOptions(options: RequestInit) {
         return options; 
     }
+<#  }#>
+<#  if(Model.UseTransformResultMethod){#>
 
     protected transformResult(url: string, response: Response, processor: (response: Response) => any) {
         return processor(response);
     }
+<#  }#>
 <#}#>
 <#foreach(var operation in Model.Operations){#>
 
@@ -49,12 +56,12 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
 <#}#>    <#=operation.OperationNameLower#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): Promise<<#=operation.ResultType#>> {
-        <#=RequestUrlGenerator.Render(operation, 2)#>
+        <#=TemplatePartGenerator.RenderRequestUrlCode(operation, 2)#>
 
 <#if(!operation.IsGetOrHead){#>
-        <#=RequestBodyGenerator.Render(operation, 2)#>
+        <#=TemplatePartGenerator.RenderRequestBodyCode(operation, 2)#>
 <#}#>
-        return this.http.fetch(url_, <#if(Model.IsExtended){#>this.transformOptions(<#}#>{
+        return this.http.fetch(url_, <#if(Model.UseTransformOptionsMethod){#>this.transformOptions(<#}#>{
 <#if(!operation.IsGetOrHead){#>
 			body: content_,
 <#}#>
@@ -68,8 +75,8 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
                 "Content-Type": "application/json; charset=UTF-8"
 <#}#>
             }
-        }<#if(Model.IsExtended){#>)<#}#>).then((response) => {
-<#if(Model.IsExtended){#>
+        }<#if(Model.UseTransformOptionsMethod){#>)<#}#>).then((response) => {
+<#if(Model.UseTransformResultMethod){#>
             return this.transformResult(url_, response, (response) => this.process<#=operation.OperationNameUpper#>(response));
 <#}else{#>
             return this.process<#=operation.OperationNameUpper#>(response);
@@ -77,58 +84,15 @@ export class <#=Model.Class#> <#if(Model.GenerateClientInterfaces){#>implements 
         });
     }
 
-    private process<#=operation.OperationNameUpper#>(response: Response) {
-        return response.text().then((data) => {
-            const status = response.status.toString(); 
+    protected process<#=operation.OperationNameUpper#>(response: Response): Promise<<#=operation.ResultType#>> {
+        return response.text().then((responseText) => {
+            const status = response.status; 
 
-<#foreach(var response in operation.Responses){#>
-            if (status === "<#=response.StatusCode#>") {
-<#if(response.HasType){#>
-                let result<#=response.StatusCode#>: <#=response.Type#> = null; 
-<#  if(response.IsDate){#>
-                result<#=response.StatusCode#> = new Date(data);
-<#  }else{#>
-<#      if(response.UseDtoClass){#>
-                let resultData<#=response.StatusCode#> = data === "" ? null : JSON.parse(data, this.jsonParseReviver);
-                <#=ConversionUtilities.Tab(response.DataConversionCode, 4)#>
-<#      }else{#>
-                result<#=response.StatusCode#> = data === "" ? null : <<#=response.Type#>>JSON.parse(data, this.jsonParseReviver);
-<#      }#>
-<#  }#>
-<#  if(response.IsSuccess){#>
-                return result<#=response.StatusCode#>; 
-<#  }else{#>
-                throw result<#=response.StatusCode#>; 
-<#  }
-}else if(!response.IsSuccess){#>
-                throw new Error("error_http_status_<#=response.StatusCode#>"); 
-<#}#>
-            }
-            else
-<#}#>            {
-<#if(operation.HasDefaultResponse){#>
-                let result: <#=operation.DefaultResponse.Type#> = null; 
-<#  if(operation.DefaultResponse.IsDate){#>
-                result = new Date(data);
-<#  }else{#>
-<#      if(operation.DefaultResponse.UseDtoClass){#>
-                let resultData = data === "" ? null : JSON.parse(data, this.jsonParseReviver);
-            <#=ConversionUtilities.Tab(operation.DefaultResponse.DataConversionCode, 3)#>
-<#      }else{#>
-                result = data === "" ? null : <<#=operation.DefaultResponse.Type#>>JSON.parse(data, this.jsonParseReviver);
-<#      }#>
-<#  }#>
-<#  if(operation.DefaultResponse.IsSuccess){#>
-                return result; 
-<#  }else{#>
-                throw result; 
-<#  }
-}else{#>
-                throw new Error("error_no_callback_for_the_received_http_status"); 
-<#}#>
-            }
+			<#=TemplatePartGenerator.RenderProcessResponseCode(operation, 3)#>
         });
     }
-<#}#>}
 <#}#>
 
+    <#=TemplatePartGenerator.RenderClientMethodsCode(Model, 1)#>
+}
+<#}#>

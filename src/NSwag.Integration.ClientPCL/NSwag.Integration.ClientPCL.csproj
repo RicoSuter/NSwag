@@ -56,9 +56,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PetStoreClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceClients.cs" />
     <Compile Include="ServiceClientsContracts.cs" />
+    <Compile Include="UberClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">

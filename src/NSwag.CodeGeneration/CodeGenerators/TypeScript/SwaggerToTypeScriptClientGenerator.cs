@@ -21,6 +21,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
     {
         private readonly SwaggerDocument _document;
         private readonly TypeScriptTypeResolver _resolver;
+        private readonly TypeScriptExtensionCode _extensionCode;
 
         /// <summary>Initializes a new instance of the <see cref="SwaggerToTypeScriptClientGenerator" /> class.</summary>
         /// <param name="document">The Swagger document.</param>
@@ -47,18 +48,15 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 
             _document = document;
             _resolver = resolver;
-
-            foreach (var definition in _document.Definitions.Where(p => string.IsNullOrEmpty(p.Value.TypeNameRaw)))
-                definition.Value.TypeNameRaw = definition.Key;
-
-            _resolver.AddSchemas(_document.Definitions);
+            _resolver.AddGenerators(_document.Definitions);
+            _extensionCode = new TypeScriptExtensionCode(
+                Settings.TypeScriptGeneratorSettings.ExtensionCode,
+                Settings.TypeScriptGeneratorSettings.ExtendedClasses,
+                new[] { Settings.ClientBaseClass });
         }
 
         /// <summary>Gets or sets the generator settings.</summary>
         public SwaggerToTypeScriptClientGeneratorSettings Settings { get; set; }
-
-        /// <summary>Gets the language.</summary>
-        protected override string Language => "TypeScript";
 
         /// <summary>Generates the file.</summary>
         /// <returns>The file contents.</returns>
@@ -88,7 +86,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 
         internal override string GenerateFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType)
         {
-            var model = new FileTemplateModel(_document, clientCode, clientClasses, Settings, _resolver);
+            var model = new FileTemplateModel(_document, clientCode, clientClasses, Settings, _extensionCode, _resolver);
             var template = BaseSettings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("TypeScript", "File", model);
             return template.Render();
         }
@@ -108,9 +106,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         {
             if (Settings.TypeScriptGeneratorSettings.ExtendedClasses?.Contains(controllerName) == true)
             {
-                var extensionCode = Settings.TypeScriptGeneratorSettings.ProcessedExtensionCode;
-                return extensionCode.Classes.ContainsKey(controllerName)
-                    ? code + "\n\n" + extensionCode.Classes[controllerName]
+                return _extensionCode.ExtensionClasses.ContainsKey(controllerName)
+                    ? code + "\n\n" + _extensionCode.ExtensionClasses[controllerName]
                     : code;
             }
             return code;

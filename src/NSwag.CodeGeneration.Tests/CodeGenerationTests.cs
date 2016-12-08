@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration.TypeScript;
+using NJsonSchema.Generation;
 using NSwag.CodeGeneration.CodeGenerators.CSharp;
 using NSwag.CodeGeneration.CodeGenerators.TypeScript;
 
@@ -17,13 +18,13 @@ namespace NSwag.CodeGeneration.Tests
         {
             // Arrange
             var document = CreateService();
+            var json = document.ToJson();
 
             //// Act
             var settings = new SwaggerToCSharpClientGeneratorSettings { ClassName = "MyClass" };
             settings.CSharpGeneratorSettings.Namespace = "MyNamespace";
 
             var generator = new SwaggerToCSharpClientGenerator(document, settings);
-
             var code = generator.GenerateFile();
 
             // Assert
@@ -98,6 +99,9 @@ namespace NSwag.CodeGeneration.Tests
         private static SwaggerDocument CreateService()
         {
             var document = new SwaggerDocument();
+            var settings = new JsonSchemaGeneratorSettings();
+            var generator = new JsonSchemaGenerator(settings);
+
             document.Paths["/Person"] = new SwaggerOperations();
             document.Paths["/Person"][SwaggerOperationMethod.Get] = new SwaggerOperation
             {
@@ -106,7 +110,10 @@ namespace NSwag.CodeGeneration.Tests
                     {
                         "200", new SwaggerResponse
                         {
-                            Schema = JsonSchema4.FromType(typeof (Person))
+                            Schema = new JsonSchema4
+                            {
+                                SchemaReference = generator.Generate(typeof(Person), new SwaggerSchemaResolver(document, settings))
+                            }
                         }
                     }
                 }

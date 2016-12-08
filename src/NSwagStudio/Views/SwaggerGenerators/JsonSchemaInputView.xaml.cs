@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows;
-using NJsonSchema;
-using NSwag;
-using NSwag.CodeGeneration;
 using NSwag.Commands;
 using NSwag.Commands.Base;
 
@@ -28,10 +25,8 @@ namespace NSwagStudio.Views.SwaggerGenerators
         {
             try
             {
-                var schema = JsonSchema4.FromJson(_command.Schema);
-                var document = new SwaggerDocument();
-                document.Definitions[schema.TypeNameRaw ?? "MyType"] = schema;
-                return document.ToJson();
+                var document = await _command.RunAsync();
+                return await Task.Run(() => document.ToJson());
             }
             catch (Exception exception)
             {

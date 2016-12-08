@@ -1,0 +1,69 @@
+﻿{
+  "swaggerGenerator": {
+    "fromSwagger": {
+      "json": "",
+      "url": "http://petstore.swagger.io/v2/swagger.json",
+      "output": null
+    }
+  },
+  "codeGenerators": {
+    "swaggerToTypeScriptClient": {
+      "className": "{controller}Client",
+      "moduleName": "",
+      "namespace": "",
+      "typeScriptVersion": 1.8,
+      "template": "Fetch",
+      "promiseType": "Promise",
+      "dateTimeType": "Date",
+      "generateClientClasses": true,
+      "generateClientInterfaces": false,
+      "wrapDtoExceptions": false,
+      "generateDtoTypes": true,
+      "operationGenerationMode": "MultipleClientsFromOperationId",
+      "markOptionalProperties": false,
+      "typeStyle": "Class",
+      "generateDefaultValues": true,
+      "output": "../NSwag.Integration.TypeScriptWeb/scripts/serviceClientsPetStoreFetch.ts"
+    },
+    "swaggerToCSharpClient": {
+      "exceptionClass": "SwaggerException",
+      "generateClientClasses": true,
+      "generateClientInterfaces": false,
+      "generateDtoTypes": true,
+      "useHttpClientCreationMethod": false,
+      "useHttpRequestMessageCreationMethod": false,
+      "generateContractsOutput": false,
+      "className": "PetStoreClient",
+      "namespace": "PetStore",
+      "requiredPropertiesMustBeDefined": true,
+      "dateType": "DateTime",
+      "dateTimeType": "DateTime",
+      "timeType": "TimeSpan",
+      "timeSpanType": "TimeSpan",
+      "arrayType": "ObservableCollection",
+      "dictionaryType": "Dictionary",
+      "classStyle": "Inpc",
+      "operationGenerationMode": "MultipleClientsFromOperationId",
+      "generateDefaultValues": true,
+      "output": "../NSwag.Integration.ClientPCL/PetStoreClient.cs"
+    },
+    "swaggerToCSharpController": {
+      "className": "{controller}",
+      "namespace": "MyNamespace",
+      "additionalNamespaceUsages": [
+        "System.Web.Http"
+      ],
+      "requiredPropertiesMustBeDefined": true,
+      "dateType": "DateTime",
+      "dateTimeType": "DateTime",
+      "timeType": "TimeSpan",
+      "timeSpanType": "TimeSpan",
+      "arrayType": "IEnumerable",
+      "dictionaryType": "Dictionary",
+      "classStyle": "Inpc",
+      "operationGenerationMode": "MultipleClientsFromOperationId",
+      "generateDefaultValues": true,
+      "output": null
+    }
+  }
+}

@@ -19,6 +19,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
     /// <summary>Provides services to for Swagger generators like the creation of parameters and handling of schemas.</summary>
     public class SwaggerGenerator
     {
+        private readonly JsonSchemaResolver _schemaResolver;
         private readonly JsonSchemaGenerator _schemaGenerator;
         private readonly JsonSchemaGeneratorSettings _settings;
 
@@ -26,22 +27,12 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
         /// <param name="schemaGenerator">The schema generator.</param>
         /// <param name="schemaGeneratorSettings">The schema generator settings.</param>
         /// <param name="schemaResolver">The schema resolver.</param>
-        /// <param name="schemaDefinitionAppender">The schema definition appender.</param>
-        public SwaggerGenerator(JsonSchemaGenerator schemaGenerator, JsonSchemaGeneratorSettings schemaGeneratorSettings, 
-            ISchemaResolver schemaResolver, ISchemaDefinitionAppender schemaDefinitionAppender)
+        public SwaggerGenerator(JsonSchemaGenerator schemaGenerator, JsonSchemaGeneratorSettings schemaGeneratorSettings, JsonSchemaResolver schemaResolver)
         {
-            SchemaResolver = schemaResolver;
-            SchemaDefinitionAppender = schemaDefinitionAppender;
-
+            _schemaResolver = schemaResolver;
             _schemaGenerator = schemaGenerator;
             _settings = schemaGeneratorSettings;
         }
-
-        /// <summary>Gets the schema resolver.</summary>
-        public ISchemaResolver SchemaResolver { get; }
-
-        /// <summary>Gets the schema definition appender.</summary>
-        public ISchemaDefinitionAppender SchemaDefinitionAppender { get; }
 
         /// <summary>Creates a primitive parameter for the given parameter information reflection object.</summary>
         /// <param name="name">The name.</param>
@@ -99,7 +90,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
                     Type = typeDescription.Type, // Used as fallback for generators which do not check the "schema" property
                     Schema = new JsonSchema4
                     {
-                        SchemaReference = _schemaGenerator.Generate<JsonSchema4>(parameterType, parentAttributes, SchemaResolver, SchemaDefinitionAppender)
+                        SchemaReference = _schemaGenerator.Generate<JsonSchema4>(parameterType, parentAttributes, _schemaResolver)
                     }
                 };
             }
@@ -107,7 +98,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
             {
                 parameterType = typeDescription.Type.HasFlag(JsonObjectType.Object) ? typeof(string) : parameterType; // object types must be treated as string
 
-                operationParameter = _schemaGenerator.Generate<SwaggerParameter>(parameterType, parentAttributes, SchemaResolver, SchemaDefinitionAppender);
+                operationParameter = _schemaGenerator.Generate<SwaggerParameter>(parameterType, parentAttributes, _schemaResolver);
                 _schemaGenerator.ApplyPropertyAnnotations(operationParameter, parameterType, parentAttributes, typeDescription);
             }
 
@@ -175,8 +166,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
                     };
                 }
 
-                if (!SchemaResolver.HasSchema(type, false))
-                    _schemaGenerator.Generate(type, SchemaResolver, SchemaDefinitionAppender);
+                if (!_schemaResolver.HasSchema(type, false))
+                    _schemaGenerator.Generate(type, _schemaResolver);
 
                 if (mayBeNull)
                 {
@@ -184,18 +175,18 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
                     {
                         var schema = new JsonSchema4();
                         schema.OneOf.Add(new JsonSchema4 { Type = JsonObjectType.Null });
-                        schema.OneOf.Add(new JsonSchema4 { SchemaReference = SchemaResolver.GetSchema(type, false) });
+                        schema.OneOf.Add(new JsonSchema4 { SchemaReference = _schemaResolver.GetSchema(type, false) });
                         return schema;
                     }
                     else
                     {
                         // TODO: Fix this bad design
                         // IsNullable must be directly set on SwaggerParameter or SwaggerResponse
-                        return new JsonSchema4 { SchemaReference = SchemaResolver.GetSchema(type, false) };
+                        return new JsonSchema4 { SchemaReference = _schemaResolver.GetSchema(type, false) };
                     }
                 }
                 else
-                    return new JsonSchema4 { SchemaReference = SchemaResolver.GetSchema(type, false) };
+                    return new JsonSchema4 { SchemaReference = _schemaResolver.GetSchema(type, false) };
             }
 
             if (typeDescription.Type.HasFlag(JsonObjectType.Array))
@@ -210,7 +201,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
                 };
             }
 
-            return _schemaGenerator.Generate(type, SchemaResolver, SchemaDefinitionAppender);
+            return _schemaGenerator.Generate(type, _schemaResolver);
         }
 
         private bool IsParameterRequired(ParameterInfo parameter)

@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
@@ -16,7 +17,7 @@ using NSwag.CodeGeneration.CodeGenerators.Models;
 namespace NSwag.CodeGeneration.CodeGenerators
 {
     /// <summary>The client generator base.</summary>
-    public abstract class ClientGeneratorBase : GeneratorBase
+    public abstract class ClientGeneratorBase
     {
         /// <summary>Initializes a new instance of the <see cref="ClientGeneratorBase" /> class.</summary>
         /// <param name="resolver">The type resolver.</param>
@@ -26,6 +27,10 @@ namespace NSwag.CodeGeneration.CodeGenerators
             Resolver = resolver;
             codeGeneratorSettings.NullHandling = NullHandling.Swagger; // Enforce Swagger null handling 
         }
+
+        /// <summary>Generates the the whole file containing all needed types.</summary>
+        /// <returns>The code</returns>
+        public abstract string GenerateFile();
 
         /// <summary>Gets the type resolver.</summary>
         protected ITypeResolver Resolver { get; }
