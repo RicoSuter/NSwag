@@ -21,7 +21,8 @@
         "embed": [
             "SwaggerUi/**/*"
         ],
-        "xmlDoc": true
+      "xmlDoc": true,
+      "keyFile": "NSwag.snk"
     },
 
     "frameworks": {

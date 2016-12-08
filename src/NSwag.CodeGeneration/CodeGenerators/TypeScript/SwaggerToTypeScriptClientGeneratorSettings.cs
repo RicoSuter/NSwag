@@ -39,7 +39,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         /// <summary>Gets or sets the promise type.</summary>
         public PromiseType PromiseType { get; set; }
 
-        /// <summary>Gets or sets a value indicating whether DTO exceptions are wrapped in a SwaggerError instance (default: false).</summary>
+        /// <summary>Gets or sets a value indicating whether DTO exceptions are wrapped in a SwaggerException instance (default: false).</summary>
         public bool WrapDtoExceptions { get; set; }
 
         /// <summary>Gets or sets the client base class.</summary>

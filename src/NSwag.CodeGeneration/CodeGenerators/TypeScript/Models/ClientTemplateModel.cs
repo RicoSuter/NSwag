@@ -78,7 +78,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
         /// <summary>Gets a value indicating whether the target TypeScript version supports strict null checks.</summary>
         public bool SupportsStrictNullChecks => _settings.TypeScriptGeneratorSettings.TypeScriptVersion >= 2.0m;
 
-        /// <summary>Gets or sets a value indicating whether DTO exceptions are wrapped in a SwaggerError instance (default: false).</summary>
+        /// <summary>Gets or sets a value indicating whether DTO exceptions are wrapped in a SwaggerException instance (default: false).</summary>
         public bool WrapDtoExceptions => _settings.WrapDtoExceptions;
     }
 }

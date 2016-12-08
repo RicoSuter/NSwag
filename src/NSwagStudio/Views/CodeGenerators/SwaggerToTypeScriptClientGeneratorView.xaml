@@ -49,7 +49,7 @@
                                           Content="Generate Client Interfaces" Margin="0,0,0,12" />
 
                                 <CheckBox IsChecked="{Binding Command.WrapDtoExceptions, Mode=TwoWay}" 
-                                          Content="Wrap DTO exceptions in a SwaggerError instance" Margin="0,0,0,12" />
+                                          Content="Wrap DTO exceptions in a SwaggerException instance" Margin="0,0,0,12" />
 
                                 <TextBlock Text="Class Name" FontWeight="Bold" Margin="0,0,0,6" />
                                 <TextBox Text="{Binding Command.ClassName, Mode=TwoWay}" Margin="0,0,0,12" />
