@@ -85,9 +85,9 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
         if (<#=parameter.VariableName#> == null)
             throw new System.ArgumentNullException("<#=parameter.VariableName#>");
 <#  if(parameter.IsDateArray){#>
-        url_ = url_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(string.Join(",", <#=parameter.VariableName#>.Select(s_ => s_.ToString("s", CultureInfo.InvariantCulture)))));
+        url_ = url_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(string.Join(",", <#=parameter.VariableName#>.Select(s_ => s_.ToString("s", System.Globalization.CultureInfo.InvariantCulture)))));
 <#  }else if(parameter.IsDate){#>
-        url_ = url_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(<#=parameter.VariableName#>.ToString("s", CultureInfo.InvariantCulture)));
+        url_ = url_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(<#=parameter.VariableName#>.ToString("s", System.Globalization.CultureInfo.InvariantCulture)));
 <#  }else if(parameter.IsArray){#>
         url_ = url_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(string.Join(",", <#=parameter.VariableName#>.Select(s_ => s_.ToString()))));
 <#  }else{#>
@@ -104,9 +104,9 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
         if (<#=parameter.VariableName#> != null)
 <#  }#>
 <#  if(parameter.IsDateArray){#>
-            foreach(var item_ in <#=parameter.VariableName#>) { url_ += string.Format("<#=parameter.Name#>={0}&", System.Uri.EscapeDataString(item_.ToString("s", CultureInfo.InvariantCulture))); }
+            foreach(var item_ in <#=parameter.VariableName#>) { url_ += string.Format("<#=parameter.Name#>={0}&", System.Uri.EscapeDataString(item_.ToString("s", System.Globalization.CultureInfo.InvariantCulture))); }
 <#  }else if(parameter.IsDate){#>
-            url_ += string.Format("<#=parameter.Name#>={0}&", System.Uri.EscapeDataString(<#=parameter.VariableName#><#if(parameter.Type.EndsWith("?")){#>.Value<#}#>.ToString("s", CultureInfo.InvariantCulture)));
+            url_ += string.Format("<#=parameter.Name#>={0}&", System.Uri.EscapeDataString(<#=parameter.VariableName#><#if(parameter.Type.EndsWith("?")){#>.Value<#}#>.ToString("s", System.Globalization.CultureInfo.InvariantCulture)));
 <#  }else if(parameter.IsArray){#>
             foreach(var item_ in <#=parameter.VariableName#>) { url_ += string.Format("<#=parameter.Name#>={0}&", System.Uri.EscapeDataString(item_.ToString())); }
 <#  }else{#>

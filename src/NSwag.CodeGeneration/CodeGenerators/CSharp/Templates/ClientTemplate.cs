@@ -839,7 +839,8 @@ foreach(var parameter in operation.PathParameters){
             
             #line default
             #line hidden
-            this.Write(".Select(s_ => s_.ToString(\"s\", CultureInfo.InvariantCulture)))));\r\n");
+            this.Write(".Select(s_ => s_.ToString(\"s\", System.Globalization.CultureInfo.InvariantCulture)" +
+                    "))));\r\n");
             
             #line 89 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
   }else if(parameter.IsDate){
@@ -860,7 +861,7 @@ foreach(var parameter in operation.PathParameters){
             
             #line default
             #line hidden
-            this.Write(".ToString(\"s\", CultureInfo.InvariantCulture)));\r\n");
+            this.Write(".ToString(\"s\", System.Globalization.CultureInfo.InvariantCulture)));\r\n");
             
             #line 91 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
   }else if(parameter.IsArray){
@@ -983,8 +984,8 @@ foreach(var parameter in operation.QueryParameters){
             
             #line default
             #line hidden
-            this.Write("={0}&\", System.Uri.EscapeDataString(item_.ToString(\"s\", CultureInfo.InvariantCult" +
-                    "ure))); }\r\n");
+            this.Write("={0}&\", System.Uri.EscapeDataString(item_.ToString(\"s\", System.Globalization.Cult" +
+                    "ureInfo.InvariantCulture))); }\r\n");
             
             #line 108 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
   }else if(parameter.IsDate){
@@ -1018,7 +1019,7 @@ if(parameter.Type.EndsWith("?")){
             
             #line default
             #line hidden
-            this.Write(".ToString(\"s\", CultureInfo.InvariantCulture)));\r\n");
+            this.Write(".ToString(\"s\", System.Globalization.CultureInfo.InvariantCulture)));\r\n");
             
             #line 110 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
   }else if(parameter.IsArray){
