@@ -39,11 +39,8 @@ namespace NSwag
         {
             if (!_document.Definitions.Values.Contains(schema))
             {
-                var typeName = schema.GetTypeName(_typeNameGenerator, typeNameHint);
-                if (!string.IsNullOrEmpty(typeName) && !_document.Definitions.ContainsKey(typeName))
-                    _document.Definitions[typeName] = schema;
-                else
-                    _document.Definitions["ref_" + Guid.NewGuid().ToString().Replace("-", "_")] = schema;
+                var typeName = _typeNameGenerator.Generate(schema, typeNameHint, _document.Definitions.Keys);
+                _document.Definitions[typeName] = schema;
             }
         }
     }

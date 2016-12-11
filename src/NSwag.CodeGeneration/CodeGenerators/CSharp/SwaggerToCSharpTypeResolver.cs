@@ -51,7 +51,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         public override string Resolve(JsonSchema4 schema, bool isNullable, string typeNameHint)
         {
             if (schema.ActualSchema == ExceptionSchema)
-                return "Exception";
+                return "System.Exception";
 
             return base.Resolve(schema, isNullable, typeNameHint);
         }

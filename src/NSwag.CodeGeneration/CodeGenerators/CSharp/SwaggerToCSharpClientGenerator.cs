@@ -81,14 +81,14 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             if (schema.Type == JsonObjectType.File)
             {
                 if (parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
-                    return "IEnumerable<FileParameter>";
+                    return "System.Collections.Generic.IEnumerable<FileParameter>";
 
                 return "FileParameter";
             }
 
             return base.ResolveParameterType(parameter)
-                .Replace(Settings.CSharpGeneratorSettings.ArrayType + "<", "IEnumerable<")
-                .Replace(Settings.CSharpGeneratorSettings.DictionaryType + "<", "IDictionary<");
+                .Replace(Settings.CSharpGeneratorSettings.ArrayType + "<", "System.Collections.Generic.IEnumerable<")
+                .Replace(Settings.CSharpGeneratorSettings.DictionaryType + "<", "System.Collections.Generic.IDictionary<");
         }
 
         internal override string GetParameterVariableName(SwaggerParameter parameter)

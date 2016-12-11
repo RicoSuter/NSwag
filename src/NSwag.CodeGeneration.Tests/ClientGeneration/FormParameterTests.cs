@@ -50,9 +50,9 @@ namespace NSwag.CodeGeneration.Tests.ClientGeneration
             var code = generator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("new MultipartFormDataContent"));
+            Assert.IsTrue(code.Contains("new System.Net.Http.MultipartFormDataContent"));
             Assert.IsTrue(code.Contains("if (foo != null)"));
-            Assert.IsTrue(code.Contains("throw new ArgumentNullException(\"bar\");"));
+            Assert.IsTrue(code.Contains("throw new System.ArgumentNullException(\"bar\");"));
         }
 
         public class FileUploadController : ApiController
@@ -75,8 +75,8 @@ namespace NSwag.CodeGeneration.Tests.ClientGeneration
 
             //// Assert
             Assert.IsTrue(code.Contains("FileParameter file"));
-            Assert.IsTrue(code.Contains("var content_ = new MultipartFormDataContent();"));
-            Assert.IsTrue(code.Contains("content_.Add(new StreamContent(file.Data), \"file\""));
+            Assert.IsTrue(code.Contains("var content_ = new System.Net.Http.MultipartFormDataContent();"));
+            Assert.IsTrue(code.Contains("content_.Add(new System.Net.Http.StreamContent(file.Data), \"file\""));
         }
 
         // TODO: Implement for JQuery, AngularJS and Angular 2
