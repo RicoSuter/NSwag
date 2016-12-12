@@ -77,12 +77,14 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
         public string Namespace => _settings.TypeScriptGeneratorSettings.Namespace;
 
         /// <summary>Gets a value indicating whether the FileParameter interface should be rendered.</summary>
-        public bool RequiresFileParameterInterface => _document.Operations.Any(o => o.Operation.Parameters.Any(p => p.Type.HasFlag(JsonObjectType.File)));
+        public bool RequiresFileParameterInterface =>
+            !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("FileParameter") &&
+            _document.Operations.Any(o => o.Operation.Parameters.Any(p => p.Type.HasFlag(JsonObjectType.File)));
 
         /// <summary>Gets a value indicating whether the SwaggerException class is required.</summary>
         public bool RequiresSwaggerExceptionClass =>
-            _settings.GenerateClientClasses &&
             !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("SwaggerException") &&
+            _settings.GenerateClientClasses &&
             !string.IsNullOrEmpty(Clients);
 
         /// <summary>Table containing list of the generated classes.</summary>
