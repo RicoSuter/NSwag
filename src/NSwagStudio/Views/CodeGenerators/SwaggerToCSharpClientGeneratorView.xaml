@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converters="clr-namespace:MyToolkit.Converters;assembly=MyToolkit.Extended"
              xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
-             xmlns:views="clr-namespace:NSwagStudio.Views"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:codeGenerators="clr-namespace:NSwagStudio.ViewModels.CodeGenerators"
              xmlns:controls="clr-namespace:NSwagStudio.Controls"
@@ -81,10 +80,10 @@
                                         The {controller} placeholder of the Class Name is replaced by generated client name (depends on the OperationGenerationMode strategy).
                                 </TextBlock>
                                 <ComboBox SelectedItem="{Binding Command.OperationGenerationMode, Mode=TwoWay}" 
-                                              ItemsSource="{Binding OperationGenerationModes}" Margin="0,0,0,12" />
+                                          ItemsSource="{Binding OperationGenerationModes}" Margin="0,0,0,12" />
 
                                 <CheckBox IsChecked="{Binding Command.GenerateClientInterfaces, Mode=TwoWay}" 
-                                              Content="Generate Client Interfaces" Margin="0,0,0,12" />
+                                          Content="Generate Client Interfaces" Margin="0,0,0,12" />
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
@@ -126,6 +125,9 @@
                                 <ComboBox SelectedItem="{Binding Command.ClassStyle, Mode=TwoWay}" 
                                               ItemsSource="{Binding ClassStyles}" Margin="0,0,0,12" />
                             </StackPanel>
+
+                            <TextBlock Text="Excluded Type Names (must be defined in another namespace)." FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Text="{Binding ExcludedTypeNames, Mode=TwoWay}" Margin="0,0,0,12" />
                         </StackPanel>
                     </GroupBox>
 

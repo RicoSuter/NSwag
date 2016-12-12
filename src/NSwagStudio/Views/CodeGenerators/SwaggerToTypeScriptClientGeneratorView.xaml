@@ -111,6 +111,9 @@
                                     <TextBlock Text="The type names which always generate plain TypeScript classes (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
                                     <TextBox Text="{Binding ClassTypes, Mode=TwoWay}" Margin="0,0,0,12" />
                                 </StackPanel>
+
+                                <TextBlock Text="Excluded Type Names (comma separated, must be defined in ExtensionCode or custom import)." FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding ExcludedTypeNames, Mode=TwoWay}" Margin="0,0,0,12" />
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>

@@ -31,7 +31,7 @@ namespace NSwag.CodeGeneration.Tests.CommandLine
         {
             //// Arrange
             var command = "swagger2tsclient " +
-                          @"/input:""{ \""swagger\"": \""2.0\"", \""paths\"": {}, \""definitions\"": { \""Test\"": { typeName: \""Test\"", type: \""Object\"" } } }"" " +
+                          @"/input:""{ \""swagger\"": \""2.0\"", \""paths\"": {}, \""definitions\"": { \""Test\"": { type: \""object\"", properties: { \""Foo\"": { type: \""string\"" } } } } }"" " +
                           "/output:" + OutputFile;
 
             //// Act
