@@ -277,6 +277,9 @@ namespace NSwag.Commands
 
         private static string TransformLegacyDocument(string data, out bool saveFile)
         {
+            saveFile = false;
+
+            // New file format
             if (data.Contains("\"SelectedSwaggerGenerator\""))
             {
                 var obj = JsonConvert.DeserializeObject<JObject>(data);
@@ -331,7 +334,10 @@ namespace NSwag.Commands
                 data = obj.ToString().Replace("\"OutputFilePath\"", "\"output\"");
                 saveFile = true;
             }
-            else if (data.Contains("generateReadOnlyKeywords") && !data.Contains("typeScriptVersion"))
+
+            // typeScriptVersion
+
+            if (data.Contains("generateReadOnlyKeywords") && !data.Contains("typeScriptVersion"))
             {
                 data = data.Replace(@"""GenerateReadOnlyKeywords"": true", @"""typeScriptVersion"": 2.0");
                 data = data.Replace(@"""generateReadOnlyKeywords"": true", @"""typeScriptVersion"": 2.0");
@@ -341,8 +347,39 @@ namespace NSwag.Commands
 
                 saveFile = true;
             }
-            else
-                saveFile = false;
+
+            // Full type names
+
+            if (data.Contains("\"dateType\": \"DateTime\""))
+            {
+                data = data.Replace("\"dateType\": \"DateTime\"", "\"dateType\": \"System.DateTime\"");
+                saveFile = true;
+            }
+            if (data.Contains("\"dateTimeType\": \"DateTime\""))
+            {
+                data = data.Replace("\"dateTimeType\": \"DateTime\"", "\"dateTimeType\": \"System.DateTime\"");
+                saveFile = true;
+            }
+            if (data.Contains("\"timeType\": \"TimeSpan\""))
+            {
+                data = data.Replace("\"timeType\": \"TimeSpan\"", "\"timeType\": \"System.TimeSpan\"");
+                saveFile = true;
+            }
+            if (data.Contains("\"timeSpanType\": \"TimeSpan\""))
+            {
+                data = data.Replace("\"timeSpanType\": \"TimeSpan\"", "\"timeSpanType\": \"System.TimeSpan\"");
+                saveFile = true;
+            }
+            if (data.Contains("\"arrayType\": \"ObservableCollection\""))
+            {
+                data = data.Replace("\"arrayType\": \"ObservableCollection\"", "\"arrayType\": \"System.Collections.ObjectModel.ObservableCollection\"");
+                saveFile = true;
+            }
+            if (data.Contains("\"dictionaryType\": \"Dictionary\""))
+            {
+                data = data.Replace("\"dictionaryType\": \"Dictionary\"", "\"dictionaryType\": \"System.Collections.Generic.Dictionary\"");
+                saveFile = true;
+            }
 
             return data;
         }

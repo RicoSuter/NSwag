@@ -41,102 +41,65 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Templates
             
             #line default
             #line hidden
-            this.Write(@") (http://NSwag.org)
-// </auto-generated>
-//----------------------
-
-using System;
-using System.CodeDom.Compiler;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-");
+            this.Write(") (http://NSwag.org)\r\n// </auto-generated>\r\n//----------------------\r\n\r\n");
             
-            #line 18 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
-if(Model.GenerateImplementation && Model.GenerateClientClasses){
-            
-            #line default
-            #line hidden
-            this.Write("using System.Net;\r\nusing System.Net.Http;\r\n");
-            
-            #line 21 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
-}
-            
-            #line default
-            #line hidden
-            this.Write(@"using System.Reflection;
-using System.Runtime.Serialization;
-using System.Runtime.CompilerServices;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Text;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
-");
-            
-            #line 32 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 9 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
 foreach(var usage in Model.NamespaceUsages){
             
             #line default
             #line hidden
             this.Write("using ");
             
-            #line 32 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 9 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(usage));
             
             #line default
             #line hidden
             this.Write(";\r\n");
             
-            #line 33 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 10 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("\r\nnamespace ");
             
-            #line 35 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 12 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.Namespace));
             
             #line default
             #line hidden
             this.Write("\r\n{\r\n    #pragma warning disable // Disable all warnings\r\n\r\n    ");
             
-            #line 39 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.Tab(Model.Clients, 1)));
             
             #line default
             #line hidden
             this.Write("\r\n\r\n");
             
-            #line 41 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 18 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
 if(Model.GenerateContracts){
             
             #line default
             #line hidden
             this.Write("    ");
             
-            #line 42 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 19 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.Tab(Model.Classes, 1)));
             
             #line default
             #line hidden
             this.Write("\r\n\r\n");
             
-            #line 44 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 21 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
   if(Model.RequiresFileParameterType){
             
             #line default
             #line hidden
-            this.Write("    [GeneratedCode(\"NSwag\", \"");
+            this.Write("    [System.CodeDom.Compiler.GeneratedCode(\"NSwag\", \"");
             
-            #line 45 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 22 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerDocument.ToolchainVersion));
             
             #line default
@@ -144,58 +107,59 @@ if(Model.GenerateContracts){
             this.Write(@""")]
     public class FileParameter
     {
-        public FileParameter(Stream data) 
+        public FileParameter(System.IO.Stream data) 
             : this (data, null)
         {
         }
 
-        public FileParameter(Stream data, string fileName)
+        public FileParameter(System.IO.Stream data, string fileName)
         {
             Data = data;
             FileName = fileName;
         }
 
-        public Stream Data { get; private set; }
+        public System.IO.Stream Data { get; private set; }
 
         public string FileName { get; private set; }
     }
 	");
             
-            #line 63 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 40 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 65 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 42 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
 foreach (var exceptionClassName in Model.ExceptionClassNames){
             
             #line default
             #line hidden
-            this.Write("    [GeneratedCode(\"NSwag\", \"");
+            this.Write("    [System.CodeDom.Compiler.GeneratedCode(\"NSwag\", \"");
             
-            #line 66 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 43 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerDocument.ToolchainVersion));
             
             #line default
             #line hidden
             this.Write("\")]\r\n    public class ");
             
-            #line 67 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 44 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(exceptionClassName));
             
             #line default
             #line hidden
-            this.Write(" : Exception\r\n    {\r\n        public string StatusCode { get; private set; }\r\n\r\n  " +
-                    "      public byte[] ResponseData { get; private set; }\r\n\r\n        public ");
+            this.Write(" : System.Exception\r\n    {\r\n        public string StatusCode { get; private set; " +
+                    "}\r\n\r\n        public byte[] ResponseData { get; private set; }\r\n\r\n        public " +
+                    "");
             
-            #line 73 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 50 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(exceptionClassName));
             
             #line default
             #line hidden
-            this.Write(@"(string message, string statusCode, byte[] responseData, Exception innerException) 
+            this.Write(@"(string message, string statusCode, byte[] responseData, System.Exception innerException) 
             : base(message, innerException)
         {
             StatusCode = statusCode;
@@ -204,27 +168,27 @@ foreach (var exceptionClassName in Model.ExceptionClassNames){
 
         public override string ToString()
         {
-            return string.Format(""HTTP Response: n{0}n{1}"", Encoding.UTF8.GetString(ResponseData, 0, ResponseData.Length), base.ToString());
+            return string.Format(""HTTP Response: n{0}n{1}"", System.Text.Encoding.UTF8.GetString(ResponseData, 0, ResponseData.Length), base.ToString());
         }
     }
 
-    [GeneratedCode(""NSwag"", """);
+    [System.CodeDom.Compiler.GeneratedCode(""NSwag"", """);
             
-            #line 86 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 63 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerDocument.ToolchainVersion));
             
             #line default
             #line hidden
             this.Write("\")]\r\n    public class ");
             
-            #line 87 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 64 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(exceptionClassName));
             
             #line default
             #line hidden
             this.Write("<TResponse> : ");
             
-            #line 87 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 64 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(exceptionClassName));
             
             #line default
@@ -232,55 +196,55 @@ foreach (var exceptionClassName in Model.ExceptionClassNames){
             this.Write("\r\n    {\r\n        public TResponse Response { get; private set; }\r\n\r\n        publi" +
                     "c ");
             
-            #line 91 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 68 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(exceptionClassName));
             
             #line default
             #line hidden
-            this.Write("(string message, string statusCode, byte[] responseData, TResponse response, Exce" +
-                    "ption innerException) \r\n            : base(message, statusCode, responseData, in" +
-                    "nerException)\r\n        {\r\n            Response = response;\r\n        }\r\n    }\r\n\r\n" +
-                    "");
+            this.Write("(string message, string statusCode, byte[] responseData, TResponse response, Syst" +
+                    "em.Exception innerException) \r\n            : base(message, statusCode, responseD" +
+                    "ata, innerException)\r\n        {\r\n            Response = response;\r\n        }\r\n  " +
+                    "  }\r\n\r\n");
             
-            #line 98 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 75 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 99 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 76 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 100 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 77 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
 if(Model.GenerateImplementation){
             
             #line default
             #line hidden
             
-            #line 101 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 78 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
   if(Model.RequiresJsonExceptionConverter){
             
             #line default
             #line hidden
             this.Write("    ");
             
-            #line 102 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 79 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.JsonExceptionConverterCode));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 103 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 80 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
   }
             
             #line default
             #line hidden
             
-            #line 104 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
+            #line 81 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
 }
             
             #line default

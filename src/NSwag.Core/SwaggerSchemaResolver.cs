@@ -31,7 +31,10 @@ namespace NSwag
             _document = document;
             _typeNameGenerator = settings.TypeNameGenerator;
         }
-        
+
+        /// <summary>Gets a value indicating whether a root object is defined.</summary>
+        public override bool HasRootObject => true;
+
         /// <summary>Appends the schema to the root object.</summary>
         /// <param name="schema">The schema to append.</param>
         /// <param name="typeNameHint">The type name hint.</param>
@@ -39,11 +42,8 @@ namespace NSwag
         {
             if (!_document.Definitions.Values.Contains(schema))
             {
-                var typeName = schema.GetTypeName(_typeNameGenerator, typeNameHint);
-                if (!string.IsNullOrEmpty(typeName) && !_document.Definitions.ContainsKey(typeName))
-                    _document.Definitions[typeName] = schema;
-                else
-                    _document.Definitions["ref_" + Guid.NewGuid().ToString().Replace("-", "_")] = schema;
+                var typeName = _typeNameGenerator.Generate(schema, typeNameHint, _document.Definitions.Keys);
+                _document.Definitions[typeName] = schema;
             }
         }
     }

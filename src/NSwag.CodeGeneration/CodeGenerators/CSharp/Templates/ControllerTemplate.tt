@@ -1,7 +1,7 @@
 ﻿<#@ template visibility="internal" #>
 <#@ import namespace="NJsonSchema" #>
 
-[GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
+[System.CodeDom.Compiler.GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
 public interface I<#=Model.Class#>Controller
 {
 <#foreach(var operation in Model.Operations){#>
@@ -9,13 +9,13 @@ public interface I<#=Model.Class#>Controller
 <#  }foreach (var parameter in operation.Parameters){#>
 <#      if(parameter.HasDescription){#>    /// <param name="<#=parameter.VariableName#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
 <#  }}if(operation.HasResultDescription){#>    /// <returns><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)#></returns>
-<#  }if(operation.IsDeprecated){#>    [Obsolete]
+<#  }if(operation.IsDeprecated){#>    [System.Obsolete]
 <#  }#>    <#=operation.ResultType#> <#=operation.OperationNameUpper#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(!parameter.IsLast){#>, <#}}#>);
 
 <#}#>
 }
 
-[GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
+[System.CodeDom.Compiler.GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
 public partial class <#=Model.Class#>Controller : <#if(Model.HasBaseClass){#><#=Model.BaseClass#><#}else{#>ApiController<#}#> 
 {
     private I<#=Model.Class#>Controller _implementation; 
@@ -29,7 +29,7 @@ public partial class <#=Model.Class#>Controller : <#if(Model.HasBaseClass){#><#=
 <#  }foreach (var parameter in operation.Parameters){#>
 <#      if(parameter.HasDescription){#>    /// <param name="<#=parameter.VariableName#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
 <#  }}if(operation.HasResultDescription){#>    /// <returns><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)#></returns>
-<#  }if(operation.IsDeprecated){#>    [Obsolete]
+<#  }if(operation.IsDeprecated){#>    [System.Obsolete]
 <#  }#>    [Http<#=operation.HttpMethodUpper#>, Route("<#=operation.Path#>")]
     public <#=operation.ResultType#> <#=operation.OperationNameUpper#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(!parameter.IsLast){#>, <#}}#>)
     {

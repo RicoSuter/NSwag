@@ -119,5 +119,12 @@ namespace NSwag.Commands
             get { return Settings.CSharpGeneratorSettings.GenerateDefaultValues; }
             set { Settings.CSharpGeneratorSettings.GenerateDefaultValues = value; }
         }
+
+        [Argument(Name = "ExcludedTypeNames", IsRequired = false, Description = "The excluded DTO type names (must be defined in an import or other namespace).")]
+        public string[] ExcludedTypeNames
+        {
+            get { return Settings.CSharpGeneratorSettings.ExcludedTypeNames; }
+            set { Settings.CSharpGeneratorSettings.ExcludedTypeNames = value; }
+        }
     }
 }

@@ -6,29 +6,6 @@
 // </auto-generated>
 //----------------------
 
-using System;
-using System.CodeDom.Compiler;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-<#if(Model.GenerateImplementation && Model.GenerateClientClasses){#>
-using System.Net;
-using System.Net.Http;
-<#}#>
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.Runtime.CompilerServices;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Text;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
 <#foreach(var usage in Model.NamespaceUsages){#>using <#=usage#>;
 <#}#>
 
@@ -42,35 +19,35 @@ namespace <#=Model.Namespace#>
     <#=ConversionUtilities.Tab(Model.Classes, 1)#>
 
 <#  if(Model.RequiresFileParameterType){#>
-    [GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
     public class FileParameter
     {
-        public FileParameter(Stream data) 
+        public FileParameter(System.IO.Stream data) 
             : this (data, null)
         {
         }
 
-        public FileParameter(Stream data, string fileName)
+        public FileParameter(System.IO.Stream data, string fileName)
         {
             Data = data;
             FileName = fileName;
         }
 
-        public Stream Data { get; private set; }
+        public System.IO.Stream Data { get; private set; }
 
         public string FileName { get; private set; }
     }
 	<#}#>
 
 <#foreach (var exceptionClassName in Model.ExceptionClassNames){#>
-    [GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
-    public class <#=exceptionClassName#> : Exception
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
+    public class <#=exceptionClassName#> : System.Exception
     {
         public string StatusCode { get; private set; }
 
         public byte[] ResponseData { get; private set; }
 
-        public <#=exceptionClassName#>(string message, string statusCode, byte[] responseData, Exception innerException) 
+        public <#=exceptionClassName#>(string message, string statusCode, byte[] responseData, System.Exception innerException) 
             : base(message, innerException)
         {
             StatusCode = statusCode;
@@ -79,16 +56,16 @@ namespace <#=Model.Namespace#>
 
         public override string ToString()
         {
-            return string.Format("HTTP Response: n{0}n{1}", Encoding.UTF8.GetString(ResponseData, 0, ResponseData.Length), base.ToString());
+            return string.Format("HTTP Response: n{0}n{1}", System.Text.Encoding.UTF8.GetString(ResponseData, 0, ResponseData.Length), base.ToString());
         }
     }
 
-    [GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
     public class <#=exceptionClassName#><TResponse> : <#=exceptionClassName#>
     {
         public TResponse Response { get; private set; }
 
-        public <#=exceptionClassName#>(string message, string statusCode, byte[] responseData, TResponse response, Exception innerException) 
+        public <#=exceptionClassName#>(string message, string statusCode, byte[] responseData, TResponse response, System.Exception innerException) 
             : base(message, statusCode, responseData, innerException)
         {
             Response = response;

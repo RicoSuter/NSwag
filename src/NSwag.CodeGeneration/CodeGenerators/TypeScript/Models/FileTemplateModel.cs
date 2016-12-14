@@ -29,11 +29,11 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
         /// <param name="settings">The settings.</param>
         /// <param name="extensionCode">The extension code.</param>
         /// <param name="resolver">The resolver.</param>
-        public FileTemplateModel(SwaggerDocument document, string clientCode, IEnumerable<string> clientClasses, 
+        public FileTemplateModel(SwaggerDocument document, string clientCode, IEnumerable<string> clientClasses,
             SwaggerToTypeScriptClientGeneratorSettings settings, TypeScriptExtensionCode extensionCode, TypeScriptTypeResolver resolver)
         {
             _document = document;
-            _extensionCode = extensionCode; 
+            _extensionCode = extensionCode;
             _settings = settings;
             _resolver = resolver;
             _clientCode = clientCode;
@@ -77,10 +77,15 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
         public string Namespace => _settings.TypeScriptGeneratorSettings.Namespace;
 
         /// <summary>Gets a value indicating whether the FileParameter interface should be rendered.</summary>
-        public bool RequiresFileParameterInterface => _document.Operations.Any(o => o.Operation.Parameters.Any(p => p.Type.HasFlag(JsonObjectType.File)));
+        public bool RequiresFileParameterInterface =>
+            !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("FileParameter") &&
+            _document.Operations.Any(o => o.Operation.Parameters.Any(p => p.Type.HasFlag(JsonObjectType.File)));
 
         /// <summary>Gets a value indicating whether the SwaggerException class is required.</summary>
-        public bool RequiresSwaggerExceptionClass => _settings.GenerateClientClasses && !string.IsNullOrEmpty(Clients);
+        public bool RequiresSwaggerExceptionClass =>
+            !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("SwaggerException") &&
+            _settings.GenerateClientClasses &&
+            !string.IsNullOrEmpty(Clients);
 
         /// <summary>Table containing list of the generated classes.</summary>
         public string[] ClientClasses { get; }

@@ -4,7 +4,7 @@
 
 <#if(Model.HasOperations){#>
 <#if(Model.GenerateContracts && Model.GenerateClientInterfaces){#>
-[GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
+[System.CodeDom.Compiler.GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
 public partial interface I<#=Model.Class#>
 {
 <#foreach(var operation in Model.Operations){#>
@@ -13,7 +13,7 @@ public partial interface I<#=Model.Class#>
 <#      if(parameter.HasDescription){#>    /// <param name="<#=parameter.VariableName#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
 <#  }}if(operation.HasResultDescription){#>    /// <returns><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)#></returns>
 <#  }#>    /// <exception cref="<#=Model.ExceptionClass#>">A server side error occurred.</exception>
-<#  if(operation.IsDeprecated){#>    [Obsolete]
+<#  if(operation.IsDeprecated){#>    [System.Obsolete]
 <#  }#>    <#=operation.ResultType#> <#=operation.OperationNameUpper#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(!parameter.IsLast){#>, <#}}#>);
 
 <#  if(operation.HasSummary){#>    /// <summary><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)#></summary>
@@ -22,15 +22,15 @@ public partial interface I<#=Model.Class#>
 <#  }}#>    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
 <#  if(operation.HasResultDescription){#>    /// <returns><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)#></returns>
 <#  }#>    /// <exception cref="<#=Model.ExceptionClass#>">A server side error occurred.</exception>
-<#  if(operation.IsDeprecated){#>    [Obsolete]
-<#  }#>    <#=operation.ResultType#> <#=operation.OperationNameUpper#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#>, <#}#>CancellationToken cancellationToken);
+<#  if(operation.IsDeprecated){#>    [System.Obsolete]
+<#  }#>    <#=operation.ResultType#> <#=operation.OperationNameUpper#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#>, <#}#>System.Threading.CancellationToken cancellationToken);
 
 <#}#>
 }
 <#}#>
 
 <#if(Model.GenerateImplementation){#>
-[GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
+[System.CodeDom.Compiler.GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
 public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Model.HasBaseClass){#><#=Model.BaseClass#><#if(Model.GenerateClientInterfaces){#>, <#}#><#}#><#if(Model.GenerateClientInterfaces){#>I<#=Model.Class#><#}#>
 
 {
@@ -54,9 +54,9 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
         set { _baseUrl = value; }
     }
 
-    partial void PrepareRequest(HttpClient request, ref string url);
+    partial void PrepareRequest(System.Net.Http.HttpClient request, ref string url);
 
-    partial void ProcessResponse(HttpClient request, HttpResponseMessage response);
+    partial void ProcessResponse(System.Net.Http.HttpClient request, System.Net.Http.HttpResponseMessage response);
 
 <#foreach(var operation in Model.Operations){#>
 <#  if(operation.HasSummary){#>    /// <summary><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)#></summary>
@@ -64,10 +64,10 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
 <#      if(parameter.HasDescription){#>    /// <param name="<#=parameter.VariableName#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
 <#  }}if(operation.HasResultDescription){#>    /// <returns><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)#></returns>
 <#  }#>    /// <exception cref="<#=Model.ExceptionClass#>">A server side error occurred.</exception>
-<#  if(operation.IsDeprecated){#>    [Obsolete]
+<#  if(operation.IsDeprecated){#>    [System.Obsolete]
 <#  }#>    public <#=operation.ResultType#> <#=operation.OperationNameUpper#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(!parameter.IsLast){#>, <#}}#>)
     {
-        return <#=operation.OperationNameUpper#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>, <#}#>CancellationToken.None);
+        return <#=operation.OperationNameUpper#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>, <#}#>System.Threading.CancellationToken.None);
     }
 
 <#  if(operation.HasSummary){#>    /// <summary><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)#></summary>
@@ -76,92 +76,92 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
 <#  }}#>    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
 <#  if(operation.HasResultDescription){#>    /// <returns><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)#></returns>
 <#  }#>    /// <exception cref="<#=Model.ExceptionClass#>">A server side error occurred.</exception>
-<#  if(operation.IsDeprecated){#>    [Obsolete]
-<#  }#>    public async <#=operation.ResultType#> <#=operation.OperationNameUpper#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#>, <#}#>CancellationToken cancellationToken)
+<#  if(operation.IsDeprecated){#>    [System.Obsolete]
+<#  }#>    public async <#=operation.ResultType#> <#=operation.OperationNameUpper#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#>, <#}#>System.Threading.CancellationToken cancellationToken)
     {
         var url_ = string.Format("{0}/{1}<#if(operation.QueryParameters.Any()){#>?<#}#>", BaseUrl, "<#=operation.Path#>");
 <#foreach(var parameter in operation.PathParameters){#>
 
         if (<#=parameter.VariableName#> == null)
-            throw new ArgumentNullException("<#=parameter.VariableName#>");
+            throw new System.ArgumentNullException("<#=parameter.VariableName#>");
 <#  if(parameter.IsDateArray){#>
-        url_ = url_.Replace("{<#=parameter.Name#>}", Uri.EscapeDataString(string.Join(",", <#=parameter.VariableName#>.Select(s_ => s_.ToString("s", CultureInfo.InvariantCulture)))));
+        url_ = url_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(string.Join(",", <#=parameter.VariableName#>.Select(s_ => s_.ToString("s", System.Globalization.CultureInfo.InvariantCulture)))));
 <#  }else if(parameter.IsDate){#>
-        url_ = url_.Replace("{<#=parameter.Name#>}", Uri.EscapeDataString(<#=parameter.VariableName#>.ToString("s", CultureInfo.InvariantCulture)));
+        url_ = url_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(<#=parameter.VariableName#>.ToString("s", System.Globalization.CultureInfo.InvariantCulture)));
 <#  }else if(parameter.IsArray){#>
-        url_ = url_.Replace("{<#=parameter.Name#>}", Uri.EscapeDataString(string.Join(",", <#=parameter.VariableName#>.Select(s_ => s_.ToString()))));
+        url_ = url_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(string.Join(",", <#=parameter.VariableName#>.Select(s_ => s_.ToString()))));
 <#  }else{#>
-        url_ = url_.Replace("{<#=parameter.Name#>}", Uri.EscapeDataString(<#=parameter.VariableName#>.ToString()));
+        url_ = url_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(<#=parameter.VariableName#>.ToString()));
 <#  }#>
 <#}#>
 <#foreach(var parameter in operation.QueryParameters){#>
 
 <#  if(!parameter.IsNullable){#>
         if (<#=parameter.VariableName#> == null)
-            throw new ArgumentNullException("<#=parameter.VariableName#>");
+            throw new System.ArgumentNullException("<#=parameter.VariableName#>");
         else
 <#  }else{#>
         if (<#=parameter.VariableName#> != null)
 <#  }#>
 <#  if(parameter.IsDateArray){#>
-            foreach(var item_ in <#=parameter.VariableName#>) { url_ += string.Format("<#=parameter.Name#>={0}&", Uri.EscapeDataString(item_.ToString("s", CultureInfo.InvariantCulture))); }
+            foreach(var item_ in <#=parameter.VariableName#>) { url_ += string.Format("<#=parameter.Name#>={0}&", System.Uri.EscapeDataString(item_.ToString("s", System.Globalization.CultureInfo.InvariantCulture))); }
 <#  }else if(parameter.IsDate){#>
-            url_ += string.Format("<#=parameter.Name#>={0}&", Uri.EscapeDataString(<#=parameter.VariableName#><#if(parameter.Type.EndsWith("?")){#>.Value<#}#>.ToString("s", CultureInfo.InvariantCulture)));
+            url_ += string.Format("<#=parameter.Name#>={0}&", System.Uri.EscapeDataString(<#=parameter.VariableName#><#if(parameter.Type.EndsWith("?")){#>.Value<#}#>.ToString("s", System.Globalization.CultureInfo.InvariantCulture)));
 <#  }else if(parameter.IsArray){#>
-            foreach(var item_ in <#=parameter.VariableName#>) { url_ += string.Format("<#=parameter.Name#>={0}&", Uri.EscapeDataString(item_.ToString())); }
+            foreach(var item_ in <#=parameter.VariableName#>) { url_ += string.Format("<#=parameter.Name#>={0}&", System.Uri.EscapeDataString(item_.ToString())); }
 <#  }else{#>
-            url_ += string.Format("<#=parameter.Name#>={0}&", Uri.EscapeDataString(<#=parameter.VariableName#><#if(parameter.Type.EndsWith("?")){#>.Value<#}#>.ToString()));
+            url_ += string.Format("<#=parameter.Name#>={0}&", System.Uri.EscapeDataString(<#=parameter.VariableName#><#if(parameter.Type.EndsWith("?")){#>.Value<#}#>.ToString()));
 <#  }#>
 <#}#>
 
 <#      if(Model.UseHttpClientCreationMethod){#>
         var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
 <#      }else{#>
-        var client_ = new HttpClient();
+        var client_ = new System.Net.Http.HttpClient();
 <#      }#>
 <#      if(Model.UseHttpRequestMessageCreationMethod){#>
         var request_ = await CreateHttpRequestMessageAsync(cancellationToken).ConfigureAwait(false);
 <#      }else{#>
-        var request_ = new HttpRequestMessage();
+        var request_ = new System.Net.Http.HttpRequestMessage();
 <#      }#>
         PrepareRequest(client_, ref url_);
 <#foreach(var parameter in operation.HeaderParameters){#>
         request_.Headers.TryAddWithoutValidation("<#=parameter.Name#>", <#=parameter.VariableName#>);
 <#}#>
 <#if(operation.HasContent){#>
-        var content_ = new StringContent(JsonConvert.SerializeObject(<#=operation.ContentParameter.VariableName#><#=Model.JsonConverters#>));
+        var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(<#=operation.ContentParameter.VariableName#><#=Model.JsonConverters#>));
         content_.Headers.ContentType.MediaType = "application/json";
 <#}else{#>
 <#  if(operation.HasFormParameters){#>
-		var content_ = new MultipartFormDataContent();
+		var content_ = new System.Net.Http.MultipartFormDataContent();
 <#    foreach(var parameter in operation.FormParameters){#>
 <#      if(parameter.IsNullable){#>
         if (<#=parameter.VariableName#> != null)
 <#      }else{#>
         if (<#=parameter.VariableName#> == null)
-            throw new ArgumentNullException("<#=parameter.VariableName#>");
+            throw new System.ArgumentNullException("<#=parameter.VariableName#>");
         else
 <#      }#>
 <#      if(parameter.IsFile){
           if(parameter.IsArray){#>
-            foreach(var item_ in <#=parameter.VariableName#>) { content_.Add(new StreamContent(item_.Data), "<#=parameter.Name#>", item_.FileName ?? "<#=parameter.Name#>"); }
+            foreach(var item_ in <#=parameter.VariableName#>) { content_.Add(new System.Net.Http.StreamContent(item_.Data), "<#=parameter.Name#>", item_.FileName ?? "<#=parameter.Name#>"); }
 <#        }else{#>
-            content_.Add(new StreamContent(<#=parameter.VariableName#>.Data), "<#=parameter.Name#>", <#=parameter.VariableName#>.FileName ?? "<#=parameter.Name#>");
+            content_.Add(new System.Net.Http.StreamContent(<#=parameter.VariableName#>.Data), "<#=parameter.Name#>", <#=parameter.VariableName#>.FileName ?? "<#=parameter.Name#>");
 <#        }
         }else{#>
-            content_.Add(new StringContent(<#=parameter.VariableName#>.ToString()), "<#=parameter.Name#>");
+            content_.Add(new System.Net.Http.StringContent(<#=parameter.VariableName#>.ToString()), "<#=parameter.Name#>");
 <#      }#>
 <#    }#>
 <#  }else if(!operation.IsGetOrDelete){#>
-        var content_ = new StringContent(string.Empty);
+        var content_ = new System.Net.Http.StringContent(string.Empty);
 <#  }#>
 <#}#>
 <#  if(!operation.IsGetOrDelete){#>
         request_.Content = content_;
 <#  }#>
-        request_.Method = new HttpMethod("<#=operation.HttpMethod.ToString().ToUpperInvariant()#>");
-        request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
-        var response_ = await client_.SendAsync(request_, HttpCompletionOption.ResponseContentRead, cancellationToken).ConfigureAwait(false);
+        request_.Method = new System.Net.Http.HttpMethod("<#=operation.HttpMethod.ToString().ToUpperInvariant()#>");
+        request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+        var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseContentRead, cancellationToken).ConfigureAwait(false);
         ProcessResponse(client_, response_);
 
         var responseData_ = await response_.Content.ReadAsByteArrayAsync().ConfigureAwait(false); 
@@ -182,17 +182,17 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
             try
             {
                 if (responseData_.Length > 0)
-                    result_ = JsonConvert.DeserializeObject<<#=response.Type#>>(Encoding.UTF8.GetString(responseData_, 0, responseData_.Length)<#=Model.JsonConverters#>);                                
+                    result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<<#=response.Type#>>(System.Text.Encoding.UTF8.GetString(responseData_, 0, responseData_.Length)<#=Model.JsonConverters#>);                                
 <#      if(response.IsSuccess){#>
                 return result_; 
             } 
-            catch (Exception exception) 
+            catch (System.Exception exception) 
             {
                 throw new <#=Model.ExceptionClass#>("Could not deserialize the response body.", status_, responseData_, exception);
             }
 <#      }else{#>
             } 
-            catch (Exception exception) 
+            catch (System.Exception exception) 
             {
                 throw new <#=Model.ExceptionClass#>("Could not deserialize the response body.", status_, responseData_, exception);
             }
@@ -200,7 +200,7 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
             if (result_ == null)
                 result_ = new <#=response.Type#>();
             result_.Data.Add("HttpStatus", status_);
-            result_.Data.Add("ResponseData", Encoding.UTF8.GetString(responseData_, 0, responseData_.Length));
+            result_.Data.Add("ResponseData", System.Text.Encoding.UTF8.GetString(responseData_, 0, responseData_.Length));
             throw new <#=Model.ExceptionClass#><<#=response.Type#>>("<#=response.ExceptionDescription#>", status_, responseData_, result_, result_);
 <#          }else{#>
             throw new <#=Model.ExceptionClass#><<#=response.Type#>>("<#=response.ExceptionDescription#>", status_, responseData_, result_, null);
@@ -210,7 +210,7 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
 <#}else{#>
 <#  if(response.IsSuccess){#>
 <#      if(operation.HasResultType){#>
-            return default(<#=operation.ResultType.Substring(5, operation.ResultType.Length - 6)#>);
+            return default(<#=operation.ResultType.Substring(28, operation.ResultType.Length - 29)#>);
 <#      }else{#>
             return;
 <#      }#>
@@ -235,14 +235,14 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
             try
             {
                 if (responseData_.Length > 0)
-                    result_ = JsonConvert.DeserializeObject<<#=operation.DefaultResponse.Type#>>(Encoding.UTF8.GetString(responseData_, 0, responseData_.Length)<#=Model.JsonConverters#>);
+                    result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<<#=operation.DefaultResponse.Type#>>(System.Text.Encoding.UTF8.GetString(responseData_, 0, responseData_.Length)<#=Model.JsonConverters#>);
 
 <#          if(operation.HasOnlyDefaultResponse){#>
                 if (status_.Length == 3 && status_.StartsWith("2"))
                     return result_;
 <#          }#>
             } 
-            catch (Exception exception_) 
+            catch (System.Exception exception_) 
             {
                 throw new <#=Model.ExceptionClass#>("Could not deserialize the response body.", status_, responseData_, exception_);
             }
@@ -261,7 +261,7 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
 <#}#>
 <#      if(operation.HasResultType){#>
 		
-        return default(<#=operation.ResultType.Substring(5, operation.ResultType.Length - 6)#>);
+        return default(<#=operation.ResultType.Substring(28, operation.ResultType.Length - 29)#>);
 <#      }#>
     }
 

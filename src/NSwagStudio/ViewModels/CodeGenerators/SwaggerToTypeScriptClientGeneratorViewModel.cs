@@ -77,6 +77,23 @@ namespace NSwagStudio.ViewModels.CodeGenerators
             }
         }
 
+        /// <summary>Gets or sets the excluded type names (must be defined in an import or other namespace).</summary>
+        public string ExcludedTypeNames
+        {
+            get
+            {
+                return Command.ExcludedTypeNames != null ? string.Join(",", Command.ExcludedTypeNames) : "";
+            }
+            set
+            {
+                if (value != null)
+                    Command.ExcludedTypeNames = value.Split(',').Select(n => n.Trim()).Where(n => !string.IsNullOrEmpty(n)).ToArray();
+                else
+                    Command.ExcludedTypeNames = new string[] { };
+                RaisePropertyChanged(() => ExcludedTypeNames);
+            }
+        }
+
         public string ClassTypes
         {
             get { return _command.ClassTypes != null ? string.Join(",", _command.ClassTypes) : ""; }

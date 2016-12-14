@@ -26,7 +26,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("\r\n[GeneratedCode(\"NSwag\", \"");
+            this.Write("\r\n[System.CodeDom.Compiler.GeneratedCode(\"NSwag\", \"");
             
             #line 4 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerDocument.ToolchainVersion));
@@ -169,7 +169,7 @@ if(!parameter.IsLast){
             
             #line default
             #line hidden
-            this.Write("}\r\n\r\n[GeneratedCode(\"NSwag\", \"");
+            this.Write("}\r\n\r\n[System.CodeDom.Compiler.GeneratedCode(\"NSwag\", \"");
             
             #line 18 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerDocument.ToolchainVersion));

@@ -174,6 +174,13 @@ namespace NSwag.Commands
             set { Settings.TypeScriptGeneratorSettings.GenerateDefaultValues = value; }
         }
 
+        [Argument(Name = "ExcludedTypeNames", IsRequired = false, Description = "The excluded DTO type names (must be defined in an import or other namespace).")]
+        public string[] ExcludedTypeNames
+        {
+            get { return Settings.TypeScriptGeneratorSettings.ExcludedTypeNames; }
+            set { Settings.TypeScriptGeneratorSettings.ExcludedTypeNames = value; }
+        }
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var code = await RunAsync();
