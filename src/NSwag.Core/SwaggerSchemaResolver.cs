@@ -31,7 +31,10 @@ namespace NSwag
             _document = document;
             _typeNameGenerator = settings.TypeNameGenerator;
         }
-        
+
+        /// <summary>Gets a value indicating whether a root object is defined.</summary>
+        public override bool HasRootObject => true;
+
         /// <summary>Appends the schema to the root object.</summary>
         /// <param name="schema">The schema to append.</param>
         /// <param name="typeNameHint">The type name hint.</param>
