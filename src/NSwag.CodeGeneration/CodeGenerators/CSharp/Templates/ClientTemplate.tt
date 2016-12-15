@@ -115,155 +115,157 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
 <#}#>
 
 <#      if(Model.UseHttpClientCreationMethod){#>
-        var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+        using (var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false))
 <#      }else{#>
-        var client_ = new System.Net.Http.HttpClient();
+        using (var client_ = new System.Net.Http.HttpClient())
 <#      }#>
+		{
 <#      if(Model.UseHttpRequestMessageCreationMethod){#>
-        var request_ = await CreateHttpRequestMessageAsync(cancellationToken).ConfigureAwait(false);
+			var request_ = await CreateHttpRequestMessageAsync(cancellationToken).ConfigureAwait(false);
 <#      }else{#>
-        var request_ = new System.Net.Http.HttpRequestMessage();
+			var request_ = new System.Net.Http.HttpRequestMessage();
 <#      }#>
-        PrepareRequest(client_, ref url_);
+			PrepareRequest(client_, ref url_);
 <#foreach(var parameter in operation.HeaderParameters){#>
-        request_.Headers.TryAddWithoutValidation("<#=parameter.Name#>", <#=parameter.VariableName#>);
+			request_.Headers.TryAddWithoutValidation("<#=parameter.Name#>", <#=parameter.VariableName#>);
 <#}#>
 <#if(operation.HasContent){#>
-        var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(<#=operation.ContentParameter.VariableName#><#=Model.JsonConverters#>));
-        content_.Headers.ContentType.MediaType = "application/json";
+			var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(<#=operation.ContentParameter.VariableName#><#=Model.JsonConverters#>));
+			content_.Headers.ContentType.MediaType = "application/json";
 <#}else{#>
 <#  if(operation.HasFormParameters){#>
-		var content_ = new System.Net.Http.MultipartFormDataContent();
+			var content_ = new System.Net.Http.MultipartFormDataContent();
 <#    foreach(var parameter in operation.FormParameters){#>
 <#      if(parameter.IsNullable){#>
-        if (<#=parameter.VariableName#> != null)
+			if (<#=parameter.VariableName#> != null)
 <#      }else{#>
-        if (<#=parameter.VariableName#> == null)
-            throw new System.ArgumentNullException("<#=parameter.VariableName#>");
-        else
+			if (<#=parameter.VariableName#> == null)
+				throw new System.ArgumentNullException("<#=parameter.VariableName#>");
+			else
 <#      }#>
 <#      if(parameter.IsFile){
           if(parameter.IsArray){#>
-            foreach(var item_ in <#=parameter.VariableName#>) { content_.Add(new System.Net.Http.StreamContent(item_.Data), "<#=parameter.Name#>", item_.FileName ?? "<#=parameter.Name#>"); }
+				foreach(var item_ in <#=parameter.VariableName#>) { content_.Add(new System.Net.Http.StreamContent(item_.Data), "<#=parameter.Name#>", item_.FileName ?? "<#=parameter.Name#>"); }
 <#        }else{#>
-            content_.Add(new System.Net.Http.StreamContent(<#=parameter.VariableName#>.Data), "<#=parameter.Name#>", <#=parameter.VariableName#>.FileName ?? "<#=parameter.Name#>");
+				content_.Add(new System.Net.Http.StreamContent(<#=parameter.VariableName#>.Data), "<#=parameter.Name#>", <#=parameter.VariableName#>.FileName ?? "<#=parameter.Name#>");
 <#        }
         }else{#>
-            content_.Add(new System.Net.Http.StringContent(<#=parameter.VariableName#>.ToString()), "<#=parameter.Name#>");
+				content_.Add(new System.Net.Http.StringContent(<#=parameter.VariableName#>.ToString()), "<#=parameter.Name#>");
 <#      }#>
 <#    }#>
 <#  }else if(!operation.IsGetOrDelete){#>
-        var content_ = new System.Net.Http.StringContent(string.Empty);
+			var content_ = new System.Net.Http.StringContent(string.Empty);
 <#  }#>
 <#}#>
 <#  if(!operation.IsGetOrDelete){#>
-        request_.Content = content_;
+			request_.Content = content_;
 <#  }#>
-        request_.Method = new System.Net.Http.HttpMethod("<#=operation.HttpMethod.ToString().ToUpperInvariant()#>");
-        request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
-        var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseContentRead, cancellationToken).ConfigureAwait(false);
-        ProcessResponse(client_, response_);
+			request_.Method = new System.Net.Http.HttpMethod("<#=operation.HttpMethod.ToString().ToUpperInvariant()#>");
+			request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+			var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseContentRead, cancellationToken).ConfigureAwait(false);
+			ProcessResponse(client_, response_);
 
-        var responseData_ = await response_.Content.ReadAsByteArrayAsync().ConfigureAwait(false); 
-        var status_ = ((int)response_.StatusCode).ToString();
+			var responseData_ = await response_.Content.ReadAsByteArrayAsync().ConfigureAwait(false); 
+			var status_ = ((int)response_.StatusCode).ToString();
 
 <#foreach(var response in operation.Responses){#>
-        if (status_ == "<#=response.StatusCode#>") 
-        {
+			if (status_ == "<#=response.StatusCode#>") 
+			{
 <#if(response.HasType){#>
 <#  if(response.IsFile){#>
 <#      if(response.IsSuccess){#>
-            return responseData_; 
+				return responseData_; 
 <#      }else{#>
-            throw new <#=Model.ExceptionClass#><byte[]>("<#=response.ExceptionDescription#>", status_, responseData_, responseData_, null);
+				throw new <#=Model.ExceptionClass#><byte[]>("<#=response.ExceptionDescription#>", status_, responseData_, responseData_, null);
 <#      }#>
 <#  }else{#>
-            var result_ = default(<#=response.Type#>); 
-            try
-            {
-                if (responseData_.Length > 0)
-                    result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<<#=response.Type#>>(System.Text.Encoding.UTF8.GetString(responseData_, 0, responseData_.Length)<#=Model.JsonConverters#>);                                
+				var result_ = default(<#=response.Type#>); 
+				try
+				{
+					if (responseData_.Length > 0)
+						result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<<#=response.Type#>>(System.Text.Encoding.UTF8.GetString(responseData_, 0, responseData_.Length)<#=Model.JsonConverters#>);                                
 <#      if(response.IsSuccess){#>
-                return result_; 
-            } 
-            catch (System.Exception exception) 
-            {
-                throw new <#=Model.ExceptionClass#>("Could not deserialize the response body.", status_, responseData_, exception);
-            }
+					return result_; 
+				} 
+				catch (System.Exception exception) 
+				{
+					throw new <#=Model.ExceptionClass#>("Could not deserialize the response body.", status_, responseData_, exception);
+				}
 <#      }else{#>
-            } 
-            catch (System.Exception exception) 
-            {
-                throw new <#=Model.ExceptionClass#>("Could not deserialize the response body.", status_, responseData_, exception);
-            }
+				} 
+				catch (System.Exception exception) 
+				{
+					throw new <#=Model.ExceptionClass#>("Could not deserialize the response body.", status_, responseData_, exception);
+				}
 <#          if(response.InheritsExceptionSchema){#>
-            if (result_ == null)
-                result_ = new <#=response.Type#>();
-            result_.Data.Add("HttpStatus", status_);
-            result_.Data.Add("ResponseData", System.Text.Encoding.UTF8.GetString(responseData_, 0, responseData_.Length));
-            throw new <#=Model.ExceptionClass#><<#=response.Type#>>("<#=response.ExceptionDescription#>", status_, responseData_, result_, result_);
+				if (result_ == null)
+					result_ = new <#=response.Type#>();
+				result_.Data.Add("HttpStatus", status_);
+				result_.Data.Add("ResponseData", System.Text.Encoding.UTF8.GetString(responseData_, 0, responseData_.Length));
+				throw new <#=Model.ExceptionClass#><<#=response.Type#>>("<#=response.ExceptionDescription#>", status_, responseData_, result_, result_);
 <#          }else{#>
-            throw new <#=Model.ExceptionClass#><<#=response.Type#>>("<#=response.ExceptionDescription#>", status_, responseData_, result_, null);
+				throw new <#=Model.ExceptionClass#><<#=response.Type#>>("<#=response.ExceptionDescription#>", status_, responseData_, result_, null);
 <#          }#>
 <#      }#>
 <#  }#>
 <#}else{#>
 <#  if(response.IsSuccess){#>
 <#      if(operation.HasResultType){#>
-            return default(<#=operation.ResultType.Substring(28, operation.ResultType.Length - 29)#>);
+				return default(<#=operation.ResultType.Substring(28, operation.ResultType.Length - 29)#>);
 <#      }else{#>
-            return;
+				return;
 <#      }#>
 <#  }else{#>
-            throw new <#=Model.ExceptionClass#>("<#=response.ExceptionDescription#>", status_, responseData_, null);
+				throw new <#=Model.ExceptionClass#>("<#=response.ExceptionDescription#>", status_, responseData_, null);
 <#  }#>
 <#}#>
-        }
-        else
+			}
+			else
 <#      }#>
 <#if(operation.HasDefaultResponse){#>
 <#  if(operation.DefaultResponse.HasType){#>
-        {
+			{
 <#      if(operation.DefaultResponse.IsFile){#>
 <#          if(operation.DefaultResponse.IsSuccess){#>
-            return responseData_; 
+				return responseData_; 
 <#          }else{#>
-            throw new <#=Model.ExceptionClass#><byte[]>("<#=operation.DefaultResponse.ExceptionDescription#>", status_, responseData_, responseData_, null);
+				throw new <#=Model.ExceptionClass#><byte[]>("<#=operation.DefaultResponse.ExceptionDescription#>", status_, responseData_, responseData_, null);
 <#          }#>
 <#      }else{#>
-            var result_ = default(<#=operation.DefaultResponse.Type#>); 
-            try
-            {
-                if (responseData_.Length > 0)
-                    result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<<#=operation.DefaultResponse.Type#>>(System.Text.Encoding.UTF8.GetString(responseData_, 0, responseData_.Length)<#=Model.JsonConverters#>);
+				var result_ = default(<#=operation.DefaultResponse.Type#>); 
+				try
+				{
+					if (responseData_.Length > 0)
+						result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<<#=operation.DefaultResponse.Type#>>(System.Text.Encoding.UTF8.GetString(responseData_, 0, responseData_.Length)<#=Model.JsonConverters#>);
 
 <#          if(operation.HasOnlyDefaultResponse){#>
-                if (status_.Length == 3 && status_.StartsWith("2"))
-                    return result_;
+					if (status_.Length == 3 && status_.StartsWith("2"))
+						return result_;
 <#          }#>
-            } 
-            catch (System.Exception exception_) 
-            {
-                throw new <#=Model.ExceptionClass#>("Could not deserialize the response body.", status_, responseData_, exception_);
-            }
+				} 
+				catch (System.Exception exception_) 
+				{
+					throw new <#=Model.ExceptionClass#>("Could not deserialize the response body.", status_, responseData_, exception_);
+				}
 
-            throw new <#=Model.ExceptionClass#><<#=operation.DefaultResponse.Type#>>("<#=operation.DefaultResponse.ExceptionDescription#>", status_, responseData_, result_, null);
+				throw new <#=Model.ExceptionClass#><<#=operation.DefaultResponse.Type#>>("<#=operation.DefaultResponse.ExceptionDescription#>", status_, responseData_, result_, null);
 <#      }#>
-        }
+			}
 <#  }else{#>
 <#      if(operation.HasSuccessResponse){#>
-        throw new <#=Model.ExceptionClass#>("<#=operation.DefaultResponse.ExceptionDescription#>", status_, responseData_, null);
+			throw new <#=Model.ExceptionClass#>("<#=operation.DefaultResponse.ExceptionDescription#>", status_, responseData_, null);
 <#      }#>
 <#  }#>
 <#}else{#>
-		if (status_ != "200" && status_ != "204")
-			throw new <#=Model.ExceptionClass#>("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
+			if (status_ != "200" && status_ != "204")
+				throw new <#=Model.ExceptionClass#>("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
 <#}#>
 <#      if(operation.HasResultType){#>
 		
-        return default(<#=operation.ResultType.Substring(28, operation.ResultType.Length - 29)#>);
+			return default(<#=operation.ResultType.Substring(28, operation.ResultType.Length - 29)#>);
 <#      }#>
-    }
+		}
+	}
 
 <#}#>
 }
