@@ -127,6 +127,7 @@
     <Compile Include="AssemblyTypeToSwaggerGeneratorTests.cs" />
     <Compile Include="ClientGeneration\ArrayParameterTests.cs" />
     <Compile Include="ClientGeneration\CSharpClientSettingsTests.cs" />
+    <Compile Include="ClientGeneration\CSharp\ParameterTests.cs" />
     <Compile Include="ClientGeneration\FormParameterTests.cs" />
     <Compile Include="CodeGenerationTests.cs" />
     <Compile Include="CommandLine\WebApiCommandLineTests.cs" />
