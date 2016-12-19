@@ -141,10 +141,15 @@ namespace NSwag
         /// <returns>The JSON string.</returns>
         public string ToJson(JsonSchemaGeneratorSettings jsonSchemaGenerator)
         {
+            var jsonResolver = new IgnorableSerializerContractResolver();
+            // Ignore properties which are not allowed in Swagger
+            jsonResolver.Ignore(typeof(JsonSchema4), "Title");
+
             var settings = new JsonSerializerSettings
             {
                 PreserveReferencesHandling = PreserveReferencesHandling.None,
-                Formatting = Formatting.Indented
+                Formatting = Formatting.Indented,
+                ContractResolver = jsonResolver
             };
 
             GenerateOperationIds();

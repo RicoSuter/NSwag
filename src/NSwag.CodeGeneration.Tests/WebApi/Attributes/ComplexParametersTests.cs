@@ -91,6 +91,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             //// Act
             var document = generator.GenerateForController<TestController>();
             var operation = document.Operations.Single(o => o.Operation.OperationId == "Test_WithFromBodyAttribute").Operation;
+            var json = document.ToJson();
 
             //// Assert
             Assert.AreEqual(SwaggerParameterKind.Body, operation.ActualParameters[0].Kind);
