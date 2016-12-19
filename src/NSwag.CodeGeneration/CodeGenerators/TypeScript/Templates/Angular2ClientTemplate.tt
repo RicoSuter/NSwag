@@ -25,7 +25,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 
     constructor(@Inject(Http) http: Http, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
 <#if(Model.HasClientBaseClass){#>
-		super();
+        super();
 <#}#>
         this.http = http; 
         this.baseUrl = baseUrl ? baseUrl : "<#=Model.BaseUrl#>"; 
@@ -96,7 +96,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
         const responseText = response.text();
         const status = response.status; 
 
-		<#=TemplatePartGenerator.RenderProcessResponseCode(operation, 2)#>
+        <#=TemplatePartGenerator.RenderProcessResponseCode(operation, 2)#>
     }
 <#}#>
 

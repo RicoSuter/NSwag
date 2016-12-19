@@ -122,7 +122,7 @@ if(Model.GenerateContracts){
 
         public string FileName { get; private set; }
     }
-	");
+    ");
             
             #line 40 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\FileTemplate.tt"
 }

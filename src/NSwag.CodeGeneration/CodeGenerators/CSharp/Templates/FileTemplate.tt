@@ -37,7 +37,7 @@ namespace <#=Model.Namespace#>
 
         public string FileName { get; private set; }
     }
-	<#}#>
+    <#}#>
 
 <#foreach (var exceptionClassName in Model.ExceptionClassNames){#>
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]

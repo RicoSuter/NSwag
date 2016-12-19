@@ -24,7 +24,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 
     constructor(baseUrl?: string) {
 <#if(Model.HasClientBaseClass){#>
-		super();
+        super();
 <#}#>
         this.baseUrl = baseUrl !== undefined ? baseUrl : "<#=Model.BaseUrl#>"; 
     }
@@ -98,7 +98,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
         const responseText = xhr.responseText; 
         const status = xhr.status; 
 
-		<#=TemplatePartGenerator.RenderProcessResponseCode(operation, 2)#>
+        <#=TemplatePartGenerator.RenderProcessResponseCode(operation, 2)#>
     }
 <#}#>
 
