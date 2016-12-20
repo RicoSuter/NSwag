@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NJsonSchema;
@@ -105,7 +104,7 @@ namespace NSwag.CodeGeneration.Tests
             document.Paths["/Person"] = new SwaggerOperations();
             document.Paths["/Person"][SwaggerOperationMethod.Get] = new SwaggerOperation
             {
-                Responses = new Dictionary<string, SwaggerResponse>
+                Responses = 
                 {
                     {
                         "200", new SwaggerResponse

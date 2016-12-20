@@ -82,7 +82,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             var json = swagger.ToJson(); 
 
             //// Assert
-            Assert.IsTrue(swagger.Paths.Contains("/api/Persons/RegexPathParameter/{deviceType}/{deviceId}/energyConsumed"));
+            Assert.IsTrue(swagger.Paths.ContainsKey("/api/Persons/RegexPathParameter/{deviceType}/{deviceId}/energyConsumed"));
         }
     }
 }

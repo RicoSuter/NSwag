@@ -16,6 +16,10 @@ namespace NSwag
     /// <summary>The Swagger response.</summary>
     public class SwaggerResponse
     {
+        /// <summary>Gets the parent <see cref="SwaggerOperation"/>.</summary>
+        [JsonIgnore]
+        public SwaggerOperation Parent { get; internal set; }
+
         /// <summary>Gets or sets the response's description.</summary>
         [JsonProperty(PropertyName = "description")]
         public string Description { get; set; } = "";
@@ -35,7 +39,7 @@ namespace NSwag
 
         /// <summary>Gets the actual non-nullable response schema (either oneOf schema or the actual schema).</summary>
         [JsonIgnore]
-        public JsonSchema4 ActualResponseSchema => Schema?.ActualSchema;
+        public JsonSchema4 ActualResponseSchema => GetActualResponseSchema();
 
         /// <summary>Get or set the schema less extensions (this can be used as vendor extensions as well) in response schema.</summary>
         [JsonExtensionData]
@@ -63,6 +67,14 @@ namespace NSwag
             }
 
             return Schema?.ActualSchema.IsNullable(nullHandling) ?? false;
+        }
+
+        private JsonSchema4 GetActualResponseSchema()
+        {
+            if (Parent?.Produces?.Contains("application/octet-stream") == true)
+                return new JsonSchema4 { Type = JsonObjectType.File };
+
+            return Schema?.ActualSchema;
         }
     }
 }

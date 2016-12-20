@@ -8,7 +8,6 @@
 
 using System.Collections.Generic;
 using NJsonSchema;
-using NJsonSchema.CodeGeneration;
 
 namespace NSwag.CodeGeneration.CodeGenerators.Models
 {
@@ -23,12 +22,14 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         /// <param name="response">The response.</param>
         /// <param name="exceptionSchema">The exception schema.</param>
         /// <param name="clientGeneratorBase">The client generator base.</param>
-        public ResponseModel(KeyValuePair<string, SwaggerResponse> response, JsonSchema4 exceptionSchema, ClientGeneratorBase clientGeneratorBase)
+        /// <param name="isSuccessResponse">Specifies whether this is the success response.</param>
+        public ResponseModel(KeyValuePair<string, SwaggerResponse> response, JsonSchema4 exceptionSchema, ClientGeneratorBase clientGeneratorBase, bool isSuccessResponse)
         {
             _response = response.Value;
             _exceptionSchema = exceptionSchema;
             _clientGeneratorBase = clientGeneratorBase;
 
+            IsSuccess = isSuccessResponse; 
             StatusCode = response.Key;
         }
 
@@ -42,7 +43,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         public bool HasType => Schema != null;
 
         /// <summary>Gets a value indicating whether this is success response.</summary>
-        public bool IsSuccess => HttpUtilities.IsSuccessStatusCode(StatusCode);
+        public bool IsSuccess { get; }
 
         /// <summary>Gets a value indicating whether the response is of type date.</summary>
         public bool IsDate =>
@@ -62,7 +63,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         public JsonSchema4 ActualResponseSchema => _response.ActualResponseSchema;
 
         /// <summary>Gets the schema.</summary>
-        private JsonSchema4 Schema => _response.Schema?.ActualSchema;
+        private JsonSchema4 Schema => _response.ActualResponseSchema;
 
         /// <summary>Gets a value indicating whether the response is nullable.</summary>
         public bool IsNullable => _response.IsNullable(_clientGeneratorBase.BaseSettings.CodeGeneratorSettings.NullHandling);

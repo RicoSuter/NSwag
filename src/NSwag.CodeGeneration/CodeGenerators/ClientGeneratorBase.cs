@@ -63,7 +63,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
         internal bool HasResultType(SwaggerOperation operation)
         {
             var response = GetSuccessResponse(operation);
-            return response?.Schema != null;
+            return response?.ActualResponseSchema != null;
         }
 
         internal string GetResultDescription(SwaggerOperation operation)
@@ -114,7 +114,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
                 {
                     var operation = tuple.Operation;
                     var exceptionSchema = (Resolver as SwaggerToCSharpTypeResolver)?.ExceptionSchema;
-                    var responses = operation.Responses.Select(response => new ResponseModel(response, exceptionSchema, this)).ToList();
+                    var responses = operation.Responses.Select(response => new ResponseModel(response, exceptionSchema, this, response.Value == GetSuccessResponse(operation))).ToList();
 
                     var defaultResponse = responses.SingleOrDefault(r => r.StatusCode == "default");
                     if (defaultResponse != null)
