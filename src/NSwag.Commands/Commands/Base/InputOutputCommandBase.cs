@@ -43,8 +43,10 @@ namespace NSwag.Commands.Base
 
                     if (IsJson(inputString))
                         document = SwaggerDocument.FromJson(inputString);
-                    else 
+                    else if (inputString.StartsWith("http://") || inputString.StartsWith("https://"))
                         document = SwaggerDocument.FromUrl(inputString);
+                    else
+                        document = SwaggerDocument.FromFile(inputString);
                 }
 
                 if (ServiceHost == ".")
