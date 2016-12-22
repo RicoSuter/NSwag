@@ -14,7 +14,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi
     {
         [TestMethod]
         [ExpectedException(typeof(TypeLoadException))]
-        public void When_controller_type_is_not_found_then_type_load_exception_is_thrown()
+        public async Task When_controller_type_is_not_found_then_type_load_exception_is_thrown()
         {
             //// Arrange
             var settings = new WebApiAssemblyToSwaggerGeneratorSettings
@@ -26,7 +26,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi
             var generator = new WebApiAssemblyToSwaggerGenerator(settings);
 
             //// Act
-            var document = generator.GenerateForControllers(new[] { "NonExistingClass" }); // Should throw exception
+            var document = await generator.GenerateForControllersAsync(new[] { "NonExistingClass" }); // Should throw exception
 
             //// Assert
         }
@@ -58,13 +58,13 @@ namespace NSwag.CodeGeneration.Tests.WebApi
         }
 
         [TestMethod]
-        public void When_parameter_is_from_uri_and_has_file_then_two_params_and_consumes_is_correct()
+        public async Task When_parameter_is_from_uri_and_has_file_then_two_params_and_consumes_is_correct()
         {
             //// Arrange
             var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
-            var document = generator.GenerateForController(typeof(FromUriFileParameterController));
+            var document = await generator.GenerateForControllerAsync(typeof(FromUriFileParameterController));
 
             //// Assert
             var operation = document.Paths["/upload"][SwaggerOperationMethod.Post];
@@ -89,13 +89,13 @@ namespace NSwag.CodeGeneration.Tests.WebApi
         }
 
         [TestMethod]
-        public void When_parameter_is_file_collection_then_type_is_correct_and_collection_format_is_multi()
+        public async Task When_parameter_is_file_collection_then_type_is_correct_and_collection_format_is_multi()
         {
             //// Arrange
             var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
-            var document = generator.GenerateForController(typeof(FileCollectionController));
+            var document = await generator.GenerateForControllerAsync(typeof(FileCollectionController));
 
             //// Assert
             var operation = document.Paths["/upload"][SwaggerOperationMethod.Post];
@@ -124,13 +124,13 @@ namespace NSwag.CodeGeneration.Tests.WebApi
         }
 
         [TestMethod]
-        public void When_parameter_is_from_uri_then_two_params_are_generated()
+        public async Task When_parameter_is_from_uri_then_two_params_are_generated()
         {
             //// Arrange
             var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
-            var document = generator.GenerateForController(typeof(FromUriParameterController));
+            var document = await generator.GenerateForControllerAsync(typeof(FromUriParameterController));
 
             //// Assert
             var operation = document.Paths["/upload"][SwaggerOperationMethod.Post];
@@ -154,13 +154,13 @@ namespace NSwag.CodeGeneration.Tests.WebApi
         }
 
         [TestMethod]
-        public void When_web_api_path_has_constraints_then_they_are_removed_in_the_swagger_spec()
+        public async Task When_web_api_path_has_constraints_then_they_are_removed_in_the_swagger_spec()
         {
             //// Arrange
             var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
-            var document = generator.GenerateForController(typeof(ConstrainedRoutePathController));
+            var document = await generator.GenerateForControllerAsync(typeof(ConstrainedRoutePathController));
 
             //// Assert
             var path = document.Paths.First().Key;
@@ -203,13 +203,13 @@ namespace NSwag.CodeGeneration.Tests.WebApi
         }
 
         [TestMethod]
-        public void When_class_has_RouteAttribute_with_placeholders_then_they_are_correctly_replaced()
+        public async Task When_class_has_RouteAttribute_with_placeholders_then_they_are_correctly_replaced()
         {
             //// Arrange
             var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
-            var document = generator.GenerateForController(typeof(AccountController));
+            var document = await generator.GenerateForControllerAsync(typeof(AccountController));
 
             //// Assert
             Assert.IsTrue(document.Paths.ContainsKey("/account/Get"));

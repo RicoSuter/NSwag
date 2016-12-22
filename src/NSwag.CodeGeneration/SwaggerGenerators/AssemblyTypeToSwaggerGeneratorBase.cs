@@ -6,6 +6,8 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.Threading.Tasks;
+
 namespace NSwag.CodeGeneration.SwaggerGenerators
 {
     /// <summary></summary>
@@ -24,7 +26,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
         /// <summary>Generates the specified class names.</summary>
         /// <param name="classNames">The class names.</param>
         /// <returns>The Swagger document.</returns>
-        public abstract SwaggerDocument Generate(string[] classNames);
+        public abstract Task<SwaggerDocument> GenerateAsync(string[] classNames);
 
         /// <summary>Gets the classes.</summary>
         /// <returns>The class names.</returns>

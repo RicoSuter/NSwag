@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 
@@ -35,14 +36,14 @@ namespace NSwag.CodeGeneration.Tests.WebApi
         }
 
         [TestMethod]
-        public void When_enum_is_used_as_array_item_then_it_is_generated_only_once()
+        public async Task When_enum_is_used_as_array_item_then_it_is_generated_only_once()
         {
             // Arrange
             var apiGenerator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings());
 
             //// Act
-            var document = apiGenerator.GenerateForController<MyController>();
-            var json = document.ToJson();
+            var document = await apiGenerator.GenerateForControllerAsync<MyController>();
+            var json = await document.ToJsonAsync();
 
             // Assert
             Assert.IsTrue(json.Split(new[] { "x-enumNames" }, StringSplitOptions.None).Length == 2); // enum is defined only once

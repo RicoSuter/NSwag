@@ -184,21 +184,22 @@ namespace NSwag.Commands
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var code = await RunAsync();
-            if (TryWriteFileOutput(host, () => code) == false)
+            if (await TryWriteFileOutputAsync(host, () => Task.FromResult(code)).ConfigureAwait(false) == false)
                 return code;
             return null; 
         }
 
         public async Task<string> RunAsync()
         {
-            return await Task.Run(() =>
+            return await Task.Run(async () =>
             {
                 var additionalCode = ExtensionCode ?? string.Empty;
-                if (DynamicApis.FileExists(additionalCode))
-                    additionalCode = DynamicApis.FileReadAllText(additionalCode);
+                if (await DynamicApis.FileExistsAsync(additionalCode).ConfigureAwait(false))
+                    additionalCode = await DynamicApis.FileReadAllTextAsync(additionalCode).ConfigureAwait(false);
                 Settings.TypeScriptGeneratorSettings.ExtensionCode = additionalCode;
 
-                var clientGenerator = new SwaggerToTypeScriptClientGenerator(InputSwaggerDocument, Settings);
+                var document = await GetInputSwaggerDocument().ConfigureAwait(false);
+                var clientGenerator = new SwaggerToTypeScriptClientGenerator(document, Settings);
                 return clientGenerator.GenerateFile();
             });
         }

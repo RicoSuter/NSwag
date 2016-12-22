@@ -84,17 +84,17 @@ namespace NSwag.Commands
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var document = await RunAsync();
-            if (TryWriteFileOutput(host, () => document.ToJson()) == false)
+            if (await TryWriteFileOutputAsync(host, () => document.ToJsonAsync()).ConfigureAwait(false) == false)
                 return document;
             return null; 
         }
 
         public async Task<SwaggerDocument> RunAsync()
         {
-            return await Task.Run(() =>
+            return await Task.Run(async () =>
             {
                 var generator = CreateGenerator();
-                return generator.Generate(ClassNames);
+                return await generator.GenerateAsync(ClassNames).ConfigureAwait(false);
             });
         }
 

@@ -22,13 +22,14 @@ namespace NSwag.Commands
         [Argument(Name = "Name", Description = "The type name of the root schema.")]
         public string Name { get; set; }
 
-        public override Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
+        public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            var schema = JsonSchema4.FromJson(InputJson);
+            var inputJson = await GetInputJsonAsync().ConfigureAwait(false);
+            var schema = await JsonSchema4.FromJsonAsync(inputJson).ConfigureAwait(false);
             var generator = new TypeScriptGenerator(schema);
 
             var code = generator.GenerateFile(Name); 
-            if (TryWriteFileOutput(host, () => code) == false)
+            if (await TryWriteFileOutputAsync(host, () => Task.FromResult(code)).ConfigureAwait(false) == false)
                 return Task.FromResult<object>(code);
 
             return Task.FromResult<object>(null);

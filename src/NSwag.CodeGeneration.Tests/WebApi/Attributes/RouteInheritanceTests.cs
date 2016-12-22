@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
@@ -11,13 +12,13 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
     public class RouteInheritanceTests
     {
         [TestMethod]
-        public void When_route_is_on_inherited_parent_class_and_route_prefix_on_class_then_it_is_used_for_swagger_generation()
+        public async Task When_route_is_on_inherited_parent_class_and_route_prefix_on_class_then_it_is_used_for_swagger_generation()
         {
             //// Arrange
             var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
-            var document = generator.GenerateForController<MyController>();
+            var document = await generator.GenerateForControllerAsync<MyController>();
 
             //// Assert
             Assert.AreEqual("/api/My/Foo", document.Operations.First().Path);
@@ -39,13 +40,13 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
         }
 
         [TestMethod]
-        public void When_route_is_on_inherited_parent_class_then_it_is_used_for_swagger_generation()
+        public async Task When_route_is_on_inherited_parent_class_then_it_is_used_for_swagger_generation()
         {
             //// Arrange
             var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
-            var document = generator.GenerateForController<MyController2>();
+            var document = await generator.GenerateForControllerAsync<MyController2>();
 
             //// Assert
             Assert.AreEqual("/Foo", document.Operations.First().Path);

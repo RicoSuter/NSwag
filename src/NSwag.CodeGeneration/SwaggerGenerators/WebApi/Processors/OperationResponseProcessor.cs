@@ -32,9 +32,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
         /// <summary>Processes the specified method information.</summary>
         /// <param name="context"></param>
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
-        public bool Process(OperationProcessorContext context)
+        public async Task<bool> ProcessAsync(OperationProcessorContext context)
         {
-            var successXmlDescription = context.MethodInfo.ReturnParameter.GetXmlDocumentation() ?? string.Empty;
+            var successXmlDescription = await context.MethodInfo.ReturnParameter.GetXmlDocumentationAsync().ConfigureAwait(false) ?? string.Empty;
 
             var responseTypeAttributes = context.MethodInfo.GetCustomAttributes()
                 .Where(a => a.GetType().Name == "ResponseTypeAttribute" ||
@@ -83,7 +83,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
                     if (IsVoidResponse(returnType) == false)
                     {
                         response.IsNullableRaw = typeDescription.IsNullable;
-                        response.Schema = context.SwaggerGenerator.GenerateAndAppendSchemaFromType(returnType, typeDescription.IsNullable, null);
+                        response.Schema = await context.SwaggerGenerator.GenerateAndAppendSchemaFromTypeAsync(returnType, typeDescription.IsNullable, null).ConfigureAwait(false);
                     }
 
                     context.OperationDescription.Operation.Responses[httpStatusCode] = response;
@@ -103,19 +103,19 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
                     if (IsVoidResponse(returnType) == false)
                     {
                         response.IsNullableRaw = typeDescription.IsNullable;
-                        response.Schema = context.SwaggerGenerator.GenerateAndAppendSchemaFromType(returnType, typeDescription.IsNullable, null);
+                        response.Schema = await context.SwaggerGenerator.GenerateAndAppendSchemaFromTypeAsync(returnType, typeDescription.IsNullable, null).ConfigureAwait(false);
                     }
 
                     context.OperationDescription.Operation.Responses[httpStatusCode] = response;
                 }
             }
             else
-                LoadDefaultSuccessResponse(context.OperationDescription.Operation, context.MethodInfo, successXmlDescription, context.SwaggerGenerator);
+                await LoadDefaultSuccessResponseAsync(context.OperationDescription.Operation, context.MethodInfo, successXmlDescription, context.SwaggerGenerator).ConfigureAwait(false);
 
             return true;
         }
         
-        private void LoadDefaultSuccessResponse(SwaggerOperation operation, MethodInfo methodInfo, string responseDescription, SwaggerGenerator swaggerGenerator)
+        private async Task LoadDefaultSuccessResponseAsync(SwaggerOperation operation, MethodInfo methodInfo, string responseDescription, SwaggerGenerator swaggerGenerator)
         {
             var returnType = methodInfo.ReturnType;
             if (returnType == typeof(Task))
@@ -139,7 +139,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
                 {
                     Description = responseDescription,
                     IsNullableRaw = typeDescription.IsNullable,
-                    Schema = swaggerGenerator.GenerateAndAppendSchemaFromType(returnType, typeDescription.IsNullable, null)
+                    Schema = await swaggerGenerator.GenerateAndAppendSchemaFromTypeAsync(returnType, typeDescription.IsNullable, null).ConfigureAwait(false)
                 };
             }
         }

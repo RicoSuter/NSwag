@@ -103,15 +103,16 @@ namespace NSwag.Commands
         {
             var result = await RunAsync();
             foreach (var pair in result)
-                TryWriteFileOutput(pair.Key, host, () => pair.Value);
+                await TryWriteFileOutputAsync(pair.Key, host, () => Task.FromResult(pair.Value)).ConfigureAwait(false);
             return result;
         }
 
         public async Task<Dictionary<string, string>> RunAsync()
         {
-            return await Task.Run(() =>
+            return await Task.Run(async () =>
             {
-                var clientGenerator = new SwaggerToCSharpClientGenerator(InputSwaggerDocument, Settings);
+                var document = await GetInputSwaggerDocument().ConfigureAwait(false);
+                var clientGenerator = new SwaggerToCSharpClientGenerator(document, Settings);
 
                 if (GenerateContractsOutput)
                 {

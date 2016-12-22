@@ -97,7 +97,13 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
 
         public async Task<string> GenerateSwaggerAsync()
         {
-            return await RunTaskAsync(async () => (await Command.RunAsync())?.ToJson());
+            return await RunTaskAsync(async () =>
+            {
+                var document = await Command.RunAsync().ConfigureAwait(false);
+                if (document != null)
+                    return await document.ToJsonAsync().ConfigureAwait(false);
+                return null; 
+            });
         }
 
         private async Task BrowseAssembly()

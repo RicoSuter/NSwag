@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
@@ -36,13 +37,13 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
         }
 
         [TestMethod]
-        public void When_accept_verbs_attribute_with_post_is_used_then_http_method_is_correct()
+        public async Task When_accept_verbs_attribute_with_post_is_used_then_http_method_is_correct()
         {
             //// Arrange
             var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
-            var document = generator.GenerateForController<TestController>();
+            var document = await generator.GenerateForControllerAsync<TestController>();
             var operation = document.Operations.First(o => o.Operation.OperationId == "Test_AddPost");
 
             //// Assert
@@ -50,13 +51,13 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
         }
 
         [TestMethod]
-        public void When_accept_verbs_attribute_with_get_is_used_then_http_method_is_correct()
+        public async Task When_accept_verbs_attribute_with_get_is_used_then_http_method_is_correct()
         {
             //// Arrange
             var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
-            var document = generator.GenerateForController<TestController>();
+            var document = await generator.GenerateForControllerAsync<TestController>();
             var operation = document.Operations.First(o => o.Operation.OperationId == "Test_AddGet");
 
             //// Assert
@@ -64,13 +65,13 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
         }
 
         [TestMethod]
-        public void When_accept_verbs_attribute_with_delete_is_used_then_http_method_is_correct()
+        public async Task When_accept_verbs_attribute_with_delete_is_used_then_http_method_is_correct()
         {
             //// Arrange
             var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
-            var document = generator.GenerateForController<TestController>();
+            var document = await generator.GenerateForControllerAsync<TestController>();
             var operation = document.Operations.First(o => o.Operation.OperationId == "Test_AddDelete");
 
             //// Assert
@@ -78,13 +79,13 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
         }
 
         [TestMethod]
-        public void When_accept_verbs_attribute_with_put_is_used_then_http_method_is_correct()
+        public async Task When_accept_verbs_attribute_with_put_is_used_then_http_method_is_correct()
         {
             //// Arrange
             var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
-            var document = generator.GenerateForController<TestController>();
+            var document = await generator.GenerateForControllerAsync<TestController>();
             var operation = document.Operations.First(o => o.Operation.OperationId == "Test_AddPut");
 
             //// Assert

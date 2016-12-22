@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSwag.CodeGeneration.CodeGenerators.CSharp;
 using NSwag.CodeGeneration.CodeGenerators.TypeScript;
 
@@ -8,7 +9,7 @@ namespace NSwag.CodeGeneration.Tests.ClientGeneration
     public class ArrayParameterTests
     {
         [TestMethod]
-        public void When_parameter_is_array_then_TypeScript_is_correct()
+        public async Task When_parameter_is_array_then_TypeScript_is_correct()
         {
             //// Arrange
             var swagger = @"{
@@ -60,7 +61,7 @@ namespace NSwag.CodeGeneration.Tests.ClientGeneration
     ""definitions"" : { }
 }
 ";
-            var document = SwaggerDocument.FromJson(swagger);
+            var document = await SwaggerDocument.FromJsonAsync(swagger);
 
             //// Act
             var settings = new SwaggerToTypeScriptClientGeneratorSettings { ClassName = "MyClass" };
@@ -74,7 +75,7 @@ namespace NSwag.CodeGeneration.Tests.ClientGeneration
         }
 
         [TestMethod]
-        public void When_parameter_is_array_then_CSharp_is_correct()
+        public async Task When_parameter_is_array_then_CSharp_is_correct()
         {
             //// Arrange
             var swagger = @"{
@@ -126,7 +127,7 @@ namespace NSwag.CodeGeneration.Tests.ClientGeneration
     ""definitions"" : { }
 }
 ";
-            var document = SwaggerDocument.FromJson(swagger);
+            var document = await SwaggerDocument.FromJsonAsync(swagger);
 
             //// Act
             var settings = new SwaggerToCSharpClientGeneratorSettings { ClassName = "MyClass" };

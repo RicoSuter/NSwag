@@ -19,7 +19,7 @@ namespace NSwag.Commands.Document
     {
         public async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            if (!DynamicApis.FileExists("nswag.json"))
+            if (await DynamicApis.FileExistsAsync("nswag.json").ConfigureAwait(false) == false)
             {
                 await CreateDocumentAsync("nswag.json");
                 host.WriteMessage("nswag.json file created.");

@@ -9,6 +9,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using NJsonSchema;
@@ -131,15 +132,15 @@ namespace NSwag
 
         /// <summary>Converts the description object to JSON.</summary>
         /// <returns>The JSON string.</returns>
-        public string ToJson()
+        public Task<string> ToJsonAsync()
         {
-            return ToJson(new JsonSchemaGeneratorSettings());
+            return ToJsonAsync(new JsonSchemaGeneratorSettings());
         }
 
         /// <summary>Converts the description object to JSON.</summary>
         /// <param name="jsonSchemaGenerator">The json schema generator.</param>
         /// <returns>The JSON string.</returns>
-        public string ToJson(JsonSchemaGeneratorSettings jsonSchemaGenerator)
+        public async Task<string> ToJsonAsync(JsonSchemaGeneratorSettings jsonSchemaGenerator)
         {
             var jsonResolver = new IgnorableSerializerContractResolver();
             // Ignore properties which are not allowed in Swagger
@@ -156,7 +157,7 @@ namespace NSwag
 
             JsonSchemaReferenceUtilities.UpdateSchemaReferencePaths(this, new SwaggerSchemaResolver(this, jsonSchemaGenerator));
             var data = JsonConvert.SerializeObject(this, settings);
-            JsonSchemaReferenceUtilities.UpdateSchemaReferences(this);
+            await JsonSchemaReferenceUtilities.UpdateSchemaReferencesAsync(this).ConfigureAwait(false);
 
             return JsonSchemaReferenceUtilities.ConvertPropertyReferences(data);
         }
@@ -165,7 +166,7 @@ namespace NSwag
         /// <param name="data">The JSON data.</param>
         /// <param name="documentPath">The document path (URL or file path) for resolving relative document references.</param>
         /// <returns>The <see cref="SwaggerDocument"/>.</returns>
-        public static SwaggerDocument FromJson(string data, string documentPath = null)
+        public static async Task<SwaggerDocument> FromJsonAsync(string data, string documentPath = null)
         {
             data = JsonSchemaReferenceUtilities.ConvertJsonReferences(data);
             var service = JsonConvert.DeserializeObject<SwaggerDocument>(data, new JsonSerializerSettings
@@ -175,26 +176,26 @@ namespace NSwag
                 PreserveReferencesHandling = PreserveReferencesHandling.Objects
             });
             service.DocumentPath = documentPath;
-            JsonSchemaReferenceUtilities.UpdateSchemaReferences(service);
+            await JsonSchemaReferenceUtilities.UpdateSchemaReferencesAsync(service).ConfigureAwait(false);
             return service;
         }
 
         /// <summary>Creates a Swagger specification from a JSON file.</summary>
         /// <param name="filePath">The file path.</param>
         /// <returns>The <see cref="SwaggerDocument" />.</returns>
-        public static SwaggerDocument FromFile(string filePath)
+        public static async Task<SwaggerDocument> FromFileAsync(string filePath)
         {
-            var data = DynamicApis.FileReadAllText(filePath);
-            return FromJson(data, filePath);
+            var data = await DynamicApis.FileReadAllTextAsync(filePath).ConfigureAwait(false);
+            return await FromJsonAsync(data, filePath).ConfigureAwait(false);
         }
 
         /// <summary>Creates a Swagger specification from an URL.</summary>
         /// <param name="url">The URL.</param>
         /// <returns>The <see cref="SwaggerDocument"/>.</returns>
-        public static SwaggerDocument FromUrl(string url)
+        public static async Task<SwaggerDocument> FromUrlAsync(string url)
         {
-            var data = DynamicApis.HttpGet(url);
-            return FromJson(data, url);
+            var data = await DynamicApis.HttpGetAsync(url).ConfigureAwait(false);
+            return await FromJsonAsync(data, url).ConfigureAwait(false);
         }
 
         /// <summary>Gets the operations.</summary>

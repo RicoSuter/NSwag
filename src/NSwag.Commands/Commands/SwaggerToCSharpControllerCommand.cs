@@ -31,16 +31,17 @@ namespace NSwag.Commands
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var code = await RunAsync();
-            if (TryWriteFileOutput(host, () => code) == false)
+            if (await TryWriteFileOutputAsync(host, () => Task.FromResult(code)).ConfigureAwait(false) == false)
                 return code;
             return null;
         }
 
         public async Task<string> RunAsync()
         {
-            return await Task.Run(() =>
+            return await Task.Run(async () =>
             {
-                var clientGenerator = new SwaggerToCSharpWebApiControllerGenerator(InputSwaggerDocument, Settings);
+                var document = await GetInputSwaggerDocument().ConfigureAwait(false);
+                var clientGenerator = new SwaggerToCSharpWebApiControllerGenerator(document, Settings);
                 return clientGenerator.GenerateFile();
             });
         }

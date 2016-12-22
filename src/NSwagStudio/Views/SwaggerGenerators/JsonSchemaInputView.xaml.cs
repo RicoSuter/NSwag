@@ -25,8 +25,8 @@ namespace NSwagStudio.Views.SwaggerGenerators
         {
             try
             {
-                var document = await _command.RunAsync();
-                return await Task.Run(() => document.ToJson());
+                var document = await _command.RunAsync().ConfigureAwait(false);
+                return await document.ToJsonAsync().ConfigureAwait(false);
             }
             catch (Exception exception)
             {
