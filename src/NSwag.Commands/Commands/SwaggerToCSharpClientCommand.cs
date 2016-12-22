@@ -88,6 +88,13 @@ namespace NSwag.Commands
             set { Settings.UseHttpRequestMessageCreationMethod = value; }
         }
 
+        [Argument(Name = "GenerateExceptionClasses", IsRequired = false, Description = "Specifies whether to generate exception classes (default: true).")]
+        public bool GenerateExceptionClasses
+        {
+            get { return Settings.GenerateExceptionClasses; }
+            set { Settings.GenerateExceptionClasses = value; }
+        }
+
         [Argument(Name = "GenerateContractsOutput", IsRequired = false,
                   Description = "Specifies whether to generate contracts output (interface and models in a separate file set with the ContractsOutput parameter).")]
         public bool GenerateContractsOutput { get; set; }

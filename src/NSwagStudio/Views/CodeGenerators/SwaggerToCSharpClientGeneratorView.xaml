@@ -33,7 +33,8 @@
                     <TextBox Text="{Binding Command.Namespace, Mode=TwoWay}" Margin="0,0,0,12" />
                     
                     <CheckBox IsChecked="{Binding Command.GenerateContractsOutput, Mode=TwoWay}" 
-                                  Content="Generate contracts output" Margin="0,0,0,6" />
+                              Content="Generate contracts output" Margin="0,0,0,6" />
+                    
                     <StackPanel Visibility="{Binding Command.GenerateContractsOutput, Converter={StaticResource VisibilityConverter}}">
                         <TextBlock Text="Contracts Namespace" FontWeight="Bold" Margin="0,0,0,6" />
                         <TextBox Text="{Binding Command.ContractsNamespace, Mode=TwoWay}" Margin="0,0,0,12" />
@@ -45,8 +46,13 @@
                     <TextBlock Text="Custom Json.NET converter types (optional, multiple on separate lines)" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding Command.JsonConverters, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
 
-                    <TextBlock Text="Exception class name (may contain the '{controller}' placeholder)" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.ExceptionClass, Mode=TwoWay}" Margin="0,0,0,12" />
+                    <CheckBox IsChecked="{Binding Command.GenerateExceptionClasses, Mode=TwoWay}" 
+                              Content="Generate exception classes (when disabled, exception classes must be imported)" Margin="0,0,0,6" />
+
+                    <StackPanel Visibility="{Binding Command.GenerateExceptionClasses, Converter={StaticResource VisibilityConverter}}">
+                        <TextBlock Text="Exception class name (may contain the '{controller}' placeholder)" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.ExceptionClass, Mode=TwoWay}" Margin="0,0,0,12" />
+                    </StackPanel>
 
                     <GroupBox Header="Client" Margin="0,0,0,12">
                         <StackPanel Margin="4,8,4,-8">
