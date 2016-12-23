@@ -44,7 +44,7 @@ namespace NSwag.Commands.Base
                 else if (inputString.StartsWith("http://") || inputString.StartsWith("https://"))
                     document = await SwaggerDocument.FromUrlAsync(inputString).ConfigureAwait(false);
                 else
-                    document = await SwaggerDocument.FromUrlAsync(inputString).ConfigureAwait(false);
+                    document = await SwaggerDocument.FromFileAsync(inputString).ConfigureAwait(false);
             }
 
             if (ServiceHost == ".")
