@@ -65,7 +65,7 @@ namespace NSwag.Commands
                 else if (output != null)
                     _host.WriteMessage(output.ToString());
 
-                _host.WriteMessage("\nDuration: " + stopwatch.Elapsed);
+                _host.WriteMessage("\nDuration: " + stopwatch.Elapsed + "\n");
             }
             catch (Exception exception)
             {
