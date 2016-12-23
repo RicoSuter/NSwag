@@ -14,6 +14,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using NJsonSchema;
+using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Contexts;
 
@@ -187,7 +188,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
                     var attributes = property.GetCustomAttributes().ToList();
                     var fromQueryAttribute = attributes.SingleOrDefault(a => a.GetType().Name == "FromQueryAttribute");
 
-                    var propertyName = TryGetStringPropertyValue(fromQueryAttribute, "Name") ?? JsonPathUtilities.GetPropertyName(property, _settings.DefaultPropertyNameHandling);
+                    var propertyName = TryGetStringPropertyValue(fromQueryAttribute, "Name") ?? JsonReflectionUtilities.GetPropertyName(property, _settings.DefaultPropertyNameHandling);
                     var propertySummary = await property.GetXmlSummaryAsync().ConfigureAwait(false); 
                     var operationParameter = await swaggerGenerator.CreatePrimitiveParameterAsync(propertyName, propertySummary, property.PropertyType, attributes).ConfigureAwait(false);
 
