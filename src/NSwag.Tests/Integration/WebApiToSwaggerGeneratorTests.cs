@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NJsonSchema;
@@ -11,7 +12,7 @@ namespace NSwag.Tests.Integration
     public class WebApiToSwaggerGeneratorTests
     {
         [TestMethod]
-        public void When_generating_swagger_from_controller_than_all_required_operations_are_available()
+        public async Task When_generating_swagger_from_controller_than_all_required_operations_are_available()
         {
             //// Arrange
             var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
@@ -20,7 +21,7 @@ namespace NSwag.Tests.Integration
             });
 
             //// Act
-            var document = generator.GenerateForController<PersonsController>();
+            var document = await generator.GenerateForControllerAsync<PersonsController>();
             var swaggerSpecification = document.ToJson();
 
             //// Assert
@@ -28,7 +29,7 @@ namespace NSwag.Tests.Integration
         }
 
         [TestMethod]
-        public void When_there_is_a_ResultType_attribute_on_an_action_method_then_the_response_is_taken_from_the_given_type()
+        public async Task When_there_is_a_ResultType_attribute_on_an_action_method_then_the_response_is_taken_from_the_given_type()
         {
             //// Arrange
             var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
@@ -37,7 +38,7 @@ namespace NSwag.Tests.Integration
             });
 
             //// Act
-            var document = generator.GenerateForController<PersonsController>();
+            var document = await generator.GenerateForControllerAsync<PersonsController>();
             var operation = document.Operations.Single(o => o.Path == "/api/Persons/Get/{id}");
             var json = document.ToJson();
 

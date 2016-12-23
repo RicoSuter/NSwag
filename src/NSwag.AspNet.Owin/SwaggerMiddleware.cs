@@ -18,7 +18,6 @@ namespace NSwag.AspNet.Owin
     /// <summary>Generates a Swagger specification on a given path.</summary>
     public class SwaggerMiddleware : OwinMiddleware
     {
-        private readonly object _lock = new object();
         private readonly string _path;
         private readonly SwaggerOwinSettings _settings;
         private readonly IEnumerable<Type> _controllerTypes;
@@ -48,7 +47,7 @@ namespace NSwag.AspNet.Owin
             if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value.Trim('/'), _path.Trim('/'), StringComparison.OrdinalIgnoreCase))
             {
                 context.Response.StatusCode = 200;
-                context.Response.Write(GenerateSwagger(context));
+                context.Response.Write(await GenerateSwaggerAsync(context));
             }
             else
                 await Next.Invoke(context);
@@ -57,31 +56,25 @@ namespace NSwag.AspNet.Owin
         /// <summary>Generates the Swagger specification.</summary>
         /// <param name="context">The context.</param>
         /// <returns>The Swagger specification.</returns>
-        protected virtual string GenerateSwagger(IOwinContext context)
+        protected virtual async Task<string> GenerateSwaggerAsync(IOwinContext context)
         {
             if (_swaggerJson == null)
             {
-                lock (_lock)
+                try
                 {
-                    if (_swaggerJson == null)
-                    {
-                        try
-                        {
-                            var generator = new WebApiToSwaggerGenerator(_settings, _schemaGenerator);
-                            var document = generator.GenerateForControllers(_controllerTypes);
+                    var generator = new WebApiToSwaggerGenerator(_settings, _schemaGenerator);
+                    var document = await generator.GenerateForControllersAsync(_controllerTypes);
 
-                            document.Host = context.Request.Host.Value ?? "";
-                            document.Schemes.Add(context.Request.Scheme == "http" ? SwaggerSchema.Http : SwaggerSchema.Https);
-                            document.BasePath = context.Request.PathBase.Value?.Substring(0, context.Request.PathBase.Value.Length - _settings.MiddlewareBasePath?.Length ?? 0) ?? "";
+                    document.Host = context.Request.Host.Value ?? "";
+                    document.Schemes.Add(context.Request.Scheme == "http" ? SwaggerSchema.Http : SwaggerSchema.Https);
+                    document.BasePath = context.Request.PathBase.Value?.Substring(0, context.Request.PathBase.Value.Length - _settings.MiddlewareBasePath?.Length ?? 0) ?? "";
 
-                            _settings.PostProcess?.Invoke(document);
-                            _swaggerJson = document.ToJson();
-                        }
-                        catch (Exception exception)
-                        {
-                            _swaggerJson = exception.ToString();
-                        }
-                    }
+                    _settings.PostProcess?.Invoke(document);
+                    _swaggerJson = document.ToJson();
+                }
+                catch (Exception exception)
+                {
+                    _swaggerJson = exception.ToString();
                 }
             }
 

@@ -27,7 +27,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
 <#if(Model.HasClientBaseClass){#>
-		super();
+        super();
 <#}#>
         this.baseUrl = baseUrl ? baseUrl : "";
         this.http = http ? http : window;
@@ -63,7 +63,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 <#}#>
         return this.http.fetch(url_, <#if(Model.UseTransformOptionsMethod){#>this.transformOptions(<#}#>{
 <#if(!operation.IsGetOrHead){#>
-			body: content_,
+            body: content_,
 <#}#>
             method: "<#=operation.HttpMethodUpper.ToUpperInvariant()#>",
             headers: {
@@ -88,7 +88,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
         return response.text().then((responseText) => {
             const status = response.status; 
 
-			<#=TemplatePartGenerator.RenderProcessResponseCode(operation, 3)#>
+            <#=TemplatePartGenerator.RenderProcessResponseCode(operation, 3)#>
         });
     }
 <#}#>

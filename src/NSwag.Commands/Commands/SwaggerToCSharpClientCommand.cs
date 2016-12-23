@@ -88,6 +88,13 @@ namespace NSwag.Commands
             set { Settings.UseHttpRequestMessageCreationMethod = value; }
         }
 
+        [Argument(Name = "GenerateExceptionClasses", IsRequired = false, Description = "Specifies whether to generate exception classes (default: true).")]
+        public bool GenerateExceptionClasses
+        {
+            get { return Settings.GenerateExceptionClasses; }
+            set { Settings.GenerateExceptionClasses = value; }
+        }
+
         [Argument(Name = "GenerateContractsOutput", IsRequired = false,
                   Description = "Specifies whether to generate contracts output (interface and models in a separate file set with the ContractsOutput parameter).")]
         public bool GenerateContractsOutput { get; set; }
@@ -103,15 +110,16 @@ namespace NSwag.Commands
         {
             var result = await RunAsync();
             foreach (var pair in result)
-                TryWriteFileOutput(pair.Key, host, () => pair.Value);
+                await TryWriteFileOutputAsync(pair.Key, host, () => pair.Value).ConfigureAwait(false);
             return result;
         }
 
         public async Task<Dictionary<string, string>> RunAsync()
         {
-            return await Task.Run(() =>
+            return await Task.Run(async () =>
             {
-                var clientGenerator = new SwaggerToCSharpClientGenerator(InputSwaggerDocument, Settings);
+                var document = await GetInputSwaggerDocument().ConfigureAwait(false);
+                var clientGenerator = new SwaggerToCSharpClientGenerator(document, Settings);
 
                 if (GenerateContractsOutput)
                 {

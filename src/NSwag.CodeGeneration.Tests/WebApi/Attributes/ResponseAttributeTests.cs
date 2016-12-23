@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NJsonSchema;
@@ -29,13 +30,13 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
         }
 
         [TestMethod]
-        public void When_operation_has_ResponseTypeAttribute_then_it_is_processed()
+        public async Task When_operation_has_ResponseTypeAttribute_then_it_is_processed()
         {
             //// Arrange
             var generator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings());
 
             //// Act
-            var document = generator.GenerateForController<ResponseAttributeTestController>();
+            var document = await generator.GenerateForControllerAsync<ResponseAttributeTestController>();
 
             //// Assert
             var fooOperation = document.Operations.Single(o => o.Operation.OperationId == "ResponseAttributeTest_Foo");
@@ -44,13 +45,13 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
         }
 
         [TestMethod]
-        public void When_operation_has_SwaggerResponseAttribute_then_it_is_processed()
+        public async Task When_operation_has_SwaggerResponseAttribute_then_it_is_processed()
         {
             //// Arrange
             var generator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings());
 
             //// Act
-            var document = generator.GenerateForController<ResponseAttributeTestController>();
+            var document = await generator.GenerateForControllerAsync<ResponseAttributeTestController>();
 
             //// Assert
             var barOperation = document.Operations.Single(o => o.Operation.OperationId == "ResponseAttributeTest_Bar");

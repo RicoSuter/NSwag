@@ -27,10 +27,11 @@ namespace NSwag.Commands.Document
                 await ExecuteDocumentAsync(host, Input);
             else
             {
-                if (DynamicApis.FileExists("nswag.json"))
+                if (await DynamicApis.FileExistsAsync("nswag.json").ConfigureAwait(false))
                     await ExecuteDocumentAsync(host, "nswag.json");
 
-                var files = DynamicApis.DirectoryGetFiles(DynamicApis.DirectoryGetCurrentDirectory(), "*.nswag");
+                var currenctDirectory = await DynamicApis.DirectoryGetCurrentDirectoryAsync().ConfigureAwait(false); 
+                var files = await DynamicApis.DirectoryGetFilesAsync(currenctDirectory, "*.nswag").ConfigureAwait(false);
                 if (files.Any())
                 {
                     foreach (var file in files)

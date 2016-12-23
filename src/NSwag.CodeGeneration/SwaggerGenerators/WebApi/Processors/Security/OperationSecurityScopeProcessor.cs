@@ -9,6 +9,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Contexts;
 
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Security
@@ -28,7 +29,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Security
         /// <summary>Processes the specified method information.</summary>
         /// <param name="context"></param>
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
-        public bool Process(OperationProcessorContext context)
+        public Task<bool> ProcessAsync(OperationProcessorContext context)
         {
             if (context.OperationDescription.Operation.Security == null)
                 context.OperationDescription.Operation.Security = new List<SwaggerSecurityRequirement>();
@@ -39,7 +40,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Security
                 { _name, scopes }
             });
 
-            return true;
+            return Task.FromResult(true);
         }
 
         /// <summary>Gets the security scopes for an operation.</summary>

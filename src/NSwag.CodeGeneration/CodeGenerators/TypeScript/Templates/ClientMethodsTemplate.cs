@@ -15,7 +15,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ClientMethodsTemplate.tt"
+    #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ClientMethodsTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "14.0.0.0")]
     internal partial class ClientMethodsTemplate : ClientMethodsTemplateBase
     {
@@ -25,25 +25,25 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("protected throwException(message: string, status: number, response: string, resul" +
-                    "t?: any): any {\r\n");
+            this.Write("\nprotected throwException(message: string, status: number, response: string, resu" +
+                    "lt?: any): any {\n");
             
-            #line 3 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ClientMethodsTemplate.tt"
+            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ClientMethodsTemplate.tt"
 if(Model.WrapDtoExceptions){
             
             #line default
             #line hidden
-            this.Write("\tthrow new SwaggerException(message, status, response, result);\r\n");
+            this.Write("    throw new SwaggerException(message, status, response, result);\n");
             
-            #line 5 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ClientMethodsTemplate.tt"
+            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ClientMethodsTemplate.tt"
 }else{
             
             #line default
             #line hidden
-            this.Write("\tif(result !== null && result !== undefined)\r\n\t\tthrow result;\r\n\telse\r\n\t\tthrow new" +
-                    " SwaggerException(message, status, response);\r\n");
+            this.Write("    if(result !== null && result !== undefined)\n        throw result;\n    else\n  " +
+                    "      throw new SwaggerException(message, status, response);\n");
             
-            #line 10 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ClientMethodsTemplate.tt"
+            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\ClientMethodsTemplate.tt"
 }
             
             #line default

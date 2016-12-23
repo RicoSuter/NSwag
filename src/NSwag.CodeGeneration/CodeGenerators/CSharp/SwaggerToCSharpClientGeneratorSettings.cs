@@ -16,6 +16,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         {
             ClassName = "{controller}Client";
             ExceptionClass = "SwaggerException";
+            GenerateExceptionClasses = true; 
         }
 
         /// <summary>Gets or sets the full name of the base class.</summary>
@@ -23,7 +24,10 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
 
         /// <summary>Gets or sets the full name of the configuration class (<see cref="ClientBaseClass"/> must be set).</summary>
         public string ConfigurationClass { get; set; }
-        
+
+        /// <summary>Gets or sets a value indicating whether to generate exception classes (default: true).</summary>
+        public bool GenerateExceptionClasses { get; set; }
+
         /// <summary>Gets or sets the name of the exception class (supports the '{controller}' placeholder).</summary>
         public string ExceptionClass { get; set; }
 

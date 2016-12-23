@@ -37,9 +37,10 @@ namespace <#=Model.Namespace#>
 
         public string FileName { get; private set; }
     }
-	<#}#>
+    <#}#>
 
-<#foreach (var exceptionClassName in Model.ExceptionClassNames){#>
+<#if (Model.GenerateExceptionClasses){#>
+<#  foreach (var exceptionClassName in Model.ExceptionClassNames){#>
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
     public class <#=exceptionClassName#> : System.Exception
     {
@@ -72,6 +73,7 @@ namespace <#=Model.Namespace#>
         }
     }
 
+<#  }#>
 <#}#>
 <#}#>
 <#if(Model.GenerateImplementation){#>

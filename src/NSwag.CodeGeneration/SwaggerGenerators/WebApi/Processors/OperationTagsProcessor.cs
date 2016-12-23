@@ -9,6 +9,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using NSwag.CodeGeneration.Infrastructure;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Contexts;
 
@@ -20,7 +21,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
         /// <summary>Processes the specified method information.</summary>
         /// <param name="context"></param>
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
-        public bool Process(OperationProcessorContext context)
+        public Task<bool> ProcessAsync(OperationProcessorContext context)
         {
             ProcessSwaggerTagsAttribute(context.Document, context.OperationDescription, context.MethodInfo);
             ProcessSwaggerTagAttributes(context.Document, context.OperationDescription, context.MethodInfo);
@@ -28,7 +29,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
             if (!context.OperationDescription.Operation.Tags.Any())
                 AddControllerNameTag(context);
 
-            return true;
+            return Task.FromResult(true);
         }
 
         private void AddControllerNameTag(OperationProcessorContext context)

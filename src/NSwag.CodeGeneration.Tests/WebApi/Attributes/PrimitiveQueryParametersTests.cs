@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NJsonSchema;
@@ -28,7 +29,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
         }
 
         [TestMethod]
-        public void When_parameter_is_primitive_then_it_is_a_query_parameter()
+        public async Task When_parameter_is_primitive_then_it_is_a_query_parameter()
         {
             //// Arrange
             var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
@@ -37,7 +38,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             });
 
             //// Act
-            var document = generator.GenerateForController<TestController>();
+            var document = await generator.GenerateForControllerAsync<TestController>();
             var operation = document.Operations.Single(o => o.Operation.OperationId == "Test_WithoutAttribute").Operation;
 
             //// Assert
@@ -45,7 +46,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
         }
 
         [TestMethod]
-        public void When_parameter_is_primitive_and_has_FromUri_then_it_is_a_query_parameter()
+        public async Task When_parameter_is_primitive_and_has_FromUri_then_it_is_a_query_parameter()
         {
             //// Arrange
             var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
@@ -54,7 +55,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             });
 
             //// Act
-            var document = generator.GenerateForController<TestController>();
+            var document = await generator.GenerateForControllerAsync<TestController>();
             var operation = document.Operations.Single(o => o.Operation.OperationId == "Test_WithFromUriAttribute").Operation;
 
             //// Assert
@@ -63,16 +64,16 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
 
 
         [TestMethod]
-        public void When_parameter_is_primitive_and_has_FromBody_then_it_is_a_body_parameter()
+        public async Task When_parameter_is_primitive_and_has_FromBody_then_it_is_a_body_parameter()
         {
             //// Arrange
-            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
             {
                 DefaultUrlTemplate = "api/{controller}/{action}/{id}"
             });
 
             //// Act
-            var document = generator.GenerateForController<TestController>();
+            var document = await generator.GenerateForControllerAsync<TestController>();
             var operation = document.Operations.Single(o => o.Operation.OperationId == "Test_WithFromBodyAttribute").Operation;
 
             //// Assert
@@ -88,16 +89,16 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
         }
 
         [TestMethod]
-        public void When_parameter_is_array_and_has_FromUri_then_it_is_a_query_parameter()
+        public async Task When_parameter_is_array_and_has_FromUri_then_it_is_a_query_parameter()
         {
             //// Arrange
-            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
             {
                 DefaultUrlTemplate = "api/{controller}/{action}/{id}"
             });
 
             //// Act
-            var document = generator.GenerateForController<ControllerWithArrayQueryParameter>();
+            var document = await generator.GenerateForControllerAsync<ControllerWithArrayQueryParameter>();
             var json = document.ToJson();
 
             //// Assert
@@ -132,7 +133,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
         }
 
         [TestMethod]
-        public void When_query_parameter_is_enum_array_then_the_enum_is_referenced()
+        public async Task When_query_parameter_is_enum_array_then_the_enum_is_referenced()
         {
             //// Arrange
             var settings = new WebApiToSwaggerGeneratorSettings
@@ -145,7 +146,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(settings);
 
             //// Act
-            var document = generator.GenerateForController<FooController>();
+            var document = await generator.GenerateForControllerAsync<FooController>();
             var json = document.ToJson();
 
             //// Assert

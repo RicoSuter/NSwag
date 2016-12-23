@@ -11,6 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Contexts;
@@ -59,31 +60,31 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <typeparam name="TController">The type of the controller.</typeparam>
         /// <returns>The <see cref="SwaggerDocument" />.</returns>
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
-        public SwaggerDocument GenerateForController<TController>()
+        public Task<SwaggerDocument> GenerateForControllerAsync<TController>()
         {
-            return GenerateForControllers(new[] { typeof(TController) });
+            return GenerateForControllersAsync(new[] { typeof(TController) });
         }
 
         /// <summary>Generates a Swagger specification for the given controller type.</summary>
         /// <param name="controllerType">The type of the controller.</param>
         /// <returns>The <see cref="SwaggerDocument" />.</returns>
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
-        public SwaggerDocument GenerateForController(Type controllerType)
+        public Task<SwaggerDocument> GenerateForControllerAsync(Type controllerType)
         {
-            return GenerateForControllers(new[] { controllerType });
+            return GenerateForControllersAsync(new[] { controllerType });
         }
 
         /// <summary>Generates a Swagger specification for the given controller types.</summary>
         /// <param name="controllerTypes">The types of the controller.</param>
         /// <returns>The <see cref="SwaggerDocument" />.</returns>
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
-        public SwaggerDocument GenerateForControllers(IEnumerable<Type> controllerTypes)
+        public async Task<SwaggerDocument> GenerateForControllersAsync(IEnumerable<Type> controllerTypes)
         {
-            var document = CreateDocument(Settings);
+            var document = await CreateDocumentAsync(Settings).ConfigureAwait(false);
             var schemaResolver = new SwaggerSchemaResolver(document, Settings);
 
             foreach (var controllerType in controllerTypes)
-                GenerateForController(document, controllerType, new SwaggerGenerator(_schemaGenerator, Settings, schemaResolver));
+                await GenerateForControllerAsync(document, controllerType, new SwaggerGenerator(_schemaGenerator, Settings, schemaResolver)).ConfigureAwait(false);
 
             document.GenerateOperationIds();
 
@@ -93,9 +94,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             return document;
         }
 
-        private SwaggerDocument CreateDocument(WebApiToSwaggerGeneratorSettings settings)
+        private async Task<SwaggerDocument> CreateDocumentAsync(WebApiToSwaggerGeneratorSettings settings)
         {
-            var document = !string.IsNullOrEmpty(settings.DocumentTemplate) ? SwaggerDocument.FromJson(settings.DocumentTemplate) : new SwaggerDocument();
+            var document = !string.IsNullOrEmpty(settings.DocumentTemplate) ? await SwaggerDocument.FromJsonAsync(settings.DocumentTemplate).ConfigureAwait(false) : new SwaggerDocument();
 
             document.Consumes = new List<string> { "application/json" };
             document.Produces = new List<string> { "application/json" };
@@ -110,7 +111,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         }
 
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
-        private void GenerateForController(SwaggerDocument document, Type controllerType, SwaggerGenerator swaggerGenerator)
+        private async Task GenerateForControllerAsync(SwaggerDocument document, Type controllerType, SwaggerGenerator swaggerGenerator)
         {
             var hasIgnoreAttribute = controllerType.GetTypeInfo()
                 .GetCustomAttributes()
@@ -144,11 +145,11 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     }
                 }
 
-                AddOperationDescriptionsToDocument(document, operations, swaggerGenerator);
+                await AddOperationDescriptionsToDocumentAsync(document, operations, swaggerGenerator).ConfigureAwait(false);
             }
         }
 
-        private void AddOperationDescriptionsToDocument(SwaggerDocument document, List<Tuple<SwaggerOperationDescription, MethodInfo>> operations, SwaggerGenerator swaggerGenerator)
+        private async Task AddOperationDescriptionsToDocumentAsync(SwaggerDocument document, List<Tuple<SwaggerOperationDescription, MethodInfo>> operations, SwaggerGenerator swaggerGenerator)
         {
             var allOperation = operations.Select(t => t.Item1).ToList();
             foreach (var tuple in operations)
@@ -156,7 +157,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 var operation = tuple.Item1;
                 var method = tuple.Item2;
 
-                var addOperation = RunOperationProcessors(document, method, operation, allOperation, swaggerGenerator);
+                var addOperation = await RunOperationProcessorsAsync(document, method, operation, allOperation, swaggerGenerator).ConfigureAwait(false);
                 if (addOperation)
                 {
                     if (!document.Paths.ContainsKey(operation.Path))
@@ -170,13 +171,13 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             }
         }
 
-        private bool RunOperationProcessors(SwaggerDocument document, MethodInfo methodInfo,
+        private async Task<bool> RunOperationProcessorsAsync(SwaggerDocument document, MethodInfo methodInfo,
             SwaggerOperationDescription operationDescription, List<SwaggerOperationDescription> allOperations, SwaggerGenerator swaggerGenerator)
         {
             // 1. Run from settings
             foreach (var operationProcessor in Settings.OperationProcessors)
             {
-                if (operationProcessor.Process(new OperationProcessorContext(document, operationDescription, methodInfo, swaggerGenerator, allOperations)) == false)
+                if (await operationProcessor.ProcessAsync(new OperationProcessorContext(document, operationDescription, methodInfo, swaggerGenerator, allOperations)).ConfigureAwait(false) == false)
                     return false;
             }
 

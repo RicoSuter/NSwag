@@ -85,6 +85,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
         public bool RequiresFileParameterType => 
             _document.Operations.Any(o => o.Operation.Parameters.Any(p => p.Type.HasFlag(JsonObjectType.File)));
 
+        /// <summary>Gets or sets a value indicating whether to generate exception classes (default: true).</summary>
+        public bool GenerateExceptionClasses => (_settings as SwaggerToCSharpClientGeneratorSettings)?.GenerateExceptionClasses == true;
+
         /// <summary>Gets the exception class names.</summary>
         public IEnumerable<string> ExceptionClassNames
         {

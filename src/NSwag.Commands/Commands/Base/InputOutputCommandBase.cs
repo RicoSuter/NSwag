@@ -8,6 +8,7 @@
 
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using NConsole;
 using Newtonsoft.Json;
 using NJsonSchema.Infrastructure;
@@ -28,55 +29,49 @@ namespace NSwag.Commands.Base
         [Argument(Name = "ServiceSchemes", IsRequired = false, Description = "Overrides the allowed schemes of the web service (optional, comma separated, 'http', 'https', 'ws', 'wss').")]
         public string[] ServiceSchemes { get; set; }
 
-        /// <exception cref="ArgumentException" accessor="get">The argument 'Input' was empty.</exception>
-        [JsonIgnore]
-        protected SwaggerDocument InputSwaggerDocument
+        /// <exception cref="ArgumentException">The argument 'Input' was empty.</exception>
+        protected async Task<SwaggerDocument> GetInputSwaggerDocument()
         {
-            get
-            {
-                var document = Input as SwaggerDocument;
-                if (document == null)
-                {
-                    var inputString = Input.ToString();
-                    if (string.IsNullOrEmpty(inputString))
-                        throw new ArgumentException("The argument 'Input' was empty.");
-
-                    if (IsJson(inputString))
-                        document = SwaggerDocument.FromJson(inputString);
-                    else 
-                        document = SwaggerDocument.FromUrl(inputString);
-                }
-
-                if (ServiceHost == ".")
-                    document.Host = string.Empty;
-                else if (!string.IsNullOrEmpty(ServiceHost))
-                    document.Host = ServiceHost;
-
-                if (ServiceSchemes != null && ServiceSchemes.Any())
-                    document.Schemes = ServiceSchemes.Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true)).ToList();
-
-                return document; 
-            }
-        }
-
-        /// <exception cref="ArgumentException" accessor="get">The argument 'Input' was empty.</exception>
-        [JsonIgnore]
-        protected string InputJson
-        {
-            get
+            var document = Input as SwaggerDocument;
+            if (document == null)
             {
                 var inputString = Input.ToString();
                 if (string.IsNullOrEmpty(inputString))
                     throw new ArgumentException("The argument 'Input' was empty.");
 
                 if (IsJson(inputString))
-                    return inputString;
-
-                if (DynamicApis.FileExists(inputString))
-                    return DynamicApis.FileReadAllText(inputString);
-
-                return DynamicApis.HttpGet(inputString);
+                    document = await SwaggerDocument.FromJsonAsync(inputString).ConfigureAwait(false);
+                else if (inputString.StartsWith("http://") || inputString.StartsWith("https://"))
+                    document = await SwaggerDocument.FromUrlAsync(inputString).ConfigureAwait(false);
+                else
+                    document = await SwaggerDocument.FromFileAsync(inputString).ConfigureAwait(false);
             }
+
+            if (ServiceHost == ".")
+                document.Host = string.Empty;
+            else if (!string.IsNullOrEmpty(ServiceHost))
+                document.Host = ServiceHost;
+
+            if (ServiceSchemes != null && ServiceSchemes.Any())
+                document.Schemes = ServiceSchemes.Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true)).ToList();
+
+            return document;
+        }
+
+        /// <exception cref="ArgumentException">The argument 'Input' was empty.</exception>
+        protected async Task<string> GetInputJsonAsync()
+        {
+            var inputString = Input.ToString();
+            if (string.IsNullOrEmpty(inputString))
+                throw new ArgumentException("The argument 'Input' was empty.");
+
+            if (IsJson(inputString))
+                return inputString;
+
+            if (await DynamicApis.FileExistsAsync(inputString).ConfigureAwait(false))
+                return await DynamicApis.FileReadAllTextAsync(inputString).ConfigureAwait(false);
+
+            return await DynamicApis.HttpGetAsync(inputString).ConfigureAwait(false);
         }
 
         private bool IsJson(string data)

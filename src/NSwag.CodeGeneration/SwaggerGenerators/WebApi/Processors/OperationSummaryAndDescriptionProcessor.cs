@@ -8,6 +8,7 @@
 
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using NJsonSchema.Infrastructure;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Contexts;
 
@@ -19,7 +20,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
         /// <summary>Processes the specified method information.</summary>
         /// <param name="context"></param>
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
-        public bool Process(OperationProcessorContext context)
+        public async Task<bool> ProcessAsync(OperationProcessorContext context)
         {
             dynamic descriptionAttribute = context.MethodInfo.GetCustomAttributes()
                 .SingleOrDefault(a => a.GetType().Name == "DescriptionAttribute");
@@ -28,12 +29,12 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
                 context.OperationDescription.Operation.Summary = descriptionAttribute.Description;
             else
             {
-                var summary = context.MethodInfo.GetXmlSummary();
+                var summary = await context.MethodInfo.GetXmlSummaryAsync().ConfigureAwait(false);
                 if (summary != string.Empty)
                     context.OperationDescription.Operation.Summary = summary;
             }
 
-            var remarks = context.MethodInfo.GetXmlRemarks();
+            var remarks = await context.MethodInfo.GetXmlRemarksAsync().ConfigureAwait(false);
             if (remarks != string.Empty)
                 context.OperationDescription.Operation.Description = remarks;
 

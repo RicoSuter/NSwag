@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Threading.Tasks;
 using NJsonSchema;
 using NJsonSchema.Generation;
 
@@ -29,12 +30,12 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
         /// <param name="type">The types.</param>
         /// <param name="schema">The properties</param>
         /// <param name="schemaResolver">The schema resolver.</param>
-        protected override void GenerateObject<TSchemaType>(Type type, TSchemaType schema, JsonSchemaResolver schemaResolver)
+        protected override async Task GenerateObjectAsync<TSchemaType>(Type type, TSchemaType schema, JsonSchemaResolver schemaResolver)
         {
             if (_isRootType)
             {
                 _isRootType = false;
-                base.GenerateObject(type, schema, schemaResolver);
+                await base.GenerateObjectAsync(type, schema, schemaResolver);
                 _isRootType = true;
             }
             else
@@ -42,7 +43,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
                 if (!schemaResolver.HasSchema(type, false))
                 {
                     _isRootType = true;
-                    Generate(type, schemaResolver);
+                    await GenerateAsync(type, schemaResolver);
                     _isRootType = false;
                 }
 

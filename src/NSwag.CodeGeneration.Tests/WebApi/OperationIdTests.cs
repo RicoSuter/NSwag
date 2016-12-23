@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSwag.Annotations;
@@ -38,13 +39,13 @@ namespace NSwag.CodeGeneration.Tests.WebApi
         }
 
         [TestMethod]
-        public void When_SwaggerOperation_attribute_is_available_then_operation_id_is_correct()
+        public async Task When_SwaggerOperation_attribute_is_available_then_operation_id_is_correct()
         {
             //// Arrange
             var generator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings());
 
             //// Act
-            var document = generator.GenerateForController<OperationIdController>();
+            var document = await generator.GenerateForControllerAsync<OperationIdController>();
 
             //// Assert
             Assert.AreEqual("MyFoo", document.Operations.First(o => o.Path == "/Foo").Operation.OperationId);
@@ -52,13 +53,13 @@ namespace NSwag.CodeGeneration.Tests.WebApi
         }
 
         [TestMethod]
-        public void When_method_has_overload_then_operation_ids_are_still_unique()
+        public async Task When_method_has_overload_then_operation_ids_are_still_unique()
         {
             //// Arrange
             var generator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings());
 
             //// Act
-            var document = generator.GenerateForController<OperationIdController>();
+            var document = await generator.GenerateForControllerAsync<OperationIdController>();
 
             //// Assert
             var allIds = document.Operations.Select(o => o.Operation.OperationId).ToArray();

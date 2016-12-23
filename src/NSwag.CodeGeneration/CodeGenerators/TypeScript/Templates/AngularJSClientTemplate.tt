@@ -24,7 +24,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 
     constructor($http: ng.IHttpService, baseUrl?: string) {
 <#if(Model.HasClientBaseClass){#>
-		super();
+        super();
 <#}#>
         this.http = $http; 
         this.baseUrl = baseUrl !== undefined ? baseUrl : "<#=Model.BaseUrl#>"; 
@@ -92,7 +92,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
         const responseText = response.data;
         const status = response.status; 
 
-		<#=TemplatePartGenerator.RenderProcessResponseCode(operation, 2)#>
+        <#=TemplatePartGenerator.RenderProcessResponseCode(operation, 2)#>
     }
 <#}#>
 
