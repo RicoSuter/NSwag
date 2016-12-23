@@ -27,17 +27,18 @@ namespace NSwag.Commands.Document
                 await ExecuteDocumentAsync(host, Input);
             else
             {
-                if (await DynamicApis.FileExistsAsync("nswag.json").ConfigureAwait(false))
+                var hasNSwagJson = await DynamicApis.FileExistsAsync("nswag.json").ConfigureAwait(false); 
+                if (hasNSwagJson)
                     await ExecuteDocumentAsync(host, "nswag.json");
 
-                var currenctDirectory = await DynamicApis.DirectoryGetCurrentDirectoryAsync().ConfigureAwait(false); 
-                var files = await DynamicApis.DirectoryGetFilesAsync(currenctDirectory, "*.nswag").ConfigureAwait(false);
+                var currentDirectory = await DynamicApis.DirectoryGetCurrentDirectoryAsync().ConfigureAwait(false); 
+                var files = await DynamicApis.DirectoryGetFilesAsync(currentDirectory, "*.nswag").ConfigureAwait(false);
                 if (files.Any())
                 {
                     foreach (var file in files)
                         await ExecuteDocumentAsync(host, file);
                 }
-                else
+                else if (!hasNSwagJson)
                     host.WriteMessage("Current directory does not contain any .nswag files.");
             }
             return null; 
