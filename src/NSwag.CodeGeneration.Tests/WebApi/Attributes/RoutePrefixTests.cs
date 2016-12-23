@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
@@ -55,13 +56,13 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
         }
 
         [TestMethod]
-        public void When_controller_has_RoutePrefix_then_paths_are_correct()
+        public async Task When_controller_has_RoutePrefix_then_paths_are_correct()
         {
             //// Arrange
-            var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
-            var swagger = swaggerGen.GenerateForController<PersonsController>();
+            var swagger = await generator.GenerateForControllerAsync<PersonsController>();
 
             //// Assert
             Assert.IsNotNull(swagger.Paths["/api/Persons"][SwaggerOperationMethod.Get]);
@@ -72,13 +73,13 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
         }
 
         [TestMethod]
-        public void When_route_contains_complex_path_parameter_then_it_is_correctly_parsed()
+        public async Task When_route_contains_complex_path_parameter_then_it_is_correctly_parsed()
         {
             //// Arrange
-            var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
-            var swagger = swaggerGen.GenerateForController<PersonsController>();
+            var swagger = await generator.GenerateForControllerAsync<PersonsController>();
             var json = swagger.ToJson(); 
 
             //// Assert

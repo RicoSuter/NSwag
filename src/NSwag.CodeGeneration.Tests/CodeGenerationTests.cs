@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration.TypeScript;
@@ -13,10 +14,10 @@ namespace NSwag.CodeGeneration.Tests
     public class CodeGenerationTests
     {
         [TestMethod]
-        public void When_generating_CSharp_code_then_output_contains_expected_classes()
+        public async Task When_generating_CSharp_code_then_output_contains_expected_classes()
         {
             // Arrange
-            var document = CreateService();
+            var document = await CreateDocumentAsync();
             var json = document.ToJson();
 
             //// Act
@@ -34,10 +35,10 @@ namespace NSwag.CodeGeneration.Tests
         }
 
         [TestMethod]
-        public void When_generating_TypeScript_code_then_output_contains_expected_classes()
+        public async Task When_generating_TypeScript_code_then_output_contains_expected_classes()
         {
             // Arrange
-            var document = CreateService();
+            var document = await CreateDocumentAsync();
 
             //// Act
             var generator = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
@@ -57,7 +58,7 @@ namespace NSwag.CodeGeneration.Tests
         }
 
         [TestMethod]
-        public void When_using_json_schema_with_references_in_service_then_references_are_correctly_resolved()
+        public async Task When_using_json_schema_with_references_in_service_then_references_are_correctly_resolved()
         {
             //// Arrange
             var jsonSchema = @"{
@@ -87,7 +88,7 @@ namespace NSwag.CodeGeneration.Tests
 }";
 
             //// Act
-            var schema = JsonSchema4.FromJson(jsonSchema);
+            var schema = await JsonSchema4.FromJsonAsync(jsonSchema);
             var document = new SwaggerDocument();
             document.Definitions["Foo"] = schema;
 
@@ -95,7 +96,7 @@ namespace NSwag.CodeGeneration.Tests
             var jsonService = document.ToJson(); // no exception expected
         }
 
-        private static SwaggerDocument CreateService()
+        private static async Task<SwaggerDocument> CreateDocumentAsync()
         {
             var document = new SwaggerDocument();
             var settings = new JsonSchemaGeneratorSettings();
@@ -111,7 +112,7 @@ namespace NSwag.CodeGeneration.Tests
                         {
                             Schema = new JsonSchema4
                             {
-                                SchemaReference = generator.Generate(typeof(Person), new SwaggerSchemaResolver(document, settings))
+                                SchemaReference = await generator.GenerateAsync(typeof(Person), new SwaggerSchemaResolver(document, settings))
                             }
                         }
                     }

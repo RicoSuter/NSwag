@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace NSwag.CodeGeneration.Tests.CommandLine
@@ -9,7 +10,7 @@ namespace NSwag.CodeGeneration.Tests.CommandLine
     public class WebApiCommandLineTests
     {
         [TestMethod]
-        public void When_webapi2swagger_is_called_then_file_is_created()
+        public async Task When_webapi2swagger_is_called_then_file_is_created()
         {
             //// Arrange
             var command = "webapi2swagger " +
@@ -20,7 +21,7 @@ namespace NSwag.CodeGeneration.Tests.CommandLine
 
             //// Act
             var output = RunCommandLine(command);
-            var document = SwaggerDocument.FromJson(output);
+            var document = await SwaggerDocument.FromJsonAsync(output);
 
             //// Assert
             Assert.IsNotNull(document);

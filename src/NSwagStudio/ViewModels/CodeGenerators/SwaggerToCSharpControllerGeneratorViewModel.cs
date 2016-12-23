@@ -88,7 +88,7 @@ namespace NSwagStudio.ViewModels.CodeGenerators
                 {
                     if (!string.IsNullOrEmpty(swaggerData))
                     {
-                        Command.Input = SwaggerDocument.FromJson(swaggerData, documentPath);
+                        Command.Input = await SwaggerDocument.FromJsonAsync(swaggerData, documentPath);
                         code = await Command.RunAsync();
                         Command.Input = null;
                     }

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
@@ -39,7 +40,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
         }
 
         [TestMethod]
-        public void When_parameter_is_complex_then_it_is_a_body_parameter()
+        public async Task When_parameter_is_complex_then_it_is_a_body_parameter()
         {
             //// Arrange
             var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
@@ -48,7 +49,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             });
 
             //// Act
-            var document = generator.GenerateForController<TestController>();
+            var document = await generator.GenerateForControllerAsync<TestController>();
             var operation = document.Operations.Single(o => o.Operation.OperationId == "Test_WithoutAttribute").Operation;
 
             //// Assert
@@ -57,16 +58,16 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
         }
 
         [TestMethod]
-        public void When_parameter_is_complex_and_has_FromUri_then_complex_object_properties_are_added()
+        public async Task When_parameter_is_complex_and_has_FromUri_then_complex_object_properties_are_added()
         {
             //// Arrange
-            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
             {
                 DefaultUrlTemplate = "api/{controller}/{action}/{id}"
             });
 
             //// Act
-            var document = generator.GenerateForController<TestController>();
+            var document = await generator.GenerateForControllerAsync<TestController>();
             var operation = document.Operations.Single(o => o.Operation.OperationId == "Test_WithFromUriAttribute").Operation;
 
             //// Assert
@@ -80,16 +81,16 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
         }
 
         [TestMethod]
-        public void When_parameter_is_complex_and_has_FromBody_then_it_is_a_body_parameter()
+        public async Task When_parameter_is_complex_and_has_FromBody_then_it_is_a_body_parameter()
         {
             //// Arrange
-            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
             {
                 DefaultUrlTemplate = "api/{controller}/{action}/{id}"
             });
 
             //// Act
-            var document = generator.GenerateForController<TestController>();
+            var document = await generator.GenerateForControllerAsync<TestController>();
             var operation = document.Operations.Single(o => o.Operation.OperationId == "Test_WithFromBodyAttribute").Operation;
             var json = document.ToJson();
 

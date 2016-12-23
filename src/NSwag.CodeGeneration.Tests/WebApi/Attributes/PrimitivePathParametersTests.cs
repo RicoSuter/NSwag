@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NJsonSchema;
@@ -28,7 +29,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
         }
 
         [TestMethod]
-        public void When_parameter_is_primitive_then_it_is_a_path_parameter()
+        public async Task When_parameter_is_primitive_then_it_is_a_path_parameter()
         {
             //// Arrange
             var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
@@ -37,7 +38,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             });
 
             //// Act
-            var document = generator.GenerateForController<TestController>();
+            var document = await generator.GenerateForControllerAsync<TestController>();
             var operation = document.Operations.Single(o => o.Operation.OperationId == "Test_WithoutAttribute").Operation;
 
             //// Assert
@@ -45,7 +46,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
         }
 
         [TestMethod]
-        public void When_parameter_is_primitive_and_has_FromUri_then_it_is_a_path_parameter()
+        public async Task When_parameter_is_primitive_and_has_FromUri_then_it_is_a_path_parameter()
         {
             //// Arrange
             var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
@@ -54,7 +55,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             });
 
             //// Act
-            var document = generator.GenerateForController<TestController>();
+            var document = await generator.GenerateForControllerAsync<TestController>();
             var operation = document.Operations.Single(o => o.Operation.OperationId == "Test_WithFromUriAttribute").Operation;
 
             //// Assert
@@ -63,7 +64,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
 
 
         [TestMethod]
-        public void When_parameter_is_primitive_and_has_FromBody_then_it_is_a_path_parameter()
+        public async Task When_parameter_is_primitive_and_has_FromBody_then_it_is_a_path_parameter()
         {
             //// Arrange
             var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
@@ -72,7 +73,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             });
 
             //// Act
-            var document = generator.GenerateForController<TestController>();
+            var document = await generator.GenerateForControllerAsync<TestController>();
             var operation = document.Operations.Single(o => o.Operation.OperationId == "Test_WithFromBodyAttribute").Operation;
 
             //// Assert
@@ -92,7 +93,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
         }
 
         [TestMethod]
-        public void When_route_has_path_parameter_which_is_not_an_action_parameter_then_it_is_still_added_as_path_parameter()
+        public async Task When_route_has_path_parameter_which_is_not_an_action_parameter_then_it_is_still_added_as_path_parameter()
         {
             //// Arrange
             var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
@@ -102,7 +103,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             });
 
             //// Act
-            var document = generator.GenerateForController<RoutePrefixWithPathsController>();
+            var document = await generator.GenerateForControllerAsync<RoutePrefixWithPathsController>();
             
             //// Assert
             var operation = document.Operations.First().Operation;

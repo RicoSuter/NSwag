@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -63,11 +64,11 @@ namespace NSwag.CodeGeneration.Tests.ClientGeneration
         }
 
         [TestMethod]
-        public void When_action_has_file_parameter_then_Stream_is_generated_in_CSharp_code()
+        public async Task When_action_has_file_parameter_then_Stream_is_generated_in_CSharp_code()
         {
             //// Arrange
             var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
-            var document = generator.GenerateForController<FileUploadController>();
+            var document = await generator.GenerateForControllerAsync<FileUploadController>();
 
             //// Act
             var codeGen = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());

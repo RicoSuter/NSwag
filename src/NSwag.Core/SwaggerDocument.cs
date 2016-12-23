@@ -9,6 +9,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using NJsonSchema;
@@ -139,15 +140,15 @@ namespace NSwag
         }
 
         /// <summary>Converts the description object to JSON.</summary>
-        /// <param name="jsonSchemaGenerator">The json schema generator.</param>
+        /// <param name="settings">The JSON Schema generator settings.</param>
         /// <returns>The JSON string.</returns>
-        public string ToJson(JsonSchemaGeneratorSettings jsonSchemaGenerator)
+        public string ToJson(JsonSchemaGeneratorSettings settings)
         {
             var jsonResolver = new IgnorableSerializerContractResolver();
             // Ignore properties which are not allowed in Swagger
             jsonResolver.Ignore(typeof(JsonSchema4), "Title");
 
-            var settings = new JsonSerializerSettings
+            var serializerSettings = new JsonSerializerSettings
             {
                 PreserveReferencesHandling = PreserveReferencesHandling.None,
                 Formatting = Formatting.Indented,
@@ -156,47 +157,47 @@ namespace NSwag
 
             GenerateOperationIds();
 
-            JsonSchemaReferenceUtilities.UpdateSchemaReferencePaths(this, new SwaggerSchemaResolver(this, jsonSchemaGenerator));
-            var data = JsonConvert.SerializeObject(this, settings);
-            JsonSchemaReferenceUtilities.UpdateSchemaReferences(this);
-
-            return JsonSchemaReferenceUtilities.ConvertPropertyReferences(data);
+            JsonSchemaReferenceUtilities.UpdateSchemaReferencePaths(this);
+            return JsonSchemaReferenceUtilities.ConvertPropertyReferences(JsonConvert.SerializeObject(this, serializerSettings));
         }
 
         /// <summary>Creates a Swagger specification from a JSON string.</summary>
         /// <param name="data">The JSON data.</param>
         /// <param name="documentPath">The document path (URL or file path) for resolving relative document references.</param>
         /// <returns>The <see cref="SwaggerDocument"/>.</returns>
-        public static SwaggerDocument FromJson(string data, string documentPath = null)
+        public static async Task<SwaggerDocument> FromJsonAsync(string data, string documentPath = null)
         {
             data = JsonSchemaReferenceUtilities.ConvertJsonReferences(data);
-            var service = JsonConvert.DeserializeObject<SwaggerDocument>(data, new JsonSerializerSettings
+            var document = JsonConvert.DeserializeObject<SwaggerDocument>(data, new JsonSerializerSettings
             {
                 ConstructorHandling = ConstructorHandling.Default,
                 ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
                 PreserveReferencesHandling = PreserveReferencesHandling.Objects
             });
-            service.DocumentPath = documentPath;
-            JsonSchemaReferenceUtilities.UpdateSchemaReferences(service);
-            return service;
+            document.DocumentPath = documentPath;
+
+            var schemaResolver = new JsonSchemaResolver(documentPath, new JsonSchemaGeneratorSettings());
+            var referenceResolver = new JsonReferenceResolver(schemaResolver); 
+            await JsonSchemaReferenceUtilities.UpdateSchemaReferencesAsync(document, referenceResolver).ConfigureAwait(false);
+            return document;
         }
 
         /// <summary>Creates a Swagger specification from a JSON file.</summary>
         /// <param name="filePath">The file path.</param>
         /// <returns>The <see cref="SwaggerDocument" />.</returns>
-        public static SwaggerDocument FromFile(string filePath)
+        public static async Task<SwaggerDocument> FromFileAsync(string filePath)
         {
-            var data = DynamicApis.FileReadAllText(filePath);
-            return FromJson(data, filePath);
+            var data = await DynamicApis.FileReadAllTextAsync(filePath).ConfigureAwait(false);
+            return await FromJsonAsync(data, filePath).ConfigureAwait(false);
         }
 
         /// <summary>Creates a Swagger specification from an URL.</summary>
         /// <param name="url">The URL.</param>
         /// <returns>The <see cref="SwaggerDocument"/>.</returns>
-        public static SwaggerDocument FromUrl(string url)
+        public static async Task<SwaggerDocument> FromUrlAsync(string url)
         {
-            var data = DynamicApis.HttpGet(url);
-            return FromJson(data, url);
+            var data = await DynamicApis.HttpGetAsync(url).ConfigureAwait(false);
+            return await FromJsonAsync(data, url).ConfigureAwait(false);
         }
 
         /// <summary>Gets the operations.</summary>

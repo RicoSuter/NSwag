@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 {
@@ -26,7 +27,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         /// <summary>Generates for controllers.</summary>
         /// <param name="controllerClassNames">The controller class names.</param>
         /// <returns>The Swagger document.</returns>
-        public abstract SwaggerDocument GenerateForControllers(IEnumerable<string> controllerClassNames);
+        public abstract Task<SwaggerDocument> GenerateForControllersAsync(IEnumerable<string> controllerClassNames);
 
         /// <summary>Gets the controller classes.</summary>
         /// <returns>The controller class names.</returns>

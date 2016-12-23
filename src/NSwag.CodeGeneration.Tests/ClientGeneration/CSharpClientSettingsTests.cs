@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSwag.CodeGeneration.CodeGenerators.CSharp;
@@ -12,20 +13,20 @@ namespace NSwag.CodeGeneration.Tests.ClientGeneration
         {
             public object GetPerson(bool @override = false)
             {
-                return null; 
+                return null;
             }
         }
 
         [TestMethod]
-        public void When_ConfigurationClass_is_set_then_correct_ctor_is_generated()
+        public async Task When_ConfigurationClass_is_set_then_correct_ctor_is_generated()
         {
             //// Arrange
             var swaggerGenerator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
-            var document = swaggerGenerator.GenerateForController<FooController>();
+            var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
 
             var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
             {
-                ConfigurationClass = "MyConfig", 
+                ConfigurationClass = "MyConfig",
                 ClientBaseClass = "MyBaseClass"
             });
 
@@ -37,11 +38,11 @@ namespace NSwag.CodeGeneration.Tests.ClientGeneration
         }
 
         [TestMethod]
-        public void When_UseHttpRequestMessageCreationMethod_is_set_then_CreateRequestMessage_is_generated()
+        public async Task When_UseHttpRequestMessageCreationMethod_is_set_then_CreateRequestMessage_is_generated()
         {
             //// Arrange
             var swaggerGenerator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
-            var document = swaggerGenerator.GenerateForController<FooController>();
+            var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
 
             var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
             {
@@ -58,11 +59,11 @@ namespace NSwag.CodeGeneration.Tests.ClientGeneration
         }
 
         [TestMethod]
-        public void When_parameter_name_is_reserved_keyword_then_it_is_appended_with_at()
+        public async Task When_parameter_name_is_reserved_keyword_then_it_is_appended_with_at()
         {
             //// Arrange
             var swaggerGenerator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
-            var document = swaggerGenerator.GenerateForController<FooController>();
+            var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
 
             var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
 

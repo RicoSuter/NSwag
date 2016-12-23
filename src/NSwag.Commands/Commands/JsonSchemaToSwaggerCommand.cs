@@ -24,7 +24,7 @@ namespace NSwag.Commands
 
         public async Task<SwaggerDocument> RunAsync()
         {
-            var schema = await Task.Run(() => JsonSchema4.FromJson(Schema));
+            var schema = await JsonSchema4.FromJsonAsync(Schema).ConfigureAwait(false);
             var document = new SwaggerDocument();
             var rootSchemaName = string.IsNullOrEmpty(Name) && Regex.IsMatch(schema.Title, "^[a-zA-Z0-9_]*$") ? schema.Title : Name;
             document.Definitions[rootSchemaName] = schema;
