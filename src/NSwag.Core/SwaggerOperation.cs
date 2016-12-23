@@ -80,7 +80,9 @@ namespace NSwag
             get
             {
                 var allParameters = Parent?.Parameters == null ? Parameters :
-                    Parameters.Concat(Parent.Parameters.Where(p => Parameters.All(op => op.Name != p.Name && op.Kind != p.Kind)));
+                    Parameters.Concat(Parent.Parameters)
+                    .GroupBy(p => p.Name + "|" + p.Kind)
+                    .Select(p => p.First());
 
                 return new ReadOnlyCollection<SwaggerParameter>(allParameters
                     .Select(p => p.ActualSchema is SwaggerParameter ? (SwaggerParameter)p.ActualSchema : p)
