@@ -155,7 +155,7 @@ namespace NSwag
 
             GenerateOperationIds();
 
-            JsonSchemaReferenceUtilities.UpdateSchemaReferencePaths(this, new SwaggerSchemaResolver(this, settings));
+            JsonSchemaReferenceUtilities.UpdateSchemaReferencePaths(this);
             return JsonSchemaReferenceUtilities.ConvertPropertyReferences(JsonConvert.SerializeObject(this, serializerSettings));
         }
 
@@ -166,15 +166,18 @@ namespace NSwag
         public static async Task<SwaggerDocument> FromJsonAsync(string data, string documentPath = null)
         {
             data = JsonSchemaReferenceUtilities.ConvertJsonReferences(data);
-            var service = JsonConvert.DeserializeObject<SwaggerDocument>(data, new JsonSerializerSettings
+            var document = JsonConvert.DeserializeObject<SwaggerDocument>(data, new JsonSerializerSettings
             {
                 ConstructorHandling = ConstructorHandling.Default,
                 ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
                 PreserveReferencesHandling = PreserveReferencesHandling.Objects
             });
-            service.DocumentPath = documentPath;
-            await JsonSchemaReferenceUtilities.UpdateSchemaReferencesAsync(service).ConfigureAwait(false);
-            return service;
+            document.DocumentPath = documentPath;
+
+            var schemaResolver = new JsonSchemaResolver(documentPath, new JsonSchemaGeneratorSettings());
+            var referenceResolver = new JsonReferenceResolver(schemaResolver); 
+            await JsonSchemaReferenceUtilities.UpdateSchemaReferencesAsync(document, referenceResolver).ConfigureAwait(false);
+            return document;
         }
 
         /// <summary>Creates a Swagger specification from a JSON file.</summary>
