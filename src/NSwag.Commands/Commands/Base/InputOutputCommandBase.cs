@@ -41,6 +41,8 @@ namespace NSwag.Commands.Base
 
                 if (IsJson(inputString))
                     document = await SwaggerDocument.FromJsonAsync(inputString).ConfigureAwait(false);
+                else if (inputString.StartsWith("http://") || inputString.StartsWith("https://"))
+                    document = await SwaggerDocument.FromUrlAsync(inputString).ConfigureAwait(false);
                 else
                     document = await SwaggerDocument.FromUrlAsync(inputString).ConfigureAwait(false);
             }

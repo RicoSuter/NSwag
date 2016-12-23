@@ -29,6 +29,7 @@ namespace NSwag
             Info = new SwaggerInfo();
             Schemes = new List<SwaggerSchema>();
             Responses = new Dictionary<string, SwaggerResponse>();
+            Parameters = new Dictionary<string, SwaggerParameter>();
             SecurityDefinitions = new Dictionary<string, SwaggerSecurityScheme>();
 
             Info = new SwaggerInfo
@@ -39,12 +40,13 @@ namespace NSwag
 
             Definitions = new ObservableDictionary<string, JsonSchema4>();
 
-            Paths = new ObservableDictionary<string, SwaggerOperations>();
-            Paths.CollectionChanged += (sender, args) =>
+            var paths = new ObservableDictionary<string, SwaggerOperations>();
+            paths.CollectionChanged += (sender, args) =>
             {
                 foreach (var path in Paths.Values)
                     path.Parent = this;
             };
+            Paths = paths; 
         }
 
         /// <summary>Gets the NSwag toolchain version.</summary>
@@ -84,23 +86,23 @@ namespace NSwag
 
         /// <summary>Gets or sets the operations.</summary>
         [JsonProperty(PropertyName = "paths", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public ObservableDictionary<string, SwaggerOperations> Paths { get; private set; }
+        public IDictionary<string, SwaggerOperations> Paths { get; }
 
         /// <summary>Gets or sets the types.</summary>
         [JsonProperty(PropertyName = "definitions", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public ObservableDictionary<string, JsonSchema4> Definitions { get; private set; }
+        public IDictionary<string, JsonSchema4> Definitions { get; }
 
         /// <summary>Gets or sets the parameters which can be used for all operations.</summary>
         [JsonProperty(PropertyName = "parameters", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public Dictionary<string, SwaggerParameter> Parameters { get; set; }
+        public Dictionary<string, SwaggerParameter> Parameters { get; }
 
         /// <summary>Gets or sets the responses which can be used for all operations.</summary>
         [JsonProperty(PropertyName = "responses", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public Dictionary<string, SwaggerResponse> Responses { get; private set; }
+        public Dictionary<string, SwaggerResponse> Responses { get; }
 
         /// <summary>Gets or sets the security definitions.</summary>
         [JsonProperty(PropertyName = "securityDefinitions", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public Dictionary<string, SwaggerSecurityScheme> SecurityDefinitions { get; private set; }
+        public Dictionary<string, SwaggerSecurityScheme> SecurityDefinitions { get; }
 
         /// <summary>Gets or sets a security description.</summary>
         [JsonProperty(PropertyName = "security", DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -230,7 +232,7 @@ namespace NSwag
                 {
                     // Append "All" if possible
                     var arrayResponseOperation = operations.FirstOrDefault(
-                        a => a.Operation.Responses.Any(r => HttpUtilities.IsSuccessStatusCode(r.Key) && r.Value.Schema != null && r.Value.Schema.Type == JsonObjectType.Array));
+                        a => a.Operation.Responses.Any(r => HttpUtilities.IsSuccessStatusCode(r.Key) && r.Value.ActualResponseSchema != null && r.Value.ActualResponseSchema.Type == JsonObjectType.Array));
 
                     if (arrayResponseOperation != null)
                     {

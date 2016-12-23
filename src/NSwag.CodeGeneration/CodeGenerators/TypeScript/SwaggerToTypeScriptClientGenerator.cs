@@ -119,7 +119,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
                 return "string";
 
             return string.Join(" | ", operation.Responses
-                .Where(r => !HttpUtilities.IsSuccessStatusCode(r.Key) && r.Value.Schema != null)
+                .Where(r => !HttpUtilities.IsSuccessStatusCode(r.Key) && r.Value.ActualResponseSchema != null)
                 .Select(r => GetType(r.Value.ActualResponseSchema, r.Value.IsNullable(Settings.CodeGeneratorSettings.NullHandling), "Exception"))
                 .Concat(new[] { "string" }));
         }

@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using NSwag.Collections;
 
 namespace NSwag
 {
@@ -22,7 +23,14 @@ namespace NSwag
         {
             Tags = new List<string>();
             Parameters = new List<SwaggerParameter>();
-            Responses = new Dictionary<string, SwaggerResponse>();
+
+            var responses = new ObservableDictionary<string, SwaggerResponse>();
+            responses.CollectionChanged += (sender, args) =>
+            {
+                foreach (var response in Responses.Values)
+                    response.Parent = this;
+            };
+            Responses = responses; 
         }
 
         /// <summary>Gets the parent operations list.</summary>
@@ -82,7 +90,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the HTTP Status Code/Response pairs.</summary>
         [JsonProperty(PropertyName = "responses", Required = Required.Always, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public Dictionary<string, SwaggerResponse> Responses { get; set; }
+        public IDictionary<string, SwaggerResponse> Responses { get; }
 
         /// <summary>Gets or sets a value indicating whether the operation is deprecated.</summary>
         [JsonProperty(PropertyName = "deprecated", DefaultValueHandling = DefaultValueHandling.Ignore)]

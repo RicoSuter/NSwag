@@ -46,7 +46,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         internal override string GetResultType(SwaggerOperation operation)
         {
             var response = GetSuccessResponse(operation);
-            if (response?.Schema == null)
+            if (response?.ActualResponseSchema == null)
                 return "System.Threading.Tasks.Task";
 
             return "System.Threading.Tasks.Task<" + GetType(response.ActualResponseSchema, response.IsNullable(BaseSettings.CodeGeneratorSettings.NullHandling), "Response") + ">";
