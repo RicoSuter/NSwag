@@ -61,7 +61,7 @@ namespace NSwag.Commands
                 var output = results.Last()?.Output;
                 var document = output as SwaggerDocument;
                 if (document != null)
-                    _host.WriteMessage(document.ToJsonAsync().Result);
+                    _host.WriteMessage(document.ToJson());
                 else if (output != null)
                     _host.WriteMessage(output.ToString());
 

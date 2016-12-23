@@ -85,7 +85,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
                 return FromAssemblyTypeAsync(classNames, settingsData).GetAwaiter().GetResult();
             }
 
-            internal async Task<string> FromAssemblyTypeAsync(string[] classNames, string settingsData)
+            private async Task<string> FromAssemblyTypeAsync(string[] classNames, string settingsData)
             {
                 var document = new SwaggerDocument();
                 var settings = JsonConvert.DeserializeObject<AssemblyTypeToSwaggerGeneratorSettings>(settingsData);
@@ -107,7 +107,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
                     document.Definitions[type.Name] = schema;
                 }
 
-                return await document.ToJsonAsync().ConfigureAwait(false);
+                return document.ToJson();
             }
 
             internal string[] GetClasses(string assemblyPath, IEnumerable<string> referencePaths)

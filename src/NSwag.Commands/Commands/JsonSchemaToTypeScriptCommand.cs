@@ -29,7 +29,7 @@ namespace NSwag.Commands
             var generator = new TypeScriptGenerator(schema);
 
             var code = generator.GenerateFile(Name); 
-            if (await TryWriteFileOutputAsync(host, () => Task.FromResult(code)).ConfigureAwait(false) == false)
+            if (await TryWriteFileOutputAsync(host, () => code).ConfigureAwait(false) == false)
                 return Task.FromResult<object>(code);
 
             return Task.FromResult<object>(null);

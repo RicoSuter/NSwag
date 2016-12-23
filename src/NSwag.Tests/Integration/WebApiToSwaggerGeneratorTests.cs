@@ -22,7 +22,7 @@ namespace NSwag.Tests.Integration
 
             //// Act
             var document = await generator.GenerateForControllerAsync<PersonsController>();
-            var swaggerSpecification = await document.ToJsonAsync();
+            var swaggerSpecification = document.ToJson();
 
             //// Assert
             Assert.AreEqual(10, document.Operations.Count());
@@ -40,7 +40,7 @@ namespace NSwag.Tests.Integration
             //// Act
             var document = await generator.GenerateForControllerAsync<PersonsController>();
             var operation = document.Operations.Single(o => o.Path == "/api/Persons/Get/{id}");
-            var json = await document.ToJsonAsync();
+            var json = document.ToJson();
 
             //// Assert
             Assert.AreEqual(2, operation.Operation.Responses.Count);

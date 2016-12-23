@@ -17,7 +17,7 @@ namespace NSwag.Tests.Specification
 
             //// Act
             var document = await generator.GenerateForControllerAsync<TestController>();
-            var swaggerSpecification = await document.ToJsonAsync();
+            var swaggerSpecification = document.ToJson();
 
             //// Assert
             Assert.AreEqual(2, Regex.Matches(Regex.Escape(swaggerSpecification), "allOf").Count); // must have an allOf in BB and CC, no more (rest are refs)

@@ -75,7 +75,7 @@ namespace NSwag.Commands
             var generator = new CSharpGenerator(schema, Settings);
 
             var code = generator.GenerateFile(Name); 
-            if (await TryWriteFileOutputAsync(host, () => Task.FromResult(code)).ConfigureAwait(false) == false)
+            if (await TryWriteFileOutputAsync(host, () => code).ConfigureAwait(false) == false)
                 return code;
 
             return null;

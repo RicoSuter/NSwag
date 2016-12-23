@@ -19,7 +19,7 @@ namespace NSwag.CodeGeneration.Tests
         {
             // Arrange
             var document = await CreateDocumentAsync();
-            var json = await document.ToJsonAsync();
+            var json = document.ToJson();
 
             //// Act
             var settings = new SwaggerToCSharpClientGeneratorSettings { ClassName = "MyClass" };
@@ -94,7 +94,7 @@ namespace NSwag.CodeGeneration.Tests
             document.Definitions["Foo"] = schema;
 
             //// Assert
-            var jsonService = await document.ToJsonAsync(); // no exception expected
+            var jsonService = document.ToJson(); // no exception expected
         }
 
         private static async Task<SwaggerDocument> CreateDocumentAsync()

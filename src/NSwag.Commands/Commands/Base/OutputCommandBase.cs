@@ -24,12 +24,12 @@ namespace NSwag.Commands.Base
 
         public abstract Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host);
 
-        protected Task<bool> TryWriteFileOutputAsync(IConsoleHost host, Func<Task<string>> generator)
+        protected Task<bool> TryWriteFileOutputAsync(IConsoleHost host, Func<string> generator)
         {
             return TryWriteFileOutputAsync(OutputFilePath, host, generator);
         }
 
-        protected async Task<bool> TryWriteFileOutputAsync(string path, IConsoleHost host, Func<Task<string>> generator)
+        protected async Task<bool> TryWriteFileOutputAsync(string path, IConsoleHost host, Func<string> generator)
         {
             if (!string.IsNullOrEmpty(path))
             {
@@ -37,7 +37,7 @@ namespace NSwag.Commands.Base
                 if (!string.IsNullOrEmpty(directory) && await DynamicApis.DirectoryExistsAsync(directory).ConfigureAwait(false) == false)
                     await DynamicApis.DirectoryCreateDirectoryAsync(directory).ConfigureAwait(false);
 
-                var data = await generator().ConfigureAwait(false);
+                var data = generator();
                 await DynamicApis.FileWriteAllTextAsync(path, data).ConfigureAwait(false);
                 host?.WriteMessage("Code has been successfully written to file.\n");
 

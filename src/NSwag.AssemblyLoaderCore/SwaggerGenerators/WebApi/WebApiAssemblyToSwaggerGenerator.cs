@@ -91,7 +91,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 return GenerateForControllersAsync(controllerClassNames, settingsData).GetAwaiter().GetResult();
             }
 
-            internal async Task<string> GenerateForControllersAsync(IEnumerable<string> controllerClassNames, string settingsData)
+            private async Task<string> GenerateForControllersAsync(IEnumerable<string> controllerClassNames, string settingsData)
             {
                 var settings = JsonConvert.DeserializeObject<WebApiAssemblyToSwaggerGeneratorSettings>(settingsData);
 
@@ -100,7 +100,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
 
                 var generator = new WebApiToSwaggerGenerator(settings);
                 var document = await generator.GenerateForControllersAsync(controllers).ConfigureAwait(false);
-                return await document.ToJsonAsync().ConfigureAwait(false);
+                return document.ToJson();
             }
 
             /// <exception cref="InvalidOperationException">No assembly paths have been provided.</exception>

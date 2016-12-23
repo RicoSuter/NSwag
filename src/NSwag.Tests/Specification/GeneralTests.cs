@@ -28,7 +28,7 @@ namespace NSwag.Tests
 
             //// Act
             var document = await SwaggerDocument.FromJsonAsync(json);
-            var json2 = await document.ToJsonAsync();
+            var json2 = document.ToJson();
             var reference = document.Paths["/pets"][SwaggerOperationMethod.Get].Responses["200"].Schema.Item.SchemaReference;
 
             //// Assert

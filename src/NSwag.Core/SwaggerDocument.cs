@@ -132,21 +132,21 @@ namespace NSwag
 
         /// <summary>Converts the description object to JSON.</summary>
         /// <returns>The JSON string.</returns>
-        public Task<string> ToJsonAsync()
+        public string ToJson()
         {
-            return ToJsonAsync(new JsonSchemaGeneratorSettings());
+            return ToJson(new JsonSchemaGeneratorSettings());
         }
 
         /// <summary>Converts the description object to JSON.</summary>
-        /// <param name="jsonSchemaGenerator">The json schema generator.</param>
+        /// <param name="settings">The JSON Schema generator settings.</param>
         /// <returns>The JSON string.</returns>
-        public async Task<string> ToJsonAsync(JsonSchemaGeneratorSettings jsonSchemaGenerator)
+        public string ToJson(JsonSchemaGeneratorSettings settings)
         {
             var jsonResolver = new IgnorableSerializerContractResolver();
             // Ignore properties which are not allowed in Swagger
             jsonResolver.Ignore(typeof(JsonSchema4), "Title");
 
-            var settings = new JsonSerializerSettings
+            var serializerSettings = new JsonSerializerSettings
             {
                 PreserveReferencesHandling = PreserveReferencesHandling.None,
                 Formatting = Formatting.Indented,
@@ -155,11 +155,8 @@ namespace NSwag
 
             GenerateOperationIds();
 
-            JsonSchemaReferenceUtilities.UpdateSchemaReferencePaths(this, new SwaggerSchemaResolver(this, jsonSchemaGenerator));
-            var data = JsonConvert.SerializeObject(this, settings);
-            await JsonSchemaReferenceUtilities.UpdateSchemaReferencesAsync(this).ConfigureAwait(false);
-
-            return JsonSchemaReferenceUtilities.ConvertPropertyReferences(data);
+            JsonSchemaReferenceUtilities.UpdateSchemaReferencePaths(this, new SwaggerSchemaResolver(this, settings));
+            return JsonSchemaReferenceUtilities.ConvertPropertyReferences(JsonConvert.SerializeObject(this, serializerSettings));
         }
 
         /// <summary>Creates a Swagger specification from a JSON string.</summary>

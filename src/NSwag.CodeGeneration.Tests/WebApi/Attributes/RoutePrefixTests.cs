@@ -80,7 +80,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
 
             //// Act
             var swagger = await generator.GenerateForControllerAsync<PersonsController>();
-            var json = await swagger.ToJsonAsync(); 
+            var json = swagger.ToJson(); 
 
             //// Assert
             Assert.IsTrue(swagger.Paths.Contains("/api/Persons/RegexPathParameter/{deviceType}/{deviceId}/energyConsumed"));

@@ -99,10 +99,13 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         {
             return await RunTaskAsync(async () =>
             {
-                var document = await Command.RunAsync().ConfigureAwait(false);
-                if (document != null)
-                    return await document.ToJsonAsync().ConfigureAwait(false);
-                return null; 
+                return await Task.Run(async () =>
+                {
+                    var document = await Command.RunAsync().ConfigureAwait(false);
+                    if (document != null)
+                        return document.ToJson();
+                    return null;
+                });
             });
         }
 

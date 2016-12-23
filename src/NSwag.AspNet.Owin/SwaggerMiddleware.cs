@@ -70,7 +70,7 @@ namespace NSwag.AspNet.Owin
                     document.BasePath = context.Request.PathBase.Value?.Substring(0, context.Request.PathBase.Value.Length - _settings.MiddlewareBasePath?.Length ?? 0) ?? "";
 
                     _settings.PostProcess?.Invoke(document);
-                    _swaggerJson = await document.ToJsonAsync();
+                    _swaggerJson = document.ToJson();
                 }
                 catch (Exception exception)
                 {

@@ -99,7 +99,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
 
             //// Act
             var document = await generator.GenerateForControllerAsync<ControllerWithArrayQueryParameter>();
-            var json = await document.ToJsonAsync();
+            var json = document.ToJson();
 
             //// Assert
             var operation = document.Operations.First().Operation;
@@ -147,7 +147,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
 
             //// Act
             var document = await generator.GenerateForControllerAsync<FooController>();
-            var json = await document.ToJsonAsync();
+            var json = document.ToJson();
 
             //// Assert
             Assert.IsNotNull(document.Operations.First().Operation.Parameters.First().Schema.SchemaReference);

@@ -43,7 +43,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi
 
             //// Act
             var document = await apiGenerator.GenerateForControllerAsync<MyController>();
-            var json = await document.ToJsonAsync();
+            var json = document.ToJson();
 
             // Assert
             Assert.IsTrue(json.Split(new[] { "x-enumNames" }, StringSplitOptions.None).Length == 2); // enum is defined only once

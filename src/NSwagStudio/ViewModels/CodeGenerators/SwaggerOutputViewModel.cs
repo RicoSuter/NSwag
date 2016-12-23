@@ -25,7 +25,7 @@ namespace NSwagStudio.ViewModels.CodeGenerators
                 {
                     var document = await SwaggerDocument.FromJsonAsync(swaggerData, documentPath);
                     if (document != null)
-                        return await document.ToJsonAsync();
+                        return document.ToJson();
                     return string.Empty;
                 });
             }

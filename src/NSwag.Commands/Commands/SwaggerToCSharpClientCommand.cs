@@ -110,7 +110,7 @@ namespace NSwag.Commands
         {
             var result = await RunAsync();
             foreach (var pair in result)
-                await TryWriteFileOutputAsync(pair.Key, host, () => Task.FromResult(pair.Value)).ConfigureAwait(false);
+                await TryWriteFileOutputAsync(pair.Key, host, () => pair.Value).ConfigureAwait(false);
             return result;
         }
 
