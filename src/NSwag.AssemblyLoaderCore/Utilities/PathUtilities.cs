@@ -80,7 +80,7 @@ namespace NSwag.CodeGeneration.Utilities
                 return relativePath; 
 
             var absolutePath = Path.Combine(relativeTo, relativePath);
-            return Path.GetFullPath(new Uri(absolutePath).LocalPath);
+            return Path.GetFullPath(absolutePath);
         }
 
         /// <summary>Converts an absolute path to a relative path if possible.</summary>
