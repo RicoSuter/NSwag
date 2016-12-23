@@ -92,7 +92,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
                     Type = typeDescription.Type, // Used as fallback for generators which do not check the "schema" property
                     Schema = new JsonSchema4
                     {
-                        SchemaReference = await _schemaGenerator.GenerateAsync<JsonSchema4>(parameterType, parentAttributes, _schemaResolver).ConfigureAwait(false)
+                        SchemaReference = await _schemaGenerator.GenerateAsync(parameterType, parentAttributes, _schemaResolver).ConfigureAwait(false)
                     }
                 };
             }
