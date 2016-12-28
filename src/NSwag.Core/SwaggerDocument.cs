@@ -147,6 +147,7 @@ namespace NSwag
             var jsonResolver = new IgnorableSerializerContractResolver();
             // Ignore properties which are not allowed in Swagger
             jsonResolver.Ignore(typeof(JsonSchema4), "Title");
+            jsonResolver.Ignore(typeof(JsonSchema4), "title");
 
             var serializerSettings = new JsonSerializerSettings
             {
