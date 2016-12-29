@@ -102,6 +102,11 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
             Schema.Item?.ActualSchema.Format == JsonFormatStrings.Date) &&
             _clientGeneratorBase.GetType(Schema.Item.ActualSchema, IsNullable, "Response") != "string";
 
+        /// <summary>Gets a value indicating whether the parameter is of type object array.</summary>
+        public bool IsObjectArray =>
+            IsArray &&
+            Schema.Item?.Type == JsonObjectType.Object;
+        
         // TODO: Find way to remove TypeScript only properties
 
         /// <summary>Gets or sets a value indicating whether to use a DTO class.</summary>
