@@ -603,7 +603,14 @@ if(operation.HasFormParameters){
             
             #line default
             #line hidden
-            this.Write("                \"Content-Type\": \"application/json; charset=UTF-8\"\r\n");
+            this.Write("                \"Content-Type\": \"");
+            
+            #line 71 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.Consumes));
+            
+            #line default
+            #line hidden
+            this.Write("; charset=UTF-8\"\r\n");
             
             #line 72 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\AngularJSClientTemplate.tt"
 }

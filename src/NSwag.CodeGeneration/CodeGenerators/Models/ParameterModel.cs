@@ -77,6 +77,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         /// <summary>Gets a value indicating whether the parameter is the last parameter of the operation.</summary>
         public bool IsLast => _operation.ActualParameters.LastOrDefault() == _parameter;
 
+        /// <summary>Gets a value indicating whether this is an XML body parameter.</summary>
+        public bool IsXmlBodyParameter => _parameter.IsXmlBodyParameter;
+
         /// <summary>Gets a value indicating whether the parameter is of type date.</summary>
         public bool IsDate =>
             (Schema.Format == JsonFormatStrings.DateTime ||

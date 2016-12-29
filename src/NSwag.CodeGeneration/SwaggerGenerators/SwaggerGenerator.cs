@@ -41,10 +41,10 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
         /// <returns>The created parameter.</returns>
         public async Task<SwaggerParameter> CreatePrimitiveParameterAsync(string name, ParameterInfo parameter)
         {
-            var documentation = await parameter.GetXmlDocumentationAsync().ConfigureAwait(false); 
+            var documentation = await parameter.GetXmlDocumentationAsync().ConfigureAwait(false);
             return await CreatePrimitiveParameterAsync(name, documentation, parameter.ParameterType, parameter.GetCustomAttributes().ToList()).ConfigureAwait(false);
         }
-        
+
         /// <summary>Creates a path parameter for a given type.</summary>
         /// <param name="parameterName">Name of the parameter.</param>
         /// <param name="parameterType">Type of the parameter.</param>

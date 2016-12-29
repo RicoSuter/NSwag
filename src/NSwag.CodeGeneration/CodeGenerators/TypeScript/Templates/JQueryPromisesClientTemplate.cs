@@ -740,8 +740,14 @@ foreach(var parameter in operation.HeaderParameters){
             
             #line default
             #line hidden
-            this.Write("                \"Content-Type\": \"application/json; charset=UTF-8\"\r\n            }\r" +
-                    "\n        }");
+            this.Write("                \"Content-Type\": \"");
+            
+            #line 79 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.Consumes));
+            
+            #line default
+            #line hidden
+            this.Write("; charset=UTF-8\"\r\n            }\r\n        }");
             
             #line 81 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(Model.UseTransformOptionsMethod){

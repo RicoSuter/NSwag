@@ -66,12 +66,12 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="NJsonSchema, Version=7.1.6203.28289, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NJsonSchema.7.1.6203.28289\lib\net45\NJsonSchema.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="NJsonSchema.CodeGeneration, Version=7.1.6203.28289, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NJsonSchema.CodeGeneration.7.1.6203.28289\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -109,6 +109,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <Choose>
@@ -145,6 +146,7 @@
     <Compile Include="WebApi\EnumListTests.cs" />
     <Compile Include="WebApi\GeneralTests.cs" />
     <Compile Include="WebApi\OperationIdTests.cs" />
+    <Compile Include="WebApi\XmlTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj">

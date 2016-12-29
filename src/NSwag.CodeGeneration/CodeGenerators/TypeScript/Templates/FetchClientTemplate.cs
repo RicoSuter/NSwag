@@ -638,7 +638,14 @@ if(operation.HasFormParameters){
             
             #line default
             #line hidden
-            this.Write("                \"Content-Type\": \"application/json; charset=UTF-8\"\r\n");
+            this.Write("                \"Content-Type\": \"");
+            
+            #line 75 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.Consumes));
+            
+            #line default
+            #line hidden
+            this.Write("; charset=UTF-8\"\r\n");
             
             #line 76 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt"
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Http;
+using System.Web.Http.Results;
+using System.Xml;
 using NSwag.Integration.WebAPI.Models;
 using NSwag.Annotations;
 using NSwag.Integration.WebAPI.Models.Exceptions;
@@ -31,7 +33,7 @@ namespace NSwag.Integration.WebAPI.Controllers
         }
 
         [Route("find2")]
-        public IEnumerable<Person> Find2(Gender? gender)
+        public IEnumerable<Person> FindOptional(Gender? gender)
         {
             return new List<Person>
             {
@@ -71,6 +73,12 @@ namespace NSwag.Integration.WebAPI.Controllers
         public void Add(Person person)
         {
 
+        }
+
+        [HttpPost, Route("AddXml")]
+        public JsonResult<string> AddXml([FromBody]XmlDocument person)
+        {
+            return Json(person.OuterXml);
         }
 
         [HttpDelete, Route("{id}")]

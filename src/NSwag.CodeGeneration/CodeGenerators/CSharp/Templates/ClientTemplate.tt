@@ -130,8 +130,8 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
             request_.Headers.TryAddWithoutValidation("<#=parameter.Name#>", <#=parameter.VariableName#>);
 <#}#>
 <#if(operation.HasContent){#>
-            var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(<#=operation.ContentParameter.VariableName#><#=Model.JsonConverters#>));
-            content_.Headers.ContentType.MediaType = "application/json";
+            var content_ = new System.Net.Http.StringContent(<#if(operation.HasXmlBodyParameter){#><#=operation.ContentParameter.VariableName#><#}else{#>Newtonsoft.Json.JsonConvert.SerializeObject(<#=operation.ContentParameter.VariableName#><#=Model.JsonConverters#>)<#}#>);
+            content_.Headers.ContentType.MediaType = "<#=operation.Consumes#>";
 <#}else{#>
 <#  if(operation.HasFormParameters){#>
             var content_ = new System.Net.Http.MultipartFormDataContent();

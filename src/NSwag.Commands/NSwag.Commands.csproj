@@ -88,13 +88,11 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=7.1.6203.28289, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+    <Reference Include="NJsonSchema">
       <HintPath>..\packages\NJsonSchema.7.1.6203.28289\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema.CodeGeneration, Version=7.1.6203.28289, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+    <Reference Include="NJsonSchema.CodeGeneration">
       <HintPath>..\packages\NJsonSchema.CodeGeneration.7.1.6203.28289\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
-      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

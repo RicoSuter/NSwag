@@ -114,5 +114,11 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 
         /// <summary>Gets a value indicating whether the operation is deprecated.</summary>
         public bool IsDeprecated => Operation.IsDeprecated;
+
+        /// <summary>Gets or sets a value indicating whether this operation has an XML body parameter.</summary>
+        public bool HasXmlBodyParameter => Operation.ActualParameters.Any(p => p.IsXmlBodyParameter);
+
+        /// <summary>Gets the mime type of the request body.</summary>
+        public string Consumes => Operation.ActualConsumes?.FirstOrDefault() ?? "application/json";
     }
 }
