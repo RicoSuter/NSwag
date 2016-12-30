@@ -47,9 +47,10 @@ if(Model.QueryParameters.Any()){
             
             #line default
             #line hidden
-            this.Write("\"; \n");
+            this.Write("\";");
             
             #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+
 foreach(var parameter in Model.PathParameters){
             
             #line default
@@ -75,9 +76,10 @@ foreach(var parameter in Model.PathParameters){
             
             #line default
             #line hidden
-            this.Write("\' must be defined.\");\n");
+            this.Write("\' must be defined.\");");
             
             #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+
   if(parameter.IsDateArray){
             
             #line default
@@ -163,27 +165,9 @@ foreach(var parameter in Model.PathParameters){
             
             #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
   }
-            
-            #line default
-            #line hidden
-            this.Write("\n");
-            
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
-}
-            
-            #line default
-            #line hidden
-            this.Write("\n");
-            
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
-foreach(var parameter in Model.QueryParameters){
-            
-            #line default
-            #line hidden
-            this.Write("\n");
-            
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
-  if (parameter.IsRequired) { 
+  }
+  foreach(var parameter in Model.QueryParameters){
+    if (parameter.IsRequired) { 
         if(parameter.IsNullable){
             
             #line default
@@ -202,9 +186,10 @@ foreach(var parameter in Model.QueryParameters){
             
             #line default
             #line hidden
-            this.Write("\' must be defined.\");\nelse\n");
+            this.Write("\' must be defined.\");\nelse");
             
             #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+
       }else{
             
             #line default
@@ -230,9 +215,10 @@ foreach(var parameter in Model.QueryParameters){
             
             #line default
             #line hidden
-            this.Write("\' must be defined and cannot be null.\");\nelse\n");
+            this.Write("\' must be defined and cannot be null.\");\nelse");
             
             #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+
       }
     }else{
         if(parameter.IsNullable){
@@ -274,18 +260,13 @@ foreach(var parameter in Model.QueryParameters){
             
             #line default
             #line hidden
-            this.Write(" !== undefined)\n");
+            this.Write(" !== undefined)");
             
             #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
-      }
+      
+		}
     }
-            
-            #line default
-            #line hidden
-            this.Write("\n");
-            
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
-  if(parameter.IsDateArray){
+    if(parameter.IsDateArray){
             
             #line default
             #line hidden
@@ -397,7 +378,6 @@ foreach(var parameter in Model.QueryParameters){
             
             #line default
             #line hidden
-            this.Write("\n");
             return this.GenerationEnvironment.ToString();
         }
     }
