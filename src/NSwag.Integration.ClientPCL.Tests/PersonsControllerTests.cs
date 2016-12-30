@@ -24,6 +24,19 @@ namespace NSwag.Integration.ClientPCL.Tests
 
         [TestMethod]
         [TestCategory("integration")]
+        public async Task AddXml_PostXml()
+        {
+            //// Arrange
+            var personsClient = new PersonsClient { BaseUrl = "http://localhost:13452" }; ;
+
+            //// Act
+            var result = await personsClient.AddXmlAsync("<Rico>Suter</Rico>");
+
+            //// Assert
+        }
+
+        [TestMethod]
+        [TestCategory("integration")]
         public async Task GetAll_InheritanceTest()
         {
             //// Arrange

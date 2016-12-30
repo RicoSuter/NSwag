@@ -7,7 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System;
-using System.ComponentModel;
+using System.Linq;
 using Newtonsoft.Json;
 using NJsonSchema;
 
@@ -16,6 +16,10 @@ namespace NSwag
     /// <summary>Describes an operation parameter. </summary>
     public class SwaggerParameter : JsonSchema4
     {
+        /// <summary>Gets the parent operation.</summary>
+        [JsonIgnore]
+        public SwaggerOperation Parent { get; internal set; }
+
         /// <summary>Gets or sets the name.</summary>
         [JsonProperty(PropertyName = "name", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Name { get; set; }
@@ -61,5 +65,9 @@ namespace NSwag
 
             return base.IsNullable(nullHandling);
         }
+
+        /// <summary>Gets a value indicating whether this is an XML body parameter.</summary>
+        [JsonIgnore]
+        public bool IsXmlBodyParameter => Kind == SwaggerParameterKind.Body && Parent.ActualConsumes?.FirstOrDefault() == "application/xml";
     }
 }

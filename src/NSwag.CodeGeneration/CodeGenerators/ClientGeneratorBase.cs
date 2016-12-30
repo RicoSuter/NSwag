@@ -149,6 +149,9 @@ namespace NSwag.CodeGeneration.CodeGenerators
         {
             var schema = parameter.ActualSchema;
 
+            if (parameter.IsXmlBodyParameter)
+                return "string";
+
             if (parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
                 schema = new JsonSchema4 { Type = JsonObjectType.Array, Item = schema };
 

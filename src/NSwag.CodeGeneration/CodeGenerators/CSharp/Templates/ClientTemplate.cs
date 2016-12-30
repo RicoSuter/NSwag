@@ -1165,8 +1165,26 @@ if(operation.HasContent){
             
             #line default
             #line hidden
-            this.Write("            var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.Json" +
-                    "Convert.SerializeObject(");
+            this.Write("            var content_ = new System.Net.Http.StringContent(");
+            
+            #line 133 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
+if(operation.HasXmlBodyParameter){
+            
+            #line default
+            #line hidden
+            
+            #line 133 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ContentParameter.VariableName));
+            
+            #line default
+            #line hidden
+            
+            #line 133 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
+}else{
+            
+            #line default
+            #line hidden
+            this.Write("Newtonsoft.Json.JsonConvert.SerializeObject(");
             
             #line 133 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ContentParameter.VariableName));
@@ -1179,7 +1197,21 @@ if(operation.HasContent){
             
             #line default
             #line hidden
-            this.Write("));\r\n            content_.Headers.ContentType.MediaType = \"application/json\";\r\n");
+            this.Write(")");
+            
+            #line 133 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write(");\r\n            content_.Headers.ContentType.MediaType = \"");
+            
+            #line 134 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.Consumes));
+            
+            #line default
+            #line hidden
+            this.Write("\";\r\n");
             
             #line 135 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
 }else{

@@ -65,7 +65,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
 
 #else
             var loader = new NetAssemblyLoader();
-            var data = await loader.FromAssemblyTypeAsync(classNames, JsonConvert.SerializeObject(Settings)).ConfigureAwait(false);
+            var data = loader.FromAssemblyType(classNames, JsonConvert.SerializeObject(Settings));
             return await SwaggerDocument.FromJsonAsync(data).ConfigureAwait(false);
 #endif
         }
