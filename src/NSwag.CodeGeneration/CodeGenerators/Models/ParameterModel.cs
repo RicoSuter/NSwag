@@ -102,7 +102,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         /// <summary>Gets a value indicating whether the parameter is of type object array.</summary>
         public bool IsObjectArray =>
             IsArray &&
-            Schema.Item?.Type == JsonObjectType.Object;
+            (Schema.Item?.Type == JsonObjectType.Object || 
+             Schema.Item?.Type == JsonObjectType.None);
         
         // TODO: Find way to remove TypeScript only properties
 
