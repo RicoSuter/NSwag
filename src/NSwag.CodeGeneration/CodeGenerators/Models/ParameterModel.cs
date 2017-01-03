@@ -103,7 +103,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
             _clientGeneratorBase.GetType(Schema.Item.ActualSchema, IsNullable, "Response") != "string";
 
         /// <summary>Gets a value indicating whether the parameter is of type object array.</summary>
-        public bool IsObjectArray => IsArray && Schema.Item?.Type == JsonObjectType.Object;
+        public bool IsObjectArray => IsArray && (Schema.Item?.Type == JsonObjectType.Object || Schema.Item?.IsAnyType == true);
 
         // TODO: Find way to remove TypeScript only properties
 

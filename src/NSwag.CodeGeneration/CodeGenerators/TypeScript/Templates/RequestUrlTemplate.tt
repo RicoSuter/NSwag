@@ -45,7 +45,6 @@ else if (<#=parameter.VariableName#> !== undefined)<#
     url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + <#=parameter.VariableName#>.toJSON()) + "&"; 
 <#  }else if(parameter.IsArray){#>
     <#=parameter.VariableName#>.forEach(item => { url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + item) + "&"; });
-<#  }else{#>
-    url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + <#=parameter.VariableName#>) + "&"; 
+<#  }else{#>    url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + <#=parameter.VariableName#>) + "&"; 
 <#  }
 }#>
