@@ -39,7 +39,7 @@ else if (<#=parameter.VariableName#> !== undefined)<#
 <#  }else if(parameter.IsObjectArray){#>
     <#=parameter.VariableName#>.forEach((item, index) => { 
         for (let attr in item)
-            url_ += "<#=parameter.Name#> + "[" + index + "]." + attr + "=" + encodeURIComponent("" + item[attr]) + "&";
+            url_ += "<#=parameter.Name#>[" + index + "]." + attr + "=" + encodeURIComponent("" + item[attr]) + "&";
     });
 <#  }else if(parameter.IsDate){#>
     url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + <#=parameter.VariableName#>.toJSON()) + "&"; 
