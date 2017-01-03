@@ -70,7 +70,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
             headers: {
 <#foreach(var parameter in operation.HeaderParameters){#>
                 "<#=parameter.Name#>": <#=parameter.VariableName#>, 
-<#}#>                "Content-Type": "application/json; charset=UTF-8"
+<#}#>                "Content-Type": "<#=operation.Consumes#>; charset=UTF-8"
             }
         }<#if(Model.UseTransformOptionsMethod){#>)<#}#>).done((data, textStatus, xhr) => {
             this.process<#=operation.OperationNameUpper#>WithCallbacks(url_, xhr, onSuccess, onFail);

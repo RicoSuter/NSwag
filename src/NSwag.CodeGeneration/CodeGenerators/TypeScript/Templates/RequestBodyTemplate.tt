@@ -41,7 +41,9 @@ const content_ = JSON.stringify(<#=Model.ContentParameter.VariableName#> ? conte
 <#              }else{#>
 const content_ = JSON.stringify(<#=Model.ContentParameter.VariableName#> ? <#=Model.ContentParameter.VariableName#>.toJS() : null);
 <#              }
-            }else{#>
+            }else if(Model.ContentParameter.IsXmlBodyParameter){#>
+const content_ = <#=Model.ContentParameter.VariableName#>;
+<#          }else{#>
 const content_ = JSON.stringify(<#=Model.ContentParameter.VariableName#>);
 <#          }
         }else{#>

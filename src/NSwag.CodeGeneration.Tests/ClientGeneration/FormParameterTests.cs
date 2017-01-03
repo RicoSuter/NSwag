@@ -23,7 +23,7 @@ namespace NSwag.CodeGeneration.Tests.ClientGeneration
                     SwaggerOperationMethod.Post,
                     new SwaggerOperation
                     {
-                        Parameters = new List<SwaggerParameter>
+                        Parameters = 
                         {
                             new SwaggerParameter
                             {

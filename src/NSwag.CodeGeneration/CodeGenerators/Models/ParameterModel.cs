@@ -28,7 +28,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         /// <param name="variableName">Name of the variable.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="clientGeneratorBase">The client generator base.</param>
-        public ParameterModel(string typeName, SwaggerOperation operation, SwaggerParameter parameter, 
+        public ParameterModel(string typeName, SwaggerOperation operation, SwaggerParameter parameter,
             string parameterName, string variableName, CodeGeneratorSettingsBase settings, ClientGeneratorBase clientGeneratorBase)
         {
             Type = typeName;
@@ -36,7 +36,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
             VariableName = variableName;
 
             _operation = operation;
-            _parameter = parameter;
+             _parameter = parameter;
             _settings = settings;
             _clientGeneratorBase = clientGeneratorBase;
         }
@@ -46,7 +46,6 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 
         /// <summary>Gets the name.</summary>
         public string Name { get; }
-
         /// <summary>Gets the variable name in (usually lowercase).</summary>
         public string VariableName { get; }
 
@@ -77,6 +76,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         /// <summary>Gets a value indicating whether the parameter is the last parameter of the operation.</summary>
         public bool IsLast => _operation.ActualParameters.LastOrDefault() == _parameter;
 
+        /// <summary>Gets a value indicating whether this is an XML body parameter.</summary>
+        public bool IsXmlBodyParameter => _parameter.IsXmlBodyParameter;
+
         /// <summary>Gets a value indicating whether the parameter is of type date.</summary>
         public bool IsDate =>
             (Schema.Format == JsonFormatStrings.DateTime ||
@@ -94,14 +96,14 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 
         /// <summary>Gets a value indicating whether the parameter is of type date array.</summary>
         public bool IsDateArray =>
-            IsArray && 
+            IsArray &&
             (Schema.Item?.ActualSchema.Format == JsonFormatStrings.DateTime ||
             Schema.Item?.ActualSchema.Format == JsonFormatStrings.Date) &&
             _clientGeneratorBase.GetType(Schema.Item.ActualSchema, IsNullable, "Response") != "string";
 
         /// <summary>Gets a value indicating whether the parameter is of type object array.</summary>
         public bool IsObjectArray => IsArray && (Schema.Item?.Type == JsonObjectType.Object || Schema.Item?.IsAnyType == true);
-        
+
         // TODO: Find way to remove TypeScript only properties
 
         /// <summary>Gets or sets a value indicating whether to use a DTO class.</summary>

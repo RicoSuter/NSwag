@@ -165,8 +165,23 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
 
         private async Task AddBodyParameterAsync(string name, ParameterInfo parameter, SwaggerOperation operation, SwaggerGenerator swaggerGenerator)
         {
-            var operationParameter = await swaggerGenerator.CreateBodyParameterAsync(name, parameter).ConfigureAwait(false);
-            operation.Parameters.Add(operationParameter);
+            if (parameter.ParameterType.Name == "XmlDocument" || parameter.ParameterType.InheritsFrom("XmlDocument", TypeNameStyle.Name))
+            {
+                operation.Consumes = new List<string> { "application/xml" };
+                operation.Parameters.Add(new SwaggerParameter
+                {
+                    Name = name,
+                    Kind = SwaggerParameterKind.Body,
+                    IsRequired = false,
+                    IsNullableRaw = true,
+                    Description = await parameter.GetXmlDocumentationAsync().ConfigureAwait(false)
+                });
+            }
+            else
+            {
+                var operationParameter = await swaggerGenerator.CreateBodyParameterAsync(name, parameter).ConfigureAwait(false);
+                operation.Parameters.Add(operationParameter);
+            }
         }
 
         private async Task AddPrimitiveParametersFromUriAsync(string name, SwaggerOperation operation, ParameterInfo parameter, JsonObjectTypeDescription typeDescription, SwaggerGenerator swaggerGenerator)

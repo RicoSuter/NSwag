@@ -17,7 +17,7 @@ namespace NSwag.CodeGeneration.Tests.ClientGeneration.CSharp
                 {
                     SwaggerOperationMethod.Get, new SwaggerOperation
                     {
-                        Parameters = new List<SwaggerParameter>
+                        Parameters =
                         {
                             new SwaggerParameter
                             {
