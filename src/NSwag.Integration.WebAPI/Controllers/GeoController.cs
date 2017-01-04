@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
@@ -24,6 +25,12 @@ namespace NSwag.Integration.WebAPI.Controllers
         public void AddPolygon(GeoPoint[] points)
         {
 
+        }
+
+        [HttpPost]
+        public string[] Reverse([FromUri]string[] values)
+        {
+            return values.Reverse().ToArray();
         }
 
         [ResponseType("204", typeof(void))]

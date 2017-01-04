@@ -119,6 +119,27 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         public bool HasXmlBodyParameter => Operation.ActualParameters.Any(p => p.IsXmlBodyParameter);
 
         /// <summary>Gets the mime type of the request body.</summary>
-        public string Consumes => Operation.ActualConsumes?.FirstOrDefault() ?? "application/json";
+        public string Consumes
+        {
+            get
+            {
+                if (Operation.ActualConsumes?.Contains("application/json") == true)
+                    return "application/json";
+
+                return Operation.ActualConsumes?.FirstOrDefault() ?? "application/json";
+            }
+        }
+
+        /// <summary>Gets the mime type of the response body.</summary>
+        public string Produces
+        {
+            get
+            {
+                if (Operation.ActualProduces?.Contains("application/json") == true)
+                    return "application/json";
+
+                return Operation.ActualProduces?.FirstOrDefault() ?? "application/json";
+            }
+        }
     }
-}
+};

@@ -356,7 +356,7 @@ foreach(var parameter in Model.PathParameters){
             
             #line default
             #line hidden
-            this.Write("    url_ += \"");
+            this.Write("\n    url_ += \"");
             
             #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NJsonSchema;
+using NSwag.CodeGeneration.CodeGenerators.TypeScript;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 
 namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
@@ -106,7 +107,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             var parameter = operation.ActualParameters.First();
 
             Assert.AreEqual(SwaggerParameterKind.Query, parameter.Kind);
-            Assert.AreEqual(JsonObjectType.String, parameter.Type);
+            Assert.AreEqual(JsonObjectType.Array, parameter.Type);
             Assert.AreEqual(SwaggerParameterCollectionFormat.Multi, parameter.CollectionFormat);
         }
 
@@ -149,8 +150,12 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             var document = await generator.GenerateForControllerAsync<FooController>();
             var json = document.ToJson();
 
+            var gen = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings());
+            var code = gen.GenerateFile();
+
             //// Assert
-            Assert.IsNotNull(document.Operations.First().Operation.Parameters.First().Schema.SchemaReference);
+            Assert.IsNotNull(document.Operations.First().Operation.Parameters.First().Item.SchemaReference);
+            Assert.IsTrue(code.Contains("getFoos(bars: Bar[], "));
         }
     }
 }

@@ -66,10 +66,11 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 <#foreach(var parameter in operation.HeaderParameters){#>
                 "<#=parameter.Name#>": <#=parameter.VariableName#>, 
 <#}#>
-<#if(operation.HasFormParameters){#>                'Content-Type': undefined
+<#if(operation.HasFormParameters){#>                'Content-Type': undefined, 
 <#}else{#>
-                "Content-Type": "<#=operation.Consumes#>; charset=UTF-8"
+                "Content-Type": "<#=operation.Consumes#>; charset=UTF-8", 
 <#}#>
+				"Accept": "<#=operation.Produces#>; charset=UTF-8"
             }
         }<#if(Model.UseTransformOptionsMethod){#>)<#}#>).then((response) => {
 <#if(Model.UseTransformResultMethod){#>

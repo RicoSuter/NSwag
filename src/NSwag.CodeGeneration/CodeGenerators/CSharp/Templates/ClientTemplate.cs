@@ -1409,8 +1409,16 @@ if(operation.HasXmlBodyParameter){
             
             #line default
             #line hidden
-            this.Write(@""");
-            request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+            this.Write("\");\r\n            request_.RequestUri = new System.Uri(url_, System.UriKind.Relati" +
+                    "veOrAbsolute);\r\n            request_.Headers.Accept.Add(new System.Net.Http.Head" +
+                    "ers.MediaTypeWithQualityHeaderValue(\"");
+            
+            #line 165 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.Produces));
+            
+            #line default
+            #line hidden
+            this.Write(@"""));
             var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseContentRead, cancellationToken).ConfigureAwait(false);
             ProcessResponse(client_, response_);
 
