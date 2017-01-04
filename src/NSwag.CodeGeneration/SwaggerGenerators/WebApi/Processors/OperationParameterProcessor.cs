@@ -193,7 +193,6 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
                     parameter.ParameterType, parameter.GetCustomAttributes().ToList()).ConfigureAwait(false);
 
                 operationParameter.Kind = SwaggerParameterKind.Query;
-                operationParameter.CollectionFormat = SwaggerParameterCollectionFormat.Multi;
                 operation.Parameters.Add(operationParameter);
             }
             else
