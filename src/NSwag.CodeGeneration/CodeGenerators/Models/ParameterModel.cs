@@ -36,7 +36,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
             VariableName = variableName;
 
             _operation = operation;
-            _parameter = parameter;
+             _parameter = parameter;
             _settings = settings;
             _clientGeneratorBase = clientGeneratorBase;
         }
@@ -46,7 +46,6 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 
         /// <summary>Gets the name.</summary>
         public string Name { get; }
-
         /// <summary>Gets the variable name in (usually lowercase).</summary>
         public string VariableName { get; }
 
