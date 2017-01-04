@@ -189,8 +189,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
             if (typeDescription.Type.HasFlag(JsonObjectType.Array))
             {
                 var parameterDocumentation = await parameter.GetXmlDocumentationAsync().ConfigureAwait(false);
-                var operationParameter = await swaggerGenerator.CreatePrimitiveParameterAsync(name, parameterDocumentation, 
-                    parameter.ParameterType.GetEnumerableItemType(), parameter.GetCustomAttributes().ToList()).ConfigureAwait(false);
+                var operationParameter = await swaggerGenerator.CreatePrimitiveParameterAsync(name, parameterDocumentation,
+                    parameter.ParameterType, parameter.GetCustomAttributes().ToList()).ConfigureAwait(false);
 
                 operationParameter.Kind = SwaggerParameterKind.Query;
                 operationParameter.CollectionFormat = SwaggerParameterCollectionFormat.Multi;
@@ -204,7 +204,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
                     var fromQueryAttribute = attributes.SingleOrDefault(a => a.GetType().Name == "FromQueryAttribute");
 
                     var propertyName = TryGetStringPropertyValue(fromQueryAttribute, "Name") ?? JsonReflectionUtilities.GetPropertyName(property, _settings.DefaultPropertyNameHandling);
-                    var propertySummary = await property.GetXmlSummaryAsync().ConfigureAwait(false); 
+                    var propertySummary = await property.GetXmlSummaryAsync().ConfigureAwait(false);
                     var operationParameter = await swaggerGenerator.CreatePrimitiveParameterAsync(propertyName, propertySummary, property.PropertyType, attributes).ConfigureAwait(false);
 
                     // TODO: Check if required can be controlled with mechanisms other than RequiredAttribute
