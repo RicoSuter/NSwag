@@ -108,6 +108,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
             operationParameter.IsRequired = parentAttributes?.Any(a => a.GetType().Name == "RequiredAttribute") ?? false;
             operationParameter.IsNullableRaw = typeDescription.IsNullable;
 
+            if (typeDescription.Type.HasFlag(JsonObjectType.Array))
+                operationParameter.CollectionFormat = SwaggerParameterCollectionFormat.Multi;
+
             if (description != string.Empty)
                 operationParameter.Description = description;
 

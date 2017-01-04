@@ -44,5 +44,21 @@ namespace NSwag.Integration.ClientPCL.Tests
             //// Assert
             Assert.IsTrue(result);
         }
+
+        [TestMethod]
+        [TestCategory("integration")]
+        public async Task QueryStringParameters()
+        {
+            //// Arrange
+            var geoClient = new GeoClient { BaseUrl = "http://localhost:13452" };
+
+            //// Act
+            var result = await geoClient.ReverseAsync(new string[] { "foo", "bar" });
+
+            //// Assert
+            Assert.AreEqual(2, result.Count);
+            Assert.AreEqual("foo", result[1]);
+            Assert.AreEqual("bar", result[0]);
+        }
     }
 }

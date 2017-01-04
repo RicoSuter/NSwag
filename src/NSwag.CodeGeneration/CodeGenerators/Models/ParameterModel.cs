@@ -36,7 +36,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
             VariableName = variableName;
 
             _operation = operation;
-            _parameter = parameter;
+             _parameter = parameter;
             _settings = settings;
             _clientGeneratorBase = clientGeneratorBase;
         }
@@ -46,7 +46,6 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 
         /// <summary>Gets the name.</summary>
         public string Name { get; }
-
         /// <summary>Gets the variable name in (usually lowercase).</summary>
         public string VariableName { get; }
 
@@ -103,7 +102,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
             _clientGeneratorBase.GetType(Schema.Item.ActualSchema, IsNullable, "Response") != "string";
 
         /// <summary>Gets a value indicating whether the parameter is of type object array.</summary>
-        public bool IsObjectArray => IsArray && Schema.Item?.Type == JsonObjectType.Object;
+        public bool IsObjectArray => IsArray && (Schema.Item?.Type == JsonObjectType.Object || Schema.Item?.IsAnyType == true);
 
         // TODO: Find way to remove TypeScript only properties
 
