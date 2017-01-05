@@ -37,11 +37,11 @@ namespace NSwag.Commands
         public int Process(string[] args)
         {
             var architecture = IntPtr.Size == 4 ? " (x86)" : " (x64)";
-            _host.WriteMessage("toolchain v" + SwaggerDocument.ToolchainVersion + " (NJsonSchema v" + JsonSchema4.ToolchainVersion + ")" + architecture + "\n");
+            _host.WriteMessage("toolchain v" + SwaggerDocument.ToolchainVersion +
+                " (NJsonSchema v" + JsonSchema4.ToolchainVersion + ")" + architecture + "\n");
             _host.WriteMessage("Visit http://NSwag.org for more information.\n");
 
-            var binDirectory = DynamicApis.PathGetDirectoryName(((dynamic)typeof(NSwagCommandProcessor).GetTypeInfo().Assembly).CodeBase.Replace("file:///", string.Empty));
-            _host.WriteMessage("NSwag bin directory: " + binDirectory + "\n");
+            WriteBinDirectory();
 
             if (args.Length == 0)
                 _host.WriteMessage("Execute the 'help' command to show a list of all the available commands.\n");
@@ -75,6 +75,26 @@ namespace NSwag.Commands
 
             WaitWhenDebuggerAttached();
             return 0;
+        }
+
+        private void WriteBinDirectory()
+        {
+            try
+            {
+                dynamic entryAssembly;
+                var getEntryAssemblyMethod = typeof(Assembly).GetRuntimeMethod("GetEntryAssembly", new Type[] { });
+                if (getEntryAssemblyMethod != null)
+                    entryAssembly = (Assembly)getEntryAssemblyMethod.Invoke(null, new object[] { });
+                else
+                    entryAssembly = typeof(NSwagCommandProcessor).GetTypeInfo().Assembly;
+
+                var binDirectory = DynamicApis.PathGetDirectoryName(entryAssembly.CodeBase.Replace("file:///", string.Empty));
+                _host.WriteMessage("NSwag bin directory: " + binDirectory + "\n");
+            }
+            catch (Exception exception)
+            {
+                _host.WriteMessage("NSwag bin directory could not be determined: " + exception.Message + "\n");
+            }
         }
 
         private void WaitWhenDebuggerAttached()

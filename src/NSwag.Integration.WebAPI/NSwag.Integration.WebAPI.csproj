@@ -62,8 +62,8 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=7.2.6206.27034, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.7.2.6206.27034\lib\net45\NJsonSchema.dll</HintPath>
+    <Reference Include="NJsonSchema, Version=7.3.6214.20986, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.7.3.6214.20986\lib\net45\NJsonSchema.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\SwaggerController.cs" />
     <Compile Include="Models\GenericRequest.cs" />
     <Compile Include="Models\GeoPoint.cs" />
     <Compile Include="Models\Exceptions\PersonNotFoundException.cs" />
@@ -166,6 +167,10 @@
     <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj">
       <Project>{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}</Project>
       <Name>NSwag.CodeGeneration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj">
+      <Project>{2E6174AA-FC75-4821-9E86-51B30568BEC0}</Project>
+      <Name>NSwag.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\NSwag.Demo.Client\NSwag.Demo.Client.csproj">
       <Project>{267D875B-3481-465D-AD2C-4BB18EB911BA}</Project>
