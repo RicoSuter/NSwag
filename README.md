@@ -110,7 +110,7 @@ The following code shows how to read a Swagger specification and generate C# cli
 var swaggerSettings = new WebApiToSwaggerGeneratorSettings();
 var swaggerGenerator = new WebApiToSwaggerGenerator(swaggerSettings);
 
-var document = swaggerGenerator.GenerateForController<PersonsController>();
+var document = await swaggerGenerator.GenerateForControllerAsync<PersonsController>();
 
 var clientSettings = new SwaggerToCSharpClientGeneratorSettings 
 {
