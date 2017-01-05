@@ -112,7 +112,7 @@ namespace NSwag.CodeGeneration.Tests.ClientGeneration.CSharp
             //// Act
             var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
             var code = generator.GenerateFile();
-            Assert.IsTrue(code.Contains("RemoveElementAsync(string x_User, System.Collections.Generic.IEnumerable<int> elementId, string secureToken)"));          
+            Assert.IsTrue(code.Contains("RemoveElementAsync(string x_User, System.Collections.Generic.IEnumerable<long> elementId, string secureToken)"));          
         }
     }
 }
