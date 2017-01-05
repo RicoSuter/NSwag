@@ -13,4 +13,5 @@ dotnet restore "../src/NSwag.ConsoleCore" --no-cache
 dotnet build "../src/NSwag.ConsoleCore"
 dotnet publish "../src/NSwag.ConsoleCore" -c release
 
-xcopy "../src/NSwag.ConsoleCore/bin/release/netcoreapp1.0/publish" "../src/NSwag.Npm/bin/binaries/core" /E /I /y
+xcopy "../src/NSwag.ConsoleCore/bin/release/netcoreapp1.0/publish" "../src/NSwag.Npm/bin/binaries/netcoreapp1.0" /E /I /y
+xcopy "../src/NSwag.ConsoleCore/bin/release/netcoreapp1.1/publish" "../src/NSwag.Npm/bin/binaries/netcoreapp1.1" /E /I /y

@@ -1,5 +1,5 @@
 {
-  "version": "8.3.0-*",
+  "version": "8.4.0-*",
   "authors": [ "Rico Suter" ],
   "description": "NSwag: The Swagger API toolchain for .NET and TypeScript",
   "packOptions": {
@@ -15,12 +15,8 @@
   },
 
   "dependencies": {
-    "Microsoft.NETCore.App": {
-      "type": "platform",
-      "version": "1.1.0"
-    },
-    "System.IO.FileSystem": "4.0.1",
-    "System.Net.Http": "4.1.0",
+    "System.IO.FileSystem": "4.3.0",
+    "System.Net.Http": "4.3.0",
     "NSwag.AssemblyLoaderCore": "*",
     "NSwag.Commands": "*",
     "NSwag.Core": "*",
@@ -30,7 +26,22 @@
 
   "frameworks": {
     "netcoreapp1.0": {
-      "imports": "dnxcore50"
+      "imports": "dnxcore50",
+      "dependencies": {
+        "Microsoft.NETCore.App": {
+          "type": "platform",
+          "version": "1.0.0"
+        }
+      }
+    },
+    "netcoreapp1.1": {
+      "imports": "dnxcore50",
+      "dependencies": {
+        "Microsoft.NETCore.App": {
+          "type": "platform",
+          "version": "1.1.0"
+        }
+      }
     }
   },
 

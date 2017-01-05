@@ -100,7 +100,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Console", "NSwag.Cons
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwag.Npm", "NSwag.Npm", "{E0EE88B9-E6AD-434A-A11E-FC6A987CC02B}"
 	ProjectSection(SolutionItems) = preProject
+		NSwag.Npm\bin\nswag.js = NSwag.Npm\bin\nswag.js
 		NSwag.Npm\package.json = NSwag.Npm\package.json
+		NSwag.Npm\README.md = NSwag.Npm\README.md
 	EndProjectSection
 EndProject
 Global

@@ -4,11 +4,18 @@ using System.Linq;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
+using Newtonsoft.Json;
 using NSwag.Annotations;
 using NSwag.Integration.WebAPI.Models;
 
 namespace NSwag.Integration.WebAPI.Controllers
 {
+    public class FilterOptions
+    {
+        [JsonProperty("currentStates")]
+        public string[] CurrentStates { get; set; }
+    }
+
     public class GeoController : ApiController
     {
         public void FromBodyTest([FromBody] GeoPoint location)
@@ -25,6 +32,11 @@ namespace NSwag.Integration.WebAPI.Controllers
         public void AddPolygon(GeoPoint[] points)
         {
 
+        }
+
+        public void Filter([FromUri] FilterOptions filter)
+        {
+            
         }
 
         [HttpPost]

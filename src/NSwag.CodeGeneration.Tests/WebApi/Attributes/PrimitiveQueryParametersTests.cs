@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using NJsonSchema;
 using NSwag.CodeGeneration.CodeGenerators.TypeScript;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
@@ -15,17 +17,28 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
         {
             public string WithoutAttribute(string foo)
             {
-                return string.Empty;
+                return String.Empty;
             }
 
             public string WithFromUriAttribute([FromUri] string foo)
             {
-                return string.Empty;
+                return String.Empty;
             }
 
             public string WithFromBodyAttribute([FromBody] string foo)
             {
-                return string.Empty;
+                return String.Empty;
+            }
+
+            public class FilterOptions
+            {
+                [JsonProperty("currentStates")]
+                public string[] CurrentStates { get; set; }
+            }
+
+            public void Filter([FromUri] FilterOptions filter)
+            {
+
             }
         }
 
@@ -33,7 +46,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
         public async Task When_parameter_is_primitive_then_it_is_a_query_parameter()
         {
             //// Arrange
-            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
             {
                 DefaultUrlTemplate = "api/{controller}/{action}/{id}"
             });
@@ -79,6 +92,23 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
 
             //// Assert
             Assert.AreEqual(SwaggerParameterKind.Body, operation.ActualParameters[0].Kind);
+        }
+
+        [TestMethod]
+        public async Task When_FromUri_has_array_property_then_collectionFormat_is_set_to_multi()
+        {
+            //// Arrange
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
+            {
+                DefaultUrlTemplate = "api/{controller}/{action}/{id}"
+            });
+
+            //// Act
+            var document = await generator.GenerateForControllerAsync<TestController>();
+            var operation = document.Operations.Single(o => o.Operation.OperationId == "Test_Filter").Operation;
+
+            //// Assert
+            Assert.AreEqual(SwaggerParameterCollectionFormat.Multi, operation.ActualParameters[0].CollectionFormat);
         }
 
         public class ControllerWithArrayQueryParameter : ApiController
