@@ -138,6 +138,7 @@
     <Compile Include="CommandLine\WebApiCommandLineTests.cs" />
     <Compile Include="OperationNameGenerator\MultipleClientsFromOperationIdOperationNameGeneratorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebApi\Attributes\RouteTests.cs" />
     <Compile Include="WebApi\Integration\SwashbuckleAnnotationsTests.cs" />
     <Compile Include="WebApi\Attributes\AcceptVerbsTests.cs" />
     <Compile Include="WebApi\Attributes\ComplexParametersTests.cs" />
