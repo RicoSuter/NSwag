@@ -38,6 +38,7 @@ namespace NSwag.AspNet.Owin
 
                     html = html.Replace("{ValidatorUrl}", _settings.ValidateSpecification ? "undefined" : "null");
 
+                    context.Response.Headers["Content-Type"] = "text/html; charset=utf-8";
                     context.Response.StatusCode = 200;
                     context.Response.Write(html);
                 }

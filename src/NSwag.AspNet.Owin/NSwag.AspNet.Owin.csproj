@@ -122,7 +122,9 @@
     </None>
     <None Include="NSwag.AspNet.Owin.nuspec" />
     <None Include="NSwag.snk" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj">
