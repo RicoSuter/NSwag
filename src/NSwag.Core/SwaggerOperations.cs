@@ -52,7 +52,7 @@ namespace NSwag
 
                 foreach (var pair in operations)
                 {
-                    writer.WritePropertyName(pair.Key.ToString().ToLower());
+                    writer.WritePropertyName(pair.Key.ToString().ToLowerInvariant());
                     serializer.Serialize(writer, pair.Value);
                 }
                 writer.WriteEndObject();
