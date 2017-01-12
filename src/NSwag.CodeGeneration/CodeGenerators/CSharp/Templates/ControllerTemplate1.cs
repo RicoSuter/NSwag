@@ -223,7 +223,7 @@ if(Model.HasBaseClass){
             
             #line default
             #line hidden
-            this.Write("ApiController");
+            this.Write("System.Web.Http.ApiController");
             
             #line 22 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ControllerTemplate.tt"
 }
