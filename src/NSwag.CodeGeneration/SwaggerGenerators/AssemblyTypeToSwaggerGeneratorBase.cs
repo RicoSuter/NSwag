@@ -23,7 +23,11 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
         /// <summary>Gets or sets the settings.</summary>
         public AssemblyTypeToSwaggerGeneratorSettings Settings { get; protected set; }
 
-        /// <summary>Generates the specified class names.</summary>
+        /// <summary>Generates the swagger document for all public/exported classes.</summary>
+        /// <returns>The Swagger document.</returns>
+        public abstract Task<SwaggerDocument> GenerateAsync();
+
+        /// <summary>Generates the swagger document for the specified classes.</summary>
         /// <param name="classNames">The class names.</param>
         /// <returns>The Swagger document.</returns>
         public abstract Task<SwaggerDocument> GenerateAsync(string[] classNames);
