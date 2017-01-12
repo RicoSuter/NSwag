@@ -41,6 +41,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
 
         /// <summary>Gets or sets the operations.</summary>
         public IList<OperationModel> Operations { get; set; }
+        
+        /// <summary>Gets or sets a value indicating whether the controller has a base path.</summary>
+        public bool HasBasePath { get; set; }
 
         /// <summary>Gets or sets the base path.</summary>
         public string BasePath { get; set; }

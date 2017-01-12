@@ -16,7 +16,9 @@ public interface I<#=Model.Class#>Controller
 }
 
 [System.CodeDom.Compiler.GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
+<#if(Model.HasBasePath){#>
 [System.Web.Http.RoutePrefix("<#=Model.BasePath#>")]
+<#}#>
 public partial class <#=Model.Class#>Controller : <#if(Model.HasBaseClass){#><#=Model.BaseClass#><#}else{#>ApiController<#}#> 
 {
     private I<#=Model.Class#>Controller _implementation; 
