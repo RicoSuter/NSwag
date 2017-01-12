@@ -47,27 +47,33 @@ namespace NSwag.CodeGeneration.Utilities
                     var rootPath = rootIndex >= 0 ? path.Substring(0, rootIndex + 1) : Directory.GetCurrentDirectory();
                     var files = Directory.GetFiles(rootPath, "*", SearchOption.AllDirectories);
 
-                    var regex = new Regex(
-                        "^" + 
-                        Regex.Escape(path//.Substring(rootIndex + 1)
-                        .Replace("**/", "__starstar__")
-                        .Replace("**\\", "__starstar__")
-                        .Replace("/", "__del__")
-                        .Replace("\\", "__del__")
-                        .Replace("*", "__star__"))
-                        .Replace("__del__", "([\\\\/])")
-                        .Replace("__starstar__", "((.*?)[/\\\\])")
-                        .Replace("__star__", "([^\\/]*?)") + "$");
-
-                    allFiles.AddRange(files
-                        .Where(f => regex.Match(f).Success)
-                        .Select(Path.GetFullPath));
+                    allFiles.AddRange(FindWildcardMatches(path, files).Select(Path.GetFullPath));
                 }
                 else
                     allFiles.Add(path);
             }
 
             return allFiles.Distinct();
+        }
+
+        /// <summary>Finds the wildcard matches.</summary>
+        /// <param name="selector">The selector.</param>
+        /// <param name="items">The items.</param>
+        /// <returns>The matches.</returns>
+        public static IEnumerable<string> FindWildcardMatches(string selector, IEnumerable<string> items)
+        {
+            var regex = new Regex(
+                "^" + Regex.Escape(selector
+                .Replace("**/", "__starstar__")
+                .Replace("**\\", "__starstar__")
+                .Replace("/", "__del__")
+                .Replace("\\", "__del__")
+                .Replace("*", "__star__"))
+                .Replace("__del__", "([\\\\/])")
+                .Replace("__starstar__", "((.*?)[/\\\\])")
+                .Replace("__star__", "([^\\/]*?)") + "$");
+
+            return items.Where(i => regex.Match(i).Success);
         }
 
         /// <summary>Converts a relative path to an absolute path.</summary>
@@ -77,7 +83,7 @@ namespace NSwag.CodeGeneration.Utilities
         public static string MakeAbsolutePath(string relativePath, string relativeTo)
         {
             if (Path.IsPathRooted(relativePath))
-                return relativePath; 
+                return relativePath;
 
             var absolutePath = Path.Combine(relativeTo, relativePath);
             return Path.GetFullPath(absolutePath);
