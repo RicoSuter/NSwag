@@ -105,7 +105,7 @@ namespace NSwag.Commands
             set { Settings.GenerateKnownTypes = value; }
         }
 
-        [Argument(Name = "AddMissingPathParameters", IsRequired = false, Description = "Specifies whether to add path parameters which are missing in the action method (default: false).")]
+        [Argument(Name = "AddMissingPathParameters", IsRequired = false, Description = "Specifies whether to add path parameters which are missing in the action method (default: true).")]
         public bool AddMissingPathParameters
         {
             get { return Settings.AddMissingPathParameters; }

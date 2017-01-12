@@ -201,8 +201,12 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
                 {
                     var attributes = property.GetCustomAttributes().ToList();
                     var fromQueryAttribute = attributes.SingleOrDefault(a => a.GetType().Name == "FromQueryAttribute");
-
                     var propertyName = TryGetStringPropertyValue(fromQueryAttribute, "Name") ?? JsonReflectionUtilities.GetPropertyName(property, _settings.DefaultPropertyNameHandling);
+
+                    dynamic fromRouteAttribute = attributes.SingleOrDefault(a => a.GetType().FullName == "Microsoft.AspNetCore.Mvc.FromRouteAttribute");
+                    if (fromRouteAttribute != null && !string.IsNullOrEmpty(fromRouteAttribute.Name))
+                        propertyName = fromRouteAttribute.Name;
+
                     var propertySummary = await property.GetXmlSummaryAsync().ConfigureAwait(false);
                     var operationParameter = await swaggerGenerator.CreatePrimitiveParameterAsync(propertyName, propertySummary, property.PropertyType, attributes).ConfigureAwait(false);
 
@@ -212,6 +216,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
                     var isFileArray = IsFileArray(property.PropertyType, parameterInfo);
                     if (parameterInfo.Type == JsonObjectType.File || isFileArray)
                         InitializeFileParameter(operationParameter, isFileArray);
+                    else if (fromRouteAttribute != null)
+                        operationParameter.Kind = SwaggerParameterKind.Path;
                     else
                         operationParameter.Kind = SwaggerParameterKind.Query;
 

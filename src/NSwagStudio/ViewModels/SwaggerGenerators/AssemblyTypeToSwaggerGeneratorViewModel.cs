@@ -135,7 +135,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
                 AllClassNames = await Task.Run(() =>
                 {
                     var generator = new AssemblyTypeToSwaggerGenerator(Command.Settings);
-                    return generator.GetClasses();
+                    return generator.GetExportedClassNames();
                 });
             });
         }

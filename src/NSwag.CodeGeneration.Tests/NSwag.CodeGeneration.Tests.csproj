@@ -65,12 +65,12 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=7.3.6214.20986, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.7.3.6214.20986\lib\net45\NJsonSchema.dll</HintPath>
+    <Reference Include="NJsonSchema, Version=7.6.6221.22528, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.7.6.6221.22528\lib\net45\NJsonSchema.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema.CodeGeneration, Version=7.3.6214.21001, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.CodeGeneration.7.3.6214.21001\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
+    <Reference Include="NJsonSchema.CodeGeneration, Version=7.6.6221.22554, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.CodeGeneration.7.6.6221.22554\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
@@ -138,6 +138,9 @@
     <Compile Include="CommandLine\WebApiCommandLineTests.cs" />
     <Compile Include="OperationNameGenerator\MultipleClientsFromOperationIdOperationNameGeneratorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebApi\Attributes\RouteTests.cs" />
+    <Compile Include="WebApi\FileParameterTests.cs" />
+    <Compile Include="WebApi\FileResponseTests.cs" />
     <Compile Include="WebApi\Integration\SwashbuckleAnnotationsTests.cs" />
     <Compile Include="WebApi\Attributes\AcceptVerbsTests.cs" />
     <Compile Include="WebApi\Attributes\ComplexParametersTests.cs" />
@@ -149,7 +152,7 @@
     <Compile Include="WebApi\Attributes\TagsTests.cs" />
     <Compile Include="WebApi\ControllerClassesTests.cs" />
     <Compile Include="WebApi\EnumListTests.cs" />
-    <Compile Include="WebApi\GeneralTests.cs" />
+    <Compile Include="WebApi\ParameterTests.cs" />
     <Compile Include="WebApi\OperationIdTests.cs" />
     <Compile Include="WebApi\XmlTests.cs" />
   </ItemGroup>

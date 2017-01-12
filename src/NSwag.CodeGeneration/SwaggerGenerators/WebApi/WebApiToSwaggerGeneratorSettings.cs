@@ -21,6 +21,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
         public WebApiToSwaggerGeneratorSettings()
         {
             NullHandling = NullHandling.Swagger;
+            GenerateXmlObjects = true;
+            AddMissingPathParameters = true; 
 
             OperationProcessors.Add(new OperationParameterProcessor(this));
             OperationProcessors.Add(new OperationResponseProcessor(this));

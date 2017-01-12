@@ -1,8 +1,11 @@
-﻿using System.Linq;
+﻿using System.Globalization;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NJsonSchema;
 
-namespace NSwag.Tests
+namespace NSwag.Tests.Specification
 {
     [TestClass]
     public class GeneralTests
@@ -62,6 +65,28 @@ namespace NSwag.Tests
 
             //// Assert
             Assert.IsNotNull(document.Operations.First().Operation.Responses["202"].ExtensionData);
+        }
+
+        [TestMethod]
+        public async Task When_locale_is_not_english_then_types_are_correctly_serialized()
+        {
+            // https://github.com/NSwag/NSwag/issues/518
+
+            //// Arrange
+            CultureInfo ci = new CultureInfo("tr-TR");
+            Thread.CurrentThread.CurrentCulture = ci;
+            Thread.CurrentThread.CurrentUICulture = ci;
+            CultureInfo.DefaultThreadCurrentCulture = ci;
+
+            //// Act
+            var json = _sampleServiceCode;
+
+            //// Act
+            var document = await SwaggerDocument.FromJsonAsync(json);
+            var j = document.ToJson();
+
+            //// Assert
+            Assert.AreEqual(JsonObjectType.Integer, document.Definitions["Pet"].Properties["id"].Type);
         }
 
         private string _sampleServiceCode = 
