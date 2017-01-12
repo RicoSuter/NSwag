@@ -11,7 +11,7 @@ using System;
 namespace NSwag.Annotations
 {
     /// <summary>Excludes an action method from the generated Swagger specification.</summary>
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Method | AttributeTargets.Class)]
     public class SwaggerIgnoreAttribute : Attribute
     {
     }

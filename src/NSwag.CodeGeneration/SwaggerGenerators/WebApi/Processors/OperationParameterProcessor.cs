@@ -200,28 +200,31 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
                 foreach (var property in parameter.ParameterType.GetRuntimeProperties())
                 {
                     var attributes = property.GetCustomAttributes().ToList();
-                    var fromQueryAttribute = attributes.SingleOrDefault(a => a.GetType().Name == "FromQueryAttribute");
-                    var propertyName = TryGetStringPropertyValue(fromQueryAttribute, "Name") ?? JsonReflectionUtilities.GetPropertyName(property, _settings.DefaultPropertyNameHandling);
+                    if (attributes.All(a => a.GetType().Name != "SwaggerIgnoreAttribute"))
+                    {
+                        var fromQueryAttribute = attributes.SingleOrDefault(a => a.GetType().Name == "FromQueryAttribute");
+                        var propertyName = TryGetStringPropertyValue(fromQueryAttribute, "Name") ?? JsonReflectionUtilities.GetPropertyName(property, _settings.DefaultPropertyNameHandling);
 
-                    dynamic fromRouteAttribute = attributes.SingleOrDefault(a => a.GetType().FullName == "Microsoft.AspNetCore.Mvc.FromRouteAttribute");
-                    if (fromRouteAttribute != null && !string.IsNullOrEmpty(fromRouteAttribute.Name))
-                        propertyName = fromRouteAttribute.Name;
+                        dynamic fromRouteAttribute = attributes.SingleOrDefault(a => a.GetType().FullName == "Microsoft.AspNetCore.Mvc.FromRouteAttribute");
+                        if (fromRouteAttribute != null && !string.IsNullOrEmpty(fromRouteAttribute.Name))
+                            propertyName = fromRouteAttribute.Name;
 
-                    var propertySummary = await property.GetXmlSummaryAsync().ConfigureAwait(false);
-                    var operationParameter = await swaggerGenerator.CreatePrimitiveParameterAsync(propertyName, propertySummary, property.PropertyType, attributes).ConfigureAwait(false);
+                        var propertySummary = await property.GetXmlSummaryAsync().ConfigureAwait(false);
+                        var operationParameter = await swaggerGenerator.CreatePrimitiveParameterAsync(propertyName, propertySummary, property.PropertyType, attributes).ConfigureAwait(false);
 
-                    // TODO: Check if required can be controlled with mechanisms other than RequiredAttribute
+                        // TODO: Check if required can be controlled with mechanisms other than RequiredAttribute
 
-                    var parameterInfo = JsonObjectTypeDescription.FromType(property.PropertyType, attributes, _settings.DefaultEnumHandling);
-                    var isFileArray = IsFileArray(property.PropertyType, parameterInfo);
-                    if (parameterInfo.Type == JsonObjectType.File || isFileArray)
-                        InitializeFileParameter(operationParameter, isFileArray);
-                    else if (fromRouteAttribute != null)
-                        operationParameter.Kind = SwaggerParameterKind.Path;
-                    else
-                        operationParameter.Kind = SwaggerParameterKind.Query;
+                        var parameterInfo = JsonObjectTypeDescription.FromType(property.PropertyType, attributes, _settings.DefaultEnumHandling);
+                        var isFileArray = IsFileArray(property.PropertyType, parameterInfo);
+                        if (parameterInfo.Type == JsonObjectType.File || isFileArray)
+                            InitializeFileParameter(operationParameter, isFileArray);
+                        else if (fromRouteAttribute != null)
+                            operationParameter.Kind = SwaggerParameterKind.Path;
+                        else
+                            operationParameter.Kind = SwaggerParameterKind.Query;
 
-                    operation.Parameters.Add(operationParameter);
+                        operation.Parameters.Add(operationParameter);
+                    }
                 }
             }
         }

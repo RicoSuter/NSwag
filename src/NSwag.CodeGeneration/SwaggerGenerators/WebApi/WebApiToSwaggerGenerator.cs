@@ -263,7 +263,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 }
             }
             // TODO: Check if this is correct
-            else if (routePrefixAttribute != null && ((method.GetParameters().Length == 0 && method.Name == "Get") ||
+            else if (routePrefixAttribute != null && (
+                (method.GetParameters().Length == 0 && method.Name == "Get") ||
                 method.Name == "Post" ||
                 method.Name == "Put" ||
                 method.Name == "Delete"))
