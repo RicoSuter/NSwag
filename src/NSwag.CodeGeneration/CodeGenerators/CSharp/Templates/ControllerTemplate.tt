@@ -16,6 +16,7 @@ public interface I<#=Model.Class#>Controller
 }
 
 [System.CodeDom.Compiler.GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
+[System.Web.Http.RoutePrefix("<#=Model.BasePath#>")]
 public partial class <#=Model.Class#>Controller : <#if(Model.HasBaseClass){#><#=Model.BaseClass#><#}else{#>ApiController<#}#> 
 {
     private I<#=Model.Class#>Controller _implementation; 
@@ -30,7 +31,7 @@ public partial class <#=Model.Class#>Controller : <#if(Model.HasBaseClass){#><#=
 <#      if(parameter.HasDescription){#>    /// <param name="<#=parameter.VariableName#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
 <#  }}if(operation.HasResultDescription){#>    /// <returns><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)#></returns>
 <#  }if(operation.IsDeprecated){#>    [System.Obsolete]
-<#  }#>    [Http<#=operation.HttpMethodUpper#>, Route("<#=operation.Path#>")]
+<#  }#>    [System.Web.Http.Http<#=operation.HttpMethodUpper#>, System.Web.Http.Route("<#=operation.Path#>")]
     public <#=operation.ResultType#> <#=operation.OperationNameUpper#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(!parameter.IsLast){#>, <#}}#>)
     {
         return _implementation.<#=operation.OperationNameUpper#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(!parameter.IsLast){#>, <#}}#>);
