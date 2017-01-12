@@ -47,7 +47,7 @@ namespace NSwag.CodeGeneration.Utilities
                     var rootPath = rootIndex >= 0 ? path.Substring(0, rootIndex + 1) : Directory.GetCurrentDirectory();
                     var files = Directory.GetFiles(rootPath, "*", SearchOption.AllDirectories);
 
-                    allFiles.AddRange(FindWildcardMatches(path, files).Select(Path.GetFullPath));
+                    allFiles.AddRange(FindWildcardMatches(path, files.Select(f => f.Replace("\\", "/")), '/').Select(Path.GetFullPath));
                 }
                 else
                     allFiles.Add(path);
@@ -59,19 +59,20 @@ namespace NSwag.CodeGeneration.Utilities
         /// <summary>Finds the wildcard matches.</summary>
         /// <param name="selector">The selector.</param>
         /// <param name="items">The items.</param>
+        /// <param name="delimiter">The delimiter.</param>
         /// <returns>The matches.</returns>
-        public static IEnumerable<string> FindWildcardMatches(string selector, IEnumerable<string> items)
+        public static IEnumerable<string> FindWildcardMatches(string selector, IEnumerable<string> items, char delimiter)
         {
+            var escapedDelimiter = Regex.Escape(delimiter.ToString());
+
             var regex = new Regex(
                 "^" + Regex.Escape(selector
-                .Replace("**/", "__starstar__")
-                .Replace("**\\", "__starstar__")
-                .Replace("/", "__del__")
-                .Replace("\\", "__del__")
-                .Replace("*", "__star__"))
-                .Replace("__del__", "([\\\\/])")
-                .Replace("__starstar__", "((.*?)[/\\\\])")
-                .Replace("__star__", "([^\\/]*?)") + "$");
+                    .Replace(delimiter.ToString(), "__del__")
+                    .Replace("**", "__starstar__")
+                    .Replace("*", "__star__"))
+                .Replace("__del__", "(" + escapedDelimiter + ")")
+                .Replace("__starstar__", "(.*?)")
+                .Replace("__star__", "([^" + escapedDelimiter + "]*?)") + "$");
 
             return items.Where(i => regex.Match(i).Success);
         }

@@ -35,29 +35,22 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
 
         /// <summary>Gets the available controller classes from the given assembly.</summary>
         /// <returns>The controller classes.</returns>
-        public override string[] GetClasses()
+        public override string[] GetExportedClassNames()
         {
             if (File.Exists(Settings.AssemblyPath))
             {
 #if FullNet
                 using (var isolated = new AppDomainIsolation<NetAssemblyLoader>(Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPath)), Settings.AssemblyConfig))
-                    return isolated.Object.GetClasses(Settings.AssemblyPath, GetAllReferencePaths(Settings));
+                    return isolated.Object.GetExportedClassNames(Settings.AssemblyPath, GetAllReferencePaths(Settings));
 #else
                 var loader = new NetAssemblyLoader();
-                return loader.GetClasses(Settings.AssemblyPath, GetAllReferencePaths(Settings));
+                return loader.GetExportedClassNames(Settings.AssemblyPath, GetAllReferencePaths(Settings));
 #endif
             }
             else
                 return new string[] { };
         }
-
-        /// <summary>Generates the Swagger definition for all classes without operations (used for class generation).</summary>
-        /// <returns>The Swagger definition.</returns>
-        public override Task<SwaggerDocument> GenerateAsync()
-        {
-            return GenerateAsync(GetClasses());
-        }
-
+        
         /// <summary>Generates the Swagger definition for the given classes without operations (used for class generation).</summary>
         /// <param name="classNames">The class names.</param>
         /// <returns>The Swagger definition.</returns>
@@ -107,7 +100,13 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
 #else
                 var assembly = Context.LoadFromAssemblyPath(settings.AssemblyPath);
 #endif
-                foreach (var className in classNames)
+
+                var allTypes = GetExportedClassNames(assembly);
+                var matchedClassNames = classNames
+                    .SelectMany(n => PathUtilities.FindWildcardMatches(n, allTypes, '.'))
+                    .Distinct();
+
+                foreach (var className in matchedClassNames)
                 {
                     var type = assembly.GetType(className);
                     var schema = await generator.GenerateAsync(type, schemaResolver).ConfigureAwait(false);
@@ -117,7 +116,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
                 return document.ToJson();
             }
 
-            internal string[] GetClasses(string assemblyPath, IEnumerable<string> referencePaths)
+            internal string[] GetExportedClassNames(string assemblyPath, IEnumerable<string> referencePaths)
             {
                 RegisterReferencePaths(referencePaths);
 
@@ -126,6 +125,12 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
 #else
                 var assembly = Context.LoadFromAssemblyPath(assemblyPath);
 #endif
+
+                return GetExportedClassNames(assembly);
+            }
+
+            private static string[] GetExportedClassNames(Assembly assembly)
+            {
                 return assembly.ExportedTypes
                     .Select(t => t.FullName)
                     .OrderBy(t => t)

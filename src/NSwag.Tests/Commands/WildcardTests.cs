@@ -21,13 +21,13 @@ namespace NSwag.Tests.Commands
         }
 
         [TestMethod]
-        public void When_selector_does_not_contain_wildcard_then_item_is_matched()
+        public void NoWildcard()
         {
             //// Arrange
             var items = new string[] { "abc/def", "ghi/jkl" };
 
             //// Act
-            var matches = PathUtilities.FindWildcardMatches("abc/def", items);
+            var matches = PathUtilities.FindWildcardMatches("abc/def", items, '/');
 
             //// Assert
             Assert.AreEqual(1, matches.Count());
@@ -35,17 +35,88 @@ namespace NSwag.Tests.Commands
         }
 
         [TestMethod]
-        public void When_selector_contains_wildcard_then_item_is_matched()
+        public void SingleWildcardInTheMiddle()
         {
             //// Arrange
-            var items = new string[] { "abc/def/ghi", "abc/def/jkl" };
+            var items = new string[] {"abc/def/ghi", "abc/def/jkl", "abc/a/b/ghi"};
 
             //// Act
-            var matches = PathUtilities.FindWildcardMatches("abc/*/ghi", items);
+            var matches = PathUtilities.FindWildcardMatches("abc/*/ghi", items, '/');
 
             //// Assert
             Assert.AreEqual(1, matches.Count());
             Assert.AreEqual("abc/def/ghi", matches.First());
+        }
+
+        [TestMethod]
+        public void DoubleWildcardInTheMiddle()
+        {
+            //// Arrange
+            var items = new string[] { "a/b/c", "a/b/d", "a/b/b/c" };
+
+            //// Act
+            var matches = PathUtilities.FindWildcardMatches("a/**/c", items, '/');
+
+            //// Assert
+            Assert.AreEqual(2, matches.Count());
+            Assert.AreEqual("a/b/c", matches.First());
+            Assert.AreEqual("a/b/b/c", matches.Last());
+        }
+        
+        [TestMethod]
+        public void DoubleWildcardAtTheEnd()
+        {
+            //// Arrange
+            var items = new string[] { "abc/a", "abc/b", "abc/c/d" };
+
+            //// Act
+            var matches = PathUtilities.FindWildcardMatches("abc/**", items, '/');
+
+            //// Assert
+            Assert.AreEqual(3, matches.Count());
+        }
+
+        [TestMethod]
+        public void SingleWildcardAtTheEnd()
+        {
+            //// Arrange
+            var items = new string[] { "abc/a", "abc/b", "abc/c/d" };
+
+            //// Act
+            var matches = PathUtilities.FindWildcardMatches("abc/*", items, '/');
+
+            //// Assert
+            Assert.AreEqual(2, matches.Count());
+        }
+
+        [TestMethod]
+        public void DoubleWildcardAtTheBeginning()
+        {
+            //// Arrange
+            var items = new string[] { "a/b/c", "a/b/d", "a/c" };
+
+            //// Act
+            var matches = PathUtilities.FindWildcardMatches("**/c", items, '/');
+
+            //// Assert
+            Assert.AreEqual(2, matches.Count());
+            Assert.AreEqual("a/b/c", matches.First());
+            Assert.AreEqual("a/c", matches.Last());
+        }
+
+        [TestMethod]
+        public void SingleWildcardAtTheBeginning()
+        {
+            //// Arrange
+            var items = new string[] { "a/b/c", "x/y/c", "x/b/c" };
+
+            //// Act
+            var matches = PathUtilities.FindWildcardMatches("*/b/c", items, '/');
+
+            //// Assert
+            Assert.AreEqual(2, matches.Count());
+            Assert.AreEqual("a/b/c", matches.First());
+            Assert.AreEqual("x/b/c", matches.Last());
         }
     }
 }

@@ -94,13 +94,6 @@ namespace NSwag.Commands
             return await Task.Run(async () =>
             {
                 var generator = CreateGenerator();
-
-                // if the caller specified Classes as "*", treat it as a wildcard
-                if (ClassNames?.Length == 1 && ClassNames[0] == "*")
-                {
-                    return await generator.GenerateAsync().ConfigureAwait(false);
-                }
-
                 return await generator.GenerateAsync(ClassNames).ConfigureAwait(false);
             });
         }
