@@ -51,6 +51,13 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
                 return new string[] { };
         }
 
+        /// <summary>Generates the Swagger definition for all classes without operations (used for class generation).</summary>
+        /// <returns>The Swagger definition.</returns>
+        public override Task<SwaggerDocument> GenerateAsync()
+        {
+            return GenerateAsync(GetClasses());
+        }
+
         /// <summary>Generates the Swagger definition for the given classes without operations (used for class generation).</summary>
         /// <param name="classNames">The class names.</param>
         /// <returns>The Swagger definition.</returns>
