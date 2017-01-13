@@ -83,6 +83,7 @@ namespace NSwag.CodeGeneration.Utilities
         /// <returns>The absolute path.</returns>
         public static string MakeAbsolutePath(string relativePath, string relativeTo)
         {
+            // TODO: Rename to ToAbsolutePath, switch parameters
             if (Path.IsPathRooted(relativePath))
                 return relativePath;
 

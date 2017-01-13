@@ -17,6 +17,7 @@ using NSwag.CodeGeneration.Infrastructure;
 using NSwag.CodeGeneration.Utilities;
 
 #if !FullNet
+using NJsonSchema.Infrastructure;
 using System.Runtime.Loader;
 #endif
 
@@ -96,7 +97,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 var settings = JsonConvert.DeserializeObject<WebApiAssemblyToSwaggerGeneratorSettings>(settingsData);
 
                 RegisterReferencePaths(GetAllReferencePaths(settings));
-                IEnumerable<Type> controllers = GetControllerTypes(controllerClassNames, settings);
+                var controllers = await GetControllerTypesAsync(controllerClassNames, settings);
 
                 var generator = new WebApiToSwaggerGenerator(settings);
                 var document = await generator.GenerateForControllersAsync(controllers).ConfigureAwait(false);
@@ -104,7 +105,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             }
 
             /// <exception cref="InvalidOperationException">No assembly paths have been provided.</exception>
-            private IEnumerable<Type> GetControllerTypes(IEnumerable<string> controllerClassNames, WebApiAssemblyToSwaggerGeneratorSettings settings)
+#pragma warning disable 1998
+            private async Task<IEnumerable<Type>> GetControllerTypesAsync(IEnumerable<string> controllerClassNames, WebApiAssemblyToSwaggerGeneratorSettings settings)
+#pragma warning restore 1998
             {
                 if (settings.AssemblyPaths == null || settings.AssemblyPaths.Length == 0)
                     throw new InvalidOperationException("No assembly paths have been provided.");
@@ -113,8 +116,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                 var assemblies = PathUtilities.ExpandFileWildcards(settings.AssemblyPaths)
                     .Select(path => Assembly.LoadFrom(path)).ToArray();
 #else
+                var currentDirectory = await DynamicApis.DirectoryGetCurrentDirectoryAsync().ConfigureAwait(false);
                 var assemblies = PathUtilities.ExpandFileWildcards(settings.AssemblyPaths)
-                    .Select(path => Context.LoadFromAssemblyPath(path)).ToArray();
+                    .Select(path => Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(path, currentDirectory))).ToArray();
 #endif
 
                 var controllerTypes = new List<Type>();
@@ -133,11 +137,13 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
             {
                 RegisterReferencePaths(referencePaths);
 
-                return PathUtilities.ExpandFileWildcards(assemblyPaths)
 #if FullNet
+                return PathUtilities.ExpandFileWildcards(assemblyPaths)
                     .Select(Assembly.LoadFrom)
 #else
-                    .Select(Context.LoadFromAssemblyPath)
+                var currentDirectory = DynamicApis.DirectoryGetCurrentDirectoryAsync().GetAwaiter().GetResult();
+                return PathUtilities.ExpandFileWildcards(assemblyPaths)
+                    .Select(p => Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(p, currentDirectory)))
 #endif
                     .SelectMany(WebApiToSwaggerGenerator.GetControllerClasses)
                     .Select(t => t.FullName)

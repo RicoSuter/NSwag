@@ -13,12 +13,13 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using NJsonSchema;
 using NJsonSchema.Generation;
 using NSwag.CodeGeneration.Infrastructure;
 using NSwag.CodeGeneration.Utilities;
 
 #if !FullNet
+using NJsonSchema;
+using NJsonSchema.Infrastructure;
 using System.Runtime.Loader;
 #endif
 
@@ -50,14 +51,14 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
             else
                 return new string[] { };
         }
-        
+
         /// <summary>Generates the Swagger definition for the given classes without operations (used for class generation).</summary>
         /// <param name="classNames">The class names.</param>
         /// <returns>The Swagger definition.</returns>
         public override async Task<SwaggerDocument> GenerateAsync(string[] classNames)
         {
 #if FullNet
-            using (var isolated =new AppDomainIsolation<NetAssemblyLoader>(Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPath)), Settings.AssemblyConfig))
+            using (var isolated = new AppDomainIsolation<NetAssemblyLoader>(Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPath)), Settings.AssemblyConfig))
             {
                 var json = await Task.Run(() => isolated.Object.FromAssemblyType(classNames, JsonConvert.SerializeObject(Settings))).ConfigureAwait(false);
                 return await SwaggerDocument.FromJsonAsync(json).ConfigureAwait(false);
@@ -98,9 +99,9 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
 #if FullNet
                 var assembly = Assembly.LoadFrom(settings.AssemblyPath);
 #else
-                var assembly = Context.LoadFromAssemblyPath(settings.AssemblyPath);
+                var currentDirectory = await DynamicApis.DirectoryGetCurrentDirectoryAsync().ConfigureAwait(false);
+                var assembly = Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(settings.AssemblyPath, currentDirectory));
 #endif
-
                 var allTypes = GetExportedClassNames(assembly);
                 var matchedClassNames = classNames
                     .SelectMany(n => PathUtilities.FindWildcardMatches(n, allTypes, '.'))
@@ -123,7 +124,8 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
 #if FullNet
                 var assembly = Assembly.LoadFrom(assemblyPath);
 #else
-                var assembly = Context.LoadFromAssemblyPath(assemblyPath);
+                var currentDirectory = DynamicApis.DirectoryGetCurrentDirectoryAsync().GetAwaiter().GetResult();
+                var assembly = Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(assemblyPath, currentDirectory));
 #endif
 
                 return GetExportedClassNames(assembly);
