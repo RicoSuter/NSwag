@@ -17,6 +17,10 @@ Show available commands:
 
     nswag help
 
+The full .NET Framework is preferred as execution environment. Add the switch `--core` at the end of the command to execute the .NET Core binaries: 
+
+	nswag help --core
+
 ### Project installation
 	
 Install the package for the current project: 
@@ -37,7 +41,11 @@ To run the NodeJS binary locally:
 
     cd "src/NSwag.Npm"
     node "bin/nswag" help
+
+The JavaScript command line tool can be found here: 
+
+    src/NSwag.Npm/bin/nswag.json
 	
-Publish package: 
+To publish the package (login required): 
 
     build/04_Npm_Publish.bat

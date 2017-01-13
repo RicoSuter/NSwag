@@ -21,7 +21,7 @@ if (process.env["windir"]) {
 }
 
 var c = require('child_process');
-if (hasFullDotNet) {
+if (hasFullDotNet && !args.endsWith("--core")) {
     // Run full .NET version
     var cmd = '"' + __dirname + '/binaries/full/nswag.exe" ' + args;
     var code = c.execSync(cmd, {stdio:[0,1,2]});	
