@@ -101,13 +101,13 @@
                 </ListBox.ItemTemplate>
             </ListBox>
             <TextBlock Text="When multiple controllers are selected, consider selecting MultipleClientsFromOperationId or MultipleClientsFromPathSegments as operation generation mode."
-                       TextWrapping="Wrap" Margin="0,4,0,6" />
+                       TextWrapping="Wrap" Margin="0,4,0,12" />
 
             <CheckBox IsChecked="{Binding Command.AddMissingPathParameters, Mode=TwoWay}" Margin="0,0,0,12">
                 <TextBlock Text="Add path parameters which are missing in the action method" TextWrapping="Wrap" />
             </CheckBox>
 
-            <TextBlock Margin="0,6,0,6" TextWrapping="Wrap">
+            <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
                 <Run Text="Default Enum Handling" FontWeight="Bold" />
                 <LineBreak />
                 Choose 'Integer' if you use the default Json.NET serializer or 'String' if a global StringEnumConverter is registered.
