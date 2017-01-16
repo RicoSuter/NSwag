@@ -31,7 +31,10 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         /// <summary>Gets or sets the name of the exception class (supports the '{controller}' placeholder).</summary>
         public string ExceptionClass { get; set; }
 
-        /// <summary>Gets or sets a value indicating whether to call CreateHttpClientAsync on the base class to create a new HttpClient instance.</summary>
+        /// <summary>Gets or sets a value indicating whether an HttpClient instance is injected into the client.</summary>
+        public bool InjectHttpClient { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether to call CreateHttpClientAsync on the base class to create a new HttpClient instance (cannot be used when the HttpClient is injected).</summary>
         public bool UseHttpClientCreationMethod { get; set; }
 
         /// <summary>Gets or sets a value indicating whether to call CreateHttpRequestMessageAsync on the base class to create a new HttpRequestMethod.</summary>

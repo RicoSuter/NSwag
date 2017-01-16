@@ -64,6 +64,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
         /// <summary>Gets a value indicating whether the client has a base type.</summary>
         public bool HasBaseType => _settings.GenerateClientInterfaces || HasBaseClass;
 
+        /// <summary>Gets or sets a value indicating whether an HttpClient instance is injected.</summary>
+        public bool InjectHttpClient => _settings.InjectHttpClient;
+
         /// <summary>Gets a value indicating whether to use a HTTP client creation method.</summary>
         public bool UseHttpClientCreationMethod => _settings.UseHttpClientCreationMethod;
 

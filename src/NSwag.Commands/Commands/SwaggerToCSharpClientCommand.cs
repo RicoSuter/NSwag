@@ -66,6 +66,13 @@ namespace NSwag.Commands
             set { Settings.GenerateDtoTypes = value; }
         }
 
+        [Argument(Name = "InjectHttpClient", IsRequired = false, Description = "Specifies whether an HttpClient instance is injected.")]
+        public bool InjectHttpClient
+        {
+            get { return Settings.InjectHttpClient; }
+            set { Settings.InjectHttpClient = value; }
+        }
+
         [Argument(Name = "UseHttpClientCreationMethod", IsRequired = false, Description = "Specifies whether to call CreateHttpClientAsync on the base class to create a new HttpClient.")]
         public bool UseHttpClientCreationMethod
         {
@@ -73,13 +80,6 @@ namespace NSwag.Commands
             set { Settings.UseHttpClientCreationMethod = value; }
         }
         
-        [Argument(Name = "JsonConverters", IsRequired = false, Description = "Specifies the custom Json.NET converter types (optional, comma separated).")]
-        public string[] JsonConverters
-        {
-            get { return Settings.CSharpGeneratorSettings.JsonConverters; }
-            set { Settings.CSharpGeneratorSettings.JsonConverters = value; }
-        }
-
         [Argument(Name = "UseHttpRequestMessageCreationMethod", IsRequired = false, 
                   Description = "Specifies whether to call CreateHttpRequestMessageAsync on the base class to create a new HttpRequestMethod.")]
         public bool UseHttpRequestMessageCreationMethod
@@ -93,6 +93,13 @@ namespace NSwag.Commands
         {
             get { return Settings.GenerateExceptionClasses; }
             set { Settings.GenerateExceptionClasses = value; }
+        }
+
+        [Argument(Name = "JsonConverters", IsRequired = false, Description = "Specifies the custom Json.NET converter types (optional, comma separated).")]
+        public string[] JsonConverters
+        {
+            get { return Settings.CSharpGeneratorSettings.JsonConverters; }
+            set { Settings.CSharpGeneratorSettings.JsonConverters = value; }
         }
 
         [Argument(Name = "GenerateContractsOutput", IsRequired = false,
