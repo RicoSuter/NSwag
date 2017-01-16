@@ -121,8 +121,17 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
                     .Select(path => Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(path, currentDirectory))).ToArray();
 #endif
 
+                var allExportedClassNames = assemblies.SelectMany(a => a.ExportedTypes).Select(t => t.FullName).ToList();
+                var matchedControllerClassNames = controllerClassNames
+                    .SelectMany(n => PathUtilities.FindWildcardMatches(n, allExportedClassNames, '.'))
+                    .Distinct();
+
+                var controllerClassNamesWithoutWildcard = controllerClassNames.Where(n => !n.Contains("*")).ToArray();
+                if (controllerClassNamesWithoutWildcard.Any(n => !matchedControllerClassNames.Contains(n)))
+                    throw new TypeLoadException("Unable to load type for controllers: " + string.Join(", ", controllerClassNamesWithoutWildcard));
+
                 var controllerTypes = new List<Type>();
-                foreach (var className in controllerClassNames)
+                foreach (var className in matchedControllerClassNames)
                 {
                     var controllerType = assemblies.Select(a => a.GetType(className)).FirstOrDefault(t => t != null);
                     if (controllerType != null)
