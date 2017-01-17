@@ -111,8 +111,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
                 foreach (var className in matchedClassNames)
                 {
                     var type = assembly.GetType(className);
-                    var schema = await generator.GenerateAsync(type, schemaResolver).ConfigureAwait(false);
-                    document.Definitions[type.Name] = schema;
+                    await generator.GenerateAsync(type, schemaResolver).ConfigureAwait(false);
                 }
 
                 return document.ToJson();
