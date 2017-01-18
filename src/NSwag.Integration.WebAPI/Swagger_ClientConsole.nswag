@@ -46,6 +46,7 @@
       "markOptionalProperties": false,
       "typeStyle": "Class",
       "generateDefaultValues": true,
+      "excludedTypeNames": [],
       "output": null
     },
     "swaggerToCSharpClient": {
@@ -53,11 +54,13 @@
       "generateClientClasses": true,
       "generateClientInterfaces": false,
       "generateDtoTypes": true,
+      "injectHttpClient": true,
       "useHttpClientCreationMethod": false,
       "jsonConverters": [
         "Newtonsoft.Json.Converters.StringEnumConverter"
       ],
       "useHttpRequestMessageCreationMethod": false,
+      "generateExceptionClasses": true,
       "generateContractsOutput": true,
       "contractsNamespace": "NSwag.Integration.Console.Contracts",
       "contractsOutputFilePath": "../NSwag.Integration.Console/ServiceClientsContracts.cs",
@@ -73,6 +76,7 @@
       "classStyle": "Poco",
       "operationGenerationMode": "MultipleClientsFromOperationId",
       "generateDefaultValues": true,
+      "excludedTypeNames": [],
       "output": "../NSwag.Integration.Console/ServiceClients.cs"
     },
     "swaggerToCSharpController": {
@@ -91,6 +95,7 @@
       "classStyle": "Inpc",
       "operationGenerationMode": "MultipleClientsFromOperationId",
       "generateDefaultValues": true,
+      "excludedTypeNames": [],
       "output": null
     }
   }

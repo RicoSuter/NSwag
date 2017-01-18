@@ -154,6 +154,7 @@
     <Compile Include="WebApi\EnumListTests.cs" />
     <Compile Include="WebApi\ParameterTests.cs" />
     <Compile Include="WebApi\OperationIdTests.cs" />
+    <Compile Include="WebApi\TypesToSwaggerTests.cs" />
     <Compile Include="WebApi\XmlTests.cs" />
   </ItemGroup>
   <ItemGroup>

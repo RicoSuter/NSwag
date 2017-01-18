@@ -36,15 +36,31 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
 {
     private string _baseUrl = "<#=Model.BaseUrl#>";
     
+<#if(Model.InjectHttpClient){#>
+	private System.Net.Http.HttpClient _httpClient; 
+
+<#}#>
 <#if(Model.HasConfigurationClass){#>
-    public <#=Model.Class#>(<#=Model.ConfigurationClass#> configuration) : base(configuration)
+    public <#=Model.Class#>(<#=Model.ConfigurationClass#> configuration<#if(Model.InjectHttpClient){#>, System.Net.Http.HttpClient httpClient<#}#>) : base(configuration)
     {
+<#if(Model.InjectHttpClient){#>
+		_httpClient = httpClient; 
+<#}#>
     }
 
 <#}else if(string.IsNullOrEmpty(Model.BaseUrl)){#>
-    public <#=Model.Class#>(string baseUrl)
+    public <#=Model.Class#>(string baseUrl<#if(Model.InjectHttpClient){#>, System.Net.Http.HttpClient httpClient<#}#>)
     {
+<#if(Model.InjectHttpClient){#>
+		_httpClient = httpClient; 
+<#}#>
         BaseUrl = baseUrl; 
+    }
+
+<#}else if(Model.InjectHttpClient){#>
+    public <#=Model.Class#>(System.Net.Http.HttpClient httpClient)
+    {
+		_httpClient = httpClient; 
     }
 
 <#}#>
@@ -114,7 +130,9 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
 <#  }#>
 <#}#>
 
-<#      if(Model.UseHttpClientCreationMethod){#>
+<#      if(Model.InjectHttpClient){#>
+        var client_ = _httpClient;
+<#      }else if(Model.UseHttpClientCreationMethod){#>
         using (var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false))
 <#      }else{#>
         using (var client_ = new System.Net.Http.HttpClient())

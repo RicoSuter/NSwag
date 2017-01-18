@@ -66,8 +66,12 @@
                                 <TextBlock Text="Base Class Name (optional)" FontWeight="Bold" Margin="0,0,0,6" />
                                 <TextBox Text="{Binding Command.ClientBaseClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,12" />
 
+                                <CheckBox IsChecked="{Binding Command.InjectHttpClient, Mode=TwoWay}" 
+                                          Content="Inject HttpClient via constructor (life cycle is managed by the caller)" Margin="0,0,0,12" />
+
                                 <StackPanel Visibility="{Binding Command.ClientBaseClass, Converter={StaticResource VisibilityConverter}}">
-                                    <CheckBox IsChecked="{Binding Command.UseHttpClientCreationMethod, Mode=TwoWay}" Margin="0,0,0,12">
+                                    <CheckBox IsChecked="{Binding Command.UseHttpClientCreationMethod, Mode=TwoWay}" Margin="0,0,0,12" 
+                                              Visibility="{Binding Command.InjectHttpClient, Converter={StaticResource NotConverter}}">
                                         <TextBlock Text="Call the CreateHttpClientAsync method on the client base class to create a new HttpClient instance" TextWrapping="Wrap" />
                                     </CheckBox>
 

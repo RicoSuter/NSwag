@@ -49,6 +49,7 @@ namespace NSwag.AspNetCore
             if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value.Trim('/'), _path.Trim('/'), StringComparison.OrdinalIgnoreCase))
             {
                 context.Response.StatusCode = 200;
+                context.Response.Headers["Content-Type"] = "application/json; charset=utf-8";
                 await context.Response.WriteAsync(await GenerateSwaggerAsync(context));
             }
             else

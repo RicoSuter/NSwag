@@ -102,16 +102,16 @@ namespace NSwag.CodeGeneration.SwaggerGenerators
                 var currentDirectory = await DynamicApis.DirectoryGetCurrentDirectoryAsync().ConfigureAwait(false);
                 var assembly = Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(settings.AssemblyPath, currentDirectory));
 #endif
-                var allTypes = GetExportedClassNames(assembly);
+
+                var allExportedClassNames = GetExportedClassNames(assembly);
                 var matchedClassNames = classNames
-                    .SelectMany(n => PathUtilities.FindWildcardMatches(n, allTypes, '.'))
+                    .SelectMany(n => PathUtilities.FindWildcardMatches(n, allExportedClassNames, '.'))
                     .Distinct();
 
                 foreach (var className in matchedClassNames)
                 {
                     var type = assembly.GetType(className);
-                    var schema = await generator.GenerateAsync(type, schemaResolver).ConfigureAwait(false);
-                    document.Definitions[type.Name] = schema;
+                    await generator.GenerateAsync(type, schemaResolver).ConfigureAwait(false);
                 }
 
                 return document.ToJson();
