@@ -152,6 +152,7 @@
     <Compile Include="WebApi\Attributes\TagsTests.cs" />
     <Compile Include="WebApi\ControllerClassesTests.cs" />
     <Compile Include="WebApi\EnumListTests.cs" />
+    <Compile Include="WebApi\Integration\TemplateRouteTests.cs" />
     <Compile Include="WebApi\ParameterTests.cs" />
     <Compile Include="WebApi\OperationIdTests.cs" />
     <Compile Include="WebApi\TypesToSwaggerTests.cs" />
