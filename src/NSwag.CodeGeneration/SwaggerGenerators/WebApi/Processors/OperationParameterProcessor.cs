@@ -97,7 +97,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
                                 if (fromBodyAttribute != null || (fromUriAttribute == null && _settings.IsAspNetCore == false))
                                     await AddBodyParameterAsync(bodyParameterName, parameter, context.OperationDescription.Operation, context.SwaggerGenerator).ConfigureAwait(false);
                                 else
-                                    await AddPrimitiveParametersFromUriAsync(uriParameterName, context.OperationDescription.Operation, parameter, parameterInfo, context.SwaggerGenerator).ConfigureAwait(false);
+                                    await AddPrimitiveParametersFromUriAsync(httpPath, uriParameterName, context.OperationDescription.Operation, parameter, parameterInfo, context.SwaggerGenerator).ConfigureAwait(false);
                             }
                             else
                             {
@@ -209,7 +209,7 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
             }
         }
 
-        private async Task AddPrimitiveParametersFromUriAsync(string name, SwaggerOperation operation, ParameterInfo parameter, JsonObjectTypeDescription typeDescription, SwaggerGenerator swaggerGenerator)
+        private async Task AddPrimitiveParametersFromUriAsync(string httpPath, string name, SwaggerOperation operation, ParameterInfo parameter, JsonObjectTypeDescription typeDescription, SwaggerGenerator swaggerGenerator)
         {
             if (typeDescription.Type.HasFlag(JsonObjectType.Array))
             {
@@ -231,12 +231,12 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
                         var propertyName = TryGetStringPropertyValue(fromQueryAttribute, "Name") ?? JsonReflectionUtilities.GetPropertyName(property, _settings.DefaultPropertyNameHandling);
 
                         dynamic fromRouteAttribute = attributes.SingleOrDefault(a => a.GetType().FullName == "Microsoft.AspNetCore.Mvc.FromRouteAttribute");
-                        if (fromRouteAttribute != null && !string.IsNullOrEmpty(fromRouteAttribute.Name))
-                            propertyName = fromRouteAttribute.Name;
+                        if (fromRouteAttribute != null && !string.IsNullOrEmpty(fromRouteAttribute?.Name))
+                            propertyName = fromRouteAttribute?.Name;
 
                         dynamic fromHeaderAttribute = attributes.SingleOrDefault(a => a.GetType().FullName == "Microsoft.AspNetCore.Mvc.FromHeaderAttribute");
-                        if (fromHeaderAttribute != null && !string.IsNullOrEmpty(fromHeaderAttribute.Name))
-                            propertyName = fromHeaderAttribute.Name;
+                        if (fromHeaderAttribute != null && !string.IsNullOrEmpty(fromHeaderAttribute?.Name))
+                            propertyName = fromHeaderAttribute?.Name;
 
                         var propertySummary = await property.GetXmlSummaryAsync().ConfigureAwait(false);
                         var operationParameter = await swaggerGenerator.CreatePrimitiveParameterAsync(propertyName, propertySummary, property.PropertyType, attributes).ConfigureAwait(false);
@@ -247,8 +247,14 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
                         var isFileArray = IsFileArray(property.PropertyType, parameterInfo);
                         if (parameterInfo.Type == JsonObjectType.File || isFileArray)
                             InitializeFileParameter(operationParameter, isFileArray);
-                        else if (fromRouteAttribute != null)
+                        else if (fromRouteAttribute != null
+                            || httpPath.ToLowerInvariant().Contains("{" + propertyName.ToLower() + "}")
+                            || httpPath.ToLowerInvariant().Contains("{" + propertyName.ToLower() + ":"))
+                        {
                             operationParameter.Kind = SwaggerParameterKind.Path;
+                            operationParameter.IsNullableRaw = false;
+                            operationParameter.IsRequired = true; // Path is always required => property not needed
+                        }
                         else if (fromHeaderAttribute != null)
                             operationParameter.Kind = SwaggerParameterKind.Header;
                         else
