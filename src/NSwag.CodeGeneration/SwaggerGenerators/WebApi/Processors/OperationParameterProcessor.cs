@@ -238,14 +238,6 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
                         if (fromHeaderAttribute != null && !string.IsNullOrEmpty(fromHeaderAttribute?.Name))
                             propertyName = fromHeaderAttribute?.Name;
 
-                        dynamic fromHeaderAttribute = attributes.SingleOrDefault(a => a.GetType().FullName == "Microsoft.AspNetCore.Mvc.FromHeaderAttribute");
-                        if (fromHeaderAttribute != null && !string.IsNullOrEmpty(fromHeaderAttribute.Name))
-                            propertyName = fromHeaderAttribute.Name;
-
-                        dynamic fromHeaderAttribute = attributes.SingleOrDefault(a => a.GetType().FullName == "Microsoft.AspNetCore.Mvc.FromHeaderAttribute");
-                        if (fromHeaderAttribute != null && !string.IsNullOrEmpty(fromHeaderAttribute.Name))
-                            propertyName = fromHeaderAttribute.Name;
-
                         var propertySummary = await property.GetXmlSummaryAsync().ConfigureAwait(false);
                         var operationParameter = await swaggerGenerator.CreatePrimitiveParameterAsync(propertyName, propertySummary, property.PropertyType, attributes).ConfigureAwait(false);
 
