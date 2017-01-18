@@ -199,7 +199,7 @@ namespace NSwag.Commands
 
         private async Task<SwaggerDocument> GenerateDocumentAsync()
         {
-            return await ((dynamic)SelectedSwaggerGenerator).RunAsync();
+            return (SwaggerDocument)await SelectedSwaggerGenerator.RunAsync(null, null);
         }
 
         private static JsonSerializerSettings GetSerializerSettings()
@@ -228,9 +228,6 @@ namespace NSwag.Commands
             CodeGenerators.SwaggerToTypeScriptClientCommand.ExtensionCode = ConvertToAbsolutePath(CodeGenerators.SwaggerToTypeScriptClientCommand.ExtensionCode);
             CodeGenerators.SwaggerToCSharpClientCommand.ContractsOutputFilePath = ConvertToAbsolutePath(CodeGenerators.SwaggerToCSharpClientCommand.ContractsOutputFilePath);
 
-            foreach (var generator in CodeGenerators.Items.Concat(SwaggerGenerators.Items))
-                generator.OutputFilePath = ConvertToAbsolutePath(generator.OutputFilePath);
-
             CodeGenerators.SwaggerToTypeScriptClientCommand.ExtensionCode = ConvertToAbsolutePath(CodeGenerators.SwaggerToTypeScriptClientCommand.ExtensionCode);
             CodeGenerators.SwaggerToCSharpClientCommand.ContractsOutputFilePath = ConvertToAbsolutePath(CodeGenerators.SwaggerToCSharpClientCommand.ContractsOutputFilePath);
 
@@ -250,9 +247,6 @@ namespace NSwag.Commands
 
             CodeGenerators.SwaggerToTypeScriptClientCommand.ExtensionCode = ConvertToRelativePath(CodeGenerators.SwaggerToTypeScriptClientCommand.ExtensionCode);
             CodeGenerators.SwaggerToCSharpClientCommand.ContractsOutputFilePath = ConvertToRelativePath(CodeGenerators.SwaggerToCSharpClientCommand.ContractsOutputFilePath);
-
-            foreach (var generator in CodeGenerators.Items.Concat(SwaggerGenerators.Items))
-                generator.OutputFilePath = ConvertToRelativePath(generator.OutputFilePath);
 
             CodeGenerators.SwaggerToTypeScriptClientCommand.ExtensionCode = ConvertToRelativePath(CodeGenerators.SwaggerToTypeScriptClientCommand.ExtensionCode);
             CodeGenerators.SwaggerToCSharpClientCommand.ContractsOutputFilePath = ConvertToRelativePath(CodeGenerators.SwaggerToCSharpClientCommand.ContractsOutputFilePath);

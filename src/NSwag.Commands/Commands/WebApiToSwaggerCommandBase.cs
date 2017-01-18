@@ -149,9 +149,8 @@ namespace NSwag.Commands
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var service = await RunAsync();
-            if (await TryWriteFileOutputAsync(host, () => service.ToJson()).ConfigureAwait(false) == false)
-                return service;
-            return null;
+            await TryWriteFileOutputAsync(host, () => service.ToJson()).ConfigureAwait(false);
+            return service;
         }
 
         public async Task<SwaggerDocument> RunAsync()
