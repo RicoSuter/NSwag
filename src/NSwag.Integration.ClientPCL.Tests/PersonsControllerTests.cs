@@ -65,7 +65,7 @@ namespace NSwag.Integration.ClientPCL.Tests
             catch (PersonsClientException<PersonNotFoundException> exception)
             {
                 //// Assert
-                Assert.AreEqual(id, exception.Response.Id); 
+                Assert.AreEqual(id, exception.Result.Id); 
             }
         }
     }
