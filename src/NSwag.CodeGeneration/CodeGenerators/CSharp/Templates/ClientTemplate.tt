@@ -181,23 +181,22 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
             request_.Method = new System.Net.Http.HttpMethod("<#=operation.HttpMethod.ToString().ToUpperInvariant()#>");
             request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
             request_.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("<#=operation.Produces#>"));
-            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseContentRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             ProcessResponse(client_, response_);
 
-            var responseData_ = await response_.Content.ReadAsByteArrayAsync().ConfigureAwait(false); 
             var status_ = ((int)response_.StatusCode).ToString();
-
 <#foreach(var response in operation.Responses){#>
             if (status_ == "<#=response.StatusCode#>") 
             {
 <#if(response.HasType){#>
 <#  if(response.IsFile){#>
 <#      if(response.IsSuccess){#>
-                return responseData_; 
+	            return await response_.Content.ReadAsStreamAsync().ConfigureAwait(false); 
 <#      }else{#>
-                throw new <#=Model.ExceptionClass#><byte[]>("<#=response.ExceptionDescription#>", status_, responseData_, responseData_, null);
+                throw new <#=Model.ExceptionClass#>("<#=response.ExceptionDescription#>", status_, response_, null);
 <#      }#>
 <#  }else{#>
+	            var responseData_ = await response_.Content.ReadAsByteArrayAsync().ConfigureAwait(false); 
                 var result_ = default(<#=response.Type#>); 
                 try
                 {
@@ -208,22 +207,22 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
                 } 
                 catch (System.Exception exception) 
                 {
-                    throw new <#=Model.ExceptionClass#>("Could not deserialize the response body.", status_, responseData_, exception);
+                    throw new <#=Model.ExceptionClass#>("Could not deserialize the response body.", status_, response_, exception);
                 }
 <#      }else{#>
                 } 
                 catch (System.Exception exception) 
                 {
-                    throw new <#=Model.ExceptionClass#>("Could not deserialize the response body.", status_, responseData_, exception);
+                    throw new <#=Model.ExceptionClass#>("Could not deserialize the response body.", status_, response_, exception);
                 }
 <#          if(response.InheritsExceptionSchema){#>
                 if (result_ == null)
                     result_ = new <#=response.Type#>();
                 result_.Data.Add("HttpStatus", status_);
                 result_.Data.Add("ResponseData", System.Text.Encoding.UTF8.GetString(responseData_, 0, responseData_.Length));
-                throw new <#=Model.ExceptionClass#><<#=response.Type#>>("<#=response.ExceptionDescription#>", status_, responseData_, result_, result_);
+                throw new <#=Model.ExceptionClass#><<#=response.Type#>>("<#=response.ExceptionDescription#>", status_, response_, result_, result_);
 <#          }else{#>
-                throw new <#=Model.ExceptionClass#><<#=response.Type#>>("<#=response.ExceptionDescription#>", status_, responseData_, result_, null);
+                throw new <#=Model.ExceptionClass#><<#=response.Type#>>("<#=response.ExceptionDescription#>", status_, response_, result_, null);
 <#          }#>
 <#      }#>
 <#  }#>
@@ -235,7 +234,7 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
                 return;
 <#      }#>
 <#  }else{#>
-                throw new <#=Model.ExceptionClass#>("<#=response.ExceptionDescription#>", status_, responseData_, null);
+                throw new <#=Model.ExceptionClass#>("<#=response.ExceptionDescription#>", status_, response_, null);
 <#  }#>
 <#}#>
             }
@@ -246,11 +245,12 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
             {
 <#      if(operation.DefaultResponse.IsFile){#>
 <#          if(operation.DefaultResponse.IsSuccess){#>
-                return responseData_; 
+	            return await response_.Content.ReadAsStreamAsync().ConfigureAwait(false); 
 <#          }else{#>
-                throw new <#=Model.ExceptionClass#><byte[]>("<#=operation.DefaultResponse.ExceptionDescription#>", status_, responseData_, responseData_, null);
+                throw new <#=Model.ExceptionClass#>("<#=operation.DefaultResponse.ExceptionDescription#>", status_, response_, null);
 <#          }#>
 <#      }else{#>
+				var responseData_ = await response_.Content.ReadAsByteArrayAsync().ConfigureAwait(false); 
                 var result_ = default(<#=operation.DefaultResponse.Type#>); 
                 try
                 {
@@ -264,20 +264,20 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
                 } 
                 catch (System.Exception exception_) 
                 {
-                    throw new <#=Model.ExceptionClass#>("Could not deserialize the response body.", status_, responseData_, exception_);
+                    throw new <#=Model.ExceptionClass#>("Could not deserialize the response body.", status_, response_, exception_);
                 }
 
-                throw new <#=Model.ExceptionClass#><<#=operation.DefaultResponse.Type#>>("<#=operation.DefaultResponse.ExceptionDescription#>", status_, responseData_, result_, null);
+                throw new <#=Model.ExceptionClass#><<#=operation.DefaultResponse.Type#>>("<#=operation.DefaultResponse.ExceptionDescription#>", status_, response_, result_, null);
 <#      }#>
             }
 <#  }else{#>
 <#      if(operation.HasSuccessResponse){#>
-            throw new <#=Model.ExceptionClass#>("<#=operation.DefaultResponse.ExceptionDescription#>", status_, responseData_, null);
+            throw new <#=Model.ExceptionClass#>("<#=operation.DefaultResponse.ExceptionDescription#>", status_, response_, null);
 <#      }#>
 <#  }#>
 <#}else{#>
             if (status_ != "200" && status_ != "204")
-                throw new <#=Model.ExceptionClass#>("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, null);
+                throw new <#=Model.ExceptionClass#>("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, response_, null);
 <#}#>
 <#      if(operation.HasResultType){#>
         

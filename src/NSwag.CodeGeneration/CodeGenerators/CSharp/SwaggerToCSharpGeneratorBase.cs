@@ -58,7 +58,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
                 return "void";
 
             if (schema.ActualSchema.Type == JsonObjectType.File)
-                return "byte[]";
+                return "System.IO.Stream";
 
             if (schema.ActualSchema.IsAnyType)
                 return "object";

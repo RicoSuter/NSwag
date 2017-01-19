@@ -46,30 +46,25 @@ namespace <#=Model.Namespace#>
     {
         public string StatusCode { get; private set; }
 
-        public byte[] ResponseData { get; private set; }
+        public System.Net.Http.HttpResponseMessage Response { get; private set; }
 
-        public <#=exceptionClassName#>(string message, string statusCode, byte[] responseData, System.Exception innerException) 
+        public <#=exceptionClassName#>(string message, string statusCode, System.Net.Http.HttpResponseMessage response, System.Exception innerException) 
             : base(message, innerException)
         {
             StatusCode = statusCode;
-            ResponseData = responseData;
-        }
-
-        public override string ToString()
-        {
-            return string.Format("HTTP Response: n{0}n{1}", System.Text.Encoding.UTF8.GetString(ResponseData, 0, ResponseData.Length), base.ToString());
+            Response = response;
         }
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
-    public class <#=exceptionClassName#><TResponse> : <#=exceptionClassName#>
+    public class <#=exceptionClassName#><TResult> : <#=exceptionClassName#>
     {
-        public TResponse Response { get; private set; }
+        public TResult Result { get; private set; }
 
-        public <#=exceptionClassName#>(string message, string statusCode, byte[] responseData, TResponse response, System.Exception innerException) 
+        public <#=exceptionClassName#>(string message, string statusCode, System.Net.Http.HttpResponseMessage responseData, TResult result, System.Exception innerException) 
             : base(message, statusCode, responseData, innerException)
         {
-            Response = response;
+            Result = result;
         }
     }
 
