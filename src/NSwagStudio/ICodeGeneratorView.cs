@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System.Threading.Tasks;
+using NSwag;
 
 namespace NSwagStudio
 {
@@ -17,6 +18,6 @@ namespace NSwagStudio
         string Title { get; }
 
         /// <summary>Generates the client code.</summary>
-        Task GenerateClientAsync(string swaggerData, string documentPath);
+        Task GenerateClientAsync(SwaggerDocument document, string documentPath);
     }
 }

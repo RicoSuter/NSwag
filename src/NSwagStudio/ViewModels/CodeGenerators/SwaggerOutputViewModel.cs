@@ -17,18 +17,10 @@ namespace NSwagStudio.ViewModels.CodeGenerators
     {
         private string _swaggerCode;
 
-        public async Task GenerateClientAsync(string swaggerData, string documentPath)
+        public async Task GenerateClientAsync(SwaggerDocument document, string documentPath)
         {
-            if (!string.IsNullOrEmpty(swaggerData))
-            {
-                SwaggerCode = await RunTaskAsync(async () =>
-                {
-                    var document = await SwaggerDocument.FromJsonAsync(swaggerData, documentPath);
-                    if (document != null)
-                        return document.ToJson();
-                    return string.Empty;
-                });
-            }
+            if (document != null)
+                SwaggerCode = await RunTaskAsync(Task.Run(() => document.ToJson()));
             else
                 SwaggerCode = string.Empty;
         }

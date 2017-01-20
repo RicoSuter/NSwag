@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using MyToolkit.Command;
 using MyToolkit.Dialogs;
-using MyToolkit.Messaging;
 using MyToolkit.Utilities;
+using NSwag;
 
 namespace NSwagStudio.ViewModels
 {
@@ -56,9 +56,10 @@ namespace NSwagStudio.ViewModels
 
                 if (!string.IsNullOrEmpty(swaggerCode))
                 {
+                    var document = await Task.Run(async () => await SwaggerDocument.FromJsonAsync(swaggerCode));
                     var documentPath = Document.GetDocumentPath(generator);
                     foreach (var codeGenerator in Document.CodeGenerators)
-                        await codeGenerator.GenerateClientAsync(swaggerCode, documentPath);
+                        await codeGenerator.GenerateClientAsync(document, documentPath);
                 }
                 else
                 {
