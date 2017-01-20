@@ -215,8 +215,8 @@ if (Model.WrapSuccessResponses){
     {
         public TResult Result { get; private set; }
         
-        public SwaggerResponse(System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result) 
-            : base(headers)
+        public SwaggerResponse(string statusCode, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result) 
+            : base(statusCode, headers)
         {
             Result = result;
         }

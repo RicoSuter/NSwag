@@ -54,7 +54,7 @@
       "generateClientClasses": true,
       "generateClientInterfaces": false,
       "generateDtoTypes": true,
-      "injectHttpClient": true,
+      "injectHttpClient": false,
       "useHttpClientCreationMethod": false,
       "jsonConverters": [
         "Newtonsoft.Json.Converters.StringEnumConverter"

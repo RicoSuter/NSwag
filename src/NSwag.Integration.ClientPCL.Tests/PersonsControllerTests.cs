@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSwag.Integration.ClientPCL.Contracts;
@@ -13,13 +14,13 @@ namespace NSwag.Integration.ClientPCL.Tests
         public async Task GetAll_SerializationTest()
         {
             //// Arrange
-            var personsClient = new PersonsClient { BaseUrl = "http://localhost:13452" }; ;
+            var personsClient = new PersonsClient(new HttpClient()) { BaseUrl = "http://localhost:13452" }; ;
 
             //// Act
             var persons = await personsClient.GetAllAsync();
 
             //// Assert
-            Assert.AreEqual(2, persons.Count);
+            Assert.AreEqual(2, persons.Result.Count);
         }
 
         [TestMethod]
@@ -27,7 +28,7 @@ namespace NSwag.Integration.ClientPCL.Tests
         public async Task AddXml_PostXml()
         {
             //// Arrange
-            var personsClient = new PersonsClient { BaseUrl = "http://localhost:13452" }; ;
+            var personsClient = new PersonsClient(new HttpClient()) { BaseUrl = "http://localhost:13452" }; ;
 
             //// Act
             var result = await personsClient.AddXmlAsync("<Rico>Suter</Rico>");
@@ -40,13 +41,13 @@ namespace NSwag.Integration.ClientPCL.Tests
         public async Task GetAll_InheritanceTest()
         {
             //// Arrange
-            var personsClient = new PersonsClient { BaseUrl = "http://localhost:13452" };
+            var personsClient = new PersonsClient(new HttpClient()) { BaseUrl = "http://localhost:13452" };
 
             //// Act
             var persons = await personsClient.GetAllAsync();
 
             //// Assert
-            Assert.AreEqual("SE", ((Teacher)persons[1]).Course); // inheritance test
+            Assert.AreEqual("SE", ((Teacher)persons.Result[1]).Course); // inheritance test
         }
 
         [TestMethod]
@@ -55,7 +56,7 @@ namespace NSwag.Integration.ClientPCL.Tests
         {
             //// Arrange
             var id = Guid.NewGuid();
-            var personsClient = new PersonsClient { BaseUrl = "http://localhost:13452" };
+            var personsClient = new PersonsClient(new HttpClient()) { BaseUrl = "http://localhost:13452" };
 
             //// Act
             try
@@ -65,7 +66,7 @@ namespace NSwag.Integration.ClientPCL.Tests
             catch (PersonsClientException<PersonNotFoundException> exception)
             {
                 //// Assert
-                Assert.AreEqual(id, exception.Response.Id); 
+                Assert.AreEqual(id, exception.Result.Id); 
             }
         }
     }
