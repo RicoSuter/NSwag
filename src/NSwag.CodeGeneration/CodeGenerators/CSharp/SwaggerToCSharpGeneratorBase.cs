@@ -47,9 +47,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         {
             var response = GetSuccessResponse(operation);
             if (response?.ActualResponseSchema == null)
-                return "System.Threading.Tasks.Task";
+                return "void";
 
-            return "System.Threading.Tasks.Task<" + GetType(response.ActualResponseSchema, response.IsNullable(BaseSettings.CodeGeneratorSettings.NullHandling), "Response") + ">";
+            return GetType(response.ActualResponseSchema, response.IsNullable(BaseSettings.CodeGeneratorSettings.NullHandling), "Response");
         }
 
         internal override string GetType(JsonSchema4 schema, bool isNullable, string typeNameHint)
@@ -58,7 +58,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
                 return "void";
 
             if (schema.ActualSchema.Type == JsonObjectType.File)
-                return "System.IO.Stream";
+                return "FileResponse";
 
             if (schema.ActualSchema.IsAnyType)
                 return "object";

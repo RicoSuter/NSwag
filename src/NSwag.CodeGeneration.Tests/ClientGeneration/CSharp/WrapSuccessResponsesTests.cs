@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net.Http;
+using System;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -9,34 +8,40 @@ using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 namespace NSwag.CodeGeneration.Tests.ClientGeneration.CSharp
 {
     [TestClass]
-    public class FileDownloadTests
+    public class WrapSuccessResponsesTests
     {
-        public class FileDownloadController : ApiController
+        public class TestController : ApiController
         {
-            [Route("DownloadFile")]
-            public HttpResponseMessage DownloadFile()
+            [Route("Foo")]
+            public string Foo()
+            {
+                throw new NotImplementedException();
+            }
+
+            [Route("Bar")]
+            public void Bar()
             {
                 throw new NotImplementedException();
             }
         }
 
         [TestMethod]
-        public async Task When_response_is_file_and_stream_is_not_used_then_byte_array_is_returned()
+        public async Task When_success_responses_are_wrapped_then_SwaggerResponse_is_returned()
         {
             //// Arrange
             var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
-            var document = await swaggerGen.GenerateForControllerAsync<FileDownloadController>();
+            var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 
             //// Act
             var codeGen = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
             {
-                GenerateClientInterfaces = true
+                WrapSuccessResponses = true
             });
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("System.Threading.Tasks.Task<FileResponse> DownloadFileAsync();"));
-            Assert.IsTrue(code.Contains("ReadAsStreamAsync()"));
+            Assert.IsTrue(code.Contains("Task<SwaggerResponse<string>>"));
+            Assert.IsTrue(code.Contains("Task<SwaggerResponse>"));
         }
     }
 }

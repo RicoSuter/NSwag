@@ -9,12 +9,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
+using NSwag.CodeGeneration.CodeGenerators.CSharp;
 
 namespace NSwag.CodeGeneration.CodeGenerators.Models
 {
     /// <summary>The Swagger operation template model.</summary>
     public class OperationModel
     {
+        private readonly string _resultType;
+        private readonly ClientGeneratorBaseSettings _settings;
+
+        /// <summary>Initializes a new instance of the <see cref="OperationModel" /> class.</summary>
+        /// <param name="resultType">Type of the result.</param>
+        /// <param name="settings">The settings.</param>
+        public OperationModel(string resultType, ClientGeneratorBaseSettings settings)
+        {
+            _settings = settings; 
+            _resultType = resultType;
+        }
+
         /// <summary>Gets or sets the operation.</summary>
         public SwaggerOperation Operation { get; set; }
 
@@ -53,7 +66,31 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         public bool HasResultType { get; set; }
 
         /// <summary>Gets or sets the type of the result.</summary>
-        public string ResultType { get; set; }
+        public string ResultType
+        {
+            get
+            {
+                // TODO: Move to CSharpOperationModel!
+
+                var csharpSettings = _settings as SwaggerToCSharpClientGeneratorSettings;
+                if (csharpSettings != null)
+                {
+                    if (_resultType == "FileResponse")
+                        return "System.Threading.Tasks.Task<FileResponse>";
+
+                    if (csharpSettings.WrapSuccessResponses)
+                        return _resultType == "void" ? "System.Threading.Tasks.Task<SwaggerResponse>" : "System.Threading.Tasks.Task<SwaggerResponse<" + _resultType + ">>";
+
+                    return _resultType == "void" ? "System.Threading.Tasks.Task" : "System.Threading.Tasks.Task<" + _resultType + ">";
+
+                }
+
+                return _resultType;
+            }
+        }
+
+        /// <summary>Gets the type of the unwrapped result type (without Task).</summary>
+        public string UnwrappedResultType => _resultType;
 
         /// <summary>Gets a value indicating whether the result has description.</summary>
         public bool HasResultDescription => !string.IsNullOrEmpty(ResultDescription);

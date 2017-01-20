@@ -68,10 +68,7 @@ namespace NSwag.Collections
         }
 
         /// <summary>Gets the underlying dictonary. </summary>
-        protected IDictionary<TKey, TValue> Dictionary
-        {
-            get { return _dictionary; }
-        }
+        protected IDictionary<TKey, TValue> Dictionary => _dictionary;
 
         /// <summary>Adds multiple key-value pairs the the dictionary. </summary>
         /// <param name="items">The key-value pairs. </param>

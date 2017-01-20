@@ -73,6 +73,13 @@ namespace NSwag.Commands
             set { Settings.InjectHttpClient = value; }
         }
 
+        [Argument(Name = "WrapSuccessResponses", IsRequired = false, Description = "Specifies whether to wrap success responses to allow full response access (experimental).")]
+        public bool WrapSuccessResponses
+        {
+            get { return Settings.WrapSuccessResponses; }
+            set { Settings.WrapSuccessResponses = value; }
+        }
+
         [Argument(Name = "UseHttpClientCreationMethod", IsRequired = false, Description = "Specifies whether to call CreateHttpClientAsync on the base class to create a new HttpClient.")]
         public bool UseHttpClientCreationMethod
         {

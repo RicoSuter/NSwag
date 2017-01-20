@@ -76,6 +76,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
         /// <summary>Gets a value indicating whether to generate client interfaces.</summary>
         public bool GenerateClientInterfaces => _settings.GenerateClientInterfaces;
 
+        /// <summary>Gets a value indicating whether to wrap success responses to allow full response access.</summary>
+        public bool WrapSuccessResponses => _settings.WrapSuccessResponses;
+
         /// <summary>Gets the service base URL.</summary>
         public string BaseUrl => _document.BaseUrl;
 
