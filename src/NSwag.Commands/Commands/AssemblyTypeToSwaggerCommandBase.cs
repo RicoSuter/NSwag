@@ -81,6 +81,13 @@ namespace NSwag.Commands
             set { Settings.GenerateKnownTypes = value; }
         }
 
+        [Argument(Name = "GenerateXmlObjects", IsRequired = false, Description = "Generate xmlObject representation for definitions (default: false).")]
+        public bool GenerateXmlObjects
+        {
+            get { return Settings.GenerateXmlObjects; }
+            set { Settings.GenerateXmlObjects = value; }
+        }
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var document = await RunAsync();

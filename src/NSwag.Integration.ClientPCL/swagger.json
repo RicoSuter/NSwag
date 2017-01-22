@@ -106,10 +106,7 @@
             "x-nullable": true,
             "collectionFormat": "multi",
             "items": {
-              "type": "string",
-              "xml": {
-                "name": "String"
-              }
+              "type": "string"
             }
           }
         ],
@@ -134,10 +131,7 @@
             "x-nullable": true,
             "collectionFormat": "multi",
             "items": {
-              "type": "string",
-              "xml": {
-                "name": "String"
-              }
+              "type": "string"
             }
           }
         ],
@@ -214,10 +208,7 @@
             "x-nullable": true,
             "collectionFormat": "multi",
             "items": {
-              "type": "file",
-              "xml": {
-                "name": "HttpPostedFileBase"
-              }
+              "type": "file"
             }
           }
         ],
@@ -658,9 +649,6 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/Person"
-          },
-          "xml": {
-            "wrapped": true
           }
         },
         "Skills": {
