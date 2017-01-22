@@ -45,34 +45,6 @@
                                       Content="Generate Client Classes" Margin="0,4,0,12" />
 
                             <StackPanel Visibility="{Binding Command.GenerateClientClasses, Converter={StaticResource VisibilityConverter}}">
-                                <CheckBox IsChecked="{Binding Command.GenerateClientInterfaces, Mode=TwoWay}" 
-                                          Content="Generate Client Interfaces" Margin="0,0,0,12" />
-
-                                <CheckBox IsChecked="{Binding Command.WrapDtoExceptions, Mode=TwoWay}" 
-                                          Content="Wrap DTO exceptions in a SwaggerException instance" Margin="0,0,0,12" />
-
-                                <TextBlock Text="Class Name" FontWeight="Bold" Margin="0,0,0,6" />
-                                <TextBox Text="{Binding Command.ClassName, Mode=TwoWay}" Margin="0,0,0,12" />
-
-                                <TextBlock Text="Base Class Name (optional, must be imported or implemented in the extension code)" FontWeight="Bold" Margin="0,0,0,6" />
-                                <TextBox Text="{Binding Command.ClientBaseClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,12" />
-
-                                <CheckBox IsChecked="{Binding Command.UseTransformOptionsMethod, Mode=TwoWay}" Margin="0,0,0,12">
-                                    <TextBlock Text="Call 'transformOptions' on the base class or extension class" TextWrapping="Wrap" />
-                                </CheckBox>
-
-                                <CheckBox IsChecked="{Binding Command.UseTransformResultMethod, Mode=TwoWay}" Margin="0,0,0,12">
-                                    <TextBlock Text="Call 'transformResult' on the base class or extension class" TextWrapping="Wrap" />
-                                </CheckBox>
-
-                                <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
-                                        <Run Text="Operation Generation Mode" FontWeight="Bold" />
-                                        <LineBreak />
-                                        The {controller} placeholder of the Class Name is replaced by generated client name (depends on the OperationGenerationMode strategy).
-                                </TextBlock>
-                                <ComboBox SelectedItem="{Binding Command.OperationGenerationMode, Mode=TwoWay}" 
-                                          ItemsSource="{Binding OperationGenerationModes}" Margin="0,0,0,12" />
-
                                 <TextBlock Text="Template" FontWeight="Bold" Margin="0,0,0,6" />
                                 <ComboBox SelectedItem="{Binding Command.Template, Mode=TwoWay}" 
                                           ItemsSource="{Binding Templates}" Margin="0,0,0,12" />
@@ -82,6 +54,34 @@
                                     <ComboBox SelectedItem="{Binding Command.PromiseType, Mode=TwoWay}" 
                                               ItemsSource="{Binding PromiseTypes}" Margin="0,0,0,12" />
                                 </StackPanel>
+
+                                <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
+                                        <Run Text="Operation Generation Mode" FontWeight="Bold" />
+                                        <LineBreak />
+                                        The operation name detection and replacement strategy of the {controller} placeholder in the Class Name setting:
+                                </TextBlock>
+                                <ComboBox SelectedItem="{Binding Command.OperationGenerationMode, Mode=TwoWay}" 
+                                          ItemsSource="{Binding OperationGenerationModes}" Margin="0,0,0,12" />
+
+                                <TextBlock Text="Class Name" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.ClassName, Mode=TwoWay}" Margin="0,0,0,12" />
+
+                                <TextBlock Text="Base Class Name (optional, must be imported or implemented in the extension code)" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.ClientBaseClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,12" />
+
+                                <CheckBox IsChecked="{Binding Command.GenerateClientInterfaces, Mode=TwoWay}" 
+                                          Content="Generate Client Interfaces" Margin="0,0,0,12" />
+
+                                <CheckBox IsChecked="{Binding Command.WrapDtoExceptions, Mode=TwoWay}" 
+                                          Content="Wrap DTO exceptions in a SwaggerException instance" Margin="0,0,0,12" />
+
+                                <CheckBox IsChecked="{Binding Command.UseTransformOptionsMethod, Mode=TwoWay}" Margin="0,0,0,12">
+                                    <TextBlock Text="Call 'transformOptions' on the base class or extension class" TextWrapping="Wrap" />
+                                </CheckBox>
+
+                                <CheckBox IsChecked="{Binding Command.UseTransformResultMethod, Mode=TwoWay}" Margin="0,0,0,12">
+                                    <TextBlock Text="Call 'transformResult' on the base class or extension class" TextWrapping="Wrap" />
+                                </CheckBox>
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>

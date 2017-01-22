@@ -47,6 +47,7 @@ namespace NSwag.AspNet.Owin
             if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value.Trim('/'), _path.Trim('/'), StringComparison.OrdinalIgnoreCase))
             {
                 context.Response.StatusCode = 200;
+                context.Response.Headers["Content-Type"] = "application/json; charset=utf-8";
                 context.Response.Write(await GenerateSwaggerAsync(context));
             }
             else

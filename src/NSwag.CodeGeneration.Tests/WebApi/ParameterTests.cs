@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Results;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NJsonSchema;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
@@ -28,10 +29,27 @@ namespace NSwag.CodeGeneration.Tests.WebApi
                 public string Bar { get; set; }
             }
 
+            public class ComplexClassWithEmbeddedPathParam
+            {
+                public Guid Id { get; set; }
+            }
+
             [HttpPost, Route("upload")]
             public IActionResult Upload([FromUri]ComplexClass parameters)
             {
                 throw new NotImplementedException();
+            }
+
+            [HttpGet, Route("fetch/{id}")]
+            public IHttpActionResult Fetch([FromUri]ComplexClassWithEmbeddedPathParam model)
+            {
+                return Ok(string.Empty);
+            }
+
+            [HttpGet, Route("fetch-all")]
+            public IHttpActionResult FetchAll([FromUri] ComplexClass model)
+            {
+                return Ok(string.Empty);
             }
         }
 
@@ -52,6 +70,46 @@ namespace NSwag.CodeGeneration.Tests.WebApi
 
             Assert.IsTrue(operation.ActualParameters.Any(p => p.Name == "Foo"));
             Assert.IsTrue(operation.ActualParameters.Any(p => p.Name == "Bar"));
+
+            Assert.IsNull(operation.Consumes);
+        }
+
+        [TestMethod]
+        public async Task When_path_parameter_embedded_in_ComplexType_from_uri_then_path_param_is_generated()
+        {
+            //// Arrange
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+
+            //// Act
+            var document = await generator.GenerateForControllerAsync(typeof(FromUriParameterController));
+
+            //// Assert
+            var operation = document.Paths["/fetch/{id}"][SwaggerOperationMethod.Get];
+            var parameter = operation.ActualParameters.Single(p => p.Name == "Id");
+
+            Assert.AreEqual(JsonObjectType.String, parameter.Type);
+            Assert.AreEqual(SwaggerParameterKind.Path, parameter.Kind);
+
+            Assert.IsNull(operation.Consumes);
+        }
+
+        [TestMethod]
+        public async Task When_parameters_are_from_uri_then_query_params_are_generated()
+        {
+            //// Arrange
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+
+            //// Act
+            var document = await generator.GenerateForControllerAsync(typeof(FromUriParameterController));
+
+            //// Assert
+            var operation = document.Paths["/fetch-all"][SwaggerOperationMethod.Get];
+
+            Assert.AreEqual(JsonObjectType.String, operation.ActualParameters.Single(p => p.Name == "Foo").Type);
+            Assert.AreEqual(SwaggerParameterKind.Query, operation.ActualParameters.Single(p => p.Name == "Foo").Kind);
+
+            Assert.AreEqual(JsonObjectType.String, operation.ActualParameters.Single(p => p.Name == "Bar").Type);
+            Assert.AreEqual(SwaggerParameterKind.Query, operation.ActualParameters.Single(p => p.Name == "Bar").Kind);
 
             Assert.IsNull(operation.Consumes);
         }

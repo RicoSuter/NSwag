@@ -49,6 +49,9 @@
                     <CheckBox IsChecked="{Binding Command.GenerateExceptionClasses, Mode=TwoWay}" 
                               Content="Generate exception classes (when disabled, exception classes must be imported)" Margin="0,0,0,6" />
 
+                    <CheckBox IsChecked="{Binding Command.WrapSuccessResponses, Mode=TwoWay}" 
+                              Content="Wrap success responses to allow full response access (experimental)" Margin="0,0,0,6" />
+
                     <StackPanel Visibility="{Binding Command.GenerateExceptionClasses, Converter={StaticResource VisibilityConverter}}">
                         <TextBlock Text="Exception class name (may contain the '{controller}' placeholder)" FontWeight="Bold" Margin="0,0,0,6" />
                         <TextBox Text="{Binding Command.ExceptionClass, Mode=TwoWay}" Margin="0,0,0,12" />
@@ -66,8 +69,12 @@
                                 <TextBlock Text="Base Class Name (optional)" FontWeight="Bold" Margin="0,0,0,6" />
                                 <TextBox Text="{Binding Command.ClientBaseClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,12" />
 
+                                <CheckBox IsChecked="{Binding Command.InjectHttpClient, Mode=TwoWay}" 
+                                          Content="Inject HttpClient via constructor (life cycle is managed by the caller)" Margin="0,0,0,12" />
+
                                 <StackPanel Visibility="{Binding Command.ClientBaseClass, Converter={StaticResource VisibilityConverter}}">
-                                    <CheckBox IsChecked="{Binding Command.UseHttpClientCreationMethod, Mode=TwoWay}" Margin="0,0,0,12">
+                                    <CheckBox IsChecked="{Binding Command.UseHttpClientCreationMethod, Mode=TwoWay}" Margin="0,0,0,12" 
+                                              Visibility="{Binding Command.InjectHttpClient, Converter={StaticResource NotConverter}}">
                                         <TextBlock Text="Call the CreateHttpClientAsync method on the client base class to create a new HttpClient instance" TextWrapping="Wrap" />
                                     </CheckBox>
 

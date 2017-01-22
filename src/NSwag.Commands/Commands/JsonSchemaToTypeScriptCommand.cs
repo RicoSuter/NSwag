@@ -28,11 +28,9 @@ namespace NSwag.Commands
             var schema = await JsonSchema4.FromJsonAsync(inputJson).ConfigureAwait(false);
             var generator = new TypeScriptGenerator(schema);
 
-            var code = generator.GenerateFile(Name); 
-            if (await TryWriteFileOutputAsync(host, () => code).ConfigureAwait(false) == false)
-                return Task.FromResult<object>(code);
-
-            return Task.FromResult<object>(null);
+            var code = generator.GenerateFile(Name);
+            await TryWriteFileOutputAsync(host, () => code).ConfigureAwait(false);
+            return Task.FromResult<object>(code);
         }
     }
 }

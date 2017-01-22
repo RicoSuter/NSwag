@@ -105,6 +105,13 @@ namespace NSwag.Commands
             set { Settings.GenerateKnownTypes = value; }
         }
 
+        [Argument(Name = "GenerateXmlObjects", IsRequired = false, Description = "Generate xmlObject representation for definitions (default: false).")]
+        public bool GenerateXmlObjects
+        {
+            get { return Settings.GenerateXmlObjects; }
+            set { Settings.GenerateXmlObjects = value; }
+        }
+
         [Argument(Name = "AddMissingPathParameters", IsRequired = false, Description = "Specifies whether to add path parameters which are missing in the action method (default: true).")]
         public bool AddMissingPathParameters
         {
@@ -149,9 +156,8 @@ namespace NSwag.Commands
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var service = await RunAsync();
-            if (await TryWriteFileOutputAsync(host, () => service.ToJson()).ConfigureAwait(false) == false)
-                return service;
-            return null;
+            await TryWriteFileOutputAsync(host, () => service.ToJson()).ConfigureAwait(false);
+            return service;
         }
 
         public async Task<SwaggerDocument> RunAsync()

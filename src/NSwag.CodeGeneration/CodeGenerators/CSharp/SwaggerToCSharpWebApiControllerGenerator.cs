@@ -62,7 +62,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             {
                 Class = controllerClassName,
                 BaseUrl = _document.BaseUrl,
-                BasePath = _document.BasePath.TrimStart('/'), 
+                HasBasePath = !string.IsNullOrEmpty(_document.BasePath),
+                BasePath = _document.BasePath?.TrimStart('/'),
                 Operations = operations
             };
 

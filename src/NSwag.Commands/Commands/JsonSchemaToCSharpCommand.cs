@@ -74,11 +74,9 @@ namespace NSwag.Commands
             var schema = await JsonSchema4.FromJsonAsync(inputJson).ConfigureAwait(false);
             var generator = new CSharpGenerator(schema, Settings);
 
-            var code = generator.GenerateFile(Name); 
-            if (await TryWriteFileOutputAsync(host, () => code).ConfigureAwait(false) == false)
-                return code;
-
-            return null;
+            var code = generator.GenerateFile(Name);
+            await TryWriteFileOutputAsync(host, () => code).ConfigureAwait(false);
+            return code;
         }
     }
 }

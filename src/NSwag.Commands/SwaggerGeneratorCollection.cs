@@ -4,9 +4,7 @@ using NSwag.Commands.Base;
 
 namespace NSwag.Commands
 {
-    /// <summary>
-    /// 
-    /// </summary>
+    /// <summary></summary>
     public class SwaggerGeneratorCollection
     {
         /// <summary>Gets or sets the input to swagger command.</summary>
@@ -30,7 +28,9 @@ namespace NSwag.Commands
         public IEnumerable<OutputCommandBase> Items => new OutputCommandBase[]
         {
             FromSwaggerCommand,
-            JsonSchemaToSwaggerCommand
+            JsonSchemaToSwaggerCommand, 
+            WebApiToSwaggerCommand, 
+            AssemblyTypeToSwaggerCommand
         };
     }
 }

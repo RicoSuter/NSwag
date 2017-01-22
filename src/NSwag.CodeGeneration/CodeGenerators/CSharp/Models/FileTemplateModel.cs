@@ -85,8 +85,16 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
         public bool RequiresFileParameterType => 
             _document.Operations.Any(o => o.Operation.Parameters.Any(p => p.Type.HasFlag(JsonObjectType.File)));
 
+        // TODO: Move to CSharpFileTemplateModel
+
+        /// <summary>Gets a value indicating whether [generate file response class].</summary>
+        public bool GenerateFileResponseClass => _document.Operations.Any(o => o.Operation.Responses.Any(r => r.Value.Schema?.Type == JsonObjectType.File));
+
         /// <summary>Gets or sets a value indicating whether to generate exception classes (default: true).</summary>
         public bool GenerateExceptionClasses => (_settings as SwaggerToCSharpClientGeneratorSettings)?.GenerateExceptionClasses == true;
+
+        /// <summary>Gets or sets a value indicating whether to wrap success responses to allow full response access.</summary>
+        public bool WrapSuccessResponses => (_settings as SwaggerToCSharpClientGeneratorSettings)?.WrapSuccessResponses == true;
 
         /// <summary>Gets the exception class names.</summary>
         public IEnumerable<string> ExceptionClassNames
@@ -104,7 +112,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
                             .Distinct();
                     }
                     else
-                        return new string[] { settings.ExceptionClass.Replace("{controller}", string.Empty) };
+                        return new[] { settings.ExceptionClass.Replace("{controller}", string.Empty) };
                 }
                 return new string[] { };
             }

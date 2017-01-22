@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Microsoft.Win32;
 using MyToolkit.Command;
 using NJsonSchema;
+using NSwag;
 using NSwag.CodeGeneration.Commands;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 
@@ -101,10 +102,8 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             {
                 return await Task.Run(async () =>
                 {
-                    var document = await Command.RunAsync().ConfigureAwait(false);
-                    if (document != null)
-                        return document.ToJson();
-                    return null;
+                    var document = (SwaggerDocument)await Command.RunAsync(null, null).ConfigureAwait(false);
+                    return document?.ToJson();
                 });
             });
         }
@@ -116,7 +115,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             dlg.Filter = ".NET Assemblies (.dll)|*.dll";
             if (dlg.ShowDialog() == true)
             {
-                AssemblyPaths = new [] { dlg.FileName };
+                AssemblyPaths = new[] { dlg.FileName };
                 await LoadAssembliesAsync();
             }
         }

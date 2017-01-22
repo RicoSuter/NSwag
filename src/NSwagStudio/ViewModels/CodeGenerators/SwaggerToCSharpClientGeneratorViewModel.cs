@@ -97,16 +97,16 @@ namespace NSwagStudio.ViewModels.CodeGenerators
             set { Set(ref _clientCode, value); }
         }
 
-        public Task GenerateClientAsync(string swaggerData, string documentPath)
+        public Task GenerateClientAsync(SwaggerDocument document, string documentPath)
         {
             return RunTaskAsync(async () =>
             {
                 Dictionary<string, string> result = null;
                 await Task.Run(async () =>
                 {
-                    if (!string.IsNullOrEmpty(swaggerData))
+                    if (document != null)
                     {
-                        Command.Input = await SwaggerDocument.FromJsonAsync(swaggerData, documentPath);
+                        Command.Input = document;
                         result = await Command.RunAsync();
                         Command.Input = null;
                     }

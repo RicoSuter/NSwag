@@ -58,7 +58,7 @@ namespace NSwag.CodeGeneration.Tests.CommandLine
                 WindowStyle = ProcessWindowStyle.Hidden
             });
 
-            if (!process.WaitForExit(5000))
+            if (!process.WaitForExit(10000))
             {
                 process.Kill();
                 throw new InvalidOperationException("The process did not terminate.");

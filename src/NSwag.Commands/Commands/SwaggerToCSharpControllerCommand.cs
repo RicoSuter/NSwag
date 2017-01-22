@@ -31,9 +31,8 @@ namespace NSwag.Commands
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var code = await RunAsync();
-            if (await TryWriteFileOutputAsync(host, () => code).ConfigureAwait(false) == false)
-                return code;
-            return null;
+            await TryWriteFileOutputAsync(host, () => code).ConfigureAwait(false);
+            return code;
         }
 
         public async Task<string> RunAsync()

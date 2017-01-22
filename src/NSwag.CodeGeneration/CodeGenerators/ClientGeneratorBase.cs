@@ -120,14 +120,13 @@ namespace NSwag.CodeGeneration.CodeGenerators
                     if (defaultResponse != null)
                         responses.Remove(defaultResponse);
 
-                    return new OperationModel
+                    return new OperationModel(GetResultType(operation), BaseSettings)
                     {
                         Path = tuple.Path,
                         HttpMethod = tuple.HttpMethod,
                         Operation = tuple.Operation,
                         OperationName = BaseSettings.OperationNameGenerator.GetOperationName(document, tuple.Path, tuple.HttpMethod, tuple.Operation),
 
-                        ResultType = GetResultType(operation),
                         HasResultType = HasResultType(operation),
                         ResultDescription = GetResultDescription(operation),
 

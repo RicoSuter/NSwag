@@ -40,11 +40,11 @@ namespace NSwag.Integration.WebAPI.Controllers
 
         public void Filter([FromUri] FilterOptions filter)
         {
-            
+
         }
 
         [HttpPost]
-        public string[] Reverse([FromUri]string[] values)
+        public string[] Reverse([FromUri] string[] values)
         {
             return values.Reverse().ToArray();
         }
@@ -75,11 +75,14 @@ namespace NSwag.Integration.WebAPI.Controllers
 
         public HttpResponseMessage GetUploadedFile(int id, bool @override = false)
         {
-            throw new NotImplementedException();
+            return new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new ByteArrayContent(new byte[] { 1, 2, 3 })
+            };
         }
 
         #region Swagger generator
-        
+
         private static readonly Lazy<string> _swagger = new Lazy<string>(() =>
         {
             var settings = new WebApiToSwaggerGeneratorSettings

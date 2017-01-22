@@ -64,6 +64,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
         /// <summary>Gets a value indicating whether the client has a base type.</summary>
         public bool HasBaseType => _settings.GenerateClientInterfaces || HasBaseClass;
 
+        /// <summary>Gets or sets a value indicating whether an HttpClient instance is injected.</summary>
+        public bool InjectHttpClient => _settings.InjectHttpClient;
+
         /// <summary>Gets a value indicating whether to use a HTTP client creation method.</summary>
         public bool UseHttpClientCreationMethod => _settings.UseHttpClientCreationMethod;
 
@@ -72,6 +75,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
 
         /// <summary>Gets a value indicating whether to generate client interfaces.</summary>
         public bool GenerateClientInterfaces => _settings.GenerateClientInterfaces;
+
+        /// <summary>Gets a value indicating whether to wrap success responses to allow full response access.</summary>
+        public bool WrapSuccessResponses => _settings.WrapSuccessResponses;
 
         /// <summary>Gets the service base URL.</summary>
         public string BaseUrl => _document.BaseUrl;

@@ -12,8 +12,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-
 #if !FullNet
+using NJsonSchema.Infrastructure;
+using NSwag.CodeGeneration.Utilities;
 using System.Runtime.Loader;
 #endif
 
@@ -77,7 +78,8 @@ namespace NSwag.CodeGeneration.Infrastructure
 #if FullNet
                             return Assembly.LoadFrom(file);
 #else
-                            return Context.LoadFromAssemblyPath(file);
+                            var currentDirectory = DynamicApis.DirectoryGetCurrentDirectoryAsync().GetAwaiter().GetResult();
+                            return Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(file, currentDirectory));
 #endif
                         }
                         catch (Exception exception)

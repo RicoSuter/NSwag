@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using NSwag;
 using NSwagStudio.ViewModels.CodeGenerators;
 
 namespace NSwagStudio.Views.CodeGenerators
@@ -14,9 +15,9 @@ namespace NSwagStudio.Views.CodeGenerators
 
         private SwaggerOutputViewModel Model => (SwaggerOutputViewModel)Resources["ViewModel"];
 
-        public Task GenerateClientAsync(string swaggerData, string documentPath)
+        public Task GenerateClientAsync(SwaggerDocument document, string documentPath)
         {
-            return Model.GenerateClientAsync(swaggerData, documentPath);
+            return Model.GenerateClientAsync(document, documentPath);
         }
     }
 }

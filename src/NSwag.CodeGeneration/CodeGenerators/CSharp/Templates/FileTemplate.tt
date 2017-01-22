@@ -37,8 +37,74 @@ namespace <#=Model.Namespace#>
 
         public string FileName { get; private set; }
     }
-    <#}#>
 
+<#}#>
+<#if (Model.GenerateFileResponseClass){#>
+    public class FileResponse : System.IDisposable
+    {
+        private System.IDisposable _client; 
+        private System.IDisposable _response; 
+
+        public string StatusCode { get; private set; }
+
+        public System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
+
+        public System.IO.Stream Stream { get; private set; }
+
+        public bool IsPartial
+        {
+            get { return StatusCode == "206"; }
+        }
+
+        public FileResponse(string statusCode, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.IO.Stream stream, System.IDisposable client, System.IDisposable response)
+        {
+            StatusCode = statusCode; 
+            Headers = headers; 
+            Stream = stream; 
+            _client = client; 
+            _response = response;
+        }
+
+        public void Dispose() 
+        {
+            if (Stream != null)
+                Stream.Dispose();
+            if (_response != null)
+                _response.Dispose();
+            if (_client != null)
+                _client.Dispose();
+        }
+    }
+
+<#}#>
+<#if (Model.WrapSuccessResponses){#>
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
+    public class SwaggerResponse
+    {
+        public string StatusCode { get; private set; }
+
+        public System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
+        
+        public SwaggerResponse(string statusCode, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers) 
+        {
+            StatusCode = statusCode; 
+            Headers = headers;
+        }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
+    public class SwaggerResponse<TResult> : SwaggerResponse
+    {
+        public TResult Result { get; private set; }
+        
+        public SwaggerResponse(string statusCode, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result) 
+            : base(statusCode, headers)
+        {
+            Result = result;
+        }
+    }
+
+<#}#>
 <#if (Model.GenerateExceptionClasses){#>
 <#  foreach (var exceptionClassName in Model.ExceptionClassNames){#>
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
@@ -46,30 +112,33 @@ namespace <#=Model.Namespace#>
     {
         public string StatusCode { get; private set; }
 
-        public byte[] ResponseData { get; private set; }
+        public string Response { get; private set; }
 
-        public <#=exceptionClassName#>(string message, string statusCode, byte[] responseData, System.Exception innerException) 
+        public System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
+
+        public <#=exceptionClassName#>(string message, string statusCode, string response, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Exception innerException) 
             : base(message, innerException)
         {
             StatusCode = statusCode;
-            ResponseData = responseData;
+            Response = response; 
+            Headers = headers;
         }
 
         public override string ToString()
         {
-            return string.Format("HTTP Response: n{0}n{1}", System.Text.Encoding.UTF8.GetString(ResponseData, 0, ResponseData.Length), base.ToString());
+            return string.Format("HTTP Response: \n\n{0}\n\n{1}", Response, base.ToString());
         }
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
-    public class <#=exceptionClassName#><TResponse> : <#=exceptionClassName#>
+    public class <#=exceptionClassName#><TResult> : <#=exceptionClassName#>
     {
-        public TResponse Response { get; private set; }
+        public TResult Result { get; private set; }
 
-        public <#=exceptionClassName#>(string message, string statusCode, byte[] responseData, TResponse response, System.Exception innerException) 
-            : base(message, statusCode, responseData, innerException)
+        public <#=exceptionClassName#>(string message, string statusCode, string response, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result, System.Exception innerException) 
+            : base(message, statusCode, response, headers, innerException)
         {
-            Response = response;
+            Result = result;
         }
     }
 

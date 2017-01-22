@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using MyToolkit.Mvvm;
+using NSwag;
 using NSwag.Commands;
 using NSwagStudio.ViewModels.CodeGenerators;
 
@@ -18,9 +19,9 @@ namespace NSwagStudio.Views.CodeGenerators
 
         public string Title => "TypeScript Client";
 
-        public async Task GenerateClientAsync(string swaggerData, string documentPath)
+        public async Task GenerateClientAsync(SwaggerDocument document, string documentPath)
         {
-            await Model.GenerateClientAsync(swaggerData, documentPath);
+            await Model.GenerateClientAsync(document, documentPath);
             TabControl.SelectedIndex = 1;
         }
 

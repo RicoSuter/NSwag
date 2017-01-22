@@ -53,6 +53,7 @@
       "generateClientClasses": true,
       "generateClientInterfaces": false,
       "generateDtoTypes": true,
+      "injectHttpClient": true,
       "useHttpClientCreationMethod": true,
       "jsonConverters": [
         "Newtonsoft.Json.Converters.StringEnumConverter"
@@ -74,7 +75,8 @@
       "classStyle": "Poco",
       "operationGenerationMode": "MultipleClientsFromOperationId",
       "generateDefaultValues": true,
-      "output": "../NSwag.Integration.ClientPCL/ServiceClients.cs"
+      "output": "../NSwag.Integration.ClientPCL/ServiceClients.cs",
+      "wrapSuccessResponses": true
     },
     "swaggerToCSharpController": {
       "className": "{controller}",
