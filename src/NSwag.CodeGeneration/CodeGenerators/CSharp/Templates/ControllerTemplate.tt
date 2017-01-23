@@ -36,7 +36,7 @@ public partial class <#=Model.Class#>Controller : <#if(Model.HasBaseClass){#><#=
 <#  }#>    [System.Web.Http.Http<#=operation.HttpMethodUpper#>, System.Web.Http.Route("<#=operation.Path#>")]
     public <#=operation.ResultType#> <#=operation.OperationNameUpper#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(!parameter.IsLast){#>, <#}}#>)
     {
-        return _implementation.<#=operation.OperationNameUpper#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(!parameter.IsLast){#>, <#}}#>);
+        <#if(operation.UnwrappedResultType != "void"){#>return <#}#>_implementation.<#=operation.OperationNameUpper#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(!parameter.IsLast){#>, <#}}#>);
     }
 
 <#}#>

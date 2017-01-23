@@ -15,8 +15,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         public SwaggerToCSharpWebApiControllerGeneratorSettings()
         {
             ClassName = "{controller}";
-            CSharpGeneratorSettings.ArrayType = "System.Collections.Generic.IEnumerable";
-            AdditionalNamespaceUsages = new [] { "System.Web.Http" };
+            CSharpGeneratorSettings.ArrayType = "System.Collections.Generic.List";
         }
 
         /// <summary>Gets or sets the full name of the base class.</summary>

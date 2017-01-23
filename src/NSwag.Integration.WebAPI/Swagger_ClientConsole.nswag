@@ -90,13 +90,13 @@
       "dateTimeType": "System.DateTime",
       "timeType": "System.TimeSpan",
       "timeSpanType": "System.TimeSpan",
-      "arrayType": "IEnumerable",
+      "arrayType": "System.Collections.Generic.List",
       "dictionaryType": "System.Collections.Generic.Dictionary",
       "classStyle": "Inpc",
       "operationGenerationMode": "MultipleClientsFromOperationId",
       "generateDefaultValues": true,
       "excludedTypeNames": [],
-      "output": null
+      "output": "../NSwag.Integration.Console/Controllers.cs"
     }
   }
 }
