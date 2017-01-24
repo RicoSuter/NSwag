@@ -108,6 +108,13 @@ namespace NSwag.Commands
             set { Settings.ClientBaseClass = value; }
         }
 
+        [Argument(Name = "ConfigurationClass", IsRequired = false, Description = "The configuration class. The setting ClientBaseClass must be set. (empty for no configuration class).")]
+        public string ConfigurationClass
+        {
+            get { return Settings.ConfigurationClass; }
+            set { Settings.ConfigurationClass = value; }
+        }
+
         [Argument(Name = "UseTransformOptionsMethod", IsRequired = false, Description = "Call 'transformOptions' on the base class or extension class (default: false).")]
         public bool UseTransformOptionsMethod
         {

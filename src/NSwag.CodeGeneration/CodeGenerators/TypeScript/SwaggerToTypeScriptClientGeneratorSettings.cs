@@ -45,6 +45,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         /// <summary>Gets or sets the client base class.</summary>
         public string ClientBaseClass { get; set; }
 
+        /// <summary>Gets or sets the full name of the configuration class (<see cref="ClientBaseClass"/> must be set).</summary>
+        public string ConfigurationClass { get; set; }
+
         /// <summary>Gets or sets a value indicating whether to call 'transformOptions' on the base class or extension class.</summary>
         public bool UseTransformOptionsMethod { get; set; }
 

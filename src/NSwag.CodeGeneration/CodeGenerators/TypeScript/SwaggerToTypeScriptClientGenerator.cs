@@ -52,7 +52,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             _extensionCode = new TypeScriptExtensionCode(
                 Settings.TypeScriptGeneratorSettings.ExtensionCode,
                 Settings.TypeScriptGeneratorSettings.ExtendedClasses,
-                new[] { Settings.ClientBaseClass });
+                new[] { Settings.ClientBaseClass, Settings.ConfigurationClass });
         }
 
         /// <summary>Gets or sets the generator settings.</summary>

@@ -297,15 +297,57 @@ if(Model.SupportsStrictNullChecks){
             
             #line default
             #line hidden
-            this.Write(" = undefined;\r\n\r\n    constructor(@Inject(Http) http: Http, @Optional() @Inject(AP" +
-                    "I_BASE_URL) baseUrl?: string) {\r\n");
+            this.Write(" = undefined;\r\n\r\n    constructor(");
+            
+            #line 26 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt"
+if(Model.HasConfigurationClass){
+            
+            #line default
+            #line hidden
+            this.Write("@Inject(");
+            
+            #line 26 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ConfigurationClass));
+            
+            #line default
+            #line hidden
+            this.Write(") configuration: ");
+            
+            #line 26 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ConfigurationClass));
+            
+            #line default
+            #line hidden
+            this.Write(", ");
+            
+            #line 26 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("@Inject(Http) http: Http, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {\r\n" +
+                    "");
             
             #line 27 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt"
 if(Model.HasClientBaseClass){
             
             #line default
             #line hidden
-            this.Write("        super();\r\n");
+            this.Write("        super(");
+            
+            #line 28 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt"
+if(Model.HasConfigurationClass){
+            
+            #line default
+            #line hidden
+            this.Write("configuration");
+            
+            #line 28 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write(");\r\n");
             
             #line 29 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt"
 }
