@@ -80,6 +80,13 @@ namespace NSwag.Commands
             set { Settings.TypeScriptGeneratorSettings.DateTimeType = value; }
         }
 
+        [Argument(Name = "NullValue", IsRequired = false, Description = "The null value used in object initializers (default 'Undefined', 'Null').")]
+        public TypeScriptNullValue NullValue
+        {
+            get { return Settings.TypeScriptGeneratorSettings.NullValue; }
+            set { Settings.TypeScriptGeneratorSettings.NullValue = value; }
+        }
+
         [Argument(Name = "GenerateClientClasses", IsRequired = false, Description = "Specifies whether generate client classes.")]
         public bool GenerateClientClasses
         {

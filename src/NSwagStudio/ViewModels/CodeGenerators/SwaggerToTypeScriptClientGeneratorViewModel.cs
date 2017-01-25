@@ -77,6 +77,17 @@ namespace NSwagStudio.ViewModels.CodeGenerators
             }
         }
 
+        /// <summary>Gets the list of null values. </summary>
+        public TypeScriptNullValue[] NullValues
+        {
+            get
+            {
+                return Enum.GetNames(typeof(TypeScriptNullValue))
+                    .Select(t => (TypeScriptNullValue)Enum.Parse(typeof(TypeScriptNullValue), t))
+                    .ToArray();
+            }
+        }
+
         /// <summary>Gets or sets the excluded type names (must be defined in an import or other namespace).</summary>
         public string ExcludedTypeNames
         {
