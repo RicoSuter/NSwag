@@ -88,7 +88,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
         // TODO: Move to CSharpFileTemplateModel
 
         /// <summary>Gets a value indicating whether [generate file response class].</summary>
-        public bool GenerateFileResponseClass => _document.Operations.Any(o => o.Operation.Responses.Any(r => r.Value.Schema?.Type == JsonObjectType.File));
+        public bool GenerateFileResponseClass => _document.Operations
+            .Any(o => o.Operation.Responses.Any(r => r.Value.ActualResponseSchema?.Type == JsonObjectType.File));
 
         /// <summary>Gets or sets a value indicating whether to generate exception classes (default: true).</summary>
         public bool GenerateExceptionClasses => (_settings as SwaggerToCSharpClientGeneratorSettings)?.GenerateExceptionClasses == true;
