@@ -51,8 +51,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             _resolver.AddGenerators(_document.Definitions);
             _extensionCode = new TypeScriptExtensionCode(
                 Settings.TypeScriptGeneratorSettings.ExtensionCode,
-                Settings.TypeScriptGeneratorSettings.ExtendedClasses,
-                new[] { Settings.ClientBaseClass, Settings.ConfigurationClass });
+                Settings.TypeScriptGeneratorSettings.ExtendedClasses.Concat(new []{ Settings.ConfigurationClass }).ToArray(),
+                new[] { Settings.ClientBaseClass });
         }
 
         /// <summary>Gets or sets the generator settings.</summary>
