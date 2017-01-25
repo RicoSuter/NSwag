@@ -195,7 +195,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
                         IsPropertyNullable = response.IsNullable,
                         TypeNameHint = string.Empty,
                         Settings = Settings.TypeScriptGeneratorSettings,
-                        Resolver = _resolver
+                        Resolver = _resolver, 
+                        NullValue = TypeScriptNullValue.Null
                     });
                 }
 
@@ -210,7 +211,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
                         IsPropertyNullable = operation.DefaultResponse.IsNullable,
                         TypeNameHint = string.Empty,
                         Settings = Settings.TypeScriptGeneratorSettings,
-                        Resolver = _resolver
+                        Resolver = _resolver,
+                        NullValue = TypeScriptNullValue.Null
                     });
                 }
             }
