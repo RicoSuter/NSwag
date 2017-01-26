@@ -6,9 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
 using System.Threading.Tasks;
-using System.Windows;
 using NSwag;
 
 namespace NSwagStudio.ViewModels.CodeGenerators
@@ -23,11 +21,6 @@ namespace NSwagStudio.ViewModels.CodeGenerators
                 SwaggerCode = await RunTaskAsync(Task.Run(() => document.ToJson()));
             else
                 SwaggerCode = string.Empty;
-        }
-
-        public override void HandleException(Exception exception)
-        {
-            MessageBox.Show(exception.Message);
         }
 
         /// <summary>Gets or sets the Swagger code. </summary>

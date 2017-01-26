@@ -6,7 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -56,15 +55,15 @@ namespace NSwagStudio.ViewModels
             }
         }
 
-        public RelayCommand CreateDocumentCommand { get; private set; }
+        public RelayCommand CreateDocumentCommand { get; }
 
-        public AsyncRelayCommand OpenDocumentCommand { get; private set; }
+        public AsyncRelayCommand OpenDocumentCommand { get; }
 
-        public AsyncRelayCommand<DocumentModel> CloseDocumentCommand { get; private set; }
+        public AsyncRelayCommand<DocumentModel> CloseDocumentCommand { get; }
 
-        public AsyncRelayCommand<DocumentModel> SaveDocumentCommand { get; private set; }
+        public AsyncRelayCommand<DocumentModel> SaveDocumentCommand { get; }
 
-        public AsyncRelayCommand<DocumentModel> SaveAsDocumentCommand { get; private set; }
+        public AsyncRelayCommand<DocumentModel> SaveAsDocumentCommand { get; }
 
         public string NSwagVersion => SwaggerDocument.ToolchainVersion;
 

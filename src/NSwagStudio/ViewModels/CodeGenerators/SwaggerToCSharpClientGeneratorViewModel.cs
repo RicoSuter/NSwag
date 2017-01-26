@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using NJsonSchema.CodeGeneration.CSharp;
 using NSwag;
 using NSwag.CodeGeneration.CodeGenerators;
@@ -114,11 +113,6 @@ namespace NSwagStudio.ViewModels.CodeGenerators
 
                 ClientCode = result != null ? string.Join("\n\n", result.Values) : string.Empty;
             });
-        }
-
-        public override void HandleException(Exception exception)
-        {
-            MessageBox.Show(exception.Message);
         }
     }
 }

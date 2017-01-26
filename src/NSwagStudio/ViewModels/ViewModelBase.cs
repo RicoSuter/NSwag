@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Windows;
 using MyToolkit.Dialogs;
 
 namespace NSwagStudio.ViewModels
@@ -18,7 +19,7 @@ namespace NSwagStudio.ViewModels
         /// <param name="exception">The exception.</param>
         public override void HandleException(Exception exception)
         {
-            ExceptionBox.Show("An error occured", exception);
+            ExceptionBox.Show("An error occured", exception, Application.Current.MainWindow);
         }
     }
 }

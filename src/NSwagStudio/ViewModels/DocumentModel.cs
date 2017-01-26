@@ -2,7 +2,6 @@ using System.Linq;
 using MyToolkit.Model;
 using NSwag.CodeGeneration;
 using NSwag.CodeGeneration.Commands;
-using NSwag.Commands;
 using NSwagStudio.Views.CodeGenerators;
 using NSwagStudio.Views.SwaggerGenerators;
 
