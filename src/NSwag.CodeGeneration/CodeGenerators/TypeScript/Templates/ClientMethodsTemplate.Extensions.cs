@@ -6,12 +6,12 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates
 {
     internal partial class ClientMethodsTemplate : ITemplate
     {
-        public ClientMethodsTemplate(ClientTemplateModel model)
+        public ClientMethodsTemplate(TypeScriptClientTemplateModel model)
         {
             Model = model;
         }
 
-        public ClientTemplateModel Model { get; }
+        public TypeScriptClientTemplateModel Model { get; }
 
         public string Render()
         {

@@ -6,12 +6,12 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates
 {
     internal partial class Angular2ClientTemplate : ITemplate
     {
-        public Angular2ClientTemplate(ClientTemplateModel model)
+        public Angular2ClientTemplate(TypeScriptClientTemplateModel model)
         {
             Model = model;
         }
 
-        public ClientTemplateModel Model { get; }
+        public TypeScriptClientTemplateModel Model { get; }
         
         public string Render()
         {

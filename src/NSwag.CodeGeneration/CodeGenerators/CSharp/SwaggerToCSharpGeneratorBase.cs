@@ -6,9 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using NJsonSchema;
 using NSwag.CodeGeneration.CodeGenerators.CSharp.Models;
 
@@ -17,58 +15,38 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
     /// <summary>The CSharp generator base class.</summary>
     public abstract class SwaggerToCSharpGeneratorBase : ClientGeneratorBase
     {
-        private static readonly string[] ReservedKeywords = new[]
-        {
-            "abstract", "as", "base", "bool", "break", "byte", "case", "catch", "char", "checked", "class", "const", "continue",
-            "decimal", "default", "delegate", "do", "double", "else", "enum", "event", "explicit", "extern", "false", "finally", "fixed", "float",
-            "for", "foreach", "goto", "if", "implicit", "in", "int", "interface", "internal", "is", "lock", "long", "namespace", "new", "null", "object",
-            "operator", "out", "override", "params", "private", "protected", "public", "readonly", "ref", "return", "sbyte", "sealed", "short", "sizeof",
-            "stackalloc", "static", "string", "struct", "switch", "this", "throw", "true", "try", "typeof", "uint", "ulong", "unchecked", "unsafe",
-            "ushort", "using", "virtual", "void", "volatile", "while"
-        };
-
         private readonly SwaggerToCSharpGeneratorSettings _settings;
         private readonly SwaggerDocument _document;
 
-        internal SwaggerToCSharpGeneratorBase(SwaggerDocument document, SwaggerToCSharpGeneratorSettings settings, SwaggerToCSharpTypeResolver resolver)
+        /// <summary>Initializes a new instance of the <see cref="SwaggerToCSharpGeneratorBase"/> class.</summary>
+        /// <param name="document">The document.</param>
+        /// <param name="settings">The settings.</param>
+        /// <param name="resolver">The resolver.</param>
+        protected SwaggerToCSharpGeneratorBase(SwaggerDocument document, SwaggerToCSharpGeneratorSettings settings, SwaggerToCSharpTypeResolver resolver)
             : base(resolver, settings.CodeGeneratorSettings)
         {
             _document = document;
             _settings = settings;
         }
 
-        internal override string GenerateFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType)
+        /// <summary>Generates the file.</summary>
+        /// <param name="clientCode">The client code.</param>
+        /// <param name="clientClasses">The client classes.</param>
+        /// <param name="outputType">Type of the output.</param>
+        /// <returns>The code.</returns>
+        protected override string GenerateFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType)
         {
-            var model = new FileTemplateModel(clientCode, outputType, _document, this, _settings, (SwaggerToCSharpTypeResolver)Resolver);
+            var model = new CSharpFileTemplateModel(clientCode, outputType, _document, _settings, this, (SwaggerToCSharpTypeResolver)Resolver);
             var template = _settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "File", model);
             return template.Render();
         }
 
-        internal override string GetExceptionType(SwaggerOperation operation)
-        {
-            if (operation.Responses.Count(r => !HttpUtilities.IsSuccessStatusCode(r.Key)) != 1)
-                return "System.Exception";
-
-            var response = operation.Responses.Single(r => !HttpUtilities.IsSuccessStatusCode(r.Key)).Value;
-            return GetType(response.ActualResponseSchema, response.IsNullable(BaseSettings.CodeGeneratorSettings.NullHandling), "Exception");
-        }
-
-        internal override string GetResultType(SwaggerOperation operation)
-        {
-            var response = GetSuccessResponse(operation);
-            if (response?.ActualResponseSchema == null)
-                return "void";
-
-            return GetType(response.ActualResponseSchema, response.IsNullable(BaseSettings.CodeGeneratorSettings.NullHandling), "Response");
-        }
-
-        internal override string GetParameterVariableName(SwaggerParameter parameter, IEnumerable<SwaggerParameter> allParameters)
-        {
-            var name = base.GetParameterVariableName(parameter, allParameters);
-            return ReservedKeywords.Contains(name) ? "@" + name : name;
-        }
-
-        internal override string GetType(JsonSchema4 schema, bool isNullable, string typeNameHint)
+        /// <summary>Gets the type.</summary>
+        /// <param name="schema">The schema.</param>
+        /// <param name="isNullable">if set to <c>true</c> [is nullable].</param>
+        /// <param name="typeNameHint">The type name hint.</param>
+        /// <returns>The type name.</returns>
+        public override string GetTypeName(JsonSchema4 schema, bool isNullable, string typeNameHint)
         {
             if (schema == null)
                 return "void";

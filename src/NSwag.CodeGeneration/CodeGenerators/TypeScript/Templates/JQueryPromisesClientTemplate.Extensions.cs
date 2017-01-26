@@ -6,12 +6,12 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates
 {
     internal partial class JQueryPromisesClientTemplate : ITemplate
     {
-        public JQueryPromisesClientTemplate(ClientTemplateModel model)
+        public JQueryPromisesClientTemplate(TypeScriptClientTemplateModel model)
         {
             Model = model;
         }
 
-        public ClientTemplateModel Model { get; }
+        public TypeScriptClientTemplateModel Model { get; }
         
         public string Render()
         {

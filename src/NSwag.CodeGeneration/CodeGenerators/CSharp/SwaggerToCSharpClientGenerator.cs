@@ -8,7 +8,7 @@
 
 using System;
 using System.Collections.Generic;
-using NJsonSchema;
+using System.Linq;
 using NSwag.CodeGeneration.CodeGenerators.CSharp.Models;
 using NSwag.CodeGeneration.CodeGenerators.Models;
 
@@ -26,7 +26,6 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         public SwaggerToCSharpClientGenerator(SwaggerDocument document, SwaggerToCSharpClientGeneratorSettings settings)
             : this(document, settings, SwaggerToCSharpTypeResolver.CreateWithDefinitions(settings.CSharpGeneratorSettings, document.Definitions))
         {
-
         }
 
         /// <summary>Initializes a new instance of the <see cref="SwaggerToCSharpClientGenerator" /> class.</summary>
@@ -47,7 +46,8 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         /// <summary>Gets or sets the generator settings.</summary>
         public SwaggerToCSharpClientGeneratorSettings Settings { get; }
 
-        internal override ClientGeneratorBaseSettings BaseSettings => Settings;
+        /// <summary>Gets the base settings.</summary>
+        public override ClientGeneratorBaseSettings BaseSettings => Settings;
 
         /// <summary>Generates the file.</summary>
         /// <returns>The file contents.</returns>
@@ -64,29 +64,16 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
             return GenerateFile(_document, outputType);
         }
 
-        /// <summary>Resolves the type of the parameter.</summary>
-        /// <param name="parameter">The parameter.</param>
-        /// <returns>The parameter type name.</returns>
-        protected override string ResolveParameterType(SwaggerParameter parameter)
-        {
-            var schema = parameter.ActualSchema;
-            if (schema.Type == JsonObjectType.File)
-            {
-                if (parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
-                    return "System.Collections.Generic.IEnumerable<FileParameter>";
-
-                return "FileParameter";
-            }
-
-            return base.ResolveParameterType(parameter)
-                .Replace(Settings.CSharpGeneratorSettings.ArrayType + "<", "System.Collections.Generic.IEnumerable<")
-                .Replace(Settings.CSharpGeneratorSettings.DictionaryType + "<", "System.Collections.Generic.IDictionary<");
-        }
-
-        internal override string GenerateClientClass(string controllerName, string controllerClassName, IList<OperationModel> operations, ClientGeneratorOutputType outputType)
+        /// <summary>Generates the client class.</summary>
+        /// <param name="controllerName">Name of the controller.</param>
+        /// <param name="controllerClassName">Name of the controller class.</param>
+        /// <param name="operations">The operations.</param>
+        /// <param name="outputType">Type of the output.</param>
+        /// <returns>The code.</returns>
+        protected override string GenerateClientClass(string controllerName, string controllerClassName, IList<OperationModelBase> operations, ClientGeneratorOutputType outputType)
         {
             var exceptionSchema = (Resolver as SwaggerToCSharpTypeResolver)?.ExceptionSchema;
-            var model = new ClientTemplateModel(controllerName, controllerClassName, operations, _document, exceptionSchema, Settings)
+            var model = new CSharpClientTemplateModel(controllerName, controllerClassName, operations.OfType<CSharpOperationModel>(), exceptionSchema, _document, Settings)
             {
                 GenerateContracts = outputType == ClientGeneratorOutputType.Full || outputType == ClientGeneratorOutputType.Contracts,
                 GenerateImplementation = outputType == ClientGeneratorOutputType.Full || outputType == ClientGeneratorOutputType.Implementation,
@@ -94,6 +81,15 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
 
             var template = Settings.CSharpGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Client", model);
             return template.Render();
+        }
+
+        /// <summary>Creates an operation model.</summary>
+        /// <param name="operation">The operation.</param>
+        /// <param name="settings">The settings.</param>
+        /// <returns>The operation model.</returns>
+        protected override OperationModelBase CreateOperationModel(SwaggerOperation operation, ClientGeneratorBaseSettings settings)
+        {
+            return new CSharpOperationModel(operation, settings, this, (SwaggerToCSharpTypeResolver)Resolver);
         }
     }
 }

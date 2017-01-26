@@ -83,7 +83,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         public bool IsDate =>
             (Schema.Format == JsonFormatStrings.DateTime ||
             Schema.Format == JsonFormatStrings.Date) &&
-            _clientGeneratorBase.GetType(Schema, IsNullable, "Response") != "string";
+            _clientGeneratorBase.GetTypeName(Schema, IsNullable, "Response") != "string";
 
         /// <summary>Gets a value indicating whether the parameter is of type array.</summary>
         public bool IsArray => Schema.Type.HasFlag(JsonObjectType.Array) || _parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi;
@@ -99,7 +99,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
             IsArray &&
             (Schema.Item?.ActualSchema.Format == JsonFormatStrings.DateTime ||
             Schema.Item?.ActualSchema.Format == JsonFormatStrings.Date) &&
-            _clientGeneratorBase.GetType(Schema.Item.ActualSchema, IsNullable, "Response") != "string";
+            _clientGeneratorBase.GetTypeName(Schema.Item.ActualSchema, IsNullable, "Response") != "string";
 
         /// <summary>Gets a value indicating whether the parameter is of type object array.</summary>
         public bool IsObjectArray => IsArray && (Schema.Item?.Type == JsonObjectType.Object || Schema.Item?.IsAnyType == true);
@@ -107,6 +107,6 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         // TODO: Find way to remove TypeScript only properties
 
         /// <summary>Gets or sets a value indicating whether to use a DTO class.</summary>
-        public bool UseDtoClass { get; set; } = false;
+        public bool UseDtoClass { get; set; } = false; // TODO: Calculate here!
     }
 }

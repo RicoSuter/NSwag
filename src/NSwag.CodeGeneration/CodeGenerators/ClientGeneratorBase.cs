@@ -6,12 +6,10 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
-using NSwag.CodeGeneration.CodeGenerators.CSharp;
 using NSwag.CodeGeneration.CodeGenerators.Models;
 
 namespace NSwag.CodeGeneration.CodeGenerators
@@ -32,49 +30,45 @@ namespace NSwag.CodeGeneration.CodeGenerators
         /// <returns>The code</returns>
         public abstract string GenerateFile();
 
+        /// <summary>Gets the base settings.</summary>
+        public abstract ClientGeneratorBaseSettings BaseSettings { get; }
+
+        /// <summary>Gets the type.</summary>
+        /// <param name="schema">The schema.</param>
+        /// <param name="isNullable">if set to <c>true</c> [is nullable].</param>
+        /// <param name="typeNameHint">The type name hint.</param>
+        /// <returns>The type name.</returns>
+        public abstract string GetTypeName(JsonSchema4 schema, bool isNullable, string typeNameHint);
+
         /// <summary>Gets the type resolver.</summary>
         protected ITypeResolver Resolver { get; }
 
-        internal abstract ClientGeneratorBaseSettings BaseSettings { get; }
+        /// <summary>Generates the file.</summary>
+        /// <param name="clientCode">The client code.</param>
+        /// <param name="clientClasses">The client classes.</param>
+        /// <param name="outputType">Type of the output.</param>
+        /// <returns>The code.</returns>
+        protected abstract string GenerateFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType);
 
-        internal abstract string GenerateFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType);
+        /// <summary>Generates the client class.</summary>
+        /// <param name="controllerName">Name of the controller.</param>
+        /// <param name="controllerClassName">Name of the controller class.</param>
+        /// <param name="operations">The operations.</param>
+        /// <param name="outputType">Type of the output.</param>
+        /// <returns>The code.</returns>
+        protected abstract string GenerateClientClass(string controllerName, string controllerClassName, IList<OperationModelBase> operations, ClientGeneratorOutputType outputType);
 
-        internal abstract string GenerateClientClass(string controllerName, string controllerClassName, IList<OperationModel> operations, ClientGeneratorOutputType outputType);
+        /// <summary>Creates an operation model.</summary>
+        /// <param name="operation">The operation.</param>
+        /// <param name="settings">The settings.</param>
+        /// <returns>The operation model.</returns>
+        protected abstract OperationModelBase CreateOperationModel(SwaggerOperation operation, ClientGeneratorBaseSettings settings);
 
-        internal abstract string GetType(JsonSchema4 schema, bool isNullable, string typeNameHint);
-
-        internal abstract string GetExceptionType(SwaggerOperation operation);
-
-        internal abstract string GetResultType(SwaggerOperation operation);
-
-        internal virtual string GetParameterVariableName(SwaggerParameter parameter, IEnumerable<SwaggerParameter> allParameters)
-        {
-            var variableName = ConversionUtilities.ConvertToLowerCamelCase(parameter.Name
-                .Replace("-", "_")
-                .Replace(".", "_")
-                .Replace("$", string.Empty), true);
-
-            if (allParameters.Count(p => p.Name == parameter.Name) > 1)
-                return variableName + parameter.Kind;
-
-            return variableName;
-        }
-
-        internal bool HasResultType(SwaggerOperation operation)
-        {
-            var response = GetSuccessResponse(operation);
-            return response?.ActualResponseSchema != null;
-        }
-
-        internal string GetResultDescription(SwaggerOperation operation)
-        {
-            var response = GetSuccessResponse(operation);
-            if (response != null)
-                return ConversionUtilities.TrimWhiteSpaces(response.Description);
-            return null;
-        }
-
-        internal string GenerateFile(SwaggerDocument document, ClientGeneratorOutputType type)
+        /// <summary>Generates the file.</summary>
+        /// <param name="document">The document.</param>
+        /// <param name="type">The type.</param>
+        /// <returns>The code.</returns>
+        protected string GenerateFile(SwaggerDocument document, ClientGeneratorOutputType type)
         {
             var clientCode = string.Empty;
             var operations = GetOperations(document);
@@ -104,75 +98,27 @@ namespace NSwag.CodeGeneration.CodeGenerators
                 .Replace("\n\n\n", "\n\n");
         }
 
-        internal List<OperationModel> GetOperations(SwaggerDocument document)
+        private List<OperationModelBase> GetOperations(SwaggerDocument document)
         {
             document.GenerateOperationIds();
 
-            var operations = document.Paths
+            return document.Paths
                 .SelectMany(pair => pair.Value.Select(p => new { Path = pair.Key.Trim('/'), HttpMethod = p.Key, Operation = p.Value }))
                 .Select(tuple =>
                 {
-                    var operation = tuple.Operation;
-                    var exceptionSchema = (Resolver as SwaggerToCSharpTypeResolver)?.ExceptionSchema;
-                    var responses = operation.Responses.Select(response => new ResponseModel(response, exceptionSchema, this, response.Value == GetSuccessResponse(operation))).ToList();
-
-                    var defaultResponse = responses.SingleOrDefault(r => r.StatusCode == "default");
-                    if (defaultResponse != null)
-                        responses.Remove(defaultResponse);
-
-                    return new OperationModel(GetResultType(operation), BaseSettings)
-                    {
-                        Path = tuple.Path,
-                        HttpMethod = tuple.HttpMethod,
-                        Operation = tuple.Operation,
-                        OperationName = BaseSettings.OperationNameGenerator.GetOperationName(document, tuple.Path, tuple.HttpMethod, tuple.Operation),
-
-                        HasResultType = HasResultType(operation),
-                        ResultDescription = GetResultDescription(operation),
-
-                        ExceptionType = GetExceptionType(operation),
-                        HasFormParameters = operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.FormData),
-                        Responses = responses,
-                        DefaultResponse = defaultResponse,
-                        Parameters = operation.ActualParameters.Select(p => new ParameterModel(
-                            ResolveParameterType(p), operation, p, p.Name, GetParameterVariableName(p, operation.Parameters), BaseSettings.CodeGeneratorSettings, this)).ToList(),
-                    };
-                }).ToList();
-            return operations;
-        }
-
-        /// <summary>Resolves the type of the parameter.</summary>
-        /// <param name="parameter">The parameter.</param>
-        /// <returns>The parameter type name.</returns>
-        protected virtual string ResolveParameterType(SwaggerParameter parameter)
-        {
-            var schema = parameter.ActualSchema;
-
-            if (parameter.IsXmlBodyParameter)
-                return "string";
-
-            if (parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
-                schema = new JsonSchema4 { Type = JsonObjectType.Array, Item = schema };
-
-            var typeNameHint = ConversionUtilities.ConvertToUpperCamelCase(parameter.Name, true);
-            return Resolver.Resolve(schema, parameter.IsRequired == false || parameter.IsNullable(BaseSettings.CodeGeneratorSettings.NullHandling), typeNameHint);
+                    var operationModel = CreateOperationModel(tuple.Operation, BaseSettings);
+                    operationModel.Path = tuple.Path;
+                    operationModel.HttpMethod = tuple.HttpMethod;
+                    operationModel.Operation = tuple.Operation;
+                    operationModel.OperationName = BaseSettings.OperationNameGenerator.GetOperationName(document, tuple.Path, tuple.HttpMethod, tuple.Operation);
+                    return operationModel;
+                })
+                .ToList();
         }
 
         private string GetClassName(string controllerName)
         {
             return BaseSettings.ClassName.Replace("{controller}", ConversionUtilities.ConvertToUpperCamelCase(controllerName, false));
-        }
-
-        internal SwaggerResponse GetSuccessResponse(SwaggerOperation operation)
-        {
-            if (operation.Responses.Any(r => r.Key == "200"))
-                return operation.Responses.Single(r => r.Key == "200").Value;
-
-            var response = operation.Responses.FirstOrDefault(r => HttpUtilities.IsSuccessStatusCode(r.Key)).Value;
-            if (response != null)
-                return response;
-
-            return operation.Responses.FirstOrDefault(r => r.Key == "default").Value;
         }
     }
 }

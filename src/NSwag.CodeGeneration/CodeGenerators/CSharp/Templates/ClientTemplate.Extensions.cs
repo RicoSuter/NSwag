@@ -6,12 +6,12 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Templates
 {
     internal partial class ClientTemplate : ITemplate
     {
-        public ClientTemplate(ClientTemplateModel model)
+        public ClientTemplate(CSharpClientTemplateModel model)
         {
             Model = model;
         }
 
-        public ClientTemplateModel Model { get; }
+        public CSharpClientTemplateModel Model { get; }
 
         public string Render()
         {

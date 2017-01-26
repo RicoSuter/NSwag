@@ -30,7 +30,6 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         public SwaggerToTypeScriptClientGenerator(SwaggerDocument document, SwaggerToTypeScriptClientGeneratorSettings settings)
             : this(document, settings, new TypeScriptTypeResolver(settings.TypeScriptGeneratorSettings, document))
         {
-
         }
 
         /// <summary>Initializes a new instance of the <see cref="SwaggerToTypeScriptClientGenerator" /> class.</summary>
@@ -65,37 +64,51 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             return GenerateFile(_document, ClientGeneratorOutputType.Full);
         }
 
-        /// <summary>Resolves the type of the parameter.</summary>
-        /// <param name="parameter">The parameter.</param>
-        /// <returns>The parameter type name.</returns>
-        protected override string ResolveParameterType(SwaggerParameter parameter)
+        /// <summary>Gets the base settings.</summary>
+        public override ClientGeneratorBaseSettings BaseSettings => Settings;
+        
+        /// <summary>Gets the type.</summary>
+        /// <param name="schema">The schema.</param>
+        /// <param name="isNullable">if set to <c>true</c> [is nullable].</param>
+        /// <param name="typeNameHint">The type name hint.</param>
+        /// <returns>The type name.</returns>
+        public override string GetTypeName(JsonSchema4 schema, bool isNullable, string typeNameHint)
         {
-            var schema = parameter.ActualSchema;
-            if (schema.Type == JsonObjectType.File)
-            {
-                if (parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
-                    return "FileParameter[]";
+            if (schema == null)
+                return "void";
 
-                return "FileParameter";
-            }
+            if (schema.ActualSchema.Type == JsonObjectType.File)
+                return "any";
 
-            return base.ResolveParameterType(parameter);
+            if (schema.ActualSchema.IsAnyType || schema.ActualSchema.Type == JsonObjectType.File)
+                return "any";
+
+            return _resolver.Resolve(schema.ActualSchema, isNullable, typeNameHint);
         }
 
-        internal override ClientGeneratorBaseSettings BaseSettings => Settings;
-
-        internal override string GenerateFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType)
+        /// <summary>Generates the file.</summary>
+        /// <param name="clientCode">The client code.</param>
+        /// <param name="clientClasses">The client classes.</param>
+        /// <param name="outputType">Type of the output.</param>
+        /// <returns>The code.</returns>
+        protected override string GenerateFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType)
         {
-            var model = new FileTemplateModel(_document, clientCode, clientClasses, Settings, _extensionCode, _resolver);
+            var model = new TypeScriptFileTemplateModel(clientCode, clientClasses, _document, _extensionCode, Settings, _resolver);
             var template = BaseSettings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("TypeScript", "File", model);
             return template.Render();
         }
 
-        internal override string GenerateClientClass(string controllerName, string controllerClassName, IList<OperationModel> operations, ClientGeneratorOutputType outputType)
+        /// <summary>Generates the client class.</summary>
+        /// <param name="controllerName">Name of the controller.</param>
+        /// <param name="controllerClassName">Name of the controller class.</param>
+        /// <param name="operations">The operations.</param>
+        /// <param name="outputType">Type of the output.</param>
+        /// <returns>The code.</returns>
+        protected override string GenerateClientClass(string controllerName, string controllerClassName, IList<OperationModelBase> operations, ClientGeneratorOutputType outputType)
         {
             UpdateUseDtoClassAndDataConversionCodeProperties(operations);
 
-            var model = new ClientTemplateModel(GetClassName(controllerClassName), operations, _document, Settings);
+            var model = new TypeScriptClientTemplateModel(GetClassName(controllerClassName), operations.OfType<TypeScriptOperationModel>(), _document, Settings);
             var template = Settings.CreateTemplate(model);
             var code = template.Render();
 
@@ -113,38 +126,13 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             return code;
         }
 
-        internal override string GetExceptionType(SwaggerOperation operation)
+        /// <summary>Creates an operation model.</summary>
+        /// <param name="operation"></param>
+        /// <param name="settings">The settings.</param>
+        /// <returns>The operation model.</returns>
+        protected override OperationModelBase CreateOperationModel(SwaggerOperation operation, ClientGeneratorBaseSettings settings)
         {
-            if (operation.Responses.Count(r => !HttpUtilities.IsSuccessStatusCode(r.Key)) == 0)
-                return "string";
-
-            return string.Join(" | ", operation.Responses
-                .Where(r => !HttpUtilities.IsSuccessStatusCode(r.Key) && r.Value.ActualResponseSchema != null)
-                .Select(r => GetType(r.Value.ActualResponseSchema, r.Value.IsNullable(Settings.CodeGeneratorSettings.NullHandling), "Exception"))
-                .Concat(new[] { "string" }));
-        }
-
-        internal override string GetResultType(SwaggerOperation operation)
-        {
-            var response = GetSuccessResponse(operation);
-            if (response?.Schema == null)
-                return "void";
-
-            return GetType(response.ActualResponseSchema, response.IsNullable(Settings.CodeGeneratorSettings.NullHandling), "Response");
-        }
-
-        internal override string GetType(JsonSchema4 schema, bool isNullable, string typeNameHint)
-        {
-            if (schema == null)
-                return "void";
-
-            if (schema.ActualSchema.Type == JsonObjectType.File)
-                return "any";
-
-            if (schema.ActualSchema.IsAnyType || schema.ActualSchema.Type == JsonObjectType.File)
-                return "any";
-
-            return _resolver.Resolve(schema.ActualSchema, isNullable, typeNameHint);
+            return new TypeScriptOperationModel(operation, settings, this, Resolver);
         }
 
         private string GetClassName(string className)
@@ -155,8 +143,10 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             return className;
         }
 
-        private void UpdateUseDtoClassAndDataConversionCodeProperties(IEnumerable<OperationModel> operations)
+        private void UpdateUseDtoClassAndDataConversionCodeProperties(IEnumerable<OperationModelBase> operations)
         {
+            // TODO: Remove this method => move to appropriate location
+
             foreach (var operation in operations)
             {
                 foreach (var parameter in operation.Parameters)

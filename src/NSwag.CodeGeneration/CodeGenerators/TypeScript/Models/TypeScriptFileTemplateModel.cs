@@ -14,7 +14,7 @@ using NJsonSchema.CodeGeneration.TypeScript;
 namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
 {
     /// <summary>The TypeScript file template model.</summary>
-    public class FileTemplateModel
+    public class TypeScriptFileTemplateModel
     {
         private readonly SwaggerToTypeScriptClientGeneratorSettings _settings;
         private readonly TypeScriptTypeResolver _resolver;
@@ -22,15 +22,20 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
         private readonly SwaggerDocument _document;
         private readonly TypeScriptExtensionCode _extensionCode;
 
-        /// <summary>Initializes a new instance of the <see cref="FileTemplateModel" /> class.</summary>
-        /// <param name="document">The Swagger document.</param>
+        /// <summary>Initializes a new instance of the <see cref="TypeScriptFileTemplateModel" /> class.</summary>
         /// <param name="clientCode">The client code.</param>
         /// <param name="clientClasses">The client classes.</param>
-        /// <param name="settings">The settings.</param>
+        /// <param name="document">The Swagger document.</param>
         /// <param name="extensionCode">The extension code.</param>
+        /// <param name="settings">The settings.</param>
         /// <param name="resolver">The resolver.</param>
-        public FileTemplateModel(SwaggerDocument document, string clientCode, IEnumerable<string> clientClasses,
-            SwaggerToTypeScriptClientGeneratorSettings settings, TypeScriptExtensionCode extensionCode, TypeScriptTypeResolver resolver)
+        public TypeScriptFileTemplateModel(
+            string clientCode, 
+            IEnumerable<string> clientClasses, 
+            SwaggerDocument document, 
+            TypeScriptExtensionCode extensionCode, 
+            SwaggerToTypeScriptClientGeneratorSettings settings, 
+            TypeScriptTypeResolver resolver)
         {
             _document = document;
             _extensionCode = extensionCode;

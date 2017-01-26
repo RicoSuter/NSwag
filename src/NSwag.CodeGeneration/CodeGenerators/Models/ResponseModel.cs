@@ -37,7 +37,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         public string StatusCode { get; }
 
         /// <summary>Gets the type of the response.</summary>
-        public string Type => _clientGeneratorBase.GetType(_response.ActualResponseSchema, IsNullable, "Response");
+        public string Type => _clientGeneratorBase.GetTypeName(_response.ActualResponseSchema, IsNullable, "Response");
 
         /// <summary>Gets a value indicating whether the response has a type (i.e. not void).</summary>
         public bool HasType => Schema != null;
@@ -49,7 +49,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         public bool IsDate =>
             (_response.ActualResponseSchema.Format == JsonFormatStrings.DateTime ||
             _response.ActualResponseSchema.Format == JsonFormatStrings.Date) &&
-            _clientGeneratorBase.GetType(_response.ActualResponseSchema, IsNullable, "Response") != "string";
+            _clientGeneratorBase.GetTypeName(_response.ActualResponseSchema, IsNullable, "Response") != "string";
 
         /// <summary>Gets a value indicating whether this is a file response.</summary>
         public bool IsFile => Schema != null && Schema.ActualSchema.Type == JsonObjectType.File;

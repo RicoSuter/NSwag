@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="ClientTemplateModel.cs" company="NSwag">
+// <copyright file="TypeScriptClientTemplateModel.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -9,22 +9,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema.CodeGeneration.TypeScript;
-using NSwag.CodeGeneration.CodeGenerators.Models;
 
 namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
 {
     /// <summary>The TypeScript client template model.</summary>
-    public class ClientTemplateModel
+    public class TypeScriptClientTemplateModel
     {
         private readonly SwaggerToTypeScriptClientGeneratorSettings _settings;
         private readonly SwaggerDocument _document;
 
-        /// <summary>Initializes a new instance of the <see cref="ClientTemplateModel" /> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="TypeScriptClientTemplateModel" /> class.</summary>
         /// <param name="controllerClassName">Name of the controller.</param>
         /// <param name="operations">The operations.</param>
         /// <param name="document">The Swagger document.</param>
         /// <param name="settings">The settings.</param>
-        public ClientTemplateModel(string controllerClassName, IList<OperationModel> operations, SwaggerDocument document, SwaggerToTypeScriptClientGeneratorSettings settings)
+        public TypeScriptClientTemplateModel(
+            string controllerClassName, 
+            IEnumerable<TypeScriptOperationModel> operations, 
+            SwaggerDocument document, 
+            SwaggerToTypeScriptClientGeneratorSettings settings)
         {
             _settings = settings;
             _document = document;
@@ -61,7 +64,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
         public bool HasOperations => Operations.Any();
 
         /// <summary>Gets the operations.</summary>
-        public IList<OperationModel> Operations { get; }
+        public IEnumerable<TypeScriptOperationModel> Operations { get; }
 
         /// <summary>Gets a value indicating whether the client uses KnockoutJS.</summary>
         public bool UsesKnockout => _settings.TypeScriptGeneratorSettings.TypeStyle == TypeScriptTypeStyle.KnockoutClass;

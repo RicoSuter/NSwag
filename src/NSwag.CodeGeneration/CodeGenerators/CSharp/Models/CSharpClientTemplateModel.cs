@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="ClientTemplateModel.cs" company="NSwag">
+// <copyright file="CSharpClientTemplateModel.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -10,26 +10,30 @@ using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration.CSharp;
-using NSwag.CodeGeneration.CodeGenerators.Models;
 
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
 {
     /// <summary>The CSharp client template model.</summary>
-    public class ClientTemplateModel
+    public class CSharpClientTemplateModel
     {
         private readonly SwaggerDocument _document;
         private readonly JsonSchema4 _exceptionSchema;
         private readonly SwaggerToCSharpClientGeneratorSettings _settings;
 
-        /// <summary>Initializes a new instance of the <see cref="ClientTemplateModel" /> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="CSharpClientTemplateModel" /> class.</summary>
         /// <param name="controllerName">Name of the controller.</param>
         /// <param name="controllerClassName">The class name of the controller.</param>
         /// <param name="operations">The operations.</param>
-        /// <param name="document">The Swagger document.</param>
         /// <param name="exceptionSchema">The exception schema.</param>
+        /// <param name="document">The Swagger document.</param>
         /// <param name="settings">The settings.</param>
-        public ClientTemplateModel(string controllerName, string controllerClassName, IList<OperationModel> operations,
-            SwaggerDocument document, JsonSchema4 exceptionSchema, SwaggerToCSharpClientGeneratorSettings settings)
+        public CSharpClientTemplateModel(
+            string controllerName, 
+            string controllerClassName, 
+            IEnumerable<CSharpOperationModel> operations, 
+            JsonSchema4 exceptionSchema,
+            SwaggerDocument document, 
+            SwaggerToCSharpClientGeneratorSettings settings)
         {
             _document = document;
             _exceptionSchema = exceptionSchema;
@@ -89,7 +93,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
         public string ExceptionClass { get; }
 
         /// <summary>Gets the operations.</summary>
-        public IList<OperationModel> Operations { get; }
+        public IEnumerable<CSharpOperationModel> Operations { get; }
 
         /// <summary>Gets the JSON converters code.</summary>
         public string JsonConverters => CSharpJsonConverters.GenerateConverters(

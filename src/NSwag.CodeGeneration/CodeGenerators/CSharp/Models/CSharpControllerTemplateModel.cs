@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="ControllerTemplateModel.cs" company="NSwag">
+// <copyright file="CSharpControllerTemplateModel.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -8,24 +8,34 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using NSwag.CodeGeneration.CodeGenerators.Models;
 
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
 {
     /// <summary>The CSharp controller template model.</summary>
-    public class ControllerTemplateModel
+    public class CSharpControllerTemplateModel
     {
         private readonly SwaggerToCSharpWebApiControllerGeneratorSettings _settings;
+        private readonly SwaggerDocument _document;
 
-        /// <summary>Initializes a new instance of the <see cref="ControllerTemplateModel"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="CSharpControllerTemplateModel" /> class.</summary>
+        /// <param name="controllerName">Name of the controller.</param>
+        /// <param name="operations">The operations.</param>
+        /// <param name="document">The document.</param>
         /// <param name="settings">The settings.</param>
-        public ControllerTemplateModel(SwaggerToCSharpWebApiControllerGeneratorSettings settings)
+        public CSharpControllerTemplateModel(
+            string controllerName, 
+            IEnumerable<CSharpOperationModel> operations, 
+            SwaggerDocument document, 
+            SwaggerToCSharpWebApiControllerGeneratorSettings settings)
         {
+            Class = controllerName; 
+            Operations = operations;
+            _document = document; 
             _settings = settings;
         }
 
         /// <summary>Gets or sets the class name.</summary>
-        public string Class { get; set; }
+        public string Class { get; }
 
         /// <summary>Gets a value indicating whether the controller has a base class.</summary>
         public bool HasBaseClass => !string.IsNullOrEmpty(_settings.ControllerBaseClass);
@@ -34,18 +44,18 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
         public string BaseClass => _settings.ControllerBaseClass;
 
         /// <summary>Gets or sets the service base URL.</summary>
-        public string BaseUrl { get; set; }
+        public string BaseUrl => _document.BaseUrl; 
 
         /// <summary>Gets or sets a value indicating whether the controller has operations.</summary>
         public bool HasOperations => Operations.Any();
 
         /// <summary>Gets or sets the operations.</summary>
-        public IList<OperationModel> Operations { get; set; }
-        
+        public IEnumerable<CSharpOperationModel> Operations { get; set; }
+
         /// <summary>Gets or sets a value indicating whether the controller has a base path.</summary>
-        public bool HasBasePath { get; set; }
+        public bool HasBasePath => !string.IsNullOrEmpty(BasePath);
 
         /// <summary>Gets or sets the base path.</summary>
-        public string BasePath { get; set; }
+        public string BasePath => _document.BasePath?.TrimStart('/');
     }
 }

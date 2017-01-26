@@ -8,10 +8,10 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates
     {
         public FileTemplate(object model)
         {
-            Model = (FileTemplateModel)model;
+            Model = (TypeScriptFileTemplateModel)model;
         }
 
-        public FileTemplateModel Model { get; }
+        public TypeScriptFileTemplateModel Model { get; }
         
         public string Render()
         {

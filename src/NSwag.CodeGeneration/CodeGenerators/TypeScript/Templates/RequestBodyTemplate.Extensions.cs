@@ -6,12 +6,12 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates
 {
     internal partial class RequestBodyTemplate : ITemplate
     {
-        public RequestBodyTemplate(OperationModel model)
+        public RequestBodyTemplate(OperationModelBase model)
         {
             Model = model;
         }
 
-        public OperationModel Model { get; }
+        public OperationModelBase Model { get; }
 
         public string Render()
         {

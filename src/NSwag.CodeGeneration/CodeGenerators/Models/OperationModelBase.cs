@@ -9,23 +9,40 @@
 using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
-using NSwag.CodeGeneration.CodeGenerators.CSharp;
+using NJsonSchema.CodeGeneration;
 
 namespace NSwag.CodeGeneration.CodeGenerators.Models
 {
     /// <summary>The Swagger operation template model.</summary>
-    public class OperationModel
+    public abstract class OperationModelBase
     {
-        private readonly string _resultType;
+        private readonly SwaggerOperation _operation;
+        private readonly ITypeResolver _resolver;
+        private readonly ClientGeneratorBase _generator;
         private readonly ClientGeneratorBaseSettings _settings;
 
-        /// <summary>Initializes a new instance of the <see cref="OperationModel" /> class.</summary>
-        /// <param name="resultType">Type of the result.</param>
+        /// <summary>Initializes a new instance of the <see cref="OperationModelBase" /> class.</summary>
+        /// <param name="exceptionSchema">The exception schema.</param>
+        /// <param name="operation">The operation.</param>
+        /// <param name="resolver">The resolver.</param>
+        /// <param name="generator">The generator.</param>
         /// <param name="settings">The settings.</param>
-        public OperationModel(string resultType, ClientGeneratorBaseSettings settings)
+        protected OperationModelBase(JsonSchema4 exceptionSchema, SwaggerOperation operation, ITypeResolver resolver, 
+            ClientGeneratorBase generator, ClientGeneratorBaseSettings settings)
         {
-            _settings = settings; 
-            _resultType = resultType;
+            _operation = operation;
+            _resolver = resolver;
+            _generator = generator;
+            _settings = settings;
+
+            var responses = _operation.Responses.Select(response => new ResponseModel(response, exceptionSchema, generator, response.Value == GetSuccessResponse())).ToList();
+
+            var defaultResponse = responses.SingleOrDefault(r => r.StatusCode == "default");
+            if (defaultResponse != null)
+                responses.Remove(defaultResponse);
+
+            Responses = responses;
+            DefaultResponse = defaultResponse;
         }
 
         /// <summary>Gets or sets the operation.</summary>
@@ -63,58 +80,64 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 
         // TODO: Remove this (not may not work correctly)
         /// <summary>Gets or sets a value indicating whether the operation has a result type (i.e. not void).</summary>
-        public bool HasResultType { get; set; }
-
-        /// <summary>Gets or sets the type of the result.</summary>
-        public string ResultType
+        public bool HasResultType
         {
             get
             {
-                // TODO: Move to CSharpOperationModel!
-
-                var csharpSettings = _settings as SwaggerToCSharpClientGeneratorSettings;
-                if (csharpSettings != null)
-                {
-                    if (_resultType == "FileResponse")
-                        return "System.Threading.Tasks.Task<FileResponse>";
-
-                    if (csharpSettings.WrapSuccessResponses)
-                        return _resultType == "void" ? "System.Threading.Tasks.Task<SwaggerResponse>" : "System.Threading.Tasks.Task<SwaggerResponse<" + _resultType + ">>";
-
-                    return _resultType == "void" ? "System.Threading.Tasks.Task" : "System.Threading.Tasks.Task<" + _resultType + ">";
-
-                }
-
-                return _resultType;
+                var response = GetSuccessResponse();
+                return response?.ActualResponseSchema != null;
             }
         }
 
+        /// <summary>Gets or sets the type of the result.</summary>
+        public abstract string ResultType { get; }
+
         /// <summary>Gets the type of the unwrapped result type (without Task).</summary>
-        public string UnwrappedResultType => _resultType;
+        public string UnwrappedResultType
+        {
+            get
+            {
+                var response = GetSuccessResponse();
+                if (response?.Schema == null)
+                    return "void";
+
+                var isNullable = response.IsNullable(_settings.CodeGeneratorSettings.NullHandling); 
+                return _generator.GetTypeName(response.ActualResponseSchema, isNullable, "Response");
+            }
+        }
 
         /// <summary>Gets a value indicating whether the result has description.</summary>
         public bool HasResultDescription => !string.IsNullOrEmpty(ResultDescription);
 
         /// <summary>Gets or sets the result description.</summary>
-        public string ResultDescription { get; set; }
+        public string ResultDescription
+        {
+            get
+            {
+                var response = GetSuccessResponse();
+                if (response != null)
+                    return ConversionUtilities.TrimWhiteSpaces(response.Description);
+                return null;
+            }
+        }
 
         /// <summary>Gets or sets the type of the exception.</summary>
-        public string ExceptionType { get; set; }
+        public abstract string ExceptionType { get; }
 
         /// <summary>Gets or sets the responses.</summary>
-        public List<ResponseModel> Responses { get; set; }
+        public List<ResponseModel> Responses { get; }
 
         /// <summary>Gets a value indicating whether the operation has default response.</summary>
         public bool HasDefaultResponse => DefaultResponse != null;
 
         /// <summary>Gets or sets the default response.</summary>
-        public ResponseModel DefaultResponse { get; set; }
+        public ResponseModel DefaultResponse { get; }
 
         /// <summary>Gets a value indicating whether the operation has an explicit success response defined.</summary>
         public bool HasSuccessResponse => Responses.Any(r => r.IsSuccess);
 
         /// <summary>Gets or sets the parameters.</summary>
-        public IEnumerable<ParameterModel> Parameters { get; set; }
+        public IEnumerable<ParameterModel> Parameters { get; protected set; }
 
         /// <summary>Gets a value indicating whether the operation has only a default response.</summary>
         public bool HasOnlyDefaultResponse => Responses.Count == 0 && HasDefaultResponse;
@@ -135,7 +158,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         public IEnumerable<ParameterModel> HeaderParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.Header);
 
         /// <summary>Gets or sets a value indicating whether the operation has form parameters.</summary>
-        public bool HasFormParameters { get; set; }
+        public bool HasFormParameters => _operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.FormData);
 
         /// <summary>Gets the form parameters.</summary>
         public IEnumerable<ParameterModel> FormParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.FormData);
@@ -177,6 +200,54 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
 
                 return Operation.ActualProduces?.FirstOrDefault() ?? "application/json";
             }
+        }
+
+        /// <summary>Gets the success response.</summary>
+        /// <returns>The response.</returns>
+        protected SwaggerResponse GetSuccessResponse()
+        {
+            if (_operation.Responses.Any(r => r.Key == "200"))
+                return _operation.Responses.Single(r => r.Key == "200").Value;
+
+            var response = _operation.Responses.FirstOrDefault(r => HttpUtilities.IsSuccessStatusCode(r.Key)).Value;
+            if (response != null)
+                return response;
+
+            return _operation.Responses.FirstOrDefault(r => r.Key == "default").Value;
+        }
+
+        /// <summary>Gets the name of the parameter variable.</summary>
+        /// <param name="parameter">The parameter.</param>
+        /// <param name="allParameters">All parameters.</param>
+        /// <returns>The parameter variable name.</returns>
+        protected virtual string GetParameterVariableName(SwaggerParameter parameter, IEnumerable<SwaggerParameter> allParameters)
+        {
+            var variableName = ConversionUtilities.ConvertToLowerCamelCase(parameter.Name
+                .Replace("-", "_")
+                .Replace(".", "_")
+                .Replace("$", string.Empty), true);
+
+            if (allParameters.Count(p => p.Name == parameter.Name) > 1)
+                return variableName + parameter.Kind;
+
+            return variableName;
+        }
+
+        /// <summary>Resolves the type of the parameter.</summary>
+        /// <param name="parameter">The parameter.</param>
+        /// <returns>The parameter type name.</returns>
+        protected virtual string ResolveParameterType(SwaggerParameter parameter)
+        {
+            var schema = parameter.ActualSchema;
+
+            if (parameter.IsXmlBodyParameter)
+                return "string";
+
+            if (parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
+                schema = new JsonSchema4 { Type = JsonObjectType.Array, Item = schema };
+
+            var typeNameHint = ConversionUtilities.ConvertToUpperCamelCase(parameter.Name, true);
+            return _resolver.Resolve(schema, parameter.IsRequired == false || parameter.IsNullable(_settings.CodeGeneratorSettings.NullHandling), typeNameHint);
         }
     }
 };

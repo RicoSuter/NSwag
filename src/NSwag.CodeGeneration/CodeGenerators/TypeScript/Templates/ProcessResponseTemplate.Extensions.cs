@@ -6,12 +6,12 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates
 {
     internal partial class ProcessResponseTemplate : ITemplate
     {
-        public ProcessResponseTemplate(OperationModel model)
+        public ProcessResponseTemplate(OperationModelBase model)
         {
             Model = model;
         }
 
-        public OperationModel Model { get; }
+        public OperationModelBase Model { get; }
 
         public string Render()
         {

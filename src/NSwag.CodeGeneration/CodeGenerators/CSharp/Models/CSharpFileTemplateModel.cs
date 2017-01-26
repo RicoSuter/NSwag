@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="FileTemplateModel.cs" company="NSwag">
+// <copyright file="CSharpFileTemplateModel.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -8,36 +8,40 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using NJsonSchema.CodeGeneration;
 using NSwag.CodeGeneration.CodeGenerators.CSharp.Templates;
 using NJsonSchema;
 
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
 {
     /// <summary>The CSharp file template model.</summary>
-    public class FileTemplateModel
+    public class CSharpFileTemplateModel
     {
         private readonly string _clientCode;
         private readonly SwaggerDocument _document;
         private readonly SwaggerToCSharpGeneratorSettings _settings;
         private readonly SwaggerToCSharpTypeResolver _resolver;
         private readonly ClientGeneratorOutputType _outputType;
-        private readonly ClientGeneratorBase _clientGeneratorBase;
+        private readonly ClientGeneratorBase _generator;
 
-        /// <summary>Initializes a new instance of the <see cref="FileTemplateModel" /> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="CSharpFileTemplateModel" /> class.</summary>
         /// <param name="clientCode">The client code.</param>
         /// <param name="outputType">Type of the output.</param>
         /// <param name="document">The Swagger document.</param>
-        /// <param name="clientGeneratorBase">The client generator base.</param>
         /// <param name="settings">The settings.</param>
+        /// <param name="generator">The client generator base.</param>
         /// <param name="resolver">The resolver.</param>
-        public FileTemplateModel(string clientCode, ClientGeneratorOutputType outputType, SwaggerDocument document,
-            ClientGeneratorBase clientGeneratorBase, SwaggerToCSharpGeneratorSettings settings, SwaggerToCSharpTypeResolver resolver)
+        public CSharpFileTemplateModel(
+            string clientCode, 
+            ClientGeneratorOutputType outputType, 
+            SwaggerDocument document, 
+            SwaggerToCSharpGeneratorSettings settings,
+            ClientGeneratorBase generator, 
+            SwaggerToCSharpTypeResolver resolver)
         {
             _clientCode = clientCode;
             _outputType = outputType;
             _document = document;
-            _clientGeneratorBase = clientGeneratorBase;
+            _generator = generator;
             _settings = settings;
             _resolver = resolver;
         }
@@ -76,7 +80,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
             ConversionUtilities.Tab(new JsonExceptionConverterTemplate(JsonExceptionTypes.FirstOrDefault(t => t != "Exception") ?? "Exception").TransformText(), 1) : string.Empty;
 
         private IEnumerable<string> JsonExceptionTypes => ResponsesInheritingFromException.Select(r =>
-            _clientGeneratorBase.GetType(r.ActualResponseSchema, r.IsNullable(_settings.CSharpGeneratorSettings.NullHandling), "Response"));
+            _generator.GetTypeName(r.ActualResponseSchema, r.IsNullable(_settings.CSharpGeneratorSettings.NullHandling), "Response"));
 
         private IEnumerable<SwaggerResponse> ResponsesInheritingFromException =>
             _document.Operations.SelectMany(o => o.Operation.AllResponses.Values.Where(r => r.InheritsExceptionSchema(_resolver.ExceptionSchema)));
@@ -84,8 +88,6 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
         /// <summary>Gets a value indicating whether the generated code requires the FileParameter type.</summary>
         public bool RequiresFileParameterType => 
             _document.Operations.Any(o => o.Operation.Parameters.Any(p => p.Type.HasFlag(JsonObjectType.File)));
-
-        // TODO: Move to CSharpFileTemplateModel
 
         /// <summary>Gets a value indicating whether [generate file response class].</summary>
         public bool GenerateFileResponseClass => _document.Operations

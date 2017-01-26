@@ -388,21 +388,7 @@ if(!parameter.IsLast){
             
             #line default
             #line hidden
-            this.Write(")\r\n    {\r\n        ");
-            
-            #line 39 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ControllerTemplate.tt"
-if(operation.UnwrappedResultType != "void"){
-            
-            #line default
-            #line hidden
-            this.Write("return ");
-            
-            #line 39 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ControllerTemplate.tt"
-}
-            
-            #line default
-            #line hidden
-            this.Write("_implementation.");
+            this.Write(")\r\n    {\r\n        return _implementation.");
             
             #line 39 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
