@@ -16,18 +16,18 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
     {
         private readonly SwaggerResponse _response;
         private readonly JsonSchema4 _exceptionSchema;
-        private readonly ClientGeneratorBase _clientGeneratorBase;
+        private readonly IClientGenerator _generator;
 
         /// <summary>Initializes a new instance of the <see cref="ResponseModel" /> class.</summary>
         /// <param name="response">The response.</param>
         /// <param name="exceptionSchema">The exception schema.</param>
-        /// <param name="clientGeneratorBase">The client generator base.</param>
+        /// <param name="generator">The client generator.</param>
         /// <param name="isSuccessResponse">Specifies whether this is the success response.</param>
-        public ResponseModel(KeyValuePair<string, SwaggerResponse> response, JsonSchema4 exceptionSchema, ClientGeneratorBase clientGeneratorBase, bool isSuccessResponse)
+        public ResponseModel(KeyValuePair<string, SwaggerResponse> response, JsonSchema4 exceptionSchema, IClientGenerator generator, bool isSuccessResponse)
         {
             _response = response.Value;
             _exceptionSchema = exceptionSchema;
-            _clientGeneratorBase = clientGeneratorBase;
+            _generator = generator;
 
             IsSuccess = isSuccessResponse; 
             StatusCode = response.Key;
@@ -37,7 +37,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         public string StatusCode { get; }
 
         /// <summary>Gets the type of the response.</summary>
-        public string Type => _clientGeneratorBase.GetTypeName(_response.ActualResponseSchema, IsNullable, "Response");
+        public string Type => _generator.GetTypeName(_response.ActualResponseSchema, IsNullable, "Response");
 
         /// <summary>Gets a value indicating whether the response has a type (i.e. not void).</summary>
         public bool HasType => Schema != null;
@@ -49,7 +49,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         public bool IsDate =>
             (_response.ActualResponseSchema.Format == JsonFormatStrings.DateTime ||
             _response.ActualResponseSchema.Format == JsonFormatStrings.Date) &&
-            _clientGeneratorBase.GetTypeName(_response.ActualResponseSchema, IsNullable, "Response") != "string";
+            _generator.GetTypeName(_response.ActualResponseSchema, IsNullable, "Response") != "string";
 
         /// <summary>Gets a value indicating whether this is a file response.</summary>
         public bool IsFile => Schema != null && Schema.ActualSchema.Type == JsonObjectType.File;
@@ -66,7 +66,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         private JsonSchema4 Schema => _response.ActualResponseSchema;
 
         /// <summary>Gets a value indicating whether the response is nullable.</summary>
-        public bool IsNullable => _response.IsNullable(_clientGeneratorBase.BaseSettings.CodeGeneratorSettings.NullHandling);
+        public bool IsNullable => _response.IsNullable(_generator.BaseSettings.CodeGeneratorSettings.NullHandling);
 
         /// <summary>Gets a value indicating whether the response type inherits from exception.</summary>
         public bool InheritsExceptionSchema => _response.InheritsExceptionSchema(_exceptionSchema);

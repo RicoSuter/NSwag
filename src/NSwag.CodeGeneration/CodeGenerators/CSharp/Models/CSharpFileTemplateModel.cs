@@ -21,7 +21,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
         private readonly SwaggerToCSharpGeneratorSettings _settings;
         private readonly SwaggerToCSharpTypeResolver _resolver;
         private readonly ClientGeneratorOutputType _outputType;
-        private readonly ClientGeneratorBase _generator;
+        private readonly SwaggerToCSharpGeneratorBase _generator;
 
         /// <summary>Initializes a new instance of the <see cref="CSharpFileTemplateModel" /> class.</summary>
         /// <param name="clientCode">The client code.</param>
@@ -35,7 +35,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
             ClientGeneratorOutputType outputType, 
             SwaggerDocument document, 
             SwaggerToCSharpGeneratorSettings settings,
-            ClientGeneratorBase generator, 
+            SwaggerToCSharpGeneratorBase generator, 
             SwaggerToCSharpTypeResolver resolver)
         {
             _clientCode = clientCode;

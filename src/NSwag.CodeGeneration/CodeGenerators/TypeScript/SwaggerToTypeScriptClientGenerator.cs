@@ -17,7 +17,7 @@ using NSwag.CodeGeneration.CodeGenerators.TypeScript.Models;
 namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 {
     /// <summary>Generates the CSharp service client code. </summary>
-    public class SwaggerToTypeScriptClientGenerator : ClientGeneratorBase
+    public class SwaggerToTypeScriptClientGenerator : ClientGeneratorBase<TypeScriptParameterModel>
     {
         private readonly SwaggerDocument _document;
         private readonly TypeScriptTypeResolver _resolver;
@@ -104,7 +104,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         /// <param name="operations">The operations.</param>
         /// <param name="outputType">Type of the output.</param>
         /// <returns>The code.</returns>
-        protected override string GenerateClientClass(string controllerName, string controllerClassName, IList<OperationModelBase> operations, ClientGeneratorOutputType outputType)
+        protected override string GenerateClientClass(string controllerName, string controllerClassName, IList<OperationModelBase<TypeScriptParameterModel>> operations, ClientGeneratorOutputType outputType)
         {
             UpdateUseDtoClassAndDataConversionCodeProperties(operations);
 
@@ -130,7 +130,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         /// <param name="operation"></param>
         /// <param name="settings">The settings.</param>
         /// <returns>The operation model.</returns>
-        protected override OperationModelBase CreateOperationModel(SwaggerOperation operation, ClientGeneratorBaseSettings settings)
+        protected override OperationModelBase<TypeScriptParameterModel> CreateOperationModel(SwaggerOperation operation, ClientGeneratorBaseSettings settings)
         {
             return new TypeScriptOperationModel(operation, settings, this, Resolver);
         }
@@ -143,37 +143,12 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             return className;
         }
 
-        private void UpdateUseDtoClassAndDataConversionCodeProperties(IEnumerable<OperationModelBase> operations)
+        private void UpdateUseDtoClassAndDataConversionCodeProperties(IEnumerable<OperationModelBase<TypeScriptParameterModel>> operations)
         {
             // TODO: Remove this method => move to appropriate location
 
             foreach (var operation in operations)
             {
-                foreach (var parameter in operation.Parameters)
-                {
-                    if (parameter.IsDictionary)
-                    {
-                        if (parameter.Schema.AdditionalPropertiesSchema != null)
-                        {
-                            var itemTypeName = _resolver.Resolve(parameter.Schema.AdditionalPropertiesSchema, false, string.Empty);
-                            parameter.UseDtoClass = Settings.TypeScriptGeneratorSettings.GetTypeStyle(itemTypeName) != TypeScriptTypeStyle.Interface &&
-                                _resolver.HasTypeGenerator(itemTypeName);
-                        }
-                    }
-                    else if (parameter.IsArray)
-                    {
-                        if (parameter.Schema.Item != null)
-                        {
-                            var itemTypeName = _resolver.Resolve(parameter.Schema.Item, false, string.Empty);
-                            parameter.UseDtoClass = Settings.TypeScriptGeneratorSettings.GetTypeStyle(itemTypeName) != TypeScriptTypeStyle.Interface &&
-                                _resolver.HasTypeGenerator(itemTypeName);
-                        }
-                    }
-                    else
-                        parameter.UseDtoClass = Settings.TypeScriptGeneratorSettings.GetTypeStyle(parameter.Type) != TypeScriptTypeStyle.Interface &&
-                            _resolver.HasTypeGenerator(parameter.Type);
-                }
-
                 foreach (var response in operation.Responses.Where(r => r.HasType))
                 {
                     response.UseDtoClass = Settings.TypeScriptGeneratorSettings.GetTypeStyle(response.Type) != TypeScriptTypeStyle.Interface;

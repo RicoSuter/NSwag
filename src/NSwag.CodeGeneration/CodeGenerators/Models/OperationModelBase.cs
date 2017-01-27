@@ -14,21 +14,21 @@ using NJsonSchema.CodeGeneration;
 namespace NSwag.CodeGeneration.CodeGenerators.Models
 {
     /// <summary>The Swagger operation template model.</summary>
-    public abstract class OperationModelBase
+    public abstract class OperationModelBase<TParameterModel>
+        where TParameterModel : ParameterModel
     {
         private readonly SwaggerOperation _operation;
         private readonly ITypeResolver _resolver;
-        private readonly ClientGeneratorBase _generator;
+        private readonly IClientGenerator _generator;
         private readonly ClientGeneratorBaseSettings _settings;
 
-        /// <summary>Initializes a new instance of the <see cref="OperationModelBase" /> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="OperationModelBase{TParameterModel}"/> class.</summary>
         /// <param name="exceptionSchema">The exception schema.</param>
         /// <param name="operation">The operation.</param>
         /// <param name="resolver">The resolver.</param>
         /// <param name="generator">The generator.</param>
         /// <param name="settings">The settings.</param>
-        protected OperationModelBase(JsonSchema4 exceptionSchema, SwaggerOperation operation, ITypeResolver resolver, 
-            ClientGeneratorBase generator, ClientGeneratorBaseSettings settings)
+        protected OperationModelBase(JsonSchema4 exceptionSchema, SwaggerOperation operation, ITypeResolver resolver, IClientGenerator generator, ClientGeneratorBaseSettings settings)
         {
             _operation = operation;
             _resolver = resolver;
@@ -137,7 +137,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         public bool HasSuccessResponse => Responses.Any(r => r.IsSuccess);
 
         /// <summary>Gets or sets the parameters.</summary>
-        public IEnumerable<ParameterModel> Parameters { get; protected set; }
+        public IEnumerable<TParameterModel> Parameters { get; protected set; }
 
         /// <summary>Gets a value indicating whether the operation has only a default response.</summary>
         public bool HasOnlyDefaultResponse => Responses.Count == 0 && HasDefaultResponse;
@@ -146,22 +146,22 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         public bool HasContent => ContentParameter != null;
 
         /// <summary>Gets the content parameter.</summary>
-        public ParameterModel ContentParameter => Parameters.SingleOrDefault(p => p.Kind == SwaggerParameterKind.Body);
+        public TParameterModel ContentParameter => Parameters.SingleOrDefault(p => p.Kind == SwaggerParameterKind.Body);
 
         /// <summary>Gets the path parameters.</summary>
-        public IEnumerable<ParameterModel> PathParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.Path);
+        public IEnumerable<TParameterModel> PathParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.Path);
 
         /// <summary>Gets the query parameters.</summary>
-        public IEnumerable<ParameterModel> QueryParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.Query || p.Kind == SwaggerParameterKind.ModelBinding);
+        public IEnumerable<TParameterModel> QueryParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.Query || p.Kind == SwaggerParameterKind.ModelBinding);
 
         /// <summary>Gets the header parameters.</summary>
-        public IEnumerable<ParameterModel> HeaderParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.Header);
+        public IEnumerable<TParameterModel> HeaderParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.Header);
 
         /// <summary>Gets or sets a value indicating whether the operation has form parameters.</summary>
         public bool HasFormParameters => _operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.FormData);
 
         /// <summary>Gets the form parameters.</summary>
-        public IEnumerable<ParameterModel> FormParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.FormData);
+        public IEnumerable<TParameterModel> FormParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.FormData);
 
         /// <summary>Gets a value indicating whether the operation has summary.</summary>
         public bool HasSummary => !string.IsNullOrEmpty(Summary);

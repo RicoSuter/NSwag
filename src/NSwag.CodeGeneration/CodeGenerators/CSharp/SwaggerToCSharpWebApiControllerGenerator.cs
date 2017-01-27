@@ -62,7 +62,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         /// <param name="operations">The operations.</param>
         /// <param name="outputType">Type of the output.</param>
         /// <returns>The code.</returns>
-        protected override string GenerateClientClass(string controllerName, string controllerClassName, IList<OperationModelBase> operations, ClientGeneratorOutputType outputType)
+        protected override string GenerateClientClass(string controllerName, string controllerClassName, IList<OperationModelBase<ParameterModel>> operations, ClientGeneratorOutputType outputType)
         {
             var model = new CSharpControllerTemplateModel(controllerClassName, operations.OfType<CSharpOperationModel>(), _document, Settings);
             var template = Settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Controller", model);
@@ -73,7 +73,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp
         /// <param name="operation">The operation.</param>
         /// <param name="settings">The settings.</param>
         /// <returns>The operation model.</returns>
-        protected override OperationModelBase CreateOperationModel(SwaggerOperation operation, ClientGeneratorBaseSettings settings)
+        protected override OperationModelBase<ParameterModel> CreateOperationModel(SwaggerOperation operation, ClientGeneratorBaseSettings settings)
         {
             return new CSharpOperationModel(operation, settings, this, (SwaggerToCSharpTypeResolver)Resolver);
         }

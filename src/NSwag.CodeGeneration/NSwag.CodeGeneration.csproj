@@ -93,6 +93,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="CodeGenerators\CSharp\Templates\JsonExceptionConverterTemplate.Extensions.cs" />
+    <Compile Include="CodeGenerators\TypeScript\Models\TypeScriptParameterModel.cs" />
     <Compile Include="CodeGenerators\OperationNameGenerators\IOperationNameGenerator.cs" />
     <Compile Include="CodeGenerators\Models\OperationModelBase.cs" />
     <Compile Include="CodeGenerators\Models\ParameterModel.cs" />

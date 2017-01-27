@@ -9,11 +9,12 @@
 using System.Collections.Generic;
 using NJsonSchema;
 using NSwag.CodeGeneration.CodeGenerators.CSharp.Models;
+using NSwag.CodeGeneration.CodeGenerators.Models;
 
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp
 {
     /// <summary>The CSharp generator base class.</summary>
-    public abstract class SwaggerToCSharpGeneratorBase : ClientGeneratorBase
+    public abstract class SwaggerToCSharpGeneratorBase : ClientGeneratorBase<ParameterModel>
     {
         private readonly SwaggerToCSharpGeneratorSettings _settings;
         private readonly SwaggerDocument _document;

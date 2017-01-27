@@ -1,15 +1,16 @@
 ﻿using System.Linq;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
+using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag.CodeGeneration.CodeGenerators.Models;
 
 namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
 {
     /// <summary>The TypeScript operation model.</summary>
-    public class TypeScriptOperationModel : OperationModelBase
+    public class TypeScriptOperationModel : OperationModelBase<TypeScriptParameterModel>
     {
         private readonly ClientGeneratorBaseSettings _settings;
-        private readonly ClientGeneratorBase _generator;
+        private readonly SwaggerToTypeScriptClientGenerator _generator;
         private readonly SwaggerOperation _operation;
 
         /// <summary>Initializes a new instance of the <see cref="TypeScriptOperationModel" /> class.</summary>
@@ -20,7 +21,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
         public TypeScriptOperationModel(
             SwaggerOperation operation, 
             ClientGeneratorBaseSettings settings, 
-            ClientGeneratorBase generator, 
+            SwaggerToTypeScriptClientGenerator generator, 
             ITypeResolver resolver)
             : base(null, operation, resolver, generator, settings)
         {
@@ -28,11 +29,11 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
             _settings = settings;
             _generator = generator;
 
-            // TODO: Duplicated code
+            // TODO: Improve call
             Parameters = _operation.ActualParameters.Select(parameter =>
-                new ParameterModel(ResolveParameterType(parameter), _operation, parameter, parameter.Name,
-                    GetParameterVariableName(parameter, _operation.Parameters), _settings.CodeGeneratorSettings,
-                    _generator))
+                new TypeScriptParameterModel(ResolveParameterType(parameter), _operation, parameter, parameter.Name,
+                    GetParameterVariableName(parameter, _operation.Parameters), (SwaggerToTypeScriptClientGeneratorSettings)_settings,
+                    _generator, (TypeScriptTypeResolver)resolver))
                 .ToList();
         }
 

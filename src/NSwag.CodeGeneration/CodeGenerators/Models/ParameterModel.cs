@@ -18,7 +18,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         private readonly SwaggerOperation _operation;
         private readonly SwaggerParameter _parameter;
         private readonly CodeGeneratorSettingsBase _settings;
-        private readonly ClientGeneratorBase _clientGeneratorBase;
+        private readonly IClientGenerator _generator;
 
         /// <summary>Initializes a new instance of the <see cref="ParameterModel" /> class.</summary>
         /// <param name="typeName">The type name.</param>
@@ -27,18 +27,18 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         /// <param name="parameterName">Name of the parameter.</param>
         /// <param name="variableName">Name of the variable.</param>
         /// <param name="settings">The settings.</param>
-        /// <param name="clientGeneratorBase">The client generator base.</param>
+        /// <param name="generator">The client generator base.</param>
         public ParameterModel(string typeName, SwaggerOperation operation, SwaggerParameter parameter,
-            string parameterName, string variableName, CodeGeneratorSettingsBase settings, ClientGeneratorBase clientGeneratorBase)
+            string parameterName, string variableName, CodeGeneratorSettingsBase settings, IClientGenerator generator)
         {
             Type = typeName;
             Name = parameterName;
             VariableName = variableName;
 
             _operation = operation;
-             _parameter = parameter;
+            _parameter = parameter;
             _settings = settings;
-            _clientGeneratorBase = clientGeneratorBase;
+            _generator = generator;
         }
 
         /// <summary>Gets the type of the parameter.</summary>
@@ -83,7 +83,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         public bool IsDate =>
             (Schema.Format == JsonFormatStrings.DateTime ||
             Schema.Format == JsonFormatStrings.Date) &&
-            _clientGeneratorBase.GetTypeName(Schema, IsNullable, "Response") != "string";
+            _generator.GetTypeName(Schema, IsNullable, "Response") != "string";
 
         /// <summary>Gets a value indicating whether the parameter is of type array.</summary>
         public bool IsArray => Schema.Type.HasFlag(JsonObjectType.Array) || _parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi;
@@ -99,14 +99,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
             IsArray &&
             (Schema.Item?.ActualSchema.Format == JsonFormatStrings.DateTime ||
             Schema.Item?.ActualSchema.Format == JsonFormatStrings.Date) &&
-            _clientGeneratorBase.GetTypeName(Schema.Item.ActualSchema, IsNullable, "Response") != "string";
+            _generator.GetTypeName(Schema.Item.ActualSchema, IsNullable, "Response") != "string";
 
         /// <summary>Gets a value indicating whether the parameter is of type object array.</summary>
         public bool IsObjectArray => IsArray && (Schema.Item?.Type == JsonObjectType.Object || Schema.Item?.IsAnyType == true);
-
-        // TODO: Find way to remove TypeScript only properties
-
-        /// <summary>Gets or sets a value indicating whether to use a DTO class.</summary>
-        public bool UseDtoClass { get; set; } = false; // TODO: Calculate here!
     }
 }

@@ -6,8 +6,7 @@ using NSwag.CodeGeneration.CodeGenerators.Models;
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
 {
     /// <summary>The CSharp operation model.</summary>
-    /// <seealso cref="OperationModelBase" />
-    public class CSharpOperationModel : OperationModelBase
+    public class CSharpOperationModel : OperationModelBase<ParameterModel>
     {
         private static readonly string[] ReservedKeywords =
         {
