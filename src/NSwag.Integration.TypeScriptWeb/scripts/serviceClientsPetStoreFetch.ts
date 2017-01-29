@@ -24,14 +24,17 @@ export class Client {
         let url_ = this.baseUrl + "/pet";
 
         const content_ = JSON.stringify(body ? body.toJS() : null);
-        return this.http.fetch(url_, {
+
+        let options_ = <RequestInit>{
             body: content_,
             method: "POST",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processAddPet(response);
         });
     }
@@ -57,14 +60,17 @@ export class Client {
         let url_ = this.baseUrl + "/pet";
 
         const content_ = JSON.stringify(body ? body.toJS() : null);
-        return this.http.fetch(url_, {
+
+        let options_ = <RequestInit>{
             body: content_,
             method: "PUT",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processUpdatePet(response);
         });
     }
@@ -98,13 +104,15 @@ export class Client {
         else
             status.forEach(item => { url_ += "status=" + encodeURIComponent("" + item) + "&"; });
 
-        return this.http.fetch(url_, {
+        let options_ = <RequestInit>{
             method: "GET",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processFindPetsByStatus(response);
         });
     }
@@ -144,13 +152,15 @@ export class Client {
         else
             tags.forEach(item => { url_ += "tags=" + encodeURIComponent("" + item) + "&"; });
 
-        return this.http.fetch(url_, {
+        let options_ = <RequestInit>{
             method: "GET",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processFindPetsByTags(response);
         });
     }
@@ -188,13 +198,15 @@ export class Client {
             throw new Error("The parameter 'petId' must be defined.");
         url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
 
-        return this.http.fetch(url_, {
+        let options_ = <RequestInit>{
             method: "GET",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processGetPetById(response);
         });
     }
@@ -236,13 +248,16 @@ export class Client {
             content_.append("name", name.toString());
         if (status !== null)
             content_.append("status", status.toString());
-        return this.http.fetch(url_, {
+
+        let options_ = <RequestInit>{
             body: content_,
             method: "POST",
             headers: {
-                'Content-Type': undefined
+                'Content-Type': <string>undefined
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processUpdatePetWithForm(response);
         });
     }
@@ -271,15 +286,18 @@ export class Client {
         url_ = url_.replace("{petId}", encodeURIComponent("" + petId));
 
         const content_ = "";
-        return this.http.fetch(url_, {
+
+        let options_ = <RequestInit>{
             body: content_,
             method: "DELETE",
             headers: {
                 "api_key": api_key, 
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processDeletePet(response);
         });
     }
@@ -317,13 +335,16 @@ export class Client {
             content_.append("additionalMetadata", additionalMetadata.toString());
         if (file !== null)
             content_.append("file", file.data, file.fileName ? file.fileName : "file");
-        return this.http.fetch(url_, {
+
+        let options_ = <RequestInit>{
             body: content_,
             method: "POST",
             headers: {
-                'Content-Type': undefined
+                'Content-Type': <string>undefined
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processUploadFile(response);
         });
     }
@@ -351,13 +372,15 @@ export class Client {
     getInventory(): Promise<{ [key: string] : number; }> {
         let url_ = this.baseUrl + "/store/inventory";
 
-        return this.http.fetch(url_, {
+        let options_ = <RequestInit>{
             method: "GET",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processGetInventory(response);
         });
     }
@@ -393,14 +416,17 @@ export class Client {
         let url_ = this.baseUrl + "/store/order";
 
         const content_ = JSON.stringify(body ? body.toJS() : null);
-        return this.http.fetch(url_, {
+
+        let options_ = <RequestInit>{
             body: content_,
             method: "POST",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processPlaceOrder(response);
         });
     }
@@ -434,13 +460,15 @@ export class Client {
             throw new Error("The parameter 'orderId' must be defined.");
         url_ = url_.replace("{orderId}", encodeURIComponent("" + orderId));
 
-        return this.http.fetch(url_, {
+        let options_ = <RequestInit>{
             method: "GET",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processGetOrderById(response);
         });
     }
@@ -476,14 +504,17 @@ export class Client {
         url_ = url_.replace("{orderId}", encodeURIComponent("" + orderId));
 
         const content_ = "";
-        return this.http.fetch(url_, {
+
+        let options_ = <RequestInit>{
             body: content_,
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processDeleteOrder(response);
         });
     }
@@ -512,14 +543,17 @@ export class Client {
         let url_ = this.baseUrl + "/user";
 
         const content_ = JSON.stringify(body ? body.toJS() : null);
-        return this.http.fetch(url_, {
+
+        let options_ = <RequestInit>{
             body: content_,
             method: "POST",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processCreateUser(response);
         });
     }
@@ -548,14 +582,17 @@ export class Client {
                 contentData_.push(item.toJS());
         }
         const content_ = JSON.stringify(body ? contentData_ : null);
-        return this.http.fetch(url_, {
+
+        let options_ = <RequestInit>{
             body: content_,
             method: "POST",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processCreateUsersWithArrayInput(response);
         });
     }
@@ -584,14 +621,17 @@ export class Client {
                 contentData_.push(item.toJS());
         }
         const content_ = JSON.stringify(body ? contentData_ : null);
-        return this.http.fetch(url_, {
+
+        let options_ = <RequestInit>{
             body: content_,
             method: "POST",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processCreateUsersWithListInput(response);
         });
     }
@@ -624,13 +664,15 @@ export class Client {
         else
             url_ += "password=" + encodeURIComponent("" + password) + "&";
 
-        return this.http.fetch(url_, {
+        let options_ = <RequestInit>{
             method: "GET",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processLoginUser(response);
         });
     }
@@ -660,13 +702,15 @@ export class Client {
     logoutUser(): Promise<void> {
         let url_ = this.baseUrl + "/user/logout";
 
-        return this.http.fetch(url_, {
+        let options_ = <RequestInit>{
             method: "GET",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processLogoutUser(response);
         });
     }
@@ -692,13 +736,15 @@ export class Client {
             throw new Error("The parameter 'username' must be defined.");
         url_ = url_.replace("{username}", encodeURIComponent("" + username));
 
-        return this.http.fetch(url_, {
+        let options_ = <RequestInit>{
             method: "GET",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processGetUserByName(response);
         });
     }
@@ -735,14 +781,17 @@ export class Client {
         url_ = url_.replace("{username}", encodeURIComponent("" + username));
 
         const content_ = JSON.stringify(body ? body.toJS() : null);
-        return this.http.fetch(url_, {
+
+        let options_ = <RequestInit>{
             body: content_,
             method: "PUT",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processUpdateUser(response);
         });
     }
@@ -773,14 +822,17 @@ export class Client {
         url_ = url_.replace("{username}", encodeURIComponent("" + username));
 
         const content_ = "";
-        return this.http.fetch(url_, {
+
+        let options_ = <RequestInit>{
             body: content_,
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processDeleteUser(response);
         });
     }

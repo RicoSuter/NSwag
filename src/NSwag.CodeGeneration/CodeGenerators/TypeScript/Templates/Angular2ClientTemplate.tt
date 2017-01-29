@@ -34,7 +34,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 <#  if(Model.UseTransformOptionsMethod){#>
 
     protected transformOptions(options: RequestOptionsArgs) {
-        return options; 
+        return Promise.resolve(options); 
     }
 <#  }#>
 <#  if(Model.UseTransformResultMethod){#>
@@ -58,7 +58,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 
         <#=TemplatePartGenerator.RenderRequestBodyCode(operation, 2)#>
         
-        return this.http.request(url_, <#if(Model.UseTransformOptionsMethod){#>this.transformOptions(<#}#>{
+        let options_ = {
             body: content_,
             method: "<#=operation.HttpMethodLower#>",
             headers: new Headers({
@@ -68,10 +68,18 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 <#if(operation.HasFormParameters){#>                'Content-Type': undefined, 
 <#}else{#>
                 "Content-Type": "<#=operation.Consumes#>; charset=UTF-8", 
-				"Accept": "<#=operation.Produces#>; charset=UTF-8"
+                "Accept": "<#=operation.Produces#>; charset=UTF-8"
 <#}#>
             })
-        }<#if(Model.UseTransformOptionsMethod){#>)<#}#>).map((response) => {
+        };
+
+<#if(Model.UseTransformOptionsMethod){#>
+        return Observable.fromPromise(this.transformOptions(options_)).concatMap(transformedOptions_ => {
+            return this.http.request(url_, transformedOptions_);
+        }).map((response) => {
+<#}else{#>
+        return this.http.request(url_, options_).map((response) => {
+<#}#>
 <#if(Model.UseTransformResultMethod){#>
             return this.transformResult(url_, response, (response) => this.process<#=operation.OperationNameUpper#>(response));
 <#}else{#>

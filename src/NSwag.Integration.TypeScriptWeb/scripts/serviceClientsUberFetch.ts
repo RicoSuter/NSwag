@@ -34,13 +34,15 @@ export class Client {
         else
             url_ += "longitude=" + encodeURIComponent("" + longitude) + "&";
 
-        return this.http.fetch(url_, {
+        let options_ = <RequestInit>{
             method: "GET",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processProducts(response);
         });
     }
@@ -97,13 +99,15 @@ export class Client {
         else
             url_ += "end_longitude=" + encodeURIComponent("" + end_longitude) + "&";
 
-        return this.http.fetch(url_, {
+        let options_ = <RequestInit>{
             method: "GET",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processPrice(response);
         });
     }
@@ -158,13 +162,15 @@ export class Client {
         
             url_ += "product_id=" + encodeURIComponent("" + product_id) + "&";
 
-        return this.http.fetch(url_, {
+        let options_ = <RequestInit>{
             method: "GET",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processTime(response);
         });
     }
@@ -198,13 +204,15 @@ export class Client {
     me(): Promise<Profile> {
         let url_ = this.baseUrl + "/me";
 
-        return this.http.fetch(url_, {
+        let options_ = <RequestInit>{
             method: "GET",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processMe(response);
         });
     }
@@ -243,13 +251,15 @@ export class Client {
         
             url_ += "limit=" + encodeURIComponent("" + limit) + "&";
 
-        return this.http.fetch(url_, {
+        let options_ = <RequestInit>{
             method: "GET",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processHistory(response);
         });
     }
