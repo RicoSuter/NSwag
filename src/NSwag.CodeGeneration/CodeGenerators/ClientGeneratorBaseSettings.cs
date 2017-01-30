@@ -12,7 +12,7 @@ using NSwag.CodeGeneration.CodeGenerators.OperationNameGenerators;
 
 namespace NSwag.CodeGeneration.CodeGenerators
 {
-    /// <summary>Settings for the <see cref="ClientGeneratorBase"/>.</summary>
+    /// <summary>Settings for the ClientGeneratorBase.</summary>
     public abstract class ClientGeneratorBaseSettings
     {
         /// <summary>Initializes a new instance of the <see cref="ClientGeneratorBaseSettings"/> class.</summary>

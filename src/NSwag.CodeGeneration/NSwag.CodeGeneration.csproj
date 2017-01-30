@@ -65,6 +65,7 @@
     <Compile Include="CodeGenerators\CSharp\Models\CSharpFileTemplateModel.cs" />
     <Compile Include="CodeGenerators\CSharp\Models\CSharpControllerTemplateModel.cs" />
     <Compile Include="CodeGenerators\CSharp\Models\CSharpClientTemplateModel.cs" />
+    <Compile Include="CodeGenerators\CSharp\Models\CSharpParameterModel.cs" />
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpClientGeneratorSettings.cs" />
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpGeneratorBase.cs" />
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpGeneratorSettings.cs" />
@@ -93,11 +94,14 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="CodeGenerators\CSharp\Templates\JsonExceptionConverterTemplate.Extensions.cs" />
+    <Compile Include="CodeGenerators\CSharp\Models\CSharpResponseModel.cs" />
+    <Compile Include="CodeGenerators\IClientGenerator.cs" />
+    <Compile Include="CodeGenerators\TypeScript\Models\TypeScriptResponseModel.cs" />
     <Compile Include="CodeGenerators\TypeScript\Models\TypeScriptParameterModel.cs" />
     <Compile Include="CodeGenerators\OperationNameGenerators\IOperationNameGenerator.cs" />
     <Compile Include="CodeGenerators\Models\OperationModelBase.cs" />
-    <Compile Include="CodeGenerators\Models\ParameterModel.cs" />
-    <Compile Include="CodeGenerators\Models\ResponseModel.cs" />
+    <Compile Include="CodeGenerators\Models\ParameterModelBase.cs" />
+    <Compile Include="CodeGenerators\Models\ResponseModelBase.cs" />
     <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpClientGenerator.cs" />
     <Compile Include="CodeGenerators\ClientGeneratorBase.cs" />
     <Compile Include="CodeGenerators\OperationNameGenerators\MultipleClientsFromOperationIdOperationNameGenerator.cs" />
@@ -109,7 +113,7 @@
     <Compile Include="CodeGenerators\TypeScript\Models\TypeScriptClientTemplateModel.cs" />
     <Compile Include="CodeGenerators\TypeScript\Models\TypeScriptOperationModel.cs" />
     <Compile Include="CodeGenerators\TypeScript\PromiseType.cs" />
-    <Compile Include="CodeGenerators\TypeScript\TemplatePartGenerator.cs" />
+    <Compile Include="CodeGenerators\TypeScript\TypeScriptTemplatePartGenerator.cs" />
     <Compile Include="CodeGenerators\TypeScript\SwaggerToTypeScriptClientGeneratorSettings.cs" />
     <Compile Include="CodeGenerators\TypeScript\Templates\FetchClientTemplate.cs">
       <DependentUpon>FetchClientTemplate.tt</DependentUpon>

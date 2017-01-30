@@ -54,9 +54,9 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
 <#}#>    <#=operation.OperationNameLower#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): Observable<<#=operation.ResultType#>> {
-        <#=TemplatePartGenerator.RenderRequestUrlCode(operation, 2)#>
+        <#=TypeScriptTemplatePartGenerator.RenderRequestUrlCode(operation, 2)#>
 
-        <#=TemplatePartGenerator.RenderRequestBodyCode(operation, 2)#>
+        <#=TypeScriptTemplatePartGenerator.RenderRequestBodyCode(operation, 2)#>
         
         return this.http.request(url_, <#if(Model.UseTransformOptionsMethod){#>this.transformOptions(<#}#>{
             body: content_,
@@ -97,10 +97,10 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
         const responseText = response.text();
         const status = response.status; 
 
-        <#=TemplatePartGenerator.RenderProcessResponseCode(operation, 2)#>
+        <#=TypeScriptTemplatePartGenerator.RenderProcessResponseCode(operation, 2)#>
     }
 <#}#>
 
-    <#=TemplatePartGenerator.RenderClientMethodsCode(Model, 1)#>
+    <#=TypeScriptTemplatePartGenerator.RenderClientMethodsCode(Model, 1)#>
 }
 <#}#>

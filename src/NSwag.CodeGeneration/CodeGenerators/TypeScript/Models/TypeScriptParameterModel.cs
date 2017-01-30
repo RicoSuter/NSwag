@@ -1,13 +1,18 @@
-using NJsonSchema.CodeGeneration.TypeScript;
-using NSwag.CodeGeneration.CodeGenerators.TypeScript;
+//-----------------------------------------------------------------------
+// <copyright file="TypeScriptParameterModel.cs" company="NSwag">
+//     Copyright (c) Rico Suter. All rights reserved.
+// </copyright>
+// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <author>Rico Suter, mail@rsuter.com</author>
+//-----------------------------------------------------------------------
 
-namespace NSwag.CodeGeneration.CodeGenerators.Models
+using NJsonSchema.CodeGeneration.TypeScript;
+using NSwag.CodeGeneration.CodeGenerators.Models;
+
+namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <seealso cref="NSwag.CodeGeneration.CodeGenerators.Models.ParameterModel" />
-    public class TypeScriptParameterModel : ParameterModel
+    /// <summary>The TypeScript parameter model.</summary>
+    public class TypeScriptParameterModel : ParameterModelBase
     {
         private readonly TypeScriptTypeResolver _resolver;
         private readonly SwaggerToTypeScriptClientGeneratorSettings _settings;

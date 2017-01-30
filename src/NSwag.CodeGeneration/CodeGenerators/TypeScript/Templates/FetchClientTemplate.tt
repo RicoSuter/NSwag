@@ -56,10 +56,10 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
 <#}#>    <#=operation.OperationNameLower#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): Promise<<#=operation.ResultType#>> {
-        <#=TemplatePartGenerator.RenderRequestUrlCode(operation, 2)#>
+        <#=TypeScriptTemplatePartGenerator.RenderRequestUrlCode(operation, 2)#>
 
 <#if(!operation.IsGetOrHead){#>
-        <#=TemplatePartGenerator.RenderRequestBodyCode(operation, 2)#>
+        <#=TypeScriptTemplatePartGenerator.RenderRequestBodyCode(operation, 2)#>
 <#}#>
         return this.http.fetch(url_, <#if(Model.UseTransformOptionsMethod){#>this.transformOptions(<#}#>{
 <#if(!operation.IsGetOrHead){#>
@@ -89,11 +89,11 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
         return response.text().then((responseText) => {
             const status = response.status; 
 
-            <#=TemplatePartGenerator.RenderProcessResponseCode(operation, 3)#>
+            <#=TypeScriptTemplatePartGenerator.RenderProcessResponseCode(operation, 3)#>
         });
     }
 <#}#>
 
-    <#=TemplatePartGenerator.RenderClientMethodsCode(Model, 1)#>
+    <#=TypeScriptTemplatePartGenerator.RenderClientMethodsCode(Model, 1)#>
 }
 <#}#>

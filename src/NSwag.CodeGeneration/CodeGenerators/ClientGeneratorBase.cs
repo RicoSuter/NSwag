@@ -14,25 +14,17 @@ using NSwag.CodeGeneration.CodeGenerators.Models;
 
 namespace NSwag.CodeGeneration.CodeGenerators
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public interface IClientGenerator
-    {
-        /// <summary>Gets the type.</summary>
-        /// <param name="schema">The schema.</param>
-        /// <param name="isNullable">if set to <c>true</c> [is nullable].</param>
-        /// <param name="typeNameHint">The type name hint.</param>
-        /// <returns>The type name.</returns>
-        string GetTypeName(JsonSchema4 schema, bool isNullable, string typeNameHint);
-    }
-
     /// <summary>The client generator base.</summary>
+    /// <typeparam name="TOperationModel">The type of the operation model.</typeparam>
     /// <typeparam name="TParameterModel">The type of the parameter model.</typeparam>
-    public abstract class ClientGeneratorBase<TParameterModel> : IClientGenerator
-        where TParameterModel : ParameterModel
+    /// <typeparam name="TResponseModel">The type of the response model.</typeparam>
+    /// <seealso cref="NSwag.CodeGeneration.CodeGenerators.IClientGenerator" />
+    public abstract class ClientGeneratorBase<TOperationModel, TParameterModel, TResponseModel> : IClientGenerator
+        where TOperationModel : OperationModelBase<TParameterModel, TResponseModel>
+        where TResponseModel : ResponseModelBase
+        where TParameterModel : ParameterModelBase
     {
-        /// <summary>Initializes a new instance of the <see cref="ClientGeneratorBase{TParameterModel}"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="ClientGeneratorBase{TOperationModel, TParameterModel, TResponseModel}"/> class.</summary>
         /// <param name="resolver">The type resolver.</param>
         /// <param name="codeGeneratorSettings">The code generator settings.</param>
         protected ClientGeneratorBase(ITypeResolver resolver, CodeGeneratorSettingsBase codeGeneratorSettings)
@@ -71,13 +63,13 @@ namespace NSwag.CodeGeneration.CodeGenerators
         /// <param name="operations">The operations.</param>
         /// <param name="outputType">Type of the output.</param>
         /// <returns>The code.</returns>
-        protected abstract string GenerateClientClass(string controllerName, string controllerClassName, IList<OperationModelBase<TParameterModel>> operations, ClientGeneratorOutputType outputType);
+        protected abstract string GenerateClientClass(string controllerName, string controllerClassName, IList<TOperationModel> operations, ClientGeneratorOutputType outputType);
 
         /// <summary>Creates an operation model.</summary>
         /// <param name="operation">The operation.</param>
         /// <param name="settings">The settings.</param>
         /// <returns>The operation model.</returns>
-        protected abstract OperationModelBase<TParameterModel> CreateOperationModel(SwaggerOperation operation, ClientGeneratorBaseSettings settings);
+        protected abstract TOperationModel CreateOperationModel(SwaggerOperation operation, ClientGeneratorBaseSettings settings);
 
         /// <summary>Generates the file.</summary>
         /// <param name="document">The document.</param>
@@ -113,7 +105,7 @@ namespace NSwag.CodeGeneration.CodeGenerators
                 .Replace("\n\n\n", "\n\n");
         }
 
-        private List<OperationModelBase<TParameterModel>> GetOperations(SwaggerDocument document)
+        private List<TOperationModel> GetOperations(SwaggerDocument document)
         {
             document.GenerateOperationIds();
 

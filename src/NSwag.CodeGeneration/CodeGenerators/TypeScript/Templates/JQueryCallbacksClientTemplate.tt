@@ -52,9 +52,9 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
 <#}#>    <#=operation.OperationNameLower#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>: <#=parameter.Type#>, <#}#>onSuccess?: (<#if(operation.HasResultType){#>result: <#=operation.ResultType#><#}#>) => void, onFail?: (exception: <#=operation.ExceptionType#>, reason: string) => void) {
-        <#=TemplatePartGenerator.RenderRequestUrlCode(operation, 2)#>
+        <#=TypeScriptTemplatePartGenerator.RenderRequestUrlCode(operation, 2)#>
 
-        <#=TemplatePartGenerator.RenderRequestBodyCode(operation, 2)#>
+        <#=TypeScriptTemplatePartGenerator.RenderRequestBodyCode(operation, 2)#>
 
         jQuery.ajax(<#if(Model.UseTransformOptionsMethod){#>this.transformOptions(<#}#>{
             url: url_,
@@ -99,10 +99,10 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
         const responseText = xhr.responseText; 
         const status = xhr.status; 
 
-        <#=TemplatePartGenerator.RenderProcessResponseCode(operation, 2)#>
+        <#=TypeScriptTemplatePartGenerator.RenderProcessResponseCode(operation, 2)#>
     }
 <#}#>
 
-    <#=TemplatePartGenerator.RenderClientMethodsCode(Model, 1)#>
+    <#=TypeScriptTemplatePartGenerator.RenderClientMethodsCode(Model, 1)#>
 }
 <#}#>

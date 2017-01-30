@@ -7,14 +7,13 @@
 //-----------------------------------------------------------------------
 
 using NJsonSchema;
-using NSwag.CodeGeneration.CodeGenerators.Models;
 using NSwag.CodeGeneration.CodeGenerators.TypeScript.Models;
 using NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates;
 
 namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 {
     /// <summary>Generates the code to process the response.</summary>
-    public class TemplatePartGenerator
+    public class TypeScriptTemplatePartGenerator
     {
         /// <summary>Renders the client class helper methods.</summary>
         /// <param name="model">The model.</param>
@@ -30,7 +29,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         /// <param name="operation">The operation.</param>
         /// <param name="tabCount">The tab count.</param>
         /// <returns>Rendered request body</returns>
-        public static string RenderRequestUrlCode(OperationModelBase operation, int tabCount = 0)
+        public static string RenderRequestUrlCode(TypeScriptOperationModel operation, int tabCount = 0)
         {
             var tpl = new RequestUrlTemplate(operation);
             return ConversionUtilities.Tab(tpl.Render(), tabCount);
@@ -40,7 +39,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         /// <param name="operation">The operation.</param>
         /// <param name="tabCount">The tab count.</param>
         /// <returns>Rendered request body</returns>
-        public static string RenderRequestBodyCode(OperationModelBase operation, int tabCount = 0)
+        public static string RenderRequestBodyCode(TypeScriptOperationModel operation, int tabCount = 0)
         {
             var tpl = new RequestBodyTemplate(operation);
             return ConversionUtilities.Tab(tpl.Render(), tabCount);
@@ -50,7 +49,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         /// <param name="operation">The operation.</param>
         /// <param name="tabCount">The tab count.</param>
         /// <returns>Rendered request body</returns>
-        public static string RenderProcessResponseCode(OperationModelBase operation, int tabCount = 0)
+        public static string RenderProcessResponseCode(TypeScriptOperationModel operation, int tabCount = 0)
         {
             var tpl = new ProcessResponseTemplate(operation);
             return ConversionUtilities.Tab(tpl.Render(), tabCount);

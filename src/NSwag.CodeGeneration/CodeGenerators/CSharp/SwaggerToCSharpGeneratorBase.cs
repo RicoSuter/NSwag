@@ -14,7 +14,7 @@ using NSwag.CodeGeneration.CodeGenerators.Models;
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp
 {
     /// <summary>The CSharp generator base class.</summary>
-    public abstract class SwaggerToCSharpGeneratorBase : ClientGeneratorBase<ParameterModel>
+    public abstract class SwaggerToCSharpGeneratorBase : ClientGeneratorBase<CSharpOperationModel, CSharpParameterModel, CSharpResponseModel>
     {
         private readonly SwaggerToCSharpGeneratorSettings _settings;
         private readonly SwaggerDocument _document;

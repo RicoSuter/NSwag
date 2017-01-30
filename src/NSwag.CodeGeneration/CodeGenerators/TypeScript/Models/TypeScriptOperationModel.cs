@@ -7,7 +7,7 @@ using NSwag.CodeGeneration.CodeGenerators.Models;
 namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
 {
     /// <summary>The TypeScript operation model.</summary>
-    public class TypeScriptOperationModel : OperationModelBase<TypeScriptParameterModel>
+    public class TypeScriptOperationModel : OperationModelBase<TypeScriptParameterModel, TypeScriptResponseModel>
     {
         private readonly ClientGeneratorBaseSettings _settings;
         private readonly SwaggerToTypeScriptClientGenerator _generator;
@@ -70,6 +70,20 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Models
             }
 
             return base.ResolveParameterType(parameter);
+        }
+
+        /// <summary>Creates the response model.</summary>
+        /// <param name="statusCode">The status code.</param>
+        /// <param name="response">The response.</param>
+        /// <param name="exceptionSchema">The exception schema.</param>
+        /// <param name="isSuccess"></param>
+        /// <param name="generator">The generator.</param>
+        /// <param name="settings">The settings.</param>
+        /// <returns></returns>
+        protected override TypeScriptResponseModel CreateResponseModel(string statusCode, SwaggerResponse response, JsonSchema4 exceptionSchema,
+            bool isSuccess, IClientGenerator generator, ClientGeneratorBaseSettings settings)
+        {
+            return new TypeScriptResponseModel(statusCode, response, exceptionSchema, isSuccess, (TypeScriptGeneratorSettings) settings.CodeGeneratorSettings, generator);
         }
     }
 }

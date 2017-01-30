@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="ParameterModel.cs" company="NSwag">
+// <copyright file="ParameterModelBase.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -13,14 +13,14 @@ using NJsonSchema.CodeGeneration;
 namespace NSwag.CodeGeneration.CodeGenerators.Models
 {
     /// <summary>The parameter template model.</summary>
-    public class ParameterModel
+    public abstract class ParameterModelBase
     {
         private readonly SwaggerOperation _operation;
         private readonly SwaggerParameter _parameter;
         private readonly CodeGeneratorSettingsBase _settings;
         private readonly IClientGenerator _generator;
 
-        /// <summary>Initializes a new instance of the <see cref="ParameterModel" /> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="ParameterModelBase" /> class.</summary>
         /// <param name="typeName">The type name.</param>
         /// <param name="operation">The operation.</param>
         /// <param name="parameter">The parameter.</param>
@@ -28,7 +28,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         /// <param name="variableName">Name of the variable.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="generator">The client generator base.</param>
-        public ParameterModel(string typeName, SwaggerOperation operation, SwaggerParameter parameter,
+        protected ParameterModelBase(string typeName, SwaggerOperation operation, SwaggerParameter parameter,
             string parameterName, string variableName, CodeGeneratorSettingsBase settings, IClientGenerator generator)
         {
             Type = typeName;

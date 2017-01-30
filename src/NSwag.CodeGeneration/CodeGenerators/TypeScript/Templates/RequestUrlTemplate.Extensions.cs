@@ -1,17 +1,25 @@
-﻿using NJsonSchema;
+﻿//-----------------------------------------------------------------------
+// <copyright file="RequestUrlTemplate.cs" company="NSwag">
+//     Copyright (c) Rico Suter. All rights reserved.
+// </copyright>
+// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <author>Rico Suter, mail@rsuter.com</author>
+//-----------------------------------------------------------------------
+
+using NJsonSchema;
 using NJsonSchema.CodeGeneration;
-using NSwag.CodeGeneration.CodeGenerators.Models;
+using NSwag.CodeGeneration.CodeGenerators.TypeScript.Models;
 
 namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates
 {
     internal partial class RequestUrlTemplate : ITemplate
     {
-        public RequestUrlTemplate(OperationModelBase model)
+        public RequestUrlTemplate(TypeScriptOperationModel model)
         {
             Model = model;
         }
 
-        public OperationModelBase Model { get; }
+        public TypeScriptOperationModel Model { get; }
 
         public string Render()
         {

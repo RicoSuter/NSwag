@@ -1,4 +1,12 @@
-﻿using System.Collections.Generic;
+﻿//-----------------------------------------------------------------------
+// <copyright file="CSharpOperationModel.cs" company="NSwag">
+//     Copyright (c) Rico Suter. All rights reserved.
+// </copyright>
+// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <author>Rico Suter, mail@rsuter.com</author>
+//-----------------------------------------------------------------------
+
+using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
 using NSwag.CodeGeneration.CodeGenerators.Models;
@@ -6,7 +14,7 @@ using NSwag.CodeGeneration.CodeGenerators.Models;
 namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
 {
     /// <summary>The CSharp operation model.</summary>
-    public class CSharpOperationModel : OperationModelBase<ParameterModel>
+    public class CSharpOperationModel : OperationModelBase<CSharpParameterModel, CSharpResponseModel>
     {
         private static readonly string[] ReservedKeywords =
         {
@@ -28,9 +36,9 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
         /// <param name="generator">The generator.</param>
         /// <param name="resolver">The resolver.</param>
         public CSharpOperationModel(
-            SwaggerOperation operation, 
-            ClientGeneratorBaseSettings settings, 
-            SwaggerToCSharpGeneratorBase generator, 
+            SwaggerOperation operation,
+            ClientGeneratorBaseSettings settings,
+            SwaggerToCSharpGeneratorBase generator,
             SwaggerToCSharpTypeResolver resolver)
             : base(resolver.ExceptionSchema, operation, resolver, generator, settings)
         {
@@ -40,7 +48,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
 
             // TODO: Duplicated code
             Parameters = _operation.ActualParameters.Select(parameter =>
-                new ParameterModel(ResolveParameterType(parameter), _operation, parameter, parameter.Name,
+                new CSharpParameterModel(ResolveParameterType(parameter), _operation, parameter, parameter.Name,
                     GetParameterVariableName(parameter, _operation.Parameters), _settings.CodeGeneratorSettings,
                     _generator))
                 .ToList();
@@ -105,6 +113,20 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
             return base.ResolveParameterType(parameter)
                 .Replace(_settings.CSharpGeneratorSettings.ArrayType + "<", "System.Collections.Generic.IEnumerable<")
                 .Replace(_settings.CSharpGeneratorSettings.DictionaryType + "<", "System.Collections.Generic.IDictionary<");
+        }
+
+        /// <summary>Creates the response model.</summary>
+        /// <param name="statusCode">The status code.</param>
+        /// <param name="response">The response.</param>
+        /// <param name="exceptionSchema">The exception schema.</param>
+        /// <param name="isSuccess">if set to <c>true</c> [is success].</param>
+        /// <param name="generator">The generator.</param>
+        /// <param name="settings">The settings.</param>
+        /// <returns></returns>
+        protected override CSharpResponseModel CreateResponseModel(string statusCode, SwaggerResponse response, JsonSchema4 exceptionSchema, bool isSuccess, IClientGenerator generator, ClientGeneratorBaseSettings settings)
+        {
+            // TODO: Refactor method parameters (order)
+            return new CSharpResponseModel(statusCode, response, exceptionSchema, isSuccess, settings.CodeGeneratorSettings, generator);
         }
     }
 }

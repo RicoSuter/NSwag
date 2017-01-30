@@ -11,13 +11,12 @@ using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration.TypeScript;
-using NSwag.CodeGeneration.CodeGenerators.Models;
 using NSwag.CodeGeneration.CodeGenerators.TypeScript.Models;
 
 namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 {
     /// <summary>Generates the CSharp service client code. </summary>
-    public class SwaggerToTypeScriptClientGenerator : ClientGeneratorBase<TypeScriptParameterModel>
+    public class SwaggerToTypeScriptClientGenerator : ClientGeneratorBase<TypeScriptOperationModel, TypeScriptParameterModel, TypeScriptResponseModel>
     {
         private readonly SwaggerDocument _document;
         private readonly TypeScriptTypeResolver _resolver;
@@ -104,11 +103,11 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         /// <param name="operations">The operations.</param>
         /// <param name="outputType">Type of the output.</param>
         /// <returns>The code.</returns>
-        protected override string GenerateClientClass(string controllerName, string controllerClassName, IList<OperationModelBase<TypeScriptParameterModel>> operations, ClientGeneratorOutputType outputType)
+        protected override string GenerateClientClass(string controllerName, string controllerClassName, IList<TypeScriptOperationModel> operations, ClientGeneratorOutputType outputType)
         {
             UpdateUseDtoClassAndDataConversionCodeProperties(operations);
 
-            var model = new TypeScriptClientTemplateModel(GetClassName(controllerClassName), operations.OfType<TypeScriptOperationModel>(), _document, Settings);
+            var model = new TypeScriptClientTemplateModel(GetClassName(controllerClassName), operations, _document, Settings);
             var template = Settings.CreateTemplate(model);
             var code = template.Render();
 
@@ -130,7 +129,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
         /// <param name="operation"></param>
         /// <param name="settings">The settings.</param>
         /// <returns>The operation model.</returns>
-        protected override OperationModelBase<TypeScriptParameterModel> CreateOperationModel(SwaggerOperation operation, ClientGeneratorBaseSettings settings)
+        protected override TypeScriptOperationModel CreateOperationModel(SwaggerOperation operation, ClientGeneratorBaseSettings settings)
         {
             return new TypeScriptOperationModel(operation, settings, this, Resolver);
         }
@@ -143,7 +142,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             return className;
         }
 
-        private void UpdateUseDtoClassAndDataConversionCodeProperties(IEnumerable<OperationModelBase<TypeScriptParameterModel>> operations)
+        private void UpdateUseDtoClassAndDataConversionCodeProperties(IEnumerable<TypeScriptOperationModel> operations)
         {
             // TODO: Remove this method => move to appropriate location
 
@@ -151,7 +150,6 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
             {
                 foreach (var response in operation.Responses.Where(r => r.HasType))
                 {
-                    response.UseDtoClass = Settings.TypeScriptGeneratorSettings.GetTypeStyle(response.Type) != TypeScriptTypeStyle.Interface;
                     response.DataConversionCode = DataConversionGenerator.RenderConvertToClassCode(new DataConversionParameters
                     {
                         Variable = "result" + response.StatusCode,
@@ -167,7 +165,6 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript
 
                 if (operation.HasDefaultResponse && operation.DefaultResponse.HasType)
                 {
-                    operation.DefaultResponse.UseDtoClass = Settings.TypeScriptGeneratorSettings.GetTypeStyle(operation.DefaultResponse.Type) != TypeScriptTypeStyle.Interface;
                     operation.DefaultResponse.DataConversionCode = DataConversionGenerator.RenderConvertToClassCode(new DataConversionParameters
                     {
                         Variable = "result",
