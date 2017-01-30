@@ -16,7 +16,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+    #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "14.0.0.0")]
     internal partial class RequestUrlTemplate : RequestUrlTemplateBase
     {
@@ -26,144 +26,143 @@ namespace NSwag.CodeGeneration.CodeGenerators.TypeScript.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("\n");
-            this.Write("\nlet url_ = this.baseUrl + \"/");
+            this.Write("let url_ = this.baseUrl + \"/");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 3 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.Path));
             
             #line default
             #line hidden
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 3 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
 if(Model.QueryParameters.Any()){
             
             #line default
             #line hidden
             this.Write("?");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 3 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("\";");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 3 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
 
 foreach(var parameter in Model.PathParameters){
             
             #line default
             #line hidden
-            this.Write("\nif (");
+            this.Write("if (");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 5 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             this.Write(" === undefined || ");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 5 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
-            this.Write(" === null)\n    throw new Error(\"The parameter \'");
+            this.Write(" === null)\r\n    throw new Error(\"The parameter \'");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 6 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             this.Write("\' must be defined.\");");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 6 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
 
   if(parameter.IsDateArray){
             
             #line default
             #line hidden
-            this.Write("\nurl_ = url_.replace(\"{");
+            this.Write("url_ = url_.replace(\"{");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 8 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
             
             #line default
             #line hidden
             this.Write("}\", encodeURIComponent(");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 8 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
-            this.Write(".map(s_ => s_.toJSON()).join())); \n");
+            this.Write(".map(s_ => s_.toJSON()).join())); \r\n");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 9 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
   }else if(parameter.IsDate){
             
             #line default
             #line hidden
-            this.Write("\nurl_ = url_.replace(\"{");
+            this.Write("url_ = url_.replace(\"{");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 10 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
             
             #line default
             #line hidden
             this.Write("}\", encodeURIComponent(\"\" + ");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 10 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
-            this.Write(".toJSON())); \n");
+            this.Write(".toJSON())); \r\n");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 11 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
   }else if(parameter.IsArray){
             
             #line default
             #line hidden
-            this.Write("\nurl_ = url_.replace(\"{");
+            this.Write("url_ = url_.replace(\"{");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 12 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
             
             #line default
             #line hidden
             this.Write("}\", encodeURIComponent(");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 12 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
-            this.Write(".join())); \n");
+            this.Write(".join())); \r\n");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 13 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
   }else{
             
             #line default
             #line hidden
-            this.Write("\nurl_ = url_.replace(\"{");
+            this.Write("url_ = url_.replace(\"{");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 14 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
             
             #line default
             #line hidden
             this.Write("}\", encodeURIComponent(\"\" + ");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 14 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
-            this.Write(")); \n");
+            this.Write(")); \r\n");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 15 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
   }
   }
   foreach(var parameter in Model.QueryParameters){
@@ -172,52 +171,52 @@ foreach(var parameter in Model.PathParameters){
             
             #line default
             #line hidden
-            this.Write("\nif (");
+            this.Write("if (");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 20 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
-            this.Write(" === undefined)\n    throw new Error(\"The parameter \'");
+            this.Write(" === undefined)\r\n    throw new Error(\"The parameter \'");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 21 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
-            this.Write("\' must be defined.\");\nelse");
+            this.Write("\' must be defined.\");\r\nelse");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 22 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
 
       }else{
             
             #line default
             #line hidden
-            this.Write("\nif (");
+            this.Write("if (");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 24 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             this.Write(" === undefined || ");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 24 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
-            this.Write(" === null)\n    throw new Error(\"The parameter \'");
+            this.Write(" === null)\r\n    throw new Error(\"The parameter \'");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 25 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
-            this.Write("\' must be defined and cannot be null.\");\nelse");
+            this.Write("\' must be defined and cannot be null.\");\r\nelse");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 26 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
 
       }
     }else{
@@ -225,44 +224,44 @@ foreach(var parameter in Model.PathParameters){
             
             #line default
             #line hidden
-            this.Write("\nif (");
+            this.Write("if (");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 30 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
-            this.Write(" !== undefined)\n");
+            this.Write(" !== undefined)\r\n");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 31 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
       }else{
             
             #line default
             #line hidden
-            this.Write("\nif (");
+            this.Write("if (");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 32 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
-            this.Write(" === null)\n    throw new Error(\"The parameter \'");
+            this.Write(" === null)\r\n    throw new Error(\"The parameter \'");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 33 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
-            this.Write("\' cannot be null.\");\nelse if (");
+            this.Write("\' cannot be null.\");\r\nelse if (");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 34 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             this.Write(" !== undefined)");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 34 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
       
 		}
     }
@@ -270,109 +269,109 @@ foreach(var parameter in Model.PathParameters){
             
             #line default
             #line hidden
-            this.Write("\n    ");
+            this.Write("    ");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 38 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             this.Write(".forEach(item => { url_ += \"");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 38 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
             
             #line default
             #line hidden
-            this.Write("=\" + encodeURIComponent(\"\" + item.toJSON()) + \"&\"; });\n");
+            this.Write("=\" + encodeURIComponent(\"\" + item.toJSON()) + \"&\"; });\r\n");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 39 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
   }else if(parameter.IsObjectArray){
             
             #line default
             #line hidden
-            this.Write("\n    ");
+            this.Write("    ");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 40 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
-            this.Write(".forEach((item, index) => { \n        for (let attr in item)\n            url_ += \"" +
-                    "");
+            this.Write(".forEach((item, index) => { \r\n        for (let attr in item)\r\n            url_ +=" +
+                    " \"");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 42 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
             
             #line default
             #line hidden
-            this.Write(" + \"[\" + index + \"].\" + attr + \"=\" + encodeURIComponent(\"\" + item[attr]) + \"&\";\n " +
-                    "   });\n");
+            this.Write("[\" + index + \"].\" + attr + \"=\" + encodeURIComponent(\"\" + item[attr]) + \"&\";\r\n    " +
+                    "});\r\n");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 44 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
   }else if(parameter.IsDate){
             
             #line default
             #line hidden
-            this.Write("\n    url_ += \"");
+            this.Write("    url_ += \"");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 45 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
             
             #line default
             #line hidden
             this.Write("=\" + encodeURIComponent(\"\" + ");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 45 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
-            this.Write(".toJSON()) + \"&\"; \n");
+            this.Write(".toJSON()) + \"&\"; \r\n");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 46 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
   }else if(parameter.IsArray){
             
             #line default
             #line hidden
-            this.Write("\n    ");
+            this.Write("    ");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 47 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             this.Write(".forEach(item => { url_ += \"");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 47 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
             
             #line default
             #line hidden
-            this.Write("=\" + encodeURIComponent(\"\" + item) + \"&\"; });\n");
+            this.Write("=\" + encodeURIComponent(\"\" + item) + \"&\"; });\r\n");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 48 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
   }else{
             
             #line default
             #line hidden
-            this.Write("\n    url_ += \"");
+            this.Write("    url_ += \"");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 49 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
             
             #line default
             #line hidden
             this.Write("=\" + encodeURIComponent(\"\" + ");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 49 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
-            this.Write(") + \"&\"; \n");
+            this.Write(") + \"&\"; \r\n");
             
-            #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
+            #line 50 "C:\Data\NSwag\src\NSwag.CodeGeneration\CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt"
   }
 }
             
