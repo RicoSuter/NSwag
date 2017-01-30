@@ -21,16 +21,18 @@ export class GeoClient {
 
         const content_ = JSON.stringify(location ? location.toJS() : null);
 
-        return this.http({
+        var options_ = <ng.IRequestConfig>{
             url: url_,
             method: "POST",
             data: content_,
             transformResponse: [], 
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http(options_).then((response) => {
             return this.processFromBodyTest(response);
         }, (response) => {
             if (response.status)
@@ -65,16 +67,18 @@ export class GeoClient {
 
         const content_ = "";
 
-        return this.http({
+        var options_ = <ng.IRequestConfig>{
             url: url_,
             method: "POST",
             data: content_,
             transformResponse: [], 
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http(options_).then((response) => {
             return this.processFromUriTest(response);
         }, (response) => {
             if (response.status)
@@ -105,16 +109,18 @@ export class GeoClient {
         }
         const content_ = JSON.stringify(points ? contentData_ : null);
 
-        return this.http({
+        var options_ = <ng.IRequestConfig>{
             url: url_,
             method: "POST",
             data: content_,
             transformResponse: [], 
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http(options_).then((response) => {
             return this.processAddPolygon(response);
         }, (response) => {
             if (response.status)
@@ -143,16 +149,18 @@ export class GeoClient {
 
         const content_ = "";
 
-        return this.http({
+        var options_ = <ng.IRequestConfig>{
             url: url_,
             method: "POST",
             data: content_,
             transformResponse: [], 
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http(options_).then((response) => {
             return this.processFilter(response);
         }, (response) => {
             if (response.status)
@@ -181,16 +189,18 @@ export class GeoClient {
 
         const content_ = "";
 
-        return this.http({
+        var options_ = <ng.IRequestConfig>{
             url: url_,
             method: "POST",
             data: content_,
             transformResponse: [], 
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http(options_).then((response) => {
             return this.processReverse(response);
         }, (response) => {
             if (response.status)
@@ -223,16 +233,18 @@ export class GeoClient {
 
         const content_ = "";
 
-        return this.http({
+        var options_ = <ng.IRequestConfig>{
             url: url_,
             method: "POST",
             data: content_,
             transformResponse: [], 
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http(options_).then((response) => {
             return this.processRefresh(response);
         }, (response) => {
             if (response.status)
@@ -260,16 +272,18 @@ export class GeoClient {
         if (file !== null)
             content_.append("file", file.data, file.fileName ? file.fileName : "file");
 
-        return this.http({
+        var options_ = <ng.IRequestConfig>{
             url: url_,
             method: "POST",
             data: content_,
             transformResponse: [], 
             headers: {
                 'Content-Type': undefined, 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http(options_).then((response) => {
             return this.processUploadFile(response);
         }, (response) => {
             if (response.status)
@@ -300,16 +314,18 @@ export class GeoClient {
         if (files !== null)
             files.forEach(item_ => content_.append("files", item_.data, item_.fileName ? item_.fileName : "files") );
 
-        return this.http({
+        var options_ = <ng.IRequestConfig>{
             url: url_,
             method: "POST",
             data: content_,
             transformResponse: [], 
             headers: {
                 'Content-Type': undefined, 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http(options_).then((response) => {
             return this.processUploadFiles(response);
         }, (response) => {
             if (response.status)
@@ -335,16 +351,18 @@ export class GeoClient {
 
         const content_ = JSON.stringify(request ? request.toJS() : null);
 
-        return this.http({
+        var options_ = <ng.IRequestConfig>{
             url: url_,
             method: "POST",
             data: content_,
             transformResponse: [], 
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http(options_).then((response) => {
             return this.processSaveItems(response);
         }, (response) => {
             if (response.status)
@@ -383,16 +401,18 @@ export class GeoClient {
 
         const content_ = "";
 
-        return this.http({
+        var options_ = <ng.IRequestConfig>{
             url: url_,
             method: "GET",
             data: content_,
             transformResponse: [], 
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http(options_).then((response) => {
             return this.processGetUploadedFile(response);
         }, (response) => {
             if (response.status)
@@ -439,16 +459,18 @@ export class PersonsClient {
 
         const content_ = "";
 
-        return this.http({
+        var options_ = <ng.IRequestConfig>{
             url: url_,
             method: "GET",
             data: content_,
             transformResponse: [], 
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http(options_).then((response) => {
             return this.processGetAll(response);
         }, (response) => {
             if (response.status)
@@ -481,16 +503,18 @@ export class PersonsClient {
 
         const content_ = JSON.stringify(person ? person.toJS() : null);
 
-        return this.http({
+        var options_ = <ng.IRequestConfig>{
             url: url_,
             method: "POST",
             data: content_,
             transformResponse: [], 
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http(options_).then((response) => {
             return this.processAdd(response);
         }, (response) => {
             if (response.status)
@@ -519,16 +543,18 @@ export class PersonsClient {
 
         const content_ = "";
 
-        return this.http({
+        var options_ = <ng.IRequestConfig>{
             url: url_,
             method: "POST",
             data: content_,
             transformResponse: [], 
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http(options_).then((response) => {
             return this.processFind(response);
         }, (response) => {
             if (response.status)
@@ -565,16 +591,18 @@ export class PersonsClient {
 
         const content_ = "";
 
-        return this.http({
+        var options_ = <ng.IRequestConfig>{
             url: url_,
             method: "POST",
             data: content_,
             transformResponse: [], 
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http(options_).then((response) => {
             return this.processFindOptional(response);
         }, (response) => {
             if (response.status)
@@ -610,16 +638,18 @@ export class PersonsClient {
 
         const content_ = "";
 
-        return this.http({
+        var options_ = <ng.IRequestConfig>{
             url: url_,
             method: "GET",
             data: content_,
             transformResponse: [], 
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http(options_).then((response) => {
             return this.processGet(response);
         }, (response) => {
             if (response.status)
@@ -656,16 +686,18 @@ export class PersonsClient {
 
         const content_ = "";
 
-        return this.http({
+        var options_ = <ng.IRequestConfig>{
             url: url_,
             method: "DELETE",
             data: content_,
             transformResponse: [], 
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http(options_).then((response) => {
             return this.processDelete(response);
         }, (response) => {
             if (response.status)
@@ -695,16 +727,18 @@ export class PersonsClient {
 
         const content_ = "";
 
-        return this.http({
+        var options_ = <ng.IRequestConfig>{
             url: url_,
             method: "POST",
             data: content_,
             transformResponse: [], 
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http(options_).then((response) => {
             return this.processThrow(response);
         }, (response) => {
             if (response.status)
@@ -746,16 +780,18 @@ export class PersonsClient {
 
         const content_ = "";
 
-        return this.http({
+        var options_ = <ng.IRequestConfig>{
             url: url_,
             method: "GET",
             data: content_,
             transformResponse: [], 
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http(options_).then((response) => {
             return this.processGetName(response);
         }, (response) => {
             if (response.status)
@@ -789,16 +825,18 @@ export class PersonsClient {
 
         const content_ = person;
 
-        return this.http({
+        var options_ = <ng.IRequestConfig>{
             url: url_,
             method: "POST",
             data: content_,
             transformResponse: [], 
             headers: {
                 "Content-Type": "application/xml; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http(options_).then((response) => {
             return this.processAddXml(response);
         }, (response) => {
             if (response.status)

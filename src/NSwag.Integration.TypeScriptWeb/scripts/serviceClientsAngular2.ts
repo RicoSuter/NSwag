@@ -39,14 +39,18 @@ export class GeoClient extends MyBaseClass {
 
         const content_ = JSON.stringify(location ? location.toJS() : null);
         
-        return this.http.request(url_, this.transformOptions({
+        let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             })
-        })).map((response) => {
+        };
+
+        return Observable.fromPromise(this.transformOptions(options_)).concatMap(transformedOptions_ => {
+            return this.http.request(url_, transformedOptions_);
+        }).map((response) => {
             return this.transformResult(url_, response, (response) => this.processFromBodyTest(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
@@ -86,14 +90,18 @@ export class GeoClient extends MyBaseClass {
 
         const content_ = "";
         
-        return this.http.request(url_, this.transformOptions({
+        let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             })
-        })).map((response) => {
+        };
+
+        return Observable.fromPromise(this.transformOptions(options_)).concatMap(transformedOptions_ => {
+            return this.http.request(url_, transformedOptions_);
+        }).map((response) => {
             return this.transformResult(url_, response, (response) => this.processFromUriTest(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
@@ -129,14 +137,18 @@ export class GeoClient extends MyBaseClass {
         }
         const content_ = JSON.stringify(points ? contentData_ : null);
         
-        return this.http.request(url_, this.transformOptions({
+        let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             })
-        })).map((response) => {
+        };
+
+        return Observable.fromPromise(this.transformOptions(options_)).concatMap(transformedOptions_ => {
+            return this.http.request(url_, transformedOptions_);
+        }).map((response) => {
             return this.transformResult(url_, response, (response) => this.processAddPolygon(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
@@ -170,14 +182,18 @@ export class GeoClient extends MyBaseClass {
 
         const content_ = "";
         
-        return this.http.request(url_, this.transformOptions({
+        let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             })
-        })).map((response) => {
+        };
+
+        return Observable.fromPromise(this.transformOptions(options_)).concatMap(transformedOptions_ => {
+            return this.http.request(url_, transformedOptions_);
+        }).map((response) => {
             return this.transformResult(url_, response, (response) => this.processFilter(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
@@ -211,14 +227,18 @@ export class GeoClient extends MyBaseClass {
 
         const content_ = "";
         
-        return this.http.request(url_, this.transformOptions({
+        let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             })
-        })).map((response) => {
+        };
+
+        return Observable.fromPromise(this.transformOptions(options_)).concatMap(transformedOptions_ => {
+            return this.http.request(url_, transformedOptions_);
+        }).map((response) => {
             return this.transformResult(url_, response, (response) => this.processReverse(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
@@ -256,14 +276,18 @@ export class GeoClient extends MyBaseClass {
 
         const content_ = "";
         
-        return this.http.request(url_, this.transformOptions({
+        let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             })
-        })).map((response) => {
+        };
+
+        return Observable.fromPromise(this.transformOptions(options_)).concatMap(transformedOptions_ => {
+            return this.http.request(url_, transformedOptions_);
+        }).map((response) => {
             return this.transformResult(url_, response, (response) => this.processRefresh(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
@@ -296,13 +320,17 @@ export class GeoClient extends MyBaseClass {
         if (file !== null)
             content_.append("file", file.data, file.fileName ? file.fileName : "file");
         
-        return this.http.request(url_, this.transformOptions({
+        let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
                 'Content-Type': undefined, 
             })
-        })).map((response) => {
+        };
+
+        return Observable.fromPromise(this.transformOptions(options_)).concatMap(transformedOptions_ => {
+            return this.http.request(url_, transformedOptions_);
+        }).map((response) => {
             return this.transformResult(url_, response, (response) => this.processUploadFile(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
@@ -338,13 +366,17 @@ export class GeoClient extends MyBaseClass {
         if (files !== null)
             files.forEach(item_ => content_.append("files", item_.data, item_.fileName ? item_.fileName : "files") );
         
-        return this.http.request(url_, this.transformOptions({
+        let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
                 'Content-Type': undefined, 
             })
-        })).map((response) => {
+        };
+
+        return Observable.fromPromise(this.transformOptions(options_)).concatMap(transformedOptions_ => {
+            return this.http.request(url_, transformedOptions_);
+        }).map((response) => {
             return this.transformResult(url_, response, (response) => this.processUploadFiles(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
@@ -375,14 +407,18 @@ export class GeoClient extends MyBaseClass {
 
         const content_ = JSON.stringify(request ? request.toJS() : null);
         
-        return this.http.request(url_, this.transformOptions({
+        let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             })
-        })).map((response) => {
+        };
+
+        return Observable.fromPromise(this.transformOptions(options_)).concatMap(transformedOptions_ => {
+            return this.http.request(url_, transformedOptions_);
+        }).map((response) => {
             return this.transformResult(url_, response, (response) => this.processSaveItems(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
@@ -426,14 +462,18 @@ export class GeoClient extends MyBaseClass {
 
         const content_ = "";
         
-        return this.http.request(url_, this.transformOptions({
+        let options_ = {
             body: content_,
             method: "get",
             headers: new Headers({
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             })
-        })).map((response) => {
+        };
+
+        return Observable.fromPromise(this.transformOptions(options_)).concatMap(transformedOptions_ => {
+            return this.http.request(url_, transformedOptions_);
+        }).map((response) => {
             return this.transformResult(url_, response, (response) => this.processGetUploadedFile(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
@@ -487,14 +527,18 @@ export class PersonsClient extends MyBaseClass {
 
         const content_ = "";
         
-        return this.http.request(url_, this.transformOptions({
+        let options_ = {
             body: content_,
             method: "get",
             headers: new Headers({
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             })
-        })).map((response) => {
+        };
+
+        return Observable.fromPromise(this.transformOptions(options_)).concatMap(transformedOptions_ => {
+            return this.http.request(url_, transformedOptions_);
+        }).map((response) => {
             return this.transformResult(url_, response, (response) => this.processGetAll(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
@@ -532,14 +576,18 @@ export class PersonsClient extends MyBaseClass {
 
         const content_ = JSON.stringify(person ? person.toJS() : null);
         
-        return this.http.request(url_, this.transformOptions({
+        let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             })
-        })).map((response) => {
+        };
+
+        return Observable.fromPromise(this.transformOptions(options_)).concatMap(transformedOptions_ => {
+            return this.http.request(url_, transformedOptions_);
+        }).map((response) => {
             return this.transformResult(url_, response, (response) => this.processAdd(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
@@ -573,14 +621,18 @@ export class PersonsClient extends MyBaseClass {
 
         const content_ = "";
         
-        return this.http.request(url_, this.transformOptions({
+        let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             })
-        })).map((response) => {
+        };
+
+        return Observable.fromPromise(this.transformOptions(options_)).concatMap(transformedOptions_ => {
+            return this.http.request(url_, transformedOptions_);
+        }).map((response) => {
             return this.transformResult(url_, response, (response) => this.processFind(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
@@ -622,14 +674,18 @@ export class PersonsClient extends MyBaseClass {
 
         const content_ = "";
         
-        return this.http.request(url_, this.transformOptions({
+        let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             })
-        })).map((response) => {
+        };
+
+        return Observable.fromPromise(this.transformOptions(options_)).concatMap(transformedOptions_ => {
+            return this.http.request(url_, transformedOptions_);
+        }).map((response) => {
             return this.transformResult(url_, response, (response) => this.processFindOptional(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
@@ -670,14 +726,18 @@ export class PersonsClient extends MyBaseClass {
 
         const content_ = "";
         
-        return this.http.request(url_, this.transformOptions({
+        let options_ = {
             body: content_,
             method: "get",
             headers: new Headers({
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             })
-        })).map((response) => {
+        };
+
+        return Observable.fromPromise(this.transformOptions(options_)).concatMap(transformedOptions_ => {
+            return this.http.request(url_, transformedOptions_);
+        }).map((response) => {
             return this.transformResult(url_, response, (response) => this.processGet(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
@@ -719,14 +779,18 @@ export class PersonsClient extends MyBaseClass {
 
         const content_ = "";
         
-        return this.http.request(url_, this.transformOptions({
+        let options_ = {
             body: content_,
             method: "delete",
             headers: new Headers({
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             })
-        })).map((response) => {
+        };
+
+        return Observable.fromPromise(this.transformOptions(options_)).concatMap(transformedOptions_ => {
+            return this.http.request(url_, transformedOptions_);
+        }).map((response) => {
             return this.transformResult(url_, response, (response) => this.processDelete(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
@@ -761,14 +825,18 @@ export class PersonsClient extends MyBaseClass {
 
         const content_ = "";
         
-        return this.http.request(url_, this.transformOptions({
+        let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             })
-        })).map((response) => {
+        };
+
+        return Observable.fromPromise(this.transformOptions(options_)).concatMap(transformedOptions_ => {
+            return this.http.request(url_, transformedOptions_);
+        }).map((response) => {
             return this.transformResult(url_, response, (response) => this.processThrow(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
@@ -815,14 +883,18 @@ export class PersonsClient extends MyBaseClass {
 
         const content_ = "";
         
-        return this.http.request(url_, this.transformOptions({
+        let options_ = {
             body: content_,
             method: "get",
             headers: new Headers({
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             })
-        })).map((response) => {
+        };
+
+        return Observable.fromPromise(this.transformOptions(options_)).concatMap(transformedOptions_ => {
+            return this.http.request(url_, transformedOptions_);
+        }).map((response) => {
             return this.transformResult(url_, response, (response) => this.processGetName(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
@@ -861,14 +933,18 @@ export class PersonsClient extends MyBaseClass {
 
         const content_ = person;
         
-        return this.http.request(url_, this.transformOptions({
+        let options_ = {
             body: content_,
             method: "post",
             headers: new Headers({
                 "Content-Type": "application/xml; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             })
-        })).map((response) => {
+        };
+
+        return Observable.fromPromise(this.transformOptions(options_)).concatMap(transformedOptions_ => {
+            return this.http.request(url_, transformedOptions_);
+        }).map((response) => {
             return this.transformResult(url_, response, (response) => this.processAddXml(response));
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {

@@ -20,14 +20,17 @@ export class GeoClientBase {
         let url_ = this.baseUrl + "/api/Geo/FromBodyTest";
 
         const content_ = JSON.stringify(location ? location.toJS() : null);
-        return this.http.fetch(url_, {
+
+        let options_ = <RequestInit>{
             body: content_,
             method: "POST",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processFromBodyTest(response);
         });
     }
@@ -58,14 +61,17 @@ export class GeoClientBase {
             url_ += "Longitude=" + encodeURIComponent("" + longitude) + "&";
 
         const content_ = "";
-        return this.http.fetch(url_, {
+
+        let options_ = <RequestInit>{
             body: content_,
             method: "POST",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processFromUriTest(response);
         });
     }
@@ -92,14 +98,17 @@ export class GeoClientBase {
                 contentData_.push(item.toJS());
         }
         const content_ = JSON.stringify(points ? contentData_ : null);
-        return this.http.fetch(url_, {
+
+        let options_ = <RequestInit>{
             body: content_,
             method: "POST",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processAddPolygon(response);
         });
     }
@@ -124,14 +133,17 @@ export class GeoClientBase {
             currentStates.forEach(item => { url_ += "currentStates=" + encodeURIComponent("" + item) + "&"; });
 
         const content_ = "";
-        return this.http.fetch(url_, {
+
+        let options_ = <RequestInit>{
             body: content_,
             method: "POST",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processFilter(response);
         });
     }
@@ -156,14 +168,17 @@ export class GeoClientBase {
             values.forEach(item => { url_ += "values=" + encodeURIComponent("" + item) + "&"; });
 
         const content_ = "";
-        return this.http.fetch(url_, {
+
+        let options_ = <RequestInit>{
             body: content_,
             method: "POST",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processReverse(response);
         });
     }
@@ -192,14 +207,17 @@ export class GeoClientBase {
         let url_ = this.baseUrl + "/api/Geo/Refresh";
 
         const content_ = "";
-        return this.http.fetch(url_, {
+
+        let options_ = <RequestInit>{
             body: content_,
             method: "POST",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processRefresh(response);
         });
     }
@@ -223,13 +241,16 @@ export class GeoClientBase {
         const content_ = new FormData();
         if (file !== null)
             content_.append("file", file.data, file.fileName ? file.fileName : "file");
-        return this.http.fetch(url_, {
+
+        let options_ = <RequestInit>{
             body: content_,
             method: "POST",
             headers: {
-                'Content-Type': undefined
+                'Content-Type': <string>undefined
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processUploadFile(response);
         });
     }
@@ -256,13 +277,16 @@ export class GeoClientBase {
         const content_ = new FormData();
         if (files !== null)
             files.forEach(item_ => content_.append("files", item_.data, item_.fileName ? item_.fileName : "files") );
-        return this.http.fetch(url_, {
+
+        let options_ = <RequestInit>{
             body: content_,
             method: "POST",
             headers: {
-                'Content-Type': undefined
+                'Content-Type': <string>undefined
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processUploadFiles(response);
         });
     }
@@ -284,14 +308,17 @@ export class GeoClientBase {
         let url_ = this.baseUrl + "/api/Geo/SaveItems";
 
         const content_ = JSON.stringify(request ? request.toJS() : null);
-        return this.http.fetch(url_, {
+
+        let options_ = <RequestInit>{
             body: content_,
             method: "POST",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processSaveItems(response);
         });
     }
@@ -325,13 +352,15 @@ export class GeoClientBase {
         else if (override !== undefined)
             url_ += "override=" + encodeURIComponent("" + override) + "&";
 
-        return this.http.fetch(url_, {
+        let options_ = <RequestInit>{
             method: "GET",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processGetUploadedFile(response);
         });
     }
@@ -381,13 +410,15 @@ export class PersonsClient {
     getAll(): Promise<Person[]> {
         let url_ = this.baseUrl + "/api/Persons";
 
-        return this.http.fetch(url_, {
+        let options_ = <RequestInit>{
             method: "GET",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processGetAll(response);
         });
     }
@@ -416,14 +447,17 @@ export class PersonsClient {
         let url_ = this.baseUrl + "/api/Persons";
 
         const content_ = JSON.stringify(person ? person.toJS() : null);
-        return this.http.fetch(url_, {
+
+        let options_ = <RequestInit>{
             body: content_,
             method: "POST",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processAdd(response);
         });
     }
@@ -448,14 +482,17 @@ export class PersonsClient {
         url_ = url_.replace("{gender}", encodeURIComponent("" + gender));
 
         const content_ = "";
-        return this.http.fetch(url_, {
+
+        let options_ = <RequestInit>{
             body: content_,
             method: "POST",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processFind(response);
         });
     }
@@ -488,14 +525,17 @@ export class PersonsClient {
             url_ += "gender=" + encodeURIComponent("" + gender) + "&";
 
         const content_ = "";
-        return this.http.fetch(url_, {
+
+        let options_ = <RequestInit>{
             body: content_,
             method: "POST",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processFindOptional(response);
         });
     }
@@ -526,13 +566,15 @@ export class PersonsClient {
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
 
-        return this.http.fetch(url_, {
+        let options_ = <RequestInit>{
             method: "GET",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processGet(response);
         });
     }
@@ -565,14 +607,17 @@ export class PersonsClient {
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
 
         const content_ = "";
-        return this.http.fetch(url_, {
+
+        let options_ = <RequestInit>{
             body: content_,
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processDelete(response);
         });
     }
@@ -598,14 +643,17 @@ export class PersonsClient {
             url_ += "id=" + encodeURIComponent("" + id) + "&";
 
         const content_ = "";
-        return this.http.fetch(url_, {
+
+        let options_ = <RequestInit>{
             body: content_,
             method: "POST",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processThrow(response);
         });
     }
@@ -642,13 +690,15 @@ export class PersonsClient {
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
 
-        return this.http.fetch(url_, {
+        let options_ = <RequestInit>{
             method: "GET",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processGetName(response);
         });
     }
@@ -678,14 +728,17 @@ export class PersonsClient {
         let url_ = this.baseUrl + "/api/Persons/AddXml";
 
         const content_ = person;
-        return this.http.fetch(url_, {
+
+        let options_ = <RequestInit>{
             body: content_,
             method: "POST",
             headers: {
                 "Content-Type": "application/xml; charset=UTF-8", 
-				"Accept": "application/json; charset=UTF-8"
+                "Accept": "application/json; charset=UTF-8"
             }
-        }).then((response) => {
+        };
+
+        return this.http.fetch(url_, options_).then((response) => {
             return this.processAddXml(response);
         });
     }
