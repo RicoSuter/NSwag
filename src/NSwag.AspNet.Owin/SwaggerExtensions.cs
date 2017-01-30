@@ -143,5 +143,47 @@ namespace NSwag.AspNet.Owin
             app.UseStageMarker(PipelineStage.MapHandler);
             return app;
         }
+        
+        /// <summary>
+        /// Adds the Swagger generator to the OWIN pipeline.
+        /// </summary>
+        /// <param name="app">The app.</param>
+        /// <param name="controllerTypes">The Web API controller types.</param>
+        /// <param name="configureSwagger">Configure the Swagger generator settings.</param>
+        /// <param name="configureJsonSchemaGenerator">Configure the schema generator.</param>
+        public static IApplicationBuilder UseSwagger(this IApplicationBuilder app,
+          IEnumerable<Type> controllerTypes,
+          Action<SwaggerOwinSettings> configureSwagger = null, 
+          Action<JsonSchemaGeneratorSettings> configureJsonSchemaGenerator = null)
+        {
+          var swaggerSettings = new SwaggerOwinSettings();
+          var jsonSchemaSettings = new JsonSchemaGeneratorSettings();
+
+          configureSwagger?.Invoke(swaggerSettings);    
+          configureJsonSchemaGenerator?.Invoke(jsonSchemaSettings);
+
+          return app.UseSwagger(controllerTypes, swaggerSettings, new SwaggerJsonSchemaGenerator(jsonSchemaSettings));
+        }
+
+        /// <summary>
+        /// Adds the Swagger generator and Swagger UI to the OWIN pipeline.
+        /// </summary>
+        /// <param name="app">The app.</param>
+        /// <param name="controllerTypes">The Web API controller types.</param>
+        /// <param name="configureSwaggerUi">Configure the Swagger generator and UI settings.</param>
+        /// <param name="configureJsonSchemaGenerator">Configure the schema generator.</param>
+        public static IApplicationBuilder UseSwaggerUi(this IApplicationBuilder app, 
+          IEnumerable<Type> controllerTypes, 
+          Action<SwaggerUiOwinSettings> configureSwaggerUi = null, 
+          Action<JsonSchemaGeneratorSettings> configureJsonSchemaGenerator = null)
+        {
+          var swaggerUiSettings = new SwaggerUiOwinSettings();
+          var jsonSchemaSettings = new JsonSchemaGeneratorSettings();
+
+          configureSwaggerUi?.Invoke(swaggerUiSettings);
+          configureJsonSchemaGenerator?.Invoke(jsonSchemaSettings);
+
+          return app.UseSwaggerUi(controllerTypes, swaggerUiSettings, new SwaggerJsonSchemaGenerator(jsonSchemaSettings));
+        }
     }
-}
+}   
