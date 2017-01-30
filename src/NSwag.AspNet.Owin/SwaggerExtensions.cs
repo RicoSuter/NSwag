@@ -17,6 +17,8 @@ using Microsoft.Owin.StaticFiles;
 using NSwag.CodeGeneration.SwaggerGenerators;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 using Owin;
+using Microsoft.AspNetCore.Builder;
+using NJsonSchema.Generation;
 
 namespace NSwag.AspNet.Owin
 {
