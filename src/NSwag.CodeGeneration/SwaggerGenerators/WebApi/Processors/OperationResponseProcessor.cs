@@ -13,6 +13,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
+using NSwag.CodeGeneration.SwaggerGenerators.Processors;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Contexts;
 
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors

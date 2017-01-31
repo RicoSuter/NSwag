@@ -8,7 +8,7 @@
 
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Contexts;
 
-namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
+namespace NSwag.CodeGeneration.SwaggerGenerators.Processors
 {
     /// <summary>Post processes a generated <see cref="SwaggerDocument"/>.</summary>
     public interface IDocumentProcessor

@@ -9,7 +9,7 @@
 using System.Threading.Tasks;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Contexts;
 
-namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
+namespace NSwag.CodeGeneration.SwaggerGenerators.Processors
 {
     /// <summary>Post processes a generated <see cref="SwaggerOperation"/>.</summary>
     public interface IOperationProcessor

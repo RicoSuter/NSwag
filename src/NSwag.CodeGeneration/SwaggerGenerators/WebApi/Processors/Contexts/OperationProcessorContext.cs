@@ -8,6 +8,7 @@
 
 using System.Collections.Generic;
 using System.Reflection;
+using NSwag.CodeGeneration.SwaggerGenerators.Processors;
 
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Contexts
 {

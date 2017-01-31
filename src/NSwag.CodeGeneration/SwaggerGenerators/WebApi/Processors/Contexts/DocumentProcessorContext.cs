@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using NJsonSchema;
 using NJsonSchema.Generation;
+using NSwag.CodeGeneration.SwaggerGenerators.Processors;
 
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Contexts
 {

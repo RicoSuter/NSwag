@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.Generation;
+using NSwag.CodeGeneration.SwaggerGenerators.Processors;
 using NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors;
 
 namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
