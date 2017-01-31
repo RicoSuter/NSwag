@@ -117,31 +117,5 @@ namespace NSwag.AspNet.Owin
         {
             return app.UseSwaggerUi(null, settings, null);
         }
-
-        /// <summary>Addes the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
-        /// <param name="app">The app.</param>
-        /// <param name="controllerTypes">The Web API controller types.</param>
-        /// <param name="settings">The Swagger UI and generator settings.</param>
-        /// <param name="schemaGenerator">The schema generator.</param>
-        /// <returns>The app builder.</returns>
-        public static IAppBuilder UseSwaggerUi(
-            this IAppBuilder app,
-            IEnumerable<Type> controllerTypes,
-            SwaggerUiOwinSettings settings,
-            SwaggerJsonSchemaGenerator schemaGenerator)
-        {
-            if (controllerTypes != null)
-                app.Use<SwaggerMiddleware>(settings.ActualSwaggerRoute, controllerTypes, settings, schemaGenerator);
-
-            app.Use<RedirectMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute);
-            app.Use<SwaggerUiIndexMiddleware>(settings.ActualSwaggerUiRoute + "/index.html", settings);
-            app.UseFileServer(new FileServerOptions
-            {
-                RequestPath = new PathString(settings.ActualSwaggerUiRoute),
-                FileSystem = new EmbeddedResourceFileSystem(typeof(SwaggerExtensions).Assembly, "NSwag.AspNet.Owin.SwaggerUi")
-            });
-            app.UseStageMarker(PipelineStage.MapHandler);
-            return app;
-        }
     }
-}
+}   
