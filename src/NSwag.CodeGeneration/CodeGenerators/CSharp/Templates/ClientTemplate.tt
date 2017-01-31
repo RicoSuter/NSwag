@@ -132,12 +132,9 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
                 
 <#      if(Model.InjectHttpClient){#>
         var client_ = _httpClient;
-<#      }else if(Model.UseHttpClientCreationMethod){#>
-        var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
 <#      }else{#>
-        var client_ = new System.Net.Http.HttpClient();
+        using (var client_ = <#if(Model.UseHttpClientCreationMethod){#>await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false)<#}else{#>new System.Net.Http.HttpClient()<#}#>)
 <#      }#>
-        try
         {
 <#      if(Model.UseHttpRequestMessageCreationMethod){#>
             using (var request_ = await CreateHttpRequestMessageAsync(cancellationToken).ConfigureAwait(false))
@@ -183,8 +180,7 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
                 request_.Method = new System.Net.Http.HttpMethod("<#=operation.HttpMethod.ToString().ToUpperInvariant()#>");
                 request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                 request_.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("<#=operation.Produces#>"));
-                var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                try
+                using (var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false))
                 {
                     var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h => h.Key, h => h.Value);
                     ProcessResponse(client_, response_);
@@ -222,19 +218,19 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
                             throw new <#=Model.ExceptionClass#>("Could not deserialize the response body.", status_, responseData_, headers_, exception);
                         }
 <#      }else{#>
-                    } 
-                    catch (System.Exception exception) 
-                    {
-                        throw new <#=Model.ExceptionClass#>("Could not deserialize the response body.", status_, responseData_, headers_, exception);
-                    }
+                        } 
+                        catch (System.Exception exception) 
+                        {
+                            throw new <#=Model.ExceptionClass#>("Could not deserialize the response body.", status_, responseData_, headers_, exception);
+                        }
 <#          if(response.InheritsExceptionSchema){#>
-                    if (result_ == null)
-                        result_ = new <#=response.Type#>();
-                    result_.Data.Add("HttpStatus", status_);
-                    result_.Data.Add("ResponseData", responseData_);
-                    throw new <#=Model.ExceptionClass#><<#=response.Type#>>("<#=response.ExceptionDescription#>", status_, responseData_, headers_, result_, result_);
+                        if (result_ == null)
+                            result_ = new <#=response.Type#>();
+                        result_.Data.Add("HttpStatus", status_);
+                        result_.Data.Add("ResponseData", responseData_);
+                        throw new <#=Model.ExceptionClass#><<#=response.Type#>>("<#=response.ExceptionDescription#>", status_, responseData_, headers_, result_, result_);
 <#          }else{#>
-                    throw new <#=Model.ExceptionClass#><<#=response.Type#>>("<#=response.ExceptionDescription#>", status_, responseData_, headers_, result_, null);
+                        throw new <#=Model.ExceptionClass#><<#=response.Type#>>("<#=response.ExceptionDescription#>", status_, responseData_, headers_, result_, null);
 <#          }#>
 <#      }#>
 <#  }#>
@@ -323,19 +319,7 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
                     return new SwaggerResponse(status_, headers_); 
 <#      }#>
                 }
-                finally
-                {
-                    if (response_ != null)
-                        response_.Dispose();
-                }
             }
-        }
-        finally
-        {
-<#if(!Model.InjectHttpClient){#>
-            if (client_ != null)
-                client_.Dispose();
-<#}#>
         }
     }
 
