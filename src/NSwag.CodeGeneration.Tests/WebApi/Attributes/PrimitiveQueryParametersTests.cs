@@ -187,5 +187,35 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             Assert.IsNotNull(document.Operations.First().Operation.Parameters.First().Item.SchemaReference);
             Assert.IsTrue(code.Contains("getFoos(bars: Bar[], "));
         }
+
+        public class MyTestClass : ApiController
+        {
+            [Route("Foo")]
+            public async Task Foo(int id, bool? someNullableParam)
+            {
+
+            }
+
+            [Route("Bar")]
+            public async Task Bar(int id, bool? someNullableParam = null)
+            {
+                
+            }
+        }
+
+        [TestMethod]
+        public async Task When_parameter_is_nullable_then_it_is_optional()
+        {
+            //// Arrange
+            var generator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings { IsAspNetCore = true });
+
+            //// Act
+            var document = await generator.GenerateForControllerAsync<MyTestClass>();
+            var json = document.ToJson();
+
+            //// Assert
+            Assert.IsTrue(document.Operations.First().Operation.Parameters[1].IsRequired);
+            Assert.IsFalse(document.Operations.Last().Operation.Parameters[1].IsRequired);
+        }
     }
 }
