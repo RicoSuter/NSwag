@@ -106,7 +106,6 @@
     <Compile Include="CodeGenerators\ClientGeneratorBase.cs" />
     <Compile Include="CodeGenerators\OperationNameGenerators\MultipleClientsFromOperationIdOperationNameGenerator.cs" />
     <Compile Include="CodeGenerators\OperationNameGenerators\MultipleClientsFromPathSegmentsOperationNameGenerator.cs" />
-    <Compile Include="CodeGenerators\OperationGenerationMode.cs" />
     <Compile Include="CodeGenerators\ClientGeneratorBaseSettings.cs" />
     <Compile Include="CodeGenerators\OperationNameGenerators\SingleClientFromOperationIdOperationNameGenerator.cs" />
     <Compile Include="CodeGenerators\TypeScript\Models\TypeScriptFileTemplateModel.cs" />

@@ -52,6 +52,7 @@
     <Compile Include="Commands\FromSwaggerCommand.cs" />
     <Compile Include="Commands\JsonSchemaToTypeScriptCommand.cs" />
     <Compile Include="Commands\Document\ExecuteDocumentCommandBase.cs" />
+    <Compile Include="Commands\OperationGenerationMode.cs" />
     <Compile Include="Commands\SwaggerToCSharpClientCommand.cs" />
     <Compile Include="Commands\SwaggerToCSharpCommand.cs" />
     <Compile Include="Commands\SwaggerToCSharpControllerCommand.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="Commands\WebApiToSwaggerCommandBase.cs" />
     <Compile Include="NSwagCommandProcessor.cs" />
     <Compile Include="NSwagDocumentBase.cs" />
+    <Compile Include="OperationGenerationModeConverter.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SwaggerGeneratorCollection.cs" />

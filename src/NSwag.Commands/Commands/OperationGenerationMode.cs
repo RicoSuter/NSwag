@@ -6,7 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-namespace NSwag.CodeGeneration.CodeGenerators
+namespace NSwag.Commands
 {
     /// <summary>Specifies how the operation name and client classes/interfaces are generated.</summary>
     public enum OperationGenerationMode

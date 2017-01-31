@@ -9,7 +9,6 @@
 using NConsole;
 using Newtonsoft.Json;
 using NJsonSchema.CodeGeneration.CSharp;
-using NSwag.CodeGeneration.CodeGenerators;
 using NSwag.CodeGeneration.CodeGenerators.CSharp;
 using NSwag.Commands.Base;
 
@@ -22,12 +21,12 @@ namespace NSwag.Commands
     {
         protected SwaggerToCSharpCommand(TSettings settings)
         {
-            Settings = settings; 
+            Settings = settings;
         }
 
         [JsonIgnore]
         public TSettings Settings { get; set; }
-        
+
         [Argument(Name = "ClassName", IsRequired = false, Description = "The class name of the generated client.")]
         public string ClassName
         {
@@ -49,7 +48,7 @@ namespace NSwag.Commands
             set { Settings.AdditionalNamespaceUsages = value; }
         }
 
-        [Argument(Name = "RequiredPropertiesMustBeDefined", IsRequired = false, 
+        [Argument(Name = "RequiredPropertiesMustBeDefined", IsRequired = false,
                   Description = "Specifies whether a required property must be defined in JSON (sets Required.Always when the property is required).")]
         public bool RequiredPropertiesMustBeDefined
         {
@@ -109,8 +108,8 @@ namespace NSwag.Commands
         [Argument(Name = "OperationGenerationMode", IsRequired = false, Description = "The operation generation mode ('SingleClientFromOperationId' or 'MultipleClientsFromPathSegments').")]
         public OperationGenerationMode OperationGenerationMode
         {
-            get { return Settings.OperationGenerationMode; }
-            set { Settings.OperationGenerationMode = value; }
+            get { return OperationGenerationModeConverter.GetOperationGenerationMode(Settings.OperationNameGenerator); }
+            set { Settings.OperationNameGenerator = OperationGenerationModeConverter.GetOperationNameGenerator(value); }
         }
 
         [Argument(Name = "GenerateDefaultValues", IsRequired = false, Description = "Specifies whether to generate default values for properties (may generate CSharp 6 code, default: true).")]

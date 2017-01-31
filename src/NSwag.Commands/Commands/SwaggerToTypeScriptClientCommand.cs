@@ -11,7 +11,6 @@ using NConsole;
 using Newtonsoft.Json;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NJsonSchema.Infrastructure;
-using NSwag.CodeGeneration.CodeGenerators;
 using NSwag.CodeGeneration.CodeGenerators.TypeScript;
 using NSwag.Commands.Base;
 
@@ -146,8 +145,8 @@ namespace NSwag.Commands
         [Argument(Name = "OperationGenerationMode", IsRequired = false, Description = "The operation generation mode ('SingleClientFromOperationId' or 'MultipleClientsFromPathSegments').")]
         public OperationGenerationMode OperationGenerationMode
         {
-            get { return Settings.OperationGenerationMode; }
-            set { Settings.OperationGenerationMode = value; }
+            get { return OperationGenerationModeConverter.GetOperationGenerationMode(Settings.OperationNameGenerator); }
+            set { Settings.OperationNameGenerator = OperationGenerationModeConverter.GetOperationNameGenerator(value); }
         }
 
         [Argument(Name = "MarkOptionalProperties", IsRequired = false, Description = "Specifies whether to mark optional properties with ? (default: false).")]
