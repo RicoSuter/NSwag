@@ -177,16 +177,11 @@ namespace NSwag.AspNetCore
         /// <param name="configureJsonSchemaGenerator">Configure the schema generator.</param>
         public static IApplicationBuilder UseSwagger(this IApplicationBuilder app,
           IEnumerable<Type> controllerTypes,
-          Action<SwaggerOwinSettings> configureSwagger = null, 
-          Action<JsonSchemaGeneratorSettings> configureJsonSchemaGenerator = null)
+          Action<SwaggerOwinSettings> configure = null)
         {
-          var swaggerSettings = new SwaggerOwinSettings();
-          var jsonSchemaSettings = new JsonSchemaGeneratorSettings();
-
-          configureSwagger?.Invoke(swaggerSettings);    
-          configureJsonSchemaGenerator?.Invoke(jsonSchemaSettings);
-
-          return app.UseSwagger(controllerTypes, swaggerSettings, new SwaggerJsonSchemaGenerator(jsonSchemaSettings));
+          var settings = new SwaggerOwinSettings();
+          configure?.Invoke(settings);    
+          return app.UseSwagger(controllerTypes, settings, new SwaggerJsonSchemaGenerator(settings));
         }
 
         /// <summary>
@@ -198,16 +193,11 @@ namespace NSwag.AspNetCore
         /// <param name="configureJsonSchemaGenerator">Configure the schema generator.</param>
         public static IApplicationBuilder UseSwaggerUi(this IApplicationBuilder app, 
           IEnumerable<Type> controllerTypes, 
-          Action<SwaggerUiOwinSettings> configureSwaggerUi = null, 
-          Action<JsonSchemaGeneratorSettings> configureJsonSchemaGenerator = null)
+          Action<SwaggerUiOwinSettings> configure = null)
         {
-          var swaggerUiSettings = new SwaggerUiOwinSettings();
-          var jsonSchemaSettings = new JsonSchemaGeneratorSettings();
-
-          configureSwaggerUi?.Invoke(swaggerUiSettings);
-          configureJsonSchemaGenerator?.Invoke(jsonSchemaSettings);
-
-          return app.UseSwaggerUi(controllerTypes, swaggerUiSettings, new SwaggerJsonSchemaGenerator(jsonSchemaSettings));
+          var settings = new SwaggerUiOwinSettings();
+          configure?.Invoke(settings);
+          return app.UseSwaggerUi(controllerTypes, settings, new SwaggerJsonSchemaGenerator(settings));
         }        
     }
 }
