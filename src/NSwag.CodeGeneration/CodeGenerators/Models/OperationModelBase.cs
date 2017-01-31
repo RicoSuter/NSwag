@@ -37,7 +37,7 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
             _settings = settings;
 
             var responses = _operation.Responses
-                .Select(response => CreateResponseModel(response.Key, response.Value, exceptionSchema, response.Value == GetSuccessResponse(), generator, settings))
+                .Select(response => CreateResponseModel(response.Key, response.Value, exceptionSchema, generator, settings))
                 .ToList();
 
             var defaultResponse = responses.SingleOrDefault(r => r.StatusCode == "default");
@@ -52,11 +52,10 @@ namespace NSwag.CodeGeneration.CodeGenerators.Models
         /// <param name="statusCode">The status code.</param>
         /// <param name="response">The response.</param>
         /// <param name="exceptionSchema">The exception schema.</param>
-        /// <param name="isSuccess"></param>
         /// <param name="generator">The generator.</param>
         /// <param name="settings">The settings.</param>
-        /// <returns></returns>
-        protected abstract TResponseModel CreateResponseModel(string statusCode, SwaggerResponse response, JsonSchema4 exceptionSchema, bool isSuccess, IClientGenerator generator, ClientGeneratorBaseSettings settings);
+        /// <returns>The response model.</returns>
+        protected abstract TResponseModel CreateResponseModel(string statusCode, SwaggerResponse response, JsonSchema4 exceptionSchema, IClientGenerator generator, ClientGeneratorBaseSettings settings);
 
         /// <summary>Gets or sets the operation.</summary>
         public SwaggerOperation Operation { get; set; }

@@ -119,14 +119,12 @@ namespace NSwag.CodeGeneration.CodeGenerators.CSharp.Models
         /// <param name="statusCode">The status code.</param>
         /// <param name="response">The response.</param>
         /// <param name="exceptionSchema">The exception schema.</param>
-        /// <param name="isSuccess">if set to <c>true</c> [is success].</param>
         /// <param name="generator">The generator.</param>
         /// <param name="settings">The settings.</param>
         /// <returns></returns>
-        protected override CSharpResponseModel CreateResponseModel(string statusCode, SwaggerResponse response, JsonSchema4 exceptionSchema, bool isSuccess, IClientGenerator generator, ClientGeneratorBaseSettings settings)
+        protected override CSharpResponseModel CreateResponseModel(string statusCode, SwaggerResponse response, JsonSchema4 exceptionSchema, IClientGenerator generator, ClientGeneratorBaseSettings settings)
         {
-            // TODO: Refactor method parameters (order)
-            return new CSharpResponseModel(statusCode, response, exceptionSchema, isSuccess, settings.CodeGeneratorSettings, generator);
+            return new CSharpResponseModel(statusCode, response, response == GetSuccessResponse(), exceptionSchema, generator, settings.CodeGeneratorSettings);
         }
     }
 }
