@@ -24,10 +24,10 @@ import { HttpClient } from 'aurelia-fetch-client';
 <#}#>
 
 <#if(Model.HasModuleName){#>
-module <#=Model.ModuleName#> {
+export module <#=Model.ModuleName#> {
 <#}
   if(Model.HasNamespace){#>
-namespace <#=Model.Namespace#> {
+export namespace <#=Model.Namespace#> {
 <#}#>
 <#if(Model.IsAngular2){#>
 export const API_BASE_URL = new OpaqueToken('API_BASE_URL');
