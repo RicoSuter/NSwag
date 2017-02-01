@@ -7,9 +7,6 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-
-using NSwag.CodeGeneration.TypeScript.Infrastructure;
-
 namespace NSwag.CodeGeneration.TypeScript.Templates
 {
     using System.Linq;
@@ -49,10 +46,9 @@ if(Model.QueryParameters.Any()){
             
             #line default
             #line hidden
-            this.Write("\";");
+            this.Write("\";\r\n");
             
-            #line 3 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestUrlTemplate.tt"
-
+            #line 4 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestUrlTemplate.tt"
 foreach(var parameter in Model.PathParameters){
             
             #line default
@@ -78,11 +74,10 @@ foreach(var parameter in Model.PathParameters){
             
             #line default
             #line hidden
-            this.Write("\' must be defined.\");");
+            this.Write("\' must be defined.\");\r\n");
             
-            #line 6 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestUrlTemplate.tt"
-
-  if(parameter.IsDateArray){
+            #line 7 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestUrlTemplate.tt"
+if(parameter.IsDateArray){
             
             #line default
             #line hidden
@@ -188,10 +183,9 @@ foreach(var parameter in Model.PathParameters){
             
             #line default
             #line hidden
-            this.Write("\' must be defined.\");\r\nelse");
+            this.Write("\' must be defined.\");\r\nelse\r\n");
             
-            #line 22 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestUrlTemplate.tt"
-
+            #line 23 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestUrlTemplate.tt"
       }else{
             
             #line default
@@ -217,10 +211,9 @@ foreach(var parameter in Model.PathParameters){
             
             #line default
             #line hidden
-            this.Write("\' must be defined and cannot be null.\");\r\nelse");
+            this.Write("\' must be defined and cannot be null.\");\r\nelse\r\n");
             
-            #line 26 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestUrlTemplate.tt"
-
+            #line 27 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestUrlTemplate.tt"
       }
     }else{
         if(parameter.IsNullable){
@@ -262,11 +255,10 @@ foreach(var parameter in Model.PathParameters){
             
             #line default
             #line hidden
-            this.Write(" !== undefined)");
+            this.Write(" !== undefined)\r\n");
             
-            #line 34 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestUrlTemplate.tt"
-      
-		}
+            #line 35 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestUrlTemplate.tt"
+      }
     }
     if(parameter.IsDateArray){
             
@@ -395,7 +387,7 @@ foreach(var parameter in Model.PathParameters){
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;
-        private global::NSwag.CodeGeneration.TypeScript.Infrastructure.CompilerErrorCollection errorsField;
+        private global::System.CodeDom.Compiler.CompilerErrorCollection errorsField;
         private global::System.Collections.Generic.List<int> indentLengthsField;
         private string currentIndentField = "";
         private bool endsWithNewline;
@@ -423,13 +415,13 @@ foreach(var parameter in Model.PathParameters){
         /// <summary>
         /// The error collection for the generation process
         /// </summary>
-        public CompilerErrorCollection Errors
+        public System.CodeDom.Compiler.CompilerErrorCollection Errors
         {
             get
             {
                 if ((this.errorsField == null))
                 {
-                    this.errorsField = new global::NSwag.CodeGeneration.TypeScript.Infrastructure.CompilerErrorCollection();
+                    this.errorsField = new global::System.CodeDom.Compiler.CompilerErrorCollection();
                 }
                 return this.errorsField;
             }
@@ -544,7 +536,7 @@ foreach(var parameter in Model.PathParameters){
         /// </summary>
         public void Error(string message)
         {
-            CompilerError error = new global::NSwag.CodeGeneration.TypeScript.Infrastructure.CompilerError();
+            System.CodeDom.Compiler.CompilerError error = new global::System.CodeDom.Compiler.CompilerError();
             error.ErrorText = message;
             this.Errors.Add(error);
         }
@@ -553,7 +545,7 @@ foreach(var parameter in Model.PathParameters){
         /// </summary>
         public void Warning(string message)
         {
-            CompilerError error = new global::NSwag.CodeGeneration.TypeScript.Infrastructure.CompilerError();
+            System.CodeDom.Compiler.CompilerError error = new global::System.CodeDom.Compiler.CompilerError();
             error.ErrorText = message;
             error.IsWarning = true;
             this.Errors.Add(error);

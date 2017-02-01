@@ -10,8 +10,9 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace NSwag.CodeGeneration.TypeScript.Infrastructure
-{ // Needed for T4 in PCL libraries
+namespace NSwag.CodeGeneration
+{
+    // Needed for T4 in PCL libraries
 
     internal static class T4Extensions
     {
@@ -21,8 +22,13 @@ namespace NSwag.CodeGeneration.TypeScript.Infrastructure
         }
     }
 
+}
+
+namespace System.CodeDom.Compiler
+{
     internal class CompilerErrorCollection : List<CompilerError>
     {
+
     }
 
     internal class CompilerError

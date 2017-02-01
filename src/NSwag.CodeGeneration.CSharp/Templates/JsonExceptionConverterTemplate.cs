@@ -7,9 +7,6 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-
-using NSwag.CodeGeneration.CSharp.Infrastructure;
-
 namespace NSwag.CodeGeneration.CSharp.Templates
 {
     using System;
@@ -169,7 +166,7 @@ internal class JsonExceptionConverter : Newtonsoft.Json.JsonConverter
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;
-        private global::NSwag.CodeGeneration.CSharp.Infrastructure.CompilerErrorCollection errorsField;
+        private global::System.CodeDom.Compiler.CompilerErrorCollection errorsField;
         private global::System.Collections.Generic.List<int> indentLengthsField;
         private string currentIndentField = "";
         private bool endsWithNewline;
@@ -197,13 +194,13 @@ internal class JsonExceptionConverter : Newtonsoft.Json.JsonConverter
         /// <summary>
         /// The error collection for the generation process
         /// </summary>
-        public CompilerErrorCollection Errors
+        public System.CodeDom.Compiler.CompilerErrorCollection Errors
         {
             get
             {
                 if ((this.errorsField == null))
                 {
-                    this.errorsField = new global::NSwag.CodeGeneration.CSharp.Infrastructure.CompilerErrorCollection();
+                    this.errorsField = new global::System.CodeDom.Compiler.CompilerErrorCollection();
                 }
                 return this.errorsField;
             }
@@ -318,7 +315,7 @@ internal class JsonExceptionConverter : Newtonsoft.Json.JsonConverter
         /// </summary>
         public void Error(string message)
         {
-            CompilerError error = new global::NSwag.CodeGeneration.CSharp.Infrastructure.CompilerError();
+            System.CodeDom.Compiler.CompilerError error = new global::System.CodeDom.Compiler.CompilerError();
             error.ErrorText = message;
             this.Errors.Add(error);
         }
@@ -327,7 +324,7 @@ internal class JsonExceptionConverter : Newtonsoft.Json.JsonConverter
         /// </summary>
         public void Warning(string message)
         {
-            CompilerError error = new global::NSwag.CodeGeneration.CSharp.Infrastructure.CompilerError();
+            System.CodeDom.Compiler.CompilerError error = new global::System.CodeDom.Compiler.CompilerError();
             error.ErrorText = message;
             error.IsWarning = true;
             this.Errors.Add(error);

@@ -7,9 +7,6 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-
-using NSwag.CodeGeneration.TypeScript.Infrastructure;
-
 namespace NSwag.CodeGeneration.TypeScript.Templates
 {
     using NJsonSchema;
@@ -237,7 +234,7 @@ if(Model.HasNamespace){
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;
-        private global::NSwag.CodeGeneration.TypeScript.Infrastructure.CompilerErrorCollection errorsField;
+        private global::System.CodeDom.Compiler.CompilerErrorCollection errorsField;
         private global::System.Collections.Generic.List<int> indentLengthsField;
         private string currentIndentField = "";
         private bool endsWithNewline;
@@ -265,13 +262,13 @@ if(Model.HasNamespace){
         /// <summary>
         /// The error collection for the generation process
         /// </summary>
-        public CompilerErrorCollection Errors
+        public System.CodeDom.Compiler.CompilerErrorCollection Errors
         {
             get
             {
                 if ((this.errorsField == null))
                 {
-                    this.errorsField = new global::NSwag.CodeGeneration.TypeScript.Infrastructure.CompilerErrorCollection();
+                    this.errorsField = new global::System.CodeDom.Compiler.CompilerErrorCollection();
                 }
                 return this.errorsField;
             }
@@ -386,7 +383,7 @@ if(Model.HasNamespace){
         /// </summary>
         public void Error(string message)
         {
-            CompilerError error = new global::NSwag.CodeGeneration.TypeScript.Infrastructure.CompilerError();
+            System.CodeDom.Compiler.CompilerError error = new global::System.CodeDom.Compiler.CompilerError();
             error.ErrorText = message;
             this.Errors.Add(error);
         }
@@ -395,7 +392,7 @@ if(Model.HasNamespace){
         /// </summary>
         public void Warning(string message)
         {
-            CompilerError error = new global::NSwag.CodeGeneration.TypeScript.Infrastructure.CompilerError();
+            System.CodeDom.Compiler.CompilerError error = new global::System.CodeDom.Compiler.CompilerError();
             error.ErrorText = message;
             error.IsWarning = true;
             this.Errors.Add(error);
