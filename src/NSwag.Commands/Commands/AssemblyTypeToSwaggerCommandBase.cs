@@ -88,6 +88,13 @@ namespace NSwag.Commands
             set { Settings.GenerateXmlObjects = value; }
         }
 
+        [Argument(Name = "NullHandling", IsRequired = false, Description = "The default null value handling ('JsonSchema' or 'Swagger'), default: JsonSchema.")]
+        public NullHandling NullHandling
+        {
+            get { return Settings.NullHandling; }
+            set { Settings.NullHandling = value; }
+        }
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var document = await RunAsync();
