@@ -67,7 +67,13 @@ namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors
                         dynamic fromUriAttribute = parameterAttributes.SingleOrDefault(a => a.GetType().Name == "FromUriAttribute" || a.GetType().Name == "FromQueryAttribute");
                         dynamic fromRouteAttribute = parameterAttributes.SingleOrDefault(a => a.GetType().FullName == "Microsoft.AspNetCore.Mvc.FromRouteAttribute");
                         dynamic fromHeaderAttribute = parameterAttributes.SingleOrDefault(a => a.GetType().FullName == "Microsoft.AspNetCore.Mvc.FromHeaderAttribute");
-
+                        
+                        var hasCustomAttribute = parameterAttributes.Any(a => !a.GetType().FullName.Contains("System") && !a.GetType().FullName.Contains("Microsoft"));
+                        if (hasCustomAttribute)
+                        {
+                            continue;
+                        }
+                        
                         if (fromRouteAttribute != null)
                         {
                             parameterName = !string.IsNullOrEmpty(fromRouteAttribute.Name) ? fromRouteAttribute.Name : parameter.Name;
