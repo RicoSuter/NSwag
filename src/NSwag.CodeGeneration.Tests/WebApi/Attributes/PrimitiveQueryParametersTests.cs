@@ -172,7 +172,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
                 DefaultUrlTemplate = "api/{controller}/{action}/{id}",
                 DefaultEnumHandling = EnumHandling.String,
                 DefaultPropertyNameHandling = PropertyNameHandling.Default,
-                NullHandling = NullHandling.Swagger
+                NullHandling = NullHandling.Swagger,
             };
             var generator = new WebApiToSwaggerGenerator(settings);
 
@@ -180,7 +180,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             var document = await generator.GenerateForControllerAsync<FooController>();
             var json = document.ToJson();
 
-            var gen = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings());
+            var gen = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings { Template = TypeScriptTemplate.JQueryCallbacks });
             var code = gen.GenerateFile();
 
             //// Assert
@@ -199,7 +199,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
             [Route("Bar")]
             public async Task Bar(int id, bool? someNullableParam = null)
             {
-                
+
             }
         }
 
