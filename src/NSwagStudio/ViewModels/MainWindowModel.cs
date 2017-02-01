@@ -17,6 +17,7 @@ using Newtonsoft.Json;
 using NJsonSchema;
 using NSwag;
 using NSwag.CodeGeneration;
+using NSwag.Commands;
 
 namespace NSwagStudio.ViewModels
 {
