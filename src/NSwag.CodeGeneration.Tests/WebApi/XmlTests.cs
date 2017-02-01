@@ -60,7 +60,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi
             var document = await generator.GenerateForControllerAsync<MyXmlController>();
 
             //// Act
-            var gen = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings());
+            var gen = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings { Template = TypeScriptTemplate.JQueryCallbacks });
             var code = gen.GenerateFile();
 
             //// Assert
