@@ -15,12 +15,13 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NJsonSchema.Generation;
 using NSwag.CodeGeneration.Infrastructure;
-using NSwag.CodeGeneration.Utilities;
+using NSwag.SwaggerGeneration.Utilities;
 
 #if !FullNet
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
 using System.Runtime.Loader;
+using NSwag.CodeGeneration.SwaggerGenerators;
 #endif
 
 namespace NSwag.SwaggerGeneration

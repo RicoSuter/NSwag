@@ -13,7 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace NSwag.CodeGeneration.Utilities
+namespace NSwag.SwaggerGeneration.Utilities
 {
     // TODO: Move to MyToolkit
 

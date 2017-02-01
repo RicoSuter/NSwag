@@ -9,11 +9,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using NSwag.CodeGeneration.Commands;
-using NSwag.CodeGeneration.Utilities;
-using NSwag.Commands;
+using NSwag.SwaggerGeneration.Utilities;
 
-namespace NSwag.CodeGeneration
+namespace NSwag.Commands
 {
     /// <summary>The NSwagDocument implementation.</summary>
     /// <seealso cref="NSwagDocumentBase" />

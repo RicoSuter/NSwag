@@ -14,10 +14,11 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NSwag.CodeGeneration.Infrastructure;
-using NSwag.CodeGeneration.Utilities;
+using NSwag.SwaggerGeneration.Utilities;
 
 #if !FullNet
 using NJsonSchema.Infrastructure;
+using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 using System.Runtime.Loader;
 #endif
 

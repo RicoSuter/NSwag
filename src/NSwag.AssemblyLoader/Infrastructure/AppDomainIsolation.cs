@@ -63,8 +63,8 @@ namespace NSwag.CodeGeneration.Infrastructure
             Domain.Load(new AssemblyName { CodeBase = codeBaseDirectory + "\\NJsonSchema.dll" });
             Domain.Load(new AssemblyName { CodeBase = codeBaseDirectory + "\\NSwag.Core.dll" });
             Domain.Load(new AssemblyName { CodeBase = codeBaseDirectory + "\\NSwag.Commands.dll" });
-            Domain.Load(new AssemblyName { CodeBase = codeBaseDirectory + "\\NSwag.CodeGeneration.dll" });
-            Domain.Load(new AssemblyName { CodeBase = codeBaseDirectory + "\\NSwag.CodeGeneration.WebApi.dll" });
+            Domain.Load(new AssemblyName { CodeBase = codeBaseDirectory + "\\NSwag.SwaggerGeneration.dll" });
+            Domain.Load(new AssemblyName { CodeBase = codeBaseDirectory + "\\NSwag.SwaggerGeneration.WebApi.dll" });
         }
     }
 }
