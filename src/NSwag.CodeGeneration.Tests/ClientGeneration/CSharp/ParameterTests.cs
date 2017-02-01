@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSwag.CodeGeneration.CodeGenerators.CSharp;
+using NSwag.CodeGeneration.CSharp;
 
 namespace NSwag.CodeGeneration.Tests.ClientGeneration.CSharp
 {

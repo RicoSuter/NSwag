@@ -67,6 +67,14 @@
     <Compile Include="SwaggerGeneratorCollection.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NSwag.CodeGeneration.CSharp\NSwag.CodeGeneration.CSharp.csproj">
+      <Project>{F0036DA5-5DD4-494C-91B0-37689E00511E}</Project>
+      <Name>NSwag.CodeGeneration.CSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NSwag.CodeGeneration.TypeScript\NSwag.CodeGeneration.TypeScript.csproj">
+      <Project>{9293CFCD-6C7B-43E0-9FBD-88753EBF64CC}</Project>
+      <Name>NSwag.CodeGeneration.TypeScript</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj">
       <Project>{75b3f91d-687e-4fb3-ad45-ccfa3c406db4}</Project>
       <Name>NSwag.CodeGeneration</Name>
@@ -74,6 +82,14 @@
     <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj">
       <Project>{2e6174aa-fc75-4821-9e86-51b30568bec0}</Project>
       <Name>NSwag.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NSwag.SwaggerGeneration.WebApi\NSwag.SwaggerGeneration.WebApi.csproj">
+      <Project>{8A547CB0-930F-466D-92EB-E780FF14C0A6}</Project>
+      <Name>NSwag.SwaggerGeneration.WebApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NSwag.SwaggerGeneration\NSwag.SwaggerGeneration.csproj">
+      <Project>{5EBE3EFF-9558-45F2-9C8F-5C8CFB74D574}</Project>
+      <Name>NSwag.SwaggerGeneration</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -90,13 +106,11 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=7.10.6235.25398, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+    <Reference Include="NJsonSchema">
       <HintPath>..\packages\NJsonSchema.7.10.6235.25398\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema.CodeGeneration, Version=7.10.6235.25418, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+    <Reference Include="NJsonSchema.CodeGeneration">
       <HintPath>..\packages\NJsonSchema.CodeGeneration.7.10.6235.25418\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
-      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

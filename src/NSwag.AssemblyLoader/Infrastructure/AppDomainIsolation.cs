@@ -61,10 +61,10 @@ namespace NSwag.CodeGeneration.Infrastructure
             var codeBaseDirectory = Path.GetDirectoryName(type.Assembly.CodeBase.Replace("file:///", string.Empty));
             Domain.Load(new AssemblyName { CodeBase = codeBaseDirectory + "\\Newtonsoft.Json.dll" });
             Domain.Load(new AssemblyName { CodeBase = codeBaseDirectory + "\\NJsonSchema.dll" });
-            Domain.Load(new AssemblyName { CodeBase = codeBaseDirectory + "\\NJsonSchema.CodeGeneration.dll" });
             Domain.Load(new AssemblyName { CodeBase = codeBaseDirectory + "\\NSwag.Core.dll" });
             Domain.Load(new AssemblyName { CodeBase = codeBaseDirectory + "\\NSwag.Commands.dll" });
             Domain.Load(new AssemblyName { CodeBase = codeBaseDirectory + "\\NSwag.CodeGeneration.dll" });
+            Domain.Load(new AssemblyName { CodeBase = codeBaseDirectory + "\\NSwag.CodeGeneration.WebApi.dll" });
         }
     }
 }

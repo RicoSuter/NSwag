@@ -6,8 +6,8 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using NSwag.CodeGeneration.SwaggerGenerators;
 using NSwag.Commands;
+using NSwag.SwaggerGeneration;
 
 namespace NSwag.CodeGeneration.Commands
 {

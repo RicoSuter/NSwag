@@ -6,7 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using NSwag.CodeGeneration.CodeGenerators.OperationNameGenerators;
+using NSwag.CodeGeneration.OperationNameGenerators;
 
 namespace NSwag.Commands
 {

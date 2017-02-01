@@ -11,8 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag;
-using NSwag.CodeGeneration.CodeGenerators;
-using NSwag.CodeGeneration.CodeGenerators.TypeScript;
+using NSwag.CodeGeneration.TypeScript;
 using NSwag.Commands;
 
 namespace NSwagStudio.ViewModels.CodeGenerators

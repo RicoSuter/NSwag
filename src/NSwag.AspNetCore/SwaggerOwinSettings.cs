@@ -8,7 +8,7 @@
 
 using System;
 using NJsonSchema;
-using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
+using NSwag.SwaggerGeneration.WebApi;
 
 #if AspNetOwin
 namespace NSwag.AspNet.Owin

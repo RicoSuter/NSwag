@@ -2,8 +2,8 @@
 using System.Web.Http;
 using Microsoft.Owin;
 using NSwag.AspNet.Owin;
-using NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Security;
 using NSwag.Demo.OwinWeb;
+using NSwag.SwaggerGeneration.WebApi.Processors.Security;
 using Owin;
 
 [assembly: OwinStartup(typeof(Startup))]

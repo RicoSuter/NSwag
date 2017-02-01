@@ -5,8 +5,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NJsonSchema.Generation;
-using NSwag.CodeGeneration.CodeGenerators.CSharp;
-using NSwag.CodeGeneration.CodeGenerators.TypeScript;
+using NSwag.CodeGeneration.CSharp;
+using NSwag.CodeGeneration.TypeScript;
 
 namespace NSwag.CodeGeneration.Tests
 {
@@ -44,7 +44,7 @@ namespace NSwag.CodeGeneration.Tests
             var generator = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
             {
                 ClassName = "MyClass",
-                TypeScriptGeneratorSettings = new TypeScriptGeneratorSettings
+                TypeScriptGeneratorSettings = 
                 {
                     TypeStyle = TypeScriptTypeStyle.Interface
                 }

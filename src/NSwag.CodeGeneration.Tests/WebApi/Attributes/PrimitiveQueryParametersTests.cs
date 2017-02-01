@@ -5,8 +5,8 @@ using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using NJsonSchema;
-using NSwag.CodeGeneration.CodeGenerators.TypeScript;
-using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
+using NSwag.CodeGeneration.TypeScript;
+using NSwag.SwaggerGeneration.WebApi;
 
 namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
 {
@@ -63,7 +63,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
         public async Task When_parameter_is_primitive_and_has_FromUri_then_it_is_a_query_parameter()
         {
             //// Arrange
-            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
             {
                 DefaultUrlTemplate = "api/{controller}/{action}/{id}"
             });
@@ -174,7 +174,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Attributes
                 DefaultPropertyNameHandling = PropertyNameHandling.Default,
                 NullHandling = NullHandling.Swagger
             };
-            var generator = new SwaggerGenerators.WebApi.WebApiToSwaggerGenerator(settings);
+            var generator = new WebApiToSwaggerGenerator(settings);
 
             //// Act
             var document = await generator.GenerateForControllerAsync<FooController>();

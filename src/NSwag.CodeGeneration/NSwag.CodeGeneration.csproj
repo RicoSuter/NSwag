@@ -44,13 +44,11 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=7.10.6235.25398, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+    <Reference Include="NJsonSchema">
       <HintPath>..\packages\NJsonSchema.7.10.6235.25398\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.dll</HintPath>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema.CodeGeneration, Version=7.10.6235.25418, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+    <Reference Include="NJsonSchema.CodeGeneration">
       <HintPath>..\packages\NJsonSchema.CodeGeneration.7.10.6235.25418\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -59,147 +57,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeGenerators\ClientGeneratorOutputType.cs" />
-    <Compile Include="CodeGenerators\ControllerGeneratorBaseSettings.cs" />
-    <Compile Include="CodeGenerators\CSharp\Models\CSharpOperationModel.cs" />
-    <Compile Include="CodeGenerators\CSharp\Models\CSharpFileTemplateModel.cs" />
-    <Compile Include="CodeGenerators\CSharp\Models\CSharpControllerTemplateModel.cs" />
-    <Compile Include="CodeGenerators\CSharp\Models\CSharpClientTemplateModel.cs" />
-    <Compile Include="CodeGenerators\CSharp\Models\CSharpParameterModel.cs" />
-    <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpClientGeneratorSettings.cs" />
-    <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpGeneratorBase.cs" />
-    <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpGeneratorSettings.cs" />
-    <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpTypeResolver.cs" />
-    <Compile Include="CodeGenerators\CSharp\Templates\ClientTemplate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ClientTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CodeGenerators\CSharp\Templates\ClientTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\CSharp\Templates\ControllerTemplate1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ControllerTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CodeGenerators\CSharp\Templates\FileTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\CSharp\Templates\ControllerTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\CSharp\Templates\FileTemplate1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FileTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CodeGenerators\CSharp\Templates\JsonExceptionConverterTemplate.cs">
-      <DependentUpon>JsonExceptionConverterTemplate.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="CodeGenerators\CSharp\Templates\JsonExceptionConverterTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\CSharp\Models\CSharpResponseModel.cs" />
-    <Compile Include="CodeGenerators\IClientGenerator.cs" />
-    <Compile Include="CodeGenerators\TypeScript\Models\TypeScriptResponseModel.cs" />
-    <Compile Include="CodeGenerators\TypeScript\Models\TypeScriptParameterModel.cs" />
-    <Compile Include="CodeGenerators\OperationNameGenerators\IOperationNameGenerator.cs" />
-    <Compile Include="CodeGenerators\Models\OperationModelBase.cs" />
-    <Compile Include="CodeGenerators\Models\ParameterModelBase.cs" />
-    <Compile Include="CodeGenerators\Models\ResponseModelBase.cs" />
-    <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpClientGenerator.cs" />
-    <Compile Include="CodeGenerators\ClientGeneratorBase.cs" />
-    <Compile Include="CodeGenerators\OperationNameGenerators\MultipleClientsFromOperationIdOperationNameGenerator.cs" />
-    <Compile Include="CodeGenerators\OperationNameGenerators\MultipleClientsFromPathSegmentsOperationNameGenerator.cs" />
-    <Compile Include="CodeGenerators\ClientGeneratorBaseSettings.cs" />
-    <Compile Include="CodeGenerators\OperationNameGenerators\SingleClientFromOperationIdOperationNameGenerator.cs" />
-    <Compile Include="CodeGenerators\TypeScript\Models\TypeScriptFileTemplateModel.cs" />
-    <Compile Include="CodeGenerators\TypeScript\Models\TypeScriptClientTemplateModel.cs" />
-    <Compile Include="CodeGenerators\TypeScript\Models\TypeScriptOperationModel.cs" />
-    <Compile Include="CodeGenerators\TypeScript\PromiseType.cs" />
-    <Compile Include="CodeGenerators\TypeScript\TypeScriptTemplatePartGenerator.cs" />
-    <Compile Include="CodeGenerators\TypeScript\SwaggerToTypeScriptClientGeneratorSettings.cs" />
-    <Compile Include="CodeGenerators\TypeScript\Templates\FetchClientTemplate.cs">
-      <DependentUpon>FetchClientTemplate.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="CodeGenerators\TypeScript\Templates\FetchClientTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Angular2ClientTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CodeGenerators\TypeScript\Templates\AngularJSClientTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\TypeScript\Templates\AngularJSClientTemplate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AngularJSClientTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CodeGenerators\TypeScript\Templates\FileTemplate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FileTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CodeGenerators\TypeScript\Templates\FileTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\TypeScript\Templates\JQueryCallbacksClientTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\TypeScript\Templates\JQueryCallbacksClientTemplate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>JQueryCallbacksClientTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>JQueryPromisesClientTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\TypeScript\Templates\ClientMethodsTemplate.cs">
-      <DependentUpon>ClientMethodsTemplate.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="CodeGenerators\TypeScript\Templates\ClientMethodsTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\TypeScript\Templates\RequestBodyTemplate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>RequestBodyTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.cs">
-      <DependentUpon>ProcessResponseTemplate.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="CodeGenerators\TypeScript\Templates\RequestUrlTemplate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>RequestUrlTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\TypeScript\Templates\RequestUrlTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\TypeScript\Templates\RequestBodyTemplate.Extensions.cs" />
-    <Compile Include="CodeGenerators\TypeScript\TypeScriptTemplate.cs" />
-    <Compile Include="CodeGenerators\TypeScript\SwaggerToTypeScriptClientGenerator.cs" />
-    <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpWebApiControllerGenerator.cs" />
-    <Compile Include="CodeGenerators\CSharp\SwaggerToCSharpWebApiControllerGeneratorSettings.cs" />
+    <Compile Include="ClientGeneratorOutputType.cs" />
+    <Compile Include="ControllerGeneratorBaseSettings.cs" />
+    <Compile Include="DefaultTemplateFactory.cs" />
+    <Compile Include="IClientGenerator.cs" />
     <Compile Include="Infrastructure\ObjectExtensions.cs" />
-    <Compile Include="Infrastructure\T4Extensions.cs" />
+    <Compile Include="OperationNameGenerators\IOperationNameGenerator.cs" />
+    <Compile Include="Models\OperationModelBase.cs" />
+    <Compile Include="Models\ParameterModelBase.cs" />
+    <Compile Include="Models\ResponseModelBase.cs" />
+    <Compile Include="ClientGeneratorBase.cs" />
+    <Compile Include="OperationNameGenerators\MultipleClientsFromOperationIdOperationNameGenerator.cs" />
+    <Compile Include="OperationNameGenerators\MultipleClientsFromPathSegmentsOperationNameGenerator.cs" />
+    <Compile Include="ClientGeneratorBaseSettings.cs" />
+    <Compile Include="OperationNameGenerators\SingleClientFromOperationIdOperationNameGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SwaggerGenerators\AssemblyTypeToSwaggerGeneratorBase.cs" />
-    <Compile Include="SwaggerGenerators\AssemblyTypeToSwaggerGeneratorSettings.cs" />
-    <Compile Include="SwaggerGenerators\SwaggerJsonSchemaGenerator.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\Processors\Contexts\DocumentProcessorContext.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\Processors\OperationParameterProcessor.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\Processors\Contexts\OperationProcessorContext.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\Processors\OperationResponseProcessor.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\Processors\OperationSummaryAndDescriptionProcessor.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\Processors\DocumentTagsProcessor.cs" />
-    <Compile Include="SwaggerGenerators\Processors\IDocumentProcessor.cs" />
-    <Compile Include="SwaggerGenerators\Processors\IOperationProcessor.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\Processors\Security\SecurityDefinitionAppender.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\Processors\Security\OperationSecurityScopeProcessor.cs" />
-    <Compile Include="SwaggerGenerators\SwaggerGenerator.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\Processors\OperationTagsProcessor.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\WebApiAssemblyToSwaggerGeneratorBase.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\WebApiAssemblyToSwaggerGeneratorSettings.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\WebApiToSwaggerGenerator.cs" />
-    <Compile Include="SwaggerGenerators\WebApi\WebApiToSwaggerGeneratorSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -218,76 +90,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="CodeGenerators\CSharp\Templates\ClientTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>ClientTemplate.cs</LastGenOutput>
-    </None>
-    <None Include="CodeGenerators\CSharp\Templates\FileTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>FileTemplate1.cs</LastGenOutput>
-    </None>
-    <None Include="CodeGenerators\CSharp\Templates\ControllerTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>ControllerTemplate1.cs</LastGenOutput>
-    </None>
-    <None Include="CodeGenerators\TypeScript\Templates\Angular2ClientTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>Angular2ClientTemplate.cs</LastGenOutput>
-    </None>
-    <None Include="CodeGenerators\TypeScript\Templates\AngularJSClientTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>AngularJSClientTemplate.cs</LastGenOutput>
-    </None>
-    <None Include="CodeGenerators\TypeScript\Templates\FileTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>FileTemplate.cs</LastGenOutput>
-    </None>
-    <None Include="CodeGenerators\TypeScript\Templates\JQueryCallbacksClientTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>JQueryCallbacksClientTemplate.cs</LastGenOutput>
-    </None>
-    <None Include="CodeGenerators\TypeScript\Templates\JQueryPromisesClientTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>JQueryPromisesClientTemplate.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="CodeGenerators\TypeScript\Templates\RequestBodyTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>RequestBodyTemplate.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="CodeGenerators\CSharp\Templates\JsonExceptionConverterTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>JsonExceptionConverterTemplate.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="CodeGenerators\TypeScript\Templates\FetchClientTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>FetchClientTemplate.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="CodeGenerators\TypeScript\Templates\RequestUrlTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>RequestUrlTemplate.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="CodeGenerators\TypeScript\Templates\ProcessResponseTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>ProcessResponseTemplate.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="CodeGenerators\TypeScript\Templates\ClientMethodsTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>ClientMethodsTemplate.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

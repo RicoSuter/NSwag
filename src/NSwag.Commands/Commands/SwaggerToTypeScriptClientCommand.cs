@@ -11,7 +11,7 @@ using NConsole;
 using Newtonsoft.Json;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NJsonSchema.Infrastructure;
-using NSwag.CodeGeneration.CodeGenerators.TypeScript;
+using NSwag.CodeGeneration.TypeScript;
 using NSwag.Commands.Base;
 
 #pragma warning disable 1591

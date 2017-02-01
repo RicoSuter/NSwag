@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSwag.CodeGeneration.SwaggerGenerators;
+using NSwag.SwaggerGeneration;
 
 namespace NSwag.CodeGeneration.Tests
 {

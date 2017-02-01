@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 using NConsole;
 using Newtonsoft.Json;
 using NJsonSchema;
-using NSwag.CodeGeneration.SwaggerGenerators;
 using NSwag.Commands.Base;
+using NSwag.SwaggerGeneration;
 
 #pragma warning disable 1591
 

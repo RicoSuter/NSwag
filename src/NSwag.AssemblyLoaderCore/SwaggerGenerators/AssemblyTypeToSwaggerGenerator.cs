@@ -23,7 +23,7 @@ using NJsonSchema.Infrastructure;
 using System.Runtime.Loader;
 #endif
 
-namespace NSwag.CodeGeneration.SwaggerGenerators
+namespace NSwag.SwaggerGeneration
 {
     /// <summary>Generates a <see cref="SwaggerDocument"/> from a Web API controller or type which is located in a .NET assembly.</summary>
     public class AssemblyTypeToSwaggerGenerator : AssemblyTypeToSwaggerGeneratorBase

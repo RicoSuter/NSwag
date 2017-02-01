@@ -8,7 +8,7 @@
 
 using System.Threading.Tasks;
 using NConsole;
-using NSwag.CodeGeneration.CodeGenerators.CSharp;
+using NSwag.CodeGeneration.CSharp;
 
 #pragma warning disable 1591
 

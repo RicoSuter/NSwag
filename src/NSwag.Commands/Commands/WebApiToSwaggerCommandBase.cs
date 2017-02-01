@@ -13,8 +13,8 @@ using NConsole;
 using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
-using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 using NSwag.Commands.Base;
+using NSwag.SwaggerGeneration.WebApi;
 
 #pragma warning disable 1591
 

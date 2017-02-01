@@ -11,7 +11,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using NJsonSchema.CodeGeneration.CSharp;
 using NSwag;
-using NSwag.CodeGeneration.CodeGenerators;
 using NSwag.Commands;
 
 namespace NSwagStudio.ViewModels.CodeGenerators

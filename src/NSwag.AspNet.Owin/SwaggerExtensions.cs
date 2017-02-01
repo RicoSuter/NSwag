@@ -14,8 +14,8 @@ using Microsoft.Owin;
 using Microsoft.Owin.Extensions;
 using Microsoft.Owin.FileSystems;
 using Microsoft.Owin.StaticFiles;
-using NSwag.CodeGeneration.SwaggerGenerators;
-using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
+using NSwag.SwaggerGeneration;
+using NSwag.SwaggerGeneration.WebApi;
 using Owin;
 
 namespace NSwag.AspNet.Owin

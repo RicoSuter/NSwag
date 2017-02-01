@@ -9,7 +9,7 @@
 using NConsole;
 using Newtonsoft.Json;
 using NJsonSchema.CodeGeneration.CSharp;
-using NSwag.CodeGeneration.CodeGenerators.CSharp;
+using NSwag.CodeGeneration.CSharp;
 using NSwag.Commands.Base;
 
 #pragma warning disable 1591
