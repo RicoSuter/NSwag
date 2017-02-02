@@ -74,11 +74,19 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 **NuGet Packages**
 
 - [NSwag.Core](https://www.nuget.org/packages/NSwag.Core/) (PCL 259 / .NETStandard 1.0): 
-    - The Swagger reader and writer classes ([Source Code](https://github.com/NSwag/NSwag/tree/master/src/NSwag.Core))
+    - The Swagger reader and writer classes
 - [NSwag.Annotations](https://www.nuget.org/packages/NSwag.Annotations/) (PCL 259 / .NETStandard 1.0): 
-    - Attributes to decorate Web API controllers to control the Swagger generation ([Source Code](https://github.com/NSwag/NSwag/tree/master/src/NSwag.Annotations))
+    - Attributes to decorate Web API controllers to control the Swagger generation
+- [NSwag.SwaggerGeneration](https://www.nuget.org/packages/NSwag.CodeGeneration/) (PCL 259 / .NETStandard 1.0): 
+    - Classes to generate Swagger specifications 
+- [NSwag.SwaggerGeneration.WebApi](https://www.nuget.org/packages/NSwag.CodeGeneration/) (PCL 259 / .NETStandard 1.0): 
+    - Classes to generate Swagger specifications from Web API controllers
 - [NSwag.CodeGeneration](https://www.nuget.org/packages/NSwag.CodeGeneration/) (PCL 259 / .NETStandard 1.0): 
-    - Classes to generate Swagger specifications from Web API controllers and C# and TypeScript clients ([Source Code](https://github.com/NSwag/NSwag/tree/master/src/NSwag.CodeGeneration))
+    - Base classes to generate clients from Swagger specifications
+- [NSwag.CodeGeneration.CSharp](https://www.nuget.org/packages/NSwag.CodeGeneration.CSharp/) (PCL 259 / .NETStandard 1.0): 
+    - Classes to generate C# clients from Swagger specifications
+- [NSwag.CodeGeneration.TypeScript](https://www.nuget.org/packages/NSwag.CodeGeneration.TypeScript/) (PCL 259 / .NETStandard 1.0): 
+    - Classes to generate TypeScript clients from Swagger specifications
 - [NSwag.AssemblyLoader](https://www.nuget.org/packages/NSwag.AssemblyLoader/) (.NET 4.5+): 
     - Classes to load assemblies in an isolated AppDomain and generate Swagger specs from Web API controllers
 - [NSwag.AssemblyLoaderCore](https://www.nuget.org/packages/NSwag.AssemblyLoaderCore/) (.NET Core, .NETStandard 1.6): 
@@ -96,6 +104,8 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
     - Commands for the command line tool implementations and UI
 - [NSwag.ConsoleCore](https://www.nuget.org/packages/NSwag.ConsoleCore/) (PCL 259 / .NETStandard 1.0): 
     - Command line tool for .NET Core (`dotnet nswag`)
+
+CI NuGet Feed: https://www.myget.org/gallery/nswag-ci
 
 The NuGet packages may require the **Microsoft.NETCore.Portable.Compatibility** package on .NET Core/UWP targets (if mscorlib is missing). 
 
