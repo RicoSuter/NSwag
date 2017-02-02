@@ -62,10 +62,11 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 if (UnwrappedResultType == "FileResponse")
                     return "System.Threading.Tasks.Task<FileResponse>";
 
-                if ((_settings as SwaggerToCSharpClientGeneratorSettings)?.WrapSuccessResponses == true)
+                var clientSettings = _settings as SwaggerToCSharpClientGeneratorSettings;
+                if (clientSettings?.WrapSuccessResponses == true)
                     return UnwrappedResultType == "void"
-                        ? "System.Threading.Tasks.Task<SwaggerResponse>"
-                        : "System.Threading.Tasks.Task<SwaggerResponse<" + UnwrappedResultType + ">>";
+                        ? "System.Threading.Tasks.Task<" + clientSettings.ResponseClass.Replace("{controller}", ControllerName) + ">"
+                        : "System.Threading.Tasks.Task<" + clientSettings.ResponseClass.Replace("{controller}", ControllerName) + "<" + UnwrappedResultType + ">>";
 
                 return UnwrappedResultType == "void"
                     ? "System.Threading.Tasks.Task"

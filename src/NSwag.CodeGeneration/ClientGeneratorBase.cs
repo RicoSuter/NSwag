@@ -83,7 +83,7 @@ namespace NSwag.CodeGeneration
 
             if (BaseSettings.OperationNameGenerator.SupportsMultipleClients)
             {
-                foreach (var controllerOperations in operations.GroupBy(o => BaseSettings.OperationNameGenerator.GetClientName(document, o.Path, o.HttpMethod, o.Operation)))
+                foreach (var controllerOperations in operations.GroupBy(o => o.ControllerName))
                 {
                     var controllerName = controllerOperations.Key;
                     var controllerClassName = GetClassName(controllerOperations.Key);
@@ -114,6 +114,7 @@ namespace NSwag.CodeGeneration
                 .Select(tuple =>
                 {
                     var operationModel = CreateOperationModel(tuple.Operation, BaseSettings);
+                    operationModel.ControllerName = BaseSettings.OperationNameGenerator.GetClientName(document, tuple.Path, tuple.HttpMethod, tuple.Operation);
                     operationModel.Path = tuple.Path;
                     operationModel.HttpMethod = tuple.HttpMethod;
                     operationModel.Operation = tuple.Operation;

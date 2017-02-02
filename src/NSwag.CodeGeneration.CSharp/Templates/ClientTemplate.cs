@@ -1661,7 +1661,14 @@ if(Model.InjectHttpClient){
             
             #line default
             #line hidden
-            this.Write("                            return new SwaggerResponse<");
+            this.Write("                            return new ");
+            
+            #line 215 "C:\Data\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ResponseClass));
+            
+            #line default
+            #line hidden
+            this.Write("<");
             
             #line 215 "C:\Data\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.UnwrappedResultType));
@@ -1815,7 +1822,14 @@ if(Model.InjectHttpClient){
             
             #line default
             #line hidden
-            this.Write("                        return new SwaggerResponse<");
+            this.Write("                        return new ");
+            
+            #line 245 "C:\Data\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ResponseClass));
+            
+            #line default
+            #line hidden
+            this.Write("<");
             
             #line 245 "C:\Data\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.UnwrappedResultType));
@@ -1862,7 +1876,14 @@ if(Model.InjectHttpClient){
             
             #line default
             #line hidden
-            this.Write("                        return new SwaggerResponse(status_, headers_); \r\n");
+            this.Write("                        return new ");
+            
+            #line 251 "C:\Data\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ResponseClass));
+            
+            #line default
+            #line hidden
+            this.Write("(status_, headers_); \r\n");
             
             #line 252 "C:\Data\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
           }else{
@@ -2046,7 +2067,14 @@ if(Model.InjectHttpClient){
             
             #line default
             #line hidden
-            this.Write("                                return new SwaggerResponse<");
+            this.Write("                                return new ");
+            
+            #line 287 "C:\Data\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ResponseClass));
+            
+            #line default
+            #line hidden
+            this.Write("<");
             
             #line 287 "C:\Data\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.UnwrappedResultType));
@@ -2187,7 +2215,14 @@ if(Model.InjectHttpClient){
             
             #line default
             #line hidden
-            this.Write("                    return new SwaggerResponse<");
+            this.Write("                    return new ");
+            
+            #line 317 "C:\Data\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ResponseClass));
+            
+            #line default
+            #line hidden
+            this.Write("<");
             
             #line 317 "C:\Data\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.UnwrappedResultType));
@@ -2228,7 +2263,14 @@ if(Model.InjectHttpClient){
             
             #line default
             #line hidden
-            this.Write("\r\n                    return new SwaggerResponse(status_, headers_); \r\n");
+            this.Write("\r\n                    return new ");
+            
+            #line 323 "C:\Data\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ResponseClass));
+            
+            #line default
+            #line hidden
+            this.Write("(status_, headers_); \r\n");
             
             #line 324 "C:\Data\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
       }

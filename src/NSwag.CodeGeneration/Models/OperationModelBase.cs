@@ -133,6 +133,9 @@ namespace NSwag.CodeGeneration.Models
             }
         }
 
+        /// <summary>Gets the name of the controller.</summary>
+        public string ControllerName { get; set; }
+
         /// <summary>Gets or sets the type of the exception.</summary>
         public abstract string ExceptionType { get; }
 

@@ -77,9 +77,10 @@ namespace <#=Model.Namespace#>
     }
 
 <#}#>
-<#if (Model.WrapSuccessResponses){#>
+<#if (Model.WrapSuccessResponses && Model.GenerateResponseClasses){#>
+<#  foreach (var responseClassName in Model.ResponseClassNames){#>
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
-    public class SwaggerResponse
+    public class <#=responseClassName#>
     {
         public string StatusCode { get; private set; }
 
@@ -93,7 +94,7 @@ namespace <#=Model.Namespace#>
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
-    public class SwaggerResponse<TResult> : SwaggerResponse
+    public class <#=responseClassName#><TResult> : <#=responseClassName#>
     {
         public TResult Result { get; private set; }
         
@@ -104,6 +105,7 @@ namespace <#=Model.Namespace#>
         }
     }
 
+<#  }#>
 <#}#>
 <#if (Model.GenerateExceptionClasses){#>
 <#  foreach (var exceptionClassName in Model.ExceptionClassNames){#>

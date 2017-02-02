@@ -99,18 +99,43 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets or sets a value indicating whether to wrap success responses to allow full response access.</summary>
         public bool WrapSuccessResponses => (_settings as SwaggerToCSharpClientGeneratorSettings)?.WrapSuccessResponses == true;
 
+        /// <summary>Gets or sets a value indicating whether to generate the response class (only applied when WrapSuccessResponses == true, default: true).</summary>
+        public bool GenerateResponseClasses => (_settings as SwaggerToCSharpClientGeneratorSettings)?.GenerateResponseClasses == true;
+
+        /// <summary>Gets the response class names.</summary>
+        public IEnumerable<string> ResponseClassNames
+        {
+            get
+            {
+                var settings = _settings as SwaggerToCSharpClientGeneratorSettings;
+                if (settings != null)
+                {
+                    if (settings.OperationNameGenerator.SupportsMultipleClients)
+                    {
+                        return _document.Operations
+                            .GroupBy(o => settings.OperationNameGenerator.GetClientName(_document, o.Path, o.Method, o.Operation))
+                            .Select(g => settings.ResponseClass.Replace("{controller}", g.Key))
+                            .Distinct();
+                    }
+                    else
+                        return new[] { settings.ResponseClass.Replace("{controller}", string.Empty) };
+                }
+                return new string[] { };
+            }
+        }
+
         /// <summary>Gets the exception class names.</summary>
         public IEnumerable<string> ExceptionClassNames
         {
             get
             {
-                if (_settings is SwaggerToCSharpClientGeneratorSettings)
+                var settings = _settings as SwaggerToCSharpClientGeneratorSettings;
+                if (settings != null)
                 {
-                    var settings = (SwaggerToCSharpClientGeneratorSettings)_settings;
-                    if (_settings.OperationNameGenerator.SupportsMultipleClients)
+                    if (settings.OperationNameGenerator.SupportsMultipleClients)
                     {
                         return _document.Operations
-                            .GroupBy(o => _settings.OperationNameGenerator.GetClientName(_document, o.Path, o.Method, o.Operation))
+                            .GroupBy(o => settings.OperationNameGenerator.GetClientName(_document, o.Path, o.Method, o.Operation))
                             .Select(g => settings.ExceptionClass.Replace("{controller}", g.Key))
                             .Distinct();
                     }

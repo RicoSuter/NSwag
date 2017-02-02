@@ -15,8 +15,12 @@ namespace NSwag.CodeGeneration.CSharp
         public SwaggerToCSharpClientGeneratorSettings()
         {
             ClassName = "{controller}Client";
+
+            GenerateExceptionClasses = true;
             ExceptionClass = "SwaggerException";
-            GenerateExceptionClasses = true; 
+
+            GenerateResponseClasses = true;
+            ResponseClass = "SwaggerResponse";
         }
 
         /// <summary>Gets or sets the full name of the base class.</summary>
@@ -33,6 +37,12 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets a value indicating whether to wrap success responses to allow full response access (experimental).</summary>
         public bool WrapSuccessResponses { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether to generate the response classes (only needed when WrapSuccessResponses == true, default: true).</summary>
+        public bool GenerateResponseClasses { get; set; }
+
+        /// <summary>Gets or sets the name of the response class (supports the '{controller}' placeholder).</summary>
+        public string ResponseClass { get; set; }
 
         /// <summary>Gets or sets a value indicating whether an HttpClient instance is injected into the client.</summary>
         public bool InjectHttpClient { get; set; }
