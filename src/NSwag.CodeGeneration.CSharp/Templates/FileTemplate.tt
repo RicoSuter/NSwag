@@ -86,7 +86,7 @@ namespace <#=Model.Namespace#>
 
         public System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
         
-        public SwaggerResponse(string statusCode, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers) 
+        public <#=responseClassName#>(string statusCode, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers) 
         {
             StatusCode = statusCode; 
             Headers = headers;
@@ -98,7 +98,7 @@ namespace <#=Model.Namespace#>
     {
         public TResult Result { get; private set; }
         
-        public SwaggerResponse(string statusCode, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result) 
+        public <#=responseClassName#>(string statusCode, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result) 
             : base(statusCode, headers)
         {
             Result = result;
