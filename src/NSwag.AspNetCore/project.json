@@ -1,5 +1,5 @@
 {
-  "version": "8.8.0-*",
+  "version": "9.0.0-*",
   "authors": [ "Rico Suter" ],
   "description": "NSwag: The Swagger API toolchain for .NET and TypeScript",
   "packOptions": {
