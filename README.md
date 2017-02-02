@@ -1,4 +1,4 @@
-## NSwag: The Swagger API toolchain for .NET, Web API and TypeScript
+## NSwag: The Swagger (Open API) toolchain for .NET, Web API and TypeScript
 
 [![NuGet Version](https://img.shields.io/nuget/v/NSwag.Core.svg)](https://www.nuget.org/packages?q=NSwag)
 [![npm](https://img.shields.io/npm/v/nswag.svg)](https://www.npmjs.com/package/nswag)
