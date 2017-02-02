@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NJsonSchema;
@@ -24,6 +26,7 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Integration
             public JsonDate Date { get; set; }
         }
 
+        [Swashbuckle.Swagger.Annotations.SwaggerResponse(HttpStatusCode.Forbidden, "The user is not authorized")]
         public class MyController : ApiController
         {
             [HttpPost]
@@ -72,6 +75,21 @@ namespace NSwag.CodeGeneration.Tests.WebApi.Integration
 
             //// Assert
             Assert.IsTrue(json.Contains("\"$ref\": \"#/definitions/LockedFlight\""));
+        }
+
+        [TestMethod]
+        public async Task When_SwaggerResponseAttribute_is_on_class_then_it_is_applied_to_all_methods()
+        {
+            //// Arrange
+            var settings = new WebApiToSwaggerGeneratorSettings();
+            var generator = new WebApiToSwaggerGenerator(settings);
+
+            //// Act
+            var document = await generator.GenerateForControllerAsync<MyController>();
+            var json = document.ToJson();
+
+            //// Assert
+            Assert.IsTrue(document.Operations.First().Operation.Responses.ContainsKey("403"));
         }
     }
 }
