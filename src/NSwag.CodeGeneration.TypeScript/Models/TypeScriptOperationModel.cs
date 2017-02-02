@@ -29,7 +29,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             _settings = settings;
             _generator = generator;
 
-            // TODO: Improve call
+            // TODO: Duplicated code
             Parameters = _operation.ActualParameters.Select(parameter =>
                 new TypeScriptParameterModel(ResolveParameterType(parameter), _operation, parameter, parameter.Name,
                     GetParameterVariableName(parameter, _operation.Parameters), (SwaggerToTypeScriptClientGeneratorSettings)_settings,

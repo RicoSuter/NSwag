@@ -10,9 +10,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using NSwag.CodeGeneration.Infrastructure;
 using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Contexts;
+using NSwag.SwaggerGeneration.WebApi.Infrastructure;
 
 namespace NSwag.SwaggerGeneration.WebApi.Processors
 {

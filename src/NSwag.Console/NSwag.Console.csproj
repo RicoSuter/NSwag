@@ -79,6 +79,14 @@
       <HintPath>..\packages\NJsonSchema.CodeGeneration.8.0.6242.20256\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="NJsonSchema.CodeGeneration.CSharp, Version=8.0.6242.20256, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.CodeGeneration.CSharp.8.0.6242.20256\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.CSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NJsonSchema.CodeGeneration.TypeScript, Version=8.0.6242.20256, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.CodeGeneration.TypeScript.8.0.6242.20256\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.TypeScript.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />

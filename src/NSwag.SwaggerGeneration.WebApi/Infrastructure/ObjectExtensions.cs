@@ -8,7 +8,7 @@
 
 using System.Reflection;
 
-namespace NSwag.CodeGeneration.Infrastructure
+namespace NSwag.SwaggerGeneration.WebApi.Infrastructure
 {
     /// <summary>Object reflection extensions.</summary>
     public static class ObjectExtensions

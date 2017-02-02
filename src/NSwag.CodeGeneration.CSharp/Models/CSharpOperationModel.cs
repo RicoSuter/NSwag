@@ -47,6 +47,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             _generator = generator;
 
             // TODO: Duplicated code
+            // TODO(feature): Reorder parameters and add default value
             Parameters = _operation.ActualParameters.Select(parameter =>
                 new CSharpParameterModel(ResolveParameterType(parameter), _operation, parameter, parameter.Name,
                     GetParameterVariableName(parameter, _operation.Parameters), _settings.CodeGeneratorSettings,

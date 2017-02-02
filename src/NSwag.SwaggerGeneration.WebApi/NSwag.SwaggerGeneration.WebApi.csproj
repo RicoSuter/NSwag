@@ -51,6 +51,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\ObjectExtensions.cs" />
     <Compile Include="Processors\DocumentTagsProcessor.cs" />
     <Compile Include="Processors\OperationParameterProcessor.cs" />
     <Compile Include="Processors\OperationResponseProcessor.cs" />
@@ -75,10 +76,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj">
-      <Project>{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}</Project>
-      <Name>NSwag.CodeGeneration</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj">
       <Project>{2E6174AA-FC75-4821-9E86-51B30568BEC0}</Project>
       <Name>NSwag.Core</Name>
