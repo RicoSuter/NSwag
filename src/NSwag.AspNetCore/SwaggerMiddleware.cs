@@ -10,8 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using NSwag.CodeGeneration.SwaggerGenerators;
-using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
+using NSwag.SwaggerGeneration;
+using NSwag.SwaggerGeneration.WebApi;
 
 namespace NSwag.AspNetCore
 {

@@ -13,9 +13,8 @@ using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders;
-using NSwag.CodeGeneration.SwaggerGenerators;
-using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
-using NJsonSchema.Generation;
+using NSwag.SwaggerGeneration;
+using NSwag.SwaggerGeneration.WebApi;
 
 namespace NSwag.AspNetCore
 {

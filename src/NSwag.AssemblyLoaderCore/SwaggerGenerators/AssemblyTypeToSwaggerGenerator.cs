@@ -21,7 +21,7 @@ using NSwag.SwaggerGeneration.Utilities;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
 using System.Runtime.Loader;
-using NSwag.CodeGeneration.SwaggerGenerators;
+using NSwag.SwaggerGeneration;
 #endif
 
 namespace NSwag.SwaggerGeneration

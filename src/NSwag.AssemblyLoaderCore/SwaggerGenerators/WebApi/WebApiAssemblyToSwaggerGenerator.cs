@@ -18,7 +18,7 @@ using NSwag.SwaggerGeneration.Utilities;
 
 #if !FullNet
 using NJsonSchema.Infrastructure;
-using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
+using NSwag.SwaggerGeneration.WebApi;
 using System.Runtime.Loader;
 #endif
 
