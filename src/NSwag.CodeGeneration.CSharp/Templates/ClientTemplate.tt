@@ -187,11 +187,8 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
                 try
                 {
                     var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h => h.Key, h => h.Value);
-                    foreach (var item in response_.Content.Headers)
-                        headers_[item.Key] = item.Value;
-
                     ProcessResponse(client_, response_);
-					
+
                     var status_ = ((int)response_.StatusCode).ToString();
 <#foreach(var response in operation.Responses){#>
                     if (status_ == "<#=response.StatusCode#>"<#if(response.IsFile && response.StatusCode == "200"){#> || status_ == "206"<#}#>) 
