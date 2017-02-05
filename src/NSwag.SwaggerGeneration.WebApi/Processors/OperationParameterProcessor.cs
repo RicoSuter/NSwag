@@ -41,6 +41,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
             var httpPath = context.OperationDescription.Path;
             var parameters = context.MethodInfo.GetParameters().ToList();
             foreach (var parameter in parameters.Where(p => p.ParameterType != typeof(CancellationToken) &&
+                                                            p.GetCustomAttributes().All(a => a.GetType().InheritsFrom("SwaggerIgnoreAttribute", TypeNameStyle.Name) == false) &&
                                                             p.GetCustomAttributes().All(a => a.GetType().Name != "FromServicesAttribute") &&
                                                             p.GetCustomAttributes().All(a => a.GetType().Name != "BindNeverAttribute")))
             {
