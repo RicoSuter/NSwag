@@ -57,5 +57,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
         /// <summary>Gets or sets the base path.</summary>
         public string BasePath => _document.BasePath?.TrimStart('/');
+
+        /// <summary>Gets a value indicating whether to generate optional parameters.</summary>
+        public bool GenerateOptionalParameters => _settings.GenerateOptionalParameters;
     }
 }

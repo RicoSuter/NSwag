@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converters="clr-namespace:MyToolkit.Converters;assembly=MyToolkit.Extended"
              xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
-             xmlns:views="clr-namespace:NSwagStudio.Views"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:codeGenerators="clr-namespace:NSwagStudio.ViewModels.CodeGenerators"
              xmlns:controls="clr-namespace:NSwagStudio.Controls"
@@ -51,6 +50,9 @@
 
                     <TextBlock Text="Additional Namespace Usages (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding AdditionalNamespaceUsages, Mode=TwoWay}" Margin="0,0,0,12" />
+
+                    <CheckBox IsChecked="{Binding Command.GenerateOptionalParameters, Mode=TwoWay}" 
+                              Content="Generate optional parameters (reorder parameters (required first, optional at the end) and generate optional C# parameters)" Margin="0,0,0,6" />
 
                     <GroupBox Header="Classes" Margin="0,0,0,12">
                         <StackPanel Margin="4,8,4,-8">

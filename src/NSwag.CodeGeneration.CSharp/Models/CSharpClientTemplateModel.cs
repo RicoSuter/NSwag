@@ -28,11 +28,11 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <param name="document">The Swagger document.</param>
         /// <param name="settings">The settings.</param>
         public CSharpClientTemplateModel(
-            string controllerName, 
-            string controllerClassName, 
-            IEnumerable<CSharpOperationModel> operations, 
+            string controllerName,
+            string controllerClassName,
+            IEnumerable<CSharpOperationModel> operations,
             JsonSchema4 exceptionSchema,
-            SwaggerDocument document, 
+            SwaggerDocument document,
             SwaggerToCSharpClientGeneratorSettings settings)
         {
             _document = document;
@@ -96,6 +96,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
         /// <summary>Gets the exception class name.</summary>
         public string ExceptionClass { get; }
+
+        /// <summary>Gets a value indicating whether to generate optional parameters.</summary>
+        public bool GenerateOptionalParameters => _settings.GenerateOptionalParameters;
 
         /// <summary>Gets the operations.</summary>
         public IEnumerable<CSharpOperationModel> Operations { get; }

@@ -35,5 +35,8 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets the code generator settings.</summary>
         public override CodeGeneratorSettingsBase CodeGeneratorSettings => CSharpGeneratorSettings;
+
+        /// <summary>Gets or sets a value indicating whether to reorder parameters (required first, optional at the end) and generate optional C# parameters (default: false).</summary>
+        public bool GenerateOptionalParameters { get; set; }
     }
 }
