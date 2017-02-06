@@ -41,7 +41,7 @@ if(Model.WrapDtoExceptions){
             #line default
             #line hidden
             this.Write("    if(result !== null && result !== undefined)\r\n        throw result;\r\n    else\r" +
-                    "\n        throw new SwaggerException(message, status, response);\r\n");
+                    "\n        throw new SwaggerException(message, status, response, null);\r\n");
             
             #line 8 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
 }
