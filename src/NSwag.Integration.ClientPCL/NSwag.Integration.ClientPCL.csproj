@@ -54,6 +54,7 @@
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
     <None Include="packages.config" />
+    <None Include="swagger.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientBase.cs" />
