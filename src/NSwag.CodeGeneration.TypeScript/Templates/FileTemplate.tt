@@ -52,9 +52,9 @@ export class SwaggerException extends Error {
     message: string;
     status: number; 
     response: string; 
-    result?: any; 
+    result: any; 
 
-    constructor(message: string, status: number, response: string, result?: any) {
+    constructor(message: string, status: number, response: string, result: any) {
         super();
 
         this.message = message;
