@@ -186,6 +186,13 @@ namespace NSwag.Commands
                 else if (!string.IsNullOrEmpty(ServiceHost))
                     document.Host = ServiceHost;
 
+                if (!string.IsNullOrEmpty(InfoTitle))
+                    document.Info.Title = InfoTitle;
+                if (!string.IsNullOrEmpty(InfoVersion))
+                    document.Info.Version = InfoVersion;
+                if (!string.IsNullOrEmpty(InfoDescription))
+                    document.Info.Description = InfoDescription;
+
                 if (ServiceSchemes != null && ServiceSchemes.Any())
                     document.Schemes = ServiceSchemes.Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true)).ToList();
 
