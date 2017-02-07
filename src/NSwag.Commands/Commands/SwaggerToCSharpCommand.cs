@@ -48,6 +48,14 @@ namespace NSwag.Commands
             set { Settings.AdditionalNamespaceUsages = value; }
         }
 
+        [Argument(Name = "GenerateOptionalParameters", IsRequired = false,
+                  Description = "Specifies whether to reorder parameters (required first, optional at the end) and generate optional C# parameters (default: false).")]
+        public bool GenerateOptionalParameters
+        {
+            get { return Settings.GenerateOptionalParameters; }
+            set { Settings.GenerateOptionalParameters = value; }
+        }
+
         [Argument(Name = "RequiredPropertiesMustBeDefined", IsRequired = false,
                   Description = "Specifies whether a required property must be defined in JSON (sets Required.Always when the property is required).")]
         public bool RequiredPropertiesMustBeDefined

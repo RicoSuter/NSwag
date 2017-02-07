@@ -32,9 +32,6 @@ namespace NSwag.CodeGeneration.CSharp.Models
             Operations = operations;
             _document = document; 
             _settings = settings;
-
-            ResponseClass = _settings.ResponseClass.Replace("{controller}", controllerName);
-            WrapSuccessResponses = _settings.WrapSuccessResponses;
         }
 
         /// <summary>Gets or sets the class name.</summary>
@@ -60,5 +57,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
         /// <summary>Gets or sets the base path.</summary>
         public string BasePath => _document.BasePath?.TrimStart('/');
+
+        /// <summary>Gets a value indicating whether to generate optional parameters.</summary>
+        public bool GenerateOptionalParameters => _settings.GenerateOptionalParameters;
     }
 }

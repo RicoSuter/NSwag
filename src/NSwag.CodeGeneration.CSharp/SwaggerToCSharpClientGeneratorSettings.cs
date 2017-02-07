@@ -29,7 +29,7 @@ namespace NSwag.CodeGeneration.CSharp
         /// <summary>Gets or sets a value indicating whether to generate exception classes (default: true).</summary>
         public bool GenerateExceptionClasses { get; set; }
 
-        /// <summary>Gets or sets the name of the exception class (supports the '{controller}' placeholder).</summary>
+        /// <summary>Gets or sets the name of the exception class (supports the '{controller}' placeholder, default 'SwaggerException').</summary>
         public string ExceptionClass { get; set; }
 
         /// <summary>Gets or sets a value indicating whether an HttpClient instance is injected into the client.</summary>

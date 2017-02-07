@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.Collections.Generic;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag.CodeGeneration.Models;
 
@@ -18,17 +19,18 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         private readonly SwaggerToTypeScriptClientGeneratorSettings _settings;
 
         /// <summary>Initializes a new instance of the <see cref="TypeScriptParameterModel" /> class.</summary>
-        /// <param name="typeName">The type name.</param>
-        /// <param name="operation">The operation.</param>
-        /// <param name="parameter">The parameter.</param>
         /// <param name="parameterName">Name of the parameter.</param>
         /// <param name="variableName">Name of the variable.</param>
+        /// <param name="typeName">The type name.</param>
+        /// <param name="parameter">The parameter.</param>
+        /// <param name="allParameters">All parameters.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="generator">The client generator base.</param>
         /// <param name="resolver">The resolver.</param>
-        public TypeScriptParameterModel(string typeName, SwaggerOperation operation, SwaggerParameter parameter,
-            string parameterName, string variableName, SwaggerToTypeScriptClientGeneratorSettings settings, SwaggerToTypeScriptClientGenerator generator, TypeScriptTypeResolver resolver)
-            : base(typeName, operation, parameter, parameterName, variableName, settings.TypeScriptGeneratorSettings, generator)
+        public TypeScriptParameterModel(string parameterName, string variableName, string typeName, SwaggerParameter parameter,
+            IList<SwaggerParameter> allParameters, SwaggerToTypeScriptClientGeneratorSettings settings,
+            SwaggerToTypeScriptClientGenerator generator, TypeScriptTypeResolver resolver)
+            : base(parameterName, variableName, typeName, parameter, allParameters, settings.TypeScriptGeneratorSettings, generator)
         {
             _settings = settings;
             _resolver = resolver;

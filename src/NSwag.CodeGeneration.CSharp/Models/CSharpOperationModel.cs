@@ -37,20 +37,23 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <param name="resolver">The resolver.</param>
         public CSharpOperationModel(
             SwaggerOperation operation,
-            ClientGeneratorBaseSettings settings,
+            SwaggerToCSharpGeneratorSettings settings,
             SwaggerToCSharpGeneratorBase generator,
             SwaggerToCSharpTypeResolver resolver)
             : base(resolver.ExceptionSchema, operation, resolver, generator, settings)
         {
-            _settings = (SwaggerToCSharpGeneratorSettings)settings;
+            _settings = settings;
             _operation = operation;
             _generator = generator;
 
-            // TODO: Duplicated code
-            // TODO(feature): Reorder parameters and add default value
-            Parameters = _operation.ActualParameters.Select(parameter =>
-                new CSharpParameterModel(ResolveParameterType(parameter), _operation, parameter, parameter.Name,
-                    GetParameterVariableName(parameter, _operation.Parameters), _settings.CodeGeneratorSettings,
+            var parameters = _operation.ActualParameters.ToList();
+            if (settings.GenerateOptionalParameters)
+                parameters = parameters.OrderBy(p => !p.IsRequired).ToList();
+
+            Parameters = parameters.Select(parameter =>
+                new CSharpParameterModel(parameter.Name, GetParameterVariableName(parameter, _operation.Parameters), 
+                    ResolveParameterType(parameter), parameter, parameters,
+                    _settings.CodeGeneratorSettings,
                     _generator))
                 .ToList();
         }

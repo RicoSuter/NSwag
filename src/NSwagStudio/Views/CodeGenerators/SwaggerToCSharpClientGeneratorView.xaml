@@ -67,6 +67,9 @@
                         </StackPanel>
                     </StackPanel>
 
+                    <CheckBox IsChecked="{Binding Command.GenerateOptionalParameters, Mode=TwoWay}" 
+                              Content="Generate optional parameters (reorder parameters (required first, optional at the end) and generate optional C# parameters)" Margin="0,0,0,6" />
+
                     <GroupBox Header="Client" Margin="0,0,0,12">
                         <StackPanel Margin="4,8,4,-8">
                             <CheckBox IsChecked="{Binding Command.GenerateClientClasses, Mode=TwoWay}" 

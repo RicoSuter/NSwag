@@ -152,7 +152,7 @@ namespace NSwag.CodeGeneration.Models
         public bool HasSuccessResponse => Responses.Any(r => r.IsSuccess);
 
         /// <summary>Gets or sets the parameters.</summary>
-        public IEnumerable<TParameterModel> Parameters { get; protected set; }
+        public IList<TParameterModel> Parameters { get; protected set; }
 
         /// <summary>Gets a value indicating whether the operation has only a default response.</summary>
         public bool HasOnlyDefaultResponse => Responses.Count == 0 && HasDefaultResponse;

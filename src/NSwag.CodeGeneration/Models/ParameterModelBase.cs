@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
@@ -15,27 +16,27 @@ namespace NSwag.CodeGeneration.Models
     /// <summary>The parameter template model.</summary>
     public abstract class ParameterModelBase
     {
-        private readonly SwaggerOperation _operation;
         private readonly SwaggerParameter _parameter;
+        private readonly IList<SwaggerParameter> _allParameters;
         private readonly CodeGeneratorSettingsBase _settings;
         private readonly IClientGenerator _generator;
 
         /// <summary>Initializes a new instance of the <see cref="ParameterModelBase" /> class.</summary>
-        /// <param name="typeName">The type name.</param>
-        /// <param name="operation">The operation.</param>
-        /// <param name="parameter">The parameter.</param>
         /// <param name="parameterName">Name of the parameter.</param>
         /// <param name="variableName">Name of the variable.</param>
+        /// <param name="typeName">The type name.</param>
+        /// <param name="parameter">The parameter.</param>
+        /// <param name="allParameters">All parameters.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="generator">The client generator base.</param>
-        protected ParameterModelBase(string typeName, SwaggerOperation operation, SwaggerParameter parameter,
-            string parameterName, string variableName, CodeGeneratorSettingsBase settings, IClientGenerator generator)
+        protected ParameterModelBase(string parameterName, string variableName, string typeName,
+            SwaggerParameter parameter, IList<SwaggerParameter> allParameters, CodeGeneratorSettingsBase settings, IClientGenerator generator)
         {
             Type = typeName;
             Name = parameterName;
             VariableName = variableName;
 
-            _operation = operation;
+            _allParameters = allParameters;
             _parameter = parameter;
             _settings = settings;
             _generator = generator;
@@ -74,7 +75,7 @@ namespace NSwag.CodeGeneration.Models
         public bool HasDescriptionOrIsOptional => HasDescription || !IsRequired;
 
         /// <summary>Gets a value indicating whether the parameter is the last parameter of the operation.</summary>
-        public bool IsLast => _operation.ActualParameters.LastOrDefault() == _parameter;
+        public bool IsLast => _allParameters.LastOrDefault() == _parameter;
 
         /// <summary>Gets a value indicating whether this is an XML body parameter.</summary>
         public bool IsXmlBodyParameter => _parameter.IsXmlBodyParameter;

@@ -47,5 +47,8 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets the name of the response class (supports the '{controller}' placeholder).</summary>
         public string ResponseClass { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether to reorder parameters (required first, optional at the end) and generate optional C# parameters (default: false).</summary>
+        public bool GenerateOptionalParameters { get; set; }
     }
 }

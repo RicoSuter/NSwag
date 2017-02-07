@@ -151,6 +151,19 @@ foreach(var parameter in operation.Parameters){
             #line hidden
             
             #line 13 "C:\Data\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+if(Model.GenerateOptionalParameters && parameter.IsOptional){
+            
+            #line default
+            #line hidden
+            this.Write(" = null");
+            
+            #line 13 "C:\Data\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            
+            #line 13 "C:\Data\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 if(!parameter.IsLast){
             
             #line default
@@ -372,6 +385,19 @@ foreach(var parameter in operation.Parameters){
             
             #line 37 "C:\Data\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
+            
+            #line default
+            #line hidden
+            
+            #line 37 "C:\Data\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+if(Model.GenerateOptionalParameters && parameter.IsOptional){
+            
+            #line default
+            #line hidden
+            this.Write(" = null");
+            
+            #line 37 "C:\Data\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+}
             
             #line default
             #line hidden
