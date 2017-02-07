@@ -97,28 +97,27 @@ namespace NSwag.CodeGeneration.CSharp.Models
         public bool GenerateExceptionClasses => (_settings as SwaggerToCSharpClientGeneratorSettings)?.GenerateExceptionClasses == true;
 
         /// <summary>Gets or sets a value indicating whether to wrap success responses to allow full response access.</summary>
-        public bool WrapSuccessResponses => (_settings as SwaggerToCSharpClientGeneratorSettings)?.WrapSuccessResponses == true;
+        public bool WrapSuccessResponses => _settings.WrapSuccessResponses;
 
         /// <summary>Gets or sets a value indicating whether to generate the response class (only applied when WrapSuccessResponses == true, default: true).</summary>
-        public bool GenerateResponseClasses => (_settings as SwaggerToCSharpClientGeneratorSettings)?.GenerateResponseClasses == true;
+        public bool GenerateResponseClasses => _settings.GenerateResponseClasses;
 
         /// <summary>Gets the response class names.</summary>
         public IEnumerable<string> ResponseClassNames
         {
             get
             {
-                var settings = _settings as SwaggerToCSharpClientGeneratorSettings;
-                if (settings != null)
+                if (_settings != null)
                 {
-                    if (settings.OperationNameGenerator.SupportsMultipleClients)
+                    if (_settings.OperationNameGenerator.SupportsMultipleClients)
                     {
                         return _document.Operations
-                            .GroupBy(o => settings.OperationNameGenerator.GetClientName(_document, o.Path, o.Method, o.Operation))
-                            .Select(g => settings.ResponseClass.Replace("{controller}", g.Key))
+                            .GroupBy(o => _settings.OperationNameGenerator.GetClientName(_document, o.Path, o.Method, o.Operation))
+                            .Select(g => _settings.ResponseClass.Replace("{controller}", g.Key))
                             .Distinct();
                     }
-                    else
-                        return new[] { settings.ResponseClass.Replace("{controller}", string.Empty) };
+
+                    return new[] { _settings.ResponseClass.Replace("{controller}", string.Empty) };
                 }
                 return new string[] { };
             }
