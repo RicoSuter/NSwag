@@ -25,7 +25,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Annotations", "NSwag.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06 Integration Tests", "06 Integration Tests", "{F31829C6-CEE4-4242-A4D9-820C36127B0B}"
 	ProjectSection(SolutionItems) = preProject
-		readme.txt = readme.txt
+		IntegrationTests.md = IntegrationTests.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Core", "NSwag.Core\NSwag.Core.csproj", "{2E6174AA-FC75-4821-9E86-51B30568BEC0}"
