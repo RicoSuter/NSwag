@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using NSwag.Annotations;
 using NSwag.Annotations.Converters;
 
 namespace NSwag.Tests.Converters
