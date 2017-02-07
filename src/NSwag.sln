@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.CodeGeneration.Tests"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Demo.Web", "NSwag.Demo.Web\NSwag.Demo.Web.csproj", "{37AE85DE-B127-4861-B925-1A67A35F314A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "99_Demo", "99_Demo", "{CCE905FB-0DE1-4A8A-89AE-D84E9367D35C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "99 Demo", "99 Demo", "{CCE905FB-0DE1-4A8A-89AE-D84E9367D35C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Demo.Client", "NSwag.Demo.Client\NSwag.Demo.Client.csproj", "{267D875B-3481-465D-AD2C-4BB18EB911BA}"
 EndProject
@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Tests", "NSwag.Tests\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Annotations", "NSwag.Annotations\NSwag.Annotations.csproj", "{CA084154-E758-4A44-938D-7806AF2DD886}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06_Integration_Tests", "06_Integration_Tests", "{F31829C6-CEE4-4242-A4D9-820C36127B0B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06 Integration Tests", "06 Integration Tests", "{F31829C6-CEE4-4242-A4D9-820C36127B0B}"
 	ProjectSection(SolutionItems) = preProject
 		readme.txt = readme.txt
 	EndProjectSection
@@ -32,7 +32,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Core", "NSwag.Core\NS
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "NSwagStudio.Installer", "NSwagStudio.Installer\NSwagStudio.Installer.wixproj", "{50DCC09C-7349-4BAC-8833-261A641E0669}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{B50AC8CD-CF12-4E7E-9295-E65750C46AA6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample Configurations", "Sample Configurations", "{B50AC8CD-CF12-4E7E-9295-E65750C46AA6}"
 	ProjectSection(SolutionItems) = preProject
 		Samples\DemoWeb.nswag = Samples\DemoWeb.nswag
 		Samples\SwaggerUrlImport.nswag = Samples\SwaggerUrlImport.nswag
@@ -76,7 +76,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Integration.ClientPCL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.AspNet.WebApi", "NSwag.AspNet.WebApi\NSwag.AspNet.WebApi.csproj", "{E5AC8F27-F9E2-4E98-AC98-6F9361132A2E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "07_NuGet", "07_NuGet", "{DDBB05AC-B066-48C4-933C-034F401EBB6A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "07 Packages", "07 Packages", "{DDBB05AC-B066-48C4-933C-034F401EBB6A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Integration.Console", "NSwag.Integration.Console\NSwag.Integration.Console.csproj", "{C683AABE-5FE5-47B8-BB4D-EE5C5E89D9DE}"
 EndProject
@@ -109,13 +109,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.CodeGeneration.CSharp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.CodeGeneration.TypeScript", "NSwag.CodeGeneration.TypeScript\NSwag.CodeGeneration.TypeScript.csproj", "{9293CFCD-6C7B-43E0-9FBD-88753EBF64CC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03_CodeGeneration", "03_CodeGeneration", "{441A2B84-3FF3-43BE-BAD8-609A1EBDC95C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 CodeGeneration", "03 CodeGeneration", "{441A2B84-3FF3-43BE-BAD8-609A1EBDC95C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01_Core", "01_Core", "{1030C3AA-7549-473B-AA7E-5DFAC2F9D37A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 Core", "01 Core", "{1030C3AA-7549-473B-AA7E-5DFAC2F9D37A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02_SwaggerGeneration", "02_SwaggerGeneration", "{48E8B044-3374-4F39-A180-9E01F7A10785}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 SwaggerGeneration", "02 SwaggerGeneration", "{48E8B044-3374-4F39-A180-9E01F7A10785}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04_Integration", "04_Integration", "{F0F26A35-C4B6-42D0-A1DF-98CA46A5C560}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 Integration", "04 Integration", "{F0F26A35-C4B6-42D0-A1DF-98CA46A5C560}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.SwaggerGeneration.WebApi", "NSwag.SwaggerGeneration.WebApi\NSwag.SwaggerGeneration.WebApi.csproj", "{8A547CB0-930F-466D-92EB-E780FF14C0A6}"
 EndProject
@@ -125,7 +125,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.SwaggerGeneration.Web
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.CodeGeneration.TypeScript.Tests", "NSwag.CodeGeneration.TypeScript.Tests\NSwag.CodeGeneration.TypeScript.Tests.csproj", "{95B83E7B-1ADF-4185-AB36-3B17459B0128}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05_Tests", "05_Tests", "{634E4ABD-29EC-4EB2-81EF-7E41D6D6F6E0}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05 Tests", "05 Tests", "{634E4ABD-29EC-4EB2-81EF-7E41D6D6F6E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
