@@ -115,7 +115,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 Core", "01 Core", "{1030
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 SwaggerGeneration", "02 SwaggerGeneration", "{48E8B044-3374-4F39-A180-9E01F7A10785}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 Integration", "04 Integration", "{F0F26A35-C4B6-42D0-A1DF-98CA46A5C560}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 Frontends", "04 Frontends", "{F0F26A35-C4B6-42D0-A1DF-98CA46A5C560}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.SwaggerGeneration.WebApi", "NSwag.SwaggerGeneration.WebApi\NSwag.SwaggerGeneration.WebApi.csproj", "{8A547CB0-930F-466D-92EB-E780FF14C0A6}"
 EndProject
