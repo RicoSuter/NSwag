@@ -69,6 +69,12 @@
                                 <TextBlock Text="Base Class Name (optional, must be imported or implemented in the extension code)" FontWeight="Bold" Margin="0,0,0,6" />
                                 <TextBox Text="{Binding Command.ClientBaseClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,12" />
 
+                                <StackPanel Visibility="{Binding Command.ClientBaseClass, Converter={StaticResource VisibilityConverter}}">
+                                    <TextBlock Text="Configuration Class Name (passed to base class ctor, optional)" FontWeight="Bold" Margin="0,0,0,6" />
+                                    <TextBox Text="{Binding Command.ConfigurationClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             Margin="0,0,0,12" />
+                                </StackPanel>
+
                                 <CheckBox IsChecked="{Binding Command.GenerateClientInterfaces, Mode=TwoWay}" 
                                           Content="Generate Client Interfaces" Margin="0,0,0,12" />
 
@@ -98,6 +104,10 @@
 
                                 <CheckBox IsChecked="{Binding Command.MarkOptionalProperties, Mode=TwoWay}" 
                                           Content="Mark optional properties with ?" Margin="0,0,0,12" />
+
+                                <TextBlock Text="Null value used in object initializers" FontWeight="Bold" Margin="0,0,0,6" />
+                                <ComboBox SelectedItem="{Binding Command.NullValue, Mode=TwoWay}" 
+                                          ItemsSource="{Binding NullValues}" Margin="0,0,0,12" />
 
                                 <TextBlock Text="Date Time Type" FontWeight="Bold" Margin="0,0,0,6" />
                                 <ComboBox SelectedItem="{Binding Command.DateTimeType, Mode=TwoWay}" 

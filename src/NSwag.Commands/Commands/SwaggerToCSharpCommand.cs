@@ -9,8 +9,7 @@
 using NConsole;
 using Newtonsoft.Json;
 using NJsonSchema.CodeGeneration.CSharp;
-using NSwag.CodeGeneration.CodeGenerators;
-using NSwag.CodeGeneration.CodeGenerators.CSharp;
+using NSwag.CodeGeneration.CSharp;
 using NSwag.Commands.Base;
 
 #pragma warning disable 1591
@@ -22,12 +21,12 @@ namespace NSwag.Commands
     {
         protected SwaggerToCSharpCommand(TSettings settings)
         {
-            Settings = settings; 
+            Settings = settings;
         }
 
         [JsonIgnore]
         public TSettings Settings { get; set; }
-        
+
         [Argument(Name = "ClassName", IsRequired = false, Description = "The class name of the generated client.")]
         public string ClassName
         {
@@ -49,7 +48,15 @@ namespace NSwag.Commands
             set { Settings.AdditionalNamespaceUsages = value; }
         }
 
-        [Argument(Name = "RequiredPropertiesMustBeDefined", IsRequired = false, 
+        [Argument(Name = "GenerateOptionalParameters", IsRequired = false,
+                  Description = "Specifies whether to reorder parameters (required first, optional at the end) and generate optional C# parameters (default: false).")]
+        public bool GenerateOptionalParameters
+        {
+            get { return Settings.GenerateOptionalParameters; }
+            set { Settings.GenerateOptionalParameters = value; }
+        }
+
+        [Argument(Name = "RequiredPropertiesMustBeDefined", IsRequired = false,
                   Description = "Specifies whether a required property must be defined in JSON (sets Required.Always when the property is required).")]
         public bool RequiredPropertiesMustBeDefined
         {
@@ -109,8 +116,8 @@ namespace NSwag.Commands
         [Argument(Name = "OperationGenerationMode", IsRequired = false, Description = "The operation generation mode ('SingleClientFromOperationId' or 'MultipleClientsFromPathSegments').")]
         public OperationGenerationMode OperationGenerationMode
         {
-            get { return Settings.OperationGenerationMode; }
-            set { Settings.OperationGenerationMode = value; }
+            get { return OperationGenerationModeConverter.GetOperationGenerationMode(Settings.OperationNameGenerator); }
+            set { Settings.OperationNameGenerator = OperationGenerationModeConverter.GetOperationNameGenerator(value); }
         }
 
         [Argument(Name = "GenerateDefaultValues", IsRequired = false, Description = "Specifies whether to generate default values for properties (may generate CSharp 6 code, default: true).")]
@@ -125,6 +132,27 @@ namespace NSwag.Commands
         {
             get { return Settings.CSharpGeneratorSettings.ExcludedTypeNames; }
             set { Settings.CSharpGeneratorSettings.ExcludedTypeNames = value; }
+        }
+
+        [Argument(Name = "WrapResponses", IsRequired = false, Description = "Specifies whether to wrap success responses to allow full response access (experimental).")]
+        public bool WrapResponses
+        {
+            get { return Settings.WrapResponses; }
+            set { Settings.WrapResponses = value; }
+        }
+
+        [Argument(Name = "GenerateResponseClasses", IsRequired = false, Description = "Specifies whether to generate response classes (default: true).")]
+        public bool GenerateResponseClasses
+        {
+            get { return Settings.GenerateResponseClasses; }
+            set { Settings.GenerateResponseClasses = value; }
+        }
+
+        [Argument(Name = "ResponseClass", IsRequired = false, Description = "The response class (default 'SwaggerResponse', may use '{controller}' placeholder).")]
+        public string ResponseClass
+        {
+            get { return Settings.ResponseClass; }
+            set { Settings.ResponseClass = value; }
         }
     }
 }

@@ -132,7 +132,7 @@
             <TextBlock Text="Default URL Template" FontWeight="Bold" Margin="0,0,0,6" />
             <TextBox Text="{Binding Command.DefaultUrlTemplate, Mode=TwoWay}" Margin="0,0,0,12" />
             
-            <GroupBox Header="Swagger Information">
+            <GroupBox Header="Swagger Information" Margin="0,0,0,8">
                 <StackPanel Margin="4,8,4,-8">
                     <TextBlock Text="Title" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding Command.InfoTitle, Mode=TwoWay}" Margin="0,0,0,12" />
@@ -160,6 +160,10 @@
                                             Filter="Swagger specifications (.json)|*.json"/>
                 </StackPanel>
             </GroupBox>
+
+            <TextBlock Text="Output file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
+            <dialogs:FileSavePicker DefaultExtension=".cs" Filter="Swagger Specification (.json)|*.json"
+                                    FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" />
         </StackPanel>
     </ScrollViewer>
 </UserControl>

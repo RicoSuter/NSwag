@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Windows;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSwag.CodeGeneration.CodeGenerators;
-using NSwag.CodeGeneration.CodeGenerators.TypeScript;
-using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
+using NSwag.CodeGeneration.OperationNameGenerators;
+using NSwag.CodeGeneration.TypeScript;
+using NSwag.SwaggerGeneration.WebApi;
 
 namespace NSwag.CodeGeneration.Tests.OperationNameGenerator
 {
@@ -35,7 +35,7 @@ namespace NSwag.CodeGeneration.Tests.OperationNameGenerator
             var document = await generator.GenerateForControllerAsync<PointController>();
             var codeGenerator = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
             {
-                OperationGenerationMode = OperationGenerationMode.MultipleClientsFromOperationId
+                OperationNameGenerator = new MultipleClientsFromOperationIdOperationNameGenerator()
             });
 
             //// Act

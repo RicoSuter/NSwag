@@ -12,9 +12,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
 using NJsonSchema;
-using NJsonSchema.CodeGeneration.CSharp;
 using NSwag.Annotations;
-using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
+using NSwag.SwaggerGeneration;
+using NSwag.SwaggerGeneration.WebApi;
 
 namespace NSwag.CodeGeneration.Infrastructure
 {
@@ -55,12 +55,10 @@ namespace NSwag.CodeGeneration.Infrastructure
             var content = !string.IsNullOrEmpty(configurationPath) ? File.ReadAllText(configurationPath, Encoding.UTF8) : EmptyConfig;
 
             content = UpdateOrAddBindingRedirect(content, "Newtonsoft.Json", typeof(JToken), JsonNetAssemblyBinding);
-
             content = UpdateOrAddBindingRedirect(content, "NJsonSchema", typeof(JsonSchema4), NJsonSchemaAssemblyBinding);
-            content = UpdateOrAddBindingRedirect(content, "NJsonSchema.CodeGeneration", typeof(CSharpGenerator), NJsonSchemaAssemblyBinding);
-
             content = UpdateOrAddBindingRedirect(content, "NSwag.Core", typeof(SwaggerDocument), NSwagAssemblyBinding);
-            content = UpdateOrAddBindingRedirect(content, "NSwag.CodeGeneration", typeof(WebApiToSwaggerGenerator), NSwagAssemblyBinding);
+            content = UpdateOrAddBindingRedirect(content, "NSwag.SwaggerGeneration", typeof(SwaggerJsonSchemaGenerator), NSwagAssemblyBinding);
+            content = UpdateOrAddBindingRedirect(content, "NSwag.SwaggerGeneration.WebApi", typeof(WebApiToSwaggerGenerator), NSwagAssemblyBinding);
             content = UpdateOrAddBindingRedirect(content, "NSwag.Annotations", typeof(SwaggerTagsAttribute), NSwagAssemblyBinding);
 
             _transformedConfigurationPath = Path.Combine(Path.GetTempPath(), "NSwag_" + Guid.NewGuid() + ".nswagtemp");

@@ -7,10 +7,9 @@
 //-----------------------------------------------------------------------
 
 using System.Threading.Tasks;
-using NSwag.Commands;
 using NSwag.Commands.Document;
 
-namespace NSwag.CodeGeneration.Commands.Documents
+namespace NSwag.Commands.Documents
 {
     /// <summary>Executes a document.</summary>
     public class ExecuteDocumentCommand : ExecuteDocumentCommandBase

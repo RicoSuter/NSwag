@@ -9,8 +9,8 @@ using System.Web;
 using System.Web.Http;
 using Newtonsoft.Json;
 using NSwag.Annotations;
-using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 using NSwag.Integration.WebAPI.Models;
+using NSwag.SwaggerGeneration.WebApi;
 
 namespace NSwag.Integration.WebAPI.Controllers
 {

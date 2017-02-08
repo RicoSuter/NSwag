@@ -12,7 +12,7 @@ using System.Net;
 namespace NSwag.Annotations
 {
     /// <summary>Specifies the result type of a HTTP operation to correctly generate a Swagger definition.</summary>
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = true)]
     public class SwaggerResponseAttribute : Attribute
     {
         /// <summary>Initializes a new instance of the <see cref="SwaggerResponseAttribute"/> class.</summary>

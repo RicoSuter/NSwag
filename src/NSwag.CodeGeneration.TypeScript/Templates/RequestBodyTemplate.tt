@@ -1,0 +1,52 @@
+﻿<#@ template visibility="internal" #>
+<#  if(Model.HasFormParameters){#>
+const content_ = new FormData();
+<#foreach(var parameter in Model.FormParameters){#>
+<#  if(parameter.IsNullable){#>
+if (<#=parameter.VariableName#> !== null)
+<#  }else{#>
+if (<#=parameter.VariableName#> === null)
+    throw new Error("The parameter '<#=parameter.VariableName#>' cannot be null.");
+else
+<#  }#>
+<#  if(parameter.IsFile){
+        if(parameter.IsArray){#>
+    <#=parameter.VariableName#>.forEach(item_ => content_.append("<#=parameter.Name#>", item_.data, item_.fileName ? item_.fileName : "<#=parameter.Name#>") );
+<#      }else{#>
+    content_.append("<#=parameter.Name#>", <#=parameter.VariableName#>.data, <#=parameter.VariableName#>.fileName ? <#=parameter.VariableName#>.fileName : "<#=parameter.Name#>");
+<#      }
+    }else{#>
+    content_.append("<#=parameter.Name#>", <#=parameter.VariableName#>.toString());
+<#  }#>
+<#}#>
+<#  }else{#>
+<#      if(Model.ContentParameter != null){
+            if (Model.ContentParameter.UseDtoClass){ 
+                if(Model.ContentParameter.IsArray){#>
+let contentData_: any = [];
+if (<#=Model.ContentParameter.VariableName#>) {
+    for (let item of <#=Model.ContentParameter.VariableName#>)
+        contentData_.push(item.toJS());
+}
+const content_ = JSON.stringify(<#=Model.ContentParameter.VariableName#> ? contentData_ : null);
+<#              }else if(Model.ContentParameter.IsDictionary){#>
+let contentData_: any = {};
+if (<#=Model.ContentParameter.VariableName#>) {
+    for (let key in <#=Model.ContentParameter.VariableName#>) {
+        if (<#=Model.ContentParameter.VariableName#>.hasOwnProperty(key))
+            contentData_[key] = <#=Model.ContentParameter.VariableName#>[key].toJS();
+    }
+}
+const content_ = JSON.stringify(<#=Model.ContentParameter.VariableName#> ? contentData_ : null);
+<#              }else{#>
+const content_ = JSON.stringify(<#=Model.ContentParameter.VariableName#> ? <#=Model.ContentParameter.VariableName#>.toJS() : null);
+<#              }
+            }else if(Model.ContentParameter.IsXmlBodyParameter){#>
+const content_ = <#=Model.ContentParameter.VariableName#>;
+<#          }else{#>
+const content_ = JSON.stringify(<#=Model.ContentParameter.VariableName#>);
+<#          }
+        }else{#>
+const content_ = "";
+<#  }
+  }#>

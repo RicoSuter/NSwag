@@ -13,8 +13,8 @@ using NConsole;
 using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
-using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 using NSwag.Commands.Base;
+using NSwag.SwaggerGeneration.WebApi;
 
 #pragma warning disable 1591
 
@@ -185,6 +185,13 @@ namespace NSwag.Commands
                     document.Host = string.Empty;
                 else if (!string.IsNullOrEmpty(ServiceHost))
                     document.Host = ServiceHost;
+
+                if (!string.IsNullOrEmpty(InfoTitle))
+                    document.Info.Title = InfoTitle;
+                if (!string.IsNullOrEmpty(InfoVersion))
+                    document.Info.Version = InfoVersion;
+                if (!string.IsNullOrEmpty(InfoDescription))
+                    document.Info.Description = InfoDescription;
 
                 if (ServiceSchemes != null && ServiceSchemes.Any())
                     document.Schemes = ServiceSchemes.Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true)).ToList();

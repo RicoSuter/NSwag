@@ -9,8 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using NSwag.Annotations;
-using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 using NSwag.Demo.Web.Models;
+using NSwag.SwaggerGeneration.WebApi;
 
 namespace NSwag.Demo.Web.Controllers
 {

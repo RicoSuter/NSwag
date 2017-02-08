@@ -9,11 +9,9 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag;
-using NSwag.CodeGeneration.CodeGenerators;
-using NSwag.CodeGeneration.CodeGenerators.TypeScript;
+using NSwag.CodeGeneration.TypeScript;
 using NSwag.Commands;
 
 namespace NSwagStudio.ViewModels.CodeGenerators
@@ -73,6 +71,17 @@ namespace NSwagStudio.ViewModels.CodeGenerators
             {
                 return Enum.GetNames(typeof(TypeScriptDateTimeType))
                     .Select(t => (TypeScriptDateTimeType)Enum.Parse(typeof(TypeScriptDateTimeType), t))
+                    .ToArray();
+            }
+        }
+
+        /// <summary>Gets the list of null values. </summary>
+        public TypeScriptNullValue[] NullValues
+        {
+            get
+            {
+                return Enum.GetNames(typeof(TypeScriptNullValue))
+                    .Select(t => (TypeScriptNullValue)Enum.Parse(typeof(TypeScriptNullValue), t))
                     .ToArray();
             }
         }
@@ -137,11 +146,6 @@ namespace NSwagStudio.ViewModels.CodeGenerators
                 });
                 ClientCode = code ?? string.Empty;
             });
-        }
-
-        public override void HandleException(Exception exception)
-        {
-            MessageBox.Show(exception.Message);
         }
     }
 }

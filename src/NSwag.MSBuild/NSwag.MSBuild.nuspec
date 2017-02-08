@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>NSwag.MSBuild</id>
-    <version>8.8.0</version>
+    <version>9.0.0</version>
     <authors>Rico Suter</authors>
     <owners>Rico Suter</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -16,7 +16,7 @@
     <references />
   </metadata>
   <files>
-    <file src="NSwag.MSBuild.targets" target="build" />
+    <file src="NSwag.MSBuild.props" target="build" />
     <file src="..\NSwag.Console\bin\Release\NConsole.dll" target="build" />
     <file src="..\NSwag.Console\bin\Release\Newtonsoft.Json.dll" target="build" />
     <file src="..\NSwag.Console\bin\Release\NJsonSchema.CodeGeneration.dll" target="build" />

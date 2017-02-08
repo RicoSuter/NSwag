@@ -10,8 +10,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NConsole;
-using NSwag.CodeGeneration.CodeGenerators;
-using NSwag.CodeGeneration.CodeGenerators.CSharp;
+using NSwag.CodeGeneration;
+using NSwag.CodeGeneration.CSharp;
 
 #pragma warning disable 1591
 
@@ -36,13 +36,6 @@ namespace NSwag.Commands
         {
             get { return Settings.ConfigurationClass; }
             set { Settings.ConfigurationClass = value; }
-        }
-
-        [Argument(Name = "ExceptionClass", IsRequired = false, Description = "The exception class (default 'SwaggerException', may use '{controller}' placeholder).")]
-        public string ExceptionClass
-        {
-            get { return Settings.ExceptionClass; }
-            set { Settings.ExceptionClass = value; }
         }
 
         [Argument(Name = "GenerateClientClasses", IsRequired = false, Description = "Specifies whether generate client classes.")]
@@ -73,11 +66,18 @@ namespace NSwag.Commands
             set { Settings.InjectHttpClient = value; }
         }
 
-        [Argument(Name = "WrapSuccessResponses", IsRequired = false, Description = "Specifies whether to wrap success responses to allow full response access (experimental).")]
-        public bool WrapSuccessResponses
+        [Argument(Name = "GenerateExceptionClasses", IsRequired = false, Description = "Specifies whether to generate exception classes (default: true).")]
+        public bool GenerateExceptionClasses
         {
-            get { return Settings.WrapSuccessResponses; }
-            set { Settings.WrapSuccessResponses = value; }
+            get { return Settings.GenerateExceptionClasses; }
+            set { Settings.GenerateExceptionClasses = value; }
+        }
+
+        [Argument(Name = "ExceptionClass", IsRequired = false, Description = "The exception class (default 'SwaggerException', may use '{controller}' placeholder).")]
+        public string ExceptionClass
+        {
+            get { return Settings.ExceptionClass; }
+            set { Settings.ExceptionClass = value; }
         }
 
         [Argument(Name = "UseHttpClientCreationMethod", IsRequired = false, Description = "Specifies whether to call CreateHttpClientAsync on the base class to create a new HttpClient.")]
@@ -93,13 +93,6 @@ namespace NSwag.Commands
         {
             get { return Settings.UseHttpRequestMessageCreationMethod; }
             set { Settings.UseHttpRequestMessageCreationMethod = value; }
-        }
-
-        [Argument(Name = "GenerateExceptionClasses", IsRequired = false, Description = "Specifies whether to generate exception classes (default: true).")]
-        public bool GenerateExceptionClasses
-        {
-            get { return Settings.GenerateExceptionClasses; }
-            set { Settings.GenerateExceptionClasses = value; }
         }
 
         [Argument(Name = "JsonConverters", IsRequired = false, Description = "Specifies the custom Json.NET converter types (optional, comma separated).")]

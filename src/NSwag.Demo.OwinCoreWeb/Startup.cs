@@ -4,8 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using NJsonSchema;
 using NSwag.AspNetCore;
-using NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors;
-using NSwag.CodeGeneration.SwaggerGenerators.WebApi.Processors.Security;
+using NSwag.SwaggerGeneration.WebApi.Processors.Security;
 
 namespace NSwag.Demo.OwinCoreWeb
 {

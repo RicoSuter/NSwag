@@ -12,9 +12,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using NSwag.SwaggerGeneration.Utilities;
+
 #if !FullNet
 using NJsonSchema.Infrastructure;
-using NSwag.CodeGeneration.Utilities;
 using System.Runtime.Loader;
 #endif
 

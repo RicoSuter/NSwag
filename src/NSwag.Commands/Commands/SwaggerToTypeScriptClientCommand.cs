@@ -11,8 +11,7 @@ using NConsole;
 using Newtonsoft.Json;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NJsonSchema.Infrastructure;
-using NSwag.CodeGeneration.CodeGenerators;
-using NSwag.CodeGeneration.CodeGenerators.TypeScript;
+using NSwag.CodeGeneration.TypeScript;
 using NSwag.Commands.Base;
 
 #pragma warning disable 1591
@@ -80,6 +79,13 @@ namespace NSwag.Commands
             set { Settings.TypeScriptGeneratorSettings.DateTimeType = value; }
         }
 
+        [Argument(Name = "NullValue", IsRequired = false, Description = "The null value used in object initializers (default 'Undefined', 'Null').")]
+        public TypeScriptNullValue NullValue
+        {
+            get { return Settings.TypeScriptGeneratorSettings.NullValue; }
+            set { Settings.TypeScriptGeneratorSettings.NullValue = value; }
+        }
+
         [Argument(Name = "GenerateClientClasses", IsRequired = false, Description = "Specifies whether generate client classes.")]
         public bool GenerateClientClasses
         {
@@ -108,6 +114,13 @@ namespace NSwag.Commands
             set { Settings.ClientBaseClass = value; }
         }
 
+        [Argument(Name = "ConfigurationClass", IsRequired = false, Description = "The configuration class. The setting ClientBaseClass must be set. (empty for no configuration class).")]
+        public string ConfigurationClass
+        {
+            get { return Settings.ConfigurationClass; }
+            set { Settings.ConfigurationClass = value; }
+        }
+
         [Argument(Name = "UseTransformOptionsMethod", IsRequired = false, Description = "Call 'transformOptions' on the base class or extension class (default: false).")]
         public bool UseTransformOptionsMethod
         {
@@ -132,8 +145,8 @@ namespace NSwag.Commands
         [Argument(Name = "OperationGenerationMode", IsRequired = false, Description = "The operation generation mode ('SingleClientFromOperationId' or 'MultipleClientsFromPathSegments').")]
         public OperationGenerationMode OperationGenerationMode
         {
-            get { return Settings.OperationGenerationMode; }
-            set { Settings.OperationGenerationMode = value; }
+            get { return OperationGenerationModeConverter.GetOperationGenerationMode(Settings.OperationNameGenerator); }
+            set { Settings.OperationNameGenerator = OperationGenerationModeConverter.GetOperationNameGenerator(value); }
         }
 
         [Argument(Name = "MarkOptionalProperties", IsRequired = false, Description = "Specifies whether to mark optional properties with ? (default: false).")]

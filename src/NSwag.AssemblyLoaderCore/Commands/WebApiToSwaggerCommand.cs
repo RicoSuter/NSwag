@@ -6,10 +6,10 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
 using NSwag.Commands;
+using NSwag.SwaggerGeneration.WebApi;
 
-namespace NSwag.CodeGeneration.Commands
+namespace NSwag.Commands
 {
     /// <summary></summary>
     /// <seealso cref="NSwag.Commands.WebApiToSwaggerCommandBase" />

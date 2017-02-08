@@ -1,5 +1,5 @@
 {
-  "version": "8.8.0-*",
+  "version": "9.0.0-*",
   "authors": [ "Rico Suter" ],
   "description": "NSwag: The Swagger API toolchain for .NET and TypeScript",
   "packOptions": {
@@ -13,10 +13,10 @@
     "NETStandard.Library": "1.6.0",
     "System.Net.Http": "4.1.0",
     "System.Runtime.Loader": "4.0.0",
-    "NSwag.Commands": "*",
-    "NSwag.Core": "*",
     "NSwag.Annotations": "*",
-    "NSwag.CodeGeneration": "*"
+    "NSwag.CodeGeneration": "*",
+    "NSwag.Commands": "*",
+    "NSwag.Core": "*"
   },
 
   "buildOptions": {

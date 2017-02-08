@@ -13,8 +13,8 @@ using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders;
-using NSwag.CodeGeneration.SwaggerGenerators;
-using NSwag.CodeGeneration.SwaggerGenerators.WebApi;
+using NSwag.SwaggerGeneration;
+using NSwag.SwaggerGeneration.WebApi;
 
 namespace NSwag.AspNetCore
 {
@@ -139,6 +139,34 @@ namespace NSwag.AspNetCore
             });
 
             return app;
+        }
+
+        /// <summary>Adds the Swagger generator to the OWIN pipeline.</summary>
+        /// <param name="app">The app.</param>
+        /// <param name="controllerTypes">The Web API controller types.</param>
+        /// <param name="configure">Configure the Swagger generator settings.</param>
+        public static IApplicationBuilder UseSwagger(
+            this IApplicationBuilder app,
+            IEnumerable<Type> controllerTypes,
+            Action<SwaggerOwinSettings> configure = null)
+        {
+            var settings = new SwaggerOwinSettings();
+            configure?.Invoke(settings);
+            return app.UseSwagger(controllerTypes, settings, new SwaggerJsonSchemaGenerator(settings));
+        }
+
+        /// <summary>Adds the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
+        /// <param name="app">The app.</param>
+        /// <param name="controllerTypes">The Web API controller types.</param>
+        /// <param name="configure">Configure the Swagger generator and UI settings.</param>
+        public static IApplicationBuilder UseSwaggerUi(
+            this IApplicationBuilder app,
+            IEnumerable<Type> controllerTypes,
+            Action<SwaggerUiOwinSettings> configure = null)
+        {
+            var settings = new SwaggerUiOwinSettings();
+            configure?.Invoke(settings);
+            return app.UseSwaggerUi(controllerTypes, settings, new SwaggerJsonSchemaGenerator(settings));
         }
     }
 }

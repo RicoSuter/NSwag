@@ -59,9 +59,9 @@ namespace NSwag.Commands
         public async Task<SwaggerDocument> RunAsync()
         {
             if (!string.IsNullOrEmpty(Swagger))
-                return await SwaggerDocument.FromJsonAsync(Swagger);
+                return await SwaggerDocument.FromJsonAsync(Swagger).ConfigureAwait(false);
             else
-                return await SwaggerDocument.FromUrlAsync(Url);
+                return await SwaggerDocument.FromUrlAsync(Url).ConfigureAwait(false);
         }
 
         /// <summary>Occurs when property changed.</summary>

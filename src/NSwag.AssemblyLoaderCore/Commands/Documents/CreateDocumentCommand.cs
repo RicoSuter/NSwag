@@ -9,7 +9,7 @@
 using System.Threading.Tasks;
 using NSwag.Commands.Document;
 
-namespace NSwag.CodeGeneration.Commands.Documents
+namespace NSwag.Commands.Documents
 {
     /// <summary>Creates a new document.</summary>
     public class CreateDocumentCommand : CreateDocumentCommandBase

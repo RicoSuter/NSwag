@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using NSwag.CodeGeneration;
 using NSwag.Commands;
 
 namespace NSwag

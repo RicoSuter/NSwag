@@ -14,14 +14,15 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NSwag.CodeGeneration.Infrastructure;
-using NSwag.CodeGeneration.Utilities;
+using NSwag.SwaggerGeneration.Utilities;
 
 #if !FullNet
 using NJsonSchema.Infrastructure;
+using NSwag.SwaggerGeneration.WebApi;
 using System.Runtime.Loader;
 #endif
 
-namespace NSwag.CodeGeneration.SwaggerGenerators.WebApi
+namespace NSwag.SwaggerGeneration.WebApi
 {
     /// <summary>Generates a <see cref="SwaggerDocument"/> from a Web API controller or type which is located in a .NET assembly.</summary>
     public class WebApiAssemblyToSwaggerGenerator : WebApiAssemblyToSwaggerGeneratorBase
