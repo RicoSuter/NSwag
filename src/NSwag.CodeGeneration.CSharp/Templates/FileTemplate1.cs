@@ -185,7 +185,7 @@ if (Model.GenerateFileResponseClass){
             this.Write("\n");
             
             #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\FileTemplate.tt"
-if (Model.WrapSuccessResponses && Model.GenerateResponseClasses){
+if (Model.WrapResponses && Model.GenerateResponseClasses){
             
             #line default
             #line hidden

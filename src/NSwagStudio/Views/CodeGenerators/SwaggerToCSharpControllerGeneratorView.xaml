@@ -31,10 +31,10 @@
                     <TextBlock Text="Namespace" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding Command.Namespace, Mode=TwoWay}" Margin="0,0,0,12" />
 
-                    <CheckBox IsChecked="{Binding Command.WrapSuccessResponses, Mode=TwoWay}" 
+                    <CheckBox IsChecked="{Binding Command.WrapResponses, Mode=TwoWay}" 
                               Content="Wrap success responses to allow full response access (experimental)" Margin="0,0,0,6" />
 
-                    <StackPanel Visibility="{Binding Command.WrapSuccessResponses, Converter={StaticResource VisibilityConverter}}">
+                    <StackPanel Visibility="{Binding Command.WrapResponses, Converter={StaticResource VisibilityConverter}}">
                         <CheckBox IsChecked="{Binding Command.GenerateResponseClasses, Mode=TwoWay}" 
                                   Content="Generate response classes (when disabled, response classes must be imported)" Margin="0,0,0,6" />
 

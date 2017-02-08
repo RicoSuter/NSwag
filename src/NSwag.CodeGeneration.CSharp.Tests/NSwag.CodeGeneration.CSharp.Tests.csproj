@@ -69,7 +69,7 @@
     <Compile Include="OptionalParameterTests.cs" />
     <Compile Include="ParameterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WrapSuccessResponsesTests.cs" />
+    <Compile Include="WrapResponsesTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -1686,7 +1686,7 @@ if(Model.InjectHttpClient){
             #line hidden
             
             #line 217 "C:\Data\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-          if (Model.WrapSuccessResponses){
+          if (Model.WrapResponses){
             
             #line default
             #line hidden
@@ -1847,7 +1847,7 @@ if(Model.InjectHttpClient){
             #line hidden
             
             #line 247 "C:\Data\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-          if (Model.WrapSuccessResponses){
+          if (Model.WrapResponses){
             
             #line default
             #line hidden
@@ -1901,7 +1901,7 @@ if(Model.InjectHttpClient){
             #line hidden
             
             #line 253 "C:\Data\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-          if (Model.WrapSuccessResponses){
+          if (Model.WrapResponses){
             
             #line default
             #line hidden
@@ -2092,7 +2092,7 @@ if(Model.InjectHttpClient){
                     "");
             
             #line 289 "C:\Data\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-              if (Model.WrapSuccessResponses){
+              if (Model.WrapResponses){
             
             #line default
             #line hidden
@@ -2240,7 +2240,7 @@ if(Model.InjectHttpClient){
             this.Write("        \r\n");
             
             #line 319 "C:\Data\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-          if (Model.WrapSuccessResponses && operation.UnwrappedResultType != "FileResponse"){
+          if (Model.WrapResponses && operation.UnwrappedResultType != "FileResponse"){
             
             #line default
             #line hidden
@@ -2288,7 +2288,7 @@ if(Model.InjectHttpClient){
             #line hidden
             
             #line 324 "C:\Data\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-      }else if(Model.WrapSuccessResponses){
+      }else if(Model.WrapResponses){
             
             #line default
             #line hidden

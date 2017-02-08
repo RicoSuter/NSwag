@@ -134,11 +134,11 @@ namespace NSwag.Commands
             set { Settings.CSharpGeneratorSettings.ExcludedTypeNames = value; }
         }
 
-        [Argument(Name = "WrapSuccessResponses", IsRequired = false, Description = "Specifies whether to wrap success responses to allow full response access (experimental).")]
-        public bool WrapSuccessResponses
+        [Argument(Name = "WrapResponses", IsRequired = false, Description = "Specifies whether to wrap success responses to allow full response access (experimental).")]
+        public bool WrapResponses
         {
-            get { return Settings.WrapSuccessResponses; }
-            set { Settings.WrapSuccessResponses = value; }
+            get { return Settings.WrapResponses; }
+            set { Settings.WrapResponses = value; }
         }
 
         [Argument(Name = "GenerateResponseClasses", IsRequired = false, Description = "Specifies whether to generate response classes (default: true).")]

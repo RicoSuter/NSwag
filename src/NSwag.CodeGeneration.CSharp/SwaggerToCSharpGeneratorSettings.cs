@@ -40,9 +40,9 @@ namespace NSwag.CodeGeneration.CSharp
         public override CodeGeneratorSettingsBase CodeGeneratorSettings => CSharpGeneratorSettings;
 
         /// <summary>Gets or sets a value indicating whether to wrap success responses to allow full response access (experimental).</summary>
-        public bool WrapSuccessResponses { get; set; }
+        public bool WrapResponses { get; set; }
 
-        /// <summary>Gets or sets a value indicating whether to generate the response classes (only needed when WrapSuccessResponses == true, default: true).</summary>
+        /// <summary>Gets or sets a value indicating whether to generate the response classes (only needed when WrapResponses == true, default: true).</summary>
         public bool GenerateResponseClasses { get; set; }
 
         /// <summary>Gets or sets the name of the response class (supports the '{controller}' placeholder).</summary>

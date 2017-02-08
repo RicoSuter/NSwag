@@ -77,7 +77,7 @@ namespace <#=Model.Namespace#>
     }
 
 <#}#>
-<#if (Model.WrapSuccessResponses && Model.GenerateResponseClasses){#>
+<#if (Model.WrapResponses && Model.GenerateResponseClasses){#>
 <#  foreach (var responseClassName in Model.ResponseClassNames){#>
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
     public class <#=responseClassName#>

@@ -76,7 +76,7 @@
       "operationGenerationMode": "MultipleClientsFromOperationId",
       "generateDefaultValues": true,
       "output": "../NSwag.Integration.ClientPCL/ServiceClients.cs",
-      "wrapSuccessResponses": true
+      "wrapResponses": true
     },
     "swaggerToCSharpController": {
       "className": "{controller}",

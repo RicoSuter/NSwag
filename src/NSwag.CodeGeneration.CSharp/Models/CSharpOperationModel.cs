@@ -66,7 +66,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 if (UnwrappedResultType == "FileResponse")
                     return "System.Threading.Tasks.Task<FileResponse>";
 
-                if (_settings != null && _settings.WrapSuccessResponses)
+                if (_settings != null && _settings.WrapResponses)
                     return UnwrappedResultType == "void"
                         ? "System.Threading.Tasks.Task<" + _settings.ResponseClass.Replace("{controller}", ControllerName) + ">"
                         : "System.Threading.Tasks.Task<" + _settings.ResponseClass.Replace("{controller}", ControllerName) + "<" + UnwrappedResultType + ">>";

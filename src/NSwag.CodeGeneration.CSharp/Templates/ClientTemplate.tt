@@ -214,7 +214,7 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
                         {
                             result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<<#=response.Type#>>(responseData_<#=Model.JsonConverters#>);                                
 <#      if(response.IsSuccess){#>
-<#          if (Model.WrapSuccessResponses){#>
+<#          if (Model.WrapResponses){#>
                             return new <#=Model.ResponseClass#><<#=operation.UnwrappedResultType#>>(status_, headers_, result_); 
 <#          }else{#>
                             return result_; 
@@ -244,13 +244,13 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
 <#}else{#>
 <#  if(response.IsSuccess){#>
 <#      if(operation.HasResultType){#>
-<#          if (Model.WrapSuccessResponses){#>
+<#          if (Model.WrapResponses){#>
                         return new <#=Model.ResponseClass#><<#=operation.UnwrappedResultType#>>(status_, headers_, default(<#=operation.UnwrappedResultType#>)); 
 <#          }else{#>
                         return default(<#=operation.UnwrappedResultType#>);
 <#          }#>
 <#      }else{#>
-<#          if (Model.WrapSuccessResponses){#>
+<#          if (Model.WrapResponses){#>
                         return new <#=Model.ResponseClass#>(status_, headers_); 
 <#          }else{#>
                         return;
@@ -286,7 +286,7 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
 
 <#          if(operation.HasOnlyDefaultResponse){#>
                             if (status_.Length == 3 && status_.StartsWith("2"))
-<#              if (Model.WrapSuccessResponses){#>
+<#              if (Model.WrapResponses){#>
                                 return new <#=Model.ResponseClass#><<#=operation.UnwrappedResultType#>>(status_, headers_, result_); 
 <#              }else{#>
                                 return result_; 
@@ -316,12 +316,12 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
 <#}#>
 <#      if(operation.HasResultType){#>
         
-<#          if (Model.WrapSuccessResponses && operation.UnwrappedResultType != "FileResponse"){#>
+<#          if (Model.WrapResponses && operation.UnwrappedResultType != "FileResponse"){#>
                     return new <#=Model.ResponseClass#><<#=operation.UnwrappedResultType#>>(status_, headers_, default(<#=operation.UnwrappedResultType#>)); 
 <#          }else{#>
                     return default(<#=operation.UnwrappedResultType#>);
 <#          }#>
-<#      }else if(Model.WrapSuccessResponses){#>
+<#      }else if(Model.WrapResponses){#>
 
                     return new <#=Model.ResponseClass#>(status_, headers_); 
 <#      }#>

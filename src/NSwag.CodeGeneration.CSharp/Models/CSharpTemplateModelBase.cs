@@ -17,11 +17,11 @@ namespace NSwag.CodeGeneration.CSharp.Models
         protected CSharpTemplateModelBase(string controllerName, SwaggerToCSharpGeneratorSettings settings)
         {
             ResponseClass = settings.ResponseClass.Replace("{controller}", controllerName);
-            WrapSuccessResponses = settings.WrapSuccessResponses;
+            WrapResponses = settings.WrapResponses;
         }
 
         /// <summary>Gets a value indicating whether to wrap success responses to allow full response access.</summary>
-        public bool WrapSuccessResponses { get; set; }
+        public bool WrapResponses { get; set; }
 
         /// <summary>Gets the response class name.</summary>
         public string ResponseClass { get; protected set; }
