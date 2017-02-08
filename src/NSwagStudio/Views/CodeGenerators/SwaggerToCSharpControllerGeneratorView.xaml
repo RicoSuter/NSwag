@@ -15,6 +15,7 @@
 
     <UserControl.Resources>
         <codeGenerators:SwaggerToCSharpControllerGeneratorViewModel x:Key="ViewModel" />
+        <converters:VisibilityConverter x:Key="VisibilityConverter" />        
         <converters:NotConverter x:Key="NotConverter" />
         <converters1:NumberAdditionConverter x:Key="NumberAdditionConverter" />
     </UserControl.Resources>
@@ -29,6 +30,20 @@
 
                     <TextBlock Text="Namespace" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding Command.Namespace, Mode=TwoWay}" Margin="0,0,0,12" />
+
+                    <CheckBox IsChecked="{Binding Command.WrapSuccessResponses, Mode=TwoWay}" 
+                              Content="Wrap success responses to allow full response access (experimental)" Margin="0,0,0,6" />
+
+                    <StackPanel Visibility="{Binding Command.WrapSuccessResponses, Converter={StaticResource VisibilityConverter}}">
+                        <CheckBox IsChecked="{Binding Command.GenerateResponseClasses, Mode=TwoWay}" 
+                                  Content="Generate response classes (when disabled, response classes must be imported)" Margin="0,0,0,6" />
+
+                        <StackPanel Visibility="{Binding Command.GenerateResponseClasses, Converter={StaticResource VisibilityConverter}}">
+                            <TextBlock Text="Response class name (may contain the '{controller}' placeholder)" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Text="{Binding Command.ResponseClass, Mode=TwoWay}" Margin="0,0,0,12" />
+                        </StackPanel>
+                    </StackPanel>
+
 
                     <GroupBox Header="Web API Controller" Margin="0,0,0,12">
                         <StackPanel Margin="4,8,4,-8">

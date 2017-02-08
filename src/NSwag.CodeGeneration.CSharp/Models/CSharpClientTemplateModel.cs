@@ -14,7 +14,7 @@ using NJsonSchema.CodeGeneration.CSharp;
 namespace NSwag.CodeGeneration.CSharp.Models
 {
     /// <summary>The CSharp client template model.</summary>
-    public class CSharpClientTemplateModel
+    public class CSharpClientTemplateModel : CSharpTemplateBaseModel
     {
         private readonly SwaggerDocument _document;
         private readonly JsonSchema4 _exceptionSchema;
@@ -44,6 +44,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
             ExceptionClass = _settings.ExceptionClass.Replace("{controller}", controllerName);
             ResponseClass = _settings.ResponseClass.Replace("{controller}", controllerName);
+            WrapSuccessResponses = _settings.WrapSuccessResponses;
         }
 
         /// <summary>Gets or sets a value indicating whether to generate client contracts (i.e. client interfaces).</summary>
@@ -81,12 +82,6 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
         /// <summary>Gets a value indicating whether to generate client interfaces.</summary>
         public bool GenerateClientInterfaces => _settings.GenerateClientInterfaces;
-
-        /// <summary>Gets a value indicating whether to wrap success responses to allow full response access.</summary>
-        public bool WrapSuccessResponses => _settings.WrapSuccessResponses;
-
-        /// <summary>Gets the response class name.</summary>
-        public string ResponseClass { get; }
 
         /// <summary>Gets the service base URL.</summary>
         public string BaseUrl => _document.BaseUrl;

@@ -66,27 +66,6 @@ namespace NSwag.Commands
             set { Settings.InjectHttpClient = value; }
         }
 
-        [Argument(Name = "WrapSuccessResponses", IsRequired = false, Description = "Specifies whether to wrap success responses to allow full response access (experimental).")]
-        public bool WrapSuccessResponses
-        {
-            get { return Settings.WrapSuccessResponses; }
-            set { Settings.WrapSuccessResponses = value; }
-        }
-
-        [Argument(Name = "GenerateResponseClasses", IsRequired = false, Description = "Specifies whether to generate response classes (default: true).")]
-        public bool GenerateResponseClasses
-        {
-            get { return Settings.GenerateResponseClasses; }
-            set { Settings.GenerateResponseClasses = value; }
-        }
-
-        [Argument(Name = "ResponseClass", IsRequired = false, Description = "The response class (default 'SwaggerResponse', may use '{controller}' placeholder).")]
-        public string ResponseClass
-        {
-            get { return Settings.ResponseClass; }
-            set { Settings.ResponseClass = value; }
-        }
-
         [Argument(Name = "GenerateExceptionClasses", IsRequired = false, Description = "Specifies whether to generate exception classes (default: true).")]
         public bool GenerateExceptionClasses
         {

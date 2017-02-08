@@ -12,7 +12,7 @@ using System.Linq;
 namespace NSwag.CodeGeneration.CSharp.Models
 {
     /// <summary>The CSharp controller template model.</summary>
-    public class CSharpControllerTemplateModel
+    public class CSharpControllerTemplateModel : CSharpTemplateBaseModel
     {
         private readonly SwaggerToCSharpWebApiControllerGeneratorSettings _settings;
         private readonly SwaggerDocument _document;
