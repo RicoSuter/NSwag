@@ -51,7 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Infrastructure\T4Extensions.cs" />
-    <Compile Include="Models\CSharpTemplateBaseModel.cs" />
+    <Compile Include="Models\CSharpTemplateModelBase.cs" />
     <Compile Include="Models\CSharpClientTemplateModel.cs" />
     <Compile Include="Models\CSharpControllerTemplateModel.cs" />
     <Compile Include="Models\CSharpFileTemplateModel.cs" />

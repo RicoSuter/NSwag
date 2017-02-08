@@ -14,7 +14,7 @@ using NJsonSchema.CodeGeneration.CSharp;
 namespace NSwag.CodeGeneration.CSharp.Models
 {
     /// <summary>The CSharp client template model.</summary>
-    public class CSharpClientTemplateModel : CSharpTemplateBaseModel
+    public class CSharpClientTemplateModel : CSharpTemplateModelBase
     {
         private readonly SwaggerDocument _document;
         private readonly JsonSchema4 _exceptionSchema;
@@ -34,6 +34,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             JsonSchema4 exceptionSchema,
             SwaggerDocument document,
             SwaggerToCSharpClientGeneratorSettings settings)
+            : base(controllerName, settings)
         {
             _document = document;
             _exceptionSchema = exceptionSchema;
@@ -43,8 +44,6 @@ namespace NSwag.CodeGeneration.CSharp.Models
             Operations = operations;
 
             ExceptionClass = _settings.ExceptionClass.Replace("{controller}", controllerName);
-            ResponseClass = _settings.ResponseClass.Replace("{controller}", controllerName);
-            WrapSuccessResponses = _settings.WrapSuccessResponses;
         }
 
         /// <summary>Gets or sets a value indicating whether to generate client contracts (i.e. client interfaces).</summary>

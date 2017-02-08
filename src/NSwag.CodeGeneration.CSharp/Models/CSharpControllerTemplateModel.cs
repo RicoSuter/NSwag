@@ -12,7 +12,7 @@ using System.Linq;
 namespace NSwag.CodeGeneration.CSharp.Models
 {
     /// <summary>The CSharp controller template model.</summary>
-    public class CSharpControllerTemplateModel : CSharpTemplateBaseModel
+    public class CSharpControllerTemplateModel : CSharpTemplateModelBase
     {
         private readonly SwaggerToCSharpWebApiControllerGeneratorSettings _settings;
         private readonly SwaggerDocument _document;
@@ -23,14 +23,15 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <param name="document">The document.</param>
         /// <param name="settings">The settings.</param>
         public CSharpControllerTemplateModel(
-            string controllerName, 
-            IEnumerable<CSharpOperationModel> operations, 
-            SwaggerDocument document, 
+            string controllerName,
+            IEnumerable<CSharpOperationModel> operations,
+            SwaggerDocument document,
             SwaggerToCSharpWebApiControllerGeneratorSettings settings)
+            : base(controllerName, settings)
         {
-            Class = controllerName; 
+            Class = controllerName;
             Operations = operations;
-            _document = document; 
+            _document = document;
             _settings = settings;
         }
 
@@ -44,7 +45,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         public string BaseClass => _settings.ControllerBaseClass;
 
         /// <summary>Gets or sets the service base URL.</summary>
-        public string BaseUrl => _document.BaseUrl; 
+        public string BaseUrl => _document.BaseUrl;
 
         /// <summary>Gets or sets a value indicating whether the controller has operations.</summary>
         public bool HasOperations => Operations.Any();

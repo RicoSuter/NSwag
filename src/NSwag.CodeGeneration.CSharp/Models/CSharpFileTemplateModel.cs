@@ -107,19 +107,15 @@ namespace NSwag.CodeGeneration.CSharp.Models
         {
             get
             {
-                if (_settings != null)
+                if (_settings.OperationNameGenerator.SupportsMultipleClients)
                 {
-                    if (_settings.OperationNameGenerator.SupportsMultipleClients)
-                    {
-                        return _document.Operations
-                            .GroupBy(o => _settings.OperationNameGenerator.GetClientName(_document, o.Path, o.Method, o.Operation))
-                            .Select(g => _settings.ResponseClass.Replace("{controller}", g.Key))
-                            .Distinct();
-                    }
-
-                    return new[] { _settings.ResponseClass.Replace("{controller}", string.Empty) };
+                    return _document.Operations
+                        .GroupBy(o => _settings.OperationNameGenerator.GetClientName(_document, o.Path, o.Method, o.Operation))
+                        .Select(g => _settings.ResponseClass.Replace("{controller}", g.Key))
+                        .Distinct();
                 }
-                return new string[] { };
+
+                return new[] { _settings.ResponseClass.Replace("{controller}", string.Empty) };
             }
         }
 
