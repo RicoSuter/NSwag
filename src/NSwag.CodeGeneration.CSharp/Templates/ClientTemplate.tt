@@ -219,25 +219,21 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
 <#          }else{#>
                             return result_; 
 <#          }#>
+<#      }#>
                         } 
                         catch (System.Exception exception) 
                         {
                             throw new <#=Model.ExceptionClass#>("Could not deserialize the response body.", status_, responseData_, headers_, exception);
                         }
-<#      }else{#>
-                    } 
-                    catch (System.Exception exception) 
-                    {
-                        throw new <#=Model.ExceptionClass#>("Could not deserialize the response body.", status_, responseData_, headers_, exception);
-                    }
+<#      if(!response.IsSuccess){#>
 <#          if(response.InheritsExceptionSchema){#>
-                    if (result_ == null)
-                        result_ = new <#=response.Type#>();
-                    result_.Data.Add("HttpStatus", status_);
-                    result_.Data.Add("ResponseData", responseData_);
-                    throw new <#=Model.ExceptionClass#><<#=response.Type#>>("<#=response.ExceptionDescription#>", status_, responseData_, headers_, result_, result_);
+                        if (result_ == null)
+                            result_ = new <#=response.Type#>();
+                        result_.Data.Add("HttpStatus", status_);
+                        result_.Data.Add("ResponseData", responseData_);
+                        throw new <#=Model.ExceptionClass#><<#=response.Type#>>("<#=response.ExceptionDescription#>", status_, responseData_, headers_, result_, result_);
 <#          }else{#>
-                    throw new <#=Model.ExceptionClass#><<#=response.Type#>>("<#=response.ExceptionDescription#>", status_, responseData_, headers_, result_, null);
+                        throw new <#=Model.ExceptionClass#><<#=response.Type#>>("<#=response.ExceptionDescription#>", status_, responseData_, headers_, result_, null);
 <#          }#>
 <#      }#>
 <#  }#>
