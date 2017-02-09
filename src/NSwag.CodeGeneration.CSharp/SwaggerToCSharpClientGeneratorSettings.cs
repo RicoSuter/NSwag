@@ -18,6 +18,7 @@ namespace NSwag.CodeGeneration.CSharp
 
             GenerateExceptionClasses = true;
             ExceptionClass = "SwaggerException";
+            ClientClassAccessModifier = "public";
         }
 
         /// <summary>Gets or sets the full name of the base class.</summary>
@@ -40,5 +41,8 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets a value indicating whether to call CreateHttpRequestMessageAsync on the base class to create a new HttpRequestMethod.</summary>
         public bool UseHttpRequestMessageCreationMethod { get; set; }
+
+        /// <summary>Gets or sets the client class access modifier (default: public).</summary>
+        public string ClientClassAccessModifier { get; set; }
     }
 }

@@ -363,7 +363,14 @@ if(Model.GenerateImplementation){
             
             #line default
             #line hidden
-            this.Write("\")]\r\npublic partial class ");
+            this.Write("\")]\r\n");
+            
+            #line 34 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClientClassAccessModifier));
+            
+            #line default
+            #line hidden
+            this.Write(" partial class ");
             
             #line 34 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.Class));
