@@ -102,6 +102,13 @@ namespace NSwag.Commands
             set { Settings.CSharpGeneratorSettings.JsonConverters = value; }
         }
 
+        [Argument(Name = "ClientClassAccessModifier", IsRequired = false, Description = "The client class access modifier (default: public).")]
+        public string ClientClassAccessModifier
+        {
+            get { return Settings.ClientClassAccessModifier; }
+            set { Settings.ClientClassAccessModifier = value; }
+        }
+
         [Argument(Name = "GenerateContractsOutput", IsRequired = false,
                   Description = "Specifies whether to generate contracts output (interface and models in a separate file set with the ContractsOutput parameter).")]
         public bool GenerateContractsOutput { get; set; }

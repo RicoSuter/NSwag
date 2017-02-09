@@ -51,7 +51,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
         /// <summary>Gets the all the namespace usages.</summary>
         public string[] NamespaceUsages => _outputType == ClientGeneratorOutputType.Contracts || _settings.AdditionalNamespaceUsages == null ?
-            new string[] { } : _settings.AdditionalNamespaceUsages;
+            new string[] { } : _settings.AdditionalNamespaceUsages.Where(n => n != null).ToArray();
 
         /// <summary>Gets a value indicating whether to generate contract code.</summary>
         public bool GenerateContracts =>
