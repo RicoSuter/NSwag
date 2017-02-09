@@ -82,6 +82,9 @@
                                 <TextBlock Text="Client class access modifier" FontWeight="Bold" Margin="0,0,0,6" />
                                 <TextBox Text="{Binding Command.ClientClassAccessModifier, Mode=TwoWay}" Margin="0,0,0,12" />
 
+                                <CheckBox IsChecked="{Binding Command.UseBaseUrl, Mode=TwoWay}" 
+                                          Content="Use and expose the base URL" Margin="0,0,0,12" />
+
                                 <TextBlock Text="Base Class Name (optional)" FontWeight="Bold" Margin="0,0,0,6" />
                                 <TextBox Text="{Binding Command.ClientBaseClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,12" />
 

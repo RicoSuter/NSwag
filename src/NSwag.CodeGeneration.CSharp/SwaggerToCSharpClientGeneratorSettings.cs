@@ -19,6 +19,7 @@ namespace NSwag.CodeGeneration.CSharp
             GenerateExceptionClasses = true;
             ExceptionClass = "SwaggerException";
             ClientClassAccessModifier = "public";
+            UseBaseUrl = true;
         }
 
         /// <summary>Gets or sets the full name of the base class.</summary>
@@ -44,5 +45,8 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets the client class access modifier (default: public).</summary>
         public string ClientClassAccessModifier { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether to use and expose the base URL (default: true).</summary>
+        public bool UseBaseUrl { get; set; }
     }
 }

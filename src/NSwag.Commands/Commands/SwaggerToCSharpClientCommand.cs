@@ -86,13 +86,21 @@ namespace NSwag.Commands
             get { return Settings.UseHttpClientCreationMethod; }
             set { Settings.UseHttpClientCreationMethod = value; }
         }
-        
-        [Argument(Name = "UseHttpRequestMessageCreationMethod", IsRequired = false, 
+
+        [Argument(Name = "UseHttpRequestMessageCreationMethod", IsRequired = false,
                   Description = "Specifies whether to call CreateHttpRequestMessageAsync on the base class to create a new HttpRequestMethod.")]
         public bool UseHttpRequestMessageCreationMethod
         {
             get { return Settings.UseHttpRequestMessageCreationMethod; }
             set { Settings.UseHttpRequestMessageCreationMethod = value; }
+        }
+
+        [Argument(Name = "UseBaseUrl", IsRequired = false,
+                  Description = "Specifies whether to use and expose the base URL (default: true).")]
+        public bool UseBaseUrl
+        {
+            get { return Settings.UseBaseUrl; }
+            set { Settings.UseBaseUrl = value; }
         }
 
         [Argument(Name = "JsonConverters", IsRequired = false, Description = "Specifies the custom Json.NET converter types (optional, comma separated).")]
