@@ -361,7 +361,7 @@ if(Model.WrapResponses){
             
             #line default
             #line hidden
-            this.Write("System.Threading.Tasks.Task<HttpResponseMessage>");
+            this.Write("async System.Threading.Tasks.Task<HttpResponseMessage>");
             
             #line 38 "D:\github\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 }else{
