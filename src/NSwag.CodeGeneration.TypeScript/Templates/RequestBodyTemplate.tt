@@ -3,20 +3,20 @@
 const content_ = new FormData();
 <#foreach(var parameter in Model.FormParameters){#>
 <#  if(parameter.IsNullable){#>
-if (<#=parameter.VariableName#> !== null)
+if (q.<#=parameter.VariableName#> !== null)
 <#  }else{#>
-if (<#=parameter.VariableName#> === null)
-    throw new Error("The parameter '<#=parameter.VariableName#>' cannot be null.");
+if (q.<#=parameter.VariableName#> === null)
+    throw new Error("The parameter 'q.<#=parameter.VariableName#>' cannot be null.");
 else
 <#  }#>
 <#  if(parameter.IsFile){
         if(parameter.IsArray){#>
-    <#=parameter.VariableName#>.forEach(item_ => content_.append("<#=parameter.Name#>", item_.data, item_.fileName ? item_.fileName : "<#=parameter.Name#>") );
+    q.<#=parameter.VariableName#>.forEach(item_ => content_.append("<#=parameter.Name#>", item_.data, item_.fileName ? item_.fileName : "<#=parameter.Name#>") );
 <#      }else{#>
-    content_.append("<#=parameter.Name#>", <#=parameter.VariableName#>.data, <#=parameter.VariableName#>.fileName ? <#=parameter.VariableName#>.fileName : "<#=parameter.Name#>");
+    content_.append("<#=parameter.Name#>", q.<#=parameter.VariableName#>.data, q.<#=parameter.VariableName#>.fileName ? q.<#=parameter.VariableName#>.fileName : "<#=parameter.Name#>");
 <#      }
     }else{#>
-    content_.append("<#=parameter.Name#>", <#=parameter.VariableName#>.toString());
+    content_.append("<#=parameter.Name#>", q.<#=parameter.VariableName#>.toString());
 <#  }#>
 <#}#>
 <#  }else{#>
