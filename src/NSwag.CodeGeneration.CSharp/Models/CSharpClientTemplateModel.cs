@@ -94,6 +94,12 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets a value indicating whether to generate optional parameters.</summary>
         public bool GenerateOptionalParameters => _settings.GenerateOptionalParameters;
 
+        /// <summary>Gets or sets a value indicating whether to use and expose the base URL (default: true).</summary>
+        public bool UseBaseUrl => _settings.UseBaseUrl;
+
+        /// <summary>Gets or sets the client class access modifier.</summary>
+        public string ClientClassAccessModifier => _settings.ClientClassAccessModifier;
+
         /// <summary>Gets the operations.</summary>
         public IEnumerable<CSharpOperationModel> Operations { get; }
 

@@ -86,8 +86,8 @@ namespace NSwag.Commands
             get { return Settings.UseHttpClientCreationMethod; }
             set { Settings.UseHttpClientCreationMethod = value; }
         }
-        
-        [Argument(Name = "UseHttpRequestMessageCreationMethod", IsRequired = false, 
+
+        [Argument(Name = "UseHttpRequestMessageCreationMethod", IsRequired = false,
                   Description = "Specifies whether to call CreateHttpRequestMessageAsync on the base class to create a new HttpRequestMethod.")]
         public bool UseHttpRequestMessageCreationMethod
         {
@@ -95,11 +95,26 @@ namespace NSwag.Commands
             set { Settings.UseHttpRequestMessageCreationMethod = value; }
         }
 
+        [Argument(Name = "UseBaseUrl", IsRequired = false,
+                  Description = "Specifies whether to use and expose the base URL (default: true).")]
+        public bool UseBaseUrl
+        {
+            get { return Settings.UseBaseUrl; }
+            set { Settings.UseBaseUrl = value; }
+        }
+
         [Argument(Name = "JsonConverters", IsRequired = false, Description = "Specifies the custom Json.NET converter types (optional, comma separated).")]
         public string[] JsonConverters
         {
             get { return Settings.CSharpGeneratorSettings.JsonConverters; }
             set { Settings.CSharpGeneratorSettings.JsonConverters = value; }
+        }
+
+        [Argument(Name = "ClientClassAccessModifier", IsRequired = false, Description = "The client class access modifier (default: public).")]
+        public string ClientClassAccessModifier
+        {
+            get { return Settings.ClientClassAccessModifier; }
+            set { Settings.ClientClassAccessModifier = value; }
         }
 
         [Argument(Name = "GenerateContractsOutput", IsRequired = false,

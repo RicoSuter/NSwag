@@ -31,11 +31,13 @@ public partial interface I<#=Model.Class#>
 
 <#if(Model.GenerateImplementation){#>
 [System.CodeDom.Compiler.GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
-public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Model.HasBaseClass){#><#=Model.BaseClass#><#if(Model.GenerateClientInterfaces){#>, <#}#><#}#><#if(Model.GenerateClientInterfaces){#>I<#=Model.Class#><#}#>
+<#=Model.ClientClassAccessModifier#> partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Model.HasBaseClass){#><#=Model.BaseClass#><#if(Model.GenerateClientInterfaces){#>, <#}#><#}#><#if(Model.GenerateClientInterfaces){#>I<#=Model.Class#><#}#>
 
 {
+<#if(Model.UseBaseUrl){#>
     private string _baseUrl = "<#=Model.BaseUrl#>";
     
+<#}#>
 <#if(Model.InjectHttpClient){#>
     private System.Net.Http.HttpClient _httpClient; 
 
@@ -48,7 +50,7 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
 <#}#>
     }
 
-<#}else if(string.IsNullOrEmpty(Model.BaseUrl)){#>
+<#}else if(Model.UseBaseUrl && string.IsNullOrEmpty(Model.BaseUrl)){#>
     public <#=Model.Class#>(string baseUrl<#if(Model.InjectHttpClient){#>, System.Net.Http.HttpClient httpClient<#}#>)
     {
 <#if(Model.InjectHttpClient){#>
@@ -64,12 +66,14 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
     }
 
 <#}#>
+<#if(Model.UseBaseUrl){#>
     public string BaseUrl 
     {
         get { return _baseUrl; }
         set { _baseUrl = value; }
     }
 
+<#}#>
     partial void PrepareRequest(System.Net.Http.HttpClient request, ref string url);
 
     partial void ProcessResponse(System.Net.Http.HttpClient request, System.Net.Http.HttpResponseMessage response);
@@ -95,7 +99,11 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
 <#  if(operation.IsDeprecated){#>    [System.Obsolete]
 <#  }#>    public async <#=operation.ResultType#> <#=operation.OperationNameUpper#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#>, <#}#>System.Threading.CancellationToken cancellationToken)
     {
+<#if(Model.UseBaseUrl){#>
         var url_ = string.Format("{0}/{1}<#if(operation.QueryParameters.Any()){#>?<#}#>", BaseUrl, "<#=operation.Path#>");
+<#}else{#>
+        var url_ = string.Format("{0}<#if(operation.QueryParameters.Any()){#>?<#}#>", "<#=operation.Path#>");
+<#}#>
 <#foreach(var parameter in operation.PathParameters){#>
 
         if (<#=parameter.VariableName#> == null)
@@ -219,25 +227,21 @@ public partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Mode
 <#          }else{#>
                             return result_; 
 <#          }#>
+<#      }#>
                         } 
                         catch (System.Exception exception) 
                         {
                             throw new <#=Model.ExceptionClass#>("Could not deserialize the response body.", status_, responseData_, headers_, exception);
                         }
-<#      }else{#>
-                    } 
-                    catch (System.Exception exception) 
-                    {
-                        throw new <#=Model.ExceptionClass#>("Could not deserialize the response body.", status_, responseData_, headers_, exception);
-                    }
+<#      if(!response.IsSuccess){#>
 <#          if(response.InheritsExceptionSchema){#>
-                    if (result_ == null)
-                        result_ = new <#=response.Type#>();
-                    result_.Data.Add("HttpStatus", status_);
-                    result_.Data.Add("ResponseData", responseData_);
-                    throw new <#=Model.ExceptionClass#><<#=response.Type#>>("<#=response.ExceptionDescription#>", status_, responseData_, headers_, result_, result_);
+                        if (result_ == null)
+                            result_ = new <#=response.Type#>();
+                        result_.Data.Add("HttpStatus", status_);
+                        result_.Data.Add("ResponseData", responseData_);
+                        throw new <#=Model.ExceptionClass#><<#=response.Type#>>("<#=response.ExceptionDescription#>", status_, responseData_, headers_, result_, result_);
 <#          }else{#>
-                    throw new <#=Model.ExceptionClass#><<#=response.Type#>>("<#=response.ExceptionDescription#>", status_, responseData_, headers_, result_, null);
+                        throw new <#=Model.ExceptionClass#><<#=response.Type#>>("<#=response.ExceptionDescription#>", status_, responseData_, headers_, result_, null);
 <#          }#>
 <#      }#>
 <#  }#>

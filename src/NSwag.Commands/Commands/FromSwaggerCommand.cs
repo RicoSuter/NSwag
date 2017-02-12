@@ -60,8 +60,10 @@ namespace NSwag.Commands
         {
             if (!string.IsNullOrEmpty(Swagger))
                 return await SwaggerDocument.FromJsonAsync(Swagger).ConfigureAwait(false);
-            else
+            else if (Url.StartsWith("http://") || Url.StartsWith("https://"))
                 return await SwaggerDocument.FromUrlAsync(Url).ConfigureAwait(false);
+            else
+                return await SwaggerDocument.FromFileAsync(Url).ConfigureAwait(false);
         }
 
         /// <summary>Occurs when property changed.</summary>
