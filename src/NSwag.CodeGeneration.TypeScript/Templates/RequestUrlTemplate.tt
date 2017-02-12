@@ -27,7 +27,7 @@ else
 <#      }
     }else{
         if(parameter.IsNullable){#>
-if (<q.#=parameter.VariableName#> !== undefined)
+if (q.<#=parameter.VariableName#> !== undefined)
 <#      }else{#>
 if (q.<#=parameter.VariableName#> === null)
     throw new Error("The parameter 'q.<#=parameter.VariableName#>' cannot be null.");
