@@ -71,11 +71,10 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 <#foreach(var parameter in operation.HeaderParameters){#>
                 "<#=parameter.Name#>": <#=parameter.VariableName#>, 
 <#}#>
-<#if(operation.HasFormParameters){#>                'Content-Type': <string>undefined
-<#}else{#>
+<#if(!operation.HasFormParameters){#>
                 "Content-Type": "<#=operation.Consumes#>; charset=UTF-8", 
-                "Accept": "<#=operation.Produces#>; charset=UTF-8"
 <#}#>
+                "Accept": "<#=operation.Produces#>; charset=UTF-8"
             }
         };
 
