@@ -1541,8 +1541,8 @@ if(operation.HasXmlBodyParameter){
                 try
                 {
                     var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h => h.Key, h => h.Value);
-                    foreach (var item in response_.Content.Headers)
-                        headers_[item.Key] = item.Value;
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
 
                     ProcessResponse(client_, response_);
 
