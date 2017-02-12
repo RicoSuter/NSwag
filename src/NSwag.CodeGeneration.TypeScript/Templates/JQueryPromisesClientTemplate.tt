@@ -57,7 +57,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
         });
     }
     
-    private <#=operation.OperationNameLower#>WithCallbacks(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>: <#=parameter.Type#>, <#}#>onSuccess?: (result: <#=operation.ResultType#>) => void, onFail?: (exception: <#=operation.ExceptionType#>, reason: string) => void) {
+    private <#=operation.OperationNameLower#>WithCallbacks(q: {<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>: <#=parameter.Type#>, <#}#> }, onSuccess?: (result: <#=operation.ResultType#>) => void, onFail?: (exception: <#=operation.ExceptionType#>, reason: string) => void) {
         <#=TypeScriptTemplatePartGenerator.RenderRequestUrlCode(operation, 2)#>
 
         <#=TypeScriptTemplatePartGenerator.RenderRequestBodyCode(operation, 2)#>
