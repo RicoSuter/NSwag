@@ -15,26 +15,38 @@
       "template": "Fetch",
       "promiseType": "Promise",
       "dateTimeType": "Date",
+      "nullValue": "Undefined",
       "generateClientClasses": true,
       "generateClientInterfaces": false,
       "wrapDtoExceptions": false,
+      "useTransformOptionsMethod": false,
+      "useTransformResultMethod": false,
       "generateDtoTypes": true,
       "operationGenerationMode": "MultipleClientsFromOperationId",
       "markOptionalProperties": false,
       "typeStyle": "Class",
       "generateDefaultValues": true,
+      "excludedTypeNames": [],
       "output": "../NSwag.Integration.TypeScriptWeb/scripts/serviceClientsPetStoreFetch.ts"
     },
     "swaggerToCSharpClient": {
-      "exceptionClass": "SwaggerException",
       "generateClientClasses": true,
-      "generateClientInterfaces": false,
+      "generateClientInterfaces": true,
       "generateDtoTypes": true,
+      "injectHttpClient": false,
+      "protectedMethods": [
+        "PetStoreClient.AddPetAsync"
+      ],
+      "generateExceptionClasses": true,
+      "exceptionClass": "SwaggerException",
       "useHttpClientCreationMethod": false,
       "useHttpRequestMessageCreationMethod": false,
+      "useBaseUrl": true,
+      "clientClassAccessModifier": "public",
       "generateContractsOutput": false,
       "className": "PetStoreClient",
       "namespace": "PetStore",
+      "generateOptionalParameters": false,
       "requiredPropertiesMustBeDefined": true,
       "dateType": "System.DateTime",
       "dateTimeType": "System.DateTime",
@@ -45,6 +57,10 @@
       "classStyle": "Inpc",
       "operationGenerationMode": "MultipleClientsFromOperationId",
       "generateDefaultValues": true,
+      "excludedTypeNames": [],
+      "wrapResponses": false,
+      "generateResponseClasses": true,
+      "responseClass": "SwaggerResponse",
       "output": "../NSwag.Integration.ClientPCL/PetStoreClient.cs"
     },
     "swaggerToCSharpController": {
@@ -53,6 +69,7 @@
       "additionalNamespaceUsages": [
         "System.Web.Http"
       ],
+      "generateOptionalParameters": false,
       "requiredPropertiesMustBeDefined": true,
       "dateType": "System.DateTime",
       "dateTimeType": "System.DateTime",
@@ -63,6 +80,10 @@
       "classStyle": "Inpc",
       "operationGenerationMode": "MultipleClientsFromOperationId",
       "generateDefaultValues": true,
+      "excludedTypeNames": [],
+      "wrapResponses": false,
+      "generateResponseClasses": true,
+      "responseClass": "SwaggerResponse",
       "output": null
     }
   }

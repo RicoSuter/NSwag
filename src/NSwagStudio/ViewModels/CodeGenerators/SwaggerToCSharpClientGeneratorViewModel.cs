@@ -88,6 +88,17 @@ namespace NSwagStudio.ViewModels.CodeGenerators
             }
         }
 
+        /// <summary>Gets or sets the list of methods with a protected access modifier ("classname.methodname").</summary>
+        public string ProtectedMethods
+        {
+            get { return _command.ProtectedMethods != null ? string.Join(",", _command.ProtectedMethods) : ""; }
+            set
+            {
+                _command.ProtectedMethods = !string.IsNullOrEmpty(value) ? value.Split(',') : new string[] { };
+                RaisePropertyChanged();
+            }
+        }
+
         /// <summary>Gets or sets the client code. </summary>
         public string ClientCode
         {

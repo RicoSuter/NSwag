@@ -86,7 +86,7 @@ namespace NSwag.CodeGeneration
                 foreach (var controllerOperations in operations.GroupBy(o => o.ControllerName))
                 {
                     var controllerName = controllerOperations.Key;
-                    var controllerClassName = GetClassName(controllerOperations.Key);
+                    var controllerClassName = BaseSettings.GenerateControllerName(controllerOperations.Key);
                     clientCode += GenerateClientClass(controllerName, controllerClassName, controllerOperations.ToList(), type) + "\n\n";
                     clientClasses.Add(controllerClassName);
                 }
@@ -94,7 +94,7 @@ namespace NSwag.CodeGeneration
             else
             {
                 var controllerName = string.Empty;
-                var controllerClassName = GetClassName(controllerName);
+                var controllerClassName = BaseSettings.GenerateControllerName(controllerName);
                 clientCode = GenerateClientClass(controllerName, controllerClassName, operations, type);
                 clientClasses.Add(controllerClassName);
             }
@@ -122,11 +122,6 @@ namespace NSwag.CodeGeneration
                     return operationModel;
                 })
                 .ToList();
-        }
-
-        private string GetClassName(string controllerName)
-        {
-            return BaseSettings.ClassName.Replace("{controller}", ConversionUtilities.ConvertToUpperCamelCase(controllerName, false));
         }
     }
 }

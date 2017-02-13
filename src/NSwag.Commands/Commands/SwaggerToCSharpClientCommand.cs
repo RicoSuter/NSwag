@@ -66,6 +66,13 @@ namespace NSwag.Commands
             set { Settings.InjectHttpClient = value; }
         }
 
+        [Argument(Name = "ProtectedMethods", IsRequired = false, Description = "List of methods with a protected access modifier ('classname.methodname').")]
+        public string[] ProtectedMethods
+        {
+            get { return Settings.ProtectedMethods; }
+            set { Settings.ProtectedMethods = value; }
+        }
+
         [Argument(Name = "GenerateExceptionClasses", IsRequired = false, Description = "Specifies whether to generate exception classes (default: true).")]
         public bool GenerateExceptionClasses
         {

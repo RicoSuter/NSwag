@@ -37,6 +37,9 @@ namespace NSwag.CodeGeneration.CSharp
         /// <summary>Gets or sets a value indicating whether an HttpClient instance is injected into the client.</summary>
         public bool InjectHttpClient { get; set; }
 
+        /// <summary>Gets or sets the list of methods with a protected access modifier ("classname.methodname").</summary>
+        public string[] ProtectedMethods { get; set; }
+
         /// <summary>Gets or sets a value indicating whether to call CreateHttpClientAsync on the base class to create a new HttpClient instance (cannot be used when the HttpClient is injected).</summary>
         public bool UseHttpClientCreationMethod { get; set; }
 

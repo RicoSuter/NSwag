@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 using NSwag.CodeGeneration.OperationNameGenerators;
 
@@ -39,5 +40,13 @@ namespace NSwag.CodeGeneration
 
         /// <summary>Gets or sets the operation name generator.</summary>
         public IOperationNameGenerator OperationNameGenerator { get; set; }
+
+        /// <summary>Generates the name of the controller based on the provided settings.</summary>
+        /// <param name="controllerName">Name of the controller.</param>
+        /// <returns>The controller name.</returns>
+        public string GenerateControllerName(string controllerName)
+        {
+            return ClassName.Replace("{controller}", ConversionUtilities.ConvertToUpperCamelCase(controllerName, false));
+        }
     }
 }
