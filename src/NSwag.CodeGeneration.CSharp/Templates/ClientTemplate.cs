@@ -57,7 +57,7 @@ if(Model.GenerateContracts && Model.GenerateClientInterfaces){
             this.Write("\r\n{\r\n");
             
             #line 10 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-foreach(var operation in Model.Operations){
+foreach(var operation in Model.Operations.Where(o => o.IsInterfaceMethod)){
             
             #line default
             #line hidden
@@ -1160,7 +1160,7 @@ foreach(var parameter in operation.QueryParameters){
             
             #line default
             #line hidden
-            this.Write("            foreach(var item_ in ");
+            this.Write("            foreach (var item_ in ");
             
             #line 131 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
@@ -1216,7 +1216,7 @@ if(parameter.Type.EndsWith("?")){
             
             #line default
             #line hidden
-            this.Write("            foreach(var item_ in ");
+            this.Write("            foreach (var item_ in ");
             
             #line 135 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
@@ -1476,7 +1476,7 @@ if(operation.HasXmlBodyParameter){
             
             #line default
             #line hidden
-            this.Write("                foreach(var item_ in ");
+            this.Write("                    foreach (var item_ in ");
             
             #line 176 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
@@ -1504,7 +1504,7 @@ if(operation.HasXmlBodyParameter){
             
             #line default
             #line hidden
-            this.Write("                    content_.Add(new System.Net.Http.StreamContent(");
+            this.Write("                        content_.Add(new System.Net.Http.StreamContent(");
             
             #line 178 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
@@ -1540,7 +1540,7 @@ if(operation.HasXmlBodyParameter){
             
             #line default
             #line hidden
-            this.Write("                    content_.Add(new System.Net.Http.StringContent(");
+            this.Write("                        content_.Add(new System.Net.Http.StringContent(");
             
             #line 181 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));

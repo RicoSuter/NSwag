@@ -7,7 +7,7 @@
 [System.CodeDom.Compiler.GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
 public partial interface I<#=Model.Class#>
 {
-<#foreach(var operation in Model.Operations){#>
+<#foreach(var operation in Model.Operations.Where(o => o.IsInterfaceMethod)){#>
 <#  if(operation.HasSummary){#>    /// <summary><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)#></summary>
 <#  }foreach (var parameter in operation.Parameters){#>
 <#      if(parameter.HasDescription){#>    /// <param name="<#=parameter.VariableName#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
@@ -128,11 +128,11 @@ public partial interface I<#=Model.Class#>
         if (<#=parameter.VariableName#> != null)
 <#  }#>
 <#  if(parameter.IsDateArray){#>
-            foreach(var item_ in <#=parameter.VariableName#>) { url_ += string.Format("<#=parameter.Name#>={0}&", System.Uri.EscapeDataString(item_.ToString("s", System.Globalization.CultureInfo.InvariantCulture))); }
+            foreach (var item_ in <#=parameter.VariableName#>) { url_ += string.Format("<#=parameter.Name#>={0}&", System.Uri.EscapeDataString(item_.ToString("s", System.Globalization.CultureInfo.InvariantCulture))); }
 <#  }else if(parameter.IsDate){#>
             url_ += string.Format("<#=parameter.Name#>={0}&", System.Uri.EscapeDataString(<#=parameter.VariableName#><#if(parameter.Type.EndsWith("?")){#>.Value<#}#>.ToString("s", System.Globalization.CultureInfo.InvariantCulture)));
 <#  }else if(parameter.IsArray){#>
-            foreach(var item_ in <#=parameter.VariableName#>) { url_ += string.Format("<#=parameter.Name#>={0}&", System.Uri.EscapeDataString(item_.ToString())); }
+            foreach (var item_ in <#=parameter.VariableName#>) { url_ += string.Format("<#=parameter.Name#>={0}&", System.Uri.EscapeDataString(item_.ToString())); }
 <#  }else{#>
             url_ += string.Format("<#=parameter.Name#>={0}&", System.Uri.EscapeDataString(<#=parameter.VariableName#><#if(parameter.Type.EndsWith("?")){#>.Value<#}#>.ToString()));
 <#  }#>
@@ -173,12 +173,12 @@ public partial interface I<#=Model.Class#>
 <#      }#>
 <#      if(parameter.IsFile){
           if(parameter.IsArray){#>
-                foreach(var item_ in <#=parameter.VariableName#>) { content_.Add(new System.Net.Http.StreamContent(item_.Data), "<#=parameter.Name#>", item_.FileName ?? "<#=parameter.Name#>"); }
+                    foreach (var item_ in <#=parameter.VariableName#>) { content_.Add(new System.Net.Http.StreamContent(item_.Data), "<#=parameter.Name#>", item_.FileName ?? "<#=parameter.Name#>"); }
 <#        }else{#>
-                    content_.Add(new System.Net.Http.StreamContent(<#=parameter.VariableName#>.Data), "<#=parameter.Name#>", <#=parameter.VariableName#>.FileName ?? "<#=parameter.Name#>");
+                        content_.Add(new System.Net.Http.StreamContent(<#=parameter.VariableName#>.Data), "<#=parameter.Name#>", <#=parameter.VariableName#>.FileName ?? "<#=parameter.Name#>");
 <#        }
         }else{#>
-                    content_.Add(new System.Net.Http.StringContent(<#=parameter.VariableName#>.ToString()), "<#=parameter.Name#>");
+                        content_.Add(new System.Net.Http.StringContent(<#=parameter.VariableName#>.ToString()), "<#=parameter.Name#>");
 <#      }#>
 <#    }#>
 <#  }else if(!operation.IsGetOrDelete){#>
