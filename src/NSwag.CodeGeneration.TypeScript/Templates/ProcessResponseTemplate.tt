@@ -3,7 +3,7 @@
 <#foreach(var response in Model.Responses){#>
 if (status === <#=response.StatusCode#>) {
 <#  if(response.HasType){#>
-    let result<#=response.StatusCode#>: <#=response.Type#> = null;
+    let result<#=response.StatusCode#>: <#=response.Type#> | null = null;
 <#      if(response.IsDate){#>
     result<#=response.StatusCode#> = new Date(responseText);
 <#      }else{
@@ -27,7 +27,7 @@ if (status === <#=response.StatusCode#>) {
 } else <#}
 if(Model.HasDefaultResponse){#>{
 <#  if(Model.DefaultResponse.HasType){#>
-    let result: <#=Model.DefaultResponse.Type#> = null;
+    let result: <#=Model.DefaultResponse.Type#> | null = null;
 <#      if(Model.DefaultResponse.IsDate){#>
     result = new Date(responseText);
 <#      }else{
