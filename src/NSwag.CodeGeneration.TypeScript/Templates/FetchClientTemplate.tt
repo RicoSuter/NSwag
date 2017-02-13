@@ -71,23 +71,22 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 <#foreach(var parameter in operation.HeaderParameters){#>
                 "<#=parameter.Name#>": <#=parameter.VariableName#>, 
 <#}#>
-<#if(operation.HasFormParameters){#>                'Content-Type': <string>undefined
-<#}else{#>
+<#if(!operation.HasFormParameters){#>
                 "Content-Type": "<#=operation.Consumes#>; charset=UTF-8", 
-                "Accept": "<#=operation.Produces#>; charset=UTF-8"
 <#}#>
+                "Accept": "<#=operation.Produces#>; charset=UTF-8"
             }
         };
 
 <#if(Model.UseTransformOptionsMethod){#>
         return this.transformOptions(options_).then(transformedOptions_ => {
             return this.http.fetch(url_, transformedOptions_);
-        }).then((response) => {
+        }).then((response: Response) => {
 <#}else{#>
-        return this.http.fetch(url_, options_).then((response) => {
+        return this.http.fetch(url_, options_).then((response: Response) => {
 <#}#>
 <#if(Model.UseTransformResultMethod){#>
-            return this.transformResult(url_, response, (response) => this.process<#=operation.OperationNameUpper#>(response));
+            return this.transformResult(url_, response, (response: Response) => this.process<#=operation.OperationNameUpper#>(response));
 <#}else{#>
             return this.process<#=operation.OperationNameUpper#>(response);
 <#}#>

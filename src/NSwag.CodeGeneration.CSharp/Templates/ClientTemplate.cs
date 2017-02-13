@@ -57,7 +57,7 @@ if(Model.GenerateContracts && Model.GenerateClientInterfaces){
             this.Write("\r\n{\r\n");
             
             #line 10 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-foreach(var operation in Model.Operations.Where(o => o.IsInterfaceMethod)){
+foreach(var operation in Model.Operations){
             
             #line default
             #line hidden
@@ -1621,8 +1621,8 @@ if(operation.HasXmlBodyParameter){
                 try
                 {
                     var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h => h.Key, h => h.Value);
-                    foreach (var item in response_.Content.Headers)
-                        headers_[item.Key] = item.Value;
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
 
                     ProcessResponse(client_, response_);
 
