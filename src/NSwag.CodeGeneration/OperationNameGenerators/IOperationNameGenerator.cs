@@ -16,7 +16,7 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         /// <summary>Gets a value indicating whether the generator supports multiple client classes.</summary>
         bool SupportsMultipleClients { get; }
 
-        /// <summary>Gets the client name for a given operation.</summary>
+        /// <summary>Gets the client name for a given operation (may be empty).</summary>
         /// <param name="document">The Swagger document.</param>
         /// <param name="path">The HTTP path.</param>
         /// <param name="httpMethod">The HTTP method.</param>
