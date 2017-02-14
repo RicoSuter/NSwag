@@ -40,7 +40,7 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
         - Generates a Swagger specification for controllers in an external Web API assembly
         - [Also supports loading of .NET Core assemblies](https://github.com/NSwag/NSwag/wiki/WebApiAssemblyToSwaggerGenerator#net-core)
     - [AssemblyTypeToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/AssemblyTypeToSwaggerGenerator)
-I         - Generates a Swagger specification containing only types from .NET assemblies
+         - Generates a Swagger specification containing only types from .NET assemblies
 
 **Code Generators:** 
 
