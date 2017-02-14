@@ -1462,7 +1462,7 @@ export class Teacher extends Person {
 
     course = ko.observable<string>();
 
-    minimumSkillLevel = ko.observable<SkillLevel>();
+    minimumSkillLevel = ko.observable<SkillLevel>(SkillLevel.Medium);
 
     constructor(data?: any) {
 

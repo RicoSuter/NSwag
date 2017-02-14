@@ -1210,7 +1210,7 @@ export enum SkillLevel {
 
 export class Teacher extends Person { 
     course: string; 
-    minimumSkillLevel: SkillLevel;
+    minimumSkillLevel: SkillLevel = SkillLevel.Medium;
     constructor(data?: any) {
         super(data);
         this._discriminator = "Teacher";

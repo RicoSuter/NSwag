@@ -699,7 +699,8 @@
           "type": "string"
         },
         "MinimumSkillLevel": {
-          "$ref": "#/definitions/SkillLevel"
+          "$ref": "#/definitions/SkillLevel",
+          "default": 1
         }
       },
       "allOf": [

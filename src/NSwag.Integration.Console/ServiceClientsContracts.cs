@@ -165,7 +165,7 @@ namespace NSwag.Integration.Console.Contracts
         public string Course { get; set; }
     
         [Newtonsoft.Json.JsonProperty("MinimumSkillLevel", Required = Newtonsoft.Json.Required.Always)]
-        public SkillLevel MinimumSkillLevel { get; set; }
+        public SkillLevel MinimumSkillLevel { get; set; } = NSwag.Integration.Console.Contracts.SkillLevel.Medium;
     
         public string ToJson() 
         {

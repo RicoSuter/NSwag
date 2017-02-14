@@ -57,7 +57,6 @@
     <None Include="swagger.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="ClientBase.cs" />
     <Compile Include="PetStoreClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
