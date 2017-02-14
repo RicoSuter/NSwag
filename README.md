@@ -40,7 +40,7 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
         - Generates a Swagger specification for controllers in an external Web API assembly
         - [Also supports loading of .NET Core assemblies](https://github.com/NSwag/NSwag/wiki/WebApiAssemblyToSwaggerGenerator#net-core)
     - [AssemblyTypeToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/AssemblyTypeToSwaggerGenerator)
-         - Generates a Swagger specification containing only types from .NET assemblies
+I         - Generates a Swagger specification containing only types from .NET assemblies
 
 **Code Generators:** 
 
@@ -66,7 +66,7 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 
 - [Download latest **NSwagStudio MSI installer**](http://rsuter.com/Projects/NSwagStudio/installer.php) (Windows Desktop application)
 - [Download latest **NSwag command line tools** and NSwagStudio as ZIP archive](http://rsuter.com/Projects/NSwagStudio/archive.php)
-- [Download latest **Build Artifacts** from AppVeyor](https://ci.appveyor.com/project/rsuter/nswag/build/artifacts) (command line tools and NSwagStudio binaries)
+- [Download latest **CI Build Artifacts** from AppVeyor](https://ci.appveyor.com/project/rsuter/nswag/build/artifacts) (command line tools and NSwagStudio binaries)
 
 **NPM Packages**
 
