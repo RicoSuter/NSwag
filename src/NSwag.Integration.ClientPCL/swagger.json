@@ -692,13 +692,13 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "MinimumSkillLevel"
+        "SkillLevel"
       ],
       "properties": {
         "Course": {
           "type": "string"
         },
-        "MinimumSkillLevel": {
+        "SkillLevel": {
           "$ref": "#/definitions/SkillLevel",
           "default": 1
         }

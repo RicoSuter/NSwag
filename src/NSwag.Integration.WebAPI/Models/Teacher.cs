@@ -7,6 +7,6 @@ namespace NSwag.Integration.WebAPI.Models
         public string Course { get; set; }
 
         [DefaultValue(SkillLevel.Medium)]
-        public SkillLevel MinimumSkillLevel { get; set; }
+        public SkillLevel SkillLevel { get; set; }
     }
 }

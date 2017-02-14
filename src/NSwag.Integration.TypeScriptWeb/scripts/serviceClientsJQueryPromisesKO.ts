@@ -1462,7 +1462,7 @@ export class Teacher extends Person {
 
     course = ko.observable<string>();
 
-    minimumSkillLevel = ko.observable<SkillLevel>(SkillLevel.Medium);
+    skillLevel = ko.observable<SkillLevel>(SkillLevel.Medium);
 
     constructor(data?: any) {
 
@@ -1476,9 +1476,9 @@ export class Teacher extends Person {
             course_ = data["Course"] !== undefined ? data["Course"] : undefined;
             this.course(course_);
 
-            var minimumSkillLevel_: SkillLevel = null; 
-            minimumSkillLevel_ = data["MinimumSkillLevel"] !== undefined ? data["MinimumSkillLevel"] : undefined;
-            this.minimumSkillLevel(minimumSkillLevel_);
+            var skillLevel_: SkillLevel = null; 
+            skillLevel_ = data["SkillLevel"] !== undefined ? data["SkillLevel"] : undefined;
+            this.skillLevel(skillLevel_);
 
         }
     }
@@ -1495,8 +1495,8 @@ export class Teacher extends Person {
         var course_ = this.course(); 
         data["Course"] = course_ !== undefined ? course_ : undefined;
 
-        var minimumSkillLevel_ = this.minimumSkillLevel(); 
-        data["MinimumSkillLevel"] = minimumSkillLevel_ !== undefined ? minimumSkillLevel_ : undefined;
+        var skillLevel_ = this.skillLevel(); 
+        data["SkillLevel"] = skillLevel_ !== undefined ? skillLevel_ : undefined;
 
         super.toJS(data);
 

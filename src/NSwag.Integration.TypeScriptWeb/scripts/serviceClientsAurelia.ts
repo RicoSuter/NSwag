@@ -953,13 +953,13 @@ export enum SkillLevel {
 
 export class Teacher extends Person { 
     course: string; 
-    minimumSkillLevel: SkillLevel = SkillLevel.Medium;
+    skillLevel: SkillLevel = SkillLevel.Medium;
     constructor(data?: any) {
         super(data);
         this._discriminator = "Teacher";
         if (data !== undefined) {
             this.course = data["Course"] !== undefined ? data["Course"] : undefined;
-            this.minimumSkillLevel = data["MinimumSkillLevel"] !== undefined ? data["MinimumSkillLevel"] : undefined;
+            this.skillLevel = data["SkillLevel"] !== undefined ? data["SkillLevel"] : undefined;
         }
     }
 
@@ -970,7 +970,7 @@ export class Teacher extends Person {
     toJS(data?: any) {
         data = data === undefined ? {} : data;
         data["Course"] = this.course !== undefined ? this.course : undefined;
-        data["MinimumSkillLevel"] = this.minimumSkillLevel !== undefined ? this.minimumSkillLevel : undefined;
+        data["SkillLevel"] = this.skillLevel !== undefined ? this.skillLevel : undefined;
         super.toJS(data);
         return data; 
     }

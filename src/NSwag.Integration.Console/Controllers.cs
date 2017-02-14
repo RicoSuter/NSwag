@@ -642,7 +642,7 @@ namespace MyNamespace
     { 
         private string _course;
      
-        private SkillLevel _minimumSkillLevel = MyNamespace.SkillLevel.Medium;
+        private SkillLevel _skillLevel = MyNamespace.SkillLevel.Medium;
     
         [Newtonsoft.Json.JsonProperty("Course", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Course
@@ -658,15 +658,15 @@ namespace MyNamespace
             }
         }
     
-        [Newtonsoft.Json.JsonProperty("MinimumSkillLevel", Required = Newtonsoft.Json.Required.Always)]
-        public SkillLevel MinimumSkillLevel
+        [Newtonsoft.Json.JsonProperty("SkillLevel", Required = Newtonsoft.Json.Required.Always)]
+        public SkillLevel SkillLevel
         {
-            get { return _minimumSkillLevel; }
+            get { return _skillLevel; }
             set 
             {
-                if (_minimumSkillLevel != value)
+                if (_skillLevel != value)
                 {
-                    _minimumSkillLevel = value; 
+                    _skillLevel = value; 
                     RaisePropertyChanged();
                 }
             }
