@@ -155,7 +155,7 @@ public partial interface I<#=Model.Class#>
             {
                 PrepareRequest(client_, ref url_);
 <#foreach(var parameter in operation.HeaderParameters){#>
-                request_.Headers.TryAddWithoutValidation("<#=parameter.Name#>", <#=parameter.VariableName#>);
+                request_.Headers.TryAddWithoutValidation("<#=parameter.Name#>", <#=parameter.VariableName#> != null ? <#=parameter.VariableName#>.ToString() : null);
 <#}#>
 <#if(operation.HasContent){#>
                 var content_ = new System.Net.Http.StringContent(<#if(operation.HasXmlBodyParameter){#><#=operation.ContentParameter.VariableName#><#}else{#>Newtonsoft.Json.JsonConvert.SerializeObject(<#=operation.ContentParameter.VariableName#><#=Model.JsonConverters#>)<#}#>);
@@ -194,7 +194,7 @@ public partial interface I<#=Model.Class#>
                 var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                 try
                 {
-                    var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h => h.Key, h => h.Value);
+                    var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                     foreach (var item_ in response_.Content.Headers)
                         headers_[item_.Key] = item_.Value;
 
