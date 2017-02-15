@@ -15,6 +15,7 @@ namespace NSwag.Integration.WebAPI.Models
 
         /// <summary>Gets or sets the first name.</summary>
         [Required]
+        [MinLength(2)]
         public string FirstName { get; set; } = "Rico";
 
         /// <summary>Gets or sets the last name.</summary>
@@ -29,6 +30,7 @@ namespace NSwag.Integration.WebAPI.Models
 
         public double Height { get; set; }
 
+        [Range(5, 99)]
         public int Age { get; set; }
 
         public TimeSpan AverageSleepTime { get; set; }

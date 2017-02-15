@@ -19,6 +19,7 @@ namespace NSwag.CodeGeneration.CSharp
             GenerateExceptionClasses = true;
             ExceptionClass = "SwaggerException";
             ClientClassAccessModifier = "public";
+            UseBaseUrl = true;
         }
 
         /// <summary>Gets or sets the full name of the base class.</summary>
@@ -36,6 +37,9 @@ namespace NSwag.CodeGeneration.CSharp
         /// <summary>Gets or sets a value indicating whether an HttpClient instance is injected into the client.</summary>
         public bool InjectHttpClient { get; set; }
 
+        /// <summary>Gets or sets the list of methods with a protected access modifier ("classname.methodname").</summary>
+        public string[] ProtectedMethods { get; set; }
+
         /// <summary>Gets or sets a value indicating whether to call CreateHttpClientAsync on the base class to create a new HttpClient instance (cannot be used when the HttpClient is injected).</summary>
         public bool UseHttpClientCreationMethod { get; set; }
 
@@ -44,5 +48,8 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets the client class access modifier (default: public).</summary>
         public string ClientClassAccessModifier { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether to use and expose the base URL (default: true).</summary>
+        public bool UseBaseUrl { get; set; }
     }
 }

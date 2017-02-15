@@ -16,7 +16,7 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         /// <summary>Gets a value indicating whether the generator supports multiple client classes.</summary>
         public bool SupportsMultipleClients { get; } = true;
 
-        /// <summary>Gets the client name for a given operation.</summary>
+        /// <summary>Gets the client name for a given operation (may be empty).</summary>
         /// <param name="document">The Swagger document.</param>
         /// <param name="path">The HTTP path.</param>
         /// <param name="httpMethod">The HTTP method.</param>
@@ -24,11 +24,15 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         /// <returns>The client name.</returns>
         public string GetClientName(SwaggerDocument document, string path, SwaggerOperationMethod httpMethod, SwaggerOperation operation)
         {
-            var pathSegments = path.Split('/').Where(p => !p.Contains("{")).Reverse().ToArray();
-            return pathSegments.Length >= 2 ? pathSegments[1] : string.Empty;
+            return path
+                .Split('/')
+                .Where(p => !p.Contains("{") && !string.IsNullOrWhiteSpace(p))
+                .Reverse()
+                .Skip(1)
+                .FirstOrDefault() ?? string.Empty;
         }
 
-        /// <summary>Gets the client name for a given operation.</summary>
+        /// <summary>Gets the client name for a given operation (may be empty).</summary>
         /// <param name="document">The Swagger document.</param>
         /// <param name="path">The HTTP path.</param>
         /// <param name="httpMethod">The HTTP method.</param>
@@ -36,8 +40,11 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         /// <returns>The client name.</returns>
         public string GetOperationName(SwaggerDocument document, string path, SwaggerOperationMethod httpMethod, SwaggerOperation operation)
         {
-            var pathSegments = path.Split('/').Where(p => !p.Contains("{")).Reverse().ToArray();
-            return pathSegments.First();
+            return path
+                .Split('/')
+                .Where(p => !p.Contains("{") && !string.IsNullOrWhiteSpace(p))
+                .Reverse()
+                .FirstOrDefault() ?? "Index";
         }
     }
 }

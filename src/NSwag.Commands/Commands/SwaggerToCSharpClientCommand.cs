@@ -66,6 +66,13 @@ namespace NSwag.Commands
             set { Settings.InjectHttpClient = value; }
         }
 
+        [Argument(Name = "ProtectedMethods", IsRequired = false, Description = "List of methods with a protected access modifier ('classname.methodname').")]
+        public string[] ProtectedMethods
+        {
+            get { return Settings.ProtectedMethods; }
+            set { Settings.ProtectedMethods = value; }
+        }
+
         [Argument(Name = "GenerateExceptionClasses", IsRequired = false, Description = "Specifies whether to generate exception classes (default: true).")]
         public bool GenerateExceptionClasses
         {
@@ -86,13 +93,21 @@ namespace NSwag.Commands
             get { return Settings.UseHttpClientCreationMethod; }
             set { Settings.UseHttpClientCreationMethod = value; }
         }
-        
-        [Argument(Name = "UseHttpRequestMessageCreationMethod", IsRequired = false, 
+
+        [Argument(Name = "UseHttpRequestMessageCreationMethod", IsRequired = false,
                   Description = "Specifies whether to call CreateHttpRequestMessageAsync on the base class to create a new HttpRequestMethod.")]
         public bool UseHttpRequestMessageCreationMethod
         {
             get { return Settings.UseHttpRequestMessageCreationMethod; }
             set { Settings.UseHttpRequestMessageCreationMethod = value; }
+        }
+
+        [Argument(Name = "UseBaseUrl", IsRequired = false,
+                  Description = "Specifies whether to use and expose the base URL (default: true).")]
+        public bool UseBaseUrl
+        {
+            get { return Settings.UseBaseUrl; }
+            set { Settings.UseBaseUrl = value; }
         }
 
         [Argument(Name = "JsonConverters", IsRequired = false, Description = "Specifies the custom Json.NET converter types (optional, comma separated).")]

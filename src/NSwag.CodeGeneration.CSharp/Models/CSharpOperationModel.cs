@@ -51,12 +51,29 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 parameters = parameters.OrderBy(p => !p.IsRequired).ToList();
 
             Parameters = parameters.Select(parameter =>
-                new CSharpParameterModel(parameter.Name, GetParameterVariableName(parameter, _operation.Parameters), 
+                new CSharpParameterModel(parameter.Name, GetParameterVariableName(parameter, _operation.Parameters),
                     ResolveParameterType(parameter), parameter, parameters,
                     _settings.CodeGeneratorSettings,
                     _generator))
                 .ToList();
         }
+
+        /// <summary>Gets the method's access modifier.</summary>
+        public string MethodAccessModifier
+        {
+            get
+            {
+                var controllerName = _settings.GenerateControllerName(ControllerName);
+                var settings = _settings as SwaggerToCSharpClientGeneratorSettings;
+                if (settings != null && settings.ProtectedMethods?.Contains(controllerName + "." + OperationNameUpper + "Async") == true)
+                    return "protected";
+
+                return "public";
+            }
+        }
+
+        /// <summary>Gets a value indicating whether this operation is rendered as interface method.</summary>
+        public bool IsInterfaceMethod => MethodAccessModifier == "public";
 
         /// <summary>Gets or sets the type of the result.</summary>
         public override string ResultType

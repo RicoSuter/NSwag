@@ -82,6 +82,9 @@
                                 <TextBlock Text="Client class access modifier" FontWeight="Bold" Margin="0,0,0,6" />
                                 <TextBox Text="{Binding Command.ClientClassAccessModifier, Mode=TwoWay}" Margin="0,0,0,12" />
 
+                                <CheckBox IsChecked="{Binding Command.UseBaseUrl, Mode=TwoWay}" 
+                                          Content="Use and expose the base URL" Margin="0,0,0,12" />
+
                                 <TextBlock Text="Base Class Name (optional)" FontWeight="Bold" Margin="0,0,0,6" />
                                 <TextBox Text="{Binding Command.ClientBaseClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,12" />
 
@@ -113,6 +116,9 @@
 
                                 <CheckBox IsChecked="{Binding Command.GenerateClientInterfaces, Mode=TwoWay}" 
                                           Content="Generate Client Interfaces" Margin="0,0,0,12" />
+
+                                <TextBlock Text="Methods with a protected access modifier to use in partial methods ('classname.methodname', comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding ProtectedMethods, Mode=TwoWay}" Margin="0,0,0,12" />
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
@@ -145,11 +151,15 @@
                                 <TextBlock Text="Generate DTO Types (e.g. request and response classes)" TextWrapping="Wrap" />
                             </CheckBox>
 
-                            <CheckBox IsChecked="{Binding Command.GenerateDefaultValues, Mode=TwoWay}" Margin="0,0,0,12">
-                                <TextBlock Text="Generate default values for properties (if default value is specified)" TextWrapping="Wrap" />
-                            </CheckBox>
-
                             <StackPanel Visibility="{Binding Command.GenerateDtoTypes, Converter={StaticResource VisibilityConverter}}">
+                                <CheckBox IsChecked="{Binding Command.GenerateDefaultValues, Mode=TwoWay}" Margin="0,0,0,12">
+                                    <TextBlock Text="Generate default values for properties (if default value is specified)" TextWrapping="Wrap" />
+                                </CheckBox>
+
+                                <CheckBox IsChecked="{Binding Command.GenerateDataAnnotations, Mode=TwoWay}" Margin="0,0,0,12">
+                                    <TextBlock Text="Generate data annotation attributes" TextWrapping="Wrap" />
+                                </CheckBox>
+
                                 <TextBlock Text="Class Style" FontWeight="Bold" Margin="0,0,0,6" />
                                 <ComboBox SelectedItem="{Binding Command.ClassStyle, Mode=TwoWay}" 
                                               ItemsSource="{Binding ClassStyles}" Margin="0,0,0,12" />

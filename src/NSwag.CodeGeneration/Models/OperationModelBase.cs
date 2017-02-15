@@ -110,7 +110,7 @@ namespace NSwag.CodeGeneration.Models
             get
             {
                 var response = GetSuccessResponse();
-                if (response?.Schema == null)
+                if (response?.ActualResponseSchema == null)
                     return "void";
 
                 var isNullable = response.IsNullable(_settings.CodeGeneratorSettings.NullHandling); 
