@@ -613,7 +613,8 @@
         },
         "FirstName": {
           "type": "string",
-          "description": "Gets or sets the first name."
+          "description": "Gets or sets the first name.",
+          "minLength": 2
         },
         "LastName": {
           "type": "string",
@@ -636,7 +637,9 @@
         },
         "Age": {
           "type": "integer",
-          "format": "int32"
+          "format": "int32",
+          "maximum": 99.0,
+          "minimum": 5.0
         },
         "AverageSleepTime": {
           "type": "string",

@@ -127,6 +127,13 @@ namespace NSwag.Commands
             set { Settings.CSharpGeneratorSettings.GenerateDefaultValues = value; }
         }
 
+        [Argument(Name = "GenerateDataAnnotations", IsRequired = false, Description = "Specifies whether to generate data annotation attributes on DTO classes (default: true).")]
+        public bool GenerateDataAnnotations
+        {
+            get { return Settings.CSharpGeneratorSettings.GenerateDataAnnotations; }
+            set { Settings.CSharpGeneratorSettings.GenerateDataAnnotations = value; }
+        }
+
         [Argument(Name = "ExcludedTypeNames", IsRequired = false, Description = "The excluded DTO type names (must be defined in an import or other namespace).")]
         public string[] ExcludedTypeNames
         {
