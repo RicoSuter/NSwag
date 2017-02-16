@@ -97,6 +97,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets or sets a value indicating whether to use and expose the base URL (default: true).</summary>
         public bool UseBaseUrl => _settings.UseBaseUrl;
 
+        /// <summary>Gets or sets a value indicating whether to generate synchronous methods (not recommended, default: false).</summary>
+        public bool GenerateSyncMethods => _settings.GenerateSyncMethods;
+
         /// <summary>Gets or sets the client class access modifier.</summary>
         public string ClientClassAccessModifier => _settings.ClientClassAccessModifier;
 

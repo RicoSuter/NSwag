@@ -51,5 +51,8 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets a value indicating whether to use and expose the base URL (default: true).</summary>
         public bool UseBaseUrl { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether to generate synchronous methods (not recommended, default: false).</summary>
+        public bool GenerateSyncMethods { get; set; }
     }
 }

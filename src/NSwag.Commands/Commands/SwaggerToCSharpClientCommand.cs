@@ -110,6 +110,14 @@ namespace NSwag.Commands
             set { Settings.UseBaseUrl = value; }
         }
 
+        [Argument(Name = "GenerateSyncMethods", IsRequired = false,
+                  Description = "Specifies whether to generate synchronous methods (not recommended, default: false).")]
+        public bool GenerateSyncMethods
+        {
+            get { return Settings.GenerateSyncMethods; }
+            set { Settings.GenerateSyncMethods = value; }
+        }
+
         [Argument(Name = "JsonConverters", IsRequired = false, Description = "Specifies the custom Json.NET converter types (optional, comma separated).")]
         public string[] JsonConverters
         {

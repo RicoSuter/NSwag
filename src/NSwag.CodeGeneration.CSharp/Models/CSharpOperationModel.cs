@@ -79,6 +79,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets a value indicating whether this operation is rendered as interface method.</summary>
         public bool IsInterfaceMethod => MethodAccessModifier == "public";
 
+        /// <summary>Gets a value indicating whether the operation has a result type.</summary>
+        public bool HasResult => UnwrappedResultType != "void";
+
         /// <summary>Gets or sets the type of the result.</summary>
         public override string ResultType
         {
