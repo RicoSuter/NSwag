@@ -163,7 +163,7 @@ if(operation.IsDeprecated){
             this.Write("    ");
             
             #line 16 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularJSClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameLower));
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationName));
             
             #line default
             #line hidden
@@ -476,7 +476,7 @@ if(operation.IsDeprecated){
             this.Write("    ");
             
             #line 55 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularJSClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameLower));
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationName));
             
             #line default
             #line hidden
@@ -644,7 +644,7 @@ if(Model.UseTransformResultMethod){
                     "s");
             
             #line 85 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularJSClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationNameUpper));
             
             #line default
             #line hidden
@@ -658,7 +658,7 @@ if(Model.UseTransformResultMethod){
             this.Write("            return this.process");
             
             #line 87 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularJSClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationNameUpper));
             
             #line default
             #line hidden
@@ -680,7 +680,7 @@ if(Model.UseTransformResultMethod){
                     "ocess");
             
             #line 92 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularJSClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationNameUpper));
             
             #line default
             #line hidden
@@ -694,7 +694,7 @@ if(Model.UseTransformResultMethod){
             this.Write("                return this.process");
             
             #line 94 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularJSClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationNameUpper));
             
             #line default
             #line hidden
@@ -708,7 +708,7 @@ if(Model.UseTransformResultMethod){
             this.Write("            throw response;\r\n        });\r\n    }\r\n\r\n    protected process");
             
             #line 100 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularJSClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationNameUpper));
             
             #line default
             #line hidden

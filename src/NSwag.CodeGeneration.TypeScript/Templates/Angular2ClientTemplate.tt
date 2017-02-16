@@ -13,7 +13,7 @@ export interface I<#=Model.Class#> {
 <#}#><#}#><#if(operation.HasResultDescription){#>     * @return <#=operation.ResultDescription#>
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
-<#}#>    <#=operation.OperationNameLower#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): Observable<<#=operation.ResultType#>>;
+<#}#>    <#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): Observable<<#=operation.ResultType#>>;
 <#}#>}
 <#}#>
 
@@ -53,7 +53,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 <#}#><#}#><#if(operation.HasResultDescription){#>     * @return <#=operation.ResultDescription#>
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
-<#}#>    <#=operation.OperationNameLower#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): Observable<<#=operation.ResultType#>> {
+<#}#>    <#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): Observable<<#=operation.ResultType#>> {
         <#=TypeScriptTemplatePartGenerator.RenderRequestUrlCode(operation, 2)#>
 
         <#=TypeScriptTemplatePartGenerator.RenderRequestBodyCode(operation, 2)#>
@@ -81,17 +81,17 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
         return this.http.request(url_, options_).map((response) => {
 <#}#>
 <#if(Model.UseTransformResultMethod){#>
-            return this.transformResult(url_, response, (response) => this.process<#=operation.OperationNameUpper#>(response));
+            return this.transformResult(url_, response, (response) => this.process<#=operation.ActualOperationNameUpper#>(response));
 <#}else{#>
-            return this.process<#=operation.OperationNameUpper#>(response);
+            return this.process<#=operation.ActualOperationNameUpper#>(response);
 <#}#>
         }).catch((response: any, caught: any) => {
             if (response instanceof Response) {
                 try {
 <#if(Model.UseTransformResultMethod){#>
-                    return Observable.of(this.transformResult(url_, response, (response) => this.process<#=operation.OperationNameUpper#>(response)));
+                    return Observable.of(this.transformResult(url_, response, (response) => this.process<#=operation.ActualOperationNameUpper#>(response)));
 <#}else{#>
-                    return Observable.of(this.process<#=operation.OperationNameUpper#>(response));
+                    return Observable.of(this.process<#=operation.ActualOperationNameUpper#>(response));
 <#}#>
                 } catch (e) {
                     return <Observable<<#=operation.ResultType#>>><any>Observable.throw(e);
@@ -101,7 +101,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
         });
     }
 
-    protected process<#=operation.OperationNameUpper#>(response: Response): <#=operation.ResultType#> {
+    protected process<#=operation.ActualOperationNameUpper#>(response: Response): <#=operation.ResultType#> {
         const responseText = response.text();
         const status = response.status; 
 

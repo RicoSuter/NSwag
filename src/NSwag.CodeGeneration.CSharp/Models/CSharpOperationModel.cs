@@ -65,12 +65,16 @@ namespace NSwag.CodeGeneration.CSharp.Models
             {
                 var controllerName = _settings.GenerateControllerName(ControllerName);
                 var settings = _settings as SwaggerToCSharpClientGeneratorSettings;
-                if (settings != null && settings.ProtectedMethods?.Contains(controllerName + "." + OperationNameUpper + "Async") == true)
+                if (settings != null && settings.ProtectedMethods?.Contains(controllerName + "." + ConversionUtilities.ConvertToUpperCamelCase(OperationName, false) + "Async") == true)
                     return "protected";
 
                 return "public";
             }
         }
+
+        /// <summary>Gets the actual name of the operation (language specific).</summary>
+        public override string ActualOperationName => ConversionUtilities.ConvertToUpperCamelCase(OperationName, false) 
+            + (MethodAccessModifier == "protected" ? "Core" : string.Empty);
 
         /// <summary>Gets a value indicating whether this operation is rendered as interface method.</summary>
         public bool IsInterfaceMethod => MethodAccessModifier == "public";

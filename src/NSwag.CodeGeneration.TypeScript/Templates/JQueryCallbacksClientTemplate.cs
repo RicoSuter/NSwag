@@ -176,7 +176,7 @@ if(operation.IsDeprecated){
             this.Write("    ");
             
             #line 16 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameLower));
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationName));
             
             #line default
             #line hidden
@@ -509,7 +509,7 @@ if(operation.IsDeprecated){
             this.Write("    ");
             
             #line 54 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameLower));
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationName));
             
             #line default
             #line hidden
@@ -683,7 +683,7 @@ if(Model.UseTransformOptionsMethod){
             this.Write(").done((data, textStatus, xhr) => {\r\n            this.process");
             
             #line 77 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationNameUpper));
             
             #line default
             #line hidden
@@ -691,7 +691,7 @@ if(Model.UseTransformOptionsMethod){
                     "     this.process");
             
             #line 79 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationNameUpper));
             
             #line default
             #line hidden
@@ -699,7 +699,7 @@ if(Model.UseTransformOptionsMethod){
                     "rocess");
             
             #line 83 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationNameUpper));
             
             #line default
             #line hidden
@@ -714,7 +714,7 @@ if(Model.UseTransformResultMethod){
             this.Write("            let result = this.transformResult(url, xhr, (xhr) => this.process");
             
             #line 86 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationNameUpper));
             
             #line default
             #line hidden
@@ -728,7 +728,7 @@ if(Model.UseTransformResultMethod){
             this.Write("            let result = this.process");
             
             #line 88 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationNameUpper));
             
             #line default
             #line hidden
@@ -744,7 +744,7 @@ if(Model.UseTransformResultMethod){
                     "l(e, \"http_service_exception\");\r\n        }\r\n    }\r\n\r\n    protected process");
             
             #line 98 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationNameUpper));
             
             #line default
             #line hidden

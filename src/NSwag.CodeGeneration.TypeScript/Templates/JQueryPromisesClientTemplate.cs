@@ -176,7 +176,7 @@ if(operation.IsDeprecated){
             this.Write("    ");
             
             #line 16 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameLower));
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationName));
             
             #line default
             #line hidden
@@ -508,7 +508,7 @@ if(operation.IsDeprecated){
             this.Write("    ");
             
             #line 54 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameLower));
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationName));
             
             #line default
             #line hidden
@@ -582,7 +582,7 @@ if(!parameter.IsLast){
             this.Write(">((resolve, reject) => {\r\n            this.");
             
             #line 56 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameLower));
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationName));
             
             #line default
             #line hidden
@@ -610,7 +610,7 @@ foreach(var parameter in operation.Parameters){
                     "});\r\n    }\r\n    \r\n    private ");
             
             #line 60 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameLower));
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationName));
             
             #line default
             #line hidden
@@ -771,7 +771,7 @@ if(Model.UseTransformOptionsMethod){
             this.Write(").done((data, textStatus, xhr) => {\r\n            this.process");
             
             #line 83 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationNameUpper));
             
             #line default
             #line hidden
@@ -779,7 +779,7 @@ if(Model.UseTransformOptionsMethod){
                     "     this.process");
             
             #line 85 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationNameUpper));
             
             #line default
             #line hidden
@@ -787,7 +787,7 @@ if(Model.UseTransformOptionsMethod){
                     "rocess");
             
             #line 89 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationNameUpper));
             
             #line default
             #line hidden
@@ -802,7 +802,7 @@ if(Model.UseTransformResultMethod){
             this.Write("            let result = this.transformResult(url, xhr, (xhr) => this.process");
             
             #line 92 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationNameUpper));
             
             #line default
             #line hidden
@@ -816,7 +816,7 @@ if(Model.UseTransformResultMethod){
             this.Write("            let result = this.process");
             
             #line 94 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationNameUpper));
             
             #line default
             #line hidden
@@ -832,7 +832,7 @@ if(Model.UseTransformResultMethod){
                     "l(e, \"http_service_exception\");\r\n        }\r\n    }\r\n\r\n    protected process");
             
             #line 104 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.OperationNameUpper));
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationNameUpper));
             
             #line default
             #line hidden

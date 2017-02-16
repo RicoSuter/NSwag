@@ -14,7 +14,7 @@ public partial interface I<#=Model.Class#>
 <#  }}if(operation.HasResultDescription){#>    /// <returns><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)#></returns>
 <#  }#>    /// <exception cref="<#=Model.ExceptionClass#>">A server side error occurred.</exception>
 <#  if(operation.IsDeprecated){#>    [System.Obsolete]
-<#  }#>    <#=operation.ResultType#> <#=operation.OperationNameUpper#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#><#if(!parameter.IsLast){#>, <#}}#>);
+<#  }#>    <#=operation.ResultType#> <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#><#if(!parameter.IsLast){#>, <#}}#>);
 
 <#  if(operation.HasSummary){#>    /// <summary><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)#></summary>
 <#  }foreach (var parameter in operation.Parameters){#>
@@ -23,7 +23,7 @@ public partial interface I<#=Model.Class#>
 <#  if(operation.HasResultDescription){#>    /// <returns><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)#></returns>
 <#  }#>    /// <exception cref="<#=Model.ExceptionClass#>">A server side error occurred.</exception>
 <#  if(operation.IsDeprecated){#>    [System.Obsolete]
-<#  }#>    <#=operation.ResultType#> <#=operation.OperationNameUpper#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#>, <#}#>System.Threading.CancellationToken cancellationToken);
+<#  }#>    <#=operation.ResultType#> <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#>, <#}#>System.Threading.CancellationToken cancellationToken);
 
 <#}#>
 }
@@ -85,9 +85,9 @@ public partial interface I<#=Model.Class#>
 <#  }}if(operation.HasResultDescription){#>    /// <returns><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)#></returns>
 <#  }#>    /// <exception cref="<#=Model.ExceptionClass#>">A server side error occurred.</exception>
 <#  if(operation.IsDeprecated){#>    [System.Obsolete]
-<#  }#>    <#=operation.MethodAccessModifier#> <#=operation.ResultType#> <#=operation.OperationNameUpper#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#><#if(!parameter.IsLast){#>, <#}}#>)
+<#  }#>    <#=operation.MethodAccessModifier#> <#=operation.ResultType#> <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#><#if(!parameter.IsLast){#>, <#}}#>)
     {
-        return <#=operation.OperationNameUpper#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>, <#}#>System.Threading.CancellationToken.None);
+        return <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>, <#}#>System.Threading.CancellationToken.None);
     }
 
 <#  if(operation.HasSummary){#>    /// <summary><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)#></summary>
@@ -97,7 +97,7 @@ public partial interface I<#=Model.Class#>
 <#  if(operation.HasResultDescription){#>    /// <returns><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)#></returns>
 <#  }#>    /// <exception cref="<#=Model.ExceptionClass#>">A server side error occurred.</exception>
 <#  if(operation.IsDeprecated){#>    [System.Obsolete]
-<#  }#>    <#=operation.MethodAccessModifier#> async <#=operation.ResultType#> <#=operation.OperationNameUpper#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#>, <#}#>System.Threading.CancellationToken cancellationToken)
+<#  }#>    <#=operation.MethodAccessModifier#> async <#=operation.ResultType#> <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#>, <#}#>System.Threading.CancellationToken cancellationToken)
     {
 <#if(Model.UseBaseUrl){#>
         var url_ = string.Format("{0}/{1}<#if(operation.QueryParameters.Any()){#>?<#}#>", BaseUrl, "<#=operation.Path#>");
