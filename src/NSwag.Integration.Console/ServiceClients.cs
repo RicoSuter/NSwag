@@ -306,7 +306,7 @@ namespace NSwag.Integration.Console
                             var result_ = default(System.Collections.ObjectModel.ObservableCollection<string>); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<string>>(responseData_, new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() });                                
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<string>>(responseData_, new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() });
                                 return result_; 
                             } 
                             catch (System.Exception exception) 
@@ -436,7 +436,7 @@ namespace NSwag.Integration.Console
                             var result_ = default(bool); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<bool>(responseData_, new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() });                                
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<bool>(responseData_, new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() });
                                 return result_; 
                             } 
                             catch (System.Exception exception) 
@@ -572,7 +572,7 @@ namespace NSwag.Integration.Console
                             var result_ = default(System.Exception); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Exception>(responseData_, new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() });                                
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Exception>(responseData_, new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() });
                             } 
                             catch (System.Exception exception) 
                             {
@@ -721,7 +721,7 @@ namespace NSwag.Integration.Console
                             var result_ = default(System.Collections.ObjectModel.ObservableCollection<Person>); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<Person>>(responseData_, new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() });                                
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<Person>>(responseData_, new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() });
                                 return result_; 
                             } 
                             catch (System.Exception exception) 
@@ -854,7 +854,7 @@ namespace NSwag.Integration.Console
                             var result_ = default(System.Collections.ObjectModel.ObservableCollection<Person>); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<Person>>(responseData_, new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() });                                
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<Person>>(responseData_, new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() });
                                 return result_; 
                             } 
                             catch (System.Exception exception) 
@@ -927,7 +927,7 @@ namespace NSwag.Integration.Console
                             var result_ = default(System.Collections.ObjectModel.ObservableCollection<Person>); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<Person>>(responseData_, new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() });                                
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<Person>>(responseData_, new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() });
                                 return result_; 
                             } 
                             catch (System.Exception exception) 
@@ -999,7 +999,7 @@ namespace NSwag.Integration.Console
                             var result_ = default(Person); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Person>(responseData_, new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() });                                
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Person>(responseData_, new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() });
                                 return result_; 
                             } 
                             catch (System.Exception exception) 
@@ -1014,7 +1014,7 @@ namespace NSwag.Integration.Console
                             var result_ = default(PersonNotFoundException); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<PersonNotFoundException>(responseData_, new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() });                                
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<PersonNotFoundException>(responseData_, new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() });
                             } 
                             catch (System.Exception exception) 
                             {
@@ -1153,7 +1153,7 @@ namespace NSwag.Integration.Console
                             var result_ = default(Person); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Person>(responseData_, new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() });                                
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Person>(responseData_, new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() });
                                 return result_; 
                             } 
                             catch (System.Exception exception) 
@@ -1168,7 +1168,7 @@ namespace NSwag.Integration.Console
                             var result_ = default(PersonNotFoundException); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<PersonNotFoundException>(responseData_, new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() });                                
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<PersonNotFoundException>(responseData_, new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() });
                             } 
                             catch (System.Exception exception) 
                             {
@@ -1250,7 +1250,7 @@ namespace NSwag.Integration.Console
                             var result_ = default(string); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(responseData_, new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() });                                
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(responseData_, new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() });
                                 return result_; 
                             } 
                             catch (System.Exception exception) 
@@ -1265,7 +1265,7 @@ namespace NSwag.Integration.Console
                             var result_ = default(PersonNotFoundException); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<PersonNotFoundException>(responseData_, new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() });                                
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<PersonNotFoundException>(responseData_, new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() });
                             } 
                             catch (System.Exception exception) 
                             {
@@ -1340,7 +1340,7 @@ namespace NSwag.Integration.Console
                             var result_ = default(string); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(responseData_, new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() });                                
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(responseData_, new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() });
                                 return result_; 
                             } 
                             catch (System.Exception exception) 

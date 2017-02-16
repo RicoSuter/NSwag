@@ -78,7 +78,7 @@ namespace Uber
                             var result_ = default(System.Collections.ObjectModel.ObservableCollection<Product>); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<Product>>(responseData_);                                
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<Product>>(responseData_);
                                 return result_; 
                             } 
                             catch (System.Exception exception) 
@@ -188,7 +188,7 @@ namespace Uber
                             var result_ = default(System.Collections.ObjectModel.ObservableCollection<PriceEstimate>); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<PriceEstimate>>(responseData_);                                
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<PriceEstimate>>(responseData_);
                                 return result_; 
                             } 
                             catch (System.Exception exception) 
@@ -294,7 +294,7 @@ namespace Uber
                             var result_ = default(System.Collections.ObjectModel.ObservableCollection<Product>); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<Product>>(responseData_);                                
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<Product>>(responseData_);
                                 return result_; 
                             } 
                             catch (System.Exception exception) 
@@ -376,7 +376,7 @@ namespace Uber
                             var result_ = default(Profile); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Profile>(responseData_);                                
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Profile>(responseData_);
                                 return result_; 
                             } 
                             catch (System.Exception exception) 
@@ -468,7 +468,7 @@ namespace Uber
                             var result_ = default(Activities); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Activities>(responseData_);                                
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Activities>(responseData_);
                                 return result_; 
                             } 
                             catch (System.Exception exception) 

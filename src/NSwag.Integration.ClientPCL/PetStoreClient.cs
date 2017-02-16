@@ -461,7 +461,7 @@ namespace PetStore
                             var result_ = default(System.Collections.ObjectModel.ObservableCollection<Pet>); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<Pet>>(responseData_);                                
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<Pet>>(responseData_);
                                 return result_; 
                             } 
                             catch (System.Exception exception) 
@@ -548,7 +548,7 @@ namespace PetStore
                             var result_ = default(System.Collections.ObjectModel.ObservableCollection<Pet>); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<Pet>>(responseData_);                                
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<Pet>>(responseData_);
                                 return result_; 
                             } 
                             catch (System.Exception exception) 
@@ -632,7 +632,7 @@ namespace PetStore
                             var result_ = default(Pet); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Pet>(responseData_);                                
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Pet>(responseData_);
                                 return result_; 
                             } 
                             catch (System.Exception exception) 
@@ -879,7 +879,7 @@ namespace PetStore
                             var result_ = default(ApiResponse); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiResponse>(responseData_);                                
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiResponse>(responseData_);
                                 return result_; 
                             } 
                             catch (System.Exception exception) 
@@ -951,7 +951,7 @@ namespace PetStore
                             var result_ = default(System.Collections.Generic.Dictionary<string, int>); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.Dictionary<string, int>>(responseData_);                                
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.Dictionary<string, int>>(responseData_);
                                 return result_; 
                             } 
                             catch (System.Exception exception) 
@@ -1028,7 +1028,7 @@ namespace PetStore
                             var result_ = default(Order); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Order>(responseData_);                                
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Order>(responseData_);
                                 return result_; 
                             } 
                             catch (System.Exception exception) 
@@ -1112,7 +1112,7 @@ namespace PetStore
                             var result_ = default(Order); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Order>(responseData_);                                
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Order>(responseData_);
                                 return result_; 
                             } 
                             catch (System.Exception exception) 
@@ -1446,7 +1446,7 @@ namespace PetStore
                             var result_ = default(string); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(responseData_);                                
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(responseData_);
                                 return result_; 
                             } 
                             catch (System.Exception exception) 
@@ -1580,7 +1580,7 @@ namespace PetStore
                             var result_ = default(User); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(responseData_);                                
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(responseData_);
                                 return result_; 
                             } 
                             catch (System.Exception exception) 

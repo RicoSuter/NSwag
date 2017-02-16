@@ -268,7 +268,8 @@
             "type": "boolean",
             "name": "override",
             "in": "query",
-            "x-nullable": false
+            "x-nullable": false,
+            "default": false
           }
         ],
         "responses": {
@@ -526,6 +527,7 @@
           {
             "name": "person",
             "in": "body",
+            "required": true,
             "x-nullable": true,
             "description": ""
           }
