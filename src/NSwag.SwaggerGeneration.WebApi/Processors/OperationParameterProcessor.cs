@@ -199,7 +199,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                 {
                     Name = name,
                     Kind = SwaggerParameterKind.Body,
-                    IsRequired = false,
+                    IsRequired = parameter.HasDefaultValue == false,
                     IsNullableRaw = true,
                     Description = await parameter.GetXmlDocumentationAsync().ConfigureAwait(false)
                 });
