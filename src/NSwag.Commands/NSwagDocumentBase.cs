@@ -182,18 +182,12 @@ namespace NSwag.Commands
         /// <returns>The task.</returns>
         public async Task ExecuteAsync()
         {
-            SwaggerDocument document = null;
-            foreach (var codeGenerator in CodeGenerators.Items)
+            var document = await GenerateDocumentAsync();
+            foreach (var codeGenerator in CodeGenerators.Items.Where(c => !string.IsNullOrEmpty(c.OutputFilePath)))
             {
-                if (!string.IsNullOrEmpty(codeGenerator.OutputFilePath))
-                {
-                    if (document == null)
-                        document = await GenerateDocumentAsync();
-
-                    codeGenerator.Input = document;
-                    await codeGenerator.RunAsync(null, null);
-                    codeGenerator.Input = null;
-                }
+                codeGenerator.Input = document;
+                await codeGenerator.RunAsync(null, null);
+                codeGenerator.Input = null;
             }
         }
 

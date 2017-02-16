@@ -55,6 +55,7 @@ namespace NSwag.Demo.Web.Controllers
         // POST: api/Person
         /// <summary>Creates a new person.</summary>
         /// <param name="value">The person.</param>
+        [HttpPost, Route("")]
         public void Post([FromBody]Person value)
         {
         }
