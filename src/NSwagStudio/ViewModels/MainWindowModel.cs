@@ -123,7 +123,7 @@ namespace NSwagStudio.ViewModels
         {
             var dlg = new OpenFileDialog();
             dlg.Title = "Open NSwag settings file";
-            dlg.Filter = "NSwag file (*.nswag)|*.nswag|NSwag JSON file (*.json)|*.json";
+            dlg.Filter = "NSwag file (*.nswag;nswag.json)|*.nswag;nswag.json";
             dlg.RestoreDirectory = true;
             if (dlg.ShowDialog() == DialogResult.OK)
                 await OpenDocumentAsync(dlg.FileName);
@@ -189,7 +189,7 @@ namespace NSwagStudio.ViewModels
         private async Task<bool> SaveAsDocumentAsync(DocumentModel document)
         {
             var dlg = new SaveFileDialog();
-            dlg.Filter = "NSwag file (*.nswag)|*.nswag|NSwag JSON file (*.json)|*.json";
+            dlg.Filter = "NSwag file (*.nswag;nswag.json)|*.nswag;nswag.json";
             dlg.RestoreDirectory = true;
             dlg.AddExtension = true;
             if (dlg.ShowDialog() == DialogResult.OK)

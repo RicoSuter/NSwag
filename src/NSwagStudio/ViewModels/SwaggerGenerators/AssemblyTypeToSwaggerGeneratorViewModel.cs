@@ -121,7 +121,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         {
             var dlg = new OpenFileDialog();
             dlg.DefaultExt = ".dll";
-            dlg.Filter = ".NET Assemblies (.dll)|*.dll";
+            dlg.Filter = ".NET Assemblies (*.dll;*.exe)|*.dll;*.exe";
             if (dlg.ShowDialog() == true)
             {
                 AssemblyPath = dlg.FileName;
