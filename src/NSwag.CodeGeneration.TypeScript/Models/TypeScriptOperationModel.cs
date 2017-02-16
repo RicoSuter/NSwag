@@ -37,6 +37,12 @@ namespace NSwag.CodeGeneration.TypeScript.Models
                 .ToList();
         }
 
+        /// <summary>Gets the actual name of the operation (language specific).</summary>
+        public override string ActualOperationName => ConversionUtilities.ConvertToLowerCamelCase(OperationName, false);
+
+        /// <summary>Gets the actual name of the operation (language specific).</summary>
+        public string ActualOperationNameUpper => ConversionUtilities.ConvertToUpperCamelCase(OperationName, false);
+
         /// <summary>Gets or sets the type of the result.</summary>
         public override string ResultType => UnwrappedResultType;
 

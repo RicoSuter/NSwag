@@ -60,7 +60,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             //// Assert
             Assert.IsFalse(code.Contains("TestWithEnumAsync(MyEnum myEnum = null)"));
-            Assert.IsTrue(code.Contains("TestWithEnumAsync(MyEnum? myEnum = null)"));
+            Assert.IsTrue(code.Contains("TestWithEnumAsync(MyEnum? myEnum = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))"));
         }
 
         [TestMethod]
@@ -78,8 +78,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGenerator.GenerateFile();
 
             //// Assert
-            Assert.IsFalse(code.Contains("TestWithClassAsync(string myString = null, MyEnum myEnum = null, int? myInt = null)"));
-            Assert.IsTrue(code.Contains("TestWithClassAsync(string myString = null, MyEnum? myEnum = null, int? myInt = null)"));
+            Assert.IsFalse(code.Contains("TestWithClassAsync(string myString = null, MyEnum myEnum = null, int? myInt = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))"));
+            Assert.IsTrue(code.Contains("TestWithClassAsync(string myString = null, MyEnum? myEnum = null, int? myInt = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))"));
         }
 
 
@@ -98,9 +98,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGenerator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("TestAsync(string a, string b, string c = null)"));
+            Assert.IsTrue(code.Contains("TestAsync(string a, string b, string c = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))"));
             Assert.IsFalse(code.Contains("TestAsync(string a, string b, string c)"));
-            Assert.IsTrue(code.Contains("TestAsync(string a, string b, string c, System.Threading.CancellationToken cancellationToken)"));
         }
 
         [TestMethod]
@@ -123,7 +122,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGenerator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("TestAsync(string a, string b, string c = null)"));
+            Assert.IsTrue(code.Contains("TestAsync(string a, string b, string c = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))"));
         }
     }
 }

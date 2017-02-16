@@ -13,7 +13,7 @@ export interface I<#=Model.Class#> {
 <#}#><#}#><#if(operation.HasResultDescription){#>     * @return <#=operation.ResultDescription#>
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
-<#}#>    <#=operation.OperationNameLower#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): ng.IPromise<<#=operation.ResultType#>>;
+<#}#>    <#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): ng.IPromise<<#=operation.ResultType#>>;
 <#}#>}
 <#}#>
 
@@ -52,7 +52,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 <#}#><#}#><#if(operation.HasResultDescription){#>     * @return <#=operation.ResultDescription#>
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
-<#}#>    <#=operation.OperationNameLower#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): ng.IPromise<<#=operation.ResultType#>> {
+<#}#>    <#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): ng.IPromise<<#=operation.ResultType#>> {
         <#=TypeScriptTemplatePartGenerator.RenderRequestUrlCode(operation, 2)#>
 
         <#=TypeScriptTemplatePartGenerator.RenderRequestBodyCode(operation, 2)#>
@@ -82,22 +82,22 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
         return this.http(options_).then((response) => {
 <#}#>
 <#if(Model.UseTransformResultMethod){#>
-            return this.transformResult(url_, response, (response) => this.process<#=operation.OperationNameUpper#>(response));
+            return this.transformResult(url_, response, (response) => this.process<#=operation.ActualOperationNameUpper#>(response));
 <#}else{#>
-            return this.process<#=operation.OperationNameUpper#>(response);
+            return this.process<#=operation.ActualOperationNameUpper#>(response);
 <#}#>
         }, (response) => {
             if (response.status)
 <#if(Model.UseTransformResultMethod){#>
-                return this.transformResult(url_, response, (response) => this.process<#=operation.OperationNameUpper#>(response));
+                return this.transformResult(url_, response, (response) => this.process<#=operation.ActualOperationNameUpper#>(response));
 <#}else{#>
-                return this.process<#=operation.OperationNameUpper#>(response);
+                return this.process<#=operation.ActualOperationNameUpper#>(response);
 <#}#>
             throw response;
         });
     }
 
-    protected process<#=operation.OperationNameUpper#>(response: any): <#=operation.ResultType#> {
+    protected process<#=operation.ActualOperationNameUpper#>(response: any): <#=operation.ResultType#> {
         const responseText = response.data;
         const status = response.status; 
 

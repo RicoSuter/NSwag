@@ -71,6 +71,9 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets or sets the name of the operation.</summary>
         public string OperationName { get; set; }
+        
+        /// <summary>Gets the actual name of the operation (language specific).</summary>
+        public abstract string ActualOperationName { get; }
 
         /// <summary>Gets the HTTP method in uppercase.</summary>
         public string HttpMethodUpper => ConversionUtilities.ConvertToUpperCamelCase(HttpMethod.ToString(), false);
@@ -83,12 +86,6 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets a value indicating whether the HTTP method is GET or HEAD.</summary>
         public bool IsGetOrHead => HttpMethod == SwaggerOperationMethod.Get || HttpMethod == SwaggerOperationMethod.Head;
-
-        /// <summary>Gets the operation name in lowercase.</summary>
-        public string OperationNameLower => ConversionUtilities.ConvertToLowerCamelCase(OperationName, false);
-
-        /// <summary>Gets the operation name in uppercase.</summary>
-        public string OperationNameUpper => ConversionUtilities.ConvertToUpperCamelCase(OperationName, false);
 
         // TODO: Remove this (not may not work correctly)
         /// <summary>Gets or sets a value indicating whether the operation has a result type (i.e. not void).</summary>

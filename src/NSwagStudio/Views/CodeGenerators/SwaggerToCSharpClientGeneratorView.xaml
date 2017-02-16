@@ -91,6 +91,9 @@
                                 <CheckBox IsChecked="{Binding Command.InjectHttpClient, Mode=TwoWay}" 
                                           Content="Inject HttpClient via constructor (life cycle is managed by the caller)" Margin="0,0,0,12" />
 
+                                <CheckBox IsChecked="{Binding Command.GenerateSyncMethods, Mode=TwoWay}" 
+                                          Content="Generate synchronous methods (not recommended)" Margin="0,0,0,12" />
+
                                 <StackPanel Visibility="{Binding Command.ClientBaseClass, Converter={StaticResource VisibilityConverter}}">
                                     <CheckBox IsChecked="{Binding Command.UseHttpClientCreationMethod, Mode=TwoWay}" Margin="0,0,0,12" 
                                               Visibility="{Binding Command.InjectHttpClient, Converter={StaticResource NotConverter}}">

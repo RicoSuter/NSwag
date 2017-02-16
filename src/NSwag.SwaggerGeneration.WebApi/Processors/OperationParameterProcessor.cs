@@ -199,7 +199,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                 {
                     Name = name,
                     Kind = SwaggerParameterKind.Body,
-                    IsRequired = false,
+                    IsRequired = parameter.HasDefaultValue == false,
                     IsNullableRaw = true,
                     Description = await parameter.GetXmlDocumentationAsync().ConfigureAwait(false)
                 });
@@ -273,6 +273,10 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
             var operationParameter = await swaggerGenerator.CreatePrimitiveParameterAsync(name, parameter).ConfigureAwait(false);
             operationParameter.Kind = SwaggerParameterKind.Query;
             operationParameter.IsRequired = operationParameter.IsRequired || parameter.HasDefaultValue == false;
+
+            if (parameter.HasDefaultValue)
+                operationParameter.Default = parameter.DefaultValue;
+
             operation.Parameters.Add(operationParameter);
         }
 
