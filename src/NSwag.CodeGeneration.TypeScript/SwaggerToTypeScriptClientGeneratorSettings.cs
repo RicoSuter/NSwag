@@ -29,7 +29,7 @@ namespace NSwag.CodeGeneration.TypeScript
         }
 
         /// <summary>Gets or sets the TypeScript generator settings.</summary>
-        public TypeScriptGeneratorSettings TypeScriptGeneratorSettings { get; }
+        public TypeScriptGeneratorSettings TypeScriptGeneratorSettings { get; set; }
 
         /// <summary>Gets the code generator settings.</summary>
         public override CodeGeneratorSettingsBase CodeGeneratorSettings => TypeScriptGeneratorSettings;
