@@ -372,6 +372,7 @@ if(parameter.IsDateArray){
             
             #line default
             #line hidden
+            this.Write("url_ = url_.replace(/[?&]$/, \"\");");
             return this.GenerationEnvironment.ToString();
         }
     }

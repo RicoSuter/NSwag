@@ -49,3 +49,4 @@ else if (<#=parameter.VariableName#> !== undefined)
     url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + <#=parameter.VariableName#>) + "&"; 
 <#  }
 }#>
+url_ = url_.replace(/[?&]$/, "");
