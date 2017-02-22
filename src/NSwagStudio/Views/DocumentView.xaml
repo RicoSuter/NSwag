@@ -40,7 +40,7 @@
                     <Run Text="{Binding SelectedItem.Title, ElementName=InputTabControl, Mode=OneWay}" />
                 </TextBlock>
                 <TabControl Grid.Row="2" x:Name="InputTabControl"
-                            ItemsSource="{Binding Document.SwaggerGenerators}" 
+                            ItemsSource="{Binding Document.SwaggerGeneratorViews}" 
                             SelectedValuePath="Command"
                             SelectedValue="{Binding Document.Document.SelectedSwaggerGenerator, Mode=TwoWay}">
                     <TabControl.ItemContainerStyle>
@@ -59,17 +59,33 @@
             <Grid Grid.Column="2" Grid.Row="0" Margin="4,0,0,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="Output" FontSize="16" FontWeight="Bold" Margin="0,0,0,16" />
-                <TabControl Grid.Row="1"
-                            ItemsSource="{Binding Document.CodeGenerators}">
+                <TextBlock Text="Outputs" FontSize="16" FontWeight="Bold" Margin="0,0,0,16" />
+                <ItemsControl Grid.Row="1" ItemsSource="{Binding Document.CodeGenerators}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsSelected}" 
+                                      Visibility="{Binding IsPersistent,Converter={StaticResource NotConverter}}"
+                                      Content="{Binding View.Title}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <TabControl Grid.Row="2" ItemsSource="{Binding Document.CodeGenerators}" x:Name="OutputTabs">
                     <TabControl.ItemContainerStyle>
                         <Style TargetType="{x:Type TabItem}">
-                            <Setter Property="Header" Value="{Binding Title}" />
+                            <Setter Property="Header" Value="{Binding View.Title}" />
+                            <Setter Property="Visibility" Value="{Binding IsSelected, Converter={StaticResource VisibilityConverter}}" />
                         </Style>
                     </TabControl.ItemContainerStyle>
+                    <TabControl.ContentTemplate>
+                        <DataTemplate>
+                            <ContentPresenter Content="{Binding View}" />
+                        </DataTemplate>
+                    </TabControl.ContentTemplate>
                 </TabControl>
             </Grid>
 

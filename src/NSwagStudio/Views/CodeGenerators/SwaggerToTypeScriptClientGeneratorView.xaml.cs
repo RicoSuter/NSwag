@@ -29,5 +29,7 @@ namespace NSwagStudio.Views.CodeGenerators
         {
             return Title; 
         }
+
+        public string IsSelected { get; set; }
     }
 }

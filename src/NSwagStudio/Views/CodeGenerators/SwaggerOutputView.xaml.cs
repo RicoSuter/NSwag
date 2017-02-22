@@ -19,5 +19,7 @@ namespace NSwagStudio.Views.CodeGenerators
         {
             return Model.GenerateClientAsync(document, documentPath);
         }
+
+        public string IsSelected { get; set; }
     }
 }

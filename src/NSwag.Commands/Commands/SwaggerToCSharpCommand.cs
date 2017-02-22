@@ -161,5 +161,21 @@ namespace NSwag.Commands
             get { return Settings.ResponseClass; }
             set { Settings.ResponseClass = value; }
         }
+
+        [Argument(Name = "GenerateImmutableArrayProperties", IsRequired = false,
+                  Description = "Specifies whether to remove the setter for non-nullable array properties (default: true).")]
+        public bool GenerateImmutableArrayProperties
+        {
+            get { return Settings.CSharpGeneratorSettings.GenerateImmutableArrayProperties; }
+            set { Settings.CSharpGeneratorSettings.GenerateImmutableArrayProperties = value; }
+        }
+
+        [Argument(Name = "GenerateImmutableDictionaryProperties", IsRequired = false,
+                  Description = "Specifies whether to remove the setter for non-nullable dictionary properties (default: true).")]
+        public bool GenerateImmutableDictionaryProperties
+        {
+            get { return Settings.CSharpGeneratorSettings.GenerateImmutableDictionaryProperties; }
+            set { Settings.CSharpGeneratorSettings.GenerateImmutableDictionaryProperties = value; }
+        }
     }
 }

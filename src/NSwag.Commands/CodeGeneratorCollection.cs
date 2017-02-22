@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using NSwag.Commands.Base;
 
@@ -28,6 +29,6 @@ namespace NSwag.Commands
             SwaggerToTypeScriptClientCommand,
             SwaggerToCSharpClientCommand,
             SwaggerToCSharpControllerCommand
-        };
+        }.Where(cmd => cmd != null);
     }
 }

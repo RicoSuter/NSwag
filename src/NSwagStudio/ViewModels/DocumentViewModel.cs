@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using MyToolkit.Command;
@@ -47,8 +48,8 @@ namespace NSwagStudio.ViewModels
                     {
                         var document = await SwaggerDocument.FromJsonAsync(swaggerCode);
                         var documentPath = Document.GetDocumentPath(generator);
-                        foreach (var codeGenerator in Document.CodeGenerators)
-                            await codeGenerator.GenerateClientAsync(document, documentPath);
+                        foreach (var codeGenerator in Document.CodeGenerators.Where(c => c.IsSelected))
+                            await codeGenerator.View.GenerateClientAsync(document, documentPath);
                     }
                     else
                     {

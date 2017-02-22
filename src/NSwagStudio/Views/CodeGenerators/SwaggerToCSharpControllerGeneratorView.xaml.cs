@@ -24,5 +24,7 @@ namespace NSwagStudio.Views.CodeGenerators
             await Model.GenerateClientAsync(document, documentPath);
             TabControl.SelectedIndex = 1;
         }
+
+        public string IsSelected { get; set; }
     }
 }

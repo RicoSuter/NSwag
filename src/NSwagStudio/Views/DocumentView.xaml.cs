@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,22 +18,43 @@ namespace NSwagStudio.Views
             ViewModelHelper.RegisterViewModel(Model, this);
             Unloaded += OnUnloaded;
         }
-
+        
         private DocumentViewModel Model => (DocumentViewModel)Resources["ViewModel"];
 
         public static readonly DependencyProperty DocumentProperty = DependencyProperty.Register(
-            "Document", typeof (DocumentModel), typeof (DocumentView), new PropertyMetadata(default(DocumentModel), OnDocumentChanged));
+            "Document", typeof(DocumentModel), typeof(DocumentView), new PropertyMetadata(default(DocumentModel), OnDocumentChanged));
 
         private static void OnDocumentChanged(DependencyObject view, DependencyPropertyChangedEventArgs args)
         {
-            var vm = ((DocumentView) view).Model;
+            var documentView = (DocumentView) view; 
+            var vm = documentView.Model;
             if (vm.Document != args.NewValue)
-                vm.Document = (DocumentModel) args.NewValue;
+            {
+                if (vm.Document != null)
+                    vm.Document.PropertyChanged -= documentView.DocumentOnPropertyChanged;
+
+                vm.Document = (DocumentModel)args.NewValue;
+
+                if (vm.Document != null)
+                    vm.Document.PropertyChanged += documentView.DocumentOnPropertyChanged;
+            }
+        }
+
+        private void DocumentOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            if (propertyChangedEventArgs.PropertyName == nameof(DocumentModel.SelectedCodeGenerators))
+            {
+                var selectedCodeGenerator = Model.Document.CodeGenerators.ToList()[OutputTabs.SelectedIndex]; 
+                if (selectedCodeGenerator.IsSelected == false)
+                {
+                    OutputTabs.SelectedIndex = 0; 
+                }
+            }
         }
 
         public DocumentModel Document
         {
-            get { return (DocumentModel) GetValue(DocumentProperty); }
+            get { return (DocumentModel)GetValue(DocumentProperty); }
             set { SetValue(DocumentProperty, value); }
         }
 
@@ -45,8 +68,11 @@ namespace NSwagStudio.Views
 
         private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            foreach (var generatorView in Model.Document.CodeGenerators.OfType<UserControl>()
-                .Concat(Model.Document.SwaggerGenerators.OfType<UserControl>()))
+            foreach (var generatorView in Model.Document.CodeGenerators
+                .Where(c => c.View is UserControl)
+                .Select(c => c.View)
+                .OfType<UserControl>()
+                .Concat(Model.Document.SwaggerGeneratorViews.OfType<UserControl>()))
             {
                 var vm = generatorView.Resources["ViewModel"] as ViewModelBase;
                 vm?.CallOnUnloaded();

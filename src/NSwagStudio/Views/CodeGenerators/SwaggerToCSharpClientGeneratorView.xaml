@@ -31,10 +31,10 @@
 
                     <TextBlock Text="Namespace" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding Command.Namespace, Mode=TwoWay}" Margin="0,0,0,12" />
-                    
+
                     <CheckBox IsChecked="{Binding Command.GenerateContractsOutput, Mode=TwoWay}" 
                               Content="Generate contracts output" Margin="0,0,0,6" />
-                    
+
                     <StackPanel Visibility="{Binding Command.GenerateContractsOutput, Converter={StaticResource VisibilityConverter}}">
                         <TextBlock Text="Contracts Namespace" FontWeight="Bold" Margin="0,0,0,6" />
                         <TextBox Text="{Binding Command.ContractsNamespace, Mode=TwoWay}" Margin="0,0,0,12" />
@@ -159,13 +159,21 @@
                                     <TextBlock Text="Generate default values for properties (if default value is specified)" TextWrapping="Wrap" />
                                 </CheckBox>
 
+                                <CheckBox IsChecked="{Binding Command.GenerateImmutableArrayProperties, Mode=TwoWay}" Margin="0,0,0,12">
+                                    <TextBlock Text="Remove the setter for non-nullable array properties" TextWrapping="Wrap" />
+                                </CheckBox>
+
+                                <CheckBox IsChecked="{Binding Command.GenerateImmutableDictionaryProperties, Mode=TwoWay}" Margin="0,0,0,12">
+                                    <TextBlock Text="Remove the setter for non-nullable dictionary properties" TextWrapping="Wrap" />
+                                </CheckBox>
+
                                 <CheckBox IsChecked="{Binding Command.GenerateDataAnnotations, Mode=TwoWay}" Margin="0,0,0,12">
                                     <TextBlock Text="Generate data annotation attributes" TextWrapping="Wrap" />
                                 </CheckBox>
 
                                 <TextBlock Text="Class Style" FontWeight="Bold" Margin="0,0,0,6" />
                                 <ComboBox SelectedItem="{Binding Command.ClassStyle, Mode=TwoWay}" 
-                                              ItemsSource="{Binding ClassStyles}" Margin="0,0,0,12" />
+                                          ItemsSource="{Binding ClassStyles}" Margin="0,0,0,12" />
                             </StackPanel>
 
                             <TextBlock Text="Excluded Type Names (must be defined in another namespace)." FontWeight="Bold" Margin="0,0,0,6" />
