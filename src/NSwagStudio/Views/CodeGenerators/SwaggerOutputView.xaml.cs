@@ -20,7 +20,7 @@ namespace NSwagStudio.Views.CodeGenerators
             return Model.GenerateClientAsync(document, documentPath);
         }
 
-        public override bool IsActive
+        public override bool IsSelected
         {
             get { return true; }
             set { }

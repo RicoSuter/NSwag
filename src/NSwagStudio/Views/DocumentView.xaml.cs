@@ -16,9 +16,10 @@ namespace NSwagStudio.Views
         {
             InitializeComponent();
             ViewModelHelper.RegisterViewModel(Model, this);
+            Loaded += delegate { UpdateCodeGeneratorTabs(); };
             Unloaded += OnUnloaded;
         }
-        
+
         private DocumentViewModel Model => (DocumentViewModel)Resources["ViewModel"];
 
         public static readonly DependencyProperty DocumentProperty = DependencyProperty.Register(
@@ -26,7 +27,7 @@ namespace NSwagStudio.Views
 
         private static void OnDocumentChanged(DependencyObject view, DependencyPropertyChangedEventArgs args)
         {
-            var documentView = (DocumentView) view; 
+            var documentView = (DocumentView)view;
             var vm = documentView.Model;
             if (vm.Document != args.NewValue)
             {
@@ -37,18 +38,31 @@ namespace NSwagStudio.Views
 
                 if (vm.Document != null)
                     vm.Document.PropertyChanged += documentView.DocumentOnPropertyChanged;
+
+                documentView.UpdateCodeGeneratorTabs();
             }
         }
 
         private void DocumentOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
             if (propertyChangedEventArgs.PropertyName == nameof(DocumentModel.SelectedCodeGenerators))
+                UpdateCodeGeneratorTabs();
+        }
+
+        private void UpdateCodeGeneratorTabs()
+        {
+            if (OutputTabs.SelectedIndex != -1)
             {
-                var selectedCodeGenerator = Model.Document.CodeGenerators.ToList()[OutputTabs.SelectedIndex]; 
-                if (selectedCodeGenerator.View.IsActive == false)
-                {
-                    OutputTabs.SelectedIndex = 0; 
-                }
+                var selectedCodeGenerator = Model.Document.CodeGenerators.ToList()[OutputTabs.SelectedIndex];
+                if (selectedCodeGenerator.View.IsSelected == false)
+                    OutputTabs.SelectedIndex = 0;
+            }
+
+            foreach (var item in OutputTabs.Items.OfType<CodeGeneratorModel>())
+            {
+                var container = OutputTabs.ItemContainerGenerator.ContainerFromItem(item) as TabItem;
+                if (container != null)
+                    container.Visibility = item.View.IsSelected ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 

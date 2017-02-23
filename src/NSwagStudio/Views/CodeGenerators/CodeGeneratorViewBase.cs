@@ -12,7 +12,7 @@ namespace NSwagStudio.Views.CodeGenerators
 
         public abstract Task GenerateClientAsync(SwaggerDocument document, string documentPath);
 
-        public abstract bool IsActive { get; set; }
+        public abstract bool IsSelected { get; set; }
 
         public virtual bool IsPersistent => false;
 

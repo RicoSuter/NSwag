@@ -29,12 +29,12 @@ namespace NSwagStudio.Views.CodeGenerators
             TabControl.SelectedIndex = 1;
         }
 
-        public override bool IsActive
+        public override bool IsSelected
         {
             get { return _document.CodeGenerators.SwaggerToCSharpClientCommand != null; }
             set
             {
-                if (value != IsActive)
+                if (value != IsSelected)
                 {
                     _document.CodeGenerators.SwaggerToCSharpClientCommand = value ? new SwaggerToCSharpClientCommand() : null;
                     Model.Command = _document.CodeGenerators.SwaggerToCSharpClientCommand;

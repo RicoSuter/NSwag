@@ -48,7 +48,7 @@ namespace NSwagStudio.ViewModels
                     {
                         var document = await SwaggerDocument.FromJsonAsync(swaggerCode);
                         var documentPath = Document.GetDocumentPath(generator);
-                        foreach (var codeGenerator in Document.CodeGenerators.Where(c => c.View.IsActive))
+                        foreach (var codeGenerator in Document.CodeGenerators.Where(c => c.View.IsSelected))
                             await codeGenerator.View.GenerateClientAsync(document, documentPath);
                     }
                     else

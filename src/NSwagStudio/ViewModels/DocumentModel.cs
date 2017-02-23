@@ -17,7 +17,7 @@ namespace NSwagStudio.ViewModels
 
         public IReadOnlyCollection<CodeGeneratorModel> CodeGenerators { get; }
 
-        public IEnumerable<CodeGeneratorModel> SelectedCodeGenerators => CodeGenerators.Where(c => c.View.IsActive);
+        public IEnumerable<CodeGeneratorModel> SelectedCodeGenerators => CodeGenerators.Where(c => c.View.IsSelected);
 
         public DocumentModel(NSwagDocument document)
         {
@@ -50,7 +50,7 @@ namespace NSwagStudio.ViewModels
 
         private void OnCodeGeneratorPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
-            if (propertyChangedEventArgs.PropertyName == nameof(CodeGeneratorViewBase.IsActive))
+            if (propertyChangedEventArgs.PropertyName == nameof(CodeGeneratorViewBase.IsSelected))
                 RaisePropertyChanged(() => SelectedCodeGenerators);
         }
 
