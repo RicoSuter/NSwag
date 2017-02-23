@@ -1,4 +1,156 @@
+* text=auto
+*.cs diff=csharp
 *.tt text eol=crlf
+*.sln text eol=crlf
+*.csproj text eol=crlf
+*.vbproj text eol=crlf
+*.vcxproj text eol=crlf
+*.vcproj text eol=crlf
+*.dbproj text eol=crlf
+*.fsproj text eol=crlf
+*.lsproj text eol=crlf
+*.wixproj text eol=crlf
+*.modelproj text eol=crlf
+*.sqlproj text eol=crlf
+*.wmaproj text eol=crlf
+*.xproj text eol=crlf
+*.props text eol=crlf
+*.filters text eol=crlf
+*.vcxitems text eol=crlf
+*.bat text
+*.coffee text
+*.css text
+*.htm text
+*.html text
+*.inc text
+*.ini text
+*.js text
+*.jsx text
+*.json text
+*.less text
+*.php text
+*.pl text
+*.py text
+*.rb text
+*.sass text
+*.scm text
+*.scss text
+*.sh text
+*.sql text
+*.styl text
+*.tpl text
+*.ts text
+*.twig text
+*.xml text
+*.xhtml text
+*.markdown text
+*.md text
+*.mdwn text
+*.mdown text
+*.mkd text
+*.mkdn text
+*.mdtxt text
+*.mdtext text
+*.txt text
+AUTHORS text
+CHANGELOG text
+CHANGES text
+CONTRIBUTING text
+COPYING text
+INSTALL text
+license text
+LICENSE text
+NEWS text
+readme text
+*README* text
+TODO text
+*.dot text
+*.ejs text
+*.haml text
+*.handlebars text
+*.hbs text
+*.hbt text
+*.jade text
+*.latte text
+*.mustache text
+*.phtml text
+*.tmpl text
+.csslintrc text
+.eslintrc text
+.jscsrc text
+.jshintrc text
+.jshintignore text
+.stylelintrc text
+*.bowerrc text
+*.cnf text
+*.conf text
+*.config text
+.editorconfig text
+.gitattributes text
+.gitconfig text
+.gitignore text
+.htaccess text
+*.npmignore text
+*.yaml text
+*.yml text
+Makefile text
+makefile text
+*.ai binary
+*.bmp binary
+*.eps binary
+*.gif binary
+*.ico binary
+*.jng binary
+*.jp2 binary
+*.jpg binary
+*.jpeg binary
+*.jpx binary
+*.jxr binary
+*.pdf binary
+*.png binary
+*.psb binary
+*.psd binary
+*.svg text
+*.svgz binary
+*.tif binary
+*.tiff binary
+*.wbmp binary
+*.webp binary
+*.kar binary
+*.m4a binary
+*.mid binary
+*.midi binary
+*.mp3 binary
+*.ogg binary
+*.ra binary
+*.3gpp binary
+*.3gp binary
+*.as binary
+*.asf binary
+*.asx binary
+*.fla binary
+*.flv binary
+*.m4v binary
+*.mng binary
+*.mov binary
+*.mp4 binary
+*.mpeg binary
+*.mpg binary
+*.swc binary
+*.swf binary
+*.webm binary
+*.7z binary
+*.gz binary
+*.rar binary
+*.tar binary
+*.zip binary
+*.ttf binary
+*.eot binary
+*.otf binary
+*.woff binary
+*.woff2 binary
+*.exe binary
+*.pyc binary
 
 src/NSwag.AspNetCore/SwaggerUi/**/* linguist-vendored
 src/NSwag.AspNet.Owin/SwaggerUi/**/* linguist-vendored
