@@ -4,22 +4,28 @@ using NSwagStudio.ViewModels.CodeGenerators;
 
 namespace NSwagStudio.Views.CodeGenerators
 {
-    public partial class SwaggerOutputView : ICodeGeneratorView
+    public partial class SwaggerOutputView
     {
         public SwaggerOutputView()
         {
             InitializeComponent();
         }
 
-        public string Title => "Swagger Specification";
+        public override string Title => "Swagger Specification";
 
         private SwaggerOutputViewModel Model => (SwaggerOutputViewModel)Resources["ViewModel"];
 
-        public Task GenerateClientAsync(SwaggerDocument document, string documentPath)
+        public override Task GenerateClientAsync(SwaggerDocument document, string documentPath)
         {
             return Model.GenerateClientAsync(document, documentPath);
         }
 
-        public string IsSelected { get; set; }
+        public override bool IsActive
+        {
+            get { return true; }
+            set { }
+        }
+
+        public override bool IsPersistent => true;
     }
 }

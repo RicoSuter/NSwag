@@ -5,21 +5,19 @@ using NSwag.Commands.Base;
 
 namespace NSwag.Commands
 {
-    /// <summary>
-    /// 
-    /// </summary>
+    /// <summary>The command collection.</summary>
     public class CodeGeneratorCollection
     {
         /// <summary>Gets or sets the SwaggerToTypeScriptClientCommand.</summary>
-        [JsonProperty("SwaggerToTypeScriptClient")]
+        [JsonProperty("SwaggerToTypeScriptClient", NullValueHandling = NullValueHandling.Ignore)]
         public SwaggerToTypeScriptClientCommand SwaggerToTypeScriptClientCommand { get; set; }
 
         /// <summary>Gets or sets the SwaggerToCSharpClientCommand.</summary>
-        [JsonProperty("SwaggerToCSharpClient")]
+        [JsonProperty("SwaggerToCSharpClient", NullValueHandling = NullValueHandling.Ignore)]
         public SwaggerToCSharpClientCommand SwaggerToCSharpClientCommand { get; set; }
 
         /// <summary>Gets or sets the SwaggerToCSharpControllerCommand.</summary>
-        [JsonProperty("SwaggerToCSharpController")]
+        [JsonProperty("SwaggerToCSharpController", NullValueHandling = NullValueHandling.Ignore)]
         public SwaggerToCSharpControllerCommand SwaggerToCSharpControllerCommand { get; set; }
 
         /// <summary>Gets the items.</summary>

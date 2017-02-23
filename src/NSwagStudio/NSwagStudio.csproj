@@ -126,6 +126,7 @@
     <Compile Include="Converters\NumberAdditionConverter.cs" />
     <Compile Include="Converters\StringArrayConverter.cs" />
     <Compile Include="ISwaggerGeneratorView.cs" />
+    <Compile Include="ViewModels\CodeGeneratorModel.cs" />
     <Compile Include="ViewModels\CodeGenerators\SwaggerToCSharpControllerGeneratorViewModel.cs" />
     <Compile Include="ViewModels\CodeGenerators\SwaggerOutputViewModel.cs" />
     <Compile Include="ViewModels\CodeGenerators\SwaggerToCSharpClientGeneratorViewModel.cs" />
@@ -134,10 +135,10 @@
     <Compile Include="ViewModels\SwaggerGenerators\AssemblyTypeToSwaggerGeneratorViewModel.cs" />
     <Compile Include="ViewModels\SwaggerGenerators\WebApiToSwaggerGeneratorViewModel.cs" />
     <Compile Include="ViewModels\MainWindowModel.cs" />
-    <Compile Include="ICodeGeneratorView.cs" />
     <Compile Include="ViewModels\CodeGenerators\SwaggerToTypeScriptClientGeneratorViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Controls\AvalonEditBehavior.cs" />
+    <Compile Include="Views\CodeGenerators\CodeGeneratorViewBase.cs" />
     <Compile Include="Views\CodeGenerators\SwaggerToCSharpControllerGeneratorView.xaml.cs">
       <DependentUpon>SwaggerToCSharpControllerGeneratorView.xaml</DependentUpon>
     </Compile>

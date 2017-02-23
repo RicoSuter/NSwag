@@ -6,30 +6,41 @@ using NSwagStudio.ViewModels.CodeGenerators;
 
 namespace NSwagStudio.Views.CodeGenerators
 {
-    public partial class SwaggerToTypeScriptClientGeneratorView : ICodeGeneratorView
+    public partial class SwaggerToTypeScriptClientGeneratorView
     {
-        public SwaggerToTypeScriptClientGeneratorView(SwaggerToTypeScriptClientCommand command)
+        private readonly NSwagDocument _document;
+
+        public SwaggerToTypeScriptClientGeneratorView(NSwagDocument document)
         {
             InitializeComponent();
             ViewModelHelper.RegisterViewModel(Model, this);
-            Model.Command = command; 
+
+            _document = document;
+            Model.Command = document.CodeGenerators.SwaggerToTypeScriptClientCommand;
         }
 
         private SwaggerToTypeScriptClientGeneratorViewModel Model => (SwaggerToTypeScriptClientGeneratorViewModel)Resources["ViewModel"];
 
-        public string Title => "TypeScript Client";
+        public override string Title => "TypeScript Client";
 
-        public async Task GenerateClientAsync(SwaggerDocument document, string documentPath)
+        public override async Task GenerateClientAsync(SwaggerDocument document, string documentPath)
         {
             await Model.GenerateClientAsync(document, documentPath);
             TabControl.SelectedIndex = 1;
         }
 
-        public override string ToString()
+        public override bool IsActive
         {
-            return Title; 
+            get { return _document.CodeGenerators.SwaggerToTypeScriptClientCommand != null; }
+            set
+            {
+                if (value != IsActive)
+                {
+                    _document.CodeGenerators.SwaggerToTypeScriptClientCommand = value ? new SwaggerToTypeScriptClientCommand() : null;
+                    Model.Command = _document.CodeGenerators.SwaggerToTypeScriptClientCommand;
+                    OnPropertyChanged();
+                }
+            }
         }
-
-        public string IsSelected { get; set; }
     }
 }

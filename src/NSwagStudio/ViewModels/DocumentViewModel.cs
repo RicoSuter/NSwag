@@ -21,7 +21,7 @@ namespace NSwagStudio.ViewModels
         public AsyncRelayCommand<string> GenerateCommand { get; set; }
 
         public string SwaggerGenerator { get; set; }
-        
+
         /// <summary>Gets or sets the settings. </summary>
         public DocumentModel Document
         {
@@ -48,7 +48,7 @@ namespace NSwagStudio.ViewModels
                     {
                         var document = await SwaggerDocument.FromJsonAsync(swaggerCode);
                         var documentPath = Document.GetDocumentPath(generator);
-                        foreach (var codeGenerator in Document.CodeGenerators.Where(c => c.IsSelected))
+                        foreach (var codeGenerator in Document.CodeGenerators.Where(c => c.View.IsActive))
                             await codeGenerator.View.GenerateClientAsync(document, documentPath);
                     }
                     else

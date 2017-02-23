@@ -1,24 +1,25 @@
-﻿<UserControl x:Class="NSwagStudio.Views.CodeGenerators.SwaggerToTypeScriptClientGeneratorView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:converters="clr-namespace:MyToolkit.Converters;assembly=MyToolkit.Extended"
-             xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:codeGenerators="clr-namespace:NSwagStudio.ViewModels.CodeGenerators"
-             xmlns:controls="clr-namespace:NSwagStudio.Controls"
-             xmlns:converters1="clr-namespace:NSwagStudio.Converters"
-             xmlns:dialogs="clr-namespace:MyToolkit.Dialogs;assembly=MyToolkit.Extended"
-             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+﻿<codeGenerators:CodeGeneratorViewBase x:Class="NSwagStudio.Views.CodeGenerators.SwaggerToTypeScriptClientGeneratorView"
+                                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                                      xmlns:converters="clr-namespace:MyToolkit.Converters;assembly=MyToolkit.Extended"
+                                      xmlns:localConverters="clr-namespace:NSwagStudio.Converters"
+                                      xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
+                                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                                      xmlns:viewModels="clr-namespace:NSwagStudio.ViewModels.CodeGenerators"
+                                      xmlns:controls="clr-namespace:NSwagStudio.Controls"
+                                      xmlns:dialogs="clr-namespace:MyToolkit.Dialogs;assembly=MyToolkit.Extended"
+                                      xmlns:codeGenerators="clr-namespace:NSwagStudio.Views.CodeGenerators"
+                                      mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
 
     <UserControl.Resources>
-        <codeGenerators:SwaggerToTypeScriptClientGeneratorViewModel x:Key="ViewModel" />
+        <viewModels:SwaggerToTypeScriptClientGeneratorViewModel x:Key="ViewModel" />
         <converters:VisibilityConverter x:Key="VisibilityConverter" />
         <converters:EqualityConverter x:Key="EqualityConverter" />
         <converters:NotConverter x:Key="NotConverter" />
-        <converters1:NumberAdditionConverter x:Key="NumberAdditionConverter" />
-        <converters1:StringArrayConverter x:Key="StringArrayConverter" />
+        <localConverters:NumberAdditionConverter x:Key="NumberAdditionConverter" />
+        <localConverters:StringArrayConverter x:Key="StringArrayConverter" />
     </UserControl.Resources>
 
     <TabControl TabStripPlacement="Left" Margin="8" Name="TabControl" DataContext="{StaticResource ViewModel}">
@@ -140,7 +141,7 @@
                                                      Margin="0,0,0,12" />
                         </StackPanel>
                     </GroupBox>
-                    
+
                     <GroupBox Header="Swagger Information" Margin="0,0,0,12">
                         <StackPanel Margin="4,8,4,-8">
                             <TextBlock Text="Service host (optional, use '.' to remove the hostname)" FontWeight="Bold" Margin="0,0,0,6" />
@@ -169,4 +170,4 @@
             </Border>
         </TabItem>
     </TabControl>
-</UserControl>
+</codeGenerators:CodeGeneratorViewBase>

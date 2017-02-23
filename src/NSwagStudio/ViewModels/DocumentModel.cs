@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Windows.Documents;
 using MyToolkit.Model;
 using NSwag.Commands;
 using NSwagStudio.Views.CodeGenerators;
@@ -10,21 +8,6 @@ using NSwagStudio.Views.SwaggerGenerators;
 
 namespace NSwagStudio.ViewModels
 {
-    public class CodeGeneratorModel : ObservableObject
-    {
-        private bool _isSelected;
-
-        public bool IsSelected
-        {
-            get { return _isSelected; }
-            set { Set(ref _isSelected, value); }
-        }
-
-        public bool IsPersistent => View is SwaggerOutputView;
-
-        public ICodeGeneratorView View { get; set; }
-    }
-
     public class DocumentModel : ObservableObject
     {
         public NSwagDocument Document { get; }
@@ -34,7 +17,7 @@ namespace NSwagStudio.ViewModels
 
         public IReadOnlyCollection<CodeGeneratorModel> CodeGenerators { get; }
 
-        public IEnumerable<CodeGeneratorModel> SelectedCodeGenerators => CodeGenerators.Where(c => c.IsSelected);
+        public IEnumerable<CodeGeneratorModel> SelectedCodeGenerators => CodeGenerators.Where(c => c.View.IsActive);
 
         public DocumentModel(NSwagDocument document)
         {
@@ -48,20 +31,18 @@ namespace NSwagStudio.ViewModels
                 new AssemblyTypeToSwaggerGeneratorView((AssemblyTypeToSwaggerCommand) Document.SwaggerGenerators.AssemblyTypeToSwaggerCommand),
             };
 
-            CodeGenerators = new ICodeGeneratorView[]
+            CodeGenerators = new CodeGeneratorViewBase[]
             {
                 new SwaggerOutputView(),
-                new SwaggerToTypeScriptClientGeneratorView(Document.CodeGenerators.SwaggerToTypeScriptClientCommand),
-                new SwaggerToCSharpClientGeneratorView(Document.CodeGenerators.SwaggerToCSharpClientCommand),
-                new SwaggerToCSharpControllerGeneratorView(Document.CodeGenerators.SwaggerToCSharpControllerCommand)
-            }.Select(v => new CodeGeneratorModel
-            {
-                View = v
-            }).ToList();
-            CodeGenerators.First().IsSelected = true; 
+                new SwaggerToTypeScriptClientGeneratorView(Document),
+                new SwaggerToCSharpClientGeneratorView(Document),
+                new SwaggerToCSharpControllerGeneratorView(Document)
+            }
+            .Select(v => new CodeGeneratorModel { View = v })
+            .ToList();
 
             foreach (var codeGenerator in CodeGenerators)
-                codeGenerator.PropertyChanged += OnCodeGeneratorPropertyChanged;
+                codeGenerator.View.PropertyChanged += OnCodeGeneratorPropertyChanged;
 
             RaisePropertyChanged(() => SwaggerGeneratorViews);
             RaisePropertyChanged(() => CodeGenerators);
@@ -69,7 +50,7 @@ namespace NSwagStudio.ViewModels
 
         private void OnCodeGeneratorPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
-            if (propertyChangedEventArgs.PropertyName == nameof(CodeGeneratorModel.IsSelected))
+            if (propertyChangedEventArgs.PropertyName == nameof(CodeGeneratorViewBase.IsActive))
                 RaisePropertyChanged(() => SelectedCodeGenerators);
         }
 

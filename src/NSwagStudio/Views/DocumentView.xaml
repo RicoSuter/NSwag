@@ -63,13 +63,19 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="Outputs" FontSize="16" FontWeight="Bold" Margin="0,0,0,16" />
-                <ItemsControl Grid.Row="1" ItemsSource="{Binding Document.CodeGenerators}">
+                <TextBlock Text="Outputs" FontSize="16" FontWeight="Bold" Margin="0,0,0,8" />
+                <ItemsControl Grid.Row="1" ItemsSource="{Binding Document.CodeGenerators}" Margin="0,0,0,8">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsSelected}" 
-                                      Visibility="{Binding IsPersistent,Converter={StaticResource NotConverter}}"
-                                      Content="{Binding View.Title}" />
+                            <CheckBox IsChecked="{Binding View.IsActive}" 
+                                      Visibility="{Binding View.IsPersistent, Converter={StaticResource NotConverter}}"
+                                      Content="{Binding View.Title}"
+                                      Margin="0,0,16,0" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
@@ -78,7 +84,7 @@
                     <TabControl.ItemContainerStyle>
                         <Style TargetType="{x:Type TabItem}">
                             <Setter Property="Header" Value="{Binding View.Title}" />
-                            <Setter Property="Visibility" Value="{Binding IsSelected, Converter={StaticResource VisibilityConverter}}" />
+                            <Setter Property="Visibility" Value="{Binding View.IsSelected, Converter={StaticResource VisibilityConverter}}" />
                         </Style>
                     </TabControl.ItemContainerStyle>
                     <TabControl.ContentTemplate>

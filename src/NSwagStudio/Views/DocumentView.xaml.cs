@@ -45,7 +45,7 @@ namespace NSwagStudio.Views
             if (propertyChangedEventArgs.PropertyName == nameof(DocumentModel.SelectedCodeGenerators))
             {
                 var selectedCodeGenerator = Model.Document.CodeGenerators.ToList()[OutputTabs.SelectedIndex]; 
-                if (selectedCodeGenerator.IsSelected == false)
+                if (selectedCodeGenerator.View.IsActive == false)
                 {
                     OutputTabs.SelectedIndex = 0; 
                 }
