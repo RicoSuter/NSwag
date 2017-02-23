@@ -196,7 +196,7 @@ namespace NSwag.SwaggerGeneration.WebApi
 
             return true;
         }
-        
+
         private static IEnumerable<MethodInfo> GetActionMethods(Type controllerType)
         {
             var methods = controllerType.GetRuntimeMethods().Where(m => m.IsPublic);
@@ -261,6 +261,8 @@ namespace NSwag.SwaggerGeneration.WebApi
                         httpPaths.Add(attribute.Template);
                 }
             }
+            else if (routePrefixAttribute != null && routeAttributeOnClass != null)
+                httpPaths.Add(routePrefixAttribute.Prefix + "/" + routeAttributeOnClass.Template);
             // TODO: Check if this is correct
             else if (routePrefixAttribute != null && (
                 (method.GetParameters().Length == 0 && method.Name == "Get") ||
