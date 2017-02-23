@@ -163,7 +163,7 @@ namespace NSwag.Commands
         }
 
         [Argument(Name = "GenerateImmutableArrayProperties", IsRequired = false,
-                  Description = "Specifies whether to remove the setter for non-nullable array properties (default: true).")]
+                  Description = "Specifies whether to remove the setter for non-nullable array properties (default: false).")]
         public bool GenerateImmutableArrayProperties
         {
             get { return Settings.CSharpGeneratorSettings.GenerateImmutableArrayProperties; }
@@ -171,7 +171,7 @@ namespace NSwag.Commands
         }
 
         [Argument(Name = "GenerateImmutableDictionaryProperties", IsRequired = false,
-                  Description = "Specifies whether to remove the setter for non-nullable dictionary properties (default: true).")]
+                  Description = "Specifies whether to remove the setter for non-nullable dictionary properties (default: false).")]
         public bool GenerateImmutableDictionaryProperties
         {
             get { return Settings.CSharpGeneratorSettings.GenerateImmutableDictionaryProperties; }
