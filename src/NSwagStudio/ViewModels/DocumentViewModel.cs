@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using MyToolkit.Command;
@@ -20,7 +21,7 @@ namespace NSwagStudio.ViewModels
         public AsyncRelayCommand<string> GenerateCommand { get; set; }
 
         public string SwaggerGenerator { get; set; }
-        
+
         /// <summary>Gets or sets the settings. </summary>
         public DocumentModel Document
         {
@@ -47,8 +48,8 @@ namespace NSwagStudio.ViewModels
                     {
                         var document = await SwaggerDocument.FromJsonAsync(swaggerCode);
                         var documentPath = Document.GetDocumentPath(generator);
-                        foreach (var codeGenerator in Document.CodeGenerators)
-                            await codeGenerator.GenerateClientAsync(document, documentPath);
+                        foreach (var codeGenerator in Document.CodeGenerators.Where(c => c.View.IsActive))
+                            await codeGenerator.View.GenerateClientAsync(document, documentPath);
                     }
                     else
                     {
