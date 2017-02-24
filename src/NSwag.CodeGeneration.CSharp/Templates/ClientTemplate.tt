@@ -86,8 +86,8 @@ public partial interface I<#=Model.Class#>
     }
 
 <#}#>
-    partial void PrepareRequest(System.Net.Http.HttpClient request, ref string url);
-
+    partial void PrepareRequest(System.Net.Http.HttpClient request, string url);
+    partial void PrepareRequest(System.Net.Http.HttpClient request, System.Text.StringBuilder urlBuilder);
     partial void ProcessResponse(System.Net.Http.HttpClient request, System.Net.Http.HttpResponseMessage response);
 
 <#foreach(var operation in Model.Operations){#>
@@ -126,43 +126,42 @@ public partial interface I<#=Model.Class#>
 <#  if(operation.IsDeprecated){#>    [System.Obsolete]
 <#  }#>    <#=operation.MethodAccessModifier#> async <#=operation.ResultType#> <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#>, <#}#>System.Threading.CancellationToken cancellationToken<#if(Model.GenerateOptionalParameters){#> = default(System.Threading.CancellationToken)<#}#>)
     {
-<#if(Model.UseBaseUrl){#>
-        var url_ = string.Format("{0}/{1}<#if(operation.QueryParameters.Any()){#>?<#}#>", BaseUrl, "<#=operation.Path#>");
-<#}else{#>
-        var url_ = string.Format("{0}<#if(operation.QueryParameters.Any()){#>?<#}#>", "<#=operation.Path#>");
-<#}#>
 <#foreach(var parameter in operation.PathParameters){#>
-
-        if (<#=parameter.VariableName#> == null)
-            throw new System.ArgumentNullException("<#=parameter.VariableName#>");
+        if (<#=parameter.VariableName#> == null) throw new System.ArgumentNullException("<#=parameter.VariableName#>");
+<#}#>
+<#foreach(var parameter in operation.QueryParameters){#>
+<#  if(!parameter.IsNullable){#>
+        if (<#=parameter.VariableName#> == null) throw new System.ArgumentNullException("<#=parameter.VariableName#>");
+<#  }#>
+<#}#>
+<#var hasQueryParameters = operation.QueryParameters.Any();#>
+        var urlBuilder_ = new System.Text.StringBuilder();
+        urlBuilder_.Append(<#if(Model.UseBaseUrl){#>BaseUrl).Append("/<#}else{#>"<#}#><#=operation.Path#><#if(hasQueryParameters){#>?<#}#>");
+<#foreach(var parameter in operation.PathParameters){#>
 <#  if(parameter.IsDateArray){#>
-        url_ = url_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(string.Join(",", <#=parameter.VariableName#>.Select(s_ => s_.ToString("s", System.Globalization.CultureInfo.InvariantCulture)))));
+        urlBuilder_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(string.Join(",", <#=parameter.VariableName#>.Select(s_ => s_.ToString("s", System.Globalization.CultureInfo.InvariantCulture)))));
 <#  }else if(parameter.IsDate){#>
-        url_ = url_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(<#=parameter.VariableName#>.ToString("s", System.Globalization.CultureInfo.InvariantCulture)));
+        urlBuilder_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(<#=parameter.VariableName#>.ToString("s", System.Globalization.CultureInfo.InvariantCulture)));
 <#  }else if(parameter.IsArray){#>
-        url_ = url_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(string.Join(",", <#=parameter.VariableName#>.Select(s_ => s_.ToString()))));
+        urlBuilder_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(string.Join(",", <#=parameter.VariableName#>.Select(s_ => s_.ToString()))));
 <#  }else{#>
-        url_ = url_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(<#=parameter.VariableName#>.ToString()));
+        urlBuilder_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(<#=parameter.VariableName#>.ToString()));
 <#  }#>
 <#}#>
 <#foreach(var parameter in operation.QueryParameters){#>
-
-<#  if(!parameter.IsNullable){#>
-        if (<#=parameter.VariableName#> == null)
-            throw new System.ArgumentNullException("<#=parameter.VariableName#>");
-        else
-<#  }else{#>
-        if (<#=parameter.VariableName#> != null)
-<#  }#>
+        <#  if(parameter.IsNullable){#>if (<#=parameter.VariableName#> != null) <#}#>
 <#  if(parameter.IsDateArray){#>
-            foreach (var item_ in <#=parameter.VariableName#>) { url_ += string.Format("<#=parameter.Name#>={0}&", System.Uri.EscapeDataString(item_.ToString("s", System.Globalization.CultureInfo.InvariantCulture))); }
+foreach (var item_ in <#=parameter.VariableName#>) { urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(item_.ToString("s", System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
 <#  }else if(parameter.IsDate){#>
-            url_ += string.Format("<#=parameter.Name#>={0}&", System.Uri.EscapeDataString(<#=parameter.VariableName#><#if(parameter.Type.EndsWith("?")){#>.Value<#}#>.ToString("s", System.Globalization.CultureInfo.InvariantCulture)));
+urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(<#=parameter.VariableName#><#if(parameter.Type.EndsWith("?")){#>.Value<#}#>.ToString("s", System.Globalization.CultureInfo.InvariantCulture))).Append("&");
 <#  }else if(parameter.IsArray){#>
-            foreach (var item_ in <#=parameter.VariableName#>) { url_ += string.Format("<#=parameter.Name#>={0}&", System.Uri.EscapeDataString(item_.ToString())); }
+foreach (var item_ in <#=parameter.VariableName#>) { urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(item_.ToString())).Append("&"); }
 <#  }else{#>
-            url_ += string.Format("<#=parameter.Name#>={0}&", System.Uri.EscapeDataString(<#=parameter.VariableName#><#if(parameter.Type.EndsWith("?")){#>.Value<#}#>.ToString()));
+urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(<#=parameter.VariableName#><#if(parameter.Type.EndsWith("?")){#>.Value<#}#>.ToString())).Append("&");
 <#  }#>
+<#}#>
+<#if(hasQueryParameters){#>
+        urlBuilder_.Length--;
 <#}#>
                 
 <#      if(Model.InjectHttpClient){#>
@@ -180,7 +179,9 @@ public partial interface I<#=Model.Class#>
             using (var request_ = new System.Net.Http.HttpRequestMessage())
 <#      }#>
             {
-                PrepareRequest(client_, ref url_);
+                PrepareRequest(client_, urlBuilder_);
+                var url_ = urlBuilder_.ToString();
+                PrepareRequest(client_, url_);
 <#foreach(var parameter in operation.HeaderParameters){#>
                 request_.Headers.TryAddWithoutValidation("<#=parameter.Name#>", <#=parameter.VariableName#> != null ? <#=parameter.VariableName#>.ToString() : null);
 <#}#>
