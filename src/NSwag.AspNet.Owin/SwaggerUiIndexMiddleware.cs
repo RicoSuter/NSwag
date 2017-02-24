@@ -37,6 +37,11 @@ namespace NSwag.AspNet.Owin
                     }
 
                     html = html.Replace("{ValidatorUrl}", _settings.ValidateSpecification ? "undefined" : "null");
+                    html = html.Replace("{SupportedSubmitMethods}", JsonConvert.SerializeObject(_settings.SupportedSubmitMethods ?? new string[] { }));
+                    html = html.Replace("{DocExpansion}", _settings.DocExpansion);
+                    html = html.Replace("{JsonEditor}", _settings.JsonEditor ? "true" : "false");
+                    html = html.Replace("{DefaultModelRendering}", _settings.DefaultModelRendering);
+                    html = html.Replace("{ShowRequestHeaders}", _settings.ShowRequestHeaders ? "true" : "false");
 
                     context.Response.Headers["Content-Type"] = "text/html; charset=utf-8";
                     context.Response.StatusCode = 200;
