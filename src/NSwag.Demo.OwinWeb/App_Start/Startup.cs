@@ -18,6 +18,7 @@ namespace NSwag.Demo.OwinWeb
             app.UseSwaggerUi(typeof(Startup).Assembly, new SwaggerUiOwinSettings
             {
                 Title = "NSwag Sample API",
+                SupportedSubmitMethods = new [] { "get", "post" },
                 OAuth2Client = new OAuth2ClientSettings
                 {
                     ClientId = "foo",

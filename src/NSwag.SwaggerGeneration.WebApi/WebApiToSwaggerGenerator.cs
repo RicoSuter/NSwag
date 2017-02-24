@@ -196,7 +196,7 @@ namespace NSwag.SwaggerGeneration.WebApi
 
             return true;
         }
-        
+
         private static IEnumerable<MethodInfo> GetActionMethods(Type controllerType)
         {
             var methods = controllerType.GetRuntimeMethods().Where(m => m.IsPublic);
@@ -204,7 +204,7 @@ namespace NSwag.SwaggerGeneration.WebApi
                 m.IsSpecialName == false && // avoid property methods
                 m.DeclaringType != null &&
                 m.DeclaringType != typeof(object) &&
-                m.GetCustomAttributes().All(a => a.GetType().Name != "SwaggerIgnoreAttribute") &&
+                m.GetCustomAttributes().All(a => a.GetType().Name != "SwaggerIgnoreAttribute" && a.GetType().Name != "NonActionAttribute") &&
                 m.DeclaringType.FullName.StartsWith("Microsoft.AspNet") == false && // .NET Core (Web API & MVC)
                 m.DeclaringType.FullName != "System.Web.Http.ApiController" &&
                 m.DeclaringType.FullName != "System.Web.Mvc.Controller");
@@ -261,6 +261,8 @@ namespace NSwag.SwaggerGeneration.WebApi
                         httpPaths.Add(attribute.Template);
                 }
             }
+            else if (routePrefixAttribute != null && routeAttributeOnClass != null)
+                httpPaths.Add(routePrefixAttribute.Prefix + "/" + routeAttributeOnClass.Template);
             // TODO: Check if this is correct
             else if (routePrefixAttribute != null && (
                 (method.GetParameters().Length == 0 && method.Name == "Get") ||

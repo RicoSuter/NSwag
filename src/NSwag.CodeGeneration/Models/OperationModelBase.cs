@@ -71,7 +71,7 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets or sets the name of the operation.</summary>
         public string OperationName { get; set; }
-        
+
         /// <summary>Gets the actual name of the operation (language specific).</summary>
         public abstract string ActualOperationName { get; }
 
@@ -110,7 +110,7 @@ namespace NSwag.CodeGeneration.Models
                 if (response?.ActualResponseSchema == null)
                     return "void";
 
-                var isNullable = response.IsNullable(_settings.CodeGeneratorSettings.NullHandling); 
+                var isNullable = response.IsNullable(_settings.CodeGeneratorSettings.NullHandling);
                 return _generator.GetTypeName(response.ActualResponseSchema, isNullable, "Response");
             }
         }
@@ -165,6 +165,9 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets the query parameters.</summary>
         public IEnumerable<TParameterModel> QueryParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.Query || p.Kind == SwaggerParameterKind.ModelBinding);
+
+        /// <summary>Gets a value indicating whether the operation has query parameters.</summary>
+        public bool HasQueryParameters => QueryParameters.Any();
 
         /// <summary>Gets the header parameters.</summary>
         public IEnumerable<TParameterModel> HeaderParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.Header);
