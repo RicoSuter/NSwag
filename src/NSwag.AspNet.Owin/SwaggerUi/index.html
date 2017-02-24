@@ -51,7 +51,7 @@
       window.swaggerUi = new SwaggerUi({
         url: url,
         dom_id: "swagger-ui-container",
-        supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
+        supportedSubmitMethods: {SupportedSubmitMethods},
         validatorUrl: {ValidatorUrl}, 
         onComplete: function(swaggerApi, swaggerUi){
           if(typeof initOAuth == "function") {
@@ -72,10 +72,10 @@
         onFailure: function(data) {
           log("Unable to Load SwaggerUI");
         },
-        docExpansion: "none",
-        jsonEditor: false,
-        defaultModelRendering: 'schema',
-        showRequestHeaders: false
+        docExpansion: "{DocExpansion}",
+        jsonEditor: {JsonEditor},
+        defaultModelRendering: "{DefaultModelRendering}",
+        showRequestHeaders: {JsonEditor}
       });
 
       window.swaggerUi.load();
