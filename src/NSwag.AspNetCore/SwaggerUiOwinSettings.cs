@@ -31,7 +31,7 @@ namespace NSwag.AspNetCore
         public string DocExpansion { get; set; } = "none";
 
         /// <summary>Enables a graphical view for editing complex bodies. Defaults to false.</summary>
-        public bool JsonEditor { get; set; } = false;
+        public bool UseJsonEditor { get; set; } = false;
 
         /// <summary>Controls how models are shown when the API is first rendered. (The user can always switch the rendering for a given model by clicking the 'Model' and 'Model Schema' links.) It can be set to 'model' or 'schema', and the default is 'schema'.</summary>
         public string DefaultModelRendering { get; set; } = "schema";
