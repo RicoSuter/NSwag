@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Linq;
+using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Controllers;
+using System.Web.Http.Metadata;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using NJsonSchema;
+using NSwag.Annotations;
 
 namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
 {
@@ -20,6 +25,98 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
             public string Bar { get; set; }
         }
 
+        /// <summary>
+        /// Since this class has a [WillReadBody(false)] attribute, OperationParameterProcessor should treat it as a query param
+        /// </summary>
+        [NSwag.Annotations.WillReadBody(false)]
+        [AttributeUsage(AttributeTargets.Class | AttributeTargets.Parameter, Inherited = true, AllowMultiple = false)]
+        public sealed class CustomFromUriParameterBinderAttribute : ParameterBindingAttribute
+        {
+            public override HttpParameterBinding GetBinding(HttpParameterDescriptor parameter)
+            {
+                if (parameter == null)
+                {
+                    throw new Exception("parameter");
+                }
+
+                if (parameter.Configuration.DependencyResolver == null)
+                {
+                    return null;
+                }
+
+                return new CustomParameterBinding(parameter);
+            }
+        }
+
+        [AttributeUsage(AttributeTargets.Class | AttributeTargets.Parameter, Inherited = true, AllowMultiple = false)]
+        public class WillReadBodyAttribute : Attribute
+        {
+        }
+
+        /// <summary>
+        /// Since this class has a [WillReadBody] attribute with no WillReadBody property, 
+        /// OperationParameterProcessor should treat it as a body param.
+        /// </summary>
+        [ComplexParametersTests.WillReadBody]
+        public sealed class CustomFromBodyParameterBinderAttribute : ParameterBindingAttribute
+        {
+            public override HttpParameterBinding GetBinding(HttpParameterDescriptor parameter)
+            {
+                if (parameter == null)
+                {
+                    throw new Exception("parameter");
+                }
+
+                if (parameter.Configuration.DependencyResolver == null)
+                {
+                    return null;
+                }
+
+                return new CustomParameterBinding(parameter);
+            }
+        }
+
+        /// <summary>
+        /// Since this class has no [WillReadBody], OperationParameterProcessor should treat it as a body param
+        /// </summary>
+        [AttributeUsage(AttributeTargets.Class | AttributeTargets.Parameter, Inherited = true, AllowMultiple = false)]
+        public sealed class CustomFromBody2ParameterBinderAttribute : ParameterBindingAttribute
+        {
+            public override HttpParameterBinding GetBinding(HttpParameterDescriptor parameter)
+            {
+                if (parameter == null)
+                {
+                    throw new Exception("parameter");
+                }
+
+                if (parameter.Configuration.DependencyResolver == null)
+                {
+                    return null;
+                }
+
+                return new CustomParameterBinding(parameter);
+            }
+        }
+
+        public class CustomParameterBinding : HttpParameterBinding
+        {
+            private static readonly Task<object> _CompletedTaskReturningNull = Task.FromResult<object>(null);
+
+            public CustomParameterBinding(HttpParameterDescriptor parameter) : base(parameter)
+            {
+            }
+
+            public override Task ExecuteBindingAsync(
+                ModelMetadataProvider metadataProvider,
+                HttpActionContext actionContext,
+                CancellationToken cancellationToken)
+            {
+                actionContext.ActionArguments[Descriptor.ParameterName] = new MyParameter { Bar = "hello", Foo = "world" };
+
+                return _CompletedTaskReturningNull;
+            }
+        }
+        
         public class TestController : ApiController
         {
             public string WithoutAttribute(MyParameter data)
@@ -35,6 +132,21 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
             }
 
             public string WithFromBodyAttribute([FromBody] MyParameter data)
+            {
+                return string.Empty;
+            }
+
+            public string WithCustomFromUriParameterBinder([CustomFromUriParameterBinder]MyParameter data)
+            {
+                return string.Empty;
+            }
+
+            public string WithCustomFromBodyParameterBinder([CustomFromBodyParameterBinder]MyParameter data)
+            {
+                return string.Empty;
+            }
+
+            public string WithCustomFromBody2ParameterBinder([CustomFromBody2ParameterBinder]MyParameter data)
             {
                 return string.Empty;
             }
@@ -93,6 +205,63 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
             //// Act
             var document = await generator.GenerateForControllerAsync<TestController>();
             var operation = document.Operations.Single(o => o.Operation.OperationId == "Test_WithFromBodyAttribute").Operation;
+            var json = document.ToJson();
+
+            //// Assert
+            Assert.AreEqual(SwaggerParameterKind.Body, operation.ActualParameters[0].Kind);
+            Assert.AreEqual("data", operation.ActualParameters[0].Name);
+        }
+        
+        [TestMethod]
+        public async Task When_parameter_is_complex_and_has_CustomBinding_that_will_not_read_body_then_it_is_a_query_parameter()
+        {
+            //// Arrange
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
+            {
+                DefaultUrlTemplate = "api/{controller}/{action}/{id}"
+            });
+
+            //// Act
+            var document = await generator.GenerateForControllerAsync<TestController>();
+            var operation = document.Operations.Single(o => o.Operation.OperationId == "Test_WithCustomFromUriParameterBinder").Operation;
+            var json = document.ToJson();
+
+            //// Assert
+            Assert.AreEqual(SwaggerParameterKind.Query, operation.ActualParameters[0].Kind);
+            Assert.AreEqual("data", operation.ActualParameters[0].Name);
+        }
+
+        [TestMethod]
+        public async Task When_parameter_is_complex_and_has_CustomBinding_that_will_read_body_then_it_is_a_body_parameter()
+        {
+            //// Arrange
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
+            {
+                DefaultUrlTemplate = "api/{controller}/{action}/{id}"
+            });
+
+            //// Act
+            var document = await generator.GenerateForControllerAsync<TestController>();
+            var operation = document.Operations.Single(o => o.Operation.OperationId == "Test_WithCustomFromBodyParameterBinder").Operation;
+            var json = document.ToJson();
+
+            //// Assert
+            Assert.AreEqual(SwaggerParameterKind.Body, operation.ActualParameters[0].Kind);
+            Assert.AreEqual("data", operation.ActualParameters[0].Name);
+        }
+
+        [TestMethod]
+        public async Task When_parameter_is_complex_and_has_CustomBinding_with_no_WillReadBody_then_it_is_a_body_parameter()
+        {
+            //// Arrange
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
+            {
+                DefaultUrlTemplate = "api/{controller}/{action}/{id}"
+            });
+
+            //// Act
+            var document = await generator.GenerateForControllerAsync<TestController>();
+            var operation = document.Operations.Single(o => o.Operation.OperationId == "Test_WithCustomFromBody2ParameterBinder").Operation;
             var json = document.ToJson();
 
             //// Assert

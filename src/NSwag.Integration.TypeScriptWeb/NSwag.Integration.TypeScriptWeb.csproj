@@ -35,7 +35,15 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+<<<<<<< HEAD
+<<<<<<< HEAD
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+=======
     <TypeScriptTarget>ES6</TypeScriptTarget>
+>>>>>>> refs/remotes/NSwag/master
+=======
+    <TypeScriptTarget>ES6</TypeScriptTarget>
+>>>>>>> 641842f57ed247a6080eb488803264c47d6305cc
     <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
     <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
     <TypeScriptNoImplicitAny>True</TypeScriptNoImplicitAny>
@@ -98,20 +106,41 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+<<<<<<< HEAD
+<<<<<<< HEAD
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+=======
+=======
+>>>>>>> 641842f57ed247a6080eb488803264c47d6305cc
     <None Include="package.json" />
     <Content Include="tsconfig.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
+<<<<<<< HEAD
+>>>>>>> refs/remotes/NSwag/master
+=======
+>>>>>>> 641842f57ed247a6080eb488803264c47d6305cc
     </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
+<<<<<<< HEAD
+    <Content Include="Web.config" />
+=======
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
+>>>>>>> refs/remotes/NSwag/master
+=======
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+>>>>>>> 641842f57ed247a6080eb488803264c47d6305cc
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -129,6 +158,27 @@
     <TypeScriptCompile Include="scripts\serviceClientsJQueryPromisesKO.ts" />
     <TypeScriptCompile Include="scripts\serviceClientsPetStoreFetch.ts" />
     <TypeScriptCompile Include="scripts\serviceClientsUberFetch.ts" />
+<<<<<<< HEAD
+<<<<<<< HEAD
+    <TypeScriptCompile Include="scripts\typings\angularjs\angular-animate.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\angularjs\angular-component-router.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\angularjs\angular-cookies.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\angularjs\angular-mocks.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\angularjs\angular-resource.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\angularjs\angular-route.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\angularjs\angular-sanitize.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\angularjs\angular.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\es6-promise\es6-promise.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\jasmine\jasmine.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\knockout\knockout.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\knockout\tests\jasmine.extensions.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\whatwg-fetch\whatwg-fetch.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\whatwg-streams\whatwg-streams.d.ts" />
+=======
+>>>>>>> refs/remotes/NSwag/master
+=======
+>>>>>>> 641842f57ed247a6080eb488803264c47d6305cc
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
