@@ -18,7 +18,7 @@ export interface I<#=Model.Class#> {
 <#}#>
 
 export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.ClientBaseClass#> <#}#><#if(Model.GenerateClientInterfaces){#>implements I<#=Model.Class#> <#}#>{
-    baseUrl: string = undefined; 
+    baseUrl: string | undefined = undefined; 
     beforeSend: any = undefined; 
     protected jsonParseReviver: <#if(Model.SupportsStrictNullChecks){#>((key: string, value: any) => any) | undefined<#}else{#>(key: string, value: any) => any<#}#> = undefined;
 

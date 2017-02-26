@@ -60,7 +60,7 @@ foreach(var response in Model.Responses){
             
             #line default
             #line hidden
-            this.Write(" = null;\r\n");
+            this.Write(" | null = null;\r\n");
             
             #line 7 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       if(response.IsDate){
@@ -192,7 +192,7 @@ if(Model.HasDefaultResponse){
             
             #line default
             #line hidden
-            this.Write(" = null;\r\n");
+            this.Write(" | null = null;\r\n");
             
             #line 31 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       if(Model.DefaultResponse.IsDate){
