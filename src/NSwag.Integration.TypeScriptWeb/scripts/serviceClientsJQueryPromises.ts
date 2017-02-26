@@ -7,7 +7,7 @@
 
 
 export class GeoClient {
-    baseUrl: string = undefined; 
+    baseUrl: string | undefined = undefined; 
     beforeSend: any = undefined; 
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
@@ -592,7 +592,7 @@ export class GeoClient {
 }
 
 export class PersonsClient {
-    baseUrl: string = undefined; 
+    baseUrl: string | undefined = undefined; 
     beforeSend: any = undefined; 
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
