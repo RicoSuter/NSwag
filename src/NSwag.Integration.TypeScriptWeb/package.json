@@ -12,6 +12,7 @@
     "@types/jasmine": "^2.5.43",
     "@types/jquery": "^2.0.40",
     "@types/knockout": "^3.4.39",
+    "@types/rx": "^4.1.1",
     "@types/whatwg-fetch": "0.0.33",
     "@types/whatwg-streams": "0.0.2",
     "typescript": "^2.2.1"

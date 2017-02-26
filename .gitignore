@@ -20,6 +20,7 @@ src/packages/**
 /src/NSwagStudio.Chocolatey/Output
 
 /src/NSwag.Integration.TypeScriptWeb/node_modules
+/src/NSwag.Integration.TypeScriptWeb/scripts/build
 /src/NSwag.Integration.TypeScriptWeb/scripts/serviceClientsAngularJS.js
 /src/NSwag.Integration.TypeScriptWeb/scripts/serviceClientsAngularJS.js.map
 /src/NSwag.Integration.TypeScriptWeb/scripts/serviceClientsJQueryCallbacks.js
