@@ -1,0 +1,41 @@
+{
+  "name": "nswag-integration-typescriptweb",
+  "dependencies": {
+    "@types/angular": {
+      "version": "1.6.7",
+      "from": "@types/angular@latest",
+      "resolved": "https://registry.npmjs.org/@types/angular/-/angular-1.6.7.tgz",
+      "dev": true
+    },
+    "@types/jasmine": {
+      "version": "2.5.43",
+      "from": "@types/jasmine@latest",
+      "resolved": "https://registry.npmjs.org/@types/jasmine/-/jasmine-2.5.43.tgz",
+      "dev": true
+    },
+    "@types/jquery": {
+      "version": "2.0.40",
+      "from": "@types/jquery@latest",
+      "resolved": "https://registry.npmjs.org/@types/jquery/-/jquery-2.0.40.tgz",
+      "dev": true
+    },
+    "@types/knockout": {
+      "version": "3.4.39",
+      "from": "@types/knockout@latest",
+      "resolved": "https://registry.npmjs.org/@types/knockout/-/knockout-3.4.39.tgz",
+      "dev": true
+    },
+    "@types/whatwg-fetch": {
+      "version": "0.0.33",
+      "from": "@types/whatwg-fetch@latest",
+      "resolved": "https://registry.npmjs.org/@types/whatwg-fetch/-/whatwg-fetch-0.0.33.tgz",
+      "dev": true
+    },
+    "@types/whatwg-streams": {
+      "version": "0.0.2",
+      "from": "@types/whatwg-streams@latest",
+      "resolved": "https://registry.npmjs.org/@types/whatwg-streams/-/whatwg-streams-0.0.2.tgz",
+      "dev": true
+    }
+  }
+}
