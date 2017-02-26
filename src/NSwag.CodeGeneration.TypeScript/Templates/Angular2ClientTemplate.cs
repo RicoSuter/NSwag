@@ -275,8 +275,21 @@ if(Model.GenerateClientInterfaces){
             
             #line default
             #line hidden
-            this.Write("{\r\n    private http: Http = null; \r\n    private baseUrl: string = undefined; \r\n  " +
-                    "  protected jsonParseReviver: ");
+            this.Write("{\r\n    private http: Http = null; \r\n    private baseUrl: string");
+            
+            #line 23 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+if(Model.SupportsStrictNullChecks){
+            
+            #line default
+            #line hidden
+            this.Write(" | undefined");
+            
+            #line 23 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write(" = undefined; \r\n    protected jsonParseReviver: ");
             
             #line 24 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 if(Model.SupportsStrictNullChecks){
