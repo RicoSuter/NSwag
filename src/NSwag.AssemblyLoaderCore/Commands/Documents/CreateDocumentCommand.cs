@@ -21,6 +21,11 @@ namespace NSwag.Commands.Documents
         {
             var document = new NSwagDocument();
             document.Path = filePath;
+
+            document.CodeGenerators.SwaggerToCSharpControllerCommand = new SwaggerToCSharpControllerCommand();
+            document.CodeGenerators.SwaggerToCSharpClientCommand = new SwaggerToCSharpClientCommand();
+            document.CodeGenerators.SwaggerToTypeScriptClientCommand = new SwaggerToTypeScriptClientCommand();
+
             await document.SaveAsync();
         }
     }

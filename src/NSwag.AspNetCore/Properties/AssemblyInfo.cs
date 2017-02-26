@@ -5,4 +5,4 @@
 [assembly: AssemblyCompany("Rico Suter")]
 [assembly: AssemblyProduct("NSwag.AspNetCore")]
 [assembly: AssemblyCopyright("Copyright © Rico Suter, 2015")]
-[assembly: AssemblyVersion("9.5.*")]
+[assembly: AssemblyVersion("9.6.*")]

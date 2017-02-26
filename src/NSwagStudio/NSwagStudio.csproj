@@ -96,20 +96,20 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=8.5.6255.20253, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.8.5.6255.20253\lib\net45\NJsonSchema.dll</HintPath>
+    <Reference Include="NJsonSchema, Version=8.6.6263.34621, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.8.6.6263.34621\lib\net45\NJsonSchema.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema.CodeGeneration, Version=8.5.6255.20272, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.CodeGeneration.8.5.6255.20272\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
+    <Reference Include="NJsonSchema.CodeGeneration, Version=8.6.6263.34639, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.CodeGeneration.8.6.6263.34639\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema.CodeGeneration.CSharp, Version=8.5.6255.20272, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.CodeGeneration.CSharp.8.5.6255.20272\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.CSharp.dll</HintPath>
+    <Reference Include="NJsonSchema.CodeGeneration.CSharp, Version=8.6.6263.34639, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.CodeGeneration.CSharp.8.6.6263.34639\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.CSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema.CodeGeneration.TypeScript, Version=8.5.6255.20272, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.CodeGeneration.TypeScript.8.5.6255.20272\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.TypeScript.dll</HintPath>
+    <Reference Include="NJsonSchema.CodeGeneration.TypeScript, Version=8.6.6263.34639, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.CodeGeneration.TypeScript.8.6.6263.34639\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.TypeScript.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -142,6 +142,7 @@
     <Compile Include="Converters\NumberAdditionConverter.cs" />
     <Compile Include="Converters\StringArrayConverter.cs" />
     <Compile Include="ISwaggerGeneratorView.cs" />
+    <Compile Include="ViewModels\CodeGeneratorModel.cs" />
     <Compile Include="ViewModels\CodeGenerators\SwaggerToCSharpControllerGeneratorViewModel.cs" />
     <Compile Include="ViewModels\CodeGenerators\SwaggerOutputViewModel.cs" />
     <Compile Include="ViewModels\CodeGenerators\SwaggerToCSharpClientGeneratorViewModel.cs" />
@@ -150,10 +151,10 @@
     <Compile Include="ViewModels\SwaggerGenerators\AssemblyTypeToSwaggerGeneratorViewModel.cs" />
     <Compile Include="ViewModels\SwaggerGenerators\WebApiToSwaggerGeneratorViewModel.cs" />
     <Compile Include="ViewModels\MainWindowModel.cs" />
-    <Compile Include="ICodeGeneratorView.cs" />
     <Compile Include="ViewModels\CodeGenerators\SwaggerToTypeScriptClientGeneratorViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Controls\AvalonEditBehavior.cs" />
+    <Compile Include="Views\CodeGenerators\CodeGeneratorViewBase.cs" />
     <Compile Include="Views\CodeGenerators\SwaggerToCSharpControllerGeneratorView.xaml.cs">
       <DependentUpon>SwaggerToCSharpControllerGeneratorView.xaml</DependentUpon>
     </Compile>
@@ -308,6 +309,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Messages\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
