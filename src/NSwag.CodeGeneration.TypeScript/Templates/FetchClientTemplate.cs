@@ -289,8 +289,22 @@ if(Model.GenerateClientInterfaces){
             
             #line default
             #line hidden
-            this.Write("{\r\n    private baseUrl: string; \r\n    private http: { fetch(url: RequestInfo, ini" +
-                    "t?: RequestInit): Promise<Response> };\r\n    protected jsonParseReviver: ");
+            this.Write("{\r\n    private baseUrl: string");
+            
+            #line 24 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
+if(Model.SupportsStrictNullChecks){
+            
+            #line default
+            #line hidden
+            this.Write(" | undefined");
+            
+            #line 24 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write(" = undefined;\r\n    private http: { fetch(url: RequestInfo, init?: RequestInit): P" +
+                    "romise<Response> };\r\n    protected jsonParseReviver: ");
             
             #line 26 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
 if(Model.SupportsStrictNullChecks){

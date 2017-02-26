@@ -35,7 +35,11 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+<<<<<<< HEAD
     <TypeScriptTarget>ES5</TypeScriptTarget>
+=======
+    <TypeScriptTarget>ES6</TypeScriptTarget>
+>>>>>>> refs/remotes/NSwag/master
     <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
     <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
     <TypeScriptNoImplicitAny>True</TypeScriptNoImplicitAny>
@@ -98,15 +102,29 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+<<<<<<< HEAD
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
+=======
+    <None Include="package.json" />
+    <Content Include="tsconfig.json" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+>>>>>>> refs/remotes/NSwag/master
     </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <Content Include="Web.config" />
+=======
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+>>>>>>> refs/remotes/NSwag/master
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -124,6 +142,7 @@
     <TypeScriptCompile Include="scripts\serviceClientsJQueryPromisesKO.ts" />
     <TypeScriptCompile Include="scripts\serviceClientsPetStoreFetch.ts" />
     <TypeScriptCompile Include="scripts\serviceClientsUberFetch.ts" />
+<<<<<<< HEAD
     <TypeScriptCompile Include="scripts\typings\angularjs\angular-animate.d.ts" />
     <TypeScriptCompile Include="scripts\typings\angularjs\angular-component-router.d.ts" />
     <TypeScriptCompile Include="scripts\typings\angularjs\angular-cookies.d.ts" />
@@ -139,6 +158,8 @@
     <TypeScriptCompile Include="scripts\typings\knockout\tests\jasmine.extensions.d.ts" />
     <TypeScriptCompile Include="scripts\typings\whatwg-fetch\whatwg-fetch.d.ts" />
     <TypeScriptCompile Include="scripts\typings\whatwg-streams\whatwg-streams.d.ts" />
+=======
+>>>>>>> refs/remotes/NSwag/master
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

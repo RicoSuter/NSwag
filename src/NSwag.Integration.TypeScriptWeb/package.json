@@ -1,0 +1,30 @@
+{
+  "name": "nswag-integration-typescriptweb",
+  "version": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NSwag/NSwag.git"
+  },
+  "description": "Test generated TypeScript compilation",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/angular": "^1.6.7",
+    "@types/jasmine": "^2.5.43",
+    "@types/jquery": "^2.0.40",
+    "@types/knockout": "^3.4.39",
+    "@types/whatwg-fetch": "0.0.33",
+    "@types/whatwg-streams": "0.0.2",
+    "typescript": "^2.2.1"
+  },
+  "dependencies": {
+    "@angular/common": "^2.4.8",
+    "@angular/core": "^2.4.8",
+    "@angular/http": "^2.4.8",
+    "@angular/platform-browser": "^2.4.8",
+    "aurelia-fetch-client": "^1.1.1",
+    "aurelia-framework": "^1.0.8",
+    "jquery": "^3.1.1",
+    "rxjs": "^5.2.0",
+    "zone.js": "^0.7.7"
+  }
+}
