@@ -31,7 +31,7 @@
       "className": "{controller}Client",
       "moduleName": "",
       "namespace": "",
-      "typeScriptVersion": 1.8,
+      "typeScriptVersion": 2.0,
       "template": "AngularJS",
       "promiseType": "Promise",
       "dateTimeType": "Date",

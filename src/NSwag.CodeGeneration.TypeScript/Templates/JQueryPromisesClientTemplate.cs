@@ -295,8 +295,22 @@ if(Model.GenerateClientInterfaces){
             
             #line default
             #line hidden
-            this.Write("{\r\n    baseUrl: string = undefined; \r\n    beforeSend: any = undefined; \r\n    prot" +
-                    "ected jsonParseReviver: ");
+            this.Write("{\r\n    baseUrl: string");
+            
+            #line 21 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+if(Model.SupportsStrictNullChecks){
+            
+            #line default
+            #line hidden
+            this.Write(" | undefined");
+            
+            #line 21 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write(" = undefined; \r\n    beforeSend: any = undefined; \r\n    protected jsonParseReviver" +
+                    ": ");
             
             #line 23 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(Model.SupportsStrictNullChecks){
