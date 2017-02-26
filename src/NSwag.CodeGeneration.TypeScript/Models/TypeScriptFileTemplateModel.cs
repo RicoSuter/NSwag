@@ -54,6 +54,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets a value indicating whether the generated code is for Aurelia.</summary>
         public bool IsAurelia => _settings.GenerateClientClasses && _settings.Template == TypeScriptTemplate.Aurelia;
 
+        /// <summary>Gets a value indicating whether to call 'transformOptions' on the base class or extension class.</summary>
+        public bool UseTransformOptionsMethod => _settings.UseTransformOptionsMethod;
+
         /// <summary>Gets the clients code.</summary>
         public string Clients => _settings.GenerateClientClasses ? _clientCode : string.Empty;
 
