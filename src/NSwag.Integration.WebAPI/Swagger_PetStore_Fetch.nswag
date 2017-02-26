@@ -11,7 +11,7 @@
       "className": "{controller}Client",
       "moduleName": "",
       "namespace": "",
-      "typeScriptVersion": 1.8,
+      "typeScriptVersion": 2.0,
       "template": "Fetch",
       "promiseType": "Promise",
       "dateTimeType": "Date",
