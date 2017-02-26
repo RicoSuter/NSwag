@@ -85,7 +85,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 <#}else{#>
             return this.process<#=operation.ActualOperationNameUpper#>(response);
 <#}#>
-        }).catch((response: any, caught: any) => {
+        }).catch((response: any) => {
             if (response instanceof Response) {
                 try {
 <#if(Model.UseTransformResultMethod){#>

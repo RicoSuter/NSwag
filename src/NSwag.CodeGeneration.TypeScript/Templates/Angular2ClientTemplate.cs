@@ -710,8 +710,8 @@ if(Model.UseTransformResultMethod){
             
             #line default
             #line hidden
-            this.Write("        }).catch((response: any, caught: any) => {\r\n            if (response inst" +
-                    "anceof Response) {\r\n                try {\r\n");
+            this.Write("        }).catch((response: any) => {\r\n            if (response instanceof Respon" +
+                    "se) {\r\n                try {\r\n");
             
             #line 91 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 if(Model.UseTransformResultMethod){
