@@ -69,7 +69,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             //// Assert
             Assert.IsTrue(
                 code.Contains(
-                    @"foreach (var item_ in elementId) { url_ += string.Format(""elementId={0}&"", System.Uri.EscapeDataString(item_.ToString())); }"));
+                    @"foreach (var item_ in elementId) { urlBuilder_.Append(""elementId="").Append(System.Uri.EscapeDataString(item_.ToString())).Append(""&""); }"));
         }
 
     }
