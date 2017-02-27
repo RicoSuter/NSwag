@@ -51,11 +51,6 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
                     throw new Exception("parameter");
                 }
 
-                if (parameter.Configuration.DependencyResolver == null)
-                {
-                    return null;
-                }
-
                 return new CustomParameterBinding(parameter);
             }
         }
@@ -99,11 +94,6 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
                 if (parameter == null)
                 {
                     throw new Exception("parameter");
-                }
-
-                if (parameter.Configuration.DependencyResolver == null)
-                {
-                    return null;
                 }
 
                 return new CustomParameterBinding(parameter);
