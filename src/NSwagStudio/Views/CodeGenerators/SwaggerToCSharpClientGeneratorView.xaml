@@ -30,36 +30,67 @@
                 <StackPanel Margin="8,8,8,0" Width="{Binding ElementName=ScrollViewer, Path=ActualWidth, Converter={StaticResource NumberAdditionConverter}, ConverterParameter=-32}">
                     <TextBlock Text="CSharp Client Settings" FontSize="15" FontWeight="Bold" Margin="0,0,0,12" />
 
-                    <TextBlock Text="Namespace" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.Namespace, Mode=TwoWay}" Margin="0,0,0,12" />
+                    <TextBlock Text="Namespace" FontWeight="Bold"
+                               Margin="0,0,0,6" />
+                    <TextBox Text="{Binding Command.Namespace, Mode=TwoWay}" 
+                             ToolTip="Namespace"
+                             Margin="0,0,0,12" />
 
                     <CheckBox IsChecked="{Binding Command.GenerateContractsOutput, Mode=TwoWay}" 
-                              Content="Generate contracts output" Margin="0,0,0,6" />
+                              ToolTip="GenerateContractsOutput"
+                              Content="Generate contracts output" 
+                              Margin="0,0,0,6" />
 
                     <StackPanel Visibility="{Binding Command.GenerateContractsOutput, Converter={StaticResource VisibilityConverter}}">
-                        <TextBlock Text="Contracts Namespace" FontWeight="Bold" Margin="0,0,0,6" />
-                        <TextBox Text="{Binding Command.ContractsNamespace, Mode=TwoWay}" Margin="0,0,0,12" />
+                        <TextBlock Text="Contracts Namespace"
+                                   FontWeight="Bold" 
+                                   Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.ContractsNamespace, Mode=TwoWay}"
+                                 ToolTip="ContractsNamespace"
+                                 Margin="0,0,0,12" />
                     </StackPanel>
 
-                    <TextBlock Text="Additional Namespace Usages (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding AdditionalNamespaceUsages, Mode=TwoWay}" Margin="0,0,0,12" />
+                    <TextBlock Text="Additional Namespace Usages (comma separated)" 
+                               FontWeight="Bold" 
+                               Margin="0,0,0,6" />
+                    <TextBox Text="{Binding AdditionalNamespaceUsages, Mode=TwoWay}" 
+                             ToolTip="AdditionalNamespaceUsages" 
+                             Margin="0,0,0,12" />
 
                     <TextBlock Text="Custom Json.NET converter types (optional, multiple on separate lines)" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.JsonConverters, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
+                    <TextBox Text="{Binding Command.JsonConverters, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
+                             ToolTip="JsonConverters"
+                             Height="52" 
+                             AcceptsReturn="True" 
+                             VerticalScrollBarVisibility="Visible" 
+                             Margin="0,0,0,12" />
 
                     <CheckBox IsChecked="{Binding Command.GenerateExceptionClasses, Mode=TwoWay}" 
-                              Content="Generate exception classes (when disabled, exception classes must be imported)" Margin="0,0,0,6" />
+                              Content="Generate exception classes (when disabled, exception classes must be imported)" 
+                              ToolTip="GenerateExceptionClasses"
+                              Margin="0,0,0,6" />
+
+                    <CheckBox IsChecked="{Binding Command.HandleReferences, Mode=TwoWay}" 
+                              Content="Use preserve references handling (All) in the JSON serializer"
+                              ToolTip="HandleReferences"
+                              Margin="0,0,0,6" />
 
                     <StackPanel Visibility="{Binding Command.GenerateExceptionClasses, Converter={StaticResource VisibilityConverter}}">
-                        <TextBlock Text="Exception class name (may contain the '{controller}' placeholder)" FontWeight="Bold" Margin="0,0,0,6" />
-                        <TextBox Text="{Binding Command.ExceptionClass, Mode=TwoWay}" Margin="0,0,0,12" />
+                        <TextBlock Text="Exception class name (may contain the '{controller}' placeholder)" 
+                                   FontWeight="Bold" 
+                                   Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.ExceptionClass, Mode=TwoWay}" 
+                                 ToolTip="ExceptionClass"
+                                 Margin="0,0,0,12" />
                     </StackPanel>
 
                     <CheckBox IsChecked="{Binding Command.WrapResponses, Mode=TwoWay}" 
+                              ToolTip="WrapResponses"
                               Content="Wrap success responses to allow full response access (experimental)" Margin="0,0,0,6" />
 
                     <StackPanel Visibility="{Binding Command.WrapResponses, Converter={StaticResource VisibilityConverter}}">
                         <CheckBox IsChecked="{Binding Command.GenerateResponseClasses, Mode=TwoWay}" 
+                                  ToolTip="GenerateResponseClasses"
                                   Content="Generate response classes (when disabled, response classes must be imported)" Margin="0,0,0,6" />
 
                         <StackPanel Visibility="{Binding Command.GenerateResponseClasses, Converter={StaticResource VisibilityConverter}}">

@@ -162,6 +162,13 @@ namespace NSwag.Commands
             set { Settings.ResponseClass = value; }
         }
 
+        [Argument(Name = "HandleReferences", IsRequired = false, Description = "Use preserve references handling (All) in the JSON serializer (default: false).")]
+        public bool HandleReferences
+        {
+            get { return Settings.CSharpGeneratorSettings.HandleReferences; }
+            set { Settings.CSharpGeneratorSettings.HandleReferences = value; }
+        }
+
         [Argument(Name = "GenerateImmutableArrayProperties", IsRequired = false,
                   Description = "Specifies whether to remove the setter for non-nullable array properties (default: false).")]
         public bool GenerateImmutableArrayProperties
