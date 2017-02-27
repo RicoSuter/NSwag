@@ -5,6 +5,7 @@
 //----------------------
 define(["require", "exports"], function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var DataService = (function () {
         function DataService(baseUrl) {
             this.baseUrl = undefined;
@@ -500,10 +501,10 @@ define(["require", "exports"], function (require, exports) {
     }());
     exports.DataService = DataService;
     /** Foo bar */
+    var ObjectType;
     (function (ObjectType) {
         ObjectType[ObjectType["Foo"] = "Foo"] = "Foo";
         ObjectType[ObjectType["Bar"] = "Bar"] = "Bar";
-    })(exports.ObjectType || (exports.ObjectType = {}));
-    var ObjectType = exports.ObjectType;
+    })(ObjectType = exports.ObjectType || (exports.ObjectType = {}));
 });
 //# sourceMappingURL=DataService.js.map

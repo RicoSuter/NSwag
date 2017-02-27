@@ -5,6 +5,7 @@
 // </auto-generated>
 //----------------------
 
+import * as ko from 'knockout';
 
 export class GeoClient {
     baseUrl: string | undefined = undefined; 
