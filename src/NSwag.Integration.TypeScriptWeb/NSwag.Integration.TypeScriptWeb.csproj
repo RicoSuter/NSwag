@@ -25,7 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TypeScriptToolsVersion>2.0</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>2.2</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,12 +39,50 @@
     <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
     <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
     <TypeScriptNoImplicitAny>True</TypeScriptNoImplicitAny>
-    <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
+    <TypeScriptModuleKind>commonjs</TypeScriptModuleKind>
     <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
     <TypeScriptOutFile />
-    <TypeScriptOutDir />
+    <TypeScriptOutDir>scripts/build</TypeScriptOutDir>
+    <TypeScriptExperimentalDecorators>True</TypeScriptExperimentalDecorators>
+    <TypeScriptEmitDecoratorMetadata>True</TypeScriptEmitDecoratorMetadata>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptNoImplicitReturns>False</TypeScriptNoImplicitReturns>
+    <TypeScriptNoImplicitThis>False</TypeScriptNoImplicitThis>
+    <TypeScriptNoImplicitUseStrict>False</TypeScriptNoImplicitUseStrict>
+    <TypeScriptNoUnusedLocals>False</TypeScriptNoUnusedLocals>
+    <TypeScriptNoUnusedParameters>False</TypeScriptNoUnusedParameters>
+    <TypeScriptStrictNullChecks>False</TypeScriptStrictNullChecks>
     <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
-    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptNoEmitOnError>False</TypeScriptNoEmitOnError>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseTypeScriptStrict|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TypeScriptTarget>ES6</TypeScriptTarget>
+    <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptModuleKind>commonjs</TypeScriptModuleKind>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptOutFile />
+    <TypeScriptOutDir>scripts/build</TypeScriptOutDir>
+    <TypeScriptExperimentalDecorators>True</TypeScriptExperimentalDecorators>
+    <TypeScriptEmitDecoratorMetadata>True</TypeScriptEmitDecoratorMetadata>
+    <TypeScriptNoImplicitAny>True</TypeScriptNoImplicitAny>
+    <TypeScriptNoImplicitReturns>True</TypeScriptNoImplicitReturns>
+    <TypeScriptNoImplicitThis>True</TypeScriptNoImplicitThis>
+    <TypeScriptNoImplicitUseStrict>True</TypeScriptNoImplicitUseStrict>
+    <TypeScriptNoUnusedLocals>True</TypeScriptNoUnusedLocals>
+    <TypeScriptNoUnusedParameters>True</TypeScriptNoUnusedParameters>
+    <TypeScriptStrictNullChecks>True</TypeScriptStrictNullChecks>
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>False</TypeScriptNoEmitOnError>
     <TypeScriptSourceMap>True</TypeScriptSourceMap>
     <TypeScriptMapRoot />
     <TypeScriptSourceRoot />
@@ -56,16 +94,24 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptTarget>ES6</TypeScriptTarget>
     <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
     <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
-    <TypeScriptNoImplicitAny>True</TypeScriptNoImplicitAny>
-    <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
+    <TypeScriptModuleKind>commonjs</TypeScriptModuleKind>
     <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
     <TypeScriptOutFile />
-    <TypeScriptOutDir />
+    <TypeScriptOutDir>scripts/build</TypeScriptOutDir>
+    <TypeScriptExperimentalDecorators>True</TypeScriptExperimentalDecorators>
+    <TypeScriptEmitDecoratorMetadata>True</TypeScriptEmitDecoratorMetadata>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptNoImplicitReturns>False</TypeScriptNoImplicitReturns>
+    <TypeScriptNoImplicitThis>False</TypeScriptNoImplicitThis>
+    <TypeScriptNoImplicitUseStrict>False</TypeScriptNoImplicitUseStrict>
+    <TypeScriptNoUnusedLocals>False</TypeScriptNoUnusedLocals>
+    <TypeScriptNoUnusedParameters>False</TypeScriptNoUnusedParameters>
+    <TypeScriptStrictNullChecks>False</TypeScriptStrictNullChecks>
     <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
-    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptNoEmitOnError>False</TypeScriptNoEmitOnError>
     <TypeScriptSourceMap>True</TypeScriptSourceMap>
     <TypeScriptMapRoot />
     <TypeScriptSourceRoot />
@@ -99,7 +145,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="package.json" />
-    <Content Include="tsconfig.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -120,7 +165,7 @@
     <None Include="scripts\serviceClientsAngular2.ts" />
     <TypeScriptCompile Include="scripts\serviceClientsAngular2.extensions.ts" />
     <TypeScriptCompile Include="scripts\serviceClientsAngularJS.ts" />
-    <None Include="scripts\serviceClientsAurelia.ts" />
+    <TypeScriptCompile Include="scripts\serviceClientsAurelia.ts" />
     <TypeScriptCompile Include="scripts\serviceClientsFetch.ts" />
     <TypeScriptCompile Include="scripts\serviceClientsJQueryCallbacks.ts" />
     <TypeScriptCompile Include="scripts\serviceClientsFetch.extensions.ts" />
