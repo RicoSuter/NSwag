@@ -5,7 +5,7 @@
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Parameter)]
     public class WillReadBodyAttribute : Attribute
     {
-        public WillReadBodyAttribute(bool willReadBody = false)
+        public WillReadBodyAttribute(bool willReadBody = true)
         {
             WillReadBody = willReadBody;
         }
