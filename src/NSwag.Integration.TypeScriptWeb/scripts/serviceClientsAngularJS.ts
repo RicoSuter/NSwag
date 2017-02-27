@@ -5,6 +5,7 @@
 // </auto-generated>
 //----------------------
 
+import * as ng from 'angular';
 
 export class GeoClient {
     private baseUrl: string | undefined = undefined; 
