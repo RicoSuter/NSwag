@@ -4,6 +4,7 @@ using System.Windows.Input;
 using MyToolkit.Command;
 using Newtonsoft.Json;
 using NSwag.Commands;
+using NJsonSchema.Infrastructure;
 
 namespace NSwagStudio.ViewModels.SwaggerGenerators
 {
@@ -20,14 +21,8 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
 
         public async Task LoadSwaggerUrlAsync(string url)
         {
-            var json = string.Empty;
-            await RunTaskAsync(() =>
-            {
-                using (var client = new WebClient())
-                    json = JsonConvert.SerializeObject(JsonConvert.DeserializeObject(client.DownloadString(url)), Formatting.Indented);
-            });
-
-            Command.Swagger = json;
+            var json = await DynamicApis.HttpGetAsync(url).ConfigureAwait(false);
+            Command.Swagger = JsonConvert.SerializeObject(JsonConvert.DeserializeObject(json), Formatting.Indented);
         }
 
         public async Task<string> GenerateSwaggerAsync()
