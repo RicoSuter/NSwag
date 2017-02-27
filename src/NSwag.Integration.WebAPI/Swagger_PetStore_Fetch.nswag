@@ -62,29 +62,6 @@
       "generateResponseClasses": true,
       "responseClass": "SwaggerResponse",
       "output": "../NSwag.Integration.ClientPCL/PetStoreClient.cs"
-    },
-    "swaggerToCSharpController": {
-      "className": "{controller}",
-      "namespace": "MyNamespace",
-      "additionalNamespaceUsages": [
-        "System.Web.Http"
-      ],
-      "generateOptionalParameters": false,
-      "requiredPropertiesMustBeDefined": true,
-      "dateType": "System.DateTime",
-      "dateTimeType": "System.DateTime",
-      "timeType": "System.TimeSpan",
-      "timeSpanType": "System.TimeSpan",
-      "arrayType": "System.Collections.ObjectModel.ObservableCollection",
-      "dictionaryType": "System.Collections.Generic.Dictionary",
-      "classStyle": "Inpc",
-      "operationGenerationMode": "MultipleClientsFromOperationId",
-      "generateDefaultValues": true,
-      "excludedTypeNames": [],
-      "wrapResponses": false,
-      "generateResponseClasses": true,
-      "responseClass": "SwaggerResponse",
-      "output": null
     }
   }
 }
