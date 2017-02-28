@@ -289,8 +289,8 @@ if(Model.SupportsStrictNullChecks){
             
             #line default
             #line hidden
-            this.Write(" = undefined; \r\n    private http: ng.IHttpService | null = null; \r\n    protected " +
-                    "jsonParseReviver: ");
+            this.Write(" = undefined; \r\n    private http: ng.IHttpService; \r\n    protected jsonParseReviv" +
+                    "er: ");
             
             #line 23 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularJSClientTemplate.tt"
 if(Model.SupportsStrictNullChecks){
