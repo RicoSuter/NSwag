@@ -20,6 +20,14 @@ import {Http, Headers, Response<#if(Model.UseTransformOptionsMethod){#>, Request
 import { inject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-fetch-client';
 <#}#>
+<#if(Model.IsAngular){#>
+
+import * as ng from 'angular';
+<#}#>
+<#if(Model.IsKnockout){#>
+
+import * as ko from 'knockout';
+<#}#>
 
 <#if(Model.HasModuleName){#>
 module <#=Model.ModuleName#> {
