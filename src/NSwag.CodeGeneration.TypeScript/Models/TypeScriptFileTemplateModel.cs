@@ -54,6 +54,12 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets a value indicating whether the generated code is for Aurelia.</summary>
         public bool IsAurelia => _settings.GenerateClientClasses && _settings.Template == TypeScriptTemplate.Aurelia;
 
+        /// <summary>Gets a value indicating whether the generated code is for Angular.</summary>
+        public bool IsAngular => _settings.GenerateClientClasses && _settings.Template == TypeScriptTemplate.AngularJS;
+
+        /// <summary>Gets a value indicating whether the generated code is for Knockout.</summary>
+        public bool IsKnockout => _settings.GenerateClientClasses && _settings.TypeScriptGeneratorSettings.TypeStyle == TypeScriptTypeStyle.KnockoutClass;
+
         /// <summary>Gets a value indicating whether to call 'transformOptions' on the base class or extension class.</summary>
         public bool UseTransformOptionsMethod => _settings.UseTransformOptionsMethod;
 
