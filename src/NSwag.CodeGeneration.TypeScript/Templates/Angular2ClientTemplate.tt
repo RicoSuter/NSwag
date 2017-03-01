@@ -74,7 +74,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
         };
 
 <#if(Model.UseTransformOptionsMethod){#>
-        return Observable.fromPromise(this.transformOptions(options_)).concatMap(transformedOptions_ => {
+        return Observable.fromPromise(this.transformOptions(options_)).flatMap(transformedOptions_ => {
             return this.http.request(url_, transformedOptions_);
         }).map((response) => {
 <#}else{#>
