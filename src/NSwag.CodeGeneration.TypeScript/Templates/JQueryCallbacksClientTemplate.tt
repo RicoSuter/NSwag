@@ -13,7 +13,7 @@ export interface I<#=Model.Class#> {
 <#}#><#}#><#if(operation.HasResultDescription){#>     * @return <#=operation.ResultDescription#>
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
-<#}#>    <#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>: <#=parameter.Type#>, <#}#>onSuccess?: (<#if(operation.HasResultType){#>result: <#=operation.ResultType#><#}#>) => void, onFail?: (exception: <#=operation.ExceptionType#>, reason: string) => void): void;
+<#}#>    <#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>: <#=parameter.Type#>, <#}#>onSuccess?: (<#if(operation.HasResultType){#>result: <#=operation.ResultType#> | null<#}#>) => void, onFail?: (exception: <#=operation.ExceptionType#>, reason: string) => void): void;
 <#}#>}
 <#}#>
 
@@ -73,17 +73,17 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 <#}#>                "Content-Type": "<#=operation.Consumes#>; charset=UTF-8",
 				"Accept": "<#=operation.Produces#>; charset=UTF-8"
             }
-        }<#if(Model.UseTransformOptionsMethod){#>)<#}#>).done((data, textStatus, xhr) => {
+        }<#if(Model.UseTransformOptionsMethod){#>)<#}#>).done((_data, _textStatus, xhr) => {
             this.process<#=operation.ActualOperationNameUpper#>WithCallbacks(url_, xhr, onSuccess, onFail);
         }).fail((xhr) => {
             this.process<#=operation.ActualOperationNameUpper#>WithCallbacks(url_, xhr, onSuccess, onFail);
         });
     }
 
-    private process<#=operation.ActualOperationNameUpper#>WithCallbacks(url: string, xhr: any, onSuccess?: any, onFail?: any): void {
+    private process<#=operation.ActualOperationNameUpper#>WithCallbacks(_url: string, xhr: any, onSuccess?: any, onFail?: any): void {
         try {
 <#if(Model.UseTransformResultMethod){#>
-            let result = this.transformResult(url, xhr, (xhr) => this.process<#=operation.ActualOperationNameUpper#>(xhr));
+            let result = this.transformResult(_url, xhr, (xhr) => this.process<#=operation.ActualOperationNameUpper#>(xhr));
 <#}else{#>
             let result = this.process<#=operation.ActualOperationNameUpper#>(xhr);
 <#}#>
@@ -95,9 +95,9 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
         }
     }
 
-    protected process<#=operation.ActualOperationNameUpper#>(xhr: any): <#=operation.ResultType#> {
-        const responseText = xhr.responseText; 
-        const status = xhr.status; 
+    protected process<#=operation.ActualOperationNameUpper#>(xhr: any) {
+        const _responseText = xhr.responseText; 
+        const _status = xhr.status; 
 
         <#=TypeScriptTemplatePartGenerator.RenderProcessResponseCode(operation, 2)#>
     }

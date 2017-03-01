@@ -565,21 +565,7 @@ if(!parameter.IsLast){
             
             #line default
             #line hidden
-            this.Write("): ");
-            
-            #line 54 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.PromiseType));
-            
-            #line default
-            #line hidden
-            this.Write("<");
-            
-            #line 54 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultType));
-            
-            #line default
-            #line hidden
-            this.Write("> {\r\n        return ");
+            this.Write(") {\r\n        return ");
             
             #line 55 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.PromiseConstructor));
@@ -593,7 +579,7 @@ if(!parameter.IsLast){
             
             #line default
             #line hidden
-            this.Write(">((resolve, reject) => {\r\n            this.");
+            this.Write(" | null>((resolve, reject) => {\r\n            this.");
             
             #line 56 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationName));
@@ -620,8 +606,8 @@ foreach(var parameter in operation.Parameters){
             
             #line default
             #line hidden
-            this.Write("(result) => resolve(result), (exception, reason) => reject(exception));\r\n        " +
-                    "});\r\n    }\r\n    \r\n    private ");
+            this.Write("(result) => resolve(result), (exception, _reason) => reject(exception));\r\n       " +
+                    " });\r\n    }\r\n    \r\n    private ");
             
             #line 60 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationName));
@@ -662,7 +648,7 @@ foreach(var parameter in operation.Parameters){
             
             #line default
             #line hidden
-            this.Write(") => void, onFail?: (exception: ");
+            this.Write(" | null) => void, onFail?: (exception: ");
             
             #line 60 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ExceptionType));
@@ -782,7 +768,7 @@ if(Model.UseTransformOptionsMethod){
             
             #line default
             #line hidden
-            this.Write(").done((data, textStatus, xhr) => {\r\n            this.process");
+            this.Write(").done((_data, _textStatus, xhr) => {\r\n            this.process");
             
             #line 83 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationNameUpper));
@@ -805,15 +791,15 @@ if(Model.UseTransformOptionsMethod){
             
             #line default
             #line hidden
-            this.Write("WithCallbacks(url: string, xhr: any, onSuccess?: any, onFail?: any): void {\r\n    " +
-                    "    try {\r\n");
+            this.Write("WithCallbacks(_url: string, xhr: any, onSuccess?: any, onFail?: any): void {\r\n   " +
+                    "     try {\r\n");
             
             #line 91 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(Model.UseTransformResultMethod){
             
             #line default
             #line hidden
-            this.Write("            let result = this.transformResult(url, xhr, (xhr) => this.process");
+            this.Write("            let result = this.transformResult(_url, xhr, (xhr) => this.process");
             
             #line 92 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationNameUpper));
@@ -850,15 +836,8 @@ if(Model.UseTransformResultMethod){
             
             #line default
             #line hidden
-            this.Write("(xhr: any): ");
-            
-            #line 104 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultType));
-            
-            #line default
-            #line hidden
-            this.Write(" {\r\n        const responseText = xhr.responseText; \r\n        const status = xhr.s" +
-                    "tatus; \r\n\r\n        ");
+            this.Write("(_xhr: any) {\r\n        const _responseText = _xhr.responseText; \r\n        const _" +
+                    "status = _xhr.status; \r\n\r\n        ");
             
             #line 108 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeScriptTemplatePartGenerator.RenderProcessResponseCode(operation, 2)));

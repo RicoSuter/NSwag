@@ -13,7 +13,7 @@ export interface I<#=Model.Class#> {
 <#}#><#}#><#if(operation.HasResultDescription){#>     * @return <#=operation.ResultDescription#>
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
-<#}#>    <#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): ng.IPromise<<#=operation.ResultType#>>;
+<#}#>    <#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>);
 <#}#>}
 <#}#>
 
@@ -38,8 +38,8 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 <#  }#>
 <#  if(Model.UseTransformResultMethod){#>
 
-    protected transformResult(url: string, response: any, processor: (response: any) => any) {
-        return processor(response);
+    protected transformResult(url: string, _response: any, processor: (_response: any) => any) {
+        return processor(_response);
     }
 <#  }#>
 <#}#>
@@ -52,7 +52,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 <#}#><#}#><#if(operation.HasResultDescription){#>     * @return <#=operation.ResultDescription#>
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
-<#}#>    <#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): ng.IPromise<<#=operation.ResultType#>> {
+<#}#>    <#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>) {
         <#=TypeScriptTemplatePartGenerator.RenderRequestUrlCode(operation, 2)#>
 
         <#=TypeScriptTemplatePartGenerator.RenderRequestBodyCode(operation, 2)#>
@@ -77,29 +77,29 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 <#if(Model.UseTransformOptionsMethod){#>
         return this.transformOptions(options_).then(transformedOptions_ => {
             return this.http(transformedOptions_);
-        }).then((response) => {
+        }).then((_response) => {
 <#}else{#>
-        return this.http(options_).then((response) => {
+        return this.http(options_).then((_response) => {
 <#}#>
 <#if(Model.UseTransformResultMethod){#>
-            return this.transformResult(url_, response, (response) => this.process<#=operation.ActualOperationNameUpper#>(response));
+            return this.transformResult(url_, _response, (_response) => this.process<#=operation.ActualOperationNameUpper#>(_response));
 <#}else{#>
-            return this.process<#=operation.ActualOperationNameUpper#>(response);
+            return this.process<#=operation.ActualOperationNameUpper#>(_response);
 <#}#>
-        }, (response) => {
-            if (response.status)
+        }, (_response) => {
+            if (_response.status)
 <#if(Model.UseTransformResultMethod){#>
-                return this.transformResult(url_, response, (response) => this.process<#=operation.ActualOperationNameUpper#>(response));
+                return this.transformResult(url_, _response, (_response) => this.process<#=operation.ActualOperationNameUpper#>(_response));
 <#}else{#>
-                return this.process<#=operation.ActualOperationNameUpper#>(response);
+                return this.process<#=operation.ActualOperationNameUpper#>(_response);
 <#}#>
-            throw response;
+            throw _response;
         });
     }
 
-    protected process<#=operation.ActualOperationNameUpper#>(response: any): <#=operation.ResultType#> {
-        const responseText = response.data;
-        const status = response.status; 
+    protected process<#=operation.ActualOperationNameUpper#>(_response: any) {
+        const _responseText = _response.data;
+        const _status = _response.status; 
 
         <#=TypeScriptTemplatePartGenerator.RenderProcessResponseCode(operation, 2)#>
     }

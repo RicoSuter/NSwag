@@ -221,6 +221,7 @@ if(operation.HasResultType){
             
             #line default
             #line hidden
+            this.Write(" | null");
             
             #line 16 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
 }
@@ -680,7 +681,7 @@ if(Model.UseTransformOptionsMethod){
             
             #line default
             #line hidden
-            this.Write(").done((data, textStatus, xhr) => {\r\n            this.process");
+            this.Write(").done((_data, _textStatus, xhr) => {\r\n            this.process");
             
             #line 77 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationNameUpper));
@@ -703,15 +704,15 @@ if(Model.UseTransformOptionsMethod){
             
             #line default
             #line hidden
-            this.Write("WithCallbacks(url: string, xhr: any, onSuccess?: any, onFail?: any): void {\r\n    " +
-                    "    try {\r\n");
+            this.Write("WithCallbacks(_url: string, xhr: any, onSuccess?: any, onFail?: any): void {\r\n   " +
+                    "     try {\r\n");
             
             #line 85 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
 if(Model.UseTransformResultMethod){
             
             #line default
             #line hidden
-            this.Write("            let result = this.transformResult(url, xhr, (xhr) => this.process");
+            this.Write("            let result = this.transformResult(_url, xhr, (xhr) => this.process");
             
             #line 86 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationNameUpper));
@@ -748,15 +749,8 @@ if(Model.UseTransformResultMethod){
             
             #line default
             #line hidden
-            this.Write("(xhr: any): ");
-            
-            #line 98 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultType));
-            
-            #line default
-            #line hidden
-            this.Write(" {\r\n        const responseText = xhr.responseText; \r\n        const status = xhr.s" +
-                    "tatus; \r\n\r\n        ");
+            this.Write("(xhr: any) {\r\n        const _responseText = xhr.responseText; \r\n        const _st" +
+                    "atus = xhr.status; \r\n\r\n        ");
             
             #line 102 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeScriptTemplatePartGenerator.RenderProcessResponseCode(operation, 2)));
