@@ -49,7 +49,7 @@ namespace NSwag.Commands
         }
 
         [Argument(Name = "GenerateOptionalParameters", IsRequired = false,
-                  Description = "Specifies whether to reorder parameters (required first, optional at the end) and generate optional C# parameters (default: false).")]
+                  Description = "Specifies whether to reorder parameters (required first, optional at the end) and generate optional parameters (default: false).")]
         public bool GenerateOptionalParameters
         {
             get { return Settings.GenerateOptionalParameters; }

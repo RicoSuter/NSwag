@@ -68,7 +68,7 @@
                     <TextBox Text="{Binding AdditionalNamespaceUsages, Mode=TwoWay}" Margin="0,0,0,12" />
 
                     <CheckBox IsChecked="{Binding Command.GenerateOptionalParameters, Mode=TwoWay}" 
-                              Content="Generate optional parameters (reorder parameters (required first, optional at the end) and generate optional C# parameters)" Margin="0,0,0,6" />
+                              Content="Generate optional parameters (reorder parameters (required first, optional at the end) and generate optional parameters)" Margin="0,0,0,6" />
 
                     <GroupBox Header="Classes" Margin="0,0,0,12">
                         <StackPanel Margin="4,8,4,-8">

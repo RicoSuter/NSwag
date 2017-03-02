@@ -180,6 +180,20 @@ foreach(var parameter in operation.Parameters){
             
             #line default
             #line hidden
+            this.Write(">");
+            
+            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+if(Model.GenerateOptionalParameters && parameter.IsOptional){
+            
+            #line default
+            #line hidden
+            this.Write("?");
+            
+            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+}
+            
+            #line default
+            #line hidden
             this.Write(": ");
             
             #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
@@ -545,6 +559,19 @@ foreach(var parameter in operation.Parameters){
             
             #line 56 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
+            
+            #line default
+            #line hidden
+            
+            #line 56 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+if(Model.GenerateOptionalParameters && parameter.IsOptional){
+            
+            #line default
+            #line hidden
+            this.Write("?");
+            
+            #line 56 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+}
             
             #line default
             #line hidden

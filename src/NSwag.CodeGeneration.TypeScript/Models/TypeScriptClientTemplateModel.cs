@@ -60,6 +60,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets a value indicating whether the client is extended with an extension class.</summary>
         public bool HasExtensionClass => _settings.TypeScriptGeneratorSettings.ExtendedClasses?.Any(c => c + "Base" == Class) == true;
 
+        /// <summary>Gets a value indicating whether to generate optional parameters.</summary>
+        public bool GenerateOptionalParameters => _settings.GenerateOptionalParameters;
+
         /// <summary>Gets a value indicating whether the client has operations.</summary>
         public bool HasOperations => Operations.Any();
 
