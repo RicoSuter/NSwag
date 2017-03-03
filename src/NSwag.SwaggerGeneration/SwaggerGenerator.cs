@@ -98,10 +98,16 @@ namespace NSwag.SwaggerGeneration
             }
             else
             {
-                parameterType = typeDescription.Type.HasFlag(JsonObjectType.Object) ? typeof(string) : parameterType; // object types must be treated as string
+                var hasTypeMapper = _settings.TypeMappers.Any(tm => tm.MappedType == parameterType);
+                if (!hasTypeMapper)
+                    parameterType = typeDescription.Type.HasFlag(JsonObjectType.Object) ? typeof(string) : parameterType; // object types must be treated as string
 
                 operationParameter = await _schemaGenerator.GenerateAsync<SwaggerParameter>(parameterType, parentAttributes, _schemaResolver).ConfigureAwait(false);
                 _schemaGenerator.ApplyPropertyAnnotations(operationParameter, parameterType, parentAttributes, typeDescription);
+
+                // check if the type mapper did not properly change the type to a primitive
+                if (hasTypeMapper && typeDescription.Type.HasFlag(JsonObjectType.Object) && operationParameter.Type == JsonObjectType.Object)
+                    operationParameter.Type = JsonObjectType.String; // enforce string as default
             }
 
             operationParameter.Name = name;

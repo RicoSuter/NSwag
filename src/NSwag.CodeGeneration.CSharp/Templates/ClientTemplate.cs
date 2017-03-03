@@ -1861,7 +1861,7 @@ if(operation.HasXmlBodyParameter){
             #line hidden
             
             #line 193 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.JsonConverters));
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.JsonSerializerParameterCode));
             
             #line default
             #line hidden
@@ -2224,7 +2224,7 @@ if(Model.InjectHttpClient){
             this.Write(">(responseData_");
             
             #line 255 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.JsonConverters));
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.JsonSerializerParameterCode));
             
             #line default
             #line hidden
@@ -2625,7 +2625,7 @@ if(Model.InjectHttpClient){
             this.Write(">(responseData_");
             
             #line 321 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.JsonConverters));
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.JsonSerializerParameterCode));
             
             #line default
             #line hidden

@@ -57,7 +57,21 @@ if(Model.IsAngular2){
             #line hidden
             this.Write("\r\nimport \'rxjs/Rx\'; \r\nimport {Observable} from \'rxjs/Observable\';\r\nimport {Inject" +
                     "able, Inject, Optional, OpaqueToken} from \'@angular/core\';\r\nimport {Http, Header" +
-                    "s, Response, RequestOptionsArgs} from \'@angular/http\';\r\n");
+                    "s, Response");
+            
+            #line 16 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+if(Model.UseTransformOptionsMethod){
+            
+            #line default
+            #line hidden
+            this.Write(", RequestOptionsArgs");
+            
+            #line 16 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("} from \'@angular/http\';\r\n");
             
             #line 17 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
 }

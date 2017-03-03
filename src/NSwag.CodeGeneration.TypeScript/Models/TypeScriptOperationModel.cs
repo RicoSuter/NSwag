@@ -29,7 +29,11 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             _settings = settings;
             _generator = generator;
 
-            Parameters = _operation.ActualParameters.Select(parameter =>
+            var parameters = _operation.ActualParameters.ToList();
+            if (settings.GenerateOptionalParameters)
+                parameters = parameters.OrderBy(p => !p.IsRequired).ToList();
+
+            Parameters = parameters.Select(parameter =>
                 new TypeScriptParameterModel(parameter.Name,
                     GetParameterVariableName(parameter, _operation.Parameters), ResolveParameterType(parameter),
                     parameter, _operation.ActualParameters.ToList(), (SwaggerToTypeScriptClientGeneratorSettings)_settings, 

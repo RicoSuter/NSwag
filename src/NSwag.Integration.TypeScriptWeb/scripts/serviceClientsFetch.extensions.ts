@@ -1,4 +1,4 @@
-﻿import generated = require("serviceClientsFetch");
+﻿import * as generated from "./serviceClientsFetch";
 
 class GeoClient extends generated.GeoClientBase {
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {

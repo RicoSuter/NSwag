@@ -18,6 +18,7 @@ using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Contexts;
+using NSwag.SwaggerGeneration.WebApi.Infrastructure;
 
 namespace NSwag.SwaggerGeneration.WebApi.Processors
 {
@@ -96,7 +97,35 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
 
                             if (parameterInfo.IsComplexType)
                             {
-                                if (fromBodyAttribute != null || (fromUriAttribute == null && _settings.IsAspNetCore == false))
+                                // Check for a custom ParameterBindingAttribute (OWIN/WebAPI only)
+                                Attribute bindingAttribute = null;
+                                if (fromBodyAttribute == null &&
+                                    fromUriAttribute == null &&
+                                    !_settings.IsAspNetCore &&
+                                    (bindingAttribute = parameterAttributes.SingleOrDefault(attr => attr.GetType().InheritsFrom("ParameterBindingAttribute", TypeNameStyle.Name))) != null)
+                                {
+                                    // Try to find a [WillReadBody] attribute on either the action parameter or the bindingAttribute's class
+                                    Attribute willReadBodyAttribute = parameterAttributes.Concat(bindingAttribute.GetType().GetTypeInfo().GetCustomAttributes())
+                                        .FirstOrDefault(attr => attr.GetType().Name.Equals("WillReadBodyAttribute", StringComparison.OrdinalIgnoreCase));
+
+                                    if (willReadBodyAttribute == null)
+                                        await AddBodyParameterAsync(bodyParameterName, parameter, context.OperationDescription.Operation, context.SwaggerGenerator).ConfigureAwait(false);
+                                    else
+                                    {
+                                        // Try to get a boolean property value from the attribute which explicity tells us whether to read from the body
+                                        // If no such property exists, then default to false since WebAPI's HttpParameterBinding.WillReadBody defaults to false
+                                        var willReadBody = willReadBodyAttribute.TryGetPropertyValue("WillReadBody", true);
+                                        if (willReadBody)
+                                            await AddBodyParameterAsync(bodyParameterName, parameter, context.OperationDescription.Operation, context.SwaggerGenerator).ConfigureAwait(false);
+
+                                        // If we are not reading from the body, then treat this as a primitive.
+                                        // This may seem odd, but it allows for primitive -> custom complex-type bindings which are very common
+                                        // In this case, the API author should use a TypeMapper to define the parameter
+                                        else
+                                            await AddPrimitiveParameterAsync(uriParameterName, context.OperationDescription.Operation, parameter, context.SwaggerGenerator).ConfigureAwait(false);
+                                    }
+                                }
+                                else if (fromBodyAttribute != null || (fromUriAttribute == null && _settings.IsAspNetCore == false))
                                     await AddBodyParameterAsync(bodyParameterName, parameter, context.OperationDescription.Operation, context.SwaggerGenerator).ConfigureAwait(false);
                                 else
                                     await AddPrimitiveParametersFromUriAsync(httpPath, uriParameterName, context.OperationDescription.Operation, parameter, parameterInfo, context.SwaggerGenerator).ConfigureAwait(false);

@@ -3,7 +3,7 @@
         return options;
     }
 
-    protected transformResult(url: string, response: any, processor: (response: any) => any) {
+    protected transformResult(_: string, response: any, processor: (response: any) => any) {
         return processor(response);
     }
 }

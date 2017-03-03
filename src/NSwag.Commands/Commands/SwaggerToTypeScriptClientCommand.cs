@@ -100,6 +100,14 @@ namespace NSwag.Commands
             set { Settings.GenerateClientInterfaces = value; }
         }
 
+        [Argument(Name = "GenerateOptionalParameters", IsRequired = false,
+                  Description = "Specifies whether to reorder parameters (required first, optional at the end) and generate optional parameters (default: false).")]
+        public bool GenerateOptionalParameters
+        {
+            get { return Settings.GenerateOptionalParameters; }
+            set { Settings.GenerateOptionalParameters = value; }
+        }
+
         [Argument(Name = "WrapDtoExceptions", IsRequired = false, Description = "Specifies whether DTO exceptions are wrapped in a SwaggerException instance (default: false).")]
         public bool WrapDtoExceptions
         {

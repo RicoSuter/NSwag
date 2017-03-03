@@ -1,4 +1,4 @@
-﻿import generated = require("serviceClientsJQueryPromises");
+﻿import * as generated from "./serviceClientsJQueryPromises";
 
 class Person extends generated.PersonBase {
     get fullName() {
