@@ -65,7 +65,7 @@ namespace NSwag.CodeGeneration.TypeScript
 
         /// <summary>Gets the base settings.</summary>
         public override ClientGeneratorBaseSettings BaseSettings => Settings;
-        
+
         /// <summary>Gets the type.</summary>
         /// <param name="schema">The schema.</param>
         /// <param name="isNullable">if set to <c>true</c> [is nullable].</param>
@@ -131,7 +131,7 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <returns>The operation model.</returns>
         protected override TypeScriptOperationModel CreateOperationModel(SwaggerOperation operation, ClientGeneratorBaseSettings settings)
         {
-            return new TypeScriptOperationModel(operation, settings, this, Resolver);
+            return new TypeScriptOperationModel(operation, (SwaggerToTypeScriptClientGeneratorSettings)settings, this, Resolver);
         }
 
         private string GetClassName(string className)
@@ -158,7 +158,7 @@ namespace NSwag.CodeGeneration.TypeScript
                         IsPropertyNullable = response.IsNullable,
                         TypeNameHint = string.Empty,
                         Settings = Settings.TypeScriptGeneratorSettings,
-                        Resolver = _resolver, 
+                        Resolver = _resolver,
                         NullValue = TypeScriptNullValue.Null
                     });
                 }
