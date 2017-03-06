@@ -19,7 +19,7 @@ export interface I<#=Model.Class#> {
 
 export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.ClientBaseClass#> <#}#><#if(Model.GenerateClientInterfaces){#>implements I<#=Model.Class#> <#}#>{
     private baseUrl: string<#if(Model.SupportsStrictNullChecks){#> | undefined<#}#> = undefined; 
-    private http: ng.IHttpService | null = null; 
+    private http: ng.IHttpService<#if(Model.SupportsStrictNullChecks){#> | null<#}#> = null; 
     protected jsonParseReviver: <#if(Model.SupportsStrictNullChecks){#>((key: string, value: any) => any) | undefined<#}else{#>(key: string, value: any) => any<#}#> = undefined;
 
     constructor($http: ng.IHttpService, baseUrl?: string) {
