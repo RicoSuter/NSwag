@@ -134,7 +134,21 @@ if(Model.IsAngular2){
             
             #line default
             #line hidden
-            this.Write("export const API_BASE_URL = new OpaqueToken(\'API_BASE_URL\');\r\n\r\n");
+            this.Write("export const ");
+            
+            #line 31 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.BaseUrlTokenName));
+            
+            #line default
+            #line hidden
+            this.Write(" = new OpaqueToken(\'");
+            
+            #line 31 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.BaseUrlTokenName));
+            
+            #line default
+            #line hidden
+            this.Write("\');\r\n\r\n");
             
             #line 33 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
 }

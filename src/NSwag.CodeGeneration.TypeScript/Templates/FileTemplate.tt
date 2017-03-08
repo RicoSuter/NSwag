@@ -28,7 +28,7 @@ module <#=Model.ModuleName#> {
 namespace <#=Model.Namespace#> {
 <#}#>
 <#if(Model.IsAngular2){#>
-export const API_BASE_URL = new OpaqueToken('API_BASE_URL');
+export const <#=Model.BaseUrlTokenName#> = new OpaqueToken('<#=Model.BaseUrlTokenName#>');
 
 <#}#>
 <#=Model.ExtensionCodeTop#>
