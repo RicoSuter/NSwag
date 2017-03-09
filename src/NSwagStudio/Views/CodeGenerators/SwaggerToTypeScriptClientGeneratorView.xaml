@@ -52,8 +52,13 @@
 
                                 <StackPanel Visibility="{Binding Command.Template, ConverterParameter='JQueryPromises', Converter={StaticResource EqualityConverter}}">
                                     <TextBlock Text="Promise Type" FontWeight="Bold" Margin="0,0,0,6" />
-                                    <ComboBox SelectedItem="{Binding Command.PromiseType, Mode=TwoWay}" 
+                                    <ComboBox SelectedItem="{Binding Command.PromiseType, Mode=TwoWay}" ToolTip="PromiseTypes" 
                                               ItemsSource="{Binding PromiseTypes}" Margin="0,0,0,12" />
+                                </StackPanel>
+
+                                <StackPanel Visibility="{Binding Command.Template, ConverterParameter='Angular2', Converter={StaticResource EqualityConverter}}">
+                                    <TextBlock Text="Base URL Token Name" FontWeight="Bold" Margin="0,0,0,6" />
+                                    <TextBox Text="{Binding Command.BaseUrlTokenName, Mode=TwoWay}" ToolTip="BaseUrlTokenName" Margin="0,0,0,12" />
                                 </StackPanel>
 
                                 <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
