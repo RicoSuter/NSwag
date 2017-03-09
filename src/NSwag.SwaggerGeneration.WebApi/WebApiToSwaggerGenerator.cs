@@ -353,14 +353,20 @@ namespace NSwag.SwaggerGeneration.WebApi
 
             if (httpMethods.Length == 0)
             {
-                if (actionName.StartsWith("Get"))
+                if (actionName.StartsWith("Get", StringComparison.OrdinalIgnoreCase))
                     yield return SwaggerOperationMethod.Get;
-                else if (actionName.StartsWith("Post"))
+                else if (actionName.StartsWith("Post", StringComparison.OrdinalIgnoreCase))
                     yield return SwaggerOperationMethod.Post;
-                else if (actionName.StartsWith("Put"))
+                else if (actionName.StartsWith("Put", StringComparison.OrdinalIgnoreCase))
                     yield return SwaggerOperationMethod.Put;
-                else if (actionName.StartsWith("Delete"))
+                else if (actionName.StartsWith("Delete", StringComparison.OrdinalIgnoreCase))
                     yield return SwaggerOperationMethod.Delete;
+                else if (actionName.StartsWith("Patch", StringComparison.OrdinalIgnoreCase))
+                    yield return SwaggerOperationMethod.Patch;
+                else if (actionName.StartsWith("Options", StringComparison.OrdinalIgnoreCase))
+                    yield return SwaggerOperationMethod.Options;
+                else if (actionName.StartsWith("Head", StringComparison.OrdinalIgnoreCase))
+                    yield return SwaggerOperationMethod.Head;
                 else
                     yield return SwaggerOperationMethod.Post;
             }
