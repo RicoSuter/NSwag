@@ -51,11 +51,11 @@ public partial interface I<#=Model.Class#>
     
 <#}#>
 <#if(Model.InjectHttpClient){#>
-    private System.Net.Http.HttpClient _httpClient; 
+    private <#=Model.HttpClientType#> _httpClient; 
 
 <#}#>
 <#if(Model.HasConfigurationClass){#>
-    public <#=Model.Class#>(<#=Model.ConfigurationClass#> configuration<#if(Model.InjectHttpClient){#>, System.Net.Http.HttpClient httpClient<#}#>) : base(configuration)
+    public <#=Model.Class#>(<#=Model.ConfigurationClass#> configuration<#if(Model.InjectHttpClient){#>, <#=Model.HttpClientType#> httpClient<#}#>) : base(configuration)
     {
 <#if(Model.InjectHttpClient){#>
         _httpClient = httpClient; 
@@ -63,7 +63,7 @@ public partial interface I<#=Model.Class#>
     }
 
 <#}else if(Model.UseBaseUrl && string.IsNullOrEmpty(Model.BaseUrl)){#>
-    public <#=Model.Class#>(string baseUrl<#if(Model.InjectHttpClient){#>, System.Net.Http.HttpClient httpClient<#}#>)
+    public <#=Model.Class#>(string baseUrl<#if(Model.InjectHttpClient){#>, <#=Model.HttpClientType#> httpClient<#}#>)
     {
 <#if(Model.InjectHttpClient){#>
         _httpClient = httpClient; 
@@ -72,7 +72,7 @@ public partial interface I<#=Model.Class#>
     }
 
 <#}else if(Model.InjectHttpClient){#>
-    public <#=Model.Class#>(System.Net.Http.HttpClient httpClient)
+    public <#=Model.Class#>(<#=Model.HttpClientType#> httpClient)
     {
         _httpClient = httpClient; 
     }
@@ -86,9 +86,9 @@ public partial interface I<#=Model.Class#>
     }
 
 <#}#>
-    partial void PrepareRequest(System.Net.Http.HttpClient request, string url);
-    partial void PrepareRequest(System.Net.Http.HttpClient request, System.Text.StringBuilder urlBuilder);
-    partial void ProcessResponse(System.Net.Http.HttpClient request, System.Net.Http.HttpResponseMessage response);
+    partial void PrepareRequest(<#=Model.HttpClientType#> request, string url);
+    partial void PrepareRequest(<#=Model.HttpClientType#> request, System.Text.StringBuilder urlBuilder);
+    partial void ProcessResponse(<#=Model.HttpClientType#> request, System.Net.Http.HttpResponseMessage response);
 
 <#foreach(var operation in Model.Operations){#>
 <#  if(!Model.GenerateOptionalParameters){#>
@@ -172,7 +172,7 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(<#
 <#      }else if(Model.UseHttpClientCreationMethod){#>
         var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
 <#      }else{#>
-        var client_ = new System.Net.Http.HttpClient();
+        var client_ = new <#=Model.HttpClientType#>();
 <#      }#>
         try
         {
