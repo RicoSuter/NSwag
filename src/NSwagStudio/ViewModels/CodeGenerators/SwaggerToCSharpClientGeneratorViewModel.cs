@@ -59,7 +59,7 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         {
             get
             {
-                return Command.AdditionalNamespaceUsages != null ? string.Join(",", Command.AdditionalNamespaceUsages) : "";
+                return Command?.AdditionalNamespaceUsages != null ? string.Join(",", Command.AdditionalNamespaceUsages) : "";
             }
             set
             {
@@ -76,7 +76,7 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         {
             get
             {
-                return Command.ExcludedTypeNames != null ? string.Join(",", Command.ExcludedTypeNames) : "";
+                return Command?.ExcludedTypeNames != null ? string.Join(",", Command.ExcludedTypeNames) : "";
             }
             set
             {
@@ -91,7 +91,7 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         /// <summary>Gets or sets the list of methods with a protected access modifier ("classname.methodname").</summary>
         public string ProtectedMethods
         {
-            get { return _command.ProtectedMethods != null ? string.Join(",", _command.ProtectedMethods) : ""; }
+            get { return _command?.ProtectedMethods != null ? string.Join(",", _command.ProtectedMethods) : ""; }
             set
             {
                 _command.ProtectedMethods = !string.IsNullOrEmpty(value) ? value.Split(',') : new string[] { };

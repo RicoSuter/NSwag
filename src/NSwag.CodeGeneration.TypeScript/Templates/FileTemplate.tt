@@ -11,14 +11,14 @@
 <#if(Model.IsAngular2){#>
 
 import 'rxjs/Rx'; 
-import {Observable} from 'rxjs/Observable';
-import {Injectable, Inject, Optional, OpaqueToken} from '@angular/core';
-import {Http, Headers, Response<#if(Model.UseTransformOptionsMethod){#>, RequestOptionsArgs<#}#>} from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import { Injectable, Inject, Optional, OpaqueToken } from '@angular/core';
+import { Http, Headers, Response<#if(Model.UseTransformOptionsMethod){#>, RequestOptionsArgs<#}#> } from '@angular/http';
 <#}#>
 <#if(Model.IsAurelia){#>
 
 import { inject } from 'aurelia-framework';
-import { HttpClient } from 'aurelia-fetch-client';
+import { HttpClient, RequestInit } from 'aurelia-fetch-client';
 <#}#>
 <#if(Model.IsAngular){#>
 
@@ -36,7 +36,7 @@ module <#=Model.ModuleName#> {
 namespace <#=Model.Namespace#> {
 <#}#>
 <#if(Model.IsAngular2){#>
-export const API_BASE_URL = new OpaqueToken('API_BASE_URL');
+export const <#=Model.BaseUrlTokenName#> = new OpaqueToken('<#=Model.BaseUrlTokenName#>');
 
 <#}#>
 <#=Model.ExtensionCodeTop#>

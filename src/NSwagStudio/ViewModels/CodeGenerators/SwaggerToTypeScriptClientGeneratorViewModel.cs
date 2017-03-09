@@ -91,7 +91,7 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         {
             get
             {
-                return Command.ExcludedTypeNames != null ? string.Join(",", Command.ExcludedTypeNames) : "";
+                return Command?.ExcludedTypeNames != null ? string.Join(",", Command.ExcludedTypeNames) : "";
             }
             set
             {
@@ -105,7 +105,7 @@ namespace NSwagStudio.ViewModels.CodeGenerators
 
         public string ClassTypes
         {
-            get { return _command.ClassTypes != null ? string.Join(",", _command.ClassTypes) : ""; }
+            get { return _command?.ClassTypes != null ? string.Join(",", _command.ClassTypes) : ""; }
             set
             {
                 _command.ClassTypes = !string.IsNullOrEmpty(value) ? value.Split(',') : new string[] { };
@@ -115,7 +115,7 @@ namespace NSwagStudio.ViewModels.CodeGenerators
 
         public string ExtendedClasses
         {
-            get { return _command.ExtendedClasses != null ? string.Join(",", _command.ExtendedClasses) : ""; }
+            get { return _command?.ExtendedClasses != null ? string.Join(",", _command.ExtendedClasses) : ""; }
             set
             {
                 _command.ExtendedClasses = !string.IsNullOrEmpty(value) ? value.Split(',') : new string[] { };

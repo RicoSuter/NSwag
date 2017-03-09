@@ -106,6 +106,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Table containing list of the generated classes.</summary>
         public string[] ClientClasses { get; }
 
+        /// <summary>Gets or sets the token name for injecting the API base URL string (used in the Angular2 template).</summary>
+        public string BaseUrlTokenName => _settings.BaseUrlTokenName;
+
         private string GenerateDtoTypes()
         {
             return _settings.GenerateDtoTypes ? _resolver.GenerateTypes(_extensionCode) : string.Empty;

@@ -202,6 +202,13 @@ namespace NSwag.Commands
             set { Settings.TypeScriptGeneratorSettings.ExcludedTypeNames = value; }
         }
 
+        [Argument(Name = "BaseUrlTokenName", IsRequired = false, Description = "The token name for injecting the API base URL string (used in the Angular2 template, default: 'API_BASE_URL').")]
+        public string BaseUrlTokenName
+        {
+            get { return Settings.BaseUrlTokenName; }
+            set { Settings.BaseUrlTokenName = value; }
+        }
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var code = await RunAsync();

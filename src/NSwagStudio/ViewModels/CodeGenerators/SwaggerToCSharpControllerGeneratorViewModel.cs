@@ -58,7 +58,7 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         {
             get
             {
-                return Command.AdditionalNamespaceUsages != null ? string.Join(",", Command.AdditionalNamespaceUsages) : "";
+                return Command?.AdditionalNamespaceUsages != null ? string.Join(",", Command.AdditionalNamespaceUsages) : "";
             }
             set
             {

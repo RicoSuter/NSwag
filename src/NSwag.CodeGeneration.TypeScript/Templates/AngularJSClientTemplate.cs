@@ -302,8 +302,21 @@ if(Model.SupportsStrictNullChecks){
             
             #line default
             #line hidden
-            this.Write(" = undefined; \r\n    private http: ng.IHttpService | null = null; \r\n    protected " +
-                    "jsonParseReviver: ");
+            this.Write(" = undefined; \r\n    private http: ng.IHttpService");
+            
+            #line 22 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularJSClientTemplate.tt"
+if(Model.SupportsStrictNullChecks){
+            
+            #line default
+            #line hidden
+            this.Write(" | null");
+            
+            #line 22 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularJSClientTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write(" = null; \r\n    protected jsonParseReviver: ");
             
             #line 23 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularJSClientTemplate.tt"
 if(Model.SupportsStrictNullChecks){

@@ -30,7 +30,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
         super();
 <#}#>
         this.baseUrl = baseUrl ? baseUrl : "";
-        this.http = http ? http : window;
+        this.http = http ? http : <any>window;;
     }
 <#if(Model.HasExtensionClass && !Model.HasClientBaseClass){#>
 <#  if(Model.UseTransformOptionsMethod){#>
