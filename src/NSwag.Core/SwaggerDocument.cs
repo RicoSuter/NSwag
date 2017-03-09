@@ -177,7 +177,9 @@ namespace NSwag
             });
             document.DocumentPath = documentPath;
 
-            var schemaResolver = new JsonSchemaResolver(documentPath, new JsonSchemaGeneratorSettings());
+            var jsonSchema = JsonSchema4.FromData(data);
+
+            var schemaResolver = new JsonSchemaResolver(jsonSchema, new JsonSchemaGeneratorSettings());
             var referenceResolver = new JsonReferenceResolver(schemaResolver); 
             await JsonSchemaReferenceUtilities.UpdateSchemaReferencesAsync(document, referenceResolver).ConfigureAwait(false);
             return document;
