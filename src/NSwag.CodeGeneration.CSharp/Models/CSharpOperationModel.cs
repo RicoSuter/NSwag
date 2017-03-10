@@ -152,7 +152,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <returns></returns>
         protected override CSharpResponseModel CreateResponseModel(string statusCode, SwaggerResponse response, JsonSchema4 exceptionSchema, IClientGenerator generator, ClientGeneratorBaseSettings settings)
         {
-            return new CSharpResponseModel(statusCode, response, response == GetSuccessResponse(), exceptionSchema, generator, settings.CodeGeneratorSettings);
+            return new CSharpResponseModel(statusCode, response, HttpUtilities.IsSuccessStatusCode(statusCode), exceptionSchema, generator, settings.CodeGeneratorSettings);
         }
     }
 }

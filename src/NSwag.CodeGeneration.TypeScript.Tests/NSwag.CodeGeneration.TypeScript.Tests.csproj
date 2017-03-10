@@ -60,10 +60,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArrayParameterTests.cs" />
+    <Compile Include="StatusCodeHandlingTests.cs" />
     <Compile Include="OperationParameterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj">
+      <Project>{ca084154-e758-4a44-938d-7806af2dd886}</Project>
+      <Name>NSwag.Annotations</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NSwag.CodeGeneration.TypeScript\NSwag.CodeGeneration.TypeScript.csproj">
       <Project>{9293CFCD-6C7B-43E0-9FBD-88753EBF64CC}</Project>
       <Name>NSwag.CodeGeneration.TypeScript</Name>
