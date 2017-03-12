@@ -94,6 +94,13 @@ namespace NSwag.Commands
             set { Settings.UseHttpClientCreationMethod = value; }
         }
 
+        [Argument(Name = "HttpClientType", IsRequired = false, Description = "Specifies the HttpClient type. By default the 'System.Net.Http.HttpClient' is used.")]
+        public string HttpClientType
+        {
+            get { return Settings.HttpClientType; }
+            set { Settings.HttpClientType = value; }
+        }
+
         [Argument(Name = "UseHttpRequestMessageCreationMethod", IsRequired = false,
                   Description = "Specifies whether to call CreateHttpRequestMessageAsync on the base class to create a new HttpRequestMethod.")]
         public bool UseHttpRequestMessageCreationMethod

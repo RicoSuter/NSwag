@@ -20,6 +20,7 @@ namespace NSwag.CodeGeneration.CSharp
             ExceptionClass = "SwaggerException";
             ClientClassAccessModifier = "public";
             UseBaseUrl = true;
+            HttpClientType = "System.Net.Http.HttpClient";
         }
 
         /// <summary>Gets or sets the full name of the base class.</summary>
@@ -54,5 +55,11 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets a value indicating whether to generate synchronous methods (not recommended, default: false).</summary>
         public bool GenerateSyncMethods { get; set; }
+
+        /// <summary>
+        /// Gets or sets the HttpClient type which will be used in the generation of the client code. By default the System.Net.Http.HttpClient
+        /// will be used, but this can be overridden. Just keep in mind that the type you specify has the same default HttpClient method signatures.
+        /// </summary>
+        public string HttpClientType { get; set; }
     }
 }
