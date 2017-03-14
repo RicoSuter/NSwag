@@ -25,6 +25,7 @@
 *.inc text
 *.ini text
 *.js text
+nswag.js text eol=lf
 *.jsx text
 *.json text
 *.less text
