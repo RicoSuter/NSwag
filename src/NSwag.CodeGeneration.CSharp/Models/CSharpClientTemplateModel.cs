@@ -109,6 +109,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets the operations.</summary>
         public IEnumerable<CSharpOperationModel> Operations { get; }
 
+        /// <summary>Gets or sets a value indicating whether DTO exceptions are wrapped in a SwaggerException instance.</summary>
+        public bool WrapDtoExceptions => _settings.WrapDtoExceptions;
+
         /// <summary>Gets the JSON serializer parameter code.</summary>
         public string JsonSerializerParameterCode
         {

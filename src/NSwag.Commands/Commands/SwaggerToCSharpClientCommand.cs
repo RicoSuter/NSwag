@@ -87,6 +87,13 @@ namespace NSwag.Commands
             set { Settings.ExceptionClass = value; }
         }
 
+        [Argument(Name = "WrapDtoExceptions", IsRequired = false, Description = "Specifies whether DTO exceptions are wrapped in a SwaggerException instance (default: true).")]
+        public bool WrapDtoExceptions
+        {
+            get { return Settings.WrapDtoExceptions; }
+            set { Settings.WrapDtoExceptions = value; }
+        }
+
         [Argument(Name = "UseHttpClientCreationMethod", IsRequired = false, Description = "Specifies whether to call CreateHttpClientAsync on the base class to create a new HttpClient.")]
         public bool UseHttpClientCreationMethod
         {
