@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <Description>NSwag: The Swagger API toolchain for .NET and TypeScript</Description>
-    <VersionPrefix>9.10.0</VersionPrefix>
+    <VersionPrefix>9.11.0</VersionPrefix>
     <Authors>Rico Suter</Authors>
     <TargetFrameworks>netcoreapp1.0;netcoreapp1.1</TargetFrameworks>
     <AssemblyName>dotnet-nswag</AssemblyName>
@@ -24,15 +23,12 @@
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <Version>9.11.0</Version>
   </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\NSwag.AssemblyLoaderCore\NSwag.AssemblyLoaderCore.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="NConsole" Version="3.4.6206.26897" />
-    <PackageReference Include="System.IO.FileSystem" Version="4.3.0" />
+    <PackageReference Include="System.IO.FileSystem" Version="4.0.1" />
     <PackageReference Include="System.Net.Http" Version="4.3.0" />
   </ItemGroup>
-
 </Project>
