@@ -27,7 +27,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NSwag.AssemblyLoaderCore\NSwag.AssemblyLoaderCore.csproj" />
-    <ProjectReference Include="..\NSwag.Commands\NSwag.Commands.csproj" />
   </ItemGroup>
 
   <ItemGroup>

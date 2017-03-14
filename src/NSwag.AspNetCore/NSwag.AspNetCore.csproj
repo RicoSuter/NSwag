@@ -30,16 +30,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj" />
-    <ProjectReference Include="..\NSwag.SwaggerGeneration\NSwag.SwaggerGeneration.csproj" />
-    <ProjectReference Include="..\NSwag.SwaggerGeneration.WebApi\NSwag.SwaggerGeneration.WebApi.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="1.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.0.2" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="1.0.1" />
     <PackageReference Include="NJsonSchema" Version="8.9.6275.22295" />
+    <PackageReference Include="NSwag.Annotations" Version="9.10.6277.17570" />
+    <PackageReference Include="NSwag.SwaggerGeneration.WebApi" Version="9.10.6277.17571" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net451' ">
