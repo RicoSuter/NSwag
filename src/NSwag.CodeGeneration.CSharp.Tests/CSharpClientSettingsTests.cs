@@ -72,5 +72,40 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             //// Assert
             Assert.IsTrue(code.Contains("Task<object> GetPersonAsync(bool? @override, "));
         }
+
+        [TestMethod]
+        public async Task When_code_is_generated_then_by_default_the_system_httpclient_is_used()
+        {
+            //// Arrange
+            var swaggerGenerator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
+
+            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+
+            //// Act
+            var code = generator.GenerateFile();
+
+            //// Assert
+            Assert.IsTrue(code.Contains("var client_ = new System.Net.Http.HttpClient();"));
+        }
+
+        [TestMethod]
+        public async Task When_custom_http_client_type_is_specified_then_an_instance_of_that_type_is_used()
+        {
+            //// Arrange
+            var swaggerGenerator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
+
+            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
+            {
+                HttpClientType = "CustomNamespace.CustomHttpClient"
+            });
+
+            //// Act
+            var code = generator.GenerateFile();
+
+            //// Assert
+            Assert.IsTrue(code.Contains("var client_ = new CustomNamespace.CustomHttpClient();"));
+        }
     }
 }

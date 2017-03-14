@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.Collections.Generic;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 
@@ -49,6 +50,12 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Gets a value indicating whether this is success response.</summary>
         public bool IsSuccess { get; }
 
+        /// <summary>Gets a value indicating whether this is an exceptional response.</summary>
+        public bool IsException => !IsSuccess;
+
+        /// <summary>Gets or sets the expected child schemas of the base schema (can be used for generating enhanced typings/documentation).</summary>
+        public ICollection<JsonExpectedSchema> ExpectedSchemas => _response.ExpectedSchemas;
+
         /// <summary>Gets a value indicating whether the response is of type date.</summary>
         public bool IsDate =>
             (_response.ActualResponseSchema.Format == JsonFormatStrings.DateTime ||
@@ -73,6 +80,6 @@ namespace NSwag.CodeGeneration.Models
         public bool IsNullable => _response.IsNullable(_settings.NullHandling);
 
         /// <summary>Gets a value indicating whether the response type inherits from exception.</summary>
-        public bool InheritsExceptionSchema => _response.InheritsExceptionSchema(_exceptionSchema);
+        public bool InheritsExceptionSchema => _response.ActualResponseSchema.InheritsSchema(_exceptionSchema);
     }
 }

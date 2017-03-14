@@ -93,7 +93,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets or sets the token name for injecting the API base URL string (used in the Angular2 template).</summary>
         public string BaseUrlTokenName => _settings.BaseUrlTokenName;
 
-        /// <summary>Gets or sets a value indicating whether DTO exceptions are wrapped in a SwaggerException instance (default: false).</summary>
+        /// <summary>Gets or sets a value indicating whether DTO exceptions are wrapped in a SwaggerException instance.</summary>
         public bool WrapDtoExceptions => _settings.WrapDtoExceptions;
     }
 }

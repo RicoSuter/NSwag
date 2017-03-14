@@ -7,7 +7,6 @@
 //-----------------------------------------------------------------------
 
 using System.Collections.Generic;
-using System.Linq;
 using Newtonsoft.Json;
 using NJsonSchema;
 
@@ -45,13 +44,9 @@ namespace NSwag
         [JsonExtensionData]
         public IDictionary<string, object> ExtensionData { get; set; }
 
-        /// <summary>Gets a value indicating whether the response schema is an exception.</summary>
-        public bool InheritsExceptionSchema(JsonSchema4 exceptionSchema)
-        {
-            return exceptionSchema != null && ActualResponseSchema?
-                .AllInheritedSchemas.Concat(new List<JsonSchema4> { ActualResponseSchema })
-                .Any(s => s.ActualSchema == exceptionSchema.ActualSchema) == true;
-        }
+        /// <summary>Gets or sets the expected child schemas of the base schema (can be used for generating enhanced typings/documentation).</summary>
+        [JsonProperty(PropertyName = "x-expectedSchemas", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public ICollection<JsonExpectedSchema> ExpectedSchemas { get; set; }
 
         /// <summary>Determines whether the specified null handling is nullable (fallback value: false).</summary>
         /// <param name="nullHandling">The null handling.</param>
@@ -85,5 +80,17 @@ namespace NSwag
 
             return Schema?.ActualSchema;
         }
+    }
+
+    /// <summary></summary>
+    public class JsonExpectedSchema
+    {
+        /// <summary>Gets or sets the description.</summary>
+        [JsonProperty(PropertyName = "description", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string Description { get; set; }
+
+        /// <summary>Gets or sets the schema.</summary>
+        [JsonProperty(PropertyName = "schema", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public JsonSchema4 Schema { get; set; }
     }
 }
