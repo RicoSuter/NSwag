@@ -80,6 +80,6 @@ namespace NSwag.CodeGeneration.Models
         public bool IsNullable => _response.IsNullable(_settings.NullHandling);
 
         /// <summary>Gets a value indicating whether the response type inherits from exception.</summary>
-        public bool InheritsExceptionSchema => _response.InheritsExceptionSchema(_exceptionSchema);
+        public bool InheritsExceptionSchema => _response.ActualResponseSchema.InheritsSchema(_exceptionSchema);
     }
 }

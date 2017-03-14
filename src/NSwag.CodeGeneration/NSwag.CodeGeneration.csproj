@@ -73,6 +73,7 @@
     <Compile Include="ClientGeneratorBaseSettings.cs" />
     <Compile Include="OperationNameGenerators\SingleClientFromOperationIdOperationNameGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SchemaExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -83,7 +83,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             _generator.GetTypeName(r.ActualResponseSchema, r.IsNullable(_settings.CSharpGeneratorSettings.NullHandling), "Response"));
 
         private IEnumerable<SwaggerResponse> ResponsesInheritingFromException =>
-            _document.Operations.SelectMany(o => o.Operation.AllResponses.Values.Where(r => r.InheritsExceptionSchema(_resolver.ExceptionSchema)));
+            _document.Operations.SelectMany(o => o.Operation.AllResponses.Values.Where(r => r.ActualResponseSchema.InheritsSchema(_resolver.ExceptionSchema)));
 
         /// <summary>Gets a value indicating whether the generated code requires the FileParameter type.</summary>
         public bool RequiresFileParameterType => 

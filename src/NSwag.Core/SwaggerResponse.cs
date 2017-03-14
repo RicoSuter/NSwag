@@ -7,7 +7,6 @@
 //-----------------------------------------------------------------------
 
 using System.Collections.Generic;
-using System.Linq;
 using Newtonsoft.Json;
 using NJsonSchema;
 
@@ -48,14 +47,6 @@ namespace NSwag
         /// <summary>Gets or sets the expected child schemas of the base schema (can be used for generating enhanced typings/documentation).</summary>
         [JsonProperty(PropertyName = "x-expectedSchemas", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public ICollection<JsonExpectedSchema> ExpectedSchemas { get; set; }
-
-        /// <summary>Gets a value indicating whether the response schema is an exception.</summary>
-        public bool InheritsExceptionSchema(JsonSchema4 exceptionSchema)
-        {
-            return exceptionSchema != null && ActualResponseSchema?
-                .AllInheritedSchemas.Concat(new List<JsonSchema4> { ActualResponseSchema })
-                .Any(s => s.ActualSchema == exceptionSchema.ActualSchema) == true;
-        }
 
         /// <summary>Determines whether the specified null handling is nullable (fallback value: false).</summary>
         /// <param name="nullHandling">The null handling.</param>
