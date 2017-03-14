@@ -9,33 +9,60 @@ public partial interface I<#=Model.Class#>
 {
 <#foreach(var operation in Model.Operations.Where(o => o.IsInterfaceMethod)){#>
 <#  if(!Model.GenerateOptionalParameters){#>
-<#      if(operation.HasSummary){#>    /// <summary><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)#></summary>
+<#      if(operation.HasSummary){#>
+    /// <summary><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)#></summary>
 <#      }foreach (var parameter in operation.Parameters){#>
-<#          if(parameter.HasDescription){#>    /// <param name="<#=parameter.VariableName#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
-<#      }}if(operation.HasResultDescription){#>    /// <returns><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)#></returns>
-<#      }#>    /// <exception cref="<#=Model.ExceptionClass#>">A server side error occurred.</exception>
-<#      if(operation.IsDeprecated){#>    [System.Obsolete]
-<#      }#>    <#=operation.ResultType#> <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#><#if(!parameter.IsLast){#>, <#}}#>);
+<#          if(parameter.HasDescription){#>
+    /// <param name="<#=parameter.VariableName#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
+<#      }}if(operation.HasResultDescription){#>
+    /// <returns><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)#></returns>
+<#      }#>
+    /// <exception cref="<#=Model.ExceptionClass#>">A server side error occurred.</exception>
+<#      foreach(var exception in operation.ExceptionDescriptions){#>
+    /// <exception cref="<#=exception.Type#>"><#=exception.Description#></exception>
+<#      }#>
+<#      if(operation.IsDeprecated){#>
+    [System.Obsolete]
+<#      }#>
+    <#=operation.ResultType#> <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#><#if(!parameter.IsLast){#>, <#}}#>);
 
 <#  }#>
 <#  if(Model.GenerateSyncMethods){#>
-<#      if(operation.HasSummary){#>    /// <summary><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)#></summary>
+<#      if(operation.HasSummary){#>
+    /// <summary><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)#></summary>
 <#      }foreach (var parameter in operation.Parameters){#>
-<#          if(parameter.HasDescription){#>    /// <param name="<#=parameter.VariableName#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
-<#      }}if(operation.HasResultDescription){#>    /// <returns><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)#></returns>
-<#      }#>    /// <exception cref="<#=Model.ExceptionClass#>">A server side error occurred.</exception>
-<#      if(operation.IsDeprecated){#>    [System.Obsolete]
-<#      }#>    <#=operation.UnwrappedResultType#> <#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#><#if(!parameter.IsLast){#>, <#}}#>);
+<#          if(parameter.HasDescription){#>
+    /// <param name="<#=parameter.VariableName#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
+<#      }}if(operation.HasResultDescription){#>
+    /// <returns><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)#></returns>
+<#      }#>
+    /// <exception cref="<#=Model.ExceptionClass#>">A server side error occurred.</exception>
+<#      foreach(var exception in operation.ExceptionDescriptions){#>
+    /// <exception cref="<#=exception.Type#>"><#=exception.Description#></exception>
+<#      }#>
+<#      if(operation.IsDeprecated){#>
+    [System.Obsolete]
+<#      }#>
+    <#=operation.UnwrappedResultType#> <#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#><#if(!parameter.IsLast){#>, <#}}#>);
 
 <#  }#>
-<#  if(operation.HasSummary){#>    /// <summary><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)#></summary>
+<#  if(operation.HasSummary){#>
+    /// <summary><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)#></summary>
 <#  }foreach (var parameter in operation.Parameters){#>
-<#      if(parameter.HasDescription){#>    /// <param name="<#=parameter.VariableName#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
+<#      if(parameter.HasDescription){#>
+    /// <param name="<#=parameter.VariableName#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
 <#  }}#>    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-<#  if(operation.HasResultDescription){#>    /// <returns><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)#></returns>
-<#  }#>    /// <exception cref="<#=Model.ExceptionClass#>">A server side error occurred.</exception>
-<#  if(operation.IsDeprecated){#>    [System.Obsolete]
-<#  }#>    <#=operation.ResultType#> <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#>, <#}#>System.Threading.CancellationToken cancellationToken<#if(Model.GenerateOptionalParameters){#> = default(System.Threading.CancellationToken)<#}#>);
+<#  if(operation.HasResultDescription){#>
+    /// <returns><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)#></returns>
+<#  }#>
+    /// <exception cref="<#=Model.ExceptionClass#>">A server side error occurred.</exception>
+<#      foreach(var exception in operation.ExceptionDescriptions){#>
+    /// <exception cref="<#=exception.Type#>"><#=exception.Description#></exception>
+<#      }#>
+<#      if(operation.IsDeprecated){#>
+    [System.Obsolete]
+<#      }#>
+    <#=operation.ResultType#> <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#>, <#}#>System.Threading.CancellationToken cancellationToken<#if(Model.GenerateOptionalParameters){#> = default(System.Threading.CancellationToken)<#}#>);
 
 <#}#>
 }
@@ -92,39 +119,67 @@ public partial interface I<#=Model.Class#>
 
 <#foreach(var operation in Model.Operations){#>
 <#  if(!Model.GenerateOptionalParameters){#>
-<#      if(operation.HasSummary){#>    /// <summary><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)#></summary>
+<#      if(operation.HasSummary){#>
+    /// <summary><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)#></summary>
 <#      }foreach (var parameter in operation.Parameters){#>
-<#          if(parameter.HasDescription){#>    /// <param name="<#=parameter.VariableName#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
-<#      }}if(operation.HasResultDescription){#>    /// <returns><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)#></returns>
-<#      }#>    /// <exception cref="<#=Model.ExceptionClass#>">A server side error occurred.</exception>
-<#      if(operation.IsDeprecated){#>    [System.Obsolete]
-<#      }#>    <#=operation.MethodAccessModifier#> <#=operation.ResultType#> <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#><#if(!parameter.IsLast){#>, <#}}#>)
+<#          if(parameter.HasDescription){#>
+    /// <param name="<#=parameter.VariableName#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
+<#      }}if(operation.HasResultDescription){#>
+    /// <returns><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)#></returns>
+<#      }#>
+    /// <exception cref="<#=Model.ExceptionClass#>">A server side error occurred.</exception>
+<#  foreach(var exception in operation.ExceptionDescriptions){#>
+    /// <exception cref="<#=exception.Type#>"><#=exception.Description#></exception>
+<#      }#>
+<#  if(operation.IsDeprecated){#>
+    [System.Obsolete]
+<#  }#>
+    <#=operation.MethodAccessModifier#> <#=operation.ResultType#> <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#><#if(!parameter.IsLast){#>, <#}}#>)
     {
         return <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>, <#}#>System.Threading.CancellationToken.None);
     }
 
 <#  }#>
 <#  if(Model.GenerateSyncMethods){#>
-<#      if(operation.HasSummary){#>    /// <summary><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)#></summary>
+<#      if(operation.HasSummary){#>
+    /// <summary><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)#></summary>
 <#      }foreach (var parameter in operation.Parameters){#>
-<#          if(parameter.HasDescription){#>    /// <param name="<#=parameter.VariableName#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
-<#      }}if(operation.HasResultDescription){#>    /// <returns><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)#></returns>
-<#      }#>    /// <exception cref="<#=Model.ExceptionClass#>">A server side error occurred.</exception>
-<#      if(operation.IsDeprecated){#>    [System.Obsolete]
-<#      }#>    <#=operation.MethodAccessModifier#> <#=operation.UnwrappedResultType#> <#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#><#if(!parameter.IsLast){#>, <#}}#>)
+<#          if(parameter.HasDescription){#>
+    /// <param name="<#=parameter.VariableName#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
+<#      }}if(operation.HasResultDescription){#>
+    /// <returns><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)#></returns>
+<#      }#>
+    /// <exception cref="<#=Model.ExceptionClass#>">A server side error occurred.</exception>
+<#  foreach(var exception in operation.ExceptionDescriptions){#>
+    /// <exception cref="<#=exception.Type#>"><#=exception.Description#></exception>
+<#      }#>
+<#  if(operation.IsDeprecated){#>
+    [System.Obsolete]
+<#  }#>
+    <#=operation.MethodAccessModifier#> <#=operation.UnwrappedResultType#> <#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#><#if(!parameter.IsLast){#>, <#}}#>)
     {
         <#if(operation.HasResult){#>return <#}#>System.Threading.Tasks.Task.Run(async () => await <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>, <#}#>System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
     }
 
 <#  }#>
-<#  if(operation.HasSummary){#>    /// <summary><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)#></summary>
+<#  if(operation.HasSummary){#>
+    /// <summary><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)#></summary>
 <#  }foreach (var parameter in operation.Parameters){#>
-<#      if(parameter.HasDescription){#>    /// <param name="<#=parameter.VariableName#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
-<#  }}#>    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-<#  if(operation.HasResultDescription){#>    /// <returns><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)#></returns>
-<#  }#>    /// <exception cref="<#=Model.ExceptionClass#>">A server side error occurred.</exception>
-<#  if(operation.IsDeprecated){#>    [System.Obsolete]
-<#  }#>    <#=operation.MethodAccessModifier#> async <#=operation.ResultType#> <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#>, <#}#>System.Threading.CancellationToken cancellationToken<#if(Model.GenerateOptionalParameters){#> = default(System.Threading.CancellationToken)<#}#>)
+<#      if(parameter.HasDescription){#>
+    /// <param name="<#=parameter.VariableName#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
+<#  }}#>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+<#  if(operation.HasResultDescription){#>
+    /// <returns><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)#></returns>
+<#  }#>
+    /// <exception cref="<#=Model.ExceptionClass#>">A server side error occurred.</exception>
+<#  foreach(var exception in operation.ExceptionDescriptions){#>
+    /// <exception cref="<#=exception.Type#>"><#=exception.Description#></exception>
+<#      }#>
+<#  if(operation.IsDeprecated){#>
+    [System.Obsolete]
+<#  }#>
+    <#=operation.MethodAccessModifier#> async <#=operation.ResultType#> <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#>, <#}#>System.Threading.CancellationToken cancellationToken<#if(Model.GenerateOptionalParameters){#> = default(System.Threading.CancellationToken)<#}#>)
     {
 <#foreach(var parameter in operation.PathParameters){#>
         if (<#=parameter.VariableName#> == null)

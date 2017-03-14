@@ -45,6 +45,10 @@ namespace NSwag
         [JsonExtensionData]
         public IDictionary<string, object> ExtensionData { get; set; }
 
+        /// <summary>Gets or sets the expected child schemas of the base schema (can be used for generating enhanced typings/documentation).</summary>
+        [JsonProperty(PropertyName = "x-expectedSchemas", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public ICollection<JsonExpectedSchema> ExpectedSchemas { get; set; }
+
         /// <summary>Gets a value indicating whether the response schema is an exception.</summary>
         public bool InheritsExceptionSchema(JsonSchema4 exceptionSchema)
         {
@@ -85,5 +89,17 @@ namespace NSwag
 
             return Schema?.ActualSchema;
         }
+    }
+
+    /// <summary></summary>
+    public class JsonExpectedSchema
+    {
+        /// <summary>Gets or sets the description.</summary>
+        [JsonProperty(PropertyName = "description", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string Description { get; set; }
+
+        /// <summary>Gets or sets the schema.</summary>
+        [JsonProperty(PropertyName = "schema", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public JsonSchema4 Schema { get; set; }
     }
 }

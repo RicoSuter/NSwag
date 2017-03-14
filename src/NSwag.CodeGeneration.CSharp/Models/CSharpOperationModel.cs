@@ -73,7 +73,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         }
 
         /// <summary>Gets the actual name of the operation (language specific).</summary>
-        public override string ActualOperationName => ConversionUtilities.ConvertToUpperCamelCase(OperationName, false) 
+        public override string ActualOperationName => ConversionUtilities.ConvertToUpperCamelCase(OperationName, false)
             + (MethodAccessModifier == "protected" ? "Core" : string.Empty);
 
         /// <summary>Gets a value indicating whether this operation is rendered as interface method.</summary>
@@ -111,6 +111,36 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
                 var response = _operation.Responses.Single(r => !HttpUtilities.IsSuccessStatusCode(r.Key)).Value;
                 return _generator.GetTypeName(response.ActualResponseSchema, response.IsNullable(_settings.CodeGeneratorSettings.NullHandling), "Exception");
+            }
+        }
+
+        /// <summary>Gets or sets the exception descriptions.</summary>
+        public IEnumerable<CSharpExceptionDescriptionModel> ExceptionDescriptions
+        {
+            get
+            {
+                var settings = (SwaggerToCSharpClientGeneratorSettings)_settings;
+                return Responses
+                    .Where(r => r.IsException)
+                    .SelectMany(r =>
+                    {
+                        if (r.ExpectedSchemas?.Any() == true)
+                        {
+                            return r.ExpectedSchemas
+                                .Select(s =>
+                                {
+                                    var schema = s.Schema;
+                                    var isNullable = schema.IsNullable(_settings.CSharpGeneratorSettings.NullHandling);
+                                    var typeName = _generator.GetTypeName(schema.ActualSchema, isNullable, "Response");
+                                    return new CSharpExceptionDescriptionModel(typeName, s.Description, settings);
+                                });
+                        }
+
+                        return new[]
+                        {
+                            new CSharpExceptionDescriptionModel(r.Type, r.ExceptionDescription, settings)
+                        };
+                    });
             }
         }
 
