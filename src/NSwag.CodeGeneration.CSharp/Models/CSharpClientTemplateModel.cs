@@ -106,10 +106,20 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets the operations.</summary>
         public IEnumerable<CSharpOperationModel> Operations { get; }
 
-        /// <summary>Gets the JSON converters code.</summary>
-        public string JsonConverters => CSharpJsonConverters.GenerateConverters(
-            (_settings.CSharpGeneratorSettings.JsonConverters ?? new string[] { })
-            .Concat(RequiresJsonExceptionConverter ? new[] { "JsonExceptionConverter" } : new string[] { }));
+        /// <summary>Gets the JSON serializer parameter code.</summary>
+        public string JsonSerializerParameterCode
+        {
+            get
+            {
+                var handleReferences = _settings.CSharpGeneratorSettings.HandleReferences;
+
+                IEnumerable<string> jsonConverters = _settings.CSharpGeneratorSettings.JsonConverters ?? new string[] { };
+                if (RequiresJsonExceptionConverter)
+                    jsonConverters = jsonConverters.Concat(new[] { "JsonExceptionConverter" });
+
+                return CSharpJsonSerializerGenerator.GenerateJsonSerializerParameterCode(handleReferences, jsonConverters.ToList());
+            }
+        }
 
         private bool RequiresJsonExceptionConverter =>
             _document.Operations.Any(o => o.Operation.AllResponses.Any(r => r.Value.InheritsExceptionSchema(_exceptionSchema)));

@@ -35,7 +35,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
 
         private void AddControllerNameTag(OperationProcessorContext context)
         {
-            var controllerName = context.MethodInfo.DeclaringType.Name;
+            var controllerName = context.ControllerType.Name;
             if (controllerName.EndsWith("Controller"))
                 controllerName = controllerName.Substring(0, controllerName.Length - 10);
 

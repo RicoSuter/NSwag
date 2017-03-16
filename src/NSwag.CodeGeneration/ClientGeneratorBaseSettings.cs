@@ -40,6 +40,9 @@ namespace NSwag.CodeGeneration
 
         /// <summary>Gets or sets the operation name generator.</summary>
         public IOperationNameGenerator OperationNameGenerator { get; set; }
+        
+        /// <summary>Gets or sets a value indicating whether to reorder parameters (required first, optional at the end) and generate optional C# parameters (default: false).</summary>
+        public bool GenerateOptionalParameters { get; set; }
 
         /// <summary>Generates the name of the controller based on the provided settings.</summary>
         /// <param name="controllerName">Name of the controller.</param>

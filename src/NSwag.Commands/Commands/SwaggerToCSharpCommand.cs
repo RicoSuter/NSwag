@@ -49,7 +49,7 @@ namespace NSwag.Commands
         }
 
         [Argument(Name = "GenerateOptionalParameters", IsRequired = false,
-                  Description = "Specifies whether to reorder parameters (required first, optional at the end) and generate optional C# parameters (default: false).")]
+                  Description = "Specifies whether to reorder parameters (required first, optional at the end) and generate optional parameters (default: false).")]
         public bool GenerateOptionalParameters
         {
             get { return Settings.GenerateOptionalParameters; }
@@ -160,6 +160,13 @@ namespace NSwag.Commands
         {
             get { return Settings.ResponseClass; }
             set { Settings.ResponseClass = value; }
+        }
+
+        [Argument(Name = "HandleReferences", IsRequired = false, Description = "Use preserve references handling (All) in the JSON serializer (default: false).")]
+        public bool HandleReferences
+        {
+            get { return Settings.CSharpGeneratorSettings.HandleReferences; }
+            set { Settings.CSharpGeneratorSettings.HandleReferences = value; }
         }
 
         [Argument(Name = "GenerateImmutableArrayProperties", IsRequired = false,

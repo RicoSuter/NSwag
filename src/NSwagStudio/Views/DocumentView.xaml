@@ -75,6 +75,7 @@
                             <CheckBox IsChecked="{Binding View.IsSelected}" 
                                       Visibility="{Binding View.IsPersistent, Converter={StaticResource NotConverter}}"
                                       Content="{Binding View.Title}"
+                                      ToolTip="{Binding View.PropertyName}"
                                       Margin="0,0,16,0" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

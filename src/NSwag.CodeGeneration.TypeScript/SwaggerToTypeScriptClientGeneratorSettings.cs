@@ -26,6 +26,7 @@ namespace NSwag.CodeGeneration.TypeScript
                 NullHandling = NullHandling.Swagger,
                 TemplateFactory = new DefaultTemplateFactory()
             };
+            BaseUrlTokenName = "API_BASE_URL";
         }
 
         /// <summary>Gets or sets the TypeScript generator settings.</summary>
@@ -54,6 +55,9 @@ namespace NSwag.CodeGeneration.TypeScript
 
         /// <summary>Gets or sets a value indicating whether to call 'transformResult' on the base class or extension class.</summary>
         public bool UseTransformResultMethod { get; set; }
+
+        /// <summary>Gets or sets the token name for injecting the API base URL string (used in the Angular2 template, default: '').</summary>
+        public string BaseUrlTokenName { get; set; }
 
         internal ITemplate CreateTemplate(object model)
         {

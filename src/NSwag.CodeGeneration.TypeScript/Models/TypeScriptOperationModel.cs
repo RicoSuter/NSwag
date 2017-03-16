@@ -9,7 +9,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
     /// <summary>The TypeScript operation model.</summary>
     public class TypeScriptOperationModel : OperationModelBase<TypeScriptParameterModel, TypeScriptResponseModel>
     {
-        private readonly ClientGeneratorBaseSettings _settings;
+        private readonly SwaggerToTypeScriptClientGeneratorSettings _settings;
         private readonly SwaggerToTypeScriptClientGenerator _generator;
         private readonly SwaggerOperation _operation;
 
@@ -19,8 +19,8 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <param name="generator">The generator.</param>
         /// <param name="resolver">The resolver.</param>
         public TypeScriptOperationModel(
-            SwaggerOperation operation, 
-            ClientGeneratorBaseSettings settings, 
+            SwaggerOperation operation,
+            SwaggerToTypeScriptClientGeneratorSettings settings, 
             SwaggerToTypeScriptClientGenerator generator, 
             ITypeResolver resolver)
             : base(null, operation, resolver, generator, settings)
@@ -29,10 +29,14 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             _settings = settings;
             _generator = generator;
 
-            Parameters = _operation.ActualParameters.Select(parameter =>
+            var parameters = _operation.ActualParameters.ToList();
+            if (settings.GenerateOptionalParameters)
+                parameters = parameters.OrderBy(p => !p.IsRequired).ToList();
+
+            Parameters = parameters.Select(parameter =>
                 new TypeScriptParameterModel(parameter.Name,
                     GetParameterVariableName(parameter, _operation.Parameters), ResolveParameterType(parameter),
-                    parameter, _operation.ActualParameters.ToList(), (SwaggerToTypeScriptClientGeneratorSettings)_settings, 
+                    parameter, _operation.ActualParameters.ToList(), _settings, 
                     _generator, (TypeScriptTypeResolver)resolver))
                 .ToList();
         }
@@ -45,6 +49,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         /// <summary>Gets or sets the type of the result.</summary>
         public override string ResultType => UnwrappedResultType;
+        
+        /// <summary>Gets a value indicating whether the target TypeScript version supports strict null checks.</summary>
+        public bool SupportsStrictNullChecks => _settings.TypeScriptGeneratorSettings.TypeScriptVersion >= 2.0m;
 
         /// <summary>Gets or sets the type of the exception.</summary>
         public override string ExceptionType

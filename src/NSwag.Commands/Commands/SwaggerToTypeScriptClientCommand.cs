@@ -100,6 +100,14 @@ namespace NSwag.Commands
             set { Settings.GenerateClientInterfaces = value; }
         }
 
+        [Argument(Name = "GenerateOptionalParameters", IsRequired = false,
+                  Description = "Specifies whether to reorder parameters (required first, optional at the end) and generate optional parameters (default: false).")]
+        public bool GenerateOptionalParameters
+        {
+            get { return Settings.GenerateOptionalParameters; }
+            set { Settings.GenerateOptionalParameters = value; }
+        }
+
         [Argument(Name = "WrapDtoExceptions", IsRequired = false, Description = "Specifies whether DTO exceptions are wrapped in a SwaggerException instance (default: false).")]
         public bool WrapDtoExceptions
         {
@@ -192,6 +200,13 @@ namespace NSwag.Commands
         {
             get { return Settings.TypeScriptGeneratorSettings.ExcludedTypeNames; }
             set { Settings.TypeScriptGeneratorSettings.ExcludedTypeNames = value; }
+        }
+
+        [Argument(Name = "BaseUrlTokenName", IsRequired = false, Description = "The token name for injecting the API base URL string (used in the Angular2 template, default: 'API_BASE_URL').")]
+        public string BaseUrlTokenName
+        {
+            get { return Settings.BaseUrlTokenName; }
+            set { Settings.BaseUrlTokenName = value; }
         }
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)

@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -117,7 +118,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
 
             return true;
         }
-        
+
         private async Task LoadDefaultSuccessResponseAsync(SwaggerOperation operation, MethodInfo methodInfo, string responseDescription, SwaggerGenerator swaggerGenerator)
         {
             var returnType = methodInfo.ReturnType;
@@ -135,9 +136,17 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
             }
             else
             {
-                var typeDescription = JsonObjectTypeDescription.FromType(returnType, 
-                    methodInfo.ReturnParameter?.GetCustomAttributes(), _settings.DefaultEnumHandling);
+                IEnumerable<Attribute> attributes;
+                try
+                {
+                    attributes = methodInfo.ReturnParameter?.GetCustomAttributes(true);
+                }
+                catch
+                {
+                    attributes = methodInfo.ReturnParameter?.GetCustomAttributes(false);
+                }
 
+                var typeDescription = JsonObjectTypeDescription.FromType(returnType, attributes, _settings.DefaultEnumHandling);
                 operation.Responses["200"] = new SwaggerResponse
                 {
                     Description = responseDescription,

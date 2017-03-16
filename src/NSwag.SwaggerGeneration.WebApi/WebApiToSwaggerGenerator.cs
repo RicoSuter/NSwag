@@ -144,11 +144,11 @@ namespace NSwag.SwaggerGeneration.WebApi
                     }
                 }
 
-                await AddOperationDescriptionsToDocumentAsync(document, operations, swaggerGenerator).ConfigureAwait(false);
+                await AddOperationDescriptionsToDocumentAsync(document, controllerType, operations, swaggerGenerator).ConfigureAwait(false);
             }
         }
 
-        private async Task AddOperationDescriptionsToDocumentAsync(SwaggerDocument document, List<Tuple<SwaggerOperationDescription, MethodInfo>> operations, SwaggerGenerator swaggerGenerator)
+        private async Task AddOperationDescriptionsToDocumentAsync(SwaggerDocument document, Type controllerType, List<Tuple<SwaggerOperationDescription, MethodInfo>> operations, SwaggerGenerator swaggerGenerator)
         {
             var allOperation = operations.Select(t => t.Item1).ToList();
             foreach (var tuple in operations)
@@ -156,7 +156,7 @@ namespace NSwag.SwaggerGeneration.WebApi
                 var operation = tuple.Item1;
                 var method = tuple.Item2;
 
-                var addOperation = await RunOperationProcessorsAsync(document, method, operation, allOperation, swaggerGenerator).ConfigureAwait(false);
+                var addOperation = await RunOperationProcessorsAsync(document, controllerType, method, operation, allOperation, swaggerGenerator).ConfigureAwait(false);
                 if (addOperation)
                 {
                     if (!document.Paths.ContainsKey(operation.Path))
@@ -170,13 +170,13 @@ namespace NSwag.SwaggerGeneration.WebApi
             }
         }
 
-        private async Task<bool> RunOperationProcessorsAsync(SwaggerDocument document, MethodInfo methodInfo,
+        private async Task<bool> RunOperationProcessorsAsync(SwaggerDocument document, Type controllerType, MethodInfo methodInfo,
             SwaggerOperationDescription operationDescription, List<SwaggerOperationDescription> allOperations, SwaggerGenerator swaggerGenerator)
         {
             // 1. Run from settings
             foreach (var operationProcessor in Settings.OperationProcessors)
             {
-                if (await operationProcessor.ProcessAsync(new OperationProcessorContext(document, operationDescription, methodInfo, swaggerGenerator, allOperations)).ConfigureAwait(false) == false)
+                if (await operationProcessor.ProcessAsync(new OperationProcessorContext(document, operationDescription, controllerType, methodInfo, swaggerGenerator, allOperations)).ConfigureAwait(false) == false)
                     return false;
             }
 

@@ -53,15 +53,24 @@ namespace NSwag
                 .Any(s => s.ActualSchema == exceptionSchema.ActualSchema) == true;
         }
 
-        /// <summary>Determines whether the specified null handling is nullable.</summary>
+        /// <summary>Determines whether the specified null handling is nullable (fallback value: false).</summary>
         /// <param name="nullHandling">The null handling.</param>
         /// <returns>The result.</returns>
         public bool IsNullable(NullHandling nullHandling)
         {
+            return IsNullable(nullHandling, false);
+        }
+
+        /// <summary>Determines whether the specified null handling is nullable.</summary>
+        /// <param name="nullHandling">The null handling.</param>
+        /// <param name="fallbackValue">The fallback value when 'x-nullable' is not defined.</param>
+        /// <returns>The result.</returns>
+        public bool IsNullable(NullHandling nullHandling, bool fallbackValue)
+        {
             if (nullHandling == NullHandling.Swagger)
             {
                 if (IsNullableRaw == null)
-                    return false;
+                    return fallbackValue;
 
                 return IsNullableRaw.Value;
             }

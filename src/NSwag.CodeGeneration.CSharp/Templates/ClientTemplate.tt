@@ -190,7 +190,7 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(<#
                 request_.Headers.TryAddWithoutValidation("<#=parameter.Name#>", <#=parameter.VariableName#> != null ? <#=parameter.VariableName#>.ToString() : null);
 <#}#>
 <#if(operation.HasContent){#>
-                var content_ = new System.Net.Http.StringContent(<#if(operation.HasXmlBodyParameter){#><#=operation.ContentParameter.VariableName#><#}else{#>Newtonsoft.Json.JsonConvert.SerializeObject(<#=operation.ContentParameter.VariableName#><#=Model.JsonConverters#>)<#}#>);
+                var content_ = new System.Net.Http.StringContent(<#if(operation.HasXmlBodyParameter){#><#=operation.ContentParameter.VariableName#><#}else{#>Newtonsoft.Json.JsonConvert.SerializeObject(<#=operation.ContentParameter.VariableName#><#=Model.JsonSerializerParameterCode#>)<#}#>);
                 content_.Headers.ContentType.MediaType = "<#=operation.Consumes#>";
 <#}else{#>
 <#  if(operation.HasFormParameters){#>
@@ -252,7 +252,7 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(<#
                         var result_ = default(<#=response.Type#>); 
                         try
                         {
-                            result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<<#=response.Type#>>(responseData_<#=Model.JsonConverters#>);
+                            result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<<#=response.Type#>>(responseData_<#=Model.JsonSerializerParameterCode#>);
 <#      if(response.IsSuccess){#>
 <#          if (Model.WrapResponses){#>
                             return new <#=Model.ResponseClass#><<#=operation.UnwrappedResultType#>>(status_, headers_, result_); 
@@ -318,7 +318,7 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(<#
                         var result_ = default(<#=operation.DefaultResponse.Type#>); 
                         try
                         {
-                            result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<<#=operation.DefaultResponse.Type#>>(responseData_<#=Model.JsonConverters#>);
+                            result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<<#=operation.DefaultResponse.Type#>>(responseData_<#=Model.JsonSerializerParameterCode#>);
 
 <#          if(operation.HasOnlyDefaultResponse){#>
                             if (status_.Length == 3 && status_.StartsWith("2"))

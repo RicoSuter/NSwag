@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using NJsonSchema;
 using NSwag;
 
 namespace NSwagStudio.Views.CodeGenerators
@@ -9,6 +10,8 @@ namespace NSwagStudio.Views.CodeGenerators
     public abstract class CodeGeneratorViewBase : UserControl
     {
         public abstract string Title { get; }
+
+        public string PropertyName => ConversionUtilities.ConvertToLowerCamelCase(GetType().Name, false);
 
         public abstract Task GenerateClientAsync(SwaggerDocument document, string documentPath);
 

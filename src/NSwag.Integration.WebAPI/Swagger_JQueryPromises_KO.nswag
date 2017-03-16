@@ -46,46 +46,6 @@
       "typeStyle": "KnockoutClass",
       "generateDefaultValues": true,
       "output": "../NSwag.Integration.TypeScriptWeb/scripts/serviceClientsJQueryPromisesKO.ts"
-    },
-    "swaggerToCSharpClient": {
-      "exceptionClass": "SwaggerException",
-      "generateClientClasses": true,
-      "generateClientInterfaces": false,
-      "generateDtoTypes": true,
-      "useHttpClientCreationMethod": false,
-      "useHttpRequestMessageCreationMethod": false,
-      "generateContractsOutput": false,
-      "className": "{controller}Client",
-      "namespace": "MyNamespace",
-      "requiredPropertiesMustBeDefined": true,
-      "dateType": "System.DateTime",
-      "dateTimeType": "System.DateTime",
-      "timeType": "System.TimeSpan",
-      "timeSpanType": "System.TimeSpan",
-      "arrayType": "System.Collections.ObjectModel.ObservableCollection",
-      "dictionaryType": "System.Collections.Generic.Dictionary",
-      "classStyle": "Inpc",
-      "operationGenerationMode": "MultipleClientsFromOperationId",
-      "generateDefaultValues": true,
-      "output": null
-    },
-    "swaggerToCSharpController": {
-      "className": "{controller}",
-      "namespace": "MyNamespace",
-      "additionalNamespaceUsages": [
-        "System.Web.Http"
-      ],
-      "requiredPropertiesMustBeDefined": true,
-      "dateType": "System.DateTime",
-      "dateTimeType": "System.DateTime",
-      "timeType": "System.TimeSpan",
-      "timeSpanType": "System.TimeSpan",
-      "arrayType": "IEnumerable",
-      "dictionaryType": "System.Collections.Generic.Dictionary",
-      "classStyle": "Inpc",
-      "operationGenerationMode": "MultipleClientsFromOperationId",
-      "generateDefaultValues": true,
-      "output": null
     }
   }
 }

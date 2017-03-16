@@ -4,7 +4,7 @@
 process.title = 'nswag';
 
 console.log("NSwag NPM CLI");
-var args = process.argv.splice(2, process.argv.length - 2).join(" ");
+var args = process.argv.splice(2, process.argv.length - 2).map(function(a) { return a.indexOf(" ") === -1 ? a : '"' + a + '"' }).join(" ");
 
 // Search for full .NET installation
 var hasFullDotNet = false; 
