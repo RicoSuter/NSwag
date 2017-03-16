@@ -105,6 +105,7 @@
   <ItemGroup>
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="Attributes\AcceptVerbsTests.cs" />
+    <Compile Include="Attributes\ApiExplorerSettingsAttributeTests.cs" />
     <Compile Include="Attributes\ComplexParametersTests.cs" />
     <Compile Include="Attributes\PrimitivePathParametersTests.cs" />
     <Compile Include="Attributes\PrimitiveQueryParametersTests.cs" />
