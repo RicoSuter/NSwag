@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Description>NSwag: The Swagger API toolchain for .NET and TypeScript</Description>
-    <VersionPrefix>9.11.0</VersionPrefix>
     <Authors>Rico Suter</Authors>
     <TargetFrameworks>net451;netstandard1.6</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -22,7 +21,7 @@
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-    <Version>9.11.0</Version>
+    <Version>9.12.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NJsonSchema" Version="8.11.6284.26855" />

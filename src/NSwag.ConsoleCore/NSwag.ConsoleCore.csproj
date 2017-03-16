@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Description>NSwag: The Swagger API toolchain for .NET and TypeScript</Description>
-    <VersionPrefix>9.11.0</VersionPrefix>
     <Authors>Rico Suter</Authors>
     <TargetFrameworks>netcoreapp1.0;netcoreapp1.1</TargetFrameworks>
     <AssemblyName>dotnet-nswag</AssemblyName>
@@ -21,7 +20,7 @@
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-    <Version>9.11.0</Version>
+    <Version>9.12.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\NSwag.AssemblyLoaderCore\NSwag.AssemblyLoaderCore.csproj" />
