@@ -211,11 +211,9 @@ namespace NSwag.SwaggerGeneration.WebApi
                 m.DeclaringType.FullName != "System.Web.Mvc.Controller")
                 .Where(m =>
                 {
-                    var attr = m.GetCustomAttributes().SingleOrDefault(a => a.GetType().Name == "ApiExplorerSettingsAttribute");
-                    if (attr == null)
-                        return true;
-
-                    return !attr.TryGetPropertyValue("IgnoreApi", false);
+                    return m.GetCustomAttributes()
+                        .SingleOrDefault(a => a.GetType().Name == "ApiExplorerSettingsAttribute")?
+                        .TryGetPropertyValue("IgnoreApi", false) != true;
                 });
         }
 

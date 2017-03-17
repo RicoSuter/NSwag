@@ -1,10 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <Description>NSwag: The Swagger API toolchain for .NET and TypeScript</Description>
-    <VersionPrefix>9.10.0</VersionPrefix>
     <Authors>Rico Suter</Authors>
-    <TargetFramework>netstandard1.6</TargetFramework>
+    <TargetFrameworks>net451;netstandard1.6</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>NSwag.AssemblyLoaderCore</AssemblyName>
     <AssemblyOriginatorKeyFile>NSwag.snk</AssemblyOriginatorKeyFile>
@@ -23,25 +21,17 @@
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <Version>9.12.0</Version>
   </PropertyGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj" />
-    <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj" />
-    <ProjectReference Include="..\NSwag.Commands\NSwag.Commands.csproj" />
-    <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj" />
-    <ProjectReference Include="..\NSwag.SwaggerGeneration\NSwag.SwaggerGeneration.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="NJsonSchema" Version="8.9.6275.22295" />
+    <PackageReference Include="NJsonSchema" Version="8.11.6284.26855" />
+    <PackageReference Include="NSwag.Commands" Version="*" />
+    <PackageReference Include="NSwag.SwaggerGeneration" Version="*" />
     <PackageReference Include="System.Net.Http" Version="4.1.1" />
     <PackageReference Include="System.Runtime.Loader" Version="4.0.0" />
   </ItemGroup>
-
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
     <PackageReference Include="System.IO.FileSystem" Version="4.0.1" />
     <PackageReference Include="System.Xml.XPath.XDocument" Version="4.0.1" />
   </ItemGroup>
-
 </Project>

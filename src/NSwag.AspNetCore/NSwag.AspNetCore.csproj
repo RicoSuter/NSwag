@@ -1,8 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <Description>NSwag: The Swagger API toolchain for .NET and TypeScript</Description>
-    <VersionPrefix>9.10.0</VersionPrefix>
     <Authors>Rico Suter</Authors>
     <TargetFrameworks>net451;netstandard1.6</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -22,33 +20,25 @@
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <Version>9.12.0</Version>
   </PropertyGroup>
-
   <ItemGroup>
     <EmbeddedResource Include="SwaggerUi\**\*" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj" />
-    <ProjectReference Include="..\NSwag.SwaggerGeneration\NSwag.SwaggerGeneration.csproj" />
-    <ProjectReference Include="..\NSwag.SwaggerGeneration.WebApi\NSwag.SwaggerGeneration.WebApi.csproj" />
-  </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="1.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.0.2" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="1.0.1" />
-    <PackageReference Include="NJsonSchema" Version="8.9.6275.22295" />
+    <PackageReference Include="NJsonSchema" Version="8.11.6284.26855" />
+    <PackageReference Include="NSwag.Annotations" Version="*" />
+    <PackageReference Include="NSwag.SwaggerGeneration.WebApi" Version="*" />
   </ItemGroup>
-
   <ItemGroup Condition=" '$(TargetFramework)' == 'net451' ">
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
-
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
     <PackageReference Include="System.IO.FileSystem" Version="4.0.1" />
     <PackageReference Include="System.Xml.XPath.XDocument" Version="4.0.1" />
   </ItemGroup>
-
 </Project>

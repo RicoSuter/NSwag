@@ -41,9 +41,8 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=8.9.6275.22295, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.8.9.6275.22295\lib\net45\NJsonSchema.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="NJsonSchema, Version=8.11.6284.26855, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.8.11.6284.26855\lib\net45\NJsonSchema.dll</HintPath>
     </Reference>
     <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
       <HintPath>..\packages\Swashbuckle.Core.5.5.3\lib\net40\Swashbuckle.Core.dll</HintPath>
@@ -57,6 +56,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
@@ -104,6 +104,7 @@
   <ItemGroup>
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="Attributes\AcceptVerbsTests.cs" />
+    <Compile Include="Attributes\ApiExplorerSettingsAttributeTests.cs" />
     <Compile Include="Attributes\ComplexParametersTests.cs" />
     <Compile Include="Attributes\PrimitivePathParametersTests.cs" />
     <Compile Include="Attributes\PrimitiveQueryParametersTests.cs" />
@@ -122,6 +123,8 @@
     <Compile Include="OperationIdTests.cs" />
     <Compile Include="ParameterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResponeAttributeTests.cs" />
+    <Compile Include="RouteTests.cs" />
     <Compile Include="TypesToSwaggerTests.cs" />
     <Compile Include="WebApiToSwaggerGeneratorTests.cs" />
     <Compile Include="XmlTests.cs" />
