@@ -148,6 +148,7 @@
     <Compile Include="Controllers\InheritanceController.cs" />
     <Compile Include="Controllers\MvcController.cs" />
     <Compile Include="Controllers\PersonsController.cs" />
+    <Compile Include="Controllers\PersonsDefaultRouteController.cs" />
     <Compile Include="Controllers\RequestParameterTestController.cs" />
     <Compile Include="Controllers\RoutePrefixWithPathsController.cs" />
     <Compile Include="Controllers\TestController.cs" />

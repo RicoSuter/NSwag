@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -14,13 +14,7 @@ using NSwag.SwaggerGeneration.WebApi;
 
 namespace NSwag.Demo.Web.Controllers
 {
-    public class MyClass
-    {
-        public string Foo { get; set; }
-    }
-
-    [RoutePrefix("api/Person")]
-    public class PersonsController : ApiController
+    public class PersonsDefaultRouteController : ApiController
     {
         [HttpPut]
         [Route("xyz/{data}")]
@@ -47,7 +41,6 @@ namespace NSwag.Demo.Web.Controllers
         /// <returns>The person.</returns>
         [ResponseType(typeof(Person))]
         [ResponseType("500", typeof(PersonNotFoundException))]
-        [Route("{id}")]
         public HttpResponseMessage Get(int id)
         {
             return Request.CreateResponse(HttpStatusCode.OK, new Person { FirstName = "Rico", LastName = "Suter" });
@@ -70,7 +63,7 @@ namespace NSwag.Demo.Web.Controllers
         }
 
         // DELETE: api/Person/5
-        [Route("{id}")]
+        [Route]
         public void Delete(int id)
         {
         }
@@ -84,6 +77,24 @@ namespace NSwag.Demo.Web.Controllers
         }
 
         [HttpGet]
+        public DateTime AddHour(DateTime time)
+        {
+            return time.Add(TimeSpan.FromHours(1));
+        }
+
+        [HttpGet]
+        public Task<int> TestAsync()
+        {
+            return Task.FromResult(0);
+        }
+
+        [HttpGet, ActionName("LoadComplexObject2")]
+        public Car LoadComplexObject()
+        {
+            return new Car();
+        }
+
+        [HttpGet]
         [SwaggerIgnore]
         public async Task<HttpResponseMessage> Swagger()
         {
@@ -94,14 +105,5 @@ namespace NSwag.Demo.Web.Controllers
             var document = await generator.GenerateForControllerAsync(GetType());
             return new HttpResponseMessage { Content = new StringContent(document.ToJson(), Encoding.UTF8) };
         }
-    }
-
-    public class PersonNotFoundException : Exception
-    {
-        public PersonNotFoundException()
-        {
-        }
-
-        public int PersonId { get; set; }
     }
 }

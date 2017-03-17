@@ -272,15 +272,8 @@ namespace NSwag.SwaggerGeneration.WebApi
             }
             else if (routePrefixAttribute != null && routeAttributeOnClass != null)
                 httpPaths.Add(routePrefixAttribute.Prefix + "/" + routeAttributeOnClass.Template);
-            // TODO: Check if this is correct
-            else if (routePrefixAttribute != null && (
-                (method.GetParameters().Length == 0 && method.Name == "Get") ||
-                method.Name == "Post" ||
-                method.Name == "Put" ||
-                method.Name == "Delete"))
-            {
+            else if (routePrefixAttribute != null)
                 httpPaths.Add(routePrefixAttribute.Prefix);
-            }
             else if (routeAttributeOnClass != null)
                 httpPaths.Add(routeAttributeOnClass.Template);
             else

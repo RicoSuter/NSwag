@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -70,6 +71,8 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
             Assert.IsNotNull(swagger.Paths["/api/Persons"][SwaggerOperationMethod.Post]);
             Assert.IsNotNull(swagger.Paths["/api/Persons/{id}"][SwaggerOperationMethod.Put]);
             Assert.IsNotNull(swagger.Paths["/api/Persons/{id}"][SwaggerOperationMethod.Delete]);
+            Assert.IsTrue(swagger.Paths.Count == 3);
+            Assert.IsTrue(swagger.Paths.SelectMany(p => p.Value).Count() == 6);
         }
 
         [TestMethod]
@@ -84,6 +87,73 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
 
             //// Assert
             Assert.IsTrue(swagger.Paths.ContainsKey("/api/Persons/RegexPathParameter/{deviceType}/{deviceId}/energyConsumed"));
+        }
+
+        [RoutePrefix("api/users/{userId?}")]
+        public class UsersController : ApiController
+        {
+            [HttpGet]
+            public IEnumerable<Person> Get()
+            {
+                throw new NotImplementedException();
+            }
+            
+            [HttpGet]
+            public Person Get(string userId)
+            {
+                throw new NotImplementedException();
+            }
+            
+            [HttpPost]
+            public void Post([FromBody]Person value)
+            {
+                throw new NotImplementedException();
+            }
+            
+            [HttpPut]
+            public void Put(string userId, [FromBody]Person value)
+            {
+                throw new NotImplementedException();
+            }
+            
+            [HttpDelete]
+            public void Delete(string userId)
+            {
+                throw new NotImplementedException();
+            }
+
+            [HttpGet, Route("devices")]
+            public IEnumerable<string> GetNestedPath(string userId)
+            {
+                throw new NotImplementedException();
+            }
+
+            [HttpGet, Route("devices/{deviceId}")]
+            public string GetNestedRequiredPathParameter(string userId, string deviceId)
+            {
+                throw new NotImplementedException();
+            }
+        }
+        
+        [TestMethod]
+        public async Task When_controller_has_RoutePrefix_with_optional_parameters_then_paths_are_correct()
+        {
+            //// Arrange
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+
+            //// Act
+            var swagger = await generator.GenerateForControllerAsync<UsersController>();
+
+            //// Assert
+            Assert.IsNotNull(swagger.Paths["/api/users"][SwaggerOperationMethod.Get]);
+            Assert.IsNotNull(swagger.Paths["/api/users/{userId}"][SwaggerOperationMethod.Get]);
+            Assert.IsNotNull(swagger.Paths["/api/users"][SwaggerOperationMethod.Post]);
+            Assert.IsNotNull(swagger.Paths["/api/users/{userId}"][SwaggerOperationMethod.Put]);
+            Assert.IsNotNull(swagger.Paths["/api/users/{userId}"][SwaggerOperationMethod.Delete]);
+            Assert.IsNotNull(swagger.Paths["/api/users/{userId}/devices"][SwaggerOperationMethod.Get]);
+            Assert.IsNotNull(swagger.Paths["/api/users/{userId}/devices/{deviceId}"][SwaggerOperationMethod.Get]);
+            Assert.IsTrue(swagger.Paths.Count == 4);
+            Assert.IsTrue(swagger.Paths.SelectMany(p => p.Value).Count() == 7);
         }
     }
 }
