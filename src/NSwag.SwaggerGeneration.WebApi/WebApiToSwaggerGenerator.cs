@@ -89,7 +89,7 @@ namespace NSwag.SwaggerGeneration.WebApi
             document.GenerateOperationIds();
 
             foreach (var processor in Settings.DocumentProcessors)
-                processor.Process(new DocumentProcessorContext(document, controllerTypes, schemaResolver, _schemaGenerator));
+                await processor.ProcessAsync(new DocumentProcessorContext(document, controllerTypes, schemaResolver, _schemaGenerator));
 
             return document;
         }
@@ -270,15 +270,8 @@ namespace NSwag.SwaggerGeneration.WebApi
             }
             else if (routePrefixAttribute != null && routeAttributeOnClass != null)
                 httpPaths.Add(routePrefixAttribute.Prefix + "/" + routeAttributeOnClass.Template);
-            // TODO: Check if this is correct
-            else if (routePrefixAttribute != null && (
-                (method.GetParameters().Length == 0 && method.Name == "Get") ||
-                method.Name == "Post" ||
-                method.Name == "Put" ||
-                method.Name == "Delete"))
-            {
+            else if (routePrefixAttribute != null)
                 httpPaths.Add(routePrefixAttribute.Prefix);
-            }
             else if (routeAttributeOnClass != null)
                 httpPaths.Add(routeAttributeOnClass.Template);
             else
@@ -286,6 +279,7 @@ namespace NSwag.SwaggerGeneration.WebApi
 
             var actionName = GetActionName(method);
             return httpPaths
+                .SelectMany(p => ExpandOptionalHttpPathParameters(p, method))
                 .Select(p =>
                     "/" + p
                         .Replace("[", "{")
@@ -293,32 +287,34 @@ namespace NSwag.SwaggerGeneration.WebApi
                         .Replace("{controller}", controllerName)
                         .Replace("{action}", actionName)
                         .Trim('/'))
-                .SelectMany(p => ExpandOptionalHttpPathParameters(p, method))
                 .Distinct()
                 .ToList();
         }
-
+        
         private IEnumerable<string> ExpandOptionalHttpPathParameters(string path, MethodInfo method)
         {
-            var segments = path.Split('/');
+            var segments = path.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < segments.Length; i++)
             {
                 var segment = segments[i];
                 if (segment.EndsWith("?}"))
                 {
-                    foreach (var p in ExpandOptionalHttpPathParameters(string.Join("/", segments.Take(i).Concat(segments.Skip(i + 1))), method))
-                        yield return p;
-
                     // Only expand if optional parameter is available in action method
                     if (method.GetParameters().Any(p => segment.StartsWith("{" + p.Name + ":") || segment.StartsWith("{" + p.Name + "?")))
                     {
                         foreach (var p in ExpandOptionalHttpPathParameters(string.Join("/", segments.Take(i).Concat(new[] { segment.Replace("?", "") }).Concat(segments.Skip(i + 1))), method))
                             yield return p;
                     }
+                    else
+                    {
+                        foreach (var p in ExpandOptionalHttpPathParameters(string.Join("/", segments.Take(i).Concat(segments.Skip(i + 1))), method))
+                            yield return p;
+                    }
 
                     yield break;
                 }
             }
+
             yield return path;
         }
 

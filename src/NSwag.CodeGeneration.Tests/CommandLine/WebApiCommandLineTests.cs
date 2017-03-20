@@ -15,7 +15,7 @@ namespace NSwag.CodeGeneration.Tests.CommandLine
             //// Arrange
             var command = "webapi2swagger " +
                           "/assembly:" + Path.GetFullPath("../../../NSwag.Demo.Web/bin/NSwag.Demo.Web.dll") + " " +
-                          "/controller:NSwag.Demo.Web.Controllers.PersonsController " +
+                          "/controller:NSwag.Demo.Web.Controllers.PersonsDefaultRouteController " +
                           "/defaultUrlTemplate:api/{controller}/{action}/{id} " +
                           "/output:" + OutputFile;
 

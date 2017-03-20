@@ -1,5 +1,6 @@
 define(["require", "exports", "DataService"], function (require, exports, dataService) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var client = new dataService.DataService();
     client.baseUrl = "http://localhost:22093";
     client.addHour(new Date(2012, 12, 25, 10, 15, 20), function (result) {
