@@ -14,6 +14,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors.Contexts;
+using NSwag.SwaggerGeneration.WebApi.Infrastructure;
 
 namespace NSwag.SwaggerGeneration.WebApi
 {
@@ -207,7 +208,13 @@ namespace NSwag.SwaggerGeneration.WebApi
                 m.GetCustomAttributes().All(a => a.GetType().Name != "SwaggerIgnoreAttribute" && a.GetType().Name != "NonActionAttribute") &&
                 m.DeclaringType.FullName.StartsWith("Microsoft.AspNet") == false && // .NET Core (Web API & MVC)
                 m.DeclaringType.FullName != "System.Web.Http.ApiController" &&
-                m.DeclaringType.FullName != "System.Web.Mvc.Controller");
+                m.DeclaringType.FullName != "System.Web.Mvc.Controller")
+                .Where(m =>
+                {
+                    return m.GetCustomAttributes()
+                        .SingleOrDefault(a => a.GetType().Name == "ApiExplorerSettingsAttribute")?
+                        .TryGetPropertyValue("IgnoreApi", false) != true;
+                });
         }
 
         private string GetOperationId(SwaggerDocument document, string controllerName, MethodInfo method)

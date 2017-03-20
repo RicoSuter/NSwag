@@ -2,5 +2,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <NSwagExe>$(MSBuildThisFileDirectory)\NSwag.exe</NSwagExe>
+        <NSwagDir>$(MSBuildThisFileDirectory)</NSwagDir>
     </PropertyGroup>
 </Project>

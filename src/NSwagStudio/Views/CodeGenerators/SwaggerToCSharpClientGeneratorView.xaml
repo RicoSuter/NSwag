@@ -65,14 +65,14 @@
                              VerticalScrollBarVisibility="Visible" 
                              Margin="0,0,0,12" />
 
-                    <CheckBox IsChecked="{Binding Command.GenerateExceptionClasses, Mode=TwoWay}" 
-                              Content="Generate exception classes (when disabled, exception classes must be imported)" 
-                              ToolTip="GenerateExceptionClasses"
-                              Margin="0,0,0,6" />
-
                     <CheckBox IsChecked="{Binding Command.HandleReferences, Mode=TwoWay}" 
                               Content="Use preserve references handling (All) in the JSON serializer"
                               ToolTip="HandleReferences"
+                              Margin="0,0,0,6" />
+
+                    <CheckBox IsChecked="{Binding Command.GenerateExceptionClasses, Mode=TwoWay}" 
+                              Content="Generate exception classes (when disabled, exception classes must be imported)" 
+                              ToolTip="GenerateExceptionClasses"
                               Margin="0,0,0,6" />
 
                     <StackPanel Visibility="{Binding Command.GenerateExceptionClasses, Converter={StaticResource VisibilityConverter}}">
@@ -83,6 +83,9 @@
                                  ToolTip="ExceptionClass"
                                  Margin="0,0,0,12" />
                     </StackPanel>
+
+                    <CheckBox IsChecked="{Binding Command.WrapDtoExceptions, Mode=TwoWay}" 
+                              Content="Wrap DTO exceptions in a SwaggerException instance" Margin="0,0,0,6" />
 
                     <CheckBox IsChecked="{Binding Command.WrapResponses, Mode=TwoWay}" 
                               ToolTip="WrapResponses"
@@ -122,6 +125,9 @@
 
                                 <CheckBox IsChecked="{Binding Command.InjectHttpClient, Mode=TwoWay}" 
                                           Content="Inject HttpClient via constructor (life cycle is managed by the caller)" Margin="0,0,0,12" />
+
+                                <TextBlock Text="Http Client Type" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.HttpClientType, Mode=TwoWay}" Margin="0,0,0,12" />
 
                                 <CheckBox IsChecked="{Binding Command.GenerateSyncMethods, Mode=TwoWay}" 
                                           Content="Generate synchronous methods (not recommended)" Margin="0,0,0,12" />
