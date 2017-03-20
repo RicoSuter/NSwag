@@ -89,7 +89,7 @@ namespace NSwag.SwaggerGeneration.WebApi
             document.GenerateOperationIds();
 
             foreach (var processor in Settings.DocumentProcessors)
-                processor.Process(new DocumentProcessorContext(document, controllerTypes, schemaResolver, _schemaGenerator));
+                await processor.ProcessAsync(new DocumentProcessorContext(document, controllerTypes, schemaResolver, _schemaGenerator));
 
             return document;
         }

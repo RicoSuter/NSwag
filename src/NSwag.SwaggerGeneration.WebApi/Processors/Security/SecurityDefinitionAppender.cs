@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.Threading.Tasks;
 using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Contexts;
 
@@ -28,7 +29,9 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors.Security
 
         /// <summary>Processes the specified Swagger document.</summary>
         /// <param name="context"></param>
-        public void Process(DocumentProcessorContext context)
+#pragma warning disable 1998
+        public async Task ProcessAsync(DocumentProcessorContext context)
+#pragma warning restore 1998
         {
             context.Document.SecurityDefinitions[_name] = _swaggerSecurityScheme;
         }
