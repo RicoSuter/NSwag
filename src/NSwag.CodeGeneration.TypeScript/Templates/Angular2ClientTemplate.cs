@@ -288,21 +288,8 @@ if(Model.GenerateClientInterfaces){
             
             #line default
             #line hidden
-            this.Write("{\r\n    private http: Http; \r\n    private baseUrl: string");
-            
-            #line 23 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
-if(Model.SupportsStrictNullChecks){
-            
-            #line default
-            #line hidden
-            this.Write(" | undefined");
-            
-            #line 23 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
-}
-            
-            #line default
-            #line hidden
-            this.Write(" = undefined; \r\n    protected jsonParseReviver: ");
+            this.Write("{\r\n    private http: Http;\r\n    private baseUrl: string;\r\n    protected jsonParse" +
+                    "Reviver: ");
             
             #line 24 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 if(Model.SupportsStrictNullChecks){
@@ -386,14 +373,14 @@ if(Model.HasConfigurationClass){
             
             #line default
             #line hidden
-            this.Write("        this.http = http; \r\n        this.baseUrl = baseUrl ? baseUrl : \"");
+            this.Write("        this.http = http;\r\n        this.baseUrl = baseUrl ? baseUrl : \"");
             
             #line 31 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.BaseUrl));
             
             #line default
             #line hidden
-            this.Write("\"; \r\n    }\r\n");
+            this.Write("\";\r\n    }\r\n");
             
             #line 33 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 if(Model.HasExtensionClass && !Model.HasClientBaseClass){
