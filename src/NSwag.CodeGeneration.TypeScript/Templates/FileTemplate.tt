@@ -63,6 +63,9 @@ export class SwaggerException extends Error {
 }
 
 <#}#>
+<#if(Model.HandleReferences){#>
+<#=Model.ReferenceHandlingCode#>
+<#}#>
 <#=Model.ExtensionCodeBottom#>
 <#if(Model.HasNamespace){#>
 }

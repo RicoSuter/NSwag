@@ -202,6 +202,13 @@ namespace NSwag.Commands
             set { Settings.TypeScriptGeneratorSettings.ExcludedTypeNames = value; }
         }
 
+        [Argument(Name = "HandleReferences", IsRequired = false, Description = "Handle JSON references (default: false).")]
+        public bool HandleReferences
+        {
+            get { return Settings.TypeScriptGeneratorSettings.HandleReferences; }
+            set { Settings.TypeScriptGeneratorSettings.HandleReferences = value; }
+        }
+
         [Argument(Name = "BaseUrlTokenName", IsRequired = false, Description = "The token name for injecting the API base URL string (used in the Angular2 template, default: 'API_BASE_URL').")]
         public string BaseUrlTokenName
         {

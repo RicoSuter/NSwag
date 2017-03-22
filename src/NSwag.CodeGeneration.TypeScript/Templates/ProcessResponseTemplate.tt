@@ -1,5 +1,8 @@
 ﻿<#@ template visibility="internal" #>
 <#@ import namespace="NJsonSchema" #>
+<#if(Model.HandleReferences){#>
+let mappings: { source: any, target: any }[] = [];
+<#}#>
 <#foreach(var response in Model.Responses){#>
 if (status === <#=response.StatusCode#>) {
 <#  if(response.HasType){#>
@@ -8,10 +11,10 @@ if (status === <#=response.StatusCode#>) {
     result<#=response.StatusCode#> = new Date(responseText);
 <#      }else{
             if(response.UseDtoClass){#>
-    let resultData<#=response.StatusCode#> = responseText === "" ? null : JSON.parse(responseText, this.jsonParseReviver);
+    let resultData<#=response.StatusCode#> = responseText === "" ? null : <#if(Model.HandleReferences){#>jp<#}else{#>JSON.parse<#}#>(responseText, this.jsonParseReviver);
     <#=ConversionUtilities.Tab(response.DataConversionCode, 1)#>
 <#          }else{#>
-    result<#=response.StatusCode#> = responseText === "" ? null : <<#=response.Type#>>JSON.parse(responseText, this.jsonParseReviver);
+    result<#=response.StatusCode#> = responseText === "" ? null : <<#=response.Type#>><#if(Model.HandleReferences){#>jp<#}else{#>JSON.parse<#}#>(responseText, this.jsonParseReviver);
 <#          }
         }
         if(response.IsSuccess){#>
@@ -32,10 +35,10 @@ if(Model.HasDefaultResponse){#>{
     result = new Date(responseText);
 <#      }else{
             if(Model.DefaultResponse.UseDtoClass){#>
-    let resultData = responseText === "" ? null : JSON.parse(responseText, this.jsonParseReviver);
+    let resultData = responseText === "" ? null : <#if(Model.HandleReferences){#>jp<#}else{#>JSON.parse<#}#>(responseText, this.jsonParseReviver);
     <#=ConversionUtilities.Tab(Model.DefaultResponse.DataConversionCode, 1)#>
 <#          }else{#>
-    result = responseText === "" ? null : <<#=Model.DefaultResponse.Type#>>JSON.parse(responseText, this.jsonParseReviver);
+    result = responseText === "" ? null : <<#=Model.DefaultResponse.Type#>><#if(Model.HandleReferences){#>jp<#}else{#>JSON.parse<#}#>(responseText, this.jsonParseReviver);
 <#          }
         }
         if(!Model.HasSuccessResponse){#>

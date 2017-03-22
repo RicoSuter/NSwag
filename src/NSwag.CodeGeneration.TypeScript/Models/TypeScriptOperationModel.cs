@@ -53,6 +53,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets a value indicating whether the target TypeScript version supports strict null checks.</summary>
         public bool SupportsStrictNullChecks => _settings.TypeScriptGeneratorSettings.TypeScriptVersion >= 2.0m;
 
+        /// <summary>Gets a value indicating whether to handle references.</summary>
+        public bool HandleReferences => _settings.TypeScriptGeneratorSettings.HandleReferences;
+
         /// <summary>Gets or sets the type of the exception.</summary>
         public override string ExceptionType
         {
