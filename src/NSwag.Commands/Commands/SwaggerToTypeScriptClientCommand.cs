@@ -164,6 +164,13 @@ namespace NSwag.Commands
             set { Settings.TypeScriptGeneratorSettings.MarkOptionalProperties = value; }
         }
 
+        [Argument(Name = "GenerateCloneMethod", IsRequired = false, Description = "Specifies whether a clone() method should be generated in the DTO classes (default: false).")]
+        public bool GenerateCloneMethod
+        {
+            get { return Settings.TypeScriptGeneratorSettings.GenerateCloneMethod; }
+            set { Settings.TypeScriptGeneratorSettings.GenerateCloneMethod = value; }
+        }
+
         [Argument(Name = "TypeStyle", IsRequired = false, Description = "The type style (default: Class).")]
         public TypeScriptTypeStyle TypeStyle
         {
