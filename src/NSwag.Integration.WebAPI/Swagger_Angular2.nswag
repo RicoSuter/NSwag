@@ -42,6 +42,7 @@
       "useTransformOptionsMethod": true,
       "useTransformResultMethod": true,
       "generateDtoTypes": true,
+      "handleReferences": true,
       "operationGenerationMode": "MultipleClientsFromOperationId",
       "markOptionalProperties": false,
       "typeStyle": "Class",
