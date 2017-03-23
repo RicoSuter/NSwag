@@ -26,7 +26,7 @@ else
 let contentData_: any = [];
 if (<#=Model.ContentParameter.VariableName#>) {
     for (let item of <#=Model.ContentParameter.VariableName#>)
-        contentData_.push(item.toJS());
+        contentData_.push(item.toJSON());
 }
 const content_ = JSON.stringify(<#=Model.ContentParameter.VariableName#> ? contentData_ : null);
 <#              }else if(Model.ContentParameter.IsDictionary){#>
@@ -34,12 +34,12 @@ let contentData_: any = {};
 if (<#=Model.ContentParameter.VariableName#>) {
     for (let key in <#=Model.ContentParameter.VariableName#>) {
         if (<#=Model.ContentParameter.VariableName#>.hasOwnProperty(key))
-            contentData_[key] = <#=Model.ContentParameter.VariableName#>[key].toJS();
+            contentData_[key] = <#=Model.ContentParameter.VariableName#>[key].toJSON();
     }
 }
 const content_ = JSON.stringify(<#=Model.ContentParameter.VariableName#> ? contentData_ : null);
 <#              }else{#>
-const content_ = JSON.stringify(<#=Model.ContentParameter.VariableName#> ? <#=Model.ContentParameter.VariableName#>.toJS() : null);
+const content_ = JSON.stringify(<#=Model.ContentParameter.VariableName#> ? <#=Model.ContentParameter.VariableName#>.toJSON() : null);
 <#              }
             }else if(Model.ContentParameter.IsXmlBodyParameter){#>
 const content_ = <#=Model.ContentParameter.VariableName#>;
