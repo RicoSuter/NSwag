@@ -47,70 +47,70 @@ namespace MyNamespace
     
         [System.Web.Http.HttpPost, System.Web.Http.Route("api/Geo/FromBodyTest")]
         public System.Threading.Tasks.Task FromBodyTest(GeoPoint location)
-        {	
+        {    
             return _implementation.FromBodyTestAsync(location);
             
         }
     
         [System.Web.Http.HttpPost, System.Web.Http.Route("api/Geo/FromUriTest")]
         public System.Threading.Tasks.Task FromUriTest(double? latitude, double? longitude)
-        {	
+        {    
             return _implementation.FromUriTestAsync(latitude, longitude);
             
         }
     
         [System.Web.Http.HttpPost, System.Web.Http.Route("api/Geo/AddPolygon")]
         public System.Threading.Tasks.Task AddPolygon(System.Collections.Generic.IEnumerable<GeoPoint> points)
-        {	
+        {    
             return _implementation.AddPolygonAsync(points);
             
         }
     
         [System.Web.Http.HttpPost, System.Web.Http.Route("api/Geo/Filter")]
         public System.Threading.Tasks.Task Filter(System.Collections.Generic.IEnumerable<string> currentStates)
-        {	
+        {    
             return _implementation.FilterAsync(currentStates);
             
         }
     
         [System.Web.Http.HttpPost, System.Web.Http.Route("api/Geo/Reverse")]
         public System.Threading.Tasks.Task<System.Collections.Generic.List<string>> Reverse(System.Collections.Generic.IEnumerable<string> values)
-        {	
+        {    
             return _implementation.ReverseAsync(values);
             
         }
     
         [System.Web.Http.HttpPost, System.Web.Http.Route("api/Geo/Refresh")]
         public System.Threading.Tasks.Task Refresh()
-        {	
+        {    
             return _implementation.RefreshAsync();
             
         }
     
         [System.Web.Http.HttpPost, System.Web.Http.Route("api/Geo/UploadFile")]
         public System.Threading.Tasks.Task<bool> UploadFile(FileParameter file)
-        {	
+        {    
             return _implementation.UploadFileAsync(file);
             
         }
     
         [System.Web.Http.HttpPost, System.Web.Http.Route("api/Geo/UploadFiles")]
         public System.Threading.Tasks.Task UploadFiles(System.Collections.Generic.IEnumerable<FileParameter> files)
-        {	
+        {    
             return _implementation.UploadFilesAsync(files);
             
         }
     
         [System.Web.Http.HttpPost, System.Web.Http.Route("api/Geo/SaveItems")]
         public System.Threading.Tasks.Task SaveItems(GenericRequestOfAddressAndPerson request)
-        {	
+        {    
             return _implementation.SaveItemsAsync(request);
             
         }
     
         [System.Web.Http.HttpGet, System.Web.Http.Route("api/Geo/GetUploadedFile/{id}")]
         public System.Threading.Tasks.Task<FileResponse> GetUploadedFile(int id, bool? @override)
-        {	
+        {    
             return _implementation.GetUploadedFileAsync(id, @override);
             
         }
@@ -155,49 +155,49 @@ namespace MyNamespace
     
         [System.Web.Http.HttpGet, System.Web.Http.Route("api/Persons")]
         public System.Threading.Tasks.Task<System.Collections.Generic.List<Person>> GetAll()
-        {	
+        {    
             return _implementation.GetAllAsync();
             
         }
     
         [System.Web.Http.HttpPost, System.Web.Http.Route("api/Persons")]
         public System.Threading.Tasks.Task Add(Person person)
-        {	
+        {    
             return _implementation.AddAsync(person);
             
         }
     
         [System.Web.Http.HttpPost, System.Web.Http.Route("api/Persons/find/{gender}")]
         public System.Threading.Tasks.Task<System.Collections.Generic.List<Person>> Find(Gender gender)
-        {	
+        {    
             return _implementation.FindAsync(gender);
             
         }
     
         [System.Web.Http.HttpPost, System.Web.Http.Route("api/Persons/find2")]
         public System.Threading.Tasks.Task<System.Collections.Generic.List<Person>> FindOptional(Gender? gender)
-        {	
+        {    
             return _implementation.FindOptionalAsync(gender);
             
         }
     
         [System.Web.Http.HttpGet, System.Web.Http.Route("api/Persons/{id}")]
         public System.Threading.Tasks.Task<Person> Get(System.Guid id)
-        {	
+        {    
             return _implementation.GetAsync(id);
             
         }
     
         [System.Web.Http.HttpDelete, System.Web.Http.Route("api/Persons/{id}")]
         public System.Threading.Tasks.Task Delete(System.Guid id)
-        {	
+        {    
             return _implementation.DeleteAsync(id);
             
         }
     
         [System.Web.Http.HttpPost, System.Web.Http.Route("api/Persons/Throw")]
         public System.Threading.Tasks.Task<Person> Throw(System.Guid id)
-        {	
+        {    
             return _implementation.ThrowAsync(id);
             
         }
@@ -207,14 +207,14 @@ namespace MyNamespace
         /// <returns>The person's name.</returns>
         [System.Web.Http.HttpGet, System.Web.Http.Route("api/Persons/{id}/Name")]
         public System.Threading.Tasks.Task<string> GetName(System.Guid id)
-        {	
+        {    
             return _implementation.GetNameAsync(id);
             
         }
     
         [System.Web.Http.HttpPost, System.Web.Http.Route("api/Persons/AddXml")]
         public System.Threading.Tasks.Task<string> AddXml(string person)
-        {	
+        {    
             return _implementation.AddXmlAsync(person);
             
         }

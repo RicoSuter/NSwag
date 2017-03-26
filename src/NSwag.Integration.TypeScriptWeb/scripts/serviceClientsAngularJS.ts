@@ -408,7 +408,7 @@ export class GeoClient {
         var options_ = <ng.IRequestConfig>{
             url: url_,
             method: "GET",
-			responseType: "blob",
+            responseType: "blob",
             data: content_,
             transformResponse: [], 
             headers: {
@@ -430,9 +430,7 @@ export class GeoClient {
         const status = response.status; 
 
         if (status === 200) {
-            let result200: Blob | null = null;
-            result200 = new Blob([response], { type: "application/octet-stream" });
-            return result200;
+            return new Blob([response], { type: "application/octet-stream" });
         } else if (status !== 200 && status !== 204) {
             this.throwException("An unexpected server error occurred.", status, responseText);
         }

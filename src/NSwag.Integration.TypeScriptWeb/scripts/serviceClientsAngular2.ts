@@ -480,7 +480,7 @@ export class GeoClient extends MyBaseClass {
         let options_ = {
             body: content_,
             method: "get",
-			responseType: ResponseContentType.Blob,
+            responseType: ResponseContentType.Blob,
             headers: new Headers({
                 "Content-Type": "application/json; charset=UTF-8", 
             })
@@ -508,9 +508,7 @@ export class GeoClient extends MyBaseClass {
 
         let mappings: { source: any, target: any }[] = [];
         if (status === 200) {
-            let result200: Blob | null = null;
-            result200 = response.blob();
-            return result200;
+            return response.blob();
         } else if (status !== 200 && status !== 204) {
             this.throwException("An unexpected server error occurred.", status, responseText);
         }

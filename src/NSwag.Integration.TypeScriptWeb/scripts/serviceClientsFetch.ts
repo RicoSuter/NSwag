@@ -375,9 +375,7 @@ export class GeoClientBase {
             const status = response.status; 
 
             if (status === 200) {
-                let result200: Blob | null = null;
-                result200 = response.blob();
-                return result200;
+                return response.blob();
             } else if (status !== 200 && status !== 204) {
                 this.throwException("An unexpected server error occurred.", status, responseText);
             }
