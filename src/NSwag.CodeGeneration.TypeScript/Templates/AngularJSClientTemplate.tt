@@ -61,7 +61,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
             url: url_,
             method: "<#=operation.HttpMethodUpper.ToUpperInvariant()#>",
 <#if(operation.IsFile){#>
-			responseType: "blob",
+            responseType: "blob",
 <#}#>
             data: content_,
             transformResponse: [], 

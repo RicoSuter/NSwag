@@ -629,7 +629,7 @@ if(operation.IsFile){
             
             #line default
             #line hidden
-            this.Write("\t\t\tresponseType: ResponseContentType.Blob,\r\n");
+            this.Write("            responseType: ResponseContentType.Blob,\r\n");
             
             #line 66 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 }

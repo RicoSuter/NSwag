@@ -62,7 +62,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
             body: content_,
             method: "<#=operation.HttpMethodLower#>",
 <#if(operation.IsFile){#>
-			responseType: ResponseContentType.Blob,
+            responseType: ResponseContentType.Blob,
 <#}#>
             headers: new Headers({
 <#foreach(var parameter in operation.HeaderParameters){#>

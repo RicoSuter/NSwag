@@ -327,11 +327,11 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(<#
                         result_.Data.Add("HttpStatus", status_);
                         result_.Data.Add("HttpHeaders", headers_);
                         result_.Data.Add("HttpResponse", responseData_);
-<#		        if(Model.WrapDtoExceptions){#>
+<#                if(Model.WrapDtoExceptions){#>
                         throw new <#=Model.ExceptionClass#><<#=response.Type#>>("<#=response.ExceptionDescription#>", status_, responseData_, headers_, result_, result_);
-<#		        }else{#>
+<#                }else{#>
                         throw result_;
-<#		        }#>
+<#                }#>
 <#          }else{#>
                         throw new <#=Model.ExceptionClass#><<#=response.Type#>>("<#=response.ExceptionDescription#>", status_, responseData_, headers_, result_, null);
 <#          }#>
@@ -400,11 +400,11 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(<#
                         result_.Data.Add("HttpStatus", status_);
                         result_.Data.Add("HttpHeaders", headers_);
                         result_.Data.Add("HttpResponse", responseData_);
-<#		        if(Model.WrapDtoExceptions){#>
+<#                if(Model.WrapDtoExceptions){#>
                         throw new <#=Model.ExceptionClass#><<#=operation.DefaultResponse.Type#>>("<#=operation.DefaultResponse.ExceptionDescription#>", status_, responseData_, headers_, result_, null);
-<#		        }else{#>
+<#                }else{#>
                         throw result_;
-<#		        }#>
+<#                }#>
 <#          }else{#>
                         throw new <#=Model.ExceptionClass#><<#=operation.DefaultResponse.Type#>>("<#=operation.DefaultResponse.ExceptionDescription#>", status_, responseData_, headers_, result_, null);
 <#          }#>
