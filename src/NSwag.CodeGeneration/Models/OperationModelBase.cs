@@ -217,6 +217,9 @@ namespace NSwag.CodeGeneration.Models
             }
         }
 
+        /// <summary>Gets a value indicating whether a file response is expected from one of the responses.</summary>
+        public bool IsFile => _operation.AllResponses.Any(r => r.Value.Schema?.ActualSchema.Type == JsonObjectType.File);
+
         /// <summary>Gets the success response.</summary>
         /// <returns>The response.</returns>
         protected SwaggerResponse GetSuccessResponse()

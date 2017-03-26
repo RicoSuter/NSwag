@@ -77,9 +77,12 @@ namespace NSwag.CodeGeneration.TypeScript
                 return "void";
 
             if (schema.ActualSchema.Type == JsonObjectType.File)
-                return "any";
+            {
+                return Settings.Template != TypeScriptTemplate.JQueryCallbacks &&
+                       Settings.Template != TypeScriptTemplate.JQueryPromises ? "Blob" : "any";
+            }
 
-            if (schema.ActualSchema.IsAnyType || schema.ActualSchema.Type == JsonObjectType.File)
+            if (schema.ActualSchema.IsAnyType)
                 return "any";
 
             return _resolver.Resolve(schema.ActualSchema, isNullable, typeNameHint);

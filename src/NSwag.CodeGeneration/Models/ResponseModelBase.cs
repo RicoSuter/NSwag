@@ -63,7 +63,7 @@ namespace NSwag.CodeGeneration.Models
             _generator.GetTypeName(_response.ActualResponseSchema, IsNullable, "Response") != "string";
 
         /// <summary>Gets a value indicating whether this is a file response.</summary>
-        public bool IsFile => Schema != null && Schema.ActualSchema.Type == JsonObjectType.File;
+        public bool IsFile => Schema?.ActualSchema.Type == JsonObjectType.File;
 
         /// <summary>Gets the response's exception description.</summary>
         public string ExceptionDescription => !string.IsNullOrEmpty(_response.Description) ?

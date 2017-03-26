@@ -13,7 +13,7 @@
 import 'rxjs/Rx'; 
 import { Observable } from 'rxjs/Observable';
 import { Injectable, Inject, Optional, OpaqueToken } from '@angular/core';
-import { Http, Headers, Response<#if(Model.UseTransformOptionsMethod){#>, RequestOptionsArgs<#}#> } from '@angular/http';
+import { Http, Headers, ResponseContentType, Response<#if(Model.UseTransformOptionsMethod){#>, RequestOptionsArgs<#}#> } from '@angular/http';
 <#}#>
 <#if(Model.IsAurelia){#>
 
