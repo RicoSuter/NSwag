@@ -25,6 +25,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
     private baseUrl: string;
     protected jsonParseReviver: <#if(Model.SupportsStrictNullChecks){#>((key: string, value: any) => any) | undefined<#}else{#>(key: string, value: any) => any<#}#> = undefined;
 
+<#if(!Model.HasExtendedConstructor){#>
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
 <#if(Model.HasClientBaseClass){#>
         super();
@@ -32,19 +33,10 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
         this.baseUrl = baseUrl ? baseUrl : "";
         this.http = http ? http : <any>window;
     }
-<#if(Model.HasExtensionClass && !Model.HasClientBaseClass){#>
-<#  if(Model.UseTransformOptionsMethod){#>
-
-    protected transformOptions(options: RequestInit) {
-        return Promise.resolve(options); 
-    }
-<#  }#>
-<#  if(Model.UseTransformResultMethod){#>
-
-    protected transformResult(url: string, response: Response, processor: (response: Response) => any) {
-        return processor(response);
-    }
-<#  }#>
+<#}#>
+<#if(Model.HasExtensionCode){#>
+    <#=Model.ExtensionCode#>
+	
 <#}#>
 <#foreach(var operation in Model.Operations){#>
 

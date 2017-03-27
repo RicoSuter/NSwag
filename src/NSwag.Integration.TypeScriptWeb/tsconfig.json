@@ -9,7 +9,7 @@
     "sourceMap": true,
     "inlineSources": true,
     "noEmitHelpers": false,
-    "strictNullChecks": true,
+    "strictNullChecks": false,
     "noImplicitAny": true,
     "declaration": true,
     "skipLibCheck": false,

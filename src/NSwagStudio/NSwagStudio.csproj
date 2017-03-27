@@ -96,17 +96,17 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=8.16.6295.13527, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.8.16.6295.13527\lib\net45\NJsonSchema.dll</HintPath>
+    <Reference Include="NJsonSchema, Version=8.19.6295.40470, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.8.19.6295.40470\lib\net45\NJsonSchema.dll</HintPath>
     </Reference>
-    <Reference Include="NJsonSchema.CodeGeneration, Version=8.16.6295.13544, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.CodeGeneration.8.16.6295.13544\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
+    <Reference Include="NJsonSchema.CodeGeneration, Version=8.19.6295.40488, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.CodeGeneration.8.19.6295.40488\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
     </Reference>
-    <Reference Include="NJsonSchema.CodeGeneration.CSharp, Version=8.16.6295.13544, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.CodeGeneration.CSharp.8.16.6295.13544\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.CSharp.dll</HintPath>
+    <Reference Include="NJsonSchema.CodeGeneration.CSharp, Version=8.19.6295.40488, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.CodeGeneration.CSharp.8.19.6295.40488\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="NJsonSchema.CodeGeneration.TypeScript, Version=8.16.6295.13544, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.CodeGeneration.TypeScript.8.16.6295.13544\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.TypeScript.dll</HintPath>
+    <Reference Include="NJsonSchema.CodeGeneration.TypeScript, Version=8.19.6295.40488, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.CodeGeneration.TypeScript.8.19.6295.40488\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.TypeScript.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />

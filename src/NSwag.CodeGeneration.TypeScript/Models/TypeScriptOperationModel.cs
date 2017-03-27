@@ -1,4 +1,12 @@
-﻿using System.Linq;
+﻿//-----------------------------------------------------------------------
+// <copyright file="TypeScriptOperationModel.cs" company="NSwag">
+//     Copyright (c) Rico Suter. All rights reserved.
+// </copyright>
+// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <author>Rico Suter, mail@rsuter.com</author>
+//-----------------------------------------------------------------------
+
+using System.Linq;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.TypeScript;

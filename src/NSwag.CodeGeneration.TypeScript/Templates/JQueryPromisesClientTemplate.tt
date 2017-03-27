@@ -22,25 +22,17 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
     beforeSend: any = undefined; 
     protected jsonParseReviver: <#if(Model.SupportsStrictNullChecks){#>((key: string, value: any) => any) | undefined<#}else{#>(key: string, value: any) => any<#}#> = undefined;
 
+<#if(!Model.HasExtendedConstructor){#>
     constructor(baseUrl?: string) {
 <#if(Model.HasClientBaseClass){#>
         super();
 <#}#>
         this.baseUrl = baseUrl ? baseUrl : "<#=Model.BaseUrl#>"; 
     }
-<#if(Model.HasExtensionClass && !Model.HasClientBaseClass){#>
-<#  if(Model.UseTransformOptionsMethod){#>
-
-    protected transformOptions(options: any) {
-        return options; 
-    }
-<#  }#>
-<#  if(Model.UseTransformResultMethod){#>
-
-    protected transformResult(url: string, xhr: any, processor: (xhr: any) => any) {
-        return processor(xhr);
-    }
-<#  }#>
+<#}#>
+<#if(Model.HasExtensionCode){#>
+    <#=Model.ExtensionCode#>
+	
 <#}#>
 <#foreach(var operation in Model.Operations){#>
 

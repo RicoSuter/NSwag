@@ -310,111 +310,197 @@ if(Model.SupportsStrictNullChecks){
             
             #line default
             #line hidden
-            this.Write(" = undefined;\r\n\r\n    constructor(");
+            this.Write(" = undefined;\r\n\r\n");
             
             #line 26 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+if(!Model.HasExtendedConstructor){
+            
+            #line default
+            #line hidden
+            this.Write("    constructor(");
+            
+            #line 27 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 if(Model.HasConfigurationClass){
             
             #line default
             #line hidden
             this.Write("@Inject(");
             
-            #line 26 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 27 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ConfigurationClass));
             
             #line default
             #line hidden
             this.Write(") configuration: ");
             
-            #line 26 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 27 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ConfigurationClass));
             
             #line default
             #line hidden
             this.Write(", ");
             
-            #line 26 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 27 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("@Inject(Http) http: Http, @Optional() @Inject(");
             
-            #line 26 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 27 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.BaseUrlTokenName));
             
             #line default
             #line hidden
             this.Write(") baseUrl?: string) {\r\n");
             
-            #line 27 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 28 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 if(Model.HasClientBaseClass){
             
             #line default
             #line hidden
             this.Write("        super(");
             
-            #line 28 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 29 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 if(Model.HasConfigurationClass){
             
             #line default
             #line hidden
             this.Write("configuration");
             
-            #line 28 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 29 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write(");\r\n");
             
-            #line 29 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 30 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("        this.http = http;\r\n        this.baseUrl = baseUrl ? baseUrl : \"");
             
-            #line 31 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 32 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.BaseUrl));
             
             #line default
             #line hidden
             this.Write("\";\r\n    }\r\n");
             
-            #line 33 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
-if(Model.HasExtensionClass && !Model.HasClientBaseClass){
-            
-            #line default
-            #line hidden
-            
             #line 34 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
-  if(Model.UseTransformOptionsMethod){
+}
             
             #line default
             #line hidden
-            this.Write("\r\n    protected transformOptions(options: RequestOptionsArgs) {\r\n        return P" +
-                    "romise.resolve(options); \r\n    }\r\n");
+            
+            #line 35 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+if(Model.HasExtensionCode){
+            
+            #line default
+            #line hidden
+            this.Write("    ");
+            
+            #line 36 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ExtensionCode));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n\t\r\n");
+            
+            #line 38 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+}
+            
+            #line default
+            #line hidden
             
             #line 39 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
-  }
+foreach(var operation in Model.Operations){
+            
+            #line default
+            #line hidden
+            this.Write("\r\n");
+            
+            #line 41 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+if(operation.HasDocumentation){
+            
+            #line default
+            #line hidden
+            this.Write("    /**\r\n");
+            
+            #line 42 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+if(operation.HasSummary){
+            
+            #line default
+            #line hidden
+            this.Write("     * ");
+            
+            #line 42 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.Summary));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n");
+            
+            #line 43 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+}
             
             #line default
             #line hidden
             
-            #line 40 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
-  if(Model.UseTransformResultMethod){
+            #line 43 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+foreach(var parameter in operation.Parameters){
             
             #line default
             #line hidden
-            this.Write("\r\n    protected transformResult(url: string, response: Response, processor: (resp" +
-                    "onse: Response) => any) {\r\n        return processor(response);\r\n    }\r\n");
+            
+            #line 44 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+if(parameter.HasDescription){
+            
+            #line default
+            #line hidden
+            this.Write("     * @");
+            
+            #line 44 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
+            
+            #line default
+            #line hidden
+            this.Write(" ");
+            
+            #line 44 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Description ?? ""));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n");
             
             #line 45 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
-  }
+}
             
             #line default
             #line hidden
+            
+            #line 45 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            
+            #line 45 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+if(operation.HasResultDescription){
+            
+            #line default
+            #line hidden
+            this.Write("     * @return ");
+            
+            #line 45 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultDescription));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n");
             
             #line 46 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 }
@@ -422,194 +508,101 @@ if(Model.HasExtensionClass && !Model.HasClientBaseClass){
             #line default
             #line hidden
             
-            #line 47 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
-foreach(var operation in Model.Operations){
-            
-            #line default
-            #line hidden
-            this.Write("\r\n");
-            
-            #line 49 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
-if(operation.HasDocumentation){
-            
-            #line default
-            #line hidden
-            this.Write("    /**\r\n");
-            
-            #line 50 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
-if(operation.HasSummary){
-            
-            #line default
-            #line hidden
-            this.Write("     * ");
-            
-            #line 50 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.Summary));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n");
-            
-            #line 51 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
-}
-            
-            #line default
-            #line hidden
-            
-            #line 51 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
-foreach(var parameter in operation.Parameters){
-            
-            #line default
-            #line hidden
-            
-            #line 52 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
-if(parameter.HasDescription){
-            
-            #line default
-            #line hidden
-            this.Write("     * @");
-            
-            #line 52 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
-            
-            #line default
-            #line hidden
-            this.Write(" ");
-            
-            #line 52 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Description ?? ""));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n");
-            
-            #line 53 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
-}
-            
-            #line default
-            #line hidden
-            
-            #line 53 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
-}
-            
-            #line default
-            #line hidden
-            
-            #line 53 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
-if(operation.HasResultDescription){
-            
-            #line default
-            #line hidden
-            this.Write("     * @return ");
-            
-            #line 53 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultDescription));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n");
-            
-            #line 54 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
-}
-            
-            #line default
-            #line hidden
-            
-            #line 54 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 46 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 if(operation.IsDeprecated){
             
             #line default
             #line hidden
             this.Write("     * @deprecated\r\n");
             
-            #line 55 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 47 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("     */\r\n");
             
-            #line 56 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 48 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("    ");
             
-            #line 56 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 48 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationName));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 56 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 48 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 foreach(var parameter in operation.Parameters){
             
             #line default
             #line hidden
             
-            #line 56 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 48 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             
-            #line 56 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 48 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 if(Model.GenerateOptionalParameters && parameter.IsOptional){
             
             #line default
             #line hidden
             this.Write("?");
             
-            #line 56 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 48 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write(": ");
             
-            #line 56 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 48 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Type));
             
             #line default
             #line hidden
             
-            #line 56 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 48 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 if(!parameter.IsLast){
             
             #line default
             #line hidden
             this.Write(", ");
             
-            #line 56 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 48 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 56 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 48 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("): Observable<");
             
-            #line 56 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 48 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultType));
             
             #line default
             #line hidden
             this.Write("> {\r\n        ");
             
-            #line 57 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 49 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeScriptTemplatePartGenerator.RenderRequestUrlCode(operation, 2)));
             
             #line default
             #line hidden
             this.Write("\r\n\r\n        ");
             
-            #line 59 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 51 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeScriptTemplatePartGenerator.RenderRequestBodyCode(operation, 2)));
             
             #line default
@@ -617,96 +610,96 @@ if(!parameter.IsLast){
             this.Write("\r\n        \r\n        let options_ = {\r\n            body: content_,\r\n            me" +
                     "thod: \"");
             
-            #line 63 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 55 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.HttpMethodLower));
             
             #line default
             #line hidden
             this.Write("\",\r\n");
             
-            #line 64 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 56 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 if(operation.IsFile){
             
             #line default
             #line hidden
             this.Write("            responseType: ResponseContentType.Blob,\r\n");
             
-            #line 66 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 58 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("            headers: new Headers({\r\n");
             
-            #line 68 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 60 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 foreach(var parameter in operation.HeaderParameters){
             
             #line default
             #line hidden
             this.Write("                \"");
             
-            #line 69 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 61 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
             
             #line default
             #line hidden
             this.Write("\": ");
             
-            #line 69 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 61 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             this.Write(", \r\n");
             
-            #line 70 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 62 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 71 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 63 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 if(!operation.HasFormParameters){
             
             #line default
             #line hidden
             this.Write("                \"Content-Type\": \"");
             
-            #line 72 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 64 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.Consumes));
             
             #line default
             #line hidden
             this.Write("; charset=UTF-8\", \r\n");
             
-            #line 73 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 65 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 74 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 66 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 if(!operation.IsFile){
             
             #line default
             #line hidden
             this.Write("                \"Accept\": \"");
             
-            #line 75 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 67 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.Produces));
             
             #line default
             #line hidden
             this.Write("; charset=UTF-8\"\r\n");
             
-            #line 76 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 68 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("            })\r\n        };\r\n\r\n");
             
-            #line 80 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 72 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 if(Model.UseTransformOptionsMethod){
             
             #line default
@@ -715,20 +708,20 @@ if(Model.UseTransformOptionsMethod){
                     "ansformedOptions_ => {\r\n            return this.http.request(url_, transformedOp" +
                     "tions_);\r\n        }).map((response) => {\r\n");
             
-            #line 84 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 76 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 }else{
             
             #line default
             #line hidden
             this.Write("        return this.http.request(url_, options_).map((response) => {\r\n");
             
-            #line 86 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 78 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 87 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 79 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 if(Model.UseTransformResultMethod){
             
             #line default
@@ -736,28 +729,28 @@ if(Model.UseTransformResultMethod){
             this.Write("            return this.transformResult(url_, response, (response) => this.proces" +
                     "s");
             
-            #line 88 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 80 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationNameUpper));
             
             #line default
             #line hidden
             this.Write("(response));\r\n");
             
-            #line 89 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 81 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 }else{
             
             #line default
             #line hidden
             this.Write("            return this.process");
             
-            #line 90 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 82 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationNameUpper));
             
             #line default
             #line hidden
             this.Write("(response);\r\n");
             
-            #line 91 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 83 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 }
             
             #line default
@@ -765,7 +758,7 @@ if(Model.UseTransformResultMethod){
             this.Write("        }).catch((response: any) => {\r\n            if (response instanceof Respon" +
                     "se) {\r\n                try {\r\n");
             
-            #line 95 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 87 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 if(Model.UseTransformResultMethod){
             
             #line default
@@ -773,35 +766,35 @@ if(Model.UseTransformResultMethod){
             this.Write("                    return Observable.of(this.transformResult(url_, response, (re" +
                     "sponse) => this.process");
             
-            #line 96 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 88 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationNameUpper));
             
             #line default
             #line hidden
             this.Write("(response)));\r\n");
             
-            #line 97 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 89 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 }else{
             
             #line default
             #line hidden
             this.Write("                    return Observable.of(this.process");
             
-            #line 98 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 90 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationNameUpper));
             
             #line default
             #line hidden
             this.Write("(response));\r\n");
             
-            #line 99 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 91 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("                } catch (e) {\r\n                    return <Observable<");
             
-            #line 101 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 93 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultType));
             
             #line default
@@ -809,21 +802,21 @@ if(Model.UseTransformResultMethod){
             this.Write(">><any>Observable.throw(e);\r\n                }\r\n            } else\r\n             " +
                     "   return <Observable<");
             
-            #line 104 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 96 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultType));
             
             #line default
             #line hidden
             this.Write(">><any>Observable.throw(response);\r\n        });\r\n    }\r\n\r\n    protected process");
             
-            #line 108 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 100 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationNameUpper));
             
             #line default
             #line hidden
             this.Write("(response: Response): ");
             
-            #line 108 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 100 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultType));
             
             #line default
@@ -831,28 +824,28 @@ if(Model.UseTransformResultMethod){
             this.Write(" {\r\n        const responseText = response.text();\r\n        const status = respons" +
                     "e.status; \r\n\r\n        ");
             
-            #line 112 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 104 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeScriptTemplatePartGenerator.RenderProcessResponseCode(operation, 2)));
             
             #line default
             #line hidden
             this.Write("\r\n    }\r\n");
             
-            #line 114 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 106 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("\r\n    ");
             
-            #line 116 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 108 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeScriptTemplatePartGenerator.RenderClientMethodsCode(Model, 1)));
             
             #line default
             #line hidden
             this.Write("\r\n}\r\n");
             
-            #line 118 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
+            #line 110 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Angular2ClientTemplate.tt"
 }
             
             #line default
