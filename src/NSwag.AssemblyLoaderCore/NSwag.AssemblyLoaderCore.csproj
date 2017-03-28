@@ -24,7 +24,7 @@
     <Version>9.12.0</Version>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="NJsonSchema" Version="8.19.6295.40470" />
+    <PackageReference Include="NJsonSchema" Version="8.21.6296.23959" />
     <PackageReference Include="NSwag.Commands" Version="*" />
     <PackageReference Include="NSwag.SwaggerGeneration" Version="*" />
     <PackageReference Include="System.Net.Http" Version="4.1.1" />

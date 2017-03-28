@@ -28,8 +28,8 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <param name="resolver">The resolver.</param>
         public TypeScriptOperationModel(
             SwaggerOperation operation,
-            SwaggerToTypeScriptClientGeneratorSettings settings, 
-            SwaggerToTypeScriptClientGenerator generator, 
+            SwaggerToTypeScriptClientGeneratorSettings settings,
+            SwaggerToTypeScriptClientGenerator generator,
             ITypeResolver resolver)
             : base(null, operation, resolver, generator, settings)
         {
@@ -44,20 +44,21 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             Parameters = parameters.Select(parameter =>
                 new TypeScriptParameterModel(parameter.Name,
                     GetParameterVariableName(parameter, _operation.Parameters), ResolveParameterType(parameter),
-                    parameter, _operation.ActualParameters.ToList(), _settings, 
+                    parameter, _operation.ActualParameters.ToList(), _settings,
                     _generator, (TypeScriptTypeResolver)resolver))
                 .ToList();
         }
 
         /// <summary>Gets the actual name of the operation (language specific).</summary>
-        public override string ActualOperationName => ConversionUtilities.ConvertToLowerCamelCase(OperationName, false);
+        public override string ActualOperationName => ConversionUtilities.ConvertToLowerCamelCase(OperationName, false)
+            + (MethodAccessModifier == "protected " ? "Core" : string.Empty);
 
         /// <summary>Gets the actual name of the operation (language specific).</summary>
         public string ActualOperationNameUpper => ConversionUtilities.ConvertToUpperCamelCase(OperationName, false);
 
         /// <summary>Gets or sets the type of the result.</summary>
         public override string ResultType => UnwrappedResultType;
-        
+
         /// <summary>Gets a value indicating whether the target TypeScript version supports strict null checks.</summary>
         public bool SupportsStrictNullChecks => _settings.TypeScriptGeneratorSettings.TypeScriptVersion >= 2.0m;
 
@@ -76,6 +77,19 @@ namespace NSwag.CodeGeneration.TypeScript.Models
                     .Where(r => !HttpUtilities.IsSuccessStatusCode(r.Key) && r.Value.ActualResponseSchema != null)
                     .Select(r => _generator.GetTypeName(r.Value.ActualResponseSchema, r.Value.IsNullable(_settings.CodeGeneratorSettings.NullHandling), "Exception"))
                     .Concat(new[] { "string" }));
+            }
+        }
+
+        /// <summary>Gets the method's access modifier.</summary>
+        public string MethodAccessModifier
+        {
+            get
+            {
+                var controllerName = _settings.GenerateControllerName(ControllerName);
+                if (_settings.ProtectedMethods?.Contains(controllerName + "." + ConversionUtilities.ConvertToLowerCamelCase(OperationName, false)) == true)
+                    return "protected ";
+
+                return "";
             }
         }
 
@@ -110,11 +124,11 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <param name="generator">The generator.</param>
         /// <param name="settings">The settings.</param>
         /// <returns></returns>
-        protected override TypeScriptResponseModel CreateResponseModel(string statusCode, SwaggerResponse response, 
+        protected override TypeScriptResponseModel CreateResponseModel(string statusCode, SwaggerResponse response,
             JsonSchema4 exceptionSchema, IClientGenerator generator, ClientGeneratorBaseSettings settings)
         {
-            return new TypeScriptResponseModel(statusCode, response, response == GetSuccessResponse(), 
-                exceptionSchema, generator, (SwaggerToTypeScriptClientGeneratorSettings) settings);
+            return new TypeScriptResponseModel(statusCode, response, response == GetSuccessResponse(),
+                exceptionSchema, generator, (SwaggerToTypeScriptClientGeneratorSettings)settings);
         }
     }
 }

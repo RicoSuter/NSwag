@@ -103,6 +103,9 @@
                                 <CheckBox IsChecked="{Binding Command.UseTransformResultMethod, Mode=TwoWay}" Margin="0,0,0,12">
                                     <TextBlock Text="Call 'transformResult' on the base class or extension class" TextWrapping="Wrap" />
                                 </CheckBox>
+
+                                <TextBlock Text="Methods with a protected access modifier to use in class extensions ('classname.methodname', comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox ToolTip="ProtectedMethods" Text="{Binding ProtectedMethods, Mode=TwoWay}" Margin="0,0,0,12" />
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
@@ -123,6 +126,11 @@
                                 <CheckBox IsChecked="{Binding Command.GenerateCloneMethod, Mode=TwoWay}" 
                                           Content="Generate clone() method"
                                           ToolTip="GenerateCloneMethod"
+                                          Margin="0,0,0,12" />
+
+                                <CheckBox IsChecked="{Binding Command.GenerateConstructorInterface, Mode=TwoWay}" 
+                                          Content="Generate constructor interface which is used to initialize the class"
+                                          ToolTip="GenerateConstructorInterface"
                                           Margin="0,0,0,12" />
 
                                 <TextBlock Text="Null value used in object initializers" FontWeight="Bold" Margin="0,0,0,6" />

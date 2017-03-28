@@ -122,6 +122,13 @@ namespace NSwag.Commands
             set { Settings.ClientBaseClass = value; }
         }
 
+        [Argument(Name = "ProtectedMethods", IsRequired = false, Description = "List of methods with a protected access modifier ('classname.methodname').")]
+        public string[] ProtectedMethods
+        {
+            get { return Settings.ProtectedMethods; }
+            set { Settings.ProtectedMethods = value; }
+        }
+
         [Argument(Name = "ConfigurationClass", IsRequired = false, Description = "The configuration class. The setting ClientBaseClass must be set. (empty for no configuration class).")]
         public string ConfigurationClass
         {
@@ -214,6 +221,13 @@ namespace NSwag.Commands
         {
             get { return Settings.TypeScriptGeneratorSettings.HandleReferences; }
             set { Settings.TypeScriptGeneratorSettings.HandleReferences = value; }
+        }
+
+        [Argument(Name = "GenerateConstructorInterface", IsRequired = false, Description = "Generate an class interface which is used in the constructor to initialize the class (default: true).")]
+        public bool GenerateConstructorInterface
+        {
+            get { return Settings.TypeScriptGeneratorSettings.GenerateConstructorInterface; }
+            set { Settings.TypeScriptGeneratorSettings.GenerateConstructorInterface = value; }
         }
 
         [Argument(Name = "BaseUrlTokenName", IsRequired = false, Description = "The token name for injecting the API base URL string (used in the Angular2 template, default: 'API_BASE_URL').")]
