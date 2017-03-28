@@ -20,7 +20,7 @@ import { Http, Headers, Response<#if(Model.UseTransformOptionsMethod){#>, Reques
 import { inject } from 'aurelia-framework';
 import { HttpClient, RequestInit } from 'aurelia-fetch-client';
 <#}#>
-<#if(Model.IsAngular){#>
+<#if(Model.IsAngularJS){#>
 
 import * as ng from 'angular';
 <#}#>

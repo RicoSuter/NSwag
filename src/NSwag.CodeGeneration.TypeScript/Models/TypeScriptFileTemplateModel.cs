@@ -55,7 +55,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public bool IsAurelia => _settings.GenerateClientClasses && _settings.Template == TypeScriptTemplate.Aurelia;
 
         /// <summary>Gets a value indicating whether the generated code is for Angular.</summary>
-        public bool IsAngular => _settings.GenerateClientClasses && _settings.Template == TypeScriptTemplate.AngularJS;
+        public bool IsAngularJS => _settings.GenerateClientClasses && _settings.Template == TypeScriptTemplate.AngularJS;
 
         /// <summary>Gets a value indicating whether the generated code is for Knockout.</summary>
         public bool IsKnockout => _settings.GenerateClientClasses && _settings.TypeScriptGeneratorSettings.TypeStyle == TypeScriptTypeStyle.KnockoutClass;
