@@ -24,7 +24,8 @@ namespace NSwag.CodeGeneration.TypeScript
             TypeScriptGeneratorSettings = new TypeScriptGeneratorSettings
             {
                 NullHandling = NullHandling.Swagger,
-                TemplateFactory = new DefaultTemplateFactory()
+                TemplateFactory = new DefaultTemplateFactory(), 
+                TypeNameGenerator = new TypeScriptTypeNameGenerator()
             };
             BaseUrlTokenName = "API_BASE_URL";
         }

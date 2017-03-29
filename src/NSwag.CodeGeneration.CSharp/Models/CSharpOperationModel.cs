@@ -29,6 +29,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         private readonly SwaggerToCSharpGeneratorSettings _settings;
         private readonly SwaggerOperation _operation;
         private readonly SwaggerToCSharpGeneratorBase _generator;
+        private readonly SwaggerToCSharpTypeResolver _resolver;
 
         /// <summary>Initializes a new instance of the <see cref="CSharpOperationModel" /> class.</summary>
         /// <param name="operation">The operation.</param>
@@ -45,6 +46,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             _settings = settings;
             _operation = operation;
             _generator = generator;
+            _resolver = resolver;
 
             var parameters = _operation.ActualParameters.ToList();
             if (settings.GenerateOptionalParameters)
@@ -73,7 +75,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         }
 
         /// <summary>Gets the actual name of the operation (language specific).</summary>
-        public override string ActualOperationName => ConversionUtilities.ConvertToUpperCamelCase(OperationName, false) 
+        public override string ActualOperationName => ConversionUtilities.ConvertToUpperCamelCase(OperationName, false)
             + (MethodAccessModifier == "protected" ? "Core" : string.Empty);
 
         /// <summary>Gets a value indicating whether this operation is rendered as interface method.</summary>
@@ -111,6 +113,42 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
                 var response = _operation.Responses.Single(r => !HttpUtilities.IsSuccessStatusCode(r.Key)).Value;
                 return _generator.GetTypeName(response.ActualResponseSchema, response.IsNullable(_settings.CodeGeneratorSettings.NullHandling), "Exception");
+            }
+        }
+
+        /// <summary>Gets or sets the exception descriptions.</summary>
+        public IEnumerable<CSharpExceptionDescriptionModel> ExceptionDescriptions
+        {
+            get
+            {
+                var settings = (SwaggerToCSharpClientGeneratorSettings)_settings;
+                var controllerName = _settings.GenerateControllerName(ControllerName);
+                return Responses
+                    .Where(r => r.IsException)
+                    .SelectMany(r =>
+                    {
+                        if (r.ExpectedSchemas?.Any() == true)
+                        {
+                            return r.ExpectedSchemas
+                                .Where(s => s.Schema.ActualSchema.InheritsSchema(_resolver.ExceptionSchema))
+                                .Select(s =>
+                                {
+                                    var schema = s.Schema;
+                                    var isNullable = schema.IsNullable(_settings.CSharpGeneratorSettings.NullHandling);
+                                    var typeName = _generator.GetTypeName(schema.ActualSchema, isNullable, "Response");
+                                    return new CSharpExceptionDescriptionModel(typeName, s.Description, controllerName, settings);
+                                });
+                        }
+                        else if (r.InheritsExceptionSchema)
+                        {
+                            return new[]
+                            {
+                                new CSharpExceptionDescriptionModel(r.Type, r.ExceptionDescription, controllerName, settings)
+                            };
+                        }
+                        else
+                            return new CSharpExceptionDescriptionModel[] { };
+                    });
             }
         }
 

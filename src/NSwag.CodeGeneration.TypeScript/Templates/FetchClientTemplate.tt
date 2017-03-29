@@ -21,30 +21,22 @@ export interface I<#=Model.Class#> {
 @inject(String, HttpClient)
 <#}#>
 export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.ClientBaseClass#> <#}#><#if(Model.GenerateClientInterfaces){#>implements I<#=Model.Class#> <#}#>{
-    private baseUrl: string<#if(Model.SupportsStrictNullChecks){#> | undefined<#}#> = undefined;
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
     protected jsonParseReviver: <#if(Model.SupportsStrictNullChecks){#>((key: string, value: any) => any) | undefined<#}else{#>(key: string, value: any) => any<#}#> = undefined;
 
+<#if(!Model.HasExtendedConstructor){#>
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
 <#if(Model.HasClientBaseClass){#>
         super();
 <#}#>
         this.baseUrl = baseUrl ? baseUrl : "";
-        this.http = http ? http : <any>window;;
+        this.http = http ? http : <any>window;
     }
-<#if(Model.HasExtensionClass && !Model.HasClientBaseClass){#>
-<#  if(Model.UseTransformOptionsMethod){#>
-
-    protected transformOptions(options: RequestInit) {
-        return Promise.resolve(options);
-    }
-<#  }#>
-<#  if(Model.UseTransformResultMethod){#>
-
-    protected transformResult(url: string, _response: Response, processor: (_response: Response) => any) {
-        return processor(_response);
-    }
-<#  }#>
+<#}#>
+<#if(Model.HasExtensionCode){#>
+    <#=Model.ExtensionCode#>
+	
 <#}#>
 <#foreach(var operation in Model.Operations){#>
 
@@ -74,7 +66,9 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 <#if(!operation.HasFormParameters){#>
                 "Content-Type": "<#=operation.Consumes#>; charset=UTF-8", 
 <#}#>
+<#if(!operation.IsFile){#>
                 "Accept": "<#=operation.Produces#>; charset=UTF-8"
+<#}#>
             }
         };
 

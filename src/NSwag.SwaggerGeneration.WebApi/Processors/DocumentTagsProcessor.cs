@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Contexts;
 
@@ -20,7 +21,9 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
     {
         /// <summary>Processes the specified Swagger document.</summary>
         /// <param name="context"></param>
-        public void Process(DocumentProcessorContext context)
+#pragma warning disable 1998
+        public async Task ProcessAsync(DocumentProcessorContext context)
+#pragma warning restore 1998
         {
             foreach (var controllerType in context.ControllerTypes)
             {

@@ -1,0 +1,27 @@
+﻿{
+  "compilerOptions": {
+    "outDir": "../dist",
+    "target": "es5",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "inlineSources": true,
+    "noEmitHelpers": false,
+    "strictNullChecks": false,
+    "noImplicitAny": true,
+    "declaration": true,
+    "skipLibCheck": false,
+    "stripInternal": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "lib": ["dom", "es6"],
+    "types": [
+        "jasmine"
+    ]
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}

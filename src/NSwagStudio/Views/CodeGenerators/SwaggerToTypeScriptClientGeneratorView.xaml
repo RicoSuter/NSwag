@@ -40,6 +40,11 @@
                     <ComboBox SelectedItem="{Binding Command.TypeScriptVersion, Mode=TwoWay}" 
                               ItemsSource="{Binding TypeScriptVersions}" Margin="0,0,0,12" />
 
+                    <CheckBox IsChecked="{Binding Command.HandleReferences, Mode=TwoWay}" 
+                              Content="Handle JSON references ($ref, $id, $values) (experimental)"
+                              ToolTip="HandleReferences"
+                              Margin="0,0,0,6" />
+
                     <GroupBox Header="Client" Margin="0,0,0,12">
                         <StackPanel Margin="4,4,4,-8">
                             <CheckBox IsChecked="{Binding Command.GenerateClientClasses, Mode=TwoWay}" 
@@ -114,6 +119,11 @@
 
                                 <CheckBox IsChecked="{Binding Command.MarkOptionalProperties, Mode=TwoWay}" 
                                           Content="Mark optional properties with ?" Margin="0,0,0,12" />
+
+                                <CheckBox IsChecked="{Binding Command.GenerateCloneMethod, Mode=TwoWay}" 
+                                          Content="Generate clone() method"
+                                          ToolTip="GenerateCloneMethod"
+                                          Margin="0,0,0,12" />
 
                                 <TextBlock Text="Null value used in object initializers" FontWeight="Bold" Margin="0,0,0,6" />
                                 <ComboBox SelectedItem="{Binding Command.NullValue, Mode=TwoWay}" 

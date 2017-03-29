@@ -76,6 +76,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets a value indicating whether to use a HTTP client creation method.</summary>
         public bool UseHttpClientCreationMethod => _settings.UseHttpClientCreationMethod;
 
+        /// <summary>Gets the type of the HttpClient that will be used in the calls from a client to a service.</summary>
+        public string HttpClientType => _settings.HttpClientType;
+
         /// <summary>Gets a value indicating whether to use a HTTP request message creation method.</summary>
         public bool UseHttpRequestMessageCreationMethod => _settings.UseHttpRequestMessageCreationMethod;
 
@@ -106,6 +109,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets the operations.</summary>
         public IEnumerable<CSharpOperationModel> Operations { get; }
 
+        /// <summary>Gets or sets a value indicating whether DTO exceptions are wrapped in a SwaggerException instance.</summary>
+        public bool WrapDtoExceptions => _settings.WrapDtoExceptions;
+
         /// <summary>Gets the JSON serializer parameter code.</summary>
         public string JsonSerializerParameterCode
         {
@@ -120,8 +126,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 return CSharpJsonSerializerGenerator.GenerateJsonSerializerParameterCode(handleReferences, jsonConverters.ToList());
             }
         }
-
+        
         private bool RequiresJsonExceptionConverter =>
-            _document.Operations.Any(o => o.Operation.AllResponses.Any(r => r.Value.InheritsExceptionSchema(_exceptionSchema)));
+            _document.Operations.Any(o => o.Operation.AllResponses.Any(r => r.Value.ActualResponseSchema.InheritsSchema(_exceptionSchema)));
     }
 }

@@ -1,4 +1,12 @@
-﻿using System.Linq;
+﻿//-----------------------------------------------------------------------
+// <copyright file="TypeScriptOperationModel.cs" company="NSwag">
+//     Copyright (c) Rico Suter. All rights reserved.
+// </copyright>
+// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <author>Rico Suter, mail@rsuter.com</author>
+//-----------------------------------------------------------------------
+
+using System.Linq;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.TypeScript;
@@ -53,6 +61,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets a value indicating whether the target TypeScript version supports strict null checks.</summary>
         public bool SupportsStrictNullChecks => _settings.TypeScriptGeneratorSettings.TypeScriptVersion >= 2.0m;
 
+        /// <summary>Gets a value indicating whether to handle references.</summary>
+        public bool HandleReferences => _settings.TypeScriptGeneratorSettings.HandleReferences;
+
         /// <summary>Gets or sets the type of the exception.</summary>
         public override string ExceptionType
         {
@@ -67,6 +78,13 @@ namespace NSwag.CodeGeneration.TypeScript.Models
                     .Concat(new[] { "string" }));
             }
         }
+
+        /// <summary>Gets a value indicating whether to render for AngularJS.</summary>
+        public bool IsAngularJS => _settings.Template == TypeScriptTemplate.AngularJS;
+
+        /// <summary>Gets a value indicating whether to render for JQuery.</summary>
+        public bool IsJQuery => _settings.Template == TypeScriptTemplate.JQueryCallbacks ||
+                                _settings.Template == TypeScriptTemplate.JQueryPromises;
 
         /// <summary>Resolves the type of the parameter.</summary>
         /// <param name="parameter">The parameter.</param>
@@ -92,9 +110,11 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <param name="generator">The generator.</param>
         /// <param name="settings">The settings.</param>
         /// <returns></returns>
-        protected override TypeScriptResponseModel CreateResponseModel(string statusCode, SwaggerResponse response, JsonSchema4 exceptionSchema, IClientGenerator generator, ClientGeneratorBaseSettings settings)
+        protected override TypeScriptResponseModel CreateResponseModel(string statusCode, SwaggerResponse response, 
+            JsonSchema4 exceptionSchema, IClientGenerator generator, ClientGeneratorBaseSettings settings)
         {
-            return new TypeScriptResponseModel(statusCode, response, response == GetSuccessResponse(), exceptionSchema, generator, (TypeScriptGeneratorSettings) settings.CodeGeneratorSettings);
+            return new TypeScriptResponseModel(statusCode, response, response == GetSuccessResponse(), 
+                exceptionSchema, generator, (SwaggerToTypeScriptClientGeneratorSettings) settings);
         }
     }
 }

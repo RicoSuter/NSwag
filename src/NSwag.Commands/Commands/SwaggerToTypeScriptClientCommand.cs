@@ -164,6 +164,13 @@ namespace NSwag.Commands
             set { Settings.TypeScriptGeneratorSettings.MarkOptionalProperties = value; }
         }
 
+        [Argument(Name = "GenerateCloneMethod", IsRequired = false, Description = "Specifies whether a clone() method should be generated in the DTO classes (default: false).")]
+        public bool GenerateCloneMethod
+        {
+            get { return Settings.TypeScriptGeneratorSettings.GenerateCloneMethod; }
+            set { Settings.TypeScriptGeneratorSettings.GenerateCloneMethod = value; }
+        }
+
         [Argument(Name = "TypeStyle", IsRequired = false, Description = "The type style (default: Class).")]
         public TypeScriptTypeStyle TypeStyle
         {
@@ -200,6 +207,13 @@ namespace NSwag.Commands
         {
             get { return Settings.TypeScriptGeneratorSettings.ExcludedTypeNames; }
             set { Settings.TypeScriptGeneratorSettings.ExcludedTypeNames = value; }
+        }
+
+        [Argument(Name = "HandleReferences", IsRequired = false, Description = "Handle JSON references (default: false).")]
+        public bool HandleReferences
+        {
+            get { return Settings.TypeScriptGeneratorSettings.HandleReferences; }
+            set { Settings.TypeScriptGeneratorSettings.HandleReferences = value; }
         }
 
         [Argument(Name = "BaseUrlTokenName", IsRequired = false, Description = "The token name for injecting the API base URL string (used in the Angular2 template, default: 'API_BASE_URL').")]

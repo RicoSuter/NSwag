@@ -1,56 +1,71 @@
 ﻿<#@ template visibility="internal" #>
 <#@ import namespace="NJsonSchema" #>
+<#if(Model.HandleReferences){#>
+let mappings: { source: any, target: any }[] = [];
+<#}#>
 <#foreach(var response in Model.Responses){#>
-if (_status === <#=response.StatusCode#>) {
-<#  if(response.HasType){#>
-    let result<#=response.StatusCode#>: <#=response.Type#><#if(Model.SupportsStrictNullChecks){#> | null<#}#> = null;
-<#      if(response.IsDate){#>
-    result<#=response.StatusCode#> = new Date(_responseText);
-<#      }else{
-            if(response.UseDtoClass){#>
-    let resultData<#=response.StatusCode#> = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-    <#=ConversionUtilities.Tab(response.DataConversionCode, 1)#>
-<#          }else{#>
-    result<#=response.StatusCode#> = _responseText === "" ? null : <<#=response.Type#>>JSON.parse(_responseText, this.jsonParseReviver);
-<#          }
-        }
-        if(response.IsSuccess){#>
-    return result<#=response.StatusCode#>;
+if (status === <#=response.StatusCode#>) {
+<#  if(response.IsFile && !response.IsJQuery){#>
+<#      if(response.IsAngularJS){#>
+    return new Blob([response], { type: "application/octet-stream" });
 <#      }else{#>
-    this.throwException("A server error occurred.", _status, _responseText, result<#=response.StatusCode#>);
-    return null;
-<#      }
-    }else if(response.IsSuccess){#>
-    return null;
+    return response.blob();
+<#      }#>
 <#  }else{#>
-    this.throwException("A server error occurred.", _status, _responseText);
+<#      if(response.HasType){#>
+    let result<#=response.StatusCode#>: <#=response.Type#><#if(Model.SupportsStrictNullChecks){#> | null<#}#> = null;
+<#          if(response.IsDate){#>
+    result<#=response.StatusCode#> = new Date(responseText);
+<#          }else{
+                if(response.UseDtoClass){#>
+    let resultData<#=response.StatusCode#> = _responseText === "" ? null : <#if(Model.HandleReferences){#>jp<#}else{#>JSON.parse<#}#>(_responseText, this.jsonParseReviver);
+    <#=ConversionUtilities.Tab(response.DataConversionCode, 1)#>
+<#              }else{#>
+    result<#=response.StatusCode#> = _responseText === "" ? null : <<#=response.Type#>><#if(Model.HandleReferences){#>jp<#}else{#>JSON.parse<#}#>(_responseText, this.jsonParseReviver);
+<#              }
+            }
+            if(response.IsSuccess){#>
+    return result<#=response.StatusCode#>;
+<#          }else{#>
+    this.throwException("A server error occurred.", _status, _responseText, result<#=response.StatusCode#>);
+<#          }
+        }else if(response.IsSuccess){#>
     return null;
+<#      }else{#>
+    this.throwException("A server error occurred.", _status, _responseText);
+<#      }#>
 <#  }#>
 } else <#}
 if(Model.HasDefaultResponse){#>{
-<#  if(Model.DefaultResponse.HasType){#>
-    let result: <#=Model.DefaultResponse.Type#><#if(Model.SupportsStrictNullChecks){#> | null<#}#> = null;
-<#      if(Model.DefaultResponse.IsDate){#>
-    result = new Date(_responseText);
-<#      }else{
-            if(Model.DefaultResponse.UseDtoClass){#>
-    let resultData = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-    <#=ConversionUtilities.Tab(Model.DefaultResponse.DataConversionCode, 1)#>
-<#          }else{#>
-    result = responseText === "" ? null : <<#=Model.DefaultResponse.Type#>>JSON.parse(_responseText, this.jsonParseReviver);
-<#          }
-        }
-        if(!Model.HasSuccessResponse){#>
-    return result;
+<#  if(Model.DefaultResponse.IsFile && !Model.DefaultResponse.IsJQuery){#>
+<#      if(Model.DefaultResponse.IsAngularJS){#>
+    return new Blob([response], { type: "application/octet-stream" });
 <#      }else{#>
-    this.throwException("A server error occurred.", _status, _responseText, result);
-    return null;
-<#      }
-    }else if(!Model.HasSuccessResponse){#>
-    return null;
+    return response.blob();
+<#      }#>
 <#  }else{#>
-    this.throwException("A server error occurred.", _status, _responseText);
+<#      if(Model.DefaultResponse.HasType){#>
+    let result: <#=Model.DefaultResponse.Type#><#if(Model.SupportsStrictNullChecks){#> | null<#}#> = null;
+<#          if(Model.DefaultResponse.IsDate){#>
+    result = new Date(_responseText);
+<#          }else{
+                if(Model.DefaultResponse.UseDtoClass){#>
+    let resultData = _responseText === "" ? null : <#if(Model.HandleReferences){#>jp<#}else{#>JSON.parse<#}#>(_responseText, this.jsonParseReviver);
+    <#=ConversionUtilities.Tab(Model.DefaultResponse.DataConversionCode, 1)#>
+<#              }else{#>
+    result = _responseText === "" ? null : <<#=Model.DefaultResponse.Type#>><#if(Model.HandleReferences){#>jp<#}else{#>JSON.parse<#}#>(_responseText, this.jsonParseReviver);
+<#              }
+            }
+            if(!Model.HasSuccessResponse){#>
+    return result;
+<#          }else{#>
+    this.throwException("A server error occurred.", _status, _responseText, result);
+<#          }
+        }else if(!Model.HasSuccessResponse){#>
     return null;
+<#      }else{#>
+    this.throwException("A server error occurred.", _status, _responseText);
+<#      }#>
 <#  }#>
 }<#
 }else{

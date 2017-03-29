@@ -79,7 +79,9 @@ namespace NSwag.AspNetCore
                 if (producesResponseTypeAttribute != null)
                     return producesResponseTypeAttribute.StatusCode;
 
+#pragma warning disable 618
                 var responseTypeAttributes = methodInfo.GetCustomAttributes().OfType<ResponseTypeAttribute>();
+#pragma warning restore 618
                 var responseTypeAttribute = responseTypeAttributes.FirstOrDefault((dynamic a) => exceptionType.IsAssignableFrom((Type)a.ResponseType));
                 if (responseTypeAttribute != null)
                 {

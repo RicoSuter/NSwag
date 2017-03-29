@@ -63,9 +63,8 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=8.9.6275.22295, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.8.9.6275.22295\lib\net45\NJsonSchema.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="NJsonSchema, Version=8.19.6295.40470, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.8.19.6295.40470\lib\net45\NJsonSchema.dll</HintPath>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
@@ -148,6 +147,7 @@
     <Compile Include="Controllers\InheritanceController.cs" />
     <Compile Include="Controllers\MvcController.cs" />
     <Compile Include="Controllers\PersonsController.cs" />
+    <Compile Include="Controllers\PersonsDefaultRouteController.cs" />
     <Compile Include="Controllers\RequestParameterTestController.cs" />
     <Compile Include="Controllers\RoutePrefixWithPathsController.cs" />
     <Compile Include="Controllers\TestController.cs" />
@@ -287,7 +287,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>22093</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

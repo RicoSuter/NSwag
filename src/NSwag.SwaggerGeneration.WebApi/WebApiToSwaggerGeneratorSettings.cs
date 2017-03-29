@@ -26,7 +26,7 @@ namespace NSwag.SwaggerGeneration.WebApi
         }
 
         /// <summary>Gets or sets the default Web API URL template.</summary>
-        public string DefaultUrlTemplate { get; set; } = "api/{controller}/{id}";
+        public string DefaultUrlTemplate { get; set; } = "api/{controller}/{id?}";
 
         /// <summary>Gets or sets the Swagger specification title.</summary>
         public string Title { get; set; } = "Web API Swagger specification";

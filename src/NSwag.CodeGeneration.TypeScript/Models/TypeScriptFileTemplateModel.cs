@@ -109,6 +109,12 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets or sets the token name for injecting the API base URL string (used in the Angular2 template).</summary>
         public string BaseUrlTokenName => _settings.BaseUrlTokenName;
 
+        /// <summary>Gets a value indicating whether to handle references.</summary>
+        public bool HandleReferences => _settings.TypeScriptGeneratorSettings.HandleReferences;
+
+        /// <summary>Gets the reference handling code.</summary>
+        public string ReferenceHandlingCode => TypeScriptReferenceHandlingCodeGenerator.Generate();
+
         private string GenerateDtoTypes()
         {
             return _settings.GenerateDtoTypes ? _resolver.GenerateTypes(_extensionCode) : string.Empty;

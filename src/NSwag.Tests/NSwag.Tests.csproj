@@ -60,13 +60,8 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=8.9.6275.22295, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.8.9.6275.22295\lib\net45\NJsonSchema.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NJsonSchema.CodeGeneration, Version=8.5.6255.20272, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NJsonSchema.CodeGeneration.8.5.6255.20272\lib\portable45-net45+win8+wp8+wpa81\NJsonSchema.CodeGeneration.dll</HintPath>
+    <Reference Include="NJsonSchema, Version=8.19.6295.40470, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.8.19.6295.40470\lib\net45\NJsonSchema.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Net.Http" />
@@ -110,10 +105,6 @@
     <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj">
       <Project>{2E6174AA-FC75-4821-9E86-51B30568BEC0}</Project>
       <Name>NSwag.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NSwag.Demo.Web\NSwag.Demo.Web.csproj">
-      <Project>{37AE85DE-B127-4861-B925-1A67A35F314A}</Project>
-      <Name>NSwag.Demo.Web</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
