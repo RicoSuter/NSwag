@@ -14,7 +14,7 @@ using NJsonSchema.CodeGeneration;
 namespace NSwag.CodeGeneration.Models
 {
     /// <summary>The Swagger operation template model.</summary>
-    public abstract class OperationModelBase<TParameterModel, TResponseModel>
+    public abstract class OperationModelBase<TParameterModel, TResponseModel> : IOperationModel
         where TParameterModel : ParameterModelBase
         where TResponseModel : ResponseModelBase
     {
@@ -146,7 +146,13 @@ namespace NSwag.CodeGeneration.Models
         public TResponseModel DefaultResponse { get; }
 
         /// <summary>Gets a value indicating whether the operation has an explicit success response defined.</summary>
-        public bool HasSuccessResponse => Responses.Any(r => r.IsSuccess);
+        public bool HasSuccessResponse => Responses.Any(r => r.IsSuccess(this));
+
+        /// <summary>Gets the success response.</summary>
+        public TResponseModel SuccessResponse => Responses.FirstOrDefault(r => r.IsSuccess(this));
+
+        /// <summary>Gets the success response.</summary>
+        ResponseModelBase IOperationModel.SuccessResponse => SuccessResponse;
 
         /// <summary>Gets or sets the parameters.</summary>
         public IList<TParameterModel> Parameters { get; protected set; }

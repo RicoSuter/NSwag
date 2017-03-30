@@ -2355,7 +2355,7 @@ if(response.HasType){
             #line hidden
             
             #line 296 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-      if(response.IsSuccess){
+      if(response.IsSuccess(operation)){
             
             #line default
             #line hidden
@@ -2445,7 +2445,7 @@ if(Model.InjectHttpClient){
             this.Write(");\r\n");
             
             #line 311 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-      if(response.IsSuccess){
+      if(response.IsSuccess(operation)){
             
             #line default
             #line hidden
@@ -2501,7 +2501,7 @@ if(Model.InjectHttpClient){
                     "ception);\r\n                        }\r\n");
             
             #line 323 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-      if(!response.IsSuccess){
+      if(!response.IsSuccess(operation)){
             
             #line default
             #line hidden
@@ -2617,7 +2617,7 @@ if(Model.InjectHttpClient){
             #line hidden
             
             #line 341 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-  if(response.IsSuccess){
+  if(response.IsSuccess(operation)){
             
             #line default
             #line hidden
@@ -2776,7 +2776,7 @@ if(operation.HasDefaultResponse){
             #line hidden
             
             #line 367 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-          if(operation.DefaultResponse.IsSuccess){
+          if(operation.DefaultResponse.IsSuccess(operation)){
             
             #line default
             #line hidden

@@ -124,7 +124,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 var settings = (SwaggerToCSharpClientGeneratorSettings)_settings;
                 var controllerName = _settings.GenerateControllerName(ControllerName);
                 return Responses
-                    .Where(r => r.IsException)
+                    .Where(r => r.ThrowsException(this))
                     .SelectMany(r =>
                     {
                         if (r.ExpectedSchemas?.Any() == true)

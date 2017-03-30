@@ -26,12 +26,12 @@ if (_status === <#=response.StatusCode#>) {
     result<#=response.StatusCode#> = _responseText === "" ? null : <<#=response.Type#>><#if(Model.HandleReferences){#>jp<#}else{#>JSON.parse<#}#>(_responseText, this.jsonParseReviver);
 <#              }
             }
-            if(response.IsSuccess){#>
+            if(response.IsSuccess(Model)){#>
     return result<#=response.StatusCode#>;
 <#          }else{#>
     this.throwException("A server error occurred.", _status, _responseText, result<#=response.StatusCode#>);
 <#          }
-        }else if(response.IsSuccess){#>
+        }else if(response.IsSuccess(Model)){#>
     return null;
 <#      }else{#>
     this.throwException("A server error occurred.", _status, _responseText);

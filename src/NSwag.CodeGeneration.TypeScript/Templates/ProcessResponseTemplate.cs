@@ -229,7 +229,7 @@ if(Model.HandleReferences){
             #line 27 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
               }
             }
-            if(response.IsSuccess){
+            if(response.IsSuccess(Model)){
             
             #line default
             #line hidden
@@ -259,7 +259,7 @@ if(Model.HandleReferences){
             
             #line 33 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
           }
-        }else if(response.IsSuccess){
+        }else if(response.IsSuccess(Model)){
             
             #line default
             #line hidden
