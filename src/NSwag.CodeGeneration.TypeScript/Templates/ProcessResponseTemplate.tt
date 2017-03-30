@@ -8,8 +8,10 @@ if (_status === <#=response.StatusCode#>) {
 <#  if(response.IsFile && !response.IsJQuery){#>
 <#      if(response.IsAngularJS){#>
     return new Blob([_response], { type: "application/octet-stream" });
-<#      }else{#>
+<#      }else if(response.IsAngular2){#>
     return _response.blob();
+<#      }else{#>
+    return _blob;
 <#      }#>
 <#  }else{#>
 <#      if(response.HasType){#>
@@ -40,8 +42,10 @@ if(Model.HasDefaultResponse){#>{
 <#  if(Model.DefaultResponse.IsFile && !Model.DefaultResponse.IsJQuery){#>
 <#      if(Model.DefaultResponse.IsAngularJS){#>
     return new Blob([_response], { type: "application/octet-stream" });
-<#      }else{#>
+<#      }else if(Model.DefaultResponse.IsAngular2){#>
     return _response.blob();
+<#      }else{#>
+    return _blob;
 <#      }#>
 <#  }else{#>
 <#      if(Model.DefaultResponse.HasType){#>

@@ -33,7 +33,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 <#}#>
 <#if(Model.HasExtensionCode){#>
     <#=Model.ExtensionCode#>
-	
+    
 <#}#>
 <#foreach(var operation in Model.Operations){#>
 
