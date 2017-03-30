@@ -64,6 +64,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public bool IsJQuery => _settings.GenerateClientClasses &&
             (_settings.Template == TypeScriptTemplate.JQueryCallbacks || _settings.Template == TypeScriptTemplate.JQueryPromises);
 
+        /// <summary>Gets a value indicating whether required types should be imported.</summary>
+        public bool ImportRequiredTypes => _settings.ImportRequiredTypes;
+
         /// <summary>Gets a value indicating whether to call 'transformOptions' on the base class or extension class.</summary>
         public bool UseTransformOptionsMethod => _settings.UseTransformOptionsMethod;
 

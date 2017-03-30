@@ -60,6 +60,9 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <summary>Gets or sets the token name for injecting the API base URL string (used in the Angular2 template, default: '').</summary>
         public string BaseUrlTokenName { get; set; }
 
+        /// <summary>Gets or sets a value indicating whether required types should be imported (default: true).</summary>
+        public bool ImportRequiredTypes { get; set; } = true;
+
         internal ITemplate CreateTemplate(object model)
         {
             if (Template == TypeScriptTemplate.Aurelia)
