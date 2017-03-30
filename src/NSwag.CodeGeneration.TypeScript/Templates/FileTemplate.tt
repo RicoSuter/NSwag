@@ -28,6 +28,10 @@ import * as ng from 'angular';
 
 import * as ko from 'knockout';
 <#}#>
+<#if(Model.IsJQuery){#>
+
+import * as jQuery from 'jquery';
+<#}#>
 
 <#if(Model.HasModuleName){#>
 module <#=Model.ModuleName#> {

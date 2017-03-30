@@ -7,6 +7,8 @@
 
 import * as ko from 'knockout';
 
+import * as jQuery from 'jquery';
+
 export class GeoClient {
     baseUrl: string; 
     beforeSend: any = undefined; 

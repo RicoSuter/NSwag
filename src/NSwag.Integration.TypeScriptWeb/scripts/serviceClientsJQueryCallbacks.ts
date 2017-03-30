@@ -5,6 +5,7 @@
 // </auto-generated>
 //----------------------
 
+import * as jQuery from 'jquery';
 
 export class GeoClient {
     baseUrl: string;
