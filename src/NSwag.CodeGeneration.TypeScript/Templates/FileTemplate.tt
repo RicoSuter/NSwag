@@ -35,7 +35,7 @@ import * as jQuery from 'jquery';
 <#  }#>
 <#  if(Model.RequiresMomentJS){#>
 
-import moment from 'moment'; 
+import * as moment from 'moment';
 <#  }#>
 <#}#>
 
