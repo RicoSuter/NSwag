@@ -33,7 +33,7 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         }
 
         /// <summary>Gets the supported TypeScript versions.</summary>
-        public decimal[] TypeScriptVersions => new[] {1.8m, 2.0m};
+        public decimal[] TypeScriptVersions => new[] { 1.8m, 2.0m };
 
         /// <summary>Gets the output templates. </summary>
         public TypeScriptTemplate[] Templates
@@ -100,6 +100,17 @@ namespace NSwagStudio.ViewModels.CodeGenerators
                 else
                     Command.ExcludedTypeNames = new string[] { };
                 RaisePropertyChanged(() => ExcludedTypeNames);
+            }
+        }
+
+        /// <summary>Gets or sets the list of methods with a protected access modifier ("classname.methodname").</summary>
+        public string ProtectedMethods
+        {
+            get { return _command?.ProtectedMethods != null ? string.Join(",", _command.ProtectedMethods) : ""; }
+            set
+            {
+                _command.ProtectedMethods = !string.IsNullOrEmpty(value) ? value.Split(',') : new string[] { };
+                RaisePropertyChanged();
             }
         }
 
