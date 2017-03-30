@@ -13,7 +13,7 @@ export interface I<#=Model.Class#> {
 <#}#><#}#><#if(operation.HasResultDescription){#>     * @return <#=operation.ResultDescription#>
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
-<#}#>    <#=operation.MethodAccessModifier#><#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#>?<#}#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): Promise<<#=operation.ResultType#>>;
+<#}#>    <#=operation.MethodAccessModifier#><#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#>?<#}#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>);
 <#}#>}
 <#}#>
 
@@ -48,7 +48,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
 <#}#>
-    <#=operation.MethodAccessModifier#><#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#>?<#}#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): Promise<<#=operation.ResultType#>> {
+    <#=operation.MethodAccessModifier#><#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#>?<#}#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>) {
         <#=TypeScriptTemplatePartGenerator.RenderRequestUrlCode(operation, 2)#>
 
 <#if(!operation.IsGetOrHead){#>
@@ -76,22 +76,23 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 <#if(Model.UseTransformOptionsMethod){#>
         return this.transformOptions(options_).then(transformedOptions_ => {
             return this.http.fetch(url_, transformedOptions_);
-        }).then((response: Response) => {
+        }).then((_response: Response) => {
 <#}else{#>
-        return this.http.fetch(url_, options_).then((response: Response) => {
+        return this.http.fetch(url_, options_).then((_response: Response) => {
 <#}#>
 <#if(Model.UseTransformResultMethod){#>
-            return this.transformResult(url_, response, (response: Response) => this.process<#=operation.ActualOperationNameUpper#>(response));
+            return this.transformResult(url_, _response, (_response: Response) => this.process<#=operation.ActualOperationNameUpper#>(_response));
 <#}else{#>
-            return this.process<#=operation.ActualOperationNameUpper#>(response);
+            return this.process<#=operation.ActualOperationNameUpper#>(_response);
 <#}#>
         });
     }
 
-    protected process<#=operation.ActualOperationNameUpper#>(response: Response): Promise<<#=operation.ResultType#>> {
-        return response.text().then((responseText) => {
-            const status = response.status; 
-
+    protected process<#=operation.ActualOperationNameUpper#>(_response: Response) {
+        return _response.text().then((<#if(Model.HasOperations){#>_responseText<#}#>) => {
+<#if(Model.HasOperations){#>
+            const _status = _response.status;
+<#}#>
             <#=TypeScriptTemplatePartGenerator.RenderProcessResponseCode(operation, 3)#>
         });
     }

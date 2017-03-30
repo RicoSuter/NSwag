@@ -73,34 +73,34 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 <#if(Model.UseTransformOptionsMethod){#>
         return Observable.fromPromise(this.transformOptions(options_)).flatMap(transformedOptions_ => {
             return this.http.request(url_, transformedOptions_);
-        }).map((response) => {
+        }).map((_response) => {
 <#}else{#>
-        return this.http.request(url_, options_).map((response) => {
+        return this.http.request(url_, options_).map((_response) => {
 <#}#>
 <#if(Model.UseTransformResultMethod){#>
-            return this.transformResult(url_, response, (response) => this.process<#=operation.ActualOperationNameUpper#>(response));
+            return this.transformResult(url_, _response, (_response) => this.process<#=operation.ActualOperationNameUpper#>(_response));
 <#}else{#>
-            return this.process<#=operation.ActualOperationNameUpper#>(response);
+            return this.process<#=operation.ActualOperationNameUpper#>(_response);
 <#}#>
-        }).catch((response: any) => {
-            if (response instanceof Response) {
+        }).catch((_response: any) => {
+            if (_response instanceof Response) {
                 try {
 <#if(Model.UseTransformResultMethod){#>
-                    return Observable.of(this.transformResult(url_, response, (response) => this.process<#=operation.ActualOperationNameUpper#>(response)));
+                    return Observable.of(this.transformResult(url_, _response, (_response) => this.process<#=operation.ActualOperationNameUpper#>(_response)));
 <#}else{#>
-                    return Observable.of(this.process<#=operation.ActualOperationNameUpper#>(response));
+                    return Observable.of(this.process<#=operation.ActualOperationNameUpper#>(_response));
 <#}#>
                 } catch (e) {
                     return <Observable<<#=operation.ResultType#>>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<<#=operation.ResultType#>>><any>Observable.throw(response);
+                return <Observable<<#=operation.ResultType#>>><any>Observable.throw(_response);
         });
     }
 
-    protected process<#=operation.ActualOperationNameUpper#>(response: Response): <#=operation.ResultType#> {
-        const responseText = response.text();
-        const status = response.status; 
+    protected process<#=operation.ActualOperationNameUpper#>(_response: Response) {
+        const _responseText = _response.text();
+        const _status = _response.status; 
 
         <#=TypeScriptTemplatePartGenerator.RenderProcessResponseCode(operation, 2)#>
     }

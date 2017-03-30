@@ -8,17 +8,31 @@
 //----------------------
 
 <#=Model.ExtensionCodeImport#>
-<#if(Model.IsAngular2){#>
+<#if(Model.ImportRequiredTypes){#>
+<#  if(Model.IsAngular2){#>
 
 import 'rxjs/Rx'; 
 import { Observable } from 'rxjs/Observable';
 import { Injectable, Inject, Optional, OpaqueToken } from '@angular/core';
 import { Http, Headers, ResponseContentType, Response<#if(Model.UseTransformOptionsMethod){#>, RequestOptionsArgs<#}#> } from '@angular/http';
-<#}#>
-<#if(Model.IsAurelia){#>
+<#  }#>
+<#  if(Model.IsAurelia){#>
 
 import { inject } from 'aurelia-framework';
 import { HttpClient, RequestInit } from 'aurelia-fetch-client';
+<#  }#>
+<#  if(Model.IsAngularJS){#>
+
+import * as ng from 'angular';
+<#  }#>
+<#  if(Model.IsKnockout){#>
+
+import * as ko from 'knockout';
+<#  }#>
+<#  if(Model.IsJQuery){#>
+
+import * as jQuery from 'jquery';
+<#  }#>
 <#}#>
 
 <#if(Model.HasModuleName){#>

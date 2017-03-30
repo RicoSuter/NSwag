@@ -63,6 +63,9 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <summary>Gets or sets the list of methods with a protected access modifier ("classname.methodname").</summary>
         public string[] ProtectedMethods { get; set; }
 
+        /// <summary>Gets or sets a value indicating whether required types should be imported (default: true).</summary>
+        public bool ImportRequiredTypes { get; set; } = true;
+
         internal ITemplate CreateTemplate(object model)
         {
             if (Template == TypeScriptTemplate.Aurelia)

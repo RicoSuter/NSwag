@@ -4,12 +4,12 @@
 let mappings: { source: any, target: any }[] = [];
 <#}#>
 <#foreach(var response in Model.Responses){#>
-if (status === <#=response.StatusCode#>) {
+if (_status === <#=response.StatusCode#>) {
 <#  if(response.IsFile && !response.IsJQuery){#>
 <#      if(response.IsAngularJS){#>
-    return new Blob([response], { type: "application/octet-stream" });
+    return new Blob([_response], { type: "application/octet-stream" });
 <#      }else{#>
-    return response.blob();
+    return _response.blob();
 <#      }#>
 <#  }else{#>
 <#      if(response.HasType){#>
@@ -18,60 +18,60 @@ if (status === <#=response.StatusCode#>) {
     result<#=response.StatusCode#> = new Date(responseText);
 <#          }else{
                 if(response.UseDtoClass){#>
-    let resultData<#=response.StatusCode#> = responseText === "" ? null : <#if(Model.HandleReferences){#>jp<#}else{#>JSON.parse<#}#>(responseText, this.jsonParseReviver);
+    let resultData<#=response.StatusCode#> = _responseText === "" ? null : <#if(Model.HandleReferences){#>jp<#}else{#>JSON.parse<#}#>(_responseText, this.jsonParseReviver);
     <#=ConversionUtilities.Tab(response.DataConversionCode, 1)#>
 <#              }else{#>
-    result<#=response.StatusCode#> = responseText === "" ? null : <<#=response.Type#>><#if(Model.HandleReferences){#>jp<#}else{#>JSON.parse<#}#>(responseText, this.jsonParseReviver);
+    result<#=response.StatusCode#> = _responseText === "" ? null : <<#=response.Type#>><#if(Model.HandleReferences){#>jp<#}else{#>JSON.parse<#}#>(_responseText, this.jsonParseReviver);
 <#              }
             }
             if(response.IsSuccess){#>
     return result<#=response.StatusCode#>;
 <#          }else{#>
-    this.throwException("A server error occurred.", status, responseText, result<#=response.StatusCode#>);
+    this.throwException("A server error occurred.", _status, _responseText, result<#=response.StatusCode#>);
 <#          }
         }else if(response.IsSuccess){#>
     return null;
 <#      }else{#>
-    this.throwException("A server error occurred.", status, responseText);
+    this.throwException("A server error occurred.", _status, _responseText);
 <#      }#>
 <#  }#>
 } else <#}
 if(Model.HasDefaultResponse){#>{
 <#  if(Model.DefaultResponse.IsFile && !Model.DefaultResponse.IsJQuery){#>
 <#      if(Model.DefaultResponse.IsAngularJS){#>
-    return new Blob([response], { type: "application/octet-stream" });
+    return new Blob([_response], { type: "application/octet-stream" });
 <#      }else{#>
-    return response.blob();
+    return _response.blob();
 <#      }#>
 <#  }else{#>
 <#      if(Model.DefaultResponse.HasType){#>
     let result: <#=Model.DefaultResponse.Type#><#if(Model.SupportsStrictNullChecks){#> | null<#}#> = null;
 <#          if(Model.DefaultResponse.IsDate){#>
-    result = new Date(responseText);
+    result = new Date(_responseText);
 <#          }else{
                 if(Model.DefaultResponse.UseDtoClass){#>
-    let resultData = responseText === "" ? null : <#if(Model.HandleReferences){#>jp<#}else{#>JSON.parse<#}#>(responseText, this.jsonParseReviver);
+    let resultData = _responseText === "" ? null : <#if(Model.HandleReferences){#>jp<#}else{#>JSON.parse<#}#>(_responseText, this.jsonParseReviver);
     <#=ConversionUtilities.Tab(Model.DefaultResponse.DataConversionCode, 1)#>
 <#              }else{#>
-    result = responseText === "" ? null : <<#=Model.DefaultResponse.Type#>><#if(Model.HandleReferences){#>jp<#}else{#>JSON.parse<#}#>(responseText, this.jsonParseReviver);
+    result = _responseText === "" ? null : <<#=Model.DefaultResponse.Type#>><#if(Model.HandleReferences){#>jp<#}else{#>JSON.parse<#}#>(_responseText, this.jsonParseReviver);
 <#              }
             }
             if(!Model.HasSuccessResponse){#>
     return result;
 <#          }else{#>
-    this.throwException("A server error occurred.", status, responseText, result);
+    this.throwException("A server error occurred.", _status, _responseText, result);
 <#          }
         }else if(!Model.HasSuccessResponse){#>
     return null;
 <#      }else{#>
-    this.throwException("A server error occurred.", status, responseText);
+    this.throwException("A server error occurred.", _status, _responseText);
 <#      }#>
 <#  }#>
 }<#
 }else{
 #>
-if (status !== 200 && status !== 204) {
-    this.throwException("An unexpected server error occurred.", status, responseText);
+if (_status !== 200 && _status !== 204) {
+    this.throwException("An unexpected server error occurred.", _status, _responseText);
 }
 return null;
 <#}#>
