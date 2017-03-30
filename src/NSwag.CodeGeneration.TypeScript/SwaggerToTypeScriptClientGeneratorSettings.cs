@@ -28,6 +28,7 @@ namespace NSwag.CodeGeneration.TypeScript
                 TypeNameGenerator = new TypeScriptTypeNameGenerator()
             };
             BaseUrlTokenName = "API_BASE_URL";
+            ImportRequiredTypes = true;
         }
 
         /// <summary>Gets or sets the TypeScript generator settings.</summary>
