@@ -4,12 +4,12 @@
 let mappings: { source: any, target: any }[] = [];
 <#}#>
 <#foreach(var response in Model.Responses){#>
-if (status === <#=response.StatusCode#>) {
+if (_status === <#=response.StatusCode#>) {
 <#  if(response.IsFile && !response.IsJQuery){#>
 <#      if(response.IsAngularJS){#>
-    return new Blob([response], { type: "application/octet-stream" });
+    return new Blob([_response], { type: "application/octet-stream" });
 <#      }else{#>
-    return response.blob();
+    return _response.blob();
 <#      }#>
 <#  }else{#>
 <#      if(response.HasType){#>
@@ -39,9 +39,9 @@ if (status === <#=response.StatusCode#>) {
 if(Model.HasDefaultResponse){#>{
 <#  if(Model.DefaultResponse.IsFile && !Model.DefaultResponse.IsJQuery){#>
 <#      if(Model.DefaultResponse.IsAngularJS){#>
-    return new Blob([response], { type: "application/octet-stream" });
+    return new Blob([_response], { type: "application/octet-stream" });
 <#      }else{#>
-    return response.blob();
+    return _response.blob();
 <#      }#>
 <#  }else{#>
 <#      if(Model.DefaultResponse.HasType){#>

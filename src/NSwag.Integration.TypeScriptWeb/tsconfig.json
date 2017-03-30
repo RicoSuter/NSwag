@@ -9,13 +9,13 @@
     "sourceMap": true,
     "inlineSources": true,
     "noEmitHelpers": false,
-    "strictNullChecks": false,
+    "strictNullChecks": true,
     "noImplicitAny": true,
     "declaration": true,
     "skipLibCheck": false,
     "stripInternal": true,
     "noUnusedLocals": false,
-    "noUnusedParameters": false,
+    "noUnusedParameters": true,
     "lib": ["dom", "es6"],
     "types": [
         "jasmine"
