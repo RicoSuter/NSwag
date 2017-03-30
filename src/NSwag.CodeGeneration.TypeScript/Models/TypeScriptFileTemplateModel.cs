@@ -64,6 +64,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public bool IsJQuery => _settings.GenerateClientClasses &&
             (_settings.Template == TypeScriptTemplate.JQueryCallbacks || _settings.Template == TypeScriptTemplate.JQueryPromises);
 
+        /// <summary>Gets a value indicating whether MomentJS is required.</summary>
+        public bool RequiresMomentJS => _settings.TypeScriptGeneratorSettings.DateTimeType == TypeScriptDateTimeType.MomentJS;
+
         /// <summary>Gets a value indicating whether required types should be imported.</summary>
         public bool ImportRequiredTypes => _settings.ImportRequiredTypes;
 

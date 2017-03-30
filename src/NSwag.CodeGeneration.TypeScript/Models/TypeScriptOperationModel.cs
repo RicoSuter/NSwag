@@ -57,7 +57,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public string ActualOperationNameUpper => ConversionUtilities.ConvertToUpperCamelCase(OperationName, false);
 
         /// <summary>Gets or sets the type of the result.</summary>
-        public override string ResultType => UnwrappedResultType;
+        public override string ResultType => SupportsStrictNullChecks && UnwrappedResultType == "void" ? "null" : UnwrappedResultType;
 
         /// <summary>Gets a value indicating whether the target TypeScript version supports strict null checks.</summary>
         public bool SupportsStrictNullChecks => _settings.TypeScriptGeneratorSettings.TypeScriptVersion >= 2.0m;

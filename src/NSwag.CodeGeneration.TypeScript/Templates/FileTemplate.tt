@@ -33,6 +33,10 @@ import * as ko from 'knockout';
 
 import * as jQuery from 'jquery';
 <#  }#>
+<#  if(Model.RequiresMomentJS){#>
+
+import moment from 'moment'; 
+<#  }#>
 <#}#>
 
 <#if(Model.HasModuleName){#>

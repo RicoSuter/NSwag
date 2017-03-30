@@ -132,6 +132,11 @@
                                           Content="Generate constructor interface which is used to initialize the class"
                                           ToolTip="GenerateConstructorInterface"
                                           Margin="0,0,0,12" />
+                                
+                                <CheckBox IsChecked="{Binding Command.ImportRequiredTypes, Mode=TwoWay}" 
+                                          Content="Required types should be imported"
+                                          ToolTip="ImportRequiredTypes"
+                                          Margin="0,0,0,12" />
 
                                 <TextBlock Text="Null value used in object initializers" FontWeight="Bold" Margin="0,0,0,6" />
                                 <ComboBox SelectedItem="{Binding Command.NullValue, Mode=TwoWay}" 

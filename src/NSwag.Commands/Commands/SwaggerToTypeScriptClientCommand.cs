@@ -230,6 +230,13 @@ namespace NSwag.Commands
             set { Settings.TypeScriptGeneratorSettings.GenerateConstructorInterface = value; }
         }
 
+        [Argument(Name = "ImportRequiredTypes", IsRequired = false, Description = "Specifies whether required types should be imported (default: true).")]
+        public bool ImportRequiredTypes
+        {
+            get { return Settings.ImportRequiredTypes; }
+            set { Settings.ImportRequiredTypes = value; }
+        }
+
         [Argument(Name = "BaseUrlTokenName", IsRequired = false, Description = "The token name for injecting the API base URL string (used in the Angular2 template, default: 'API_BASE_URL').")]
         public string BaseUrlTokenName
         {

@@ -91,7 +91,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
         }
     }
 
-    protected process<#=operation.ActualOperationNameUpper#>(xhr: any) {
+    protected process<#=operation.ActualOperationNameUpper#>(xhr: any): <#=operation.ResultType#><#if(Model.SupportsStrictNullChecks){#> | null<#}#> {
         const _responseText = xhr.responseText; 
         const _status = xhr.status; 
 
