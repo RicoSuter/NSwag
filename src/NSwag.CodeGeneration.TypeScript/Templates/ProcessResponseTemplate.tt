@@ -6,14 +6,21 @@ let mappings: { source: any, target: any }[] = [];
 <#foreach(var response in Model.Responses){#>
 if (_status === <#=response.StatusCode#>) {
 <#  if(response.IsFile && !response.IsJQuery){#>
-<#      if(response.IsAngularJS){#>
-    return new Blob([_response], { type: "application/octet-stream" });
-<#      }else if(response.IsAngular2){#>
+<#      if(response.IsAngular){#>
     return _response.blob();
+<#      }else if(response.IsAngularJS){#>
+    return new Blob([_response]);
 <#      }else{#>
-    return _blob;
+    return _response.blob();
 <#      }#>
 <#  }else{#>
+<#      if(response.IsFetchOrAurelia){#>
+    return _response.text().then((_responseText) => {
+<#      }else if(response.IsAngular || response.IsAngularJS){#>
+    const _responseText = _response.text();
+<#      }else{#>
+    const _responseText = xhr.responseText; 
+<#      }#>
 <#      if(response.HasType){#>
     let result<#=response.StatusCode#>: <#=response.Type#><#if(Model.SupportsStrictNullChecks){#> | null<#}#> = null;
 <#          if(response.IsDate){#>
@@ -29,25 +36,35 @@ if (_status === <#=response.StatusCode#>) {
             if(response.IsSuccess(Model)){#>
     return result<#=response.StatusCode#>;
 <#          }else{#>
-    this.throwException("A server error occurred.", _status, _responseText, result<#=response.StatusCode#>);
+    return this.throwException("A server error occurred.", _status, _responseText, result<#=response.StatusCode#>);
 <#          }
         }else if(response.IsSuccess(Model)){#>
     return null;
 <#      }else{#>
-    this.throwException("A server error occurred.", _status, _responseText);
+    return this.throwException("A server error occurred.", _status, _responseText);
+<#      }#>
+<#      if(response.IsFetchOrAurelia){#>
+    });
 <#      }#>
 <#  }#>
 } else <#}
 if(Model.HasDefaultResponse){#>{
 <#  if(Model.DefaultResponse.IsFile && !Model.DefaultResponse.IsJQuery){#>
-<#      if(Model.DefaultResponse.IsAngularJS){#>
-    return new Blob([_response], { type: "application/octet-stream" });
-<#      }else if(Model.DefaultResponse.IsAngular2){#>
+<#      if(Model.DefaultResponse.IsAngular){#>
     return _response.blob();
+<#      }else if(Model.DefaultResponse.IsAngularJS){#>
+    return new Blob([_response]);
 <#      }else{#>
-    return _blob;
+    return _response.blob();
 <#      }#>
 <#  }else{#>
+<#      if(Model.DefaultResponse.IsFetchOrAurelia){#>
+    return _response.text().then((_responseText) => {
+<#      }else if(Model.DefaultResponse.IsAngular || Model.DefaultResponse.IsAngularJS){#>
+    const _responseText = _response.text();
+<#      }else{#>
+    const _responseText = xhr.responseText; 
+<#      }#>
 <#      if(Model.DefaultResponse.HasType){#>
     let result: <#=Model.DefaultResponse.Type#><#if(Model.SupportsStrictNullChecks){#> | null<#}#> = null;
 <#          if(Model.DefaultResponse.IsDate){#>
@@ -63,19 +80,35 @@ if(Model.HasDefaultResponse){#>{
             if(!Model.HasSuccessResponse){#>
     return result;
 <#          }else{#>
-    this.throwException("A server error occurred.", _status, _responseText, result);
+    return this.throwException("A server error occurred.", _status, _responseText, result);
 <#          }
         }else if(!Model.HasSuccessResponse){#>
     return null;
 <#      }else{#>
-    this.throwException("A server error occurred.", _status, _responseText);
+    return this.throwException("A server error occurred.", _status, _responseText);
 <#      }#>
+<#  if(Model.DefaultResponse.IsFetchOrAurelia){#>
+    });
 <#  }#>
-}<#
-}else{
-#>
-if (_status !== 200 && _status !== 204) {
-    this.throwException("An unexpected server error occurred.", _status, _responseText);
+<#  }#>
 }
+<#}else{#>
+if (_status !== 200 && _status !== 204) {
+<#      if(Model.IsFetchOrAurelia){#>
+    return _response.text().then((_responseText) => {
+<#      }else if(Model.IsAngular || Model.IsAngularJS){#>
+    const _responseText = _response.text();
+<#      }else{#>
+    const _responseText = xhr.responseText; 
+<#      }#>
+    return this.throwException("An unexpected server error occurred.", _status, _responseText);
+<#  if(Model.IsFetchOrAurelia){#>
+    });
+<#  }#>
+}
+<#  if(Model.IsFetchOrAurelia){#>
+return Promise.resolve(null);
+<#  }else{#>
 return null;
+<#  }#>
 <#}#>

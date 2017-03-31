@@ -16,6 +16,7 @@
       "defaultEnumHandling": "Integer",
       "flattenInheritanceHierarchy": false,
       "generateKnownTypes": true,
+      "generateXmlObjects": false,
       "addMissingPathParameters": false,
       "serviceHost": "localhost:13452",
       "serviceSchemes": [
@@ -32,23 +33,30 @@
       "moduleName": "",
       "namespace": "",
       "typeScriptVersion": 2.0,
-      "template": "Angular2",
+      "template": "Angular",
       "promiseType": "Promise",
       "dateTimeType": "Date",
+      "nullValue": "Undefined",
       "generateClientClasses": true,
       "generateClientInterfaces": false,
+      "generateOptionalParameters": true,
       "wrapDtoExceptions": false,
       "clientBaseClass": "MyBaseClass",
       "useTransformOptionsMethod": true,
       "useTransformResultMethod": true,
       "generateDtoTypes": true,
-      "handleReferences": true,
       "operationGenerationMode": "MultipleClientsFromOperationId",
       "markOptionalProperties": false,
+      "generateCloneMethod": false,
       "typeStyle": "Class",
-      "extensionCode": "../NSwag.Integration.TypeScriptWeb/scripts/serviceClientsAngular2.extensions.ts",
+      "extensionCode": "../NSwag.Integration.TypeScriptWeb/scripts/serviceClientsAngular.extensions.ts",
       "generateDefaultValues": true,
-      "output": "../NSwag.Integration.TypeScriptWeb/scripts/serviceClientsAngular2.ts"
+      "excludedTypeNames": [],
+      "handleReferences": true,
+      "generateConstructorInterface": true,
+      "importRequiredTypes": true,
+      "baseUrlTokenName": "API_BASE_URL",
+      "output": "../NSwag.Integration.TypeScriptWeb/scripts/serviceClientsAngular.ts"
     }
   }
 }

@@ -41,10 +41,14 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public bool IsAngularJS => _settings.Template == TypeScriptTemplate.AngularJS;
 
         /// <summary>Gets a value indicating whether to render for Angular2.</summary>
-        public bool IsAngular2 => _settings.Template == TypeScriptTemplate.Angular2;
+        public bool IsAngular => _settings.Template == TypeScriptTemplate.Angular;
 
         /// <summary>Gets a value indicating whether to render for JQuery.</summary>
         public bool IsJQuery => _settings.Template == TypeScriptTemplate.JQueryCallbacks ||
                                 _settings.Template == TypeScriptTemplate.JQueryPromises;
+
+        /// <summary>Gets a value indicating whether to render for Fetch or Aurelia</summary>
+        public bool IsFetchOrAurelia => _settings.Template == TypeScriptTemplate.Fetch ||
+                                        _settings.Template == TypeScriptTemplate.Aurelia;
     }
 }

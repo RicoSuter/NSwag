@@ -298,6 +298,12 @@ namespace NSwag.Commands
             saveFile = false;
 
             // New file format
+            if (data.Contains("\"template\": \"Angular2\""))
+            {
+                data = data.Replace("\"template\": \"Angular2\"", "\"template\": \"Angular\"");
+                saveFile = true;
+            }
+
             if (data.Contains("\"SelectedSwaggerGenerator\""))
             {
                 var obj = JsonConvert.DeserializeObject<JObject>(data);

@@ -95,7 +95,6 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
     }
 
     protected process<#=operation.ActualOperationNameUpper#>(_response: any): <#=operation.ResultType#><#if(Model.SupportsStrictNullChecks){#> | null<#}#> {
-        const _responseText = _response.data;
         const _status = _response.status; 
 
         <#=TypeScriptTemplatePartGenerator.RenderProcessResponseCode(operation, 2)#>

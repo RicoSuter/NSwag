@@ -3,9 +3,9 @@
 const content_ = new FormData();
 <#foreach(var parameter in Model.FormParameters){#>
 <#  if(parameter.IsNullable){#>
-if (<#=parameter.VariableName#> !== null)
+if (<#=parameter.VariableName#> !== null && <#=parameter.VariableName#> !== undefined)
 <#  }else{#>
-if (<#=parameter.VariableName#> === null)
+if (<#=parameter.VariableName#> === null || <#=parameter.VariableName#> === undefined)
     throw new Error("The parameter '<#=parameter.VariableName#>' cannot be null.");
 else
 <#  }#>

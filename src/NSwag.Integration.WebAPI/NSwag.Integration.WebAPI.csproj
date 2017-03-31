@@ -133,7 +133,7 @@
     <Content Include="Swagger_ClientPCL.nswag" />
     <Content Include="Swagger_JQueryCallbacks.nswag" />
     <Content Include="Swagger_JQueryPromises.nswag" />
-    <Content Include="Swagger_Angular2.nswag" />
+    <Content Include="Swagger_Angular.nswag" />
     <Content Include="Swagger_AngularJS.nswag" />
     <Content Include="Swagger_JQueryPromises_KO.nswag" />
     <Content Include="SwaggerDocumentTemplate.json" />

@@ -89,15 +89,8 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
     }
 
     protected process<#=operation.ActualOperationNameUpper#>(_response: Response): Promise<<#=operation.ResultType#><#if(Model.SupportsStrictNullChecks){#> | null<#}#>> {
-<#if(operation.IsFile){#>
-        return _response.blob().then((_blob) => {
-            let _responseText = "";
-<#}else{#>
-        return _response.text().then((_responseText) => {
-<#}#>
-            const _status = _response.status;
-            <#=TypeScriptTemplatePartGenerator.RenderProcessResponseCode(operation, 3)#>
-        });
+        const _status = _response.status;
+        <#=TypeScriptTemplatePartGenerator.RenderProcessResponseCode(operation, 2)#>
     }
 <#}#>
 

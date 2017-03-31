@@ -9,7 +9,7 @@
 
 <#=Model.ExtensionCodeImport#>
 <#if(Model.ImportRequiredTypes){#>
-<#  if(Model.IsAngular2){#>
+<#  if(Model.IsAngular){#>
 
 import 'rxjs/Rx'; 
 import { Observable } from 'rxjs/Observable';
@@ -45,7 +45,7 @@ module <#=Model.ModuleName#> {
   if(Model.HasNamespace){#>
 namespace <#=Model.Namespace#> {
 <#}#>
-<#if(Model.IsAngular2){#>
+<#if(Model.IsAngular){#>
 export const <#=Model.BaseUrlTokenName#> = new OpaqueToken('<#=Model.BaseUrlTokenName#>');
 
 <#}#>

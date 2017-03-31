@@ -44,7 +44,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             Parameters = parameters.Select(parameter =>
                 new TypeScriptParameterModel(parameter.Name,
                     GetParameterVariableName(parameter, _operation.Parameters), ResolveParameterType(parameter),
-                    parameter, _operation.ActualParameters.ToList(), _settings,
+                    parameter, parameters, _settings,
                     _generator, (TypeScriptTypeResolver)resolver))
                 .ToList();
         }
@@ -96,9 +96,16 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets a value indicating whether to render for AngularJS.</summary>
         public bool IsAngularJS => _settings.Template == TypeScriptTemplate.AngularJS;
 
+        /// <summary>Gets a value indicating whether to render for Angular2.</summary>
+        public bool IsAngular => _settings.Template == TypeScriptTemplate.Angular;
+
         /// <summary>Gets a value indicating whether to render for JQuery.</summary>
         public bool IsJQuery => _settings.Template == TypeScriptTemplate.JQueryCallbacks ||
                                 _settings.Template == TypeScriptTemplate.JQueryPromises;
+
+        /// <summary>Gets a value indicating whether to render for Fetch or Aurelia</summary>
+        public bool IsFetchOrAurelia => _settings.Template == TypeScriptTemplate.Fetch ||
+                                        _settings.Template == TypeScriptTemplate.Aurelia;
 
         /// <summary>Resolves the type of the parameter.</summary>
         /// <param name="parameter">The parameter.</param>
