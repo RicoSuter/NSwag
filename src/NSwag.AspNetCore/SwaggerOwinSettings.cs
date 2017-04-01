@@ -19,7 +19,7 @@ namespace NSwag.AspNetCore
     /// <summary>The settings for UseSwagger.</summary>
     public class SwaggerOwinSettings : WebApiToSwaggerGeneratorSettings
     {
-        #if AspNetOwin
+        #if !AspNetOwin
         /// <summary>Initializes a new instance of the <see cref="SwaggerOwinSettings"/> class.</summary>
         public SwaggerOwinSettings ()
         {
