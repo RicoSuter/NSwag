@@ -1577,62 +1577,74 @@ foreach(var parameter in operation.PathParameters){
             
             #line default
             #line hidden
-            this.Write("        if (");
             
             #line 185 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
+  if(parameter.IsRequired){
             
             #line default
             #line hidden
-            this.Write(" == null)\r\n            throw new System.ArgumentNullException(\"");
+            this.Write("        if (");
             
             #line 186 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
-            this.Write("\");\r\n\r\n");
+            this.Write(" == null)\r\n            throw new System.ArgumentNullException(\"");
             
-            #line 188 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-}
+            #line 187 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
+            this.Write("\");\r\n\r\n");
             
             #line 189 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-foreach(var parameter in operation.QueryParameters){
+  }
             
             #line default
             #line hidden
             
             #line 190 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            
+            #line 191 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+foreach(var parameter in operation.QueryParameters){
+            
+            #line default
+            #line hidden
+            
+            #line 192 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   if(!parameter.IsNullable){
             
             #line default
             #line hidden
             this.Write("        if (");
             
-            #line 191 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 193 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             this.Write(" == null)\r\n            throw new System.ArgumentNullException(\"");
             
-            #line 192 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 194 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             this.Write("\");\r\n\r\n");
             
-            #line 194 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 196 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   }
             
             #line default
             #line hidden
             
-            #line 195 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 197 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 }
             
             #line default
@@ -1640,67 +1652,87 @@ foreach(var parameter in operation.QueryParameters){
             this.Write("        var urlBuilder_ = new System.Text.StringBuilder();\r\n        urlBuilder_.A" +
                     "ppend(");
             
-            #line 197 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 199 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 if(Model.UseBaseUrl){
             
             #line default
             #line hidden
             this.Write("BaseUrl).Append(\"/");
             
-            #line 197 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 199 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 }else{
             
             #line default
             #line hidden
             this.Write("\"");
             
-            #line 197 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 199 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 197 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 199 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.Path));
             
             #line default
             #line hidden
             
-            #line 197 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 199 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 if(operation.HasQueryParameters){
             
             #line default
             #line hidden
             this.Write("?");
             
-            #line 197 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 199 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("\");\r\n");
             
-            #line 198 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 200 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 foreach(var parameter in operation.PathParameters){
             
             #line default
             #line hidden
             
-            #line 199 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 201 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+  if(parameter.IsOptional){
+            
+            #line default
+            #line hidden
+            this.Write("        if (");
+            
+            #line 202 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
+            
+            #line default
+            #line hidden
+            this.Write(" != null)\r\n");
+            
+            #line 203 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+  }
+            
+            #line default
+            #line hidden
+            
+            #line 204 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   if(parameter.IsDateArray){
             
             #line default
             #line hidden
             this.Write("        urlBuilder_.Replace(\"{");
             
-            #line 200 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 205 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
             
             #line default
             #line hidden
             this.Write("}\", System.Uri.EscapeDataString(string.Join(\",\", ");
             
-            #line 200 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 205 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
@@ -1708,123 +1740,143 @@ foreach(var parameter in operation.PathParameters){
             this.Write(".Select(s_ => s_.ToString(\"s\", System.Globalization.CultureInfo.InvariantCulture)" +
                     "))));\r\n");
             
-            #line 201 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 206 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   }else if(parameter.IsDate){
             
             #line default
             #line hidden
             this.Write("        urlBuilder_.Replace(\"{");
             
-            #line 202 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 207 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
             
             #line default
             #line hidden
             this.Write("}\", System.Uri.EscapeDataString(");
             
-            #line 202 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 207 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             this.Write(".ToString(\"s\", System.Globalization.CultureInfo.InvariantCulture)));\r\n");
             
-            #line 203 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 208 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   }else if(parameter.IsArray){
             
             #line default
             #line hidden
             this.Write("        urlBuilder_.Replace(\"{");
             
-            #line 204 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 209 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
             
             #line default
             #line hidden
             this.Write("}\", System.Uri.EscapeDataString(string.Join(\",\", ");
             
-            #line 204 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 209 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             this.Write(".Select(s_ => s_.ToString()))));\r\n");
             
-            #line 205 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 210 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   }else{
             
             #line default
             #line hidden
             this.Write("        urlBuilder_.Replace(\"{");
             
-            #line 206 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 211 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
             
             #line default
             #line hidden
             this.Write("}\", System.Uri.EscapeDataString(");
             
-            #line 206 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 211 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             this.Write(".ToString()));\r\n");
             
-            #line 207 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 212 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   }
             
             #line default
             #line hidden
             
-            #line 208 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 213 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+  if(parameter.IsOptional){
+            
+            #line default
+            #line hidden
+            this.Write("       else\r\n           urlBuilder_.Replace(\"/{");
+            
+            #line 215 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
+            
+            #line default
+            #line hidden
+            this.Write("}\", string.Empty);\r\n");
+            
+            #line 216 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+  }
+            
+            #line default
+            #line hidden
+            
+            #line 217 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 209 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 218 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 foreach(var parameter in operation.QueryParameters){
             
             #line default
             #line hidden
             this.Write("        ");
             
-            #line 210 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 219 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   if(parameter.IsNullable){
             
             #line default
             #line hidden
             this.Write("if (");
             
-            #line 210 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 219 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             this.Write(" != null) ");
             
-            #line 210 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 219 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 211 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 220 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   if(parameter.IsDateArray){
             
             #line default
             #line hidden
             this.Write("foreach (var item_ in ");
             
-            #line 212 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 221 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             this.Write(") { urlBuilder_.Append(\"");
             
-            #line 212 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 221 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
             
             #line default
@@ -1832,34 +1884,34 @@ foreach(var parameter in operation.QueryParameters){
             this.Write("=\").Append(System.Uri.EscapeDataString(item_.ToString(\"s\", System.Globalization.C" +
                     "ultureInfo.InvariantCulture))).Append(\"&\"); }\r\n");
             
-            #line 213 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 222 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   }else if(parameter.IsDate){
             
             #line default
             #line hidden
             this.Write("urlBuilder_.Append(\"");
             
-            #line 214 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 223 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
             
             #line default
             #line hidden
             this.Write("=\").Append(System.Uri.EscapeDataString(");
             
-            #line 214 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 223 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             
-            #line 214 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 223 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 if(parameter.Type.EndsWith("?")){
             
             #line default
             #line hidden
             this.Write(".Value");
             
-            #line 214 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 223 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 }
             
             #line default
@@ -1867,95 +1919,95 @@ if(parameter.Type.EndsWith("?")){
             this.Write(".ToString(\"s\", System.Globalization.CultureInfo.InvariantCulture))).Append(\"&\");\r" +
                     "\n");
             
-            #line 215 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 224 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   }else if(parameter.IsArray){
             
             #line default
             #line hidden
             this.Write("foreach (var item_ in ");
             
-            #line 216 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 225 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             this.Write(") { urlBuilder_.Append(\"");
             
-            #line 216 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 225 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
             
             #line default
             #line hidden
             this.Write("=\").Append(System.Uri.EscapeDataString(item_.ToString())).Append(\"&\"); }\r\n");
             
-            #line 217 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 226 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   }else{
             
             #line default
             #line hidden
             this.Write("urlBuilder_.Append(\"");
             
-            #line 218 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 227 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
             
             #line default
             #line hidden
             this.Write("=\").Append(System.Uri.EscapeDataString(");
             
-            #line 218 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 227 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             
-            #line 218 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 227 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 if(parameter.Type.EndsWith("?")){
             
             #line default
             #line hidden
             this.Write(".Value");
             
-            #line 218 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 227 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write(".ToString())).Append(\"&\");\r\n");
             
-            #line 219 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 228 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   }
             
             #line default
             #line hidden
             
-            #line 220 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 229 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 221 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 230 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 if(operation.HasQueryParameters){
             
             #line default
             #line hidden
             this.Write("        urlBuilder_.Length--;\r\n");
             
-            #line 223 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 232 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 225 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 234 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
       if(Model.InjectHttpClient){
             
             #line default
             #line hidden
             this.Write("        var client_ = _httpClient;\r\n");
             
-            #line 227 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 236 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
       }else if(Model.UseHttpClientCreationMethod){
             
             #line default
@@ -1963,28 +2015,28 @@ if(operation.HasQueryParameters){
             this.Write("        var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwa" +
                     "it(false);\r\n");
             
-            #line 229 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 238 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
       }else{
             
             #line default
             #line hidden
             this.Write("        var client_ = new ");
             
-            #line 230 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 239 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.HttpClientType));
             
             #line default
             #line hidden
             this.Write("();\r\n");
             
-            #line 231 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 240 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
       }
             
             #line default
             #line hidden
             this.Write("        try\r\n        {\r\n");
             
-            #line 234 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 243 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
       if(Model.UseHttpRequestMessageCreationMethod){
             
             #line default
@@ -1992,14 +2044,14 @@ if(operation.HasQueryParameters){
             this.Write("            using (var request_ = await CreateHttpRequestMessageAsync(cancellatio" +
                     "nToken).ConfigureAwait(false))\r\n");
             
-            #line 236 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 245 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
       }else{
             
             #line default
             #line hidden
             this.Write("            using (var request_ = new System.Net.Http.HttpRequestMessage())\r\n");
             
-            #line 238 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 247 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
       }
             
             #line default
@@ -2008,238 +2060,146 @@ if(operation.HasQueryParameters){
                     "     var url_ = urlBuilder_.ToString();\r\n                PrepareRequest(client_," +
                     " url_);\r\n\r\n");
             
-            #line 244 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 253 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 foreach(var parameter in operation.HeaderParameters){
             
             #line default
             #line hidden
             this.Write("                request_.Headers.TryAddWithoutValidation(\"");
             
-            #line 245 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 254 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
             
             #line default
             #line hidden
             this.Write("\", ");
             
-            #line 245 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 254 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             this.Write(" != null ? ");
             
-            #line 245 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 254 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             this.Write(".ToString() : null);\r\n");
             
-            #line 246 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 255 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 247 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 256 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 if(operation.HasContent){
             
             #line default
             #line hidden
             this.Write("                var content_ = new System.Net.Http.StringContent(");
             
-            #line 248 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 257 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 if(operation.HasXmlBodyParameter){
             
             #line default
             #line hidden
             
-            #line 248 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 257 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ContentParameter.VariableName));
             
             #line default
             #line hidden
             
-            #line 248 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 257 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 }else{
             
             #line default
             #line hidden
             this.Write("Newtonsoft.Json.JsonConvert.SerializeObject(");
             
-            #line 248 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 257 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ContentParameter.VariableName));
             
             #line default
             #line hidden
             
-            #line 248 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 257 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.JsonSerializerParameterCode));
             
             #line default
             #line hidden
             this.Write(")");
             
-            #line 248 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 257 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write(");\r\n                content_.Headers.ContentType.MediaType = \"");
             
-            #line 249 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 258 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.Consumes));
             
             #line default
             #line hidden
             this.Write("\";\r\n");
             
-            #line 250 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 259 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 }else{
             
             #line default
             #line hidden
             
-            #line 251 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 260 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   if(operation.HasFormParameters){
             
             #line default
             #line hidden
             this.Write("                var content_ = new System.Net.Http.MultipartFormDataContent();\r\n");
             
-            #line 253 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 262 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
     foreach(var parameter in operation.FormParameters){
             
             #line default
             #line hidden
             
-            #line 254 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 263 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
       if(parameter.IsNullable){
             
             #line default
             #line hidden
             this.Write("                if (");
             
-            #line 255 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 264 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             this.Write(" != null)\r\n");
             
-            #line 256 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 265 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
       }else{
             
             #line default
             #line hidden
             this.Write("                if (");
             
-            #line 257 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 266 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             this.Write(" == null)\r\n                    throw new System.ArgumentNullException(\"");
             
-            #line 258 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 267 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             this.Write("\");\r\n                else\r\n");
-            
-            #line 260 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-      }
-            
-            #line default
-            #line hidden
-            
-            #line 261 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-      if(parameter.IsFile){
-          if(parameter.IsArray){
-            
-            #line default
-            #line hidden
-            this.Write("                    foreach (var item_ in ");
-            
-            #line 263 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
-            
-            #line default
-            #line hidden
-            this.Write(") { content_.Add(new System.Net.Http.StreamContent(item_.Data), \"");
-            
-            #line 263 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
-            
-            #line default
-            #line hidden
-            this.Write("\", item_.FileName ?? \"");
-            
-            #line 263 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
-            
-            #line default
-            #line hidden
-            this.Write("\"); }\r\n");
-            
-            #line 264 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-        }else{
-            
-            #line default
-            #line hidden
-            this.Write("                        content_.Add(new System.Net.Http.StreamContent(");
-            
-            #line 265 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
-            
-            #line default
-            #line hidden
-            this.Write(".Data), \"");
-            
-            #line 265 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
-            
-            #line default
-            #line hidden
-            this.Write("\", ");
-            
-            #line 265 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
-            
-            #line default
-            #line hidden
-            this.Write(".FileName ?? \"");
-            
-            #line 265 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
-            
-            #line default
-            #line hidden
-            this.Write("\");\r\n");
-            
-            #line 266 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-        }
-        }else{
-            
-            #line default
-            #line hidden
-            this.Write("                        content_.Add(new System.Net.Http.StringContent(");
-            
-            #line 268 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
-            
-            #line default
-            #line hidden
-            this.Write(".ToString()), \"");
-            
-            #line 268 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
-            
-            #line default
-            #line hidden
-            this.Write("\");\r\n");
             
             #line 269 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
       }
@@ -2248,12 +2208,104 @@ if(operation.HasXmlBodyParameter){
             #line hidden
             
             #line 270 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+      if(parameter.IsFile){
+          if(parameter.IsArray){
+            
+            #line default
+            #line hidden
+            this.Write("                    foreach (var item_ in ");
+            
+            #line 272 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
+            
+            #line default
+            #line hidden
+            this.Write(") { content_.Add(new System.Net.Http.StreamContent(item_.Data), \"");
+            
+            #line 272 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
+            
+            #line default
+            #line hidden
+            this.Write("\", item_.FileName ?? \"");
+            
+            #line 272 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
+            
+            #line default
+            #line hidden
+            this.Write("\"); }\r\n");
+            
+            #line 273 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+        }else{
+            
+            #line default
+            #line hidden
+            this.Write("                        content_.Add(new System.Net.Http.StreamContent(");
+            
+            #line 274 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
+            
+            #line default
+            #line hidden
+            this.Write(".Data), \"");
+            
+            #line 274 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
+            
+            #line default
+            #line hidden
+            this.Write("\", ");
+            
+            #line 274 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
+            
+            #line default
+            #line hidden
+            this.Write(".FileName ?? \"");
+            
+            #line 274 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
+            
+            #line default
+            #line hidden
+            this.Write("\");\r\n");
+            
+            #line 275 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+        }
+        }else{
+            
+            #line default
+            #line hidden
+            this.Write("                        content_.Add(new System.Net.Http.StringContent(");
+            
+            #line 277 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
+            
+            #line default
+            #line hidden
+            this.Write(".ToString()), \"");
+            
+            #line 277 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
+            
+            #line default
+            #line hidden
+            this.Write("\");\r\n");
+            
+            #line 278 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+      }
+            
+            #line default
+            #line hidden
+            
+            #line 279 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
     }
             
             #line default
             #line hidden
             
-            #line 271 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 280 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   }else if(!operation.IsGetOrDelete){
             
             #line default
@@ -2261,33 +2313,33 @@ if(operation.HasXmlBodyParameter){
             this.Write("                var content_ = new System.Net.Http.StringContent(string.Empty);\r\n" +
                     "");
             
-            #line 273 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 282 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   }
             
             #line default
             #line hidden
             
-            #line 274 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 283 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 275 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 284 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   if(!operation.IsGetOrDelete){
             
             #line default
             #line hidden
             this.Write("                request_.Content = content_;\r\n");
             
-            #line 277 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 286 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   }
             
             #line default
             #line hidden
             this.Write("                request_.Method = new System.Net.Http.HttpMethod(\"");
             
-            #line 278 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 287 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.HttpMethod.ToString().ToUpperInvariant()));
             
             #line default
@@ -2296,7 +2348,7 @@ if(operation.HasXmlBodyParameter){
                     "lativeOrAbsolute);\r\n                request_.Headers.Accept.Add(new System.Net.H" +
                     "ttp.Headers.MediaTypeWithQualityHeaderValue(\"");
             
-            #line 280 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 289 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.Produces));
             
             #line default
@@ -2314,47 +2366,47 @@ if(operation.HasXmlBodyParameter){
                     var status_ = ((int)response_.StatusCode).ToString();
 ");
             
-            #line 291 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 300 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 foreach(var response in operation.Responses){
             
             #line default
             #line hidden
             this.Write("                    if (status_ == \"");
             
-            #line 292 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 301 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
             
             #line default
             #line hidden
             this.Write("\"");
             
-            #line 292 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 301 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 if(response.IsFile && response.StatusCode == "200"){
             
             #line default
             #line hidden
             this.Write(" || status_ == \"206\"");
             
-            #line 292 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 301 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write(") \r\n                    {\r\n");
             
-            #line 294 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 303 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 if(response.HasType){
             
             #line default
             #line hidden
             
-            #line 295 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 304 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   if(response.IsFile){
             
             #line default
             #line hidden
             
-            #line 296 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 305 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
       if(response.IsSuccess(operation)){
             
             #line default
@@ -2363,21 +2415,21 @@ if(response.HasType){
                     "mAsync().ConfigureAwait(false);\r\n                        var fileResponse_ = new" +
                     " FileResponse(status_, headers_, responseStream_, ");
             
-            #line 298 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 307 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 if(Model.InjectHttpClient){
             
             #line default
             #line hidden
             this.Write("null");
             
-            #line 298 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 307 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 }else{
             
             #line default
             #line hidden
             this.Write("client_");
             
-            #line 298 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 307 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 }
             
             #line default
@@ -2386,7 +2438,7 @@ if(Model.InjectHttpClient){
                     "onse and client are disposed by FileResponse\r\n                        return fil" +
                     "eResponse_;\r\n");
             
-            #line 301 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 310 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
       }else{
             
             #line default
@@ -2394,27 +2446,27 @@ if(Model.InjectHttpClient){
             this.Write("                        var responseData_ = await response_.Content.ReadAsStringA" +
                     "sync().ConfigureAwait(false); \r\n                        throw new ");
             
-            #line 303 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 312 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ExceptionClass));
             
             #line default
             #line hidden
             this.Write("(\"");
             
-            #line 303 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 312 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.ExceptionDescription));
             
             #line default
             #line hidden
             this.Write("\", status_, responseData_, headers_, null);\r\n");
             
-            #line 304 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 313 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
       }
             
             #line default
             #line hidden
             
-            #line 305 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 314 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   }else{
             
             #line default
@@ -2422,7 +2474,7 @@ if(Model.InjectHttpClient){
             this.Write("                        var responseData_ = await response_.Content.ReadAsStringA" +
                     "sync().ConfigureAwait(false); \r\n                        var result_ = default(");
             
-            #line 307 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 316 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.Type));
             
             #line default
@@ -2430,61 +2482,61 @@ if(Model.InjectHttpClient){
             this.Write("); \r\n                        try\r\n                        {\r\n                    " +
                     "        result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<");
             
-            #line 310 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 319 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.Type));
             
             #line default
             #line hidden
             this.Write(">(responseData_");
             
-            #line 310 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 319 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.JsonSerializerParameterCode));
             
             #line default
             #line hidden
             this.Write(");\r\n");
             
-            #line 311 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 320 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
       if(response.IsSuccess(operation)){
             
             #line default
             #line hidden
             
-            #line 312 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 321 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
           if (Model.WrapResponses){
             
             #line default
             #line hidden
             this.Write("                            return new ");
             
-            #line 313 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 322 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ResponseClass));
             
             #line default
             #line hidden
             this.Write("<");
             
-            #line 313 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 322 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.UnwrappedResultType));
             
             #line default
             #line hidden
             this.Write(">(status_, headers_, result_); \r\n");
             
-            #line 314 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 323 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
           }else{
             
             #line default
             #line hidden
             this.Write("                            return result_; \r\n");
             
-            #line 316 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 325 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
           }
             
             #line default
             #line hidden
             
-            #line 317 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 326 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
       }
             
             #line default
@@ -2492,7 +2544,7 @@ if(Model.InjectHttpClient){
             this.Write("                        } \r\n                        catch (System.Exception excep" +
                     "tion) \r\n                        {\r\n                            throw new ");
             
-            #line 321 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 330 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ExceptionClass));
             
             #line default
@@ -2500,13 +2552,13 @@ if(Model.InjectHttpClient){
             this.Write("(\"Could not deserialize the response body.\", status_, responseData_, headers_, ex" +
                     "ception);\r\n                        }\r\n");
             
-            #line 323 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 332 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
       if(!response.IsSuccess(operation)){
             
             #line default
             #line hidden
             
-            #line 324 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 333 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
           if(response.InheritsExceptionSchema){
             
             #line default
@@ -2514,7 +2566,7 @@ if(Model.InjectHttpClient){
             this.Write("                        if (result_ == null)\r\n                            result_" +
                     " = new ");
             
-            #line 326 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 335 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.Type));
             
             #line default
@@ -2523,199 +2575,199 @@ if(Model.InjectHttpClient){
                     "              result_.Data.Add(\"HttpHeaders\", headers_);\r\n                      " +
                     "  result_.Data.Add(\"HttpResponse\", responseData_);\r\n");
             
-            #line 330 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 339 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
                 if(Model.WrapDtoExceptions){
             
             #line default
             #line hidden
             this.Write("                        throw new ");
             
-            #line 331 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 340 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ExceptionClass));
             
             #line default
             #line hidden
             this.Write("<");
             
-            #line 331 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 340 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.Type));
             
             #line default
             #line hidden
             this.Write(">(\"");
             
-            #line 331 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 340 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.ExceptionDescription));
             
             #line default
             #line hidden
             this.Write("\", status_, responseData_, headers_, result_, result_);\r\n");
             
-            #line 332 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 341 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
                 }else{
             
             #line default
             #line hidden
             this.Write("                        throw result_;\r\n");
             
-            #line 334 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 343 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
                 }
             
             #line default
             #line hidden
             
-            #line 335 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 344 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
           }else{
             
             #line default
             #line hidden
             this.Write("                        throw new ");
             
-            #line 336 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 345 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ExceptionClass));
             
             #line default
             #line hidden
             this.Write("<");
             
-            #line 336 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 345 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.Type));
             
             #line default
             #line hidden
             this.Write(">(\"");
             
-            #line 336 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 345 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.ExceptionDescription));
             
             #line default
             #line hidden
             this.Write("\", status_, responseData_, headers_, result_, null);\r\n");
             
-            #line 337 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 346 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
           }
             
             #line default
             #line hidden
             
-            #line 338 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 347 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
       }
             
             #line default
             #line hidden
             
-            #line 339 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 348 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   }
             
             #line default
             #line hidden
             
-            #line 340 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 349 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 }else{
             
             #line default
             #line hidden
             
-            #line 341 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 350 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   if(response.IsSuccess(operation)){
             
             #line default
             #line hidden
             
-            #line 342 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 351 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
       if(operation.HasResultType){
             
             #line default
             #line hidden
             
-            #line 343 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 352 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
           if (Model.WrapResponses){
             
             #line default
             #line hidden
             this.Write("                        return new ");
             
-            #line 344 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 353 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ResponseClass));
             
             #line default
             #line hidden
             this.Write("<");
             
-            #line 344 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 353 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.UnwrappedResultType));
             
             #line default
             #line hidden
             this.Write(">(status_, headers_, default(");
             
-            #line 344 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 353 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.UnwrappedResultType));
             
             #line default
             #line hidden
             this.Write(")); \r\n");
             
-            #line 345 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 354 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
           }else{
             
             #line default
             #line hidden
             this.Write("                        return default(");
             
-            #line 346 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 355 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.UnwrappedResultType));
             
             #line default
             #line hidden
             this.Write(");\r\n");
             
-            #line 347 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 356 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
           }
             
             #line default
             #line hidden
             
-            #line 348 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 357 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
       }else{
             
             #line default
             #line hidden
             
-            #line 349 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 358 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
           if (Model.WrapResponses){
             
             #line default
             #line hidden
             this.Write("                        return new ");
             
-            #line 350 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 359 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ResponseClass));
             
             #line default
             #line hidden
             this.Write("(status_, headers_); \r\n");
             
-            #line 351 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 360 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
           }else{
             
             #line default
             #line hidden
             this.Write("                        return;\r\n");
             
-            #line 353 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 362 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
           }
             
             #line default
             #line hidden
             
-            #line 354 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 363 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
       }
             
             #line default
             #line hidden
             
-            #line 355 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 364 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   }else{
             
             #line default
@@ -2723,59 +2775,59 @@ if(Model.InjectHttpClient){
             this.Write("                        var responseData_ = await response_.Content.ReadAsStringA" +
                     "sync().ConfigureAwait(false); \r\n                        throw new ");
             
-            #line 357 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 366 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ExceptionClass));
             
             #line default
             #line hidden
             this.Write("(\"");
             
-            #line 357 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 366 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.ExceptionDescription));
             
             #line default
             #line hidden
             this.Write("\", status_, responseData_, headers_, null);\r\n");
             
-            #line 358 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 367 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   }
             
             #line default
             #line hidden
             
-            #line 359 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 368 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("                    }\r\n                    else\r\n");
             
-            #line 362 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 371 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
       }
             
             #line default
             #line hidden
             
-            #line 363 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 372 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 if(operation.HasDefaultResponse){
             
             #line default
             #line hidden
             
-            #line 364 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 373 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   if(operation.DefaultResponse.HasType){
             
             #line default
             #line hidden
             this.Write("                    {\r\n");
             
-            #line 366 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 375 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
       if(operation.DefaultResponse.IsFile){
             
             #line default
             #line hidden
             
-            #line 367 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 376 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
           if(operation.DefaultResponse.IsSuccess(operation)){
             
             #line default
@@ -2784,21 +2836,21 @@ if(operation.HasDefaultResponse){
                     "mAsync().ConfigureAwait(false);\r\n                        var fileResponse_ = new" +
                     " FileResponse(status_, headers_, responseStream_, ");
             
-            #line 369 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 378 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 if(Model.InjectHttpClient){
             
             #line default
             #line hidden
             this.Write("null");
             
-            #line 369 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 378 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 }else{
             
             #line default
             #line hidden
             this.Write("client_");
             
-            #line 369 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 378 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 }
             
             #line default
@@ -2807,7 +2859,7 @@ if(Model.InjectHttpClient){
                     "onse and client are disposed by FileResponse\r\n                        return fil" +
                     "eResponse_;\r\n");
             
-            #line 372 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 381 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
           }else{
             
             #line default
@@ -2815,27 +2867,27 @@ if(Model.InjectHttpClient){
             this.Write("                        var responseData_ = await response_.Content.ReadAsStringA" +
                     "sync().ConfigureAwait(false); \r\n                        throw new ");
             
-            #line 374 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 383 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ExceptionClass));
             
             #line default
             #line hidden
             this.Write("(\"");
             
-            #line 374 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 383 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.DefaultResponse.ExceptionDescription));
             
             #line default
             #line hidden
             this.Write("\", status_, responseData_, headers_, null);\r\n");
             
-            #line 375 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 384 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
           }
             
             #line default
             #line hidden
             
-            #line 376 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 385 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
       }else{
             
             #line default
@@ -2843,7 +2895,7 @@ if(Model.InjectHttpClient){
             this.Write("                        var responseData_ = await response_.Content.ReadAsStringA" +
                     "sync().ConfigureAwait(false); \r\n                        var result_ = default(");
             
-            #line 378 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 387 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.DefaultResponse.Type));
             
             #line default
@@ -2851,21 +2903,21 @@ if(Model.InjectHttpClient){
             this.Write("); \r\n                        try\r\n                        {\r\n                    " +
                     "        result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<");
             
-            #line 381 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 390 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.DefaultResponse.Type));
             
             #line default
             #line hidden
             this.Write(">(responseData_");
             
-            #line 381 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 390 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.JsonSerializerParameterCode));
             
             #line default
             #line hidden
             this.Write(");\r\n\r\n");
             
-            #line 383 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 392 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
           if(operation.HasOnlyDefaultResponse){
             
             #line default
@@ -2873,41 +2925,41 @@ if(Model.InjectHttpClient){
             this.Write("                            if (status_.Length == 3 && status_.StartsWith(\"2\"))\r\n" +
                     "");
             
-            #line 385 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 394 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
               if (Model.WrapResponses){
             
             #line default
             #line hidden
             this.Write("                                return new ");
             
-            #line 386 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 395 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ResponseClass));
             
             #line default
             #line hidden
             this.Write("<");
             
-            #line 386 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 395 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.UnwrappedResultType));
             
             #line default
             #line hidden
             this.Write(">(status_, headers_, result_); \r\n");
             
-            #line 387 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 396 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
               }else{
             
             #line default
             #line hidden
             this.Write("                                return result_; \r\n");
             
-            #line 389 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 398 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
               }
             
             #line default
             #line hidden
             
-            #line 390 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 399 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
           }
             
             #line default
@@ -2915,7 +2967,7 @@ if(Model.InjectHttpClient){
             this.Write("                        } \r\n                        catch (System.Exception excep" +
                     "tion_) \r\n                        {\r\n                            throw new ");
             
-            #line 394 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 403 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ExceptionClass));
             
             #line default
@@ -2923,7 +2975,7 @@ if(Model.InjectHttpClient){
             this.Write("(\"Could not deserialize the response body.\", status_, responseData_, headers_, ex" +
                     "ception_);\r\n                        }\r\n\r\n");
             
-            #line 397 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 406 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
           if(operation.DefaultResponse.InheritsExceptionSchema){
             
             #line default
@@ -2931,7 +2983,7 @@ if(Model.InjectHttpClient){
             this.Write("                        if (result_ == null)\r\n                            result_" +
                     " = new ");
             
-            #line 399 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 408 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.DefaultResponse.Type));
             
             #line default
@@ -2940,95 +2992,95 @@ if(Model.InjectHttpClient){
                     "              result_.Data.Add(\"HttpHeaders\", headers_);\r\n                      " +
                     "  result_.Data.Add(\"HttpResponse\", responseData_);\r\n");
             
-            #line 403 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 412 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
                 if(Model.WrapDtoExceptions){
             
             #line default
             #line hidden
             this.Write("                        throw new ");
             
-            #line 404 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 413 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ExceptionClass));
             
             #line default
             #line hidden
             this.Write("<");
             
-            #line 404 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 413 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.DefaultResponse.Type));
             
             #line default
             #line hidden
             this.Write(">(\"");
             
-            #line 404 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 413 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.DefaultResponse.ExceptionDescription));
             
             #line default
             #line hidden
             this.Write("\", status_, responseData_, headers_, result_, null);\r\n");
             
-            #line 405 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 414 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
                 }else{
             
             #line default
             #line hidden
             this.Write("                        throw result_;\r\n");
             
-            #line 407 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 416 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
                 }
             
             #line default
             #line hidden
             
-            #line 408 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 417 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
           }else{
             
             #line default
             #line hidden
             this.Write("                        throw new ");
             
-            #line 409 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 418 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ExceptionClass));
             
             #line default
             #line hidden
             this.Write("<");
             
-            #line 409 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 418 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.DefaultResponse.Type));
             
             #line default
             #line hidden
             this.Write(">(\"");
             
-            #line 409 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 418 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.DefaultResponse.ExceptionDescription));
             
             #line default
             #line hidden
             this.Write("\", status_, responseData_, headers_, result_, null);\r\n");
             
-            #line 410 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 419 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
           }
             
             #line default
             #line hidden
             
-            #line 411 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 420 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
       }
             
             #line default
             #line hidden
             this.Write("                    }\r\n");
             
-            #line 413 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 422 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   }else{
             
             #line default
             #line hidden
             
-            #line 414 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 423 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
       if(operation.HasSuccessResponse){
             
             #line default
@@ -3036,33 +3088,33 @@ if(Model.InjectHttpClient){
             this.Write("                    var responseData_ = await response_.Content.ReadAsStringAsync" +
                     "().ConfigureAwait(false); \r\n                    throw new ");
             
-            #line 416 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 425 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ExceptionClass));
             
             #line default
             #line hidden
             this.Write("(\"");
             
-            #line 416 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 425 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.DefaultResponse.ExceptionDescription));
             
             #line default
             #line hidden
             this.Write("\", status_, responseData_, headers_, null);\r\n");
             
-            #line 417 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 426 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
       }
             
             #line default
             #line hidden
             
-            #line 418 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 427 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   }
             
             #line default
             #line hidden
             
-            #line 419 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 428 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 }else{
             
             #line default
@@ -3071,7 +3123,7 @@ if(Model.InjectHttpClient){
                     "  {\r\n                        var responseData_ = await response_.Content.ReadAsS" +
                     "tringAsync().ConfigureAwait(false); \r\n                        throw new ");
             
-            #line 423 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 432 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ExceptionClass));
             
             #line default
@@ -3079,82 +3131,82 @@ if(Model.InjectHttpClient){
             this.Write("(\"The HTTP status code of the response was not expected (\" + (int)response_.Statu" +
                     "sCode + \").\", status_, responseData_, headers_, null);\r\n                    }\r\n");
             
-            #line 425 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 434 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 426 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 435 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
       if(operation.HasResultType){
             
             #line default
             #line hidden
             this.Write("        \r\n");
             
-            #line 428 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 437 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
           if (Model.WrapResponses && operation.UnwrappedResultType != "FileResponse"){
             
             #line default
             #line hidden
             this.Write("                    return new ");
             
-            #line 429 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 438 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ResponseClass));
             
             #line default
             #line hidden
             this.Write("<");
             
-            #line 429 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 438 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.UnwrappedResultType));
             
             #line default
             #line hidden
             this.Write(">(status_, headers_, default(");
             
-            #line 429 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 438 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.UnwrappedResultType));
             
             #line default
             #line hidden
             this.Write(")); \r\n");
             
-            #line 430 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 439 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
           }else{
             
             #line default
             #line hidden
             this.Write("                    return default(");
             
-            #line 431 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 440 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.UnwrappedResultType));
             
             #line default
             #line hidden
             this.Write(");\r\n");
             
-            #line 432 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 441 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
           }
             
             #line default
             #line hidden
             
-            #line 433 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 442 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
       }else if(Model.WrapResponses){
             
             #line default
             #line hidden
             this.Write("\r\n                    return new ");
             
-            #line 435 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 444 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ResponseClass));
             
             #line default
             #line hidden
             this.Write("(status_, headers_); \r\n");
             
-            #line 436 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 445 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
       }
             
             #line default
@@ -3163,34 +3215,34 @@ if(Model.InjectHttpClient){
                     "  if (response_ != null)\r\n                        response_.Dispose();\r\n        " +
                     "        }\r\n            }\r\n        }\r\n        finally\r\n        {\r\n");
             
-            #line 447 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 456 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 if(!Model.InjectHttpClient){
             
             #line default
             #line hidden
             this.Write("            if (client_ != null)\r\n                client_.Dispose();\r\n");
             
-            #line 450 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 459 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("        }\r\n    }\r\n\r\n");
             
-            #line 454 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 463 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("}\r\n");
             
-            #line 456 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 465 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 457 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            #line 466 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 }
             
             #line default

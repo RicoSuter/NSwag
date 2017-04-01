@@ -2,9 +2,13 @@
 <#@ import namespace="System.Linq" #>
 let url_ = this.baseUrl + "/<#=Model.Path#><#if(Model.QueryParameters.Any()){#>?<#}#>";
 <#foreach(var parameter in Model.PathParameters){#>
+<#  if(parameter.IsRequired){#>
 if (<#=parameter.VariableName#> === undefined || <#=parameter.VariableName#> === null)
     throw new Error("The parameter '<#=parameter.VariableName#>' must be defined.");
-<#if(parameter.IsDateArray){#>
+<#  }else{#>
+if (<#=parameter.VariableName#> !== null && <#=parameter.VariableName#> !== undefined)
+<#  }#>
+<#  if(parameter.IsDateArray){#>
 url_ = url_.replace("{<#=parameter.Name#>}", encodeURIComponent(<#=parameter.VariableName#>.map(s_ => s_.toJSON()).join())); 
 <#  }else if(parameter.IsDate){#>
 url_ = url_.replace("{<#=parameter.Name#>}", encodeURIComponent("" + <#=parameter.VariableName#>.toJSON())); 
@@ -12,8 +16,12 @@ url_ = url_.replace("{<#=parameter.Name#>}", encodeURIComponent("" + <#=paramete
 url_ = url_.replace("{<#=parameter.Name#>}", encodeURIComponent(<#=parameter.VariableName#>.join())); 
 <#  }else{#>
 url_ = url_.replace("{<#=parameter.Name#>}", encodeURIComponent("" + <#=parameter.VariableName#>)); 
-<#  }
-  }
+<#  }#>
+<#  if(parameter.IsOptional){#>
+else
+    url_ = url_.replace("/{<#=parameter.Name#>}", ""); 
+<#  }#>
+<#}
   foreach(var parameter in Model.QueryParameters){
     if (parameter.IsRequired) { 
         if(parameter.IsNullable){#>
