@@ -22,7 +22,7 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <param name="model">The model.</param>
         /// <param name="tabCount">The tab count.</param>
         /// <returns>The helper methods.</returns>
-        public static string RenderClientMethodsCode(TypeScriptClientTemplateModel model, int tabCount = 0)
+        public static string RenderClientMethodsCode(TypeScriptFileTemplateModel model, int tabCount = 0)
         {
             var tpl = new ClientMethodsTemplate(model);
             return ConversionUtilities.Tab(tpl.Render(), tabCount);

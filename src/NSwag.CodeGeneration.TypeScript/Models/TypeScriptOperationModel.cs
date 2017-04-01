@@ -65,6 +65,15 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets a value indicating whether to handle references.</summary>
         public bool HandleReferences => _settings.TypeScriptGeneratorSettings.HandleReferences;
 
+        /// <summary>Gets a value indicating whether the template can request blobs.</summary>
+        public bool CanRequestBlobs => IsFetchOrAurelia || IsAngular || IsAngularJS;
+
+        /// <summary>Gets a value indicating whether to use blobs with Angular.</summary>
+        public bool RequestAngularBlobs => IsAngular && IsFile;
+
+        /// <summary>Gets a value indicating whether to use blobs with AngularJS.</summary>
+        public bool RequestAngularJSBlobs => IsAngularJS && IsFile;
+
         /// <summary>Gets or sets the type of the exception.</summary>
         public override string ExceptionType
         {

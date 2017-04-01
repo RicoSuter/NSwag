@@ -807,16 +807,9 @@ if(Model.SupportsStrictNullChecks){
             
             #line default
             #line hidden
-            this.Write("\r\n    ");
+            this.Write("}\r\n");
             
             #line 97 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(TypeScriptTemplatePartGenerator.RenderClientMethodsCode(Model, 1)));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n}\r\n");
-            
-            #line 99 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default

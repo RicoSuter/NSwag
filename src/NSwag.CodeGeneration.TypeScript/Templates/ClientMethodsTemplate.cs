@@ -15,7 +15,7 @@ namespace NSwag.CodeGeneration.TypeScript.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
+    #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
     internal partial class ClientMethodsTemplate : ClientMethodsTemplateBase
     {
@@ -25,17 +25,86 @@ namespace NSwag.CodeGeneration.TypeScript.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("protected throwException(message: string, status: number, response: string, resul" +
-                    "t?: any): any {\r\n");
             
-            #line 3 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
+            #line 2 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
+if(Model.IsAngular){
+            
+            #line default
+            #line hidden
+            this.Write("function throwException(message: string, status: number, response: string, result" +
+                    "?: any): Observable<any> {\r\n");
+            
+            #line 4 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
+if(Model.WrapDtoExceptions){
+            
+            #line default
+            #line hidden
+            this.Write("    return Observable.throw(new SwaggerException(message, status, response, resul" +
+                    "t));\r\n");
+            
+            #line 6 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
+}else{
+            
+            #line default
+            #line hidden
+            this.Write("    if(result !== null && result !== undefined)\r\n        return Observable.throw(" +
+                    "result);\r\n    else\r\n        return Observable.throw(new SwaggerException(message" +
+                    ", status, response, null));\r\n");
+            
+            #line 11 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("}\r\n\r\n");
+            
+            #line 14 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
+}else if(Model.IsAngularJS){
+            
+            #line default
+            #line hidden
+            this.Write("function throwException(q: ng.IQService, message: string, status: number, respons" +
+                    "e: string, result?: any): ng.IPromise<any> {\r\n");
+            
+            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
+if(Model.WrapDtoExceptions){
+            
+            #line default
+            #line hidden
+            this.Write("    return q.reject(new SwaggerException(message, status, response, result));\r\n");
+            
+            #line 18 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
+}else{
+            
+            #line default
+            #line hidden
+            this.Write("    if(result !== null && result !== undefined)\r\n        return q.reject(result);" +
+                    "\r\n    else\r\n        return q.reject(new SwaggerException(message, status, respon" +
+                    "se, null));\r\n");
+            
+            #line 23 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("}\r\n\r\n");
+            
+            #line 26 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
+}else{
+            
+            #line default
+            #line hidden
+            this.Write("function throwException(message: string, status: number, response: string, result" +
+                    "?: any): any {\r\n");
+            
+            #line 28 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
 if(Model.WrapDtoExceptions){
             
             #line default
             #line hidden
             this.Write("    throw new SwaggerException(message, status, response, result);\r\n");
             
-            #line 4 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
+            #line 30 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
 }else{
             
             #line default
@@ -43,12 +112,59 @@ if(Model.WrapDtoExceptions){
             this.Write("    if(result !== null && result !== undefined)\r\n        throw result;\r\n    else\r" +
                     "\n        throw new SwaggerException(message, status, response, null);\r\n");
             
-            #line 8 "C:\Data\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
+            #line 35 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
 }
             
             #line default
             #line hidden
-            this.Write("}");
+            this.Write("}\r\n\r\n");
+            
+            #line 38 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            
+            #line 39 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
+if(Model.IsAngular){
+            
+            #line default
+            #line hidden
+            this.Write(@"function blobToText(blob: Blob): Observable<string> {
+    return new Observable((observer) => { 
+        let reader = new FileReader(); 
+        reader.onload = function() { 
+            observer.next(this.result);
+            observer.complete();
+        }
+        reader.readAsText(blob); 
+    });
+}
+
+");
+            
+            #line 51 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
+}else if(Model.IsAngularJS){
+            
+            #line default
+            #line hidden
+            this.Write(@"function blobToText(blob: Blob, q: ng.IQService): ng.IPromise<string> {
+    return new q((resolve) => { 
+        let reader = new FileReader(); 
+        reader.onload = function() { 
+            resolve(this.result);
+        }
+        reader.readAsText(blob); 
+    });
+}
+
+");
+            
+            #line 62 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
+}
+            
+            #line default
+            #line hidden
             return this.GenerationEnvironment.ToString();
         }
     }

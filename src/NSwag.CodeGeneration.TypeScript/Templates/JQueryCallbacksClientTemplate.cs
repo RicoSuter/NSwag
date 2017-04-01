@@ -793,7 +793,7 @@ if(Model.UseTransformResultMethod){
             
             #line default
             #line hidden
-            this.Write("(xhr: any): ");
+            this.Write("(_xhr: any): ");
             
             #line 94 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultType));
@@ -813,7 +813,7 @@ if(Model.SupportsStrictNullChecks){
             
             #line default
             #line hidden
-            this.Write(" {\r\n        const _status = xhr.status; \r\n\r\n        ");
+            this.Write(" {\r\n        const _status = _xhr.status;\r\n\r\n        ");
             
             #line 97 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeScriptTemplatePartGenerator.RenderProcessResponseCode(operation, 2)));
@@ -827,16 +827,9 @@ if(Model.SupportsStrictNullChecks){
             
             #line default
             #line hidden
-            this.Write("\r\n    ");
+            this.Write("}\r\n");
             
             #line 101 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(TypeScriptTemplatePartGenerator.RenderClientMethodsCode(Model, 1)));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n}\r\n");
-            
-            #line 103 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
 }
             
             #line default

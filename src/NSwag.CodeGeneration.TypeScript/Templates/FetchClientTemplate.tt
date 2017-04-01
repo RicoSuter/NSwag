@@ -93,7 +93,5 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
         <#=TypeScriptTemplatePartGenerator.RenderProcessResponseCode(operation, 2)#>
     }
 <#}#>
-
-    <#=TypeScriptTemplatePartGenerator.RenderClientMethodsCode(Model, 1)#>
 }
 <#}#>

@@ -73,7 +73,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 <#if(Model.UseTransformOptionsMethod){#>
         return Observable.fromPromise(this.transformOptions(options_)).flatMap(transformedOptions_ => {
             return this.http.request(url_, transformedOptions_);
-        }).map((_response) => {
+        }).flatMap((_response) => {
 <#}else{#>
         return this.http.request(url_, options_).map((_response) => {
 <#}#>
@@ -86,9 +86,9 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
             if (_response instanceof Response) {
                 try {
 <#if(Model.UseTransformResultMethod){#>
-                    return Observable.of(this.transformResult(url_, _response, (_response) => this.process<#=operation.ActualOperationNameUpper#>(_response)));
+                    return this.transformResult(url_, _response, (_response) => this.process<#=operation.ActualOperationNameUpper#>(_response));
 <#}else{#>
-                    return Observable.of(this.process<#=operation.ActualOperationNameUpper#>(_response));
+                    return this.process<#=operation.ActualOperationNameUpper#>(_response);
 <#}#>
                 } catch (e) {
                     return <Observable<<#=operation.ResultType#>>><any>Observable.throw(e);
@@ -98,13 +98,11 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
         });
     }
 
-    protected process<#=operation.ActualOperationNameUpper#>(_response: Response): <#=operation.ResultType#><#if(Model.SupportsStrictNullChecks){#> | null<#}#> {
+    protected process<#=operation.ActualOperationNameUpper#>(_response: Response): Observable<<#=operation.ResultType#><#if(Model.SupportsStrictNullChecks){#> | null<#}#>> {
         const _status = _response.status; 
 
         <#=TypeScriptTemplatePartGenerator.RenderProcessResponseCode(operation, 2)#>
     }
 <#}#>
-
-    <#=TypeScriptTemplatePartGenerator.RenderClientMethodsCode(Model, 1)#>
 }
 <#}#>

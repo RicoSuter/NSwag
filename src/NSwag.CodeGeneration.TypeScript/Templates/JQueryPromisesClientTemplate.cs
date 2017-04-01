@@ -901,16 +901,9 @@ if(Model.SupportsStrictNullChecks){
             
             #line default
             #line hidden
-            this.Write("\r\n    ");
+            this.Write("}\r\n");
             
             #line 107 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(TypeScriptTemplatePartGenerator.RenderClientMethodsCode(Model, 1)));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n}\r\n");
-            
-            #line 109 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default

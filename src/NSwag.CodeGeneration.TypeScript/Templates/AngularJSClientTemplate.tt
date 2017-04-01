@@ -20,14 +20,16 @@ export interface I<#=Model.Class#> {
 export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.ClientBaseClass#> <#}#><#if(Model.GenerateClientInterfaces){#>implements I<#=Model.Class#> <#}#>{
     private baseUrl: string<#if(Model.SupportsStrictNullChecks){#> | undefined<#}#> = undefined; 
     private http: ng.IHttpService; 
+    private q: ng.IQService; 
     protected jsonParseReviver: <#if(Model.SupportsStrictNullChecks){#>((key: string, value: any) => any) | undefined<#}else{#>(key: string, value: any) => any<#}#> = undefined;
 
 <#if(!Model.HasExtendedConstructor){#>
-    constructor($http: ng.IHttpService, baseUrl?: string) {
+    constructor($http: ng.IHttpService, $q: ng.IQService, baseUrl?: string) {
 <#if(Model.HasClientBaseClass){#>
         super();
 <#}#>
         this.http = $http;
+        this.q = $q;
         this.baseUrl = baseUrl ? baseUrl : "<#=Model.BaseUrl#>";
     }
 <#}#>
@@ -54,7 +56,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
             url: url_,
             method: "<#=operation.HttpMethodUpper.ToUpperInvariant()#>",
 <#if(operation.IsFile){#>
-            responseType: "blob",
+            responseType: "arraybuffer",
 <#}#>
             data: content_,
             transformResponse: [], 
@@ -94,13 +96,11 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
         });
     }
 
-    protected process<#=operation.ActualOperationNameUpper#>(_response: any): <#=operation.ResultType#><#if(Model.SupportsStrictNullChecks){#> | null<#}#> {
+    protected process<#=operation.ActualOperationNameUpper#>(_response: any): ng.IPromise<<#=operation.ResultType#><#if(Model.SupportsStrictNullChecks){#> | null<#}#>> {
         const _status = _response.status; 
 
         <#=TypeScriptTemplatePartGenerator.RenderProcessResponseCode(operation, 2)#>
     }
 <#}#>
-
-    <#=TypeScriptTemplatePartGenerator.RenderClientMethodsCode(Model, 1)#>
 }
 <#}#>

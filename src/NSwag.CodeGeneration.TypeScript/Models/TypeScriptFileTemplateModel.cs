@@ -48,21 +48,26 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             ExtensionCodeBottom = GenerateExtensionCodeAfter();
         }
 
+        /// <summary>Gets a value indicating whether to generate client classes.</summary>
+        public bool GenerateClientClasses => _settings.GenerateClientClasses;
+
         /// <summary>Gets a value indicating whether the generated code is for Angular 2.</summary>
-        public bool IsAngular => _settings.GenerateClientClasses && _settings.Template == TypeScriptTemplate.Angular;
+        public bool IsAngular => _settings.Template == TypeScriptTemplate.Angular;
 
         /// <summary>Gets a value indicating whether the generated code is for Aurelia.</summary>
-        public bool IsAurelia => _settings.GenerateClientClasses && _settings.Template == TypeScriptTemplate.Aurelia;
+        public bool IsAurelia => _settings.Template == TypeScriptTemplate.Aurelia;
 
         /// <summary>Gets a value indicating whether the generated code is for Angular.</summary>
-        public bool IsAngularJS => _settings.GenerateClientClasses && _settings.Template == TypeScriptTemplate.AngularJS;
+        public bool IsAngularJS => _settings.Template == TypeScriptTemplate.AngularJS;
 
         /// <summary>Gets a value indicating whether the generated code is for Knockout.</summary>
-        public bool IsKnockout => _settings.GenerateClientClasses && _settings.TypeScriptGeneratorSettings.TypeStyle == TypeScriptTypeStyle.KnockoutClass;
+        public bool IsKnockout => _settings.TypeScriptGeneratorSettings.TypeStyle == TypeScriptTypeStyle.KnockoutClass;
 
         /// <summary>Gets a value indicating whether to render for JQuery.</summary>
-        public bool IsJQuery => _settings.GenerateClientClasses &&
-            (_settings.Template == TypeScriptTemplate.JQueryCallbacks || _settings.Template == TypeScriptTemplate.JQueryPromises);
+        public bool IsJQuery => _settings.Template == TypeScriptTemplate.JQueryCallbacks || _settings.Template == TypeScriptTemplate.JQueryPromises;
+
+        /// <summary>Gets or sets a value indicating whether DTO exceptions are wrapped in a SwaggerException instance.</summary>
+        public bool WrapDtoExceptions => _settings.WrapDtoExceptions;
 
         /// <summary>Gets a value indicating whether MomentJS is required.</summary>
         public bool RequiresMomentJS => _settings.TypeScriptGeneratorSettings.DateTimeType == TypeScriptDateTimeType.MomentJS;
