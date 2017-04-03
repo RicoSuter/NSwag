@@ -13,6 +13,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using NJsonSchema;
 using NSwag.CodeGeneration.Infrastructure;
 using NSwag.SwaggerGeneration.Utilities;
 
@@ -64,6 +65,12 @@ namespace NSwag.SwaggerGeneration.WebApi
         /// <returns>The Swagger definition.</returns>
         public override async Task<SwaggerDocument> GenerateForControllersAsync(IEnumerable<string> controllerClassNames)
         {
+            if (!(Settings.SchemaNameGenerator is DefaultSchemaNameGenerator))
+                throw new InvalidOperationException("The SchemaNameGenerator cannot be customized when loading types from external assemblies.");
+
+            if (!(Settings.TypeNameGenerator is DefaultTypeNameGenerator))
+                throw new InvalidOperationException("The TypeNameGenerator cannot be customized when loading types from external assemblies.");
+
 #if FullNet
             using (var isolated = new AppDomainIsolation<WebApiAssemblyLoader>(Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPaths.First())), Settings.AssemblyConfig))
             {
