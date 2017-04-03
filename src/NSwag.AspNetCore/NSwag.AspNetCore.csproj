@@ -29,7 +29,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="1.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.0.2" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="1.0.1" />
-    <PackageReference Include="NJsonSchema" Version="8.26.6300.23786" />
+    <PackageReference Include="NJsonSchema" Version="8.27.6302.16041" />
     <PackageReference Include="NSwag.Annotations" Version="*" />
     <PackageReference Include="NSwag.SwaggerGeneration.WebApi" Version="*" />
   </ItemGroup>
