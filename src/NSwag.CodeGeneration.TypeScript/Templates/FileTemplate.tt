@@ -11,7 +11,13 @@
 <#if(Model.ImportRequiredTypes){#>
 <#  if(Model.IsAngular){#>
 
-import 'rxjs/Rx'; 
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/observable/fromPromise';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/catch';
+
 import { Observable } from 'rxjs/Observable';
 import { Injectable, Inject, Optional, OpaqueToken } from '@angular/core';
 import { Http, Headers, ResponseContentType, Response<#if(Model.UseTransformOptionsMethod){#>, RequestOptionsArgs<#}#> } from '@angular/http';
