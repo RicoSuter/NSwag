@@ -24,6 +24,7 @@ namespace NSwag.CodeGeneration.TypeScript
             TypeScriptGeneratorSettings = new TypeScriptGeneratorSettings
             {
                 NullHandling = NullHandling.Swagger,
+                MarkOptionalProperties = true,
                 TemplateFactory = new DefaultTemplateFactory(), 
                 TypeNameGenerator = new TypeScriptTypeNameGenerator()
             };
