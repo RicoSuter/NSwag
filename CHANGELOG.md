@@ -6,6 +6,7 @@
 - `ko` and `jquery` are now automatically imported in the generated file (to use old behavior, set `ImportRequiredTypes` to `false`)
 - Non-JSON results (i.e. images, binary data, etc.) are now streamed and returned as blobs instead of `any` (except with the JQuery templates, they do not support blob download). 
 - Renamed TypeScriptTemplate.Angular2 to Angular: NSwag Documents are automatically migrated, otherwise you have to change the setting `Template` from `Angular2` to `Angular`
+- `MarkOptionalProperties` is now by default `true`
 
 - DTO objects are now initialized with the `init()` method instead of the constructor. If you rely on that, you have to refactor your code (NJsonSchema change). 
 - The `toJS()` method has been renamed to `toJSON()` (the original `toJSON()` method has been removed, use `JSON.stringify(dto.toJSON())` instead)
