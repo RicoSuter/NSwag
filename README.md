@@ -1,5 +1,7 @@
 ## NSwag: The Swagger (Open API) toolchain for .NET, Web API and TypeScript
 
+**v10 will be released soon. Check out the [changelog](https://github.com/NSwag/NSwag/blob/master/CHANGELOG.md) and test with CI builds**
+
 [![NuGet Version](https://img.shields.io/nuget/v/NSwag.Core.svg)](https://www.nuget.org/packages?q=NSwag)
 [![npm](https://img.shields.io/npm/v/nswag.svg)](https://www.npmjs.com/package/nswag)
 [![Build status](https://img.shields.io/appveyor/ci/rsuter/nswag.svg?label=build)](https://ci.appveyor.com/project/rsuter/nswag)
