@@ -62,8 +62,7 @@ export const <#=Model.BaseUrlTokenName#> = new OpaqueToken('<#=Model.BaseUrlToke
 <#=Model.Types#>
 
 <#if(Model.RequiresFileParameterInterface){#>
-export interface FileParameter
-{
+export interface FileParameter {
     data: any;
     fileName: string;
 }
