@@ -6,7 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration.CSharp;
@@ -22,21 +21,22 @@ namespace NSwag.CodeGeneration.CSharp
         /// <summary>Initializes a new instance of the <see cref="CSharpTypeResolver" /> class.</summary>
         /// <param name="settings">The generator settings.</param>
         /// <param name="exceptionSchema">The exception type schema.</param>
-        public SwaggerToCSharpTypeResolver(CSharpGeneratorSettings settings, JsonSchema4 exceptionSchema)
-            : base(settings)
+        /// <param name="document">The document </param>
+        public SwaggerToCSharpTypeResolver(CSharpGeneratorSettings settings, JsonSchema4 exceptionSchema, SwaggerDocument document)
+            : base(settings, document)
         {
             ExceptionSchema = exceptionSchema;
         }
 
         /// <summary>Creates a new resolver, adds the given schema definitions and registers an exception schema if available.</summary>
         /// <param name="settings">The settings.</param>
-        /// <param name="definitions">The definitions.</param>
-        public static SwaggerToCSharpTypeResolver CreateWithDefinitions(CSharpGeneratorSettings settings, IDictionary<string, JsonSchema4> definitions)
+        /// <param name="document">The document </param>
+        public static SwaggerToCSharpTypeResolver CreateWithDefinitions(CSharpGeneratorSettings settings, SwaggerDocument document)
         {
-            var exceptionSchema = definitions.ContainsKey("Exception") ? definitions["Exception"] : null;
+            var exceptionSchema = document.Definitions.ContainsKey("Exception") ? document.Definitions["Exception"] : null;
 
-            var resolver = new SwaggerToCSharpTypeResolver(settings, exceptionSchema);
-            resolver.AddGenerators(definitions
+            var resolver = new SwaggerToCSharpTypeResolver(settings, exceptionSchema, document);
+            resolver.AddGenerators(document.Definitions
                 .Where(p => p.Value != exceptionSchema)
                 .ToDictionary(p => p.Key, p => p.Value));
 

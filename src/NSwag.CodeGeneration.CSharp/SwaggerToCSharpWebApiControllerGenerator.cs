@@ -22,7 +22,7 @@ namespace NSwag.CodeGeneration.CSharp
         /// <param name="settings">The settings.</param>
         /// <exception cref="ArgumentNullException"><paramref name="document" /> is <see langword="null" />.</exception>
         public SwaggerToCSharpWebApiControllerGenerator(SwaggerDocument document, SwaggerToCSharpWebApiControllerGeneratorSettings settings)
-            : this(document, settings, SwaggerToCSharpTypeResolver.CreateWithDefinitions(settings.CSharpGeneratorSettings, document.Definitions))
+            : this(document, settings, SwaggerToCSharpTypeResolver.CreateWithDefinitions(settings.CSharpGeneratorSettings, document))
         {
         }
 

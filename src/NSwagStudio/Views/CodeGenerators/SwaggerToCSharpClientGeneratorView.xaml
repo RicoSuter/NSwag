@@ -65,11 +65,6 @@
                              VerticalScrollBarVisibility="Visible" 
                              Margin="0,0,0,12" />
 
-                    <CheckBox IsChecked="{Binding Command.HandleReferences, Mode=TwoWay}" 
-                              Content="Use preserve references handling (All) in the JSON serializer"
-                              ToolTip="HandleReferences"
-                              Margin="0,0,0,6" />
-
                     <CheckBox IsChecked="{Binding Command.GenerateExceptionClasses, Mode=TwoWay}" 
                               Content="Generate exception classes (when disabled, exception classes must be imported)" 
                               ToolTip="GenerateExceptionClasses"
@@ -85,6 +80,7 @@
                     </StackPanel>
 
                     <CheckBox IsChecked="{Binding Command.WrapDtoExceptions, Mode=TwoWay}" 
+                              ToolTip="WrapDtoExceptions"
                               Content="Wrap DTO exceptions in a SwaggerException instance" Margin="0,0,0,6" />
 
                     <CheckBox IsChecked="{Binding Command.WrapResponses, Mode=TwoWay}" 
@@ -98,53 +94,62 @@
 
                         <StackPanel Visibility="{Binding Command.GenerateResponseClasses, Converter={StaticResource VisibilityConverter}}">
                             <TextBlock Text="Response class name (may contain the '{controller}' placeholder)" FontWeight="Bold" Margin="0,0,0,6" />
-                            <TextBox Text="{Binding Command.ResponseClass, Mode=TwoWay}" Margin="0,0,0,12" />
+                            <TextBox Text="{Binding Command.ResponseClass, Mode=TwoWay}" ToolTip="ResponseClass" Margin="0,0,0,12" />
                         </StackPanel>
                     </StackPanel>
 
                     <CheckBox IsChecked="{Binding Command.GenerateOptionalParameters, Mode=TwoWay}" 
+                              ToolTip="GenerateOptionalParameters"
                               Content="Generate optional parameters (reorder parameters (required first, optional at the end) and generate optional parameters)" Margin="0,0,0,12" />
 
                     <GroupBox Header="Client" Margin="0,0,0,12">
                         <StackPanel Margin="4,8,4,-8">
                             <CheckBox IsChecked="{Binding Command.GenerateClientClasses, Mode=TwoWay}" 
+                                      ToolTip="GenerateClientClasses"
                                       Content="Generate Client Classes" Margin="0,0,0,12" />
 
                             <StackPanel Visibility="{Binding Command.GenerateClientClasses, Converter={StaticResource VisibilityConverter}}">
                                 <TextBlock Text="Class Name" FontWeight="Bold" Margin="0,0,0,6" />
-                                <TextBox Text="{Binding Command.ClassName, Mode=TwoWay}" Margin="0,0,0,12" />
+                                <TextBox Text="{Binding Command.ClassName, Mode=TwoWay}" ToolTip="ClassName" Margin="0,0,0,12" />
 
                                 <TextBlock Text="Client class access modifier" FontWeight="Bold" Margin="0,0,0,6" />
-                                <TextBox Text="{Binding Command.ClientClassAccessModifier, Mode=TwoWay}" Margin="0,0,0,12" />
+                                <TextBox Text="{Binding Command.ClientClassAccessModifier, Mode=TwoWay}" 
+                                         ToolTip="ClientClassAccessModifier" Margin="0,0,0,12" />
 
                                 <CheckBox IsChecked="{Binding Command.UseBaseUrl, Mode=TwoWay}" 
-                                          Content="Use and expose the base URL" Margin="0,0,0,12" />
+                                          Content="Use and expose the base URL" 
+                                          ToolTip="UseBaseUrl" Margin="0,0,0,12" />
 
                                 <TextBlock Text="Base Class Name (optional)" FontWeight="Bold" Margin="0,0,0,6" />
-                                <TextBox Text="{Binding Command.ClientBaseClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,12" />
+                                <TextBox Text="{Binding Command.ClientBaseClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                         ToolTip="ClientBaseClass" Margin="0,0,0,12" />
 
                                 <CheckBox IsChecked="{Binding Command.InjectHttpClient, Mode=TwoWay}" 
+                                          ToolTip="InjectHttpClient"
                                           Content="Inject HttpClient via constructor (life cycle is managed by the caller)" Margin="0,0,0,12" />
 
                                 <TextBlock Text="Http Client Type" FontWeight="Bold" Margin="0,0,0,6" />
-                                <TextBox Text="{Binding Command.HttpClientType, Mode=TwoWay}" Margin="0,0,0,12" />
+                                <TextBox Text="{Binding Command.HttpClientType, Mode=TwoWay}" ToolTip="HttpClientType" Margin="0,0,0,12" />
 
                                 <CheckBox IsChecked="{Binding Command.GenerateSyncMethods, Mode=TwoWay}" 
-                                          Content="Generate synchronous methods (not recommended)" Margin="0,0,0,12" />
+                                          Content="Generate synchronous methods (not recommended)" 
+                                          ToolTip="GenerateSyncMethods" Margin="0,0,0,12" />
 
                                 <StackPanel Visibility="{Binding Command.ClientBaseClass, Converter={StaticResource VisibilityConverter}}">
                                     <CheckBox IsChecked="{Binding Command.UseHttpClientCreationMethod, Mode=TwoWay}" Margin="0,0,0,12" 
-                                              Visibility="{Binding Command.InjectHttpClient, Converter={StaticResource NotConverter}}">
+                                              Visibility="{Binding Command.InjectHttpClient, Converter={StaticResource NotConverter}}"
+                                              ToolTip="UseHttpClientCreationMethod">
                                         <TextBlock Text="Call the CreateHttpClientAsync method on the client base class to create a new HttpClient instance" TextWrapping="Wrap" />
                                     </CheckBox>
 
-                                    <CheckBox IsChecked="{Binding Command.UseHttpRequestMessageCreationMethod, Mode=TwoWay}" Margin="0,0,0,12">
+                                    <CheckBox IsChecked="{Binding Command.UseHttpRequestMessageCreationMethod, Mode=TwoWay}"
+                                              ToolTip="UseHttpRequestMessageCreationMethod" Margin="0,0,0,12">
                                         <TextBlock Text="Call the CreateHttpRequestMessageAsync method on the client base class to create a new HttpRequestMessage instance" TextWrapping="Wrap" />
                                     </CheckBox>
 
                                     <TextBlock Text="Configuration Class Name (passed to base class ctor, optional)" FontWeight="Bold" Margin="0,0,0,6" />
                                     <TextBox Text="{Binding Command.ConfigurationClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                             Margin="0,0,0,12" />
+                                             ToolTip="ConfigurationClass" Margin="0,0,0,12" />
                                 </StackPanel>
 
                                 <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
@@ -153,91 +158,107 @@
                                         The {controller} placeholder of the Class Name is replaced by generated client name (depends on the OperationGenerationMode strategy).
                                 </TextBlock>
                                 <ComboBox SelectedItem="{Binding Command.OperationGenerationMode, Mode=TwoWay}" 
+                                          ToolTip="OperationGenerationMode"
                                           ItemsSource="{Binding OperationGenerationModes}" Margin="0,0,0,12" />
 
                                 <CheckBox IsChecked="{Binding Command.GenerateClientInterfaces, Mode=TwoWay}" 
-                                          Content="Generate Client Interfaces" Margin="0,0,0,12" />
+                                          ToolTip="GenerateClientInterfaces"
+                                          Content="Generate interfaces for Client classes" Margin="0,0,0,12" />
 
                                 <TextBlock Text="Methods with a protected access modifier to use in partial methods ('classname.methodname', comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
-                                <TextBox Text="{Binding ProtectedMethods, Mode=TwoWay}" Margin="0,0,0,12" />
+                                <TextBox Text="{Binding ProtectedMethods, Mode=TwoWay}" ToolTip="ProtectedMethods" Margin="0,0,0,12" />
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
 
                     <GroupBox Header="DTO Classes" Margin="0,0,0,12">
                         <StackPanel Margin="4,8,4,-8">
-                            <CheckBox IsChecked="{Binding Command.RequiredPropertiesMustBeDefined, Mode=TwoWay}" Margin="0,0,0,12">
+                            <CheckBox IsChecked="{Binding Command.HandleReferences, Mode=TwoWay}" 
+                                      Content="Use preserve references handling (All) in the JSON serializer"
+                                      ToolTip="HandleReferences"
+                                      Margin="0,0,0,6" />
+
+                            <CheckBox IsChecked="{Binding Command.RequiredPropertiesMustBeDefined, Mode=TwoWay}" ToolTip="RequiredPropertiesMustBeDefined" Margin="0,0,0,12">
                                 <TextBlock Text="Required properties must be defined in JSON (sets Required.Always when the property is required)" TextWrapping="Wrap" />
                             </CheckBox>
 
-                            <TextBlock Text="Date Type" FontWeight="Bold" Margin="0,0,0,6" />
-                            <TextBox Text="{Binding Command.DateType, Mode=TwoWay}" Margin="0,0,0,12" />
-
-                            <TextBlock Text="Date Time Type" FontWeight="Bold" Margin="0,0,0,6" />
-                            <TextBox Text="{Binding Command.DateTimeType, Mode=TwoWay}" Margin="0,0,0,12" />
-
-                            <TextBlock Text="Time Type" FontWeight="Bold" Margin="0,0,0,6" />
-                            <TextBox Text="{Binding Command.TimeType, Mode=TwoWay}" Margin="0,0,0,12" />
-
-                            <TextBlock Text="Time Span Type" FontWeight="Bold" Margin="0,0,0,6" />
-                            <TextBox Text="{Binding Command.TimeSpanType, Mode=TwoWay}" Margin="0,0,0,12" />
-
-                            <TextBlock Text="Generic Array Type" FontWeight="Bold" Margin="0,0,0,6" />
-                            <TextBox Text="{Binding Command.ArrayType, Mode=TwoWay}" Margin="0,0,0,12" />
-
-                            <TextBlock Text="Generic Dictionary Type" FontWeight="Bold" Margin="0,0,0,6" />
-                            <TextBox Text="{Binding Command.DictionaryType, Mode=TwoWay}" Margin="0,0,0,12" />
-
                             <CheckBox IsChecked="{Binding Command.GenerateDtoTypes, Mode=TwoWay}" Margin="0,0,0,12">
-                                <TextBlock Text="Generate DTO Types (e.g. request and response classes)" TextWrapping="Wrap" />
+                                <TextBlock Text="Generate DTO Types (e.g. request and response classes)" ToolTip="GenerateDtoTypes" TextWrapping="Wrap" />
                             </CheckBox>
 
                             <StackPanel Visibility="{Binding Command.GenerateDtoTypes, Converter={StaticResource VisibilityConverter}}">
-                                <CheckBox IsChecked="{Binding Command.GenerateDefaultValues, Mode=TwoWay}" Margin="0,0,0,12">
+                                <CheckBox IsChecked="{Binding Command.GenerateDefaultValues, Mode=TwoWay}" 
+                                          ToolTip="GenerateDefaultValues" Margin="0,0,0,12">
                                     <TextBlock Text="Generate default values for properties (if default value is specified)" TextWrapping="Wrap" />
                                 </CheckBox>
 
-                                <CheckBox IsChecked="{Binding Command.GenerateImmutableArrayProperties, Mode=TwoWay}" Margin="0,0,0,12">
+                                <CheckBox IsChecked="{Binding Command.GenerateImmutableArrayProperties, Mode=TwoWay}" 
+                                          ToolTip="GenerateImmutableArrayProperties" Margin="0,0,0,12">
                                     <TextBlock Text="Remove the setter for non-nullable array properties" TextWrapping="Wrap" />
                                 </CheckBox>
 
-                                <CheckBox IsChecked="{Binding Command.GenerateImmutableDictionaryProperties, Mode=TwoWay}" Margin="0,0,0,12">
+                                <CheckBox IsChecked="{Binding Command.GenerateImmutableDictionaryProperties, Mode=TwoWay}" 
+                                          ToolTip="GenerateImmutableDictionaryProperties" Margin="0,0,0,12">
                                     <TextBlock Text="Remove the setter for non-nullable dictionary properties" TextWrapping="Wrap" />
                                 </CheckBox>
 
-                                <CheckBox IsChecked="{Binding Command.GenerateDataAnnotations, Mode=TwoWay}" Margin="0,0,0,12">
+                                <CheckBox IsChecked="{Binding Command.GenerateDataAnnotations, Mode=TwoWay}" 
+                                          ToolTip="GenerateDataAnnotations" Margin="0,0,0,12">
                                     <TextBlock Text="Generate data annotation attributes" TextWrapping="Wrap" />
                                 </CheckBox>
 
                                 <TextBlock Text="Class Style" FontWeight="Bold" Margin="0,0,0,6" />
                                 <ComboBox SelectedItem="{Binding Command.ClassStyle, Mode=TwoWay}" 
+                                          ToolTip="ClassStyle"
                                           ItemsSource="{Binding ClassStyles}" Margin="0,0,0,12" />
                             </StackPanel>
 
                             <TextBlock Text="Excluded Type Names (must be defined in another namespace)." FontWeight="Bold" Margin="0,0,0,6" />
-                            <TextBox Text="{Binding ExcludedTypeNames, Mode=TwoWay}" Margin="0,0,0,12" />
+                            <TextBox Text="{Binding ExcludedTypeNames, Mode=TwoWay}" 
+                                     ToolTip="ExcludedTypeNames" Margin="0,0,0,12" />
+
+                            <TextBlock Text="Date Type" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Text="{Binding Command.DateType, Mode=TwoWay}" ToolTip="DateType" Margin="0,0,0,12" />
+
+                            <TextBlock Text="Date Time Type" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Text="{Binding Command.DateTimeType, Mode=TwoWay}" ToolTip="DateTimeType" Margin="0,0,0,12" />
+
+                            <TextBlock Text="Time Type" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Text="{Binding Command.TimeType, Mode=TwoWay}" ToolTip="TimeType" Margin="0,0,0,12" />
+
+                            <TextBlock Text="Time Span Type" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Text="{Binding Command.TimeSpanType, Mode=TwoWay}" ToolTip="TimeSpanType" Margin="0,0,0,12" />
+
+                            <TextBlock Text="Generic Array Type" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Text="{Binding Command.ArrayType, Mode=TwoWay}" ToolTip="ArrayType" Margin="0,0,0,12" />
+
+                            <TextBlock Text="Generic Dictionary Type" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Text="{Binding Command.DictionaryType, Mode=TwoWay}" ToolTip="DictionaryType" Margin="0,0,0,12" />
                         </StackPanel>
                     </GroupBox>
 
                     <GroupBox Header="Swagger Information" Margin="0,0,0,12">
                         <StackPanel Margin="4,8,4,-8">
                             <TextBlock Text="Service host (optional, use '.' to remove the hostname)" FontWeight="Bold" Margin="0,0,0,6" />
-                            <TextBox Text="{Binding Command.ServiceHost, Mode=TwoWay}" Margin="0,0,0,12" />
+                            <TextBox Text="{Binding Command.ServiceHost, Mode=TwoWay}" ToolTip="ServiceHost" Margin="0,0,0,12" />
 
                             <TextBlock Text="Service schemes (optional, 'http', 'https', 'ws', 'wss', multiple on separate lines)" FontWeight="Bold" Margin="0,0,0,6" />
-                            <TextBox Text="{Binding Command.ServiceSchemes, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
+                            <TextBox Text="{Binding Command.ServiceSchemes, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}"
+                                     ToolTip="ServiceSchemes" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
                         </StackPanel>
                     </GroupBox>
 
                     <TextBlock Text="Output file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
                     <dialogs:FileSavePicker DefaultExtension=".cs" Filter="CSharp Files (.cs)|*.cs"
                                             FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" 
+                                            ToolTip="Output"
                                             Margin="0,0,0,12" />
 
                     <StackPanel Visibility="{Binding Command.GenerateContractsOutput, Converter={StaticResource VisibilityConverter}}">
                         <TextBlock Text="Contracts output file path (empty: single output file output)" FontWeight="Bold" Margin="0,0,0,6" />
                         <dialogs:FileSavePicker DefaultExtension=".cs" Filter="CSharp Files (.cs)|*.cs"
                                                 FilePath="{Binding Command.ContractsOutputFilePath, Mode=TwoWay}" 
+                                                ToolTip="ContractsOutput"
                                                 Margin="0,0,0,12" />
                     </StackPanel>
                 </StackPanel>

@@ -62,10 +62,11 @@ if(Model.ImportRequiredTypes){
             #line default
             #line hidden
             this.Write(@"
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/throw';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/catch';
 
@@ -73,27 +74,27 @@ import { Observable } from 'rxjs/Observable';
 import { Injectable, Inject, Optional, OpaqueToken } from '@angular/core';
 import { Http, Headers, ResponseContentType, Response");
             
-            #line 23 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+            #line 24 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
 if(Model.UseTransformOptionsMethod){
             
             #line default
             #line hidden
             this.Write(", RequestOptionsArgs");
             
-            #line 23 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+            #line 24 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write(" } from \'@angular/http\';\r\n");
             
-            #line 24 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+            #line 25 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
   }
             
             #line default
             #line hidden
             
-            #line 25 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+            #line 26 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
   if(Model.IsAurelia){
             
             #line default
@@ -101,86 +102,86 @@ if(Model.UseTransformOptionsMethod){
             this.Write("\r\nimport { inject } from \'aurelia-framework\';\r\nimport { HttpClient, RequestInit }" +
                     " from \'aurelia-fetch-client\';\r\n");
             
-            #line 29 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+            #line 30 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
   }
             
             #line default
             #line hidden
             
-            #line 30 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+            #line 31 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
   if(Model.IsAngularJS){
             
             #line default
             #line hidden
             this.Write("\r\nimport * as ng from \'angular\';\r\n");
             
-            #line 33 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+            #line 34 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
   }
             
             #line default
             #line hidden
             
-            #line 34 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+            #line 35 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
   if(Model.IsKnockout){
             
             #line default
             #line hidden
             this.Write("\r\nimport * as ko from \'knockout\';\r\n");
             
-            #line 37 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+            #line 38 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
   }
             
             #line default
             #line hidden
             
-            #line 38 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+            #line 39 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
   if(Model.IsJQuery){
             
             #line default
             #line hidden
             this.Write("\r\nimport * as jQuery from \'jquery\';\r\n");
             
-            #line 41 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+            #line 42 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
   }
             
             #line default
             #line hidden
             
-            #line 42 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+            #line 43 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
   if(Model.RequiresMomentJS){
             
             #line default
             #line hidden
             this.Write("\r\nimport * as moment from \'moment\';\r\n");
             
-            #line 45 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+            #line 46 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
   }
             
             #line default
             #line hidden
             
-            #line 46 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+            #line 47 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 48 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+            #line 49 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
 if(Model.HasModuleName){
             
             #line default
             #line hidden
             this.Write("module ");
             
-            #line 49 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+            #line 50 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ModuleName));
             
             #line default
             #line hidden
             this.Write(" {\r\n");
             
-            #line 50 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+            #line 51 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
 }
   if(Model.HasNamespace){
             
@@ -188,73 +189,73 @@ if(Model.HasModuleName){
             #line hidden
             this.Write("namespace ");
             
-            #line 52 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+            #line 53 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.Namespace));
             
             #line default
             #line hidden
             this.Write(" {\r\n");
             
-            #line 53 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+            #line 54 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 54 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+            #line 55 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
 if(Model.GenerateClientClasses && Model.IsAngular){
             
             #line default
             #line hidden
             this.Write("export const ");
             
-            #line 55 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+            #line 56 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.BaseUrlTokenName));
             
             #line default
             #line hidden
             this.Write(" = new OpaqueToken(\'");
             
-            #line 55 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+            #line 56 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.BaseUrlTokenName));
             
             #line default
             #line hidden
             this.Write("\');\r\n\r\n");
             
-            #line 57 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+            #line 58 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 58 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+            #line 59 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ExtensionCodeTop));
             
             #line default
             #line hidden
             this.Write("\r\n\r\n");
             
-            #line 60 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+            #line 61 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.Clients));
             
             #line default
             #line hidden
             this.Write("\r\n\r\n");
             
-            #line 62 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+            #line 63 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.Types));
             
             #line default
             #line hidden
             this.Write("\r\n\r\n");
             
-            #line 64 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+            #line 65 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
 if(Model.RequiresFileParameterInterface){
             
             #line default
             #line hidden
-            this.Write("export interface FileParameter\r\n{\r\n    data: any;\r\n    fileName: string;\r\n}\r\n\r\n");
+            this.Write("export interface FileParameter {\r\n    data: any;\r\n    fileName: string;\r\n}\r\n\r\n");
             
             #line 71 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
 }
