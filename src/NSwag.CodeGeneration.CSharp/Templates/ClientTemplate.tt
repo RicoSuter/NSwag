@@ -113,9 +113,9 @@ public partial interface I<#=Model.Class#>
     }
 
 <#}#>
-    partial void PrepareRequest(<#=Model.HttpClientType#> request, string url);
-    partial void PrepareRequest(<#=Model.HttpClientType#> request, System.Text.StringBuilder urlBuilder);
-    partial void ProcessResponse(<#=Model.HttpClientType#> request, System.Net.Http.HttpResponseMessage response);
+    partial void PrepareRequest(<#=Model.HttpClientType#> client, System.Net.Http.HttpRequestMessage request, string url);
+    partial void PrepareRequest(<#=Model.HttpClientType#> client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
+    partial void ProcessResponse(<#=Model.HttpClientType#> client, System.Net.Http.HttpResponseMessage response);
 
 <#foreach(var operation in Model.Operations){#>
 <#  if(!Model.GenerateOptionalParameters){#>
@@ -246,9 +246,9 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(<#
             using (var request_ = new System.Net.Http.HttpRequestMessage())
 <#      }#>
             {
-                PrepareRequest(client_, urlBuilder_);
+                PrepareRequest(client_, request_, urlBuilder_);
                 var url_ = urlBuilder_.ToString();
-                PrepareRequest(client_, url_);
+                PrepareRequest(client_, request_, url_);
 
 <#foreach(var parameter in operation.HeaderParameters){#>
                 request_.Headers.TryAddWithoutValidation("<#=parameter.Name#>", <#=parameter.VariableName#> != null ? <#=parameter.VariableName#>.ToString() : null);
