@@ -55,15 +55,8 @@ namespace NSwag.Commands
 
                 var stopwatch = new Stopwatch();
                 stopwatch.Start();
-                var results = processor.Process(args);
+                processor.Process(args);
                 stopwatch.Stop();
-
-                var output = results.Last()?.Output;
-                var document = output as SwaggerDocument;
-                if (document != null)
-                    _host.WriteMessage(document.ToJson());
-                else if (output != null)
-                    _host.WriteMessage(output.ToString());
 
                 _host.WriteMessage("\nDuration: " + stopwatch.Elapsed + "\n");
             }

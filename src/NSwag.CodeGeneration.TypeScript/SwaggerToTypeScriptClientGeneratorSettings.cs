@@ -24,9 +24,12 @@ namespace NSwag.CodeGeneration.TypeScript
             TypeScriptGeneratorSettings = new TypeScriptGeneratorSettings
             {
                 NullHandling = NullHandling.Swagger,
-                TemplateFactory = new DefaultTemplateFactory()
+                MarkOptionalProperties = true,
+                TemplateFactory = new DefaultTemplateFactory(), 
+                TypeNameGenerator = new TypeScriptTypeNameGenerator()
             };
             BaseUrlTokenName = "API_BASE_URL";
+            ImportRequiredTypes = true;
         }
 
         /// <summary>Gets or sets the TypeScript generator settings.</summary>
@@ -58,6 +61,12 @@ namespace NSwag.CodeGeneration.TypeScript
 
         /// <summary>Gets or sets the token name for injecting the API base URL string (used in the Angular2 template, default: '').</summary>
         public string BaseUrlTokenName { get; set; }
+
+        /// <summary>Gets or sets the list of methods with a protected access modifier ("classname.methodname").</summary>
+        public string[] ProtectedMethods { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether required types should be imported (default: true).</summary>
+        public bool ImportRequiredTypes { get; set; } = true;
 
         internal ITemplate CreateTemplate(object model)
         {

@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.Threading.Tasks;
 using NSwag.SwaggerGeneration.Processors.Contexts;
 
 namespace NSwag.SwaggerGeneration.Processors
@@ -15,6 +16,6 @@ namespace NSwag.SwaggerGeneration.Processors
     {
         /// <summary>Processes the specified Swagger document.</summary>
         /// <param name="context">The processor context.</param>
-        void Process(DocumentProcessorContext context);
+        Task ProcessAsync(DocumentProcessorContext context);
     }
 }

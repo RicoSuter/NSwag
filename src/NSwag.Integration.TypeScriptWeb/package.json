@@ -15,14 +15,12 @@
     "typescript": "^2.2.1"
   },
   "dependencies": {
+    "aurelia-framework": "^1.1.0",
+    "aurelia-fetch-client": "^1.1.1",
     "@angular/common": "^2.4.8",
     "@angular/core": "^2.4.8",
     "@angular/http": "^2.4.8",
     "@angular/platform-browser": "^2.4.8",
-    "angular": "^1.6.2",
-    "aurelia-fetch-client": "^1.1.1",
-    "aurelia-framework": "^1.0.8",
-    "jquery": "^3.1.1",
     "rxjs": "^5.2.0",
     "zone.js": "^0.7.7"
   }

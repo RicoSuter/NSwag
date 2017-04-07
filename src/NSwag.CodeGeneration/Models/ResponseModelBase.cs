@@ -19,6 +19,7 @@ namespace NSwag.CodeGeneration.Models
         private readonly JsonSchema4 _exceptionSchema;
         private readonly IClientGenerator _generator;
         private readonly CodeGeneratorSettingsBase _settings;
+        private readonly bool _isSuccessResponse;
 
         /// <summary>Initializes a new instance of the <see cref="ResponseModelBase" /> class.</summary>
         /// <param name="statusCode">The status code.</param>
@@ -33,8 +34,8 @@ namespace NSwag.CodeGeneration.Models
             _exceptionSchema = exceptionSchema;
             _generator = generator;
             _settings = settings;
+            _isSuccessResponse = isSuccessResponse; 
 
-            IsSuccess = isSuccessResponse;
             StatusCode = statusCode;
         }
 
@@ -47,12 +48,6 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Gets a value indicating whether the response has a type (i.e. not void).</summary>
         public bool HasType => Schema != null;
 
-        /// <summary>Gets a value indicating whether this is success response.</summary>
-        public bool IsSuccess { get; }
-
-        /// <summary>Gets a value indicating whether this is an exceptional response.</summary>
-        public bool IsException => !IsSuccess;
-
         /// <summary>Gets or sets the expected child schemas of the base schema (can be used for generating enhanced typings/documentation).</summary>
         public ICollection<JsonExpectedSchema> ExpectedSchemas => _response.ExpectedSchemas;
 
@@ -63,7 +58,7 @@ namespace NSwag.CodeGeneration.Models
             _generator.GetTypeName(_response.ActualResponseSchema, IsNullable, "Response") != "string";
 
         /// <summary>Gets a value indicating whether this is a file response.</summary>
-        public bool IsFile => Schema != null && Schema.ActualSchema.Type == JsonObjectType.File;
+        public bool IsFile => Schema?.ActualSchema.Type == JsonObjectType.File;
 
         /// <summary>Gets the response's exception description.</summary>
         public string ExceptionDescription => !string.IsNullOrEmpty(_response.Description) ?
@@ -81,5 +76,22 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets a value indicating whether the response type inherits from exception.</summary>
         public bool InheritsExceptionSchema => _response.ActualResponseSchema.InheritsSchema(_exceptionSchema);
+
+        /// <summary>Gets a value indicating whether this is success response.</summary>
+        public bool IsSuccess(IOperationModel operationModel)
+        {
+            if (_isSuccessResponse)
+                return true;
+
+            return HttpUtilities.IsSuccessStatusCode(StatusCode) &&
+                operationModel.HasSuccessResponse &&
+                operationModel.SuccessResponse.Type == Type;
+        }
+
+        /// <summary>Gets a value indicating whether this is an exceptional response.</summary>
+        public bool ThrowsException(dynamic operationModel)
+        {
+            return !IsSuccess(operationModel);
+        }
     }
 }

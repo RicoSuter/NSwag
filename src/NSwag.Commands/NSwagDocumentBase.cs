@@ -168,9 +168,11 @@ namespace NSwag.Commands
             return Task.Run(async () =>
             {
                 ConvertToRelativePaths();
-                _latestData = JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings());
+                var data = JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings());
+                await DynamicApis.FileWriteAllTextAsync(Path, data).ConfigureAwait(false);
+
                 ConvertToAbsolutePaths();
-                await DynamicApis.FileWriteAllTextAsync(Path, _latestData).ConfigureAwait(false);
+                _latestData = JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings());
             });
         }
 
@@ -296,6 +298,12 @@ namespace NSwag.Commands
             saveFile = false;
 
             // New file format
+            if (data.Contains("\"template\": \"Angular2\""))
+            {
+                data = data.Replace("\"template\": \"Angular2\"", "\"template\": \"Angular\"");
+                saveFile = true;
+            }
+
             if (data.Contains("\"SelectedSwaggerGenerator\""))
             {
                 var obj = JsonConvert.DeserializeObject<JObject>(data);

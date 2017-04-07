@@ -122,6 +122,13 @@ namespace NSwag.Commands
             set { Settings.ClientBaseClass = value; }
         }
 
+        [Argument(Name = "ProtectedMethods", IsRequired = false, Description = "List of methods with a protected access modifier ('classname.methodname').")]
+        public string[] ProtectedMethods
+        {
+            get { return Settings.ProtectedMethods; }
+            set { Settings.ProtectedMethods = value; }
+        }
+
         [Argument(Name = "ConfigurationClass", IsRequired = false, Description = "The configuration class. The setting ClientBaseClass must be set. (empty for no configuration class).")]
         public string ConfigurationClass
         {
@@ -164,6 +171,13 @@ namespace NSwag.Commands
             set { Settings.TypeScriptGeneratorSettings.MarkOptionalProperties = value; }
         }
 
+        [Argument(Name = "GenerateCloneMethod", IsRequired = false, Description = "Specifies whether a clone() method should be generated in the DTO classes (default: false).")]
+        public bool GenerateCloneMethod
+        {
+            get { return Settings.TypeScriptGeneratorSettings.GenerateCloneMethod; }
+            set { Settings.TypeScriptGeneratorSettings.GenerateCloneMethod = value; }
+        }
+
         [Argument(Name = "TypeStyle", IsRequired = false, Description = "The type style (default: Class).")]
         public TypeScriptTypeStyle TypeStyle
         {
@@ -200,6 +214,27 @@ namespace NSwag.Commands
         {
             get { return Settings.TypeScriptGeneratorSettings.ExcludedTypeNames; }
             set { Settings.TypeScriptGeneratorSettings.ExcludedTypeNames = value; }
+        }
+
+        [Argument(Name = "HandleReferences", IsRequired = false, Description = "Handle JSON references (default: false).")]
+        public bool HandleReferences
+        {
+            get { return Settings.TypeScriptGeneratorSettings.HandleReferences; }
+            set { Settings.TypeScriptGeneratorSettings.HandleReferences = value; }
+        }
+
+        [Argument(Name = "GenerateConstructorInterface", IsRequired = false, Description = "Generate an class interface which is used in the constructor to initialize the class (default: true).")]
+        public bool GenerateConstructorInterface
+        {
+            get { return Settings.TypeScriptGeneratorSettings.GenerateConstructorInterface; }
+            set { Settings.TypeScriptGeneratorSettings.GenerateConstructorInterface = value; }
+        }
+
+        [Argument(Name = "ImportRequiredTypes", IsRequired = false, Description = "Specifies whether required types should be imported (default: true).")]
+        public bool ImportRequiredTypes
+        {
+            get { return Settings.ImportRequiredTypes; }
+            set { Settings.ImportRequiredTypes = value; }
         }
 
         [Argument(Name = "BaseUrlTokenName", IsRequired = false, Description = "The token name for injecting the API base URL string (used in the Angular2 template, default: 'API_BASE_URL').")]

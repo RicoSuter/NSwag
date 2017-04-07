@@ -9,20 +9,17 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
     public class WebApiToSwaggerGeneratorTests
     {
         [TestMethod]
-        public async Task When_generating_swagger_from_controller_than_all_required_operations_are_available()
+        public async Task When_generating_swagger_from_controller_then_all_required_operations_are_available()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
-            {
-                DefaultUrlTemplate = "api/{controller}/{action}/{id}"
-            });
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
             var document = await generator.GenerateForControllerAsync<PersonsController>();
             var swaggerSpecification = document.ToJson();
 
             //// Assert
-            Assert.AreEqual(10, document.Operations.Count());
+            Assert.AreEqual(7, document.Operations.Count());
         }
 
         [TestMethod]
@@ -31,16 +28,17 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
             //// Arrange
             var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
             {
-                DefaultUrlTemplate = "api/{controller}/{action}/{id}"
+                DefaultUrlTemplate = "api/{controller}/{action}/{id?}"
             });
 
             //// Act
-            var document = await generator.GenerateForControllerAsync<PersonsController>();
-            var operation = document.Operations.Single(o => o.Path == "/api/Persons/Get/{id}");
+            var document = await generator.GenerateForControllerAsync<PersonsDefaultRouteController>();
+            var operation = document.Operations.Single(o => o.Path == "/api/PersonsDefaultRoute/Get/{id}");
             var json = document.ToJson();
 
             //// Assert
             Assert.AreEqual(2, operation.Operation.Responses.Count);
+            Assert.AreEqual(10, document.Operations.Count());
             Assert.IsTrue(document.Definitions.Any(d => d.Key == "Person"));
         }
     }

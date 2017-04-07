@@ -77,9 +77,12 @@ namespace NSwag.CodeGeneration.TypeScript
                 return "void";
 
             if (schema.ActualSchema.Type == JsonObjectType.File)
-                return "any";
+            {
+                return Settings.Template != TypeScriptTemplate.JQueryCallbacks &&
+                       Settings.Template != TypeScriptTemplate.JQueryPromises ? "Blob" : "any";
+            }
 
-            if (schema.ActualSchema.IsAnyType || schema.ActualSchema.Type == JsonObjectType.File)
+            if (schema.ActualSchema.IsAnyType)
                 return "any";
 
             return _resolver.Resolve(schema.ActualSchema, isNullable, typeNameHint);
@@ -107,22 +110,9 @@ namespace NSwag.CodeGeneration.TypeScript
         {
             UpdateUseDtoClassAndDataConversionCodeProperties(operations);
 
-            var model = new TypeScriptClientTemplateModel(GetClassName(controllerClassName), operations, _document, Settings);
+            var model = new TypeScriptClientTemplateModel(controllerClassName, operations, _extensionCode, _document, Settings);
             var template = Settings.CreateTemplate(model);
-            var code = template.Render();
-
-            return AppendExtensionClassIfNecessary(controllerClassName, code);
-        }
-
-        private string AppendExtensionClassIfNecessary(string controllerName, string code)
-        {
-            if (Settings.TypeScriptGeneratorSettings.ExtendedClasses?.Contains(controllerName) == true)
-            {
-                return _extensionCode.ExtensionClasses.ContainsKey(controllerName)
-                    ? code + "\n\n" + _extensionCode.ExtensionClasses[controllerName]
-                    : code;
-            }
-            return code;
+            return template.Render();
         }
 
         /// <summary>Creates an operation model.</summary>
@@ -132,14 +122,6 @@ namespace NSwag.CodeGeneration.TypeScript
         protected override TypeScriptOperationModel CreateOperationModel(SwaggerOperation operation, ClientGeneratorBaseSettings settings)
         {
             return new TypeScriptOperationModel(operation, (SwaggerToTypeScriptClientGeneratorSettings)settings, this, Resolver);
-        }
-
-        private string GetClassName(string className)
-        {
-            if (Settings.TypeScriptGeneratorSettings.ExtendedClasses?.Contains(className) == true)
-                return className + "Base";
-
-            return className;
         }
 
         private void UpdateUseDtoClassAndDataConversionCodeProperties(IEnumerable<TypeScriptOperationModel> operations)

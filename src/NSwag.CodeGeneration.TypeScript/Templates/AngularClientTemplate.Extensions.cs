@@ -4,9 +4,9 @@ using NSwag.CodeGeneration.TypeScript.Models;
 
 namespace NSwag.CodeGeneration.TypeScript.Templates
 {
-    internal partial class Angular2ClientTemplate : ITemplate
+    internal partial class AngularClientTemplate : ITemplate
     {
-        public Angular2ClientTemplate(TypeScriptClientTemplateModel model)
+        public AngularClientTemplate(TypeScriptClientTemplateModel model)
         {
             Model = model;
         }

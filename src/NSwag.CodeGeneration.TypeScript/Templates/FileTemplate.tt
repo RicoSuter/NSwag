@@ -8,17 +8,42 @@
 //----------------------
 
 <#=Model.ExtensionCodeImport#>
-<#if(Model.IsAngular2){#>
+<#if(Model.ImportRequiredTypes){#>
+<#  if(Model.IsAngular){#>
 
-import 'rxjs/Rx'; 
+import 'rxjs/add/observable/fromPromise';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/throw';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/catch';
+
 import { Observable } from 'rxjs/Observable';
 import { Injectable, Inject, Optional, OpaqueToken } from '@angular/core';
-import { Http, Headers, Response<#if(Model.UseTransformOptionsMethod){#>, RequestOptionsArgs<#}#> } from '@angular/http';
-<#}#>
-<#if(Model.IsAurelia){#>
+import { Http, Headers, ResponseContentType, Response<#if(Model.UseTransformOptionsMethod){#>, RequestOptionsArgs<#}#> } from '@angular/http';
+<#  }#>
+<#  if(Model.IsAurelia){#>
 
 import { inject } from 'aurelia-framework';
 import { HttpClient, RequestInit } from 'aurelia-fetch-client';
+<#  }#>
+<#  if(Model.IsAngularJS){#>
+
+import * as ng from 'angular';
+<#  }#>
+<#  if(Model.IsKnockout){#>
+
+import * as ko from 'knockout';
+<#  }#>
+<#  if(Model.IsJQuery){#>
+
+import * as jQuery from 'jquery';
+<#  }#>
+<#  if(Model.RequiresMomentJS){#>
+
+import * as moment from 'moment';
+<#  }#>
 <#}#>
 
 <#if(Model.HasModuleName){#>
@@ -27,7 +52,7 @@ module <#=Model.ModuleName#> {
   if(Model.HasNamespace){#>
 namespace <#=Model.Namespace#> {
 <#}#>
-<#if(Model.IsAngular2){#>
+<#if(Model.GenerateClientClasses && Model.IsAngular){#>
 export const <#=Model.BaseUrlTokenName#> = new OpaqueToken('<#=Model.BaseUrlTokenName#>');
 
 <#}#>
@@ -38,8 +63,7 @@ export const <#=Model.BaseUrlTokenName#> = new OpaqueToken('<#=Model.BaseUrlToke
 <#=Model.Types#>
 
 <#if(Model.RequiresFileParameterInterface){#>
-export interface FileParameter
-{
+export interface FileParameter {
     data: any;
     fileName: string;
 }
@@ -62,6 +86,13 @@ export class SwaggerException extends Error {
     }
 }
 
+<#}#>
+<#if(Model.GenerateClientClasses){#>
+<#=TypeScriptTemplatePartGenerator.RenderClientMethodsCode(Model, 0)#>
+
+<#if(Model.HandleReferences){#>
+<#=Model.ReferenceHandlingCode#>
+<#}#>
 <#}#>
 <#=Model.ExtensionCodeBottom#>
 <#if(Model.HasNamespace){#>

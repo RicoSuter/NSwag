@@ -15,20 +15,24 @@ namespace NSwag.CodeGeneration.TypeScript.Models
     /// <summary>The TypeScript client template model.</summary>
     public class TypeScriptClientTemplateModel
     {
+        private readonly TypeScriptExtensionCode _extensionCode;
         private readonly SwaggerToTypeScriptClientGeneratorSettings _settings;
         private readonly SwaggerDocument _document;
 
         /// <summary>Initializes a new instance of the <see cref="TypeScriptClientTemplateModel" /> class.</summary>
         /// <param name="controllerClassName">Name of the controller.</param>
         /// <param name="operations">The operations.</param>
+        /// <param name="extensionCode">The extension code.</param>
         /// <param name="document">The Swagger document.</param>
         /// <param name="settings">The settings.</param>
         public TypeScriptClientTemplateModel(
-            string controllerClassName, 
-            IEnumerable<TypeScriptOperationModel> operations, 
-            SwaggerDocument document, 
+            string controllerClassName,
+            IEnumerable<TypeScriptOperationModel> operations,
+            TypeScriptExtensionCode extensionCode,
+            SwaggerDocument document,
             SwaggerToTypeScriptClientGeneratorSettings settings)
         {
+            _extensionCode = extensionCode;
             _settings = settings;
             _document = document;
 
@@ -57,11 +61,17 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets or sets a value indicating whether to call 'transformResult' on the base class or extension class.</summary>
         public bool UseTransformResultMethod => _settings.UseTransformResultMethod;
 
-        /// <summary>Gets a value indicating whether the client is extended with an extension class.</summary>
-        public bool HasExtensionClass => _settings.TypeScriptGeneratorSettings.ExtendedClasses?.Any(c => c + "Base" == Class) == true;
-
         /// <summary>Gets a value indicating whether to generate optional parameters.</summary>
         public bool GenerateOptionalParameters => _settings.GenerateOptionalParameters;
+
+        /// <summary>Gets a value indicating whether the client is extended with an extension class.</summary>
+        public bool HasExtensionCode => _settings.TypeScriptGeneratorSettings.ExtendedClasses?.Any(c => c == Class) == true;
+
+        /// <summary>Gets the extension body code.</summary>
+        public string ExtensionCode => _extensionCode.GetExtensionClassBody(Class);
+
+        /// <summary>Gets or sets a value indicating whether the extension code has a constructor and no constructor has to be generated.</summary>
+        public bool HasExtendedConstructor => HasExtensionCode && ExtensionCode.Contains("constructor(");
 
         /// <summary>Gets a value indicating whether the client has operations.</summary>
         public bool HasOperations => Operations.Any();

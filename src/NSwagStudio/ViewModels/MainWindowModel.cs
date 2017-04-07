@@ -16,11 +16,15 @@ using MyToolkit.Storage;
 using Newtonsoft.Json;
 using NJsonSchema;
 using NSwag;
-using NSwag.CodeGeneration;
 using NSwag.Commands;
 
 namespace NSwagStudio.ViewModels
 {
+    using System.Windows;
+    using System.Windows.Input;
+
+    using MessageBox = System.Windows.Forms.MessageBox;
+
     /// <summary>The view model for the MainWindow.</summary>
     public class MainWindowModel : ViewModelBase
     {
@@ -172,6 +176,7 @@ namespace NSwagStudio.ViewModels
             {
                 if (File.Exists(document.Document.Path))
                 {
+                    FocusManager.SetFocusedElement(Application.Current.MainWindow, null);
                     await document.Document.SaveAsync();
                     MessageBox.Show("The file has been saved.", "File saved");
                     return true;
@@ -195,6 +200,7 @@ namespace NSwagStudio.ViewModels
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 document.Document.Path = dlg.FileName;
+                FocusManager.SetFocusedElement(Application.Current.MainWindow, null);
                 await document.Document.SaveAsync();
                 return true;
             }

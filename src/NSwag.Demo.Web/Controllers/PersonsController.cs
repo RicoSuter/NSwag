@@ -47,6 +47,7 @@ namespace NSwag.Demo.Web.Controllers
         /// <returns>The person.</returns>
         [ResponseType(typeof(Person))]
         [ResponseType("500", typeof(PersonNotFoundException))]
+        [Route("{id}")]
         public HttpResponseMessage Get(int id)
         {
             return Request.CreateResponse(HttpStatusCode.OK, new Person { FirstName = "Rico", LastName = "Suter" });
@@ -69,6 +70,7 @@ namespace NSwag.Demo.Web.Controllers
         }
 
         // DELETE: api/Person/5
+        [Route("{id}")]
         public void Delete(int id)
         {
         }
@@ -79,24 +81,6 @@ namespace NSwag.Demo.Web.Controllers
         public int Calculate(int a, int b, [Required]int c)
         {
             return a + b + c;
-        }
-
-        [HttpGet]
-        public DateTime AddHour(DateTime time)
-        {
-            return time.Add(TimeSpan.FromHours(1));
-        }
-
-        [HttpGet]
-        public Task<int> TestAsync()
-        {
-            return Task.FromResult(0);
-        }
-
-        [HttpGet, ActionName("LoadComplexObject2")]
-        public Car LoadComplexObject()
-        {
-            return new Car();
         }
 
         [HttpGet]

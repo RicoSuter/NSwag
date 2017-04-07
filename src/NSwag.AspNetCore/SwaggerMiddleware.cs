@@ -72,7 +72,7 @@ namespace NSwag.AspNetCore
 
                         document.Host = context.Request.Host.Value ?? "";
                         document.Schemes.Add(context.Request.Scheme == "http" ? SwaggerSchema.Http : SwaggerSchema.Https);
-                        document.BasePath = context.Request.PathBase.Value?.Substring(0, context.Request.PathBase.Value.Length - _settings.MiddlewareBasePath?.Length ?? 0) ?? "";
+                        document.BasePath = context.Request.PathBase.Value?.Substring(0, context.Request.PathBase.Value.Length - (_settings.MiddlewareBasePath?.Length ?? 0)) ?? "";
 
                         _settings.PostProcess?.Invoke(document);
                         _swaggerJson = document.ToJson();
