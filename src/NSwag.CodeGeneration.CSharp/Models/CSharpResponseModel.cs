@@ -18,12 +18,12 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Initializes a new instance of the <see cref="CSharpResponseModel"/> class.</summary>
         /// <param name="statusCode">The status code.</param>
         /// <param name="response">The response.</param>
-        /// <param name="isSuccessResponse">Specifies whether this is the success response.</param>
+        /// <param name="isPrimarySuccessResponse">Specifies whether this is the success response.</param>
         /// <param name="exceptionSchema">The exception schema.</param>
         /// <param name="generator">The client generator.</param>
         /// <param name="settings">The settings.</param>
-        public CSharpResponseModel(string statusCode, SwaggerResponse response, bool isSuccessResponse, JsonSchema4 exceptionSchema, IClientGenerator generator, CodeGeneratorSettingsBase settings)
-            : base(statusCode, response, isSuccessResponse, exceptionSchema, settings, generator)
+        public CSharpResponseModel(string statusCode, SwaggerResponse response, bool isPrimarySuccessResponse, JsonSchema4 exceptionSchema, IClientGenerator generator, CodeGeneratorSettingsBase settings)
+            : base(statusCode, response, isPrimarySuccessResponse, exceptionSchema, settings, generator)
         {
         }
     }

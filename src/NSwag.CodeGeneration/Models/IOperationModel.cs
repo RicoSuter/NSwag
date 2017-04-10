@@ -6,15 +6,14 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace NSwag.CodeGeneration.Models
 {
     /// <summary>The operation model interface.</summary>
     public interface IOperationModel
     {
-        /// <summary>Gets a value indicating whether the operation has an explicit success response defined.</summary>
-        bool HasSuccessResponse { get; }
-
-        /// <summary>Gets the success response.</summary>
-        ResponseModelBase SuccessResponse { get; }
+        /// <summary>Gets the responses.</summary>
+        IEnumerable<ResponseModelBase> Responses { get; }
     }
 }

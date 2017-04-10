@@ -151,8 +151,8 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Gets the success response.</summary>
         public TResponseModel SuccessResponse => Responses.FirstOrDefault(r => r.IsSuccess(this));
 
-        /// <summary>Gets the success response.</summary>
-        ResponseModelBase IOperationModel.SuccessResponse => SuccessResponse;
+        /// <summary>Gets the responses.</summary>
+        IEnumerable<ResponseModelBase> IOperationModel.Responses => Responses;
 
         /// <summary>Gets or sets the parameters.</summary>
         public IList<TParameterModel> Parameters { get; protected set; }
