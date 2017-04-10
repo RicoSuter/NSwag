@@ -20,8 +20,10 @@ if (_status === <#=response.StatusCode#>) {
     return blobToText(_response.blob()).flatMap(_responseText => {
 <#      }else if(Model.RequestAngularJSBlobs){#>
     return blobToText(new Blob([_response]), this.q).then(_responseText => {
-<#      }else if(Model.IsAngular || Model.IsAngularJS){#>
+<#      }else if(Model.IsAngular){#>
     const _responseText = _response.text();
+<#      }else if(Model.IsAngularJS){#>
+    const _responseText = _response.data;
 <#      }else{#>
     const _responseText = _xhr.responseText; 
 <#      }#>
@@ -80,8 +82,10 @@ if(Model.HasDefaultResponse){#>{
     return blobToText(_response.blob()).flatMap(_responseText => {
 <#      }else if(Model.RequestAngularJSBlobs){#>
     return blobToText(new Blob([_response]), this.q).then(_responseText => {
-<#      }else if(Model.IsAngular || Model.IsAngularJS){#>
+<#      }else if(Model.IsAngular){#>
     const _responseText = _response.text();
+<#      }else if(Model.IsAngularJS){#>
+    const _responseText = _response.data;
 <#      }else{#>
     const _responseText = _xhr.responseText; 
 <#      }#>
@@ -132,8 +136,10 @@ if (_status !== 200 && _status !== 204) {
     return blobToText(_response.blob()).flatMap(_responseText => {
 <#      }else if(Model.RequestAngularJSBlobs){#>
     return blobToText(new Blob([_response]), this.q).then(_responseText => {
-<#      }else if(Model.IsAngular || Model.IsAngularJS){#>
+<#      }else if(Model.IsAngular){#>
     const _responseText = _response.text();
+<#      }else if(Model.IsAngularJS){#>
+    const _responseText = _response.data;
 <#      }else{#>
     const _responseText = _xhr.responseText; 
 <#      }#>

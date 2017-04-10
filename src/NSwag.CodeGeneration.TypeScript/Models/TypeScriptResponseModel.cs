@@ -20,13 +20,13 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Initializes a new instance of the <see cref="TypeScriptResponseModel" /> class.</summary>
         /// <param name="statusCode">The status code.</param>
         /// <param name="response">The response.</param>
-        /// <param name="isSuccessResponse">if set to <c>true</c> [is success response].</param>
+        /// <param name="isPrimarySuccessResponse">if set to <c>true</c> [is success response].</param>
         /// <param name="exceptionSchema">The exception schema.</param>
         /// <param name="generator">The generator.</param>
         /// <param name="settings">The settings.</param>
-        public TypeScriptResponseModel(string statusCode, SwaggerResponse response, bool isSuccessResponse, 
+        public TypeScriptResponseModel(string statusCode, SwaggerResponse response, bool isPrimarySuccessResponse, 
             JsonSchema4 exceptionSchema, IClientGenerator generator, SwaggerToTypeScriptClientGeneratorSettings settings) 
-            : base(statusCode, response, isSuccessResponse, exceptionSchema, settings.TypeScriptGeneratorSettings, generator)
+            : base(statusCode, response, isPrimarySuccessResponse, exceptionSchema, settings.TypeScriptGeneratorSettings, generator)
         {
             _settings = settings;
         }

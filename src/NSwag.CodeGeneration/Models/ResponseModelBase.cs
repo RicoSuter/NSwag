@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Linq;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 
@@ -19,22 +20,22 @@ namespace NSwag.CodeGeneration.Models
         private readonly JsonSchema4 _exceptionSchema;
         private readonly IClientGenerator _generator;
         private readonly CodeGeneratorSettingsBase _settings;
-        private readonly bool _isSuccessResponse;
+        private readonly bool _isPrimarySuccessResponse;
 
         /// <summary>Initializes a new instance of the <see cref="ResponseModelBase" /> class.</summary>
         /// <param name="statusCode">The status code.</param>
         /// <param name="response">The response.</param>
-        /// <param name="isSuccessResponse">Specifies whether this is the success response.</param>
+        /// <param name="isPrimarySuccessResponse">Specifies whether this is the success response.</param>
         /// <param name="exceptionSchema">The exception schema.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="generator">The client generator.</param>
-        protected ResponseModelBase(string statusCode, SwaggerResponse response, bool isSuccessResponse, JsonSchema4 exceptionSchema, CodeGeneratorSettingsBase settings, IClientGenerator generator)
+        protected ResponseModelBase(string statusCode, SwaggerResponse response, bool isPrimarySuccessResponse, JsonSchema4 exceptionSchema, CodeGeneratorSettingsBase settings, IClientGenerator generator)
         {
             _response = response;
             _exceptionSchema = exceptionSchema;
             _generator = generator;
             _settings = settings;
-            _isSuccessResponse = isSuccessResponse; 
+            _isPrimarySuccessResponse = isPrimarySuccessResponse; 
 
             StatusCode = statusCode;
         }
@@ -77,15 +78,20 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Gets a value indicating whether the response type inherits from exception.</summary>
         public bool InheritsExceptionSchema => _response.ActualResponseSchema.InheritsSchema(_exceptionSchema);
 
+        /// <summary>Gets a value indicating whether this is the primary success response.</summary>
+        public bool IsPrimarySuccessResponse => _isPrimarySuccessResponse;
+
         /// <summary>Gets a value indicating whether this is success response.</summary>
         public bool IsSuccess(IOperationModel operationModel)
         {
-            if (_isSuccessResponse)
+            if (_isPrimarySuccessResponse)
                 return true;
-
-            return HttpUtilities.IsSuccessStatusCode(StatusCode) &&
-                operationModel.HasSuccessResponse &&
-                operationModel.SuccessResponse.Type == Type;
+            
+            var primarySuccessResponse = operationModel.Responses.FirstOrDefault(r => r.IsPrimarySuccessResponse);
+            return HttpUtilities.IsSuccessStatusCode(StatusCode) && (
+                primarySuccessResponse == null || 
+                primarySuccessResponse.Type == Type
+            );
         }
 
         /// <summary>Gets a value indicating whether this is an exceptional response.</summary>
