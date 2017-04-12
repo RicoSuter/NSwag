@@ -148,6 +148,8 @@ namespace NSwag
             // Ignore properties which are not allowed in Swagger
             jsonResolver.Ignore(typeof(JsonSchema4), "Title");
             jsonResolver.Ignore(typeof(JsonSchema4), "title");
+            // Newtonsoft.Json and NJsonSchema call it "readonly", but Swagger calls it "readOnly"
+            jsonResolver.Rename(typeof(JsonProperty), "readonly", "readOnly");
 
             var serializerSettings = new JsonSerializerSettings
             {
