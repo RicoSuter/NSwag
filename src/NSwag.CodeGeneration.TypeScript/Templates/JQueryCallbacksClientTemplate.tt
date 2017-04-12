@@ -13,7 +13,7 @@ export interface I<#=Model.Class#> {
 <#}#><#}#><#if(operation.HasResultDescription){#>     * @return <#=operation.ResultDescription#>
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
-<#}#>    <#=operation.MethodAccessModifier#><#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#>?<#}#>: <#=parameter.Type#>, <#}#>onSuccess?: (<#if(operation.HasResultType){#>result: <#=operation.ResultType#><#}#>) => void, onFail?: (exception: <#=operation.ExceptionType#>, reason: string) => void): void;
+<#}#>    <#=operation.MethodAccessModifier#><#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#>?<#}#>: <#=parameter.Type#>, <#}#>onSuccess?: (<#if(operation.HasResultType){#>result: <#=operation.ResultType#><#}#>) => void, onFail?: (exception: <#=operation.ExceptionType#>, reason: string) => void): JQueryXHR;
 <#}#>}
 <#}#>
 
@@ -44,12 +44,12 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
 <#}#>
-    <#=operation.MethodAccessModifier#><#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#>?<#}#>: <#=parameter.Type#>, <#}#>onSuccess?: (<#if(operation.HasResultType){#>result: <#=operation.ResultType#><#}#>) => void, onFail?: (exception: <#=operation.ExceptionType#>, reason: string) => void) {
+    <#=operation.MethodAccessModifier#><#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#>?<#}#>: <#=parameter.Type#>, <#}#>onSuccess?: (<#if(operation.HasResultType){#>result: <#=operation.ResultType#><#}#>) => void, onFail?: (exception: <#=operation.ExceptionType#>, reason: string) => void): JQueryXHR {
         <#=TypeScriptTemplatePartGenerator.RenderRequestUrlCode(operation, 2)#>
 
         <#=TypeScriptTemplatePartGenerator.RenderRequestBodyCode(operation, 2)#>
 
-        jQuery.ajax(<#if(Model.UseTransformOptionsMethod){#>this.transformOptions(<#}#>{
+        let jqXhr = jQuery.ajax(<#if(Model.UseTransformOptionsMethod){#>this.transformOptions(<#}#>{
             url: url_,
             beforeSend: this.beforeSend,
             type: "<#=operation.HttpMethodLower#>",
@@ -69,11 +69,15 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
                 "Accept": "<#=operation.Produces#>; charset=UTF-8"
 <#}#>
             }
-        }<#if(Model.UseTransformOptionsMethod){#>)<#}#>).done((_data, _textStatus, xhr) => {
+        }<#if(Model.UseTransformOptionsMethod){#>)<#}#>); 
+        
+        jqXhr.done((_data, _textStatus, xhr) => {
             this.process<#=operation.ActualOperationNameUpper#>WithCallbacks(url_, xhr, onSuccess, onFail);
         }).fail((xhr) => {
             this.process<#=operation.ActualOperationNameUpper#>WithCallbacks(url_, xhr, onSuccess, onFail);
         });
+
+        return jqXhr;
     }
 
     private process<#=operation.ActualOperationNameUpper#>WithCallbacks(_url: string, xhr: any, onSuccess?: any, onFail?: any): void {
