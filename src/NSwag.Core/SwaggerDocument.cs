@@ -144,7 +144,7 @@ namespace NSwag
         /// <returns>The JSON string.</returns>
         public string ToJson(JsonSchemaGeneratorSettings settings)
         {
-            var jsonResolver = new IgnorableSerializerContractResolver();
+            var jsonResolver = new ExtendedSerializerContractResolver();
             // Ignore properties which are not allowed in Swagger
             jsonResolver.Ignore(typeof(JsonSchema4), "Title");
             jsonResolver.Ignore(typeof(JsonSchema4), "title");
