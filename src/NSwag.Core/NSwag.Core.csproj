@@ -78,7 +78,7 @@
   <ItemGroup>
     <Compile Include="Collections\ObservableDictionary.cs" />
     <Compile Include="HttpUtilities.cs" />
-    <Compile Include="IgnorableSerializerContractResolver.cs" />
+    <Compile Include="ExtendedSerializerContractResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SwaggerContact.cs" />
     <Compile Include="SwaggerExternalDocumentation.cs" />
