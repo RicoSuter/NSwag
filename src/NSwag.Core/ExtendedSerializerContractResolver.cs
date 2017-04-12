@@ -18,11 +18,13 @@ namespace NSwag
     internal class ExtendedSerializerContractResolver : DefaultContractResolver
     {
         protected readonly Dictionary<Type, HashSet<string>> Ignores;
+        protected readonly Dictionary<Type, Dictionary<string, string>> Renames;
 
         /// <summary>Initializes a new instance of the <see cref="ExtendedSerializerContractResolver"/> class.</summary>
         public ExtendedSerializerContractResolver()
         {
             Ignores = new Dictionary<Type, HashSet<string>>();
+            Renames = new Dictionary<Type, Dictionary<string, string>>();
         }
 
         /// <summary>Explicitly ignore the given property(s) for the given type</summary>
@@ -52,6 +54,38 @@ namespace NSwag
             return Ignores[type].Contains(propertyName);
         }
 
+        /// <summary>Rename a property for a given type</summary>
+        /// <param name="type">The type.</param>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <param name="newName">New name of the property.</param>
+        public void Rename(Type type, string propertyName, string newName)
+        {
+            Dictionary<string, string> renames;
+            if (!Renames.TryGetValue(type, out renames))
+                Renames[type] = renames = new Dictionary<string, string>();
+
+            renames[propertyName] = newName;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <param name="newName">New name of the property.</param>
+        /// <returns></returns>
+        public bool IsRenamed(Type type, string propertyName, out string newName)
+        {
+            Dictionary<string, string> renames;
+            if (!Renames.TryGetValue(type, out renames) || !renames.TryGetValue(propertyName, out newName))
+            {
+                newName = null;
+                return false;
+            }
+
+            return true;
+        }
+
         /// <summary>The decision logic goes here</summary>
         /// <param name="member">The member to create a <see cref="T:Newtonsoft.Json.Serialization.JsonProperty" /> for.</param>
         /// <param name="memberSerialization">The member's parent <see cref="T:Newtonsoft.Json.MemberSerialization" />.</param>
@@ -62,6 +96,10 @@ namespace NSwag
 
             if (IsIgnored(property.DeclaringType, property.PropertyName))
                 property.ShouldSerialize = instance => false;
+
+            string newName;
+            if (IsRenamed(property.DeclaringType, property.PropertyName, out newName))
+                property.PropertyName = newName;
 
             return property;
         }
