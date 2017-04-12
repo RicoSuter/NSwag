@@ -58,7 +58,7 @@ namespace NSwag.Commands
         }
 
         [Argument(Name = "Template", IsRequired = false, Description = "The type of the asynchronism handling " +
-                                                                       "('JQueryCallbacks', 'JQueryPromises', 'AngularJS', 'Angular2', 'Fetch', 'Aurelia').")]
+                                                                       "('JQueryCallbacks', 'JQueryPromises', 'AngularJS', 'Angular', 'Fetch', 'Aurelia').")]
         public TypeScriptTemplate Template
         {
             get { return Settings.Template; }
@@ -237,7 +237,7 @@ namespace NSwag.Commands
             set { Settings.ImportRequiredTypes = value; }
         }
 
-        [Argument(Name = "BaseUrlTokenName", IsRequired = false, Description = "The token name for injecting the API base URL string (used in the Angular2 template, default: 'API_BASE_URL').")]
+        [Argument(Name = "BaseUrlTokenName", IsRequired = false, Description = "The token name for injecting the API base URL string (used in the Angular template, default: 'API_BASE_URL').")]
         public string BaseUrlTokenName
         {
             get { return Settings.BaseUrlTokenName; }
