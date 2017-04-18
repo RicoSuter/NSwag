@@ -65,6 +65,7 @@
     <Compile Include="CSharpClientSettingsTests.cs" />
     <Compile Include="FileDownloadTests.cs" />
     <Compile Include="FormParameterTests.cs" />
+    <Compile Include="HeadRequestTests.cs" />
     <Compile Include="OptionalParameterTests.cs" />
     <Compile Include="ParameterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

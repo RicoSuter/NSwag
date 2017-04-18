@@ -81,13 +81,16 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Gets the HTTP method in lowercase.</summary>
         public string HttpMethodLower => ConversionUtilities.ConvertToLowerCamelCase(HttpMethod.ToString(), false);
 
-        /// <summary>Gets a value indicating whether the HTTP method is GET or DELETE.</summary>
-        public bool IsGetOrDelete => HttpMethod == SwaggerOperationMethod.Get || HttpMethod == SwaggerOperationMethod.Delete;
+        /// <summary>Gets a value indicating whether the HTTP method is GET or DELETE or HEAD.</summary>
+        public bool IsGetOrDeleteOrHead =>
+            HttpMethod == SwaggerOperationMethod.Get ||
+            HttpMethod == SwaggerOperationMethod.Delete ||
+            HttpMethod == SwaggerOperationMethod.Head;
 
         /// <summary>Gets a value indicating whether the HTTP method is GET or HEAD.</summary>
         public bool IsGetOrHead => HttpMethod == SwaggerOperationMethod.Get || HttpMethod == SwaggerOperationMethod.Head;
 
-        // TODO: Remove this (not may not work correctly)
+        // TODO: Remove this (may not work correctly)
         /// <summary>Gets or sets a value indicating whether the operation has a result type (i.e. not void).</summary>
         public bool HasResultType
         {
