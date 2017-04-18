@@ -38,6 +38,9 @@ namespace NSwag.Tests.Specification
             Assert.IsNotNull(json2);
             Assert.IsNotNull(reference);
             Assert.AreEqual(3, reference.Properties.Count);
+            Assert.IsTrue(document.Definitions["Pet"].Properties["id"].IsReadOnly);
+            Assert.IsFalse(json2.Contains(@"""readonly"""));
+            Assert.IsTrue(json2.Contains(@"""readOnly"""));
         }
 
         [TestMethod]
@@ -140,7 +143,8 @@ namespace NSwag.Tests.Specification
       ""properties"": {
         ""id"": {
           ""type"": ""integer"",
-          ""format"": ""int64""
+          ""format"": ""int64"",
+          ""readOnly"": ""true""
         },
         ""name"": {
           ""type"": ""string""

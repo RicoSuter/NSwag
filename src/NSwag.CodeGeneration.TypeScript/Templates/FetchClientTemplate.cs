@@ -232,19 +232,6 @@ if(!parameter.IsLast){
             
             #line default
             #line hidden
-            
-            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
-if(Model.SupportsStrictNullChecks){
-            
-            #line default
-            #line hidden
-            this.Write(" | null");
-            
-            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
-}
-            
-            #line default
-            #line hidden
             this.Write(">;\r\n");
             
             #line 17 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
@@ -578,19 +565,6 @@ if(!parameter.IsLast){
             
             #line default
             #line hidden
-            
-            #line 51 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
-if(Model.SupportsStrictNullChecks){
-            
-            #line default
-            #line hidden
-            this.Write(" | null");
-            
-            #line 51 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
-}
-            
-            #line default
-            #line hidden
             this.Write("> {\r\n        ");
             
             #line 52 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
@@ -777,19 +751,6 @@ if(Model.UseTransformResultMethod){
             
             #line 91 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultType));
-            
-            #line default
-            #line hidden
-            
-            #line 91 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
-if(Model.SupportsStrictNullChecks){
-            
-            #line default
-            #line hidden
-            this.Write(" | null");
-            
-            #line 91 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
-}
             
             #line default
             #line hidden

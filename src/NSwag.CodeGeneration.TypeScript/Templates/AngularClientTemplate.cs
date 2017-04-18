@@ -232,19 +232,6 @@ if(!parameter.IsLast){
             
             #line default
             #line hidden
-            
-            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularClientTemplate.tt"
-if(Model.SupportsStrictNullChecks){
-            
-            #line default
-            #line hidden
-            this.Write(" | null");
-            
-            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularClientTemplate.tt"
-}
-            
-            #line default
-            #line hidden
             this.Write(">;\r\n");
             
             #line 17 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularClientTemplate.tt"
@@ -820,7 +807,7 @@ if(Model.UseTransformResultMethod){
             this.Write("                } catch (e) {\r\n                    return <Observable<");
             
             #line 94 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultType));
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.UnwrappedResultType));
             
             #line default
             #line hidden
@@ -828,7 +815,7 @@ if(Model.UseTransformResultMethod){
                     "   return <Observable<");
             
             #line 97 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultType));
+            this.Write(this.ToStringHelper.ToStringWithCulture(operation.UnwrappedResultType));
             
             #line default
             #line hidden
@@ -843,19 +830,6 @@ if(Model.UseTransformResultMethod){
             
             #line 101 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultType));
-            
-            #line default
-            #line hidden
-            
-            #line 101 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularClientTemplate.tt"
-if(Model.SupportsStrictNullChecks){
-            
-            #line default
-            #line hidden
-            this.Write(" | null");
-            
-            #line 101 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularClientTemplate.tt"
-}
             
             #line default
             #line hidden

@@ -66,6 +66,13 @@ namespace NSwag.Commands
             set { Settings.InjectHttpClient = value; }
         }
 
+        [Argument(Name = "DisposeHttpClient", IsRequired = false, Description = "Specifies whether to dispose the HttpClient (injected HttpClient is never disposed).")]
+        public bool DisposeHttpClient
+        {
+            get { return Settings.DisposeHttpClient; }
+            set { Settings.DisposeHttpClient = value; }
+        }
+
         [Argument(Name = "ProtectedMethods", IsRequired = false, Description = "List of methods with a protected access modifier ('classname.methodname').")]
         public string[] ProtectedMethods
         {

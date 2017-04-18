@@ -13,7 +13,7 @@ export interface I<#=Model.Class#> {
 <#}#><#}#><#if(operation.HasResultDescription){#>     * @return <#=operation.ResultDescription#>
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
-<#}#>    <#=operation.MethodAccessModifier#><#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#>?<#}#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): ng.IPromise<<#=operation.ResultType#><#if(Model.SupportsStrictNullChecks){#> | null<#}#>>;
+<#}#>    <#=operation.MethodAccessModifier#><#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#>?<#}#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): ng.IPromise<<#=operation.ResultType#>>;
 <#}#>}
 <#}#>
 
@@ -47,7 +47,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
 <#}#>
-    <#=operation.MethodAccessModifier#><#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#>?<#}#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): ng.IPromise<<#=operation.ResultType#><#if(Model.SupportsStrictNullChecks){#> | null<#}#>> {
+    <#=operation.MethodAccessModifier#><#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#>?<#}#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): ng.IPromise<<#=operation.ResultType#>> {
         <#=TypeScriptTemplatePartGenerator.RenderRequestUrlCode(operation, 2)#>
 
         <#=TypeScriptTemplatePartGenerator.RenderRequestBodyCode(operation, 2)#>
@@ -96,7 +96,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
         });
     }
 
-    protected process<#=operation.ActualOperationNameUpper#>(_response: any): ng.IPromise<<#=operation.ResultType#><#if(Model.SupportsStrictNullChecks){#> | null<#}#>> {
+    protected process<#=operation.ActualOperationNameUpper#>(_response: any): ng.IPromise<<#=operation.ResultType#>> {
         const _status = _response.status; 
 
         <#=TypeScriptTemplatePartGenerator.RenderProcessResponseCode(operation, 2)#>

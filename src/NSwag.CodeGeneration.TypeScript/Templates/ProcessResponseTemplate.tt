@@ -52,11 +52,11 @@ if (_status === <#=response.StatusCode#>) {
 <#          }
         }else if(response.IsSuccess(Model)){#>
 <#              if(Model.IsAngular){#>
-    return Observable.of(null);
+    return Observable.of<<#=Model.ResultType#>>(<any>null);
 <#              }else if(Model.IsAngularJS){#>
-    return this.q.resolve(null);
+    return this.q.resolve<<#=Model.ResultType#>>(<any>null);
 <#              }else{#>
-    return null;
+    return<#if(Model.HasResultType){#> null<#}#>;
 <#              }#>
 <#      }else{#>
     return throwException(<#if(Model.IsAngularJS){#>this.q, <#}#>"A server error occurred.", _status, _responseText);
@@ -114,11 +114,11 @@ if(Model.HasDefaultResponse){#>{
 <#          }
         }else if(!Model.HasSuccessResponse){#>
 <#              if(Model.IsAngular){#>
-    return Observable.of(null);
+    return Observable.of<<#=Model.ResultType#>>(<any>null);
 <#              }else if(Model.IsAngularJS){#>
-    return this.q.resolve(null);
+    return this.q.resolve<<#=Model.ResultType#>>(<any>null);
 <#              }else{#>
-    return null;
+    return<#if(Model.HasResultType){#> null<#}#>;
 <#              }#>
 <#      }else{#>
     return throwException(<#if(Model.IsAngularJS){#>this.q, <#}#>"A server error occurred.", _status, _responseText);
@@ -149,12 +149,12 @@ if (_status !== 200 && _status !== 204) {
 <#  }#>
 }
 <#  if(Model.IsFetchOrAurelia){#>
-return Promise.resolve(null);
+return Promise.resolve<<#=Model.ResultType#>>(<any>null);
 <#  }else if(Model.IsAngular){#>
-return Observable.of(null);
+return Observable.of<<#=Model.ResultType#>>(<any>null);
 <#  }else if(Model.IsAngularJS){#>
-return this.q.resolve(null);
+return this.q.resolve<<#=Model.ResultType#>>(<any>null);
 <#  }else{#>
-return null;
+return<#if(Model.HasResultType){#> null<#}#>;
 <#  }#>
 <#}#>

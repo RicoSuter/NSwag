@@ -40,6 +40,7 @@
     <Reference Include="NJsonSchema, Version=8.30.6304.31883, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
       <HintPath>..\packages\NJsonSchema.8.30.6304.31883\lib\net45\NJsonSchema.dll</HintPath>
     </Reference>
+    <Reference Include="NJsonSchema.CodeGeneration.TypeScript, Version=8.30.6304.31907, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -58,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AngularTests.cs" />
     <Compile Include="ArrayParameterTests.cs" />
     <Compile Include="OperationParameterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
