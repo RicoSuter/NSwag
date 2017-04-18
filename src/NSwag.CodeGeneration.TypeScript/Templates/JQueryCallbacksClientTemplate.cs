@@ -801,19 +801,6 @@ if(Model.UseTransformResultMethod){
             
             #line default
             #line hidden
-            
-            #line 98 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
-if(Model.SupportsStrictNullChecks){
-            
-            #line default
-            #line hidden
-            this.Write(" | null");
-            
-            #line 98 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
-}
-            
-            #line default
-            #line hidden
             this.Write(" {\r\n        const _status = _xhr.status;\r\n\r\n        ");
             
             #line 101 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryCallbacksClientTemplate.tt"

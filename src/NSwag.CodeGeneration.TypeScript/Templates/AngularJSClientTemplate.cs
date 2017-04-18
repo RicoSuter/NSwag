@@ -232,19 +232,6 @@ if(!parameter.IsLast){
             
             #line default
             #line hidden
-            
-            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularJSClientTemplate.tt"
-if(Model.SupportsStrictNullChecks){
-            
-            #line default
-            #line hidden
-            this.Write(" | null");
-            
-            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularJSClientTemplate.tt"
-}
-            
-            #line default
-            #line hidden
             this.Write(">;\r\n");
             
             #line 17 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularJSClientTemplate.tt"
@@ -584,19 +571,6 @@ if(!parameter.IsLast){
             
             #line default
             #line hidden
-            
-            #line 50 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularJSClientTemplate.tt"
-if(Model.SupportsStrictNullChecks){
-            
-            #line default
-            #line hidden
-            this.Write(" | null");
-            
-            #line 50 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularJSClientTemplate.tt"
-}
-            
-            #line default
-            #line hidden
             this.Write("> {\r\n        ");
             
             #line 51 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularJSClientTemplate.tt"
@@ -807,19 +781,6 @@ if(Model.UseTransformResultMethod){
             
             #line 99 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularJSClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultType));
-            
-            #line default
-            #line hidden
-            
-            #line 99 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularJSClientTemplate.tt"
-if(Model.SupportsStrictNullChecks){
-            
-            #line default
-            #line hidden
-            this.Write(" | null");
-            
-            #line 99 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularJSClientTemplate.tt"
-}
             
             #line default
             #line hidden
