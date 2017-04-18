@@ -3233,7 +3233,7 @@ if(Model.InjectHttpClient){
                     "        }\r\n            }\r\n        }\r\n        finally\r\n        {\r\n");
             
             #line 459 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-if(!Model.InjectHttpClient){
+if(!Model.InjectHttpClient && Model.DisposeHttpClient){
             
             #line default
             #line hidden

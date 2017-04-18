@@ -22,6 +22,7 @@ namespace NSwag.CodeGeneration.CSharp
             UseBaseUrl = true;
             HttpClientType = "System.Net.Http.HttpClient";
             WrapDtoExceptions = true;
+            DisposeHttpClient = true; 
         }
 
         /// <summary>Gets or sets the full name of the base class.</summary>
@@ -38,6 +39,9 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets a value indicating whether an HttpClient instance is injected into the client.</summary>
         public bool InjectHttpClient { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether to dispose the HttpClient (injected HttpClient is never disposed, default: true).</summary>
+        public bool DisposeHttpClient { get; set; }
 
         /// <summary>Gets or sets the list of methods with a protected access modifier ("classname.methodname").</summary>
         public string[] ProtectedMethods { get; set; }

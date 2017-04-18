@@ -128,6 +128,11 @@
                                           ToolTip="InjectHttpClient"
                                           Content="Inject HttpClient via constructor (life cycle is managed by the caller)" Margin="0,0,0,12" />
 
+                                <CheckBox IsChecked="{Binding Command.DisposeHttpClient, Mode=TwoWay}" 
+                                          ToolTip="DisposeHttpClient"
+                                          Visibility="{Binding Command.InjectHttpClient, Converter={StaticResource NotConverter}}"
+                                          Content="Dispose the HttpClient (life cycle must be handled by the base class and CreateHttpClientAsync())" Margin="0,0,0,12" />
+
                                 <TextBlock Text="Http Client Type" FontWeight="Bold" Margin="0,0,0,6" />
                                 <TextBox Text="{Binding Command.HttpClientType, Mode=TwoWay}" ToolTip="HttpClientType" Margin="0,0,0,12" />
 

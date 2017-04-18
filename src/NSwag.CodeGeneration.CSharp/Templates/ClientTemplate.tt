@@ -456,7 +456,7 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(<#
         }
         finally
         {
-<#if(!Model.InjectHttpClient){#>
+<#if(!Model.InjectHttpClient && Model.DisposeHttpClient){#>
             if (client_ != null)
                 client_.Dispose();
 <#}#>
