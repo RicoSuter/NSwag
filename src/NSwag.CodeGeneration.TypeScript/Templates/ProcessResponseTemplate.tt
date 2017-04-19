@@ -1,6 +1,6 @@
 ﻿<#@ template visibility="internal" #>
 <#@ import namespace="NJsonSchema" #>
-<#if(Model.HandleReferences && Model.HasDtoResultType){#>
+<#if(Model.HandleReferences && Model.RequiresMappings){#>
 let _mappings: { source: any, target: any }[] = [];
 <#}#>
 <#foreach(var response in Model.Responses){#>
@@ -25,7 +25,7 @@ if (status === <#=response.StatusCode#>) {
 <#      }else if(Model.IsAngularJS){#>
     const responseText = response.data;
 <#      }else{#>
-    const responseText = _xhr.responseText; 
+    const responseText = xhr.responseText; 
 <#      }#>
 <#      if(response.HasType){#>
     let result<#=response.StatusCode#>: <#=response.Type#><#if(Model.SupportsStrictNullChecks){#> | null<#}#> = null;
@@ -87,7 +87,7 @@ if(Model.HasDefaultResponse){#>{
 <#      }else if(Model.IsAngularJS){#>
     const responseText = response.data;
 <#      }else{#>
-    const responseText = _xhr.responseText; 
+    const responseText = xhr.responseText; 
 <#      }#>
 <#      if(Model.DefaultResponse.HasType){#>
     let result: <#=Model.DefaultResponse.Type#><#if(Model.SupportsStrictNullChecks){#> | null<#}#> = null;
@@ -141,7 +141,7 @@ if (status !== 200 && status !== 204) {
 <#      }else if(Model.IsAngularJS){#>
     const responseText = response.data;
 <#      }else{#>
-    const responseText = _xhr.responseText; 
+    const responseText = xhr.responseText; 
 <#      }#>
     return throwException(<#if(Model.IsAngularJS){#>this.q, <#}#>"An unexpected server error occurred.", status, responseText);
 <#  if(Model.IsFetchOrAurelia || Model.RequestAngularBlobs || Model.RequestAngularJSBlobs){#>
