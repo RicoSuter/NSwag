@@ -96,8 +96,8 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
         });
     }
 
-    protected process<#=operation.ActualOperationNameUpper#>(_response: any): ng.IPromise<<#=operation.ResultType#>> {
-        const _status = _response.status; 
+    protected process<#=operation.ActualOperationNameUpper#>(response: any): ng.IPromise<<#=operation.ResultType#>> {
+        const status = response.status; 
 
         <#=TypeScriptTemplatePartGenerator.RenderProcessResponseCode(operation, 2)#>
     }

@@ -28,11 +28,11 @@ namespace NSwag.CodeGeneration.TypeScript.Templates
         {
             
             #line 3 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
-if(Model.HandleReferences){
+if(Model.HandleReferences && Model.RequiresMappings){
             
             #line default
             #line hidden
-            this.Write("let mappings: { source: any, target: any }[] = [];\r\n");
+            this.Write("let _mappings: { source: any, target: any }[] = [];\r\n");
             
             #line 5 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
 }
@@ -45,7 +45,7 @@ foreach(var response in Model.Responses){
             
             #line default
             #line hidden
-            this.Write("if (_status === ");
+            this.Write("if (status === ");
             
             #line 7 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
@@ -65,21 +65,21 @@ foreach(var response in Model.Responses){
             
             #line default
             #line hidden
-            this.Write("    return Observable.of(_response.blob());\r\n");
+            this.Write("    return Observable.of(response.blob());\r\n");
             
             #line 11 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }else if(Model.IsAngularJS){
             
             #line default
             #line hidden
-            this.Write("    return this.q.resolve(new Blob([_response]));\r\n");
+            this.Write("    return this.q.resolve(new Blob([response]));\r\n");
             
             #line 13 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }else{
             
             #line default
             #line hidden
-            this.Write("    return _response.blob();\r\n");
+            this.Write("    return response.blob();\r\n");
             
             #line 15 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }
@@ -98,42 +98,42 @@ foreach(var response in Model.Responses){
             
             #line default
             #line hidden
-            this.Write("    return _response.text().then((_responseText) => {\r\n");
+            this.Write("    return response.text().then((responseText) => {\r\n");
             
             #line 19 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }else if(Model.RequestAngularBlobs){
             
             #line default
             #line hidden
-            this.Write("    return blobToText(_response.blob()).flatMap(_responseText => {\r\n");
+            this.Write("    return blobToText(response.blob()).flatMap(responseText => {\r\n");
             
             #line 21 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }else if(Model.RequestAngularJSBlobs){
             
             #line default
             #line hidden
-            this.Write("    return blobToText(new Blob([_response]), this.q).then(_responseText => {\r\n");
+            this.Write("    return blobToText(new Blob([response]), this.q).then(responseText => {\r\n");
             
             #line 23 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }else if(Model.IsAngular){
             
             #line default
             #line hidden
-            this.Write("    const _responseText = _response.text();\r\n");
+            this.Write("    const responseText = response.text();\r\n");
             
             #line 25 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }else if(Model.IsAngularJS){
             
             #line default
             #line hidden
-            this.Write("    const _responseText = _response.data;\r\n");
+            this.Write("    const responseText = response.data;\r\n");
             
             #line 27 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }else{
             
             #line default
             #line hidden
-            this.Write("    const _responseText = _xhr.responseText; \r\n");
+            this.Write("    const responseText = xhr.responseText; \r\n");
             
             #line 29 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }
@@ -202,7 +202,7 @@ if(Model.SupportsStrictNullChecks){
             
             #line default
             #line hidden
-            this.Write(" = _responseText === \"\" ? null : ");
+            this.Write(" = responseText === \"\" ? null : ");
             
             #line 36 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
 if(Model.HandleReferences){
@@ -223,7 +223,7 @@ if(Model.HandleReferences){
             
             #line default
             #line hidden
-            this.Write("(_responseText, this.jsonParseReviver);\r\n    ");
+            this.Write("(responseText, this.jsonParseReviver);\r\n    ");
             
             #line 37 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.Tab(response.DataConversionCode, 1)));
@@ -244,7 +244,7 @@ if(Model.HandleReferences){
             
             #line default
             #line hidden
-            this.Write(" = _responseText === \"\" ? null : <");
+            this.Write(" = responseText === \"\" ? null : <");
             
             #line 39 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.Type));
@@ -272,7 +272,7 @@ if(Model.HandleReferences){
             
             #line default
             #line hidden
-            this.Write("(_responseText, this.jsonParseReviver);\r\n");
+            this.Write("(responseText, this.jsonParseReviver);\r\n");
             
             #line 40 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
               }
@@ -349,7 +349,7 @@ if(Model.IsAngularJS){
             
             #line default
             #line hidden
-            this.Write("\"A server error occurred.\", _status, _responseText, result");
+            this.Write("\"A server error occurred.\", status, responseText, result");
             
             #line 51 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
@@ -439,7 +439,7 @@ if(Model.IsAngularJS){
             
             #line default
             #line hidden
-            this.Write("\"A server error occurred.\", _status, _responseText);\r\n");
+            this.Write("\"A server error occurred.\", status, responseText);\r\n");
             
             #line 63 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }
@@ -486,21 +486,21 @@ if(Model.HasDefaultResponse){
             
             #line default
             #line hidden
-            this.Write("    return Observable.of(_response.blob());\r\n");
+            this.Write("    return Observable.of(response.blob());\r\n");
             
             #line 73 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }else if(Model.IsAngularJS){
             
             #line default
             #line hidden
-            this.Write("    return this.q.resolve(new Blob([_response]));\r\n");
+            this.Write("    return this.q.resolve(new Blob([response]));\r\n");
             
             #line 75 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }else{
             
             #line default
             #line hidden
-            this.Write("    return _response.blob();\r\n");
+            this.Write("    return response.blob();\r\n");
             
             #line 77 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }
@@ -519,42 +519,42 @@ if(Model.HasDefaultResponse){
             
             #line default
             #line hidden
-            this.Write("    return _response.text().then((_responseText) => {\r\n");
+            this.Write("    return response.text().then((responseText) => {\r\n");
             
             #line 81 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }else if(Model.RequestAngularBlobs){
             
             #line default
             #line hidden
-            this.Write("    return blobToText(_response.blob()).flatMap(_responseText => {\r\n");
+            this.Write("    return blobToText(response.blob()).flatMap(responseText => {\r\n");
             
             #line 83 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }else if(Model.RequestAngularJSBlobs){
             
             #line default
             #line hidden
-            this.Write("    return blobToText(new Blob([_response]), this.q).then(_responseText => {\r\n");
+            this.Write("    return blobToText(new Blob([response]), this.q).then(responseText => {\r\n");
             
             #line 85 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }else if(Model.IsAngular){
             
             #line default
             #line hidden
-            this.Write("    const _responseText = _response.text();\r\n");
+            this.Write("    const responseText = response.text();\r\n");
             
             #line 87 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }else if(Model.IsAngularJS){
             
             #line default
             #line hidden
-            this.Write("    const _responseText = _response.data;\r\n");
+            this.Write("    const responseText = response.data;\r\n");
             
             #line 89 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }else{
             
             #line default
             #line hidden
-            this.Write("    const _responseText = _xhr.responseText; \r\n");
+            this.Write("    const responseText = xhr.responseText; \r\n");
             
             #line 91 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }
@@ -594,7 +594,7 @@ if(Model.SupportsStrictNullChecks){
             
             #line default
             #line hidden
-            this.Write("    result = new Date(_responseText);\r\n");
+            this.Write("    result = new Date(responseText);\r\n");
             
             #line 96 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
           }else{
@@ -602,7 +602,7 @@ if(Model.SupportsStrictNullChecks){
             
             #line default
             #line hidden
-            this.Write("    let resultData = _responseText === \"\" ? null : ");
+            this.Write("    let resultData = responseText === \"\" ? null : ");
             
             #line 98 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
 if(Model.HandleReferences){
@@ -623,7 +623,7 @@ if(Model.HandleReferences){
             
             #line default
             #line hidden
-            this.Write("(_responseText, this.jsonParseReviver);\r\n    ");
+            this.Write("(responseText, this.jsonParseReviver);\r\n    ");
             
             #line 99 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.Tab(Model.DefaultResponse.DataConversionCode, 1)));
@@ -637,7 +637,7 @@ if(Model.HandleReferences){
             
             #line default
             #line hidden
-            this.Write("    result = _responseText === \"\" ? null : <");
+            this.Write("    result = responseText === \"\" ? null : <");
             
             #line 101 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.DefaultResponse.Type));
@@ -665,7 +665,7 @@ if(Model.HandleReferences){
             
             #line default
             #line hidden
-            this.Write("(_responseText, this.jsonParseReviver);\r\n");
+            this.Write("(responseText, this.jsonParseReviver);\r\n");
             
             #line 102 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
               }
@@ -721,7 +721,7 @@ if(Model.IsAngularJS){
             
             #line default
             #line hidden
-            this.Write("\"A server error occurred.\", _status, _responseText, result);\r\n");
+            this.Write("\"A server error occurred.\", status, responseText, result);\r\n");
             
             #line 114 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
           }
@@ -804,7 +804,7 @@ if(Model.IsAngularJS){
             
             #line default
             #line hidden
-            this.Write("\"A server error occurred.\", _status, _responseText);\r\n");
+            this.Write("\"A server error occurred.\", status, responseText);\r\n");
             
             #line 125 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }
@@ -837,49 +837,49 @@ if(Model.IsAngularJS){
             
             #line default
             #line hidden
-            this.Write("if (_status !== 200 && _status !== 204) {\r\n");
+            this.Write("if (status !== 200 && status !== 204) {\r\n");
             
             #line 133 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       if(Model.IsFetchOrAurelia){
             
             #line default
             #line hidden
-            this.Write("    return _response.text().then((_responseText) => {\r\n");
+            this.Write("    return response.text().then((responseText) => {\r\n");
             
             #line 135 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }else if(Model.RequestAngularBlobs){
             
             #line default
             #line hidden
-            this.Write("    return blobToText(_response.blob()).flatMap(_responseText => {\r\n");
+            this.Write("    return blobToText(response.blob()).flatMap(responseText => {\r\n");
             
             #line 137 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }else if(Model.RequestAngularJSBlobs){
             
             #line default
             #line hidden
-            this.Write("    return blobToText(new Blob([_response]), this.q).then(_responseText => {\r\n");
+            this.Write("    return blobToText(new Blob([response]), this.q).then(responseText => {\r\n");
             
             #line 139 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }else if(Model.IsAngular){
             
             #line default
             #line hidden
-            this.Write("    const _responseText = _response.text();\r\n");
+            this.Write("    const responseText = response.text();\r\n");
             
             #line 141 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }else if(Model.IsAngularJS){
             
             #line default
             #line hidden
-            this.Write("    const _responseText = _response.data;\r\n");
+            this.Write("    const responseText = response.data;\r\n");
             
             #line 143 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }else{
             
             #line default
             #line hidden
-            this.Write("    const _responseText = _xhr.responseText; \r\n");
+            this.Write("    const responseText = xhr.responseText; \r\n");
             
             #line 145 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }
@@ -900,7 +900,7 @@ if(Model.IsAngularJS){
             
             #line default
             #line hidden
-            this.Write("\"An unexpected server error occurred.\", _status, _responseText);\r\n");
+            this.Write("\"An unexpected server error occurred.\", status, responseText);\r\n");
             
             #line 147 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
   if(Model.IsFetchOrAurelia || Model.RequestAngularBlobs || Model.RequestAngularJSBlobs){
