@@ -20,7 +20,7 @@
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-    <Version>10.3.0</Version>
+    <Version>10.4.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="SwaggerUi\**\*" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
@@ -29,7 +29,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="1.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.0.2" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="1.0.1" />
-    <PackageReference Include="NJsonSchema" Version="8.31.6318.20479" />
+    <PackageReference Include="NJsonSchema" Version="8.32.6319.16936" />
     <PackageReference Include="NSwag.Annotations" Version="*" />
     <PackageReference Include="NSwag.SwaggerGeneration.WebApi" Version="*" />
   </ItemGroup>

@@ -38,5 +38,22 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
             Assert.AreEqual(1, document.Operations.Count());
             Assert.AreEqual("Test_Foo", document.Operations.Single().Operation.OperationId);
         }
+
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public class ApiExplorerIgnoredController : ApiController
+        {
+        }
+
+        [TestMethod]
+        public void When_controller_has_ApiExplorerSettingsAttribute_with_IgnoreApi_then_it_is_ignored()
+        {
+            //// Arrange
+
+            //// Act
+            var controllers = WebApiToSwaggerGenerator.GetControllerClasses(typeof(ApiExplorerIgnoredController).Assembly);
+
+            //// Assert
+            Assert.IsFalse(controllers.Any(c => c.Name == "ApiExplorerIgnoredController"));
+        }
     }
 }

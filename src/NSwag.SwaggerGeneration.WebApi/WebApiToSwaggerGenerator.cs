@@ -50,7 +50,14 @@ namespace NSwag.SwaggerGeneration.WebApi
                 .Where(t => t.Name.EndsWith("Controller") ||
                             t.InheritsFrom("ApiController", TypeNameStyle.Name) ||
                             t.InheritsFrom("ControllerBase", TypeNameStyle.Name)) // in ASP.NET Core, a Web API controller inherits from Controller
-                .Where(t => t.GetTypeInfo().ImplementedInterfaces.All(i => i.FullName != "System.Web.Mvc.IController")); // no MVC controllers (legacy ASP.NET)
+                .Where(t => t.GetTypeInfo().ImplementedInterfaces.All(i => i.FullName != "System.Web.Mvc.IController")) // no MVC controllers (legacy ASP.NET)
+                .Where(t =>
+                {
+                    return t.GetTypeInfo().GetCustomAttributes()
+                        .SingleOrDefault(a => a.GetType().Name == "ApiExplorerSettingsAttribute")?
+                        .TryGetPropertyValue("IgnoreApi", false) != true;
+
+                });
         }
 
         /// <summary>Gets or sets the generator settings.</summary>
@@ -290,7 +297,7 @@ namespace NSwag.SwaggerGeneration.WebApi
                 .Distinct()
                 .ToList();
         }
-        
+
         private IEnumerable<string> ExpandOptionalHttpPathParameters(string path, MethodInfo method)
         {
             var segments = path.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
