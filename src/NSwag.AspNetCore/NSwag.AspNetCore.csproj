@@ -20,7 +20,7 @@
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-    <Version>10.3.0</Version>
+    <Version>10.4.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="SwaggerUi\**\*" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
