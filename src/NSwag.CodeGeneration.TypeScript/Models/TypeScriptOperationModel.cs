@@ -61,7 +61,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             UnwrappedResultType + " | null" : UnwrappedResultType;
 
         /// <summary>Gets a value indicating whether the operation requires mappings for DTO generation.</summary>
-        public bool RequiresMappings => Responses.Any(r => r.HasType && r.Type != "any");
+        public bool RequiresMappings => Responses.Any(r => r.HasType && r.ActualResponseSchema.UsesComplexObjectSchema());
 
         /// <summary>Gets a value indicating whether the target TypeScript version supports strict null checks.</summary>
         public bool SupportsStrictNullChecks => _settings.TypeScriptGeneratorSettings.TypeScriptVersion >= 2.0m;

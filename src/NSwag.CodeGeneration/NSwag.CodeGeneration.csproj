@@ -61,6 +61,7 @@
     <Compile Include="ControllerGeneratorBaseSettings.cs" />
     <Compile Include="DefaultTemplateFactory.cs" />
     <Compile Include="IClientGenerator.cs" />
+    <Compile Include="JsonSchemaExtensions.cs" />
     <Compile Include="Models\IOperationModel.cs" />
     <Compile Include="OperationNameGenerators\IOperationNameGenerator.cs" />
     <Compile Include="Models\OperationModelBase.cs" />
