@@ -73,28 +73,28 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 <#if(Model.UseTransformOptionsMethod){#>
         return Observable.fromPromise(this.transformOptions(options_)).flatMap(transformedOptions_ => {
             return this.http.request(url_, transformedOptions_);
-        }).flatMap((_response) => {
+        }).flatMap((response_) => {
 <#}else{#>
-        return this.http.request(url_, options_).map((_response) => {
+        return this.http.request(url_, options_).flatMap((response_) => {
 <#}#>
 <#if(Model.UseTransformResultMethod){#>
-            return this.transformResult(url_, _response, (_response) => this.process<#=operation.ActualOperationNameUpper#>(_response));
+            return this.transformResult(url_, response_, (r) => this.process<#=operation.ActualOperationNameUpper#>(r));
 <#}else{#>
-            return this.process<#=operation.ActualOperationNameUpper#>(_response);
+            return this.process<#=operation.ActualOperationNameUpper#>(response_);
 <#}#>
-        }).catch((_response: any) => {
-            if (_response instanceof Response) {
+        }).catch((response_: any) => {
+            if (response_ instanceof Response) {
                 try {
 <#if(Model.UseTransformResultMethod){#>
-                    return this.transformResult(url_, _response, (_response) => this.process<#=operation.ActualOperationNameUpper#>(_response));
+                    return this.transformResult(url_, response_, (r) => this.process<#=operation.ActualOperationNameUpper#>(r));
 <#}else{#>
-                    return this.process<#=operation.ActualOperationNameUpper#>(_response);
+                    return this.process<#=operation.ActualOperationNameUpper#>(response_);
 <#}#>
                 } catch (e) {
                     return <Observable<<#=operation.UnwrappedResultType#>>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<<#=operation.UnwrappedResultType#>>><any>Observable.throw(_response);
+                return <Observable<<#=operation.UnwrappedResultType#>>><any>Observable.throw(response_);
         });
     }
 

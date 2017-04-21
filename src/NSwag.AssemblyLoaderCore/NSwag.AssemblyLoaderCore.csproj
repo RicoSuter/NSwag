@@ -21,7 +21,7 @@
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-    <Version>10.4.0</Version>
+    <Version>10.5.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NJsonSchema" Version="8.32.6319.16936" />
