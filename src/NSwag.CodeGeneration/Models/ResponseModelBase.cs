@@ -35,7 +35,7 @@ namespace NSwag.CodeGeneration.Models
             _exceptionSchema = exceptionSchema;
             _generator = generator;
             _settings = settings;
-            _isPrimarySuccessResponse = isPrimarySuccessResponse; 
+            _isPrimarySuccessResponse = isPrimarySuccessResponse;
 
             StatusCode = statusCode;
         }
@@ -76,7 +76,7 @@ namespace NSwag.CodeGeneration.Models
         public bool IsNullable => _response.IsNullable(_settings.NullHandling);
 
         /// <summary>Gets a value indicating whether the response type inherits from exception.</summary>
-        public bool InheritsExceptionSchema => _response.ActualResponseSchema.InheritsSchema(_exceptionSchema);
+        public bool InheritsExceptionSchema => _response.ActualResponseSchema?.InheritsSchema(_exceptionSchema) == true;
 
         /// <summary>Gets a value indicating whether this is the primary success response.</summary>
         public bool IsPrimarySuccessResponse => _isPrimarySuccessResponse;
@@ -86,10 +86,10 @@ namespace NSwag.CodeGeneration.Models
         {
             if (_isPrimarySuccessResponse)
                 return true;
-            
+
             var primarySuccessResponse = operationModel.Responses.FirstOrDefault(r => r.IsPrimarySuccessResponse);
             return HttpUtilities.IsSuccessStatusCode(StatusCode) && (
-                primarySuccessResponse == null || 
+                primarySuccessResponse == null ||
                 primarySuccessResponse.Type == Type
             );
         }

@@ -131,6 +131,6 @@ namespace NSwag.CodeGeneration.CSharp.Models
         }
         
         private bool RequiresJsonExceptionConverter =>
-            _document.Operations.Any(o => o.Operation.AllResponses.Any(r => r.Value.ActualResponseSchema.InheritsSchema(_exceptionSchema)));
+            _document.Operations.Any(o => o.Operation.AllResponses.Any(r => r.Value.ActualResponseSchema?.InheritsSchema(_exceptionSchema) == true));
     }
 }
