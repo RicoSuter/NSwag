@@ -1,0 +1,26 @@
+﻿{
+  "swaggerGenerator": {
+    "webApiToSwagger": {
+      "assemblyPaths": [
+        "bin/NSwag.VersionMissmatchTest.exe"
+      ],
+      "referencePaths": [],
+      "isAspNetCore": false,
+      "useBindingRedirects": false,
+      "controllerNames": [
+        "NSwag.VersionMissmatchTest.FooController"
+      ],
+      "defaultUrlTemplate": "api/{controller}/{id?}",
+      "defaultPropertyNameHandling": "Default",
+      "defaultEnumHandling": "Integer",
+      "flattenInheritanceHierarchy": false,
+      "generateKnownTypes": true,
+      "generateXmlObjects": false,
+      "addMissingPathParameters": false,
+      "infoTitle": "Web API Swagger specification",
+      "infoVersion": "1.0.0",
+      "output": "../NSwag.CodeGeneration.Tests/Output.json"
+    }
+  },
+  "codeGenerators": {}
+}

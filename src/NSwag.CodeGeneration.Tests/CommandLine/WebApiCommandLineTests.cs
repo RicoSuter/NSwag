@@ -42,7 +42,21 @@ namespace NSwag.CodeGeneration.Tests.CommandLine
             Assert.IsTrue(output.Contains("export class Test implements ITest {"));
         }
 
-        private const string OutputFile = "Output.json";
+        [TestMethod]
+        public async Task When_config_file_with_project_with_newer_json_net_is_run_then_property_is_correct()
+        {
+            //// Arrange
+            var command = "run \"" + Path.GetFullPath("../../../NSwag.VersionMissmatchTest/nswag.json") + "\"";
+
+            //// Act
+            var output = RunCommandLine(command);
+            var document = await SwaggerDocument.FromJsonAsync(output);
+
+            //// Assert
+            Assert.IsTrue(document.ToJson().Contains("\"Bar\": {"));
+        }
+
+        private const string OutputFile = "../../Output.json";
 
         private static string RunCommandLine(string command)
         {

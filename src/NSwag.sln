@@ -117,6 +117,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "08 Dotnet Core", "08 Dotnet
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Demo.Web", "NSwag.Demo.Web\NSwag.Demo.Web.csproj", "{37AE85DE-B127-4861-B925-1A67A35F314A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.VersionMissmatchTest", "NSwag.VersionMissmatchTest\NSwag.VersionMissmatchTest.csproj", "{8B57755E-2868-434D-A008-45CE2EDBD879}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -661,6 +663,24 @@ Global
 		{37AE85DE-B127-4861-B925-1A67A35F314A}.ReleaseTypeScriptStrict|x64.Build.0 = Release|x64
 		{37AE85DE-B127-4861-B925-1A67A35F314A}.ReleaseTypeScriptStrict|x86.ActiveCfg = Release|Any CPU
 		{37AE85DE-B127-4861-B925-1A67A35F314A}.ReleaseTypeScriptStrict|x86.Build.0 = Release|Any CPU
+		{8B57755E-2868-434D-A008-45CE2EDBD879}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B57755E-2868-434D-A008-45CE2EDBD879}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B57755E-2868-434D-A008-45CE2EDBD879}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8B57755E-2868-434D-A008-45CE2EDBD879}.Debug|x64.Build.0 = Debug|Any CPU
+		{8B57755E-2868-434D-A008-45CE2EDBD879}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8B57755E-2868-434D-A008-45CE2EDBD879}.Debug|x86.Build.0 = Debug|Any CPU
+		{8B57755E-2868-434D-A008-45CE2EDBD879}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B57755E-2868-434D-A008-45CE2EDBD879}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B57755E-2868-434D-A008-45CE2EDBD879}.Release|x64.ActiveCfg = Release|Any CPU
+		{8B57755E-2868-434D-A008-45CE2EDBD879}.Release|x64.Build.0 = Release|Any CPU
+		{8B57755E-2868-434D-A008-45CE2EDBD879}.Release|x86.ActiveCfg = Release|Any CPU
+		{8B57755E-2868-434D-A008-45CE2EDBD879}.Release|x86.Build.0 = Release|Any CPU
+		{8B57755E-2868-434D-A008-45CE2EDBD879}.ReleaseTypeScriptStrict|Any CPU.ActiveCfg = Release|Any CPU
+		{8B57755E-2868-434D-A008-45CE2EDBD879}.ReleaseTypeScriptStrict|Any CPU.Build.0 = Release|Any CPU
+		{8B57755E-2868-434D-A008-45CE2EDBD879}.ReleaseTypeScriptStrict|x64.ActiveCfg = Release|Any CPU
+		{8B57755E-2868-434D-A008-45CE2EDBD879}.ReleaseTypeScriptStrict|x64.Build.0 = Release|Any CPU
+		{8B57755E-2868-434D-A008-45CE2EDBD879}.ReleaseTypeScriptStrict|x86.ActiveCfg = Release|Any CPU
+		{8B57755E-2868-434D-A008-45CE2EDBD879}.ReleaseTypeScriptStrict|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -700,5 +720,6 @@ Global
 		{6162580C-E6FF-4E11-A5AD-089D7F411E78} = {0AF934BD-80BE-483E-BCB7-D9B3F7B816E3}
 		{A3ADF5C1-1675-4699-8BD5-7F7BC526259E} = {0AF934BD-80BE-483E-BCB7-D9B3F7B816E3}
 		{37AE85DE-B127-4861-B925-1A67A35F314A} = {CCE905FB-0DE1-4A8A-89AE-D84E9367D35C}
+		{8B57755E-2868-434D-A008-45CE2EDBD879} = {F31829C6-CEE4-4242-A4D9-820C36127B0B}
 	EndGlobalSection
 EndGlobal
