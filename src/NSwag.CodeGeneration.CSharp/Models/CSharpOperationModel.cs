@@ -130,7 +130,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
                         if (r.ExpectedSchemas?.Any() == true)
                         {
                             return r.ExpectedSchemas
-                                .Where(s => s.Schema.ActualSchema.InheritsSchema(_resolver.ExceptionSchema))
+                                .Where(s => s.Schema.ActualSchema?.InheritsSchema(_resolver.ExceptionSchema) == true)
                                 .Select(s =>
                                 {
                                     var schema = s.Schema;

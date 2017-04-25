@@ -42,7 +42,9 @@ namespace NSwag.SwaggerGeneration
             if (File.Exists(Settings.AssemblyPath))
             {
 #if FullNet
-                using (var isolated = new AppDomainIsolation<NetAssemblyLoader>(Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPath)), Settings.AssemblyConfig))
+                var assemblyDirectory = Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPath));
+                using (var isolated = new AppDomainIsolation<NetAssemblyLoader>(
+                    assemblyDirectory, Settings.AssemblyConfig))
                     return isolated.Object.GetExportedClassNames(Settings.AssemblyPath, GetAllReferencePaths(Settings));
 #else
                 var loader = new NetAssemblyLoader();
@@ -59,7 +61,9 @@ namespace NSwag.SwaggerGeneration
         public override async Task<SwaggerDocument> GenerateAsync(string[] classNames)
         {
 #if FullNet
-            using (var isolated = new AppDomainIsolation<NetAssemblyLoader>(Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPath)), Settings.AssemblyConfig))
+            var assemblyDirectory = Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPath));
+            using (var isolated = new AppDomainIsolation<NetAssemblyLoader>(
+                assemblyDirectory, Settings.AssemblyConfig))
             {
                 var json = await Task.Run(() => isolated.Object.FromAssemblyType(classNames, JsonConvert.SerializeObject(Settings))).ConfigureAwait(false);
                 return await SwaggerDocument.FromJsonAsync(json).ConfigureAwait(false);
