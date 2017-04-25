@@ -20,16 +20,13 @@ namespace NSwag.CodeGeneration.Infrastructure
             if (string.IsNullOrEmpty(assemblyDirectory))
                 throw new ArgumentNullException(nameof(assemblyDirectory));
 
-            using (var transformer = new AssemblyConfigurationFileTransformer())
-            {
-                var setup = new AppDomainSetup
-                {
-                    ShadowCopyFiles = "true",
-                    ConfigurationFile = transformer.GetConfigurationPath(assemblyDirectory, assemblyConfiguration)
-                };
+            var configuration = AssemblyConfigurationFileTransformer.GetConfigurationBytes(assemblyDirectory, assemblyConfiguration);
 
-                Domain = AppDomain.CreateDomain("AppDomainIsolation:" + Guid.NewGuid(), null, setup);
-            }
+            var setup = new AppDomainSetup();
+            setup.ShadowCopyFiles = "true";
+            setup.SetConfigurationBytes(configuration);
+
+            Domain = AppDomain.CreateDomain("AppDomainIsolation:" + Guid.NewGuid(), null, setup);
 
             var type = typeof(T);
             LoadToolchainAssemblies(type);
