@@ -51,7 +51,9 @@ namespace NSwag.SwaggerGeneration.WebApi
                 throw new FileNotFoundException("The assembly config file could not be found.", Settings.AssemblyConfig);
 
 #if FullNet
-            using (var isolated = new AppDomainIsolation<WebApiAssemblyLoader>(Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPaths.First())), Settings.AssemblyConfig))
+            var assemblyDirectory = Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPaths.First())); 
+            using (var isolated = new AppDomainIsolation<WebApiAssemblyLoader>(
+                assemblyDirectory, Settings.AssemblyConfig))
                 return isolated.Object.GetControllerClasses(Settings.AssemblyPaths, GetAllReferencePaths(Settings));
 #else
             var loader = new WebApiAssemblyLoader();
@@ -72,7 +74,9 @@ namespace NSwag.SwaggerGeneration.WebApi
                 throw new InvalidOperationException("The TypeNameGenerator cannot be customized when loading types from external assemblies.");
 
 #if FullNet
-            using (var isolated = new AppDomainIsolation<WebApiAssemblyLoader>(Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPaths.First())), Settings.AssemblyConfig))
+            var assemblyDirectory = Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPaths.First()));
+            using (var isolated = new AppDomainIsolation<WebApiAssemblyLoader>(
+                assemblyDirectory, Settings.AssemblyConfig))
             {
                 var document = await Task.Run(() => isolated.Object.GenerateForControllers(controllerClassNames, JsonConvert.SerializeObject(Settings))).ConfigureAwait(false);
                 return await SwaggerDocument.FromJsonAsync(document).ConfigureAwait(false);
