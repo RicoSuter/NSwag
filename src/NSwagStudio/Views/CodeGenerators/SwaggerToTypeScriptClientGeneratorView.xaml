@@ -139,7 +139,7 @@
                                 <CheckBox IsChecked="{Binding Command.HandleReferences, Mode=TwoWay}" 
                                           Content="Handle JSON references ($ref, $id, $values) (experimental, generates more code)"
                                           ToolTip="HandleReferences"
-                                          Margin="0,0,0,6" />
+                                          Margin="0,0,0,12" />
 
                                 <CheckBox IsChecked="{Binding Command.GenerateDefaultValues, Mode=TwoWay}" 
                                           ToolTip="GenerateDefaultValues" 
@@ -157,6 +157,7 @@
                                           Margin="0,0,0,12" />
 
                                 <CheckBox IsChecked="{Binding Command.GenerateConstructorInterface, Mode=TwoWay}" 
+                                          Visibility="{Binding Command.TypeStyle, ConverterParameter='Class', Converter={StaticResource EqualityConverter}}"
                                           Content="Generate constructor interface which is used to initialize the class"
                                           ToolTip="GenerateConstructorInterface"
                                           Margin="0,0,0,12" />

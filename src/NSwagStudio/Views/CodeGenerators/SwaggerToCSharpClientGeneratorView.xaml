@@ -39,7 +39,7 @@
                     <CheckBox IsChecked="{Binding Command.GenerateContractsOutput, Mode=TwoWay}" 
                               ToolTip="GenerateContractsOutput"
                               Content="Generate contracts output" 
-                              Margin="0,0,0,6" />
+                              Margin="0,0,0,12" />
 
                     <StackPanel Visibility="{Binding Command.GenerateContractsOutput, Converter={StaticResource VisibilityConverter}}">
                         <TextBlock Text="Contracts Namespace"
@@ -68,7 +68,7 @@
                     <CheckBox IsChecked="{Binding Command.GenerateExceptionClasses, Mode=TwoWay}" 
                               Content="Generate exception classes (when disabled, exception classes must be imported)" 
                               ToolTip="GenerateExceptionClasses"
-                              Margin="0,0,0,6" />
+                              Margin="0,0,0,12" />
 
                     <StackPanel Visibility="{Binding Command.GenerateExceptionClasses, Converter={StaticResource VisibilityConverter}}">
                         <TextBlock Text="Exception class name (may contain the '{controller}' placeholder)" 
@@ -81,11 +81,11 @@
 
                     <CheckBox IsChecked="{Binding Command.WrapDtoExceptions, Mode=TwoWay}" 
                               ToolTip="WrapDtoExceptions"
-                              Content="Wrap DTO exceptions in a SwaggerException instance" Margin="0,0,0,6" />
+                              Content="Wrap DTO exceptions in a SwaggerException instance" Margin="0,0,0,12" />
 
                     <CheckBox IsChecked="{Binding Command.WrapResponses, Mode=TwoWay}" 
                               ToolTip="WrapResponses"
-                              Content="Wrap success responses to allow full response access (experimental)" Margin="0,0,0,6" />
+                              Content="Wrap success responses to allow full response access (experimental)" Margin="0,0,0,12" />
 
                     <StackPanel Visibility="{Binding Command.WrapResponses, Converter={StaticResource VisibilityConverter}}">
                         <CheckBox IsChecked="{Binding Command.GenerateResponseClasses, Mode=TwoWay}" 
@@ -181,7 +181,7 @@
                             <CheckBox IsChecked="{Binding Command.HandleReferences, Mode=TwoWay}" 
                                       Content="Use preserve references handling (All) in the JSON serializer"
                                       ToolTip="HandleReferences"
-                                      Margin="0,0,0,6" />
+                                      Margin="0,0,0,12" />
 
                             <CheckBox IsChecked="{Binding Command.RequiredPropertiesMustBeDefined, Mode=TwoWay}" ToolTip="RequiredPropertiesMustBeDefined" Margin="0,0,0,12">
                                 <TextBlock Text="Required properties must be defined in JSON (sets Required.Always when the property is required)" TextWrapping="Wrap" />

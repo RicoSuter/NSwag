@@ -33,7 +33,7 @@
                     <TextBox Text="{Binding Command.Namespace, Mode=TwoWay}" Margin="0,0,0,12" />
 
                     <CheckBox IsChecked="{Binding Command.WrapResponses, Mode=TwoWay}" 
-                              Content="Wrap success responses to allow full response access (experimental)" Margin="0,0,0,6" />
+                              Content="Wrap success responses to allow full response access (experimental)" Margin="0,0,0,12" />
 
                     <StackPanel Visibility="{Binding Command.WrapResponses, Converter={StaticResource VisibilityConverter}}">
                         <CheckBox IsChecked="{Binding Command.GenerateResponseClasses, Mode=TwoWay}" 
@@ -95,7 +95,7 @@
                             <CheckBox IsChecked="{Binding Command.HandleReferences, Mode=TwoWay}" 
                                       Content="Use preserve references handling (All) in the JSON serializer"
                                       ToolTip="HandleReferences"
-                                      Margin="0,0,0,6" />
+                                      Margin="0,0,0,12" />
 
                             <TextBlock Text="Class Style" FontWeight="Bold" Margin="0,0,0,6" />
                             <ComboBox SelectedItem="{Binding Command.ClassStyle, Mode=TwoWay}" 
