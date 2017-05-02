@@ -25,7 +25,7 @@ namespace NSwag.SwaggerGeneration.WebApi
             OperationProcessors.Add(new OperationResponseProcessor(this));
         }
 
-        /// <summary>Gets or sets the default Web API URL template.</summary>
+        /// <summary>Gets or sets the default Web API URL template (default for Web API: 'api/{controller}/{id}'; for MVC projects: '{controller}/{action}/{id?}').</summary>
         public string DefaultUrlTemplate { get; set; } = "api/{controller}/{id?}";
 
         /// <summary>Gets or sets the Swagger specification title.</summary>

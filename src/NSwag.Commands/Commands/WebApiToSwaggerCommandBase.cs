@@ -70,7 +70,7 @@ namespace NSwag.Commands
         [Argument(Name = "Controllers", IsRequired = false, Description = "The Web API controller full class names or empty to load all controllers from the assembly (comma separated).")]
         public string[] ControllerNames { get; set; }
 
-        [Argument(Name = "DefaultUrlTemplate", IsRequired = false, Description = "The Web API default URL template (default: 'api/{controller}/{id}').")]
+        [Argument(Name = "DefaultUrlTemplate", IsRequired = false, Description = "The Web API default URL template (default for Web API: 'api/{controller}/{id}'; for MVC projects: '{controller}/{action}/{id?}').")]
         public string DefaultUrlTemplate
         {
             get { return Settings.DefaultUrlTemplate; }
