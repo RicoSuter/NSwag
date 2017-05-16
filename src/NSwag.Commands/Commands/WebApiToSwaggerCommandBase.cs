@@ -64,6 +64,7 @@ namespace NSwag.Commands
         [Argument(Name = "Controller", IsRequired = false, Description = "The Web API controller full class name or empty to load all controllers from the assembly.")]
         public string ControllerName
         {
+            get { return ControllerNames.FirstOrDefault(); }
             set { ControllerNames = new[] { value }; }
         }
 
