@@ -1,156 +1,51 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{46634C60-BA7D-43E6-9049-6AD461488C39}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NSwag.CodeGeneration</RootNamespace>
-    <AssemblyName>NSwag.AssemblyLoader</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <TargetFrameworks>net451</TargetFrameworks>
+    <Description>NSwag: The Swagger API toolchain for .NET and TypeScript</Description>
+    <Version>11.0.0</Version>
+    <PackageTags>
+    </PackageTags>
+    <Copyright>Copyright © Rico Suter, 2017</Copyright>
+    <PackageLicenseUrl>
+    </PackageLicenseUrl>
+    <PackageProjectUrl>
+    </PackageProjectUrl>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>NSwag.snk</AssemblyOriginatorKeyFile>
+    <Authors>Rico Suter</Authors>
+    <Company />
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;FullNet</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>bin\Debug\NSwag.AssemblyLoader.xml</DocumentationFile>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net451|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;FullNet;NET451</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;FullNet</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\NSwag.AssemblyLoader.xml</DocumentationFile>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DocumentationFile>bin\Debug\NSwag.AssemblyLoader.xml</DocumentationFile>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <DocumentationFile>bin\Release\NSwag.AssemblyLoader.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net451|AnyCPU'">
+    <DefineConstants>TRACE;RELEASE;NET451;FullNet</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NConsole, Version=3.4.6206.26897, Culture=neutral, PublicKeyToken=0f839b9a5b9cbd65, processorArchitecture=MSIL">
-      <HintPath>..\packages\NConsole.3.4.6206.26897\lib\net45\NConsole.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NJsonSchema, Version=9.1.1.0, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.9.1.1\lib\net45\NJsonSchema.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="NJsonSchema" Version="9.1.1" />
+    <PackageReference Include="NConsole" Version="3.4.6206.26897" />
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\NSwag.AssemblyLoaderCore\Commands\AssemblyTypeToSwaggerCommand.cs">
-      <Link>Commands\AssemblyTypeToSwaggerCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\NSwag.AssemblyLoaderCore\Commands\Documents\CreateDocumentCommand.cs">
-      <Link>Commands\Documents\CreateDocumentCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\NSwag.AssemblyLoaderCore\Commands\Documents\ExecuteDocumentCommand.cs">
-      <Link>Commands\Documents\ExecuteDocumentCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\NSwag.AssemblyLoaderCore\Commands\WebApiToSwaggerCommand.cs">
-      <Link>Commands\WebApiToSwaggerCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\NSwag.AssemblyLoaderCore\Infrastructure\AssemblyLoader.cs">
-      <Link>Infrastructure\AssemblyLoader.cs</Link>
-    </Compile>
-    <Compile Include="..\NSwag.AssemblyLoaderCore\NSwagDocument.cs">
-      <Link>NSwagDocument.cs</Link>
-    </Compile>
-    <Compile Include="..\NSwag.AssemblyLoaderCore\SwaggerGenerators\AssemblyTypeToSwaggerGenerator.cs">
-      <Link>SwaggerGenerators\AssemblyTypeToSwaggerGenerator.cs</Link>
-    </Compile>
-    <Compile Include="..\NSwag.AssemblyLoaderCore\SwaggerGenerators\WebApi\WebApiAssemblyToSwaggerGenerator.cs">
-      <Link>SwaggerGenerators\WebApi\WebApiAssemblyToSwaggerGenerator.cs</Link>
-    </Compile>
-    <Compile Include="..\NSwag.AssemblyLoaderCore\Utilities\PathUtilities.cs">
-      <Link>Utilities\PathUtilities.cs</Link>
-    </Compile>
-    <Compile Include="Infrastructure\AppDomainIsolation.cs" />
-    <Compile Include="Infrastructure\AssemblyConfigurationFileTransformer.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\NSwag.AssemblyLoaderCore\Commands\AssemblyTypeToSwaggerCommand.cs" Link="Commands\AssemblyTypeToSwaggerCommand.cs" />
+    <Compile Include="..\NSwag.AssemblyLoaderCore\Commands\Documents\CreateDocumentCommand.cs" Link="Commands\Documents\CreateDocumentCommand.cs" />
+    <Compile Include="..\NSwag.AssemblyLoaderCore\Commands\Documents\ExecuteDocumentCommand.cs" Link="Commands\Documents\ExecuteDocumentCommand.cs" />
+    <Compile Include="..\NSwag.AssemblyLoaderCore\Commands\WebApiToSwaggerCommand.cs" Link="Commands\WebApiToSwaggerCommand.cs" />
+    <Compile Include="..\NSwag.AssemblyLoaderCore\Infrastructure\AssemblyLoader.cs" Link="Infrastructure\AssemblyLoader.cs" />
+    <Compile Include="..\NSwag.AssemblyLoaderCore\NSwagDocument.cs" Link="NSwagDocument.cs" />
+    <Compile Include="..\NSwag.AssemblyLoaderCore\SwaggerGenerators\AssemblyTypeToSwaggerGenerator.cs" Link="SwaggerGenerators\AssemblyTypeToSwaggerGenerator.cs" />
+    <Compile Include="..\NSwag.AssemblyLoaderCore\SwaggerGenerators\WebApi\WebApiAssemblyToSwaggerGenerator.cs" Link="SwaggerGenerators\WebApi\WebApiAssemblyToSwaggerGenerator.cs" />
+    <Compile Include="..\NSwag.AssemblyLoaderCore\Utilities\PathUtilities.cs" Link="Utilities\PathUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj">
-      <Project>{ca084154-e758-4a44-938d-7806af2dd886}</Project>
-      <Name>NSwag.Annotations</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NSwag.Commands\NSwag.Commands.csproj">
-      <Project>{71b39c21-46a2-471b-aace-226c575b8ac1}</Project>
-      <Name>NSwag.Commands</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj">
-      <Project>{2E6174AA-FC75-4821-9E86-51B30568BEC0}</Project>
-      <Name>NSwag.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NSwag.SwaggerGeneration.WebApi\NSwag.SwaggerGeneration.WebApi.csproj">
-      <Project>{8A547CB0-930F-466D-92EB-E780FF14C0A6}</Project>
-      <Name>NSwag.SwaggerGeneration.WebApi</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NSwag.SwaggerGeneration\NSwag.SwaggerGeneration.csproj">
-      <Project>{5EBE3EFF-9558-45F2-9C8F-5C8CFB74D574}</Project>
-      <Name>NSwag.SwaggerGeneration</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj" />
+    <ProjectReference Include="..\NSwag.Commands\NSwag.Commands.csproj" />
+    <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj" />
+    <ProjectReference Include="..\NSwag.SwaggerGeneration.WebApi\NSwag.SwaggerGeneration.WebApi.csproj" />
+    <ProjectReference Include="..\NSwag.SwaggerGeneration\NSwag.SwaggerGeneration.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="NSwag.AssemblyLoader.nuspec" />
-    <None Include="NSwag.snk" />
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <Folder Include="Properties\" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

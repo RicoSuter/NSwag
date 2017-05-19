@@ -17,7 +17,10 @@
     <Company />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net45|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG;NET45;AspNetOwin</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;AspNetOwin;NET45</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net45|AnyCPU'">
+    <DefineConstants>TRACE;RELEASE;AspNetOwin;NET45</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\NSwag.AspNetCore\OAuth2ClientSettings.cs" Link="OAuth2ClientSettings.cs" />
@@ -26,7 +29,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Owin" Version="3.1.0" />
-    <PackageReference Include="Microsoft.Owin.FileSystems" Version="3.1.0" />
     <PackageReference Include="Microsoft.Owin.StaticFiles" Version="3.1.0" />
     <PackageReference Include="NJsonSchema" Version="9.1.1" />
     <PackageReference Include="Owin" Version="1.0" />
