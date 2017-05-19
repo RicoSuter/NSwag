@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSwag.Demo.Web.Models;
 
 namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
 {
@@ -87,6 +86,11 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
 
             //// Assert
             Assert.IsTrue(swagger.Paths.ContainsKey("/api/Persons/RegexPathParameter/{deviceType}/{deviceId}/energyConsumed"));
+        }
+
+        public class Person
+        {
+            public string Name { get; set; }
         }
 
         [RoutePrefix("api/users/{userId?}")]

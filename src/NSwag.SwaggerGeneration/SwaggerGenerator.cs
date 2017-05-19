@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Serialization;
 using NJsonSchema;
 using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
@@ -41,7 +42,7 @@ namespace NSwag.SwaggerGeneration
         /// <returns>The created parameter.</returns>
         public async Task<SwaggerParameter> CreatePrimitiveParameterAsync(string name, ParameterInfo parameter)
         {
-            var documentation = await parameter.GetXmlDocumentationAsync().ConfigureAwait(false);
+            var documentation = await parameter.GetDescriptionAsync(parameter.GetCustomAttributes()).ConfigureAwait(false);
             return await CreatePrimitiveParameterAsync(name, documentation, parameter.ParameterType, parameter.GetCustomAttributes().ToList()).ConfigureAwait(false);
         }
 
@@ -80,7 +81,7 @@ namespace NSwag.SwaggerGeneration
         /// <returns></returns>
         public async Task<SwaggerParameter> CreatePrimitiveParameterAsync(string name, string description, Type parameterType, IList<Attribute> parentAttributes)
         {
-            var typeDescription = JsonObjectTypeDescription.FromType(parameterType, parentAttributes, _settings.DefaultEnumHandling);
+            var typeDescription = JsonObjectTypeDescription.FromType(parameterType, ResolveContract(parameterType), parentAttributes, _settings.DefaultEnumHandling);
 
             SwaggerParameter operationParameter;
             if (typeDescription.IsEnum)
@@ -103,7 +104,7 @@ namespace NSwag.SwaggerGeneration
                     parameterType = typeDescription.Type.HasFlag(JsonObjectType.Object) ? typeof(string) : parameterType; // object types must be treated as string
 
                 operationParameter = await _schemaGenerator.GenerateAsync<SwaggerParameter>(parameterType, parentAttributes, _schemaResolver).ConfigureAwait(false);
-                _schemaGenerator.ApplyPropertyAnnotations(operationParameter, parameterType, parentAttributes, typeDescription);
+                _schemaGenerator.ApplyPropertyAnnotations(operationParameter, new Newtonsoft.Json.Serialization.JsonProperty(), parameterType, parentAttributes, typeDescription);
 
                 // check if the type mapper did not properly change the type to a primitive
                 if (hasTypeMapper && typeDescription.Type.HasFlag(JsonObjectType.Object) && operationParameter.Type == JsonObjectType.Object)
@@ -123,6 +124,14 @@ namespace NSwag.SwaggerGeneration
             return operationParameter;
         }
 
+        /// <summary>Gets the contract for the given type.</summary>
+        /// <param name="parameterType"></param>
+        /// <returns>The contract.</returns>
+        public JsonContract ResolveContract(Type parameterType)
+        {
+            return _settings.ActualContractResolver.ResolveContract(parameterType);
+        }
+
         /// <summary>Creates a primitive parameter for the given parameter information reflection object.</summary>
         /// <param name="name">The name.</param>
         /// <param name="parameter">The parameter.</param>
@@ -131,7 +140,7 @@ namespace NSwag.SwaggerGeneration
         {
             var isRequired = IsParameterRequired(parameter);
 
-            var typeDescription = JsonObjectTypeDescription.FromType(parameter.ParameterType, parameter.GetCustomAttributes(), _settings.DefaultEnumHandling);
+            var typeDescription = JsonObjectTypeDescription.FromType(parameter.ParameterType, ResolveContract(parameter.ParameterType), parameter.GetCustomAttributes(), _settings.DefaultEnumHandling);
             var operationParameter = new SwaggerParameter
             {
                 Name = name,
@@ -141,10 +150,7 @@ namespace NSwag.SwaggerGeneration
                 Schema = await GenerateAndAppendSchemaFromTypeAsync(parameter.ParameterType, !isRequired, parameter.GetCustomAttributes()).ConfigureAwait(false),
             };
 
-            var description = await parameter.GetXmlDocumentationAsync().ConfigureAwait(false);
-            if (description != string.Empty)
-                operationParameter.Description = description;
-
+            operationParameter.Description = await parameter.GetDescriptionAsync(parameter.GetCustomAttributes()).ConfigureAwait(false);
             return operationParameter;
         }
 
@@ -164,7 +170,7 @@ namespace NSwag.SwaggerGeneration
             if (IsFileResponse(type))
                 return new JsonSchema4 { Type = JsonObjectType.File };
 
-            var typeDescription = JsonObjectTypeDescription.FromType(type, parentAttributes, _settings.DefaultEnumHandling);
+            var typeDescription = JsonObjectTypeDescription.FromType(type, ResolveContract(type), parentAttributes, _settings.DefaultEnumHandling);
             if (typeDescription.Type.HasFlag(JsonObjectType.Object) && !typeDescription.IsDictionary)
             {
                 if (type == typeof(object))

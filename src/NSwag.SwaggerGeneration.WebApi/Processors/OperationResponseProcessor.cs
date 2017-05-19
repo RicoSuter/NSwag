@@ -37,7 +37,8 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
         public async Task<bool> ProcessAsync(OperationProcessorContext context)
         {
-            var successXmlDescription = await context.MethodInfo.ReturnParameter.GetXmlDocumentationAsync().ConfigureAwait(false) ?? string.Empty;
+            var parameter = context.MethodInfo.ReturnParameter;
+            var successXmlDescription = await parameter.GetDescriptionAsync(parameter.GetCustomAttributes()).ConfigureAwait(false) ?? string.Empty;
 
             var responseTypeAttributes = context.MethodInfo.GetCustomAttributes()
                 .Where(a => a.GetType().Name == "ResponseTypeAttribute" ||
@@ -97,7 +98,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                     var returnType = group.Select(r => r.ResponseType).FindCommonBaseType();
                     var description = string.Join("\nor\n", group.Select(r => r.Description));
 
-                    var typeDescription = JsonObjectTypeDescription.FromType(returnType, context.MethodInfo.ReturnParameter?.GetCustomAttributes(), _settings.DefaultEnumHandling);
+                    var typeDescription = JsonObjectTypeDescription.FromType(returnType, _settings.ResolveContract(returnType), context.MethodInfo.ReturnParameter?.GetCustomAttributes(), _settings.DefaultEnumHandling);
                     var response = new SwaggerResponse
                     {
                         Description = description ?? string.Empty
@@ -126,7 +127,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                 var expectedSchemas = new List<JsonExpectedSchema>();
                 foreach (var response in group)
                 {
-                    var isNullable = JsonObjectTypeDescription.FromType(response.ResponseType, null, _settings.DefaultEnumHandling).IsNullable;
+                    var isNullable = JsonObjectTypeDescription.FromType(response.ResponseType, _settings.ResolveContract(response.ResponseType), null, _settings.DefaultEnumHandling).IsNullable;
                     var schema = await context.SwaggerGenerator.GenerateAndAppendSchemaFromTypeAsync(response.ResponseType, isNullable, null).ConfigureAwait(false);
                     expectedSchemas.Add(new JsonExpectedSchema
                     {
@@ -160,14 +161,14 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                 IEnumerable<Attribute> attributes;
                 try
                 {
-                    attributes = methodInfo.ReturnParameter?.GetCustomAttributes(true);
+                    attributes = methodInfo.ReturnParameter?.GetCustomAttributes(true).OfType<Attribute>();
                 }
                 catch
                 {
-                    attributes = methodInfo.ReturnParameter?.GetCustomAttributes(false);
+                    attributes = methodInfo.ReturnParameter?.GetCustomAttributes(false).OfType<Attribute>();
                 }
 
-                var typeDescription = JsonObjectTypeDescription.FromType(returnType, attributes, _settings.DefaultEnumHandling);
+                var typeDescription = JsonObjectTypeDescription.FromType(returnType, _settings.ResolveContract(returnType), attributes, _settings.DefaultEnumHandling);
                 operation.Responses["200"] = new SwaggerResponse
                 {
                     Description = responseDescription,

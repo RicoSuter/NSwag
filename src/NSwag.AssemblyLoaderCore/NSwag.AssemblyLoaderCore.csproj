@@ -24,14 +24,18 @@
     <Version>10.6.0</Version>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="NJsonSchema" Version="*" />
-    <PackageReference Include="NSwag.Commands" Version="*" />
-    <PackageReference Include="NSwag.SwaggerGeneration" Version="*" />
+    <PackageReference Include="NJsonSchema" Version="9.1.1" />
     <PackageReference Include="System.Net.Http" Version="4.1.1" />
     <PackageReference Include="System.Runtime.Loader" Version="4.0.0" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
     <PackageReference Include="System.IO.FileSystem" Version="4.0.1" />
     <PackageReference Include="System.Xml.XPath.XDocument" Version="4.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NSwag.Commands\NSwag.Commands.csproj" />
+    <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj" />
+    <ProjectReference Include="..\NSwag.SwaggerGeneration.WebApi\NSwag.SwaggerGeneration.WebApi.csproj" />
+    <ProjectReference Include="..\NSwag.SwaggerGeneration\NSwag.SwaggerGeneration.csproj" />
   </ItemGroup>
 </Project>

@@ -29,9 +29,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="1.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.0.2" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="1.0.1" />
-    <PackageReference Include="NJsonSchema" Version="*" />
-    <PackageReference Include="NSwag.Annotations" Version="*" />
-    <PackageReference Include="NSwag.SwaggerGeneration.WebApi" Version="*" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net451' ">
     <Reference Include="System" />
@@ -40,5 +37,11 @@
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
     <PackageReference Include="System.IO.FileSystem" Version="4.0.1" />
     <PackageReference Include="System.Xml.XPath.XDocument" Version="4.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj" />
+    <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj" />
+    <ProjectReference Include="..\NSwag.SwaggerGeneration.WebApi\NSwag.SwaggerGeneration.WebApi.csproj" />
+    <ProjectReference Include="..\NSwag.SwaggerGeneration\NSwag.SwaggerGeneration.csproj" />
   </ItemGroup>
 </Project>

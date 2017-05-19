@@ -6,8 +6,10 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using NJsonSchema.Generation;
 using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.WebApi.Processors;
@@ -60,5 +62,10 @@ namespace NSwag.SwaggerGeneration.WebApi
 
         /// <summary>Gets or sets a value indicating whether to add path parameters which are missing in the action method.</summary>
         public bool AddMissingPathParameters { get; set; }
+
+        internal JsonContract ResolveContract(Type parameterType)
+        {
+            return ActualContractResolver.ResolveContract(parameterType);
+        }
     }
 }

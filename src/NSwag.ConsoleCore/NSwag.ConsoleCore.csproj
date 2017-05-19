@@ -24,6 +24,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\NSwag.AssemblyLoaderCore\NSwag.AssemblyLoaderCore.csproj" />
+    <ProjectReference Include="..\NSwag.Commands\NSwag.Commands.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="NConsole" Version="3.4.6206.26897" />
