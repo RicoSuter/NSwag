@@ -10,6 +10,7 @@ using System;
 using System.Threading.Tasks;
 using NJsonSchema;
 using NJsonSchema.Generation;
+using Newtonsoft.Json.Serialization; 
 
 namespace NSwag.SwaggerGeneration
 {
@@ -28,14 +29,16 @@ namespace NSwag.SwaggerGeneration
         /// <summary>Generates the properties for the given type and schema.</summary>
         /// <typeparam name="TSchemaType">The type of the schema type.</typeparam>
         /// <param name="type">The types.</param>
+        /// <param name="objectContract">The JSON object contract.</param>
         /// <param name="schema">The properties</param>
         /// <param name="schemaResolver">The schema resolver.</param>
-        protected override async Task GenerateObjectAsync<TSchemaType>(Type type, TSchemaType schema, JsonSchemaResolver schemaResolver)
+        /// <returns></returns>
+        protected override async Task GenerateObjectAsync<TSchemaType>(Type type, JsonObjectContract objectContract, TSchemaType schema, JsonSchemaResolver schemaResolver)
         {
             if (_isRootType)
             {
                 _isRootType = false;
-                await base.GenerateObjectAsync(type, schema, schemaResolver);
+                await base.GenerateObjectAsync(type, objectContract, schema, schemaResolver);
                 _isRootType = true;
             }
             else

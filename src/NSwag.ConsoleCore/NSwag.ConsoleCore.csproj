@@ -1,29 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Description>NSwag: The Swagger API toolchain for .NET and TypeScript</Description>
-    <Authors>Rico Suter</Authors>
     <TargetFrameworks>netcoreapp1.0;netcoreapp1.1</TargetFrameworks>
-    <AssemblyName>dotnet-nswag</AssemblyName>
-    <OutputType>Exe</OutputType>
-    <PackageId>NSwag.ConsoleCore</PackageId>
-    <PackageTags>Swagger;Documentation;WebApi;AspNet;TypeScript;CodeGen</PackageTags>
-    <PackageIconUrl>https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png</PackageIconUrl>
-    <PackageProjectUrl>https://github.com/NSwag/NSwag</PackageProjectUrl>
+    <Description>NSwag: The Swagger API toolchain for .NET and TypeScript</Description>
+    <Version>11.0.0</Version>
+    <PackageTags>Swagger Documentation WebApi AspNet TypeScript CodeGen</PackageTags>
+    <Copyright>Copyright © Rico Suter, 2017</Copyright>
     <PackageLicenseUrl>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</PackageLicenseUrl>
-    <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
-    <RuntimeFrameworkVersion Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">1.0.4</RuntimeFrameworkVersion>
-    <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netcoreapp1.1' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
-    <RuntimeFrameworkVersion Condition=" '$(TargetFramework)' == 'netcoreapp1.1' ">1.1.1</RuntimeFrameworkVersion>
-    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
-    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
-    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-    <Version>10.6.0</Version>
+    <PackageProjectUrl>http://NSwag.org</PackageProjectUrl>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Authors>Rico Suter</Authors>
+    <PackageIconUrl>https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png</PackageIconUrl>
+    <Company />
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\NSwag.AssemblyLoaderCore\NSwag.AssemblyLoaderCore.csproj" />
+    <ProjectReference Include="..\NSwag.Commands\NSwag.Commands.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="NConsole" Version="3.4.6206.26897" />

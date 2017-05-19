@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSwag.Demo.Web.Controllers;
 
 namespace NSwag.SwaggerGeneration.WebApi.Tests
 {
