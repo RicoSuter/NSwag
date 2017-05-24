@@ -15,7 +15,7 @@
     <Company />
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="9.1.1" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="9.1.2" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net451'">
     <Reference Include="Microsoft.CSharp" />
@@ -31,5 +31,102 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Templates\AngularClientTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>AngularClientTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\AngularJSClientTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>AngularJSClientTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\ClientMethodsTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>ClientMethodsTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\FetchClientTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>FetchClientTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\FileTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>FileTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\JQueryCallbacksClientTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>JQueryCallbacksClientTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\JQueryPromisesClientTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>JQueryPromisesClientTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\ProcessResponseTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>ProcessResponseTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\RequestBodyTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RequestBodyTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\RequestUrlTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RequestUrlTemplate.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Templates\AngularClientTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AngularClientTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\AngularJSClientTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AngularJSClientTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\ClientMethodsTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ClientMethodsTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\FetchClientTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>FetchClientTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\FileTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>FileTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\JQueryCallbacksClientTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>JQueryCallbacksClientTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\JQueryPromisesClientTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>JQueryPromisesClientTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\ProcessResponseTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ProcessResponseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\RequestBodyTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RequestBodyTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\RequestUrlTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RequestUrlTemplate.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

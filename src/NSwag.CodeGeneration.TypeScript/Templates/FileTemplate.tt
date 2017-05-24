@@ -6,6 +6,7 @@
 //     Generated using the NSwag toolchain v<#=SwaggerDocument.ToolchainVersion#> (NJsonSchema v<#=JsonSchema4.ToolchainVersion#>) (http://NSwag.org)
 // </auto-generated>
 //----------------------
+// ReSharper disable InconsistentNaming
 
 <#=Model.ExtensionCodeImport#>
 <#if(Model.ImportRequiredTypes){#>

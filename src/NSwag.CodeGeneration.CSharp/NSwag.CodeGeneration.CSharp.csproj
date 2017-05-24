@@ -15,7 +15,7 @@
     <Company />
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="9.1.1" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="9.1.2" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net451'">
     <Reference Include="Microsoft.CSharp" />
@@ -30,5 +30,48 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Templates\ClientTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>ClientTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\ControllerTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>ControllerTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\FileTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>FileTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\JsonExceptionConverterTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>JsonExceptionConverterTemplate.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Templates\ClientTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ClientTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\ControllerTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ControllerTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\FileTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>FileTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\JsonExceptionConverterTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>JsonExceptionConverterTemplate.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

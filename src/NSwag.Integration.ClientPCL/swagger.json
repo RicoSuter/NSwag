@@ -528,8 +528,7 @@
             "name": "person",
             "in": "body",
             "required": true,
-            "x-nullable": true,
-            "description": ""
+            "x-nullable": true
           }
         ],
         "responses": {
@@ -669,6 +668,7 @@
     },
     "Gender": {
       "type": "string",
+      "description": "",
       "x-enumNames": [
         "Male",
         "Female"
@@ -676,11 +676,11 @@
       "enum": [
         "Male",
         "Female"
-      ],
-      "description": ""
+      ]
     },
     "SkillLevel": {
       "type": "integer",
+      "description": "",
       "x-enumNames": [
         "Low",
         "Medium",
@@ -690,8 +690,7 @@
         0,
         1,
         2
-      ],
-      "description": ""
+      ]
     },
     "Teacher": {
       "type": "object",

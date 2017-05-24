@@ -29,16 +29,16 @@ namespace NSwag.SwaggerGeneration
         /// <summary>Generates the properties for the given type and schema.</summary>
         /// <typeparam name="TSchemaType">The type of the schema type.</typeparam>
         /// <param name="type">The types.</param>
-        /// <param name="objectContract">The JSON object contract.</param>
+        /// <param name="contract">The JSON object contract.</param>
         /// <param name="schema">The properties</param>
         /// <param name="schemaResolver">The schema resolver.</param>
         /// <returns></returns>
-        protected override async Task GenerateObjectAsync<TSchemaType>(Type type, JsonObjectContract objectContract, TSchemaType schema, JsonSchemaResolver schemaResolver)
+        protected override async Task GenerateObjectAsync<TSchemaType>(Type type, JsonContract contract, TSchemaType schema, JsonSchemaResolver schemaResolver)
         {
             if (_isRootType)
             {
                 _isRootType = false;
-                await base.GenerateObjectAsync(type, objectContract, schema, schemaResolver);
+                await base.GenerateObjectAsync(type, contract, schema, schemaResolver);
                 _isRootType = true;
             }
             else
