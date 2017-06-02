@@ -23,7 +23,6 @@
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net451' ">
-    <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
@@ -35,8 +34,5 @@
     <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj" />
     <ProjectReference Include="..\NSwag.SwaggerGeneration.WebApi\NSwag.SwaggerGeneration.WebApi.csproj" />
     <ProjectReference Include="..\NSwag.SwaggerGeneration\NSwag.SwaggerGeneration.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
   </ItemGroup>
 </Project>

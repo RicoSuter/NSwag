@@ -20,15 +20,6 @@
   <ItemGroup Condition="'$(TargetFramework)' == 'net451'">
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.3'">
-    <PackageReference Include="Microsoft.CSharp">
-      <Version>4.3.0</Version>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-    <Folder Include="Properties\" />
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj" />
   </ItemGroup>

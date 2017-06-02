@@ -35,9 +35,6 @@
     <PackageReference Include="Owin" Version="1.0" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj" />
     <ProjectReference Include="..\NSwag.SwaggerGeneration.WebApi\NSwag.SwaggerGeneration.WebApi.csproj" />
     <ProjectReference Include="..\NSwag.SwaggerGeneration\NSwag.SwaggerGeneration.csproj" />

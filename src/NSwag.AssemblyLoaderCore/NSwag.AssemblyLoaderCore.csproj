@@ -29,7 +29,4 @@
     <ProjectReference Include="..\NSwag.SwaggerGeneration.WebApi\NSwag.SwaggerGeneration.WebApi.csproj" />
     <ProjectReference Include="..\NSwag.SwaggerGeneration\NSwag.SwaggerGeneration.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
 </Project>
