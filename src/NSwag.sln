@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26228.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.CodeGeneration", "NSwag.CodeGeneration\NSwag.CodeGeneration.csproj", "{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.CodeGeneration", "NSwag.CodeGeneration\NSwag.CodeGeneration.csproj", "{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.CodeGeneration.Tests", "NSwag.CodeGeneration.Tests\NSwag.CodeGeneration.Tests.csproj", "{37650571-163A-4BE7-86BF-DC1B02ADACBB}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -17,14 +17,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwagStudio", "NSwagStudio\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Tests", "NSwag.Tests\NSwag.Tests.csproj", "{8232C857-CAA5-400C-8EC5-6239C799BAF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Annotations", "NSwag.Annotations\NSwag.Annotations.csproj", "{CA084154-E758-4A44-938D-7806AF2DD886}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Annotations", "NSwag.Annotations\NSwag.Annotations.csproj", "{CA084154-E758-4A44-938D-7806AF2DD886}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "07 Integration Tests", "07 Integration Tests", "{F31829C6-CEE4-4242-A4D9-820C36127B0B}"
 	ProjectSection(SolutionItems) = preProject
 		IntegrationTests.md = IntegrationTests.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Core", "NSwag.Core\NSwag.Core.csproj", "{2E6174AA-FC75-4821-9E86-51B30568BEC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Core", "NSwag.Core\NSwag.Core.csproj", "{2E6174AA-FC75-4821-9E86-51B30568BEC0}"
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "NSwagStudio.Installer", "NSwagStudio.Installer\NSwagStudio.Installer.wixproj", "{50DCC09C-7349-4BAC-8833-261A641E0669}"
 EndProject
@@ -34,7 +34,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample Configurations", "Sa
 		Samples\SwaggerUrlImport.nswag = Samples\SwaggerUrlImport.nswag
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.AssemblyLoader", "NSwag.AssemblyLoader\NSwag.AssemblyLoader.csproj", "{46634C60-BA7D-43E6-9049-6AD461488C39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.AssemblyLoader", "NSwag.AssemblyLoader\NSwag.AssemblyLoader.csproj", "{46634C60-BA7D-43E6-9049-6AD461488C39}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwag.MSBuild", "NSwag.MSBuild", "{0CBA6B21-C510-441F-A37F-6B74D504B966}"
 	ProjectSection(SolutionItems) = preProject
@@ -44,7 +44,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwag.MSBuild", "NSwag.MSBu
 		NSwag.MSBuild\NuGet.exe = NSwag.MSBuild\NuGet.exe
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.AspNet.Owin", "NSwag.AspNet.Owin\NSwag.AspNet.Owin.csproj", "{69A692EB-C277-46AB-BA55-B33E7E6E129C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.AspNet.Owin", "NSwag.AspNet.Owin\NSwag.AspNet.Owin.csproj", "{69A692EB-C277-46AB-BA55-B33E7E6E129C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwagStudio.Chocolatey", "NSwagStudio.Chocolatey", "{19DD88A1-6C11-4D99-B753-9878048E8935}"
 	ProjectSection(SolutionItems) = preProject
@@ -60,15 +60,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Integration.ClientPCL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Integration.ClientPCL.Tests", "NSwag.Integration.ClientPCL.Tests\NSwag.Integration.ClientPCL.Tests.csproj", "{A46ED5E6-95EE-448B-AA88-E43FA32482B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.AspNet.WebApi", "NSwag.AspNet.WebApi\NSwag.AspNet.WebApi.csproj", "{E5AC8F27-F9E2-4E98-AC98-6F9361132A2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.AspNet.WebApi", "NSwag.AspNet.WebApi\NSwag.AspNet.WebApi.csproj", "{E5AC8F27-F9E2-4E98-AC98-6F9361132A2E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "08 Packages", "08 Packages", "{DDBB05AC-B066-48C4-933C-034F401EBB6A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Integration.Console", "NSwag.Integration.Console\NSwag.Integration.Console.csproj", "{C683AABE-5FE5-47B8-BB4D-EE5C5E89D9DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Commands", "NSwag.Commands\NSwag.Commands.csproj", "{71B39C21-46A2-471B-AACE-226C575B8AC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Commands", "NSwag.Commands\NSwag.Commands.csproj", "{71B39C21-46A2-471B-AACE-226C575B8AC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Console", "NSwag.Console\NSwag.Console.csproj", "{26CBD69C-EE7C-4D81-8D62-410F4AD4876B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Console", "NSwag.Console\NSwag.Console.csproj", "{26CBD69C-EE7C-4D81-8D62-410F4AD4876B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwag.Npm", "NSwag.Npm", "{E0EE88B9-E6AD-434A-A11E-FC6A987CC02B}"
 	ProjectSection(SolutionItems) = preProject
@@ -77,11 +77,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwag.Npm", "NSwag.Npm", "{
 		NSwag.Npm\README.md = NSwag.Npm\README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.SwaggerGeneration", "NSwag.SwaggerGeneration\NSwag.SwaggerGeneration.csproj", "{5EBE3EFF-9558-45F2-9C8F-5C8CFB74D574}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.SwaggerGeneration", "NSwag.SwaggerGeneration\NSwag.SwaggerGeneration.csproj", "{5EBE3EFF-9558-45F2-9C8F-5C8CFB74D574}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.CodeGeneration.CSharp", "NSwag.CodeGeneration.CSharp\NSwag.CodeGeneration.CSharp.csproj", "{F0036DA5-5DD4-494C-91B0-37689E00511E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.CodeGeneration.CSharp", "NSwag.CodeGeneration.CSharp\NSwag.CodeGeneration.CSharp.csproj", "{F0036DA5-5DD4-494C-91B0-37689E00511E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.CodeGeneration.TypeScript", "NSwag.CodeGeneration.TypeScript\NSwag.CodeGeneration.TypeScript.csproj", "{9293CFCD-6C7B-43E0-9FBD-88753EBF64CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.CodeGeneration.TypeScript", "NSwag.CodeGeneration.TypeScript\NSwag.CodeGeneration.TypeScript.csproj", "{9293CFCD-6C7B-43E0-9FBD-88753EBF64CC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 CodeGeneration", "03 CodeGeneration", "{441A2B84-3FF3-43BE-BAD8-609A1EBDC95C}"
 EndProject
@@ -91,7 +91,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 SwaggerGeneration", "02 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 Frontends", "04 Frontends", "{F0F26A35-C4B6-42D0-A1DF-98CA46A5C560}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.SwaggerGeneration.WebApi", "NSwag.SwaggerGeneration.WebApi\NSwag.SwaggerGeneration.WebApi.csproj", "{8A547CB0-930F-466D-92EB-E780FF14C0A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.SwaggerGeneration.WebApi", "NSwag.SwaggerGeneration.WebApi\NSwag.SwaggerGeneration.WebApi.csproj", "{8A547CB0-930F-466D-92EB-E780FF14C0A6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.CodeGeneration.CSharp.Tests", "NSwag.CodeGeneration.CSharp.Tests\NSwag.CodeGeneration.CSharp.Tests.csproj", "{C7923A8B-D0CE-4FD8-ADA0-7507D5F3F693}"
 EndProject
