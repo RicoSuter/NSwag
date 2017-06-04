@@ -17,9 +17,17 @@ Show available commands:
 
     nswag help
 
-The full .NET Framework is preferred as execution environment. Add the switch `--core` at the end of the command to execute the .NET Core binaries: 
+The full .NET Framework is preferred as execution environment. Add the switch `--core` at the end of the command to execute one of the .NET Core binaries (automatically detects whether .NET Core 1.0 or 1.1 is installed): 
 
-	nswag help --core
+    nswag help --core
+	
+To specify what .NET Core binaries to execute, either use 
+
+    nswag help --core 1.0
+	
+or
+
+    nswag help --core 1.1
 
 ### Project installation
 	
