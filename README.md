@@ -52,7 +52,7 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 			- JQuery with Callbacks, `JQueryCallbacks`
 			- JQuery with promises `JQueryPromises`
 			- AngularJS using $http, `AngularJS`
-			- Angular 2 using the http service, `Angular2`
+			- Angular (v2+) using the http service, `Angular`
 			- window.fetch API and ES6 promises, `Fetch` (use this template in your React/Redux app)
 			- Aurelia using the HttpClient from aurelia-fetch-client, `Aurelia` (based on the Fetch template)
 - **CSharp Client**
