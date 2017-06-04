@@ -64,8 +64,8 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=9.1.4.0, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.9.1.4\lib\net45\NJsonSchema.dll</HintPath>
+    <Reference Include="NJsonSchema, Version=9.1.5.0, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.9.1.5\lib\net45\NJsonSchema.dll</HintPath>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
@@ -128,14 +128,6 @@
   <ItemGroup>
     <Content Include="index.html" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\App.js" />
-    <Content Include="Scripts\DataService.js" />
-    <Content Include="Scripts\DataService.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DataService.ts</LastGenOutput>
-    </Content>
-    <Content Include="Scripts\jquery.js" />
-    <Content Include="Scripts\require.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -161,7 +153,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <None Include="ServiceDefinitions\PersonsService.swagger" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -174,15 +165,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="Scripts\App.ts" />
-    <TypeScriptCompile Include="Scripts\DataService.ts">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DataService.tt</DependentUpon>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj">
