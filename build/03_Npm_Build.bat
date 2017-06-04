@@ -5,7 +5,7 @@ REM Build and copy full .NET command line
 nuget restore ../src/NSwag.sln
 msbuild ../src/NSwag.sln /p:Configuration=Release /t:rebuild
 
-xcopy "../src/NSwag.Console/bin/Release" "../src/NSwag.Npm/bin/binaries/full" /E /I /y
+xcopy "../src/NSwag.Console/bin/Release/net46" "../src/NSwag.Npm/bin/binaries/full" /E /I /y
 
 REM Build and copy .NET Core command line
 
