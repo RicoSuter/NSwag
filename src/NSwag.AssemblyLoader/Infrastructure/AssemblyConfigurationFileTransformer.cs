@@ -24,7 +24,16 @@ namespace NSwag.CodeGeneration.Infrastructure
 @"<?xml version=""1.0"" encoding=""utf-8""?>
 <configuration>
   <runtime>
+    <loadFromRemoteSources enabled=""true""/>
     <assemblyBinding xmlns=""urn:schemas-microsoft-com:asm.v1"">
+      <dependentAssembly>
+        <assemblyIdentity name=""Newtonsoft.Json"" publicKeyToken=""30ad4fe6b2a6aeed"" culture=""neutral""/>
+        <bindingRedirect oldVersion=""0.0.0.0-65535.65535.65535.65535"" newVersion=""9.0.0.0""/>
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name=""System.Runtime"" publicKeyToken=""b03f5f7f11d50a3a"" culture=""neutral""/>
+        <bindingRedirect oldVersion=""0.0.0.0-65535.65535.65535.65535"" newVersion=""4.0.0.0""/>
+      </dependentAssembly>
     </assemblyBinding>
   </runtime>
 </configuration>";
