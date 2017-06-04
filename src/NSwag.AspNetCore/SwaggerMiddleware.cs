@@ -23,7 +23,7 @@ namespace NSwag.AspNetCore
         private readonly string _path;
         private readonly IEnumerable<Type> _controllerTypes;
         private string _swaggerJson = null;
-        private readonly SwaggerOwinSettings _settings;
+        private readonly SwaggerSettings _settings;
         private readonly SwaggerJsonSchemaGenerator _schemaGenerator;
 
         /// <summary>Initializes a new instance of the <see cref="SwaggerMiddleware"/> class.</summary>
@@ -32,7 +32,7 @@ namespace NSwag.AspNetCore
         /// <param name="controllerTypes">The controller types.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
-        public SwaggerMiddleware(RequestDelegate nextDelegate, string path, IEnumerable<Type> controllerTypes, SwaggerOwinSettings settings, SwaggerJsonSchemaGenerator schemaGenerator)
+        public SwaggerMiddleware(RequestDelegate nextDelegate, string path, IEnumerable<Type> controllerTypes, SwaggerSettings settings, SwaggerJsonSchemaGenerator schemaGenerator)
         {
             _nextDelegate = nextDelegate;
             _path = path;

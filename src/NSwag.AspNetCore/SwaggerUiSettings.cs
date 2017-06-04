@@ -13,7 +13,7 @@ namespace NSwag.AspNetCore
 #endif
 {
     /// <summary>The settings for UseSwaggerUi.</summary>
-    public class SwaggerUiOwinSettings : SwaggerOwinSettings
+    public class SwaggerUiSettings : SwaggerSettings
     {
         /// <summary>Gets or sets the swagger UI route (must start with '/').</summary>
         public string SwaggerUiRoute { get; set; } = "/swagger";

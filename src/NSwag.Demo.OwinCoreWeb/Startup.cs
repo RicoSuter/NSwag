@@ -18,7 +18,7 @@ namespace NSwag.Demo.OwinCoreWeb
         public void Configure(IApplicationBuilder app)
         {
             app.UseMvc();
-            app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, new SwaggerUiOwinSettings
+            app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, new SwaggerUiSettings
             {
                 DefaultPropertyNameHandling = PropertyNameHandling.CamelCase,
                 Title = "NSwag Sample API",

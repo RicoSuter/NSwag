@@ -15,7 +15,7 @@ namespace NSwag.Demo.OwinWeb
         {
             var config = new HttpConfiguration();
 
-            app.UseSwaggerUi(typeof(Startup).Assembly, new SwaggerUiOwinSettings
+            app.UseSwaggerUi(typeof(Startup).Assembly, new SwaggerUiSettings
             {
                 Title = "NSwag Sample API",
                 SupportedSubmitMethods = new [] { "get", "post" },

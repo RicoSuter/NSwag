@@ -25,8 +25,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\NSwag.AspNetCore\OAuth2ClientSettings.cs" Link="OAuth2ClientSettings.cs" />
-    <Compile Include="..\NSwag.AspNetCore\SwaggerOwinSettings.cs" Link="SwaggerOwinSettings.cs" />
-    <Compile Include="..\NSwag.AspNetCore\SwaggerUiOwinSettings.cs" Link="SwaggerUiOwinSettings.cs" />
+    <Compile Include="..\NSwag.AspNetCore\SwaggerSettings.cs" Link="SwaggerSettings.cs" />
+    <Compile Include="..\NSwag.AspNetCore\SwaggerUiSettings.cs" Link="SwaggerUiSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Owin" Version="3.0.1" />
