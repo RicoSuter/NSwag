@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Contexts;
+using NSwag.SwaggerGeneration.WebApi.Infrastructure;
 
 namespace NSwag.SwaggerGeneration.WebApi.Processors
 {
@@ -27,7 +28,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                 .ToArray();
 
             var versionAttribute = versionAttributes.FirstOrDefault();
-            if (versionAttribute.HasProperty("Versions"))
+            if (ObjectExtensions.HasProperty(versionAttribute, "Versions"))
                 ReplaceApiVersionInPath(context.OperationDescription, versionAttribute.Versions);
 
             return Task.FromResult(true);
