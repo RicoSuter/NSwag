@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Sample.Common;
+using System.Threading.Tasks;
 
 namespace NSwag_Sample_NetCoreAngular.Controllers
 {
@@ -24,6 +25,13 @@ namespace NSwag_Sample_NetCoreAngular.Controllers
                 TemperatureC = rng.Next(-20, 55),
                 Summary = Summaries[rng.Next(Summaries.Length)]
             });
+        }
+
+        [HttpDelete]
+        [ProducesResponseType(200)]
+        public async Task<IActionResult> DeleteShop([FromQuery]Guid id)
+        {
+            return Ok();
         }
     }
 }
