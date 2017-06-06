@@ -51,7 +51,7 @@ namespace NSwag.SwaggerGeneration.WebApi
                 throw new FileNotFoundException("The assembly config file could not be found.", Settings.AssemblyConfig);
 
 #if FullNet
-            var assemblyDirectory = Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPaths.First())); 
+            var assemblyDirectory = Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPaths.First()));
             using (var isolated = new AppDomainIsolation<WebApiAssemblyLoader>(
                 assemblyDirectory, Settings.AssemblyConfig))
                 return isolated.Object.GetControllerClasses(Settings.AssemblyPaths, GetAllReferencePaths(Settings));
@@ -67,12 +67,6 @@ namespace NSwag.SwaggerGeneration.WebApi
         /// <returns>The Swagger definition.</returns>
         public override async Task<SwaggerDocument> GenerateForControllersAsync(IEnumerable<string> controllerClassNames)
         {
-            if (!(Settings.SchemaNameGenerator is DefaultSchemaNameGenerator))
-                throw new InvalidOperationException("The SchemaNameGenerator cannot be customized when loading types from external assemblies.");
-
-            if (!(Settings.TypeNameGenerator is DefaultTypeNameGenerator))
-                throw new InvalidOperationException("The TypeNameGenerator cannot be customized when loading types from external assemblies.");
-
 #if FullNet
             var assemblyDirectory = Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPaths.First()));
             using (var isolated = new AppDomainIsolation<WebApiAssemblyLoader>(
@@ -151,7 +145,21 @@ namespace NSwag.SwaggerGeneration.WebApi
                     else
                         throw new TypeLoadException("Unable to load type for controller: " + className);
                 }
+
+                if (settings.SchemaNameGeneratorType != null)
+                    settings.SchemaNameGenerator = CreateInstance<ISchemaNameGenerator>(settings.SchemaNameGeneratorType, assemblies);
+
+                if (settings.TypeNameGeneratorType != null)
+                    settings.TypeNameGenerator = CreateInstance<ITypeNameGenerator>(settings.TypeNameGeneratorType, assemblies);
+
                 return controllerTypes;
+            }
+
+            private static T CreateInstance<T>(string typeName, Assembly[] assemblies)
+            {
+                return (T)Activator.CreateInstance(assemblies
+                    .Select(a => a.GetType(typeName))
+                    .First(t => t != null));
             }
 
             internal string[] GetControllerClasses(string[] assemblyPaths, IEnumerable<string> referencePaths)

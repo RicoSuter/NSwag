@@ -26,5 +26,11 @@ namespace NSwag.SwaggerGeneration.WebApi
 
         /// <summary>Gets ot sets the paths where to search for referenced assemblies</summary>
         public string[] ReferencePaths { get; set; }
+
+        /// <summary>Gets or sets the full type name of the SchemaNameGenerator.</summary>
+        public string SchemaNameGeneratorType { get; set; }
+
+        /// <summary>Gets or sets the full type name of the TypeNameGenerator.</summary>
+        public string TypeNameGeneratorType { get; set; }
     }
 }

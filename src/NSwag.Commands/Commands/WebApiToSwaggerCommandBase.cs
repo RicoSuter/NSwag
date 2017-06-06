@@ -120,6 +120,20 @@ namespace NSwag.Commands
             set { Settings.AddMissingPathParameters = value; }
         }
 
+        [Argument(Name = "SchemaNameGeneratorType", IsRequired = false, Description = "The full type name of the SchemaNameGenerator (default: empty).")]
+        public string SchemaNameGeneratorType
+        {
+            get { return Settings.SchemaNameGeneratorType; }
+            set { Settings.SchemaNameGeneratorType = value; }
+        }
+
+        [Argument(Name = "TypeNameGeneratorType", IsRequired = false, Description = "The full type name of the TypeNameGenerator (default: empty).")]
+        public string TypeNameGeneratorType
+        {
+            get { return Settings.TypeNameGeneratorType; }
+            set { Settings.TypeNameGeneratorType = value; }
+        }
+
         [Argument(Name = "ServiceHost", IsRequired = false, Description = "Overrides the service host of the web service (optional, use '.' to remove the hostname).")]
         public string ServiceHost { get; set; }
 
