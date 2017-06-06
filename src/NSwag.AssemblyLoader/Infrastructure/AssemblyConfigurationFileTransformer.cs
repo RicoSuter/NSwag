@@ -34,6 +34,10 @@ namespace NSwag.CodeGeneration.Infrastructure
         <assemblyIdentity name=""System.Runtime"" publicKeyToken=""b03f5f7f11d50a3a"" culture=""neutral""/>
         <bindingRedirect oldVersion=""0.0.0.0-65535.65535.65535.65535"" newVersion=""4.0.0.0""/>
       </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name=""System.Reflection"" publicKeyToken=""b03f5f7f11d50a3a"" culture=""neutral""/>
+        <bindingRedirect oldVersion=""0.0.0.0-65535.65535.65535.65535"" newVersion=""4.0.0.0""/>
+      </dependentAssembly>
     </assemblyBinding>
   </runtime>
 </configuration>";
