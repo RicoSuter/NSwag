@@ -326,6 +326,38 @@ namespace NSwag.SwaggerGeneration.WebApi
             yield return path;
         }
 
+        private Attribute GetRouteAttribute(Type type)
+        {
+            do
+            {
+                var attributes = type.GetTypeInfo().GetCustomAttributes(false).Cast<Attribute>();
+
+                var attribute = GetRouteAttributes(attributes).SingleOrDefault();
+                if (attribute != null)
+                    return attribute;
+
+                type = type.GetTypeInfo().BaseType;
+            } while (type != null);
+
+            return null;
+        }
+
+        private Attribute GetRoutePrefixAttribute(Type type)
+        {
+            do
+            {
+                var attributes = type.GetTypeInfo().GetCustomAttributes(false).Cast<Attribute>();
+
+                var attribute = GetRoutePrefixAttributes(attributes).SingleOrDefault();
+                if (attribute != null)
+                    return attribute;
+
+                type = type.GetTypeInfo().BaseType;
+            } while (type != null);
+
+            return null;
+        }
+
         private IEnumerable<Attribute> GetRouteAttributes(IEnumerable<Attribute> attributes)
         {
             return attributes.Where(a => a.GetType().Name == "RouteAttribute" ||
@@ -338,37 +370,6 @@ namespace NSwag.SwaggerGeneration.WebApi
             return attributes.Where(a => a.GetType().Name == "RoutePrefixAttribute" ||
                                          a.GetType().GetTypeInfo().ImplementedInterfaces.Any(t => t.Name == "IRoutePrefix"));
         }
-
-        private Attribute GetRouteAttribute(Type type)
-        {
-            Attribute ret;
-
-            do
-            {
-                var typeInfo = type.GetTypeInfo();
-
-                ret = GetRouteAttributes(typeInfo.GetCustomAttributes(false).Cast<Attribute>()).SingleOrDefault();
-                type = typeInfo.BaseType;
-            } while (type != null && ret == null);
-
-            return ret;
-        }
-
-        private Attribute GetRoutePrefixAttribute(Type type)
-        {
-            Attribute ret;
-
-            do
-            {
-                var typeInfo = type.GetTypeInfo();
-
-                ret = GetRoutePrefixAttributes(typeInfo.GetCustomAttributes(false).Cast<Attribute>()).SingleOrDefault();
-                type = typeInfo.BaseType;
-            } while (type != null && ret == null);
-
-            return ret;
-        }
-
 
         private string GetActionName(MethodInfo method)
         {
