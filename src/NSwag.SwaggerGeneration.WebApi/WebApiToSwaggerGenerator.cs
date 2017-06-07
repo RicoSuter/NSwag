@@ -259,8 +259,8 @@ namespace NSwag.SwaggerGeneration.WebApi
             var routeAttributes = GetRouteAttributes(method.GetCustomAttributes()).ToList();
 
             // .NET Core: RouteAttribute on class level
-            dynamic routeAttributeOnClass = GetRouteAttributes(controllerType.GetTypeInfo().GetCustomAttributes()).SingleOrDefault();
-            dynamic routePrefixAttribute = GetRoutePrefixAttributes(controllerType.GetTypeInfo().GetCustomAttributes()).SingleOrDefault();
+            dynamic routeAttributeOnClass = GetRouteAttribute(controllerType);
+            dynamic routePrefixAttribute = GetRoutePrefixAttribute(controllerType);
 
             if (routeAttributes.Any())
             {
@@ -330,9 +330,7 @@ namespace NSwag.SwaggerGeneration.WebApi
         {
             return attributes.Where(a => a.GetType().Name == "RouteAttribute" ||
                                          a.GetType().GetTypeInfo().ImplementedInterfaces.Any(t => t.Name == "IHttpRouteInfoProvider") ||
-                                         a.GetType().GetTypeInfo().ImplementedInterfaces.Any(t => t.Name == "IRouteTemplateProvider")) // .NET Core
-                             .Where((dynamic a) => a.Template != null)
-                             .OfType<Attribute>();
+                                         a.GetType().GetTypeInfo().ImplementedInterfaces.Any(t => t.Name == "IRouteTemplateProvider")); // .NET Core
         }
 
         private IEnumerable<Attribute> GetRoutePrefixAttributes(IEnumerable<Attribute> attributes)
@@ -340,6 +338,37 @@ namespace NSwag.SwaggerGeneration.WebApi
             return attributes.Where(a => a.GetType().Name == "RoutePrefixAttribute" ||
                                          a.GetType().GetTypeInfo().ImplementedInterfaces.Any(t => t.Name == "IRoutePrefix"));
         }
+
+        private Attribute GetRouteAttribute(Type type)
+        {
+            Attribute ret;
+
+            do
+            {
+                var typeInfo = type.GetTypeInfo();
+
+                ret = GetRouteAttributes(typeInfo.GetCustomAttributes(false).Cast<Attribute>()).SingleOrDefault();
+                type = typeInfo.BaseType;
+            } while (type != null && ret == null);
+
+            return ret;
+        }
+
+        private Attribute GetRoutePrefixAttribute(Type type)
+        {
+            Attribute ret;
+
+            do
+            {
+                var typeInfo = type.GetTypeInfo();
+
+                ret = GetRoutePrefixAttributes(typeInfo.GetCustomAttributes(false).Cast<Attribute>()).SingleOrDefault();
+                type = typeInfo.BaseType;
+            } while (type != null && ret == null);
+
+            return ret;
+        }
+
 
         private string GetActionName(MethodInfo method)
         {

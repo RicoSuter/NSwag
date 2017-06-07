@@ -115,6 +115,7 @@
     <Compile Include="Attributes\RouteTests.cs" />
     <Compile Include="Attributes\TagsTests.cs" />
     <Compile Include="ControllerClassesTests.cs" />
+    <Compile Include="RouteAttributeTests.cs" />
     <Compile Include="EnumListTests.cs" />
     <Compile Include="FileParameterTests.cs" />
     <Compile Include="FileResponseTests.cs" />
