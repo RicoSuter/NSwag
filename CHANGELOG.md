@@ -7,7 +7,7 @@ Breaking changes:
 - Web API Swagger generator
     - NJsonSchema v9 now uses ContractResolver to reflect DTO types
     - Added ApiVersionProcessor [#655](https://github.com/NSwag/NSwag/issues/655)
-    - Performance improvements (up to 3x faster)
+    - Performance improvements (up to 3x faster) [c8c00868234f09e2fe39baa3c3c2efd8f3db471c](https://github.com/RSuter/NJsonSchema/commit/c8c00868234f09e2fe39baa3c3c2efd8f3db471c)
     - Fixed loading of inherited RouteAttributes [3806388850b9ff0980726d713edfe202635f8a8a](https://github.com/NSwag/NSwag/commit/3806388850b9ff0980726d713edfe202635f8a8a)
 
 - Middlewares
