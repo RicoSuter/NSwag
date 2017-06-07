@@ -259,12 +259,12 @@ namespace NSwag.SwaggerGeneration.WebApi
             var routeAttributes = GetRouteAttributes(method.GetCustomAttributes()).ToList();
 
             // .NET Core: RouteAttribute on class level
-            dynamic routeAttributeOnClass = GetRouteAttribute(controllerType);
-            dynamic routePrefixAttribute = GetRoutePrefixAttribute(controllerType);
+            var routeAttributeOnClass = GetRouteAttribute(controllerType);
+            var routePrefixAttribute = GetRoutePrefixAttribute(controllerType);
 
             if (routeAttributes.Any())
             {
-                foreach (dynamic attribute in routeAttributes)
+                foreach (var attribute in routeAttributes)
                 {
                     if (attribute.Template.StartsWith("~/")) // ignore route prefixes
                         httpPaths.Add(attribute.Template.Substring(1));
@@ -326,7 +326,7 @@ namespace NSwag.SwaggerGeneration.WebApi
             yield return path;
         }
 
-        private Attribute GetRouteAttribute(Type type)
+        private RouteAttributeFacade GetRouteAttribute(Type type)
         {
             do
             {
@@ -342,7 +342,7 @@ namespace NSwag.SwaggerGeneration.WebApi
             return null;
         }
 
-        private Attribute GetRoutePrefixAttribute(Type type)
+        private RoutePrefixAttributeFacade GetRoutePrefixAttribute(Type type)
         {
             do
             {
@@ -358,18 +358,14 @@ namespace NSwag.SwaggerGeneration.WebApi
             return null;
         }
 
-        private IEnumerable<Attribute> GetRouteAttributes(IEnumerable<Attribute> attributes)
+        private IEnumerable<RouteAttributeFacade> GetRouteAttributes(IEnumerable<Attribute> attributes)
         {
-            return attributes.Where(a => a.GetType().Name == "RouteAttribute" ||
-                                         a.GetType().GetTypeInfo().ImplementedInterfaces.Any(t => t.Name == "IHttpRouteInfoProvider") ||
-                                         a.GetType().GetTypeInfo().ImplementedInterfaces.Any(t => t.Name == "IRouteTemplateProvider")) // .NET Core;
-                             .Where(a => ObjectExtensions.HasProperty(a, "Template") && ((dynamic)a).Template != null);
+            return attributes.Select(RouteAttributeFacade.TryMake).Where(a => a?.Template != null);
         }
 
-        private IEnumerable<Attribute> GetRoutePrefixAttributes(IEnumerable<Attribute> attributes)
+        private IEnumerable<RoutePrefixAttributeFacade> GetRoutePrefixAttributes(IEnumerable<Attribute> attributes)
         {
-            return attributes.Where(a => a.GetType().Name == "RoutePrefixAttribute" ||
-                                         a.GetType().GetTypeInfo().ImplementedInterfaces.Any(t => t.Name == "IRoutePrefix"));
+            return attributes.Select(RoutePrefixAttributeFacade.TryMake).Where(a => a != null);
         }
 
         private string GetActionName(MethodInfo method)
