@@ -22,6 +22,12 @@ namespace NSwag.SwaggerGeneration.WebApi.Infrastructure
     {
         private readonly PropertyInfo _template;
 
+        private RouteAttributeFacade(Attribute attr, PropertyInfo template)
+        {
+            Attribute = attr;
+            _template = template;
+        }
+
         public RouteAttributeFacade(Attribute attr)
         {
             var type = attr.GetType();
@@ -40,12 +46,15 @@ namespace NSwag.SwaggerGeneration.WebApi.Infrastructure
         public static RouteAttributeFacade TryMake(Attribute a)
         {
             var type = a.GetType();
+            var typeInfo = type.GetTypeInfo();
 
             if (type.Name == "RouteAttribute" ||
-                type.GetTypeInfo().ImplementedInterfaces.Any(i => i.Name == "IHttpRouteInfoProvider") ||
-                type.GetTypeInfo().ImplementedInterfaces.Any(i => i.Name == "IRouteTemplateProvider")) // .NET Core
+                typeInfo.ImplementedInterfaces.Any(i => i.Name == "IHttpRouteInfoProvider") ||
+                typeInfo.ImplementedInterfaces.Any(i => i.Name == "IRouteTemplateProvider")) // .NET Core
             {
-                return new RouteAttributeFacade(a);
+                var template = type.GetRuntimeProperty("Template");
+                if (template != null)
+                    return new RouteAttributeFacade(a, template);
             }
 
             return null;
