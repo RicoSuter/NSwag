@@ -362,15 +362,14 @@ namespace NSwag.SwaggerGeneration.WebApi
         {
             return attributes.Where(a => a.GetType().Name == "RouteAttribute" ||
                                          a.GetType().GetTypeInfo().ImplementedInterfaces.Any(t => t.Name == "IHttpRouteInfoProvider") ||
-                                         a.GetType().GetTypeInfo().ImplementedInterfaces.Any(t => t.Name == "IRouteTemplateProvider")) // .NET Core
-                             .Where(a => ((dynamic)a).Template != null);
+                                         a.GetType().GetTypeInfo().ImplementedInterfaces.Any(t => t.Name == "IRouteTemplateProvider")) // .NET Core;
+                             .Where(a => ObjectExtensions.HasProperty(a, "Template") && ((dynamic)a).Template != null);
         }
 
         private IEnumerable<Attribute> GetRoutePrefixAttributes(IEnumerable<Attribute> attributes)
         {
             return attributes.Where(a => a.GetType().Name == "RoutePrefixAttribute" ||
-                                         a.GetType().GetTypeInfo().ImplementedInterfaces.Any(t => t.Name == "IRoutePrefix"))
-                             .Where(a => ((dynamic)a).Template != null);
+                                         a.GetType().GetTypeInfo().ImplementedInterfaces.Any(t => t.Name == "IRoutePrefix"));
         }
 
         private string GetActionName(MethodInfo method)
