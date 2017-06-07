@@ -14,7 +14,7 @@ Breaking changes:
     - Renamed SwaggerOwinSettings/SwaggerUiOwinSettings to SwaggerSettings/SwaggerUiSettings [b34210a8d96f791ec90cebaa385fd729a9073534](https://github.com/NSwag/NSwag/commit/b34210a8d96f791ec90cebaa385fd729a9073534)
 
 - Command line
-    - Added --core 1.0 and --core 1.1 options [19a9951dc8a4afb34bbf4213bf6553b2a5365153](https://github.com/NSwag/NSwag/commit/19a9951dc8a4afb34bbf4213bf6553b2a5365153)
+    - Added `--core 1.0` and `--core 1.1` options [19a9951dc8a4afb34bbf4213bf6553b2a5365153](https://github.com/NSwag/NSwag/commit/19a9951dc8a4afb34bbf4213bf6553b2a5365153)
 
 - Added more sample projects
 
