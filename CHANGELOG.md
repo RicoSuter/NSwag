@@ -5,7 +5,8 @@
 Breaking changes: 
 
 - Web API Swagger generator
-    - NJsonSchema v9 now uses ContractResolver to reflect DTO types, 
+    - NJsonSchema v9 now uses ContractResolver to reflect DTO types
+    - Performance improvements (up to 3x faster)
 
 - Middlewares
     - Renamed SwaggerOwinSettings/SwaggerUiOwinSettings to SwaggerSettings/SwaggerUiSettings [b34210a8d96f791ec90cebaa385fd729a9073534](https://github.com/NSwag/NSwag/commit/b34210a8d96f791ec90cebaa385fd729a9073534)
