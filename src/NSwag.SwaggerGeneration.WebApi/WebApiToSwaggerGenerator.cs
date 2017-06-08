@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using NJsonSchema;
 using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors.Contexts;
 using NSwag.SwaggerGeneration.WebApi.Infrastructure;
@@ -105,6 +106,7 @@ namespace NSwag.SwaggerGeneration.WebApi
         {
             var document = !string.IsNullOrEmpty(settings.DocumentTemplate) ? await SwaggerDocument.FromJsonAsync(settings.DocumentTemplate).ConfigureAwait(false) : new SwaggerDocument();
 
+            document.Generator = "NSwag v" + SwaggerDocument.ToolchainVersion + " (NJsonSchema v" + JsonSchema4.ToolchainVersion + ")";
             document.Consumes = new List<string> { "application/json" };
             document.Produces = new List<string> { "application/json" };
             document.Info = new SwaggerInfo
