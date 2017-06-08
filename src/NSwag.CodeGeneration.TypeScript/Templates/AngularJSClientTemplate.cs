@@ -649,7 +649,7 @@ if(!operation.HasFormParameters){
             
             #line default
             #line hidden
-            this.Write("; charset=UTF-8\", \r\n");
+            this.Write("\", \r\n");
             
             #line 69 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularJSClientTemplate.tt"
 }
@@ -658,7 +658,7 @@ if(!operation.HasFormParameters){
             #line hidden
             
             #line 70 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularJSClientTemplate.tt"
-if(!operation.IsFile){
+if(operation.HasResultType && !operation.HasAcceptHeaderParameterParameter){
             
             #line default
             #line hidden
@@ -669,7 +669,7 @@ if(!operation.IsFile){
             
             #line default
             #line hidden
-            this.Write("; charset=UTF-8\"\r\n");
+            this.Write("\"\r\n");
             
             #line 72 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularJSClientTemplate.tt"
 }

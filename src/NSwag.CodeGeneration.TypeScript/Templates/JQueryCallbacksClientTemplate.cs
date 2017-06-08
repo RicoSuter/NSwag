@@ -690,10 +690,10 @@ foreach(var parameter in operation.HeaderParameters){
             
             #line default
             #line hidden
-            this.Write("; charset=UTF-8\",\r\n");
+            this.Write("\",\r\n");
             
             #line 68 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
-if(!operation.IsFile){
+if(operation.HasResultType && !operation.HasAcceptHeaderParameterParameter){
             
             #line default
             #line hidden
@@ -704,7 +704,7 @@ if(!operation.IsFile){
             
             #line default
             #line hidden
-            this.Write("; charset=UTF-8\"\r\n");
+            this.Write("\"\r\n");
             
             #line 70 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
 }

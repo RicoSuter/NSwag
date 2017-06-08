@@ -181,6 +181,9 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Gets the header parameters.</summary>
         public IEnumerable<TParameterModel> HeaderParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.Header);
 
+        /// <summary>Gets or sets a value indicating whether the accept header is defined in a parameter.</summary>
+        public bool HasAcceptHeaderParameterParameter => HeaderParameters.Any(p => p.Name.ToLowerInvariant() == "accept");
+
         /// <summary>Gets or sets a value indicating whether the operation has form parameters.</summary>
         public bool HasFormParameters => _operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.FormData);
 

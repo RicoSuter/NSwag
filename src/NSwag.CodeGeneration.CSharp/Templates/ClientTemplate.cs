@@ -2346,7 +2346,7 @@ if(operation.HasXmlBodyParameter){
             this.Write("\");\r\n");
             
             #line 284 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-  if(operation.HasResultType){
+if(operation.HasResultType && !operation.HasAcceptHeaderParameterParameter){
             
             #line default
             #line hidden

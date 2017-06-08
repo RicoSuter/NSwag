@@ -281,7 +281,7 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(<#
                 request_.Content = content_;
 <#  }#>
                 request_.Method = new System.Net.Http.HttpMethod("<#=operation.HttpMethod.ToString().ToUpperInvariant()#>");
-<#  if(operation.HasResultType){#>
+<#if(operation.HasResultType && !operation.HasAcceptHeaderParameterParameter){#>
                 request_.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("<#=operation.Produces#>"));
 <#  }#>
 

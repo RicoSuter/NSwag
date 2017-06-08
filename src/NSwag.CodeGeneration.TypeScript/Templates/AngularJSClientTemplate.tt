@@ -65,10 +65,10 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
                 "<#=parameter.Name#>": <#=parameter.VariableName#>, 
 <#}#>
 <#if(!operation.HasFormParameters){#>
-                "Content-Type": "<#=operation.Consumes#>; charset=UTF-8", 
+                "Content-Type": "<#=operation.Consumes#>", 
 <#}#>
-<#if(!operation.IsFile){#>
-                "Accept": "<#=operation.Produces#>; charset=UTF-8"
+<#if(operation.HasResultType && !operation.HasAcceptHeaderParameterParameter){#>
+                "Accept": "<#=operation.Produces#>"
 <#}#>
             }
         };

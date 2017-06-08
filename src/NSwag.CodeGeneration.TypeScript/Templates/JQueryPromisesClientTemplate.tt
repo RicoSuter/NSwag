@@ -70,9 +70,9 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 <#foreach(var parameter in operation.HeaderParameters){#>
                 "<#=parameter.Name#>": <#=parameter.VariableName#>, 
 <#}#>
-                "Content-Type": "<#=operation.Consumes#>; charset=UTF-8",
-<#if(!operation.IsFile){#>
-                "Accept": "<#=operation.Produces#>; charset=UTF-8"
+                "Content-Type": "<#=operation.Consumes#>",
+<#if(operation.HasResultType && !operation.HasAcceptHeaderParameterParameter){#>
+                "Accept": "<#=operation.Produces#>"
 <#}#>
             }
         }<#if(Model.UseTransformOptionsMethod){#>)<#}#>).done((_data, _textStatus, xhr) => {
