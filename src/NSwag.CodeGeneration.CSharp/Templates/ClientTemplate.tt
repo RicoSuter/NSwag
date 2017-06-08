@@ -156,6 +156,9 @@ public partial interface I<#=Model.Class#>
 <#  if(operation.IsDeprecated){#>
     [System.Obsolete]
 <#  }#>
+<#  if(Model.GenerateDescriptorAttributes){ #>
+    [NSwag.Annotations.HttpMethod(method: <#= operation.HttpMethod.ToString().ToUpperInvariant() #>, path: <#= operation.Path #>)]
+<# } #>
     <#=operation.MethodAccessModifier#> <#=operation.UnwrappedResultType#> <#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#><#if(!parameter.IsLast){#>, <#}}#>)
     {
         <#if(operation.HasResult){#>return <#}#>System.Threading.Tasks.Task.Run(async () => await <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>, <#}#>System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
@@ -179,6 +182,9 @@ public partial interface I<#=Model.Class#>
 <#  if(operation.IsDeprecated){#>
     [System.Obsolete]
 <#  }#>
+<#  if(Model.GenerateDescriptorAttributes){ #>
+    [NSwag.Annotations.HttpMethod(method: <#= operation.HttpMethod.ToString().ToUpperInvariant() #>, path: <#= operation.Path #>)]
+<# } #>
     <#=operation.MethodAccessModifier#> async <#=operation.ResultType#> <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#>, <#}#>System.Threading.CancellationToken cancellationToken<#if(Model.GenerateOptionalParameters){#> = default(System.Threading.CancellationToken)<#}#>)
     {
 <#foreach(var parameter in operation.PathParameters){#>

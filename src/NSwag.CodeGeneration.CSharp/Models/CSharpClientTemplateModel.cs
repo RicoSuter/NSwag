@@ -129,6 +129,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 return CSharpJsonSerializerGenerator.GenerateJsonSerializerParameterCode(handleReferences, jsonConverters.ToList());
             }
         }
+
+        public bool GenerateDescriptorAttributes => _settings.GenerateDescriptorAttributes;
         
         private bool RequiresJsonExceptionConverter =>
             _document.Operations.Any(o => o.Operation.AllResponses.Any(r => r.Value.ActualResponseSchema?.InheritsSchema(_exceptionSchema) == true));

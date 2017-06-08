@@ -69,5 +69,10 @@ namespace NSwag.CodeGeneration.CSharp
         /// will be used, but this can be overridden. Just keep in mind that the type you specify has the same default HttpClient method signatures.
         /// </summary>
         public string HttpClientType { get; set; }
+
+        /// <summary>
+        /// Whether method should be annotated by [HttpOperation(method, path)]
+        /// </summary>
+        public bool GenerateDescriptorAttributes { get; set; }
     }
 }
