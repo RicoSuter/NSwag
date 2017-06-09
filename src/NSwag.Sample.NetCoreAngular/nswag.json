@@ -5,7 +5,7 @@
         "bin/Debug/netcoreapp1.1/NSwag.Sample.NetCoreAngular.dll"
       ],
       "referencePaths": [],
-      "isAspNetCore": false,
+      "isAspNetCore": true,
       "controllerNames": [
         "NSwag_Sample_NetCoreAngular.Controllers.SampleDataController"
       ],

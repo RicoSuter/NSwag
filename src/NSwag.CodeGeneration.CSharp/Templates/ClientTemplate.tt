@@ -247,7 +247,11 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(<#
 <#      }#>
             {
 <#foreach(var parameter in operation.HeaderParameters){#>
+<#  if(parameter.IsStringArray){#>
+                request_.Headers.TryAddWithoutValidation("<#=parameter.Name#>", <#=parameter.VariableName#>);
+<#  }else{#>
                 request_.Headers.TryAddWithoutValidation("<#=parameter.Name#>", <#=parameter.VariableName#> != null ? <#=parameter.VariableName#>.ToString() : null);
+<#  }#>
 <#}#>
 <#if(operation.HasContent){#>
                 var content_ = new System.Net.Http.StringContent(<#if(operation.HasXmlBodyParameter){#><#=operation.ContentParameter.VariableName#><#}else{#>Newtonsoft.Json.JsonConvert.SerializeObject(<#=operation.ContentParameter.VariableName#><#=Model.JsonSerializerParameterCode#>)<#}#>);

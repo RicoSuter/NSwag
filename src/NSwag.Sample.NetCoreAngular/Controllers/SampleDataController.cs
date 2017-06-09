@@ -29,7 +29,7 @@ namespace NSwag_Sample_NetCoreAngular.Controllers
 
         [HttpDelete]
         [ProducesResponseType(200)]
-        public async Task<IActionResult> DeleteShop([FromQuery]Guid id)
+        public async Task<IActionResult> DeleteShop([FromQuery]Guid id, [FromHeader]List<string> additionalIds)
         {
             return Ok();
         }
