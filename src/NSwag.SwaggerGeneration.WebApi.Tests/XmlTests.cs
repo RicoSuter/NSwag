@@ -65,7 +65,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
             //// Assert
             Assert.IsTrue(code.Contains("(xmlDocument: string, "));
             Assert.IsTrue(code.Contains("const content_ = xmlDocument;"));
-            Assert.IsTrue(code.Contains("\"Content-Type\": \"application/xml; charset=UTF-8\""));
+            Assert.IsTrue(code.Contains("\"Content-Type\": \"application/xml\""));
         }
     }
 }
