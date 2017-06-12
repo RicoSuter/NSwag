@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="RIDER_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$/../..">
+      <sourceFolder url="file://$MODULE_DIR$/../../IntegrationTests.md" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.Annotations" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.AspNet.Owin" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.AspNet.WebApi" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.AspNetCore" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.AssemblyLoader" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.AssemblyLoaderCore" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.CodeGeneration" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.CodeGeneration.CSharp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.CodeGeneration.CSharp.Tests" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.CodeGeneration.Tests" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.CodeGeneration.TypeScript" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.CodeGeneration.TypeScript.Tests" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.Commands" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.Console" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.ConsoleCore" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.Core" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.Demo.Client" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.Demo.OwinCoreWeb" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.Demo.OwinWeb/NSwag.Demo.OwinWeb.csproj" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.Demo.Web/NSwag.Demo.Web.csproj" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.Integration.ClientPCL" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.Integration.ClientPCL.Tests" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.Integration.Console" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.Integration.WebAPI/NSwag.Integration.WebAPI.csproj" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.MSBuild/NSwag.MSBuild.nuspec" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.MSBuild/NSwag.MSBuild.props" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.MSBuild/NuGet.exe" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.MSBuild/build.bat" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.Npm/README.md" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.Npm/bin/nswag.js" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.Npm/package.json" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.SwaggerGeneration" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.SwaggerGeneration.WebApi" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.SwaggerGeneration.WebApi.Tests" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.Tests" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwag.VersionMissmatchTest" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwagStudio" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwagStudio.Chocolatey/NSwagStudio.ChocolateyInstall.ps1" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwagStudio.Chocolatey/NSwagStudio.ChocolateyUninstall.ps1" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwagStudio.Chocolatey/NSwagStudio.nuspec" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwagStudio.Chocolatey/build.bat" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NSwagStudio.Installer/NSwagStudio.Installer.wixproj" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../Samples/DemoWeb.nswag" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../Samples/SwaggerUrlImport.nswag" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.Annotations/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.Annotations/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.AspNet.Owin/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.AspNet.Owin/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.AspNet.WebApi/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.AspNet.WebApi/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.AspNetCore/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.AspNetCore/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.AssemblyLoader/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.AssemblyLoader/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.AssemblyLoaderCore/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.AssemblyLoaderCore/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.CodeGeneration.CSharp.Tests/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.CodeGeneration.CSharp.Tests/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.CodeGeneration.CSharp/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.CodeGeneration.CSharp/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.CodeGeneration.Tests/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.CodeGeneration.Tests/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.CodeGeneration.TypeScript.Tests/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.CodeGeneration.TypeScript.Tests/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.CodeGeneration.TypeScript/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.CodeGeneration.TypeScript/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.CodeGeneration/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.CodeGeneration/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.Commands/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.Commands/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.Console/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.Console/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.ConsoleCore/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.ConsoleCore/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.Core/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.Core/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.Demo.Client/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.Demo.Client/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.Demo.OwinCoreWeb/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.Demo.OwinCoreWeb/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.Integration.ClientPCL.Tests/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.Integration.ClientPCL.Tests/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.Integration.ClientPCL/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.Integration.ClientPCL/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.Integration.Console/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.Integration.Console/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.SwaggerGeneration.WebApi.Tests/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.SwaggerGeneration.WebApi.Tests/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.SwaggerGeneration.WebApi/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.SwaggerGeneration.WebApi/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.SwaggerGeneration/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.SwaggerGeneration/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.Tests/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.Tests/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.VersionMissmatchTest/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwag.VersionMissmatchTest/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwagStudio/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NSwagStudio/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../packages" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

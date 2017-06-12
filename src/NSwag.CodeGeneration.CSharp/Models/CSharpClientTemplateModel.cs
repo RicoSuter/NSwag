@@ -130,7 +130,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             }
         }
 
-        public bool GenerateDescriptorAttributes => _settings.GenerateDescriptorAttributes;
+        public string MethodDescriptorAttribute => _settings.MethodDescriptorAttribute;
         
         private bool RequiresJsonExceptionConverter =>
             _document.Operations.Any(o => o.Operation.AllResponses.Any(r => r.Value.ActualResponseSchema?.InheritsSchema(_exceptionSchema) == true));
