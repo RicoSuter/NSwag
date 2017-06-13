@@ -209,6 +209,9 @@ namespace NSwag.SwaggerGeneration
             if (typeDescription.Type.HasFlag(JsonObjectType.Array))
             {
                 var itemType = type.GetEnumerableItemType();
+                if (itemType == null)
+                    throw new InvalidOperationException("Could not find item type of '" + type.FullName + "'.");
+
                 return new JsonSchema4
                 {
                     // TODO: Fix this bad design
