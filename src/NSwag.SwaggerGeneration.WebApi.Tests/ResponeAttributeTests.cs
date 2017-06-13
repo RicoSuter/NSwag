@@ -40,7 +40,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
             [SwaggerResponse(HttpStatusCode.InternalServerError, typeof(Dog))]
             public object Abc()
             {
-                return null; 
+                return null;
             }
 
             [Route("Def")]
@@ -58,7 +58,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         {
             /// Arrange
             var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
-            
+
             /// Act
             var document = await generator.GenerateForControllerAsync<TestController>();
 
@@ -89,7 +89,6 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public async Task When_spec_is_generated_then_no_NPE_is_thrown()
         {
             /// Arrange
@@ -97,9 +96,10 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
 
             /// Act
             var document = await generator.GenerateForControllerAsync<MyApiController>();
+            var json = document.ToJson();
 
             /// Assert
-            // InvalidOperationException exception thrown
+            Assert.IsTrue(document.Operations.First().Operation.Responses.First().Value.Schema.Item.IsAnyType);
         }
     }
 }
