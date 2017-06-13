@@ -12,6 +12,7 @@
     <PackageIconUrl>https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png</PackageIconUrl>
     <Company />
     <AssemblyName>dotnet-nswag</AssemblyName>
+    <PackageId>NSwag.ConsoleCore</PackageId>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\NSwag.AssemblyLoaderCore\NSwag.AssemblyLoaderCore.csproj" />
