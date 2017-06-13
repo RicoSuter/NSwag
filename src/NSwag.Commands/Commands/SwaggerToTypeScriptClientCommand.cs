@@ -223,7 +223,7 @@ namespace NSwag.Commands
             set { Settings.TypeScriptGeneratorSettings.HandleReferences = value; }
         }
 
-        [Argument(Name = "GenerateConstructorInterface", IsRequired = false, Description = "Generate an class interface which is used in the constructor to initialize the class (default: true).")]
+        [Argument(Name = "GenerateConstructorInterface", IsRequired = false, Description = "Generate an class interface which is used in the constructor to initialize the class (only available when TypeStyle is Class, default: true).")]
         public bool GenerateConstructorInterface
         {
             get { return Settings.TypeScriptGeneratorSettings.GenerateConstructorInterface; }

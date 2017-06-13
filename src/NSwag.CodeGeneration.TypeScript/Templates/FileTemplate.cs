@@ -41,7 +41,8 @@ namespace NSwag.CodeGeneration.TypeScript.Templates
             
             #line default
             #line hidden
-            this.Write(") (http://NSwag.org)\r\n// </auto-generated>\r\n//----------------------\r\n\r\n");
+            this.Write(") (http://NSwag.org)\r\n// </auto-generated>\r\n//----------------------\r\n// ReSharpe" +
+                    "r disable InconsistentNaming\n\r\n");
             
             #line 10 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ExtensionCodeImport));

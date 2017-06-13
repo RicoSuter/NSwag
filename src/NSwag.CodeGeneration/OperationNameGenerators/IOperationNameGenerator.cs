@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Diagnostics.Contracts;
-
 namespace NSwag.CodeGeneration.OperationNameGenerators
 {
     /// <summary>Generates the client and operation name for a given operation.</summary>
@@ -22,7 +20,6 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         /// <param name="httpMethod">The HTTP method.</param>
         /// <param name="operation">The operation.</param>
         /// <returns>The client name.</returns>
-        [Pure]
         string GetClientName(SwaggerDocument document, string path, SwaggerOperationMethod httpMethod, SwaggerOperation operation);
 
         /// <summary>Gets the operation name for a given operation.</summary>
@@ -31,7 +28,6 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         /// <param name="httpMethod">The HTTP method.</param>
         /// <param name="operation">The operation.</param>
         /// <returns>The operation name.</returns>
-        [Pure]
         string GetOperationName(SwaggerDocument document, string path, SwaggerOperationMethod httpMethod, SwaggerOperation operation);
     }
 }

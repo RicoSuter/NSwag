@@ -28,7 +28,7 @@ namespace NSwag
         public JsonSchema4 Schema { get; set; }
 
         /// <summary>Gets or sets the headers.</summary>
-        [JsonProperty(PropertyName = "header", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "headers", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public SwaggerHeaders Headers { get; set; }
 
         /// <summary>Sets a value indicating whether the response can be null (use IsNullable() to get a parameter's nullability).</summary>

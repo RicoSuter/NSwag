@@ -56,6 +56,10 @@ namespace NSwag
         [JsonIgnore]
         public string DocumentPath { get; private set; }
 
+        /// <summary>Gets or sets the Swagger generator information.</summary>
+        [JsonProperty(PropertyName = "x-generator", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public string Generator { get; set; }
+
         /// <summary>Gets or sets the Swagger specification version being used.</summary>
         [JsonProperty(PropertyName = "swagger", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Swagger { get; set; }

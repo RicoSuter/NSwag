@@ -1,6 +1,5 @@
 ﻿using System;
 using NConsole;
-using NSwag.CodeGeneration;
 using NSwag.Commands;
 
 namespace NSwag

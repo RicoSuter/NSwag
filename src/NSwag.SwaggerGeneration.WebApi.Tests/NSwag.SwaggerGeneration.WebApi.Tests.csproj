@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NSwag.SwaggerGeneration.WebApi.Tests</RootNamespace>
     <AssemblyName>NSwag.SwaggerGeneration.WebApi.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,8 +42,8 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=8.33.6323.36213, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.8.33.6323.36213\lib\net45\NJsonSchema.dll</HintPath>
+    <Reference Include="NJsonSchema, Version=9.1.11.0, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.9.1.11\lib\net45\NJsonSchema.dll</HintPath>
     </Reference>
     <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
       <HintPath>..\packages\Swashbuckle.Core.5.5.3\lib\net40\Swashbuckle.Core.dll</HintPath>
@@ -114,6 +115,7 @@
     <Compile Include="Attributes\RouteTests.cs" />
     <Compile Include="Attributes\TagsTests.cs" />
     <Compile Include="ControllerClassesTests.cs" />
+    <Compile Include="RouteAttributeTests.cs" />
     <Compile Include="EnumListTests.cs" />
     <Compile Include="FileParameterTests.cs" />
     <Compile Include="FileResponseTests.cs" />
@@ -161,7 +163,7 @@
       <Name>NSwag.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\NSwag.Demo.Web\NSwag.Demo.Web.csproj">
-      <Project>{37AE85DE-B127-4861-B925-1A67A35F314A}</Project>
+      <Project>{37ae85de-b127-4861-b925-1a67a35f314a}</Project>
       <Name>NSwag.Demo.Web</Name>
     </ProjectReference>
     <ProjectReference Include="..\NSwag.SwaggerGeneration.WebApi\NSwag.SwaggerGeneration.WebApi.csproj">

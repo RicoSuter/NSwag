@@ -11,7 +11,6 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using NConsole;
 using Newtonsoft.Json;
-using NSwag.Commands.Annotations;
 using NSwag.Commands.Base;
 
 namespace NSwag.Commands
@@ -70,7 +69,6 @@ namespace NSwag.Commands
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>Called when property changed.</summary>
-        [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

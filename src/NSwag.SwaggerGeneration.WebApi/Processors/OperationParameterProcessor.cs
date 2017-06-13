@@ -59,7 +59,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                 }
                 else
                 {
-                    var parameterInfo = JsonObjectTypeDescription.FromType(parameter.ParameterType, parameter.GetCustomAttributes(), _settings.DefaultEnumHandling);
+                    var parameterInfo = JsonObjectTypeDescription.FromType(parameter.ParameterType, _settings.ResolveContract(parameter.ParameterType), parameter.GetCustomAttributes(), _settings.DefaultEnumHandling);
                     if (await TryAddFileParameterAsync(parameterInfo, context.OperationDescription.Operation, parameter, context.SwaggerGenerator).ConfigureAwait(false) == false)
                     {
                         var parameterName = parameter.Name;
@@ -204,7 +204,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
             var attributes = parameter.GetCustomAttributes().ToList();
 
             // TODO: Check if there is a way to control the property name
-            var parameterDocumentation = await parameter.GetXmlDocumentationAsync().ConfigureAwait(false);
+            var parameterDocumentation = await parameter.GetDescriptionAsync(parameter.GetCustomAttributes()).ConfigureAwait(false);
             var operationParameter = await swaggerGenerator.CreatePrimitiveParameterAsync(parameter.Name, parameterDocumentation, parameter.ParameterType, attributes).ConfigureAwait(false);
 
             InitializeFileParameter(operationParameter, isFileArray);
@@ -215,7 +215,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
         {
             var isFormFileCollection = type.Name == "IFormFileCollection";
             var isFileArray = typeInfo.Type == JsonObjectType.Array && type.GenericTypeArguments.Any() &&
-                              JsonObjectTypeDescription.FromType(type.GenericTypeArguments[0], null, _settings.DefaultEnumHandling).Type == JsonObjectType.File;
+                JsonObjectTypeDescription.FromType(type.GenericTypeArguments[0], _settings.ResolveContract(type.GenericTypeArguments[0]), null, _settings.DefaultEnumHandling).Type == JsonObjectType.File;
             return isFormFileCollection || isFileArray;
         }
 
@@ -230,7 +230,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                     Kind = SwaggerParameterKind.Body,
                     IsRequired = parameter.HasDefaultValue == false,
                     IsNullableRaw = true,
-                    Description = await parameter.GetXmlDocumentationAsync().ConfigureAwait(false)
+                    Description = await parameter.GetDescriptionAsync(parameter.GetCustomAttributes()).ConfigureAwait(false)
                 });
             }
             else
@@ -244,7 +244,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
         {
             if (typeDescription.Type.HasFlag(JsonObjectType.Array))
             {
-                var parameterDocumentation = await parameter.GetXmlDocumentationAsync().ConfigureAwait(false);
+                var parameterDocumentation = await parameter.GetDescriptionAsync(parameter.GetCustomAttributes()).ConfigureAwait(false);
                 var operationParameter = await swaggerGenerator.CreatePrimitiveParameterAsync(name, parameterDocumentation,
                     parameter.ParameterType, parameter.GetCustomAttributes().ToList()).ConfigureAwait(false);
 
@@ -274,7 +274,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
 
                         // TODO: Check if required can be controlled with mechanisms other than RequiredAttribute
 
-                        var parameterInfo = JsonObjectTypeDescription.FromType(property.PropertyType, attributes, _settings.DefaultEnumHandling);
+                        var parameterInfo = JsonObjectTypeDescription.FromType(property.PropertyType, _settings.ResolveContract(property.PropertyType), attributes, _settings.DefaultEnumHandling);
                         var isFileArray = IsFileArray(property.PropertyType, parameterInfo);
                         if (parameterInfo.Type == JsonObjectType.File || isFileArray)
                             InitializeFileParameter(operationParameter, isFileArray);

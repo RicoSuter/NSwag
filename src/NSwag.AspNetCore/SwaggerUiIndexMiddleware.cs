@@ -12,9 +12,9 @@ namespace NSwag.AspNetCore
     {
         private readonly RequestDelegate _nextDelegate;
         private readonly string _indexPath;
-        private readonly SwaggerUiOwinSettings _settings;
+        private readonly SwaggerUiSettings _settings;
 
-        public SwaggerUiIndexMiddleware(RequestDelegate nextDelegate, string indexPath, SwaggerUiOwinSettings settings)
+        public SwaggerUiIndexMiddleware(RequestDelegate nextDelegate, string indexPath, SwaggerUiSettings settings)
         {
             _nextDelegate = nextDelegate;
             _indexPath = indexPath;
