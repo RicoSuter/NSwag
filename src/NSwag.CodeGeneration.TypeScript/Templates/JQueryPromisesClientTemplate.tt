@@ -53,13 +53,17 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
     private <#=operation.ActualOperationName#>WithCallbacks(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>: <#=parameter.Type#>, <#}#>onSuccess?: (result: <#=operation.ResultType#>) => void, onFail?: (exception: <#=operation.ExceptionType#>, reason: string) => void) {
         <#=TypeScriptTemplatePartGenerator.RenderRequestUrlCode(operation, 2)#>
 
+<#  if(operation.HasContent){#>
         <#=TypeScriptTemplatePartGenerator.RenderRequestBodyCode(operation, 2)#>
 
+<#  }#>
         jQuery.ajax(<#if(Model.UseTransformOptionsMethod){#>this.transformOptions(<#}#>{
             url: url_,
             beforeSend: this.beforeSend,
             type: "<#=operation.HttpMethodLower#>",
+<#  if(operation.HasContent){#>
             data: content_,
+<#  }#>
 <#  if(operation.HasFormParameters){#>
             mimeType: "multipart/form-data",
             contentType: false,

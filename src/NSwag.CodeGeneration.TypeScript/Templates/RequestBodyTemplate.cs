@@ -27,20 +27,20 @@ namespace NSwag.CodeGeneration.TypeScript.Templates
         {
             
             #line 2 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
-  if(Model.HasFormParameters){
+if(Model.HasFormParameters){
             
             #line default
             #line hidden
             this.Write("const content_ = new FormData();\r\n");
             
             #line 4 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
-foreach(var parameter in Model.FormParameters){
+  foreach(var parameter in Model.FormParameters){
             
             #line default
             #line hidden
             
             #line 5 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
-  if(parameter.IsNullable){
+      if(parameter.IsNullable){
             
             #line default
             #line hidden
@@ -61,7 +61,7 @@ foreach(var parameter in Model.FormParameters){
             this.Write(" !== undefined)\r\n");
             
             #line 7 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
-  }else{
+      }else{
             
             #line default
             #line hidden
@@ -89,14 +89,14 @@ foreach(var parameter in Model.FormParameters){
             this.Write("\' cannot be null.\");\r\nelse\r\n");
             
             #line 11 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
-  }
+      }
             
             #line default
             #line hidden
             
             #line 12 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
-  if(parameter.IsFile){
-        if(parameter.IsArray){
+      if(parameter.IsFile){
+            if(parameter.IsArray){
             
             #line default
             #line hidden
@@ -124,7 +124,7 @@ foreach(var parameter in Model.FormParameters){
             this.Write("\") );\r\n");
             
             #line 15 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
-      }else{
+          }else{
             
             #line default
             #line hidden
@@ -166,8 +166,8 @@ foreach(var parameter in Model.FormParameters){
             this.Write("\");\r\n");
             
             #line 17 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
-      }
-    }else{
+          }
+        }else{
             
             #line default
             #line hidden
@@ -188,157 +188,78 @@ foreach(var parameter in Model.FormParameters){
             this.Write(".toString());\r\n");
             
             #line 20 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
-  }
+      }
             
             #line default
             #line hidden
             
             #line 21 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
-}
+  }
             
             #line default
             #line hidden
             
             #line 22 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
-  }else{
+}else{
             
             #line default
             #line hidden
             
             #line 23 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
-      if(Model.ContentParameter != null){
-            if (Model.ContentParameter.UseDtoClass){ 
-                if(Model.ContentParameter.IsArray){
+  if(Model.HasContent){
             
             #line default
             #line hidden
-            this.Write("let contentData_: any = [];\r\nif (");
             
-            #line 27 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ContentParameter.VariableName));
-            
-            #line default
-            #line hidden
-            this.Write(") {\r\n    for (let item of ");
-            
-            #line 28 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ContentParameter.VariableName));
-            
-            #line default
-            #line hidden
-            this.Write(")\r\n        contentData_.push(item.toJSON());\r\n}\r\nconst content_ = JSON.stringify(" +
-                    "");
-            
-            #line 31 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ContentParameter.VariableName));
-            
-            #line default
-            #line hidden
-            this.Write(" ? contentData_ : null);\r\n");
-            
-            #line 32 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
-              }else if(Model.ContentParameter.IsDictionary){
-            
-            #line default
-            #line hidden
-            this.Write("let contentData_: any = {};\r\nif (");
-            
-            #line 34 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ContentParameter.VariableName));
-            
-            #line default
-            #line hidden
-            this.Write(") {\r\n    for (let key in ");
-            
-            #line 35 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ContentParameter.VariableName));
-            
-            #line default
-            #line hidden
-            this.Write(") {\r\n        if (");
-            
-            #line 36 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ContentParameter.VariableName));
-            
-            #line default
-            #line hidden
-            this.Write(".hasOwnProperty(key))\r\n            contentData_[key] = ");
-            
-            #line 37 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ContentParameter.VariableName));
-            
-            #line default
-            #line hidden
-            this.Write("[key].toJSON();\r\n    }\r\n}\r\nconst content_ = JSON.stringify(");
-            
-            #line 40 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ContentParameter.VariableName));
-            
-            #line default
-            #line hidden
-            this.Write(" ? contentData_ : null);\r\n");
-            
-            #line 41 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
-              }else{
-            
-            #line default
-            #line hidden
-            this.Write("const content_ = JSON.stringify(");
-            
-            #line 42 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ContentParameter.VariableName));
-            
-            #line default
-            #line hidden
-            this.Write(" ? ");
-            
-            #line 42 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ContentParameter.VariableName));
-            
-            #line default
-            #line hidden
-            this.Write(".toJSON() : null);\r\n");
-            
-            #line 43 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
-              }
-            }else if(Model.ContentParameter.IsXmlBodyParameter){
+            #line 24 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
+      if(Model.ContentParameter.IsXmlBodyParameter){
             
             #line default
             #line hidden
             this.Write("const content_ = ");
             
-            #line 45 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
+            #line 25 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ContentParameter.VariableName));
             
             #line default
             #line hidden
             this.Write(";\r\n");
             
-            #line 46 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
-          }else{
+            #line 26 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
+      }else{
             
             #line default
             #line hidden
             this.Write("const content_ = JSON.stringify(");
             
-            #line 47 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
+            #line 27 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ContentParameter.VariableName));
             
             #line default
             #line hidden
             this.Write(");\r\n");
             
-            #line 48 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
-          }
-        }else{
+            #line 28 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
+      }
             
             #line default
             #line hidden
-            this.Write("const content_ = \"\";\r\n");
             
-            #line 51 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
+            #line 29 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
+  }else{
+            
+            #line default
+            #line hidden
+            this.Write("const content_ = undefined;\r\n");
+            
+            #line 31 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
   }
-  }
+            
+            #line default
+            #line hidden
+            
+            #line 32 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestBodyTemplate.tt"
+}
             
             #line default
             #line hidden
