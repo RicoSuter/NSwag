@@ -43,7 +43,7 @@ Show available commands:
 
 Run the following command to compile and copy the current NSwag console binaries into the NPM module directory `binaries` directory: 
 
-    build/03_Npm_Build.bat
+    build/01_Npm_Build.bat
 
 To run the NodeJS binary locally: 
 
@@ -56,4 +56,4 @@ The JavaScript command line tool can be found here:
 	
 To publish the package (login required): 
 
-    build/04_Npm_Publish.bat
+    build/02_Npm_Publish.bat
