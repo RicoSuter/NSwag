@@ -1,3 +1,5 @@
+using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -38,7 +40,18 @@ namespace NSwagStudio.ViewModels
             await RunTaskAsync(async () =>
             {
                 if (type == "files")
+                {
+                    var start = Stopwatch.GetTimestamp();
                     await Document.Document.ExecuteAsync();
+                    var duration = TimeSpan.FromSeconds((Stopwatch.GetTimestamp() - start) / Stopwatch.Frequency);
+
+                    #pragma warning disable CS4014
+                    Application.Current.Dispatcher.InvokeAsync(() =>
+                    {
+                        MessageBox.Show("Duration: " + duration, "Generation complete!");
+                    });
+                    #pragma warning restore CS4014
+                }
                 else
                 {
                     var generator = Document.GetSwaggerGeneratorView();
@@ -50,10 +63,6 @@ namespace NSwagStudio.ViewModels
                         var documentPath = Document.GetDocumentPath(generator);
                         foreach (var codeGenerator in Document.CodeGenerators.Where(c => c.View.IsSelected))
                             await codeGenerator.View.GenerateClientAsync(document, documentPath);
-                    }
-                    else
-                    {
-                        MessageBox.Show("No Swagger specification", "Could not generate code because the Swagger generator returned an empty document.");
                     }
                 }
             });
