@@ -47,6 +47,7 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets the name.</summary>
         public string Name { get; }
+
         /// <summary>Gets the variable name in (usually lowercase).</summary>
         public string VariableName { get; }
 

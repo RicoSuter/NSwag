@@ -610,7 +610,7 @@ if(!parameter.IsLast){
             this.Write("\r\n\r\n");
             
             #line 54 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
-if(!operation.IsGetOrHead){
+if(operation.HasContent){
             
             #line default
             #line hidden
@@ -621,17 +621,17 @@ if(!operation.IsGetOrHead){
             
             #line default
             #line hidden
-            this.Write("\r\n");
+            this.Write("\r\n\r\n");
             
-            #line 56 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
+            #line 57 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
-            this.Write("\r\n        let options_ = <RequestInit>{\r\n");
+            this.Write("        let options_ = <RequestInit>{\r\n");
             
             #line 59 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
-if(!operation.IsGetOrHead){
+if(operation.HasContent){
             
             #line default
             #line hidden
