@@ -17,7 +17,7 @@ namespace NSwag.CodeGeneration.TypeScript.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+    #line 1 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
     internal partial class JQueryPromisesClientTemplate : JQueryPromisesClientTemplateBase
     {
@@ -29,287 +29,287 @@ namespace NSwag.CodeGeneration.TypeScript.Templates
         {
             this.Write("\r\n");
             
-            #line 5 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 5 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(Model.HasOperations){
             
             #line default
             #line hidden
             
-            #line 6 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 6 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(Model.GenerateClientInterfaces){
             
             #line default
             #line hidden
             this.Write("export interface I");
             
-            #line 7 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 7 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.Class));
             
             #line default
             #line hidden
             this.Write(" {\r\n");
             
-            #line 8 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 8 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 foreach(var operation in Model.Operations){
             
             #line default
             #line hidden
             
-            #line 9 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 9 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(operation.HasDocumentation){
             
             #line default
             #line hidden
             this.Write("    /**\r\n");
             
-            #line 10 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 10 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(operation.HasSummary){
             
             #line default
             #line hidden
             this.Write("     * ");
             
-            #line 10 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 10 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.Summary));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 11 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 11 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 11 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 11 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 foreach(var parameter in operation.Parameters){
             
             #line default
             #line hidden
             
-            #line 12 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 12 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(parameter.HasDescriptionOrIsOptional){
             
             #line default
             #line hidden
             this.Write("     * @");
             
-            #line 12 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 12 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             
-            #line 12 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 12 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(parameter.IsOptional){
             
             #line default
             #line hidden
             this.Write(" (optional)");
             
-            #line 12 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 12 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 12 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 12 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Description ?? ""));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 13 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 13 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 13 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 13 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 13 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 13 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(operation.HasResultDescription){
             
             #line default
             #line hidden
             this.Write("     * @return ");
             
-            #line 13 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 13 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultDescription));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 14 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 14 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 14 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 14 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(operation.IsDeprecated){
             
             #line default
             #line hidden
             this.Write("     * @deprecated\r\n");
             
-            #line 15 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 15 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("     */\r\n");
             
-            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 16 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("    ");
             
-            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 16 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.MethodAccessModifier));
             
             #line default
             #line hidden
             
-            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 16 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationName));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 16 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 foreach(var parameter in operation.Parameters){
             
             #line default
             #line hidden
             
-            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 16 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             
-            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 16 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(Model.GenerateOptionalParameters && parameter.IsOptional){
             
             #line default
             #line hidden
             this.Write("?");
             
-            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 16 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write(": ");
             
-            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 16 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Type));
             
             #line default
             #line hidden
             
-            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 16 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(!parameter.IsLast){
             
             #line default
             #line hidden
             this.Write(", ");
             
-            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 16 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 16 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("): ");
             
-            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 16 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.PromiseType));
             
             #line default
             #line hidden
             this.Write("<");
             
-            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 16 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultType));
             
             #line default
             #line hidden
             this.Write(">;\r\n");
             
-            #line 17 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 17 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("}\r\n");
             
-            #line 18 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 18 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("\r\nexport class ");
             
-            #line 20 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 20 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.Class));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 20 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 20 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(Model.HasClientBaseClass){
             
             #line default
             #line hidden
             this.Write("extends ");
             
-            #line 20 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 20 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClientBaseClass));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 20 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 20 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 20 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 20 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(Model.GenerateClientInterfaces){
             
             #line default
             #line hidden
             this.Write("implements I");
             
-            #line 20 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 20 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.Class));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 20 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 20 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
@@ -317,308 +317,343 @@ if(Model.GenerateClientInterfaces){
             this.Write("{\r\n    baseUrl: string; \r\n    beforeSend: any = undefined; \r\n    protected jsonPa" +
                     "rseReviver: ");
             
-            #line 23 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 23 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(Model.SupportsStrictNullChecks){
             
             #line default
             #line hidden
             this.Write("((key: string, value: any) => any) | undefined");
             
-            #line 23 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 23 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }else{
             
             #line default
             #line hidden
             this.Write("(key: string, value: any) => any");
             
-            #line 23 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 23 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write(" = undefined;\r\n\r\n");
             
-            #line 25 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 25 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(!Model.HasExtendedConstructor){
             
             #line default
             #line hidden
-            this.Write("    constructor(baseUrl?: string) {\r\n");
+            this.Write("    constructor(");
             
-            #line 27 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 26 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+if(Model.HasConfigurationClass){
+            
+            #line default
+            #line hidden
+            this.Write("configuration: ");
+            
+            #line 26 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ConfigurationClass));
+            
+            #line default
+            #line hidden
+            this.Write(", ");
+            
+            #line 26 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("baseUrl?: string) {\r\n");
+            
+            #line 27 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(Model.HasClientBaseClass){
             
             #line default
             #line hidden
-            this.Write("        super();\r\n");
+            this.Write("        super(");
             
-            #line 29 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 28 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+if(Model.HasConfigurationClass){
+            
+            #line default
+            #line hidden
+            this.Write("configuration");
+            
+            #line 28 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write(");\r\n");
+            
+            #line 29 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("        this.baseUrl = baseUrl ? baseUrl : \"");
             
-            #line 30 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 30 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.BaseUrl));
             
             #line default
             #line hidden
             this.Write("\"; \r\n    }\r\n");
             
-            #line 32 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 32 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 33 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 33 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(Model.HasExtensionCode){
             
             #line default
             #line hidden
             this.Write("    ");
             
-            #line 34 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 34 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ExtensionCode));
             
             #line default
             #line hidden
             this.Write("\r\n    \r\n");
             
-            #line 36 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 36 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 37 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 37 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 foreach(var operation in Model.Operations){
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 39 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 39 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(operation.HasDocumentation){
             
             #line default
             #line hidden
             this.Write("    /**\r\n");
             
-            #line 40 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 40 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(operation.HasSummary){
             
             #line default
             #line hidden
             this.Write("     * ");
             
-            #line 40 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 40 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.Summary));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 41 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 41 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 41 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 41 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 foreach(var parameter in operation.Parameters){
             
             #line default
             #line hidden
             
-            #line 42 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 42 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(parameter.HasDescriptionOrIsOptional){
             
             #line default
             #line hidden
             this.Write("     * @");
             
-            #line 42 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 42 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             
-            #line 42 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 42 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(parameter.IsOptional){
             
             #line default
             #line hidden
             this.Write(" (optional)");
             
-            #line 42 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 42 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 42 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 42 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Description ?? ""));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 43 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 43 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 43 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 43 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 43 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 43 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(operation.HasResultDescription){
             
             #line default
             #line hidden
             this.Write("     * @return ");
             
-            #line 43 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 43 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultDescription));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 44 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 44 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 44 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 44 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(operation.IsDeprecated){
             
             #line default
             #line hidden
             this.Write("     * @deprecated\r\n");
             
-            #line 45 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 45 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("     */\r\n");
             
-            #line 46 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 46 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("    ");
             
-            #line 47 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 47 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.MethodAccessModifier));
             
             #line default
             #line hidden
             
-            #line 47 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 47 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationName));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 47 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 47 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 foreach(var parameter in operation.Parameters){
             
             #line default
             #line hidden
             
-            #line 47 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 47 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             
-            #line 47 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 47 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(Model.GenerateOptionalParameters && parameter.IsOptional){
             
             #line default
             #line hidden
             this.Write("?");
             
-            #line 47 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 47 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write(": ");
             
-            #line 47 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 47 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Type));
             
             #line default
             #line hidden
             
-            #line 47 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 47 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(!parameter.IsLast){
             
             #line default
             #line hidden
             this.Write(", ");
             
-            #line 47 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 47 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 47 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 47 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write(") {\r\n        return ");
             
-            #line 48 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 48 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.PromiseConstructor));
             
             #line default
             #line hidden
             this.Write("<");
             
-            #line 48 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 48 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultType));
             
             #line default
             #line hidden
             this.Write(">((resolve, reject) => {\r\n            this.");
             
-            #line 49 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 49 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationName));
             
             #line default
             #line hidden
             this.Write("WithCallbacks(");
             
-            #line 49 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 49 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 foreach(var parameter in operation.Parameters){
             
             #line default
             #line hidden
             
-            #line 49 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 49 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             this.Write(", ");
             
-            #line 49 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 49 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
@@ -626,90 +661,90 @@ foreach(var parameter in operation.Parameters){
             this.Write("(result) => resolve(result), (exception, _reason) => reject(exception));\r\n       " +
                     " });\r\n    }\r\n    \r\n    private ");
             
-            #line 53 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 53 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationName));
             
             #line default
             #line hidden
             this.Write("WithCallbacks(");
             
-            #line 53 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 53 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 foreach(var parameter in operation.Parameters){
             
             #line default
             #line hidden
             
-            #line 53 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 53 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             this.Write(": ");
             
-            #line 53 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 53 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Type));
             
             #line default
             #line hidden
             this.Write(", ");
             
-            #line 53 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 53 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("onSuccess?: (result: ");
             
-            #line 53 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 53 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultType));
             
             #line default
             #line hidden
             this.Write(") => void, onFail?: (exception: ");
             
-            #line 53 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 53 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ExceptionType));
             
             #line default
             #line hidden
             this.Write(", reason: string) => void) {\r\n        ");
             
-            #line 54 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 54 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeScriptTemplatePartGenerator.RenderRequestUrlCode(operation, 2)));
             
             #line default
             #line hidden
             this.Write("\r\n\r\n");
             
-            #line 56 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 56 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
   if(operation.HasContent){
             
             #line default
             #line hidden
             this.Write("        ");
             
-            #line 57 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 57 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeScriptTemplatePartGenerator.RenderRequestBodyCode(operation, 2)));
             
             #line default
             #line hidden
             this.Write("\r\n\r\n");
             
-            #line 59 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 59 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
   }
             
             #line default
             #line hidden
             this.Write("        jQuery.ajax(");
             
-            #line 60 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 60 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(Model.UseTransformOptionsMethod){
             
             #line default
             #line hidden
             this.Write("this.transformOptions(");
             
-            #line 60 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 60 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
@@ -717,118 +752,118 @@ if(Model.UseTransformOptionsMethod){
             this.Write("{\r\n            url: url_,\r\n            beforeSend: this.beforeSend,\r\n            " +
                     "type: \"");
             
-            #line 63 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 63 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.HttpMethodLower));
             
             #line default
             #line hidden
             this.Write("\",\r\n");
             
-            #line 64 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 64 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
   if(operation.HasContent){
             
             #line default
             #line hidden
             this.Write("            data: content_,\r\n");
             
-            #line 66 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 66 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
   }
             
             #line default
             #line hidden
             
-            #line 67 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 67 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
   if(operation.HasFormParameters){
             
             #line default
             #line hidden
             this.Write("            mimeType: \"multipart/form-data\",\r\n            contentType: false,\r\n");
             
-            #line 70 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 70 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
   }else{
             
             #line default
             #line hidden
             this.Write("            dataType: \"text\",\r\n");
             
-            #line 72 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 72 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
   }
             
             #line default
             #line hidden
             this.Write("            headers: {\r\n");
             
-            #line 74 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 74 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 foreach(var parameter in operation.HeaderParameters){
             
             #line default
             #line hidden
             this.Write("                \"");
             
-            #line 75 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 75 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
             
             #line default
             #line hidden
             this.Write("\": ");
             
-            #line 75 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 75 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             this.Write(", \r\n");
             
-            #line 76 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 76 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("                \"Content-Type\": \"");
             
-            #line 77 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 77 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.Consumes));
             
             #line default
             #line hidden
             this.Write("\",\r\n");
             
-            #line 78 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 78 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(operation.HasResultType && !operation.HasAcceptHeaderParameterParameter){
             
             #line default
             #line hidden
             this.Write("                \"Accept\": \"");
             
-            #line 79 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 79 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.Produces));
             
             #line default
             #line hidden
             this.Write("\"\r\n");
             
-            #line 80 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 80 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("            }\r\n        }");
             
-            #line 82 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 82 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(Model.UseTransformOptionsMethod){
             
             #line default
             #line hidden
             this.Write(")");
             
-            #line 82 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 82 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write(").done((_data, _textStatus, xhr) => {\r\n            this.process");
             
-            #line 83 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 83 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationNameUpper));
             
             #line default
@@ -836,7 +871,7 @@ if(Model.UseTransformOptionsMethod){
             this.Write("WithCallbacks(url_, xhr, onSuccess, onFail);\r\n        }).fail((xhr) => {\r\n       " +
                     "     this.process");
             
-            #line 85 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 85 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationNameUpper));
             
             #line default
@@ -844,7 +879,7 @@ if(Model.UseTransformOptionsMethod){
             this.Write("WithCallbacks(url_, xhr, onSuccess, onFail);\r\n        });\r\n    }\r\n\r\n    private p" +
                     "rocess");
             
-            #line 89 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 89 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationNameUpper));
             
             #line default
@@ -852,35 +887,35 @@ if(Model.UseTransformOptionsMethod){
             this.Write("WithCallbacks(_url: string, xhr: any, onSuccess?: any, onFail?: any): void {\r\n   " +
                     "     try {\r\n");
             
-            #line 91 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 91 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(Model.UseTransformResultMethod){
             
             #line default
             #line hidden
             this.Write("            let result = this.transformResult(_url, xhr, (xhr) => this.process");
             
-            #line 92 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 92 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationNameUpper));
             
             #line default
             #line hidden
             this.Write("(xhr));\r\n");
             
-            #line 93 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 93 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }else{
             
             #line default
             #line hidden
             this.Write("            let result = this.process");
             
-            #line 94 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 94 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationNameUpper));
             
             #line default
             #line hidden
             this.Write("(xhr);\r\n");
             
-            #line 95 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 95 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
@@ -889,48 +924,48 @@ if(Model.UseTransformResultMethod){
                     "     } catch (e) {\r\n            if (onFail !== undefined)\r\n                onFai" +
                     "l(e, \"http_service_exception\");\r\n        }\r\n    }\r\n\r\n    protected process");
             
-            #line 104 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 104 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationNameUpper));
             
             #line default
             #line hidden
             this.Write("(xhr: any): ");
             
-            #line 104 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 104 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultType));
             
             #line default
             #line hidden
             
-            #line 104 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 104 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(Model.SupportsStrictNullChecks){
             
             #line default
             #line hidden
             this.Write(" | null");
             
-            #line 104 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 104 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write(" {\r\n        const status = xhr.status; \r\n\r\n        ");
             
-            #line 107 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 107 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeScriptTemplatePartGenerator.RenderProcessResponseCode(operation, 2)));
             
             #line default
             #line hidden
             this.Write("\r\n    }\r\n");
             
-            #line 109 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 109 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("}\r\n");
             
-            #line 111 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            #line 111 "C:\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 }
             
             #line default

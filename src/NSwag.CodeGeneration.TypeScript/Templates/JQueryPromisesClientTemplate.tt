@@ -23,9 +23,9 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
     protected jsonParseReviver: <#if(Model.SupportsStrictNullChecks){#>((key: string, value: any) => any) | undefined<#}else{#>(key: string, value: any) => any<#}#> = undefined;
 
 <#if(!Model.HasExtendedConstructor){#>
-    constructor(baseUrl?: string) {
+    constructor(<#if(Model.HasConfigurationClass){#>configuration: <#=Model.ConfigurationClass#>, <#}#>baseUrl?: string) {
 <#if(Model.HasClientBaseClass){#>
-        super();
+        super(<#if(Model.HasConfigurationClass){#>configuration<#}#>);
 <#}#>
         this.baseUrl = baseUrl ? baseUrl : "<#=Model.BaseUrl#>"; 
     }
