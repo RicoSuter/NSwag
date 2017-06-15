@@ -26,9 +26,9 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
     protected jsonParseReviver: <#if(Model.SupportsStrictNullChecks){#>((key: string, value: any) => any) | undefined<#}else{#>(key: string, value: any) => any<#}#> = undefined;
 
 <#if(!Model.HasExtendedConstructor){#>
-    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+    constructor(<#if(Model.HasConfigurationClass){#>configuration: <#=Model.ConfigurationClass#>, <#}#>baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
 <#if(Model.HasClientBaseClass){#>
-        super();
+        super(<#if(Model.HasConfigurationClass){#>configuration<#}#>);
 <#}#>
         this.baseUrl = baseUrl ? baseUrl : "";
         this.http = http ? http : <any>window;
@@ -51,12 +51,12 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
     <#=operation.MethodAccessModifier#><#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#>?<#}#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): Promise<<#=operation.ResultType#>> {
         <#=TypeScriptTemplatePartGenerator.RenderRequestUrlCode(operation, 2)#>
 
-<#if(!operation.IsGetOrHead){#>
+<#if(operation.HasContent){#>
         <#=TypeScriptTemplatePartGenerator.RenderRequestBodyCode(operation, 2)#>
-<#}#>
 
+<#}#>
         let options_ = <RequestInit>{
-<#if(!operation.IsGetOrHead){#>
+<#if(operation.HasContent){#>
             body: content_,
 <#}#>
             method: "<#=operation.HttpMethodUpper.ToUpperInvariant()#>",
