@@ -173,7 +173,10 @@ namespace NSwag.SwaggerGeneration.WebApi
                         document.Paths[operation.Path] = new SwaggerOperations();
 
                     if (document.Paths[operation.Path].ContainsKey(operation.Method))
-                        throw new InvalidOperationException("The method '" + operation.Method + "' on path '" + operation.Path + "' is registered multiple times (check the DefaultUrlTemplate setting [default for Web API: 'api/{controller}/{id}'; for MVC projects: '{controller}/{action}/{id?}']).");
+                    {
+                        throw new InvalidOperationException("The method '" + operation.Method + "' on path '" + operation.Path + "' is registered multiple times " +
+                            "(check the DefaultUrlTemplate setting [default for Web API: 'api/{controller}/{id}'; for MVC projects: '{controller}/{action}/{id?}']).");
+                    }
 
                     document.Paths[operation.Path][operation.Method] = operation.Operation;
                 }
