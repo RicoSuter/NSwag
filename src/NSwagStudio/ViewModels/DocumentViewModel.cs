@@ -45,12 +45,12 @@ namespace NSwagStudio.ViewModels
                     await Document.Document.ExecuteAsync();
                     var duration = TimeSpan.FromSeconds((Stopwatch.GetTimestamp() - start) / Stopwatch.Frequency);
 
-                    #pragma warning disable CS4014
+#pragma warning disable CS4014
                     Application.Current.Dispatcher.InvokeAsync(() =>
                     {
-                        MessageBox.Show("Duration: " + duration, "Generation complete!");
+                        MessageBox.Show("File: " + Document.Document.Path + "\nDuration: " + duration, "Generation complete!");
                     });
-                    #pragma warning restore CS4014
+#pragma warning restore CS4014
                 }
                 else
                 {
