@@ -113,6 +113,14 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
 
                     context.OperationDescription.Operation.Responses[httpStatusCode] = response;
                 }
+
+                var loadDefaultResponseAttribute = context.MethodInfo.GetCustomAttributes()
+                        .Any(a => a.GetType().IsAssignableTo("SwaggerDefaultResponseAttribute", TypeNameStyle.Name)) ||
+                    context.MethodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes()
+                        .Any(a => a.GetType().IsAssignableTo("SwaggerDefaultResponseAttribute", TypeNameStyle.Name));
+
+                if (loadDefaultResponseAttribute)
+                    await LoadDefaultSuccessResponseAsync(context.OperationDescription.Operation, context.MethodInfo, successXmlDescription, context.SwaggerGenerator).ConfigureAwait(false);
             }
             else
                 await LoadDefaultSuccessResponseAsync(context.OperationDescription.Operation, context.MethodInfo, successXmlDescription, context.SwaggerGenerator).ConfigureAwait(false);
