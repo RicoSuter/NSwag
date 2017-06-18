@@ -22,7 +22,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NJsonSchema" Version="9.1.12" />
-    <PackageReference Include="NConsole" Version="3.5.6378.41515" />
+    <PackageReference Include="NConsole" Version="3.6.6378.42120" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
   </ItemGroup>
   <ItemGroup>
