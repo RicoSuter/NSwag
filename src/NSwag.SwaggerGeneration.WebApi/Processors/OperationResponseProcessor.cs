@@ -92,11 +92,11 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                     responses.Add(new OperationResponseModel(httpStatusCode, returnType, description));
                 }
 
-                foreach (var group in responses.GroupBy(r => r.HttpStatusCode))
+                foreach (var statusCodeGroup in responses.GroupBy(r => r.HttpStatusCode))
                 {
-                    var httpStatusCode = group.Key;
-                    var returnType = group.Select(r => r.ResponseType).FindCommonBaseType();
-                    var description = string.Join("\nor\n", group.Select(r => r.Description));
+                    var httpStatusCode = statusCodeGroup.Key;
+                    var returnType = statusCodeGroup.Select(r => r.ResponseType).FindCommonBaseType();
+                    var description = string.Join("\nor\n", statusCodeGroup.Select(r => r.Description));
 
                     var typeDescription = JsonObjectTypeDescription.FromType(returnType, _settings.ResolveContract(returnType), context.MethodInfo.ReturnParameter?.GetCustomAttributes(), _settings.DefaultEnumHandling);
                     var response = new SwaggerResponse
@@ -108,11 +108,23 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                     {
                         response.IsNullableRaw = typeDescription.IsNullable;
                         response.Schema = await context.SwaggerGenerator.GenerateAndAppendSchemaFromTypeAsync(returnType, typeDescription.IsNullable, null).ConfigureAwait(false);
-                        response.ExpectedSchemas = await GenerateExpectedSchemasAsync(context, group);
+                        response.ExpectedSchemas = await GenerateExpectedSchemasAsync(context, statusCodeGroup);
                     }
 
                     context.OperationDescription.Operation.Responses[httpStatusCode] = response;
                 }
+
+                var operationResponses = context.OperationDescription.Operation.Responses;
+                var hasSuccessResponse = operationResponses.ContainsKey("200") || operationResponses.ContainsKey("204");
+
+                var loadDefaultSuccessResponseFromReturnType = !hasSuccessResponse &&
+                    context.MethodInfo.GetCustomAttributes()
+                        .Any(a => a.GetType().IsAssignableTo("SwaggerDefaultResponseAttribute", TypeNameStyle.Name)) ||
+                    context.MethodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes()
+                        .Any(a => a.GetType().IsAssignableTo("SwaggerDefaultResponseAttribute", TypeNameStyle.Name));
+
+                if (loadDefaultSuccessResponseFromReturnType)
+                    await LoadDefaultSuccessResponseAsync(context.OperationDescription.Operation, context.MethodInfo, successXmlDescription, context.SwaggerGenerator).ConfigureAwait(false);
             }
             else
                 await LoadDefaultSuccessResponseAsync(context.OperationDescription.Operation, context.MethodInfo, successXmlDescription, context.SwaggerGenerator).ConfigureAwait(false);

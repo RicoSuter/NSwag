@@ -1,1 +1,1 @@
-npm publish "../src/NSwag.Npm"
+npm publish "%~dp0/../src/NSwag.Npm"

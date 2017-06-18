@@ -166,6 +166,9 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Gets a value indicating whether the operation has content parameter.</summary>
         public bool HasContent => ContentParameter != null;
 
+        /// <summary>Gets a value indicating whether the the request has a body.</summary>
+        public bool HasBody => HasContent || HasFormParameters;
+
         /// <summary>Gets the content parameter.</summary>
         public TParameterModel ContentParameter => Parameters.SingleOrDefault(p => p.Kind == SwaggerParameterKind.Body);
 
