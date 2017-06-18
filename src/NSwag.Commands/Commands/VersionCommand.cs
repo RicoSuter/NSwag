@@ -13,7 +13,7 @@ using NJsonSchema;
 namespace NSwag.Commands
 {
     /// <summary>Prints the tool chain version.</summary>
-    [Command(Name = "version", Description = "Prints the tool chain version.")]
+    [Command(Name = "version", Description = "Prints the toolchain version.")]
     public class VersionCommand : IConsoleCommand
     {
         /// <summary>Runs the command.</summary>

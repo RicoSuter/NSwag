@@ -16,7 +16,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-    <PackageReference Include="NConsole" Version="3.4.6206.26897" />
+    <PackageReference Include="NConsole" Version="3.5.6378.41515" />
     <PackageReference Include="NJsonSchema" Version="9.1.12" />
     <PackageReference Include="NJsonSchema.CodeGeneration" Version="9.1.12" />
     <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="9.1.12" />

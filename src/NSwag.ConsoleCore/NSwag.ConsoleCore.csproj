@@ -19,7 +19,7 @@
     <ProjectReference Include="..\NSwag.Commands\NSwag.Commands.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NConsole" Version="3.4.6206.26897" />
+    <PackageReference Include="NConsole" Version="3.5.6378.41515" />
     <PackageReference Include="System.IO.FileSystem" Version="4.0.1" />
     <PackageReference Include="System.Net.Http" Version="4.3.0" />
   </ItemGroup>
