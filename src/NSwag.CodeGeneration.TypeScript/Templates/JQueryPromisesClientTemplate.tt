@@ -53,7 +53,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
     private <#=operation.ActualOperationName#>WithCallbacks(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>: <#=parameter.Type#>, <#}#>onSuccess?: (result: <#=operation.ResultType#>) => void, onFail?: (exception: <#=operation.ExceptionType#>, reason: string) => void) {
         <#=TypeScriptTemplatePartGenerator.RenderRequestUrlCode(operation, 2)#>
 
-<#  if(operation.HasContent){#>
+<#  if(operation.HasBody){#>
         <#=TypeScriptTemplatePartGenerator.RenderRequestBodyCode(operation, 2)#>
 
 <#  }#>
@@ -61,7 +61,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
             url: url_,
             beforeSend: this.beforeSend,
             type: "<#=operation.HttpMethodLower#>",
-<#  if(operation.HasContent){#>
+<#  if(operation.HasBody){#>
             data: content_,
 <#  }#>
 <#  if(operation.HasFormParameters){#>
