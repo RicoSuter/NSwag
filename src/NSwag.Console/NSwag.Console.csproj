@@ -5,7 +5,7 @@
   <PropertyGroup>
     <TargetFrameworks>net46</TargetFrameworks>
     <Description>NSwag: The Swagger API toolchain for .NET and TypeScript</Description>
-    <Version>11.1.1</Version>
+    <Version>11.1.2</Version>
     <PackageTags>Swagger Documentation WebApi AspNet TypeScript CodeGen</PackageTags>
     <Copyright>Copyright © Rico Suter, 2017</Copyright>
     <PackageLicenseUrl>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</PackageLicenseUrl>
@@ -27,11 +27,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net46|AnyCPU'">
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile></DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net46|AnyCPU'">
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile></DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.Portable.Compatibility" Version="1.0.1" />
