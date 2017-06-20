@@ -255,15 +255,7 @@ namespace NSwag.CodeGeneration.Models
         /// <returns>The parameter variable name.</returns>
         protected virtual string GetParameterVariableName(SwaggerParameter parameter, IEnumerable<SwaggerParameter> allParameters)
         {
-            var variableName = ConversionUtilities.ConvertToLowerCamelCase(parameter.Name
-                .Replace("-", "_")
-                .Replace(".", "_")
-                .Replace("$", string.Empty), true);
-
-            if (allParameters.Count(p => p.Name == parameter.Name) > 1)
-                return variableName + parameter.Kind;
-
-            return variableName;
+            return _settings.ParameterNameGenerator.Generate(parameter, allParameters);
         }
 
         /// <summary>Resolves the type of the parameter.</summary>
