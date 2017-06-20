@@ -19,9 +19,11 @@
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net45|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;AspNetOwin;NET45</DefineConstants>
+    <DocumentationFile>bin\Debug\net45\NSwag.AspNet.Owin.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net45|AnyCPU'">
     <DefineConstants>TRACE;RELEASE;AspNetOwin;NET45</DefineConstants>
+    <DocumentationFile>bin\Release\net45\NSwag.AspNet.Owin.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\NSwag.AspNetCore\OAuth2ClientSettings.cs" Link="OAuth2ClientSettings.cs" />

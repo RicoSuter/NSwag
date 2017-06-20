@@ -14,6 +14,12 @@
     <PackageIconUrl>https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png</PackageIconUrl>
     <Company />
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard1.3|AnyCPU'">
+    <DocumentationFile>bin\Debug\netstandard1.3\NSwag.CodeGeneration.CSharp.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard1.3|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard1.3\NSwag.CodeGeneration.CSharp.xml</DocumentationFile>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="9.1.12" />
   </ItemGroup>

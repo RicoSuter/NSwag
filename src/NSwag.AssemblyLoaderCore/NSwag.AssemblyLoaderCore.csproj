@@ -14,6 +14,12 @@
     <PackageIconUrl>https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png</PackageIconUrl>
     <Company />
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net462|AnyCPU'">
+    <DocumentationFile>bin\Debug\net462\NSwag.AssemblyLoaderCore.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net462|AnyCPU'">
+    <DocumentationFile>bin\Release\net462\NSwag.AssemblyLoaderCore.xml</DocumentationFile>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NJsonSchema" Version="9.1.12" />
     <PackageReference Include="System.Net.Http" Version="4.1.1" />

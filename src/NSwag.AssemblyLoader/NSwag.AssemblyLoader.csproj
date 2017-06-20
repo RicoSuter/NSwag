@@ -16,9 +16,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net451|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;FullNet;NET451</DefineConstants>
+    <DocumentationFile>bin\Debug\net451\NSwag.AssemblyLoader.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net451|AnyCPU'">
     <DefineConstants>TRACE;RELEASE;NET451;FullNet</DefineConstants>
+    <DocumentationFile>bin\Release\net451\NSwag.AssemblyLoader.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NJsonSchema" Version="9.1.12" />

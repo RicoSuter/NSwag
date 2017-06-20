@@ -16,6 +16,10 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net45|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;NET45</DefineConstants>
+    <DocumentationFile>bin\Debug\net45\NSwag.AspNet.WebApi.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net45|AnyCPU'">
+    <DocumentationFile>bin\Release\net45\NSwag.AspNet.WebApi.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NJsonSchema" Version="9.1.12" />

@@ -14,6 +14,12 @@
     <PackageIconUrl>https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png</PackageIconUrl>
     <Company />
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net451|AnyCPU'">
+    <DocumentationFile>bin\Debug\net451\NSwag.AspNetCore.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net451|AnyCPU'">
+    <DocumentationFile>bin\Release\net451\NSwag.AspNetCore.xml</DocumentationFile>
+  </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="SwaggerUi\**\*" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
   </ItemGroup>
