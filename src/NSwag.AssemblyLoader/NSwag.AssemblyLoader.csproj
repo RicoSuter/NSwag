@@ -23,7 +23,7 @@
     <DocumentationFile>bin\Release\net451\NSwag.AssemblyLoader.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="NJsonSchema" Version="9.1.13" />
+    <PackageReference Include="NJsonSchema" Version="9.2.0" />
     <PackageReference Include="NConsole" Version="3.6.6378.42120" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
   </ItemGroup>

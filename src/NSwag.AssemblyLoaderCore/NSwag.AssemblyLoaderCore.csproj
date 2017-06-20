@@ -21,7 +21,7 @@
     <DocumentationFile>bin\Release\net462\NSwag.AssemblyLoaderCore.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="NJsonSchema" Version="9.1.13" />
+    <PackageReference Include="NJsonSchema" Version="9.2.0" />
     <PackageReference Include="System.Net.Http" Version="4.1.1" />
     <PackageReference Include="System.Runtime.Loader" Version="4.0.0" />
   </ItemGroup>
