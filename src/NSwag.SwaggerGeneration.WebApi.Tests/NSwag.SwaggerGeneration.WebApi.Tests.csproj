@@ -101,9 +101,11 @@
       <HintPath>..\packages\WebActivatorEx.2.0\lib\net40\WebActivatorEx.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\SwaggerConfig.cs" />
+    <Compile Include="AssemblyLoader\AssemblyTypeToSwaggerGeneratorTests.cs" />
     <Compile Include="Attributes\AcceptVerbsTests.cs" />
     <Compile Include="Attributes\ApiExplorerSettingsAttributeTests.cs" />
     <Compile Include="Attributes\ComplexParametersTests.cs" />
@@ -115,6 +117,8 @@
     <Compile Include="Attributes\RouteTests.cs" />
     <Compile Include="Attributes\TagsTests.cs" />
     <Compile Include="ControllerClassesTests.cs" />
+    <Compile Include="OperationNameGenerator\MultipleClientsFromOperationIdOperationNameGeneratorTests.cs" />
+    <Compile Include="OperationNameGenerator\MultipleClientsFromPathSegmentsOperationNameGeneratorTests.cs" />
     <Compile Include="RouteAttributeTests.cs" />
     <Compile Include="EnumListTests.cs" />
     <Compile Include="FileParameterTests.cs" />
@@ -169,6 +173,10 @@
     <ProjectReference Include="..\NSwag.SwaggerGeneration.WebApi\NSwag.SwaggerGeneration.WebApi.csproj">
       <Project>{8A547CB0-930F-466D-92EB-E780FF14C0A6}</Project>
       <Name>NSwag.SwaggerGeneration.WebApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NSwag.SwaggerGeneration\NSwag.SwaggerGeneration.csproj">
+      <Project>{5EBE3EFF-9558-45F2-9C8F-5C8CFB74D574}</Project>
+      <Name>NSwag.SwaggerGeneration</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

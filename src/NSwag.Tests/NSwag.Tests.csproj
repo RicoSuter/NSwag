@@ -87,6 +87,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CommandLine\WebApiCommandLineTests.cs" />
     <Compile Include="Commands\WildcardTests.cs" />
     <Compile Include="Converters\ExceptionSerializationTests.cs" />
     <Compile Include="Specification\OperationIdTests.cs" />
@@ -101,6 +102,10 @@
     <ProjectReference Include="..\NSwag.AssemblyLoader\NSwag.AssemblyLoader.csproj">
       <Project>{46634C60-BA7D-43E6-9049-6AD461488C39}</Project>
       <Name>NSwag.AssemblyLoader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NSwag.Commands\NSwag.Commands.csproj">
+      <Project>{71B39C21-46A2-471B-AACE-226C575B8AC1}</Project>
+      <Name>NSwag.Commands</Name>
     </ProjectReference>
     <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj">
       <Project>{2E6174AA-FC75-4821-9E86-51B30568BEC0}</Project>
