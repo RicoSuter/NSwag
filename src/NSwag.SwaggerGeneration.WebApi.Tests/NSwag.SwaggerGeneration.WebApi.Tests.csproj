@@ -115,6 +115,7 @@
     <Compile Include="Attributes\RouteInheritanceTests.cs" />
     <Compile Include="Attributes\RoutePrefixTests.cs" />
     <Compile Include="Attributes\RouteTests.cs" />
+    <Compile Include="Attributes\SwaggerIgnoreTests.cs" />
     <Compile Include="Attributes\TagsTests.cs" />
     <Compile Include="ControllerClassesTests.cs" />
     <Compile Include="OperationNameGenerator\MultipleClientsFromOperationIdOperationNameGeneratorTests.cs" />
