@@ -20,7 +20,7 @@ using NSwag.Collections;
 namespace NSwag
 {
     /// <summary>Describes a JSON web service.</summary>
-    public class SwaggerDocument : IDocumentPathProvider
+    public class SwaggerDocument : JsonExtensionObject, IDocumentPathProvider
     {
         /// <summary>Initializes a new instance of the <see cref="SwaggerDocument"/> class.</summary>
         public SwaggerDocument()
