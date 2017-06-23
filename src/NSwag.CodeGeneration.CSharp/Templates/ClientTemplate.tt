@@ -258,7 +258,9 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(<#
                 content_.Headers.ContentType.MediaType = "<#=operation.Consumes#>";
 <#}else{#>
 <#  if(operation.HasFormParameters){#>
-                var content_ = new System.Net.Http.MultipartFormDataContent();
+				var boundary_ = System.Guid.NewGuid().ToString();
+                var content_ = new System.Net.Http.MultipartFormDataContent(boundary_);
+                content_.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("multipart/form-data; boundary=" + boundary_);
 <#    foreach(var parameter in operation.FormParameters){#>
 <#      if(parameter.IsNullable){#>
                 if (<#=parameter.VariableName#> != null)
