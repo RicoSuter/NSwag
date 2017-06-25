@@ -24,7 +24,7 @@ public partial interface I<#=Model.Class#>
 <#      if(operation.IsDeprecated){#>
     [System.Obsolete]
 <#      }#>
-    <#=operation.ResultType#> <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#><#if(!parameter.IsLast){#>, <#}}#>);
+    <#=operation.ResultType#> <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = <#=parameter.DefaultValueCode#><#}#><#if(!parameter.IsLast){#>, <#}}#>);
 
 <#  }#>
 <#  if(Model.GenerateSyncMethods){#>
@@ -43,7 +43,7 @@ public partial interface I<#=Model.Class#>
 <#      if(operation.IsDeprecated){#>
     [System.Obsolete]
 <#      }#>
-    <#=operation.UnwrappedResultType#> <#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#><#if(!parameter.IsLast){#>, <#}}#>);
+    <#=operation.UnwrappedResultType#> <#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = <#=parameter.DefaultValueCode#><#}#><#if(!parameter.IsLast){#>, <#}}#>);
 
 <#  }#>
 <#  if(operation.HasSummary){#>
@@ -62,7 +62,7 @@ public partial interface I<#=Model.Class#>
 <#      if(operation.IsDeprecated){#>
     [System.Obsolete]
 <#      }#>
-    <#=operation.ResultType#> <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#>, <#}#>System.Threading.CancellationToken cancellationToken<#if(Model.GenerateOptionalParameters){#> = default(System.Threading.CancellationToken)<#}#>);
+    <#=operation.ResultType#> <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = <#=parameter.DefaultValueCode#><#}#>, <#}#>System.Threading.CancellationToken cancellationToken<#if(Model.GenerateOptionalParameters){#> = default(System.Threading.CancellationToken)<#}#>);
 
 <#}#>
 }
@@ -134,7 +134,7 @@ public partial interface I<#=Model.Class#>
 <#  if(operation.IsDeprecated){#>
     [System.Obsolete]
 <#  }#>
-    <#=operation.MethodAccessModifier#> <#=operation.ResultType#> <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#><#if(!parameter.IsLast){#>, <#}}#>)
+    <#=operation.MethodAccessModifier#> <#=operation.ResultType#> <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = <#=parameter.DefaultValueCode#><#}#><#if(!parameter.IsLast){#>, <#}}#>)
     {
         return <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>, <#}#>System.Threading.CancellationToken.None);
     }
@@ -156,7 +156,7 @@ public partial interface I<#=Model.Class#>
 <#  if(operation.IsDeprecated){#>
     [System.Obsolete]
 <#  }#>
-    <#=operation.MethodAccessModifier#> <#=operation.UnwrappedResultType#> <#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#><#if(!parameter.IsLast){#>, <#}}#>)
+    <#=operation.MethodAccessModifier#> <#=operation.UnwrappedResultType#> <#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = <#=parameter.DefaultValueCode#><#}#><#if(!parameter.IsLast){#>, <#}}#>)
     {
         <#if(operation.HasResult){#>return <#}#>System.Threading.Tasks.Task.Run(async () => await <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>, <#}#>System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
     }
@@ -179,7 +179,7 @@ public partial interface I<#=Model.Class#>
 <#  if(operation.IsDeprecated){#>
     [System.Obsolete]
 <#  }#>
-    <#=operation.MethodAccessModifier#> async <#=operation.ResultType#> <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#>, <#}#>System.Threading.CancellationToken cancellationToken<#if(Model.GenerateOptionalParameters){#> = default(System.Threading.CancellationToken)<#}#>)
+    <#=operation.MethodAccessModifier#> async <#=operation.ResultType#> <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = <#=parameter.DefaultValueCode#><#}#>, <#}#>System.Threading.CancellationToken cancellationToken<#if(Model.GenerateOptionalParameters){#> = default(System.Threading.CancellationToken)<#}#>)
     {
 <#foreach(var parameter in operation.PathParameters){#>
 <#  if(parameter.IsRequired){#>
