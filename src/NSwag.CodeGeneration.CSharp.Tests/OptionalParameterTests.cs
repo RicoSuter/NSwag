@@ -16,6 +16,16 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             {
             }
 
+            [Route("TestWithDefaultStringValue")]
+            public void TestWithDefaultStringValue(string a, string b, string c = "aaa")
+            {
+            }
+
+            [Route("TestWithDefaultNumericValue")]
+            public void TestWithDefaultNumericValue(string a, string b, decimal c = 3.14M)
+            {
+            }
+
             [Route("TestWithClass")]
             public void TestWithClass([FromUri] MyClass objet)
             {
@@ -123,6 +133,27 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             //// Assert
             Assert.IsTrue(code.Contains("TestAsync(string a, string b, string c = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))"));
+        }
+
+
+        [TestMethod]
+        public async Task When_setting_is_enabled_then_optional_parameters_have_default_value()
+        {
+            //// Arrange
+            var generator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings());
+            var document = await generator.GenerateForControllerAsync<TestController>();
+
+            //// Act
+            var codeGenerator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
+            {
+                GenerateOptionalParameters = true,
+                GenerateOptionalParameterDefaultValues = true
+            });
+            var code = codeGenerator.GenerateFile();
+
+            //// Assert
+            Assert.IsTrue(code.Contains("TestWithDefaultStringValueAsync(string a, string b, string c = \"aaa\", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))"));
+            Assert.IsTrue(code.Contains("TestWithDefaultNumericValueAsync(string a, string b, decimal? c = 3.14M, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))"));
         }
     }
 }

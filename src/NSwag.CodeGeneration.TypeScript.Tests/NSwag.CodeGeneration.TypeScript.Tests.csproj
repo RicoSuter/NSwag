@@ -121,6 +121,7 @@
     <Compile Include="AngularTests.cs" />
     <Compile Include="ArrayParameterTests.cs" />
     <Compile Include="OperationParameterTests.cs" />
+    <Compile Include="OptionalParameterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

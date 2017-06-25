@@ -56,6 +56,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 new CSharpParameterModel(parameter.Name, GetParameterVariableName(parameter, _operation.Parameters),
                     ResolveParameterType(parameter), parameter, parameters,
                     _settings.CodeGeneratorSettings,
+                    _settings,
                     _generator))
                 .ToList();
         }

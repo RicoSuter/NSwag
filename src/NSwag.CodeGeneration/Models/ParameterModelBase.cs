@@ -108,5 +108,8 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets a value indicating whether the parameter is of type object array.</summary>
         public bool IsObjectArray => IsArray && (Schema.Item?.Type == JsonObjectType.Object || Schema.Item?.IsAnyType == true);
+
+        /// <summary>Gets a default value for the parameter.</summary>
+        public object DefaultValue => IsOptional ? Schema.Default : null;
     }
 }
