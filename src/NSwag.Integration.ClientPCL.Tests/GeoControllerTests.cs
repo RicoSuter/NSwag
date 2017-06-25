@@ -1,6 +1,8 @@
 using System;
+using System.Globalization;
 using System.IO;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSwag.Integration.ClientPCL.Contracts;
@@ -76,6 +78,33 @@ namespace NSwag.Integration.ClientPCL.Tests
                 Assert.AreEqual(1, response.Stream.ReadByte());
                 Assert.AreEqual(2, response.Stream.ReadByte());
                 Assert.AreEqual(3, response.Stream.ReadByte());
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("integration")]
+        public async Task PostDouble()
+        {
+            //// Arrange
+            
+            // The nl-NL culture is one of the cultures that uses a comma as the decimal separator.
+            Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("nl-NL");
+            var geoClient = new GeoClient(new HttpClient()) { BaseUrl = "http://localhost:13452" };
+            const double value = 0.5d;
+
+            //// Act
+            try
+            {
+                // This tests whether the value is encoded in the client using the invariant culture. If not, API method will receive the value as null (since it is optional).
+                var result = await geoClient.PostDoubleAsync(value);
+
+                //// Assert
+                Assert.AreEqual(value, result.Result);
+            }
+            catch (GeoClientException exception)
+            {
+                Assert.IsTrue(exception.InnerException is ArgumentException);
+                Assert.IsTrue(exception.InnerException.StackTrace.Contains("NSwag.Integration.WebAPI.Controllers.GeoController.SaveItems"));
             }
         }
     }

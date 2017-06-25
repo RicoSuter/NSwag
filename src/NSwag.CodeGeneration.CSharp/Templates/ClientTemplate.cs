@@ -1781,7 +1781,8 @@ foreach(var parameter in operation.PathParameters){
             
             #line default
             #line hidden
-            this.Write(".Select(s_ => s_.ToString()))));\r\n");
+            this.Write(".Select(s_ => System.Convert.ToString(s_, System.Globalization.CultureInfo.Invari" +
+                    "antCulture)))));\r\n");
             
             #line 210 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   }else{
@@ -1795,14 +1796,14 @@ foreach(var parameter in operation.PathParameters){
             
             #line default
             #line hidden
-            this.Write("}\", System.Uri.EscapeDataString(");
+            this.Write("}\", System.Uri.EscapeDataString(System.Convert.ToString(");
             
             #line 211 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
-            this.Write(".ToString()));\r\n");
+            this.Write(", System.Globalization.CultureInfo.InvariantCulture)));\r\n");
             
             #line 212 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   }
@@ -1939,7 +1940,8 @@ if(parameter.Type.EndsWith("?")){
             
             #line default
             #line hidden
-            this.Write("=\").Append(System.Uri.EscapeDataString(item_.ToString())).Append(\"&\"); }\r\n");
+            this.Write("=\").Append(System.Uri.EscapeDataString(System.Convert.ToString(item_, System.Glob" +
+                    "alization.CultureInfo.InvariantCulture))).Append(\"&\"); }\r\n");
             
             #line 226 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   }else{
@@ -1953,7 +1955,7 @@ if(parameter.Type.EndsWith("?")){
             
             #line default
             #line hidden
-            this.Write("=\").Append(System.Uri.EscapeDataString(");
+            this.Write("=\").Append(System.Uri.EscapeDataString(System.Convert.ToString(");
             
             #line 227 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
@@ -1973,7 +1975,7 @@ if(parameter.Type.EndsWith("?")){
             
             #line default
             #line hidden
-            this.Write(".ToString())).Append(\"&\");\r\n");
+            this.Write(", System.Globalization.CultureInfo.InvariantCulture))).Append(\"&\");\r\n");
             
             #line 228 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   }
@@ -2105,14 +2107,14 @@ foreach(var parameter in operation.HeaderParameters){
             
             #line default
             #line hidden
-            this.Write(" != null ? ");
+            this.Write(" != null ? System.Convert.ToString(");
             
             #line 253 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
-            this.Write(".ToString() : null);\r\n");
+            this.Write(", System.Globalization.CultureInfo.InvariantCulture) : null);\r\n");
             
             #line 254 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   }
@@ -2312,14 +2314,15 @@ if(operation.HasXmlBodyParameter){
             
             #line default
             #line hidden
-            this.Write("                        content_.Add(new System.Net.Http.StringContent(");
+            this.Write("                        content_.Add(new System.Net.Http.StringContent(System.Con" +
+                    "vert.ToString(");
             
             #line 279 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
-            this.Write(".ToString()), \"");
+            this.Write(", System.Globalization.CultureInfo.InvariantCulture)), \"");
             
             #line 279 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
