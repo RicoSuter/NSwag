@@ -81,6 +81,18 @@ namespace NSwag.Integration.WebAPI.Controllers
             };
         }
 
+        [HttpPost]
+        public double? PostDouble([FromUri]double? value = null)
+        {
+            // This allows us to test whether the client correctly converted the parameter to a string before adding it to the uri.
+            if (!value.HasValue)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            return value;
+        }
+
         #region Swagger generator
 
         private static readonly Lazy<string> _swagger = new Lazy<string>(() =>
