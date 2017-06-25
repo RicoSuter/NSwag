@@ -337,15 +337,50 @@ if(!Model.HasExtendedConstructor){
             
             #line default
             #line hidden
-            this.Write("    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: Request" +
-                    "Init): Promise<Response> }) {\r\n");
+            this.Write("    constructor(");
+            
+            #line 29 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
+if(Model.HasConfigurationClass){
+            
+            #line default
+            #line hidden
+            this.Write("configuration: ");
+            
+            #line 29 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ConfigurationClass));
+            
+            #line default
+            #line hidden
+            this.Write(", ");
+            
+            #line 29 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<R" +
+                    "esponse> }) {\r\n");
             
             #line 30 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
 if(Model.HasClientBaseClass){
             
             #line default
             #line hidden
-            this.Write("        super();\r\n");
+            this.Write("        super(");
+            
+            #line 31 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
+if(Model.HasConfigurationClass){
+            
+            #line default
+            #line hidden
+            this.Write("configuration");
+            
+            #line 31 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write(");\r\n");
             
             #line 32 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
 }
@@ -575,7 +610,7 @@ if(!parameter.IsLast){
             this.Write("\r\n\r\n");
             
             #line 54 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
-if(!operation.IsGetOrHead){
+if(operation.HasBody){
             
             #line default
             #line hidden
@@ -586,17 +621,17 @@ if(!operation.IsGetOrHead){
             
             #line default
             #line hidden
-            this.Write("\r\n");
+            this.Write("\r\n\r\n");
             
-            #line 56 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
+            #line 57 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
 }
             
             #line default
             #line hidden
-            this.Write("\r\n        let options_ = <RequestInit>{\r\n");
+            this.Write("        let options_ = <RequestInit>{\r\n");
             
             #line 59 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
-if(!operation.IsGetOrHead){
+if(operation.HasBody){
             
             #line default
             #line hidden
@@ -655,7 +690,7 @@ if(!operation.HasFormParameters){
             
             #line default
             #line hidden
-            this.Write("; charset=UTF-8\", \r\n");
+            this.Write("\", \r\n");
             
             #line 69 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
 }
@@ -664,7 +699,7 @@ if(!operation.HasFormParameters){
             #line hidden
             
             #line 70 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
-if(!operation.IsFile){
+if(operation.HasResultType && !operation.HasAcceptHeaderParameterParameter){
             
             #line default
             #line hidden
@@ -675,7 +710,7 @@ if(!operation.IsFile){
             
             #line default
             #line hidden
-            this.Write("; charset=UTF-8\"\r\n");
+            this.Write("\"\r\n");
             
             #line 72 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
 }

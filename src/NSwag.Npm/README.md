@@ -1,4 +1,4 @@
-NSwag is a Swagger 2.0 API (OpenAPI) toolchain for .NET, Web API, TypeScript (jQuery, AngularJS, Angular 2, Aurelia, KnockoutJS, and more) and other platforms, written in C#. The Swagger specification uses JSON and JSON Schema to describe a RESTful web API. The NSwag project provides tools to generate Swagger specifications from existing ASP.NET Web API controllers and client code from these Swagger specifications. 
+NSwag is a Swagger 2.0 API (OpenAPI) toolchain for .NET, Web API, TypeScript (jQuery, AngularJS, Angular 2+, Aurelia, KnockoutJS, and more) and other platforms, written in C#. The Swagger specification uses JSON and JSON Schema to describe a RESTful web API. The NSwag project provides tools to generate Swagger specifications from existing ASP.NET Web API controllers and client code from these Swagger specifications. 
 
 **This NPM module requires .NET 4.6+ or .NET Core 1.0.x/1.1.x to be installed on your system!**
 
@@ -17,9 +17,17 @@ Show available commands:
 
     nswag help
 
-The full .NET Framework is preferred as execution environment. Add the switch `--core` at the end of the command to execute the .NET Core binaries: 
+The full .NET Framework is preferred as execution environment. Add the switch `--core` **at the end** of the command to execute one of the .NET Core binaries (automatically detects whether .NET Core 1.0 or 1.1 is installed): 
 
-	nswag help --core
+    nswag help --core
+	
+To specify what .NET Core binaries to execute, either use 
+
+    nswag help --core 1.0
+	
+or
+
+    nswag help --core 1.1
 
 ### Project installation
 	
@@ -35,7 +43,7 @@ Show available commands:
 
 Run the following command to compile and copy the current NSwag console binaries into the NPM module directory `binaries` directory: 
 
-    build/03_Npm_Build.bat
+    build/01_Npm_Build.bat
 
 To run the NodeJS binary locally: 
 
@@ -48,4 +56,4 @@ The JavaScript command line tool can be found here:
 	
 To publish the package (login required): 
 
-    build/04_Npm_Publish.bat
+    build/02_Npm_Publish.bat

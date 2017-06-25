@@ -19,7 +19,7 @@ namespace NSwag.AspNet.Owin
     public class SwaggerMiddleware : OwinMiddleware
     {
         private readonly string _path;
-        private readonly SwaggerOwinSettings _settings;
+        private readonly SwaggerSettings _settings;
         private readonly IEnumerable<Type> _controllerTypes;
         private string _swaggerJson = null;
         private readonly SwaggerJsonSchemaGenerator _schemaGenerator;
@@ -30,7 +30,7 @@ namespace NSwag.AspNet.Owin
         /// <param name="controllerTypes">The controller types.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
-        public SwaggerMiddleware(OwinMiddleware next, string path, IEnumerable<Type> controllerTypes, SwaggerOwinSettings settings, SwaggerJsonSchemaGenerator schemaGenerator)
+        public SwaggerMiddleware(OwinMiddleware next, string path, IEnumerable<Type> controllerTypes, SwaggerSettings settings, SwaggerJsonSchemaGenerator schemaGenerator)
             : base(next)
         {
             _path = path;

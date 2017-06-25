@@ -13,7 +13,7 @@ namespace NSwag.Commands
     {
         [JsonProperty("name")]
         public string Name { get; set; }
-        
+
         [JsonProperty("schema")]
         public string Schema { get; set; }
 
@@ -26,7 +26,11 @@ namespace NSwag.Commands
         {
             var schema = await JsonSchema4.FromJsonAsync(Schema).ConfigureAwait(false);
             var document = new SwaggerDocument();
-            var rootSchemaName = string.IsNullOrEmpty(Name) && Regex.IsMatch(schema.Title, "^[a-zA-Z0-9_]*$") ? schema.Title : Name;
+
+            var rootSchemaName = string.IsNullOrEmpty(Name) && Regex.IsMatch(schema.Title ?? string.Empty, "^[a-zA-Z0-9_]*$") ? schema.Title : Name;
+            if (string.IsNullOrEmpty(rootSchemaName))
+                rootSchemaName = "Anonymous";
+
             document.Definitions[rootSchemaName] = schema;
             return document;
         }

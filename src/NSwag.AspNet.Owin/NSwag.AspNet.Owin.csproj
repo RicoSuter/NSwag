@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>net45</TargetFrameworks>
     <Description>NSwag: The Swagger API toolchain for .NET and TypeScript</Description>
-    <Version>11.0.0</Version>
+    <Version>11.1.2</Version>
     <PackageTags>Swagger Documentation WebApi AspNet TypeScript CodeGen</PackageTags>
     <Copyright>Copyright © Rico Suter, 2017</Copyright>
     <PackageLicenseUrl>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</PackageLicenseUrl>
@@ -13,6 +13,9 @@
     <Authors>Rico Suter</Authors>
     <PackageIconUrl>https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png</PackageIconUrl>
     <Company />
+  </PropertyGroup>
+  <PropertyGroup>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="SwaggerUi\**\*" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
@@ -25,17 +28,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\NSwag.AspNetCore\OAuth2ClientSettings.cs" Link="OAuth2ClientSettings.cs" />
-    <Compile Include="..\NSwag.AspNetCore\SwaggerOwinSettings.cs" Link="SwaggerOwinSettings.cs" />
-    <Compile Include="..\NSwag.AspNetCore\SwaggerUiOwinSettings.cs" Link="SwaggerUiOwinSettings.cs" />
+    <Compile Include="..\NSwag.AspNetCore\SwaggerSettings.cs" Link="SwaggerSettings.cs" />
+    <Compile Include="..\NSwag.AspNetCore\SwaggerUiSettings.cs" Link="SwaggerUiSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Owin" Version="3.0.1" />
     <PackageReference Include="Microsoft.Owin.StaticFiles" Version="3.0.1" />
-    <PackageReference Include="NJsonSchema" Version="9.1.2" />
+    <PackageReference Include="NJsonSchema" Version="9.2.3" />
     <PackageReference Include="Owin" Version="1.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj" />

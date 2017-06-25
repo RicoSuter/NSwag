@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using NJsonSchema;
 using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors.Contexts;
 using NSwag.SwaggerGeneration.WebApi.Infrastructure;
@@ -105,6 +106,7 @@ namespace NSwag.SwaggerGeneration.WebApi
         {
             var document = !string.IsNullOrEmpty(settings.DocumentTemplate) ? await SwaggerDocument.FromJsonAsync(settings.DocumentTemplate).ConfigureAwait(false) : new SwaggerDocument();
 
+            document.Generator = "NSwag v" + SwaggerDocument.ToolchainVersion + " (NJsonSchema v" + JsonSchema4.ToolchainVersion + ")";
             document.Consumes = new List<string> { "application/json" };
             document.Produces = new List<string> { "application/json" };
             document.Info = new SwaggerInfo
@@ -167,13 +169,18 @@ namespace NSwag.SwaggerGeneration.WebApi
                 var addOperation = await RunOperationProcessorsAsync(document, controllerType, method, operation, allOperation, swaggerGenerator).ConfigureAwait(false);
                 if (addOperation)
                 {
-                    if (!document.Paths.ContainsKey(operation.Path))
-                        document.Paths[operation.Path] = new SwaggerOperations();
+                    var path = operation.Path.Replace("//", "/");
 
-                    if (document.Paths[operation.Path].ContainsKey(operation.Method))
-                        throw new InvalidOperationException("The method '" + operation.Method + "' on path '" + operation.Path + "' is registered multiple times (check the DefaultUrlTemplate setting [default for Web API: 'api/{controller}/{id}'; for MVC projects: '{controller}/{action}/{id?}']).");
+                    if (!document.Paths.ContainsKey(path))
+                        document.Paths[path] = new SwaggerOperations();
 
-                    document.Paths[operation.Path][operation.Method] = operation.Operation;
+                    if (document.Paths[path].ContainsKey(operation.Method))
+                    {
+                        throw new InvalidOperationException("The method '" + operation.Method + "' on path '" + path + "' is registered multiple times " +
+                            "(check the DefaultUrlTemplate setting [default for Web API: 'api/{controller}/{id}'; for MVC projects: '{controller}/{action}/{id?}']).");
+                    }
+
+                    document.Paths[path][operation.Method] = operation.Operation;
                 }
             }
         }
@@ -259,12 +266,12 @@ namespace NSwag.SwaggerGeneration.WebApi
             var routeAttributes = GetRouteAttributes(method.GetCustomAttributes()).ToList();
 
             // .NET Core: RouteAttribute on class level
-            dynamic routeAttributeOnClass = GetRouteAttributes(controllerType.GetTypeInfo().GetCustomAttributes()).SingleOrDefault();
-            dynamic routePrefixAttribute = GetRoutePrefixAttributes(controllerType.GetTypeInfo().GetCustomAttributes()).SingleOrDefault();
+            var routeAttributeOnClass = GetRouteAttribute(controllerType);
+            var routePrefixAttribute = GetRoutePrefixAttribute(controllerType);
 
             if (routeAttributes.Any())
             {
-                foreach (dynamic attribute in routeAttributes)
+                foreach (var attribute in routeAttributes)
                 {
                     if (attribute.Template.StartsWith("~/")) // ignore route prefixes
                         httpPaths.Add(attribute.Template.Substring(1));
@@ -326,19 +333,46 @@ namespace NSwag.SwaggerGeneration.WebApi
             yield return path;
         }
 
-        private IEnumerable<Attribute> GetRouteAttributes(IEnumerable<Attribute> attributes)
+        private RouteAttributeFacade GetRouteAttribute(Type type)
         {
-            return attributes.Where(a => a.GetType().Name == "RouteAttribute" ||
-                                         a.GetType().GetTypeInfo().ImplementedInterfaces.Any(t => t.Name == "IHttpRouteInfoProvider") ||
-                                         a.GetType().GetTypeInfo().ImplementedInterfaces.Any(t => t.Name == "IRouteTemplateProvider")) // .NET Core
-                             .Where((dynamic a) => a.Template != null)
-                             .OfType<Attribute>();
+            do
+            {
+                var attributes = type.GetTypeInfo().GetCustomAttributes(false).Cast<Attribute>();
+
+                var attribute = GetRouteAttributes(attributes).SingleOrDefault();
+                if (attribute != null)
+                    return attribute;
+
+                type = type.GetTypeInfo().BaseType;
+            } while (type != null);
+
+            return null;
         }
 
-        private IEnumerable<Attribute> GetRoutePrefixAttributes(IEnumerable<Attribute> attributes)
+        private RoutePrefixAttributeFacade GetRoutePrefixAttribute(Type type)
         {
-            return attributes.Where(a => a.GetType().Name == "RoutePrefixAttribute" ||
-                                         a.GetType().GetTypeInfo().ImplementedInterfaces.Any(t => t.Name == "IRoutePrefix"));
+            do
+            {
+                var attributes = type.GetTypeInfo().GetCustomAttributes(false).Cast<Attribute>();
+
+                var attribute = GetRoutePrefixAttributes(attributes).SingleOrDefault();
+                if (attribute != null)
+                    return attribute;
+
+                type = type.GetTypeInfo().BaseType;
+            } while (type != null);
+
+            return null;
+        }
+
+        private IEnumerable<RouteAttributeFacade> GetRouteAttributes(IEnumerable<Attribute> attributes)
+        {
+            return attributes.Select(RouteAttributeFacade.TryMake).Where(a => a?.Template != null);
+        }
+
+        private IEnumerable<RoutePrefixAttributeFacade> GetRoutePrefixAttributes(IEnumerable<Attribute> attributes)
+        {
+            return attributes.Select(RoutePrefixAttributeFacade.TryMake).Where(a => a != null);
         }
 
         private string GetActionName(MethodInfo method)

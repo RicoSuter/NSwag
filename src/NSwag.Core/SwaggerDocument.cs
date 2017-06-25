@@ -20,7 +20,7 @@ using NSwag.Collections;
 namespace NSwag
 {
     /// <summary>Describes a JSON web service.</summary>
-    public class SwaggerDocument : IDocumentPathProvider
+    public class SwaggerDocument : JsonExtensionObject, IDocumentPathProvider
     {
         /// <summary>Initializes a new instance of the <see cref="SwaggerDocument"/> class.</summary>
         public SwaggerDocument()
@@ -55,6 +55,10 @@ namespace NSwag
         /// <summary>Gets the document path (URI or file path).</summary>
         [JsonIgnore]
         public string DocumentPath { get; private set; }
+
+        /// <summary>Gets or sets the Swagger generator information.</summary>
+        [JsonProperty(PropertyName = "x-generator", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public string Generator { get; set; }
 
         /// <summary>Gets or sets the Swagger specification version being used.</summary>
         [JsonProperty(PropertyName = "swagger", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]

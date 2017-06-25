@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
@@ -39,7 +40,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
             [SwaggerResponse(HttpStatusCode.InternalServerError, typeof(Dog))]
             public object Abc()
             {
-                return null; 
+                return null;
             }
 
             [Route("Def")]
@@ -57,7 +58,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         {
             /// Arrange
             var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
-            
+
             /// Act
             var document = await generator.GenerateForControllerAsync<TestController>();
 
@@ -73,6 +74,32 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
 
             Assert.AreEqual(document.Definitions["Animal"].ActualSchema, responseDef.Schema.ActualSchema);
             Assert.AreEqual(2, responseDef.ExpectedSchemas.Count);
+        }
+
+        [Authorize]
+        public class MyApiController : ApiController
+        {
+            [Route("{username}/cookies")]
+            [HttpGet]
+            [SwaggerResponse(HttpStatusCode.OK, typeof(CookieCollection))]
+            public async Task<IHttpActionResult> GetCookies(string username)
+            {
+                return null;
+            }
+        }
+
+        [TestMethod]
+        public async Task When_spec_is_generated_then_no_NPE_is_thrown()
+        {
+            /// Arrange
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+
+            /// Act
+            var document = await generator.GenerateForControllerAsync<MyApiController>();
+            var json = document.ToJson();
+
+            /// Assert
+            Assert.IsTrue(document.Operations.First().Operation.Responses.First().Value.Schema.Item.IsAnyType);
         }
     }
 }

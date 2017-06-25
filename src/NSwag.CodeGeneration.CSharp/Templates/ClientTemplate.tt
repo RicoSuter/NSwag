@@ -247,14 +247,20 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(<#
 <#      }#>
             {
 <#foreach(var parameter in operation.HeaderParameters){#>
+<#  if(parameter.IsStringArray){#>
+                request_.Headers.TryAddWithoutValidation("<#=parameter.Name#>", <#=parameter.VariableName#>);
+<#  }else{#>
                 request_.Headers.TryAddWithoutValidation("<#=parameter.Name#>", <#=parameter.VariableName#> != null ? <#=parameter.VariableName#>.ToString() : null);
+<#  }#>
 <#}#>
 <#if(operation.HasContent){#>
                 var content_ = new System.Net.Http.StringContent(<#if(operation.HasXmlBodyParameter){#><#=operation.ContentParameter.VariableName#><#}else{#>Newtonsoft.Json.JsonConvert.SerializeObject(<#=operation.ContentParameter.VariableName#><#=Model.JsonSerializerParameterCode#>)<#}#>);
                 content_.Headers.ContentType.MediaType = "<#=operation.Consumes#>";
 <#}else{#>
 <#  if(operation.HasFormParameters){#>
-                var content_ = new System.Net.Http.MultipartFormDataContent();
+				var boundary_ = System.Guid.NewGuid().ToString();
+                var content_ = new System.Net.Http.MultipartFormDataContent(boundary_);
+                content_.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("multipart/form-data; boundary=" + boundary_);
 <#    foreach(var parameter in operation.FormParameters){#>
 <#      if(parameter.IsNullable){#>
                 if (<#=parameter.VariableName#> != null)
@@ -281,7 +287,7 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(<#
                 request_.Content = content_;
 <#  }#>
                 request_.Method = new System.Net.Http.HttpMethod("<#=operation.HttpMethod.ToString().ToUpperInvariant()#>");
-<#  if(operation.HasResultType){#>
+<#if(operation.HasResultType && !operation.HasAcceptHeaderParameterParameter){#>
                 request_.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("<#=operation.Produces#>"));
 <#  }#>
 
