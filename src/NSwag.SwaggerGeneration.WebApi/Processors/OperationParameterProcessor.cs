@@ -46,11 +46,23 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                                                             p.GetCustomAttributes().All(a => a.GetType().Name != "FromServicesAttribute") &&
                                                             p.GetCustomAttributes().All(a => a.GetType().Name != "BindNeverAttribute")))
             {
-                var nameLower = parameter.Name.ToLowerInvariant();
-                if (httpPath.ToLowerInvariant().Contains("{" + nameLower + "}") ||
-                    httpPath.ToLowerInvariant().Contains("{" + nameLower + ":")) // path parameter
+                var parameterName = parameter.Name;
+                var parameterAttributes = parameter.GetCustomAttributes().ToList();
+
+                dynamic fromBodyAttribute = parameterAttributes.SingleOrDefault(a => a.GetType().Name == "FromBodyAttribute");
+                dynamic fromUriAttribute = parameterAttributes.SingleOrDefault(a => a.GetType().Name == "FromUriAttribute" || a.GetType().Name == "FromQueryAttribute");
+                dynamic fromRouteAttribute = parameterAttributes.SingleOrDefault(a => a.GetType().FullName == "Microsoft.AspNetCore.Mvc.FromRouteAttribute");
+                dynamic fromHeaderAttribute = parameterAttributes.SingleOrDefault(a => a.GetType().FullName == "Microsoft.AspNetCore.Mvc.FromHeaderAttribute");
+
+                string bodyParameterName = TryGetStringPropertyValue(fromBodyAttribute, "Name") ?? parameterName;
+                string uriParameterName = TryGetStringPropertyValue(fromUriAttribute, "Name") ?? parameterName;
+
+                var uriParameterNameLower = uriParameterName.ToLowerInvariant();
+
+                if (httpPath.ToLowerInvariant().Contains("{" + uriParameterNameLower + "}") ||
+                    httpPath.ToLowerInvariant().Contains("{" + uriParameterNameLower + ":")) // path parameter
                 {
-                    var operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(parameter.Name, parameter).ConfigureAwait(false);
+                    var operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(uriParameterName, parameter).ConfigureAwait(false);
                     operationParameter.Kind = SwaggerParameterKind.Path;
                     operationParameter.IsNullableRaw = false;
                     operationParameter.IsRequired = true; // Path is always required => property not needed
@@ -62,14 +74,6 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                     var parameterInfo = JsonObjectTypeDescription.FromType(parameter.ParameterType, _settings.ResolveContract(parameter.ParameterType), parameter.GetCustomAttributes(), _settings.DefaultEnumHandling);
                     if (await TryAddFileParameterAsync(parameterInfo, context.OperationDescription.Operation, parameter, context.SwaggerGenerator).ConfigureAwait(false) == false)
                     {
-                        var parameterName = parameter.Name;
-                        var parameterAttributes = parameter.GetCustomAttributes().ToList();
-
-                        dynamic fromBodyAttribute = parameterAttributes.SingleOrDefault(a => a.GetType().Name == "FromBodyAttribute");
-                        dynamic fromUriAttribute = parameterAttributes.SingleOrDefault(a => a.GetType().Name == "FromUriAttribute" || a.GetType().Name == "FromQueryAttribute");
-                        dynamic fromRouteAttribute = parameterAttributes.SingleOrDefault(a => a.GetType().FullName == "Microsoft.AspNetCore.Mvc.FromRouteAttribute");
-                        dynamic fromHeaderAttribute = parameterAttributes.SingleOrDefault(a => a.GetType().FullName == "Microsoft.AspNetCore.Mvc.FromHeaderAttribute");
-
                         if (fromRouteAttribute != null)
                         {
                             parameterName = !string.IsNullOrEmpty(fromRouteAttribute.Name) ? fromRouteAttribute.Name : parameter.Name;
@@ -92,8 +96,6 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                         }
                         else
                         {
-                            var bodyParameterName = TryGetStringPropertyValue(fromBodyAttribute, "Name") ?? parameterName;
-                            var uriParameterName = TryGetStringPropertyValue(fromUriAttribute, "Name") ?? parameterName;
 
                             if (parameterInfo.IsComplexType)
                             {
