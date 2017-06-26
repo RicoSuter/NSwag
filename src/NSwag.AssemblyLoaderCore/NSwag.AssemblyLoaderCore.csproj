@@ -18,7 +18,7 @@
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="NJsonSchema" Version="9.2.2" />
+    <PackageReference Include="NJsonSchema" Version="9.2.3" />
     <PackageReference Include="System.Net.Http" Version="4.1.1" />
     <PackageReference Include="System.Runtime.Loader" Version="4.0.0" />
   </ItemGroup>
