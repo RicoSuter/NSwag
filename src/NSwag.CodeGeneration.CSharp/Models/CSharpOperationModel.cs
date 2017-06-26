@@ -9,6 +9,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
+using NJsonSchema.CodeGeneration.CSharp;
 using NSwag.CodeGeneration.Models;
 
 namespace NSwag.CodeGeneration.CSharp.Models
@@ -36,11 +37,13 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <param name="settings">The settings.</param>
         /// <param name="generator">The generator.</param>
         /// <param name="resolver">The resolver.</param>
+        /// <param name="defaultValueGenerator">The default value generator for C#.</param>
         public CSharpOperationModel(
             SwaggerOperation operation,
             SwaggerToCSharpGeneratorSettings settings,
             SwaggerToCSharpGeneratorBase generator,
-            SwaggerToCSharpTypeResolver resolver)
+            SwaggerToCSharpTypeResolver resolver,
+            CSharpDefaultValueGenerator defaultValueGenerator)
             : base(resolver.ExceptionSchema, operation, resolver, generator, settings)
         {
             _settings = settings;
@@ -57,7 +60,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
                     ResolveParameterType(parameter), parameter, parameters,
                     _settings.CodeGeneratorSettings,
                     _settings,
-                    _generator))
+                    _generator,
+                    defaultValueGenerator))
                 .ToList();
         }
 

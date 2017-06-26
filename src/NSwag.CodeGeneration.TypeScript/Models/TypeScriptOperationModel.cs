@@ -9,6 +9,7 @@
 using System.Linq;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
+using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag.CodeGeneration.Models;
 
 namespace NSwag.CodeGeneration.TypeScript.Models
@@ -18,6 +19,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
     {
         private readonly SwaggerToTypeScriptClientGeneratorSettings _settings;
         private readonly SwaggerToTypeScriptClientGenerator _generator;
+        private readonly TypeScriptDefaultValueGenerator _defaultValueGenerator;
         private readonly SwaggerOperation _operation;
 
         /// <summary>Initializes a new instance of the <see cref="TypeScriptOperationModel" /> class.</summary>
@@ -25,16 +27,14 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <param name="settings">The settings.</param>
         /// <param name="generator">The generator.</param>
         /// <param name="resolver">The resolver.</param>
-        public TypeScriptOperationModel(
-            SwaggerOperation operation,
-            SwaggerToTypeScriptClientGeneratorSettings settings,
-            SwaggerToTypeScriptClientGenerator generator,
-            ITypeResolver resolver)
+        /// <param name="defaultValueGenerator"></param>
+        public TypeScriptOperationModel(SwaggerOperation operation, SwaggerToTypeScriptClientGeneratorSettings settings, SwaggerToTypeScriptClientGenerator generator, ITypeResolver resolver, TypeScriptDefaultValueGenerator defaultValueGenerator)
             : base(null, operation, resolver, generator, settings)
         {
             _operation = operation;
             _settings = settings;
             _generator = generator;
+            _defaultValueGenerator = defaultValueGenerator;
 
             var parameters = _operation.ActualParameters.ToList();
             if (settings.GenerateOptionalParameters)
@@ -43,7 +43,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             Parameters = parameters.Select(parameter =>
                 new TypeScriptParameterModel(parameter.Name,
                     GetParameterVariableName(parameter, _operation.Parameters), ResolveParameterType(parameter),
-                    parameter, parameters, _settings, _generator))
+                    parameter, parameters, _settings, _generator, defaultValueGenerator))
                 .ToList();
         }
 

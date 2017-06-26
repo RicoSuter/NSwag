@@ -21,6 +21,7 @@ namespace NSwag.CodeGeneration.TypeScript
         private readonly SwaggerDocument _document;
         private readonly TypeScriptTypeResolver _resolver;
         private readonly TypeScriptExtensionCode _extensionCode;
+        private readonly TypeScriptDefaultValueGenerator _defaultValueGenerator;
 
         /// <summary>Initializes a new instance of the <see cref="SwaggerToTypeScriptClientGenerator" /> class.</summary>
         /// <param name="document">The Swagger document.</param>
@@ -51,6 +52,8 @@ namespace NSwag.CodeGeneration.TypeScript
                 Settings.TypeScriptGeneratorSettings.ExtensionCode,
                 (Settings.TypeScriptGeneratorSettings.ExtendedClasses ?? new string[] { }).Concat(new[] { Settings.ConfigurationClass }).ToArray(),
                 new[] { Settings.ClientBaseClass });
+
+            _defaultValueGenerator = new TypeScriptDefaultValueGenerator(resolver);
         }
 
         /// <summary>Gets or sets the generator settings.</summary>
@@ -121,7 +124,7 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <returns>The operation model.</returns>
         protected override TypeScriptOperationModel CreateOperationModel(SwaggerOperation operation, ClientGeneratorBaseSettings settings)
         {
-            return new TypeScriptOperationModel(operation, (SwaggerToTypeScriptClientGeneratorSettings)settings, this, Resolver);
+            return new TypeScriptOperationModel(operation, (SwaggerToTypeScriptClientGeneratorSettings)settings, this, Resolver, _defaultValueGenerator);
         }
 
         private void UpdateUseDtoClassAndDataConversionCodeProperties(IEnumerable<TypeScriptOperationModel> operations)

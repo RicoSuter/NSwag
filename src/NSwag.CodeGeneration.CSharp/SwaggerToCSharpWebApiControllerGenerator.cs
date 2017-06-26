@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using NJsonSchema.CodeGeneration.CSharp;
 using NSwag.CodeGeneration.CSharp.Models;
 
 namespace NSwag.CodeGeneration.CSharp
@@ -73,7 +74,8 @@ namespace NSwag.CodeGeneration.CSharp
         /// <returns>The operation model.</returns>
         protected override CSharpOperationModel CreateOperationModel(SwaggerOperation operation, ClientGeneratorBaseSettings settings)
         {
-            return new CSharpOperationModel(operation, (SwaggerToCSharpGeneratorSettings)settings, this, (SwaggerToCSharpTypeResolver)Resolver);
+            var defaultValueGenerator = new CSharpDefaultValueGenerator(Resolver, Settings.CSharpGeneratorSettings);
+            return new CSharpOperationModel(operation, (SwaggerToCSharpGeneratorSettings)settings, this, (SwaggerToCSharpTypeResolver)Resolver, defaultValueGenerator);
         }
     }
 }

@@ -153,7 +153,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             //// Assert
             Assert.IsTrue(code.Contains("TestWithDefaultStringValueAsync(string a, string b, string c = \"aaa\", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))"));
-            Assert.IsTrue(code.Contains("TestWithDefaultNumericValueAsync(string a, string b, decimal? c = 3.14M, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))"));
+            Assert.IsTrue(
+                code.Contains("TestWithDefaultNumericValueAsync(string a, string b, decimal? c = 3.14M, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))")
+                || code.Contains("TestWithDefaultNumericValueAsync(string a, string b, decimal? c = 3.14, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))")  // compat with older version of NJsonSchema
+            );
         }
     }
 }
