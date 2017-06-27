@@ -57,61 +57,43 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         /// <summary>Gets or sets the namespace usages (comma separated). </summary>
         public string AdditionalNamespaceUsages
         {
-            get
-            {
-                return Command?.AdditionalNamespaceUsages != null ? string.Join(",", Command.AdditionalNamespaceUsages) : "";
-            }
+            get => FromStringArray(Command?.AdditionalNamespaceUsages);
             set
             {
-                if (value != null)
-                    Command.AdditionalNamespaceUsages = value.Split(',').Select(n => n.Trim()).Where(n => !string.IsNullOrEmpty(n)).ToArray();
-                else
-                    Command.AdditionalNamespaceUsages = new string[] { };
-                RaisePropertyChanged(() => AdditionalNamespaceUsages);
+                Command.AdditionalNamespaceUsages = ToStringArray(value);
+                RaisePropertyChanged();
             }
         }
 
         /// <summary>Gets or sets the contract namespace usages (comma separated). </summary>
         public string AdditionalContractNamespaceUsages
         {
-            get
-            {
-                return Command?.AdditionalContractNamespaceUsages != null ? string.Join(",", Command.AdditionalContractNamespaceUsages) : "";
-            }
+            get => FromStringArray(Command?.AdditionalContractNamespaceUsages);
             set
             {
-                if (value != null)
-                    Command.AdditionalContractNamespaceUsages = value.Split(',').Select(n => n.Trim()).Where(n => !string.IsNullOrEmpty(n)).ToArray();
-                else
-                    Command.AdditionalContractNamespaceUsages = new string[] { };
-                RaisePropertyChanged(() => AdditionalContractNamespaceUsages);
+                Command.AdditionalContractNamespaceUsages = ToStringArray(value);
+                RaisePropertyChanged();
             }
         }
 
         /// <summary>Gets or sets the excluded type names (must be defined in an import or other namespace).</summary>
         public string ExcludedTypeNames
         {
-            get
-            {
-                return Command?.ExcludedTypeNames != null ? string.Join(",", Command.ExcludedTypeNames) : "";
-            }
+            get => FromStringArray(Command?.ExcludedTypeNames);
             set
             {
-                if (value != null)
-                    Command.ExcludedTypeNames = value.Split(',').Select(n => n.Trim()).Where(n => !string.IsNullOrEmpty(n)).ToArray();
-                else
-                    Command.ExcludedTypeNames = new string[] { };
-                RaisePropertyChanged(() => ExcludedTypeNames);
+                Command.ExcludedTypeNames = ToStringArray(value);
+                RaisePropertyChanged();
             }
         }
 
         /// <summary>Gets or sets the list of methods with a protected access modifier ("classname.methodname").</summary>
         public string ProtectedMethods
         {
-            get { return _command?.ProtectedMethods != null ? string.Join(",", _command.ProtectedMethods) : ""; }
+            get => FromStringArray(Command?.ProtectedMethods);
             set
             {
-                _command.ProtectedMethods = !string.IsNullOrEmpty(value) ? value.Split(',') : new string[] { };
+                Command.ProtectedMethods = ToStringArray(value);
                 RaisePropertyChanged();
             }
         }
