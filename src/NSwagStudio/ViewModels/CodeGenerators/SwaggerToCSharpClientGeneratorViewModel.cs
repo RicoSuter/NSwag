@@ -71,6 +71,23 @@ namespace NSwagStudio.ViewModels.CodeGenerators
             }
         }
 
+        /// <summary>Gets or sets the contract namespace usages (comma separated). </summary>
+        public string AdditionalContractNamespaceUsages
+        {
+            get
+            {
+                return Command?.AdditionalContractNamespaceUsages != null ? string.Join(",", Command.AdditionalContractNamespaceUsages) : "";
+            }
+            set
+            {
+                if (value != null)
+                    Command.AdditionalContractNamespaceUsages = value.Split(',').Select(n => n.Trim()).Where(n => !string.IsNullOrEmpty(n)).ToArray();
+                else
+                    Command.AdditionalContractNamespaceUsages = new string[] { };
+                RaisePropertyChanged(() => AdditionalContractNamespaceUsages);
+            }
+        }
+
         /// <summary>Gets or sets the excluded type names (must be defined in an import or other namespace).</summary>
         public string ExcludedTypeNames
         {

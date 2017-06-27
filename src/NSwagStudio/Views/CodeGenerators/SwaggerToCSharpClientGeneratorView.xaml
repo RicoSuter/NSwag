@@ -36,6 +36,13 @@
                              ToolTip="Namespace"
                              Margin="0,0,0,12" />
 
+                    <TextBlock Text="Additional Namespace Usages (comma separated)" 
+                               FontWeight="Bold" 
+                               Margin="0,0,0,6" />
+                    <TextBox Text="{Binding AdditionalNamespaceUsages, Mode=TwoWay}" 
+                             ToolTip="AdditionalNamespaceUsages" 
+                             Margin="0,0,0,12" />
+
                     <CheckBox IsChecked="{Binding Command.GenerateContractsOutput, Mode=TwoWay}" 
                               ToolTip="GenerateContractsOutput"
                               Content="Generate contracts output" 
@@ -48,15 +55,15 @@
                         <TextBox Text="{Binding Command.ContractsNamespace, Mode=TwoWay}"
                                  ToolTip="ContractsNamespace"
                                  Margin="0,0,0,12" />
+
+                        <TextBlock Text="Additional Contract Namespace Usages (comma separated)" 
+                                   FontWeight="Bold" 
+                                   Margin="0,0,0,6" />
+                        <TextBox Text="{Binding AdditionalContractNamespaceUsages, Mode=TwoWay}" 
+                                 ToolTip="AdditionalContractNamespaceUsages" 
+                                 Margin="0,0,0,12" />
                     </StackPanel>
-
-                    <TextBlock Text="Additional Namespace Usages (comma separated)" 
-                               FontWeight="Bold" 
-                               Margin="0,0,0,6" />
-                    <TextBox Text="{Binding AdditionalNamespaceUsages, Mode=TwoWay}" 
-                             ToolTip="AdditionalNamespaceUsages" 
-                             Margin="0,0,0,12" />
-
+                    
                     <TextBlock Text="Custom Json.NET converter types (optional, multiple on separate lines)" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding Command.JsonConverters, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
                              ToolTip="JsonConverters"
