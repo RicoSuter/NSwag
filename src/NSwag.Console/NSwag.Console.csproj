@@ -5,7 +5,7 @@
   <PropertyGroup>
     <TargetFrameworks>net46</TargetFrameworks>
     <Description>NSwag: The Swagger API toolchain for .NET and TypeScript</Description>
-    <Version>11.1.2</Version>
+    <Version>11.2.0</Version>
     <PackageTags>Swagger Documentation WebApi AspNet TypeScript CodeGen</PackageTags>
     <Copyright>Copyright © Rico Suter, 2017</Copyright>
     <PackageLicenseUrl>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</PackageLicenseUrl>
@@ -42,5 +42,10 @@
     <ProjectReference Include="..\NSwag.AssemblyLoader\NSwag.AssemblyLoader.csproj" />
     <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj" />
     <ProjectReference Include="..\NSwag.Commands\NSwag.Commands.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Runtime">
+      <HintPath>..\libs\System.Runtime.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

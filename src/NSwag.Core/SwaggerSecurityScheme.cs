@@ -9,11 +9,12 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using NJsonSchema;
 
 namespace NSwag
 {
     /// <summary>The definition of a security scheme that can be used by the operations.</summary>
-    public class SwaggerSecurityScheme
+    public class SwaggerSecurityScheme : JsonExtensionObject
     {
         /// <summary>Gets or sets the type of the security scheme.</summary>
         [JsonProperty(PropertyName = "type", Required = Required.Always, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
@@ -27,7 +28,7 @@ namespace NSwag
         /// <summary>Gets or sets the name of the header or query parameter to be used to transmit the API key.</summary>
         [JsonProperty(PropertyName = "name", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Name { get; set; }
-        
+
         /// <summary>Gets or sets the type of the API key.</summary>
         [JsonProperty(PropertyName = "in", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         [JsonConverter(typeof(StringEnumConverter))]
@@ -48,10 +49,5 @@ namespace NSwag
         /// <summary>Gets the available scopes for the OAuth2 security scheme.</summary>
         [JsonProperty(PropertyName = "scopes", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public IDictionary<string, string> Scopes { get; set; }
-
-        /// <summary>Get or set the schema less extensions (this can be used as vendor extensions as well) in security schema</summary>
-        [JsonExtensionData]
-        public IDictionary<string, object> ExtensionData { get; set; }
-
     }
 }

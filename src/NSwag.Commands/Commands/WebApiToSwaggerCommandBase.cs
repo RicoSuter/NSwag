@@ -113,6 +113,13 @@ namespace NSwag.Commands
             set { Settings.GenerateXmlObjects = value; }
         }
 
+        [Argument(Name = "GenerateAbstractProperties", IsRequired = false, Description = "Generate abstract properties (i.e. interface and abstract properties. Properties may defined multiple times in a inheritance hierarchy, default: false).")]
+        public bool GenerateAbstractProperties
+        {
+            get { return Settings.GenerateAbstractProperties; }
+            set { Settings.GenerateAbstractProperties = value; }
+        }
+
         [Argument(Name = "AddMissingPathParameters", IsRequired = false, Description = "Specifies whether to add path parameters which are missing in the action method (default: true).")]
         public bool AddMissingPathParameters
         {

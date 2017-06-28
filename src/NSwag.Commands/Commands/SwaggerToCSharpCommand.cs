@@ -48,6 +48,13 @@ namespace NSwag.Commands
             set { Settings.AdditionalNamespaceUsages = value; }
         }
 
+        [Argument(Name = "AdditionalContractNamespaceUsages", IsRequired = false, Description = "The additional contract namespace usages.")]
+        public string[] AdditionalContractNamespaceUsages
+        {
+            get { return Settings.AdditionalContractNamespaceUsages; }
+            set { Settings.AdditionalContractNamespaceUsages = value; }
+        }
+
         [Argument(Name = "GenerateOptionalParameters", IsRequired = false,
                   Description = "Specifies whether to reorder parameters (required first, optional at the end) and generate optional parameters (default: false).")]
         public bool GenerateOptionalParameters

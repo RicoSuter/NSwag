@@ -8,11 +8,12 @@
 
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using NJsonSchema;
 
 namespace NSwag
 {
     /// <summary>Describes a Swagger tag.</summary>
-    public class SwaggerTag
+    public class SwaggerTag : JsonExtensionObject
     {
         /// <summary>Gets or sets the name.</summary>
         [JsonProperty(PropertyName = "name", DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -25,10 +26,5 @@ namespace NSwag
         /// <summary>Gets or sets the external documentation.</summary>
         [JsonProperty(PropertyName = "externalDocs", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public SwaggerExternalDocumentation ExternalDocumentation { get; set; }
-
-        /// <summary>Get or set the schema less extensions (this can be used as vendor extensions as well) in tag schema</summary>
-        [JsonExtensionData]
-        public IDictionary<string, object> ExtensionData { get; set; }
-
     }
 }

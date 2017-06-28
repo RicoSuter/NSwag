@@ -1,0 +1,49 @@
+﻿{
+  "x-generator": "NSwag v11.1.2.0 (NJsonSchema v9.2.0.0)",
+  "swagger": "2.0",
+  "info": {
+    "title": "Web API Swagger specification",
+    "version": "1.0.0"
+  },
+  "schemes": [],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/Foo": {
+      "post": {
+        "tags": [
+          "Foo"
+        ],
+        "operationId": "Foo_Run",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            },
+            "x-nullable": true
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Response": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Bar": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "parameters": {},
+  "responses": {},
+  "securityDefinitions": {}
+}

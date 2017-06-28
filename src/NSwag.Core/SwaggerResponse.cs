@@ -13,7 +13,7 @@ using NJsonSchema;
 namespace NSwag
 {
     /// <summary>The Swagger response.</summary>
-    public class SwaggerResponse
+    public class SwaggerResponse : JsonExtensionObject
     {
         /// <summary>Gets the parent <see cref="SwaggerOperation"/>.</summary>
         [JsonIgnore]
@@ -39,10 +39,6 @@ namespace NSwag
         /// <summary>Gets the actual non-nullable response schema (either oneOf schema or the actual schema).</summary>
         [JsonIgnore]
         public JsonSchema4 ActualResponseSchema => GetActualResponseSchema();
-
-        /// <summary>Get or set the schema less extensions (this can be used as vendor extensions as well) in response schema.</summary>
-        [JsonExtensionData]
-        public IDictionary<string, object> ExtensionData { get; set; }
 
         /// <summary>Gets or sets the expected child schemas of the base schema (can be used for generating enhanced typings/documentation).</summary>
         [JsonProperty(PropertyName = "x-expectedSchemas", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
