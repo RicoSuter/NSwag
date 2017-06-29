@@ -74,7 +74,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         public bool InjectHttpClient => _settings.InjectHttpClient;
 
         /// <summary>Gets or sets a value indicating whether to dispose the HttpClient (injected HttpClient is never disposed, default: true).</summary>
-        public bool DisposeHttpClient => _settings.DisposeHttpClient; 
+        public bool DisposeHttpClient => _settings.DisposeHttpClient;
 
         /// <summary>Gets a value indicating whether to use a HTTP client creation method.</summary>
         public bool UseHttpClientCreationMethod => _settings.UseHttpClientCreationMethod;
@@ -132,8 +132,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 return CSharpJsonSerializerGenerator.GenerateJsonSerializerParameterCode(handleReferences, jsonConverters.ToList());
             }
         }
-        
-        private bool RequiresJsonExceptionConverter =>
+
+        private bool RequiresJsonExceptionConverter => _settings.CSharpGeneratorSettings.ExcludedTypeNames?.Contains("JsonExceptionConverter") != true &&
             _document.Operations.Any(o => o.Operation.AllResponses.Any(r => r.Value.ActualResponseSchema?.InheritsSchema(_exceptionSchema) == true));
     }
 }
