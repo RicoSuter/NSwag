@@ -169,16 +169,18 @@ namespace NSwag.SwaggerGeneration.WebApi
                 var addOperation = await RunOperationProcessorsAsync(document, controllerType, method, operation, allOperation, swaggerGenerator).ConfigureAwait(false);
                 if (addOperation)
                 {
-                    if (!document.Paths.ContainsKey(operation.Path))
-                        document.Paths[operation.Path] = new SwaggerOperations();
+                    var path = operation.Path.Replace("//", "/");
 
-                    if (document.Paths[operation.Path].ContainsKey(operation.Method))
+                    if (!document.Paths.ContainsKey(path))
+                        document.Paths[path] = new SwaggerOperations();
+
+                    if (document.Paths[path].ContainsKey(operation.Method))
                     {
-                        throw new InvalidOperationException("The method '" + operation.Method + "' on path '" + operation.Path + "' is registered multiple times " +
+                        throw new InvalidOperationException("The method '" + operation.Method + "' on path '" + path + "' is registered multiple times " +
                             "(check the DefaultUrlTemplate setting [default for Web API: 'api/{controller}/{id}'; for MVC projects: '{controller}/{action}/{id?}']).");
                     }
 
-                    document.Paths[operation.Path][operation.Method] = operation.Operation;
+                    document.Paths[path][operation.Method] = operation.Operation;
                 }
             }
         }

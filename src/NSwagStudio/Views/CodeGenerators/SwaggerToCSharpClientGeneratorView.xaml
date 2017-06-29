@@ -36,6 +36,13 @@
                              ToolTip="Namespace"
                              Margin="0,0,0,12" />
 
+                    <TextBlock Text="Additional Namespace Usages (comma separated)" 
+                               FontWeight="Bold" 
+                               Margin="0,0,0,6" />
+                    <TextBox Text="{Binding AdditionalNamespaceUsages, Mode=TwoWay}" 
+                             ToolTip="AdditionalNamespaceUsages" 
+                             Margin="0,0,0,12" />
+
                     <CheckBox IsChecked="{Binding Command.GenerateContractsOutput, Mode=TwoWay}" 
                               ToolTip="GenerateContractsOutput"
                               Content="Generate contracts output" 
@@ -48,15 +55,15 @@
                         <TextBox Text="{Binding Command.ContractsNamespace, Mode=TwoWay}"
                                  ToolTip="ContractsNamespace"
                                  Margin="0,0,0,12" />
+
+                        <TextBlock Text="Additional Contract Namespace Usages (comma separated)" 
+                                   FontWeight="Bold" 
+                                   Margin="0,0,0,6" />
+                        <TextBox Text="{Binding AdditionalContractNamespaceUsages, Mode=TwoWay}" 
+                                 ToolTip="AdditionalContractNamespaceUsages" 
+                                 Margin="0,0,0,12" />
                     </StackPanel>
-
-                    <TextBlock Text="Additional Namespace Usages (comma separated)" 
-                               FontWeight="Bold" 
-                               Margin="0,0,0,6" />
-                    <TextBox Text="{Binding AdditionalNamespaceUsages, Mode=TwoWay}" 
-                             ToolTip="AdditionalNamespaceUsages" 
-                             Margin="0,0,0,12" />
-
+                    
                     <TextBlock Text="Custom Json.NET converter types (optional, multiple on separate lines)" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding Command.JsonConverters, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
                              ToolTip="JsonConverters"
@@ -64,6 +71,10 @@
                              AcceptsReturn="True" 
                              VerticalScrollBarVisibility="Visible" 
                              Margin="0,0,0,12" />
+
+                    <CheckBox IsChecked="{Binding Command.GenerateOptionalParameters, Mode=TwoWay}" 
+                              ToolTip="GenerateOptionalParameters"
+                              Content="Generate optional parameters (reorder parameters (required first, optional at the end) and generate optional parameters)" Margin="0,0,0,12" />
 
                     <CheckBox IsChecked="{Binding Command.GenerateExceptionClasses, Mode=TwoWay}" 
                               Content="Generate exception classes (when disabled, exception classes must be imported)" 
@@ -90,17 +101,13 @@
                     <StackPanel Visibility="{Binding Command.WrapResponses, Converter={StaticResource VisibilityConverter}}">
                         <CheckBox IsChecked="{Binding Command.GenerateResponseClasses, Mode=TwoWay}" 
                                   ToolTip="GenerateResponseClasses"
-                                  Content="Generate response classes (when disabled, response classes must be imported)" Margin="0,0,0,6" />
+                                  Content="Generate response classes (when disabled, response classes must be imported)" Margin="0,0,0,12" />
 
                         <StackPanel Visibility="{Binding Command.GenerateResponseClasses, Converter={StaticResource VisibilityConverter}}">
                             <TextBlock Text="Response class name (may contain the '{controller}' placeholder)" FontWeight="Bold" Margin="0,0,0,6" />
                             <TextBox Text="{Binding Command.ResponseClass, Mode=TwoWay}" ToolTip="ResponseClass" Margin="0,0,0,12" />
                         </StackPanel>
                     </StackPanel>
-
-                    <CheckBox IsChecked="{Binding Command.GenerateOptionalParameters, Mode=TwoWay}" 
-                              ToolTip="GenerateOptionalParameters"
-                              Content="Generate optional parameters (reorder parameters (required first, optional at the end) and generate optional parameters)" Margin="0,0,0,12" />
 
                     <GroupBox Header="Client" Margin="0,0,0,12">
                         <StackPanel Margin="4,8,4,-8">

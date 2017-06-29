@@ -1,5 +1,5 @@
 ﻿{
-  "x-generator": "NSwag v11.1.2.0 (NJsonSchema v9.2.2.0)",
+  "x-generator": "NSwag v11.1.2.0 (NJsonSchema v9.2.4.0)",
   "info": {
     "title": "Web API Swagger specification",
     "version": "1.0.0"
@@ -278,6 +278,33 @@
             "description": "",
             "schema": {
               "type": "file"
+            },
+            "x-nullable": true
+          }
+        }
+      }
+    },
+    "/api/Geo/PostDouble": {
+      "post": {
+        "tags": [
+          "Geo"
+        ],
+        "operationId": "Geo_PostDouble",
+        "parameters": [
+          {
+            "type": "number",
+            "name": "value",
+            "in": "query",
+            "x-nullable": true,
+            "format": "double"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "number",
+              "format": "double"
             },
             "x-nullable": true
           }

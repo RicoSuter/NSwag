@@ -36,6 +36,9 @@ namespace NSwag.CodeGeneration.CSharp
         /// <summary>Gets or sets the additional namespace usages.</summary>
         public string[] AdditionalNamespaceUsages { get; set; }
 
+        /// <summary>Gets or sets the additional contract namespace usages.</summary>
+        public string[] AdditionalContractNamespaceUsages { get; set; }
+
         /// <summary>Gets the code generator settings.</summary>
         public override CodeGeneratorSettingsBase CodeGeneratorSettings => CSharpGeneratorSettings;
 

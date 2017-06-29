@@ -74,7 +74,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             //// Assert
             Assert.IsTrue(code.Contains("FileParameter file"));
-            Assert.IsTrue(code.Contains("var content_ = new System.Net.Http.MultipartFormDataContent();"));
+            Assert.IsTrue(code.Contains("var content_ = new System.Net.Http.MultipartFormDataContent(boundary_);"));
             Assert.IsTrue(code.Contains("content_.Add(new System.Net.Http.StreamContent(file.Data), \"file\""));
         }
 
