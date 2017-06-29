@@ -126,10 +126,17 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 if (RequiresJsonExceptionConverter)
                     jsonConverters = jsonConverters.Concat(new[] { "JsonExceptionConverter" });
 
-                return CSharpJsonSerializerGenerator.GenerateJsonSerializerParameterCode(handleReferences, jsonConverters.ToList());
+                var parameterCode = CSharpJsonSerializerGenerator.GenerateJsonSerializerParameterCode(handleReferences, jsonConverters.ToList());
+
+                if (parameterCode.Length == 0)
+                    parameterCode = "new Newtonsoft.Json.JsonSerializerSettings()";
+                else
+                    parameterCode = parameterCode.Substring(2);
+
+                return parameterCode;
             }
         }
-        
+
         private bool RequiresJsonExceptionConverter =>
             _document.Operations.Any(o => o.Operation.AllResponses.Any(r => r.Value.ActualResponseSchema?.InheritsSchema(_exceptionSchema) == true));
     }

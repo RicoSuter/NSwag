@@ -113,9 +113,19 @@ public partial interface I<#=Model.Class#>
     }
 
 <#}#>
+    partial void UpdateJsonSettings(ref Newtonsoft.Json.JsonSerializerSettings settings);
     partial void PrepareRequest(<#=Model.HttpClientType#> client, System.Net.Http.HttpRequestMessage request, string url);
     partial void PrepareRequest(<#=Model.HttpClientType#> client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
     partial void ProcessResponse(<#=Model.HttpClientType#> client, System.Net.Http.HttpResponseMessage response);
+
+    Newtonsoft.Json.JsonSerializerSettings NewJsonSettings()
+    {
+        Newtonsoft.Json.JsonSerializerSettings settings = <#=Model.JsonSerializerParameterCode#>;
+
+        UpdateJsonSettings(ref settings);
+
+        return settings;
+    }
 
 <#foreach(var operation in Model.Operations){#>
 <#  if(!Model.GenerateOptionalParameters){#>
@@ -254,7 +264,7 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(Sy
 <#  }#>
 <#}#>
 <#if(operation.HasContent){#>
-                var content_ = new System.Net.Http.StringContent(<#if(operation.HasXmlBodyParameter){#><#=operation.ContentParameter.VariableName#><#}else{#>Newtonsoft.Json.JsonConvert.SerializeObject(<#=operation.ContentParameter.VariableName#><#=Model.JsonSerializerParameterCode#>)<#}#>);
+                var content_ = new System.Net.Http.StringContent(<#if(operation.HasXmlBodyParameter){#><#=operation.ContentParameter.VariableName#><#}else{#>Newtonsoft.Json.JsonConvert.SerializeObject(<#=operation.ContentParameter.VariableName#>, NewJsonSettings())<#}#>);
                 content_.Headers.ContentType.MediaType = "<#=operation.Consumes#>";
 <#}else{#>
 <#  if(operation.HasFormParameters){#>
@@ -326,7 +336,7 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(Sy
                         var result_ = default(<#=response.Type#>); 
                         try
                         {
-                            result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<<#=response.Type#>>(responseData_<#=Model.JsonSerializerParameterCode#>);
+                            result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<<#=response.Type#>>(responseData_, NewJsonSettings());
 <#      if(response.IsSuccess(operation)){#>
 <#          if (Model.WrapResponses){#>
                             return new <#=Model.ResponseClass#><<#=operation.UnwrappedResultType#>>(status_, headers_, result_); 
@@ -397,7 +407,7 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(Sy
                         var result_ = default(<#=operation.DefaultResponse.Type#>); 
                         try
                         {
-                            result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<<#=operation.DefaultResponse.Type#>>(responseData_<#=Model.JsonSerializerParameterCode#>);
+                            result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<<#=operation.DefaultResponse.Type#>>(responseData_, NewJsonSettings());
 
 <#          if(operation.HasOnlyDefaultResponse){#>
                             if (status_.Length == 3 && status_.StartsWith("2"))
