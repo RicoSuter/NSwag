@@ -168,8 +168,8 @@ namespace NSwag.Commands
                   Description = "Specifies the format for DateTime type method parameters (default: s).")]
         public string ParameterDateTimeFormat
         {
-          get { return Settings.ParameterDateTimeFormat; }
-          set { Settings.ParameterDateTimeFormat = value; }
+            get { return Settings.ParameterDateTimeFormat; }
+            set { Settings.ParameterDateTimeFormat = value; }
         }
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
