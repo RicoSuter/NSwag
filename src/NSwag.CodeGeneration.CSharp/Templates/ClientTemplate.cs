@@ -1738,8 +1738,14 @@ foreach(var parameter in operation.PathParameters){
             
             #line default
             #line hidden
-            this.Write(".Select(s_ => s_.ToString(\"s\", System.Globalization.CultureInfo.InvariantCulture)" +
-                    "))));\r\n");
+            this.Write(".Select(s_ => s_.ToString(\"");
+            
+            #line 205 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ParameterDateTimeFormat));
+            
+            #line default
+            #line hidden
+            this.Write("\", System.Globalization.CultureInfo.InvariantCulture)))));\r\n");
             
             #line 206 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   }else if(parameter.IsDate){
@@ -1760,7 +1766,14 @@ foreach(var parameter in operation.PathParameters){
             
             #line default
             #line hidden
-            this.Write(".ToString(\"s\", System.Globalization.CultureInfo.InvariantCulture)));\r\n");
+            this.Write(".ToString(\"");
+            
+            #line 207 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ParameterDateTimeFormat));
+            
+            #line default
+            #line hidden
+            this.Write("\", System.Globalization.CultureInfo.InvariantCulture)));\r\n");
             
             #line 208 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   }else if(parameter.IsArray){
@@ -1883,8 +1896,14 @@ foreach(var parameter in operation.QueryParameters){
             
             #line default
             #line hidden
-            this.Write("=\").Append(System.Uri.EscapeDataString(item_.ToString(\"s\", System.Globalization.C" +
-                    "ultureInfo.InvariantCulture))).Append(\"&\"); }\r\n");
+            this.Write("=\").Append(System.Uri.EscapeDataString(item_.ToString(\"");
+            
+            #line 221 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ParameterDateTimeFormat));
+            
+            #line default
+            #line hidden
+            this.Write("\", System.Globalization.CultureInfo.InvariantCulture))).Append(\"&\"); }\r\n");
             
             #line 222 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   }else if(parameter.IsDate){
@@ -1918,8 +1937,14 @@ if(parameter.Type.EndsWith("?")){
             
             #line default
             #line hidden
-            this.Write(".ToString(\"s\", System.Globalization.CultureInfo.InvariantCulture))).Append(\"&\");\r" +
-                    "\n");
+            this.Write(".ToString(\"");
+            
+            #line 223 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ParameterDateTimeFormat));
+            
+            #line default
+            #line hidden
+            this.Write("\", System.Globalization.CultureInfo.InvariantCulture))).Append(\"&\");\r\n");
             
             #line 224 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   }else if(parameter.IsArray){

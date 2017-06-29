@@ -10,7 +10,7 @@ namespace NSwag.Tests.Specification
     [TestClass]
     public class GeneralTests
     {
-        //[TestMethod]
+        [TestMethod]
         public async Task When_Swagger_is_loaded_from_url_then_it_works()
         {
             //// Arrange
