@@ -164,6 +164,14 @@ namespace NSwag.Commands
                   Description = "The contracts output file path (optional, if no path is set then a single file with the implementation and contracts is generated).")]
         public string ContractsOutputFilePath { get; set; }
 
+        [Argument(Name = "ParameterDateTimeFormat", IsRequired = false,
+                  Description = "Specifies the format for DateTime type method parameters (default: s).")]
+        public string ParameterDateTimeFormat
+        {
+          get { return Settings.ParameterDateTimeFormat; }
+          set { Settings.ParameterDateTimeFormat = value; }
+        }
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var result = await RunAsync();
