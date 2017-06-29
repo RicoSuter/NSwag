@@ -143,6 +143,9 @@
                                 <TextBlock Text="Http Client Type" FontWeight="Bold" Margin="0,0,0,6" />
                                 <TextBox Text="{Binding Command.HttpClientType, Mode=TwoWay}" ToolTip="HttpClientType" Margin="0,0,0,12" />
 
+                                <TextBlock Text="DateTime format for method parameters" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.ParameterDateTimeFormat, Mode=TwoWay}" ToolTip="ParaeterDateTimeFormat" Margin="0,0,0,12" />
+
                                 <CheckBox IsChecked="{Binding Command.GenerateSyncMethods, Mode=TwoWay}" 
                                           Content="Generate synchronous methods (not recommended)" 
                                           ToolTip="GenerateSyncMethods" Margin="0,0,0,12" />
@@ -229,9 +232,6 @@
                             <TextBox Text="{Binding ExcludedTypeNames, Mode=TwoWay}" 
                                      ToolTip="ExcludedTypeNames" Margin="0,0,0,12" />
 
-                            <TextBlock Text="DateTime format for method parameters" FontWeight="Bold" Margin="0,0,0,6" />
-                            <TextBox Text="{Binding Command.ParameterDateTimeFormat, Mode=TwoWay}" ToolTip="ParaeterDateTimeFormat" Margin="0,0,0,12" />
-                          
                             <TextBlock Text="Date Type" FontWeight="Bold" Margin="0,0,0,6" />
                             <TextBox Text="{Binding Command.DateType, Mode=TwoWay}" ToolTip="DateType" Margin="0,0,0,12" />
 
