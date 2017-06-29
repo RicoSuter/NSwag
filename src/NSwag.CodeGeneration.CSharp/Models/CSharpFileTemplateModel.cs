@@ -88,11 +88,13 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
         /// <summary>Gets a value indicating whether the generated code requires the FileParameter type.</summary>
         public bool RequiresFileParameterType =>
+            _settings.CSharpGeneratorSettings.ExcludedTypeNames?.Contains("FileParameter") != true &&
             _document.Operations.Any(o => o.Operation.Parameters.Any(p => p.Type.HasFlag(JsonObjectType.File)));
 
         /// <summary>Gets a value indicating whether [generate file response class].</summary>
-        public bool GenerateFileResponseClass => _document.Operations
-            .Any(o => o.Operation.Responses.Any(r => r.Value.ActualResponseSchema?.Type == JsonObjectType.File));
+        public bool GenerateFileResponseClass =>
+            _settings.CSharpGeneratorSettings.ExcludedTypeNames?.Contains("FileResponse") != true &&
+            _document.Operations.Any(o => o.Operation.Responses.Any(r => r.Value.ActualResponseSchema?.Type == JsonObjectType.File));
 
         /// <summary>Gets or sets a value indicating whether to generate exception classes (default: true).</summary>
         public bool GenerateExceptionClasses => (_settings as SwaggerToCSharpClientGeneratorSettings)?.GenerateExceptionClasses == true;
@@ -113,6 +115,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
                     return _document.Operations
                         .GroupBy(o => _settings.OperationNameGenerator.GetClientName(_document, o.Path, o.Method, o.Operation))
                         .Select(g => _settings.ResponseClass.Replace("{controller}", g.Key))
+                        .Where(a => _settings.CSharpGeneratorSettings.ExcludedTypeNames?.Contains(a) != true)
                         .Distinct();
                 }
 
@@ -133,6 +136,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
                         return _document.Operations
                             .GroupBy(o => settings.OperationNameGenerator.GetClientName(_document, o.Path, o.Method, o.Operation))
                             .Select(g => settings.ExceptionClass.Replace("{controller}", g.Key))
+                            .Where(a => _settings.CSharpGeneratorSettings.ExcludedTypeNames?.Contains(a) != true)
                             .Distinct();
                     }
                     else

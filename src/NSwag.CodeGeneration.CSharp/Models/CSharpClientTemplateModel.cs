@@ -74,7 +74,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         public bool InjectHttpClient => _settings.InjectHttpClient;
 
         /// <summary>Gets or sets a value indicating whether to dispose the HttpClient (injected HttpClient is never disposed, default: true).</summary>
-        public bool DisposeHttpClient => _settings.DisposeHttpClient; 
+        public bool DisposeHttpClient => _settings.DisposeHttpClient;
 
         /// <summary>Gets a value indicating whether to use a HTTP client creation method.</summary>
         public bool UseHttpClientCreationMethod => _settings.UseHttpClientCreationMethod;
@@ -115,6 +115,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets or sets a value indicating whether DTO exceptions are wrapped in a SwaggerException instance.</summary>
         public bool WrapDtoExceptions => _settings.WrapDtoExceptions;
 
+        /// <summary>Gets or sets the format for DateTime type method parameters (default: "s").</summary>
+        public string ParameterDateTimeFormat => _settings.ParameterDateTimeFormat;
+
         /// <summary>Gets the JSON serializer parameter code.</summary>
         public string JsonSerializerParameterCode
         {
@@ -137,7 +140,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             }
         }
 
-        private bool RequiresJsonExceptionConverter =>
+        private bool RequiresJsonExceptionConverter => _settings.CSharpGeneratorSettings.ExcludedTypeNames?.Contains("JsonExceptionConverter") != true &&
             _document.Operations.Any(o => o.Operation.AllResponses.Any(r => r.Value.ActualResponseSchema?.InheritsSchema(_exceptionSchema) == true));
     }
 }
