@@ -22,7 +22,8 @@ namespace NSwag.CodeGeneration.CSharp
             UseBaseUrl = true;
             HttpClientType = "System.Net.Http.HttpClient";
             WrapDtoExceptions = true;
-            DisposeHttpClient = true; 
+            DisposeHttpClient = true;
+            ParameterDateTimeFormat = "s";
         }
 
         /// <summary>Gets or sets the full name of the base class.</summary>
@@ -69,5 +70,8 @@ namespace NSwag.CodeGeneration.CSharp
         /// will be used, but this can be overridden. Just keep in mind that the type you specify has the same default HttpClient method signatures.
         /// </summary>
         public string HttpClientType { get; set; }
+
+        /// <summary>Gets or sets the format for DateTime type method parameters (default: "s").</summary>
+        public string ParameterDateTimeFormat { get; set; }
     }
 }

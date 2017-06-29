@@ -202,9 +202,9 @@ public partial interface I<#=Model.Class#>
         if (<#=parameter.VariableName#> != null)
 <#  }#>
 <#  if(parameter.IsDateArray){#>
-        urlBuilder_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(string.Join(",", <#=parameter.VariableName#>.Select(s_ => s_.ToString("s", System.Globalization.CultureInfo.InvariantCulture)))));
+        urlBuilder_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(string.Join(",", <#=parameter.VariableName#>.Select(s_ => s_.ToString("<#=Model.ParameterDateTimeFormat#>", System.Globalization.CultureInfo.InvariantCulture)))));
 <#  }else if(parameter.IsDate){#>
-        urlBuilder_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(<#=parameter.VariableName#>.ToString("s", System.Globalization.CultureInfo.InvariantCulture)));
+        urlBuilder_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(<#=parameter.VariableName#>.ToString("<#=Model.ParameterDateTimeFormat#>", System.Globalization.CultureInfo.InvariantCulture)));
 <#  }else if(parameter.IsArray){#>
         urlBuilder_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(string.Join(",", <#=parameter.VariableName#>.Select(s_ => System.Convert.ToString(s_, System.Globalization.CultureInfo.InvariantCulture)))));
 <#  }else{#>
@@ -218,9 +218,9 @@ public partial interface I<#=Model.Class#>
 <#foreach(var parameter in operation.QueryParameters){#>
         <#  if(parameter.IsNullable){#>if (<#=parameter.VariableName#> != null) <#}#>
 <#  if(parameter.IsDateArray){#>
-foreach (var item_ in <#=parameter.VariableName#>) { urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(item_.ToString("s", System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
+foreach (var item_ in <#=parameter.VariableName#>) { urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(item_.ToString("<#=Model.ParameterDateTimeFormat#>", System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
 <#  }else if(parameter.IsDate){#>
-urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(<#=parameter.VariableName#><#if(parameter.Type.EndsWith("?")){#>.Value<#}#>.ToString("s", System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(<#=parameter.VariableName#><#if(parameter.Type.EndsWith("?")){#>.Value<#}#>.ToString("<#=Model.ParameterDateTimeFormat#>", System.Globalization.CultureInfo.InvariantCulture))).Append("&");
 <#  }else if(parameter.IsArray){#>
 foreach (var item_ in <#=parameter.VariableName#>) { urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(System.Convert.ToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
 <#  }else{#>
