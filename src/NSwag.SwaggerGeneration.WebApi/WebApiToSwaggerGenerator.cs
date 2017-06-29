@@ -242,11 +242,7 @@ namespace NSwag.SwaggerGeneration.WebApi
                 if (controllerName.EndsWith("Controller"))
                     controllerName = controllerName.Substring(0, controllerName.Length - 10);
 
-                var methodName = method.Name;
-                if (methodName.EndsWith("Async"))
-                    methodName = methodName.Substring(0, methodName.Length - 5);
-
-                operationId = controllerName + "_" + methodName;
+                operationId = controllerName + "_" + GetActionName(method);
             }
 
             var number = 1;
@@ -381,7 +377,11 @@ namespace NSwag.SwaggerGeneration.WebApi
             if (actionNameAttribute != null)
                 return actionNameAttribute.Name;
 
-            return method.Name;
+            var methodName = method.Name;
+            if (methodName.EndsWith("Async"))
+                methodName = methodName.Substring(0, methodName.Length - 5);
+            
+            return methodName;
         }
 
         private IEnumerable<SwaggerOperationMethod> GetSupportedHttpMethods(MethodInfo method)
