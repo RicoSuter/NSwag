@@ -208,6 +208,12 @@ if(Model.GenerateOptionalParameters && parameter.IsOptional){
             #line hidden
             
             #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.TypePostfix));
+            
+            #line default
+            #line hidden
+            
+            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
 if(!parameter.IsLast){
             
             #line default
@@ -571,6 +577,12 @@ if(Model.GenerateOptionalParameters && parameter.IsOptional){
             
             #line 51 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Type));
+            
+            #line default
+            #line hidden
+            
+            #line 51 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.TypePostfix));
             
             #line default
             #line hidden

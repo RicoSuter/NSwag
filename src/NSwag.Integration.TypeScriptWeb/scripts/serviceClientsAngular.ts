@@ -42,7 +42,7 @@ export class GeoClient extends MyBaseClass {
         this.baseUrl = baseUrl ? baseUrl : "http://localhost:13452";
     }
 
-    fromBodyTest(location?: GeoPoint): Observable<void> {
+    fromBodyTest(location?: GeoPoint | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/Geo/FromBodyTest";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -133,7 +133,7 @@ export class GeoClient extends MyBaseClass {
         return Observable.of<void>(<any>null);
     }
 
-    addPolygon(points?: GeoPoint[]): Observable<void> {
+    addPolygon(points?: GeoPoint[] | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/Geo/AddPolygon";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -176,7 +176,7 @@ export class GeoClient extends MyBaseClass {
         return Observable.of<void>(<any>null);
     }
 
-    filter(currentStates?: string[]): Observable<void> {
+    filter(currentStates?: string[] | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/Geo/Filter?";
         if (currentStates !== undefined)
             currentStates.forEach(item => { url_ += "currentStates=" + encodeURIComponent("" + item) + "&"; });
@@ -218,7 +218,7 @@ export class GeoClient extends MyBaseClass {
         return Observable.of<void>(<any>null);
     }
 
-    reverse(values?: string[]): Observable<string[] | null> {
+    reverse(values?: string[] | undefined): Observable<string[] | null> {
         let url_ = this.baseUrl + "/api/Geo/Reverse?";
         if (values !== undefined)
             values.forEach(item => { url_ += "values=" + encodeURIComponent("" + item) + "&"; });
@@ -308,7 +308,7 @@ export class GeoClient extends MyBaseClass {
         return Observable.of<void>(<any>null);
     }
 
-    uploadFile(file?: FileParameter): Observable<boolean | null> {
+    uploadFile(file?: FileParameter | undefined): Observable<boolean | null> {
         let url_ = this.baseUrl + "/api/Geo/UploadFile";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -356,7 +356,7 @@ export class GeoClient extends MyBaseClass {
         return Observable.of<boolean | null>(<any>null);
     }
 
-    uploadFiles(files?: FileParameter[]): Observable<void> {
+    uploadFiles(files?: FileParameter[] | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/Geo/UploadFiles";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -400,7 +400,7 @@ export class GeoClient extends MyBaseClass {
         return Observable.of<void>(<any>null);
     }
 
-    saveItems(request?: GenericRequestOfAddressAndPerson): Observable<void> {
+    saveItems(request?: GenericRequestOfAddressAndPerson | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/Geo/SaveItems";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -499,7 +499,7 @@ export class GeoClient extends MyBaseClass {
         return Observable.of<Blob | null>(<any>null);
     }
 
-    postDouble(value?: number): Observable<number | null> {
+    postDouble(value?: number | undefined): Observable<number | null> {
         let url_ = this.baseUrl + "/api/Geo/PostDouble?";
         if (value !== undefined)
             url_ += "value=" + encodeURIComponent("" + value) + "&"; 
@@ -607,7 +607,7 @@ export class PersonsClient extends MyBaseClass {
         return Observable.of<Person[] | null>(<any>null);
     }
 
-    add(person?: Person): Observable<void> {
+    add(person?: Person | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/Persons";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -702,7 +702,7 @@ export class PersonsClient extends MyBaseClass {
         return Observable.of<Person[] | null>(<any>null);
     }
 
-    findOptional(gender: Gender): Observable<Person[] | null> {
+    findOptional(gender: Gender | undefined): Observable<Person[] | null> {
         let url_ = this.baseUrl + "/api/Persons/find2?";
         if (gender === undefined)
             throw new Error("The parameter 'gender' must be defined.");
@@ -966,7 +966,7 @@ export class PersonsClient extends MyBaseClass {
         return Observable.of<string | null>(<any>null);
     }
 
-    addXml(person: string): Observable<string | null> {
+    addXml(person: string | undefined): Observable<string | null> {
         let url_ = this.baseUrl + "/api/Persons/AddXml";
         url_ = url_.replace(/[?&]$/, "");
 

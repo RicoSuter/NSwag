@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System.Collections.Generic;
+using NJsonSchema.CodeGeneration;
 using NSwag.CodeGeneration.Models;
 
 namespace NSwag.CodeGeneration.TypeScript.Models
@@ -14,6 +15,8 @@ namespace NSwag.CodeGeneration.TypeScript.Models
     /// <summary>The TypeScript parameter model.</summary>
     public class TypeScriptParameterModel : ParameterModelBase
     {
+        private readonly SwaggerToTypeScriptClientGeneratorSettings _settings;
+
         /// <summary>Initializes a new instance of the <see cref="TypeScriptParameterModel" /> class.</summary>
         /// <param name="parameterName">Name of the parameter.</param>
         /// <param name="variableName">Name of the variable.</param>
@@ -26,6 +29,20 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             IList<SwaggerParameter> allParameters, SwaggerToTypeScriptClientGeneratorSettings settings, SwaggerToTypeScriptClientGenerator generator)
             : base(parameterName, variableName, typeName, parameter, allParameters, settings.TypeScriptGeneratorSettings, generator)
         {
+            _settings = settings;
         }
+
+        /// <summary>Gets the type postfix (e.g. ' | null | undefined')</summary>
+        public string TypePostfix
+        {
+            get
+            {
+                if (IsNullable && _settings.TypeScriptGeneratorSettings.SupportsStrictNullChecks)
+                    return " | " + _settings.TypeScriptGeneratorSettings.NullValue.ToString().ToLowerInvariant();
+                else
+                    return string.Empty;
+            }
+        }
+
     }
 }

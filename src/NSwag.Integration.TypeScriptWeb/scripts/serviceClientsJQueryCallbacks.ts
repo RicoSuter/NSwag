@@ -17,7 +17,7 @@ export class GeoClient {
         this.baseUrl = baseUrl ? baseUrl : "http://localhost:13452";
     }
 
-    fromBodyTest(location: GeoPoint, onSuccess?: () => void, onFail?: (exception: string, reason: string) => void): JQueryXHR {
+    fromBodyTest(location: GeoPoint | undefined, onSuccess?: () => void, onFail?: (exception: string, reason: string) => void): JQueryXHR {
         let url_ = this.baseUrl + "/api/Geo/FromBodyTest";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -122,7 +122,7 @@ export class GeoClient {
         return;
     }
 
-    addPolygon(points: GeoPoint[], onSuccess?: () => void, onFail?: (exception: string, reason: string) => void): JQueryXHR {
+    addPolygon(points: GeoPoint[] | undefined, onSuccess?: () => void, onFail?: (exception: string, reason: string) => void): JQueryXHR {
         let url_ = this.baseUrl + "/api/Geo/AddPolygon";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -172,7 +172,7 @@ export class GeoClient {
         return;
     }
 
-    filter(currentStates: string[], onSuccess?: () => void, onFail?: (exception: string, reason: string) => void): JQueryXHR {
+    filter(currentStates: string[] | undefined, onSuccess?: () => void, onFail?: (exception: string, reason: string) => void): JQueryXHR {
         let url_ = this.baseUrl + "/api/Geo/Filter?";
         if (currentStates !== undefined)
             currentStates.forEach(item => { url_ += "currentStates=" + encodeURIComponent("" + item) + "&"; });
@@ -221,7 +221,7 @@ export class GeoClient {
         return;
     }
 
-    reverse(values: string[], onSuccess?: (result: string[] | null) => void, onFail?: (exception: string, reason: string) => void): JQueryXHR {
+    reverse(values: string[] | undefined, onSuccess?: (result: string[] | null) => void, onFail?: (exception: string, reason: string) => void): JQueryXHR {
         let url_ = this.baseUrl + "/api/Geo/Reverse?";
         if (values !== undefined)
             values.forEach(item => { url_ += "values=" + encodeURIComponent("" + item) + "&"; });
@@ -325,7 +325,7 @@ export class GeoClient {
         return;
     }
 
-    uploadFile(file: FileParameter, onSuccess?: (result: boolean | null) => void, onFail?: (exception: string, reason: string) => void): JQueryXHR {
+    uploadFile(file: FileParameter | undefined, onSuccess?: (result: boolean | null) => void, onFail?: (exception: string, reason: string) => void): JQueryXHR {
         let url_ = this.baseUrl + "/api/Geo/UploadFile";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -382,7 +382,7 @@ export class GeoClient {
         return null;
     }
 
-    uploadFiles(files: FileParameter[], onSuccess?: () => void, onFail?: (exception: string, reason: string) => void): JQueryXHR {
+    uploadFiles(files: FileParameter[] | undefined, onSuccess?: () => void, onFail?: (exception: string, reason: string) => void): JQueryXHR {
         let url_ = this.baseUrl + "/api/Geo/UploadFiles";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -435,7 +435,7 @@ export class GeoClient {
         return;
     }
 
-    saveItems(request: GenericRequestOfAddressAndPerson, onSuccess?: () => void, onFail?: (exception: Exception | string, reason: string) => void): JQueryXHR {
+    saveItems(request: GenericRequestOfAddressAndPerson | undefined, onSuccess?: () => void, onFail?: (exception: Exception | string, reason: string) => void): JQueryXHR {
         let url_ = this.baseUrl + "/api/Geo/SaveItems";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -549,7 +549,7 @@ export class GeoClient {
         return null;
     }
 
-    postDouble(value: number, onSuccess?: (result: number | null) => void, onFail?: (exception: string, reason: string) => void): JQueryXHR {
+    postDouble(value: number | undefined, onSuccess?: (result: number | null) => void, onFail?: (exception: string, reason: string) => void): JQueryXHR {
         let url_ = this.baseUrl + "/api/Geo/PostDouble?";
         if (value !== undefined)
             url_ += "value=" + encodeURIComponent("" + value) + "&"; 
@@ -667,7 +667,7 @@ export class PersonsClient {
         return null;
     }
 
-    add(person: Person, onSuccess?: () => void, onFail?: (exception: string, reason: string) => void): JQueryXHR {
+    add(person: Person | undefined, onSuccess?: () => void, onFail?: (exception: string, reason: string) => void): JQueryXHR {
         let url_ = this.baseUrl + "/api/Persons";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -775,7 +775,7 @@ export class PersonsClient {
         return null;
     }
 
-    findOptional(gender: Gender, onSuccess?: (result: Person[] | null) => void, onFail?: (exception: string, reason: string) => void): JQueryXHR {
+    findOptional(gender: Gender | undefined, onSuccess?: (result: Person[] | null) => void, onFail?: (exception: string, reason: string) => void): JQueryXHR {
         let url_ = this.baseUrl + "/api/Persons/find2?";
         if (gender === undefined)
             throw new Error("The parameter 'gender' must be defined.");
@@ -1070,7 +1070,7 @@ export class PersonsClient {
         return null;
     }
 
-    addXml(person: string, onSuccess?: (result: string | null) => void, onFail?: (exception: string, reason: string) => void): JQueryXHR {
+    addXml(person: string | undefined, onSuccess?: (result: string | null) => void, onFail?: (exception: string, reason: string) => void): JQueryXHR {
         let url_ = this.baseUrl + "/api/Persons/AddXml";
         url_ = url_.replace(/[?&]$/, "");
 

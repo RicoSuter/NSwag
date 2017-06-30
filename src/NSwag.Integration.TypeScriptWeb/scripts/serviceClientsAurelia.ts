@@ -20,7 +20,7 @@ export class GeoClient {
         this.http = http ? http : <any>window;
     }
 
-    fromBodyTest(location: GeoPoint): Promise<void> {
+    fromBodyTest(location: GeoPoint | undefined): Promise<void> {
         let url_ = this.baseUrl + "/api/Geo/FromBodyTest";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -91,7 +91,7 @@ export class GeoClient {
         return Promise.resolve<void>(<any>null);
     }
 
-    addPolygon(points: GeoPoint[]): Promise<void> {
+    addPolygon(points: GeoPoint[] | undefined): Promise<void> {
         let url_ = this.baseUrl + "/api/Geo/AddPolygon";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -124,7 +124,7 @@ export class GeoClient {
         return Promise.resolve<void>(<any>null);
     }
 
-    filter(currentStates: string[]): Promise<void> {
+    filter(currentStates: string[] | undefined): Promise<void> {
         let url_ = this.baseUrl + "/api/Geo/Filter?";
         if (currentStates !== undefined)
             currentStates.forEach(item => { url_ += "currentStates=" + encodeURIComponent("" + item) + "&"; });
@@ -156,7 +156,7 @@ export class GeoClient {
         return Promise.resolve<void>(<any>null);
     }
 
-    reverse(values: string[]): Promise<string[] | null> {
+    reverse(values: string[] | undefined): Promise<string[] | null> {
         let url_ = this.baseUrl + "/api/Geo/Reverse?";
         if (values !== undefined)
             values.forEach(item => { url_ += "values=" + encodeURIComponent("" + item) + "&"; });
@@ -226,7 +226,7 @@ export class GeoClient {
         return Promise.resolve<void>(<any>null);
     }
 
-    uploadFile(file: FileParameter): Promise<boolean | null> {
+    uploadFile(file: FileParameter | undefined): Promise<boolean | null> {
         let url_ = this.baseUrl + "/api/Geo/UploadFile";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -264,7 +264,7 @@ export class GeoClient {
         return Promise.resolve<boolean | null>(<any>null);
     }
 
-    uploadFiles(files: FileParameter[]): Promise<void> {
+    uploadFiles(files: FileParameter[] | undefined): Promise<void> {
         let url_ = this.baseUrl + "/api/Geo/UploadFiles";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -298,7 +298,7 @@ export class GeoClient {
         return Promise.resolve<void>(<any>null);
     }
 
-    saveItems(request: GenericRequestOfAddressAndPerson): Promise<void> {
+    saveItems(request: GenericRequestOfAddressAndPerson | undefined): Promise<void> {
         let url_ = this.baseUrl + "/api/Geo/SaveItems";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -374,7 +374,7 @@ export class GeoClient {
         return Promise.resolve<Blob | null>(<any>null);
     }
 
-    postDouble(value: number): Promise<number | null> {
+    postDouble(value: number | undefined): Promise<number | null> {
         let url_ = this.baseUrl + "/api/Geo/PostDouble?";
         if (value !== undefined)
             url_ += "value=" + encodeURIComponent("" + value) + "&"; 
@@ -460,7 +460,7 @@ export class PersonsClient {
         return Promise.resolve<Person[] | null>(<any>null);
     }
 
-    add(person: Person): Promise<void> {
+    add(person: Person | undefined): Promise<void> {
         let url_ = this.baseUrl + "/api/Persons";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -534,7 +534,7 @@ export class PersonsClient {
         return Promise.resolve<Person[] | null>(<any>null);
     }
 
-    findOptional(gender: Gender): Promise<Person[] | null> {
+    findOptional(gender: Gender | undefined): Promise<Person[] | null> {
         let url_ = this.baseUrl + "/api/Persons/find2?";
         if (gender === undefined)
             throw new Error("The parameter 'gender' must be defined.");
@@ -747,7 +747,7 @@ export class PersonsClient {
         return Promise.resolve<string | null>(<any>null);
     }
 
-    addXml(person: string): Promise<string | null> {
+    addXml(person: string | undefined): Promise<string | null> {
         let url_ = this.baseUrl + "/api/Persons/AddXml";
         url_ = url_.replace(/[?&]$/, "");
 

@@ -20,7 +20,7 @@ export class GeoClient {
         this.baseUrl = baseUrl ? baseUrl : "http://localhost:13452";
     }
 
-    fromBodyTest(location: GeoPoint): ng.IPromise<void> {
+    fromBodyTest(location: GeoPoint | undefined): ng.IPromise<void> {
         let url_ = this.baseUrl + "/api/Geo/FromBodyTest";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -101,7 +101,7 @@ export class GeoClient {
         return this.q.resolve<void>(<any>null);
     }
 
-    addPolygon(points: GeoPoint[]): ng.IPromise<void> {
+    addPolygon(points: GeoPoint[] | undefined): ng.IPromise<void> {
         let url_ = this.baseUrl + "/api/Geo/AddPolygon";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -139,7 +139,7 @@ export class GeoClient {
         return this.q.resolve<void>(<any>null);
     }
 
-    filter(currentStates: string[]): ng.IPromise<void> {
+    filter(currentStates: string[] | undefined): ng.IPromise<void> {
         let url_ = this.baseUrl + "/api/Geo/Filter?";
         if (currentStates !== undefined)
             currentStates.forEach(item => { url_ += "currentStates=" + encodeURIComponent("" + item) + "&"; });
@@ -176,7 +176,7 @@ export class GeoClient {
         return this.q.resolve<void>(<any>null);
     }
 
-    reverse(values: string[]): ng.IPromise<string[] | null> {
+    reverse(values: string[] | undefined): ng.IPromise<string[] | null> {
         let url_ = this.baseUrl + "/api/Geo/Reverse?";
         if (values !== undefined)
             values.forEach(item => { url_ += "values=" + encodeURIComponent("" + item) + "&"; });
@@ -256,7 +256,7 @@ export class GeoClient {
         return this.q.resolve<void>(<any>null);
     }
 
-    uploadFile(file: FileParameter): ng.IPromise<boolean | null> {
+    uploadFile(file: FileParameter | undefined): ng.IPromise<boolean | null> {
         let url_ = this.baseUrl + "/api/Geo/UploadFile";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -299,7 +299,7 @@ export class GeoClient {
         return this.q.resolve<boolean | null>(<any>null);
     }
 
-    uploadFiles(files: FileParameter[]): ng.IPromise<void> {
+    uploadFiles(files: FileParameter[] | undefined): ng.IPromise<void> {
         let url_ = this.baseUrl + "/api/Geo/UploadFiles";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -338,7 +338,7 @@ export class GeoClient {
         return this.q.resolve<void>(<any>null);
     }
 
-    saveItems(request: GenericRequestOfAddressAndPerson): ng.IPromise<void> {
+    saveItems(request: GenericRequestOfAddressAndPerson | undefined): ng.IPromise<void> {
         let url_ = this.baseUrl + "/api/Geo/SaveItems";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -426,7 +426,7 @@ export class GeoClient {
         return this.q.resolve<Blob | null>(<any>null);
     }
 
-    postDouble(value: number): ng.IPromise<number | null> {
+    postDouble(value: number | undefined): ng.IPromise<number | null> {
         let url_ = this.baseUrl + "/api/Geo/PostDouble?";
         if (value !== undefined)
             url_ += "value=" + encodeURIComponent("" + value) + "&"; 
@@ -523,7 +523,7 @@ export class PersonsClient {
         return this.q.resolve<Person[] | null>(<any>null);
     }
 
-    add(person: Person): ng.IPromise<void> {
+    add(person: Person | undefined): ng.IPromise<void> {
         let url_ = this.baseUrl + "/api/Persons";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -607,7 +607,7 @@ export class PersonsClient {
         return this.q.resolve<Person[] | null>(<any>null);
     }
 
-    findOptional(gender: Gender): ng.IPromise<Person[] | null> {
+    findOptional(gender: Gender | undefined): ng.IPromise<Person[] | null> {
         let url_ = this.baseUrl + "/api/Persons/find2?";
         if (gender === undefined)
             throw new Error("The parameter 'gender' must be defined.");
@@ -842,7 +842,7 @@ export class PersonsClient {
         return this.q.resolve<string | null>(<any>null);
     }
 
-    addXml(person: string): ng.IPromise<string | null> {
+    addXml(person: string | undefined): ng.IPromise<string | null> {
         let url_ = this.baseUrl + "/api/Persons/AddXml";
         url_ = url_.replace(/[?&]$/, "");
 

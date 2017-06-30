@@ -17,13 +17,13 @@ export class GeoClient {
         this.baseUrl = baseUrl ? baseUrl : "http://localhost:13452"; 
     }
 
-    fromBodyTest(location: GeoPoint) {
+    fromBodyTest(location: GeoPoint | undefined) {
         return new Promise<void>((resolve, reject) => {
             this.fromBodyTestWithCallbacks(location, (result) => resolve(result), (exception, _reason) => reject(exception));
         });
     }
     
-    private fromBodyTestWithCallbacks(location: GeoPoint, onSuccess?: (result: void) => void, onFail?: (exception: string, reason: string) => void) {
+    private fromBodyTestWithCallbacks(location: GeoPoint | undefined, onSuccess?: (result: void) => void, onFail?: (exception: string, reason: string) => void) {
         let url_ = this.baseUrl + "/api/Geo/FromBodyTest";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -126,13 +126,13 @@ export class GeoClient {
         return;
     }
 
-    addPolygon(points: GeoPoint[]) {
+    addPolygon(points: GeoPoint[] | undefined) {
         return new Promise<void>((resolve, reject) => {
             this.addPolygonWithCallbacks(points, (result) => resolve(result), (exception, _reason) => reject(exception));
         });
     }
     
-    private addPolygonWithCallbacks(points: GeoPoint[], onSuccess?: (result: void) => void, onFail?: (exception: string, reason: string) => void) {
+    private addPolygonWithCallbacks(points: GeoPoint[] | undefined, onSuccess?: (result: void) => void, onFail?: (exception: string, reason: string) => void) {
         let url_ = this.baseUrl + "/api/Geo/AddPolygon";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -178,13 +178,13 @@ export class GeoClient {
         return;
     }
 
-    filter(currentStates: string[]) {
+    filter(currentStates: string[] | undefined) {
         return new Promise<void>((resolve, reject) => {
             this.filterWithCallbacks(currentStates, (result) => resolve(result), (exception, _reason) => reject(exception));
         });
     }
     
-    private filterWithCallbacks(currentStates: string[], onSuccess?: (result: void) => void, onFail?: (exception: string, reason: string) => void) {
+    private filterWithCallbacks(currentStates: string[] | undefined, onSuccess?: (result: void) => void, onFail?: (exception: string, reason: string) => void) {
         let url_ = this.baseUrl + "/api/Geo/Filter?";
         if (currentStates !== undefined)
             currentStates.forEach(item => { url_ += "currentStates=" + encodeURIComponent("" + item) + "&"; });
@@ -229,13 +229,13 @@ export class GeoClient {
         return;
     }
 
-    reverse(values: string[]) {
+    reverse(values: string[] | undefined) {
         return new Promise<string[] | null>((resolve, reject) => {
             this.reverseWithCallbacks(values, (result) => resolve(result), (exception, _reason) => reject(exception));
         });
     }
     
-    private reverseWithCallbacks(values: string[], onSuccess?: (result: string[] | null) => void, onFail?: (exception: string, reason: string) => void) {
+    private reverseWithCallbacks(values: string[] | undefined, onSuccess?: (result: string[] | null) => void, onFail?: (exception: string, reason: string) => void) {
         let url_ = this.baseUrl + "/api/Geo/Reverse?";
         if (values !== undefined)
             values.forEach(item => { url_ += "values=" + encodeURIComponent("" + item) + "&"; });
@@ -337,13 +337,13 @@ export class GeoClient {
         return;
     }
 
-    uploadFile(file: FileParameter) {
+    uploadFile(file: FileParameter | undefined) {
         return new Promise<boolean | null>((resolve, reject) => {
             this.uploadFileWithCallbacks(file, (result) => resolve(result), (exception, _reason) => reject(exception));
         });
     }
     
-    private uploadFileWithCallbacks(file: FileParameter, onSuccess?: (result: boolean | null) => void, onFail?: (exception: string, reason: string) => void) {
+    private uploadFileWithCallbacks(file: FileParameter | undefined, onSuccess?: (result: boolean | null) => void, onFail?: (exception: string, reason: string) => void) {
         let url_ = this.baseUrl + "/api/Geo/UploadFile";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -396,13 +396,13 @@ export class GeoClient {
         return null;
     }
 
-    uploadFiles(files: FileParameter[]) {
+    uploadFiles(files: FileParameter[] | undefined) {
         return new Promise<void>((resolve, reject) => {
             this.uploadFilesWithCallbacks(files, (result) => resolve(result), (exception, _reason) => reject(exception));
         });
     }
     
-    private uploadFilesWithCallbacks(files: FileParameter[], onSuccess?: (result: void) => void, onFail?: (exception: string, reason: string) => void) {
+    private uploadFilesWithCallbacks(files: FileParameter[] | undefined, onSuccess?: (result: void) => void, onFail?: (exception: string, reason: string) => void) {
         let url_ = this.baseUrl + "/api/Geo/UploadFiles";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -451,13 +451,13 @@ export class GeoClient {
         return;
     }
 
-    saveItems(request: GenericRequestOfAddressAndPerson) {
+    saveItems(request: GenericRequestOfAddressAndPerson | undefined) {
         return new Promise<void>((resolve, reject) => {
             this.saveItemsWithCallbacks(request, (result) => resolve(result), (exception, _reason) => reject(exception));
         });
     }
     
-    private saveItemsWithCallbacks(request: GenericRequestOfAddressAndPerson, onSuccess?: (result: void) => void, onFail?: (exception: Exception | string, reason: string) => void) {
+    private saveItemsWithCallbacks(request: GenericRequestOfAddressAndPerson | undefined, onSuccess?: (result: void) => void, onFail?: (exception: Exception | string, reason: string) => void) {
         let url_ = this.baseUrl + "/api/Geo/SaveItems";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -569,13 +569,13 @@ export class GeoClient {
         return null;
     }
 
-    postDouble(value: number) {
+    postDouble(value: number | undefined) {
         return new Promise<number | null>((resolve, reject) => {
             this.postDoubleWithCallbacks(value, (result) => resolve(result), (exception, _reason) => reject(exception));
         });
     }
     
-    private postDoubleWithCallbacks(value: number, onSuccess?: (result: number | null) => void, onFail?: (exception: string, reason: string) => void) {
+    private postDoubleWithCallbacks(value: number | undefined, onSuccess?: (result: number | null) => void, onFail?: (exception: string, reason: string) => void) {
         let url_ = this.baseUrl + "/api/Geo/PostDouble?";
         if (value !== undefined)
             url_ += "value=" + encodeURIComponent("" + value) + "&"; 
@@ -691,13 +691,13 @@ export class PersonsClient {
         return null;
     }
 
-    add(person: Person) {
+    add(person: Person | undefined) {
         return new Promise<void>((resolve, reject) => {
             this.addWithCallbacks(person, (result) => resolve(result), (exception, _reason) => reject(exception));
         });
     }
     
-    private addWithCallbacks(person: Person, onSuccess?: (result: void) => void, onFail?: (exception: string, reason: string) => void) {
+    private addWithCallbacks(person: Person | undefined, onSuccess?: (result: void) => void, onFail?: (exception: string, reason: string) => void) {
         let url_ = this.baseUrl + "/api/Persons";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -803,13 +803,13 @@ export class PersonsClient {
         return null;
     }
 
-    findOptional(gender: Gender) {
+    findOptional(gender: Gender | undefined) {
         return new Promise<Person[] | null>((resolve, reject) => {
             this.findOptionalWithCallbacks(gender, (result) => resolve(result), (exception, _reason) => reject(exception));
         });
     }
     
-    private findOptionalWithCallbacks(gender: Gender, onSuccess?: (result: Person[] | null) => void, onFail?: (exception: string, reason: string) => void) {
+    private findOptionalWithCallbacks(gender: Gender | undefined, onSuccess?: (result: Person[] | null) => void, onFail?: (exception: string, reason: string) => void) {
         let url_ = this.baseUrl + "/api/Persons/find2?";
         if (gender === undefined)
             throw new Error("The parameter 'gender' must be defined.");
@@ -1108,13 +1108,13 @@ export class PersonsClient {
         return null;
     }
 
-    addXml(person: string) {
+    addXml(person: string | undefined) {
         return new Promise<string | null>((resolve, reject) => {
             this.addXmlWithCallbacks(person, (result) => resolve(result), (exception, _reason) => reject(exception));
         });
     }
     
-    private addXmlWithCallbacks(person: string, onSuccess?: (result: string | null) => void, onFail?: (exception: string, reason: string) => void) {
+    private addXmlWithCallbacks(person: string | undefined, onSuccess?: (result: string | null) => void, onFail?: (exception: string, reason: string) => void) {
         let url_ = this.baseUrl + "/api/Persons/AddXml";
         url_ = url_.replace(/[?&]$/, "");
 

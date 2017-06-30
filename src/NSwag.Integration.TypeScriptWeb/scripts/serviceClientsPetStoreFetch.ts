@@ -258,7 +258,7 @@ export class Client {
      * @name Updated name of the pet
      * @status Updated status of the pet
      */
-    updatePetWithForm(petId: number, name: string, status: string): Promise<void> {
+    updatePetWithForm(petId: number, name: string | undefined, status: string | undefined): Promise<void> {
         let url_ = this.baseUrl + "/pet/{petId}";
         if (petId === undefined || petId === null)
             throw new Error("The parameter 'petId' must be defined.");
@@ -301,7 +301,7 @@ export class Client {
      * Deletes a pet
      * @petId Pet id to delete
      */
-    deletePet(api_key: string, petId: number): Promise<void> {
+    deletePet(api_key: string | undefined, petId: number): Promise<void> {
         let url_ = this.baseUrl + "/pet/{petId}";
         if (petId === undefined || petId === null)
             throw new Error("The parameter 'petId' must be defined.");
@@ -346,7 +346,7 @@ export class Client {
      * @file file to upload
      * @return successful operation
      */
-    uploadFile(petId: number, additionalMetadata: string, file: FileParameter): Promise<ApiResponse | null> {
+    uploadFile(petId: number, additionalMetadata: string | undefined, file: FileParameter | undefined): Promise<ApiResponse | null> {
         let url_ = this.baseUrl + "/pet/{petId}/uploadImage";
         if (petId === undefined || petId === null)
             throw new Error("The parameter 'petId' must be defined.");

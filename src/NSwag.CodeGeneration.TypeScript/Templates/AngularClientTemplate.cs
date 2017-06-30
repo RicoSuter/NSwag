@@ -208,6 +208,12 @@ if(Model.GenerateOptionalParameters && parameter.IsOptional){
             #line hidden
             
             #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.TypePostfix));
+            
+            #line default
+            #line hidden
+            
+            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularClientTemplate.tt"
 if(!parameter.IsLast){
             
             #line default
@@ -576,6 +582,12 @@ if(Model.GenerateOptionalParameters && parameter.IsOptional){
             
             #line 49 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Type));
+            
+            #line default
+            #line hidden
+            
+            #line 49 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.TypePostfix));
             
             #line default
             #line hidden
