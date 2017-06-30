@@ -118,12 +118,10 @@ public partial interface I<#=Model.Class#>
     partial void PrepareRequest(<#=Model.HttpClientType#> client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
     partial void ProcessResponse(<#=Model.HttpClientType#> client, System.Net.Http.HttpResponseMessage response);
 
-    Newtonsoft.Json.JsonSerializerSettings NewJsonSettings()
+    private Newtonsoft.Json.JsonSerializerSettings NewJsonSettings()
     {
-        Newtonsoft.Json.JsonSerializerSettings settings = <#=Model.JsonSerializerParameterCode#>;
-
+        var settings = <#=Model.JsonSerializerParameterCode#>;
         UpdateJsonSettings(ref settings);
-
         return settings;
     }
 
