@@ -87,7 +87,7 @@ public partial interface I<#=Model.Class#>
 <#  if(Model.InjectHttpClient){#>
         _httpClient = httpClient; 
 <#  }#>
-<#}else if(Model.UseBaseUrl && string.IsNullOrEmpty(Model.BaseUrl)){#>
+<#}else if(Model.UseBaseUrl){#>
     public <#=Model.Class#>(string baseUrl<#if(Model.InjectHttpClient){#>, <#=Model.HttpClientType#> httpClient<#}#>)
     {
 <#  if(Model.InjectHttpClient){#>
