@@ -115,8 +115,11 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets or sets a value indicating whether DTO exceptions are wrapped in a SwaggerException instance.</summary>
         public bool WrapDtoExceptions => _settings.WrapDtoExceptions;
 
-        /// <summary>Gets or sets the format for DateTime type method parameters (default: "s").</summary>
+        /// <summary>Gets or sets the format for DateTime type method parameters.</summary>
         public string ParameterDateTimeFormat => _settings.ParameterDateTimeFormat;
+
+        /// <summary>Gets or sets a value indicating whether to generate the UpdateJsonSerializerSettings method.</summary>
+        public bool GenerateUpdateJsonSerializerSettingsMethod => _settings.GenerateUpdateJsonSerializerSettingsMethod;
 
         /// <summary>Gets the JSON serializer parameter code.</summary>
         public string JsonSerializerParameterCode
@@ -129,10 +132,12 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 if (RequiresJsonExceptionConverter)
                     jsonConverters = jsonConverters.Concat(new[] { "JsonExceptionConverter" });
 
+                // TODO: Fix this in NJS (remove ", ", cleanup)
                 var parameterCode = CSharpJsonSerializerGenerator.GenerateJsonSerializerParameterCode(handleReferences, jsonConverters.ToList());
-
-                if (parameterCode.Length == 0)
+                if (string.IsNullOrEmpty(parameterCode))
                     parameterCode = "new Newtonsoft.Json.JsonSerializerSettings()";
+                else if(!parameterCode.Contains("new Newtonsoft.Json.JsonSerializerSettings"))
+                    parameterCode = "new Newtonsoft.Json.JsonSerializerSettings { Converters = " + parameterCode.Substring(2) + " }";
                 else
                     parameterCode = parameterCode.Substring(2);
 
