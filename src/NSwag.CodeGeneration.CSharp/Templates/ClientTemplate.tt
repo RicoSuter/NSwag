@@ -73,6 +73,7 @@ public partial interface I<#=Model.Class#>
 <#=Model.ClientClassAccessModifier#> partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Model.HasBaseClass){#><#=Model.BaseClass#><#if(Model.GenerateClientInterfaces){#>, <#}#><#}#><#if(Model.GenerateClientInterfaces){#>I<#=Model.Class#><#}#>
 
 {
+    private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 <#if(Model.UseBaseUrl){#>
     private string _baseUrl = "<#=Model.BaseUrl#>";
     
@@ -87,13 +88,13 @@ public partial interface I<#=Model.Class#>
 <#  if(Model.InjectHttpClient){#>
         _httpClient = httpClient; 
 <#  }#>
-<#}else if(Model.UseBaseUrl){#>
+<#}else if(Model.UseBaseUrl && string.IsNullOrEmpty(Model.BaseUrl)){#>
     public <#=Model.Class#>(string baseUrl<#if(Model.InjectHttpClient){#>, <#=Model.HttpClientType#> httpClient<#}#>)
     {
+        BaseUrl = baseUrl; 
 <#  if(Model.InjectHttpClient){#>
         _httpClient = httpClient; 
 <#  }#>
-        BaseUrl = baseUrl; 
 <#}else if(Model.InjectHttpClient){#>
     public <#=Model.Class#>(<#=Model.HttpClientType#> httpClient)
     {
@@ -124,8 +125,6 @@ public partial interface I<#=Model.Class#>
     partial void PrepareRequest(<#=Model.HttpClientType#> client, System.Net.Http.HttpRequestMessage request, string url);
     partial void PrepareRequest(<#=Model.HttpClientType#> client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
     partial void ProcessResponse(<#=Model.HttpClientType#> client, System.Net.Http.HttpResponseMessage response);
-
-    private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
 <#foreach(var operation in Model.Operations){#>
 <#  if(!Model.GenerateOptionalParameters){#>

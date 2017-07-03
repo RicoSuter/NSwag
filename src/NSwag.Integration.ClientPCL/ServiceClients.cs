@@ -13,6 +13,7 @@ namespace NSwag.Integration.ClientPCL
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.2.0.0")]
     public partial class GeoClient : ClientBase
     {
+        private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
         private string _baseUrl = "http://localhost:13452";
         
         private System.Net.Http.HttpClient _httpClient; 
@@ -20,7 +21,13 @@ namespace NSwag.Integration.ClientPCL
         public GeoClient(System.Net.Http.HttpClient httpClient)
         {
             _httpClient = httpClient; 
-        }
+    		_settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(() => 
+            {
+                var settings = new Newtonsoft.Json.JsonSerializerSettings { PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.All, Converters = new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() } };
+                UpdateJsonSerializerSettings(settings);
+                return settings;
+            });
+    	}
     
         public string BaseUrl 
         {
@@ -50,7 +57,7 @@ namespace NSwag.Integration.ClientPCL
             {
                 using (var request_ = await CreateHttpRequestMessageAsync(cancellationToken).ConfigureAwait(false))
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(location, new Newtonsoft.Json.JsonSerializerSettings { PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.All, Converters = new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() } }));
+                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(location, _settings.Value));
                     content_.Headers.ContentType.MediaType = "application/json";
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
@@ -184,7 +191,7 @@ namespace NSwag.Integration.ClientPCL
             {
                 using (var request_ = await CreateHttpRequestMessageAsync(cancellationToken).ConfigureAwait(false))
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(points, new Newtonsoft.Json.JsonSerializerSettings { PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.All, Converters = new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() } }));
+                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(points, _settings.Value));
                     content_.Headers.ContentType.MediaType = "application/json";
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
@@ -339,7 +346,7 @@ namespace NSwag.Integration.ClientPCL
                             var result_ = default(System.Collections.ObjectModel.ObservableCollection<string>); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<string>>(responseData_, new Newtonsoft.Json.JsonSerializerSettings { PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.All, Converters = new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() } });
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<string>>(responseData_, _settings.Value);
                                 return new SwaggerResponse<System.Collections.ObjectModel.ObservableCollection<string>>(status_, headers_, result_); 
                             } 
                             catch (System.Exception exception) 
@@ -479,7 +486,7 @@ namespace NSwag.Integration.ClientPCL
                             var result_ = default(bool); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<bool>(responseData_, new Newtonsoft.Json.JsonSerializerSettings { PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.All, Converters = new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() } });
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<bool>(responseData_, _settings.Value);
                                 return new SwaggerResponse<bool>(status_, headers_, result_); 
                             } 
                             catch (System.Exception exception) 
@@ -595,7 +602,7 @@ namespace NSwag.Integration.ClientPCL
             {
                 using (var request_ = await CreateHttpRequestMessageAsync(cancellationToken).ConfigureAwait(false))
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(request, new Newtonsoft.Json.JsonSerializerSettings { PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.All, Converters = new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() } }));
+                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value));
                     content_.Headers.ContentType.MediaType = "application/json";
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
@@ -626,7 +633,7 @@ namespace NSwag.Integration.ClientPCL
                             var result_ = default(System.Exception); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Exception>(responseData_, new Newtonsoft.Json.JsonSerializerSettings { PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.All, Converters = new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() } });
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Exception>(responseData_, _settings.Value);
                             } 
                             catch (System.Exception exception) 
                             {
@@ -779,7 +786,7 @@ namespace NSwag.Integration.ClientPCL
                             var result_ = default(double?); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<double?>(responseData_, new Newtonsoft.Json.JsonSerializerSettings { PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.All, Converters = new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() } });
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<double?>(responseData_, _settings.Value);
                                 return new SwaggerResponse<double?>(status_, headers_, result_); 
                             } 
                             catch (System.Exception exception) 
@@ -813,6 +820,7 @@ namespace NSwag.Integration.ClientPCL
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.2.0.0")]
     public partial class PersonsClient : ClientBase
     {
+        private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
         private string _baseUrl = "http://localhost:13452";
         
         private System.Net.Http.HttpClient _httpClient; 
@@ -820,7 +828,13 @@ namespace NSwag.Integration.ClientPCL
         public PersonsClient(System.Net.Http.HttpClient httpClient)
         {
             _httpClient = httpClient; 
-        }
+    		_settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(() => 
+            {
+                var settings = new Newtonsoft.Json.JsonSerializerSettings { PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.All, Converters = new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() } };
+                UpdateJsonSerializerSettings(settings);
+                return settings;
+            });
+    	}
     
         public string BaseUrl 
         {
@@ -874,7 +888,7 @@ namespace NSwag.Integration.ClientPCL
                             var result_ = default(System.Collections.ObjectModel.ObservableCollection<Person>); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<Person>>(responseData_, new Newtonsoft.Json.JsonSerializerSettings { PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.All, Converters = new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() } });
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<Person>>(responseData_, _settings.Value);
                                 return new SwaggerResponse<System.Collections.ObjectModel.ObservableCollection<Person>>(status_, headers_, result_); 
                             } 
                             catch (System.Exception exception) 
@@ -921,7 +935,7 @@ namespace NSwag.Integration.ClientPCL
             {
                 using (var request_ = await CreateHttpRequestMessageAsync(cancellationToken).ConfigureAwait(false))
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(person, new Newtonsoft.Json.JsonSerializerSettings { PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.All, Converters = new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() } }));
+                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(person, _settings.Value));
                     content_.Headers.ContentType.MediaType = "application/json";
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
@@ -1014,7 +1028,7 @@ namespace NSwag.Integration.ClientPCL
                             var result_ = default(System.Collections.ObjectModel.ObservableCollection<Person>); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<Person>>(responseData_, new Newtonsoft.Json.JsonSerializerSettings { PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.All, Converters = new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() } });
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<Person>>(responseData_, _settings.Value);
                                 return new SwaggerResponse<System.Collections.ObjectModel.ObservableCollection<Person>>(status_, headers_, result_); 
                             } 
                             catch (System.Exception exception) 
@@ -1089,7 +1103,7 @@ namespace NSwag.Integration.ClientPCL
                             var result_ = default(System.Collections.ObjectModel.ObservableCollection<Person>); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<Person>>(responseData_, new Newtonsoft.Json.JsonSerializerSettings { PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.All, Converters = new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() } });
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<Person>>(responseData_, _settings.Value);
                                 return new SwaggerResponse<System.Collections.ObjectModel.ObservableCollection<Person>>(status_, headers_, result_); 
                             } 
                             catch (System.Exception exception) 
@@ -1166,7 +1180,7 @@ namespace NSwag.Integration.ClientPCL
                             var result_ = default(Person); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Person>(responseData_, new Newtonsoft.Json.JsonSerializerSettings { PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.All, Converters = new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() } });
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Person>(responseData_, _settings.Value);
                                 return new SwaggerResponse<Person>(status_, headers_, result_); 
                             } 
                             catch (System.Exception exception) 
@@ -1181,7 +1195,7 @@ namespace NSwag.Integration.ClientPCL
                             var result_ = default(PersonNotFoundException); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<PersonNotFoundException>(responseData_, new Newtonsoft.Json.JsonSerializerSettings { PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.All, Converters = new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() } });
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<PersonNotFoundException>(responseData_, _settings.Value);
                             } 
                             catch (System.Exception exception) 
                             {
@@ -1330,7 +1344,7 @@ namespace NSwag.Integration.ClientPCL
                             var result_ = default(Person); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Person>(responseData_, new Newtonsoft.Json.JsonSerializerSettings { PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.All, Converters = new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() } });
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Person>(responseData_, _settings.Value);
                                 return new SwaggerResponse<Person>(status_, headers_, result_); 
                             } 
                             catch (System.Exception exception) 
@@ -1345,7 +1359,7 @@ namespace NSwag.Integration.ClientPCL
                             var result_ = default(PersonNotFoundException); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<PersonNotFoundException>(responseData_, new Newtonsoft.Json.JsonSerializerSettings { PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.All, Converters = new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() } });
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<PersonNotFoundException>(responseData_, _settings.Value);
                             } 
                             catch (System.Exception exception) 
                             {
@@ -1433,7 +1447,7 @@ namespace NSwag.Integration.ClientPCL
                             var result_ = default(string); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(responseData_, new Newtonsoft.Json.JsonSerializerSettings { PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.All, Converters = new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() } });
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(responseData_, _settings.Value);
                                 return new SwaggerResponse<string>(status_, headers_, result_); 
                             } 
                             catch (System.Exception exception) 
@@ -1448,7 +1462,7 @@ namespace NSwag.Integration.ClientPCL
                             var result_ = default(PersonNotFoundException); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<PersonNotFoundException>(responseData_, new Newtonsoft.Json.JsonSerializerSettings { PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.All, Converters = new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() } });
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<PersonNotFoundException>(responseData_, _settings.Value);
                             } 
                             catch (System.Exception exception) 
                             {
@@ -1527,7 +1541,7 @@ namespace NSwag.Integration.ClientPCL
                             var result_ = default(string); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(responseData_, new Newtonsoft.Json.JsonSerializerSettings { PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.All, Converters = new Newtonsoft.Json.JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter(), new JsonExceptionConverter() } });
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(responseData_, _settings.Value);
                                 return new SwaggerResponse<string>(status_, headers_, result_); 
                             } 
                             catch (System.Exception exception) 
