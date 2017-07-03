@@ -105,7 +105,9 @@ public partial interface I<#=Model.Class#>
 		_settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(() => 
         {
             var settings = <#=Model.JsonSerializerParameterCode#>;
+<#if(Model.GenerateUpdateJsonSerializerSettingsMethod){#>
             UpdateJsonSerializerSettings(settings);
+<#}#>
             return settings;
         });
 	}
