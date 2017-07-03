@@ -17,26 +17,7 @@
   </metadata>
   <files>
     <file src="NSwag.MSBuild.props" target="build" />
-    <file src="..\NSwag.Console\bin\Release\net46\Newtonsoft.Json.dll" target="build" />
-
-    <file src="..\NSwag.Console\bin\Release\net46\NJsonSchema.dll" target="build" />
-    <file src="..\NSwag.Console\bin\Release\net46\NJsonSchema.CodeGeneration.dll" target="build" />
-    <file src="..\NSwag.Console\bin\Release\net46\NJsonSchema.CodeGeneration.CSharp.dll" target="build" />
-    <file src="..\NSwag.Console\bin\Release\net46\NJsonSchema.CodeGeneration.TypeScript.dll" target="build" />
-
-    <file src="..\NSwag.Console\bin\Release\net46\NSwag.Core.dll" target="build" />
-    <file src="..\NSwag.Console\bin\Release\net46\NSwag.Annotations.dll" target="build" />
-
-    <file src="..\NSwag.Console\bin\Release\net46\NSwag.SwaggerGeneration.dll" target="build" />
-    <file src="..\NSwag.Console\bin\Release\net46\NSwag.SwaggerGeneration.WebApi.dll" target="build" />
-    <file src="..\NSwag.Console\bin\Release\net46\NSwag.CodeGeneration.dll" target="build" />
-    <file src="..\NSwag.Console\bin\Release\net46\NSwag.CodeGeneration.CSharp.dll" target="build" />
-    <file src="..\NSwag.Console\bin\Release\net46\NSwag.CodeGeneration.TypeScript.dll" target="build" />
-
-    <file src="..\NSwag.Console\bin\Release\net46\NSwag.AssemblyLoader.dll" target="build" />
-    <file src="..\NSwag.Console\bin\Release\net46\NSwag.Commands.dll" target="build" />
-    <file src="..\NSwag.Console\bin\Release\net46\NConsole.dll" target="build" />
-
+    <file src="..\NSwag.Console\bin\Release\net46\*.dll" target="build" />
     <file src="..\NSwag.Console\bin\Release\net46\NSwag.exe" target="build" />
     <file src="..\NSwag.Console\bin\Release\net46\NSwag.exe.config" target="build" />
   </files>
