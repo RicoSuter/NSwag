@@ -127,10 +127,6 @@
                                           Content="Use and expose the base URL" 
                                           ToolTip="UseBaseUrl" Margin="0,0,0,12" />
 
-                                <TextBlock Text="Base Class Name (optional)" FontWeight="Bold" Margin="0,0,0,6" />
-                                <TextBox Text="{Binding Command.ClientBaseClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                         ToolTip="ClientBaseClass" Margin="0,0,0,12" />
-
                                 <CheckBox IsChecked="{Binding Command.InjectHttpClient, Mode=TwoWay}" 
                                           ToolTip="InjectHttpClient"
                                           Content="Inject HttpClient via constructor (life cycle is managed by the caller)" Margin="0,0,0,12" />
@@ -150,6 +146,10 @@
                                           Content="Generate synchronous methods (not recommended)" 
                                           ToolTip="GenerateSyncMethods" Margin="0,0,0,12" />
 
+                                <TextBlock Text="Base Class Name (optional)" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.ClientBaseClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                         ToolTip="ClientBaseClass" Margin="0,0,0,12" />
+
                                 <StackPanel Visibility="{Binding Command.ClientBaseClass, Converter={StaticResource VisibilityConverter}}">
                                     <CheckBox IsChecked="{Binding Command.UseHttpClientCreationMethod, Mode=TwoWay}" Margin="0,0,0,12" 
                                               Visibility="{Binding Command.InjectHttpClient, Converter={StaticResource NotConverter}}"
@@ -161,6 +161,11 @@
                                               ToolTip="UseHttpRequestMessageCreationMethod" Margin="0,0,0,12">
                                         <TextBlock Text="Call the CreateHttpRequestMessageAsync method on the client base class to create a new HttpRequestMessage instance" TextWrapping="Wrap" />
                                     </CheckBox>
+
+                                    <CheckBox IsChecked="{Binding Command.GenerateUpdateJsonSerializerSettingsMethod, Mode=TwoWay}" 
+                                              Content="Generate the UpdateJsonSerializerSettings method (must be implemented in the base class otherwise)." 
+                                              ToolTip="GenerateUpdateJsonSerializerSettingsMethod"
+                                              Margin="0,0,0,12" />
 
                                     <TextBlock Text="Configuration Class Name (passed to base class ctor, optional)" FontWeight="Bold" Margin="0,0,0,6" />
                                     <TextBox Text="{Binding Command.ConfigurationClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
