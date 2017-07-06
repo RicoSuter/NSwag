@@ -250,7 +250,9 @@ namespace NSwag.SwaggerGeneration
 
         private bool IsFileResponse(Type returnType)
         {
-            return returnType.Name == "IActionResult" ||
+
+            return returnType.IsAssignableTo("FileResult", TypeNameStyle.Name) ||
+                   returnType.Name == "IActionResult" ||
                    returnType.Name == "IHttpActionResult" ||
                    returnType.Name == "HttpResponseMessage" ||
                    returnType.InheritsFrom("ActionResult", TypeNameStyle.Name) ||
