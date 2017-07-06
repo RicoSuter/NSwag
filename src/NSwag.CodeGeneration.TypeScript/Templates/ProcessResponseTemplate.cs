@@ -59,27 +59,32 @@ foreach(var response in Model.Responses){
             
             #line default
             #line hidden
+            this.Write(@"    const contentDisposition = response.headers.get(""content-disposition"");
+    const fileNameMatch = contentDisposition ? /filename=""?([^""]*)""?;/g.exec(contentDisposition) : undefined;
+    const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+");
             
             #line 9 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       if(Model.IsAngular){
             
             #line default
             #line hidden
-            this.Write("    return Observable.of(response.blob());\r\n");
+            this.Write("    return Observable.of({ fileName: fileName, data: response.blob() });\r\n");
             
             #line 11 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }else if(Model.IsAngularJS){
             
             #line default
             #line hidden
-            this.Write("    return this.q.resolve(new Blob([response]));\r\n");
+            this.Write("    return this.q.resolve({ fileName: fileName, data: new Blob([response]) });\r\n");
             
             #line 13 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }else{
             
             #line default
             #line hidden
-            this.Write("    return response.blob();\r\n");
+            this.Write("    return response.blob().then(blob => { return { fileName: fileName, data: blob" +
+                    " }; });\r\n");
             
             #line 15 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }
