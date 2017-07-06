@@ -14,7 +14,7 @@ if (status === <#=response.StatusCode#>) {
 <#      }else if(Model.IsAngularJS){#>
     return this.q.resolve({ fileName: fileName, data: new Blob([response]) });
 <#      }else{#>
-    let headers: any = {}; response.headers.forEach((k, v) => headers[k] = v);
+    let headers: any = {}; if (response.headers.forEach) { response.headers.forEach((v, k) => headers[k] = v); };
     return response.blob().then(blob => { return { fileName: fileName, data: blob, headers: headers }; });
 <#      }#>
 <#  }else{#>

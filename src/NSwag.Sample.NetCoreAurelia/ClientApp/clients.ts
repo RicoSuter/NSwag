@@ -85,7 +85,7 @@ export class SampleDataClient {
             const contentDisposition = response.headers.get("content-disposition");
             const fileNameMatch = contentDisposition ? /filename="?([^"]*)"?;/g.exec(contentDisposition) : undefined;
             const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            let headers: any = {}; response.headers.forEach((k, v) => headers[k] = v);
+            let headers: any = {}; if (response.headers.forEach) { response.headers.forEach((v, k) => headers[k] = v); };
             return response.blob().then(blob => { return { fileName: fileName, data: blob, headers: headers }; });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
