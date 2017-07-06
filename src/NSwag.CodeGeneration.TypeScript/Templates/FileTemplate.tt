@@ -74,6 +74,7 @@ export interface FileParameter {
 export interface FileResponse {
     data: Blob;
     fileName?: string;
+	headers?: { [name: string]: any };
 }
 
 <#}#>

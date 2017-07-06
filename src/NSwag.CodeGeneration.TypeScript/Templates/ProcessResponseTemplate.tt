@@ -10,11 +10,12 @@ if (status === <#=response.StatusCode#>) {
     const fileNameMatch = contentDisposition ? /filename="?([^"]*)"?;/g.exec(contentDisposition) : undefined;
     const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
 <#      if(Model.IsAngular){#>
-    return Observable.of({ fileName: fileName, data: response.blob() });
+    return Observable.of({ fileName: fileName, data: response.blob(), headers: response.headers.toJSON() });
 <#      }else if(Model.IsAngularJS){#>
     return this.q.resolve({ fileName: fileName, data: new Blob([response]) });
 <#      }else{#>
-    return response.blob().then(blob => { return { fileName: fileName, data: blob }; });
+    let headers: any = {}; response.headers.forEach((k, v) => headers[k] = v);
+    return response.blob().then(blob => { return { fileName: fileName, data: blob, headers: headers }; });
 <#      }#>
 <#  }else{#>
 <#      if(Model.IsFetchOrAurelia){#>

@@ -85,7 +85,8 @@ export class SampleDataClient {
             const contentDisposition = response.headers.get("content-disposition");
             const fileNameMatch = contentDisposition ? /filename="?([^"]*)"?;/g.exec(contentDisposition) : undefined;
             const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return response.blob().then(blob => { return { fileName: fileName, data: blob }; });
+            let headers: any = {}; response.headers.forEach((k, v) => headers[k] = v);
+            return response.blob().then(blob => { return { fileName: fileName, data: blob, headers: headers }; });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText);
@@ -266,6 +267,7 @@ export interface IExtensionData {
 export interface FileResponse {
     data: Blob;
     fileName?: string;
+	headers?: { [name: string]: any };
 }
 
 export class SwaggerException extends Error {
