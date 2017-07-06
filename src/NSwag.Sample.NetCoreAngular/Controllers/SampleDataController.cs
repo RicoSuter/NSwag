@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Sample.Common;
 using System.Threading.Tasks;
+using Microsoft.Net.Http.Headers;
 
 namespace NSwag_Sample_NetCoreAngular.Controllers
 {
@@ -25,6 +26,16 @@ namespace NSwag_Sample_NetCoreAngular.Controllers
                 TemperatureC = rng.Next(-20, 55),
                 Summary = Summaries[rng.Next(Summaries.Length)]
             });
+        }
+
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<FileContentResult> GetFile(string fileName)
+        {
+            return new FileContentResult(new byte[] { 1, 2, 3 }, new MediaTypeHeaderValue("application/octet-stream"))
+            {
+                FileDownloadName = fileName
+            };
         }
 
         [HttpDelete]

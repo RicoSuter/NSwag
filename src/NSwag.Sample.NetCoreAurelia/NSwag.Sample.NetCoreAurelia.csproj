@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj" />
     <ProjectReference Include="..\NSwag.AspNetCore\NSwag.AspNetCore.csproj" />
+    <ProjectReference Include="..\NSwag.Sample.Common\NSwag.Sample.Common.csproj" />
   </ItemGroup>
   <Target Name="RunWebpack" AfterTargets="ComputeFilesToPublish">
     <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->

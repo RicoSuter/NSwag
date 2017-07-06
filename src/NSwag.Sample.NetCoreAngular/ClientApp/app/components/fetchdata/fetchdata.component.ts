@@ -9,7 +9,7 @@ export class FetchDataComponent {
     public forecasts: WeatherForecast[];
 
     constructor(sampleDataService: SampleDataService) {
-        sampleDataService.weatherForecasts().subscribe(result => {
+        sampleDataService.weatherForecasts().toPromise().then(result => {
             this.forecasts = result;
         });
     }

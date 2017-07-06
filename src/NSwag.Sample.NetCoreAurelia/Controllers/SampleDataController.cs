@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
+using NSwag.Sample.Common;
 
 namespace NSwag_Sample_NetCoreAurelia.Controllers
 {
@@ -26,19 +28,21 @@ namespace NSwag_Sample_NetCoreAurelia.Controllers
             });
         }
 
-        public class WeatherForecast
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<FileContentResult> GetFile(string fileName)
         {
-            public string DateFormatted { get; set; }
-            public int TemperatureC { get; set; }
-            public string Summary { get; set; }
-
-            public int TemperatureF
+            return new FileContentResult(new byte[] { 1, 2, 3 }, new MediaTypeHeaderValue("application/octet-stream"))
             {
-                get
-                {
-                    return 32 + (int)(this.TemperatureC / 0.5556);
-                }
-            }
+                FileDownloadName = fileName
+            };
+        }
+
+        [HttpDelete]
+        [ProducesResponseType(200)]
+        public async Task<IActionResult> DeleteShop([FromQuery]Guid id, [FromHeader]List<string> additionalIds)
+        {
+            return Ok();
         }
     }
 }
