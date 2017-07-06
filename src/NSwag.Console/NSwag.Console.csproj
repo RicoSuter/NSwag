@@ -44,6 +44,9 @@
     <ProjectReference Include="..\NSwag.Commands\NSwag.Commands.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="System.IO">
+      <HintPath>..\libs\System.IO.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime">
       <HintPath>..\libs\System.Runtime.dll</HintPath>
     </Reference>
