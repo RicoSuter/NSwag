@@ -6,12 +6,15 @@ let _mappings: { source: any, target: any }[] = [];
 <#foreach(var response in Model.Responses){#>
 if (status === <#=response.StatusCode#>) {
 <#  if(Model.CanRequestBlobs && response.IsFile){#>
+    const contentDisposition = response.headers.get("content-disposition");
+    const fileNameMatch = contentDisposition ? /filename="?([^"]*)"?;/g.exec(contentDisposition) : undefined;
+    const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
 <#      if(Model.IsAngular){#>
-    return Observable.of(response.blob());
+    return Observable.of({ fileName: fileName, data: response.blob() });
 <#      }else if(Model.IsAngularJS){#>
-    return this.q.resolve(new Blob([response]));
+    return this.q.resolve({ fileName: fileName, data: new Blob([response]) });
 <#      }else{#>
-    return response.blob();
+    return response.blob().then(blob => { return { fileName: fileName, data: blob }; });
 <#      }#>
 <#  }else{#>
 <#      if(Model.IsFetchOrAurelia){#>
