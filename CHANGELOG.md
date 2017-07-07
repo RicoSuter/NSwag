@@ -15,11 +15,13 @@
 
 ### CSharp
 
-- Added GenerateUpdateJsonSerializerSettingsMethod setting to customize the JSON.NET serializer in the base class (or partial class)
+- Added GenerateUpdateJsonSerializerSettingsMethod setting to customize the JSON.NET serializer in the base class (or partial class) [#827](https://github.com/NSwag/NSwag/pull/827)
+- Add support for changing default date/time parameter formatting with the ParameterDateTimeFormat setting [#826](https://github.com/NSwag/NSwag/pull/826)
 
 ### Web API
 
 - Fixed wildcard path parameter handling [#831](https://github.com/NSwag/NSwag/issues/831)
+- Use ActionNameAttribute for operation id, [#821](https://github.com/NSwag/NSwag/issues/821)
 
 ## Release v11.0
 
