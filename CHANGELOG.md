@@ -1,6 +1,6 @@
 # Changelog
 
-## Release v11.2
+## Release v11.3
 
 ### TypeScript
 
