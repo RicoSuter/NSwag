@@ -6,7 +6,7 @@
 
 **Breaking changes:**
 
-- Return FileResponse instead of Blob for file responses with additional properties (data, fileName, headers) (#834)[https://github.com/NSwag/NSwag/issues/834]: Just use `response.data` to access the response blob. 
+- Return FileResponse instead of Blob for file responses with additional properties (data, fileName, headers) [#834](https://github.com/NSwag/NSwag/issues/834): Just use `response.data` to access the response blob. 
 
 ## Release v11.0
 
