@@ -72,7 +72,7 @@ if(response.CheckChunkedStatusCode){
             
             #line default
             #line hidden
-            this.Write(@"    const contentDisposition = response.headers.get(""content-disposition"");
+            this.Write(@"    const contentDisposition = response.headers ? response.headers.get(""content-disposition"") : undefined;
     const fileNameMatch = contentDisposition ? /filename=""?([^""]*)""?;/g.exec(contentDisposition) : undefined;
     const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
 ");
@@ -83,7 +83,7 @@ if(response.CheckChunkedStatusCode){
             #line default
             #line hidden
             this.Write("    return Observable.of({ fileName: fileName, data: response.blob(), status: sta" +
-                    "tus, headers: response.headers.toJSON() });\r\n");
+                    "tus, headers: response.headers ? response.headers.toJSON() : {} });\r\n");
             
             #line 14 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }else if(Model.IsAngularJS){
@@ -91,16 +91,16 @@ if(response.CheckChunkedStatusCode){
             #line default
             #line hidden
             this.Write("    return this.q.resolve({ fileName: fileName, status: status, data: new Blob([r" +
-                    "esponse]) });\r\n");
+                    "esponse]), headers: {} });\r\n");
             
             #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }else{
             
             #line default
             #line hidden
-            this.Write("    let headers: any = {}; if (response.headers.forEach) { response.headers.forEa" +
-                    "ch((v, k) => headers[k] = v); };\r\n    return response.blob().then(blob => { retu" +
-                    "rn { fileName: fileName, data: blob, status: status, headers: headers }; });\r\n");
+            this.Write(@"    let headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v, k) => headers[k] = v); };
+    return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: headers }; });
+");
             
             #line 19 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }
