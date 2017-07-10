@@ -219,6 +219,12 @@ if(Model.GenerateOptionalParameters && parameter.IsOptional){
             
             #line default
             #line hidden
+            
+            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.TypePostfix));
+            
+            #line default
+            #line hidden
             this.Write(", ");
             
             #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
@@ -596,6 +602,12 @@ if(Model.GenerateOptionalParameters && parameter.IsOptional){
             
             #line 47 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Type));
+            
+            #line default
+            #line hidden
+            
+            #line 47 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.TypePostfix));
             
             #line default
             #line hidden

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -105,6 +103,28 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
             
             /// Assert
             Assert.IsNotNull(swaggerSpecification);
+        }
+
+        public class WildcardPathController : ApiController
+        {
+            [Route("path/{*param}")]
+            public void Foo(string param)
+            {
+                
+            }
+        }
+
+        [TestMethod]
+        public async Task When_path_parameter_has_wildcard_then_it_is_in_path()
+        {
+            //// Arrange
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+
+            //// Act
+            var document = await generator.GenerateForControllerAsync<WildcardPathController>();
+
+            //// Assert
+            Assert.AreEqual(SwaggerParameterKind.Path, document.Operations.First().Operation.Parameters.First().Kind);
         }
     }
 }

@@ -73,6 +73,7 @@ public partial interface I<#=Model.Class#>
 <#=Model.ClientClassAccessModifier#> partial class <#=Model.Class#> <#if(Model.HasBaseType){#>: <#}#><#if(Model.HasBaseClass){#><#=Model.BaseClass#><#if(Model.GenerateClientInterfaces){#>, <#}#><#}#><#if(Model.GenerateClientInterfaces){#>I<#=Model.Class#><#}#>
 
 {
+    private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 <#if(Model.UseBaseUrl){#>
     private string _baseUrl = "<#=Model.BaseUrl#>";
     
@@ -84,27 +85,32 @@ public partial interface I<#=Model.Class#>
 <#if(Model.HasConfigurationClass){#>
     public <#=Model.Class#>(<#=Model.ConfigurationClass#> configuration<#if(Model.InjectHttpClient){#>, <#=Model.HttpClientType#> httpClient<#}#>) : base(configuration)
     {
-<#if(Model.InjectHttpClient){#>
+<#  if(Model.InjectHttpClient){#>
         _httpClient = httpClient; 
-<#}#>
-    }
-
+<#  }#>
 <#}else if(Model.UseBaseUrl && string.IsNullOrEmpty(Model.BaseUrl)){#>
     public <#=Model.Class#>(string baseUrl<#if(Model.InjectHttpClient){#>, <#=Model.HttpClientType#> httpClient<#}#>)
     {
-<#if(Model.InjectHttpClient){#>
-        _httpClient = httpClient; 
-<#}#>
         BaseUrl = baseUrl; 
-    }
-
+<#  if(Model.InjectHttpClient){#>
+        _httpClient = httpClient; 
+<#  }#>
 <#}else if(Model.InjectHttpClient){#>
     public <#=Model.Class#>(<#=Model.HttpClientType#> httpClient)
     {
         _httpClient = httpClient; 
-    }
-
+<#}else{#>
+    public <#=Model.Class#>()
+    {
 <#}#>
+		_settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(() => 
+        {
+            var settings = <#=Model.JsonSerializerParameterCode#>;
+            UpdateJsonSerializerSettings(settings);
+            return settings;
+        });
+	}
+
 <#if(Model.UseBaseUrl){#>
     public string BaseUrl 
     {
@@ -112,6 +118,9 @@ public partial interface I<#=Model.Class#>
         set { _baseUrl = value; }
     }
 
+<#}#>
+<#if(Model.GenerateUpdateJsonSerializerSettingsMethod){#>
+    partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
 <#}#>
     partial void PrepareRequest(<#=Model.HttpClientType#> client, System.Net.Http.HttpRequestMessage request, string url);
     partial void PrepareRequest(<#=Model.HttpClientType#> client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
@@ -202,9 +211,9 @@ public partial interface I<#=Model.Class#>
         if (<#=parameter.VariableName#> != null)
 <#  }#>
 <#  if(parameter.IsDateArray){#>
-        urlBuilder_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(string.Join(",", <#=parameter.VariableName#>.Select(s_ => s_.ToString("s", System.Globalization.CultureInfo.InvariantCulture)))));
+        urlBuilder_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(string.Join(",", <#=parameter.VariableName#>.Select(s_ => s_.ToString("<#=Model.ParameterDateTimeFormat#>", System.Globalization.CultureInfo.InvariantCulture)))));
 <#  }else if(parameter.IsDate){#>
-        urlBuilder_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(<#=parameter.VariableName#>.ToString("s", System.Globalization.CultureInfo.InvariantCulture)));
+        urlBuilder_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(<#=parameter.VariableName#>.ToString("<#=Model.ParameterDateTimeFormat#>", System.Globalization.CultureInfo.InvariantCulture)));
 <#  }else if(parameter.IsArray){#>
         urlBuilder_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(string.Join(",", <#=parameter.VariableName#>.Select(s_ => System.Convert.ToString(s_, System.Globalization.CultureInfo.InvariantCulture)))));
 <#  }else{#>
@@ -218,9 +227,9 @@ public partial interface I<#=Model.Class#>
 <#foreach(var parameter in operation.QueryParameters){#>
         <#  if(parameter.IsNullable){#>if (<#=parameter.VariableName#> != null) <#}#>
 <#  if(parameter.IsDateArray){#>
-foreach (var item_ in <#=parameter.VariableName#>) { urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(item_.ToString("s", System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
+foreach (var item_ in <#=parameter.VariableName#>) { urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(item_.ToString("<#=Model.ParameterDateTimeFormat#>", System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
 <#  }else if(parameter.IsDate){#>
-urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(<#=parameter.VariableName#><#if(parameter.Type.EndsWith("?")){#>.Value<#}#>.ToString("s", System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(<#=parameter.VariableName#><#if(parameter.Type.EndsWith("?")){#>.Value<#}#>.ToString("<#=Model.ParameterDateTimeFormat#>", System.Globalization.CultureInfo.InvariantCulture))).Append("&");
 <#  }else if(parameter.IsArray){#>
 foreach (var item_ in <#=parameter.VariableName#>) { urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(System.Convert.ToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
 <#  }else{#>
@@ -254,7 +263,7 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(Sy
 <#  }#>
 <#}#>
 <#if(operation.HasContent){#>
-                var content_ = new System.Net.Http.StringContent(<#if(operation.HasXmlBodyParameter){#><#=operation.ContentParameter.VariableName#><#}else{#>Newtonsoft.Json.JsonConvert.SerializeObject(<#=operation.ContentParameter.VariableName#><#=Model.JsonSerializerParameterCode#>)<#}#>);
+                var content_ = new System.Net.Http.StringContent(<#if(operation.HasXmlBodyParameter){#><#=operation.ContentParameter.VariableName#><#}else{#>Newtonsoft.Json.JsonConvert.SerializeObject(<#=operation.ContentParameter.VariableName#>, _settings.Value)<#}#>);
                 content_.Headers.ContentType.MediaType = "<#=operation.Consumes#>";
 <#}else{#>
 <#  if(operation.HasFormParameters){#>
@@ -308,7 +317,7 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(Sy
 
                     var status_ = ((int)response_.StatusCode).ToString();
 <#foreach(var response in operation.Responses){#>
-                    if (status_ == "<#=response.StatusCode#>"<#if(response.IsFile && response.StatusCode == "200"){#> || status_ == "206"<#}#>) 
+                    if (status_ == "<#=response.StatusCode#>"<#if(response.CheckChunkedStatusCode){#> || status_ == "206"<#}#>) 
                     {
 <#if(response.HasType){#>
 <#  if(response.IsFile){#>
@@ -326,7 +335,7 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(Sy
                         var result_ = default(<#=response.Type#>); 
                         try
                         {
-                            result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<<#=response.Type#>>(responseData_<#=Model.JsonSerializerParameterCode#>);
+                            result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<<#=response.Type#>>(responseData_, _settings.Value);
 <#      if(response.IsSuccess(operation)){#>
 <#          if (Model.WrapResponses){#>
                             return new <#=Model.ResponseClass#><<#=operation.UnwrappedResultType#>>(status_, headers_, result_); 
@@ -397,7 +406,7 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(Sy
                         var result_ = default(<#=operation.DefaultResponse.Type#>); 
                         try
                         {
-                            result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<<#=operation.DefaultResponse.Type#>>(responseData_<#=Model.JsonSerializerParameterCode#>);
+                            result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<<#=operation.DefaultResponse.Type#>>(responseData_, _settings.Value);
 
 <#          if(operation.HasOnlyDefaultResponse){#>
                             if (status_.Length == 3 && status_.StartsWith("2"))

@@ -37368,7 +37368,7 @@ function throwException(message: string, status: number, response: string, resul
         return Observable.throw(new SwaggerException(message, status, response, null));
 }
 
-function blobToText(blob: Blob): Observable<string> {
+function blobToText(blob: any): Observable<string> {
     return new Observable<string>((observer: any) => { 
         let reader = new FileReader(); 
         reader.onload = function() { 

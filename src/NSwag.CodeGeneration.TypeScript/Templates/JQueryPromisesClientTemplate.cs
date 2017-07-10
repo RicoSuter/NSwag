@@ -221,6 +221,12 @@ if(Model.GenerateOptionalParameters && parameter.IsOptional){
             #line hidden
             
             #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.TypePostfix));
+            
+            #line default
+            #line hidden
+            
+            #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(!parameter.IsLast){
             
             #line default
@@ -600,6 +606,12 @@ if(Model.GenerateOptionalParameters && parameter.IsOptional){
             #line hidden
             
             #line 47 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.TypePostfix));
+            
+            #line default
+            #line hidden
+            
+            #line 47 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
 if(!parameter.IsLast){
             
             #line default
@@ -683,6 +695,12 @@ foreach(var parameter in operation.Parameters){
             
             #line 53 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Type));
+            
+            #line default
+            #line hidden
+            
+            #line 53 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryPromisesClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.TypePostfix));
             
             #line default
             #line hidden

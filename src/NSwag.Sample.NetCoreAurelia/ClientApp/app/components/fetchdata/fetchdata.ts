@@ -10,5 +10,9 @@ export class Fetchdata {
         sampleDataClient.weatherForecasts().then(result => {
             this.forecasts = result;
         });
+
+        sampleDataClient.getFile('test.xml').then(result => {
+            debugger;
+        });
     }
 }

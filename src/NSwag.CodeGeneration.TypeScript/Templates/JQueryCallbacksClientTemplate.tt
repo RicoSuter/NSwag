@@ -13,7 +13,7 @@ export interface I<#=Model.Class#> {
 <#}#><#}#><#if(operation.HasResultDescription){#>     * @return <#=operation.ResultDescription#>
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
-<#}#>    <#=operation.MethodAccessModifier#><#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#>?<#}#>: <#=parameter.Type#>, <#}#>onSuccess?: (<#if(operation.HasResultType){#>result: <#=operation.ResultType#><#}#>) => void, onFail?: (exception: <#=operation.ExceptionType#>, reason: string) => void): JQueryXHR;
+<#}#>    <#=operation.MethodAccessModifier#><#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#>?<#}#>: <#=parameter.Type#><#=parameter.TypePostfix#>, <#}#>onSuccess?: (<#if(operation.HasResultType){#>result: <#=operation.ResultType#><#}#>) => void, onFail?: (exception: <#=operation.ExceptionType#>, reason: string) => void): JQueryXHR;
 <#}#>}
 <#}#>
 
@@ -44,7 +44,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
 <#}#>
-    <#=operation.MethodAccessModifier#><#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#>?<#}#>: <#=parameter.Type#>, <#}#>onSuccess?: (<#if(operation.HasResultType){#>result: <#=operation.ResultType#><#}#>) => void, onFail?: (exception: <#=operation.ExceptionType#>, reason: string) => void): JQueryXHR {
+    <#=operation.MethodAccessModifier#><#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#>?<#}#>: <#=parameter.Type#><#=parameter.TypePostfix#>, <#}#>onSuccess?: (<#if(operation.HasResultType){#>result: <#=operation.ResultType#><#}#>) => void, onFail?: (exception: <#=operation.ExceptionType#>, reason: string) => void): JQueryXHR {
         <#=TypeScriptTemplatePartGenerator.RenderRequestUrlCode(operation, 2)#>
 
 <#if(operation.HasBody){#>
