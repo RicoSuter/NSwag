@@ -297,6 +297,7 @@ namespace NSwag.SwaggerGeneration.WebApi
                         .Replace("]", "}")
                         .Replace("{controller}", controllerName)
                         .Replace("{action}", actionName)
+                        .Replace("{*", "{") // wildcard path parameters are not supported in Swagger
                         .Trim('/'))
                 .Distinct()
                 .ToList();

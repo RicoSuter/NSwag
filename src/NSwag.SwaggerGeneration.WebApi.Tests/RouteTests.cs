@@ -100,7 +100,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
             var generator = new WebApiToSwaggerGenerator(settings);
             var document = await generator.GenerateForControllerAsync<ProductsController>();
             var swaggerSpecification = document.ToJson();
-            
+
             /// Assert
             Assert.IsNotNull(swaggerSpecification);
         }
@@ -110,7 +110,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
             [Route("path/{*param}")]
             public void Foo(string param)
             {
-                
+
             }
         }
 
@@ -124,7 +124,12 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
             var document = await generator.GenerateForControllerAsync<WildcardPathController>();
 
             //// Assert
-            Assert.AreEqual(SwaggerParameterKind.Path, document.Operations.First().Operation.Parameters.First().Kind);
+            var operation = document.Operations.First();
+            var parameter = operation.Operation.Parameters.First();
+
+            Assert.AreEqual("/path/{param}", operation.Path);
+            Assert.AreEqual("param", parameter.Name);
+            Assert.AreEqual(SwaggerParameterKind.Path, parameter.Kind);
         }
     }
 }
