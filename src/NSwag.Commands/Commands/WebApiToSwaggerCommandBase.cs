@@ -127,6 +127,13 @@ namespace NSwag.Commands
             set { Settings.AddMissingPathParameters = value; }
         }
 
+        [Argument(Name = "IgnoreObsoleteProperties", IsRequired = false, Description = "Ignore properties with the ObsoleteAttribute (default: false).")]
+        public bool IgnoreObsoleteProperties
+        {
+            get { return Settings.IgnoreObsoleteProperties; }
+            set { Settings.IgnoreObsoleteProperties = value; }
+        }
+
         [Argument(Name = "ServiceHost", IsRequired = false, Description = "Overrides the service host of the web service (optional, use '.' to remove the hostname).")]
         public string ServiceHost { get; set; }
 

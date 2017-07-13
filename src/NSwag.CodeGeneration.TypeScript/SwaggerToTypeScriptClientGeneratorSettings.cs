@@ -68,6 +68,9 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <summary>Gets or sets a value indicating whether required types should be imported (default: true).</summary>
         public bool ImportRequiredTypes { get; set; } = true;
 
+        /// <summary>Gets or sets a value indicating whether to use the 'getBaseUrl(defaultUrl: string)' from the base class (default: false).</summary>
+        public bool UseGetBaseUrlMethod { get; set; }
+
         internal ITemplate CreateTemplate(object model)
         {
             if (Template == TypeScriptTemplate.Aurelia)

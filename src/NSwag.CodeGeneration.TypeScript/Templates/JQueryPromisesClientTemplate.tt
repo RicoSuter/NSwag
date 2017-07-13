@@ -27,7 +27,11 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 <#if(Model.HasClientBaseClass){#>
         super(<#if(Model.HasConfigurationClass){#>configuration<#}#>);
 <#}#>
-        this.baseUrl = baseUrl ? baseUrl : "<#=Model.BaseUrl#>"; 
+<#if(Model.UseGetBaseUrlMethod){#>
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("<#=Model.BaseUrl#>");
+<#}else{#>
+        this.baseUrl = baseUrl ? baseUrl : "<#=Model.BaseUrl#>";
+<#}#>
     }
 <#}#>
 <#if(Model.HasExtensionCode){#>
