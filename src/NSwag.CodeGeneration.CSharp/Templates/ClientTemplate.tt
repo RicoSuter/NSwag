@@ -11,7 +11,10 @@ public partial interface I<#=Model.Class#>
 <#  if(!Model.GenerateOptionalParameters){#>
 <#      if(operation.HasSummary){#>
     /// <summary><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)#></summary>
-<#      }foreach (var parameter in operation.Parameters){#>
+<#}if(Model.InjectMethodHttpClient){#>
+    /// <param name="client_">Injected web client.</param>
+<#}#>
+<#      foreach (var parameter in operation.Parameters){#>
 <#          if(parameter.HasDescription){#>
     /// <param name="<#=parameter.VariableName#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
 <#      }}if(operation.HasResultDescription){#>
@@ -24,13 +27,16 @@ public partial interface I<#=Model.Class#>
 <#      if(operation.IsDeprecated){#>
     [System.Obsolete]
 <#      }#>
-    <#=operation.ResultType#> <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#><#if(!parameter.IsLast){#>, <#}}#>);
+    <#=operation.ResultType#> <#=operation.ActualOperationName#>Async(<#if(Model.InjectMethodHttpClient){#><#=Model.HttpClientType#> client_<#if(operation.Parameters.Count > 0){#>, <#}#><#}#><#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#><#if(!parameter.IsLast){#>, <#}}#>);
 
 <#  }#>
 <#  if(Model.GenerateSyncMethods){#>
 <#      if(operation.HasSummary){#>
     /// <summary><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)#></summary>
-<#      }foreach (var parameter in operation.Parameters){#>
+<#}if(Model.InjectMethodHttpClient){#>
+    /// <param name="client_">Injected web client.</param>
+<#}#>
+<#      foreach (var parameter in operation.Parameters){#>
 <#          if(parameter.HasDescription){#>
     /// <param name="<#=parameter.VariableName#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
 <#      }}if(operation.HasResultDescription){#>
@@ -43,12 +49,15 @@ public partial interface I<#=Model.Class#>
 <#      if(operation.IsDeprecated){#>
     [System.Obsolete]
 <#      }#>
-    <#=operation.UnwrappedResultType#> <#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#><#if(!parameter.IsLast){#>, <#}}#>);
+    <#=operation.UnwrappedResultType#> <#=operation.ActualOperationName#>(<#if(Model.InjectMethodHttpClient){#><#=Model.HttpClientType#> client_<#if(operation.Parameters.Count > 0){#>, <#}#><#}#><#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#><#if(!parameter.IsLast){#>, <#}}#>);
 
 <#  }#>
 <#  if(operation.HasSummary){#>
     /// <summary><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)#></summary>
-<#  }foreach (var parameter in operation.Parameters){#>
+<#}if(Model.InjectMethodHttpClient){#>
+    /// <param name="client_">Injected web client.</param>
+<#}#>
+<#      foreach (var parameter in operation.Parameters){#>
 <#      if(parameter.HasDescription){#>
     /// <param name="<#=parameter.VariableName#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
 <#  }}#>    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -62,8 +71,7 @@ public partial interface I<#=Model.Class#>
 <#      if(operation.IsDeprecated){#>
     [System.Obsolete]
 <#      }#>
-    <#=operation.ResultType#> <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#>, <#}#>System.Threading.CancellationToken cancellationToken<#if(Model.GenerateOptionalParameters){#> = default(System.Threading.CancellationToken)<#}#>);
-
+    <#=operation.ResultType#> <#=operation.ActualOperationName#>Async(<#if(Model.InjectMethodHttpClient){#><#=Model.HttpClientType#> client_, <#}#><#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#>, <#}#>System.Threading.CancellationToken cancellationToken<#if(Model.GenerateOptionalParameters){#> = default(System.Threading.CancellationToken)<#}#>);
 <#}#>
 }
 <#}#>
@@ -78,24 +86,24 @@ public partial interface I<#=Model.Class#>
     private string _baseUrl = "<#=Model.BaseUrl#>";
     
 <#}#>
-<#if(Model.InjectHttpClient){#>
+<#if(Model.InjectHttpClient && !Model.InjectMethodHttpClient){#>
     private <#=Model.HttpClientType#> _httpClient; 
 
 <#}#>
 <#if(Model.HasConfigurationClass){#>
-    public <#=Model.Class#>(<#=Model.ConfigurationClass#> configuration<#if(Model.InjectHttpClient){#>, <#=Model.HttpClientType#> httpClient<#}#>) : base(configuration)
+    public <#=Model.Class#>(<#=Model.ConfigurationClass#> configuration<#if(Model.InjectHttpClient && !Model.InjectMethodHttpClient){#>, <#=Model.HttpClientType#> httpClient<#}#>) : base(configuration)
     {
-<#  if(Model.InjectHttpClient){#>
+<#  if(Model.InjectHttpClient && Model.InjectMethodHttpClient){#>
         _httpClient = httpClient; 
 <#  }#>
 <#}else if(Model.UseBaseUrl && string.IsNullOrEmpty(Model.BaseUrl)){#>
-    public <#=Model.Class#>(string baseUrl<#if(Model.InjectHttpClient){#>, <#=Model.HttpClientType#> httpClient<#}#>)
+    public <#=Model.Class#>(string baseUrl<#if(Model.InjectHttpClient && !Model.InjectMethodHttpClient){#>, <#=Model.HttpClientType#> httpClient<#}#>)
     {
         BaseUrl = baseUrl; 
-<#  if(Model.InjectHttpClient){#>
+<#  if(Model.InjectHttpClient && !Model.InjectMethodHttpClient){#>
         _httpClient = httpClient; 
 <#  }#>
-<#}else if(Model.InjectHttpClient){#>
+<#}else if(Model.InjectHttpClient && !Model.InjectMethodHttpClient){#>
     public <#=Model.Class#>(<#=Model.HttpClientType#> httpClient)
     {
         _httpClient = httpClient; 
@@ -130,7 +138,10 @@ public partial interface I<#=Model.Class#>
 <#  if(!Model.GenerateOptionalParameters){#>
 <#      if(operation.HasSummary){#>
     /// <summary><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)#></summary>
-<#      }foreach (var parameter in operation.Parameters){#>
+<#}if(Model.InjectMethodHttpClient){#>
+    /// <param name="client_">Injected web client.</param>
+<#}#>
+<#      foreach (var parameter in operation.Parameters){#>
 <#          if(parameter.HasDescription){#>
     /// <param name="<#=parameter.VariableName#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
 <#      }}if(operation.HasResultDescription){#>
@@ -143,16 +154,19 @@ public partial interface I<#=Model.Class#>
 <#  if(operation.IsDeprecated){#>
     [System.Obsolete]
 <#  }#>
-    <#=operation.MethodAccessModifier#> <#=operation.ResultType#> <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#><#if(!parameter.IsLast){#>, <#}}#>)
+    <#=operation.MethodAccessModifier#> <#=operation.ResultType#> <#=operation.ActualOperationName#>Async(<#if(Model.InjectMethodHttpClient){#><#=Model.HttpClientType#> client_<#if(operation.Parameters.Count > 0){#>, <#}#><#}#><#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#><#if(!parameter.IsLast){#>, <#}}#>)
     {
-        return <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>, <#}#>System.Threading.CancellationToken.None);
+        return <#=operation.ActualOperationName#>Async(<#if(Model.InjectMethodHttpClient){#>client_, <#}#><#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>, <#}#>System.Threading.CancellationToken.None);
     }
 
 <#  }#>
 <#  if(Model.GenerateSyncMethods){#>
 <#      if(operation.HasSummary){#>
     /// <summary><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)#></summary>
-<#      }foreach (var parameter in operation.Parameters){#>
+<#}if(Model.InjectMethodHttpClient){#>
+    /// <param name="client_">Injected web client.</param>
+<#}#>
+<#      foreach (var parameter in operation.Parameters){#>
 <#          if(parameter.HasDescription){#>
     /// <param name="<#=parameter.VariableName#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
 <#      }}if(operation.HasResultDescription){#>
@@ -165,15 +179,18 @@ public partial interface I<#=Model.Class#>
 <#  if(operation.IsDeprecated){#>
     [System.Obsolete]
 <#  }#>
-    <#=operation.MethodAccessModifier#> <#=operation.UnwrappedResultType#> <#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#><#if(!parameter.IsLast){#>, <#}}#>)
+    <#=operation.MethodAccessModifier#> <#=operation.UnwrappedResultType#> <#=operation.ActualOperationName#>(<#if(Model.InjectMethodHttpClient){#><#=Model.HttpClientType#> client_<#if(operation.Parameters.Count > 0){#>, <#}#><#}#><#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#><#if(!parameter.IsLast){#>, <#}}#>)
     {
-        <#if(operation.HasResult){#>return <#}#>System.Threading.Tasks.Task.Run(async () => await <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>, <#}#>System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        <#if(operation.HasResult){#>return <#}#>System.Threading.Tasks.Task.Run(async () => await <#=operation.ActualOperationName#>Async(<#if(Model.InjectMethodHttpClient){#>client_, <#}#><#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#>, <#}#>System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
     }
 
 <#  }#>
 <#  if(operation.HasSummary){#>
     /// <summary><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)#></summary>
-<#  }foreach (var parameter in operation.Parameters){#>
+<#}if(Model.InjectMethodHttpClient){#>
+    /// <param name="client_">Injected web client.</param>
+<#}#>
+<#      foreach (var parameter in operation.Parameters){#>
 <#      if(parameter.HasDescription){#>
     /// <param name="<#=parameter.VariableName#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
 <#  }}#>
@@ -188,7 +205,7 @@ public partial interface I<#=Model.Class#>
 <#  if(operation.IsDeprecated){#>
     [System.Obsolete]
 <#  }#>
-    <#=operation.MethodAccessModifier#> async <#=operation.ResultType#> <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#>, <#}#>System.Threading.CancellationToken cancellationToken<#if(Model.GenerateOptionalParameters){#> = default(System.Threading.CancellationToken)<#}#>)
+    <#=operation.MethodAccessModifier#> async <#=operation.ResultType#> <#=operation.ActualOperationName#>Async(<#if(Model.InjectMethodHttpClient){#><#=Model.HttpClientType#> client_, <#}#><#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#>, <#}#>System.Threading.CancellationToken cancellationToken<#if(Model.GenerateOptionalParameters){#> = default(System.Threading.CancellationToken)<#}#>)
     {
 <#foreach(var parameter in operation.PathParameters){#>
 <#  if(parameter.IsRequired){#>
@@ -244,7 +261,7 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(Sy
         var client_ = _httpClient;
 <#      }else if(Model.UseHttpClientCreationMethod){#>
         var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
-<#      }else{#>
+<#      }else if(!Model.InjectMethodHttpClient){#>
         var client_ = new <#=Model.HttpClientType#>();
 <#      }#>
         try
@@ -472,7 +489,7 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(Sy
         }
         finally
         {
-<#if(!Model.InjectHttpClient && Model.DisposeHttpClient){#>
+<#if(!Model.InjectHttpClient && Model.DisposeHttpClient && !Model.InjectMethodHttpClient){#>
             if (client_ != null)
                 client_.Dispose();
 <#}#>
