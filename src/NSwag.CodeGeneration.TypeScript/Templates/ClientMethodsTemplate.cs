@@ -130,7 +130,7 @@ if(Model.IsAngular){
             
             #line default
             #line hidden
-            this.Write(@"function blobToText(blob: Blob): Observable<string> {
+            this.Write(@"function blobToText(blob: any): Observable<string> {
     return new Observable<string>((observer: any) => { 
         let reader = new FileReader(); 
         reader.onload = function() { 

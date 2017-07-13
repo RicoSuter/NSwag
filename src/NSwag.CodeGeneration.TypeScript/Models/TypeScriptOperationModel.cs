@@ -68,7 +68,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public bool HandleReferences => _settings.TypeScriptGeneratorSettings.HandleReferences;
 
         /// <summary>Gets a value indicating whether the template can request blobs.</summary>
-        public bool CanRequestBlobs => IsFetchOrAurelia || IsAngular || IsAngularJS;
+        public bool CanRequestBlobs => !IsJQuery;
 
         /// <summary>Gets a value indicating whether to use blobs with Angular.</summary>
         public bool RequestAngularBlobs => IsAngular && IsFile;
