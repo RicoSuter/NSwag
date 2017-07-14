@@ -52,6 +52,19 @@ foreach(var response in Model.Responses){
             
             #line default
             #line hidden
+            
+            #line 7 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
+if(response.CheckChunkedStatusCode){
+            
+            #line default
+            #line hidden
+            this.Write(" || status === 206");
+            
+            #line 7 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
+}
+            
+            #line default
+            #line hidden
             this.Write(") {\r\n");
             
             #line 8 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
@@ -59,7 +72,7 @@ foreach(var response in Model.Responses){
             
             #line default
             #line hidden
-            this.Write(@"    const contentDisposition = response.headers.get(""content-disposition"");
+            this.Write(@"    const contentDisposition = response.headers ? response.headers.get(""content-disposition"") : undefined;
     const fileNameMatch = contentDisposition ? /filename=""?([^""]*)""?;/g.exec(contentDisposition) : undefined;
     const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
 ");
@@ -69,24 +82,25 @@ foreach(var response in Model.Responses){
             
             #line default
             #line hidden
-            this.Write("    return Observable.of({ fileName: fileName, data: response.blob(), headers: re" +
-                    "sponse.headers.toJSON() });\r\n");
+            this.Write("    return Observable.of({ fileName: fileName, data: response.blob(), status: sta" +
+                    "tus, headers: response.headers ? response.headers.toJSON() : {} });\r\n");
             
             #line 14 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }else if(Model.IsAngularJS){
             
             #line default
             #line hidden
-            this.Write("    return this.q.resolve({ fileName: fileName, data: new Blob([response]) });\r\n");
+            this.Write("    return this.q.resolve({ fileName: fileName, status: status, data: new Blob([r" +
+                    "esponse]), headers: {} });\r\n");
             
             #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }else{
             
             #line default
             #line hidden
-            this.Write("    let headers: any = {}; if (response.headers.forEach) { response.headers.forEa" +
-                    "ch((v, k) => headers[k] = v); };\r\n    return response.blob().then(blob => { retu" +
-                    "rn { fileName: fileName, data: blob, headers: headers }; });\r\n");
+            this.Write(@"    let headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v, k) => headers[k] = v); };
+    return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: headers }; });
+");
             
             #line 19 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }

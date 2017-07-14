@@ -38,6 +38,7 @@ describe('SampleDataService', () => {
 
     // assert
     expect(response.fileName).toBe('my file.xlsx');
+    expect(response.headers['Content-Disposition']).toBeDefined();
     expect(response.data.size).toBe(3);
   })));
 

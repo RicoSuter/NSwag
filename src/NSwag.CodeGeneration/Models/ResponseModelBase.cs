@@ -43,6 +43,9 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Gets the HTTP status code.</summary>
         public string StatusCode { get; }
 
+        /// <summary>Gets a value indicating whether to check for the chunked HTTP status code (206, true when file response and 200/204).</summary>
+        public bool CheckChunkedStatusCode => IsFile && (StatusCode == "200" || StatusCode == "204");
+
         /// <summary>Gets the type of the response.</summary>
         public string Type => _generator.GetTypeName(_response.ActualResponseSchema, IsNullable, "Response");
 

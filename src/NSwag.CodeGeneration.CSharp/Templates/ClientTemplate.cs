@@ -2494,7 +2494,7 @@ foreach(var response in operation.Responses){
             this.Write("\"");
             
             #line 320 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-if(response.IsFile && response.StatusCode == "200"){
+if(response.CheckChunkedStatusCode){
             
             #line default
             #line hidden

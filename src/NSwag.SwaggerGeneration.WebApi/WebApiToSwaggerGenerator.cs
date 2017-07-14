@@ -274,7 +274,12 @@ namespace NSwag.SwaggerGeneration.WebApi
                     else if (routePrefixAttribute != null)
                         httpPaths.Add(routePrefixAttribute.Prefix + "/" + attribute.Template);
                     else if (routeAttributeOnClass != null)
-                        httpPaths.Add(routeAttributeOnClass.Template + "/" + attribute.Template);
+                    {
+                        if (attribute.Template.StartsWith("/"))
+                            httpPaths.Add(attribute.Template);
+                        else
+                            httpPaths.Add(routeAttributeOnClass.Template + "/" + attribute.Template);
+                    }
                     else
                         httpPaths.Add(attribute.Template);
                 }
@@ -297,6 +302,7 @@ namespace NSwag.SwaggerGeneration.WebApi
                         .Replace("]", "}")
                         .Replace("{controller}", controllerName)
                         .Replace("{action}", actionName)
+                        .Replace("{*", "{") // wildcard path parameters are not supported in Swagger
                         .Trim('/'))
                 .Distinct()
                 .ToList();

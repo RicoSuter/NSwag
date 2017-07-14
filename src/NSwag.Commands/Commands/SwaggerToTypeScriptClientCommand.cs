@@ -237,6 +237,13 @@ namespace NSwag.Commands
             set { Settings.ImportRequiredTypes = value; }
         }
 
+        [Argument(Name = "UseGetBaseUrlMethod", IsRequired = false, Description = "Specifies whether to use the 'getBaseUrl(defaultUrl: string)' method from the base class (default: false).")]
+        public bool UseGetBaseUrlMethod
+        {
+            get { return Settings.UseGetBaseUrlMethod; }
+            set { Settings.UseGetBaseUrlMethod = value; }
+        }
+
         [Argument(Name = "BaseUrlTokenName", IsRequired = false, Description = "The token name for injecting the API base URL string (used in the Angular template, default: 'API_BASE_URL').")]
         public string BaseUrlTokenName
         {

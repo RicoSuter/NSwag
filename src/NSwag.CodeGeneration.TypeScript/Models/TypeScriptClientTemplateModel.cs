@@ -49,6 +49,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets a value indicating whether the client class has a base class.</summary>
         public bool HasClientBaseClass => !string.IsNullOrEmpty(ClientBaseClass);
 
+        /// <summary>Gets or sets a value indicating whether to use the getBaseUrl(defaultUrl: string) from the base class.</summary>
+        public bool UseGetBaseUrlMethod => _settings.UseGetBaseUrlMethod;
+
         /// <summary>Gets the configuration class name.</summary>
         public string ConfigurationClass => _settings.ConfigurationClass;
 

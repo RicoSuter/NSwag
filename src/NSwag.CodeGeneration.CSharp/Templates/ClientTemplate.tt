@@ -317,7 +317,7 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(Sy
 
                     var status_ = ((int)response_.StatusCode).ToString();
 <#foreach(var response in operation.Responses){#>
-                    if (status_ == "<#=response.StatusCode#>"<#if(response.IsFile && response.StatusCode == "200"){#> || status_ == "206"<#}#>) 
+                    if (status_ == "<#=response.StatusCode#>"<#if(response.CheckChunkedStatusCode){#> || status_ == "206"<#}#>) 
                     {
 <#if(response.HasType){#>
 <#  if(response.IsFile){#>

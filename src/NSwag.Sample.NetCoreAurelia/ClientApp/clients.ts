@@ -86,7 +86,7 @@ export class SampleDataClient {
             const fileNameMatch = contentDisposition ? /filename="?([^"]*)"?;/g.exec(contentDisposition) : undefined;
             const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
             let headers: any = {}; if (response.headers.forEach) { response.headers.forEach((v, k) => headers[k] = v); };
-            return response.blob().then(blob => { return { fileName: fileName, data: blob, headers: headers }; });
+            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: headers }; });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText);
@@ -266,6 +266,7 @@ export interface IExtensionData {
 
 export interface FileResponse {
     data: Blob;
+	status: number;
     fileName?: string;
 	headers?: { [name: string]: any };
 }

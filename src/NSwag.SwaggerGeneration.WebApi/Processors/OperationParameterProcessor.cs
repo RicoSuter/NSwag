@@ -61,9 +61,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
 
                 var lowerHttpPath = httpPath.ToLowerInvariant();
                 if (lowerHttpPath.Contains("{" + uriParameterNameLower + "}") ||
-                    lowerHttpPath.Contains("{" + uriParameterNameLower + ":") ||
-                    lowerHttpPath.Contains("{*" + uriParameterNameLower + "}") ||
-                    lowerHttpPath.Contains("{*" + uriParameterNameLower + ":")) // path parameter
+                    lowerHttpPath.Contains("{" + uriParameterNameLower + ":")) // path parameter
                 {
                     var operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(uriParameterName, parameter).ConfigureAwait(false);
                     operationParameter.Kind = SwaggerParameterKind.Path;
