@@ -1,5 +1,5 @@
 ﻿{
-  "x-generator": "NSwag v11.3.0.0 (NJsonSchema v9.3.1.0)",
+  "x-generator": "NSwag v11.3.1.0 (NJsonSchema v9.4.0.0)",
   "info": {
     "title": "Web API Swagger specification",
     "version": "1.0.0"
@@ -434,17 +434,17 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/Person"
-            },
-            "x-nullable": true
-          },
           "500": {
             "description": "",
             "schema": {
               "$ref": "#/definitions/PersonNotFoundException"
+            },
+            "x-nullable": true
+          },
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Person"
             },
             "x-nullable": true
           }
@@ -468,6 +468,33 @@
         "responses": {
           "204": {
             "description": ""
+          }
+        }
+      }
+    },
+    "/api/Persons/transform": {
+      "post": {
+        "tags": [
+          "Persons"
+        ],
+        "operationId": "Persons_Transform",
+        "parameters": [
+          {
+            "name": "person",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Person"
+            },
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Person"
+            },
+            "x-nullable": true
           }
         }
       }
