@@ -21,6 +21,8 @@ namespace NSwag.Integration.ClientPCL.Tests
 
             //// Assert
             Assert.AreEqual(2, persons.Result.Count);
+            Assert.IsTrue(persons.Result[0].GetType() == typeof(Person));
+            Assert.IsTrue(persons.Result[1].GetType() == typeof(Teacher));
         }
 
         [TestMethod]
@@ -66,8 +68,23 @@ namespace NSwag.Integration.ClientPCL.Tests
             catch (PersonsClientException<PersonNotFoundException> exception)
             {
                 //// Assert
-                Assert.AreEqual(id, exception.Result.Id); 
+                Assert.AreEqual(id, exception.Result.Id);
             }
         }
+
+        [TestMethod]
+        [TestCategory("integration")]
+        public async Task Get_should_return_teacher()
+        {
+            //// Arrange
+            var personsClient = new PersonsClient(new HttpClient()) { BaseUrl = "http://localhost:13452" }; ;
+
+            //// Act
+            var result = await personsClient.GetAsync(new Guid());
+
+            //// Assert
+            Assert.IsTrue(result.Result is Teacher);
+        }
+
     }
 }

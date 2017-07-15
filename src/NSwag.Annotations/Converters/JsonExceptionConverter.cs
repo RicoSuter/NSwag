@@ -100,7 +100,9 @@ namespace NSwag.Annotations.Converters
             var newSerializer = new JsonSerializer();
             newSerializer.ContractResolver = (IContractResolver)Activator.CreateInstance(serializer.ContractResolver.GetType());
 
-            GetField(typeof(DefaultContractResolver), "_sharedCache").SetValue(newSerializer.ContractResolver, false);
+            var field = GetField(typeof(DefaultContractResolver), "_sharedCache");
+            if (field != null)
+                field.SetValue(newSerializer.ContractResolver, false);
 
             dynamic resolver = newSerializer.ContractResolver;
             if (newSerializer.ContractResolver.GetType().GetRuntimeProperty("IgnoreSerializableAttribute") != null)
@@ -142,7 +144,7 @@ namespace NSwag.Annotations.Converters
                     property.Key.SetValue(value, propertyValue);
                 else
                 {
-                    var field = GetField(objectType, "m_" + property.Value.Substring(0, 1).ToLowerInvariant() + property.Value.Substring(1));
+                    field = GetField(objectType, "m_" + property.Value.Substring(0, 1).ToLowerInvariant() + property.Value.Substring(1));
                     if (field != null)
                         field.SetValue(value, propertyValue);
                 }
@@ -182,9 +184,10 @@ namespace NSwag.Annotations.Converters
         {
             var field = typeof(Exception).GetTypeInfo().GetDeclaredField(fieldName);
             var jsonPropertyName = resolver is DefaultContractResolver ? ((DefaultContractResolver)resolver).GetResolvedPropertyName(propertyName) : propertyName;
-            if (jObject[jsonPropertyName] != null)
+            var property = jObject.Properties().FirstOrDefault(p => System.String.Equals(p.Name, jsonPropertyName, StringComparison.OrdinalIgnoreCase));
+            if (property != null)
             {
-                var fieldValue = jObject[jsonPropertyName].ToObject(field.FieldType, serializer);
+                var fieldValue = property.Value.ToObject(field.FieldType, serializer);
                 field.SetValue(value, fieldValue);
             }
         }
