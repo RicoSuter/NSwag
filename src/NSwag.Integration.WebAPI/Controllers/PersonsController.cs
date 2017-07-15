@@ -47,7 +47,7 @@ namespace NSwag.Integration.WebAPI.Controllers
         [ResponseType("500", typeof(PersonNotFoundException))]
         public Person Get(Guid id)
         {
-            return new Person();
+            return new Teacher();
         }
 
         [Route("Throw")]
