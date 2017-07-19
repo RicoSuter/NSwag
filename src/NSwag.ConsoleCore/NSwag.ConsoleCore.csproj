@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netcoreapp1.0;netcoreapp1.1</TargetFrameworks>
+    <OutputType>Exe</OutputType>
     <Description>NSwag: The Swagger API toolchain for .NET and TypeScript</Description>
     <Version>11.3.3</Version>
     <PackageTags>Swagger Documentation WebApi AspNet TypeScript CodeGen</PackageTags>
