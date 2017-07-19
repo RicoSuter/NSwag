@@ -19,7 +19,7 @@
       "addMissingPathParameters": false,
       "infoTitle": "Web API Swagger specification",
       "infoVersion": "1.0.0",
-      "output": "../NSwag.CodeGeneration.Tests/Output.json"
+      "output": "Output.json"
     }
   },
   "codeGenerators": {}

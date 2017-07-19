@@ -71,6 +71,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="GeoControllerTests.cs" />
+    <Compile Include="InheritanceTests.cs" />
     <Compile Include="PersonsControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -11,9 +11,9 @@ namespace NSwag.AspNet.Owin
     internal class SwaggerUiIndexMiddleware : OwinMiddleware
     {
         private readonly string _indexPath;
-        private readonly SwaggerUiOwinSettings _settings;
+        private readonly SwaggerUiSettings _settings;
 
-        public SwaggerUiIndexMiddleware(OwinMiddleware next, string indexPath, SwaggerUiOwinSettings settings)
+        public SwaggerUiIndexMiddleware(OwinMiddleware next, string indexPath, SwaggerUiSettings settings)
             : base(next)
         {
             _indexPath = indexPath;

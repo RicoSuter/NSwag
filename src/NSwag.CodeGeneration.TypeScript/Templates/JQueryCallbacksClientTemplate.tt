@@ -13,7 +13,7 @@ export interface I<#=Model.Class#> {
 <#}#><#}#><#if(operation.HasResultDescription){#>     * @return <#=operation.ResultDescription#>
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
-<#}#>    <#=operation.MethodAccessModifier#><#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#>?<#}#>: <#=parameter.Type#>, <#}#>onSuccess?: (<#if(operation.HasResultType){#>result: <#=operation.ResultType#><#}#>) => void, onFail?: (exception: <#=operation.ExceptionType#>, reason: string) => void): JQueryXHR;
+<#}#>    <#=operation.MethodAccessModifier#><#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#>?<#}#>: <#=parameter.Type#><#=parameter.TypePostfix#>, <#}#>onSuccess?: (<#if(operation.HasResultType){#>result: <#=operation.ResultType#><#}#>) => void, onFail?: (exception: <#=operation.ExceptionType#>, reason: string) => void): JQueryXHR;
 <#}#>}
 <#}#>
 
@@ -23,11 +23,15 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
     protected jsonParseReviver: <#if(Model.SupportsStrictNullChecks){#>((key: string, value: any) => any) | undefined<#}else{#>(key: string, value: any) => any<#}#> = undefined;
 
 <#if(!Model.HasExtendedConstructor){#>
-    constructor(baseUrl?: string) {
+    constructor(<#if(Model.HasConfigurationClass){#>configuration: <#=Model.ConfigurationClass#>, <#}#>baseUrl?: string) {
 <#if(Model.HasClientBaseClass){#>
-        super();
+        super(<#if(Model.HasConfigurationClass){#>configuration<#}#>);
 <#}#>
+<#if(Model.UseGetBaseUrlMethod){#>
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("<#=Model.BaseUrl#>");
+<#}else{#>
         this.baseUrl = baseUrl ? baseUrl : "<#=Model.BaseUrl#>";
+<#}#>
     }
 <#}#>
 <#if(Model.HasExtensionCode){#>
@@ -44,16 +48,20 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
 <#}#>
-    <#=operation.MethodAccessModifier#><#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#>?<#}#>: <#=parameter.Type#>, <#}#>onSuccess?: (<#if(operation.HasResultType){#>result: <#=operation.ResultType#><#}#>) => void, onFail?: (exception: <#=operation.ExceptionType#>, reason: string) => void): JQueryXHR {
+    <#=operation.MethodAccessModifier#><#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#>?<#}#>: <#=parameter.Type#><#=parameter.TypePostfix#>, <#}#>onSuccess?: (<#if(operation.HasResultType){#>result: <#=operation.ResultType#><#}#>) => void, onFail?: (exception: <#=operation.ExceptionType#>, reason: string) => void): JQueryXHR {
         <#=TypeScriptTemplatePartGenerator.RenderRequestUrlCode(operation, 2)#>
 
+<#if(operation.HasBody){#>
         <#=TypeScriptTemplatePartGenerator.RenderRequestBodyCode(operation, 2)#>
 
+<#}#>
         let jqXhr = jQuery.ajax(<#if(Model.UseTransformOptionsMethod){#>this.transformOptions(<#}#>{
             url: url_,
             beforeSend: this.beforeSend,
             type: "<#=operation.HttpMethodLower#>",
+<#  if(operation.HasBody){#>
             data: content_,
+<#  }#>
 <#  if(operation.HasFormParameters){#>
             mimeType: "multipart/form-data",
             contentType: false,
@@ -64,9 +72,9 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 <#foreach(var parameter in operation.HeaderParameters){#>
                 "<#=parameter.Name#>": <#=parameter.VariableName#>, 
 <#}#>
-                "Content-Type": "<#=operation.Consumes#>; charset=UTF-8",
-<#if(!operation.IsFile){#>
-                "Accept": "<#=operation.Produces#>; charset=UTF-8"
+                "Content-Type": "<#=operation.Consumes#>",
+<#if(operation.HasResultType && !operation.HasAcceptHeaderParameterParameter){#>
+                "Accept": "<#=operation.Produces#>"
 <#}#>
             }
         }<#if(Model.UseTransformOptionsMethod){#>)<#}#>); 

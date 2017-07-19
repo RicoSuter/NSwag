@@ -17,7 +17,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         public interface IActionResult
         {
         }
-        
+
         public class FromUriParameterController : ApiController
         {
             public class ComplexClass
@@ -185,6 +185,39 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
             Assert.IsTrue(document.Paths.ContainsKey("/account/Post"));
             Assert.IsTrue(document.Paths.ContainsKey("/account/Verify"));
             Assert.IsTrue(document.Paths.ContainsKey("/account/Confirm"));
+        }
+
+        [RoutePrefix("api/{id1}")]
+        public class MyApiController : ApiController
+        {
+            [HttpGet]
+            [Route("Services")]
+            public IHttpActionResult Operation1([FromUri(Name = "id1")] string id1)
+            {
+                return null;
+            }
+
+            [HttpGet]
+            [Route("Services/{id2}")]
+            public IHttpActionResult Operation1([FromUri(Name = "id1")] string id1, [FromUri(Name = "id2")] string x)
+            {
+                return null;
+            }
+        }
+
+        [TestMethod]
+        public async Task When_FromUri_has_name_then_parameter_name_is_correct()
+        {
+            //// Arrange
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+
+            //// Act
+            var document = await generator.GenerateForControllerAsync(typeof(MyApiController));
+            var json = document.ToJson();
+
+            //// Assert 
+            Assert.IsTrue(document.Paths.ContainsKey("/api/{id1}/Services"));
+            Assert.IsTrue(document.Paths.ContainsKey("/api/{id1}/Services/{id2}"));
         }
     }
 }

@@ -47,6 +47,7 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets the name.</summary>
         public string Name { get; }
+
         /// <summary>Gets the variable name in (usually lowercase).</summary>
         public string VariableName { get; }
 
@@ -88,6 +89,9 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets a value indicating whether the parameter is of type array.</summary>
         public bool IsArray => Schema.Type.HasFlag(JsonObjectType.Array) || _parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi;
+
+        /// <summary>Gets a value indicating whether the parameter is a string array.</summary>
+        public bool IsStringArray => IsArray && Schema.Item?.Type.HasFlag(JsonObjectType.String) == true;
 
         /// <summary>Gets a value indicating whether this is a file parameter.</summary>
         public bool IsFile => Schema.Type.HasFlag(JsonObjectType.File);

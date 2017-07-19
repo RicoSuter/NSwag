@@ -13,7 +13,7 @@ export interface I<#=Model.Class#> {
 <#}#><#}#><#if(operation.HasResultDescription){#>     * @return <#=operation.ResultDescription#>
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
-<#}#>    <#=operation.MethodAccessModifier#><#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#>?<#}#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): Observable<<#=operation.ResultType#>>;
+<#}#>    <#=operation.MethodAccessModifier#><#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#>?<#}#>: <#=parameter.Type#><#=parameter.TypePostfix#><#if(!parameter.IsLast){#>, <#}#><#}#>): Observable<<#=operation.ResultType#>>;
 <#}#>}
 <#}#>
 
@@ -29,7 +29,11 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
         super(<#if(Model.HasConfigurationClass){#>configuration<#}#>);
 <#}#>
         this.http = http;
+<#if(Model.UseGetBaseUrlMethod){#>
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("<#=Model.BaseUrl#>");
+<#}else{#>
         this.baseUrl = baseUrl ? baseUrl : "<#=Model.BaseUrl#>";
+<#}#>
     }
 <#}#>
 <#if(Model.HasExtensionCode){#>
@@ -46,13 +50,17 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 <#}#><#if(operation.IsDeprecated){#>     * @deprecated
 <#}#>     */
 <#}#>
-    <#=operation.MethodAccessModifier#><#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#>?<#}#>: <#=parameter.Type#><#if(!parameter.IsLast){#>, <#}#><#}#>): Observable<<#=operation.ResultType#>> {
+    <#=operation.MethodAccessModifier#><#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#>?<#}#>: <#=parameter.Type#><#=parameter.TypePostfix#><#if(!parameter.IsLast){#>, <#}#><#}#>): Observable<<#=operation.ResultType#>> {
         <#=TypeScriptTemplatePartGenerator.RenderRequestUrlCode(operation, 2)#>
 
+<#if(operation.HasBody){#>
         <#=TypeScriptTemplatePartGenerator.RenderRequestBodyCode(operation, 2)#>
         
+<#}#>
         let options_ = {
+<#if(operation.HasBody){#>
             body: content_,
+<#}#>
             method: "<#=operation.HttpMethodLower#>",
 <#if(operation.IsFile){#>
             responseType: ResponseContentType.Blob,
@@ -62,10 +70,10 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
                 "<#=parameter.Name#>": <#=parameter.VariableName#>, 
 <#}#>
 <#if(!operation.HasFormParameters){#>
-                "Content-Type": "<#=operation.Consumes#>; charset=UTF-8", 
+                "Content-Type": "<#=operation.Consumes#>", 
 <#}#>
-<#if(!operation.IsFile){#>
-                "Accept": "<#=operation.Produces#>; charset=UTF-8"
+<#if(operation.HasResultType && !operation.HasAcceptHeaderParameterParameter){#>
+                "Accept": "<#=operation.Produces#>"
 <#}#>
             })
         };

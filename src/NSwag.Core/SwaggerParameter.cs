@@ -32,6 +32,10 @@ namespace NSwag
         [JsonProperty(PropertyName = "required", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public bool IsRequired { get; set; } = false;
 
+        /// <summary>Gets or sets a value indicating whether passing empty-valued parameters is allowed (default: false).</summary>
+        [JsonProperty(PropertyName = "allowEmptyValue", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public bool AllowEmptyValue { get; set; }
+
         /// <summary>Gets or sets the schema which is only available when <see cref="Kind"/> == body.</summary>
         [JsonProperty(PropertyName = "schema", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public JsonSchema4 Schema { get; set; }

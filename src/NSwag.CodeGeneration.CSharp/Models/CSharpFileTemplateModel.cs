@@ -31,11 +31,11 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <param name="generator">The client generator base.</param>
         /// <param name="resolver">The resolver.</param>
         public CSharpFileTemplateModel(
-            string clientCode, 
-            ClientGeneratorOutputType outputType, 
-            SwaggerDocument document, 
+            string clientCode,
+            ClientGeneratorOutputType outputType,
+            SwaggerDocument document,
             SwaggerToCSharpGeneratorSettings settings,
-            SwaggerToCSharpGeneratorBase generator, 
+            SwaggerToCSharpGeneratorBase generator,
             SwaggerToCSharpTypeResolver resolver)
         {
             _clientCode = clientCode;
@@ -50,8 +50,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
         public string Namespace => _settings.CSharpGeneratorSettings.Namespace ?? string.Empty;
 
         /// <summary>Gets the all the namespace usages.</summary>
-        public string[] NamespaceUsages => _outputType == ClientGeneratorOutputType.Contracts || _settings.AdditionalNamespaceUsages == null ?
-            new string[] { } : _settings.AdditionalNamespaceUsages.Where(n => n != null).ToArray();
+        public string[] NamespaceUsages => (_outputType == ClientGeneratorOutputType.Contracts ?
+            _settings.AdditionalContractNamespaceUsages?.Where(n => n != null).ToArray() :
+            _settings.AdditionalNamespaceUsages?.Where(n => n != null).ToArray()) ?? new string[] { };
 
         /// <summary>Gets a value indicating whether to generate contract code.</summary>
         public bool GenerateContracts =>
@@ -86,12 +87,14 @@ namespace NSwag.CodeGeneration.CSharp.Models
             _document.Operations.SelectMany(o => o.Operation.AllResponses.Values.Where(r => r.ActualResponseSchema?.InheritsSchema(_resolver.ExceptionSchema) == true));
 
         /// <summary>Gets a value indicating whether the generated code requires the FileParameter type.</summary>
-        public bool RequiresFileParameterType => 
+        public bool RequiresFileParameterType =>
+            _settings.CSharpGeneratorSettings.ExcludedTypeNames?.Contains("FileParameter") != true &&
             _document.Operations.Any(o => o.Operation.Parameters.Any(p => p.Type.HasFlag(JsonObjectType.File)));
 
         /// <summary>Gets a value indicating whether [generate file response class].</summary>
-        public bool GenerateFileResponseClass => _document.Operations
-            .Any(o => o.Operation.Responses.Any(r => r.Value.ActualResponseSchema?.Type == JsonObjectType.File));
+        public bool GenerateFileResponseClass =>
+            _settings.CSharpGeneratorSettings.ExcludedTypeNames?.Contains("FileResponse") != true &&
+            _document.Operations.Any(o => o.Operation.Responses.Any(r => r.Value.ActualResponseSchema?.Type == JsonObjectType.File));
 
         /// <summary>Gets or sets a value indicating whether to generate exception classes (default: true).</summary>
         public bool GenerateExceptionClasses => (_settings as SwaggerToCSharpClientGeneratorSettings)?.GenerateExceptionClasses == true;
@@ -112,6 +115,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
                     return _document.Operations
                         .GroupBy(o => _settings.OperationNameGenerator.GetClientName(_document, o.Path, o.Method, o.Operation))
                         .Select(g => _settings.ResponseClass.Replace("{controller}", g.Key))
+                        .Where(a => _settings.CSharpGeneratorSettings.ExcludedTypeNames?.Contains(a) != true)
                         .Distinct();
                 }
 
@@ -132,6 +136,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
                         return _document.Operations
                             .GroupBy(o => settings.OperationNameGenerator.GetClientName(_document, o.Path, o.Method, o.Operation))
                             .Select(g => settings.ExceptionClass.Replace("{controller}", g.Key))
+                            .Where(a => _settings.CSharpGeneratorSettings.ExcludedTypeNames?.Contains(a) != true)
                             .Distinct();
                     }
                     else

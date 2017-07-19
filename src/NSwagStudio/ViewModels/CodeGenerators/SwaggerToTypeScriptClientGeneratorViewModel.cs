@@ -89,47 +89,41 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         /// <summary>Gets or sets the excluded type names (must be defined in an import or other namespace).</summary>
         public string ExcludedTypeNames
         {
-            get
-            {
-                return Command?.ExcludedTypeNames != null ? string.Join(",", Command.ExcludedTypeNames) : "";
-            }
+            get => FromStringArray(Command?.ExcludedTypeNames);
             set
             {
-                if (value != null)
-                    Command.ExcludedTypeNames = value.Split(',').Select(n => n.Trim()).Where(n => !string.IsNullOrEmpty(n)).ToArray();
-                else
-                    Command.ExcludedTypeNames = new string[] { };
-                RaisePropertyChanged(() => ExcludedTypeNames);
+                Command.ExcludedTypeNames = ToStringArray(value);
+                RaisePropertyChanged();
             }
         }
 
         /// <summary>Gets or sets the list of methods with a protected access modifier ("classname.methodname").</summary>
         public string ProtectedMethods
         {
-            get { return _command?.ProtectedMethods != null ? string.Join(",", _command.ProtectedMethods) : ""; }
+            get => FromStringArray(Command?.ProtectedMethods);
             set
             {
-                _command.ProtectedMethods = !string.IsNullOrEmpty(value) ? value.Split(',') : new string[] { };
+                Command.ProtectedMethods = ToStringArray(value);
                 RaisePropertyChanged();
             }
         }
 
         public string ClassTypes
         {
-            get { return _command?.ClassTypes != null ? string.Join(",", _command.ClassTypes) : ""; }
+            get => FromStringArray(Command?.ClassTypes);
             set
             {
-                _command.ClassTypes = !string.IsNullOrEmpty(value) ? value.Split(',') : new string[] { };
+                Command.ClassTypes = ToStringArray(value);
                 RaisePropertyChanged();
             }
         }
 
         public string ExtendedClasses
         {
-            get { return _command?.ExtendedClasses != null ? string.Join(",", _command.ExtendedClasses) : ""; }
+            get => FromStringArray(Command?.ExtendedClasses);
             set
             {
-                _command.ExtendedClasses = !string.IsNullOrEmpty(value) ? value.Split(',') : new string[] { };
+                Command.ExtendedClasses = ToStringArray(value);
                 RaisePropertyChanged();
             }
         }

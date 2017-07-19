@@ -43,6 +43,7 @@ namespace NSwag.SwaggerGeneration.WebApi
         [JsonIgnore]
         public IList<IOperationProcessor> OperationProcessors { get; } = new List<IOperationProcessor>
         {
+            new ApiVersionProcessor(),
             new OperationSummaryAndDescriptionProcessor(),
             new OperationTagsProcessor()
         };

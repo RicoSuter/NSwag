@@ -1,0 +1,187 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NSwag.Commands</name>
+    </assembly>
+    <members>
+        <member name="T:NSwag.Commands.CodeGeneratorCollection">
+            <summary>The command collection.</summary>
+        </member>
+        <member name="P:NSwag.Commands.CodeGeneratorCollection.SwaggerToTypeScriptClientCommand">
+            <summary>Gets or sets the SwaggerToTypeScriptClientCommand.</summary>
+        </member>
+        <member name="P:NSwag.Commands.CodeGeneratorCollection.SwaggerToCSharpClientCommand">
+            <summary>Gets or sets the SwaggerToCSharpClientCommand.</summary>
+        </member>
+        <member name="P:NSwag.Commands.CodeGeneratorCollection.SwaggerToCSharpControllerCommand">
+            <summary>Gets or sets the SwaggerToCSharpControllerCommand.</summary>
+        </member>
+        <member name="P:NSwag.Commands.CodeGeneratorCollection.Items">
+            <summary>Gets the items.</summary>
+        </member>
+        <member name="M:NSwag.Commands.AssemblyTypeToSwaggerCommandBase.CreateGenerator">
+            <summary>Creates a new generator instance.</summary>
+            <returns>The generator.</returns>
+        </member>
+        <member name="M:NSwag.Commands.Base.InputOutputCommandBase.GetInputSwaggerDocument">
+            <exception cref="T:System.ArgumentException">The argument 'Input' was empty.</exception>
+        </member>
+        <member name="M:NSwag.Commands.Base.InputOutputCommandBase.GetInputJsonAsync">
+            <exception cref="T:System.ArgumentException">The argument 'Input' was empty.</exception>
+        </member>
+        <member name="M:NSwag.Commands.Document.CreateDocumentCommandBase.CreateDocumentAsync(System.String)">
+            <summary>Creates a new document in the given path.</summary>
+            <param name="filePath">The file path.</param>
+            <returns>The task.</returns>
+        </member>
+        <member name="M:NSwag.Commands.Document.ExecuteDocumentCommandBase.LoadDocumentAsync(System.String)">
+            <summary>Loads an existing NSwagDocument.</summary>
+            <param name="filePath">The file path.</param>
+            <returns>The document.</returns>
+        </member>
+        <member name="T:NSwag.Commands.FromSwaggerCommand">
+            <summary>Reads a Swagger specification from JSON or an URL.</summary>
+        </member>
+        <member name="P:NSwag.Commands.FromSwaggerCommand.Swagger">
+            <summary>Gets or sets the input Swagger specification.</summary>
+        </member>
+        <member name="P:NSwag.Commands.FromSwaggerCommand.Url">
+            <summary>Gets or sets the input Swagger specification URL.</summary>
+        </member>
+        <member name="M:NSwag.Commands.FromSwaggerCommand.RunAsync(NConsole.CommandLineProcessor,NConsole.IConsoleHost)">
+            <summary>Runs the asynchronous.</summary>
+            <param name="processor">The processor.</param>
+            <param name="host">The host.</param>
+            <returns></returns>
+        </member>
+        <member name="M:NSwag.Commands.FromSwaggerCommand.RunAsync">
+            <summary></summary>
+        </member>
+        <member name="E:NSwag.Commands.FromSwaggerCommand.PropertyChanged">
+            <summary>Occurs when property changed.</summary>
+        </member>
+        <member name="M:NSwag.Commands.FromSwaggerCommand.OnPropertyChanged(System.String)">
+            <summary>Called when property changed.</summary>
+        </member>
+        <member name="T:NSwag.Commands.OperationGenerationMode">
+            <summary>Specifies how the operation name and client classes/interfaces are generated.</summary>
+        </member>
+        <member name="F:NSwag.Commands.OperationGenerationMode.MultipleClientsFromOperationId">
+            <summary>Multiple clients from the Swagger operation ID in the form '{controller}_{action}'.</summary>
+        </member>
+        <member name="F:NSwag.Commands.OperationGenerationMode.MultipleClientsFromPathSegments">
+            <summary>From path segments (operation name = last segment, client name = second to last segment).</summary>
+        </member>
+        <member name="F:NSwag.Commands.OperationGenerationMode.SingleClientFromOperationId">
+            <summary>From the Swagger operation ID.</summary>
+        </member>
+        <member name="T:NSwag.Commands.VersionCommand">
+            <summary>Prints the tool chain version.</summary>
+        </member>
+        <member name="M:NSwag.Commands.VersionCommand.RunAsync(NConsole.CommandLineProcessor,NConsole.IConsoleHost)">
+            <summary>Runs the command.</summary>
+            <param name="processor">The processor.</param>
+            <param name="host">The host.</param>
+            <returns>The output.</returns>
+        </member>
+        <member name="M:NSwag.Commands.WebApiToSwaggerCommandBase.CreateGenerator">
+            <summary>Creates a new generator instance.</summary>
+            <returns>The generator.</returns>
+        </member>
+        <member name="T:NSwag.Commands.NSwagCommandProcessor">
+            <summary></summary>
+        </member>
+        <member name="M:NSwag.Commands.NSwagCommandProcessor.#ctor(System.Reflection.Assembly,NConsole.IConsoleHost)">
+            <summary>Initializes a new instance of the <see cref="T:NSwag.Commands.NSwagCommandProcessor" /> class.</summary>
+            <param name="assemblyLoaderAssembly">The command assembly.</param>
+            <param name="host">The host.</param>
+        </member>
+        <member name="M:NSwag.Commands.NSwagCommandProcessor.Process(System.String[])">
+            <summary>Processes the command line arguments.</summary>
+            <param name="args">The arguments.</param>
+            <returns>The result.</returns>
+        </member>
+        <member name="T:NSwag.Commands.NSwagDocumentBase">
+            <summary>The NSwagDocument base class.</summary>
+            <seealso cref="T:System.ComponentModel.INotifyPropertyChanged" />
+        </member>
+        <member name="M:NSwag.Commands.NSwagDocumentBase.#ctor">
+            <summary>Initializes a new instance of the <see cref="T:NSwag.Commands.NSwagDocumentBase"/> class.</summary>
+        </member>
+        <member name="M:NSwag.Commands.NSwagDocumentBase.ConvertToAbsolutePath(System.String)">
+            <summary>Converts a path to an absolute path.</summary>
+            <param name="pathToConvert">The path to convert.</param>
+            <returns>The absolute path.</returns>
+        </member>
+        <member name="M:NSwag.Commands.NSwagDocumentBase.ConvertToRelativePath(System.String)">
+            <summary>Converts a path to an relative path.</summary>
+            <param name="pathToConvert">The path to convert.</param>
+            <returns>The relative path.</returns>
+        </member>
+        <member name="P:NSwag.Commands.NSwagDocumentBase.SelectedSwaggerGeneratorRaw">
+            <summary>Gets or sets the selected swagger generator JSON.</summary>
+        </member>
+        <member name="P:NSwag.Commands.NSwagDocumentBase.SwaggerGenerators">
+            <summary>Gets the swagger generators.</summary>
+        </member>
+        <member name="P:NSwag.Commands.NSwagDocumentBase.CodeGenerators">
+            <summary>Gets the code generators.</summary>
+        </member>
+        <member name="P:NSwag.Commands.NSwagDocumentBase.Path">
+            <summary>Gets or sets the path.</summary>
+        </member>
+        <member name="P:NSwag.Commands.NSwagDocumentBase.Name">
+            <summary>Gets the name of the document.</summary>
+        </member>
+        <member name="P:NSwag.Commands.NSwagDocumentBase.IsDirty">
+            <summary>Gets a value indicating whether the document is dirty (has any changes).</summary>
+        </member>
+        <member name="P:NSwag.Commands.NSwagDocumentBase.SelectedSwaggerGenerator">
+            <summary>Gets the selected Swagger generator.</summary>
+        </member>
+        <member name="M:NSwag.Commands.NSwagDocumentBase.Create``1">
+            <summary>Creates a new NSwagDocument.</summary>
+            <typeparam name="TDocument">The type.</typeparam>
+            <returns>The document.</returns>
+        </member>
+        <member name="M:NSwag.Commands.NSwagDocumentBase.LoadAsync``1(System.String,System.Collections.Generic.IDictionary{System.Type,System.Type})">
+            <summary>Loads an existing NSwagDocument.</summary>
+            <typeparam name="TDocument">The type.</typeparam>
+            <param name="filePath">The file path.</param>
+            <param name="mappings">The mappings.</param>
+            <returns>The document.</returns>
+        </member>
+        <member name="M:NSwag.Commands.NSwagDocumentBase.SaveAsync">
+            <summary>Saves the document.</summary>
+            <returns>The task.</returns>
+        </member>
+        <member name="M:NSwag.Commands.NSwagDocumentBase.ExecuteAsync">
+            <summary>Executes the document.</summary>
+            <returns>The task.</returns>
+        </member>
+        <member name="E:NSwag.Commands.NSwagDocumentBase.PropertyChanged">
+            <summary>Occurs when a property value changes.</summary>
+        </member>
+        <member name="M:NSwag.Commands.NSwagDocumentBase.RaiseAllPropertiesChanged">
+            <summary>Raises all properties changed.</summary>
+        </member>
+        <member name="T:NSwag.Commands.SwaggerGeneratorCollection">
+            <summary></summary>
+        </member>
+        <member name="P:NSwag.Commands.SwaggerGeneratorCollection.FromSwaggerCommand">
+            <summary>Gets or sets the input to swagger command.</summary>
+        </member>
+        <member name="P:NSwag.Commands.SwaggerGeneratorCollection.JsonSchemaToSwaggerCommand">
+            <summary>Gets or sets the json schema to swagger command.</summary>
+        </member>
+        <member name="P:NSwag.Commands.SwaggerGeneratorCollection.WebApiToSwaggerCommand">
+            <summary>Gets or sets the Web API to swagger command.</summary>
+        </member>
+        <member name="P:NSwag.Commands.SwaggerGeneratorCollection.AssemblyTypeToSwaggerCommand">
+            <summary>Gets or sets the assembly type to swagger command.</summary>
+        </member>
+        <member name="P:NSwag.Commands.SwaggerGeneratorCollection.Items">
+            <summary>Gets the items.</summary>
+        </member>
+    </members>
+</doc>

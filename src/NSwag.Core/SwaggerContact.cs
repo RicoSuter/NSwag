@@ -7,11 +7,12 @@
 //-----------------------------------------------------------------------
 
 using Newtonsoft.Json;
+using NJsonSchema;
 
 namespace NSwag
 {
     /// <summary>The web service contact description.</summary>
-    public class SwaggerContact
+    public class SwaggerContact : JsonExtensionObject
     {
         /// <summary>Gets or sets the name.</summary>
         [JsonProperty(PropertyName = "name", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]

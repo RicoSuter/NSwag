@@ -7,11 +7,12 @@
 //-----------------------------------------------------------------------
 
 using Newtonsoft.Json;
+using NJsonSchema;
 
 namespace NSwag
 {
     /// <summary>The external documentation description.</summary>
-    public class SwaggerExternalDocumentation
+    public class SwaggerExternalDocumentation : JsonExtensionObject
     {
         /// <summary>Gets or sets the description.</summary>
         [JsonProperty(PropertyName = "description", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]

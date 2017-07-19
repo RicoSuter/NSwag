@@ -31,7 +31,7 @@ namespace NSwag.AspNet.Owin
         public static IAppBuilder UseSwagger(
             this IAppBuilder app,
             Assembly webApiAssembly,
-            SwaggerOwinSettings settings)
+            SwaggerSettings settings)
         {
             return app.UseSwagger(new[] { webApiAssembly }, settings);
         }
@@ -44,7 +44,7 @@ namespace NSwag.AspNet.Owin
         public static IAppBuilder UseSwagger(
             this IAppBuilder app,
             IEnumerable<Assembly> webApiAssemblies,
-            SwaggerOwinSettings settings)
+            SwaggerSettings settings)
         {
             var controllerTypes = webApiAssemblies.SelectMany(WebApiToSwaggerGenerator.GetControllerClasses);
             return app.UseSwagger(controllerTypes, settings);
@@ -58,7 +58,7 @@ namespace NSwag.AspNet.Owin
         public static IAppBuilder UseSwagger(
             this IAppBuilder app,
             IEnumerable<Type> controllerTypes,
-            SwaggerOwinSettings settings)
+            SwaggerSettings settings)
         {
             return app.UseSwagger(controllerTypes, settings, new SwaggerJsonSchemaGenerator(settings));
         }
@@ -72,7 +72,7 @@ namespace NSwag.AspNet.Owin
         public static IAppBuilder UseSwagger(
             this IAppBuilder app,
             IEnumerable<Type> controllerTypes,
-            SwaggerOwinSettings settings,
+            SwaggerSettings settings,
             SwaggerJsonSchemaGenerator schemaGenerator)
         {
             app.Use<SwaggerMiddleware>(settings.ActualSwaggerRoute, controllerTypes, settings, schemaGenerator);
@@ -88,7 +88,7 @@ namespace NSwag.AspNet.Owin
         public static IAppBuilder UseSwaggerUi(
             this IAppBuilder app,
             Assembly webApiAssembly,
-            SwaggerUiOwinSettings settings)
+            SwaggerUiSettings settings)
         {
             return app.UseSwaggerUi(new[] { webApiAssembly }, settings);
         }
@@ -101,7 +101,7 @@ namespace NSwag.AspNet.Owin
         public static IAppBuilder UseSwaggerUi(
             this IAppBuilder app,
             IEnumerable<Assembly> webApiAssemblies,
-            SwaggerUiOwinSettings settings)
+            SwaggerUiSettings settings)
         {
             var controllerTypes = webApiAssemblies.SelectMany(WebApiToSwaggerGenerator.GetControllerClasses);
             return app.UseSwaggerUi(controllerTypes, settings, new SwaggerJsonSchemaGenerator(settings));
@@ -113,7 +113,7 @@ namespace NSwag.AspNet.Owin
         /// <returns>The app builder.</returns>
         public static IAppBuilder UseSwaggerUi(
             this IAppBuilder app,
-            SwaggerUiOwinSettings settings)
+            SwaggerUiSettings settings)
         {
             return app.UseSwaggerUi(null, settings, null);
         }
@@ -127,7 +127,7 @@ namespace NSwag.AspNet.Owin
         public static IAppBuilder UseSwaggerUi(
             this IAppBuilder app,
             IEnumerable<Type> controllerTypes,
-            SwaggerUiOwinSettings settings,
+            SwaggerUiSettings settings,
             SwaggerJsonSchemaGenerator schemaGenerator)
         {
             if (controllerTypes != null)
@@ -151,9 +151,9 @@ namespace NSwag.AspNet.Owin
         public static IAppBuilder UseSwagger(
             this IAppBuilder app,
             IEnumerable<Type> controllerTypes,
-            Action<SwaggerOwinSettings> configure = null)
+            Action<SwaggerSettings> configure = null)
         {
-            var settings = new SwaggerOwinSettings();
+            var settings = new SwaggerSettings();
             configure?.Invoke(settings);
             return app.UseSwagger(controllerTypes, settings, new SwaggerJsonSchemaGenerator(settings));
         }
@@ -165,9 +165,9 @@ namespace NSwag.AspNet.Owin
         public static IAppBuilder UseSwaggerUi(
             this IAppBuilder app,
             IEnumerable<Type> controllerTypes,
-            Action<SwaggerUiOwinSettings> configure = null)
+            Action<SwaggerUiSettings> configure = null)
         {
-            var settings = new SwaggerUiOwinSettings();
+            var settings = new SwaggerUiSettings();
             configure?.Invoke(settings);
             return app.UseSwaggerUi(controllerTypes, settings, new SwaggerJsonSchemaGenerator(settings));
         }

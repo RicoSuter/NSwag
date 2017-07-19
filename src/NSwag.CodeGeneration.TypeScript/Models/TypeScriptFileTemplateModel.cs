@@ -30,11 +30,11 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <param name="settings">The settings.</param>
         /// <param name="resolver">The resolver.</param>
         public TypeScriptFileTemplateModel(
-            string clientCode, 
-            IEnumerable<string> clientClasses, 
-            SwaggerDocument document, 
-            TypeScriptExtensionCode extensionCode, 
-            SwaggerToTypeScriptClientGeneratorSettings settings, 
+            string clientCode,
+            IEnumerable<string> clientClasses,
+            SwaggerDocument document,
+            TypeScriptExtensionCode extensionCode,
+            SwaggerToTypeScriptClientGeneratorSettings settings,
             TypeScriptTypeResolver resolver)
         {
             _document = document;
@@ -88,7 +88,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public string ExtensionCodeImport => _extensionCode.ImportCode;
 
         /// <summary>Gets or sets the extension code to insert at the beginning.</summary>
-        public string ExtensionCodeTop => _settings.ConfigurationClass != null && _extensionCode.ExtensionClasses.ContainsKey(_settings.ConfigurationClass) ? 
+        public string ExtensionCodeTop => _settings.ConfigurationClass != null && _extensionCode.ExtensionClasses.ContainsKey(_settings.ConfigurationClass) ?
             _extensionCode.ExtensionClasses[_settings.ConfigurationClass] + "\n\n" + _extensionCode.TopCode :
             _extensionCode.TopCode;
 
@@ -111,6 +111,12 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public bool RequiresFileParameterInterface =>
             !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("FileParameter") &&
             _document.Operations.Any(o => o.Operation.Parameters.Any(p => p.Type.HasFlag(JsonObjectType.File)));
+
+        /// <summary>Gets a value indicating whether the FileResponse interface should be rendered.</summary>
+        public bool RequiresFileResponseInterface =>
+            !IsJQuery &&
+            !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("FileResponse") &&
+            _document.Operations.Any(o => o.Operation.AllResponses.Any(r => r.Value.Schema?.ActualSchema.Type == JsonObjectType.File));
 
         /// <summary>Gets a value indicating whether the SwaggerException class is required.</summary>
         public bool RequiresSwaggerExceptionClass =>

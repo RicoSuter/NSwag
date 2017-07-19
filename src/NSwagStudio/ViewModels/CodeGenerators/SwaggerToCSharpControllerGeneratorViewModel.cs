@@ -56,17 +56,11 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         /// <summary>Gets or sets the namespace usages (comma separated). </summary>
         public string AdditionalNamespaceUsages
         {
-            get
-            {
-                return Command?.AdditionalNamespaceUsages != null ? string.Join(",", Command.AdditionalNamespaceUsages) : "";
-            }
+            get => FromStringArray(Command?.AdditionalNamespaceUsages);
             set
             {
-                if (!string.IsNullOrEmpty(value))
-                    Command.AdditionalNamespaceUsages = value.Split(',').Select(n => n.Trim()).Where(n => !string.IsNullOrEmpty(n)).ToArray();
-                else
-                    Command.AdditionalNamespaceUsages = new string[] { };
-                RaisePropertyChanged(() => AdditionalNamespaceUsages);
+                Command.AdditionalNamespaceUsages = ToStringArray(value);
+                RaisePropertyChanged();
             }
         }
 

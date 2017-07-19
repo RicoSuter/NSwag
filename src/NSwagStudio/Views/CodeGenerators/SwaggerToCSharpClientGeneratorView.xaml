@@ -36,6 +36,13 @@
                              ToolTip="Namespace"
                              Margin="0,0,0,12" />
 
+                    <TextBlock Text="Additional Namespace Usages (comma separated)" 
+                               FontWeight="Bold" 
+                               Margin="0,0,0,6" />
+                    <TextBox Text="{Binding AdditionalNamespaceUsages, Mode=TwoWay}" 
+                             ToolTip="AdditionalNamespaceUsages" 
+                             Margin="0,0,0,12" />
+
                     <CheckBox IsChecked="{Binding Command.GenerateContractsOutput, Mode=TwoWay}" 
                               ToolTip="GenerateContractsOutput"
                               Content="Generate contracts output" 
@@ -48,15 +55,15 @@
                         <TextBox Text="{Binding Command.ContractsNamespace, Mode=TwoWay}"
                                  ToolTip="ContractsNamespace"
                                  Margin="0,0,0,12" />
+
+                        <TextBlock Text="Additional Contract Namespace Usages (comma separated)" 
+                                   FontWeight="Bold" 
+                                   Margin="0,0,0,6" />
+                        <TextBox Text="{Binding AdditionalContractNamespaceUsages, Mode=TwoWay}" 
+                                 ToolTip="AdditionalContractNamespaceUsages" 
+                                 Margin="0,0,0,12" />
                     </StackPanel>
-
-                    <TextBlock Text="Additional Namespace Usages (comma separated)" 
-                               FontWeight="Bold" 
-                               Margin="0,0,0,6" />
-                    <TextBox Text="{Binding AdditionalNamespaceUsages, Mode=TwoWay}" 
-                             ToolTip="AdditionalNamespaceUsages" 
-                             Margin="0,0,0,12" />
-
+                    
                     <TextBlock Text="Custom Json.NET converter types (optional, multiple on separate lines)" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding Command.JsonConverters, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
                              ToolTip="JsonConverters"
@@ -64,6 +71,10 @@
                              AcceptsReturn="True" 
                              VerticalScrollBarVisibility="Visible" 
                              Margin="0,0,0,12" />
+
+                    <CheckBox IsChecked="{Binding Command.GenerateOptionalParameters, Mode=TwoWay}" 
+                              ToolTip="GenerateOptionalParameters"
+                              Content="Generate optional parameters (reorder parameters (required first, optional at the end) and generate optional parameters)" Margin="0,0,0,12" />
 
                     <CheckBox IsChecked="{Binding Command.GenerateExceptionClasses, Mode=TwoWay}" 
                               Content="Generate exception classes (when disabled, exception classes must be imported)" 
@@ -90,17 +101,13 @@
                     <StackPanel Visibility="{Binding Command.WrapResponses, Converter={StaticResource VisibilityConverter}}">
                         <CheckBox IsChecked="{Binding Command.GenerateResponseClasses, Mode=TwoWay}" 
                                   ToolTip="GenerateResponseClasses"
-                                  Content="Generate response classes (when disabled, response classes must be imported)" Margin="0,0,0,6" />
+                                  Content="Generate response classes (when disabled, response classes must be imported)" Margin="0,0,0,12" />
 
                         <StackPanel Visibility="{Binding Command.GenerateResponseClasses, Converter={StaticResource VisibilityConverter}}">
                             <TextBlock Text="Response class name (may contain the '{controller}' placeholder)" FontWeight="Bold" Margin="0,0,0,6" />
                             <TextBox Text="{Binding Command.ResponseClass, Mode=TwoWay}" ToolTip="ResponseClass" Margin="0,0,0,12" />
                         </StackPanel>
                     </StackPanel>
-
-                    <CheckBox IsChecked="{Binding Command.GenerateOptionalParameters, Mode=TwoWay}" 
-                              ToolTip="GenerateOptionalParameters"
-                              Content="Generate optional parameters (reorder parameters (required first, optional at the end) and generate optional parameters)" Margin="0,0,0,12" />
 
                     <GroupBox Header="Client" Margin="0,0,0,12">
                         <StackPanel Margin="4,8,4,-8">
@@ -120,10 +127,6 @@
                                           Content="Use and expose the base URL" 
                                           ToolTip="UseBaseUrl" Margin="0,0,0,12" />
 
-                                <TextBlock Text="Base Class Name (optional)" FontWeight="Bold" Margin="0,0,0,6" />
-                                <TextBox Text="{Binding Command.ClientBaseClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                         ToolTip="ClientBaseClass" Margin="0,0,0,12" />
-
                                 <CheckBox IsChecked="{Binding Command.InjectHttpClient, Mode=TwoWay}" 
                                           ToolTip="InjectHttpClient"
                                           Content="Inject HttpClient via constructor (life cycle is managed by the caller)" Margin="0,0,0,12" />
@@ -136,9 +139,16 @@
                                 <TextBlock Text="Http Client Type" FontWeight="Bold" Margin="0,0,0,6" />
                                 <TextBox Text="{Binding Command.HttpClientType, Mode=TwoWay}" ToolTip="HttpClientType" Margin="0,0,0,12" />
 
+                                <TextBlock Text="DateTime format for method parameters" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.ParameterDateTimeFormat, Mode=TwoWay}" ToolTip="ParaeterDateTimeFormat" Margin="0,0,0,12" />
+
                                 <CheckBox IsChecked="{Binding Command.GenerateSyncMethods, Mode=TwoWay}" 
                                           Content="Generate synchronous methods (not recommended)" 
                                           ToolTip="GenerateSyncMethods" Margin="0,0,0,12" />
+
+                                <TextBlock Text="Base Class Name (optional)" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.ClientBaseClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                         ToolTip="ClientBaseClass" Margin="0,0,0,12" />
 
                                 <StackPanel Visibility="{Binding Command.ClientBaseClass, Converter={StaticResource VisibilityConverter}}">
                                     <CheckBox IsChecked="{Binding Command.UseHttpClientCreationMethod, Mode=TwoWay}" Margin="0,0,0,12" 
@@ -151,6 +161,11 @@
                                               ToolTip="UseHttpRequestMessageCreationMethod" Margin="0,0,0,12">
                                         <TextBlock Text="Call the CreateHttpRequestMessageAsync method on the client base class to create a new HttpRequestMessage instance" TextWrapping="Wrap" />
                                     </CheckBox>
+
+                                    <CheckBox IsChecked="{Binding Command.GenerateUpdateJsonSerializerSettingsMethod, Mode=TwoWay}" 
+                                              Content="Generate the UpdateJsonSerializerSettings method (must be implemented in the base class otherwise)." 
+                                              ToolTip="GenerateUpdateJsonSerializerSettingsMethod"
+                                              Margin="0,0,0,12" />
 
                                     <TextBlock Text="Configuration Class Name (passed to base class ctor, optional)" FontWeight="Bold" Margin="0,0,0,6" />
                                     <TextBox Text="{Binding Command.ConfigurationClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

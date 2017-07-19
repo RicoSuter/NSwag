@@ -7,11 +7,12 @@
 //-----------------------------------------------------------------------
 
 using Newtonsoft.Json;
+using NJsonSchema;
 
 namespace NSwag
 {
     /// <summary>The license information.</summary>
-    public class SwaggerLicense
+    public class SwaggerLicense : JsonExtensionObject
     {
         /// <summary>Gets or sets the name.</summary>
         [JsonProperty(PropertyName = "name", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]

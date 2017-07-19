@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NSwag.Tests</RootNamespace>
     <AssemblyName>NSwag.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -60,8 +60,8 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NJsonSchema, Version=9.1.2.0, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.9.1.2\lib\net45\NJsonSchema.dll</HintPath>
+    <Reference Include="NJsonSchema, Version=9.4.2.0, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.9.4.2\lib\net45\NJsonSchema.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Net.Http" />
@@ -87,6 +87,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CommandLine\WebApiCommandLineTests.cs" />
     <Compile Include="Commands\WildcardTests.cs" />
     <Compile Include="Converters\ExceptionSerializationTests.cs" />
     <Compile Include="Specification\OperationIdTests.cs" />
@@ -101,6 +102,10 @@
     <ProjectReference Include="..\NSwag.AssemblyLoader\NSwag.AssemblyLoader.csproj">
       <Project>{46634C60-BA7D-43E6-9049-6AD461488C39}</Project>
       <Name>NSwag.AssemblyLoader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NSwag.Commands\NSwag.Commands.csproj">
+      <Project>{71B39C21-46A2-471B-AACE-226C575B8AC1}</Project>
+      <Name>NSwag.Commands</Name>
     </ProjectReference>
     <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj">
       <Project>{2E6174AA-FC75-4821-9E86-51B30568BEC0}</Project>

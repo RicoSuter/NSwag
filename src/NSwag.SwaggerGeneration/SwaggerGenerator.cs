@@ -208,14 +208,23 @@ namespace NSwag.SwaggerGeneration
 
             if (typeDescription.Type.HasFlag(JsonObjectType.Array))
             {
+                var jsonType = _settings.NullHandling == NullHandling.JsonSchema
+                    ? JsonObjectType.Array | JsonObjectType.Null
+                    : JsonObjectType.Array;
+
                 var itemType = type.GetEnumerableItemType();
+                var itemSchema = itemType != null
+                    ? await GenerateAndAppendSchemaFromTypeAsync(itemType, false, null).ConfigureAwait(false)
+                    : JsonSchema4.CreateAnySchema();
+
                 return new JsonSchema4
                 {
-                    // TODO: Fix this bad design
-                    // IsNullable must be directly set on SwaggerParameter or SwaggerResponse
-                    Type = _settings.NullHandling == NullHandling.JsonSchema ? JsonObjectType.Array | JsonObjectType.Null : JsonObjectType.Array,
-                    Item = await GenerateAndAppendSchemaFromTypeAsync(itemType, false, null).ConfigureAwait(false)
+                    Type = jsonType,
+                    Item = itemSchema
                 };
+
+                // TODO: Fix this bad design
+                // IsNullable must be directly set on SwaggerParameter or SwaggerResponse
             }
 
             return await _schemaGenerator.GenerateAsync(type, _schemaResolver).ConfigureAwait(false);
@@ -241,7 +250,9 @@ namespace NSwag.SwaggerGeneration
 
         private bool IsFileResponse(Type returnType)
         {
-            return returnType.Name == "IActionResult" ||
+
+            return returnType.IsAssignableTo("FileResult", TypeNameStyle.Name) ||
+                   returnType.Name == "IActionResult" ||
                    returnType.Name == "IHttpActionResult" ||
                    returnType.Name == "HttpResponseMessage" ||
                    returnType.InheritsFrom("ActionResult", TypeNameStyle.Name) ||
