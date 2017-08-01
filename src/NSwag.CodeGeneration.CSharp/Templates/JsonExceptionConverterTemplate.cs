@@ -15,7 +15,7 @@ namespace NSwag.CodeGeneration.CSharp.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\JsonExceptionConverterTemplate.tt"
+    #line 1 "C:\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\JsonExceptionConverterTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
     internal partial class JsonExceptionConverterTemplate : JsonExceptionConverterTemplateBase
     {
@@ -27,7 +27,7 @@ namespace NSwag.CodeGeneration.CSharp.Templates
         {
             this.Write("[System.CodeDom.Compiler.GeneratedCode(\"NSwag\", \"");
             
-            #line 2 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\JsonExceptionConverterTemplate.tt"
+            #line 2 "C:\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\JsonExceptionConverterTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerDocument.ToolchainVersion));
             
             #line default
@@ -35,122 +35,112 @@ namespace NSwag.CodeGeneration.CSharp.Templates
             this.Write(@""")]
 internal class JsonExceptionConverter : Newtonsoft.Json.JsonConverter
 {
-    private readonly Newtonsoft.Json.Serialization.DefaultContractResolver _defaultContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver();
-    private readonly System.Collections.Generic.IDictionary<string, System.Reflection.Assembly> _searchedNamespaces;
-    private readonly bool _hideStackTrace = false;
-    
-    public JsonExceptionConverter()
-    {
+	private readonly Newtonsoft.Json.Serialization.DefaultContractResolver _defaultContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver();
+	private readonly System.Collections.Generic.IDictionary<string, System.Reflection.Assembly> _searchedNamespaces;
+	private readonly bool _hideStackTrace = false;
+	
+	public JsonExceptionConverter()
+	{
         _searchedNamespaces = new System.Collections.Generic.Dictionary<string, System.Reflection.Assembly> { { typeof(");
             
-            #line 11 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\JsonExceptionConverterTemplate.tt"
+            #line 11 "C:\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\JsonExceptionConverterTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ExceptionModelClass));
             
             #line default
             #line hidden
             this.Write(").Namespace, System.Reflection.IntrospectionExtensions.GetTypeInfo(typeof(");
             
-            #line 11 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\JsonExceptionConverterTemplate.tt"
+            #line 11 "C:\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\JsonExceptionConverterTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ExceptionModelClass));
             
             #line default
             #line hidden
-            this.Write(")).Assembly } };\r\n    }\r\n    \r\n    public override bool CanWrite => true;\r\n    \r\n" +
-                    "    public override void WriteJson(Newtonsoft.Json.JsonWriter writer, object val" +
-                    "ue, Newtonsoft.Json.JsonSerializer serializer)\r\n    {\r\n        var exception = v" +
-                    "alue as System.Exception;\r\n        if (exception != null)\r\n        {\r\n          " +
-                    "  var resolver = serializer.ContractResolver as Newtonsoft.Json.Serialization.De" +
-                    "faultContractResolver ?? _defaultContractResolver;\r\n    \r\n            var jObjec" +
-                    "t = new Newtonsoft.Json.Linq.JObject();\r\n            jObject.Add(resolver.GetRes" +
-                    "olvedPropertyName(\"discriminator\"), exception.GetType().Name);\r\n            jObj" +
-                    "ect.Add(resolver.GetResolvedPropertyName(\"Message\"), exception.Message);\r\n      " +
-                    "      jObject.Add(resolver.GetResolvedPropertyName(\"StackTrace\"), _hideStackTrac" +
-                    "e ? \"HIDDEN\" : exception.StackTrace);\r\n            jObject.Add(resolver.GetResol" +
-                    "vedPropertyName(\"Source\"), exception.Source);\r\n            jObject.Add(resolver." +
-                    "GetResolvedPropertyName(\"InnerException\"),\r\n                exception.InnerExcep" +
-                    "tion != null ? Newtonsoft.Json.Linq.JToken.FromObject(exception.InnerException, " +
-                    "serializer) : null);\r\n    \r\n            foreach (var property in GetExceptionPro" +
-                    "perties(value.GetType()))\r\n            {\r\n                var propertyValue = pr" +
-                    "operty.Key.GetValue(exception);\r\n                if (propertyValue != null)\r\n   " +
-                    "             {\r\n                    jObject.AddFirst(new Newtonsoft.Json.Linq.JP" +
-                    "roperty(resolver.GetResolvedPropertyName(property.Value),\r\n                     " +
-                    "   Newtonsoft.Json.Linq.JToken.FromObject(propertyValue, serializer)));\r\n       " +
-                    "         }\r\n            }\r\n    \r\n            value = jObject;\r\n        }\r\n    \r\n" +
-                    "        serializer.Serialize(writer, value);\r\n    }\r\n    \r\n    public override b" +
-                    "ool CanConvert(System.Type objectType)\r\n    {\r\n        return System.Reflection." +
-                    "IntrospectionExtensions.GetTypeInfo(typeof(System.Exception)).IsAssignableFrom(S" +
-                    "ystem.Reflection.IntrospectionExtensions.GetTypeInfo(objectType));\r\n    }\r\n    \r" +
-                    "\n    public override object ReadJson(Newtonsoft.Json.JsonReader reader, System.T" +
-                    "ype objectType, object existingValue, Newtonsoft.Json.JsonSerializer serializer)" +
-                    "\r\n    {\r\n        var jObject = serializer.Deserialize<Newtonsoft.Json.Linq.JObje" +
-                    "ct>(reader);\r\n        if (jObject == null)\r\n            return null;\r\n    \r\n    " +
-                    "    var newSerializer = new Newtonsoft.Json.JsonSerializer();\r\n        newSerial" +
-                    "izer.ContractResolver = (Newtonsoft.Json.Serialization.IContractResolver)System." +
-                    "Activator.CreateInstance(serializer.ContractResolver.GetType());\r\n    \r\n        " +
-                    "GetField(typeof(Newtonsoft.Json.Serialization.DefaultContractResolver), \"_shared" +
-                    "Cache\").SetValue(newSerializer.ContractResolver, false);\r\n    \r\n        dynamic " +
-                    "resolver = newSerializer.ContractResolver;\r\n        if (System.Reflection.Runtim" +
-                    "eReflectionExtensions.GetRuntimeProperty(newSerializer.ContractResolver.GetType(" +
-                    "), \"IgnoreSerializableAttribute\") != null)\r\n            resolver.IgnoreSerializa" +
-                    "bleAttribute = true;\r\n        if (System.Reflection.RuntimeReflectionExtensions." +
-                    "GetRuntimeProperty(newSerializer.ContractResolver.GetType(), \"IgnoreSerializable" +
-                    "Interface\") != null)\r\n            resolver.IgnoreSerializableInterface = true;\r\n" +
-                    "    \r\n        Newtonsoft.Json.Linq.JToken token;\r\n        if (jObject.TryGetValu" +
-                    "e(\"discriminator\", System.StringComparison.OrdinalIgnoreCase, out token))\r\n     " +
-                    "   {\r\n            var discriminator = Newtonsoft.Json.Linq.Extensions.Value<stri" +
-                    "ng>(token);\r\n            if (objectType.Name.Equals(discriminator) == false)\r\n  " +
-                    "          {\r\n                var exceptionType = System.Type.GetType(\"System.\" +" +
-                    " discriminator, false);\r\n                if (exceptionType != null)\r\n           " +
-                    "         objectType = exceptionType;\r\n                else\r\n                {\r\n " +
-                    "                   foreach (var pair in _searchedNamespaces)\r\n                  " +
-                    "  {\r\n                        exceptionType = pair.Value.GetType(pair.Key + \".\" +" +
-                    " discriminator);\r\n                        if (exceptionType != null)\r\n          " +
-                    "              {\r\n                            objectType = exceptionType;\r\n      " +
-                    "                      break;\r\n                        }\r\n                    }\r\n" +
-                    "    \r\n                }\r\n            }\r\n        }\r\n    \r\n        var value = jOb" +
-                    "ject.ToObject(objectType, newSerializer);\r\n        foreach (var property in GetE" +
-                    "xceptionProperties(value.GetType()))\r\n        {\r\n            var jValue = jObjec" +
-                    "t.GetValue(resolver.GetResolvedPropertyName(property.Value));\r\n            var p" +
-                    "ropertyValue = (object)jValue?.ToObject(property.Key.PropertyType);\r\n           " +
-                    " if (property.Key.SetMethod != null)\r\n                property.Key.SetValue(valu" +
-                    "e, propertyValue);\r\n            else\r\n            {\r\n                var field =" +
-                    " GetField(objectType, \"m_\" + property.Value.Substring(0, 1).ToLowerInvariant() +" +
-                    " property.Value.Substring(1));\r\n                if (field != null)\r\n            " +
-                    "        field.SetValue(value, propertyValue);\r\n            }\r\n        }\r\n    \r\n " +
-                    "       SetExceptionFieldValue(jObject, \"Message\", value, \"_message\", resolver, n" +
-                    "ewSerializer);\r\n        SetExceptionFieldValue(jObject, \"StackTrace\", value, \"_s" +
-                    "tackTraceString\", resolver, newSerializer);\r\n        SetExceptionFieldValue(jObj" +
-                    "ect, \"Source\", value, \"_source\", resolver, newSerializer);\r\n        SetException" +
-                    "FieldValue(jObject, \"InnerException\", value, \"_innerException\", resolver, serial" +
-                    "izer);\r\n    \r\n        return value;\r\n    }\r\n    \r\n    private System.Reflection." +
-                    "FieldInfo GetField(System.Type type, string fieldName)\r\n    {\r\n        var field" +
-                    " = System.Reflection.IntrospectionExtensions.GetTypeInfo(type).GetDeclaredField(" +
-                    "fieldName);\r\n        if (field == null && System.Reflection.IntrospectionExtensi" +
-                    "ons.GetTypeInfo(type).BaseType != null)\r\n            return GetField(System.Refl" +
-                    "ection.IntrospectionExtensions.GetTypeInfo(type).BaseType, fieldName);\r\n        " +
-                    "return field;\r\n    }\r\n    \r\n    private System.Collections.Generic.IDictionary<S" +
-                    "ystem.Reflection.PropertyInfo, string> GetExceptionProperties(System.Type except" +
-                    "ionType)\r\n    {\r\n        var result = new System.Collections.Generic.Dictionary<" +
-                    "System.Reflection.PropertyInfo, string>();\r\n        foreach (var property in Sys" +
-                    "tem.Linq.Enumerable.Where(System.Reflection.RuntimeReflectionExtensions.GetRunti" +
-                    "meProperties(exceptionType), \r\n            p => p.GetMethod?.IsPublic == true))\r" +
-                    "\n        {\r\n            var attribute = System.Reflection.CustomAttributeExtensi" +
-                    "ons.GetCustomAttribute<Newtonsoft.Json.JsonPropertyAttribute>(property);\r\n      " +
-                    "      var propertyName = attribute != null ? attribute.PropertyName : property.N" +
-                    "ame;\r\n    \r\n            if (!System.Linq.Enumerable.Contains(new[] { \"Message\", " +
-                    "\"StackTrace\", \"Source\", \"InnerException\", \"Data\", \"TargetSite\", \"HelpLink\", \"HRe" +
-                    "sult\" }, propertyName))\r\n                result[property] = propertyName;\r\n     " +
-                    "   }\r\n        return result;\r\n    }\r\n    \r\n    private void SetExceptionFieldVal" +
-                    "ue(Newtonsoft.Json.Linq.JObject jObject, string propertyName, object value, stri" +
-                    "ng fieldName, Newtonsoft.Json.Serialization.IContractResolver resolver, Newtonso" +
-                    "ft.Json.JsonSerializer serializer)\r\n    {\r\n        var field = System.Reflection" +
-                    ".IntrospectionExtensions.GetTypeInfo(typeof(System.Exception)).GetDeclaredField(" +
-                    "fieldName);\r\n        var jsonPropertyName = resolver is Newtonsoft.Json.Serializ" +
-                    "ation.DefaultContractResolver ? ((Newtonsoft.Json.Serialization.DefaultContractR" +
-                    "esolver)resolver).GetResolvedPropertyName(propertyName) : propertyName;\r\n       " +
-                    " if (jObject[jsonPropertyName] != null)\r\n        {\r\n            var fieldValue =" +
-                    " jObject[jsonPropertyName].ToObject(field.FieldType, serializer);\r\n            f" +
-                    "ield.SetValue(value, fieldValue);\r\n        }\r\n    }\r\n}");
+            this.Write(")).Assembly } };\r\n\t}\r\n\t\r\n\tpublic override bool CanWrite => true;\r\n\t\r\n\tpublic over" +
+                    "ride void WriteJson(Newtonsoft.Json.JsonWriter writer, object value, Newtonsoft." +
+                    "Json.JsonSerializer serializer)\r\n\t{\r\n\t\tvar exception = value as System.Exception" +
+                    ";\r\n\t\tif (exception != null)\r\n\t\t{\r\n\t\t\tvar resolver = serializer.ContractResolver " +
+                    "as Newtonsoft.Json.Serialization.DefaultContractResolver ?? _defaultContractReso" +
+                    "lver;\r\n\t\r\n\t\t\tvar jObject = new Newtonsoft.Json.Linq.JObject();\r\n\t\t\tjObject.Add(r" +
+                    "esolver.GetResolvedPropertyName(\"discriminator\"), exception.GetType().Name);\r\n\t\t" +
+                    "\tjObject.Add(resolver.GetResolvedPropertyName(\"Message\"), exception.Message);\r\n\t" +
+                    "\t\tjObject.Add(resolver.GetResolvedPropertyName(\"StackTrace\"), _hideStackTrace ? " +
+                    "\"HIDDEN\" : exception.StackTrace);\r\n\t\t\tjObject.Add(resolver.GetResolvedPropertyNa" +
+                    "me(\"Source\"), exception.Source);\r\n\t\t\tjObject.Add(resolver.GetResolvedPropertyNam" +
+                    "e(\"InnerException\"),\r\n\t\t\t\texception.InnerException != null ? Newtonsoft.Json.Lin" +
+                    "q.JToken.FromObject(exception.InnerException, serializer) : null);\r\n\t\r\n\t\t\tforeac" +
+                    "h (var property in GetExceptionProperties(value.GetType()))\r\n\t\t\t{\r\n\t\t\t\tvar prope" +
+                    "rtyValue = property.Key.GetValue(exception);\r\n\t\t\t\tif (propertyValue != null)\r\n\t\t" +
+                    "\t\t{\r\n\t\t\t\t\tjObject.AddFirst(new Newtonsoft.Json.Linq.JProperty(resolver.GetResolv" +
+                    "edPropertyName(property.Value),\r\n\t\t\t\t\t\tNewtonsoft.Json.Linq.JToken.FromObject(pr" +
+                    "opertyValue, serializer)));\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\r\n\t\t\tvalue = jObject;\r\n\t\t}\r\n\t\r\n\t\tseri" +
+                    "alizer.Serialize(writer, value);\r\n\t}\r\n\t\r\n\tpublic override bool CanConvert(System" +
+                    ".Type objectType)\r\n\t{\r\n\t\treturn System.Reflection.IntrospectionExtensions.GetTyp" +
+                    "eInfo(typeof(System.Exception)).IsAssignableFrom(System.Reflection.Introspection" +
+                    "Extensions.GetTypeInfo(objectType));\r\n\t}\r\n\t\r\n\tpublic override object ReadJson(Ne" +
+                    "wtonsoft.Json.JsonReader reader, System.Type objectType, object existingValue, N" +
+                    "ewtonsoft.Json.JsonSerializer serializer)\r\n\t{\r\n\t\tvar jObject = serializer.Deseri" +
+                    "alize<Newtonsoft.Json.Linq.JObject>(reader);\r\n\t\tif (jObject == null)\r\n\t\t\treturn " +
+                    "null;\r\n\t\r\n\t\tvar newSerializer = new Newtonsoft.Json.JsonSerializer();\r\n\t\tnewSeri" +
+                    "alizer.ContractResolver = (Newtonsoft.Json.Serialization.IContractResolver)Syste" +
+                    "m.Activator.CreateInstance(serializer.ContractResolver.GetType());\r\n\t\r\n\t\tvar fie" +
+                    "ld = GetField(typeof(Newtonsoft.Json.Serialization.DefaultContractResolver), \"_s" +
+                    "haredCache\");\r\n\t\tif (field != null)\r\n\t\t\tfield.SetValue(newSerializer.ContractRes" +
+                    "olver, false);\r\n\t\r\n\t\tdynamic resolver = newSerializer.ContractResolver;\r\n\t\tif (S" +
+                    "ystem.Reflection.RuntimeReflectionExtensions.GetRuntimeProperty(newSerializer.Co" +
+                    "ntractResolver.GetType(), \"IgnoreSerializableAttribute\") != null)\r\n\t\t\tresolver.I" +
+                    "gnoreSerializableAttribute = true;\r\n\t\tif (System.Reflection.RuntimeReflectionExt" +
+                    "ensions.GetRuntimeProperty(newSerializer.ContractResolver.GetType(), \"IgnoreSeri" +
+                    "alizableInterface\") != null)\r\n\t\t\tresolver.IgnoreSerializableInterface = true;\r\n\t" +
+                    "\r\n\t\tNewtonsoft.Json.Linq.JToken token;\r\n\t\tif (jObject.TryGetValue(\"discriminator" +
+                    "\", System.StringComparison.OrdinalIgnoreCase, out token))\r\n\t\t{\r\n\t\t\tvar discrimin" +
+                    "ator = Newtonsoft.Json.Linq.Extensions.Value<string>(token);\r\n\t\t\tif (objectType." +
+                    "Name.Equals(discriminator) == false)\r\n\t\t\t{\r\n\t\t\t\tvar exceptionType = System.Type." +
+                    "GetType(\"System.\" + discriminator, false);\r\n\t\t\t\tif (exceptionType != null)\r\n\t\t\t\t" +
+                    "\tobjectType = exceptionType;\r\n\t\t\t\telse\r\n\t\t\t\t{\r\n\t\t\t\t\tforeach (var pair in _search" +
+                    "edNamespaces)\r\n\t\t\t\t\t{\r\n\t\t\t\t\t\texceptionType = pair.Value.GetType(pair.Key + \".\" +" +
+                    " discriminator);\r\n\t\t\t\t\t\tif (exceptionType != null)\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\tobjectType =" +
+                    " exceptionType;\r\n\t\t\t\t\t\t\tbreak;\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t}\r\n\t\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t}\r\n\t\r\n\t\tvar v" +
+                    "alue = jObject.ToObject(objectType, newSerializer);\r\n\t\tforeach (var property in " +
+                    "GetExceptionProperties(value.GetType()))\r\n\t\t{\r\n\t\t\tvar jValue = jObject.GetValue(" +
+                    "resolver.GetResolvedPropertyName(property.Value));\r\n\t\t\tvar propertyValue = (obje" +
+                    "ct)jValue?.ToObject(property.Key.PropertyType);\r\n\t\t\tif (property.Key.SetMethod !" +
+                    "= null)\r\n\t\t\t\tproperty.Key.SetValue(value, propertyValue);\r\n\t\t\telse\r\n\t\t\t{\r\n\t\t\t\tfi" +
+                    "eld = GetField(objectType, \"m_\" + property.Value.Substring(0, 1).ToLowerInvarian" +
+                    "t() + property.Value.Substring(1));\r\n\t\t\t\tif (field != null)\r\n\t\t\t\t\tfield.SetValue" +
+                    "(value, propertyValue);\r\n\t\t\t}\r\n\t\t}\r\n\t\r\n\t\tSetExceptionFieldValue(jObject, \"Messag" +
+                    "e\", value, \"_message\", resolver, newSerializer);\r\n\t\tSetExceptionFieldValue(jObje" +
+                    "ct, \"StackTrace\", value, \"_stackTraceString\", resolver, newSerializer);\r\n\t\tSetEx" +
+                    "ceptionFieldValue(jObject, \"Source\", value, \"_source\", resolver, newSerializer);" +
+                    "\r\n\t\tSetExceptionFieldValue(jObject, \"InnerException\", value, \"_innerException\", " +
+                    "resolver, serializer);\r\n\t\r\n\t\treturn value;\r\n\t}\r\n\t\r\n\tprivate System.Reflection.Fi" +
+                    "eldInfo GetField(System.Type type, string fieldName)\r\n\t{\r\n\t\tvar field = System.R" +
+                    "eflection.IntrospectionExtensions.GetTypeInfo(type).GetDeclaredField(fieldName);" +
+                    "\r\n\t\tif (field == null && System.Reflection.IntrospectionExtensions.GetTypeInfo(t" +
+                    "ype).BaseType != null)\r\n\t\t\treturn GetField(System.Reflection.IntrospectionExtens" +
+                    "ions.GetTypeInfo(type).BaseType, fieldName);\r\n\t\treturn field;\r\n\t}\r\n\t\r\n\tprivate S" +
+                    "ystem.Collections.Generic.IDictionary<System.Reflection.PropertyInfo, string> Ge" +
+                    "tExceptionProperties(System.Type exceptionType)\r\n\t{\r\n\t\tvar result = new System.C" +
+                    "ollections.Generic.Dictionary<System.Reflection.PropertyInfo, string>();\r\n\t\tfore" +
+                    "ach (var property in System.Linq.Enumerable.Where(System.Reflection.RuntimeRefle" +
+                    "ctionExtensions.GetRuntimeProperties(exceptionType), \r\n\t\t\tp => p.GetMethod?.IsPu" +
+                    "blic == true))\r\n\t\t{\r\n\t\t\tvar attribute = System.Reflection.CustomAttributeExtensi" +
+                    "ons.GetCustomAttribute<Newtonsoft.Json.JsonPropertyAttribute>(property);\r\n\t\t\tvar" +
+                    " propertyName = attribute != null ? attribute.PropertyName : property.Name;\r\n\t\r\n" +
+                    "\t\t\tif (!System.Linq.Enumerable.Contains(new[] { \"Message\", \"StackTrace\", \"Source" +
+                    "\", \"InnerException\", \"Data\", \"TargetSite\", \"HelpLink\", \"HResult\" }, propertyName" +
+                    "))\r\n\t\t\t\tresult[property] = propertyName;\r\n\t\t}\r\n\t\treturn result;\r\n\t}\r\n\t\r\n\tprivate" +
+                    " void SetExceptionFieldValue(Newtonsoft.Json.Linq.JObject jObject, string proper" +
+                    "tyName, object value, string fieldName, Newtonsoft.Json.Serialization.IContractR" +
+                    "esolver resolver, Newtonsoft.Json.JsonSerializer serializer)\r\n\t{\r\n\t\tvar field = " +
+                    "System.Reflection.IntrospectionExtensions.GetTypeInfo(typeof(System.Exception))." +
+                    "GetDeclaredField(fieldName);\r\n\t\tvar jsonPropertyName = resolver is Newtonsoft.Js" +
+                    "on.Serialization.DefaultContractResolver ? ((Newtonsoft.Json.Serialization.Defau" +
+                    "ltContractResolver)resolver).GetResolvedPropertyName(propertyName) : propertyNam" +
+                    "e;\r\n\t\tvar property = System.Linq.Enumerable.FirstOrDefault(jObject.Properties()," +
+                    " p => System.String.Equals(p.Name, jsonPropertyName, System.StringComparison.Ord" +
+                    "inalIgnoreCase));\r\n\t\tif (property != null)\r\n\t\t{\r\n\t\t\tvar fieldValue = property.Va" +
+                    "lue.ToObject(field.FieldType, serializer);\r\n\t\t\tfield.SetValue(value, fieldValue)" +
+                    ";\r\n\t\t}\r\n\t}\r\n}");
             return this.GenerationEnvironment.ToString();
         }
     }

@@ -43,11 +43,19 @@ namespace NSwag.Integration.WebAPI.Controllers
         }
 
         [Route("{id}")]
-        [ResponseType(typeof(Person))]
+        [SwaggerDefaultResponse]
         [ResponseType("500", typeof(PersonNotFoundException))]
         public Person Get(Guid id)
         {
-            return new Person();
+            return new Teacher();
+        }
+
+        [HttpPost]
+        [Route("transform")]
+        public Person Transform([FromBody]Person person)
+        {
+            person.FirstName = person.FirstName.ToUpperInvariant();
+            return person;
         }
 
         [Route("Throw")]
