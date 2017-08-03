@@ -24,6 +24,7 @@
   "codeGenerators": {
     "swaggerToTypeScriptClient": {
       "className": "{controller}Service",
+      "baseClass": "SwaggerServiceBase",
       "moduleName": "",
       "namespace": "",
       "typeScriptVersion": 2.0,
@@ -35,8 +36,8 @@
       "generateClientInterfaces": false,
       "generateOptionalParameters": false,
       "wrapDtoExceptions": false,
-      "useTransformOptionsMethod": false,
-      "useTransformResultMethod": false,
+      "useTransformOptionsMethod": true,
+      "useTransformResultMethod": true,
       "generateDtoTypes": true,
       "operationGenerationMode": "MultipleClientsFromOperationId",
       "markOptionalProperties": true,
@@ -48,6 +49,7 @@
       "generateConstructorInterface": true,
       "importRequiredTypes": true,
       "baseUrlTokenName": "API_BASE_URL",
+      "extensionCode": "ClientApp/app/services.extensions.ts",
       "output": "ClientApp/app/services.ts"
     },
     "swaggerToCSharpClient": {
