@@ -107,6 +107,8 @@ namespace NSwag.CodeGeneration.Models
             _generator.GetTypeName(Schema.Item.ActualSchema, IsNullable, "Response") != "string";
 
         /// <summary>Gets a value indicating whether the parameter is of type object array.</summary>
-        public bool IsObjectArray => IsArray && (Schema.Item?.ActualSchema.Type == JsonObjectType.Object || Schema.Item?.ActualSchema.IsAnyType == true);
+        public bool IsObjectArray => IsArray && 
+            (Schema.Item?.ActualSchema.Type == JsonObjectType.Object || 
+             Schema.Item?.ActualSchema.IsAnyType == true);
     }
 }

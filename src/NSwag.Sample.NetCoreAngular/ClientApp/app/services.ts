@@ -90,8 +90,66 @@ export class SampleDataService extends ServiceBase {
         return Observable.of<WeatherForecast[] | null>(<any>null);
     }
 
+    deleteShop(id: string, additionalIds: string[] | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/SampleData?";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined and cannot be null.");
+        else
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = {
+            method: "delete",
+            headers: new Headers({
+                "additionalIds": additionalIds, 
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return Observable.fromPromise(this.transformOptions(options_)).flatMap(transformedOptions_ => {
+            return this.http.request(url_, transformedOptions_);
+        }).flatMap((response_) => {
+            return this.transformResult(url_, response_, (r) => this.processDeleteShop(r));
+        }).catch((response_: any) => {
+            if (response_ instanceof Response) {
+                try {
+                    return this.transformResult(url_, response_, (r) => this.processDeleteShop(r));
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processDeleteShop(response: Response): Observable<void> {
+        const status = response.status; 
+
+        if (status === 200) {
+            const _responseText = response.text();
+            return Observable.of<void>(<any>null);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.text();
+            return throwException("An unexpected server error occurred.", status, _responseText);
+        }
+        return Observable.of<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class FileService extends ServiceBase {
+    private http: Http;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(Http) http: Http, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        super();
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
     getFile(fileName: string | undefined): Observable<FileResponse | null> {
-        let url_ = this.baseUrl + "/api/SampleData/GetFile?";
+        let url_ = this.baseUrl + "/api/File/GetFile?";
         if (fileName === undefined)
             throw new Error("The parameter 'fileName' must be defined.");
         else
@@ -138,50 +196,68 @@ export class SampleDataService extends ServiceBase {
         }
         return Observable.of<FileResponse | null>(<any>null);
     }
+}
 
-    deleteShop(id: string, additionalIds: string[] | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/SampleData?";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined and cannot be null.");
-        else
-            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+@Injectable()
+export class EnumerationService extends ServiceBase {
+    private http: Http;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(Http) http: Http, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        super();
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    reverseQueryEnumList(fileTypes: FileType[] | undefined): Observable<FileType[] | null> {
+        let url_ = this.baseUrl + "/api/Enumeration/ReverseQueryEnumList?";
+        if (fileTypes !== undefined)
+            fileTypes.forEach(item => { url_ += "fileTypes=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
-            method: "delete",
+            method: "get",
             headers: new Headers({
-                "additionalIds": additionalIds, 
                 "Content-Type": "application/json", 
+                "Accept": "application/json"
             })
         };
 
         return Observable.fromPromise(this.transformOptions(options_)).flatMap(transformedOptions_ => {
             return this.http.request(url_, transformedOptions_);
         }).flatMap((response_) => {
-            return this.transformResult(url_, response_, (r) => this.processDeleteShop(r));
+            return this.transformResult(url_, response_, (r) => this.processReverseQueryEnumList(r));
         }).catch((response_: any) => {
             if (response_ instanceof Response) {
                 try {
-                    return this.transformResult(url_, response_, (r) => this.processDeleteShop(r));
+                    return this.transformResult(url_, response_, (r) => this.processReverseQueryEnumList(r));
                 } catch (e) {
-                    return <Observable<void>><any>Observable.throw(e);
+                    return <Observable<FileType[]>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<void>><any>Observable.throw(response_);
+                return <Observable<FileType[]>><any>Observable.throw(response_);
         });
     }
 
-    protected processDeleteShop(response: Response): Observable<void> {
+    protected processReverseQueryEnumList(response: Response): Observable<FileType[] | null> {
         const status = response.status; 
 
         if (status === 200) {
             const _responseText = response.text();
-            return Observable.of<void>(<any>null);
+            let result200: FileType[] | null = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(item);
+            }
+            return Observable.of(result200);
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.text();
             return throwException("An unexpected server error occurred.", status, _responseText);
         }
-        return Observable.of<void>(<any>null);
+        return Observable.of<FileType[] | null>(<any>null);
     }
 }
 
@@ -316,6 +392,12 @@ export class ExtensionData implements IExtensionData {
 export interface IExtensionData {
 
     [key: string]: string | any; 
+}
+
+export enum FileType {
+    Document = <any>"Document", 
+    Audio = <any>"Audio", 
+    Video = <any>"Video", 
 }
 
 export interface FileResponse {

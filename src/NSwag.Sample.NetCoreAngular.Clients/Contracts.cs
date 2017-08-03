@@ -19,18 +19,35 @@ namespace NSwag.Sample.NetCoreAngular.Clients.Contracts
         System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<WeatherForecast>> WeatherForecastsAsync(System.Threading.CancellationToken cancellationToken);
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task DeleteShopAsync(System.Guid id, System.Collections.Generic.IEnumerable<string> additionalIds);
+    
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task DeleteShopAsync(System.Guid id, System.Collections.Generic.IEnumerable<string> additionalIds, System.Threading.CancellationToken cancellationToken);
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.3.3.0")]
+    public partial interface IFileClient
+    {
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<FileResponse> GetFileAsync(string fileName);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<FileResponse> GetFileAsync(string fileName, System.Threading.CancellationToken cancellationToken);
     
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.3.3.0")]
+    public partial interface IEnumerationClient
+    {
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task DeleteShopAsync(System.Guid id, System.Collections.Generic.IEnumerable<string> additionalIds);
+        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<FileType>> ReverseQueryEnumListAsync(System.Collections.Generic.IEnumerable<FileType> fileTypes);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task DeleteShopAsync(System.Guid id, System.Collections.Generic.IEnumerable<string> additionalIds, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<FileType>> ReverseQueryEnumListAsync(System.Collections.Generic.IEnumerable<FileType> fileTypes, System.Threading.CancellationToken cancellationToken);
     
     }
     
@@ -211,6 +228,20 @@ namespace NSwag.Sample.NetCoreAngular.Clients.Contracts
             if (handler != null) 
                 handler(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
         }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.4.3.0")]
+    public enum FileType
+    {
+        [System.Runtime.Serialization.EnumMember(Value = "Document")]
+        Document = 0,
+    
+        [System.Runtime.Serialization.EnumMember(Value = "Audio")]
+        Audio = 1,
+    
+        [System.Runtime.Serialization.EnumMember(Value = "Video")]
+        Video = 2,
+    
     }
 
     public class FileResponse : System.IDisposable
