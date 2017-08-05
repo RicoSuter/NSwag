@@ -17,7 +17,7 @@ export interface I<#=Model.Class#> {
 <#}#>}
 <#}#>
 
-export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.ClientBaseClass#> <#}#><#if(Model.GenerateClientInterfaces){#>implements I<#=Model.Class#> <#}#>{
+export class <#=Model.Class#> <#if(Model.HasBaseClass){#>extends <#=Model.BaseClass#> <#}#><#if(Model.GenerateClientInterfaces){#>implements I<#=Model.Class#> <#}#>{
     private baseUrl: string<#if(Model.SupportsStrictNullChecks){#> | undefined<#}#> = undefined; 
     private http: ng.IHttpService; 
     private q: ng.IQService; 
@@ -25,7 +25,7 @@ export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.
 
 <#if(!Model.HasExtendedConstructor){#>
     constructor(<#if(Model.HasConfigurationClass){#>configuration: <#=Model.ConfigurationClass#>, <#}#>$http: ng.IHttpService, $q: ng.IQService, baseUrl?: string) {
-<#if(Model.HasClientBaseClass){#>
+<#if(Model.HasBaseClass){#>
         super(<#if(Model.HasConfigurationClass){#>configuration<#}#>);
 <#}#>
         this.http = $http;

@@ -20,14 +20,14 @@ export interface I<#=Model.Class#> {
 <#if(Model.UseAureliaHttpInjection){#>
 @inject(String, HttpClient)
 <#}#>
-export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.ClientBaseClass#> <#}#><#if(Model.GenerateClientInterfaces){#>implements I<#=Model.Class#> <#}#>{
+export class <#=Model.Class#> <#if(Model.HasBaseClass){#>extends <#=Model.BaseClass#> <#}#><#if(Model.GenerateClientInterfaces){#>implements I<#=Model.Class#> <#}#>{
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: <#if(Model.SupportsStrictNullChecks){#>((key: string, value: any) => any) | undefined<#}else{#>(key: string, value: any) => any<#}#> = undefined;
 
 <#if(!Model.HasExtendedConstructor){#>
     constructor(<#if(Model.HasConfigurationClass){#>configuration: <#=Model.ConfigurationClass#>, <#}#>baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
-<#if(Model.HasClientBaseClass){#>
+<#if(Model.HasBaseClass){#>
         super(<#if(Model.HasConfigurationClass){#>configuration<#}#>);
 <#}#>
         this.http = http ? http : <any>window;
