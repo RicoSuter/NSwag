@@ -40,7 +40,7 @@ describe('SampleDataService', () => {
 
       // assert
       expect(response.fileName).toBe('my file.xlsx');
-      expect(response.headers['Content-Disposition']).toBeDefined();
+      expect(response.headers['content-disposition']).toBeDefined();
       expect(response.data.size).toBe(3);
     })));
 
@@ -53,6 +53,17 @@ describe('SampleDataService', () => {
 
       // assert
       expect(response.length).toBeGreaterThan(2);
+    })));
+
+  it('getRoles', async(inject([SampleDataService],
+    // arrange
+    async (service: SampleDataService) => {
+
+      // act
+      let response = await service.getRoles(null, null).toPromise();
+
+      // assert
+      expect(response.length).toBe(2);
     })));
 
   it('ReverseQueryEnumList', async(inject([EnumerationService],

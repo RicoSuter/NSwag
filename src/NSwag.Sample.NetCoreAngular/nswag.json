@@ -6,9 +6,7 @@
       ],
       "referencePaths": [],
       "isAspNetCore": true,
-      "controllerNames": [
-        "NSwag_Sample_NetCoreAngular.Controllers.SampleDataController"
-      ],
+      "controllerNames": [],
       "defaultUrlTemplate": "api/{controller}/{id?}",
       "defaultPropertyNameHandling": "CamelCase",
       "defaultEnumHandling": "String",
@@ -20,7 +18,7 @@
       "ignoreObsoleteProperties": false,
       "infoTitle": "Web API Swagger specification",
       "infoVersion": "1.0.0",
-      "output": null
+      "output": "swagger.json"
     }
   },
   "codeGenerators": {
