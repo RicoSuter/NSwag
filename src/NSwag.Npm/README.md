@@ -17,18 +17,6 @@ Show available commands:
 
     nswag help
 
-The full .NET Framework is preferred as execution environment. Add the switch `--core` **at the end** of the command to execute one of the .NET Core binaries (automatically detects whether .NET Core 1.0 or 1.1 is installed): 
-
-    nswag help --core
-	
-To specify what .NET Core binaries to execute, either use 
-
-    nswag help --core 1.0
-	
-or
-
-    nswag help --core 1.1
-
 ### Project installation
 	
 Install the package for the current project: 
@@ -38,6 +26,24 @@ Install the package for the current project:
 Show available commands: 
 
     "node_modules/.bin/nswag" help
+
+## Change runtime
+
+The full .NET Framework in x64 mode is preferred as execution environment. If you need to run the command line tool in x86 mode use
+
+	nswag run nswag.json --x86
+
+Add the switch `--core` to the command to execute one of the .NET Core binaries (automatically detects whether .NET Core 1.0 or 1.1 is installed): 
+
+    nswag run nswag.json --core
+	
+To specify what .NET Core binaries to execute, either use 
+
+    nswag run nswag.json --core 1.0
+	
+or
+
+    nswag run nswag.json --core 1.1
 	
 ## Development
 
