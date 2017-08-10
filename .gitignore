@@ -56,3 +56,5 @@ src/packages/**
 /src/NSwag.Integration.TypeScriptWeb/scripts/serviceClientsAngular2.extensions.js.map
 /src/NSwag.Integration.TypeScriptWeb/scripts/serviceClientsAngular2.extensions.js
 /src/dist
+
+.idea

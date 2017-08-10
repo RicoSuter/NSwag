@@ -71,6 +71,11 @@ namespace NSwag.CodeGeneration.CSharp
         /// will be used, but this can be overridden. Just keep in mind that the type you specify has the same default HttpClient method signatures.
         /// </summary>
         public string HttpClientType { get; set; }
+        
+        /// <summary>
+        /// Name of attribute, that will decorate each http client method like [TheAttribute(method: ..., path: ..., operationId: ...)]
+        /// </summary>
+        public string MethodDescriptorAttribute { get; set; }
 
         /// <summary>Gets or sets the format for DateTime type method parameters (default: "s").</summary>
         public string ParameterDateTimeFormat { get; set; }
@@ -79,3 +84,4 @@ namespace NSwag.CodeGeneration.CSharp
         public bool GenerateUpdateJsonSerializerSettingsMethod { get; set; }
     }
 }
+

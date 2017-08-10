@@ -146,6 +146,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
             }
         }
 
+        public string MethodDescriptorAttribute => _settings.MethodDescriptorAttribute;
+        
         private bool RequiresJsonExceptionConverter => _settings.CSharpGeneratorSettings.ExcludedTypeNames?.Contains("JsonExceptionConverter") != true &&
             _document.Operations.Any(o => o.Operation.AllResponses.Any(r => r.Value.ActualResponseSchema?.InheritsSchema(_exceptionSchema) == true));
     }
