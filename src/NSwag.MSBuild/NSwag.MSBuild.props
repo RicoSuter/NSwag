@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <PropertyGroup>
-        <NSwagExe>$(MSBuildThisFileDirectory)\NSwag.exe</NSwagExe>
-        <NSwagDir>$(MSBuildThisFileDirectory)</NSwagDir>
-    </PropertyGroup>
+  <PropertyGroup>
+    <NSwagExe>$(MSBuildThisFileDirectory)\NSwag.exe</NSwagExe>
+    <NSwagExe_x86>$(MSBuildThisFileDirectory)\NSwag.x86.exe</NSwagExe_x86>
+    <NSwagDir>$(MSBuildThisFileDirectory)</NSwagDir>
+  </PropertyGroup>
 </Project>
