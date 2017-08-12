@@ -99,10 +99,10 @@ export class <#=Model.Class#> <#if(Model.HasBaseClass){#>extends <#=Model.BaseCl
                     return this.process<#=operation.ActualOperationNameUpper#>(response_);
 <#}#>
                 } catch (e) {
-                    return <Observable<<#=operation.UnwrappedResultType#>>><any>Observable.throw(e);
+                    return <Observable<<#=operation.ResultType#>>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<<#=operation.UnwrappedResultType#>>><any>Observable.throw(response_);
+                return <Observable<<#=operation.ResultType#>>><any>Observable.throw(response_);
         });
     }
 

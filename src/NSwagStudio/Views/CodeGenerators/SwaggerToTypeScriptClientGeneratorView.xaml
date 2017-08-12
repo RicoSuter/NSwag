@@ -104,6 +104,22 @@
                                 <CheckBox IsChecked="{Binding Command.WrapDtoExceptions, Mode=TwoWay}" ToolTip="WrapDtoExceptions"
                                           Content="Wrap DTO exceptions in a SwaggerException instance" Margin="0,0,0,12" />
 
+                                <CheckBox IsChecked="{Binding Command.WrapResponses, Mode=TwoWay}" 
+                                           Visibility="{Binding Command.Template, ConverterParameter='Angular', Converter={StaticResource EqualityConverter}}"
+                              ToolTip="WrapResponses"
+                              Content="Wrap success responses to allow full response access (experimental)" Margin="0,0,0,12" />
+
+                                <StackPanel Visibility="{Binding Command.WrapResponses, Converter={StaticResource VisibilityConverter}}">
+                                    <CheckBox IsChecked="{Binding Command.GenerateResponseClasses, Mode=TwoWay}" 
+                                  ToolTip="GenerateResponseClasses"
+                                  Content="Generate response classes (when disabled, response classes must be imported)" Margin="0,0,0,12" />
+
+                                    <StackPanel Visibility="{Binding Command.GenerateResponseClasses, Converter={StaticResource VisibilityConverter}}">
+                                        <TextBlock Text="Response class name (may contain the '{controller}' placeholder)" FontWeight="Bold" Margin="0,0,0,6" />
+                                        <TextBox Text="{Binding Command.ResponseClass, Mode=TwoWay}" ToolTip="ResponseClass" Margin="0,0,0,12" />
+                                    </StackPanel>
+                                </StackPanel>
+
                                 <CheckBox IsChecked="{Binding Command.UseTransformOptionsMethod, Mode=TwoWay}" ToolTip="UseTransformOptionsMethod" Margin="0,0,0,12">
                                     <TextBlock Text="Call 'transformOptions' on the base class or extension class" TextWrapping="Wrap" />
                                 </CheckBox>
