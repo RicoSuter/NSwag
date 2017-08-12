@@ -33,5 +33,11 @@ namespace NSwag.Sample.NetCoreAngular.Controllers
         {
             return Ok();
         }
+
+        [HttpGet("[action]")]
+        public DateTime?[] GetRoles(DateTime? from, DateTime? to = null)
+        {
+            return new DateTime?[] { from, to };
+        } 
     }
 }
