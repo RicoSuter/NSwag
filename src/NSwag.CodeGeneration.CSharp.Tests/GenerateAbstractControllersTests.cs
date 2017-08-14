@@ -9,6 +9,7 @@ using NSwag.SwaggerGeneration.WebApi;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
+    [TestClass]
     public class GenerateAbstractControllersTests
     {
         public class TestController : ApiController
@@ -33,7 +34,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 
             //// Act
-            var codeGen = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
+            var codeGen = new SwaggerToCSharpWebApiControllerGenerator(document, new SwaggerToCSharpWebApiControllerGeneratorSettings
             {
                 GenerateAbstractControllers = true
             });
@@ -41,7 +42,6 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             //// Assert
             Assert.IsTrue(code.Contains("abstract class TestController"));
-            Assert.IsTrue(code.Contains("abstract Foo"));
         }
 
         [TestMethod]
@@ -52,7 +52,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 
             //// Act
-            var codeGen = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
+            var codeGen = new SwaggerToCSharpWebApiControllerGenerator(document, new SwaggerToCSharpWebApiControllerGeneratorSettings
             {
                 GenerateAbstractControllers = false
             });
@@ -60,7 +60,6 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             //// Assert
             Assert.IsFalse(code.Contains("abstract class TestController"));
-            Assert.IsFalse(code.Contains("abstract Foo"));
         }
     }
 }

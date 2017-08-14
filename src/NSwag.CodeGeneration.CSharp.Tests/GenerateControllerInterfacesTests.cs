@@ -9,6 +9,7 @@ using NSwag.SwaggerGeneration.WebApi;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
+    [TestClass]
     public class GenerateControllerInterfacesTests
     {
         public class TestController : ApiController
@@ -33,7 +34,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 
             //// Act
-            var codeGen = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
+            var codeGen = new SwaggerToCSharpWebApiControllerGenerator(document, new SwaggerToCSharpWebApiControllerGeneratorSettings
             {
                 GenerateControllerInterfaces = true
             });
@@ -52,7 +53,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 
             //// Act
-            var codeGen = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
+            var codeGen = new SwaggerToCSharpWebApiControllerGenerator(document, new SwaggerToCSharpWebApiControllerGeneratorSettings()
             {
                 GenerateControllerInterfaces = false
             });
