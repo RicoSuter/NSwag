@@ -28,6 +28,20 @@ namespace NSwag.Commands
             set { Settings.ControllerBaseClass = value; }
         }
 
+        [Argument(Name = "GenerateControllerInterfaces", Description = "The controller base class (empty for 'ApiController').", IsRequired = false)]
+        public bool GenerateControllerInterfaces
+        {
+            get { return Settings.GenerateControllerInterfaces; }
+            set { Settings.GenerateControllerInterfaces = value; }
+        }
+
+        [Argument(Name = "GenerateAbstractControllers", Description = "The controller base class (empty for 'ApiController').", IsRequired = false)]
+        public bool GenerateAbstractControllers
+        {
+            get { return Settings.GenerateAbstractControllers; }
+            set { Settings.GenerateAbstractControllers = value; }
+        }
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var code = await RunAsync();
