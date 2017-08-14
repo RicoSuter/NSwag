@@ -928,6 +928,48 @@ export class PersonsClient {
         }
         return this.q.resolve<string | null>(<any>null);
     }
+
+    upload(data: string | null): ng.IPromise<string | null> {
+        let url_ = this.baseUrl + "/api/Persons/upload";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(data);
+
+        var options_ = <ng.IRequestConfig>{
+            url: url_,
+            method: "POST",
+            data: content_,
+            transformResponse: [], 
+            headers: {
+                "Content-Type": "application/octet-stream", 
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http(options_).then((_response) => {
+            return this.processUpload(_response);
+        }, (_response) => {
+            if (_response.status)
+                return this.processUpload(_response);
+            throw _response;
+        });
+    }
+
+    protected processUpload(response: any): ng.IPromise<string | null> {
+        const status = response.status; 
+
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: string | null = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return this.q.resolve(result200);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException(this.q, "An unexpected server error occurred.", status, _responseText);
+        }
+        return this.q.resolve<string | null>(<any>null);
+    }
 }
 
 export class GeoPoint implements IGeoPoint {

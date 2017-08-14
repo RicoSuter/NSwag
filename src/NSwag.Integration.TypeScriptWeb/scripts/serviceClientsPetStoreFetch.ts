@@ -1087,49 +1087,6 @@ export interface ITag {
     name: string | undefined;
 }
 
-export class ApiResponse implements IApiResponse {
-    code: number | undefined;
-    type: string | undefined;
-    message: string | undefined;
-
-    constructor(data?: IApiResponse) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.code = data["code"];
-            this.type = data["type"];
-            this.message = data["message"];
-        }
-    }
-
-    static fromJS(data: any): ApiResponse {
-        let result = new ApiResponse();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["code"] = this.code;
-        data["type"] = this.type;
-        data["message"] = this.message;
-        return data; 
-    }
-}
-
-export interface IApiResponse {
-    code: number | undefined;
-    type: string | undefined;
-    message: string | undefined;
-}
-
 export class Pet implements IPet {
     id: number | undefined;
     category: Category | undefined;
@@ -1201,6 +1158,49 @@ export interface IPet {
     tags: Tag[] | undefined;
     /** pet status in the store */
     status: PetStatus | undefined;
+}
+
+export class ApiResponse implements IApiResponse {
+    code: number | undefined;
+    type: string | undefined;
+    message: string | undefined;
+
+    constructor(data?: IApiResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.code = data["code"];
+            this.type = data["type"];
+            this.message = data["message"];
+        }
+    }
+
+    static fromJS(data: any): ApiResponse {
+        let result = new ApiResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["code"] = this.code;
+        data["type"] = this.type;
+        data["message"] = this.message;
+        return data; 
+    }
+}
+
+export interface IApiResponse {
+    code: number | undefined;
+    type: string | undefined;
+    message: string | undefined;
 }
 
 export enum Status {
