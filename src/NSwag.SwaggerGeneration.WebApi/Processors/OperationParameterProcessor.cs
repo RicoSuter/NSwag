@@ -231,8 +231,22 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                 {
                     Name = name,
                     Kind = SwaggerParameterKind.Body,
-                    IsRequired = parameter.HasDefaultValue == false,
+                    Schema = new JsonSchema4 { Type = JsonObjectType.String },
                     IsNullableRaw = true,
+                    IsRequired = parameter.HasDefaultValue == false,
+                    Description = await parameter.GetDescriptionAsync(parameter.GetCustomAttributes()).ConfigureAwait(false)
+                });
+            }
+            else if (parameter.ParameterType.IsAssignableTo("System.IO.Stream", TypeNameStyle.FullName))
+            {
+                operation.Consumes = new List<string> { "application/octet-stream" };
+                operation.Parameters.Add(new SwaggerParameter
+                {
+                    Name = name,
+                    Kind = SwaggerParameterKind.Body,
+                    Schema = new JsonSchema4 { Type = JsonObjectType.String, Format = JsonFormatStrings.Byte },
+                    IsNullableRaw = true,
+                    IsRequired = parameter.HasDefaultValue == false,
                     Description = await parameter.GetDescriptionAsync(parameter.GetCustomAttributes()).ConfigureAwait(false)
                 });
             }

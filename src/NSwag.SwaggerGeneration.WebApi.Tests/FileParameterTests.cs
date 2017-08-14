@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -85,7 +86,38 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
             Assert.AreEqual(JsonObjectType.File, parameter.Type);
             Assert.AreEqual(SwaggerParameterCollectionFormat.Multi, parameter.CollectionFormat);
 
-            Assert.AreEqual("multipart/form-data", operation.Consumes[0]);
+            Assert.AreEqual(1, operation.ActualConsumes.Count());
+            Assert.AreEqual("multipart/form-data", operation.ActualConsumes.First());
+        }
+
+        public class StreamBodyParameterController
+        {
+            [HttpPost, Route("upload")]
+            public void Upload([FromBody] Stream data)
+            {
+
+            }
+        }
+
+        [TestMethod]
+        public async Task When_body_parameter_is_Stream_then_consumes_is_octet_()
+        {
+            //// Arrange
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+
+            //// Act
+            var document = await generator.GenerateForControllerAsync<StreamBodyParameterController>();
+            var json = document.ToJson();
+
+            //// Assert
+            var operation = document.Paths["/upload"][SwaggerOperationMethod.Post];
+            var parameter = operation.ActualParameters.Single(p => p.Name == "data");
+
+            Assert.AreEqual(JsonObjectType.String, parameter.Schema.Type);
+            Assert.AreEqual(JsonFormatStrings.Byte, parameter.Schema.Format);
+
+            Assert.AreEqual(1, operation.ActualConsumes.Count());
+            Assert.AreEqual("application/octet-stream", operation.ActualConsumes.First());
         }
     }
 }

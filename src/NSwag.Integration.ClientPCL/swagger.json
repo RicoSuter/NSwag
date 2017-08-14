@@ -583,6 +583,9 @@
             "name": "person",
             "in": "body",
             "required": true,
+            "schema": {
+              "type": "string"
+            },
             "x-nullable": true
           }
         ],
@@ -591,6 +594,39 @@
             "description": "",
             "schema": {
               "type": "string"
+            },
+            "x-nullable": true
+          }
+        }
+      }
+    },
+    "/api/Persons/upload": {
+      "post": {
+        "tags": [
+          "Persons"
+        ],
+        "operationId": "Persons_Upload",
+        "consumes": [
+          "application/octet-stream"
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "byte"
+            },
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "string",
+              "format": "byte"
             },
             "x-nullable": true
           }
