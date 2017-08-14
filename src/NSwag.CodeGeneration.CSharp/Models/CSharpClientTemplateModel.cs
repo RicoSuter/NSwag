@@ -43,6 +43,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             Class = controllerClassName;
             Operations = operations;
 
+            BaseClass = _settings.ClientBaseClass?.Replace("{controller}", controllerName);
             ExceptionClass = _settings.ExceptionClass.Replace("{controller}", controllerName);
         }
 
@@ -55,11 +56,11 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets the class name.</summary>
         public string Class { get; }
 
-        /// <summary>Gets the base class name.</summary>
-        public string BaseClass => _settings.ClientBaseClass;
-
         /// <summary>Gets a value indicating whether the client has a base class.</summary>
-        public bool HasBaseClass => !string.IsNullOrEmpty(_settings.ClientBaseClass);
+        public bool HasBaseClass => !string.IsNullOrEmpty(BaseClass);
+
+        /// <summary>Gets the base class name.</summary>
+        public string BaseClass { get; }
 
         /// <summary>Gets a value indicating whether the client has configuration class.</summary>
         public bool HasConfigurationClass => !string.IsNullOrEmpty(_settings.ConfigurationClass);

@@ -262,14 +262,14 @@ if(!parameter.IsLast){
             this.Write(" ");
             
             #line 21 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularClientTemplate.tt"
-if(Model.HasClientBaseClass){
+if(Model.HasBaseClass){
             
             #line default
             #line hidden
             this.Write("extends ");
             
             #line 21 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClientBaseClass));
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.BaseClass));
             
             #line default
             #line hidden
@@ -367,7 +367,7 @@ if(Model.HasConfigurationClass){
             this.Write(") baseUrl?: string) {\r\n");
             
             #line 28 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularClientTemplate.tt"
-if(Model.HasClientBaseClass){
+if(Model.HasBaseClass){
             
             #line default
             #line hidden

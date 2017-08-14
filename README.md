@@ -126,7 +126,10 @@ var document = await swaggerGenerator.GenerateForControllerAsync<PersonsControll
 var clientSettings = new SwaggerToCSharpClientGeneratorSettings 
 {
     ClassName = "MyClass",
-    Namespace = "MyNamespace"
+    CSharpGeneratorSettings = 
+    {
+        Namespace = "MyNamespace"
+    }
 };
 var clientGenerator = new SwaggerToCSharpClientGenerator(document, clientSettings);
 

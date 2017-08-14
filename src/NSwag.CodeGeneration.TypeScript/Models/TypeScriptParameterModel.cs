@@ -38,7 +38,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             get
             {
                 if (IsNullable && _settings.TypeScriptGeneratorSettings.SupportsStrictNullChecks)
-                    return " | " + _settings.TypeScriptGeneratorSettings.NullValue.ToString().ToLowerInvariant();
+                    return " | null";
                 else
                     return string.Empty;
             }

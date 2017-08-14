@@ -263,8 +263,16 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(Sy
 <#  }#>
 <#}#>
 <#if(operation.HasContent){#>
-                var content_ = new System.Net.Http.StringContent(<#if(operation.HasXmlBodyParameter){#><#=operation.ContentParameter.VariableName#><#}else{#>Newtonsoft.Json.JsonConvert.SerializeObject(<#=operation.ContentParameter.VariableName#>, _settings.Value)<#}#>);
+<#  if(operation.HasBinaryBodyParameter){#>
+                var content_ = new System.Net.Http.StreamContent(<#=operation.ContentParameter.VariableName#>);
+                content_.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("<#=operation.Consumes#>");
+<#  }else if(operation.HasXmlBodyParameter){#>
+                var content_ = new System.Net.Http.StringContent(<#=operation.ContentParameter.VariableName#>);
                 content_.Headers.ContentType.MediaType = "<#=operation.Consumes#>";
+<#  }else{#>
+                var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(<#=operation.ContentParameter.VariableName#>, _settings.Value));
+                content_.Headers.ContentType.MediaType = "<#=operation.Consumes#>";
+<#  }#>
 <#}else{#>
 <#  if(operation.HasFormParameters){#>
                 var boundary_ = System.Guid.NewGuid().ToString();

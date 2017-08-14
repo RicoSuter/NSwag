@@ -176,6 +176,11 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 return "FileParameter";
             }
 
+            if (parameter.IsBinaryBodyParameter)
+            {
+                return "System.IO.Stream";
+            }
+
             return base.ResolveParameterType(parameter)
                 .Replace(_settings.CSharpGeneratorSettings.ArrayType + "<", "System.Collections.Generic.IEnumerable<")
                 .Replace(_settings.CSharpGeneratorSettings.DictionaryType + "<", "System.Collections.Generic.IDictionary<");

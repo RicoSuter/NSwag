@@ -91,7 +91,7 @@ namespace NSwag.CodeGeneration.Models
         public bool IsArray => Schema.Type.HasFlag(JsonObjectType.Array) || _parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi;
 
         /// <summary>Gets a value indicating whether the parameter is a string array.</summary>
-        public bool IsStringArray => IsArray && Schema.Item?.Type.HasFlag(JsonObjectType.String) == true;
+        public bool IsStringArray => IsArray && Schema.Item?.ActualSchema.Type.HasFlag(JsonObjectType.String) == true;
 
         /// <summary>Gets a value indicating whether this is a file parameter.</summary>
         public bool IsFile => Schema.Type.HasFlag(JsonObjectType.File);
@@ -107,6 +107,8 @@ namespace NSwag.CodeGeneration.Models
             _generator.GetTypeName(Schema.Item.ActualSchema, IsNullable, "Response") != "string";
 
         /// <summary>Gets a value indicating whether the parameter is of type object array.</summary>
-        public bool IsObjectArray => IsArray && (Schema.Item?.Type == JsonObjectType.Object || Schema.Item?.IsAnyType == true);
+        public bool IsObjectArray => IsArray && 
+            (Schema.Item?.ActualSchema.Type == JsonObjectType.Object || 
+             Schema.Item?.ActualSchema.IsAnyType == true);
     }
 }
