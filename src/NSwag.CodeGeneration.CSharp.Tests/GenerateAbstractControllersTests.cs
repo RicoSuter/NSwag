@@ -35,7 +35,6 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             //// Act
             var codeGen = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
             {
-                GenerateControllerInterfaces = false,
                 GenerateAbstractControllers = true
             });
             var code = codeGen.GenerateFile();
@@ -55,14 +54,13 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             //// Act
             var codeGen = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
             {
-                GenerateControllerInterfaces = true,
                 GenerateAbstractControllers = false
             });
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("abstract class TestController"));
-            Assert.IsTrue(code.Contains("abstract Foo"));
+            Assert.IsFalse(code.Contains("abstract class TestController"));
+            Assert.IsFalse(code.Contains("abstract Foo"));
         }
     }
 }
