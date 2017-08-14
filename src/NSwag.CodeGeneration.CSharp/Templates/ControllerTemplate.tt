@@ -13,51 +13,52 @@ public interface I<#=Model.Class#>Controller
 <#  }}if(operation.HasResultDescription){#>    /// <returns><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)#></returns>
 <#  }if(operation.IsDeprecated){#>    [System.Obsolete]
 <#  }#>    <#=operation.ResultType#> <#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><#if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#><#if(!parameter.IsLast){#>, <#}}#>);
+
 <#}#>
 }
 <# }#>
 
 [System.CodeDom.Compiler.GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
 <#if(Model.HasBasePath){#>
-[System.Web.Http.RoutePrefix("<#=Model.BasePath#>")]<#}#>
+[System.Web.Http.RoutePrefix("<#=Model.BasePath#>")]
+<#}#>
 public <# if(Model.GenerateAbstractControllers){#>abstract class <#=Model.Class#>ControllerBase : <#}#><#else{#>partial class <#=Model.Class#>Controller :  <#}#><#if(Model.HasBaseClass){#><#=Model.BaseClass#><#}else{#>System.Web.Http.ApiController<#}#> 
-{
-	<# if (Model.GenerateControllerInterfaces){#>
-    private I<#=Model.Class #>Controller _implementation; 
+{<# if (Model.GenerateControllerInterfaces){#>    
+	private I<#=Model.Class #>Controller _implementation; 
 
     public <#=Model.Class #>Controller(I<#=Model.Class #>Controller implementation)
     {
         _implementation = implementation; 
     }
-	<#}#><#foreach(var operation in Model.Operations){#>
+<#}#>
+	<#foreach(var operation in Model.Operations){#>
 <#  if(operation.HasSummary){#>    /// <summary><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)#></summary>
 <#  }foreach (var parameter in operation.Parameters){#>
 <#      if(parameter.HasDescription){#>    /// <param name="<#=parameter.VariableName#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
 <#  }}if(operation.HasResultDescription){#>    /// <returns><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)#></returns>
-<#  }if(operation.IsDeprecated){#>    [System.Obsolete]<#}#>
-	[System.Web.Http.Http<#=operation.HttpMethodUpper#>, System.Web.Http.Route("<#=operation.Path#>")]
+<#  }if(operation.IsDeprecated){#>    [System.Obsolete]
+<#}#>	[System.Web.Http.Http<#=operation.HttpMethodUpper#>, System.Web.Http.Route("<#=operation.Path#>")]
 	public <# if(Model.GenerateAbstractControllers){#>abstract <#}#> <# if(Model.WrapResponses){#><# if(!Model.GenerateAbstractControllers){#>async <#}#>System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage><#}else{#><#=operation.ResultType#><#}#> <#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><# if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#><# if(!parameter.IsLast){#>, <#}}#>)<# if(Model.GenerateAbstractControllers){#>;
-	<#}else {#>
-    {  
-	<#}#>
-	<# if(Model.GenerateControllerInterfaces){#>
+<#}else {#>	{<#}#>
+<# if(Model.GenerateControllerInterfaces){#>
 <#          if (Model.WrapResponses){#>
-        var result = await _implementation.<#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><# if(!parameter.IsLast){#>, <#}}#>);
+        var result = await _implementation.<#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(!parameter.IsLast){#>, <#}}#>);
 
         var status = (System.Net.HttpStatusCode)System.Enum.Parse(typeof(System.Net.HttpStatusCode), result.StatusCode);
-        HttpResponseMessage response = Request.CreateResponse(status<# if(operation.UnwrappedResultType != "void"){#>, result.Result<#}#>);
+        HttpResponseMessage response = Request.CreateResponse(status<#if(operation.UnwrappedResultType != "void"){#>, result.Result<#}#>);
     
         foreach (var header in result.Headers)
             response.Headers.Add(header.Key, header.Value);
 
         return response;
 <#          }else{#>
-                return _implementation.<#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(!parameter.IsLast){#>, <#}}#>);
+
+		return _implementation.<#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(!parameter.IsLast){#>, <#}}#>);
 <#          }#>
-    }
-<#}else {#>
-	<# if (!Model.GenerateAbstractControllers){#>
-	<#          if (Model.WrapResponses){#>
+
+    }<#}else {#>
+<# if (!Model.GenerateAbstractControllers){#>
+<#          if (Model.WrapResponses){#>
         var result = System.Threading.Tasks.Task<<#=operation.UnwrappedResultType#>>.FromResult(new <#=operation.UnwrappedResultType#>());
 
         var status = System.Net.HttpStatusCode.OK;
@@ -65,10 +66,10 @@ public <# if(Model.GenerateAbstractControllers){#>abstract class <#=Model.Class#
     
         return response;
 <#          }else{#>
+
         return System.Threading.Tasks.Task<<#=operation.UnwrappedResultType#>>.FromResult(new <#=operation.UnwrappedResultType#>());
-<#          }#>
-     }
+	<#}#>}
 	<#}#>
-        <#}#>
+<#}#>
 <#}#>
 }
