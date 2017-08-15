@@ -8,8 +8,7 @@
 
 <#foreach(var usage in Model.NamespaceUsages){#>using <#=usage#>;
 <#}#>
-<# if (Model.WrapResponses){#>
-using System.Net.Http;
+<# if (Model.WrapResponses){#>using System.Net.Http;
 <# }#>
 namespace <#=Model.Namespace#>
 {
