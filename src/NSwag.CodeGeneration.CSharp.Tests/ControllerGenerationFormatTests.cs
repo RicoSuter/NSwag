@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -10,7 +7,7 @@ using NSwag.SwaggerGeneration.WebApi;
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
     [TestClass]
-    public class GenerateAbstractControllersTests
+    public class ControllerGenerationFormatTests
     {
         public class TestController : ApiController
         {
@@ -26,8 +23,9 @@ namespace NSwag.CodeGeneration.CSharp.Tests
                 throw new NotImplementedException();
             }
         }
+
         [TestMethod]
-        public async Task When_generateabstractcontrollers_true_then_abstractcontroller_is_returned()
+        public async Task When_controllergenerationformat_abstract_then_abstractcontroller_is_generated()
         {
             //// Arrange
             var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
@@ -36,16 +34,19 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             //// Act
             var codeGen = new SwaggerToCSharpWebApiControllerGenerator(document, new SwaggerToCSharpWebApiControllerGeneratorSettings
             {
-                GenerateAbstractControllers = true
+                ControllerGenerationFormat = "abstract",
             });
             var code = codeGen.GenerateFile();
 
             //// Assert
             Assert.IsTrue(code.Contains("abstract class TestController"));
+            Assert.IsFalse(code.Contains("ITestController"));
+            Assert.IsFalse(code.Contains("private ITestController _implementation;"));
+            Assert.IsFalse(code.Contains("partial"));
         }
 
         [TestMethod]
-        public async Task When_generateabstractcontrollers_false_then_abstractcontroller_is_not_returned()
+        public async Task When_controllergenerationformat_abstract_then_partialcontroller_is_generated()
         {
             //// Arrange
             var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
@@ -54,11 +55,34 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             //// Act
             var codeGen = new SwaggerToCSharpWebApiControllerGenerator(document, new SwaggerToCSharpWebApiControllerGeneratorSettings
             {
-                GenerateAbstractControllers = false
+                ControllerGenerationFormat = "partial",
             });
             var code = codeGen.GenerateFile();
 
             //// Assert
+            Assert.IsTrue(code.Contains("partial class TestController"));
+            Assert.IsTrue(code.Contains("ITestController"));
+            Assert.IsTrue(code.Contains("private ITestController _implementation;"));
+            Assert.IsFalse(code.Contains("abstract class TestController"));
+        }
+
+        [TestMethod]
+        public async Task When_controllergenerationformat_notsetted_then_partialcontroller_is_generated()
+        {
+            //// Arrange
+            var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var document = await swaggerGen.GenerateForControllerAsync<TestController>();
+
+            //// Act
+            var codeGen = new SwaggerToCSharpWebApiControllerGenerator(document, new SwaggerToCSharpWebApiControllerGeneratorSettings
+            {
+            });
+            var code = codeGen.GenerateFile();
+
+            //// Assert
+            Assert.IsTrue(code.Contains("partial class TestController"));
+            Assert.IsTrue(code.Contains("ITestController"));
+            Assert.IsTrue(code.Contains("private ITestController _implementation;"));
             Assert.IsFalse(code.Contains("abstract class TestController"));
         }
     }

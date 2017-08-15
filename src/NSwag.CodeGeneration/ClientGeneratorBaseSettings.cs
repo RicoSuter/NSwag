@@ -23,8 +23,7 @@ namespace NSwag.CodeGeneration
 
             OperationNameGenerator = new MultipleClientsFromOperationIdOperationNameGenerator();
             ParameterNameGenerator = new DefaultParameterNameGenerator();
-            GenerateControllerInterfaces = true;
-            GenerateAbstractControllers = false;
+            ControllerGenerationFormat = "partial";
         }
 
         /// <summary>Gets the code generator settings.</summary>
@@ -48,11 +47,8 @@ namespace NSwag.CodeGeneration
         /// <summary>Gets or sets a value indicating whether to reorder parameters (required first, optional at the end) and generate optional C# parameters (default: true).</summary>
         public bool GenerateOptionalParameters { get; set; }
 
-        /// <summary>Gets a value indicating whether to generate controller interfaces.</summary>
-        public bool GenerateControllerInterfaces { get; set; }
-
-        /// <summary>Gets a value indicating whether to generate abstract controllers.</summary>
-        public bool GenerateAbstractControllers { get; set; }
+        /// <summary>Gets a value indicating whether to controller generation format.(default: partial;abstract, partial.)</summary>
+        public string ControllerGenerationFormat { get; set; }
 
         /// <summary>Gets or sets the parameter name generator.</summary>
         public IParameterNameGenerator ParameterNameGenerator { get; set; }
