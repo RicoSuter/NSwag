@@ -39,8 +39,8 @@ if (hasFullDotNet &&
     var core10cmd = 'dotnet "' + __dirname + '/binaries/netcoreapp1.0/dotnet-nswag.dll" ' + args;
     var core11cmd = 'dotnet "' + __dirname + '/binaries/netcoreapp1.1/dotnet-nswag.dll" ' + args;
     var core20cmd = 'dotnet "' + __dirname + '/binaries/netcoreapp2.0/dotnet-nswag.dll" ' + args;
-    
-    var cmd = "dotnet";
+    var defaultCmd = core11cmd;
+
     if (args.indexOf("--core 1.0") != -1)
         c.execSync(core10cmd, { stdio: [0, 1, 2] });
     else if (args.indexOf("--core 1.1") != -1)
@@ -48,17 +48,20 @@ if (hasFullDotNet &&
     else if (args.indexOf("--core 2.0") != -1)
         c.execSync(core20cmd, { stdio: [0, 1, 2] });
     else {
+        var cmd = "dotnet --version";
         c.exec(cmd, (error, stdout, stderr) => {
             if (!error) {
                 var dotnetVersion = stdout;
-                if (dotnetVersion.indexOf("Version  : 1.0.0") !== -1)
-                    c.execSync(core10cmd, { stdio: [0, 1, 2] });
-                else if (dotnetVersion.indexOf("Version  : 1.1.0") !== -1)
-                    c.execSync(core11cmd, { stdio: [0, 1, 2] });
-                else if (dotnetVersion.indexOf("Version  : 2.0.0") !== -1)
+                if (dotnetVersion.indexOf("2.0.0") !== -1)
                     c.execSync(core20cmd, { stdio: [0, 1, 2] });
-            } else // default:
-                c.execSync(core11cmd, { stdio: [0, 1, 2] });
+                else if (dotnetVersion.indexOf("1.1.0") !== -1)
+                    c.execSync(core11cmd, { stdio: [0, 1, 2] });
+                else if (dotnetVersion.indexOf("1.0.0") !== -1)
+                    c.execSync(core10cmd, { stdio: [0, 1, 2] });
+                else // default
+                    c.execSync(defaultCmd, { stdio: [0, 1, 2] });
+            } else // default
+                c.execSync(defaultCmd, { stdio: [0, 1, 2] });
         });
     }
 }
