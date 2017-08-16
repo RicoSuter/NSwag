@@ -38,7 +38,7 @@
                               ItemsSource="{Binding ControllerStyles}" Margin="0,0,0,12" />
 
                     <CheckBox IsChecked="{Binding Command.WrapResponses, Mode=TwoWay}" 
-                              Content="Wrap success responses to allow full response access (experimental)" Margin="0,0,0,12" />
+                              Content="Wrap success responses to allow full response access" Margin="0,0,0,12" />
 
                     <StackPanel Visibility="{Binding Command.WrapResponses, Converter={StaticResource VisibilityConverter}}">
                         <CheckBox IsChecked="{Binding Command.GenerateResponseClasses, Mode=TwoWay}" 
