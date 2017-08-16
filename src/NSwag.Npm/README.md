@@ -44,6 +44,10 @@ To specify what .NET Core binaries to execute, either use
 or
 
     nswag run version --core 1.1
+    
+or
+
+    nswag run version --core 2.0
 	
 ## Development
 
