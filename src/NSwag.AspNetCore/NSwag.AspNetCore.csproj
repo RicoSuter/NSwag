@@ -29,7 +29,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
-    <PackageReference Include="System.IO.FileSystem" Version="4.0.1" />
+    <PackageReference Include="System.IO.FileSystem" Version="4.3.0" />
     <PackageReference Include="System.Xml.XPath.XDocument" Version="4.0.1" />
   </ItemGroup>
   <ItemGroup>
