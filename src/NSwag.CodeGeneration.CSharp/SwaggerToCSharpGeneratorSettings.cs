@@ -28,7 +28,6 @@ namespace NSwag.CodeGeneration.CSharp
 
             GenerateResponseClasses = true;
             ResponseClass = "SwaggerResponse";
-            ControllerGenerationFormat = "partial";
         }
 
         /// <summary>Gets or sets the CSharp generator settings.</summary>
@@ -51,9 +50,5 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets the name of the response class (supports the '{controller}' placeholder).</summary>
         public string ResponseClass { get; set; }
-
-        /// <summary>Gets a value indicating whether to controller generation format.(default: partial;abstract, partial.)</summary>
-        public string ControllerGenerationFormat { get; set; }
-  
     }
 }

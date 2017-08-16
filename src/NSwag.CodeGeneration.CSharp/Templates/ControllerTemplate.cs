@@ -29,267 +29,257 @@ namespace NSwag.CodeGeneration.CSharp.Templates
             this.Write("\r\n");
             
             #line 4 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
-
-    var isPartial = Model.ControllerGenerationFormat == "partial";
-    var isAbstract = Model.ControllerGenerationFormat == "abstract";
-
-            
-            #line default
-            #line hidden
-            this.Write("\r\n");
-            
-            #line 9 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
- if (isPartial){
+ if (Model.GeneratePartialControllers){
             
             #line default
             #line hidden
             this.Write("[System.CodeDom.Compiler.GeneratedCode(\"NSwag\", \"");
             
-            #line 9 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 4 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerDocument.ToolchainVersion));
             
             #line default
             #line hidden
             this.Write("\")]\r\npublic interface I");
             
-            #line 10 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 5 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.Class));
             
             #line default
             #line hidden
             this.Write("Controller\r\n{\r\n");
             
-            #line 12 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 7 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 foreach(var operation in Model.Operations){
             
             #line default
             #line hidden
             
-            #line 13 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 8 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
   if(operation.HasSummary){
             
             #line default
             #line hidden
             this.Write("    /// <summary>");
             
-            #line 13 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 8 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)));
             
             #line default
             #line hidden
             this.Write("</summary>\r\n");
             
-            #line 14 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 9 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
   }foreach (var parameter in operation.Parameters){
             
             #line default
             #line hidden
             
-            #line 15 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 10 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
       if(parameter.HasDescription){
             
             #line default
             #line hidden
             this.Write("    /// <param name=\"");
             
-            #line 15 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 10 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             this.Write("\">");
             
-            #line 15 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 10 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)));
             
             #line default
             #line hidden
             this.Write("</param>\r\n");
             
-            #line 16 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 11 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
   }}if(operation.HasResultDescription){
             
             #line default
             #line hidden
             this.Write("    /// <returns>");
             
-            #line 16 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 11 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)));
             
             #line default
             #line hidden
             this.Write("</returns>\r\n");
             
-            #line 17 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 12 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
   }if(operation.IsDeprecated){
             
             #line default
             #line hidden
             this.Write("    [System.Obsolete]\r\n");
             
-            #line 18 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 13 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
   }
             
             #line default
             #line hidden
             this.Write("    ");
             
-            #line 18 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 13 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultType));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 18 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 13 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationName));
             
             #line default
             #line hidden
             this.Write("Async(");
             
-            #line 18 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 13 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 foreach(var parameter in operation.Parameters){
             
             #line default
             #line hidden
             
-            #line 18 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 13 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Type));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 18 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 13 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             
-            #line 18 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 13 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 if(Model.GenerateOptionalParameters && parameter.IsOptional){
             
             #line default
             #line hidden
             this.Write(" = null");
             
-            #line 18 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 13 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 18 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 13 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 if(!parameter.IsLast){
             
             #line default
             #line hidden
             this.Write(", ");
             
-            #line 18 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 13 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 }}
             
             #line default
             #line hidden
             this.Write(");\r\n\r\n");
             
-            #line 20 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 15 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 }
             
             #line default
             #line hidden
-            this.Write("}\r\n");
+            this.Write("}\r\n\r\n");
             
-            #line 22 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 18 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("[System.CodeDom.Compiler.GeneratedCode(\"NSwag\", \"");
             
-            #line 23 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 19 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(SwaggerDocument.ToolchainVersion));
             
             #line default
             #line hidden
             this.Write("\")]\r\n");
             
-            #line 24 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 20 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 if(Model.HasBasePath){
             
             #line default
             #line hidden
             this.Write("[System.Web.Http.RoutePrefix(\"");
             
-            #line 25 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 21 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.BasePath));
             
             #line default
             #line hidden
             this.Write("\")]\r\n");
             
-            #line 26 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 22 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 27 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
- if (isPartial){
+            #line 23 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+ if (Model.GeneratePartialControllers){
             
             #line default
             #line hidden
             this.Write("public partial class ");
             
-            #line 28 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 24 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.Class));
             
             #line default
             #line hidden
             this.Write("Controller : ");
             
-            #line 28 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 24 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 if(Model.HasBaseClass){
             
             #line default
             #line hidden
             
-            #line 28 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 24 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.BaseClass));
             
             #line default
             #line hidden
             
-            #line 28 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 24 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 }else{
             
             #line default
             #line hidden
             this.Write("System.Web.Http.ApiController");
             
-            #line 28 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 24 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write(" \r\n{\r\n    private I");
             
-            #line 30 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 26 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.Class));
             
             #line default
             #line hidden
             this.Write("Controller _implementation; \r\n\r\n    public ");
             
-            #line 32 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 28 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.Class));
             
             #line default
             #line hidden
             this.Write("Controller(I");
             
-            #line 32 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 28 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.Class));
             
             #line default
@@ -297,208 +287,208 @@ if(Model.HasBaseClass){
             this.Write("Controller implementation)\r\n    {\r\n        _implementation = implementation; \r\n  " +
                     "  }\r\n\r\n");
             
-            #line 37 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 33 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 foreach(var operation in Model.Operations){
             
             #line default
             #line hidden
             
-            #line 38 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 34 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
   if(operation.HasSummary){
             
             #line default
             #line hidden
             this.Write("    /// <summary>");
             
-            #line 38 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 34 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)));
             
             #line default
             #line hidden
             this.Write("</summary>\r\n");
             
-            #line 39 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 35 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
   }foreach (var parameter in operation.Parameters){
             
             #line default
             #line hidden
             
-            #line 40 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 36 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
       if(parameter.HasDescription){
             
             #line default
             #line hidden
             this.Write("    /// <param name=\"");
             
-            #line 40 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 36 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             this.Write("\">");
             
-            #line 40 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 36 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)));
             
             #line default
             #line hidden
             this.Write("</param>\r\n");
             
-            #line 41 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 37 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
   }}if(operation.HasResultDescription){
             
             #line default
             #line hidden
             this.Write("    /// <returns>");
             
-            #line 41 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 37 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)));
             
             #line default
             #line hidden
             this.Write("</returns>\r\n");
             
-            #line 42 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 38 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
   }if(operation.IsDeprecated){
             
             #line default
             #line hidden
             this.Write("    [System.Obsolete]\r\n");
             
-            #line 43 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 39 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
   }
             
             #line default
             #line hidden
             this.Write("    [System.Web.Http.Http");
             
-            #line 43 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 39 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.HttpMethodUpper));
             
             #line default
             #line hidden
             this.Write(", System.Web.Http.Route(\"");
             
-            #line 43 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 39 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.Path));
             
             #line default
             #line hidden
             this.Write("\")]\r\n    public ");
             
-            #line 44 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 40 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 if(Model.WrapResponses){
             
             #line default
             #line hidden
             this.Write("async System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage>");
             
-            #line 44 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 40 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 }else{
             
             #line default
             #line hidden
             
-            #line 44 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 40 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultType));
             
             #line default
             #line hidden
             
-            #line 44 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 40 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 44 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 40 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationName));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 44 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 40 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 foreach(var parameter in operation.Parameters){
             
             #line default
             #line hidden
             
-            #line 44 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 40 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Type));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 44 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 40 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             
-            #line 44 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 40 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 if(Model.GenerateOptionalParameters && parameter.IsOptional){
             
             #line default
             #line hidden
             this.Write(" = null");
             
-            #line 44 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 40 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 44 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 40 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 if(!parameter.IsLast){
             
             #line default
             #line hidden
             this.Write(", ");
             
-            #line 44 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 40 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 }}
             
             #line default
             #line hidden
             this.Write(")\r\n    {    \r\n");
             
-            #line 46 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 42 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
           if (Model.WrapResponses){
             
             #line default
             #line hidden
             this.Write("        var result = await _implementation.");
             
-            #line 47 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 43 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationName));
             
             #line default
             #line hidden
             this.Write("Async(");
             
-            #line 47 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 43 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 foreach(var parameter in operation.Parameters){
             
             #line default
             #line hidden
             
-            #line 47 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 43 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             
-            #line 47 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 43 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 if(!parameter.IsLast){
             
             #line default
             #line hidden
             this.Write(", ");
             
-            #line 47 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 43 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 }}
             
             #line default
@@ -507,14 +497,14 @@ if(!parameter.IsLast){
                     "stem.Net.HttpStatusCode), result.StatusCode);\r\n        HttpResponseMessage respo" +
                     "nse = Request.CreateResponse(status");
             
-            #line 50 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 46 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 if(operation.UnwrappedResultType != "void"){
             
             #line default
             #line hidden
             this.Write(", result.Result");
             
-            #line 50 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 46 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 }
             
             #line default
@@ -522,276 +512,276 @@ if(operation.UnwrappedResultType != "void"){
             this.Write(");\r\n    \r\n        foreach (var header in result.Headers)\r\n            response.He" +
                     "aders.Add(header.Key, header.Value);\r\n\r\n        return response;\r\n");
             
-            #line 56 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 52 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
           }else{
             
             #line default
             #line hidden
             this.Write("        return _implementation.");
             
-            #line 57 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 53 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationName));
             
             #line default
             #line hidden
             this.Write("Async(");
             
-            #line 57 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 53 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 foreach(var parameter in operation.Parameters){
             
             #line default
             #line hidden
             
-            #line 57 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 53 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             
-            #line 57 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 53 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 if(!parameter.IsLast){
             
             #line default
             #line hidden
             this.Write(", ");
             
-            #line 57 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 53 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 }}
             
             #line default
             #line hidden
             this.Write(");\r\n");
             
-            #line 58 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 54 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
           }
             
             #line default
             #line hidden
             this.Write("        \r\n    }\r\n\r\n");
             
-            #line 62 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 58 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("}\r\n");
             
-            #line 64 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
- }else if (isAbstract){
+            #line 60 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+ }else if (Model.GenerateAbstractControllers){
             
             #line default
             #line hidden
             this.Write("\r\npublic abstract class ");
             
-            #line 66 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 62 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.Class));
             
             #line default
             #line hidden
             this.Write("ControllerBase : ");
             
-            #line 66 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 62 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 if(Model.HasBaseClass){
             
             #line default
             #line hidden
             
-            #line 66 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 62 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.BaseClass));
             
             #line default
             #line hidden
             
-            #line 66 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 62 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 }else{
             
             #line default
             #line hidden
             this.Write("System.Web.Http.ApiController");
             
-            #line 66 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 62 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("\r\n{\r\n");
             
-            #line 69 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 65 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 foreach(var operation in Model.Operations){
             
             #line default
             #line hidden
             
-            #line 70 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 66 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
   if(operation.HasSummary){
             
             #line default
             #line hidden
             this.Write("    /// <summary>");
             
-            #line 70 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 66 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)));
             
             #line default
             #line hidden
             this.Write("</summary>\r\n");
             
-            #line 71 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 67 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
   }foreach (var parameter in operation.Parameters){
             
             #line default
             #line hidden
             
-            #line 72 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 68 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
       if(parameter.HasDescription){
             
             #line default
             #line hidden
             this.Write("    /// <param name=\"");
             
-            #line 72 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 68 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             this.Write("\">");
             
-            #line 72 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 68 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)));
             
             #line default
             #line hidden
             this.Write("</param>\r\n");
             
-            #line 73 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 69 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
   }}if(operation.HasResultDescription){
             
             #line default
             #line hidden
             this.Write("    /// <returns>");
             
-            #line 73 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 69 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)));
             
             #line default
             #line hidden
             this.Write("</returns>\r\n");
             
-            #line 74 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 70 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
   }if(operation.IsDeprecated){
             
             #line default
             #line hidden
             this.Write("    [System.Obsolete]\r\n");
             
-            #line 75 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 71 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
   }
             
             #line default
             #line hidden
             this.Write("    [System.Web.Http.Http");
             
-            #line 75 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 71 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.HttpMethodUpper));
             
             #line default
             #line hidden
             this.Write(", System.Web.Http.Route(\"");
             
-            #line 75 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 71 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.Path));
             
             #line default
             #line hidden
             this.Write("\")]\r\n\tpublic abstract ");
             
-            #line 76 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 72 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
  if(Model.WrapResponses){
             
             #line default
             #line hidden
             this.Write("System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage>");
             
-            #line 76 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 72 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 }else{
             
             #line default
             #line hidden
             
-            #line 76 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 72 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ResultType));
             
             #line default
             #line hidden
             
-            #line 76 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 72 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 76 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 72 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(operation.ActualOperationName));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 76 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 72 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 foreach(var parameter in operation.Parameters){
             
             #line default
             #line hidden
             
-            #line 76 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 72 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Type));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 76 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 72 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
             
-            #line 76 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 72 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
  if(Model.GenerateOptionalParameters && parameter.IsOptional){
             
             #line default
             #line hidden
             this.Write(" = null");
             
-            #line 76 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 72 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 76 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 72 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
  if(!parameter.IsLast){
             
             #line default
             #line hidden
             this.Write(", ");
             
-            #line 76 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 72 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 }}
             
             #line default
             #line hidden
             this.Write(");\r\n\r\n");
             
-            #line 78 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 74 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("}\r\n");
             
-            #line 80 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+            #line 76 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 }
             
             #line default

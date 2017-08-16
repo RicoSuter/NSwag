@@ -9,6 +9,7 @@
 using System.Threading.Tasks;
 using NConsole;
 using NSwag.CodeGeneration.CSharp;
+using NSwag.CodeGeneration.CSharp.Models;
 
 #pragma warning disable 1591
 
@@ -28,11 +29,15 @@ namespace NSwag.Commands
             set { Settings.ControllerBaseClass = value; }
         }
         
-        [Argument(Name = "ControllerGenerationFormat", Description = "The controller generation format (default: partial;abstract, partial.).", IsRequired = false)]
-        public string ControllerGenerationFormat
+        [Argument(Name = "ControllerStyle", Description = "The controller generation style (default: partial;abstract, partial.).", IsRequired = false)]
+        public string ControllerStyle
         {
-            get { return Settings.ControllerGenerationFormat; }
-            set { Settings.ControllerGenerationFormat = value; }
+            get { return Settings.ControllerStyle.ToString(); }
+            set
+            {
+                CSharpControllerStyleEnum enumValue;
+                Settings.ControllerStyle = System.Enum.TryParse(value, true, out enumValue) ? enumValue : CSharpControllerStyleEnum.Partial;
+            }
         }
        
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)

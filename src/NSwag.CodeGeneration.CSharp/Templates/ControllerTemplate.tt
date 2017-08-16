@@ -1,12 +1,7 @@
 ﻿<#@ template visibility="internal" #>
 <#@ import namespace="NJsonSchema" #>
 
-<#
-    var isPartial = Model.ControllerGenerationFormat == "partial";
-    var isAbstract = Model.ControllerGenerationFormat == "abstract";
-#>
-
-<# if (isPartial){#>[System.CodeDom.Compiler.GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
+<# if (Model.GeneratePartialControllers){#>[System.CodeDom.Compiler.GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
 public interface I<#=Model.Class#>Controller
 {
 <#foreach(var operation in Model.Operations){#>
@@ -19,12 +14,13 @@ public interface I<#=Model.Class#>Controller
 
 <#}#>
 }
+
 <#}#>
 [System.CodeDom.Compiler.GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
 <#if(Model.HasBasePath){#>
 [System.Web.Http.RoutePrefix("<#=Model.BasePath#>")]
 <#}#>
-<# if (isPartial){#>
+<# if (Model.GeneratePartialControllers){#>
 public partial class <#=Model.Class#>Controller : <#if(Model.HasBaseClass){#><#=Model.BaseClass#><#}else{#>System.Web.Http.ApiController<#}#> 
 {
     private I<#=Model.Class#>Controller _implementation; 
@@ -61,7 +57,7 @@ public partial class <#=Model.Class#>Controller : <#if(Model.HasBaseClass){#><#=
 
 <#}#>
 }
-<# }else if (isAbstract){#>
+<# }else if (Model.GenerateAbstractControllers){#>
 
 public abstract class <#=Model.Class#>ControllerBase : <#if(Model.HasBaseClass){#><#=Model.BaseClass#><#}else{#>System.Web.Http.ApiController<#}#>
 
