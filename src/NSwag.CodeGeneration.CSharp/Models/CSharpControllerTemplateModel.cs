@@ -64,5 +64,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
         /// <summary>Gets a value indicating whether to generate optional parameters.</summary>
         public bool GenerateOptionalParameters => _settings.GenerateOptionalParameters;
+
+        /// <summary>Gets a value indicating whether to controller generation format.(default: partial;abstract, partial.)</summary>
+        public string ControllerGenerationFormat => _settings.ControllerGenerationFormat;
     }
 }
