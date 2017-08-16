@@ -10,6 +10,8 @@ using NSwag.CodeGeneration.CSharp.Models;
 
 namespace NSwag.CodeGeneration.CSharp
 {
+    // TODO: Rename to SwaggerToCSharpControllerGeneratorSettings?
+
     /// <summary>Settings for the <see cref="SwaggerToCSharpWebApiControllerGenerator"/>.</summary>
     public class SwaggerToCSharpWebApiControllerGeneratorSettings : SwaggerToCSharpGeneratorSettings
     {
