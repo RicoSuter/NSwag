@@ -24,9 +24,9 @@ if (process.env["windir"]) {
 }
 
 var c = require('child_process');
-if (hasFullDotNet && args.indexOf("--core") == -1) {
+if (hasFullDotNet && args.indexOf("--core") == -1 && args.indexOf("/runtime:core") == -1) {
     // Run full .NET version
-    if (args.indexOf("--x86") != -1) {
+    if (args.indexOf("--x86") != -1 || args.toLowerCase().indexOf("/runtime:x86") != -1) {
         var cmd = '"' + __dirname + '/binaries/full/nswag.x86.exe" ' + args;
         var code = c.execSync(cmd, { stdio: [0, 1, 2] });
     } else {
@@ -41,7 +41,7 @@ if (hasFullDotNet && args.indexOf("--core") == -1) {
         for (let version of supportedCoreVersions) {
             var coreCmd = 'dotnet "' + __dirname + '/binaries/netcoreapp' + version + '/dotnet-nswag.dll" ' + args;
 
-            if (args.indexOf("--core " + version) != -1) {
+            if (args.indexOf("--core " + version) != -1 || args.indexOf("/runtime:core" + version) != -1) {
                 c.execSync(coreCmd, { stdio: [0, 1, 2] });
                 return;
             } else {
@@ -55,6 +55,6 @@ if (hasFullDotNet && args.indexOf("--core") == -1) {
             }
         }
         c.execSync(defaultCmd, { stdio: [0, 1, 2] });
+        return;
     });
-    return;
 }
