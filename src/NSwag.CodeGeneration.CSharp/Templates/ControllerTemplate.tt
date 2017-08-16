@@ -52,13 +52,13 @@ public partial class <#=Model.Class#>Controller : <#if(Model.HasBaseClass){#><#=
 <#          }else{#>
         return _implementation.<#=operation.ActualOperationName#>Async(<#foreach(var parameter in operation.Parameters){#><#=parameter.VariableName#><#if(!parameter.IsLast){#>, <#}}#>);
 <#          }#>
-        
+
     }
 
 <#}#>
 }
-<# }else if (Model.GenerateAbstractControllers){#>
-
+<#}else{#>
+<#if (Model.GenerateAbstractControllers){#>
 public abstract class <#=Model.Class#>ControllerBase : <#if(Model.HasBaseClass){#><#=Model.BaseClass#><#}else{#>System.Web.Http.ApiController<#}#>
 
 {
@@ -73,6 +73,4 @@ public abstract class <#=Model.Class#>ControllerBase : <#if(Model.HasBaseClass){
 
 <#}#>
 }
-<#}#>
-
-
+<#}}#>
