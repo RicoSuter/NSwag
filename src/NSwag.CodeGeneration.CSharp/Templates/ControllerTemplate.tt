@@ -1,11 +1,7 @@
 ﻿<#@ template visibility="internal" #>
 <#@ import namespace="NJsonSchema" #>
 
-<# if (Model.WrapResponses){#>
-using System.Net.Http;
-<# }#>
-
-[System.CodeDom.Compiler.GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
+<# if (Model.GeneratePartialControllers){#>[System.CodeDom.Compiler.GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
 public interface I<#=Model.Class#>Controller
 {
 <#foreach(var operation in Model.Operations){#>
@@ -19,10 +15,12 @@ public interface I<#=Model.Class#>Controller
 <#}#>
 }
 
+<#}#>
 [System.CodeDom.Compiler.GeneratedCode("NSwag", "<#=SwaggerDocument.ToolchainVersion#>")]
 <#if(Model.HasBasePath){#>
 [System.Web.Http.RoutePrefix("<#=Model.BasePath#>")]
 <#}#>
+<# if (Model.GeneratePartialControllers){#>
 public partial class <#=Model.Class#>Controller : <#if(Model.HasBaseClass){#><#=Model.BaseClass#><#}else{#>System.Web.Http.ApiController<#}#> 
 {
     private I<#=Model.Class#>Controller _implementation; 
@@ -59,3 +57,22 @@ public partial class <#=Model.Class#>Controller : <#if(Model.HasBaseClass){#><#=
 
 <#}#>
 }
+<# }else if (Model.GenerateAbstractControllers){#>
+
+public abstract class <#=Model.Class#>ControllerBase : <#if(Model.HasBaseClass){#><#=Model.BaseClass#><#}else{#>System.Web.Http.ApiController<#}#>
+
+{
+<#foreach(var operation in Model.Operations){#>
+<#  if(operation.HasSummary){#>    /// <summary><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.Summary, 1)#></summary>
+<#  }foreach (var parameter in operation.Parameters){#>
+<#      if(parameter.HasDescription){#>    /// <param name="<#=parameter.VariableName#>"><#=ConversionUtilities.ConvertCSharpDocBreaks(parameter.Description, 1)#></param>
+<#  }}if(operation.HasResultDescription){#>    /// <returns><#=ConversionUtilities.ConvertCSharpDocBreaks(operation.ResultDescription, 1)#></returns>
+<#  }if(operation.IsDeprecated){#>    [System.Obsolete]
+<#  }#>    [System.Web.Http.Http<#=operation.HttpMethodUpper#>, System.Web.Http.Route("<#=operation.Path#>")]
+	public abstract <# if(Model.WrapResponses){#>System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage><#}else{#><#=operation.ResultType#><#}#> <#=operation.ActualOperationName#>(<#foreach(var parameter in operation.Parameters){#><#=parameter.Type#> <#=parameter.VariableName#><# if(Model.GenerateOptionalParameters && parameter.IsOptional){#> = null<#}#><# if(!parameter.IsLast){#>, <#}}#>);
+
+<#}#>
+}
+<#}#>
+
+

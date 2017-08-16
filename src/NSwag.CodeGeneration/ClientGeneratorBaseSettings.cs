@@ -46,7 +46,7 @@ namespace NSwag.CodeGeneration
         /// <summary>Gets or sets a value indicating whether to reorder parameters (required first, optional at the end) and generate optional C# parameters (default: true).</summary>
         public bool GenerateOptionalParameters { get; set; }
 
-        /// <summary>Gets or sets the parameter name generator.</summary>
+     /// <summary>Gets or sets the parameter name generator.</summary>
         public IParameterNameGenerator ParameterNameGenerator { get; set; }
 
         /// <summary>Generates the name of the controller based on the provided settings.</summary>

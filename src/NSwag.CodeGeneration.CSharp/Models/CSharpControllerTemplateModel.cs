@@ -64,5 +64,11 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
         /// <summary>Gets a value indicating whether to generate optional parameters.</summary>
         public bool GenerateOptionalParameters => _settings.GenerateOptionalParameters;
+
+        /// <summary>Gets a value indicating whether to controller generation format (partial)</summary>
+        public bool GeneratePartialControllers => _settings.ControllerStyle.CompareTo(CSharpControllerStyleEnum.Partial)==0;
+
+        /// <summary>Gets a value indicating whether to controller generation format (partial)</summary>
+        public bool GenerateAbstractControllers => _settings.ControllerStyle.CompareTo(CSharpControllerStyleEnum.Abstract) == 0;
     }
 }
