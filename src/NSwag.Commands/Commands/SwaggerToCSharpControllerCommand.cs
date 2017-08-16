@@ -27,7 +27,14 @@ namespace NSwag.Commands
             get { return Settings.ControllerBaseClass; }
             set { Settings.ControllerBaseClass = value; }
         }
-
+        
+        [Argument(Name = "ControllerGenerationFormat", Description = "The controller generation format (default: partial;abstract, partial.).", IsRequired = false)]
+        public string ControllerGenerationFormat
+        {
+            get { return Settings.ControllerGenerationFormat; }
+            set { Settings.ControllerGenerationFormat = value; }
+        }
+       
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var code = await RunAsync();
