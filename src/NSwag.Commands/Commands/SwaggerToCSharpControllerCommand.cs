@@ -29,17 +29,13 @@ namespace NSwag.Commands
             set { Settings.ControllerBaseClass = value; }
         }
         
-        [Argument(Name = "ControllerStyle", Description = "The controller generation style (default: partial;abstract, partial.).", IsRequired = false)]
-        public string ControllerStyle
+        [Argument(Name = "ControllerStyle", Description = "The controller generation style (partial, abstract; default: partial).", IsRequired = false)]
+        public CSharpControllerStyle ControllerStyle
         {
-            get { return Settings.ControllerStyle.ToString(); }
-            set
-            {
-                CSharpControllerStyleEnum enumValue;
-                Settings.ControllerStyle = System.Enum.TryParse(value, true, out enumValue) ? enumValue : CSharpControllerStyleEnum.Partial;
-            }
+            get { return Settings.ControllerStyle; }
+            set { Settings.ControllerStyle = value; }
         }
-       
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var code = await RunAsync();

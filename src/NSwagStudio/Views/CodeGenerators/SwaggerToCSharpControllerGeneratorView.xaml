@@ -32,6 +32,11 @@
                     <TextBlock Text="Namespace" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding Command.Namespace, Mode=TwoWay}" Margin="0,0,0,12" />
 
+                    <TextBlock Text="Controller Style" FontWeight="Bold" Margin="0,0,0,6" />
+                    <ComboBox SelectedItem="{Binding Command.ControllerStyle, Mode=TwoWay}" 
+                              ToolTip="ControllerStyle"
+                              ItemsSource="{Binding ControllerStyles}" Margin="0,0,0,12" />
+
                     <CheckBox IsChecked="{Binding Command.WrapResponses, Mode=TwoWay}" 
                               Content="Wrap success responses to allow full response access (experimental)" Margin="0,0,0,12" />
 
@@ -44,7 +49,6 @@
                             <TextBox Text="{Binding Command.ResponseClass, Mode=TwoWay}" Margin="0,0,0,12" />
                         </StackPanel>
                     </StackPanel>
-
 
                     <GroupBox Header="Web API Controller" Margin="0,0,0,12">
                         <StackPanel Margin="4,8,4,-8">

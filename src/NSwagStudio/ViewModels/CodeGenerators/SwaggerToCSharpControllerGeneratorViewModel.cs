@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NJsonSchema.CodeGeneration.CSharp;
 using NSwag;
+using NSwag.CodeGeneration.CSharp.Models;
 using NSwag.Commands;
 
 namespace NSwagStudio.ViewModels.CodeGenerators
@@ -49,6 +50,18 @@ namespace NSwagStudio.ViewModels.CodeGenerators
             {
                 return Enum.GetNames(typeof(CSharpClassStyle))
                     .Select(t => (CSharpClassStyle)Enum.Parse(typeof(CSharpClassStyle), t))
+                    .ToArray();
+            }
+        }
+
+
+        /// <summary>Gets the list of class styles. </summary>
+        public CSharpControllerStyle[] ControllerStyles
+        {
+            get
+            {
+                return Enum.GetNames(typeof(CSharpControllerStyle))
+                    .Select(t => (CSharpControllerStyle)Enum.Parse(typeof(CSharpControllerStyle), t))
                     .ToArray();
             }
         }

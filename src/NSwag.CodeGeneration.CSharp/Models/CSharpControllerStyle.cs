@@ -9,10 +9,11 @@
 namespace NSwag.CodeGeneration.CSharp.Models
 {
     /// <summary>The CSharp controller style enum.</summary>
-    public enum CSharpControllerStyleEnum
+    public enum CSharpControllerStyle
     {
         /// <summary>Generates partial controllers.</summary>
         Partial,
+
         /// <summary>Generates abstract controllers.</summary>
         Abstract
     }
