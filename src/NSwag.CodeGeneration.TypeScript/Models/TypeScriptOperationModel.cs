@@ -60,7 +60,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
                 var resultType = SupportsStrictNullChecks && UnwrappedResultType != "void" && UnwrappedResultType != "null"
                     ? UnwrappedResultType + " | null"
                     : UnwrappedResultType;
-                if (_settings != null && _settings.WrapResponses) {
+                if (_settings != null && _settings.WrapResponses && _settings.TemplateSupportsWrapResponses) {
                     resultType = resultType == "void"
                         ? _settings.ResponseClass + "Base"
                         : _settings.ResponseClass + "<" + resultType.Replace("{controller}", ControllerName) + ">";

@@ -43,6 +43,8 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <summary>Gets or sets the output template.</summary>
         public TypeScriptTemplate Template { get; set; }
 
+        public bool TemplateSupportsWrapResponses => Template == TypeScriptTemplate.Angular;
+
         /// <summary>Gets or sets the promise type.</summary>
         public PromiseType PromiseType { get; set; }
 
