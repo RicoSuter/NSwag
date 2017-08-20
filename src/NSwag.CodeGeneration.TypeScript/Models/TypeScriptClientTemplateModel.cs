@@ -42,10 +42,6 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             Operations = operations;
 
             BaseClass = _settings.ClientBaseClass?.Replace("{controller}", controllerName);
-
-            ResponseClass = settings.ResponseClass;
-            //ResponseClass = settings.ResponseClass.Replace("{controller}", controllerName);
-            WrapResponses = settings.WrapResponses;
         }
 
         /// <summary>Gets the class name.</summary>
@@ -116,11 +112,5 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         /// <summary>Gets or sets a value indicating whether DTO exceptions are wrapped in a SwaggerException instance.</summary>
         public bool WrapDtoExceptions => _settings.WrapDtoExceptions;
-
-        /// <summary>Gets a value indicating whether to wrap success responses to allow full response access.</summary>
-        public bool WrapResponses { get; set; }
-
-        /// <summary>Gets the response class name.</summary>
-        public string ResponseClass { get; protected set; }
     }
 }
