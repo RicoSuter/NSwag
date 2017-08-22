@@ -17,12 +17,17 @@ namespace NSwag.Annotations
     {
         /// <summary>Initializes a new instance of the <see cref="SwaggerOperationProcessorAttribute"/> class.</summary>
         /// <param name="type">The type.</param>
-        public SwaggerOperationProcessorAttribute(Type type)
+        /// <param name="parameters">The parameters.</param>
+        public SwaggerOperationProcessorAttribute(Type type, params object[] parameters)
         {
             Type = type;
+            Parameters = parameters;
         }
 
         /// <summary>Gets or sets the type of the operation processor (must implement IOperationProcessor).</summary>
         public Type Type { get; set; }
+
+        /// <summary>Gets or sets the type of the constructor parameters.</summary>
+        public object[] Parameters { get; set; }
     }
 }

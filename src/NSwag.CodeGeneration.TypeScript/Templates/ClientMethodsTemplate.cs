@@ -31,16 +31,16 @@ if(Model.IsAngular){
             
             #line default
             #line hidden
-            this.Write("function throwException(message: string, status: number, response: string, result" +
-                    "?: any): Observable<any> {\r\n");
+            this.Write("function throwException(message: string, status: number, response: string, header" +
+                    "s: { [key: string]: any; }, result?: any): Observable<any> {\r\n");
             
             #line 4 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
 if(Model.WrapDtoExceptions){
             
             #line default
             #line hidden
-            this.Write("    return Observable.throw(new SwaggerException(message, status, response, resul" +
-                    "t));\r\n");
+            this.Write("    return Observable.throw(new SwaggerException(message, status, response, heade" +
+                    "rs, result));\r\n");
             
             #line 6 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
 }else{
@@ -49,7 +49,7 @@ if(Model.WrapDtoExceptions){
             #line hidden
             this.Write("    if(result !== null && result !== undefined)\r\n        return Observable.throw(" +
                     "result);\r\n    else\r\n        return Observable.throw(new SwaggerException(message" +
-                    ", status, response, null));\r\n");
+                    ", status, response, headers, null));\r\n");
             
             #line 11 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
 }
@@ -64,14 +64,16 @@ if(Model.WrapDtoExceptions){
             #line default
             #line hidden
             this.Write("function throwException(q: ng.IQService, message: string, status: number, respons" +
-                    "e: string, result?: any): ng.IPromise<any> {\r\n");
+                    "e: string, headers: { [key: string]: any; }, result?: any): ng.IPromise<any> {\r\n" +
+                    "");
             
             #line 16 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
 if(Model.WrapDtoExceptions){
             
             #line default
             #line hidden
-            this.Write("    return q.reject(new SwaggerException(message, status, response, result));\r\n");
+            this.Write("    return q.reject(new SwaggerException(message, status, response, headers, resu" +
+                    "lt));\r\n");
             
             #line 18 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
 }else{
@@ -80,7 +82,7 @@ if(Model.WrapDtoExceptions){
             #line hidden
             this.Write("    if(result !== null && result !== undefined)\r\n        return q.reject(result);" +
                     "\r\n    else\r\n        return q.reject(new SwaggerException(message, status, respon" +
-                    "se, null));\r\n");
+                    "se, headers, null));\r\n");
             
             #line 23 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
 }
@@ -94,15 +96,15 @@ if(Model.WrapDtoExceptions){
             
             #line default
             #line hidden
-            this.Write("function throwException(message: string, status: number, response: string, result" +
-                    "?: any): any {\r\n");
+            this.Write("function throwException(message: string, status: number, response: string, header" +
+                    "s: { [key: string]: any; }, result?: any): any {\r\n");
             
             #line 28 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
 if(Model.WrapDtoExceptions){
             
             #line default
             #line hidden
-            this.Write("    throw new SwaggerException(message, status, response, result);\r\n");
+            this.Write("    throw new SwaggerException(message, status, response, headers, result);\r\n");
             
             #line 30 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
 }else{
@@ -110,7 +112,8 @@ if(Model.WrapDtoExceptions){
             #line default
             #line hidden
             this.Write("    if(result !== null && result !== undefined)\r\n        throw result;\r\n    else\r" +
-                    "\n        throw new SwaggerException(message, status, response, null);\r\n");
+                    "\n        throw new SwaggerException(message, status, response, headers, null);\r\n" +
+                    "");
             
             #line 35 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
 }

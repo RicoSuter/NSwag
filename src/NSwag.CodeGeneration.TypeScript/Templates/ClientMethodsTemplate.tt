@@ -1,37 +1,37 @@
 ﻿<#@ template visibility="internal" #>
 <#if(Model.IsAngular){#>
-function throwException(message: string, status: number, response: string, result?: any): Observable<any> {
+function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): Observable<any> {
 <#if(Model.WrapDtoExceptions){#>
-    return Observable.throw(new SwaggerException(message, status, response, result));
+    return Observable.throw(new SwaggerException(message, status, response, headers, result));
 <#}else{#>
     if(result !== null && result !== undefined)
         return Observable.throw(result);
     else
-        return Observable.throw(new SwaggerException(message, status, response, null));
+        return Observable.throw(new SwaggerException(message, status, response, headers, null));
 <#}#>
 }
 
 <#}else if(Model.IsAngularJS){#>
-function throwException(q: ng.IQService, message: string, status: number, response: string, result?: any): ng.IPromise<any> {
+function throwException(q: ng.IQService, message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): ng.IPromise<any> {
 <#if(Model.WrapDtoExceptions){#>
-    return q.reject(new SwaggerException(message, status, response, result));
+    return q.reject(new SwaggerException(message, status, response, headers, result));
 <#}else{#>
     if(result !== null && result !== undefined)
         return q.reject(result);
     else
-        return q.reject(new SwaggerException(message, status, response, null));
+        return q.reject(new SwaggerException(message, status, response, headers, null));
 <#}#>
 }
 
 <#}else{#>
-function throwException(message: string, status: number, response: string, result?: any): any {
+function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): any {
 <#if(Model.WrapDtoExceptions){#>
-    throw new SwaggerException(message, status, response, result);
+    throw new SwaggerException(message, status, response, headers, result);
 <#}else{#>
     if(result !== null && result !== undefined)
         throw result;
     else
-        throw new SwaggerException(message, status, response, null);
+        throw new SwaggerException(message, status, response, headers, null);
 <#}#>
 }
 
