@@ -204,7 +204,10 @@ namespace NSwag.SwaggerGeneration.WebApi
 
             foreach (dynamic attribute in operationProcessorAttribute)
             {
-                var operationProcessor = Activator.CreateInstance(attribute.Type);
+                var operationProcessor = ObjectExtensions.HasProperty(attribute, "Parameters") ? 
+                    Activator.CreateInstance(attribute.Type, attribute.Parameters) : 
+                    Activator.CreateInstance(attribute.Type);
+
                 if (operationProcessor.Process(methodInfo, operationDescription, swaggerGenerator, allOperations) == false)
                     return false;
             }

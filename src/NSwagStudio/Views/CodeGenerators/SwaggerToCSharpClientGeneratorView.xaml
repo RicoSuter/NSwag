@@ -99,6 +99,9 @@
                               Content="Wrap success responses to allow full response access" Margin="0,0,0,12" />
 
                     <StackPanel Visibility="{Binding Command.WrapResponses, Converter={StaticResource VisibilityConverter}}">
+                        <TextBlock Text="Methods where responses are wrapped (empty for all, 'ControllerName.MethodName', comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox ToolTip="WrapResponseMethods" Text="{Binding WrapResponseMethods, Mode=TwoWay}" Margin="0,0,0,12" />
+
                         <CheckBox IsChecked="{Binding Command.GenerateResponseClasses, Mode=TwoWay}" 
                                   ToolTip="GenerateResponseClasses"
                                   Content="Generate response classes (when disabled, response classes must be imported)" Margin="0,0,0,12" />

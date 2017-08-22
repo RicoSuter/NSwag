@@ -45,6 +45,9 @@ namespace NSwag.CodeGeneration.CSharp
         /// <summary>Gets or sets a value indicating whether to wrap success responses to allow full response access.</summary>
         public bool WrapResponses { get; set; }
 
+        /// <summary>Gets or sets the list of methods where responses are wrapped ("ControllerName.MethodName", WrapResponses must be true).</summary>
+        public string[] WrapResponseMethods { get; set; }
+
         /// <summary>Gets or sets a value indicating whether to generate the response classes (only needed when WrapResponses == true, default: true).</summary>
         public bool GenerateResponseClasses { get; set; }
 

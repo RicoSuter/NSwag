@@ -28,46 +28,74 @@ namespace NSwag.CodeGeneration.TypeScript.Templates
         {
             
             #line 3 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
+      if(Model.IsAngular){
+            
+            #line default
+            #line hidden
+            this.Write("let _headers: any = response.headers ? response.headers.toJSON() : {};\r\n");
+            
+            #line 5 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
+      }else if(Model.IsFetchOrAurelia){
+            
+            #line default
+            #line hidden
+            this.Write("let _headers: any = {}; if (response.headers && response.headers.forEach) { respo" +
+                    "nse.headers.forEach((v, k) => _headers[k] = v); };\r\n");
+            
+            #line 7 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
+      }else{
+            
+            #line default
+            #line hidden
+            this.Write("let _headers: any = {};\r\n");
+            
+            #line 9 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
+      }
+            
+            #line default
+            #line hidden
+            
+            #line 10 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
 if(Model.HandleReferences && Model.RequiresMappings){
             
             #line default
             #line hidden
             this.Write("let _mappings: { source: any, target: any }[] = [];\r\n");
             
-            #line 5 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
+            #line 12 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
 }
             
             #line default
             #line hidden
             
-            #line 6 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
+            #line 13 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
 foreach(var response in Model.Responses){
             
             #line default
             #line hidden
             this.Write("if (status === ");
             
-            #line 7 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
+            #line 14 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
             
             #line default
             #line hidden
             
-            #line 7 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
+            #line 14 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
 if(response.CheckChunkedStatusCode){
             
             #line default
             #line hidden
             this.Write(" || status === 206");
             
-            #line 7 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
+            #line 14 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write(") {\r\n");
             
-            #line 8 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
+            #line 15 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
   if(Model.CanRequestBlobs && response.IsFile){
             
             #line default
@@ -77,7 +105,7 @@ if(response.CheckChunkedStatusCode){
     const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
 ");
             
-            #line 12 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
+            #line 19 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       if(Model.IsAngular){
             
             #line default
@@ -106,7 +134,7 @@ if(response.CheckChunkedStatusCode){
             #line default
             #line hidden
             this.Write("    return Observable.of({ fileName: fileName, data: response.blob(), status: sta" +
-                    "tus, headers: response.headers ? response.headers.toJSON() : {} });\r\n");
+                    "tus, headers: _headers });\r\n");
             
             #line 18 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
  }
@@ -120,17 +148,19 @@ if(response.CheckChunkedStatusCode){
             #line default
             #line hidden
             this.Write("    return this.q.resolve({ fileName: fileName, status: status, data: new Blob([r" +
-                    "esponse]), headers: {} });\r\n");
+                    "esponse]), headers: _headers });\r\n");
             
+
             #line 21 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
+
       }else{
             
             #line default
             #line hidden
-            this.Write(@"    let headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v, k) => headers[k] = v); };
-    return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: headers }; });
-");
+            this.Write("    return response.blob().then(blob => { return { fileName: fileName, data: blob" +
+                    ", status: status, headers: _headers }; });\r\n");
             
+
             #line 24 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }
             
@@ -433,7 +463,7 @@ if(Model.IsAngularJS){
             
             #line default
             #line hidden
-            this.Write("\"A server error occurred.\", status, _responseText, result");
+            this.Write("\"A server error occurred.\", status, _responseText, _headers, result");
             
             #line 65 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(response.StatusCode));
@@ -523,7 +553,7 @@ if(Model.IsAngularJS){
             
             #line default
             #line hidden
-            this.Write("\"A server error occurred.\", status, _responseText);\r\n");
+            this.Write("\"A server error occurred.\", status, _responseText, _headers);\r\n");
             
             #line 77 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
       }
@@ -833,7 +863,7 @@ if(Model.IsAngularJS){
             
             #line default
             #line hidden
-            this.Write("\"A server error occurred.\", status, _responseText, result);\r\n");
+            this.Write("\"A server error occurred.\", status, _responseText, _headers, result);\r\n");
             
             #line 134 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
           }
@@ -916,10 +946,11 @@ if(Model.IsAngularJS){
             
             #line default
             #line hidden
-            this.Write("\"A server error occurred.\", status, _responseText);\r\n");
+            this.Write("\"A server error occurred.\", status, _responseText, _headers);\r\n");
             
             #line 145 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
-      }
+
+    }
             
             #line default
             #line hidden
@@ -1012,7 +1043,7 @@ if(Model.IsAngularJS){
             
             #line default
             #line hidden
-            this.Write("\"An unexpected server error occurred.\", status, _responseText);\r\n");
+            this.Write("\"An unexpected server error occurred.\", status, _responseText, _headers);\r\n");
             
             #line 167 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
   if(Model.IsFetchOrAurelia || Model.RequestAngularBlobs || Model.RequestAngularJSBlobs){

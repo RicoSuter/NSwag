@@ -336,6 +336,13 @@ foreach(var parameter in Model.PathParameters){
             
             #line default
             #line hidden
+            this.Write(" && ");
+            
+            #line 46 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestUrlTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
+            
+            #line default
+            #line hidden
             this.Write(".forEach(item_ => { url_ += \"");
             
             #line 46 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestUrlTemplate.tt"
@@ -351,6 +358,13 @@ foreach(var parameter in Model.PathParameters){
             #line default
             #line hidden
             this.Write("    ");
+            
+            #line 48 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestUrlTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
+            
+            #line default
+            #line hidden
+            this.Write(" && ");
             
             #line 48 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
@@ -402,6 +416,13 @@ foreach(var parameter in Model.PathParameters){
             #line default
             #line hidden
             this.Write("    ");
+            
+            #line 55 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestUrlTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
+            
+            #line default
+            #line hidden
+            this.Write(" && ");
             
             #line 55 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
