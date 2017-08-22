@@ -283,7 +283,7 @@ if(Model.RequiresSwaggerExceptionClass){
             
             #line default
             #line hidden
-            this.Write(@"export class SwaggerException {
+            this.Write(@"export class SwaggerException extends Error {
     message: string;
     status: number; 
     response: string; 

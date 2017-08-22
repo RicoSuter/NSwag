@@ -80,7 +80,7 @@ export interface FileResponse {
 
 <#}#>
 <#if(Model.RequiresSwaggerExceptionClass){#>
-export class SwaggerException {
+export class SwaggerException extends Error {
     message: string;
     status: number; 
     response: string; 
