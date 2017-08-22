@@ -208,6 +208,9 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Gets or sets a value indicating whether this operation has an XML body parameter.</summary>
         public bool HasXmlBodyParameter => Operation.ActualParameters.Any(p => p.IsXmlBodyParameter);
 
+        /// <summary>Gets or sets a value indicating whether this operation has an binary body parameter.</summary>
+        public bool HasBinaryBodyParameter => Operation.ActualParameters.Any(p => p.IsBinaryBodyParameter);
+
         /// <summary>Gets the mime type of the request body.</summary>
         public string Consumes
         {

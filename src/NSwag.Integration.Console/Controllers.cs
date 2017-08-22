@@ -152,6 +152,8 @@ namespace MyNamespace
     
         System.Threading.Tasks.Task<string> AddXmlAsync(string person);
     
+        System.Threading.Tasks.Task<byte[]> UploadAsync(System.IO.Stream data);
+    
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.3.3.0")]
@@ -234,6 +236,13 @@ namespace MyNamespace
         public System.Threading.Tasks.Task<string> AddXml(string person)
         {    
             return _implementation.AddXmlAsync(person);
+            
+        }
+    
+        [System.Web.Http.HttpPost, System.Web.Http.Route("api/Persons/upload")]
+        public System.Threading.Tasks.Task<byte[]> Upload(System.IO.Stream data)
+        {    
+            return _implementation.UploadAsync(data);
             
         }
     

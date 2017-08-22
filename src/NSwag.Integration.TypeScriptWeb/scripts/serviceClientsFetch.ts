@@ -822,6 +822,43 @@ export class PersonsClient {
         }
         return Promise.resolve<string | null>(<any>null);
     }
+
+    upload(data: string | null): Promise<string | null> {
+        let url_ = this.baseUrl + "/api/Persons/upload";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(data);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/octet-stream", 
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processUpload(_response);
+        });
+    }
+
+    protected processUpload(response: Response): Promise<string | null> {
+        const status = response.status;
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: string | null = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText);
+            });
+        }
+        return Promise.resolve<string | null>(<any>null);
+    }
 }
 
 export class GeoPoint implements IGeoPoint {

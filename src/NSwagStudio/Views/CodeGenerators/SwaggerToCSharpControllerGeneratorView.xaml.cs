@@ -19,7 +19,7 @@ namespace NSwagStudio.Views.CodeGenerators
             Model.Command = document.CodeGenerators.SwaggerToCSharpControllerCommand;
         }
 
-        public override string Title => "CSharp Web API Controller (experimental)";
+        public override string Title => "CSharp Web API Controller";
 
         private SwaggerToCSharpControllerGeneratorViewModel Model => (SwaggerToCSharpControllerGeneratorViewModel)Resources["ViewModel"];
 

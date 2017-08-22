@@ -1177,6 +1177,60 @@ export class PersonsClient {
         }
         return null;
     }
+
+    upload(data: string | null, onSuccess?: (result: string | null) => void, onFail?: (exception: string, reason: string) => void): JQueryXHR {
+        let url_ = this.baseUrl + "/api/Persons/upload";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(data);
+
+        let jqXhr = jQuery.ajax({
+            url: url_,
+            beforeSend: this.beforeSend,
+            type: "post",
+            data: content_,
+            dataType: "text",
+            headers: {
+                "Content-Type": "application/octet-stream",
+                "Accept": "application/json"
+            }
+        }); 
+        
+        jqXhr.done((_data, _textStatus, xhr) => {
+            this.processUploadWithCallbacks(url_, xhr, onSuccess, onFail);
+        }).fail((xhr) => {
+            this.processUploadWithCallbacks(url_, xhr, onSuccess, onFail);
+        });
+
+        return jqXhr;
+    }
+
+    private processUploadWithCallbacks(_url: string, xhr: any, onSuccess?: any, onFail?: any): void {
+        try {
+            let result = this.processUpload(xhr);
+            if (onSuccess !== undefined)
+                onSuccess(result);
+        } catch (e) {
+            if (onFail !== undefined)
+                onFail(e, "http_service_exception");
+        }
+    }
+
+    protected processUpload(xhr: any): string | null {
+        const status = xhr.status;
+
+        if (status === 200) {
+            const _responseText = xhr.responseText; 
+            let result200: string | null = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return result200;
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = xhr.responseText; 
+            return throwException("An unexpected server error occurred.", status, _responseText);
+        }
+        return null;
+    }
 }
 
 export class GeoPoint implements IGeoPoint {
