@@ -345,7 +345,7 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(Sy
                         {
                             result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<<#=response.Type#>>(responseData_, _settings.Value);
 <#      if(response.IsSuccess(operation)){#>
-<#          if (Model.WrapResponses){#>
+<#          if (operation.WrapResponse){#>
                             return new <#=Model.ResponseClass#><<#=operation.UnwrappedResultType#>>(status_, headers_, result_); 
 <#          }else{#>
                             return result_; 
@@ -376,13 +376,13 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(Sy
 <#}else{#>
 <#  if(response.IsSuccess(operation)){#>
 <#      if(operation.HasResultType){#>
-<#          if (Model.WrapResponses){#>
+<#          if (operation.WrapResponse){#>
                         return new <#=Model.ResponseClass#><<#=operation.UnwrappedResultType#>>(status_, headers_, default(<#=operation.UnwrappedResultType#>)); 
 <#          }else{#>
                         return default(<#=operation.UnwrappedResultType#>);
 <#          }#>
 <#      }else{#>
-<#          if (Model.WrapResponses){#>
+<#          if (operation.WrapResponse){#>
                         return new <#=Model.ResponseClass#>(status_, headers_); 
 <#          }else{#>
                         return;
@@ -418,7 +418,7 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(Sy
 
 <#          if(operation.HasOnlyDefaultResponse){#>
                             if (status_.Length == 3 && status_.StartsWith("2"))
-<#              if (Model.WrapResponses){#>
+<#              if (operation.WrapResponse){#>
                                 return new <#=Model.ResponseClass#><<#=operation.UnwrappedResultType#>>(status_, headers_, result_); 
 <#              }else{#>
                                 return result_; 
@@ -461,12 +461,12 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(Sy
 <#}#>
 <#      if(operation.HasResultType){#>
         
-<#          if (Model.WrapResponses && operation.UnwrappedResultType != "FileResponse"){#>
+<#          if (operation.WrapResponse && operation.UnwrappedResultType != "FileResponse"){#>
                     return new <#=Model.ResponseClass#><<#=operation.UnwrappedResultType#>>(status_, headers_, default(<#=operation.UnwrappedResultType#>)); 
 <#          }else{#>
                     return default(<#=operation.UnwrappedResultType#>);
 <#          }#>
-<#      }else if(Model.WrapResponses){#>
+<#      }else if(operation.WrapResponse){#>
 
                     return new <#=Model.ResponseClass#>(status_, headers_); 
 <#      }#>

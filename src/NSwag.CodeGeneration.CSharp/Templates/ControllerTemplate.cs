@@ -377,7 +377,7 @@ foreach(var operation in Model.Operations){
             this.Write("\")]\r\n    public ");
             
             #line 40 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
-if(Model.WrapResponses){
+if(operation.WrapResponse){
             
             #line default
             #line hidden
@@ -456,7 +456,7 @@ if(!parameter.IsLast){
             this.Write(")\r\n    {    \r\n");
             
             #line 42 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
-          if (Model.WrapResponses){
+          if (operation.WrapResponse){
             
             #line default
             #line hidden
@@ -702,7 +702,7 @@ foreach(var operation in Model.Operations){
             this.Write("\")]\r\n\tpublic abstract ");
             
             #line 72 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
- if(Model.WrapResponses){
+ if(operation.WrapResponse){
             
             #line default
             #line hidden

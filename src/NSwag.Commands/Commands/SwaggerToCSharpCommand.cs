@@ -155,6 +155,13 @@ namespace NSwag.Commands
             set { Settings.WrapResponses = value; }
         }
 
+        [Argument(Name = "WrapResponseMethods", IsRequired = false, Description = "List of methods where responses are wrapped ('ControllerName.MethodName', WrapResponses must be true).")]
+        public string[] WrapResponseMethods
+        {
+            get { return Settings.WrapResponseMethods; }
+            set { Settings.WrapResponseMethods = value; }
+        }
+
         [Argument(Name = "GenerateResponseClasses", IsRequired = false, Description = "Specifies whether to generate response classes (default: true).")]
         public bool GenerateResponseClasses
         {
