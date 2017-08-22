@@ -6,8 +6,12 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using NSwag.CodeGeneration.CSharp.Models;
+
 namespace NSwag.CodeGeneration.CSharp
 {
+    // TODO: Rename to SwaggerToCSharpControllerGeneratorSettings?
+
     /// <summary>Settings for the <see cref="SwaggerToCSharpWebApiControllerGenerator"/>.</summary>
     public class SwaggerToCSharpWebApiControllerGeneratorSettings : SwaggerToCSharpGeneratorSettings
     {
@@ -16,9 +20,13 @@ namespace NSwag.CodeGeneration.CSharp
         {
             ClassName = "{controller}";
             CSharpGeneratorSettings.ArrayType = "System.Collections.Generic.List";
+            ControllerStyle = CSharpControllerStyle.Partial;
         }
 
         /// <summary>Gets or sets the full name of the base class.</summary>
         public string ControllerBaseClass { get; set; }
+
+        /// <summary>Gets or sets the controller generation style (partial, abstract; default: partial).</summary>
+        public CSharpControllerStyle ControllerStyle { get; set; }
     }
 }
