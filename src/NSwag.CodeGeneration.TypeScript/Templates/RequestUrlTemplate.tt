@@ -43,16 +43,16 @@ else if (<#=parameter.VariableName#> !== undefined)
 <#      }
     }
     if(parameter.IsDateArray){#>
-    <#=parameter.VariableName#>.forEach(item_ => { url_ += "<#=parameter.Name#>=" + encodeURIComponent(item_ ? "" + item_.toJSON() : "null") + "&"; });
+    <#=parameter.VariableName#> && <#=parameter.VariableName#>.forEach(item_ => { url_ += "<#=parameter.Name#>=" + encodeURIComponent(item_ ? "" + item_.toJSON() : "null") + "&"; });
 <#  }else if(parameter.IsObjectArray){#>
-    <#=parameter.VariableName#>.forEach((item, index) => { 
+    <#=parameter.VariableName#> && <#=parameter.VariableName#>.forEach((item, index) => { 
         for (let attr in item)
             url_ += "<#=parameter.Name#>[" + index + "]." + attr + "=" + encodeURIComponent("" + item[attr]) + "&";
     });
 <#  }else if(parameter.IsDate){#>
     url_ += "<#=parameter.Name#>=" + encodeURIComponent(<#=parameter.VariableName#> ? "" + <#=parameter.VariableName#>.toJSON() : "null") + "&"; 
 <#  }else if(parameter.IsArray){#>
-    <#=parameter.VariableName#>.forEach(item => { url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + item) + "&"; });
+    <#=parameter.VariableName#> && <#=parameter.VariableName#>.forEach(item => { url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + item) + "&"; });
 <#  }else{#>
     url_ += "<#=parameter.Name#>=" + encodeURIComponent("" + <#=parameter.VariableName#>) + "&"; 
 <#  }
