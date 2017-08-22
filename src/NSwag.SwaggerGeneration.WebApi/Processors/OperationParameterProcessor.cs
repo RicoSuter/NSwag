@@ -193,7 +193,14 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
         private async Task<bool> TryAddFileParameterAsync(JsonObjectTypeDescription info, SwaggerOperation operation, ParameterInfo parameter, SwaggerGenerator swaggerGenerator)
         {
             var isFileArray = IsFileArray(parameter.ParameterType, info);
-            if (info.Type == JsonObjectType.File || isFileArray)
+
+            var attributes = parameter.GetCustomAttributes()
+                .Union(parameter.ParameterType.GetTypeInfo().GetCustomAttributes());
+
+            var hasSwaggerFileAttribute = attributes.Any(a =>
+                a.GetType().IsAssignableTo("SwaggerFileAttribute", TypeNameStyle.Name));
+
+            if (info.Type == JsonObjectType.File || hasSwaggerFileAttribute || isFileArray)
             {
                 await AddFileParameterAsync(parameter, isFileArray, operation, swaggerGenerator).ConfigureAwait(false);
                 return true;
