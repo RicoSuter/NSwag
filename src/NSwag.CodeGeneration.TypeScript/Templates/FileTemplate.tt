@@ -88,6 +88,8 @@ export class SwaggerException extends Error {
     result: any; 
 
     constructor(message: string, status: number, response: string, headers: { [key: string]: any; }, result: any) {
+		super();
+
         this.message = message;
         this.status = status;
         this.response = response;
@@ -95,7 +97,7 @@ export class SwaggerException extends Error {
         this.result = result;
     }
 
-    private isSwaggerException = true;
+    protected isSwaggerException = true;
 
     static isSwaggerException(obj: any): obj is SwaggerException {
         return obj.isSwaggerException === true;
