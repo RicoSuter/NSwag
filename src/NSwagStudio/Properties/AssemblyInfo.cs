@@ -5,4 +5,4 @@
 [assembly: AssemblyCompany("Rico Suter")]
 [assembly: AssemblyProduct("NSwagStudio")]
 [assembly: AssemblyCopyright("Copyright © Rico Suter, 2016")]
-[assembly: AssemblyVersion("11.4.1")]
+[assembly: AssemblyVersion("11.4.2")]
