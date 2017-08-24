@@ -2,8 +2,9 @@ import { } from 'jasmine';
 import { TestBed } from '@angular/core/testing';
 import { HttpModule } from "@angular/http";
 import { async, inject } from '@angular/core/testing';
+import * as moment from 'moment';
 
-import { SampleDataService, API_BASE_URL, FileType, FileService, EnumerationService } from '../app/services';
+import { SampleDataService, API_BASE_URL, FileType, FileService, EnumerationService, DateService } from '../app/services';
 
 describe('SampleDataService', () => {
   beforeEach(() => {
@@ -12,6 +13,7 @@ describe('SampleDataService', () => {
       providers: [
         SampleDataService,
         FileService,
+        DateService,
         EnumerationService,
         { provide: API_BASE_URL, useValue: "http://localhost:5000" },
       ]
@@ -64,6 +66,31 @@ describe('SampleDataService', () => {
 
       // assert
       expect(response.length).toBe(2);
+    })));
+
+  it('addDays', async(inject([DateService],
+    // arrange
+    async (service: DateService) => {
+      let now = moment();
+
+      // act
+      let response = await service.addDays(now, 5).toPromise();
+
+      // assert
+      expect(response.isSame(now.add(5, 'days'))).toBe(true);
+    })));
+
+
+  it('getDayOfYear', async(inject([DateService],
+    // arrange
+    async (service: DateService) => {
+      let now = moment();
+
+      // act
+      let response = await service.getDayOfYear(now).toPromise();
+
+      // assert
+      expect(response).toBeGreaterThan(0);
     })));
 
   it('ReverseQueryEnumList', async(inject([EnumerationService],
