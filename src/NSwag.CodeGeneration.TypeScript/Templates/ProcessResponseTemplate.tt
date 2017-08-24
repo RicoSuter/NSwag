@@ -39,16 +39,12 @@ if (status === <#=response.StatusCode#><#if(response.CheckChunkedStatusCode){#> 
 <#      }#>
 <#      if(response.HasType){#>
     let result<#=response.StatusCode#>: <#=response.Type#><#if(Model.SupportsStrictNullChecks){#> | null<#}#> = null;
-<#          if(response.IsDate){#>
-    result<#=response.StatusCode#> = new Date(_responseText);
-<#          }else{
-                if(response.UseDtoClass){#>
+<#          if(response.UseDtoClass || response.IsDate){#>
     let resultData<#=response.StatusCode#> = _responseText === "" ? null : <#if(Model.HandleReferences){#>jsonParse<#}else{#>JSON.parse<#}#>(_responseText, this.jsonParseReviver);
     <#=ConversionUtilities.Tab(response.DataConversionCode, 1)#>
-<#              }else{#>
+<#          }else{#>
     result<#=response.StatusCode#> = _responseText === "" ? null : <<#=response.Type#>><#if(Model.HandleReferences){#>jsonParse<#}else{#>JSON.parse<#}#>(_responseText, this.jsonParseReviver);
-<#              }
-            }
+<#          }
             if(response.IsSuccess(Model)){#>
 <#              if(Model.IsAngular){#>
     return Observable.of(result<#=response.StatusCode#>);
@@ -101,16 +97,12 @@ if(Model.HasDefaultResponse){#>{
 <#      }#>
 <#      if(Model.DefaultResponse.HasType){#>
     let result: <#=Model.DefaultResponse.Type#><#if(Model.SupportsStrictNullChecks){#> | null<#}#> = null;
-<#          if(Model.DefaultResponse.IsDate){#>
-    result = new Date(_responseText);
-<#          }else{
-                if(Model.DefaultResponse.UseDtoClass){#>
+<#          if(Model.DefaultResponse.UseDtoClass || Model.DefaultResponse.IsDate){#>
     let resultData = _responseText === "" ? null : <#if(Model.HandleReferences){#>jsonParse<#}else{#>JSON.parse<#}#>(_responseText, this.jsonParseReviver);
     <#=ConversionUtilities.Tab(Model.DefaultResponse.DataConversionCode, 1)#>
-<#              }else{#>
+<#          }else{#>
     result = _responseText === "" ? null : <<#=Model.DefaultResponse.Type#>><#if(Model.HandleReferences){#>jsonParse<#}else{#>JSON.parse<#}#>(_responseText, this.jsonParseReviver);
-<#              }
-            }
+<#          }
             if(!Model.HasSuccessResponse){#>
 <#              if(Model.IsAngular){#>
     return Observable.of(result);
