@@ -1,5 +1,12 @@
 ﻿<#@ template visibility="internal" #>
 <#@ import namespace="NJsonSchema" #>
+<#      if(Model.IsAngular){#>
+let _headers: any = response.headers ? response.headers.toJSON() : {};
+<#      }else if(Model.IsFetchOrAurelia){#>
+let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v, k) => _headers[k] = v); };
+<#      }else{#>
+let _headers: any = {};
+<#      }#>
 <#if(Model.HandleReferences && Model.RequiresMappings){#>
 let _mappings: { source: any, target: any }[] = [];
 <#}#>
@@ -10,12 +17,11 @@ if (status === <#=response.StatusCode#><#if(response.CheckChunkedStatusCode){#> 
     const fileNameMatch = contentDisposition ? /filename="?([^"]*)"?;/g.exec(contentDisposition) : undefined;
     const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
 <#      if(Model.IsAngular){#>
-    return Observable.of({ fileName: fileName, data: response.blob(), status: status, headers: response.headers ? response.headers.toJSON() : {} });
+    return Observable.of({ fileName: fileName, data: response.blob(), status: status, headers: _headers });
 <#      }else if(Model.IsAngularJS){#>
-    return this.q.resolve({ fileName: fileName, status: status, data: new Blob([response]), headers: {} });
+    return this.q.resolve({ fileName: fileName, status: status, data: new Blob([response]), headers: _headers });
 <#      }else{#>
-    let headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v, k) => headers[k] = v); };
-    return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: headers }; });
+    return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
 <#      }#>
 <#  }else{#>
 <#      if(Model.IsFetchOrAurelia){#>
@@ -33,16 +39,12 @@ if (status === <#=response.StatusCode#><#if(response.CheckChunkedStatusCode){#> 
 <#      }#>
 <#      if(response.HasType){#>
     let result<#=response.StatusCode#>: <#=response.Type#><#if(Model.SupportsStrictNullChecks){#> | null<#}#> = null;
-<#          if(response.IsDate){#>
-    result<#=response.StatusCode#> = new Date(_responseText);
-<#          }else{
-                if(response.UseDtoClass){#>
+<#          if(response.UseDtoClass || response.IsDate){#>
     let resultData<#=response.StatusCode#> = _responseText === "" ? null : <#if(Model.HandleReferences){#>jsonParse<#}else{#>JSON.parse<#}#>(_responseText, this.jsonParseReviver);
     <#=ConversionUtilities.Tab(response.DataConversionCode, 1)#>
-<#              }else{#>
+<#          }else{#>
     result<#=response.StatusCode#> = _responseText === "" ? null : <<#=response.Type#>><#if(Model.HandleReferences){#>jsonParse<#}else{#>JSON.parse<#}#>(_responseText, this.jsonParseReviver);
-<#              }
-            }
+<#          }
             if(response.IsSuccess(Model)){#>
 <#              if(Model.IsAngular){#>
     return Observable.of(result<#=response.StatusCode#>);
@@ -52,7 +54,7 @@ if (status === <#=response.StatusCode#><#if(response.CheckChunkedStatusCode){#> 
     return result<#=response.StatusCode#>;
 <#              }#>
 <#          }else{#>
-    return throwException(<#if(Model.IsAngularJS){#>this.q, <#}#>"A server error occurred.", status, _responseText, result<#=response.StatusCode#>);
+    return throwException(<#if(Model.IsAngularJS){#>this.q, <#}#>"A server error occurred.", status, _responseText, _headers, result<#=response.StatusCode#>);
 <#          }
         }else if(response.IsSuccess(Model)){#>
 <#              if(Model.IsAngular){#>
@@ -63,7 +65,7 @@ if (status === <#=response.StatusCode#><#if(response.CheckChunkedStatusCode){#> 
     return<#if(Model.HasResultType){#> null<#}#>;
 <#              }#>
 <#      }else{#>
-    return throwException(<#if(Model.IsAngularJS){#>this.q, <#}#>"A server error occurred.", status, _responseText);
+    return throwException(<#if(Model.IsAngularJS){#>this.q, <#}#>"A server error occurred.", status, _responseText, _headers);
 <#      }#>
 <#      if(Model.IsFetchOrAurelia || Model.RequestAngularBlobs || Model.RequestAngularJSBlobs){#>
     });
@@ -95,16 +97,12 @@ if(Model.HasDefaultResponse){#>{
 <#      }#>
 <#      if(Model.DefaultResponse.HasType){#>
     let result: <#=Model.DefaultResponse.Type#><#if(Model.SupportsStrictNullChecks){#> | null<#}#> = null;
-<#          if(Model.DefaultResponse.IsDate){#>
-    result = new Date(_responseText);
-<#          }else{
-                if(Model.DefaultResponse.UseDtoClass){#>
+<#          if(Model.DefaultResponse.UseDtoClass || Model.DefaultResponse.IsDate){#>
     let resultData = _responseText === "" ? null : <#if(Model.HandleReferences){#>jsonParse<#}else{#>JSON.parse<#}#>(_responseText, this.jsonParseReviver);
     <#=ConversionUtilities.Tab(Model.DefaultResponse.DataConversionCode, 1)#>
-<#              }else{#>
+<#          }else{#>
     result = _responseText === "" ? null : <<#=Model.DefaultResponse.Type#>><#if(Model.HandleReferences){#>jsonParse<#}else{#>JSON.parse<#}#>(_responseText, this.jsonParseReviver);
-<#              }
-            }
+<#          }
             if(!Model.HasSuccessResponse){#>
 <#              if(Model.IsAngular){#>
     return Observable.of(result);
@@ -114,7 +112,7 @@ if(Model.HasDefaultResponse){#>{
     return result;
 <#              }#>
 <#          }else{#>
-    return throwException(<#if(Model.IsAngularJS){#>this.q, <#}#>"A server error occurred.", status, _responseText, result);
+    return throwException(<#if(Model.IsAngularJS){#>this.q, <#}#>"A server error occurred.", status, _responseText, _headers, result);
 <#          }
         }else if(!Model.HasSuccessResponse){#>
 <#              if(Model.IsAngular){#>
@@ -125,7 +123,7 @@ if(Model.HasDefaultResponse){#>{
     return<#if(Model.HasResultType){#> null<#}#>;
 <#              }#>
 <#      }else{#>
-    return throwException(<#if(Model.IsAngularJS){#>this.q, <#}#>"A server error occurred.", status, _responseText);
+    return throwException(<#if(Model.IsAngularJS){#>this.q, <#}#>"A server error occurred.", status, _responseText, _headers);
 <#      }#>
 <#  if(Model.IsFetchOrAurelia || Model.RequestAngularBlobs || Model.RequestAngularJSBlobs){#>
     });
@@ -147,7 +145,7 @@ if (status !== 200 && status !== 204) {
 <#      }else{#>
     const _responseText = xhr.responseText; 
 <#      }#>
-    return throwException(<#if(Model.IsAngularJS){#>this.q, <#}#>"An unexpected server error occurred.", status, _responseText);
+    return throwException(<#if(Model.IsAngularJS){#>this.q, <#}#>"An unexpected server error occurred.", status, _responseText, _headers);
 <#  if(Model.IsFetchOrAurelia || Model.RequestAngularBlobs || Model.RequestAngularJSBlobs){#>
     });
 <#  }#>

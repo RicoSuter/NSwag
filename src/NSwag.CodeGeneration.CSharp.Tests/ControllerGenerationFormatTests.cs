@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSwag.CodeGeneration.CSharp.Models;
 using NSwag.SwaggerGeneration.WebApi;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
@@ -34,7 +35,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             //// Act
             var codeGen = new SwaggerToCSharpWebApiControllerGenerator(document, new SwaggerToCSharpWebApiControllerGeneratorSettings
             {
-                ControllerGenerationFormat = "abstract",
+                ControllerStyle = CSharpControllerStyle.Abstract,
             });
             var code = codeGen.GenerateFile();
 
@@ -55,7 +56,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             //// Act
             var codeGen = new SwaggerToCSharpWebApiControllerGenerator(document, new SwaggerToCSharpWebApiControllerGeneratorSettings
             {
-                ControllerGenerationFormat = "partial",
+                ControllerStyle = CSharpControllerStyle.Partial,
             });
             var code = codeGen.GenerateFile();
 

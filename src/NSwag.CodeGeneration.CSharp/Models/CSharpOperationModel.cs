@@ -92,7 +92,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 if (UnwrappedResultType == "FileResponse")
                     return "System.Threading.Tasks.Task<FileResponse>";
 
-                if (_settings != null && _settings.WrapResponses)
+                if (_settings != null && WrapResponse)
                     return UnwrappedResultType == "void"
                         ? "System.Threading.Tasks.Task<" + _settings.ResponseClass.Replace("{controller}", ControllerName) + ">"
                         : "System.Threading.Tasks.Task<" + _settings.ResponseClass.Replace("{controller}", ControllerName) + "<" + UnwrappedResultType + ">>";
@@ -102,6 +102,12 @@ namespace NSwag.CodeGeneration.CSharp.Models
                     : "System.Threading.Tasks.Task<" + UnwrappedResultType + ">";
             }
         }
+
+        /// <summary>Gets a value indicating whether to wrap the response of this operation.</summary>
+        public bool WrapResponse => _settings.WrapResponses && (
+            _settings.WrapResponseMethods == null || 
+            _settings.WrapResponseMethods.Length == 0 ||
+            _settings.WrapResponseMethods.Contains(_settings.GenerateControllerName(ControllerName) + "." + ActualOperationName));
 
         /// <summary>Gets or sets the type of the exception.</summary>
         public override string ExceptionType
@@ -174,6 +180,11 @@ namespace NSwag.CodeGeneration.CSharp.Models
                     return "System.Collections.Generic.IEnumerable<FileParameter>";
 
                 return "FileParameter";
+            }
+
+            if (parameter.IsBinaryBodyParameter)
+            {
+                return "System.IO.Stream";
             }
 
             return base.ResolveParameterType(parameter)

@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NJsonSchema.CodeGeneration.CSharp;
 using NSwag;
+using NSwag.CodeGeneration.CSharp.Models;
 using NSwag.Commands;
 
 namespace NSwagStudio.ViewModels.CodeGenerators
@@ -53,6 +54,18 @@ namespace NSwagStudio.ViewModels.CodeGenerators
             }
         }
 
+
+        /// <summary>Gets the list of class styles. </summary>
+        public CSharpControllerStyle[] ControllerStyles
+        {
+            get
+            {
+                return Enum.GetNames(typeof(CSharpControllerStyle))
+                    .Select(t => (CSharpControllerStyle)Enum.Parse(typeof(CSharpControllerStyle), t))
+                    .ToArray();
+            }
+        }
+
         /// <summary>Gets or sets the namespace usages (comma separated). </summary>
         public string AdditionalNamespaceUsages
         {
@@ -60,6 +73,17 @@ namespace NSwagStudio.ViewModels.CodeGenerators
             set
             {
                 Command.AdditionalNamespaceUsages = ToStringArray(value);
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>Gets or sets the list of methods where responses are wrapped ("ControllerName.MethodName", WrapResponses must be true).</summary>
+        public string WrapResponseMethods
+        {
+            get => FromStringArray(Command?.WrapResponseMethods);
+            set
+            {
+                Command.WrapResponseMethods = ToStringArray(value);
                 RaisePropertyChanged();
             }
         }

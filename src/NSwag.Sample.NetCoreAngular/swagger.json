@@ -1,5 +1,5 @@
 ﻿{
-  "x-generator": "NSwag v11.3.3.0 (NJsonSchema v9.4.5.0)",
+  "x-generator": "NSwag v11.4.2.0 (NJsonSchema v9.4.8.0)",
   "swagger": "2.0",
   "info": {
     "title": "Web API Swagger specification",
@@ -13,6 +13,70 @@
     "application/json"
   ],
   "paths": {
+    "/api/Date/AddDays": {
+      "post": {
+        "tags": [
+          "Date"
+        ],
+        "operationId": "Date_AddDays",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "date",
+            "in": "query",
+            "required": true,
+            "x-nullable": false,
+            "format": "date-time"
+          },
+          {
+            "type": "integer",
+            "name": "days",
+            "in": "query",
+            "required": true,
+            "x-nullable": false,
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "x-nullable": false
+          }
+        }
+      }
+    },
+    "/api/Date/GetDayOfYear": {
+      "post": {
+        "tags": [
+          "Date"
+        ],
+        "operationId": "Date_GetDayOfYear",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "date",
+            "in": "query",
+            "required": true,
+            "x-nullable": false,
+            "format": "date-time"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-nullable": false
+          }
+        }
+      }
+    },
     "/api/Enumeration/ReverseQueryEnumList": {
       "get": {
         "tags": [
