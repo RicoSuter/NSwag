@@ -36,7 +36,7 @@ namespace NSwag.Commands
             set { Settings.ControllerStyle = value; }
         }
 
-        [Argument(Name = "UseCancellationToken", Description = "Allow to add cancellation token.", IsRequired = false)]
+        [Argument(Name = "UseCancellationToken", Description = "Add a cancellation token parameter (default: false).", IsRequired = false)]
         public bool UseCancellationToken
         {
             get { return Settings.UseCancellationToken; }
