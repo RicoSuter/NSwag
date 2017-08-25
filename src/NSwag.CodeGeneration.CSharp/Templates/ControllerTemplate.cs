@@ -184,6 +184,12 @@ if(!parameter.IsLast){
             #line hidden
             
             #line 13 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+if (Model.UseCancellationToken){
+            
+            #line default
+            #line hidden
+            
+            #line 13 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 if (operation.Parameters.Count>0){
             
             #line default
@@ -195,7 +201,14 @@ if (operation.Parameters.Count>0){
             
             #line default
             #line hidden
-            this.Write("System.Threading.CancellationToken cancellationToken);\r\n\r\n");
+            this.Write("System.Threading.CancellationToken cancellationToken");
+            
+            #line 13 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write(");\r\n\r\n");
             
             #line 15 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 }
@@ -468,6 +481,12 @@ if(!parameter.IsLast){
             #line hidden
             
             #line 40 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+if (Model.UseCancellationToken){
+            
+            #line default
+            #line hidden
+            
+            #line 40 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 if (operation.Parameters.Count>0){
             
             #line default
@@ -479,7 +498,14 @@ if (operation.Parameters.Count>0){
             
             #line default
             #line hidden
-            this.Write("System.Threading.CancellationToken cancellationToken)\r\n    {    \r\n");
+            this.Write("System.Threading.CancellationToken cancellationToken");
+            
+            #line 40 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write(")\r\n    {    \r\n");
             
             #line 42 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
           if (operation.WrapResponse){
@@ -514,6 +540,12 @@ foreach(var parameter in operation.Parameters){
             #line hidden
             
             #line 43 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+if (Model.UseCancellationToken){
+            
+            #line default
+            #line hidden
+            
+            #line 43 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 if (operation.Parameters.Count>0){
             
             #line default
@@ -525,9 +557,16 @@ if (operation.Parameters.Count>0){
             
             #line default
             #line hidden
-            this.Write("cancellationToken);\r\n\r\n        var status = (System.Net.HttpStatusCode)System.Enu" +
-                    "m.Parse(typeof(System.Net.HttpStatusCode), result.StatusCode);\r\n        HttpResp" +
-                    "onseMessage response = Request.CreateResponse(status");
+            this.Write("cancellationToken");
+            
+            #line 43 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write(");\r\n\r\n        var status = (System.Net.HttpStatusCode)System.Enum.Parse(typeof(Sy" +
+                    "stem.Net.HttpStatusCode), result.StatusCode);\r\n        HttpResponseMessage respo" +
+                    "nse = Request.CreateResponse(status");
             
             #line 46 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 if(operation.UnwrappedResultType != "void"){
@@ -584,6 +623,12 @@ if(!parameter.IsLast){
             #line hidden
             
             #line 53 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+if (Model.UseCancellationToken){
+            
+            #line default
+            #line hidden
+            
+            #line 53 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 if (operation.Parameters.Count>0){
             
             #line default
@@ -595,7 +640,14 @@ if (operation.Parameters.Count>0){
             
             #line default
             #line hidden
-            this.Write("cancellationToken);\r\n");
+            this.Write("cancellationToken");
+            
+            #line 53 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write(");\r\n");
             
             #line 54 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
           }
@@ -825,6 +877,12 @@ if(!parameter.IsLast){
             #line hidden
             
             #line 72 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+if (Model.UseCancellationToken){
+            
+            #line default
+            #line hidden
+            
+            #line 72 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 if (operation.Parameters.Count>0){
             
             #line default
@@ -836,7 +894,14 @@ if (operation.Parameters.Count>0){
             
             #line default
             #line hidden
-            this.Write("System.Threading.CancellationToken cancellationToken);\r\n\r\n");
+            this.Write("System.Threading.CancellationToken cancellationToken");
+            
+            #line 72 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write(");\r\n\r\n");
             
             #line 74 "E:\dev\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 }
