@@ -73,6 +73,7 @@
     <Compile Include="OptionalParameterTests.cs" />
     <Compile Include="ParameterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UseCancellationTokenTests.cs" />
     <Compile Include="WrapResponsesTests.cs" />
   </ItemGroup>
   <ItemGroup>
