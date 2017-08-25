@@ -3,7 +3,7 @@
     <OutputType>exe</OutputType>
   </PropertyGroup>
   <PropertyGroup>
-    <TargetFrameworks>net46</TargetFrameworks>
+    <TargetFrameworks>net461</TargetFrameworks>
     <Description>NSwag: The Swagger API toolchain for .NET and TypeScript</Description>
     <Version>11.4.3</Version>
     <PackageTags>Swagger Documentation WebApi AspNet TypeScript CodeGen</PackageTags>
@@ -22,6 +22,7 @@
     <AssemblyName>NSwag.x86</AssemblyName>
     <RootNamespace>NSwag</RootNamespace>
     <PlatformTarget>x86</PlatformTarget>
+    <DependsOnNETStandard>true</DependsOnNETStandard>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|net46'">
     <DefineConstants>TRACE;DEBUG;net46</DefineConstants>

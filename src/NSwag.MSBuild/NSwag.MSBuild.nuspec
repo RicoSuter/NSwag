@@ -17,12 +17,12 @@
   </metadata>
   <files>
     <file src="NSwag.MSBuild.props" target="build" />
-    <file src="..\NSwag.Console\bin\Release\net46\*.dll" target="build" />
+    <file src="..\NSwag.Console\bin\Release\net461\*.dll" target="build" />
 
-    <file src="..\NSwag.Console\bin\Release\net46\NSwag.exe" target="build" />
-    <file src="..\NSwag.Console\bin\Release\net46\NSwag.exe.config" target="build" />
+    <file src="..\NSwag.Console\bin\Release\net461\NSwag.exe" target="build" />
+    <file src="..\NSwag.Console\bin\Release\net461\NSwag.exe.config" target="build" />
     
-    <file src="..\NSwag.Console.x86\bin\Release\net46\NSwag.x86.exe" target="build" />
-    <file src="..\NSwag.Console.x86\bin\Release\net46\NSwag.x86.exe.config" target="build" />
+    <file src="..\NSwag.Console.x86\bin\Release\net461\NSwag.x86.exe" target="build" />
+    <file src="..\NSwag.Console.x86\bin\Release\net461\NSwag.x86.exe.config" target="build" />
   </files>
 </package>
