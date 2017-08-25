@@ -36,6 +36,13 @@ namespace NSwag.Commands
             set { Settings.ControllerStyle = value; }
         }
 
+        [Argument(Name = "UseCancellationToken", Description = "Add a cancellation token parameter (default: false).", IsRequired = false)]
+        public bool UseCancellationToken
+        {
+            get { return Settings.UseCancellationToken; }
+            set { Settings.UseCancellationToken = value; }
+        }
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var code = await RunAsync();

@@ -1,6 +1,6 @@
 ﻿import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
-import { SampleDataService, EnumerationService, FileService } from './services';
+import { SampleDataService, EnumerationService, FileService, DateService } from './services';
 
 @NgModule({
     imports: [
@@ -8,6 +8,7 @@ import { SampleDataService, EnumerationService, FileService } from './services';
     ],
     providers: [
         SampleDataService,
+        DateService,
         EnumerationService,
         FileService
     ]
