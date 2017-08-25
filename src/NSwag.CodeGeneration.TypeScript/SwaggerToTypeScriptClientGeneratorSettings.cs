@@ -30,6 +30,8 @@ namespace NSwag.CodeGeneration.TypeScript
             };
             BaseUrlTokenName = "API_BASE_URL";
             ImportRequiredTypes = true;
+            ResponseClass = "SwaggerResponse";
+            this.GenerateResponseClasses = true;
         }
 
         /// <summary>Gets or sets the TypeScript generator settings.</summary>
@@ -40,6 +42,8 @@ namespace NSwag.CodeGeneration.TypeScript
 
         /// <summary>Gets or sets the output template.</summary>
         public TypeScriptTemplate Template { get; set; }
+
+        public bool TemplateSupportsWrapResponses => Template == TypeScriptTemplate.Angular;
 
         /// <summary>Gets or sets the promise type.</summary>
         public PromiseType PromiseType { get; set; }
@@ -70,6 +74,15 @@ namespace NSwag.CodeGeneration.TypeScript
 
         /// <summary>Gets or sets a value indicating whether to use the 'getBaseUrl(defaultUrl: string)' from the base class (default: false).</summary>
         public bool UseGetBaseUrlMethod { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether to wrap success responses to allow full response access (experimental).</summary>
+        public bool WrapResponses { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether to generate the response classes (only needed when WrapResponses == true, default: true).</summary>
+        public bool GenerateResponseClasses { get; set; }
+
+        /// <summary>Gets or sets the name of the response class (supports the '{controller}' placeholder).</summary>
+        public string ResponseClass { get; set; }
 
         internal ITemplate CreateTemplate(object model)
         {

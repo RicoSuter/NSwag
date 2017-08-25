@@ -15,7 +15,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 {
     /// <summary>The TypeScript operation model.</summary>
     public class TypeScriptOperationModel : OperationModelBase<TypeScriptParameterModel, TypeScriptResponseModel>
-    {
+        {
         private readonly SwaggerToTypeScriptClientGeneratorSettings _settings;
         private readonly SwaggerToTypeScriptClientGenerator _generator;
         private readonly SwaggerOperation _operation;
@@ -31,7 +31,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             SwaggerToTypeScriptClientGenerator generator,
             ITypeResolver resolver)
             : base(null, operation, resolver, generator, settings)
-        {
+            {
             _operation = operation;
             _settings = settings;
             _generator = generator;
@@ -55,8 +55,22 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public string ActualOperationNameUpper => ConversionUtilities.ConvertToUpperCamelCase(OperationName, false);
 
         /// <summary>Gets or sets the type of the result.</summary>
-        public override string ResultType => SupportsStrictNullChecks && UnwrappedResultType != "void" && UnwrappedResultType != "null" ?
-            UnwrappedResultType + " | null" : UnwrappedResultType;
+        public override string ResultType {
+            get {
+                var resultType = SupportsStrictNullChecks && UnwrappedResultType != "void" && UnwrappedResultType != "null"
+                    ? UnwrappedResultType + " | null"
+                    : UnwrappedResultType;
+                if (_settings != null && _settings.WrapResponses && _settings.TemplateSupportsWrapResponses) {
+                    resultType = resultType == "void"
+                        ? _settings.ResponseClass + "Base"
+                        : _settings.ResponseClass + "<" + resultType.Replace("{controller}", ControllerName) + ">";
+                }
+                return resultType;
+            }
+        }
+
+        public bool WrapResponses => this._settings.WrapResponses;
+        public string ResponseClass => this._settings.ResponseClass;
 
         /// <summary>Gets a value indicating whether the operation requires mappings for DTO generation.</summary>
         public bool RequiresMappings => Responses.Any(r => r.HasType && r.ActualResponseSchema.UsesComplexObjectSchema());
