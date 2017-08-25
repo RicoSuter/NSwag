@@ -103,12 +103,6 @@ namespace NSwag.CodeGeneration.CSharp.Models
             }
         }
 
-        /// <summary>Gets a value indicating whether to wrap the response of this operation.</summary>
-        public bool WrapResponse => _settings.WrapResponses && (
-            _settings.WrapResponseMethods == null || 
-            _settings.WrapResponseMethods.Length == 0 ||
-            _settings.WrapResponseMethods.Contains(_settings.GenerateControllerName(ControllerName) + "." + ActualOperationName));
-
         /// <summary>Gets or sets the type of the exception.</summary>
         public override string ExceptionType
         {

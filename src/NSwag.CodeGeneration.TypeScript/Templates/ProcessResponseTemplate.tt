@@ -17,16 +17,23 @@ if (status === <#=response.StatusCode#><#if(response.CheckChunkedStatusCode){#> 
     const fileNameMatch = contentDisposition ? /filename="?([^"]*)"?;/g.exec(contentDisposition) : undefined;
     const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
 <#      if(Model.IsAngular){#>
-    <# if(Model.WrapResponses){#>
-    return Observable.of(new <#= Model.ResponseClass #>(status, response.headers,  { fileName: fileName, data: response.blob(), status: status, headers: response.headers ? response.headers.toJSON() : {} }));
-<# }
- else {#>
-    return Observable.of({ fileName: fileName, data: response.blob(), status: status, headers: response.headers ? response.headers.toJSON() : {} });
-<# }#>
+<#          if(Model.WrapResponse){#>
+    return Observable.of(new <#=Model.ResponseClass#>(status, _headers, { fileName: fileName, data: response.blob(), status: status, headers: _headers }));
+<#          }else{#>
+    return Observable.of({ fileName: fileName, data: response.blob(), status: status, headers: _headers });
+<#          }#>
 <#      }else if(Model.IsAngularJS){#>
+<#          if(Model.WrapResponse){#>
+    return this.q.resolve(new <#=Model.ResponseClass#>(status, _headers, { fileName: fileName, status: status, data: new Blob([response]), headers: _headers }));
+<#          }else{#>
     return this.q.resolve({ fileName: fileName, status: status, data: new Blob([response]), headers: _headers });
+<#          }#>
 <#      }else{#>
+<#          if(Model.WrapResponse){#>
+    return response.blob().then(blob => { return new <#=Model.ResponseClass#>(status, _headers, { fileName: fileName, data: blob, status: status, headers: _headers }); });
+<#          }else{#>
     return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
+<#          }#>
 <#      }#>
 <#  }else{#>
 <#      if(Model.IsFetchOrAurelia){#>
@@ -52,16 +59,23 @@ if (status === <#=response.StatusCode#><#if(response.CheckChunkedStatusCode){#> 
 <#          }
             if(response.IsSuccess(Model)){#>
 <#              if(Model.IsAngular){#>
-<#				if(Model.WrapResponses){#>
-    return Observable.of(new <#= Model.ResponseClass #>(status, response.headers,  result<#=response.StatusCode#>));
-<# }
- else {#>
+<#				    if(Model.WrapResponse){#>
+    return Observable.of(new <#=Model.ResponseClass#>(status, _headers, result<#=response.StatusCode#>));
+<#                  }else{#>
     return Observable.of(result<#=response.StatusCode#>);
-<# }#>
+<#                  }#>
 <#              }else if(Model.IsAngularJS){#>
+<#				    if(Model.WrapResponse){#>
+    return this.q.resolve(new <#=Model.ResponseClass#>(status, _headers, result<#=response.StatusCode#>));
+<#                  }else{#>
     return this.q.resolve(result<#=response.StatusCode#>);
+<#                  }#>
 <#              }else{#>
+<#				    if(Model.WrapResponse){#>
+    return new <#=Model.ResponseClass#>(status, _headers, result<#=response.StatusCode#>);
+<#                  }else{#>
     return result<#=response.StatusCode#>;
+<#                  }#>
 <#              }#>
 <#          }else{#>
     return throwException(<#if(Model.IsAngularJS){#>this.q, <#}#>"A server error occurred.", status, _responseText, _headers, result<#=response.StatusCode#>);
@@ -115,28 +129,46 @@ if(Model.HasDefaultResponse){#>{
 <#          }
             if(!Model.HasSuccessResponse){#>
 <#              if(Model.IsAngular){#>
-
-<#				if(Model.WrapResponses){#>
-    return Observable.of(new <#= Model.ResponseClass #>(status, response.headers,  result));
-<# }
- else {#>
+<#				    if(Model.WrapResponse){#>
+    return Observable.of(new <#=Model.ResponseClass#>(status, _headers, result));
+<#                  }else{#>
     return Observable.of(result);
-<# }#>
+<#                  }#>
 <#              }else if(Model.IsAngularJS){#>
+<#				    if(Model.WrapResponse){#>
+    return this.q.resolve(new <#=Model.ResponseClass#>(status, _headers, result));
+<#                  }else{#>
     return this.q.resolve(result);
+<#                  }#>
 <#              }else{#>
+<#				    if(Model.WrapResponse){#>
+    return new <#=Model.ResponseClass#>(status, _headers, result);
+<#                  }else{#>
     return result;
+<#                  }#>
 <#              }#>
 <#          }else{#>
     return throwException(<#if(Model.IsAngularJS){#>this.q, <#}#>"A server error occurred.", status, _responseText, _headers, result);
 <#          }
         }else if(!Model.HasSuccessResponse){#>
 <#              if(Model.IsAngular){#>
+<#				    if(Model.WrapResponse){#>
+    return Observable.of<<#=Model.ResultType#>>(new <#=Model.ResponseClass#>(status, _headers, <any>null));
+<#                  }else{#>
     return Observable.of<<#=Model.ResultType#>>(<any>null);
+<#                  }#>
 <#              }else if(Model.IsAngularJS){#>
+<#				    if(Model.WrapResponse){#>
+    return this.q.resolve<<#=Model.ResultType#>>(new <#=Model.ResponseClass#>(status, _headers, <any>null));
+<#                  }else{#>
     return this.q.resolve<<#=Model.ResultType#>>(<any>null);
+<#                  }#>
 <#              }else{#>
+<#				    if(Model.WrapResponse){#>
+    return new <#=Model.ResponseClass#>(status, _headers, <#if(Model.HasResultType){#>null<#}else{#><any>undefined<#}#>);
+<#                  }else{#>
     return<#if(Model.HasResultType){#> null<#}#>;
+<#                  }#>
 <#              }#>
 <#      }else{#>
     return throwException(<#if(Model.IsAngularJS){#>this.q, <#}#>"A server error occurred.", status, _responseText, _headers);
@@ -167,12 +199,28 @@ if (status !== 200 && status !== 204) {
 <#  }#>
 }
 <#  if(Model.IsFetchOrAurelia){#>
+<#	    if(Model.WrapResponse){#>
+return Promise.resolve<<#=Model.ResultType#>>(new <#=Model.ResponseClass#>(status, _headers, <any>null));
+<#      }else{#>
 return Promise.resolve<<#=Model.ResultType#>>(<any>null);
+<#      }#>
 <#  }else if(Model.IsAngular){#>
+<#	    if(Model.WrapResponse){#>
+return Observable.of<<#=Model.ResultType#>>(new <#=Model.ResponseClass#>(status, _headers, <any>null));
+<#      }else{#>
 return Observable.of<<#=Model.ResultType#>>(<any>null);
+<#      }#>
 <#  }else if(Model.IsAngularJS){#>
+<#	    if(Model.WrapResponse){#>
+return this.q.resolve<<#=Model.ResultType#>>(new <#=Model.ResponseClass#>(status, _headers, <any>null));
+<#      }else{#>
 return this.q.resolve<<#=Model.ResultType#>>(<any>null);
+<#      }#>
 <#  }else{#>
+<#	    if(Model.WrapResponse){#>
+return new <#=Model.ResponseClass#>(status, _headers, <any>null);
+<#      }else{#>
 return<#if(Model.HasResultType){#> null<#}#>;
+<#      }#>
 <#  }#>
 <#}#>

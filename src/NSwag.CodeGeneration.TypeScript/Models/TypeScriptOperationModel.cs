@@ -15,7 +15,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 {
     /// <summary>The TypeScript operation model.</summary>
     public class TypeScriptOperationModel : OperationModelBase<TypeScriptParameterModel, TypeScriptResponseModel>
-        {
+    {
         private readonly SwaggerToTypeScriptClientGeneratorSettings _settings;
         private readonly SwaggerToTypeScriptClientGenerator _generator;
         private readonly SwaggerOperation _operation;
@@ -31,7 +31,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             SwaggerToTypeScriptClientGenerator generator,
             ITypeResolver resolver)
             : base(null, operation, resolver, generator, settings)
-            {
+        {
             _operation = operation;
             _settings = settings;
             _generator = generator;
@@ -55,22 +55,24 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public string ActualOperationNameUpper => ConversionUtilities.ConvertToUpperCamelCase(OperationName, false);
 
         /// <summary>Gets or sets the type of the result.</summary>
-        public override string ResultType {
-            get {
-                var resultType = SupportsStrictNullChecks && UnwrappedResultType != "void" && UnwrappedResultType != "null"
-                    ? UnwrappedResultType + " | null"
-                    : UnwrappedResultType;
-                if (_settings != null && _settings.WrapResponses && _settings.TemplateSupportsWrapResponses) {
-                    resultType = resultType == "void"
-                        ? _settings.ResponseClass + "Base"
-                        : _settings.ResponseClass + "<" + resultType.Replace("{controller}", ControllerName) + ">";
+        public override string ResultType
+        {
+            get
+            {
+                var resultType = SupportsStrictNullChecks && UnwrappedResultType != "void" && UnwrappedResultType != "null" ?
+                    UnwrappedResultType + " | null" :
+                    UnwrappedResultType;
+
+                if (WrapResponse)
+                {
+                    return _settings.ResponseClass.Replace("{controller}", ControllerName) + "<" + resultType + ">";
                 }
-                return resultType;
+                else
+                {
+                    return resultType;
+                }
             }
         }
-
-        public bool WrapResponses => this._settings.WrapResponses;
-        public string ResponseClass => this._settings.ResponseClass;
 
         /// <summary>Gets a value indicating whether the operation requires mappings for DTO generation.</summary>
         public bool RequiresMappings => Responses.Any(r => r.HasType && r.ActualResponseSchema.UsesComplexObjectSchema());
@@ -131,6 +133,13 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets a value indicating whether to render for Fetch or Aurelia</summary>
         public bool IsFetchOrAurelia => _settings.Template == TypeScriptTemplate.Fetch ||
                                         _settings.Template == TypeScriptTemplate.Aurelia;
+
+
+        /// <summary>Gets a value indicating whether to wrap success responses to allow full response access.</summary>
+        public bool WrapResponses => _settings.WrapResponses;
+
+        /// <summary>Gets the response class name.</summary>
+        public string ResponseClass => _settings.ResponseClass.Replace("{controller}", ControllerName);
 
         /// <summary>Resolves the type of the parameter.</summary>
         /// <param name="parameter">The parameter.</param>

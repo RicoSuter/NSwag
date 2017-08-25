@@ -245,10 +245,10 @@ export class GeoClient extends MyBaseClass {
                 try {
                     return this.transformResult(url_, response_, (r) => this.processReverse(r));
                 } catch (e) {
-                    return <Observable<string[]>><any>Observable.throw(e);
+                    return <Observable<string[] | null>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<string[]>><any>Observable.throw(response_);
+                return <Observable<string[] | null>><any>Observable.throw(response_);
         });
     }
 
@@ -339,10 +339,10 @@ export class GeoClient extends MyBaseClass {
                 try {
                     return this.transformResult(url_, response_, (r) => this.processUploadFile(r));
                 } catch (e) {
-                    return <Observable<boolean>><any>Observable.throw(e);
+                    return <Observable<boolean | null>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<boolean>><any>Observable.throw(response_);
+                return <Observable<boolean | null>><any>Observable.throw(response_);
         });
     }
 
@@ -488,10 +488,10 @@ export class GeoClient extends MyBaseClass {
                 try {
                     return this.transformResult(url_, response_, (r) => this.processGetUploadedFile(r));
                 } catch (e) {
-                    return <Observable<FileResponse>><any>Observable.throw(e);
+                    return <Observable<FileResponse | null>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<FileResponse>><any>Observable.throw(response_);
+                return <Observable<FileResponse | null>><any>Observable.throw(response_);
         });
     }
 
@@ -535,10 +535,10 @@ export class GeoClient extends MyBaseClass {
                 try {
                     return this.transformResult(url_, response_, (r) => this.processPostDouble(r));
                 } catch (e) {
-                    return <Observable<number>><any>Observable.throw(e);
+                    return <Observable<number | null>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<number>><any>Observable.throw(response_);
+                return <Observable<number | null>><any>Observable.throw(response_);
         });
     }
 
@@ -593,10 +593,10 @@ export class PersonsClient extends MyBaseClass {
                 try {
                     return this.transformResult(url_, response_, (r) => this.processGetAll(r));
                 } catch (e) {
-                    return <Observable<Person[]>><any>Observable.throw(e);
+                    return <Observable<Person[] | null>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<Person[]>><any>Observable.throw(response_);
+                return <Observable<Person[] | null>><any>Observable.throw(response_);
         });
     }
 
@@ -690,10 +690,10 @@ export class PersonsClient extends MyBaseClass {
                 try {
                     return this.transformResult(url_, response_, (r) => this.processFind(r));
                 } catch (e) {
-                    return <Observable<Person[]>><any>Observable.throw(e);
+                    return <Observable<Person[] | null>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<Person[]>><any>Observable.throw(response_);
+                return <Observable<Person[] | null>><any>Observable.throw(response_);
         });
     }
 
@@ -744,10 +744,10 @@ export class PersonsClient extends MyBaseClass {
                 try {
                     return this.transformResult(url_, response_, (r) => this.processFindOptional(r));
                 } catch (e) {
-                    return <Observable<Person[]>><any>Observable.throw(e);
+                    return <Observable<Person[] | null>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<Person[]>><any>Observable.throw(response_);
+                return <Observable<Person[] | null>><any>Observable.throw(response_);
         });
     }
 
@@ -797,10 +797,10 @@ export class PersonsClient extends MyBaseClass {
                 try {
                     return this.transformResult(url_, response_, (r) => this.processGet(r));
                 } catch (e) {
-                    return <Observable<Person>><any>Observable.throw(e);
+                    return <Observable<Person | null>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<Person>><any>Observable.throw(response_);
+                return <Observable<Person | null>><any>Observable.throw(response_);
         });
     }
 
@@ -896,10 +896,10 @@ export class PersonsClient extends MyBaseClass {
                 try {
                     return this.transformResult(url_, response_, (r) => this.processTransform(r));
                 } catch (e) {
-                    return <Observable<Person>><any>Observable.throw(e);
+                    return <Observable<Person | null>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<Person>><any>Observable.throw(response_);
+                return <Observable<Person | null>><any>Observable.throw(response_);
         });
     }
 
@@ -946,10 +946,10 @@ export class PersonsClient extends MyBaseClass {
                 try {
                     return this.transformResult(url_, response_, (r) => this.processThrow(r));
                 } catch (e) {
-                    return <Observable<Person>><any>Observable.throw(e);
+                    return <Observable<Person | null>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<Person>><any>Observable.throw(response_);
+                return <Observable<Person | null>><any>Observable.throw(response_);
         });
     }
 
@@ -1006,10 +1006,10 @@ export class PersonsClient extends MyBaseClass {
                 try {
                     return this.transformResult(url_, response_, (r) => this.processGetName(r));
                 } catch (e) {
-                    return <Observable<string>><any>Observable.throw(e);
+                    return <Observable<string | null>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<string>><any>Observable.throw(response_);
+                return <Observable<string | null>><any>Observable.throw(response_);
         });
     }
 
@@ -1061,10 +1061,10 @@ export class PersonsClient extends MyBaseClass {
                 try {
                     return this.transformResult(url_, response_, (r) => this.processAddXml(r));
                 } catch (e) {
-                    return <Observable<string>><any>Observable.throw(e);
+                    return <Observable<string | null>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<string>><any>Observable.throw(response_);
+                return <Observable<string | null>><any>Observable.throw(response_);
         });
     }
 
@@ -1109,10 +1109,10 @@ export class PersonsClient extends MyBaseClass {
                 try {
                     return this.transformResult(url_, response_, (r) => this.processUpload(r));
                 } catch (e) {
-                    return <Observable<string>><any>Observable.throw(e);
+                    return <Observable<string | null>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<string>><any>Observable.throw(response_);
+                return <Observable<string | null>><any>Observable.throw(response_);
         });
     }
 

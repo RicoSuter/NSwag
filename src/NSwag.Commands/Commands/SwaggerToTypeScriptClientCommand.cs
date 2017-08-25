@@ -123,19 +123,29 @@ namespace NSwag.Commands
         }
 
         [Argument(Name = "WrapResponses", IsRequired = false, Description = "Specifies whether to wrap success responses to allow full response access (experimental).")]
-        public bool WrapResponses {
+        public bool WrapResponses
+        {
             get { return Settings.WrapResponses; }
             set { Settings.WrapResponses = value; }
         }
 
+        [Argument(Name = "WrapResponseMethods", IsRequired = false, Description = "List of methods where responses are wrapped ('ControllerName.MethodName', WrapResponses must be true).")]
+        public string[] WrapResponseMethods
+        {
+            get { return Settings.WrapResponseMethods; }
+            set { Settings.WrapResponseMethods = value; }
+        }
+
         [Argument(Name = "GenerateResponseClasses", IsRequired = false, Description = "Specifies whether to generate response classes (default: true).")]
-        public bool GenerateResponseClasses {
+        public bool GenerateResponseClasses
+        {
             get { return Settings.GenerateResponseClasses; }
             set { Settings.GenerateResponseClasses = value; }
         }
 
         [Argument(Name = "ResponseClass", IsRequired = false, Description = "The response class (default 'SwaggerResponse', may use '{controller}' placeholder).")]
-        public string ResponseClass {
+        public string ResponseClass
+        {
             get { return Settings.ResponseClass; }
             set { Settings.ResponseClass = value; }
         }

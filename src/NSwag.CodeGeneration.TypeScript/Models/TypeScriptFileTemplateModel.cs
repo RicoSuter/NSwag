@@ -72,16 +72,17 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets or sets a value indicating whether to wrap success responses to allow full response access.</summary>
         public bool WrapResponses => _settings.WrapResponses;
 
-        ///// <summary>Gets the response class name.</summary>
-        //public string ResponseClass => this._settings.ResponseClass;
-
         /// <summary>Gets or sets a value indicating whether to generate the response class (only applied when WrapResponses == true, default: true).</summary>
         public bool GenerateResponseClasses => _settings.GenerateResponseClasses;
 
         /// <summary>Gets the response class names.</summary>
-        public IEnumerable<string> ResponseClassNames {
-            get {
-                if (_settings.OperationNameGenerator.SupportsMultipleClients) {
+        public IEnumerable<string> ResponseClassNames
+        {
+            get
+            {
+                // TODO: Merge with ResponseClassNames of C#
+                if (_settings.OperationNameGenerator.SupportsMultipleClients)
+                {
                     return _document.Operations
                         .GroupBy(o => _settings.OperationNameGenerator.GetClientName(_document, o.Path, o.Method, o.Operation))
                         .Select(g => _settings.ResponseClass.Replace("{controller}", g.Key))
