@@ -24,7 +24,7 @@
     <DefineConstants>TRACE;RELEASE;NET451;FullNet</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="NJsonSchema" Version="9.4.8" />
+    <PackageReference Include="NJsonSchema" Version="9.4.10" />
     <PackageReference Include="NConsole" Version="3.6.6378.42120" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
   </ItemGroup>
