@@ -9,6 +9,8 @@ xcopy "%~dp0/../src/NSwag.Console/bin/Release/net461" "%~dp0/../src/NSwag.Npm/bi
 xcopy "%~dp0\..\src\NSwag.Console.x86\bin\Release\net461\NSwag.x86.exe" "%~dp0\..\src\NSwag.Npm\bin\binaries\full"
 xcopy "%~dp0\..\src\NSwag.Console.x86\bin\Release\net461\NSwag.x86.exe.config" "%~dp0\..\src\NSwag.Npm\bin\binaries\full"
 
+REM xcopy "%~dp0\..\src\NSwagStudio.Installer\bin\Release\NSwagStudio.msi" "%~dp0\..\src\NSwagStudio.Installer"
+
 REM Build and copy .NET Core command line
 
 dotnet restore "%~dp0/../src/NSwag.ConsoleCore" --no-cache
