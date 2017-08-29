@@ -36,7 +36,10 @@
                     <ComboBox SelectedItem="{Binding Command.ControllerStyle, Mode=TwoWay}" 
                               ToolTip="ControllerStyle"
                               ItemsSource="{Binding ControllerStyles}" Margin="0,0,0,12" />
-
+                    
+                    <CheckBox IsChecked="{Binding Command.UseCancellationToken, Mode=TwoWay}" 
+                              Content="Add cancellation token to controller methods" Margin="0,0,0,12" />
+                    
                     <CheckBox IsChecked="{Binding Command.WrapResponses, Mode=TwoWay}" 
                               Content="Wrap success responses to allow full response access" Margin="0,0,0,12" />
 

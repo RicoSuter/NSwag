@@ -13,7 +13,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public class TestController : ApiController
         {
             [Route("Foo")]
-            public string Foo()
+            public string Foo(string test, bool test2)
             {
                 throw new NotImplementedException();
             }

@@ -171,7 +171,7 @@ if(Model.GenerateOptionalParameters && parameter.IsOptional){
             #line hidden
             
             #line 13 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
-if(!parameter.IsLast){
+if(!parameter.IsLast || Model.UseCancellationToken){
             
             #line default
             #line hidden
@@ -179,6 +179,19 @@ if(!parameter.IsLast){
             
             #line 13 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 }}
+            
+            #line default
+            #line hidden
+            
+            #line 13 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+if (Model.UseCancellationToken){
+            
+            #line default
+            #line hidden
+            this.Write("System.Threading.CancellationToken cancellationToken");
+            
+            #line 13 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+}
             
             #line default
             #line hidden
@@ -442,7 +455,7 @@ if(Model.GenerateOptionalParameters && parameter.IsOptional){
             #line hidden
             
             #line 40 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
-if(!parameter.IsLast){
+if(!parameter.IsLast || Model.UseCancellationToken){
             
             #line default
             #line hidden
@@ -450,6 +463,19 @@ if(!parameter.IsLast){
             
             #line 40 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 }}
+            
+            #line default
+            #line hidden
+            
+            #line 40 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+if(Model.UseCancellationToken){
+            
+            #line default
+            #line hidden
+            this.Write("System.Threading.CancellationToken cancellationToken");
+            
+            #line 40 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+}
             
             #line default
             #line hidden
@@ -482,7 +508,7 @@ foreach(var parameter in operation.Parameters){
             #line hidden
             
             #line 43 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
-if(!parameter.IsLast){
+if(!parameter.IsLast || Model.UseCancellationToken){
             
             #line default
             #line hidden
@@ -490,6 +516,19 @@ if(!parameter.IsLast){
             
             #line 43 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 }}
+            
+            #line default
+            #line hidden
+            
+            #line 43 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+if (Model.UseCancellationToken){
+            
+            #line default
+            #line hidden
+            this.Write("cancellationToken");
+            
+            #line 43 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+}
             
             #line default
             #line hidden
@@ -539,7 +578,7 @@ foreach(var parameter in operation.Parameters){
             #line hidden
             
             #line 53 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
-if(!parameter.IsLast){
+if(!parameter.IsLast || Model.UseCancellationToken){
             
             #line default
             #line hidden
@@ -547,6 +586,19 @@ if(!parameter.IsLast){
             
             #line 53 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 }}
+            
+            #line default
+            #line hidden
+            
+            #line 53 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+if (Model.UseCancellationToken){
+            
+            #line default
+            #line hidden
+            this.Write("cancellationToken");
+            
+            #line 53 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+}
             
             #line default
             #line hidden
@@ -767,7 +819,7 @@ foreach(var parameter in operation.Parameters){
             #line hidden
             
             #line 72 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
- if(!parameter.IsLast){
+if(!parameter.IsLast || Model.UseCancellationToken){
             
             #line default
             #line hidden
@@ -775,6 +827,19 @@ foreach(var parameter in operation.Parameters){
             
             #line 72 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
 }}
+            
+            #line default
+            #line hidden
+            
+            #line 72 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+if(Model.UseCancellationToken){
+            
+            #line default
+            #line hidden
+            this.Write("System.Threading.CancellationToken cancellationToken");
+            
+            #line 72 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ControllerTemplate.tt"
+}
             
             #line default
             #line hidden

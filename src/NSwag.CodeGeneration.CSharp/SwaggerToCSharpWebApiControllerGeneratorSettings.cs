@@ -21,6 +21,7 @@ namespace NSwag.CodeGeneration.CSharp
             ClassName = "{controller}";
             CSharpGeneratorSettings.ArrayType = "System.Collections.Generic.List";
             ControllerStyle = CSharpControllerStyle.Partial;
+            UseCancellationToken = false;
         }
 
         /// <summary>Gets or sets the full name of the base class.</summary>
@@ -28,5 +29,8 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets the controller generation style (partial, abstract; default: partial).</summary>
         public CSharpControllerStyle ControllerStyle { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether to allow adding cancellation token </summary>
+        public bool UseCancellationToken { get; set; }
     }
 }
