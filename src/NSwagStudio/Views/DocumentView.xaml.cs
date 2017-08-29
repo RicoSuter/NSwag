@@ -71,7 +71,15 @@ namespace NSwagStudio.Views
             get { return (DocumentModel)GetValue(DocumentProperty); }
             set { SetValue(DocumentProperty, value); }
         }
-        
+
+        private void OnGenerate(object sender, RoutedEventArgs e)
+        {
+            App.Telemetry.TrackEvent("Generate", new Dictionary<string, string>
+            {
+                { "Generator", Model.Document.GetSwaggerGeneratorView().Title }
+            });
+        }
+
         private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
         {
             foreach (var generatorView in Model.Document.CodeGenerators
