@@ -59,7 +59,10 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         {
             get
             {
-                var resultType = SupportsStrictNullChecks && UnwrappedResultType != "void" && UnwrappedResultType != "null" ?
+                var response = GetSuccessResponse();
+                var isNullable = response.IsNullable(_settings.CodeGeneratorSettings.NullHandling);
+
+                var resultType = isNullable && SupportsStrictNullChecks && UnwrappedResultType != "void" && UnwrappedResultType != "null" ?
                     UnwrappedResultType + " | null" :
                     UnwrappedResultType;
 
