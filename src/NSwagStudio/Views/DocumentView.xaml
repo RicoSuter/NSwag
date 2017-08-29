@@ -100,13 +100,13 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Button Command="{Binding GenerateCommand}" Click="OnGenerate" Padding="8">
+                <Button Command="{Binding GenerateCommand}" Padding="8">
                     <TextBlock Text="Generate Outputs" FontSize="16" Margin="0,4,0,4" />
                 </Button>
                 <Button Grid.Column="1" 
                         Command="{Binding GenerateCommand}" 
                         CommandParameter="files"
-                        Click="OnGenerate" Padding="8" Margin="8,0,0,0">
+                        Padding="8" Margin="8,0,0,0">
                     <TextBlock Text="Generate Files" FontSize="16" Margin="8,4,8,4" />
                 </Button>
             </Grid>
