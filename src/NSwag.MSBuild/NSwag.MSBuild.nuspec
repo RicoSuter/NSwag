@@ -22,8 +22,8 @@
     <file src="..\NSwag.Console.x86\bin\Release\net461\NSwag.x86.exe" target="build/full" />
     <file src="..\NSwag.Console.x86\bin\Release\net461\NSwag.x86.exe.config" target="build/full" />
 
-    <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp1.0\Publish\*" target="build/netcoreapp1.0" />
-    <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp1.1\Publish\*" target="build/netcoreapp1.1" />
-    <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp2.0\Publish\*" target="build/netcoreapp1.2" />
+    <file src="..\NSwag.ConsoleCore\bin\Any CPU\release\netcoreapp1.0\Publish\*" target="build/netcoreapp1.0" />
+    <file src="..\NSwag.ConsoleCore\bin\Any CPU\release\netcoreapp1.1\Publish\*" target="build/netcoreapp1.1" />
+    <file src="..\NSwag.ConsoleCore\bin\Any CPU\release\netcoreapp2.0\Publish\*" target="build/netcoreapp1.2" />
   </files>
 </package>
