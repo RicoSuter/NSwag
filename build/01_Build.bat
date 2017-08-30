@@ -11,7 +11,6 @@ xcopy "%~dp0\..\src\NSwag.Console.x86\bin\Release\net461\NSwag.x86.exe.config" "
 
 REM Build and copy .NET Core command line
 dotnet restore "%~dp0/../src/NSwag.ConsoleCore" --no-cache
-dotnet build "%~dp0/../src/NSwag.ConsoleCore"
 dotnet publish "%~dp0/../src/NSwag.ConsoleCore" -c release -f "netcoreapp1.0"
 dotnet publish "%~dp0/../src/NSwag.ConsoleCore" -c release -f "netcoreapp1.1"
 dotnet publish "%~dp0/../src/NSwag.ConsoleCore" -c release -f "netcoreapp2.0"
