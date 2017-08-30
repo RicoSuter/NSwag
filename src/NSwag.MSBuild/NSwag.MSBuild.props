@@ -6,5 +6,10 @@
     <NSwagExe_Core11>dotnet "$(MSBuildThisFileDirectory)\netcoreapp1.0\dotnet-nswag.dll"</NSwagExe_Core11>
     <NSwagExe_Core12>dotnet "$(MSBuildThisFileDirectory)\netcoreapp1.1\dotnet-nswag.dll"</NSwagExe_Core12>
     <NSwagExe_Core20>dotnet "$(MSBuildThisFileDirectory)\netcoreapp2.0\dotnet-nswag.dll"</NSwagExe_Core20>
+
+    <NSwagDir>$(MSBuildThisFileDirectory)\full\</NSwagExe>
+    <NSwagDir_Core11>dotnet "$(MSBuildThisFileDirectory)\netcoreapp1.0\"</NSwagExe_Core11>
+    <NSwagDir_Core12>dotnet "$(MSBuildThisFileDirectory)\netcoreapp1.1\"</NSwagExe_Core12>
+    <NSwagDir_Core20>dotnet "$(MSBuildThisFileDirectory)\netcoreapp2.0\"</NSwagExe_Core20>
   </PropertyGroup>
 </Project>
