@@ -85,16 +85,18 @@ namespace NSwag.AspNet.WebApi
                 var exceptionType = exception.GetType();
 
 #pragma warning disable 618
-                var responseTypeAttributes = methodInfo.GetCustomAttributes().OfType<ResponseTypeAttribute>();
-#pragma warning restore 618
-                var responseTypeAttribute = responseTypeAttributes.FirstOrDefault((dynamic a) => exceptionType.IsAssignableFrom((Type)a.ResponseType));
-                if (responseTypeAttribute != null)
+                var statusCodeString = methodInfo.GetCustomAttributes(true).OfType<ResponseTypeAttribute>()
+                    .FirstOrDefault(a => a.ResponseType.IsAssignableFrom(exceptionType.GetTypeInfo()))?.HttpStatusCode;
+
+                if (statusCodeString == null)
                 {
-                    var statusCode = 0;
-                    if (int.TryParse(responseTypeAttribute.HttpStatusCode, out statusCode))
-                    {
-                        return statusCode;
-                    }
+                    var swaggerResponseAttributes = methodInfo.GetCustomAttributes(true).OfType<SwaggerResponseAttribute>();
+                    statusCodeString = swaggerResponseAttributes.FirstOrDefault(a => exceptionType.IsAssignableFrom(a.Type))?.StatusCode;
+                }
+
+                if (statusCodeString != null && int.TryParse(statusCodeString, out var statusCode))
+                {
+                    return statusCode;
                 }
             }
 
