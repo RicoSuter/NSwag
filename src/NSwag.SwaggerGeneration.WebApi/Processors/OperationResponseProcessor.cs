@@ -81,7 +81,11 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                             description = responseTypeAttribute.Description;
                     }
 
-                    responses.Add(new OperationResponseModel(httpStatusCode, returnType, description));
+                    var isNullable = true;
+                    if (attributeType.GetRuntimeProperty("IsNullable") != null)
+                        isNullable = responseTypeAttribute.IsNullable;
+
+                    responses.Add(new OperationResponseModel(httpStatusCode, returnType, isNullable, description));
                 }
 
                 foreach (dynamic producesResponseTypeAttribute in producesResponseTypeAttributes)
@@ -89,7 +93,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                     var returnType = producesResponseTypeAttribute.Type;
                     var httpStatusCode = producesResponseTypeAttribute.StatusCode.ToString(CultureInfo.InvariantCulture);
                     var description = HttpUtilities.IsSuccessStatusCode(httpStatusCode) ? successXmlDescription : string.Empty;
-                    responses.Add(new OperationResponseModel(httpStatusCode, returnType, description));
+                    responses.Add(new OperationResponseModel(httpStatusCode, returnType, true, description));
                 }
 
                 foreach (var statusCodeGroup in responses.GroupBy(r => r.HttpStatusCode))
@@ -106,7 +110,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
 
                     if (IsVoidResponse(returnType) == false)
                     {
-                        response.IsNullableRaw = typeDescription.IsNullable;
+                        response.IsNullableRaw = responses.Any(r => r.IsNullable) && typeDescription.IsNullable;
                         response.Schema = await context.SwaggerGenerator.GenerateAndAppendSchemaFromTypeAsync(returnType, typeDescription.IsNullable, null).ConfigureAwait(false);
                         response.ExpectedSchemas = await GenerateExpectedSchemasAsync(context, statusCodeGroup);
                     }
