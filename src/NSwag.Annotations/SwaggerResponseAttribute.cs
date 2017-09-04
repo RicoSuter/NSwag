@@ -57,5 +57,8 @@ namespace NSwag.Annotations
 
         /// <summary>Gets or sets the response type.</summary>
         public Type Type { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether the response can be null; the property is ignored if the specified type is not nullable (default: true).</summary>
+        public bool IsNullable { get; set; } = true;
     }
 }

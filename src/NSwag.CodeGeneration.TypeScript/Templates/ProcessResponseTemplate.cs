@@ -282,27 +282,7 @@ if(response.CheckChunkedStatusCode){
             
             #line default
             #line hidden
-            this.Write(": ");
-            
-            #line 53 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(response.Type));
-            
-            #line default
-            #line hidden
-            
-            #line 53 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
-if(Model.SupportsStrictNullChecks){
-            
-            #line default
-            #line hidden
-            this.Write(" | null");
-            
-            #line 53 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
-}
-            
-            #line default
-            #line hidden
-            this.Write(" = null;\r\n");
+            this.Write(": any = null;\r\n");
             
             #line 54 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
           if(response.UseDtoClass || response.IsDate){
@@ -779,27 +759,7 @@ if(Model.HasDefaultResponse){
             
             #line default
             #line hidden
-            this.Write("    let result: ");
-            
-            #line 123 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.DefaultResponse.Type));
-            
-            #line default
-            #line hidden
-            
-            #line 123 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
-if(Model.SupportsStrictNullChecks){
-            
-            #line default
-            #line hidden
-            this.Write(" | null");
-            
-            #line 123 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
-}
-            
-            #line default
-            #line hidden
-            this.Write(" = null;\r\n");
+            this.Write("    let result: any = null;\r\n");
             
             #line 124 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
           if(Model.DefaultResponse.UseDtoClass || Model.DefaultResponse.IsDate){
