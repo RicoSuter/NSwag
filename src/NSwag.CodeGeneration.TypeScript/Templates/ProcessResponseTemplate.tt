@@ -50,7 +50,7 @@ if (status === <#=response.StatusCode#><#if(response.CheckChunkedStatusCode){#> 
     const _responseText = xhr.responseText; 
 <#      }#>
 <#      if(response.HasType){#>
-    let result<#=response.StatusCode#>: <#=response.Type#><#if(Model.SupportsStrictNullChecks){#> | null<#}#> = null;
+    let result<#=response.StatusCode#>: any = null;
 <#          if(response.UseDtoClass || response.IsDate){#>
     let resultData<#=response.StatusCode#> = _responseText === "" ? null : <#if(Model.HandleReferences){#>jsonParse<#}else{#>JSON.parse<#}#>(_responseText, this.jsonParseReviver);
     <#=ConversionUtilities.Tab(response.DataConversionCode, 1)#>
@@ -120,7 +120,7 @@ if(Model.HasDefaultResponse){#>{
     const _responseText = xhr.responseText; 
 <#      }#>
 <#      if(Model.DefaultResponse.HasType){#>
-    let result: <#=Model.DefaultResponse.Type#><#if(Model.SupportsStrictNullChecks){#> | null<#}#> = null;
+    let result: any = null;
 <#          if(Model.DefaultResponse.UseDtoClass || Model.DefaultResponse.IsDate){#>
     let resultData = _responseText === "" ? null : <#if(Model.HandleReferences){#>jsonParse<#}else{#>JSON.parse<#}#>(_responseText, this.jsonParseReviver);
     <#=ConversionUtilities.Tab(Model.DefaultResponse.DataConversionCode, 1)#>
