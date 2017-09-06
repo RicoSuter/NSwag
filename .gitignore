@@ -58,3 +58,4 @@ src/packages/**
 /src/NSwag.Integration.TypeScriptWeb/scripts/serviceClientsAngular2.extensions.js
 /src/dist
 build/*.nupkg
+/src/NSwagStudio.Installer/Generated.wxs
