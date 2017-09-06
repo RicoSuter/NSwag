@@ -128,7 +128,7 @@ foreach(var parameter in Model.PathParameters){
             
             #line default
             #line hidden
-            this.Write(".map(s_ => s_.toJSON()).join())); \r\n");
+            this.Write(".map(s_ => s_ ? s_.toJSON() : \"null\").join())); \r\n");
             
             #line 13 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestUrlTemplate.tt"
   }else if(parameter.IsDate){
@@ -142,14 +142,21 @@ foreach(var parameter in Model.PathParameters){
             
             #line default
             #line hidden
-            this.Write("}\", encodeURIComponent(\"\" + ");
+            this.Write("}\", encodeURIComponent(");
             
             #line 14 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
-            this.Write(".toJSON())); \r\n");
+            this.Write(" ? \"\" + ");
+            
+            #line 14 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestUrlTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
+            
+            #line default
+            #line hidden
+            this.Write(".toJSON() : \"null\")); \r\n");
             
             #line 15 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestUrlTemplate.tt"
   }else if(parameter.IsArray){
@@ -329,14 +336,21 @@ foreach(var parameter in Model.PathParameters){
             
             #line default
             #line hidden
-            this.Write(".forEach(item => { url_ += \"");
+            this.Write(" && ");
+            
+            #line 46 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestUrlTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
+            
+            #line default
+            #line hidden
+            this.Write(".forEach(item_ => { url_ += \"");
             
             #line 46 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.Name));
             
             #line default
             #line hidden
-            this.Write("=\" + encodeURIComponent(\"\" + item.toJSON()) + \"&\"; });\r\n");
+            this.Write("=\" + encodeURIComponent(item_ ? \"\" + item_.toJSON() : \"null\") + \"&\"; });\r\n");
             
             #line 47 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestUrlTemplate.tt"
   }else if(parameter.IsObjectArray){
@@ -344,6 +358,13 @@ foreach(var parameter in Model.PathParameters){
             #line default
             #line hidden
             this.Write("    ");
+            
+            #line 48 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestUrlTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
+            
+            #line default
+            #line hidden
+            this.Write(" && ");
             
             #line 48 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
@@ -373,14 +394,21 @@ foreach(var parameter in Model.PathParameters){
             
             #line default
             #line hidden
-            this.Write("=\" + encodeURIComponent(\"\" + ");
+            this.Write("=\" + encodeURIComponent(");
             
             #line 53 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
-            this.Write(".toJSON()) + \"&\"; \r\n");
+            this.Write(" ? \"\" + ");
+            
+            #line 53 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestUrlTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
+            
+            #line default
+            #line hidden
+            this.Write(".toJSON() : \"null\") + \"&\"; \r\n");
             
             #line 54 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestUrlTemplate.tt"
   }else if(parameter.IsArray){
@@ -388,6 +416,13 @@ foreach(var parameter in Model.PathParameters){
             #line default
             #line hidden
             this.Write("    ");
+            
+            #line 55 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestUrlTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
+            
+            #line default
+            #line hidden
+            this.Write(" && ");
             
             #line 55 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\RequestUrlTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));

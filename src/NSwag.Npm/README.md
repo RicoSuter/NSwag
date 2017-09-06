@@ -1,6 +1,6 @@
 NSwag is a Swagger 2.0 API (OpenAPI) toolchain for .NET, Web API, TypeScript (jQuery, AngularJS, Angular 2+, Aurelia, KnockoutJS, and more) and other platforms, written in C#. The Swagger specification uses JSON and JSON Schema to describe a RESTful web API. The NSwag project provides tools to generate Swagger specifications from existing ASP.NET Web API controllers and client code from these Swagger specifications. 
 
-**This NPM module requires .NET 4.6+ or .NET Core 1.0.x/1.1.x to be installed on your system!**
+**This NPM module requires .NET 4.6.1+ or .NET Core 1.0/1.1/2.0 to be installed on your system!**
 
 - [More information about NSwag](http://nswag.org)
 - [More information about the available commands](https://github.com/NSwag/NSwag/wiki/CommandLine)
@@ -17,18 +17,6 @@ Show available commands:
 
     nswag help
 
-The full .NET Framework is preferred as execution environment. Add the switch `--core` **at the end** of the command to execute one of the .NET Core binaries (automatically detects whether .NET Core 1.0 or 1.1 is installed): 
-
-    nswag help --core
-	
-To specify what .NET Core binaries to execute, either use 
-
-    nswag help --core 1.0
-	
-or
-
-    nswag help --core 1.1
-
 ### Project installation
 	
 Install the package for the current project: 
@@ -38,6 +26,28 @@ Install the package for the current project:
 Show available commands: 
 
     "node_modules/.bin/nswag" help
+
+## Change runtime
+
+The full .NET Framework in x64 mode is preferred as execution environment. If you need to run the command line tool in x86 mode use
+
+	nswag run version --x86
+
+Add the switch `--core` to the command to execute one of the .NET Core binaries (automatically detects whether .NET Core 1.0 or 1.1 is installed): 
+
+    nswag run version --core
+	
+To specify what .NET Core binaries to execute, either use 
+
+    nswag run version --core 1.0
+	
+or
+
+    nswag run version --core 1.1
+    
+or
+
+    nswag run version --core 2.0
 	
 ## Development
 
@@ -48,7 +58,7 @@ Run the following command to compile and copy the current NSwag console binaries
 To run the NodeJS binary locally: 
 
     cd "src/NSwag.Npm"
-    node "bin/nswag" help
+    node "bin/nswag" version
 
 The JavaScript command line tool can be found here: 
 

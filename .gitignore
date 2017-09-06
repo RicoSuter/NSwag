@@ -8,6 +8,7 @@ src/packages/**
 
 **.sln.ide/**
 **.vs/**
+.vs/**
 
 [Bb]in/
 [Oo]bj/
@@ -56,3 +57,4 @@ src/packages/**
 /src/NSwag.Integration.TypeScriptWeb/scripts/serviceClientsAngular2.extensions.js.map
 /src/NSwag.Integration.TypeScriptWeb/scripts/serviceClientsAngular2.extensions.js
 /src/dist
+build/*.nupkg

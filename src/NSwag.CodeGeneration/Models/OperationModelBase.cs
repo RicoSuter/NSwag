@@ -208,6 +208,9 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Gets or sets a value indicating whether this operation has an XML body parameter.</summary>
         public bool HasXmlBodyParameter => Operation.ActualParameters.Any(p => p.IsXmlBodyParameter);
 
+        /// <summary>Gets or sets a value indicating whether this operation has an binary body parameter.</summary>
+        public bool HasBinaryBodyParameter => Operation.ActualParameters.Any(p => p.IsBinaryBodyParameter);
+
         /// <summary>Gets the mime type of the request body.</summary>
         public string Consumes
         {
@@ -234,6 +237,12 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets a value indicating whether a file response is expected from one of the responses.</summary>
         public bool IsFile => _operation.AllResponses.Any(r => r.Value.Schema?.ActualSchema.Type == JsonObjectType.File);
+
+        /// <summary>Gets a value indicating whether to wrap the response of this operation.</summary>
+        public bool WrapResponse => _settings.WrapResponses && (
+                                    _settings.WrapResponseMethods == null ||
+                                    _settings.WrapResponseMethods.Length == 0 ||
+                                    _settings.WrapResponseMethods.Contains(_settings.GenerateControllerName(ControllerName) + "." + ActualOperationName));
 
         /// <summary>Gets the success response.</summary>
         /// <returns>The response.</returns>

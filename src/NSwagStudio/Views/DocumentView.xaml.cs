@@ -74,10 +74,7 @@ namespace NSwagStudio.Views
 
         private void OnGenerate(object sender, RoutedEventArgs e)
         {
-            App.Telemetry.TrackEvent("Generate", new Dictionary<string, string>
-            {
-                { "Generator", Model.Document.GetSwaggerGeneratorView().Title }
-            });
+            // TODO: Remove
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)

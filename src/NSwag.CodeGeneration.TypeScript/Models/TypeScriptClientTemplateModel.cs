@@ -20,12 +20,14 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         private readonly SwaggerDocument _document;
 
         /// <summary>Initializes a new instance of the <see cref="TypeScriptClientTemplateModel" /> class.</summary>
+        /// <param name="controllerName">Name of the controller.</param>
         /// <param name="controllerClassName">Name of the controller.</param>
         /// <param name="operations">The operations.</param>
         /// <param name="extensionCode">The extension code.</param>
         /// <param name="document">The Swagger document.</param>
         /// <param name="settings">The settings.</param>
         public TypeScriptClientTemplateModel(
+            string controllerName,
             string controllerClassName,
             IEnumerable<TypeScriptOperationModel> operations,
             TypeScriptExtensionCode extensionCode,
@@ -38,16 +40,18 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
             Class = controllerClassName;
             Operations = operations;
+
+            BaseClass = _settings.ClientBaseClass?.Replace("{controller}", controllerName);
         }
 
         /// <summary>Gets the class name.</summary>
         public string Class { get; }
 
-        /// <summary>Gets the client base class.</summary>
-        public string ClientBaseClass => _settings.ClientBaseClass;
-
         /// <summary>Gets a value indicating whether the client class has a base class.</summary>
-        public bool HasClientBaseClass => !string.IsNullOrEmpty(ClientBaseClass);
+        public bool HasBaseClass => !string.IsNullOrEmpty(BaseClass);
+
+        /// <summary>Gets the client base class.</summary>
+        public string BaseClass { get; }
 
         /// <summary>Gets or sets a value indicating whether to use the getBaseUrl(defaultUrl: string) from the base class.</summary>
         public bool UseGetBaseUrlMethod => _settings.UseGetBaseUrlMethod;
@@ -56,7 +60,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public string ConfigurationClass => _settings.ConfigurationClass;
 
         /// <summary>Gets a value indicating whether the client class has a base class.</summary>
-        public bool HasConfigurationClass => HasClientBaseClass && !string.IsNullOrEmpty(ConfigurationClass);
+        public bool HasConfigurationClass => HasBaseClass && !string.IsNullOrEmpty(ConfigurationClass);
 
         /// <summary>Gets or sets a value indicating whether to call 'transformOptions' on the base class or extension class.</summary>
         public bool UseTransformOptionsMethod => _settings.UseTransformOptionsMethod;

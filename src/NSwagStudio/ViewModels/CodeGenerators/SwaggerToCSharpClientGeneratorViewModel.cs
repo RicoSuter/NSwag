@@ -98,6 +98,17 @@ namespace NSwagStudio.ViewModels.CodeGenerators
             }
         }
 
+        /// <summary>Gets or sets the list of methods where responses are wrapped ("ControllerName.MethodName", WrapResponses must be true).</summary>
+        public string WrapResponseMethods
+        {
+            get => FromStringArray(Command?.WrapResponseMethods);
+            set
+            {
+                Command.WrapResponseMethods = ToStringArray(value);
+                RaisePropertyChanged();
+            }
+        }
+
         /// <summary>Gets or sets the client code. </summary>
         public string ClientCode
         {

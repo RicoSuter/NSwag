@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -86,5 +87,22 @@ namespace NSwag.Integration.ClientPCL.Tests
             Assert.IsTrue(result.Result is Teacher);
         }
 
+        //[TestMethod]
+        //[TestCategory("integration")]
+        public async Task Binary_body()
+        {
+            //// Arrange
+            var personsClient = new PersonsClient(new HttpClient()) { BaseUrl = "http://localhost:13452" }; ;
+
+            //// Act
+            var stream = new MemoryStream(new byte[] { 1, 2, 3 });
+            var result = await personsClient.UploadAsync(stream);
+
+            //// Assert
+            Assert.AreEqual(3, result.Result.Length);
+            Assert.AreEqual(1, result.Result[0]);
+            Assert.AreEqual(2, result.Result[1]);
+            Assert.AreEqual(3, result.Result[2]);
+        }
     }
 }

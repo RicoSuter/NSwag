@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>net451</TargetFrameworks>
     <Description>NSwag: The Swagger API toolchain for .NET and TypeScript</Description>
-    <Version>11.3.2</Version>
+    <Version>11.6.1</Version>
     <PackageTags>Swagger Documentation WebApi AspNet TypeScript CodeGen</PackageTags>
     <Copyright>Copyright © Rico Suter, 2017</Copyright>
     <PackageLicenseUrl>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</PackageLicenseUrl>
@@ -24,7 +24,7 @@
     <DefineConstants>TRACE;RELEASE;NET451;FullNet</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="NJsonSchema" Version="9.4.0" />
+    <PackageReference Include="NJsonSchema" Version="9.5.0" />
     <PackageReference Include="NConsole" Version="3.6.6378.42120" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
   </ItemGroup>

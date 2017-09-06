@@ -1,13 +1,16 @@
 ﻿import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
-import { SampleDataService } from './services';
+import { SampleDataService, EnumerationService, FileService, DateService } from './services';
 
 @NgModule({
     imports: [
         HttpModule
     ],
     providers: [
-        SampleDataService
+        SampleDataService,
+        DateService,
+        EnumerationService,
+        FileService
     ]
 })
 export class ServicesModule {

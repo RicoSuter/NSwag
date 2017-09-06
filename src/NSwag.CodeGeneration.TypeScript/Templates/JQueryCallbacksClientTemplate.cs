@@ -283,14 +283,14 @@ if(operation.HasResultType){
             this.Write(" ");
             
             #line 20 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
-if(Model.HasClientBaseClass){
+if(Model.HasBaseClass){
             
             #line default
             #line hidden
             this.Write("extends ");
             
             #line 20 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClientBaseClass));
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.BaseClass));
             
             #line default
             #line hidden
@@ -374,7 +374,7 @@ if(Model.HasConfigurationClass){
             this.Write("baseUrl?: string) {\r\n");
             
             #line 27 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\JQueryCallbacksClientTemplate.tt"
-if(Model.HasClientBaseClass){
+if(Model.HasBaseClass){
             
             #line default
             #line hidden

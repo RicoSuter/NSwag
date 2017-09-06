@@ -1,0 +1,301 @@
+﻿{
+  "x-generator": "NSwag v11.4.3.0 (NJsonSchema v9.4.10.0)",
+  "swagger": "2.0",
+  "info": {
+    "title": "Web API Swagger specification",
+    "version": "1.0.0"
+  },
+  "schemes": [],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/Date/AddDays": {
+      "post": {
+        "tags": [
+          "Date"
+        ],
+        "operationId": "Date_AddDays",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "date",
+            "in": "query",
+            "required": true,
+            "x-nullable": false,
+            "format": "date-time"
+          },
+          {
+            "type": "integer",
+            "name": "days",
+            "in": "query",
+            "required": true,
+            "x-nullable": false,
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "x-nullable": false
+          }
+        }
+      }
+    },
+    "/api/Date/GetDayOfYear": {
+      "post": {
+        "tags": [
+          "Date"
+        ],
+        "operationId": "Date_GetDayOfYear",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "date",
+            "in": "query",
+            "required": true,
+            "x-nullable": false,
+            "format": "date-time"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-nullable": false
+          }
+        }
+      }
+    },
+    "/api/Enumeration/ReverseQueryEnumList": {
+      "get": {
+        "tags": [
+          "Enumeration"
+        ],
+        "operationId": "Enumeration_ReverseQueryEnumList",
+        "parameters": [
+          {
+            "type": "array",
+            "name": "fileTypes",
+            "in": "query",
+            "x-nullable": true,
+            "collectionFormat": "multi",
+            "items": {
+              "$ref": "#/definitions/FileType"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FileType"
+              }
+            },
+            "x-nullable": true
+          }
+        }
+      }
+    },
+    "/api/File/GetFile": {
+      "get": {
+        "tags": [
+          "File"
+        ],
+        "operationId": "File_GetFile",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "fileName",
+            "in": "query",
+            "required": true,
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "file"
+            },
+            "x-nullable": true
+          }
+        }
+      }
+    },
+    "/api/SampleData/WeatherForecasts": {
+      "get": {
+        "tags": [
+          "SampleData"
+        ],
+        "operationId": "SampleData_WeatherForecasts",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/WeatherForecast"
+              }
+            },
+            "x-nullable": true
+          }
+        }
+      }
+    },
+    "/api/SampleData": {
+      "delete": {
+        "tags": [
+          "SampleData"
+        ],
+        "operationId": "SampleData_DeleteShop",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "x-nullable": false,
+            "format": "guid"
+          },
+          {
+            "type": "array",
+            "name": "additionalIds",
+            "in": "header",
+            "x-nullable": true,
+            "collectionFormat": "multi",
+            "items": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/SampleData/GetRoles": {
+      "get": {
+        "tags": [
+          "SampleData"
+        ],
+        "operationId": "SampleData_GetRoles",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "x-nullable": true,
+            "format": "date-time"
+          },
+          {
+            "type": "string",
+            "name": "to",
+            "in": "query",
+            "x-nullable": true,
+            "format": "date-time"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "x-nullable": true
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "FileType": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Document",
+        "Audio",
+        "Video"
+      ],
+      "enum": [
+        "Document",
+        "Audio",
+        "Video"
+      ]
+    },
+    "WeatherForecast": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "temperatureC",
+        "temperatureF"
+      ],
+      "properties": {
+        "station": {
+          "$ref": "#/definitions/Station"
+        },
+        "dateFormatted": {
+          "type": "string"
+        },
+        "temperatureC": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "temperatureF": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "Station": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "data": {
+          "$ref": "#/definitions/ExtensionData"
+        }
+      }
+    },
+    "ExtensionData": {
+      "type": "object",
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      ]
+    }
+  },
+  "parameters": {},
+  "responses": {},
+  "securityDefinitions": {}
+}

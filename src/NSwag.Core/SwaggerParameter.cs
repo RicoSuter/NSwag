@@ -73,5 +73,9 @@ namespace NSwag
         /// <summary>Gets a value indicating whether this is an XML body parameter.</summary>
         [JsonIgnore]
         public bool IsXmlBodyParameter => Kind == SwaggerParameterKind.Body && Parent.ActualConsumes?.FirstOrDefault() == "application/xml";
+
+        /// <summary>Gets a value indicating whether this is an binary body parameter.</summary>
+        [JsonIgnore]
+        public bool IsBinaryBodyParameter => Kind == SwaggerParameterKind.Body && Parent.ActualConsumes?.FirstOrDefault() == "application/octet-stream";
     }
 }
