@@ -1,5 +1,5 @@
 ﻿{
-  "x-generator": "NSwag v11.5.1.0 (NJsonSchema v9.5.0.0)",
+  "x-generator": "NSwag v11.6.1.0 (NJsonSchema v9.5.1.0)",
   "info": {
     "title": "Web API Swagger specification",
     "version": "1.0.0"
@@ -658,10 +658,18 @@
       "additionalProperties": false,
       "properties": {
         "Item1": {
-          "$ref": "#/definitions/Address"
+          "allOf": [
+            {
+              "$ref": "#/definitions/Address"
+            }
+          ]
         },
         "Item2": {
-          "$ref": "#/definitions/Person"
+          "allOf": [
+            {
+              "$ref": "#/definitions/Person"
+            }
+          ]
         }
       }
     },
@@ -713,7 +721,11 @@
           "description": "Gets or sets the last name."
         },
         "Gender": {
-          "$ref": "#/definitions/Gender"
+          "allOf": [
+            {
+              "$ref": "#/definitions/Gender"
+            }
+          ]
         },
         "DateOfBirth": {
           "type": "string",
@@ -738,7 +750,11 @@
           "format": "time-span"
         },
         "Address": {
-          "$ref": "#/definitions/Address"
+          "allOf": [
+            {
+              "$ref": "#/definitions/Address"
+            }
+          ]
         },
         "Children": {
           "type": "array",
@@ -794,8 +810,12 @@
           "type": "string"
         },
         "SkillLevel": {
-          "$ref": "#/definitions/SkillLevel",
-          "default": 1
+          "default": 1,
+          "allOf": [
+            {
+              "$ref": "#/definitions/SkillLevel"
+            }
+          ]
         }
       },
       "allOf": [
@@ -812,7 +832,11 @@
           "type": "string"
         },
         "InnerException": {
-          "$ref": "#/definitions/Exception"
+          "allOf": [
+            {
+              "$ref": "#/definitions/Exception"
+            }
+          ]
         },
         "StackTrace": {
           "type": "string"
