@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Http;
+﻿using System.Web.Http;
 using System.Web.Routing;
 using NSwag.AspNet.Owin;
 
@@ -14,7 +10,7 @@ namespace NSwag.Integration.WebAPI
         {
             RouteTable.Routes.MapOwinPath("swagger", app =>
             {
-                app.UseSwaggerUi(typeof(WebApiApplication).Assembly, new SwaggerUiSettings
+                app.UseReDoc(typeof(WebApiApplication).Assembly, new SwaggerUiSettings
                 {
                     MiddlewareBasePath = "/swagger", 
                     DefaultUrlTemplate = "api/{controller}/{action}/{id}"
