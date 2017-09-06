@@ -92,7 +92,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 if (UnwrappedResultType == "FileResponse")
                     return "System.Threading.Tasks.Task<FileResponse>";
 
-                if (_settings != null && _settings.WrapResponses)
+                if (_settings != null && WrapResponse)
                     return UnwrappedResultType == "void"
                         ? "System.Threading.Tasks.Task<" + _settings.ResponseClass.Replace("{controller}", ControllerName) + ">"
                         : "System.Threading.Tasks.Task<" + _settings.ResponseClass.Replace("{controller}", ControllerName) + "<" + UnwrappedResultType + ">>";
@@ -174,6 +174,11 @@ namespace NSwag.CodeGeneration.CSharp.Models
                     return "System.Collections.Generic.IEnumerable<FileParameter>";
 
                 return "FileParameter";
+            }
+
+            if (parameter.IsBinaryBodyParameter)
+            {
+                return "System.IO.Stream";
             }
 
             return base.ResolveParameterType(parameter)

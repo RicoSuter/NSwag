@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Sample.Common;
-using System.Threading.Tasks;
-using Microsoft.Net.Http.Headers;
 
-namespace NSwag_Sample_NetCoreAngular.Controllers
+namespace NSwag.Sample.NetCoreAngular.Controllers
 {
     [Route("api/[controller]")]
     public class SampleDataController : Controller
@@ -28,21 +27,17 @@ namespace NSwag_Sample_NetCoreAngular.Controllers
             });
         }
 
-        [HttpGet]
-        [Route("[action]")]
-        public async Task<FileContentResult> GetFile(string fileName)
-        {
-            return new FileContentResult(new byte[] { 1, 2, 3 }, new MediaTypeHeaderValue("application/octet-stream"))
-            {
-                FileDownloadName = fileName
-            };
-        }
-
         [HttpDelete]
         [ProducesResponseType(200)]
         public async Task<IActionResult> DeleteShop([FromQuery]Guid id, [FromHeader]List<string> additionalIds)
         {
             return Ok();
         }
+
+        [HttpGet("[action]")]
+        public DateTime?[] GetRoles(DateTime? from, DateTime? to = null)
+        {
+            return new DateTime?[] { from, to };
+        } 
     }
 }

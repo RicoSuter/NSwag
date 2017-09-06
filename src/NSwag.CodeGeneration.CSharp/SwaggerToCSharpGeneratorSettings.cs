@@ -25,9 +25,6 @@ namespace NSwag.CodeGeneration.CSharp
                 NullHandling = NullHandling.Swagger, 
                 TemplateFactory = new DefaultTemplateFactory()
             };
-
-            GenerateResponseClasses = true;
-            ResponseClass = "SwaggerResponse";
         }
 
         /// <summary>Gets or sets the CSharp generator settings.</summary>
@@ -41,14 +38,5 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets the code generator settings.</summary>
         public override CodeGeneratorSettingsBase CodeGeneratorSettings => CSharpGeneratorSettings;
-
-        /// <summary>Gets or sets a value indicating whether to wrap success responses to allow full response access (experimental).</summary>
-        public bool WrapResponses { get; set; }
-
-        /// <summary>Gets or sets a value indicating whether to generate the response classes (only needed when WrapResponses == true, default: true).</summary>
-        public bool GenerateResponseClasses { get; set; }
-
-        /// <summary>Gets or sets the name of the response class (supports the '{controller}' placeholder).</summary>
-        public string ResponseClass { get; set; }
     }
 }

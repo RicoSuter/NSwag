@@ -39,7 +39,7 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
         - Generates a Swagger specification for Web API controllers
     - [WebApiAssemblyToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/WebApiAssemblyToSwaggerGenerator)
         - Generates a Swagger specification for controllers in an external Web API assembly
-        - [Also supports loading of .NET Core assemblies](https://github.com/NSwag/NSwag/wiki/WebApiAssemblyToSwaggerGenerator#net-core)
+        - [Also supports loading of .NET Core assemblies](https://github.com/RSuter/NSwag/wiki/Assembly-loading)
     - [AssemblyTypeToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/AssemblyTypeToSwaggerGenerator)
          - Generates a Swagger specification containing only types from .NET assemblies
 
@@ -126,7 +126,10 @@ var document = await swaggerGenerator.GenerateForControllerAsync<PersonsControll
 var clientSettings = new SwaggerToCSharpClientGeneratorSettings 
 {
     ClassName = "MyClass",
-    Namespace = "MyNamespace"
+    CSharpGeneratorSettings = 
+    {
+        Namespace = "MyNamespace"
+    }
 };
 var clientGenerator = new SwaggerToCSharpClientGenerator(document, clientSettings);
 

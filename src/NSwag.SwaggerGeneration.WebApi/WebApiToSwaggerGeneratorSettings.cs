@@ -7,11 +7,9 @@
 //-----------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NJsonSchema.Generation;
-using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.WebApi.Processors;
 
 namespace NSwag.SwaggerGeneration.WebApi
@@ -41,7 +39,7 @@ namespace NSwag.SwaggerGeneration.WebApi
 
         /// <summary>Gets the operation processor.</summary>
         [JsonIgnore]
-        public IList<IOperationProcessor> OperationProcessors { get; } = new List<IOperationProcessor>
+        public OperationProcessorCollection OperationProcessors { get; } = new OperationProcessorCollection
         {
             new ApiVersionProcessor(),
             new OperationSummaryAndDescriptionProcessor(),
@@ -50,7 +48,7 @@ namespace NSwag.SwaggerGeneration.WebApi
 
         /// <summary>Gets the operation processor.</summary>
         [JsonIgnore]
-        public IList<IDocumentProcessor> DocumentProcessors { get; } = new List<IDocumentProcessor>
+        public DocumentProcessorCollection DocumentProcessors { get; } = new DocumentProcessorCollection
         {
             new DocumentTagsProcessor()
         };

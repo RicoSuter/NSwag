@@ -110,7 +110,7 @@ namespace NSwag.CodeGeneration.TypeScript
         {
             UpdateUseDtoClassAndDataConversionCodeProperties(operations);
 
-            var model = new TypeScriptClientTemplateModel(controllerClassName, operations, _extensionCode, _document, Settings);
+            var model = new TypeScriptClientTemplateModel(controllerName, controllerClassName, operations, _extensionCode, _document, Settings);
             var template = Settings.CreateTemplate(model);
             return template.Render();
         }

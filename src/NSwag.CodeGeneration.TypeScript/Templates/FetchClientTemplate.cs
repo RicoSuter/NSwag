@@ -276,14 +276,14 @@ if(Model.UseAureliaHttpInjection){
             this.Write(" ");
             
             #line 23 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
-if(Model.HasClientBaseClass){
+if(Model.HasBaseClass){
             
             #line default
             #line hidden
             this.Write("extends ");
             
             #line 23 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClientBaseClass));
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.BaseClass));
             
             #line default
             #line hidden
@@ -368,7 +368,7 @@ if(Model.HasConfigurationClass){
                     "esponse> }) {\r\n");
             
             #line 30 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FetchClientTemplate.tt"
-if(Model.HasClientBaseClass){
+if(Model.HasBaseClass){
             
             #line default
             #line hidden

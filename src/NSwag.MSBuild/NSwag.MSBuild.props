@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <PropertyGroup>
-        <NSwagExe>$(MSBuildThisFileDirectory)\NSwag.exe</NSwagExe>
-        <NSwagDir>$(MSBuildThisFileDirectory)</NSwagDir>
-    </PropertyGroup>
+  <PropertyGroup>
+    <NSwagExe>"$(MSBuildThisFileDirectory)\full\NSwag.exe"</NSwagExe>
+    <NSwagExe_x86>"$(MSBuildThisFileDirectory)\full\NSwag.x86.exe"</NSwagExe_x86>
+    <NSwagExe_Core11>dotnet "$(MSBuildThisFileDirectory)\netcoreapp1.0\dotnet-nswag.dll"</NSwagExe_Core11>
+    <NSwagExe_Core12>dotnet "$(MSBuildThisFileDirectory)\netcoreapp1.1\dotnet-nswag.dll"</NSwagExe_Core12>
+    <NSwagExe_Core20>dotnet "$(MSBuildThisFileDirectory)\netcoreapp2.0\dotnet-nswag.dll"</NSwagExe_Core20>
+
+    <NSwagDir>$(MSBuildThisFileDirectory)\full\</NSwagDir>
+    <NSwagDir_Core11>$(MSBuildThisFileDirectory)\netcoreapp1.0\</NSwagDir_Core11>
+    <NSwagDir_Core12>$(MSBuildThisFileDirectory)\netcoreapp1.1\</NSwagDir_Core12>
+    <NSwagDir_Core20>$(MSBuildThisFileDirectory)\netcoreapp2.0\</NSwagDir_Core20>
+  </PropertyGroup>
 </Project>

@@ -17,14 +17,14 @@ export interface I<#=Model.Class#> {
 <#}#>}
 <#}#>
 
-export class <#=Model.Class#> <#if(Model.HasClientBaseClass){#>extends <#=Model.ClientBaseClass#> <#}#><#if(Model.GenerateClientInterfaces){#>implements I<#=Model.Class#> <#}#>{
+export class <#=Model.Class#> <#if(Model.HasBaseClass){#>extends <#=Model.BaseClass#> <#}#><#if(Model.GenerateClientInterfaces){#>implements I<#=Model.Class#> <#}#>{
     baseUrl: string;
     beforeSend: any = undefined;
     protected jsonParseReviver: <#if(Model.SupportsStrictNullChecks){#>((key: string, value: any) => any) | undefined<#}else{#>(key: string, value: any) => any<#}#> = undefined;
 
 <#if(!Model.HasExtendedConstructor){#>
     constructor(<#if(Model.HasConfigurationClass){#>configuration: <#=Model.ConfigurationClass#>, <#}#>baseUrl?: string) {
-<#if(Model.HasClientBaseClass){#>
+<#if(Model.HasBaseClass){#>
         super(<#if(Model.HasConfigurationClass){#>configuration<#}#>);
 <#}#>
 <#if(Model.UseGetBaseUrlMethod){#>

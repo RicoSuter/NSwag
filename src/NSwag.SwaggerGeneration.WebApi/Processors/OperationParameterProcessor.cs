@@ -193,7 +193,14 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
         private async Task<bool> TryAddFileParameterAsync(JsonObjectTypeDescription info, SwaggerOperation operation, ParameterInfo parameter, SwaggerGenerator swaggerGenerator)
         {
             var isFileArray = IsFileArray(parameter.ParameterType, info);
-            if (info.Type == JsonObjectType.File || isFileArray)
+
+            var attributes = parameter.GetCustomAttributes()
+                .Union(parameter.ParameterType.GetTypeInfo().GetCustomAttributes());
+
+            var hasSwaggerFileAttribute = attributes.Any(a =>
+                a.GetType().IsAssignableTo("SwaggerFileAttribute", TypeNameStyle.Name));
+
+            if (info.Type == JsonObjectType.File || hasSwaggerFileAttribute || isFileArray)
             {
                 await AddFileParameterAsync(parameter, isFileArray, operation, swaggerGenerator).ConfigureAwait(false);
                 return true;
@@ -231,9 +238,22 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                 {
                     Name = name,
                     Kind = SwaggerParameterKind.Body,
-                    IsRequired = parameter.HasDefaultValue == false,
-                    IsNullableRaw = true,
                     Schema = new JsonSchema4 { Type = JsonObjectType.String },
+                    IsNullableRaw = true,
+                    IsRequired = parameter.HasDefaultValue == false,
+                    Description = await parameter.GetDescriptionAsync(parameter.GetCustomAttributes()).ConfigureAwait(false)
+                });
+            }
+            else if (parameter.ParameterType.IsAssignableTo("System.IO.Stream", TypeNameStyle.FullName))
+            {
+                operation.Consumes = new List<string> { "application/octet-stream" };
+                operation.Parameters.Add(new SwaggerParameter
+                {
+                    Name = name,
+                    Kind = SwaggerParameterKind.Body,
+                    Schema = new JsonSchema4 { Type = JsonObjectType.String, Format = JsonFormatStrings.Byte },
+                    IsNullableRaw = true,
+                    IsRequired = parameter.HasDefaultValue == false,
                     Description = await parameter.GetDescriptionAsync(parameter.GetCustomAttributes()).ConfigureAwait(false)
                 });
             }

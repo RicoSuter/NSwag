@@ -1,8 +1,11 @@
 #!/usr/bin/env node
 "use strict";
 
-process.title = 'nswag';
+var defaultCoreVersion = "1.1";
+var supportedCoreVersions = ["1.0", "1.1", "2.0"];
 
+// Initialize
+process.title = 'nswag';
 console.log("NSwag NPM CLI");
 var args = process.argv.splice(2, process.argv.length - 2).map(function (a) { return a.indexOf(" ") === -1 ? a : '"' + a + '"' }).join(" ");
 
@@ -21,30 +24,37 @@ if (process.env["windir"]) {
 }
 
 var c = require('child_process');
-if (hasFullDotNet && !args.endsWith("--core") && !args.endsWith("--core 1.0") && !args.endsWith("--core 1.1")) {
+if (hasFullDotNet && args.indexOf("--core") == -1 && args.indexOf("/runtime:core") == -1) {
     // Run full .NET version
-    var cmd = '"' + __dirname + '/binaries/full/nswag.exe" ' + args;
-    var code = c.execSync(cmd, { stdio: [0, 1, 2] });
+    if (args.indexOf("--x86") != -1 || args.toLowerCase().indexOf("/runtime:x86") != -1) {
+        var cmd = '"' + __dirname + '/binaries/full/nswag.x86.exe" ' + args;
+        var code = c.execSync(cmd, { stdio: [0, 1, 2] });
+    } else {
+        var cmd = '"' + __dirname + '/binaries/full/nswag.exe" ' + args;
+        var code = c.execSync(cmd, { stdio: [0, 1, 2] });
+    }
 } else {
     // Run .NET Core version
-    var core10cmd = 'dotnet "' + __dirname + '/binaries/netcoreapp1.0/dotnet-nswag.dll" ' + args;
-    var core11cmd = 'dotnet "' + __dirname + '/binaries/netcoreapp1.1/dotnet-nswag.dll" ' + args;
+    var defaultCmd = 'dotnet "' + __dirname + '/binaries/netcoreapp' + defaultCoreVersion + '/dotnet-nswag.dll" ' + args;
+    var infoCmd = "dotnet --version";
+    c.exec(infoCmd, (error, stdout, stderr) => {
+        for (let version of supportedCoreVersions) {
+            var coreCmd = 'dotnet "' + __dirname + '/binaries/netcoreapp' + version + '/dotnet-nswag.dll" ' + args;
 
-    var cmd = "dotnet";
-    if (args.endsWith("--core 1.0"))
-        c.execSync(core10cmd, { stdio: [0, 1, 2] });
-    else if (args.endsWith("--core 1.1"))
-        c.execSync(core11cmd, { stdio: [0, 1, 2] });
-    else {
-        c.exec(cmd, (error, stdout, stderr) => {
-            if (!error) {
-                var dotnetVersion = stdout;
-                if (dotnetVersion.indexOf("Version  : 1.0.0") !== -1)
-                    c.execSync(core10cmd, { stdio: [0, 1, 2] });
-                else if (dotnetVersion.indexOf("Version  : 1.1.0") !== -1)
-                    c.execSync(core11cmd, { stdio: [0, 1, 2] });
-            } else
-                c.execSync(core11cmd, { stdio: [0, 1, 2] });
-        });
-    }
+            if (args.indexOf("--core " + version) != -1 || args.indexOf("/runtime:core" + version) != -1) {
+                c.execSync(coreCmd, { stdio: [0, 1, 2] });
+                return;
+            } else {
+                if (!error) {
+                    var coreVersion = stdout;
+                    if (coreVersion.indexOf(version + ".0") !== -1) {
+                        c.execSync(coreCmd, { stdio: [0, 1, 2] });
+                        return;
+                    }
+                }
+            }
+        }
+        c.execSync(defaultCmd, { stdio: [0, 1, 2] });
+        return;
+    });
 }

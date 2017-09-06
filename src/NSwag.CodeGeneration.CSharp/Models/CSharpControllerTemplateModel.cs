@@ -29,20 +29,23 @@ namespace NSwag.CodeGeneration.CSharp.Models
             SwaggerToCSharpWebApiControllerGeneratorSettings settings)
             : base(controllerName, settings)
         {
-            Class = controllerName;
-            Operations = operations;
             _document = document;
             _settings = settings;
+
+            Class = controllerName;
+            Operations = operations;
+
+            BaseClass = _settings.ControllerBaseClass?.Replace("{controller}", controllerName);
         }
 
         /// <summary>Gets or sets the class name.</summary>
         public string Class { get; }
 
         /// <summary>Gets a value indicating whether the controller has a base class.</summary>
-        public bool HasBaseClass => !string.IsNullOrEmpty(_settings.ControllerBaseClass);
+        public bool HasBaseClass => !string.IsNullOrEmpty(BaseClass);
 
         /// <summary>Gets the base class.</summary>
-        public string BaseClass => _settings.ControllerBaseClass;
+        public string BaseClass { get; }
 
         /// <summary>Gets or sets the service base URL.</summary>
         public string BaseUrl => _document.BaseUrl;
@@ -61,5 +64,14 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
         /// <summary>Gets a value indicating whether to generate optional parameters.</summary>
         public bool GenerateOptionalParameters => _settings.GenerateOptionalParameters;
+
+        /// <summary>Gets a value indicating whether to generate partial controllers.</summary>
+        public bool GeneratePartialControllers => _settings.ControllerStyle == CSharpControllerStyle.Partial;
+
+        /// <summary>Gets a value indicating whether to generate abstract controllers.</summary>
+        public bool GenerateAbstractControllers => _settings.ControllerStyle == CSharpControllerStyle.Abstract;
+
+        /// <summary>Gets a value  indicating whether to allow adding cancellation token.</summary>
+        public bool UseCancellationToken => _settings.UseCancellationToken;
     }
 }
