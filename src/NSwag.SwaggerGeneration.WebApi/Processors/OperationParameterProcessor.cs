@@ -233,6 +233,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                     Kind = SwaggerParameterKind.Body,
                     IsRequired = parameter.HasDefaultValue == false,
                     IsNullableRaw = true,
+                    Schema = new JsonSchema4 { Type = JsonObjectType.String },
                     Description = await parameter.GetDescriptionAsync(parameter.GetCustomAttributes()).ConfigureAwait(false)
                 });
             }
