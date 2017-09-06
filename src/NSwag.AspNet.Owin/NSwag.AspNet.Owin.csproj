@@ -19,12 +19,7 @@
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="SwaggerUi\**\*" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
-    <None Remove="ReDoc\main.css" />
-    <EmbeddedResource Include="ReDoc\dist\redoc.js" />
-    <EmbeddedResource Include="ReDoc\dist\redoc.js.map" />
-    <EmbeddedResource Include="ReDoc\dist\redoc.min.js" />
-    <EmbeddedResource Include="ReDoc\dist\redoc.min.js.map" />
-    <EmbeddedResource Include="ReDoc\index.html" />
+    <EmbeddedResource Include="ReDoc\**\*" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net45|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;AspNetOwin;NET45</DefineConstants>

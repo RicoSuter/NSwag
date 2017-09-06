@@ -22,13 +22,6 @@
     <EmbeddedResource Include="SwaggerUi\**\*" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ReDoc\dist\redoc.js" />
-    <EmbeddedResource Include="ReDoc\dist\redoc.js.map" />
-    <EmbeddedResource Include="ReDoc\dist\redoc.min.js" />
-    <EmbeddedResource Include="ReDoc\dist\redoc.min.js.map" />
-    <EmbeddedResource Include="ReDoc\index.html" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="1.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="1.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.0.2" />
