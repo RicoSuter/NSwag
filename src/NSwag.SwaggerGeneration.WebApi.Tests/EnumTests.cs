@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NJsonSchema.Annotations;
 
 namespace NSwag.SwaggerGeneration.WebApi.Tests
 {
     [TestClass]
-    public class EnumListTests
+    public class EnumTests
     {
         public enum MetadataSchemaType
         {
@@ -46,6 +48,35 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
 
             // Assert
             Assert.IsTrue(json.Split(new[] { "x-enumNames" }, StringSplitOptions.None).Length == 2); // enum is defined only once
+        }
+
+        public class MyEnumResultController
+        {
+            public enum SetPasswordResult
+            {
+                A,
+                B
+            }
+
+            public SetPasswordResult SetPassword(Guid accountId, Guid userId, [NotNull] String oldPassword,
+                [NotNull] String password, String passwordRepetition)
+            {
+                return SetPasswordResult.B;
+            }
+        }
+
+        [TestMethod]
+        public async Task When_response_is_enum_then_it_is_referenced()
+        {
+            // Arrange
+            var apiGenerator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings());
+
+            //// Act
+            var document = await apiGenerator.GenerateForControllerAsync<MyEnumResultController>();
+            var json = document.ToJson();
+
+            // Assert
+            Assert.IsTrue(document.Operations.First().Operation.Responses.First().Value.Schema.HasSchemaReference);
         }
     }
 }

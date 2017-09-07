@@ -158,7 +158,7 @@ namespace NSwag.SwaggerGeneration
         /// <param name="type">The type.</param>
         /// <param name="mayBeNull">if set to <c>true</c> [may be null].</param>
         /// <param name="parentAttributes">The parent attributes.</param>
-        /// <returns></returns>
+        /// <returns>The schema.</returns>
         public async Task<JsonSchema4> GenerateAndAppendSchemaFromTypeAsync(Type type, bool mayBeNull, IEnumerable<Attribute> parentAttributes)
         {
             if (type.Name == "Task`1")
@@ -170,8 +170,10 @@ namespace NSwag.SwaggerGeneration
             if (IsFileResponse(type))
                 return new JsonSchema4 { Type = JsonObjectType.File };
 
+            // TODO: Merge with NJS.LoadPropertyOrFieldAsync
             var typeDescription = JsonObjectTypeDescription.FromType(type, ResolveContract(type), parentAttributes, _settings.DefaultEnumHandling);
-            if (typeDescription.Type.HasFlag(JsonObjectType.Object) && !typeDescription.IsDictionary)
+            // TODO: Use needsSchemaReference from NJS here
+            if ((typeDescription.Type.HasFlag(JsonObjectType.Object) || typeDescription.IsEnum) && !typeDescription.IsDictionary)
             {
                 if (type == typeof(object))
                 {
@@ -183,27 +185,25 @@ namespace NSwag.SwaggerGeneration
                     };
                 }
 
-                if (!_schemaResolver.HasSchema(type, false))
-                    await _schemaGenerator.GenerateAsync(type, _schemaResolver).ConfigureAwait(false);
-
+                var responseSchema = await _schemaGenerator.GenerateAsync(type, parentAttributes, _schemaResolver).ConfigureAwait(false);
                 if (mayBeNull)
                 {
-                    if (_settings.NullHandling == NullHandling.JsonSchema)
+                    if (_settings.NullHandling != NullHandling.Swagger)
                     {
                         var schema = new JsonSchema4();
                         schema.OneOf.Add(new JsonSchema4 { Type = JsonObjectType.Null });
-                        schema.OneOf.Add(new JsonSchema4 { SchemaReference = _schemaResolver.GetSchema(type, false) });
+                        schema.OneOf.Add(new JsonSchema4 { SchemaReference = responseSchema.ActualSchema });
                         return schema;
                     }
                     else
                     {
                         // TODO: Fix this bad design
                         // IsNullable must be directly set on SwaggerParameter or SwaggerResponse
-                        return new JsonSchema4 { SchemaReference = _schemaResolver.GetSchema(type, false) };
+                        return new JsonSchema4 { SchemaReference = responseSchema.ActualSchema };
                     }
                 }
                 else
-                    return new JsonSchema4 { SchemaReference = _schemaResolver.GetSchema(type, false) };
+                    return new JsonSchema4 { SchemaReference = responseSchema.ActualSchema };
             }
 
             if (typeDescription.Type.HasFlag(JsonObjectType.Array))
@@ -217,17 +217,26 @@ namespace NSwag.SwaggerGeneration
                     ? await GenerateAndAppendSchemaFromTypeAsync(itemType, false, null).ConfigureAwait(false)
                     : JsonSchema4.CreateAnySchema();
 
-                return new JsonSchema4
+                var schema = new JsonSchema4
                 {
                     Type = jsonType,
                     Item = itemSchema
                 };
 
+                if (mayBeNull && _settings.NullHandling != NullHandling.Swagger)
+                {
+                    schema.OneOf.Add(new JsonSchema4 { Type = JsonObjectType.Null });
+                    schema.OneOf.Add(new JsonSchema4 { SchemaReference = schema });
+                    return schema;
+                }
+
+                return schema;
+
                 // TODO: Fix this bad design
                 // IsNullable must be directly set on SwaggerParameter or SwaggerResponse
             }
 
-            return await _schemaGenerator.GenerateAsync(type, _schemaResolver).ConfigureAwait(false);
+            return await _schemaGenerator.GenerateAsync(type, parentAttributes, _schemaResolver).ConfigureAwait(false);
         }
 
         private bool IsParameterRequired(ParameterInfo parameter)

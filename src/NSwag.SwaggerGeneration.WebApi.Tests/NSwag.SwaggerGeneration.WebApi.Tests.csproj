@@ -128,7 +128,7 @@
     <Compile Include="Nullability\ParameterNullabilityTests.cs" />
     <Compile Include="Nullability\ResponseNullabilityTests.cs" />
     <Compile Include="RouteAttributeTests.cs" />
-    <Compile Include="EnumListTests.cs" />
+    <Compile Include="EnumTests.cs" />
     <Compile Include="FileParameterTests.cs" />
     <Compile Include="FileResponseTests.cs" />
     <Compile Include="InheritanceTests.cs" />
