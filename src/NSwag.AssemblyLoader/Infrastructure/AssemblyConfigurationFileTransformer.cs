@@ -42,21 +42,9 @@ namespace NSwag.CodeGeneration.Infrastructure
   </runtime>
 </configuration>";
 
-        private const string JsonNetAssemblyBinding =
+        private const string AssemblyBinding =
 @"<dependentAssembly>
-  <assemblyIdentity name=""{name}"" publicKeyToken=""30ad4fe6b2a6aeed"" culture=""neutral"" />
-  <bindingRedirect oldVersion=""0.0.0.0-65535.65535.65535.65535"" newVersion=""{newVersion}"" />
-</dependentAssembly>";
-
-        private const string NSwagAssemblyBinding =
-@"<dependentAssembly>
-  <assemblyIdentity name=""{name}"" publicKeyToken=""c2d88086e098d109"" culture=""neutral"" />
-  <bindingRedirect oldVersion=""0.0.0.0-65535.65535.65535.65535"" newVersion=""{newVersion}"" />
-</dependentAssembly>";
-
-        private const string NJsonSchemaAssemblyBinding =
-@"<dependentAssembly>
-  <assemblyIdentity name=""{name}"" publicKeyToken=""c2f9c3bdfae56102"" culture=""neutral"" />
+  <assemblyIdentity name=""{name}"" publicKeyToken=""{publicKeyToken}"" culture=""neutral"" />
   <bindingRedirect oldVersion=""0.0.0.0-65535.65535.65535.65535"" newVersion=""{newVersion}"" />
 </dependentAssembly>";
 
@@ -65,35 +53,46 @@ namespace NSwag.CodeGeneration.Infrastructure
             configurationPath = !string.IsNullOrEmpty(configurationPath) ? configurationPath : TryFindConfigurationPath(assemblyDirectory);
 
             var content = !string.IsNullOrEmpty(configurationPath) ? File.ReadAllText(configurationPath, Encoding.UTF8) : EmptyConfig;
-            content = UpdateOrAddBindingRedirect(content, "Newtonsoft.Json", typeof(JToken), JsonNetAssemblyBinding);
-            content = UpdateOrAddBindingRedirect(content, "NJsonSchema", typeof(JsonSchema4), NJsonSchemaAssemblyBinding);
-            content = UpdateOrAddBindingRedirect(content, "NSwag.Core", typeof(SwaggerDocument), NSwagAssemblyBinding);
-            content = UpdateOrAddBindingRedirect(content, "NSwag.SwaggerGeneration", typeof(SwaggerJsonSchemaGenerator), NSwagAssemblyBinding);
-            content = UpdateOrAddBindingRedirect(content, "NSwag.SwaggerGeneration.WebApi", typeof(WebApiToSwaggerGenerator), NSwagAssemblyBinding);
-            content = UpdateOrAddBindingRedirect(content, "NSwag.Annotations", typeof(SwaggerTagsAttribute), NSwagAssemblyBinding);
+            content = UpdateOrAddBindingRedirect(content, "Newtonsoft.Json", typeof(JToken), "30ad4fe6b2a6aeed");
+            content = UpdateOrAddBindingRedirect(content, "NJsonSchema", typeof(JsonSchema4), "c2f9c3bdfae56102");
+            content = UpdateOrAddBindingRedirect(content, "NSwag.Core", typeof(SwaggerDocument), "c2d88086e098d109");
+            content = UpdateOrAddBindingRedirect(content, "NSwag.SwaggerGeneration", typeof(SwaggerJsonSchemaGenerator), "c2d88086e098d109");
+            content = UpdateOrAddBindingRedirect(content, "NSwag.SwaggerGeneration.WebApi", typeof(WebApiToSwaggerGenerator), "c2d88086e098d109");
+            content = UpdateOrAddBindingRedirect(content, "NSwag.Annotations", typeof(SwaggerTagsAttribute), "c2d88086e098d109");
+            //content = UpdateOrAddBindingRedirect(content, "System.Runtime", "4.2.0.0", "b03f5f7f11d50a3a");
 
             return Encoding.UTF8.GetBytes(content);
         }
 
-        private static string UpdateOrAddBindingRedirect(string content, string name, Type newVersionType, string assemblyBinding)
+        private static string UpdateOrAddBindingRedirect(string content, string name, Type newVersionType, string publicKeyToken)
         {
             var newVersion = newVersionType.Assembly.GetName().Version.ToString();
+            return UpdateOrAddBindingRedirect(content, name, newVersion, publicKeyToken);
+        }
+
+        private static string UpdateOrAddBindingRedirect(string content, string name, string newVersion, string publicKeyToken)
+        {
             if (content.Contains(@"assemblyIdentity name=""" + name + @""""))
             {
-                content = Regex.Replace(content, "<assemblyIdentity name=\"" + Regex.Escape(name) + "\"((.|\n|\r)*?)</dependentAssembly>",
-                    match => Regex.Replace(match.Value, "oldVersion=\"(.*?)\"", "oldVersion=\"0.0.0.0-65535.65535.65535.65535\""),
+                content = Regex.Replace(content,
+                    "<assemblyIdentity name=\"" + Regex.Escape(name) + "\"((.|\n|\r)*?)</dependentAssembly>",
+                    match => Regex.Replace(match.Value, "oldVersion=\"(.*?)\"",
+                        "oldVersion=\"0.0.0.0-65535.65535.65535.65535\""),
                     RegexOptions.Singleline);
 
-                content = Regex.Replace(content, "<assemblyIdentity name=\"" + Regex.Escape(name) + "\"((.|\n|\r)*?)</dependentAssembly>",
+                content = Regex.Replace(content,
+                    "<assemblyIdentity name=\"" + Regex.Escape(name) + "\"((.|\n|\r)*?)</dependentAssembly>",
                     match => Regex.Replace(match.Value, "newVersion=\"(.*?)\"", "newVersion=\"" + newVersion + "\""),
                     RegexOptions.Singleline);
 
                 return content;
             }
             else
-                return content.Replace("</assemblyBinding>", assemblyBinding
+                return content.Replace("</assemblyBinding>", AssemblyBinding
                     .Replace("{name}", name)
-                    .Replace("{newVersion}", newVersion) + "</assemblyBinding>");
+                    .Replace("{publicKeyToken}", publicKeyToken)
+                    .Replace("{newVersion}", newVersion) + 
+                    "</assemblyBinding>");
         }
 
         private static string TryFindConfigurationPath(string assemblyDirectory)
