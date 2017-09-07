@@ -58,8 +58,9 @@ namespace NSwag.CodeGeneration.Infrastructure
             content = UpdateOrAddBindingRedirect(content, "NSwag.Core", typeof(SwaggerDocument), "c2d88086e098d109");
             content = UpdateOrAddBindingRedirect(content, "NSwag.SwaggerGeneration", typeof(SwaggerJsonSchemaGenerator), "c2d88086e098d109");
             content = UpdateOrAddBindingRedirect(content, "NSwag.SwaggerGeneration.WebApi", typeof(WebApiToSwaggerGenerator), "c2d88086e098d109");
-            content = UpdateOrAddBindingRedirect(content, "NSwag.Annotations", typeof(SwaggerTagsAttribute), "c2d88086e098d109");
-            //content = UpdateOrAddBindingRedirect(content, "System.Runtime", "4.2.0.0", "b03f5f7f11d50a3a");
+            //content = UpdateOrAddBindingRedirect(content, "NSwag.Annotations", typeof(SwaggerTagsAttribute), "c2d88086e098d109");
+            //content = UpdateOrAddBindingRedirect(content, "System.Runtime", "4.0.0.0", "b03f5f7f11d50a3a");
+            //content = UpdateOrAddBindingRedirect(content, "System.Private.CoreLib", "4.0.0.0", "7cec85d7bea7798e");
 
             return Encoding.UTF8.GetBytes(content);
         }
@@ -91,7 +92,7 @@ namespace NSwag.CodeGeneration.Infrastructure
                 return content.Replace("</assemblyBinding>", AssemblyBinding
                     .Replace("{name}", name)
                     .Replace("{publicKeyToken}", publicKeyToken)
-                    .Replace("{newVersion}", newVersion) + 
+                    .Replace("{newVersion}", newVersion) +
                     "</assemblyBinding>");
         }
 
