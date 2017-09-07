@@ -1,5 +1,5 @@
 ﻿{
-  "x-generator": "NSwag v11.5.1.0 (NJsonSchema v9.5.0.0)",
+  "x-generator": "NSwag v11.6.1.0 (NJsonSchema v9.5.2.0)",
   "info": {
     "title": "Web API Swagger specification",
     "version": "1.0.0"
@@ -794,8 +794,12 @@
           "type": "string"
         },
         "SkillLevel": {
-          "$ref": "#/definitions/SkillLevel",
-          "default": 1
+          "default": 1,
+          "allOf": [
+            {
+              "$ref": "#/definitions/SkillLevel"
+            }
+          ]
         }
       },
       "allOf": [
