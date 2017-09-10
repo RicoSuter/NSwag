@@ -172,15 +172,17 @@ namespace NSwag.SwaggerGeneration
 
             // TODO: Merge with NJS.LoadPropertyOrFieldAsync
             var typeDescription = JsonObjectTypeDescription.FromType(type, ResolveContract(type), parentAttributes, _settings.DefaultEnumHandling);
-            // TODO: Use needsSchemaReference from NJS here
-            if ((typeDescription.Type.HasFlag(JsonObjectType.Object) || typeDescription.IsEnum) && !typeDescription.IsDictionary)
+            if (typeDescription.RequiresSchemaReference(_settings.TypeMappers))
             {
+                // TODO: Is this required?
                 if (type == typeof(object))
                 {
                     return new JsonSchema4
                     {
                         // IsNullable is directly set on SwaggerParameter or SwaggerResponse
-                        Type = _settings.NullHandling == NullHandling.JsonSchema ? JsonObjectType.Object | JsonObjectType.Null : JsonObjectType.Object,
+                        Type = _settings.NullHandling == NullHandling.JsonSchema ? 
+                            JsonObjectType.Object | JsonObjectType.Null : 
+                            JsonObjectType.Object,
                         AllowAdditionalProperties = false
                     };
                 }
@@ -204,36 +206,6 @@ namespace NSwag.SwaggerGeneration
                 }
                 else
                     return new JsonSchema4 { SchemaReference = responseSchema.ActualSchema };
-            }
-
-            if (typeDescription.Type.HasFlag(JsonObjectType.Array))
-            {
-                var jsonType = _settings.NullHandling == NullHandling.JsonSchema
-                    ? JsonObjectType.Array | JsonObjectType.Null
-                    : JsonObjectType.Array;
-
-                var itemType = type.GetEnumerableItemType();
-                var itemSchema = itemType != null
-                    ? await GenerateAndAppendSchemaFromTypeAsync(itemType, false, null).ConfigureAwait(false)
-                    : JsonSchema4.CreateAnySchema();
-
-                var schema = new JsonSchema4
-                {
-                    Type = jsonType,
-                    Item = itemSchema
-                };
-
-                if (mayBeNull && _settings.NullHandling != NullHandling.Swagger)
-                {
-                    schema.OneOf.Add(new JsonSchema4 { Type = JsonObjectType.Null });
-                    schema.OneOf.Add(new JsonSchema4 { SchemaReference = schema });
-                    return schema;
-                }
-
-                return schema;
-
-                // TODO: Fix this bad design
-                // IsNullable must be directly set on SwaggerParameter or SwaggerResponse
             }
 
             return await _schemaGenerator.GenerateAsync(type, parentAttributes, _schemaResolver).ConfigureAwait(false);
