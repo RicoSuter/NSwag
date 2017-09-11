@@ -45,6 +45,12 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             get { return Enum.GetNames(typeof(PropertyNameHandling)).Select(t => (PropertyNameHandling)Enum.Parse(typeof(PropertyNameHandling), t)).ToArray(); }
         }
 
+        /// <summary>Gets the reference type null handlings. </summary>
+        public ReferenceTypeNullHandling[] ReferenceTypeNullHandlings
+        {
+            get { return Enum.GetNames(typeof(ReferenceTypeNullHandling)).Select(t => (ReferenceTypeNullHandling)Enum.Parse(typeof(ReferenceTypeNullHandling), t)).ToArray(); }
+        }
+
         /// <summary>Gets or sets the command to browse for an assembly.</summary>
         public AsyncRelayCommand BrowseAssemblyCommand { get; set; }
 
