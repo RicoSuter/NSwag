@@ -51,12 +51,12 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
 
                 dynamic fromRouteAttribute = attributes.TryGetIfAssignableTo("Microsoft.AspNetCore.Mvc.FromRouteAttribute");
                 dynamic fromHeaderAttribute = attributes.TryGetIfAssignableTo("Microsoft.AspNetCore.Mvc.FromHeaderAttribute");
-                dynamic fromBodyAttribute = attributes.TryGetIfAssignableTo("FromBodyAttribute", TypeNameStyle.Name);
-                dynamic fromUriAttribute = attributes.TryGetIfAssignableTo("FromUriAttribute", TypeNameStyle.Name) ??
-                                           attributes.TryGetIfAssignableTo("FromQueryAttribute", TypeNameStyle.Name);
+                var fromBodyAttribute = attributes.TryGetIfAssignableTo("FromBodyAttribute", TypeNameStyle.Name);
+                var fromUriAttribute = attributes.TryGetIfAssignableTo("FromUriAttribute", TypeNameStyle.Name) ??
+                                       attributes.TryGetIfAssignableTo("FromQueryAttribute", TypeNameStyle.Name);
 
-                string bodyParameterName = TryGetStringPropertyValue(fromBodyAttribute, "Name") ?? parameterName;
-                string uriParameterName = TryGetStringPropertyValue(fromUriAttribute, "Name") ?? parameterName;
+                string bodyParameterName = fromBodyAttribute.TryGetPropertyValue<string>("Name") ?? parameterName;
+                string uriParameterName = fromUriAttribute.TryGetPropertyValue<string>("Name") ?? parameterName;
 
                 var uriParameterNameLower = uriParameterName.ToLowerInvariant();
 
@@ -103,15 +103,12 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                             if (parameterInfo.IsComplexType)
                             {
                                 // Check for a custom ParameterBindingAttribute (OWIN/WebAPI only)
-                                Attribute bindingAttribute = null;
-                                if (fromBodyAttribute == null &&
-                                    fromUriAttribute == null &&
-                                    !_settings.IsAspNetCore &&
-                                    (bindingAttribute = attributes.SingleOrDefault(attr => attr.GetType().InheritsFrom("ParameterBindingAttribute", TypeNameStyle.Name))) != null)
+                                var parameterBindingAttribute = attributes.TryGetIfAssignableTo("ParameterBindingAttribute", TypeNameStyle.Name);
+                                if (parameterBindingAttribute != null && fromBodyAttribute == null && fromUriAttribute == null && !_settings.IsAspNetCore)
                                 {
                                     // Try to find a [WillReadBody] attribute on either the action parameter or the bindingAttribute's class
-                                    Attribute willReadBodyAttribute = attributes.Concat(bindingAttribute.GetType().GetTypeInfo().GetCustomAttributes())
-                                        .FirstOrDefault(attr => attr.GetType().Name.Equals("WillReadBodyAttribute", StringComparison.OrdinalIgnoreCase));
+                                    var willReadBodyAttribute = attributes.Concat(parameterBindingAttribute.GetType().GetTypeInfo().GetCustomAttributes())
+                                        .TryGetIfAssignableTo("WillReadBodyAttribute", TypeNameStyle.Name);
 
                                     if (willReadBodyAttribute == null)
                                         await AddBodyParameterAsync(context, bodyParameterName, parameter).ConfigureAwait(false);
@@ -122,12 +119,13 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                                         var willReadBody = willReadBodyAttribute.TryGetPropertyValue("WillReadBody", true);
                                         if (willReadBody)
                                             await AddBodyParameterAsync(context, bodyParameterName, parameter).ConfigureAwait(false);
-
-                                        // If we are not reading from the body, then treat this as a primitive.
-                                        // This may seem odd, but it allows for primitive -> custom complex-type bindings which are very common
-                                        // In this case, the API author should use a TypeMapper to define the parameter
                                         else
+                                        {
+                                            // If we are not reading from the body, then treat this as a primitive.
+                                            // This may seem odd, but it allows for primitive -> custom complex-type bindings which are very common
+                                            // In this case, the API author should use a TypeMapper to define the parameter
                                             await AddPrimitiveParameterAsync(uriParameterName, context.OperationDescription.Operation, parameter, context.SwaggerGenerator).ConfigureAwait(false);
+                                        }
                                     }
                                 }
                                 else if (fromBodyAttribute != null || (fromUriAttribute == null && _settings.IsAspNetCore == false))
@@ -293,7 +291,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                     if (attributes.All(a => a.GetType().Name != "SwaggerIgnoreAttribute" && a.GetType().Name != "JsonIgnoreAttribute"))
                     {
                         var fromQueryAttribute = attributes.SingleOrDefault(a => a.GetType().Name == "FromQueryAttribute");
-                        var propertyName = TryGetStringPropertyValue(fromQueryAttribute, "Name") ?? 
+                        var propertyName = fromQueryAttribute.TryGetPropertyValue<string>("Name") ??
                             context.SchemaGenerator.GetPropertyName(property);
 
                         dynamic fromRouteAttribute = attributes.SingleOrDefault(a => a.GetType().FullName == "Microsoft.AspNetCore.Mvc.FromRouteAttribute");
@@ -353,12 +351,6 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
 
             if (isFileArray)
                 operationParameter.CollectionFormat = SwaggerParameterCollectionFormat.Multi;
-        }
-
-        private string TryGetStringPropertyValue(dynamic obj, string propertyName)
-        {
-            return ((object)obj)?.GetType().GetRuntimeProperty(propertyName) != null && 
-                !string.IsNullOrEmpty(obj.Name) ? obj.Name : null;
         }
     }
 }

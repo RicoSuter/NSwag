@@ -203,7 +203,7 @@ namespace NSwag.SwaggerGeneration.WebApi
 
             foreach (dynamic attribute in operationProcessorAttribute)
             {
-                var operationProcessor = ObjectExtensions.HasProperty(attribute, "Parameters") ? 
+                var operationProcessor = ReflectionExtensions.HasProperty(attribute, "Parameters") ? 
                     Activator.CreateInstance(attribute.Type, attribute.Parameters) : 
                     Activator.CreateInstance(attribute.Type);
 

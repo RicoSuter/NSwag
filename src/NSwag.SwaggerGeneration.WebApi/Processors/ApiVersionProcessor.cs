@@ -37,7 +37,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                 .ToArray();
 
             var versionAttribute = versionAttributes.FirstOrDefault();
-            if (ObjectExtensions.HasProperty(versionAttribute, "Versions"))
+            if (ReflectionExtensions.HasProperty(versionAttribute, "Versions"))
             {
                 var versions = ((IEnumerable)versionAttribute.Versions)
                     .OfType<object>()
