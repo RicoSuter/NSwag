@@ -23,7 +23,7 @@ namespace NSwag.CodeGeneration.TypeScript
             PromiseType = PromiseType.Promise;
             TypeScriptGeneratorSettings = new TypeScriptGeneratorSettings
             {
-                NullHandling = NullHandling.Swagger,
+                SchemaType = SchemaType.Swagger2,
                 MarkOptionalProperties = true,
                 TemplateFactory = new DefaultTemplateFactory(), 
                 TypeNameGenerator = new TypeScriptTypeNameGenerator()

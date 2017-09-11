@@ -117,6 +117,9 @@
             <TextBlock Margin="0,0,0,6" Text="Default Property Name Handling" TextWrapping="Wrap" FontWeight="Bold" />
             <ComboBox SelectedItem="{Binding Command.DefaultPropertyNameHandling, Mode=TwoWay}" ItemsSource="{Binding PropertyNameHandlings}" Margin="0,0,0,12" />
 
+            <TextBlock Margin="0,0,0,6" Text="The default null handling (if NotNullAttribute and CanBeNullAttribute are missing)" TextWrapping="Wrap" FontWeight="Bold" />
+            <ComboBox SelectedItem="{Binding Command.DefaultReferenceTypeNullHandling, Mode=TwoWay}" ItemsSource="{Binding ReferenceTypeNullHandlings}" Margin="0,0,0,12" />
+
             <CheckBox IsChecked="{Binding Command.GenerateAbstractProperties, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="GenerateAbstractProperties">
                 <TextBlock Text="Generate abstract properties (i.e. interface and abstract properties. Properties may defined multiple times in a inheritance hierarchy)" TextWrapping="Wrap" />
             </CheckBox>

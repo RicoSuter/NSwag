@@ -30,7 +30,7 @@ namespace NSwag.CodeGeneration
         protected ClientGeneratorBase(ITypeResolver resolver, CodeGeneratorSettingsBase codeGeneratorSettings)
         {
             Resolver = resolver;
-            codeGeneratorSettings.NullHandling = NullHandling.Swagger; // Enforce Swagger null handling 
+            codeGeneratorSettings.SchemaType = SchemaType.Swagger2; // enforce Swagger schema output 
         }
 
         /// <summary>Generates the the whole file containing all needed types.</summary>

@@ -20,7 +20,7 @@ namespace NSwag.SwaggerGeneration.WebApi
         /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerGeneratorSettings"/> class.</summary>
         public WebApiToSwaggerGeneratorSettings()
         {
-            NullHandling = NJsonSchema.NullHandling.Swagger;
+            SchemaType = NJsonSchema.SchemaType.Swagger2;
             OperationProcessors.Add(new OperationParameterProcessor(this));
             OperationProcessors.Add(new OperationResponseProcessor(this));
         }

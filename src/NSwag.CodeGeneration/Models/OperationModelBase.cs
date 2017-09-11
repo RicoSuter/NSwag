@@ -113,7 +113,7 @@ namespace NSwag.CodeGeneration.Models
                 if (response?.ActualResponseSchema == null)
                     return "void";
 
-                var isNullable = response.IsNullable(_settings.CodeGeneratorSettings.NullHandling);
+                var isNullable = response.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
                 return _generator.GetTypeName(response.ActualResponseSchema, isNullable, "Response");
             }
         }
@@ -281,7 +281,8 @@ namespace NSwag.CodeGeneration.Models
                 schema = new JsonSchema4 { Type = JsonObjectType.Array, Item = schema };
 
             var typeNameHint = ConversionUtilities.ConvertToUpperCamelCase(parameter.Name, true);
-            return _resolver.Resolve(schema, parameter.IsRequired == false || parameter.IsNullable(_settings.CodeGeneratorSettings.NullHandling), typeNameHint);
+            var isNullable = parameter.IsRequired == false || parameter.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
+            return _resolver.Resolve(schema, isNullable, typeNameHint);
         }
     }
 };

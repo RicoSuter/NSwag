@@ -60,6 +60,13 @@ namespace NSwag.Commands
             set { Settings.DefaultPropertyNameHandling = value; }
         }
 
+        [Argument(Name = "DefaultReferenceTypeNullHandling", IsRequired = false, Description = "The default null handling (if NotNullAttribute and CanBeNullAttribute are missing, default: Null, Null or NotNull).")]
+        public ReferenceTypeNullHandling DefaultReferenceTypeNullHandling
+        {
+            get { return Settings.DefaultReferenceTypeNullHandling; }
+            set { Settings.DefaultReferenceTypeNullHandling = value; }
+        }
+
         [Argument(Name = "DefaultEnumHandling", IsRequired = false, Description = "The default enum handling ('String' or 'Integer'), default: Integer.")]
         public EnumHandling DefaultEnumHandling
         {

@@ -60,7 +60,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Integration
                     })
                 },
                 AddMissingPathParameters = false,
-                NullHandling = NullHandling.Swagger,
+                SchemaType = SchemaType.Swagger2,
                 GenerateKnownTypes = true,
                 FlattenInheritanceHierarchy = true,
                 DefaultEnumHandling = EnumHandling.String,

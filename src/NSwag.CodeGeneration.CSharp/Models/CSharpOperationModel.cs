@@ -112,7 +112,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
                     return "System.Exception";
 
                 var response = _operation.Responses.Single(r => !HttpUtilities.IsSuccessStatusCode(r.Key)).Value;
-                return _generator.GetTypeName(response.ActualResponseSchema, response.IsNullable(_settings.CodeGeneratorSettings.NullHandling), "Exception");
+                var isNullable = response.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
+                return _generator.GetTypeName(response.ActualResponseSchema, isNullable, "Exception");
             }
         }
 
@@ -134,7 +135,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
                                 .Select(s =>
                                 {
                                     var schema = s.Schema;
-                                    var isNullable = schema.IsNullable(_settings.CSharpGeneratorSettings.NullHandling);
+                                    var isNullable = schema.IsNullable(_settings.CSharpGeneratorSettings.SchemaType);
                                     var typeName = _generator.GetTypeName(schema.ActualSchema, isNullable, "Response");
                                     return new CSharpExceptionDescriptionModel(typeName, s.Description, controllerName, settings);
                                 });
