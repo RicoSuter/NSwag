@@ -120,7 +120,7 @@ namespace NSwag.SwaggerGeneration
             else if (typeDescription.IsNullable)
                 operationParameter.Type = typeDescription.Type | JsonObjectType.Null;
 
-            _schemaGenerator.ApplyPropertyAnnotations(operationParameter, typeDescription, parentAttributes);
+            _schemaGenerator.ApplyDataAnnotations(operationParameter, typeDescription, parentAttributes);
 
             if (description != string.Empty)
                 operationParameter.Description = description;
