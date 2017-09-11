@@ -9,6 +9,8 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using NJsonSchema;
+using NJsonSchema.Generation;
 
 namespace NSwag.SwaggerGeneration.Processors.Contexts
 {
@@ -21,13 +23,17 @@ namespace NSwag.SwaggerGeneration.Processors.Contexts
         /// <param name="controllerType">Type of the controller.</param>
         /// <param name="methodInfo">The method information.</param>
         /// <param name="swaggerGenerator">The swagger generator.</param>
+        /// <param name="schemaResolver">The schema resolver.</param>
         /// <param name="allOperationDescriptions">All operation descriptions.</param>
+        /// <param name="schemaGenerator">The schema generator.</param>
         public OperationProcessorContext(
             SwaggerDocument document,
             SwaggerOperationDescription operationDescription,
             Type controllerType,
             MethodInfo methodInfo,
             SwaggerGenerator swaggerGenerator,
+            JsonSchemaGenerator schemaGenerator,
+            JsonSchemaResolver schemaResolver,
             IList<SwaggerOperationDescription> allOperationDescriptions)
         {
             Document = document;
@@ -35,6 +41,8 @@ namespace NSwag.SwaggerGeneration.Processors.Contexts
             ControllerType = controllerType;
             MethodInfo = methodInfo;
             SwaggerGenerator = swaggerGenerator;
+            SchemaResolver = schemaResolver;
+            SchemaGenerator = schemaGenerator;
             AllOperationDescriptions = allOperationDescriptions;
         }
 
@@ -53,6 +61,12 @@ namespace NSwag.SwaggerGeneration.Processors.Contexts
 
         /// <summary>Gets or sets the Swagger generator.</summary>
         public SwaggerGenerator SwaggerGenerator { get; }
+
+        /// <summary>Gets the schema resolver.</summary>
+        public JsonSchemaResolver SchemaResolver { get; private set; }
+
+        /// <summary>Gets the schema generator.</summary>
+        public JsonSchemaGenerator SchemaGenerator { get; private set; }
 
         /// <summary>Gets or sets all operation descriptions.</summary>
         public IList<SwaggerOperationDescription> AllOperationDescriptions { get; }

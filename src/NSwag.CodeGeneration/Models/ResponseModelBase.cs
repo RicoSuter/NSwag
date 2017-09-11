@@ -76,7 +76,7 @@ namespace NSwag.CodeGeneration.Models
         private JsonSchema4 Schema => _response.ActualResponseSchema;
 
         /// <summary>Gets a value indicating whether the response is nullable.</summary>
-        public bool IsNullable => _response.IsNullable(_settings.NullHandling);
+        public bool IsNullable => _response.IsNullable(_settings.SchemaType);
 
         /// <summary>Gets a value indicating whether the response type inherits from exception.</summary>
         public bool InheritsExceptionSchema => _response.ActualResponseSchema?.InheritsSchema(_exceptionSchema) == true;

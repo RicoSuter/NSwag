@@ -81,7 +81,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             ConversionUtilities.Tab(new JsonExceptionConverterTemplate(JsonExceptionTypes.FirstOrDefault(t => t != "Exception") ?? "Exception").TransformText(), 1) : string.Empty;
 
         private IEnumerable<string> JsonExceptionTypes => ResponsesInheritingFromException.Select(r =>
-            _generator.GetTypeName(r.ActualResponseSchema, r.IsNullable(_settings.CSharpGeneratorSettings.NullHandling), "Response"));
+            _generator.GetTypeName(r.ActualResponseSchema, r.IsNullable(_settings.CSharpGeneratorSettings.SchemaType), "Response"));
 
         private IEnumerable<SwaggerResponse> ResponsesInheritingFromException =>
             _document.Operations.SelectMany(o => o.Operation.AllResponses.Values.Where(r => r.ActualResponseSchema?.InheritsSchema(_resolver.ExceptionSchema) == true));

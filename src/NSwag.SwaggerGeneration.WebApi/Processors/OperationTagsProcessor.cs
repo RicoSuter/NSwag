@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Contexts;
 using NSwag.SwaggerGeneration.WebApi.Infrastructure;
@@ -56,7 +57,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                     if (operationDescription.Operation.Tags.All(t => t != tagAttribute.Name))
                         operationDescription.Operation.Tags.Add(tagAttribute.Name);
 
-                    if (ObjectExtensions.HasProperty(tagAttribute, "AddToDocument") && tagAttribute.AddToDocument)
+                    if (ReflectionExtensions.HasProperty(tagAttribute, "AddToDocument") && tagAttribute.AddToDocument)
                         DocumentTagsProcessor.AddTagFromSwaggerTagAttribute(document, tagAttribute);
                 }
             }
@@ -76,7 +77,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                     if (operationDescription.Operation.Tags.All(t => t != tag))
                         operationDescription.Operation.Tags.Add(tag);
 
-                    if (ObjectExtensions.HasProperty(tagsAttribute, "AddToDocument") && tagsAttribute.AddToDocument)
+                    if (ReflectionExtensions.HasProperty(tagsAttribute, "AddToDocument") && tagsAttribute.AddToDocument)
                     {
                         if (document.Tags == null)
                             document.Tags = new List<SwaggerTag>();

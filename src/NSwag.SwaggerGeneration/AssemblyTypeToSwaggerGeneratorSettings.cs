@@ -17,7 +17,7 @@ namespace NSwag.SwaggerGeneration
         /// <summary>Initializes a new instance of the <see cref="AssemblyTypeToSwaggerGeneratorSettings"/> class.</summary>
         public AssemblyTypeToSwaggerGeneratorSettings()
         {
-            NullHandling = NullHandling.Swagger;
+            SchemaType = SchemaType.Swagger2;
             ReferencePaths = new string[] { };
         }
 
