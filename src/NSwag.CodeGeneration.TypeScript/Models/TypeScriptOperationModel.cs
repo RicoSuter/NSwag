@@ -60,7 +60,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             get
             {
                 var response = GetSuccessResponse();
-                var isNullable = response?.IsNullable(_settings.CodeGeneratorSettings.NullHandling) == true;
+                var isNullable = response?.IsNullable(_settings.CodeGeneratorSettings.SchemaType) == true;
 
                 var resultType = isNullable && SupportsStrictNullChecks && UnwrappedResultType != "void" && UnwrappedResultType != "null" ?
                     UnwrappedResultType + " | null" :
@@ -105,7 +105,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
                 return string.Join(" | ", _operation.Responses
                     .Where(r => !HttpUtilities.IsSuccessStatusCode(r.Key) && r.Value.ActualResponseSchema != null)
-                    .Select(r => _generator.GetTypeName(r.Value.ActualResponseSchema, r.Value.IsNullable(_settings.CodeGeneratorSettings.NullHandling), "Exception"))
+                    .Select(r => _generator.GetTypeName(r.Value.ActualResponseSchema, r.Value.IsNullable(_settings.CodeGeneratorSettings.SchemaType), "Exception"))
                     .Concat(new[] { "string" }));
             }
         }

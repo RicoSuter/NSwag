@@ -56,9 +56,9 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Nullability
             var operationGhi = document.Operations.Single(o => o.Path.Contains("Ghi"));
             var responseGhi = operationGhi.Operation.Responses.First().Value;
 
-            Assert.IsTrue(responseAbc.IsNullable(NullHandling.Swagger));
-            Assert.IsFalse(responseDef.IsNullable(NullHandling.Swagger));
-            Assert.IsFalse(responseGhi.IsNullable(NullHandling.Swagger));
+            Assert.IsTrue(responseAbc.IsNullable(SchemaType.Swagger2));
+            Assert.IsFalse(responseDef.IsNullable(SchemaType.Swagger2));
+            Assert.IsFalse(responseGhi.IsNullable(SchemaType.Swagger2));
         }
     }
 }

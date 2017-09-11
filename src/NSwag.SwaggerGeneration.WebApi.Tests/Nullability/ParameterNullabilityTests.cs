@@ -30,8 +30,8 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Nullability
             var json = document.ToJson();
 
             //// Assert 
-            Assert.IsFalse(document.Operations.First().Operation.Parameters[0].IsNullable(NullHandling.Swagger));
-            Assert.IsTrue(document.Operations.First().Operation.Parameters[1].IsNullable(NullHandling.Swagger));
+            Assert.IsFalse(document.Operations.First().Operation.Parameters[0].IsNullable(SchemaType.Swagger2));
+            Assert.IsTrue(document.Operations.First().Operation.Parameters[1].IsNullable(SchemaType.Swagger2));
         }
     }
 }

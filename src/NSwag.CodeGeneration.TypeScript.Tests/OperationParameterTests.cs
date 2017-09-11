@@ -41,7 +41,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
                 DefaultUrlTemplate = "api/{controller}/{action}/{id}",
                 DefaultEnumHandling = EnumHandling.String,
                 DefaultPropertyNameHandling = PropertyNameHandling.Default,
-                NullHandling = NullHandling.Swagger,
+                SchemaType = SchemaType.Swagger2,
             };
             var generator = new WebApiToSwaggerGenerator(settings);
 

@@ -45,20 +45,20 @@ namespace NSwag
         public ICollection<JsonExpectedSchema> ExpectedSchemas { get; set; }
 
         /// <summary>Determines whether the specified null handling is nullable (fallback value: false).</summary>
-        /// <param name="nullHandling">The null handling.</param>
+        /// <param name="schemaType">The schema type.</param>
         /// <returns>The result.</returns>
-        public bool IsNullable(NullHandling nullHandling)
+        public bool IsNullable(SchemaType schemaType)
         {
-            return IsNullable(nullHandling, false);
+            return IsNullable(schemaType, false);
         }
 
         /// <summary>Determines whether the specified null handling is nullable.</summary>
-        /// <param name="nullHandling">The null handling.</param>
+        /// <param name="schemaType">The schema type.</param>
         /// <param name="fallbackValue">The fallback value when 'x-nullable' is not defined.</param>
         /// <returns>The result.</returns>
-        public bool IsNullable(NullHandling nullHandling, bool fallbackValue)
+        public bool IsNullable(SchemaType schemaType, bool fallbackValue)
         {
-            if (nullHandling == NullHandling.Swagger)
+            if (schemaType == SchemaType.Swagger2)
             {
                 if (IsNullableRaw == null)
                     return fallbackValue;
@@ -66,7 +66,7 @@ namespace NSwag
                 return IsNullableRaw.Value;
             }
 
-            return Schema?.ActualSchema.IsNullable(nullHandling) ?? false;
+            return Schema?.ActualSchema.IsNullable(schemaType) ?? false;
         }
 
         private JsonSchema4 GetActualResponseSchema()
