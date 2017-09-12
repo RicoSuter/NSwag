@@ -155,7 +155,7 @@ namespace NSwag.AspNet.Owin
                 app.Use<SwaggerMiddleware>(settings.ActualSwaggerRoute, controllerTypes, settings, schemaGenerator);
 
             app.Use<RedirectMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute);
-            app.Use<SwaggerUiIndexMiddleware>(settings.ActualSwaggerUiRoute + "/index.html", settings);
+            app.Use<SwaggerUiIndexMiddleware>(settings.ActualSwaggerUiRoute + "/index.html", settings, "NSwag.AspNet.Owin.SwaggerUi.index.html");
             app.UseFileServer(new FileServerOptions
             {
                 RequestPath = new PathString(settings.ActualSwaggerUiRoute),
@@ -237,7 +237,7 @@ namespace NSwag.AspNet.Owin
                 app.Use<SwaggerMiddleware>(settings.ActualSwaggerRoute, controllerTypes, settings, schemaGenerator);
 
             app.Use<RedirectMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute);
-            app.Use<SwaggerUi3IndexMiddleware>(settings.ActualSwaggerUiRoute + "/index.html", settings);
+            app.Use<SwaggerUiIndexMiddleware>(settings.ActualSwaggerUiRoute + "/index.html", settings, "NSwag.AspNet.Owin.SwaggerUi3.index.html");
             app.UseFileServer(new FileServerOptions
             {
                 RequestPath = new PathString(settings.ActualSwaggerUiRoute),
@@ -319,7 +319,7 @@ namespace NSwag.AspNet.Owin
                 app.Use<SwaggerMiddleware>(settings.ActualSwaggerRoute, controllerTypes, settings, schemaGenerator);
 
             app.Use<RedirectMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute);
-            app.Use<ReDocIndexMiddleware>(settings.ActualSwaggerUiRoute + "/index.html", settings);
+            app.Use<SwaggerUiIndexMiddleware>(settings.ActualSwaggerUiRoute + "/index.html", settings, "NSwag.AspNet.Owin.ReDoc.index.html");
             app.UseFileServer(new FileServerOptions
             {
                 RequestPath = new PathString(settings.ActualSwaggerUiRoute),

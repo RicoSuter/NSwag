@@ -152,7 +152,7 @@ namespace NSwag.AspNetCore
                 app.UseMiddleware<SwaggerMiddleware>(settings.ActualSwaggerRoute, controllerTypes, settings, schemaGenerator);
 
             app.UseMiddleware<RedirectMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute);
-            app.UseMiddleware<SwaggerUiIndexMiddleware>(settings.ActualSwaggerUiRoute + "/index.html", settings);
+            app.UseMiddleware<SwaggerUiIndexMiddleware>(settings.ActualSwaggerUiRoute + "/index.html", settings, "NSwag.AspNetCore.SwaggerUi.index.html");
             app.UseFileServer(new FileServerOptions
             {
                 RequestPath = new PathString(settings.ActualSwaggerUiRoute),
@@ -234,7 +234,7 @@ namespace NSwag.AspNetCore
                 app.UseMiddleware<SwaggerMiddleware>(settings.ActualSwaggerRoute, controllerTypes, settings, schemaGenerator);
 
             app.UseMiddleware<RedirectMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute);
-            app.UseMiddleware<SwaggerUi3NdexMiddleware>(settings.ActualSwaggerUiRoute + "/index.html", settings);
+            app.UseMiddleware<SwaggerUiIndexMiddleware>(settings.ActualSwaggerUiRoute + "/index.html", settings, "NSwag.AspNetCore.SwaggerUi3.index.html");
             app.UseFileServer(new FileServerOptions
             {
                 RequestPath = new PathString(settings.ActualSwaggerUiRoute),
@@ -316,7 +316,7 @@ namespace NSwag.AspNetCore
                 app.UseMiddleware<SwaggerMiddleware>(settings.ActualSwaggerRoute, controllerTypes, settings, schemaGenerator);
 
             app.UseMiddleware<RedirectMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute);
-            app.UseMiddleware<ReDocIndexMiddleware>(settings.ActualSwaggerUiRoute + "/index.html", settings);
+            app.UseMiddleware<SwaggerUiIndexMiddleware>(settings.ActualSwaggerUiRoute + "/index.html", settings, "NSwag.AspNetCore.ReDoc.index.html");
             app.UseFileServer(new FileServerOptions
             {
                 RequestPath = new PathString(settings.ActualSwaggerUiRoute),

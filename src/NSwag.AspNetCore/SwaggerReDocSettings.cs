@@ -15,5 +15,9 @@ namespace NSwag.AspNetCore
     /// <summary>The settings for UseReDoc.</summary>
     public class SwaggerReDocSettings : SwaggerUiSettingsBase
     {
+        internal override string TransformHtml(string html)
+        {
+            return html;
+        }
     }
 }
