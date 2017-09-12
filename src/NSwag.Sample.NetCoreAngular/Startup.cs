@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using NSwag.AspNetCore;
 
-namespace NSwag_Sample_NetCoreAngular
+namespace NSwag.Sample.NetCoreAngular
 {
     public class Startup
     {
@@ -49,7 +49,7 @@ namespace NSwag_Sample_NetCoreAngular
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, new SwaggerUiSettings());
+            app.UseSwaggerReDoc(typeof(Startup).GetTypeInfo().Assembly, new SwaggerReDocSettings());
 
             if (env.IsDevelopment())
             {

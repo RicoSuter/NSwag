@@ -1,40 +1,38 @@
 using System;
 using System.IO;
-using System.Reflection;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Microsoft.Owin;
 
-namespace NSwag.AspNetCore
+namespace NSwag.AspNet.Owin.Middlewares
 {
-    internal class ReDocIndexMiddleware
+    internal class ReDocIndexMiddleware : OwinMiddleware
     {
-        private readonly RequestDelegate _nextDelegate;
         private readonly string _indexPath;
-        private readonly SwaggerUiSettings _settings;
+        private readonly SwaggerReDocSettings _settings;
 
-        public ReDocIndexMiddleware(RequestDelegate nextDelegate, string indexPath, SwaggerUiSettings settings)
+        public ReDocIndexMiddleware(OwinMiddleware next, string indexPath, SwaggerReDocSettings settings)
+            : base(next)
         {
-            _nextDelegate = nextDelegate;
             _indexPath = indexPath;
             _settings = settings;
         }
 
-        public async Task Invoke(HttpContext context)
+        public override async Task Invoke(IOwinContext context)
         {
             if (context.Request.Path.HasValue && context.Request.Path.Value.Trim('/').StartsWith(_indexPath.Trim('/'), StringComparison.OrdinalIgnoreCase))
             {
-                var stream = typeof(SwaggerUiIndexMiddleware).GetTypeInfo().Assembly.GetManifestResourceStream("NSwag.AspNetCore.SwaggerUi.index.html");
+                var stream = typeof(SwaggerUiIndexMiddleware).Assembly.GetManifestResourceStream("NSwag.AspNet.Owin.ReDoc.index.html");
                 using (var reader = new StreamReader(stream))
                 {
                     var html = reader.ReadToEnd();
 
                     context.Response.Headers["Content-Type"] = "text/html; charset=utf-8";
                     context.Response.StatusCode = 200;
-                    await context.Response.WriteAsync(html);
+                    context.Response.Write(html);
                 }
             }
             else
-                await _nextDelegate(context);
+                await Next.Invoke(context);
         }
     }
 }
