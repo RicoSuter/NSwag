@@ -107,7 +107,7 @@ public partial interface I<#=Model.Class#>
         {
             var settings = <#=Model.JsonSerializerParameterCode#>;
 <#if(Model.SerializeTypeInformation){#>
-		    settings.TypeNameHandling = Newtonsoft.Json.Auto;
+		    settings.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto;
 <#}#>
             UpdateJsonSerializerSettings(settings);
             return settings;

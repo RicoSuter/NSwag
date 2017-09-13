@@ -917,7 +917,7 @@ if(Model.SerializeTypeInformation){
             
             #line default
             #line hidden
-            this.Write("\t\t    settings.TypeNameHandling = Newtonsoft.Json.Auto;\r\n");
+            this.Write("\t\t    settings.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto;\r\n");
             
             #line 111 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 }
