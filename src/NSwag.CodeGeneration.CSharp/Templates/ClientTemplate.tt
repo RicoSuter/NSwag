@@ -106,6 +106,9 @@ public partial interface I<#=Model.Class#>
 		_settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(() => 
         {
             var settings = <#=Model.JsonSerializerParameterCode#>;
+<#if(Model.SerializeTypeInformation){#>
+		    settings.TypeNameHandling = Newtonsoft.Json.Auto;
+<#}#>
             UpdateJsonSerializerSettings(settings);
             return settings;
         });
@@ -270,7 +273,7 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(Sy
                 var content_ = new System.Net.Http.StringContent(<#=operation.ContentParameter.VariableName#>);
                 content_.Headers.ContentType.MediaType = "<#=operation.Consumes#>";
 <#  }else{#>
-                var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(<#=operation.ContentParameter.VariableName#>, _settings.Value));
+                var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(<#=operation.ContentParameter.VariableName#>, <#if(Model.SerializeTypeInformation){#>typeof(<#=operation.ContentParameter.Type#>), <#}#>_settings.Value));
                 content_.Headers.ContentType.MediaType = "<#=operation.Consumes#>";
 <#  }#>
 <#}else{#>

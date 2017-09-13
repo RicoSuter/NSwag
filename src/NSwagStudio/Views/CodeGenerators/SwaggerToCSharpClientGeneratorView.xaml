@@ -188,6 +188,10 @@
                                           ToolTip="GenerateClientInterfaces"
                                           Content="Generate interfaces for Client classes" Margin="0,0,0,12" />
 
+                                <CheckBox IsChecked="{Binding Command.SerializeTypeInformation, Mode=TwoWay}" 
+                                          ToolTip="SerializeTypeInformation"
+                                          Content="Serialize the type information in a $type property (not recommended, also sets TypeNameHandling = Auto)" Margin="0,0,0,12" />
+										  
                                 <TextBlock Text="Methods with a protected access modifier to use in partial methods ('classname.methodname', comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
                                 <TextBox Text="{Binding ProtectedMethods, Mode=TwoWay}" ToolTip="ProtectedMethods" Margin="0,0,0,12" />
                             </StackPanel>

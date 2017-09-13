@@ -180,6 +180,14 @@ namespace NSwag.Commands
             set { Settings.GenerateUpdateJsonSerializerSettingsMethod = value; }
         }
 
+        [Argument(Name = "SerializeTypeInformation", IsRequired = false,
+            Description = "Serialize the type information in a $type property (not recommended, also sets TypeNameHandling = Auto, default: true).")]
+        public bool SerializeTypeInformation
+        {
+            get { return Settings.SerializeTypeInformation; }
+            set { Settings.SerializeTypeInformation = value; }
+        }
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var result = await RunAsync();
