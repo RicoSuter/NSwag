@@ -20,7 +20,7 @@ namespace NSwag.AspNetCore
     public class SwaggerUi3Settings : SwaggerUiSettingsBase
     {
         /// <summary>Gets or sets a value indicating whether the Swagger specification should be validated.</summary>
-        public bool ValidateSpecification { get; set; } = true;
+        public bool ValidateSpecification { get; set; } = false;
 
         /// <summary>Gets or sets the Swagger UI OAuth2 client settings.</summary>
         public OAuth2ClientSettings OAuth2Client { get; set; }

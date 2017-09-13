@@ -49,7 +49,7 @@ namespace NSwag.Sample.NetCoreAngular
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseSwaggerReDoc(typeof(Startup).GetTypeInfo().Assembly, new SwaggerReDocSettings());
+            app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, new SwaggerUiSettings());
 
             if (env.IsDevelopment())
             {
