@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using NSwag.AspNetCore;
 
-namespace NSwag_Sample_NetCoreAngular
+namespace NSwag.Sample.NetCoreAngular
 {
     public class Startup
     {
