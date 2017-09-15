@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.3
+VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.CodeGeneration", "NSwag.CodeGeneration\NSwag.CodeGeneration.csproj", "{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -15,6 +15,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.CodeGeneration.Tests"
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwagStudio", "NSwagStudio\NSwagStudio.csproj", "{DADA2D11-14E2-40B1-B31D-B68D6F18378C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2EE21EF6-5CC8-41F4-A232-DD90D51C433F} = {2EE21EF6-5CC8-41F4-A232-DD90D51C433F}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Tests", "NSwag.Tests\NSwag.Tests.csproj", "{8232C857-CAA5-400C-8EC5-6239C799BAF5}"
 	ProjectSection(ProjectDependencies) = postProject

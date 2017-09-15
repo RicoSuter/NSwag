@@ -1,5 +1,5 @@
 ﻿{
-  "x-generator": "NSwag v11.7.0.0 (NJsonSchema v9.6.0.0)",
+  "x-generator": "NSwag v11.7.1.0 (NJsonSchema v9.6.3.0)",
   "info": {
     "title": "Web API Swagger specification",
     "version": "1.0.0"

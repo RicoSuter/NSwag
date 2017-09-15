@@ -6,6 +6,10 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.Collections;
+using System.Reflection;
+using Newtonsoft.Json;
+
 #if AspNetOwin
 namespace NSwag.AspNet.Owin
 #else
@@ -13,11 +17,8 @@ namespace NSwag.AspNetCore
 #endif
 {
     /// <summary>The settings for UseSwaggerUi.</summary>
-    public class SwaggerUiSettings : SwaggerSettings
+    public class SwaggerUiSettings : SwaggerUiSettingsBase
     {
-        /// <summary>Gets or sets the swagger UI route (must start with '/').</summary>
-        public string SwaggerUiRoute { get; set; } = "/swagger";
-
         /// <summary>Gets or sets a value indicating whether the Swagger specification should be validated.</summary>
         public bool ValidateSpecification { get; set; } = true;
 
@@ -38,7 +39,24 @@ namespace NSwag.AspNetCore
 
         /// <summary>Whether or not to show the headers that were sent when making a request via the 'Try it out!' option. Defaults to false.</summary>
         public bool ShowRequestHeaders { get; set; } = false;
+        
+        internal override string TransformHtml(string html)
+        {
+            var oauth2Settings = OAuth2Client ?? new OAuth2ClientSettings();
+            foreach (var property in oauth2Settings.GetType().GetRuntimeProperties())
+            {
+                var value = property.GetValue(oauth2Settings);
+                html = html.Replace("{" + property.Name + "}", value is IDictionary ? JsonConvert.SerializeObject(value) : value?.ToString() ?? "");
+            }
 
-        internal string ActualSwaggerUiRoute => SwaggerUiRoute.Substring(MiddlewareBasePath?.Length ?? 0);
+            html = html.Replace("{ValidatorUrl}", ValidateSpecification ? "undefined" : "null");
+            html = html.Replace("{DocExpansion}", DocExpansion);
+            html = html.Replace("{SupportedSubmitMethods}", JsonConvert.SerializeObject(SupportedSubmitMethods ?? new string[] { }));
+            html = html.Replace("{UseJsonEditor}", UseJsonEditor ? "true" : "false");
+            html = html.Replace("{DefaultModelRendering}", DefaultModelRendering);
+            html = html.Replace("{ShowRequestHeaders}", ShowRequestHeaders ? "true" : "false");
+
+            return html;
+        }
     }
 }

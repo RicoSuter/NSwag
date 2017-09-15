@@ -292,7 +292,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                     {
                         var fromQueryAttribute = attributes.SingleOrDefault(a => a.GetType().Name == "FromQueryAttribute");
                         var propertyName = fromQueryAttribute.TryGetPropertyValue<string>("Name") ??
-                            context.SchemaGenerator.GetPropertyName(property);
+                            context.SchemaGenerator.GetPropertyName(null, property);
 
                         dynamic fromRouteAttribute = attributes.SingleOrDefault(a => a.GetType().FullName == "Microsoft.AspNetCore.Mvc.FromRouteAttribute");
                         if (fromRouteAttribute != null && !string.IsNullOrEmpty(fromRouteAttribute?.Name))
