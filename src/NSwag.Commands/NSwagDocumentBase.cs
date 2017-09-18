@@ -87,6 +87,9 @@ namespace NSwag.Commands
         [JsonProperty("CodeGenerators")]
         public CodeGeneratorCollection CodeGenerators { get; } = new CodeGeneratorCollection();
 
+        /// <summary>Gets or sets the runtime where the document should be processed.</summary>
+        public Runtime Runtime { get; set; }
+
         /// <summary>Gets or sets the path.</summary>
         [JsonIgnore]
         public string Path
@@ -149,10 +152,7 @@ namespace NSwag.Commands
                 var settings = GetSerializerSettings();
                 settings.ContractResolver = new BaseTypeMappingContractResolver(mappings);
 
-                var document = JsonConvert.DeserializeObject<TDocument>(data, settings);
-                document.Path = filePath;
-                document.ConvertToAbsolutePaths();
-                document._latestData = JsonConvert.SerializeObject(document, Formatting.Indented, GetSerializerSettings());
+                var document = FromJson<TDocument>(filePath, data);
 
                 if (saveFile)
                     await document.SaveAsync();
@@ -161,19 +161,58 @@ namespace NSwag.Commands
             });
         }
 
+        /// <summary>Converts the document to JSON.</summary>
+        /// <typeparam name="TDocument">The document type.</typeparam>
+        /// <param name="filePath">The file path.</param>
+        /// <param name="data">The JSON data.</param>
+        /// <returns>The document.</returns>
+        public static TDocument FromJson<TDocument>(string filePath, string data)
+            where TDocument : NSwagDocumentBase, new()
+        {
+            var settings = GetSerializerSettings();
+            var document = JsonConvert.DeserializeObject<TDocument>(data, settings);
+            document._latestData = JsonConvert.SerializeObject(document, Formatting.Indented, GetSerializerSettings());
+
+            if (filePath != null)
+            {
+                document.Path = filePath;
+                document.ConvertToAbsolutePaths();
+            }
+
+            return document;
+        }
+
         /// <summary>Saves the document.</summary>
         /// <returns>The task.</returns>
         public Task SaveAsync()
         {
             return Task.Run(async () =>
             {
-                ConvertToRelativePaths();
-                var data = JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings());
-                await DynamicApis.FileWriteAllTextAsync(Path, data).ConfigureAwait(false);
-
-                ConvertToAbsolutePaths();
+                await DynamicApis.FileWriteAllTextAsync(Path, ToJson()).ConfigureAwait(false);
                 _latestData = JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings());
             });
+        }
+
+        /// <summary>Converts the document to JSON with relative paths.</summary>
+        /// <returns>The JSON data.</returns>
+        public string ToJsonWithRelativePaths()
+        {
+            ConvertToRelativePaths();
+            try
+            {
+                return ToJson();
+            }
+            finally
+            {
+                ConvertToAbsolutePaths();
+            }
+        }
+
+        /// <summary>Converts the document to JSON.</summary>
+        /// <returns>The JSON data.</returns>
+        public string ToJson()
+        {
+            return JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings());
         }
 
         /// <summary>Executes the document.</summary>

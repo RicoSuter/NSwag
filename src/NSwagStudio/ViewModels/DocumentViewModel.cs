@@ -6,6 +6,7 @@ using System.Windows;
 using MyToolkit.Command;
 using MyToolkit.Utilities;
 using NSwag;
+using NSwag.Commands;
 
 namespace NSwagStudio.ViewModels
 {
@@ -34,6 +35,17 @@ namespace NSwagStudio.ViewModels
         /// <summary>Gets the application version with build time. </summary>
         public string ApplicationVersion => GetType().Assembly.GetVersionWithBuildTime();
 
+        /// <summary>Gets the available runtimes.</summary>
+        public Runtime[] Runtimes
+        {
+            get
+            {
+                return Enum.GetNames(typeof(Runtime))
+                    .Select(t => (Runtime)Enum.Parse(typeof(Runtime), t))
+                    .ToArray();
+            }
+        }
+
         private async Task GenerateAsync(string type)
         {
             IsLoading = true;
@@ -42,7 +54,7 @@ namespace NSwagStudio.ViewModels
                 if (type == "files")
                 {
                     var start = Stopwatch.GetTimestamp();
-                    await Document.Document.ExecuteAsync();
+                    await this.Document.ExecuteCommandLineAsync();
                     var duration = TimeSpan.FromSeconds((Stopwatch.GetTimestamp() - start) / Stopwatch.Frequency);
 
 #pragma warning disable CS4014
