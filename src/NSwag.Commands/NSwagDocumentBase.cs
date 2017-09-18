@@ -49,6 +49,10 @@ namespace NSwag.Commands
         /// <returns>The relative path.</returns>
         protected abstract string ConvertToRelativePath(string pathToConvert);
 
+        /// <summary>Executes the current document.</summary>
+        /// <returns>The result.</returns>
+        public abstract Task<SwaggerDocumentExecutionResult> ExecuteAsync();
+
         /// <summary>Gets or sets the selected swagger generator JSON.</summary>
         [JsonProperty("SwaggerGenerator")]
         internal JObject SelectedSwaggerGeneratorRaw
@@ -215,20 +219,9 @@ namespace NSwag.Commands
             return JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings());
         }
 
-        /// <summary>Executes the document.</summary>
-        /// <returns>The task.</returns>
-        public async Task ExecuteAsync()
-        {
-            var document = await GenerateDocumentAsync();
-            foreach (var codeGenerator in CodeGenerators.Items.Where(c => !string.IsNullOrEmpty(c.OutputFilePath)))
-            {
-                codeGenerator.Input = document;
-                await codeGenerator.RunAsync(null, null);
-                codeGenerator.Input = null;
-            }
-        }
-
-        private async Task<SwaggerDocument> GenerateDocumentAsync()
+        /// <summary>Generates the <see cref="SwaggerDocument"/> with the currently selected generator.</summary>
+        /// <returns>The document.</returns>
+        protected async Task<SwaggerDocument> GenerateSwaggerDocumentAsync()
         {
             return (SwaggerDocument)await SelectedSwaggerGenerator.RunAsync(null, null);
         }
@@ -448,4 +441,3 @@ namespace NSwag.Commands
         }
     }
 }
-

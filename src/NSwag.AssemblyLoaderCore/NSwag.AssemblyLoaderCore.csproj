@@ -19,6 +19,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NJsonSchema" Version="9.6.3" />
+    <PackageReference Include="System.Diagnostics.Process" Version="4.3.0" />
     <PackageReference Include="System.Net.Http" Version="4.3.2" />
     <PackageReference Include="System.Runtime.Loader" Version="4.0.0" />
   </ItemGroup>

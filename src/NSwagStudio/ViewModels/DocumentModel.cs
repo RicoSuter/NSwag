@@ -1,10 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using MyToolkit.Model;
 using NSwag.Commands;
 using NSwagStudio.Views.CodeGenerators;
@@ -68,73 +64,6 @@ namespace NSwagStudio.ViewModels
             return generator is SwaggerInputView && !string.IsNullOrEmpty(Document.SwaggerGenerators.FromSwaggerCommand.Url)
                 ? Document.SwaggerGenerators.FromSwaggerCommand.Url
                 : null;
-        }
-
-        public async Task<string> ExecuteCommandLineAsync()
-        {
-            return await Task.Run(async () =>
-            {
-                if (Document.Runtime == Runtime.Debug)
-                {
-                    await Document.ExecuteAsync();
-                    return string.Empty;
-                }
-
-                var name = Path.GetTempPath() + "nswag_document_" + Guid.NewGuid();
-
-                File.WriteAllText(name, this.Document.ToJson());
-                try
-                {
-                    var processStart = new ProcessStartInfo(GetProgramName(), GetArgumentsPrefix() + "run \"" + name + "\"");
-                    processStart.RedirectStandardOutput = true;
-                    processStart.RedirectStandardError = true;
-                    processStart.UseShellExecute = false;
-                    processStart.CreateNoWindow = true;
-                    processStart.WindowStyle = ProcessWindowStyle.Hidden;
-
-                    var process = Process.Start(processStart);
-                    var output = await process.StandardOutput.ReadToEndAsync();
-
-                    if (process.ExitCode != 0)
-                    {
-                        var error = await process.StandardError.ReadToEndAsync();
-                        if (error != null)
-                            throw new InvalidOperationException(output + error);
-                    }
-
-                    return output;
-                }
-                finally
-                {
-                    File.Delete(name);
-                }
-            });
-        }
-
-        private string GetArgumentsPrefix()
-        {
-            var applicationDirectory = Path.GetDirectoryName(typeof(DocumentModel).Assembly.Location);
-
-            if (Document.Runtime == Runtime.Core10)
-                return "\"" + Path.Combine(applicationDirectory, "netcoreapp1.0/dotnet-nswag.dll") + "\" ";
-            else if (Document.Runtime == Runtime.Core11)
-                return "\"" + Path.Combine(applicationDirectory, "netcoreapp1.1/dotnet-nswag.dll") + "\" ";
-            else if (Document.Runtime == Runtime.Core20)
-                return "\"" + Path.Combine(applicationDirectory, "netcoreapp2.0/dotnet-nswag.dll") + "\" ";
-            else
-                return "";
-        }
-
-        private string GetProgramName()
-        {
-            var applicationDirectory = Path.GetDirectoryName(typeof(DocumentModel).Assembly.Location);
-
-            if (Document.Runtime == Runtime.WinX64)
-                return Path.Combine(applicationDirectory, "full/nswag.exe");
-            else if (Document.Runtime == Runtime.WinX86)
-                return Path.Combine(applicationDirectory, "full/nswag.x86.exe");
-            else
-                return "dotnet";
         }
     }
 }

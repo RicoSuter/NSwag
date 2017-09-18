@@ -8,6 +8,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using NSwag.SwaggerGeneration.Utilities;
 
@@ -17,6 +21,10 @@ namespace NSwag.Commands
     /// <seealso cref="NSwagDocumentBase" />
     public class NSwagDocument : NSwagDocumentBase
     {
+        /// <summary>Gets or sets the root binary directory where the command line executables loaded from.</summary>
+        public static string RootBinaryDirectory { get; set; } =
+            System.IO.Path.GetDirectoryName(typeof(NSwagDocument).GetTypeInfo().Assembly.Location);
+
         /// <summary>Initializes a new instance of the <see cref="NSwagDocument"/> class.</summary>
         public NSwagDocument()
         {
@@ -43,9 +51,69 @@ namespace NSwag.Commands
             });
         }
 
+        /// <summary>Executes the document.</summary>
+        /// <returns>The task.</returns>
+        public override async Task<SwaggerDocumentExecutionResult> ExecuteAsync()
+        {
+            var document = await GenerateSwaggerDocumentAsync();
+            foreach (var codeGenerator in CodeGenerators.Items.Where(c => !string.IsNullOrEmpty(c.OutputFilePath)))
+            {
+                codeGenerator.Input = document;
+                await codeGenerator.RunAsync(null, null);
+                codeGenerator.Input = null;
+            }
+
+            return new SwaggerDocumentExecutionResult(null, null, true);
+        }
+
+        /// <summary>Executes the document via command line.</summary>
+        /// <param name="redirectOutput">Indicates whether to redirect the outputs.</param>
+        /// <returns>The result.</returns>
+        public async Task<SwaggerDocumentExecutionResult> ExecuteCommandLineAsync(bool redirectOutput)
+        {
+            return await Task.Run(async () =>
+            {
+                if (Runtime == Runtime.Debug)
+                    return await ExecuteAsync();
+
+                var baseFilename = System.IO.Path.GetTempPath() + "nswag_document_" + Guid.NewGuid();
+                var configFilename = baseFilename + "_config.json";
+                var swaggerFilename = baseFilename + "_swagger.json";
+                var filenames = new List<string>();
+
+                var clone = FromJson<NSwagDocument>(null, ToJson());
+                if (redirectOutput || string.IsNullOrEmpty(clone.SelectedSwaggerGenerator.OutputFilePath))
+                    clone.SelectedSwaggerGenerator.OutputFilePath = swaggerFilename;
+
+                foreach (var command in clone.CodeGenerators.Items.Where(c => c != null))
+                {
+                    if (redirectOutput || string.IsNullOrEmpty(command.OutputFilePath))
+                    {
+                        var codeFilePath = baseFilename + "_" + command.GetType().Name + ".temp";
+                        command.OutputFilePath = codeFilePath;
+                        filenames.Add(codeFilePath);
+                    }
+                }
+
+                File.WriteAllText(configFilename, clone.ToJson());
+                try
+                {
+                    var output = await StartCommandLineProcessAsync(configFilename);
+                    return clone.ProcessExecutionResult(output, baseFilename, redirectOutput);
+                }
+                finally
+                {
+                    DeleteFileIfExists(configFilename);
+                    DeleteFileIfExists(swaggerFilename);
+                    foreach (var filename in filenames)
+                        DeleteFileIfExists(filename);
+                }
+            });
+        }
+
         /// <summary>Converts to absolute path.</summary>
         /// <param name="pathToConvert">The path to convert.</param>
-        /// <returns></returns>
+        /// <returns>The absolute path.</returns>
         protected override string ConvertToAbsolutePath(string pathToConvert)
         {
             if (!string.IsNullOrEmpty(pathToConvert) && !System.IO.Path.IsPathRooted(pathToConvert))
@@ -63,10 +131,83 @@ namespace NSwag.Commands
             return pathToConvert?.Replace("\\", "/");
         }
 
+        private SwaggerDocumentExecutionResult ProcessExecutionResult(string output, string baseFilename, bool redirectOutput)
+        {
+            var swaggerOutput = ReadFileIfExists(SelectedSwaggerGenerator.OutputFilePath);
+            var result = new SwaggerDocumentExecutionResult(output, swaggerOutput, redirectOutput);
+            foreach (var command in CodeGenerators.Items.Where(c => c != null))
+            {
+                if (redirectOutput || string.IsNullOrEmpty(command.OutputFilePath))
+                {
+                    var codeFilepath = baseFilename + "_" + command.GetType().Name + ".temp";
+                    result.AddGeneratorOutput(command.GetType(), ReadFileIfExists(codeFilepath));
+                }
+                else
+                    result.AddGeneratorOutput(command.GetType(), ReadFileIfExists(command.OutputFilePath));
+            }
+            return result;
+        }
+
+        private async Task<string> StartCommandLineProcessAsync(string configFilename)
+        {
+            var processStart = new ProcessStartInfo(GetProgramName(), GetArgumentsPrefix() + "run \"" + configFilename + "\"");
+            processStart.RedirectStandardOutput = true;
+            processStart.RedirectStandardError = true;
+            processStart.UseShellExecute = false;
+            processStart.CreateNoWindow = true;
+
+            var process = Process.Start(processStart);
+            var output = await process.StandardOutput.ReadToEndAsync();
+
+            if (process.ExitCode != 0)
+            {
+                var error = await process.StandardError.ReadToEndAsync();
+                if (error != null)
+                    throw new InvalidOperationException(output + error);
+            }
+
+            return output;
+        }
+
         private string GetDocumentDirectory()
         {
             var absoluteDocumentPath = PathUtilities.MakeAbsolutePath(Path, System.IO.Directory.GetCurrentDirectory());
             return System.IO.Path.GetDirectoryName(absoluteDocumentPath);
+        }
+
+        private string GetArgumentsPrefix()
+        {
+            if (Runtime == Runtime.Core10)
+                return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "netcoreapp1.0/dotnet-nswag.dll") + "\" ";
+            else if (Runtime == Runtime.Core11)
+                return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "netcoreapp1.1/dotnet-nswag.dll") + "\" ";
+            else if (Runtime == Runtime.Core20)
+                return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "netcoreapp2.0/dotnet-nswag.dll") + "\" ";
+            else
+                return "";
+        }
+
+        private string GetProgramName()
+        {
+            if (Runtime == Runtime.WinX64)
+                return System.IO.Path.Combine(RootBinaryDirectory, "full/nswag.exe");
+            else if (Runtime == Runtime.WinX86)
+                return System.IO.Path.Combine(RootBinaryDirectory, "full/nswag.x86.exe");
+            else
+                return "dotnet";
+        }
+
+        private string ReadFileIfExists(string filename)
+        {
+            if (filename != null && File.Exists(filename))
+                return File.ReadAllText(filename);
+            return null;
+        }
+
+        private void DeleteFileIfExists(string filename)
+        {
+            if (File.Exists(filename))
+                File.Delete(filename);
         }
     }
 }

@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using NJsonSchema;
-using NSwag;
+using NSwag.Commands;
 
 namespace NSwagStudio.Views.CodeGenerators
 {
@@ -13,7 +12,7 @@ namespace NSwagStudio.Views.CodeGenerators
 
         public string PropertyName => ConversionUtilities.ConvertToLowerCamelCase(GetType().Name, false);
 
-        public abstract Task GenerateClientAsync(SwaggerDocument document, string documentPath);
+        public abstract void UpdateOutput(SwaggerDocumentExecutionResult result);
 
         public abstract bool IsSelected { get; set; }
 
