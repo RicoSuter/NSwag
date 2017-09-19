@@ -77,7 +77,6 @@ namespace NSwag.Commands
                     return await ExecuteAsync();
 
                 var baseFilename = System.IO.Path.GetTempPath() + "nswag_document_" + Guid.NewGuid();
-                var configFilename = baseFilename + "_config.json";
                 var swaggerFilename = baseFilename + "_swagger.json";
                 var filenames = new List<string>();
 
@@ -95,10 +94,12 @@ namespace NSwag.Commands
                     }
                 }
 
+                var configFilename = baseFilename + "_config.json";
                 File.WriteAllText(configFilename, clone.ToJson());
                 try
                 {
-                    var output = await StartCommandLineProcessAsync(configFilename);
+                    var command = "run \"" + configFilename + "\"";
+                    var output = await StartCommandLineProcessAsync(command);
                     return clone.ProcessExecutionResult(output, baseFilename, redirectOutput);
                 }
                 finally
@@ -107,6 +108,48 @@ namespace NSwag.Commands
                     DeleteFileIfExists(swaggerFilename);
                     foreach (var filename in filenames)
                         DeleteFileIfExists(filename);
+                }
+            });
+        }
+
+        /// <summary>Gets the available controller types by calling the command line.</summary>
+        /// <returns>The controller names.</returns>
+        public async Task<string[]> GetControllersFromCommandLineAsync()
+        {
+            return await Task.Run(async () =>
+            {
+                var baseFilename = System.IO.Path.GetTempPath() + "nswag_document_" + Guid.NewGuid();
+                var configFilename = baseFilename + "_config.json";
+                File.WriteAllText(configFilename, ToJson());
+                try
+                {
+                    var command = "list-controllers /file:\"" + configFilename + "\"";
+                    return GetListFromCommandLineOutput(await StartCommandLineProcessAsync(command));
+                }
+                finally
+                {
+                    DeleteFileIfExists(configFilename);
+                }
+            });
+        }
+
+        /// <summary>Gets the available controller types by calling the command line.</summary>
+        /// <returns>The controller names.</returns>
+        public async Task<string[]> GetTypesFromCommandLineAsync()
+        {
+            return await Task.Run(async () =>
+            {
+                var baseFilename = System.IO.Path.GetTempPath() + "nswag_document_" + Guid.NewGuid();
+                var configFilename = baseFilename + "_config.json";
+                File.WriteAllText(configFilename, ToJson());
+                try
+                {
+                    var command = "list-types /file:\"" + configFilename + "\"";
+                    return GetListFromCommandLineOutput(await StartCommandLineProcessAsync(command));
+                }
+                finally
+                {
+                    DeleteFileIfExists(configFilename);
                 }
             });
         }
@@ -131,6 +174,15 @@ namespace NSwag.Commands
             return pathToConvert?.Replace("\\", "/");
         }
 
+        private string[] GetListFromCommandLineOutput(string output)
+        {
+            return output.Replace("\r\n", "\n")
+                .Split(new string[] { "\n\n" }, StringSplitOptions.None)[1]
+                .Split('\n')
+                .Where(t => !string.IsNullOrEmpty(t))
+                .ToArray();
+        }
+
         private SwaggerDocumentExecutionResult ProcessExecutionResult(string output, string baseFilename, bool redirectOutput)
         {
             var swaggerOutput = ReadFileIfExists(SelectedSwaggerGenerator.OutputFilePath);
@@ -148,9 +200,9 @@ namespace NSwag.Commands
             return result;
         }
 
-        private async Task<string> StartCommandLineProcessAsync(string configFilename)
+        private async Task<string> StartCommandLineProcessAsync(string command)
         {
-            var processStart = new ProcessStartInfo(GetProgramName(), GetArgumentsPrefix() + "run \"" + configFilename + "\"");
+            var processStart = new ProcessStartInfo(GetProgramName(), GetArgumentsPrefix() + command);
             processStart.RedirectStandardOutput = true;
             processStart.RedirectStandardError = true;
             processStart.UseShellExecute = false;
@@ -177,11 +229,11 @@ namespace NSwag.Commands
 
         private string GetArgumentsPrefix()
         {
-            if (Runtime == Runtime.Core10)
+            if (Runtime == Runtime.NetCore10)
                 return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "netcoreapp1.0/dotnet-nswag.dll") + "\" ";
-            else if (Runtime == Runtime.Core11)
+            else if (Runtime == Runtime.NetCore11)
                 return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "netcoreapp1.1/dotnet-nswag.dll") + "\" ";
-            else if (Runtime == Runtime.Core20)
+            else if (Runtime == Runtime.NetCore20)
                 return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "netcoreapp2.0/dotnet-nswag.dll") + "\" ";
             else
                 return "";

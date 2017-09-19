@@ -10,11 +10,13 @@ namespace NSwagStudio.Views.SwaggerGenerators
 {
     public partial class AssemblyTypeToSwaggerGeneratorView : ISwaggerGeneratorView
     {
-        public AssemblyTypeToSwaggerGeneratorView(AssemblyTypeToSwaggerCommand command)
+        public AssemblyTypeToSwaggerGeneratorView(AssemblyTypeToSwaggerCommand command, NSwagDocument document)
         {
             InitializeComponent();
             ViewModelHelper.RegisterViewModel(Model, this);
+
             Model.Command = command;
+            Model.Document = document;
 
             ControllersList.SelectedItems.Clear();
             foreach (var controller in Model.ClassNames)

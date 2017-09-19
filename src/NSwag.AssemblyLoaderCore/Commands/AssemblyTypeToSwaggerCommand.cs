@@ -6,7 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using NSwag.Commands;
+using System.Threading.Tasks;
 using NSwag.SwaggerGeneration;
 
 namespace NSwag.Commands
@@ -15,12 +15,11 @@ namespace NSwag.Commands
     /// <seealso cref="NSwag.Commands.AssemblyTypeToSwaggerCommandBase" />
     public class AssemblyTypeToSwaggerCommand : AssemblyTypeToSwaggerCommandBase
     {
-
         /// <summary>Creates a new generator instance.</summary>
         /// <returns>The generator.</returns>
-        protected override AssemblyTypeToSwaggerGeneratorBase CreateGenerator()
+        protected override Task<AssemblyTypeToSwaggerGeneratorBase> CreateGeneratorAsync()
         {
-            return new AssemblyTypeToSwaggerGenerator(Settings);
+            return Task.FromResult<AssemblyTypeToSwaggerGeneratorBase>(new AssemblyTypeToSwaggerGenerator(Settings));
         }
     }
 }

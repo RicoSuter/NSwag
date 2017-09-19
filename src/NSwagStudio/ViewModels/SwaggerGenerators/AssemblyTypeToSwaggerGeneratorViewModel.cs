@@ -16,7 +16,6 @@ using MyToolkit.Command;
 using NJsonSchema;
 using NSwag;
 using NSwag.Commands;
-using NSwag.SwaggerGeneration;
 
 namespace NSwagStudio.ViewModels.SwaggerGenerators
 {
@@ -24,6 +23,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
     {
         private string[] _allClassNames;
         private AssemblyTypeToSwaggerCommand _command = new AssemblyTypeToSwaggerCommand();
+        private NSwagDocument _document;
 
         /// <summary>Initializes a new instance of the <see cref="AssemblyTypeToSwaggerGeneratorViewModel"/> class.</summary>
         public AssemblyTypeToSwaggerGeneratorViewModel()
@@ -41,14 +41,25 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             set
             {
                 if (Set(ref _command, value))
-                {
                     RaiseAllPropertiesChanged();
+            }
+        }
+
+        /// <summary>Gets or sets the document.</summary>
+        public NSwagDocument Document
+        {
+            get { return _document; }
+            set
+            {
+                if (Set(ref _document, value))
+                {
                     LoadAssemblyCommand.RaiseCanExecuteChanged();
                     LoadAssemblyAsync();
                 }
             }
         }
 
+        /// <summary>Gets or sets the reference path. </summary>
         public string ReferencePaths
         {
             get
@@ -139,11 +150,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         {
             return RunTaskAsync(async () =>
             {
-                AllClassNames = await Task.Run(() =>
-                {
-                    var generator = new AssemblyTypeToSwaggerGenerator(Command.Settings);
-                    return generator.GetExportedClassNames();
-                });
+                AllClassNames = await Task.Run(async () => await Document.GetTypesFromCommandLineAsync());
             });
         }
 

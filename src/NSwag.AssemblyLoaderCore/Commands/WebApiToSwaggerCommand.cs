@@ -6,20 +6,20 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using NSwag.Commands;
+using System.Threading.Tasks;
 using NSwag.SwaggerGeneration.WebApi;
 
 namespace NSwag.Commands
 {
-    /// <summary></summary>
+    /// <summary>The generator.</summary>
     /// <seealso cref="NSwag.Commands.WebApiToSwaggerCommandBase" />
     public class WebApiToSwaggerCommand : WebApiToSwaggerCommandBase
     {
         /// <summary>Creates a new generator instance.</summary>
         /// <returns>The generator.</returns>
-        protected override WebApiAssemblyToSwaggerGeneratorBase CreateGenerator()
+        protected override Task<WebApiAssemblyToSwaggerGeneratorBase> CreateGeneratorAsync()
         {
-            return new WebApiAssemblyToSwaggerGenerator(Settings);
+            return Task.FromResult<WebApiAssemblyToSwaggerGeneratorBase>(new WebApiAssemblyToSwaggerGenerator(Settings));
         }
     }
 }

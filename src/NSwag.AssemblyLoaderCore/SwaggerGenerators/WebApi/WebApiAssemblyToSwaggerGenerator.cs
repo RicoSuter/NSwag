@@ -39,7 +39,7 @@ namespace NSwag.SwaggerGeneration.WebApi
         /// <exception cref="FileNotFoundException">The assembly could not be found.</exception>
         /// <exception cref="FileNotFoundException">The assembly config file could not be found..</exception>
         /// <exception cref="InvalidOperationException">No assembly paths have been provided.</exception>
-        public override string[] GetControllerClasses()
+        public override string[] GetExportedControllerClassNames()
         {
             if (Settings.AssemblyPaths == null || Settings.AssemblyPaths.Length == 0)
                 throw new InvalidOperationException("No assembly paths have been provided.");

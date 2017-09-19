@@ -8,28 +8,21 @@
 
 using System.Threading.Tasks;
 using NConsole;
-using Newtonsoft.Json;
 using NJsonSchema;
-using NSwag.Commands.Base;
-using NSwag.SwaggerGeneration;
 
 #pragma warning disable 1591
 
 namespace NSwag.Commands
 {
     [Command(Name = "types2swagger")]
-    public abstract class AssemblyTypeToSwaggerCommandBase : OutputCommandBase
+    public abstract class AssemblyTypeToSwaggerCommandBase : AssemblyOutputCommandBase
     {
         public AssemblyTypeToSwaggerCommandBase()
         {
-            Settings = new AssemblyTypeToSwaggerGeneratorSettings();
             ClassNames = new string[] { };
         }
 
-        [JsonIgnore]
-        public AssemblyTypeToSwaggerGeneratorSettings Settings { get; set; }
-
-        [Argument(Name = "Assembly", Description = "The path to the Web API .NET assembly.")]
+        [Argument(Name = "Assembly", IsRequired = true, Description = "The path to the Web API .NET assembly.")]
         public string AssemblyPath
         {
             get { return Settings.AssemblyPath; }
@@ -38,20 +31,6 @@ namespace NSwag.Commands
 
         [Argument(Name = "ClassNames", Description = "The class names.")]
         public string[] ClassNames { get; set; }
-
-        [Argument(Name = "AssemblyConfig", IsRequired = false, Description = "The path to the assembly App.config or Web.config (optional).")]
-        public string AssemblyConfig
-        {
-            get { return Settings.AssemblyConfig; }
-            set { Settings.AssemblyConfig = value; }
-        }
-
-        [Argument(Name = "ReferencePaths", IsRequired = false, Description = "The paths to search for referenced assembly files.")]
-        public string[] ReferencePaths
-        {
-            get { return Settings.ReferencePaths; }
-            set { Settings.ReferencePaths = value; }
-        }
 
         [Argument(Name = "DefaultPropertyNameHandling", IsRequired = false, Description = "The default property name handling ('Default' or 'CamelCase').")]
         public PropertyNameHandling DefaultPropertyNameHandling
@@ -99,20 +78,16 @@ namespace NSwag.Commands
         {
             var document = await RunAsync();
             await TryWriteFileOutputAsync(host, () => document.ToJson()).ConfigureAwait(false);
-            return document; 
+            return document;
         }
 
         public async Task<SwaggerDocument> RunAsync()
         {
             return await Task.Run(async () =>
             {
-                var generator = CreateGenerator();
+                var generator = await CreateGeneratorAsync();
                 return await generator.GenerateAsync(ClassNames).ConfigureAwait(false);
             });
         }
-
-        /// <summary>Creates a new generator instance.</summary>
-        /// <returns>The generator.</returns>
-        protected abstract AssemblyTypeToSwaggerGeneratorBase CreateGenerator();
     }
 }
