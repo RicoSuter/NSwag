@@ -52,6 +52,9 @@ namespace NSwag.Commands
         /// <summary>Executes the current document.</summary>
         /// <returns>The result.</returns>
         public abstract Task<SwaggerDocumentExecutionResult> ExecuteAsync();
+        
+        /// <summary>Gets or sets the runtime where the document should be processed.</summary>
+        public Runtime Runtime { get; set; }
 
         /// <summary>Gets or sets the selected swagger generator JSON.</summary>
         [JsonProperty("SwaggerGenerator")]
@@ -90,9 +93,6 @@ namespace NSwag.Commands
         /// <summary>Gets the code generators.</summary>
         [JsonProperty("CodeGenerators")]
         public CodeGeneratorCollection CodeGenerators { get; } = new CodeGeneratorCollection();
-
-        /// <summary>Gets or sets the runtime where the document should be processed.</summary>
-        public Runtime Runtime { get; set; }
 
         /// <summary>Gets or sets the path.</summary>
         [JsonIgnore]
