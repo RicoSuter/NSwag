@@ -8,6 +8,7 @@
 
 using System.Threading.Tasks;
 using NConsole;
+using Newtonsoft.Json;
 using NJsonSchema;
 using NSwag.SwaggerGeneration;
 
@@ -24,6 +25,7 @@ namespace NSwag.Commands
             ClassNames = new string[] { };
         }
 
+        [JsonIgnore]
         public new AssemblyTypeToSwaggerGeneratorSettings Settings => (AssemblyTypeToSwaggerGeneratorSettings)base.Settings;
 
         [Argument(Name = "Assembly", IsRequired = true, Description = "The path to the Web API .NET assembly.")]

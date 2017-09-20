@@ -29,6 +29,7 @@ namespace NSwag.Commands
             ControllerNames = new string[] { };
         }
 
+        [JsonIgnore]
         public new WebApiAssemblyToSwaggerGeneratorSettings Settings => (WebApiAssemblyToSwaggerGeneratorSettings)base.Settings;
 
         [Argument(Name = "Assembly", Description = "The path or paths to the Web API .NET assemblies (comma separated).")]
