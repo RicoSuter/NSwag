@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NSwag.SwaggerGeneration.Utilities;
 
@@ -219,6 +220,9 @@ namespace NSwag.Commands
             if (process.ExitCode != 0)
             {
                 var errorStart = output.IndexOf("...");
+                if (errorStart < 0)
+                    errorStart = Regex.Match(output, "\n[^\n\r]*?Exception: .*", RegexOptions.Singleline)?.Index ?? -1;
+
                 var error = errorStart > 0 ? output.Substring(errorStart + 4) : output;
                 var stackTraceStart = error.IndexOf("Server stack trace: ");
                 if (stackTraceStart < 0)

@@ -58,6 +58,15 @@ namespace NSwag.Commands.Document
                                                     "or run the file with the correct command line binary.");
             }
 
+            if (document.SwaggerGenerators.WebApiToSwaggerCommand.IsAspNetCore == false &&
+                document.Runtime != Runtime.Debug &&
+                document.Runtime != Runtime.WinX86 &&
+                document.Runtime != Runtime.WinX64)
+            {
+                throw new InvalidOperationException("The runtime " + document.Runtime + " in the document must be used " +
+                                                    "with ASP.NET Core. Enable /isAspNetCore:true.");
+            }
+
             await document.ExecuteAsync();
 
             host.WriteMessage("Done.\n");
