@@ -16,6 +16,12 @@ namespace NSwag.Commands
     /// <seealso cref="NSwag.Commands.WebApiToSwaggerCommandBase" />
     public class ListWebApiControllersCommand : ListWebApiControllersCommandBase
     {
+        /// <summary>Initializes a new instance of the <see cref="ListWebApiControllersCommand"/> class.</summary>
+        public ListWebApiControllersCommand()
+            : base(new WebApiAssemblyToSwaggerGeneratorSettings())
+        {
+        }
+
         /// <summary>Creates a new generator instance.</summary>
         /// <returns>The generator.</returns>
         /// <summary>Creates a new generator instance.</summary>
@@ -34,7 +40,7 @@ namespace NSwag.Commands
                 return new WebApiAssemblyToSwaggerGenerator(settings);
             }
             else
-                return new WebApiAssemblyToSwaggerGenerator(Settings);
+                return new WebApiAssemblyToSwaggerGenerator((WebApiAssemblyToSwaggerGeneratorSettings)Settings);
         }
     }
 }

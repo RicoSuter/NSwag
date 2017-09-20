@@ -257,7 +257,7 @@ namespace NSwag.Commands
 
             if (SwaggerGenerators.AssemblyTypeToSwaggerCommand != null)
             {
-                SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyPath = ConvertToAbsolutePath(SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyPath);
+                SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyPaths = SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyPaths.Select(ConvertToAbsolutePath).ToArray();
                 SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyConfig = ConvertToAbsolutePath(SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyConfig);
             }
 
@@ -293,7 +293,7 @@ namespace NSwag.Commands
 
             if (SwaggerGenerators.AssemblyTypeToSwaggerCommand != null)
             {
-                SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyPath = ConvertToRelativePath(SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyPath);
+                SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyPaths = SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyPaths.Select(ConvertToRelativePath).ToArray();
                 SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyConfig = ConvertToRelativePath(SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyConfig);
             }
 

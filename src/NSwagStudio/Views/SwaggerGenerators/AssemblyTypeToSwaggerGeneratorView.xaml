@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:swaggerGenerators="clr-namespace:NSwagStudio.ViewModels.SwaggerGenerators"
              xmlns:converters="clr-namespace:NSwagStudio.Converters"
-             xmlns:controls="clr-namespace:NSwagStudio.Controls"
              xmlns:dialogs="clr-namespace:MyToolkit.Dialogs;assembly=MyToolkit.Extended"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
@@ -13,6 +12,7 @@
     <UserControl.Resources>
         <swaggerGenerators:AssemblyTypeToSwaggerGeneratorViewModel x:Key="ViewModel" />
         <converters:NumberAdditionConverter x:Key="NumberAdditionConverter" />
+        <converters:StringArrayConverter x:Key="StringArrayConverter" />
     </UserControl.Resources>
 
     <ScrollViewer DataContext="{StaticResource ViewModel}" x:Name="ScrollViewer" 
@@ -35,8 +35,9 @@
                                 <RowDefinition Height="Auto"></RowDefinition>
                             </Grid.RowDefinitions>
 
-                            <TextBlock Text=".NET Assembly" FontWeight="Bold" Margin="0,0,0,6" />
-                            <TextBox Grid.Row="1" Text="{Binding AssemblyPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            <TextBlock Text=".NET Assembly Paths (multiple on separate lines)" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Grid.Row="1" Text="{Binding AssemblyPaths, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
+                                     Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"  
                                      Margin="0,0,12,0" VerticalAlignment="Center" />
                         </Grid>
 
@@ -55,7 +56,7 @@
                     <TextBlock Text="Paths to search for referenced assembly files (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding ReferencePaths, Mode=TwoWay}" Margin="0,0,0,12" />
 
-                    <Button Command="{Binding LoadAssemblyCommand}" VerticalAlignment="Stretch"
+                    <Button Command="{Binding LoadAssembliesCommand}" VerticalAlignment="Stretch"
                             Padding="8,4,8,4" Margin="0,0,0,12" Content="Load Assembly" />
                 </StackPanel>
             </GroupBox>

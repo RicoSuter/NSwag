@@ -15,6 +15,12 @@ namespace NSwag.Commands
     /// <seealso cref="NSwag.Commands.AssemblyTypeToSwaggerCommandBase" />
     public class AssemblyTypeToSwaggerCommand : AssemblyTypeToSwaggerCommandBase
     {
+        /// <summary>Initializes a new instance of the <see cref="AssemblyTypeToSwaggerCommand"/> class.</summary>
+        public AssemblyTypeToSwaggerCommand()
+            : base(new AssemblyTypeToSwaggerGeneratorSettings())
+        {
+        }
+
         /// <summary>Creates a new generator instance.</summary>
         /// <returns>The generator.</returns>
         protected override Task<AssemblyTypeToSwaggerGeneratorBase> CreateGeneratorAsync()

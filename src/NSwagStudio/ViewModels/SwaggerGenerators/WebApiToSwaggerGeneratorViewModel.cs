@@ -142,7 +142,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             {
                 AllControllerNames = await Task.Run(async () =>
                 {
-                    if (Command.Settings.AssemblyPaths?.Length > 0)
+                    if (Command.Settings.AssemblySettings.AssemblyPaths?.Length > 0)
                         return await Document.GetControllersFromCommandLineAsync();
                     else
                         return new string[] { };

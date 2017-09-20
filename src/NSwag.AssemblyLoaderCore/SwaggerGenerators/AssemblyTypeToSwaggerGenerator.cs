@@ -39,20 +39,15 @@ namespace NSwag.SwaggerGeneration
         /// <returns>The controller classes.</returns>
         public override string[] GetExportedClassNames()
         {
-            if (File.Exists(Settings.AssemblyPath))
-            {
 #if FullNet
-                var assemblyDirectory = Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPath));
-                using (var isolated = new AppDomainIsolation<NetAssemblyLoader>(
-                    assemblyDirectory, Settings.AssemblyConfig))
-                    return isolated.Object.GetExportedClassNames(Settings.AssemblyPath, GetAllReferencePaths(Settings));
+            var assemblyDirectory = Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblySettings.AssemblyPaths.First()));
+            using (var isolated = new AppDomainIsolation<NetAssemblyLoader>(
+                assemblyDirectory, Settings.AssemblySettings.AssemblyConfig))
+                return isolated.Object.GetExportedClassNames(Settings.AssemblySettings.AssemblyPaths, GetAllReferencePaths(Settings));
 #else
-                var loader = new NetAssemblyLoader();
-                return loader.GetExportedClassNames(Settings.AssemblyPath, GetAllReferencePaths(Settings));
+            var loader = new NetAssemblyLoader();
+            return loader.GetExportedClassNames(Settings.AssemblySettings.AssemblyPaths, GetAllReferencePaths(Settings));
 #endif
-            }
-            else
-                return new string[] { };
         }
 
         /// <summary>Generates the Swagger definition for the given classes without operations (used for class generation).</summary>
@@ -61,9 +56,10 @@ namespace NSwag.SwaggerGeneration
         public override async Task<SwaggerDocument> GenerateAsync(string[] classNames)
         {
 #if FullNet
-            var assemblyDirectory = Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPath));
+            var assemblyPath = Settings.AssemblySettings.AssemblyPaths.First();
+            var assemblyDirectory = Path.GetDirectoryName(Path.GetFullPath(assemblyPath));
             using (var isolated = new AppDomainIsolation<NetAssemblyLoader>(
-                assemblyDirectory, Settings.AssemblyConfig))
+                assemblyDirectory, Settings.AssemblySettings.AssemblyConfig))
             {
                 var json = await Task.Run(() => isolated.Object.FromAssemblyType(classNames, JsonConvert.SerializeObject(Settings))).ConfigureAwait(false);
                 return await SwaggerDocument.FromJsonAsync(json).ConfigureAwait(false);
@@ -78,8 +74,9 @@ namespace NSwag.SwaggerGeneration
 
         private static string[] GetAllReferencePaths(AssemblyTypeToSwaggerGeneratorSettings settings)
         {
-            return new[] { Path.GetDirectoryName(PathUtilities.MakeAbsolutePath(settings.AssemblyPath, Directory.GetCurrentDirectory())) }
-                .Concat(settings.ReferencePaths)
+            var assemblyPath = settings.AssemblySettings.AssemblyPaths.First();
+            return new[] { Path.GetDirectoryName(PathUtilities.MakeAbsolutePath(assemblyPath, Directory.GetCurrentDirectory())) }
+                .Concat(settings.AssemblySettings.ReferencePaths)
                 .Distinct()
                 .ToArray();
         }
@@ -102,45 +99,43 @@ namespace NSwag.SwaggerGeneration
                 var schemaResolver = new SwaggerSchemaResolver(document, settings);
 
 #if FullNet
-                var assembly = Assembly.LoadFrom(settings.AssemblyPath);
+                var assemblies = PathUtilities.ExpandFileWildcards(settings.AssemblySettings.AssemblyPaths)
+                    .Select(path => Assembly.LoadFrom(path)).ToArray();
 #else
                 var currentDirectory = await DynamicApis.DirectoryGetCurrentDirectoryAsync().ConfigureAwait(false);
-                var assembly = Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(settings.AssemblyPath, currentDirectory));
+                var assemblies = PathUtilities.ExpandFileWildcards(settings.AssemblySettings.AssemblyPaths)
+                    .Select(path => Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(path, currentDirectory))).ToArray();
 #endif
 
-                var allExportedClassNames = GetExportedClassNames(assembly);
+                var allExportedClassNames = assemblies.SelectMany(a => a.ExportedTypes).Select(t => t.FullName).ToList();
                 var matchedClassNames = classNames
                     .SelectMany(n => PathUtilities.FindWildcardMatches(n, allExportedClassNames, '.'))
                     .Distinct();
 
                 foreach (var className in matchedClassNames)
                 {
-                    var type = assembly.GetType(className);
+                    var type = assemblies.Select(a => a.GetType(className)).FirstOrDefault(t => t != null);
                     await generator.GenerateAsync(type, schemaResolver).ConfigureAwait(false);
                 }
 
                 return document.ToJson();
             }
 
-            internal string[] GetExportedClassNames(string assemblyPath, IEnumerable<string> referencePaths)
+            internal string[] GetExportedClassNames(string[] assemblyPaths, IEnumerable<string> referencePaths)
             {
                 RegisterReferencePaths(referencePaths);
 
 #if FullNet
-                var assembly = Assembly.LoadFrom(assemblyPath);
+                return PathUtilities.ExpandFileWildcards(assemblyPaths)
+                    .Select(Assembly.LoadFrom)
 #else
                 var currentDirectory = DynamicApis.DirectoryGetCurrentDirectoryAsync().GetAwaiter().GetResult();
-                var assembly = Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(assemblyPath, currentDirectory));
+                return PathUtilities.ExpandFileWildcards(assemblyPaths)
+                    .Select(p => Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(p, currentDirectory)))
 #endif
-
-                return GetExportedClassNames(assembly);
-            }
-
-            private static string[] GetExportedClassNames(Assembly assembly)
-            {
-                return assembly.ExportedTypes
+                    .SelectMany(a => a.ExportedTypes)
                     .Select(t => t.FullName)
-                    .OrderBy(t => t)
+                    .OrderBy(c => c)
                     .ToArray();
             }
         }

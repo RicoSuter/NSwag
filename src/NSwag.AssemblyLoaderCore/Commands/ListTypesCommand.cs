@@ -16,6 +16,12 @@ namespace NSwag.Commands
     /// <seealso cref="NSwag.Commands.WebApiToSwaggerCommandBase" />
     public class ListTypesCommand : ListTypesCommandBase
     {
+        /// <summary>Initializes a new instance of the <see cref="ListTypesCommand"/> class.</summary>
+        public ListTypesCommand()
+            : base(new AssemblyTypeToSwaggerGeneratorSettings())
+        {
+        }
+
         /// <summary>Creates a new generator instance.</summary>
         /// <returns>The generator.</returns>
         /// <summary>Creates a new generator instance.</summary>
@@ -34,7 +40,7 @@ namespace NSwag.Commands
                 return new AssemblyTypeToSwaggerGenerator(settings);
             }
             else
-                return new AssemblyTypeToSwaggerGenerator(Settings);
+                return new AssemblyTypeToSwaggerGenerator((AssemblyTypeToSwaggerGeneratorSettings)Settings);
         }
     }
 }

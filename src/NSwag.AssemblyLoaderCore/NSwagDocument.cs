@@ -118,6 +118,9 @@ namespace NSwag.Commands
         {
             return await Task.Run(async () =>
             {
+                if (!(SelectedSwaggerGenerator is WebApiToSwaggerCommand))
+                    return new string[0];
+
                 var baseFilename = System.IO.Path.GetTempPath() + "nswag_document_" + Guid.NewGuid();
                 var configFilename = baseFilename + "_config.json";
                 File.WriteAllText(configFilename, ToJson());
@@ -139,6 +142,9 @@ namespace NSwag.Commands
         {
             return await Task.Run(async () =>
             {
+                if (!(SelectedSwaggerGenerator is AssemblyTypeToSwaggerCommand))
+                    return new string[0];
+
                 var baseFilename = System.IO.Path.GetTempPath() + "nswag_document_" + Guid.NewGuid();
                 var configFilename = baseFilename + "_config.json";
                 File.WriteAllText(configFilename, ToJson());

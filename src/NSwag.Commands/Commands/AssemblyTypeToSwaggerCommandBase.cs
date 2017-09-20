@@ -9,24 +9,28 @@
 using System.Threading.Tasks;
 using NConsole;
 using NJsonSchema;
+using NSwag.SwaggerGeneration;
 
 #pragma warning disable 1591
 
 namespace NSwag.Commands
 {
     [Command(Name = "types2swagger")]
-    public abstract class AssemblyTypeToSwaggerCommandBase : AssemblyOutputCommandBase
+    public abstract class AssemblyTypeToSwaggerCommandBase : AssemblyOutputCommandBase<AssemblyTypeToSwaggerGeneratorBase>
     {
-        public AssemblyTypeToSwaggerCommandBase()
+        protected AssemblyTypeToSwaggerCommandBase(IAssemblySettings settings)
+            : base(settings)
         {
             ClassNames = new string[] { };
         }
 
+        public new AssemblyTypeToSwaggerGeneratorSettings Settings => (AssemblyTypeToSwaggerGeneratorSettings)base.Settings;
+
         [Argument(Name = "Assembly", IsRequired = true, Description = "The path to the Web API .NET assembly.")]
-        public string AssemblyPath
+        public string[] AssemblyPaths
         {
-            get { return Settings.AssemblyPath; }
-            set { Settings.AssemblyPath = value; }
+            get { return Settings.AssemblySettings.AssemblyPaths; }
+            set { Settings.AssemblySettings.AssemblyPaths = value; }
         }
 
         [Argument(Name = "ClassNames", Description = "The class names.")]

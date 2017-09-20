@@ -41,23 +41,23 @@ namespace NSwag.SwaggerGeneration.WebApi
         /// <exception cref="InvalidOperationException">No assembly paths have been provided.</exception>
         public override string[] GetExportedControllerClassNames()
         {
-            if (Settings.AssemblyPaths == null || Settings.AssemblyPaths.Length == 0)
+            if (Settings.AssemblySettings.AssemblyPaths == null || Settings.AssemblySettings.AssemblyPaths.Length == 0)
                 throw new InvalidOperationException("No assembly paths have been provided.");
 
-            if (!File.Exists(Settings.AssemblyPaths.First()))
-                throw new FileNotFoundException("The assembly could not be found.", Settings.AssemblyPaths.First());
+            if (!File.Exists(Settings.AssemblySettings.AssemblyPaths.First()))
+                throw new FileNotFoundException("The assembly could not be found.", Settings.AssemblySettings.AssemblyPaths.First());
 
-            if (!string.IsNullOrEmpty(Settings.AssemblyConfig) && !File.Exists(Settings.AssemblyConfig))
-                throw new FileNotFoundException("The assembly config file could not be found.", Settings.AssemblyConfig);
+            if (!string.IsNullOrEmpty(Settings.AssemblySettings.AssemblyConfig) && !File.Exists(Settings.AssemblySettings.AssemblyConfig))
+                throw new FileNotFoundException("The assembly config file could not be found.", Settings.AssemblySettings.AssemblyConfig);
 
 #if FullNet
-            var assemblyDirectory = Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPaths.First())); 
+            var assemblyDirectory = Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblySettings.AssemblyPaths.First())); 
             using (var isolated = new AppDomainIsolation<WebApiAssemblyLoader>(
-                assemblyDirectory, Settings.AssemblyConfig))
-                return isolated.Object.GetControllerClasses(Settings.AssemblyPaths, GetAllReferencePaths(Settings));
+                assemblyDirectory, Settings.AssemblySettings.AssemblyConfig))
+                return isolated.Object.GetControllerClasses(Settings.AssemblySettings.AssemblyPaths, GetAllReferencePaths(Settings));
 #else
             var loader = new WebApiAssemblyLoader();
-            return loader.GetControllerClasses(Settings.AssemblyPaths, GetAllReferencePaths(Settings));
+            return loader.GetControllerClasses(Settings.AssemblySettings.AssemblyPaths, GetAllReferencePaths(Settings));
 #endif
         }
 
@@ -74,9 +74,9 @@ namespace NSwag.SwaggerGeneration.WebApi
                 throw new InvalidOperationException("The TypeNameGenerator cannot be customized when loading types from external assemblies.");
 
 #if FullNet
-            var assemblyDirectory = Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblyPaths.First()));
+            var assemblyDirectory = Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblySettings.AssemblyPaths.First()));
             using (var isolated = new AppDomainIsolation<WebApiAssemblyLoader>(
-                assemblyDirectory, Settings.AssemblyConfig))
+                assemblyDirectory, Settings.AssemblySettings.AssemblyConfig))
             {
                 var document = await Task.Run(() => isolated.Object.GenerateForControllers(controllerClassNames, JsonConvert.SerializeObject(Settings))).ConfigureAwait(false);
                 return await SwaggerDocument.FromJsonAsync(document).ConfigureAwait(false);
@@ -90,8 +90,8 @@ namespace NSwag.SwaggerGeneration.WebApi
 
         private static string[] GetAllReferencePaths(WebApiAssemblyToSwaggerGeneratorSettings settings)
         {
-            return settings.AssemblyPaths.Select(p => Path.GetDirectoryName(PathUtilities.MakeAbsolutePath(p, Directory.GetCurrentDirectory())))
-                .Concat(settings.ReferencePaths)
+            return settings.AssemblySettings.AssemblyPaths.Select(p => Path.GetDirectoryName(PathUtilities.MakeAbsolutePath(p, Directory.GetCurrentDirectory())))
+                .Concat(settings.AssemblySettings.ReferencePaths)
                 .Distinct()
                 .ToArray();
         }
@@ -121,15 +121,15 @@ namespace NSwag.SwaggerGeneration.WebApi
             private async Task<IEnumerable<Type>> GetControllerTypesAsync(IEnumerable<string> controllerClassNames, WebApiAssemblyToSwaggerGeneratorSettings settings)
 #pragma warning restore 1998
             {
-                if (settings.AssemblyPaths == null || settings.AssemblyPaths.Length == 0)
+                if (settings.AssemblySettings.AssemblyPaths == null || settings.AssemblySettings.AssemblyPaths.Length == 0)
                     throw new InvalidOperationException("No assembly paths have been provided.");
 
 #if FullNet
-                var assemblies = PathUtilities.ExpandFileWildcards(settings.AssemblyPaths)
+                var assemblies = PathUtilities.ExpandFileWildcards(settings.AssemblySettings.AssemblyPaths)
                     .Select(path => Assembly.LoadFrom(path)).ToArray();
 #else
                 var currentDirectory = await DynamicApis.DirectoryGetCurrentDirectoryAsync().ConfigureAwait(false);
-                var assemblies = PathUtilities.ExpandFileWildcards(settings.AssemblyPaths)
+                var assemblies = PathUtilities.ExpandFileWildcards(settings.AssemblySettings.AssemblyPaths)
                     .Select(path => Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(path, currentDirectory))).ToArray();
 #endif
 

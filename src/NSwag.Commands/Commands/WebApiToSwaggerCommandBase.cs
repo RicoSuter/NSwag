@@ -13,6 +13,7 @@ using NConsole;
 using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
+using NSwag.SwaggerGeneration;
 using NSwag.SwaggerGeneration.WebApi;
 
 #pragma warning disable 1591
@@ -20,18 +21,21 @@ using NSwag.SwaggerGeneration.WebApi;
 namespace NSwag.Commands
 {
     [Command(Name = "webapi2swagger", Description = "Generates a Swagger specification for a controller or controlles contained in a .NET Web API assembly.")]
-    public abstract class WebApiToSwaggerCommandBase : WebApiAssemblyOutputCommandBase
+    public abstract class WebApiToSwaggerCommandBase : AssemblyOutputCommandBase<WebApiAssemblyToSwaggerGeneratorBase>
     {
-        public WebApiToSwaggerCommandBase()
+        protected WebApiToSwaggerCommandBase(IAssemblySettings settings)
+            : base(settings)
         {
             ControllerNames = new string[] { };
         }
 
+        public new WebApiAssemblyToSwaggerGeneratorSettings Settings => (WebApiAssemblyToSwaggerGeneratorSettings)base.Settings;
+
         [Argument(Name = "Assembly", Description = "The path or paths to the Web API .NET assemblies (comma separated).")]
         public string[] AssemblyPaths
         {
-            get { return Settings.AssemblyPaths; }
-            set { Settings.AssemblyPaths = value; }
+            get { return Settings.AssemblySettings.AssemblyPaths; }
+            set { Settings.AssemblySettings.AssemblyPaths = value; }
         }
 
         [JsonIgnore]
@@ -180,7 +184,7 @@ namespace NSwag.Commands
                 var generator = await CreateGeneratorAsync();
 
                 var controllerNames = ControllerNames.Where(s => !string.IsNullOrWhiteSpace(s)).Distinct().ToList();
-                if (!controllerNames.Any() && Settings.AssemblyPaths?.Length > 0)
+                if (!controllerNames.Any() && Settings.AssemblySettings.AssemblyPaths?.Length > 0)
                     controllerNames = generator.GetExportedControllerClassNames().ToList();
 
                 var document = await generator.GenerateForControllersAsync(controllerNames).ConfigureAwait(false);

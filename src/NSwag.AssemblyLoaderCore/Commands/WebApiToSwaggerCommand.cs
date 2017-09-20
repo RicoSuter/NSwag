@@ -15,6 +15,12 @@ namespace NSwag.Commands
     /// <seealso cref="NSwag.Commands.WebApiToSwaggerCommandBase" />
     public class WebApiToSwaggerCommand : WebApiToSwaggerCommandBase
     {
+        /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerCommand"/> class.</summary>
+        public WebApiToSwaggerCommand()
+            : base(new WebApiAssemblyToSwaggerGeneratorSettings())
+        {
+        }
+
         /// <summary>Creates a new generator instance.</summary>
         /// <returns>The generator.</returns>
         protected override Task<WebApiAssemblyToSwaggerGeneratorBase> CreateGeneratorAsync()

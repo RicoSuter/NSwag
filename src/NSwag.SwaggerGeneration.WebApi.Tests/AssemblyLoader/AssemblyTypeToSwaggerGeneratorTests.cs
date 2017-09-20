@@ -13,7 +13,10 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.AssemblyLoader
             var assemblyPath = "../../../NSwag.Demo.Web/bin/NSwag.Demo.Web.dll";
             var generator = new AssemblyTypeToSwaggerGenerator(new AssemblyTypeToSwaggerGeneratorSettings
             {
-                AssemblyPath = assemblyPath
+                AssemblySettings =
+                {
+                    AssemblyPaths = new [] { assemblyPath }
+                }
             });
 
             //// Act

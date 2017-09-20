@@ -12,22 +12,16 @@ using NJsonSchema.Generation;
 namespace NSwag.SwaggerGeneration
 {
     /// <summary>Settings for the AssemblyTypeToSwaggerGenerator.</summary>
-    public class AssemblyTypeToSwaggerGeneratorSettings : JsonSchemaGeneratorSettings
+    public class AssemblyTypeToSwaggerGeneratorSettings : JsonSchemaGeneratorSettings, IAssemblySettings
     {
         /// <summary>Initializes a new instance of the <see cref="AssemblyTypeToSwaggerGeneratorSettings"/> class.</summary>
         public AssemblyTypeToSwaggerGeneratorSettings()
         {
             SchemaType = SchemaType.Swagger2;
-            ReferencePaths = new string[] { };
+            AssemblySettings = new AssemblySettings();
         }
 
-        /// <summary>Gets or sets the assembly path.</summary>
-        public string AssemblyPath { get; set; }
-
-        /// <summary>Gets or sets the path to the assembly App.config or Web.config (optional).</summary>
-        public string AssemblyConfig { get; set; }
-
-        /// <summary>Gets ot sets the paths where to search for referenced assemblies</summary>
-        public string[] ReferencePaths { get; set; }
+        /// <summary>Gets or sets the Web API assembly paths.</summary>
+        public AssemblySettings AssemblySettings { get; }
     }
 }
