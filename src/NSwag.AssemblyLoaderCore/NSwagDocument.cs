@@ -210,7 +210,6 @@ namespace NSwag.Commands
         {
             var processStart = new ProcessStartInfo(GetProgramName(), GetArgumentsPrefix() + command);
             processStart.RedirectStandardOutput = true;
-            processStart.RedirectStandardError = true;
             processStart.UseShellExecute = false;
             processStart.CreateNoWindow = true;
 
@@ -219,9 +218,16 @@ namespace NSwag.Commands
 
             if (process.ExitCode != 0)
             {
-                var error = await process.StandardError.ReadToEndAsync();
-                if (error != null)
-                    throw new InvalidOperationException(output + error);
+                var errorStart = output.IndexOf("...");
+                var error = errorStart > 0 ? output.Substring(errorStart + 4) : output;
+                var stackTraceStart = error.IndexOf("Server stack trace: ");
+                if (stackTraceStart < 0)
+                    stackTraceStart = error.IndexOf("   at ");
+
+                var message = stackTraceStart > 0 ? error.Substring(0, stackTraceStart) : error;
+                var stackTrace = stackTraceStart > 0 ? error.Substring(stackTraceStart) : "";
+
+                throw new CommandLineException(message, "Runtime: " + Runtime + "\n" + stackTrace);
             }
 
             return output;
@@ -266,6 +272,22 @@ namespace NSwag.Commands
         {
             if (File.Exists(filename))
                 File.Delete(filename);
+        }
+
+        internal class CommandLineException : Exception
+        {
+            public CommandLineException(string message, string stackTrace)
+                : base(message)
+            {
+                StackTrace = stackTrace;
+            }
+
+            public override string StackTrace { get; }
+
+            public override string ToString()
+            {
+                return Message + "\n" + StackTrace;
+            }
         }
     }
 }
