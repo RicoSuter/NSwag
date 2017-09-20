@@ -63,7 +63,7 @@
 
             <TextBlock Text="Classes" FontWeight="Bold" Margin="0,0,0,6" />
             <ListBox ItemsSource="{Binding AllClassNames}" x:Name="ControllersList" 
-                     SelectionChanged="ControllersListSelectionChanged" BorderThickness="0" Padding="0"
+                     SelectionChanged="ControllersListSelectionChanged" BorderThickness="0" Padding="0" MaxHeight="300"
                      SelectionMode="Multiple">
                 <ListBox.Resources>
                     <Style TargetType="{x:Type ListBoxItem}">
