@@ -51,7 +51,9 @@ namespace NSwag.Commands
         /// <returns></returns>
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            return await RunAsync();
+            var document = await RunAsync();
+            await TryWriteFileOutputAsync(host, () => document.ToJson()).ConfigureAwait(false);
+            return document;
         }
 
         /// <summary></summary>

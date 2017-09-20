@@ -231,6 +231,9 @@ namespace NSwag.Commands
                 var message = stackTraceStart > 0 ? error.Substring(0, stackTraceStart) : error;
                 var stackTrace = stackTraceStart > 0 ? error.Substring(stackTraceStart) : "";
 
+                if (message.Contains("Could not load type"))
+                    message = message + "Try running the document in another runtime, e.g. /runtime:NetCore20";
+
                 throw new CommandLineException(message, "Runtime: " + Runtime + "\n" + stackTrace);
             }
 
