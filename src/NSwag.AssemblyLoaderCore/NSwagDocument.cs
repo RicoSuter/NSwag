@@ -248,11 +248,12 @@ namespace NSwag.Commands
 
         private string GetArgumentsPrefix()
         {
-            if (Runtime == Runtime.NetCore10)
+	        var runtime = Runtime != Runtime.Default ? Runtime : RuntimeUtilities.CurrentRuntime;
+            if (runtime == Runtime.NetCore10)
                 return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "NetCore10/dotnet-nswag.dll") + "\" ";
-            else if (Runtime == Runtime.NetCore11)
+            else if (runtime == Runtime.NetCore11)
                 return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "NetCore11/dotnet-nswag.dll") + "\" ";
-            else if (Runtime == Runtime.NetCore20)
+            else if (runtime == Runtime.NetCore20)
                 return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "NetCore20/dotnet-nswag.dll") + "\" ";
             else
                 return "";
@@ -260,9 +261,10 @@ namespace NSwag.Commands
 
         private string GetProgramName()
         {
-            if (Runtime == Runtime.WinX64)
+	        var runtime = Runtime != Runtime.Default ? Runtime : RuntimeUtilities.CurrentRuntime;
+            if (runtime == Runtime.WinX64)
                 return System.IO.Path.Combine(RootBinaryDirectory, "Win/nswag.exe");
-            else if (Runtime == Runtime.WinX86)
+            else if (runtime == Runtime.WinX86)
                 return System.IO.Path.Combine(RootBinaryDirectory, "Win/nswag.x86.exe");
             else
                 return "dotnet";
