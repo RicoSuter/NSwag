@@ -57,5 +57,37 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
             Assert.AreEqual("201", barOperation.Operation.Responses.First().Key);
             Assert.AreEqual(JsonObjectType.Integer, barOperation.Operation.Responses.First().Value.Schema.Type);
         }
+
+        public class MultipleAttributesController : ApiController
+        {
+            /// <returns>Bar.</returns>>
+            [Route("foo")]
+            [SwaggerResponse(HttpStatusCode.OK, typeof(void), Description = "Foo")]
+            public void Foo()
+            {
+                
+            }
+
+            /// <returns>Bar.</returns>>
+            [Route("bar")]
+            public void Bar()
+            {
+
+            }
+        }
+
+        [TestMethod]
+        public async Task When_response_description_is_defined_then_xml_summary_is_ignored()
+        {
+            //// Arrange
+            var generator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings());
+
+            //// Act
+            var document = await generator.GenerateForControllerAsync<MultipleAttributesController>();
+
+            //// Assert
+            Assert.IsFalse(document.Operations.First().Operation.Responses.First().Value.Description.Contains("Bar"));
+            Assert.IsTrue(document.Operations.Last().Operation.Responses.First().Value.Description.Contains("Bar"));
+        }
     }
 }
