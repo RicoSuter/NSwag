@@ -32,6 +32,8 @@
     <Compile Include="..\NSwag.AssemblyLoaderCore\Commands\AssemblyTypeToSwaggerCommand.cs" Link="Commands\AssemblyTypeToSwaggerCommand.cs" />
     <Compile Include="..\NSwag.AssemblyLoaderCore\Commands\Documents\CreateDocumentCommand.cs" Link="Commands\Documents\CreateDocumentCommand.cs" />
     <Compile Include="..\NSwag.AssemblyLoaderCore\Commands\Documents\ExecuteDocumentCommand.cs" Link="Commands\Documents\ExecuteDocumentCommand.cs" />
+    <Compile Include="..\NSwag.AssemblyLoaderCore\Commands\ListTypesCommand.cs" Link="Commands\ListTypesCommand.cs" />
+    <Compile Include="..\NSwag.AssemblyLoaderCore\Commands\ListWebApiControllersCommand.cs" Link="Commands\ListWebApiControllersCommand.cs" />
     <Compile Include="..\NSwag.AssemblyLoaderCore\Commands\WebApiToSwaggerCommand.cs" Link="Commands\WebApiToSwaggerCommand.cs" />
     <Compile Include="..\NSwag.AssemblyLoaderCore\Infrastructure\AssemblyLoader.cs" Link="Infrastructure\AssemblyLoader.cs" />
     <Compile Include="..\NSwag.AssemblyLoaderCore\NSwagDocument.cs" Link="NSwagDocument.cs" />

@@ -15,7 +15,6 @@ using MyToolkit.Command;
 using NJsonSchema;
 using NSwag;
 using NSwag.Commands;
-using NSwag.SwaggerGeneration.WebApi;
 
 namespace NSwagStudio.ViewModels.SwaggerGenerators
 {
@@ -23,6 +22,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
     {
         private string[] _allControllerNames = { };
         private WebApiToSwaggerCommand _command = new WebApiToSwaggerCommand();
+        private NSwagDocument _document;
 
         /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerGeneratorViewModel"/> class.</summary>
         public WebApiToSwaggerGeneratorViewModel()
@@ -64,8 +64,18 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             set
             {
                 if (Set(ref _command, value))
-                {
                     RaiseAllPropertiesChanged();
+            }
+        }
+
+        /// <summary>Gets or sets the document.</summary>
+        public NSwagDocument Document
+        {
+            get { return _document; }
+            set
+            {
+                if (Set(ref _document, value))
+                {
                     LoadAssembliesCommand.RaiseCanExecuteChanged();
                     LoadAssembliesAsync();
                 }
@@ -130,13 +140,10 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         {
             return RunTaskAsync(async () =>
             {
-                AllControllerNames = await Task.Run(() =>
+                AllControllerNames = await Task.Run(async () =>
                 {
-                    if (Command.Settings.AssemblyPaths?.Length > 0)
-                    {
-                        var generator = new WebApiAssemblyToSwaggerGenerator(Command.Settings);
-                        return generator.GetControllerClasses();
-                    }
+                    if (Command.Settings.AssemblySettings.AssemblyPaths?.Length > 0)
+                        return await Document.GetControllersFromCommandLineAsync();
                     else
                         return new string[] { };
                 });

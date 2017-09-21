@@ -31,6 +31,6 @@ namespace NSwag.SwaggerGeneration.WebApi
 
         /// <summary>Gets the controller classes.</summary>
         /// <returns>The controller class names.</returns>
-        public abstract string[] GetControllerClasses();
+        public abstract string[] GetExportedControllerClassNames();
     }
 }

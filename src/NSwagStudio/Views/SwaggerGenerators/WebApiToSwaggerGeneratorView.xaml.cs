@@ -10,11 +10,13 @@ namespace NSwagStudio.Views.SwaggerGenerators
 {
     public partial class WebApiToSwaggerGeneratorView : ISwaggerGeneratorView
     {
-        public WebApiToSwaggerGeneratorView(WebApiToSwaggerCommand command)
+        public WebApiToSwaggerGeneratorView(WebApiToSwaggerCommand command, NSwagDocument document)
         {
             InitializeComponent();
             ViewModelHelper.RegisterViewModel(Model, this);
+
             Model.Command = command;
+            Model.Document = document;
 
             ControllersList.SelectedItems.Clear();
             foreach (var controller in Model.ControllerNames)

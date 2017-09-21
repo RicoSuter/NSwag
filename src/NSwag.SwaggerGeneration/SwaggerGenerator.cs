@@ -98,9 +98,23 @@ namespace NSwag.SwaggerGeneration
                 operationParameter.Type = typeDescription.Type;
 
                 if (_settings.SchemaType == SchemaType.Swagger2)
+                {
                     operationParameter.CustomSchema = new JsonSchema4 { SchemaReference = schema.ActualSchema };
+
+                    // Copy enumeration for compatibility with other tools which do not understand x-schema.
+                    // The enumeration will be ignored by NSwag and only the x-schema is processed
+                    if (schema.ActualSchema.IsEnumeration)
+                    {
+                        operationParameter.Enumeration.Clear();
+                        foreach (var item in schema.ActualSchema.Enumeration)
+                            operationParameter.Enumeration.Add(item);
+                    }
+                }
                 else
+                {
+                    // TODO(OpenApi3): How to handle this in OpenApi3?
                     operationParameter.Schema = new JsonSchema4 { SchemaReference = schema.ActualSchema };
+                }
             }
             else
             {

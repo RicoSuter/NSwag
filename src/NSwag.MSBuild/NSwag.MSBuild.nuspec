@@ -18,12 +18,12 @@
   <files>
     <file src="NSwag.MSBuild.props" target="build" />
 
-    <file src="..\NSwag.Console\bin\Release\net461\*" target="build/full" />    
-    <file src="..\NSwag.Console.x86\bin\Release\net461\NSwag.x86.exe" target="build/full" />
-    <file src="..\NSwag.Console.x86\bin\Release\net461\NSwag.x86.exe.config" target="build/full" />
+    <file src="..\NSwag.Console\bin\Release\net461\*" target="build/Win" />    
+    <file src="..\NSwag.Console.x86\bin\Release\net461\NSwag.x86.exe" target="build/Win" />
+    <file src="..\NSwag.Console.x86\bin\Release\net461\NSwag.x86.exe.config" target="build/Win" />
 
-    <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp1.0\Publish\*" target="build/netcoreapp1.0" />
-    <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp1.1\Publish\*" target="build/netcoreapp1.1" />
-    <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp2.0\Publish\*" target="build/netcoreapp2.0" />
+    <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp1.0\Publish\*" target="build/NetCore10" />
+    <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp1.1\Publish\*" target="build/NetCore11" />
+    <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp2.0\Publish\*" target="build/NetCore20" />
   </files>
 </package>

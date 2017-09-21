@@ -65,7 +65,7 @@
                        Name="installed" Type="integer"
                        Value="1" KeyPath="yes"/>
 
-        <Environment Id="PATH" Name="PATH" Value="[RootDirectory]" Permanent="no" Part="last" Action="set" System="no" />
+        <Environment Id="PATH" Name="PATH" Value="[RootDirectory]full" Permanent="no" Part="last" Action="set" System="no" />
 
         <Shortcut Id="ApplicationStartMenuShortcut"
                   Icon="ApplicationIcon"
@@ -74,19 +74,8 @@
                   Target="[#filF3BD24AA0D122986D3F6250EA6C47D5B]"
                   WorkingDirectory="RootDirectory"/>
 
-        <Shortcut Id="ApplicationStartMenuShortcut_x86"
-                  Icon="ApplicationIcon"
-                  Name="NSwagStudio (x86)"
-                  Description="NSwagStudio"
-                  Target="[#fil1A2199ECDD87F21A9FB2D1F7FA15449C]"
-                  WorkingDirectory="RootDirectory"/>
-
         <RemoveFile Id="RemoveShortcut"
                     Name="NSwagStudio"
-                    On="uninstall" />
-
-        <RemoveFile Id="RemoveShortcut_x86"
-                    Name="NSwagStudio (x86)"
                     On="uninstall" />
 
         <ProgId Id='NSwagFile' Description='NSwag Configuration file'>

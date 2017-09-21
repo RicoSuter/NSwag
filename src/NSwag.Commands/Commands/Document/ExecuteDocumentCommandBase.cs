@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using NConsole;
@@ -27,11 +28,11 @@ namespace NSwag.Commands.Document
                 await ExecuteDocumentAsync(host, Input);
             else
             {
-                var hasNSwagJson = await DynamicApis.FileExistsAsync("nswag.json").ConfigureAwait(false); 
+                var hasNSwagJson = await DynamicApis.FileExistsAsync("nswag.json").ConfigureAwait(false);
                 if (hasNSwagJson)
                     await ExecuteDocumentAsync(host, "nswag.json");
 
-                var currentDirectory = await DynamicApis.DirectoryGetCurrentDirectoryAsync().ConfigureAwait(false); 
+                var currentDirectory = await DynamicApis.DirectoryGetCurrentDirectoryAsync().ConfigureAwait(false);
                 var files = await DynamicApis.DirectoryGetFilesAsync(currentDirectory, "*.nswag").ConfigureAwait(false);
                 if (files.Any())
                 {
@@ -41,7 +42,7 @@ namespace NSwag.Commands.Document
                 else if (!hasNSwagJson)
                     host.WriteMessage("Current directory does not contain any .nswag files.");
             }
-            return null; 
+            return null;
         }
 
         private async Task ExecuteDocumentAsync(IConsoleHost host, string filePath)
@@ -49,8 +50,28 @@ namespace NSwag.Commands.Document
             host.WriteMessage("\nExecuting file '" + filePath + "'...\n");
 
             var document = await LoadDocumentAsync(filePath);
-            await document.ExecuteAsync();
+	        if (document.Runtime != Runtime.Default)
+	        {
+		        if (document.Runtime != RuntimeUtilities.CurrentRuntime)
+		        {
+			        throw new InvalidOperationException("The specified runtime in the document (" + document.Runtime + ") differs " +
+			                                            "from the current process runtime (" + RuntimeUtilities.CurrentRuntime + "). " +
+			                                            "Change the runtime with the '/runtime:" + document.Runtime + "' parameter " +
+			                                            "or run the file with the correct command line binary.");
+		        }
 
+		        if (document.SelectedSwaggerGenerator == document.SwaggerGenerators.WebApiToSwaggerCommand &&
+		            document.SwaggerGenerators.WebApiToSwaggerCommand.IsAspNetCore == false &&
+		            document.Runtime != Runtime.Debug &&
+		            document.Runtime != Runtime.WinX86 &&
+		            document.Runtime != Runtime.WinX64)
+		        {
+			        throw new InvalidOperationException("The runtime " + document.Runtime + " in the document must be used " +
+			                                            "with ASP.NET Core. Enable /isAspNetCore:true.");
+		        }
+	        }
+
+			await document.ExecuteAsync();
             host.WriteMessage("Done.\n");
         }
 

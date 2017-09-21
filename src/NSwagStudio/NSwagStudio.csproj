@@ -305,10 +305,6 @@
       <Project>{71b39c21-46a2-471b-aace-226c575b8ac1}</Project>
       <Name>NSwag.Commands</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NSwag.Console\NSwag.Console.csproj">
-      <Project>{26cbd69c-ee7c-4d81-8d62-410f4ad4876b}</Project>
-      <Name>NSwag.Console</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj">
       <Project>{2E6174AA-FC75-4821-9E86-51B30568BEC0}</Project>
       <Name>NSwag.Core</Name>
@@ -332,6 +328,29 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>rmdir "../../../../src/NSwagStudio/bin/$(ConfigurationName)/Win" /Q /S nonemptydir
+rmdir "../../../../src/NSwagStudio/bin/$(ConfigurationName)/NetCore10" /Q /S nonemptydir
+rmdir "../../../../src/NSwagStudio/bin/$(ConfigurationName)/NetCore11" /Q /S nonemptydir
+rmdir "../../../../src/NSwagStudio/bin/$(ConfigurationName)/NetCore20" /Q /S nonemptydir
+
+dotnet restore "../../../../src/NSwag.ConsoleCore" --no-cache
+dotnet publish "../../../../src/NSwag.ConsoleCore" -c $(ConfigurationName) -f "netcoreapp1.0" -o "bin/$(ConfigurationName)/netcoreapp1.0/Publish"
+dotnet publish "../../../../src/NSwag.ConsoleCore" -c $(ConfigurationName) -f "netcoreapp1.1" -o "bin/$(ConfigurationName)/netcoreapp1.1/Publish"
+dotnet publish "../../../../src/NSwag.ConsoleCore" -c $(ConfigurationName) -f "netcoreapp2.0" -o "bin/$(ConfigurationName)/netcoreapp2.0/Publish"
+
+xcopy "../../../../src/NSwag.Console.x86/bin/$(ConfigurationName)/net461" "../../../../src/NSwagStudio/bin/$(ConfigurationName)/Win" /E /I /y
+xcopy "../../../../src/NSwag.Console/bin/$(ConfigurationName)/net461" "../../../../src/NSwagStudio/bin/$(ConfigurationName)/Win" /E /I /y
+
+xcopy "../../../../src/NSwag.ConsoleCore/bin/$(ConfigurationName)/netcoreapp1.0/publish" "../../../../src/NSwagStudio/bin/$(ConfigurationName)/NetCore10" /E /I /y
+xcopy "../../../../src/NSwag.ConsoleCore/bin/$(ConfigurationName)/netcoreapp1.1/publish" "../../../../src/NSwagStudio/bin/$(ConfigurationName)/NetCore11" /E /I /y
+xcopy "../../../../src/NSwag.ConsoleCore/bin/$(ConfigurationName)/netcoreapp2.0/publish" "../../../../src/NSwagStudio/bin/$(ConfigurationName)/NetCore20" /E /I /y
+</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

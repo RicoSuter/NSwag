@@ -49,6 +49,13 @@ namespace NSwag.Commands
         /// <returns>The relative path.</returns>
         protected abstract string ConvertToRelativePath(string pathToConvert);
 
+        /// <summary>Executes the current document.</summary>
+        /// <returns>The result.</returns>
+        public abstract Task<SwaggerDocumentExecutionResult> ExecuteAsync();
+        
+        /// <summary>Gets or sets the runtime where the document should be processed.</summary>
+        public Runtime Runtime { get; set; }
+
         /// <summary>Gets or sets the selected swagger generator JSON.</summary>
         [JsonProperty("SwaggerGenerator")]
         internal JObject SelectedSwaggerGeneratorRaw
@@ -149,10 +156,7 @@ namespace NSwag.Commands
                 var settings = GetSerializerSettings();
                 settings.ContractResolver = new BaseTypeMappingContractResolver(mappings);
 
-                var document = JsonConvert.DeserializeObject<TDocument>(data, settings);
-                document.Path = filePath;
-                document.ConvertToAbsolutePaths();
-                document._latestData = JsonConvert.SerializeObject(document, Formatting.Indented, GetSerializerSettings());
+                var document = FromJson<TDocument>(filePath, data);
 
                 if (saveFile)
                     await document.SaveAsync();
@@ -161,35 +165,63 @@ namespace NSwag.Commands
             });
         }
 
+        /// <summary>Converts the document to JSON.</summary>
+        /// <typeparam name="TDocument">The document type.</typeparam>
+        /// <param name="filePath">The file path.</param>
+        /// <param name="data">The JSON data.</param>
+        /// <returns>The document.</returns>
+        public static TDocument FromJson<TDocument>(string filePath, string data)
+            where TDocument : NSwagDocumentBase, new()
+        {
+            var settings = GetSerializerSettings();
+            var document = JsonConvert.DeserializeObject<TDocument>(data, settings);
+            document._latestData = JsonConvert.SerializeObject(document, Formatting.Indented, GetSerializerSettings());
+
+            if (filePath != null)
+            {
+                document.Path = filePath;
+                document.ConvertToAbsolutePaths();
+            }
+
+            return document;
+        }
+
         /// <summary>Saves the document.</summary>
         /// <returns>The task.</returns>
         public Task SaveAsync()
         {
             return Task.Run(async () =>
             {
-                ConvertToRelativePaths();
-                var data = JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings());
-                await DynamicApis.FileWriteAllTextAsync(Path, data).ConfigureAwait(false);
-
-                ConvertToAbsolutePaths();
+                await DynamicApis.FileWriteAllTextAsync(Path, ToJson()).ConfigureAwait(false);
                 _latestData = JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings());
             });
         }
 
-        /// <summary>Executes the document.</summary>
-        /// <returns>The task.</returns>
-        public async Task ExecuteAsync()
+        /// <summary>Converts the document to JSON with relative paths.</summary>
+        /// <returns>The JSON data.</returns>
+        public string ToJsonWithRelativePaths()
         {
-            var document = await GenerateDocumentAsync();
-            foreach (var codeGenerator in CodeGenerators.Items.Where(c => !string.IsNullOrEmpty(c.OutputFilePath)))
+            ConvertToRelativePaths();
+            try
             {
-                codeGenerator.Input = document;
-                await codeGenerator.RunAsync(null, null);
-                codeGenerator.Input = null;
+                return ToJson();
+            }
+            finally
+            {
+                ConvertToAbsolutePaths();
             }
         }
 
-        private async Task<SwaggerDocument> GenerateDocumentAsync()
+        /// <summary>Converts the document to JSON.</summary>
+        /// <returns>The JSON data.</returns>
+        public string ToJson()
+        {
+            return JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings());
+        }
+
+        /// <summary>Generates the <see cref="SwaggerDocument"/> with the currently selected generator.</summary>
+        /// <returns>The document.</returns>
+        protected async Task<SwaggerDocument> GenerateSwaggerDocumentAsync()
         {
             return (SwaggerDocument)await SelectedSwaggerGenerator.RunAsync(null, null);
         }
@@ -225,7 +257,7 @@ namespace NSwag.Commands
 
             if (SwaggerGenerators.AssemblyTypeToSwaggerCommand != null)
             {
-                SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyPath = ConvertToAbsolutePath(SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyPath);
+                SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyPaths = SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyPaths.Select(ConvertToAbsolutePath).ToArray();
                 SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyConfig = ConvertToAbsolutePath(SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyConfig);
             }
 
@@ -261,7 +293,7 @@ namespace NSwag.Commands
 
             if (SwaggerGenerators.AssemblyTypeToSwaggerCommand != null)
             {
-                SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyPath = ConvertToRelativePath(SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyPath);
+                SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyPaths = SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyPaths.Select(ConvertToRelativePath).ToArray();
                 SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyConfig = ConvertToRelativePath(SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyConfig);
             }
 
@@ -409,4 +441,3 @@ namespace NSwag.Commands
         }
     }
 }
-
