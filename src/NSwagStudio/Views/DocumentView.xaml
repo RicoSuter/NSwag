@@ -44,7 +44,7 @@
                     <TextBlock Margin="0,0,0,6" Text="Runtime" TextWrapping="Wrap" FontWeight="Bold" />
                     <ComboBox SelectedItem="{Binding Document.Document.Runtime, Mode=TwoWay}" 
                               ItemsSource="{Binding Runtimes}" Margin="0,0,0,6" />
-                    <TextBlock Text="Specifies the used command line binary; should match the assembly type." 
+                    <TextBlock Text="Specifies the used command line binary; should match the selected assembly type." 
                                TextWrapping="Wrap" Margin="0,0,0,12" />
                 </StackPanel>
                 <TabControl Grid.Row="2" x:Name="InputTabControl"
