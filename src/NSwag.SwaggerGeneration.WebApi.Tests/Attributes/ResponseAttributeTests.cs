@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -65,7 +66,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
             [SwaggerResponse(HttpStatusCode.OK, typeof(void), Description = "Foo")]
             public void Foo()
             {
-                
+
             }
 
             /// <returns>Bar.</returns>>
@@ -74,7 +75,16 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
             {
 
             }
+
+            [ProducesResponseType(Type = typeof(void))]
+            [SwaggerResponse(HttpStatusCode.OK, typeof(void), Description = "Bar")]
+            public void Baz()
+            {
+
+            }
         }
+
+        public class ProducesResponseTypeAttribute : Attribute { public Type Type { get; set; } public int StatusCode { get; set;} }
 
         [TestMethod]
         public async Task When_response_description_is_defined_then_xml_summary_is_ignored()
@@ -86,8 +96,9 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
             var document = await generator.GenerateForControllerAsync<MultipleAttributesController>();
 
             //// Assert
-            Assert.IsFalse(document.Operations.First().Operation.Responses.First().Value.Description.Contains("Bar"));
-            Assert.IsTrue(document.Operations.Last().Operation.Responses.First().Value.Description.Contains("Bar"));
+            Assert.IsFalse(document.Operations.ElementAt(0).Operation.Responses.First().Value.Description.Contains("Bar"));
+            Assert.IsTrue(document.Operations.ElementAt(1).Operation.Responses.First().Value.Description.Contains("Bar"));
+            Assert.IsFalse(document.Operations.ElementAt(2).Operation.Responses.First().Value.Description.Contains("or"));
         }
     }
 }
