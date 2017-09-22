@@ -28,6 +28,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Core", "NSwag.Core\NSwag.Core.csproj", "{2E6174AA-FC75-4821-9E86-51B30568BEC0}"
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "NSwagStudio.Installer", "NSwagStudio.Installer\NSwagStudio.Installer.wixproj", "{50DCC09C-7349-4BAC-8833-261A641E0669}"
+	ProjectSection(ProjectDependencies) = postProject
+		{26CBD69C-EE7C-4D81-8D62-410F4AD4876B} = {26CBD69C-EE7C-4D81-8D62-410F4AD4876B}
+		{78F6BDD4-8F25-4CE4-B926-60F19BA657E9} = {78F6BDD4-8F25-4CE4-B926-60F19BA657E9}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample Configurations", "Sample Configurations", "{B50AC8CD-CF12-4E7E-9295-E65750C46AA6}"
 	ProjectSection(SolutionItems) = preProject
