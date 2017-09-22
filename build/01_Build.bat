@@ -3,7 +3,8 @@ mkdir "%~dp0\..\src\NSwag.Npm\bin\binaries"
 
 REM Build and copy full .NET command line
 "%~dp0/nuget.exe" restore "%~dp0/../src/NSwag.sln"
-msbuild "%~dp0/../src/NSwag.sln" /p:Configuration=Release /t:rebuild || goto :error
+dotnet restore "%~dp0/../src/NSwag.sln"
+msbuild "%~dp0/../src/NSwag.sln" /p:Configuration=Release || goto :error
 
 xcopy "%~dp0/../src/NSwag.Console/bin/Release/net461" "%~dp0/../src/NSwag.Npm/bin/binaries/Win" /E /I /y
 xcopy "%~dp0\..\src\NSwag.Console.x86\bin\Release\net461\NSwag.x86.exe" "%~dp0\..\src\NSwag.Npm\bin\binaries\Win"

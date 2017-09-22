@@ -305,6 +305,14 @@
       <Project>{71b39c21-46a2-471b-aace-226c575b8ac1}</Project>
       <Name>NSwag.Commands</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NSwag.Console.x86\NSwag.Console.x86.csproj">
+      <Project>{78f6bdd4-8f25-4ce4-b926-60f19ba657e9}</Project>
+      <Name>NSwag.Console.x86</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NSwag.Console\NSwag.Console.csproj">
+      <Project>{26cbd69c-ee7c-4d81-8d62-410f4ad4876b}</Project>
+      <Name>NSwag.Console</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj">
       <Project>{2E6174AA-FC75-4821-9E86-51B30568BEC0}</Project>
       <Name>NSwag.Core</Name>
