@@ -1,5 +1,5 @@
 ﻿{
-  "x-generator": "NSwag v11.7.1.0 (NJsonSchema v9.6.3.0)",
+  "x-generator": "NSwag v11.8.0.0 (NJsonSchema v9.6.4.0)",
   "info": {
     "title": "Web API Swagger specification",
     "version": "1.0.0"
@@ -368,7 +368,11 @@
             "x-schema": {
               "$ref": "#/definitions/Gender"
             },
-            "x-nullable": false
+            "x-nullable": false,
+            "enum": [
+              "Male",
+              "Female"
+            ]
           }
         ],
         "responses": {
@@ -400,7 +404,11 @@
             "x-schema": {
               "$ref": "#/definitions/Gender"
             },
-            "x-nullable": true
+            "x-nullable": true,
+            "enum": [
+              "Male",
+              "Female"
+            ]
           }
         ],
         "responses": {
