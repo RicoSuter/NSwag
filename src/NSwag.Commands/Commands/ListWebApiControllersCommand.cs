@@ -9,7 +9,7 @@
 using System;
 using System.Threading.Tasks;
 using NConsole;
-using NSwag.SwaggerGenerators.WebApi;
+using NSwag.SwaggerGeneration.WebApi;
 
 namespace NSwag.Commands
 {

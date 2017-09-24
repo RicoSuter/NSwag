@@ -13,7 +13,7 @@ using NSwag.Annotations;
 using NSwag.SwaggerGeneration;
 using NSwag.SwaggerGeneration.WebApi;
 
-namespace NSwag.Commands.SwaggerGenerators
+namespace NSwag.Commands.SwaggerGeneration
 {
     internal static class AssemblyLoaderUtilities
     {
@@ -30,8 +30,6 @@ namespace NSwag.Commands.SwaggerGenerators
         public static IEnumerable<BindingRedirect> GetBindingRedirects()
         {
 #if NET451
-            yield return new BindingRedirect("Newtonsoft.Json", typeof(JToken), "30ad4fe6b2a6aeed");
-            yield return new BindingRedirect("Newtonsoft.Json", typeof(JToken), "30ad4fe6b2a6aeed");
             yield return new BindingRedirect("NJsonSchema", typeof(JsonSchema4), "c2f9c3bdfae56102");
             yield return new BindingRedirect("NSwag.Core", typeof(SwaggerDocument), "c2d88086e098d109");
             yield return new BindingRedirect("NSwag.SwaggerGeneration", typeof(SwaggerJsonSchemaGenerator), "c2d88086e098d109");

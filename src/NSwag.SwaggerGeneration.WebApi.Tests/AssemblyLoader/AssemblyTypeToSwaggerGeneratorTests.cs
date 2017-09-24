@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSwag.SwaggerGenerators;
+using NSwag.SwaggerGeneration;
 
 namespace NSwag.SwaggerGeneration.WebApi.Tests.AssemblyLoader
 {

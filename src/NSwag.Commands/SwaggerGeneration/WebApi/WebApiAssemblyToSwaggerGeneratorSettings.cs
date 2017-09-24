@@ -9,7 +9,7 @@
 using NSwag.SwaggerGeneration;
 using NSwag.SwaggerGeneration.WebApi;
 
-namespace NSwag.SwaggerGenerators.WebApi
+namespace NSwag.SwaggerGeneration.WebApi
 {
     /// <summary>Settings for the WebApiAssemblyToSwaggerGenerator.</summary>
     public class WebApiAssemblyToSwaggerGeneratorSettings : WebApiToSwaggerGeneratorSettings, IAssemblySettings

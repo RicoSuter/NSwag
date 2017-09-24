@@ -13,7 +13,7 @@ using NConsole;
 using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
-using NSwag.SwaggerGenerators.WebApi;
+using NSwag.SwaggerGeneration.WebApi;
 
 namespace NSwag.Commands
 {

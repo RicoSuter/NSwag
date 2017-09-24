@@ -18,7 +18,7 @@ using NJsonSchema.Generation;
 using NSwag.Annotations;
 using NSwag.AssemblyLoader;
 using NSwag.AssemblyLoader.Utilities;
-using NSwag.Commands.SwaggerGenerators;
+using NSwag.Commands.SwaggerGeneration;
 using NSwag.SwaggerGeneration;
 using NSwag.SwaggerGeneration.WebApi;
 
@@ -29,7 +29,7 @@ using System.Runtime.Loader;
 using NSwag.SwaggerGeneration;
 #endif
 
-namespace NSwag.SwaggerGenerators
+namespace NSwag.SwaggerGeneration
 {
     /// <summary>Generates a <see cref="SwaggerDocument"/> from a Web API controller or type which is located in a .NET assembly.</summary>
     public class AssemblyTypeToSwaggerGenerator

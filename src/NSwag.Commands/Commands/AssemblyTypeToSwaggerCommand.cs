@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using NConsole;
 using Newtonsoft.Json;
 using NJsonSchema;
-using NSwag.SwaggerGenerators;
+using NSwag.SwaggerGeneration;
 
 namespace NSwag.Commands
 {

@@ -16,7 +16,7 @@ using Newtonsoft.Json;
 using NJsonSchema;
 using NSwag.AssemblyLoader;
 using NSwag.AssemblyLoader.Utilities;
-using NSwag.Commands.SwaggerGenerators;
+using NSwag.Commands.SwaggerGeneration;
 using NSwag.SwaggerGeneration.WebApi;
 
 #if !FullNet
@@ -24,7 +24,7 @@ using NJsonSchema.Infrastructure;
 using System.Runtime.Loader;
 #endif
 
-namespace NSwag.SwaggerGenerators.WebApi
+namespace NSwag.SwaggerGeneration.WebApi
 {
     /// <summary>Generates a <see cref="SwaggerDocument"/> from a Web API controller or type which is located in a .NET assembly.</summary>
     public class WebApiAssemblyToSwaggerGenerator
