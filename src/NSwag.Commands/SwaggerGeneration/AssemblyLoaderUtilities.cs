@@ -7,6 +7,8 @@
 //-----------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using Newtonsoft.Json.Linq;
 using NJsonSchema;
 using NSwag.Annotations;
@@ -17,14 +19,18 @@ namespace NSwag.Commands.SwaggerGeneration
 {
     internal static class AssemblyLoaderUtilities
     {
-        public static IEnumerable<string> GetAssemblies()
+        public static IEnumerable<string> GetAssemblies(string assemblyDirectory)
         {
-            yield return "Newtonsoft.Json.dll";
-            yield return "NJsonSchema.dll";
-            yield return "NSwag.Core.dll";
-            yield return "NSwag.Commands.dll";
-            yield return "NSwag.SwaggerGeneration.dll";
-            yield return "NSwag.SwaggerGeneration.WebApi.dll";
+            yield return assemblyDirectory + "/Newtonsoft.Json.dll";
+
+            var codeBaseDirectory = Path.GetDirectoryName(typeof(AssemblyLoaderUtilities).GetTypeInfo()
+                .Assembly.CodeBase.Replace("file:///", string.Empty));
+
+            yield return codeBaseDirectory + "/NJsonSchema.dll";
+            yield return codeBaseDirectory + "/NSwag.Core.dll";
+            yield return codeBaseDirectory + "/NSwag.Commands.dll";
+            yield return codeBaseDirectory + "/NSwag.SwaggerGeneration.dll";
+            yield return codeBaseDirectory + "/NSwag.SwaggerGeneration.WebApi.dll";
         }
 
         public static IEnumerable<BindingRedirect> GetBindingRedirects()

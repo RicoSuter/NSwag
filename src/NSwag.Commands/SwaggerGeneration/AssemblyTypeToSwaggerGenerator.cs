@@ -50,7 +50,7 @@ namespace NSwag.SwaggerGeneration
         {
             var assemblyDirectory = Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblySettings.AssemblyPaths.First()));
             using (var isolated = new AppDomainIsolation<NetAssemblyLoader>(
-                assemblyDirectory, Settings.AssemblySettings.AssemblyConfig, AssemblyLoaderUtilities.GetBindingRedirects(), AssemblyLoaderUtilities.GetAssemblies()))
+                assemblyDirectory, Settings.AssemblySettings.AssemblyConfig, AssemblyLoaderUtilities.GetBindingRedirects(), AssemblyLoaderUtilities.GetAssemblies(assemblyDirectory)))
                 return isolated.Object.GetExportedClassNames(Settings.AssemblySettings.AssemblyPaths, GetAllReferencePaths(Settings));
         }
 
@@ -62,7 +62,7 @@ namespace NSwag.SwaggerGeneration
             var assemblyPath = Settings.AssemblySettings.AssemblyPaths.First();
             var assemblyDirectory = Path.GetDirectoryName(Path.GetFullPath(assemblyPath));
             using (var isolated = new AppDomainIsolation<NetAssemblyLoader>(
-                assemblyDirectory, Settings.AssemblySettings.AssemblyConfig, AssemblyLoaderUtilities.GetBindingRedirects(), AssemblyLoaderUtilities.GetAssemblies()))
+                assemblyDirectory, Settings.AssemblySettings.AssemblyConfig, AssemblyLoaderUtilities.GetBindingRedirects(), AssemblyLoaderUtilities.GetAssemblies(assemblyDirectory)))
             {
                 var json = await Task.Run(() => isolated.Object.FromAssemblyType(classNames, JsonConvert.SerializeObject(Settings))).ConfigureAwait(false);
                 return await SwaggerDocument.FromJsonAsync(json).ConfigureAwait(false);

@@ -13,6 +13,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NJsonSchema;
 using NSwag.AssemblyLoader;
 using NSwag.AssemblyLoader.Utilities;
@@ -56,7 +57,7 @@ namespace NSwag.SwaggerGeneration.WebApi
                 throw new FileNotFoundException("The assembly config file could not be found.", Settings.AssemblySettings.AssemblyConfig);
 
             var assemblyDirectory = Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblySettings.AssemblyPaths.First())); 
-            using (var isolated = new AppDomainIsolation<WebApiAssemblyLoader>(assemblyDirectory, Settings.AssemblySettings.AssemblyConfig, AssemblyLoaderUtilities.GetBindingRedirects(), AssemblyLoaderUtilities.GetAssemblies()))
+            using (var isolated = new AppDomainIsolation<WebApiAssemblyLoader>(assemblyDirectory, Settings.AssemblySettings.AssemblyConfig, AssemblyLoaderUtilities.GetBindingRedirects(), AssemblyLoaderUtilities.GetAssemblies(assemblyDirectory)))
                 return isolated.Object.GetControllerClasses(Settings.AssemblySettings.AssemblyPaths, GetAllReferencePaths(Settings));
         }
 
@@ -73,7 +74,7 @@ namespace NSwag.SwaggerGeneration.WebApi
                 throw new InvalidOperationException("The TypeNameGenerator cannot be customized when loading types from external assemblies.");
 
             var assemblyDirectory = Path.GetDirectoryName(Path.GetFullPath(Settings.AssemblySettings.AssemblyPaths.First()));
-            using (var isolated = new AppDomainIsolation<WebApiAssemblyLoader>(assemblyDirectory, Settings.AssemblySettings.AssemblyConfig, AssemblyLoaderUtilities.GetBindingRedirects(), AssemblyLoaderUtilities.GetAssemblies()))
+            using (var isolated = new AppDomainIsolation<WebApiAssemblyLoader>(assemblyDirectory, Settings.AssemblySettings.AssemblyConfig, AssemblyLoaderUtilities.GetBindingRedirects(), AssemblyLoaderUtilities.GetAssemblies(assemblyDirectory)))
             {
                 var document = await Task.Run(() => isolated.Object.GenerateForControllers(controllerClassNames, JsonConvert.SerializeObject(Settings))).ConfigureAwait(false);
                 return await SwaggerDocument.FromJsonAsync(document).ConfigureAwait(false);
