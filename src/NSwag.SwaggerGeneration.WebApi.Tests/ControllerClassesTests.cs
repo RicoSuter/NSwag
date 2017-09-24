@@ -5,6 +5,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSwag.SwaggerGenerators.WebApi;
 
 namespace NSwag.SwaggerGeneration.WebApi.Tests
 {

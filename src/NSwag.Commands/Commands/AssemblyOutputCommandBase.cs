@@ -18,7 +18,7 @@ namespace NSwag.Commands
     /// <typeparam name="TGenerator"></typeparam>
     public abstract class AssemblyOutputCommandBase<TGenerator> : OutputCommandBase
     {
-        /// <summary>Initializes a new instance of the <see cref="AssemblyOutputCommandBase"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="AssemblyOutputCommandBase{TGenerator}"/> class.</summary>
         /// <param name="settings">The settings.</param>
         public AssemblyOutputCommandBase(IAssemblySettings settings)
         {

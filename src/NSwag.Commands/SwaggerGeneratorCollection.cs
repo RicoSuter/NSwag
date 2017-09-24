@@ -17,11 +17,11 @@ namespace NSwag.Commands
 
         /// <summary>Gets or sets the Web API to swagger command.</summary>
         [JsonIgnore]
-        public WebApiToSwaggerCommandBase WebApiToSwaggerCommand { get; set; }
+        public WebApiToSwaggerCommand WebApiToSwaggerCommand { get; set; }
 
         /// <summary>Gets or sets the assembly type to swagger command.</summary>
         [JsonIgnore]
-        public AssemblyTypeToSwaggerCommandBase AssemblyTypeToSwaggerCommand { get; set; }
+        public AssemblyTypeToSwaggerCommand AssemblyTypeToSwaggerCommand { get; set; }
 
         /// <summary>Gets the items.</summary>
         [JsonIgnore]

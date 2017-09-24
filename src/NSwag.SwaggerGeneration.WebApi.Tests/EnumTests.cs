@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NJsonSchema.Annotations;
+using NSwag.SwaggerGenerators.WebApi;
 
 namespace NSwag.SwaggerGeneration.WebApi.Tests
 {

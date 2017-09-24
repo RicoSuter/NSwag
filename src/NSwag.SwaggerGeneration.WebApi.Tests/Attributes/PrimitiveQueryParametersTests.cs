@@ -5,6 +5,7 @@ using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using NJsonSchema;
+using NSwag.SwaggerGenerators.WebApi;
 
 namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
 {

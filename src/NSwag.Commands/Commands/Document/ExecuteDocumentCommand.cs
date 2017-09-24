@@ -17,7 +17,7 @@ using NJsonSchema.Infrastructure;
 namespace NSwag.Commands.Document
 {
     [Command(Name = "run", Description = "Executes an .nswag file. If 'input' is not specified then all *.nswag files and the nswag.json file is executed.")]
-    public abstract class ExecuteDocumentCommandBase : IConsoleCommand
+    public class ExecuteDocumentCommand : IConsoleCommand
     {
         [Argument(Position = 1, IsRequired = false)]
         public string Input { get; set; }
@@ -49,7 +49,7 @@ namespace NSwag.Commands.Document
         {
             host.WriteMessage("\nExecuting file '" + filePath + "'...\n");
 
-            var document = await LoadDocumentAsync(filePath);
+            var document = await NSwagDocument.LoadAsync(filePath);
 	        if (document.Runtime != Runtime.Default)
 	        {
 		        if (document.Runtime != RuntimeUtilities.CurrentRuntime)
@@ -74,10 +74,5 @@ namespace NSwag.Commands.Document
 			await document.ExecuteAsync();
             host.WriteMessage("Done.\n");
         }
-
-        /// <summary>Loads an existing NSwagDocument.</summary>
-        /// <param name="filePath">The file path.</param>
-        /// <returns>The document.</returns>
-        protected abstract Task<NSwagDocumentBase> LoadDocumentAsync(string filePath);
     }
 }

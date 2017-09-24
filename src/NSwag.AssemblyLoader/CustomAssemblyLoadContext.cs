@@ -6,10 +6,12 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+#if !NET451
+
 using System.Reflection;
 using System.Runtime.Loader;
 
-namespace NSwag.CodeGeneration.Infrastructure
+namespace NSwag.AssemblyLoader
 {
     internal class CustomAssemblyLoadContext : AssemblyLoadContext
     {
@@ -19,3 +21,5 @@ namespace NSwag.CodeGeneration.Infrastructure
         }
     }
 }
+
+#endif

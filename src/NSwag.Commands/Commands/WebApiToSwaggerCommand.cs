@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="WebApiToSwaggerCommandBase.cs" company="NSwag">
+﻿//-----------------------------------------------------------------------
+// <copyright file="NSwagSettings.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -13,18 +13,17 @@ using NConsole;
 using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
-using NSwag.SwaggerGeneration;
-using NSwag.SwaggerGeneration.WebApi;
-
-#pragma warning disable 1591
+using NSwag.SwaggerGenerators.WebApi;
 
 namespace NSwag.Commands
 {
+    /// <summary>The generator.</summary>
     [Command(Name = "webapi2swagger", Description = "Generates a Swagger specification for a controller or controlles contained in a .NET Web API assembly.")]
-    public abstract class WebApiToSwaggerCommandBase : AssemblyOutputCommandBase<WebApiAssemblyToSwaggerGeneratorBase>
+    public class WebApiToSwaggerCommand : AssemblyOutputCommandBase<WebApiAssemblyToSwaggerGenerator>
     {
-        protected WebApiToSwaggerCommandBase(IAssemblySettings settings)
-            : base(settings)
+        /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerCommand"/> class.</summary>
+        public WebApiToSwaggerCommand()
+            : base(new WebApiAssemblyToSwaggerGeneratorSettings())
         {
             ControllerNames = new string[] { };
         }
@@ -209,6 +208,13 @@ namespace NSwag.Commands
 
                 return document;
             });
+        }
+
+        /// <summary>Creates a new generator instance.</summary>
+        /// <returns>The generator.</returns>
+        protected override Task<WebApiAssemblyToSwaggerGenerator> CreateGeneratorAsync()
+        {
+            return Task.FromResult(new WebApiAssemblyToSwaggerGenerator(Settings));
         }
     }
 }

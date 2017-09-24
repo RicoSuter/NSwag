@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net451</TargetFrameworks>
+    <TargetFrameworks>netstandard1.6;net451</TargetFrameworks>
     <Description>NSwag: The Swagger API toolchain for .NET and TypeScript</Description>
     <Version>11.8.0</Version>
     <PackageTags>Swagger Documentation WebApi AspNet TypeScript CodeGen</PackageTags>
@@ -21,31 +21,16 @@
     <DefineConstants>TRACE;DEBUG;FullNet;NET451</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net451|AnyCPU'">
-    <DefineConstants>TRACE;RELEASE;NET451;FullNet</DefineConstants>
+    <DefineConstants>TRACE;RELEASE;FullNet;NET451</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NJsonSchema" Version="9.6.4" />
-    <PackageReference Include="NConsole" Version="3.6.6378.42120" />
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+    <PackageReference Include="System.Net.Http" Version="4.3.2" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\NSwag.AssemblyLoaderCore\Commands\AssemblyTypeToSwaggerCommand.cs" Link="Commands\AssemblyTypeToSwaggerCommand.cs" />
-    <Compile Include="..\NSwag.AssemblyLoaderCore\Commands\Documents\CreateDocumentCommand.cs" Link="Commands\Documents\CreateDocumentCommand.cs" />
-    <Compile Include="..\NSwag.AssemblyLoaderCore\Commands\Documents\ExecuteDocumentCommand.cs" Link="Commands\Documents\ExecuteDocumentCommand.cs" />
-    <Compile Include="..\NSwag.AssemblyLoaderCore\Commands\ListTypesCommand.cs" Link="Commands\ListTypesCommand.cs" />
-    <Compile Include="..\NSwag.AssemblyLoaderCore\Commands\ListWebApiControllersCommand.cs" Link="Commands\ListWebApiControllersCommand.cs" />
-    <Compile Include="..\NSwag.AssemblyLoaderCore\Commands\WebApiToSwaggerCommand.cs" Link="Commands\WebApiToSwaggerCommand.cs" />
-    <Compile Include="..\NSwag.AssemblyLoaderCore\Infrastructure\AssemblyLoader.cs" Link="Infrastructure\AssemblyLoader.cs" />
-    <Compile Include="..\NSwag.AssemblyLoaderCore\NSwagDocument.cs" Link="NSwagDocument.cs" />
-    <Compile Include="..\NSwag.AssemblyLoaderCore\SwaggerGenerators\AssemblyTypeToSwaggerGenerator.cs" Link="SwaggerGenerators\AssemblyTypeToSwaggerGenerator.cs" />
-    <Compile Include="..\NSwag.AssemblyLoaderCore\SwaggerGenerators\WebApi\WebApiAssemblyToSwaggerGenerator.cs" Link="SwaggerGenerators\WebApi\WebApiAssemblyToSwaggerGenerator.cs" />
-    <Compile Include="..\NSwag.AssemblyLoaderCore\Utilities\PathUtilities.cs" Link="Utilities\PathUtilities.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj" />
-    <ProjectReference Include="..\NSwag.Commands\NSwag.Commands.csproj" />
-    <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj" />
-    <ProjectReference Include="..\NSwag.SwaggerGeneration.WebApi\NSwag.SwaggerGeneration.WebApi.csproj" />
-    <ProjectReference Include="..\NSwag.SwaggerGeneration\NSwag.SwaggerGeneration.csproj" />
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
+    <PackageReference Include="System.IO.FileSystem" Version="4.3.0" />
+    <PackageReference Include="System.Xml.XPath.XDocument" Version="4.0.1" />
+    <PackageReference Include="System.Runtime.Loader" Version="4.0.0" />
+    <PackageReference Include="System.Diagnostics.Process" Version="4.3.0" />
   </ItemGroup>
 </Project>

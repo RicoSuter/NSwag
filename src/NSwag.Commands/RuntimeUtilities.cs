@@ -19,7 +19,9 @@ namespace NSwag.Commands
         {
             get
             {
-#if NETSTANDARD1_3
+#if !NETSTANDARD1_6
+                return IntPtr.Size == 4 ? Runtime.WinX86 : Runtime.WinX64;
+#else
                 var framework = PlatformServices.Default.Application.RuntimeFramework;
                 if (framework.Identifier == ".NETCoreApp")
                 {
@@ -29,8 +31,6 @@ namespace NSwag.Commands
                         return Runtime.NetCore11;
                     return Runtime.NetCore10;
                 }
-                return IntPtr.Size == 4 ? Runtime.WinX86 : Runtime.WinX64;
-#else
                 return IntPtr.Size == 4 ? Runtime.WinX86 : Runtime.WinX64;
 #endif
             }

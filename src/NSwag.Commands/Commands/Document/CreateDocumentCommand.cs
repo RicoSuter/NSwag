@@ -15,7 +15,7 @@ using NJsonSchema.Infrastructure;
 namespace NSwag.Commands.Document
 {
     [Command(Name = "new", Description = "Creates a new nswag.json file in the current directory.")]
-    public abstract class CreateDocumentCommandBase : IConsoleCommand
+    public class CreateDocumentCommand : IConsoleCommand
     {
         public async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
@@ -30,9 +30,16 @@ namespace NSwag.Commands.Document
             return null; 
         }
 
-        /// <summary>Creates a new document in the given path.</summary>
-        /// <param name="filePath">The file path.</param>
-        /// <returns>The task.</returns>
-        protected abstract Task CreateDocumentAsync(string filePath);
+        private async Task CreateDocumentAsync(string filePath)
+        {
+            var document = new NSwagDocument();
+            document.Path = filePath;
+
+            document.CodeGenerators.SwaggerToCSharpControllerCommand = new SwaggerToCSharpControllerCommand();
+            document.CodeGenerators.SwaggerToCSharpClientCommand = new SwaggerToCSharpClientCommand();
+            document.CodeGenerators.SwaggerToTypeScriptClientCommand = new SwaggerToTypeScriptClientCommand();
+
+            await document.SaveAsync();
+        }
     }
 }

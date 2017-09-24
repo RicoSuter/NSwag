@@ -8,8 +8,8 @@ namespace NSwag
     {
         static int Main(string[] args)
         {
-            Console.Write("NSwag command line tool for .NET Core, ");
-            var processor = new NSwagCommandProcessor(typeof(NSwagDocument).GetTypeInfo().Assembly, new CoreConsoleHost());
+            Console.Write("NSwag command line tool for .NET Core " + RuntimeUtilities.CurrentRuntime + ", ");
+            var processor = new NSwagCommandProcessor(new CoreConsoleHost());
             return processor.Process(args);
         }
     }

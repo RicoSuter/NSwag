@@ -14,7 +14,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using NSwag.SwaggerGeneration.Utilities;
+using NSwag.AssemblyLoader.Utilities;
 
 namespace NSwag.Commands
 {
@@ -22,10 +22,13 @@ namespace NSwag.Commands
     /// <seealso cref="NSwagDocumentBase" />
     public class NSwagDocument : NSwagDocumentBase
     {
+#if NET451
+
         /// <summary>Gets or sets the root binary directory where the command line executables loaded from.</summary>
         public static string RootBinaryDirectory { get; set; } =
             System.IO.Path.GetDirectoryName(typeof(NSwagDocument).GetTypeInfo().Assembly.Location);
 
+#endif
         /// <summary>Initializes a new instance of the <see cref="NSwagDocument"/> class.</summary>
         public NSwagDocument()
         {
@@ -47,8 +50,8 @@ namespace NSwag.Commands
         {
             return LoadAsync<NSwagDocument>(filePath, new Dictionary<Type, Type>
             {
-                { typeof(WebApiToSwaggerCommandBase), typeof(WebApiToSwaggerCommand) },
-                { typeof(AssemblyTypeToSwaggerCommandBase), typeof(AssemblyTypeToSwaggerCommand) }
+                { typeof(WebApiToSwaggerCommand), typeof(WebApiToSwaggerCommand) },
+                { typeof(AssemblyTypeToSwaggerCommand), typeof(AssemblyTypeToSwaggerCommand) }
             });
         }
 
@@ -248,6 +251,8 @@ namespace NSwag.Commands
 
         private string GetArgumentsPrefix()
         {
+#if NET451
+
 	        var runtime = Runtime != Runtime.Default ? Runtime : RuntimeUtilities.CurrentRuntime;
             if (runtime == Runtime.NetCore10)
                 return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "NetCore10/dotnet-nswag.dll") + "\" ";
@@ -256,17 +261,21 @@ namespace NSwag.Commands
             else if (runtime == Runtime.NetCore20)
                 return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "NetCore20/dotnet-nswag.dll") + "\" ";
             else
+#endif
                 return "";
         }
 
         private string GetProgramName()
         {
+#if NET451
+
 	        var runtime = Runtime != Runtime.Default ? Runtime : RuntimeUtilities.CurrentRuntime;
             if (runtime == Runtime.WinX64)
                 return System.IO.Path.Combine(RootBinaryDirectory, "Win/nswag.exe");
             else if (runtime == Runtime.WinX86)
                 return System.IO.Path.Combine(RootBinaryDirectory, "Win/nswag.x86.exe");
             else
+#endif
                 return "dotnet";
         }
 

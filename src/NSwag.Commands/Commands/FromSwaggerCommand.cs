@@ -56,7 +56,7 @@ namespace NSwag.Commands
             return document;
         }
 
-        /// <summary></summary>
+        /// <summary>Loads the Swagger spec.</summary>
         public async Task<SwaggerDocument> RunAsync()
         {
             if (!string.IsNullOrEmpty(Swagger))

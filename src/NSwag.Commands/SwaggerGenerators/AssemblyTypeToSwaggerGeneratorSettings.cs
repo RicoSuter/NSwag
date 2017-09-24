@@ -8,8 +8,9 @@
 
 using NJsonSchema;
 using NJsonSchema.Generation;
+using NSwag.SwaggerGeneration;
 
-namespace NSwag.SwaggerGeneration
+namespace NSwag.SwaggerGenerators
 {
     /// <summary>Settings for the AssemblyTypeToSwaggerGenerator.</summary>
     public class AssemblyTypeToSwaggerGeneratorSettings : JsonSchemaGeneratorSettings, IAssemblySettings
