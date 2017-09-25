@@ -43,7 +43,6 @@ namespace NSwag.Commands.SwaggerGeneration
             yield return new BindingRedirect("NSwag.SwaggerGeneration.WebApi", typeof(WebApiToSwaggerGenerator), "c2d88086e098d109");
             yield return new BindingRedirect("NSwag.Annotations", typeof(SwaggerTagsAttribute), "c2d88086e098d109");
             yield return new BindingRedirect("System.Runtime", "4.0.0.0", "b03f5f7f11d50a3a");
-            yield return new BindingRedirect("System.Private.CoreLib", "4.0.0.0", "7cec85d7bea7798e");
 #else
             return new BindingRedirect[0];
 #endif
