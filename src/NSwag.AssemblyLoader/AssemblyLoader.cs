@@ -90,6 +90,19 @@ namespace NSwag.AssemblyLoader
                     }
                 }
 
+                try
+                {
+#if FullNet
+                    return Assembly.Load(new AssemblyName(assemblyName));
+#else
+                    return Context.LoadFromAssemblyName(new AssemblyName(assemblyName));
+#endif
+                }
+                catch (Exception exception)
+                {
+                    Debug.WriteLine("AssemblyLoader.AssemblyResolve exception when loading assembly '" + assemblyName + "': \n" + exception.ToString());
+                }
+
                 return null;
             };
         }
