@@ -32,10 +32,8 @@ namespace NSwag.Commands
         /// <returns>The result.</returns>
         public int Process(string[] args)
         {
-            var architecture = IntPtr.Size == 4 ? "x86" : "x64";
             _host.WriteMessage("toolchain v" + SwaggerDocument.ToolchainVersion +
-                " (NJsonSchema v" + JsonSchema4.ToolchainVersion + ")" +
-                " (" + architecture + ", " + RuntimeUtilities.CurrentRuntime + ")\n");
+                " (NJsonSchema v" + JsonSchema4.ToolchainVersion + ")\n");
             _host.WriteMessage("Visit http://NSwag.org for more information.\n");
 
             WriteBinDirectory();
