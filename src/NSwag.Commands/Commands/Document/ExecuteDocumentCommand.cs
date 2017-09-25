@@ -24,7 +24,7 @@ namespace NSwag.Commands.Document
 
         public async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            if (!string.IsNullOrEmpty(Input))
+            if (!string.IsNullOrEmpty(Input) && !Input.StartsWith("/") && !Input.StartsWith("-"))
                 await ExecuteDocumentAsync(host, Input);
             else
             {
