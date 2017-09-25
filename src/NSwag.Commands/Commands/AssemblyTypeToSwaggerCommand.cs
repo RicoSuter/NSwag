@@ -92,7 +92,11 @@ namespace NSwag.Commands
             return await Task.Run(async () =>
             {
                 var generator = await CreateGeneratorAsync();
-                return await generator.GenerateAsync(ClassNames).ConfigureAwait(false);
+                var document = await generator.GenerateAsync(ClassNames).ConfigureAwait(false);
+#if DEBUG
+                var json = document.ToJson();
+#endif
+                return document;
             });
         }
 

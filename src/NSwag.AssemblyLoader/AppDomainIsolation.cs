@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 
 namespace NSwag.AssemblyLoader
@@ -69,7 +70,16 @@ namespace NSwag.AssemblyLoader
             Object = new T();
 
             foreach (var pa in preloadedAssemblies)
-                Object.Context.LoadFromAssemblyPath(pa);
+            {
+                try
+                {
+                    Object.Context.LoadFromAssemblyPath(pa);
+                }
+                catch (Exception exception)
+                {
+                    Debug.WriteLine("AppDomainIsolation exception when preloaded DLL '" + pa + "': \n" + exception);
+                }
+            }
         }
 
         public T Object { get; }

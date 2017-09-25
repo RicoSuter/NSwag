@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using NSwag.AssemblyLoader.Utilities;
+
 #if !FullNet
 using NJsonSchema.Infrastructure;
 using System.Runtime.Loader;
@@ -30,7 +31,7 @@ namespace NSwag.AssemblyLoader
 
         public AssemblyLoader()
         {
-            Context = new CustomAssemblyLoadContext();
+            Context = AssemblyLoadContext.Default; // TODO: Switch back to new CustomAssemblyLoadContext(); ?
         }
 
 #endif
