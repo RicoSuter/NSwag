@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSwag.SwaggerGeneration.Utilities;
+using NSwag.AssemblyLoader.Utilities;
 
 namespace NSwag.Tests.Commands
 {

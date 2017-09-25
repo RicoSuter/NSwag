@@ -115,24 +115,5 @@ namespace NSwagStudio.ViewModels.CodeGenerators
             get { return _clientCode; }
             set { Set(ref _clientCode, value); }
         }
-
-        public Task GenerateClientAsync(SwaggerDocument document, string documentPath)
-        {
-            return RunTaskAsync(async () =>
-            {
-                Dictionary<string, string> result = null;
-                await Task.Run(async () =>
-                {
-                    if (document != null)
-                    {
-                        Command.Input = document;
-                        result = await Command.RunAsync();
-                        Command.Input = null;
-                    }
-                });
-
-                ClientCode = result != null ? string.Join("\n\n", result.Values) : string.Empty;
-            });
-        }
     }
 }

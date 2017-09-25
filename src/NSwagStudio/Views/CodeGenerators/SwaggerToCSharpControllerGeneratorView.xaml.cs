@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-using MyToolkit.Mvvm;
-using NSwag;
+﻿using MyToolkit.Mvvm;
 using NSwag.Commands;
 using NSwagStudio.ViewModels.CodeGenerators;
 
@@ -23,10 +21,11 @@ namespace NSwagStudio.Views.CodeGenerators
 
         private SwaggerToCSharpControllerGeneratorViewModel Model => (SwaggerToCSharpControllerGeneratorViewModel)Resources["ViewModel"];
 
-        public override async Task GenerateClientAsync(SwaggerDocument document, string documentPath)
+        public override void UpdateOutput(SwaggerDocumentExecutionResult result)
         {
-            await Model.GenerateClientAsync(document, documentPath);
-            TabControl.SelectedIndex = 1;
+            Model.ClientCode = result.GetGeneratorOutput<SwaggerToCSharpControllerCommand>();
+            if (result.IsRedirectedOutput)
+                TabControl.SelectedIndex = 1;
         }
 
         public override bool IsSelected

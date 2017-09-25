@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using NSwag;
+﻿using NSwag.Commands;
 using NSwagStudio.ViewModels.CodeGenerators;
 
 namespace NSwagStudio.Views.CodeGenerators
@@ -15,9 +14,9 @@ namespace NSwagStudio.Views.CodeGenerators
 
         private SwaggerOutputViewModel Model => (SwaggerOutputViewModel)Resources["ViewModel"];
 
-        public override Task GenerateClientAsync(SwaggerDocument document, string documentPath)
+        public override void UpdateOutput(SwaggerDocumentExecutionResult result)
         {
-            return Model.GenerateClientAsync(document, documentPath);
+            Model.SwaggerCode = result.SwaggerOutput;
         }
 
         public override bool IsSelected

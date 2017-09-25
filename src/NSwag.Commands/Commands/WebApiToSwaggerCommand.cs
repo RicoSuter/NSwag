@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="WebApiToSwaggerCommandBase.cs" company="NSwag">
+﻿//-----------------------------------------------------------------------
+// <copyright file="NSwagSettings.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -13,51 +13,29 @@ using NConsole;
 using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
-using NSwag.Commands.Base;
 using NSwag.SwaggerGeneration.WebApi;
-
-#pragma warning disable 1591
 
 namespace NSwag.Commands
 {
+    /// <summary>The generator.</summary>
     [Command(Name = "webapi2swagger", Description = "Generates a Swagger specification for a controller or controlles contained in a .NET Web API assembly.")]
-    public abstract class WebApiToSwaggerCommandBase : OutputCommandBase
+    public class WebApiToSwaggerCommand : AssemblyOutputCommandBase<WebApiAssemblyToSwaggerGenerator>
     {
-        public WebApiToSwaggerCommandBase()
+        /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerCommand"/> class.</summary>
+        public WebApiToSwaggerCommand()
+            : base(new WebApiAssemblyToSwaggerGeneratorSettings())
         {
-            Settings = new WebApiAssemblyToSwaggerGeneratorSettings();
             ControllerNames = new string[] { };
         }
 
         [JsonIgnore]
-        public WebApiAssemblyToSwaggerGeneratorSettings Settings { get; set; }
+        public new WebApiAssemblyToSwaggerGeneratorSettings Settings => (WebApiAssemblyToSwaggerGeneratorSettings)base.Settings;
 
         [Argument(Name = "Assembly", Description = "The path or paths to the Web API .NET assemblies (comma separated).")]
         public string[] AssemblyPaths
         {
-            get { return Settings.AssemblyPaths; }
-            set { Settings.AssemblyPaths = value; }
-        }
-
-        [Argument(Name = "AssemblyConfig", IsRequired = false, Description = "The path to the assembly App.config or Web.config (optional).")]
-        public string AssemblyConfig
-        {
-            get { return Settings.AssemblyConfig; }
-            set { Settings.AssemblyConfig = value; }
-        }
-
-        [Argument(Name = "ReferencePaths", IsRequired = false, Description = "The paths to search for referenced assembly files (comma separated).")]
-        public string[] ReferencePaths
-        {
-            get { return Settings.ReferencePaths; }
-            set { Settings.ReferencePaths = value; }
-        }
-
-        [Argument(Name = "AspNetCore", IsRequired = false, Description = "Specifies whether the controllers are hosted by ASP.NET Core.")]
-        public bool IsAspNetCore
-        {
-            get { return Settings.IsAspNetCore; }
-            set { Settings.IsAspNetCore = value; }
+            get { return Settings.AssemblySettings.AssemblyPaths; }
+            set { Settings.AssemblySettings.AssemblyPaths = value; }
         }
 
         [JsonIgnore]
@@ -70,6 +48,13 @@ namespace NSwag.Commands
 
         [Argument(Name = "Controllers", IsRequired = false, Description = "The Web API controller full class names or empty to load all controllers from the assembly (comma separated).")]
         public string[] ControllerNames { get; set; }
+
+        [Argument(Name = "AspNetCore", IsRequired = false, Description = "Specifies whether the controllers are hosted by ASP.NET Core.")]
+        public bool IsAspNetCore
+        {
+            get { return Settings.IsAspNetCore; }
+            set { Settings.IsAspNetCore = value; }
+        }
 
         [Argument(Name = "DefaultUrlTemplate", IsRequired = false, Description = "The Web API default URL template (default for Web API: 'api/{controller}/{id}'; for MVC projects: '{controller}/{action}/{id?}').")]
         public string DefaultUrlTemplate
@@ -196,13 +181,13 @@ namespace NSwag.Commands
                 else
                     Settings.DocumentTemplate = null;
 
-                var generator = CreateGenerator();
+                var generator = await CreateGeneratorAsync();
+
                 var controllerNames = ControllerNames.Where(s => !string.IsNullOrWhiteSpace(s)).Distinct().ToList();
-                if (!controllerNames.Any() && Settings.AssemblyPaths?.Length > 0)
-                    controllerNames = generator.GetControllerClasses().ToList();
+                if (!controllerNames.Any() && Settings.AssemblySettings.AssemblyPaths?.Length > 0)
+                    controllerNames = generator.GetExportedControllerClassNames().ToList();
 
                 var document = await generator.GenerateForControllersAsync(controllerNames).ConfigureAwait(false);
-
                 if (ServiceHost == ".")
                     document.Host = string.Empty;
                 else if (!string.IsNullOrEmpty(ServiceHost))
@@ -227,6 +212,9 @@ namespace NSwag.Commands
 
         /// <summary>Creates a new generator instance.</summary>
         /// <returns>The generator.</returns>
-        protected abstract WebApiAssemblyToSwaggerGeneratorBase CreateGenerator();
+        protected override Task<WebApiAssemblyToSwaggerGenerator> CreateGeneratorAsync()
+        {
+            return Task.FromResult(new WebApiAssemblyToSwaggerGenerator(Settings));
+        }
     }
 }

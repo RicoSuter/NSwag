@@ -31,23 +31,23 @@ Show available commands:
 
 The full .NET Framework in x64 mode is preferred as execution environment. If you need to run the command line tool in x86 mode use
 
-	nswag run version --x86
+	nswag run version /runtime:WinX86
 
-Add the switch `--core` to the command to execute one of the .NET Core binaries (automatically detects whether .NET Core 1.0 or 1.1 is installed): 
+Add the switch `/runtime:NetCore*` to the command to execute one of the .NET Core binaries (automatically detects whether .NET Core 1.0 or 1.1 is installed): 
 
-    nswag run version --core
+    nswag run version /runtime:NetCore
 	
 To specify what .NET Core binaries to execute, either use 
 
-    nswag run version --core 1.0
+    nswag run version /runtime:NetCore10
 	
 or
 
-    nswag run version --core 1.1
+    nswag run version /runtime:NetCore11
     
 or
 
-    nswag run version --core 2.0
+    nswag run version /runtime:NetCore20
 	
 ## Development
 

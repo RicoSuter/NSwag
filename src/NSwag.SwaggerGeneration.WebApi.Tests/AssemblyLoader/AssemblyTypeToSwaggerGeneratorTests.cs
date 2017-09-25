@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSwag.SwaggerGeneration;
 
 namespace NSwag.SwaggerGeneration.WebApi.Tests.AssemblyLoader
 {
@@ -13,7 +14,10 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.AssemblyLoader
             var assemblyPath = "../../../NSwag.Demo.Web/bin/NSwag.Demo.Web.dll";
             var generator = new AssemblyTypeToSwaggerGenerator(new AssemblyTypeToSwaggerGeneratorSettings
             {
-                AssemblyPath = assemblyPath
+                AssemblySettings =
+                {
+                    AssemblyPaths = new [] { assemblyPath }
+                }
             });
 
             //// Act

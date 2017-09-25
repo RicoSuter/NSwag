@@ -48,7 +48,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_setting_is_enabled_with_enum_fromuri_should_make_enum_nullable()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings());
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<TestController>();
 
             //// Act
@@ -67,7 +67,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_setting_is_enabled_with_class_fromuri_should_make_enum_nullable()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings());
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<TestController>();
 
             //// Act
@@ -87,7 +87,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_setting_is_enabled_then_optional_parameters_have_null_optional_value()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings());
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<TestController>();
 
             //// Act
@@ -105,7 +105,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         [TestMethod]
         public async Task When_setting_is_enabled_then_parameters_are_reordered()
         {
-            var generator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings());
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<TestController>();
 
             //// Act

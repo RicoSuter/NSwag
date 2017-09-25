@@ -8,7 +8,6 @@
 
 using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
 using NConsole;
 using NJsonSchema;
@@ -19,15 +18,12 @@ namespace NSwag.Commands
     /// <summary></summary>
     public class NSwagCommandProcessor
     {
-        private readonly Assembly _assemblyLoaderAssembly;
         private readonly IConsoleHost _host;
 
         /// <summary>Initializes a new instance of the <see cref="NSwagCommandProcessor" /> class.</summary>
-        /// <param name="assemblyLoaderAssembly">The command assembly.</param>
         /// <param name="host">The host.</param>
-        public NSwagCommandProcessor(Assembly assemblyLoaderAssembly, IConsoleHost host)
+        public NSwagCommandProcessor(IConsoleHost host)
         {
-            _assemblyLoaderAssembly = assemblyLoaderAssembly;
             _host = host;
         }
 
@@ -36,9 +32,8 @@ namespace NSwag.Commands
         /// <returns>The result.</returns>
         public int Process(string[] args)
         {
-            var architecture = IntPtr.Size == 4 ? " (x86)" : " (x64)";
             _host.WriteMessage("toolchain v" + SwaggerDocument.ToolchainVersion +
-                " (NJsonSchema v" + JsonSchema4.ToolchainVersion + ")" + architecture + "\n");
+                " (NJsonSchema v" + JsonSchema4.ToolchainVersion + ")\n");
             _host.WriteMessage("Visit http://NSwag.org for more information.\n");
 
             WriteBinDirectory();
@@ -50,7 +45,6 @@ namespace NSwag.Commands
             {
                 var processor = new CommandLineProcessor(_host);
 
-                processor.RegisterCommandsFromAssembly(_assemblyLoaderAssembly);
                 processor.RegisterCommandsFromAssembly(typeof(SwaggerToCSharpControllerCommand).GetTypeInfo().Assembly);
 
                 var stopwatch = new Stopwatch();

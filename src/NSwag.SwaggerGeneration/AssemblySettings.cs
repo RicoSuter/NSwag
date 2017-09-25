@@ -1,18 +1,18 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="WebApiAssemblyToSwaggerGeneratorSettings.cs" company="NSwag">
+//-----------------------------------------------------------------------
+// <copyright file="AssemblySettings.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-namespace NSwag.SwaggerGeneration.WebApi
+namespace NSwag.SwaggerGeneration
 {
-    /// <summary>Settings for the WebApiAssemblyToSwaggerGenerator.</summary>
-    public class WebApiAssemblyToSwaggerGeneratorSettings : WebApiToSwaggerGeneratorSettings
+    /// <summary>Settings for loading assemblies.</summary>
+    public class AssemblySettings
     {
-        /// <summary>Initializes a new instance of the <see cref="WebApiAssemblyToSwaggerGeneratorSettings"/> class.</summary>
-        public WebApiAssemblyToSwaggerGeneratorSettings()
+        /// <summary>Initializes a new instance of the <see cref="AssemblySettings"/> class.</summary>
+        public AssemblySettings()
         {
             AssemblyPaths = new string[] { };
             ReferencePaths = new string[] { };
