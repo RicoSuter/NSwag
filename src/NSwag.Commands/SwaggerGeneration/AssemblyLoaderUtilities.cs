@@ -21,11 +21,11 @@ namespace NSwag.Commands.SwaggerGeneration
     {
         public static IEnumerable<string> GetAssemblies(string assemblyDirectory)
         {
-            yield return assemblyDirectory + "/Newtonsoft.Json.dll";
-
+            //yield return assemblyDirectory + "/Newtonsoft.Json.dll";
             var codeBaseDirectory = Path.GetDirectoryName(typeof(AssemblyLoaderUtilities).GetTypeInfo()
                 .Assembly.CodeBase.Replace("file:///", string.Empty));
 
+            yield return codeBaseDirectory + "/Newtonsoft.Json.dll";
             yield return codeBaseDirectory + "/NJsonSchema.dll";
             yield return codeBaseDirectory + "/NSwag.Core.dll";
             yield return codeBaseDirectory + "/NSwag.Commands.dll";
@@ -36,6 +36,7 @@ namespace NSwag.Commands.SwaggerGeneration
         public static IEnumerable<BindingRedirect> GetBindingRedirects()
         {
 #if NET451
+            yield return new BindingRedirect("Newtonsoft.Json", typeof(JToken), "30ad4fe6b2a6aeed");
             yield return new BindingRedirect("NJsonSchema", typeof(JsonSchema4), "c2f9c3bdfae56102");
             yield return new BindingRedirect("NSwag.Core", typeof(SwaggerDocument), "c2d88086e098d109");
             yield return new BindingRedirect("NSwag.SwaggerGeneration", typeof(SwaggerJsonSchemaGenerator), "c2d88086e098d109");
