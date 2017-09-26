@@ -192,7 +192,7 @@ namespace NSwag.Commands
         {
             return Task.Run(async () =>
             {
-                await DynamicApis.FileWriteAllTextAsync(Path, ToJson()).ConfigureAwait(false);
+                await DynamicApis.FileWriteAllTextAsync(Path, ToJsonWithRelativePaths()).ConfigureAwait(false);
                 _latestData = JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings());
             });
         }
