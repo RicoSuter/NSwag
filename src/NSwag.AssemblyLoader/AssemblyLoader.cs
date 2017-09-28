@@ -57,6 +57,7 @@ namespace NSwag.AssemblyLoader
 #if FullNet
             AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
 #else
+            var assembliesLoadedByName = new HashSet<string>(); // used to avoid recursions
             Context.Resolving += (context, args) =>
 #endif
             {
@@ -85,19 +86,23 @@ namespace NSwag.AssemblyLoader
                         }
                         catch (Exception exception)
                         {
-                            Debug.WriteLine("AssemblyLoader.AssemblyResolve exception when loading DLL '" + file + "': \n" + exception.ToString());
+                            Debug.WriteLine("NSwag: AssemblyLoader exception when loading assembly by file '" + file + "': \n" + exception.ToString());
                         }
                     }
                 }
 
 #if !FullNet
-                try
+                if (!assembliesLoadedByName.Contains(assemblyName))
                 {
-                    return Context.LoadFromAssemblyName(new AssemblyName(assemblyName));
-                }
-                catch (Exception exception)
-                {
-                    Debug.WriteLine("AssemblyLoader.AssemblyResolve exception when loading assembly '" + assemblyName + "': \n" + exception.ToString());
+                    try
+                    {
+                        assembliesLoadedByName.Add(assemblyName);
+                        return Context.LoadFromAssemblyName(new AssemblyName(assemblyName));
+                    }
+                    catch (Exception exception)
+                    {
+                        Debug.WriteLine("NSwag: AssemblyLoader exception when loading assembly by name '" + assemblyName + "': \n" + exception.ToString());
+                    }
                 }
 #endif
 
