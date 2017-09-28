@@ -175,13 +175,14 @@ namespace NSwag.Commands
         {
             var settings = GetSerializerSettings();
             var document = JsonConvert.DeserializeObject<TDocument>(data, settings);
-            document._latestData = JsonConvert.SerializeObject(document, Formatting.Indented, GetSerializerSettings());
 
             if (filePath != null)
             {
                 document.Path = filePath;
                 document.ConvertToAbsolutePaths();
             }
+
+            document._latestData = JsonConvert.SerializeObject(document, Formatting.Indented, GetSerializerSettings());
 
             return document;
         }
