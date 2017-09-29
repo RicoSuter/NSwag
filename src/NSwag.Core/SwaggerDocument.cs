@@ -186,9 +186,29 @@ namespace NSwag
             var schemaResolver = new SwaggerSchemaResolver(document, new JsonSchemaGeneratorSettings());
             var referenceResolver = new JsonReferenceResolver(schemaResolver); 
             await JsonSchemaReferenceUtilities.UpdateSchemaReferencesAsync(document, referenceResolver).ConfigureAwait(false);
+            
+            // resolve response reference like '#/responses/Forbidden'
+            foreach(var operation in document.Operations)
+            {
+                foreach(var pair in operation.Operation.Responses.Where((x) => x.Value.ExtensionData != null).ToArray())
+                {
+                    if (pair.Value.ExtensionData.ContainsKey("schemaReferencePath"))
+                    {
+                        var reference = pair.Value.ExtensionData["schemaReferencePath"] as string;
+                        if (!string.IsNullOrEmpty(reference))
+                        {
+                            var responseName = reference.Split('/').Last();
+                            if (document.Responses.ContainsKey(responseName))
+                            {
+                                operation.Operation.Responses[pair.Key] = document.Responses[responseName];
+                            }
+                        }
+                    }
+                }
+            }
             return document;
         }
-
+        
         /// <summary>Creates a Swagger specification from a JSON file.</summary>
         /// <param name="filePath">The file path.</param>
         /// <returns>The <see cref="SwaggerDocument" />.</returns>

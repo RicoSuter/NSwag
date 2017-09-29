@@ -98,6 +98,7 @@
     <Compile Include="Specification\OperationIdTests.cs" />
     <Compile Include="Specification\GeneralTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Specification\ResponsesSchemaTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj">
