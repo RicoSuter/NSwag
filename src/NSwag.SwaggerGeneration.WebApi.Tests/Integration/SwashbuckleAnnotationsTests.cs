@@ -88,7 +88,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Integration
             var json = document.ToJson();
 
             //// Assert
-            Assert.IsTrue(document.Operations.First().Operation.Responses.ContainsKey("403"));
+            Assert.IsTrue(document.Operations.First().Operation.ActualResponses.ContainsKey("403"));
         }
     }
 }

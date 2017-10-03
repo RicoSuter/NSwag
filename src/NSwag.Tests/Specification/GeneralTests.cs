@@ -32,7 +32,7 @@ namespace NSwag.Tests.Specification
             //// Act
             var document = await SwaggerDocument.FromJsonAsync(json);
             var json2 = document.ToJson();
-            var reference = document.Paths["/pets"][SwaggerOperationMethod.Get].Responses["200"].Schema.Item.SchemaReference;
+            var reference = document.Paths["/pets"][SwaggerOperationMethod.Get].ActualResponses["200"].Schema.Item.Reference;
 
             //// Assert
             Assert.IsNotNull(json2);
@@ -67,7 +67,7 @@ namespace NSwag.Tests.Specification
             var document = await SwaggerDocument.FromJsonAsync(json);
 
             //// Assert
-            Assert.IsNotNull(document.Operations.First().Operation.Responses["202"].ExtensionData);
+            Assert.IsNotNull(document.Operations.First().Operation.ActualResponses["202"].ExtensionData);
         }
 
         [TestMethod]

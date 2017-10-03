@@ -48,13 +48,13 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Nullability
 
             /// Assert
             var operationAbc = document.Operations.Single(o => o.Path.Contains("Abc"));
-            var responseAbc = operationAbc.Operation.Responses.First().Value;
+            var responseAbc = operationAbc.Operation.ActualResponses.First().Value;
 
             var operationDef = document.Operations.Single(o => o.Path.Contains("Def"));
-            var responseDef = operationDef.Operation.Responses.First().Value;
+            var responseDef = operationDef.Operation.ActualResponses.First().Value;
 
             var operationGhi = document.Operations.Single(o => o.Path.Contains("Ghi"));
-            var responseGhi = operationGhi.Operation.Responses.First().Value;
+            var responseGhi = operationGhi.Operation.ActualResponses.First().Value;
 
             Assert.IsTrue(responseAbc.IsNullable(SchemaType.Swagger2));
             Assert.IsFalse(responseDef.IsNullable(SchemaType.Swagger2));

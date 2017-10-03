@@ -33,7 +33,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
             var operation = document.Operations.First().Operation;
 
             //Assert.AreEqual("application/octet-stream", operation.ActualProduces.First());
-            Assert.AreEqual(JsonObjectType.File, operation.Responses.First().Value.Schema.Type);
+            Assert.AreEqual(JsonObjectType.File, operation.ActualResponses.First().Value.Schema.Type);
             
             // TODO: File response should produce application/octet-stream
         }

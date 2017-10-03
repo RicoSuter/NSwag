@@ -100,10 +100,10 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         {
             get
             {
-                if (_operation.Responses.Count(r => !HttpUtilities.IsSuccessStatusCode(r.Key)) == 0)
+                if (_operation.ActualResponses.Count(r => !HttpUtilities.IsSuccessStatusCode(r.Key)) == 0)
                     return "string";
 
-                return string.Join(" | ", _operation.Responses
+                return string.Join(" | ", _operation.ActualResponses
                     .Where(r => !HttpUtilities.IsSuccessStatusCode(r.Key) && r.Value.ActualResponseSchema != null)
                     .Select(r => _generator.GetTypeName(r.Value.ActualResponseSchema, r.Value.IsNullable(_settings.CodeGeneratorSettings.SchemaType), "Exception"))
                     .Concat(new[] { "string" }));

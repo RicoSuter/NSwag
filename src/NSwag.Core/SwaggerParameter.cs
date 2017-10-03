@@ -16,10 +16,6 @@ namespace NSwag
     /// <summary>Describes an operation parameter. </summary>
     public class SwaggerParameter : JsonSchema4
     {
-        /// <summary>Gets the parent operation.</summary>
-        [JsonIgnore]
-        public SwaggerOperation Parent { get; internal set; }
-
         /// <summary>Gets or sets the name.</summary>
         [JsonProperty(PropertyName = "name", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Name { get; set; }
@@ -76,10 +72,10 @@ namespace NSwag
 
         /// <summary>Gets a value indicating whether this is an XML body parameter.</summary>
         [JsonIgnore]
-        public bool IsXmlBodyParameter => Kind == SwaggerParameterKind.Body && Parent.ActualConsumes?.FirstOrDefault() == "application/xml";
+        public bool IsXmlBodyParameter => Kind == SwaggerParameterKind.Body && (Parent as SwaggerOperation)?.ActualConsumes?.FirstOrDefault() == "application/xml";
 
         /// <summary>Gets a value indicating whether this is an binary body parameter.</summary>
         [JsonIgnore]
-        public bool IsBinaryBodyParameter => Kind == SwaggerParameterKind.Body && Parent.ActualConsumes?.FirstOrDefault() == "application/octet-stream";
+        public bool IsBinaryBodyParameter => Kind == SwaggerParameterKind.Body && (Parent as SwaggerOperation)?.ActualConsumes?.FirstOrDefault() == "application/octet-stream";
     }
 }
