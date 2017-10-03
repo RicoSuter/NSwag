@@ -130,14 +130,10 @@ namespace NSwag.CodeGeneration.CSharp.Models
         {
             get
             {
-                var handleReferences = _settings.CSharpGeneratorSettings.HandleReferences;
-
-                IEnumerable<string> jsonConverters = _settings.CSharpGeneratorSettings.JsonConverters ?? new string[] { };
-                if (RequiresJsonExceptionConverter)
-                    jsonConverters = jsonConverters.Concat(new[] { "JsonExceptionConverter" });
-
                 // TODO: Fix this in NJS (remove ", ", cleanup)
-                var parameterCode = CSharpJsonSerializerGenerator.GenerateJsonSerializerParameterCode(handleReferences, jsonConverters.ToList());
+                var parameterCode = CSharpJsonSerializerGenerator.GenerateJsonSerializerParameterCode(
+                    _settings.CSharpGeneratorSettings, RequiresJsonExceptionConverter ? new[] { "JsonExceptionConverter" } : null);
+
                 if (string.IsNullOrEmpty(parameterCode))
                     parameterCode = "new Newtonsoft.Json.JsonSerializerSettings()";
                 else if(!parameterCode.Contains("new Newtonsoft.Json.JsonSerializerSettings"))
@@ -150,6 +146,6 @@ namespace NSwag.CodeGeneration.CSharp.Models
         }
 
         private bool RequiresJsonExceptionConverter => _settings.CSharpGeneratorSettings.ExcludedTypeNames?.Contains("JsonExceptionConverter") != true &&
-            _document.Operations.Any(o => o.Operation.AllResponses.Any(r => r.Value.ActualResponseSchema?.InheritsSchema(_exceptionSchema) == true));
+            _document.Operations.Any(o => o.Operation.ActualResponses.Any(r => r.Value.ActualResponseSchema?.InheritsSchema(_exceptionSchema) == true));
     }
 }

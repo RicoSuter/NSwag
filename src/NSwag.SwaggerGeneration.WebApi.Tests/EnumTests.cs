@@ -77,7 +77,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
             var json = document.ToJson();
 
             // Assert
-            Assert.IsTrue(document.Operations.First().Operation.Responses.First().Value.Schema.HasSchemaReference);
+            Assert.IsTrue(document.Operations.First().Operation.ActualResponses.First().Value.Schema.HasSchemaReference);
         }
     }
 }

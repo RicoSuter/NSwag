@@ -141,7 +141,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public bool RequiresFileResponseInterface =>
             !IsJQuery &&
             !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("FileResponse") &&
-            _document.Operations.Any(o => o.Operation.AllResponses.Any(r => r.Value.Schema?.ActualSchema.Type == JsonObjectType.File));
+            _document.Operations.Any(o => o.Operation.ActualResponses.Any(r => r.Value.Schema?.ActualSchema.Type == JsonObjectType.File));
 
         /// <summary>Gets a value indicating whether the SwaggerException class is required.</summary>
         public bool RequiresSwaggerExceptionClass =>

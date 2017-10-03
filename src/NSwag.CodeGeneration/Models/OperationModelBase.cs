@@ -36,7 +36,7 @@ namespace NSwag.CodeGeneration.Models
             _generator = generator;
             _settings = settings;
 
-            var responses = _operation.Responses
+            var responses = _operation.ActualResponses
                 .Select(response => CreateResponseModel(response.Key, response.Value, exceptionSchema, generator, settings))
                 .ToList();
 
@@ -236,7 +236,7 @@ namespace NSwag.CodeGeneration.Models
         }
 
         /// <summary>Gets a value indicating whether a file response is expected from one of the responses.</summary>
-        public bool IsFile => _operation.AllResponses.Any(r => r.Value.Schema?.ActualSchema.Type == JsonObjectType.File);
+        public bool IsFile => _operation.ActualResponses.Any(r => r.Value.Schema?.ActualSchema.Type == JsonObjectType.File);
 
         /// <summary>Gets a value indicating whether to wrap the response of this operation.</summary>
         public bool WrapResponse => _settings.WrapResponses && (
@@ -248,14 +248,14 @@ namespace NSwag.CodeGeneration.Models
         /// <returns>The response.</returns>
         protected SwaggerResponse GetSuccessResponse()
         {
-            if (_operation.Responses.Any(r => r.Key == "200"))
-                return _operation.Responses.Single(r => r.Key == "200").Value;
+            if (_operation.ActualResponses.Any(r => r.Key == "200"))
+                return _operation.ActualResponses.Single(r => r.Key == "200").Value;
 
-            var response = _operation.Responses.FirstOrDefault(r => HttpUtilities.IsSuccessStatusCode(r.Key)).Value;
+            var response = _operation.ActualResponses.FirstOrDefault(r => HttpUtilities.IsSuccessStatusCode(r.Key)).Value;
             if (response != null)
                 return response;
 
-            return _operation.Responses.FirstOrDefault(r => r.Key == "default").Value;
+            return _operation.ActualResponses.FirstOrDefault(r => r.Key == "default").Value;
         }
 
         /// <summary>Gets the name of the parameter variable.</summary>

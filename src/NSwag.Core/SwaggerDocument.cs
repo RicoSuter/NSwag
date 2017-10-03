@@ -28,17 +28,20 @@ namespace NSwag
             Swagger = "2.0";
             Info = new SwaggerInfo();
             Schemes = new List<SwaggerSchema>();
-            Responses = new Dictionary<string, SwaggerResponse>();
-            Parameters = new Dictionary<string, SwaggerParameter>();
             SecurityDefinitions = new Dictionary<string, SwaggerSecurityScheme>();
-
             Info = new SwaggerInfo
             {
                 Version = string.Empty,
                 Title = string.Empty
             };
 
-            Definitions = new ObservableDictionary<string, JsonSchema4>();
+            var definitions = new ObservableDictionary<string, JsonSchema4>();
+            definitions.CollectionChanged += (sender, args) =>
+            {
+                foreach (var path in Definitions.Values)
+                    path.Parent = this;
+            };
+            Definitions = definitions;
 
             var paths = new ObservableDictionary<string, SwaggerOperations>();
             paths.CollectionChanged += (sender, args) =>
@@ -46,7 +49,23 @@ namespace NSwag
                 foreach (var path in Paths.Values)
                     path.Parent = this;
             };
-            Paths = paths; 
+            Paths = paths;
+
+            var parameters = new ObservableDictionary<string, SwaggerParameter>();
+            parameters.CollectionChanged += (sender, args) =>
+            {
+                foreach (var path in Parameters.Values)
+                    path.Parent = this;
+            };
+            Parameters = parameters;
+
+            var responses = new ObservableDictionary<string, SwaggerResponse>();
+            responses.CollectionChanged += (sender, args) =>
+            {
+                foreach (var path in Responses.Values)
+                    path.Parent = this;
+            };
+            Responses = responses;
         }
 
         /// <summary>Gets the NSwag toolchain version.</summary>
@@ -98,11 +117,11 @@ namespace NSwag
 
         /// <summary>Gets or sets the parameters which can be used for all operations.</summary>
         [JsonProperty(PropertyName = "parameters", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public Dictionary<string, SwaggerParameter> Parameters { get; }
+        public IDictionary<string, SwaggerParameter> Parameters { get; }
 
         /// <summary>Gets or sets the responses which can be used for all operations.</summary>
         [JsonProperty(PropertyName = "responses", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public Dictionary<string, SwaggerResponse> Responses { get; }
+        public IDictionary<string, SwaggerResponse> Responses { get; }
 
         /// <summary>Gets or sets the security definitions.</summary>
         [JsonProperty(PropertyName = "securityDefinitions", DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -239,7 +258,7 @@ namespace NSwag
                 {
                     // Append "All" if possible
                     var arrayResponseOperation = operations.FirstOrDefault(
-                        a => a.Operation.Responses.Any(r => HttpUtilities.IsSuccessStatusCode(r.Key) && r.Value.ActualResponseSchema != null && r.Value.ActualResponseSchema.Type == JsonObjectType.Array));
+                        a => a.Operation.ActualResponses.Any(r => HttpUtilities.IsSuccessStatusCode(r.Key) && r.Value.ActualResponseSchema != null && r.Value.ActualResponseSchema.Type == JsonObjectType.Array));
 
                     if (arrayResponseOperation != null)
                     {

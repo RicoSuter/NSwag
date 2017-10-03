@@ -41,8 +41,8 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
 
             //// Assert
             var fooOperation = document.Operations.Single(o => o.Operation.OperationId == "ResponseAttributeTest_Foo");
-            Assert.AreEqual("409", fooOperation.Operation.Responses.First().Key);
-            Assert.AreEqual(JsonObjectType.String, fooOperation.Operation.Responses.First().Value.Schema.Type);
+            Assert.AreEqual("409", fooOperation.Operation.ActualResponses.First().Key);
+            Assert.AreEqual(JsonObjectType.String, fooOperation.Operation.ActualResponses.First().Value.Schema.Type);
         }
 
         [TestMethod]
@@ -56,8 +56,8 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
 
             //// Assert
             var barOperation = document.Operations.Single(o => o.Operation.OperationId == "ResponseAttributeTest_Bar");
-            Assert.AreEqual("201", barOperation.Operation.Responses.First().Key);
-            Assert.AreEqual(JsonObjectType.Integer, barOperation.Operation.Responses.First().Value.Schema.Type);
+            Assert.AreEqual("201", barOperation.Operation.ActualResponses.First().Key);
+            Assert.AreEqual(JsonObjectType.Integer, barOperation.Operation.ActualResponses.First().Value.Schema.Type);
         }
 
         public class MultipleAttributesController : ApiController
@@ -97,9 +97,9 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
             var document = await generator.GenerateForControllerAsync<MultipleAttributesController>();
 
             //// Assert
-            Assert.IsFalse(document.Operations.ElementAt(0).Operation.Responses.First().Value.Description.Contains("Bar"));
-            Assert.IsTrue(document.Operations.ElementAt(1).Operation.Responses.First().Value.Description.Contains("Bar"));
-            Assert.IsFalse(document.Operations.ElementAt(2).Operation.Responses.First().Value.Description.Contains("or"));
+            Assert.IsFalse(document.Operations.ElementAt(0).Operation.ActualResponses.First().Value.Description.Contains("Bar"));
+            Assert.IsTrue(document.Operations.ElementAt(1).Operation.ActualResponses.First().Value.Description.Contains("Bar"));
+            Assert.IsFalse(document.Operations.ElementAt(2).Operation.ActualResponses.First().Value.Description.Contains("or"));
         }
     }
 }

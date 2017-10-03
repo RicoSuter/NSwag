@@ -37,7 +37,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
             var json = document.ToJson();
 
             //// Assert
-            Assert.AreEqual(2, operation.Operation.Responses.Count);
+            Assert.AreEqual(2, operation.Operation.ActualResponses.Count);
             Assert.AreEqual(10, document.Operations.Count());
             Assert.IsTrue(document.Definitions.Any(d => d.Key == "Person"));
         }
