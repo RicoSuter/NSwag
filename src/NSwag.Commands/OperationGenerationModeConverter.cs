@@ -20,6 +20,8 @@ namespace NSwag.Commands
                 return OperationGenerationMode.MultipleClientsFromPathSegments;
             if (operationNameGenerator is SingleClientFromOperationIdOperationNameGenerator)
                 return OperationGenerationMode.SingleClientFromOperationId;
+            if (operationNameGenerator is SingleClientFromPathSegmentsOperationNameGenerator)
+                return OperationGenerationMode.SingleClientFromPathSegments;
             return OperationGenerationMode.MultipleClientsFromOperationId;
         }
 
@@ -31,6 +33,8 @@ namespace NSwag.Commands
                 return new MultipleClientsFromPathSegmentsOperationNameGenerator();
             else if (operationGenerationMode == OperationGenerationMode.SingleClientFromOperationId)
                 return new SingleClientFromOperationIdOperationNameGenerator();
+            else if (operationGenerationMode == OperationGenerationMode.SingleClientFromPathSegments)
+                return new SingleClientFromPathSegmentsOperationNameGenerator();
             else
                 return new MultipleClientsFromOperationIdOperationNameGenerator();
         }

@@ -19,5 +19,8 @@ namespace NSwag.Commands
 
         /// <summary>From the Swagger operation ID.</summary>
         SingleClientFromOperationId,
+
+        /// <summary>From path segments suffixed by HTTP operation name</summary>
+        SingleClientFromPathSegments,
     }
 }
