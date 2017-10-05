@@ -90,9 +90,9 @@ export interface FileParameter {
 <#if(Model.RequiresFileResponseInterface){#>
 export interface FileResponse {
     data: Blob;
-	status: number;
+    status: number;
     fileName?: string;
-	headers?: { [name: string]: any };
+    headers?: { [name: string]: any };
 }
 
 <#}#>
