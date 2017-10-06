@@ -198,5 +198,13 @@ namespace NSwag.Commands
             get { return Settings.CSharpGeneratorSettings.GenerateImmutableDictionaryProperties; }
             set { Settings.CSharpGeneratorSettings.GenerateImmutableDictionaryProperties = value; }
         }
+
+        [Argument(Name = "JsonSerializerSettingsTransformationMethod", IsRequired = false,
+            Description = "The name of a static method which is called to transform the JsonSerializerSettings used in the generated ToJson()/FromJson() methods (default: none).")]
+        public string JsonSerializerSettingsTransformationMethod
+        {
+            get { return Settings.CSharpGeneratorSettings.JsonSerializerSettingsTransformationMethod; }
+            set { Settings.CSharpGeneratorSettings.JsonSerializerSettingsTransformationMethod = value; }
+        }
     }
 }

@@ -109,6 +109,44 @@ namespace NSwag.AssemblyLoader
                 return null;
             };
         }
+        
+        protected T CreateInstance<T>(string typeName)
+        {
+            try
+            {
+                var split = typeName.Split(':');
+                if (split.Length > 1)
+                {
+                    var assemblyName = split[0].Trim();
+                    typeName = split[1].Trim();
+
+#if FullNet
+                    var assembly = AppDomain.CurrentDomain.Load(new AssemblyName(assemblyName));
+                    return (T)Activator.CreateInstance(assembly.GetType(typeName, true));
+#else
+                    var assembly = Context.LoadFromAssemblyName(new AssemblyName(assemblyName));
+                    return (T)Activator.CreateInstance(assembly.GetType(typeName, true));
+#endif
+                }
+
+#if FullNet
+                foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+                {
+                    var type = assembly.GetType(typeName, false, true);
+                    if (type != null)
+                        return (T)Activator.CreateInstance(type);
+                }
+
+                throw new InvalidOperationException("Could not find the type '" + typeName + "'.");
+#else
+                return (T)Activator.CreateInstance(Type.GetType(typeName, true, true));
+#endif
+            }
+            catch (Exception e)
+            {
+                throw new InvalidOperationException("Could not instantiate the type '" + typeName + "'. Try specifying the type with the assembly, e.g 'assemblyName:typeName'.", e);
+            }
+        }
 
         private string[] GetAllDirectories(string rootDirectory)
         {

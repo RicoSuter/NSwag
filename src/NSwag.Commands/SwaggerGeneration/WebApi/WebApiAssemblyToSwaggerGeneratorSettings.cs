@@ -6,9 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using NSwag.SwaggerGeneration;
-using NSwag.SwaggerGeneration.WebApi;
-
 namespace NSwag.SwaggerGeneration.WebApi
 {
     /// <summary>Settings for the WebApiAssemblyToSwaggerGenerator.</summary>
@@ -22,5 +19,11 @@ namespace NSwag.SwaggerGeneration.WebApi
 
         /// <summary>Gets or sets the Web API assembly paths.</summary>
         public AssemblySettings AssemblySettings { get; }
+
+        /// <summary>Gets or sets the additional document processor type names in the form 'assemblyName:fullTypeName' or 'fullTypeName' which are instantiated during generation.</summary>
+        public string[] DocumentProcessorTypes { get; set; }
+
+        /// <summary>Gets or sets the additional operation processor type names in the form 'assemblyName:fullTypeName' or 'fullTypeName' which are instantiated during generation.</summary>
+        public string[] OperationProcessorTypes { get; set; }
     }
 }

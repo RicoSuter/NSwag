@@ -47,10 +47,8 @@ namespace NSwag.Commands
             });
         }
 
-        /// <summary>Creates a new generator instance.</summary>
-        /// <returns>The generator.</returns>
         /// <exception cref="InvalidOperationException">Configuraiton file does not contain WebApiToSwagger settings.</exception>
-        protected override async Task<WebApiAssemblyToSwaggerGenerator> CreateGeneratorAsync()
+        private async Task<WebApiAssemblyToSwaggerGenerator> CreateGeneratorAsync()
         {
             if (!string.IsNullOrEmpty(File))
             {

@@ -143,7 +143,25 @@
             <TextBlock Text="Default URL Template" FontWeight="Bold" Margin="0,0,0,6" />
             <TextBlock Text="Default for Web API: 'api/{controller}/{id}'; for MVC projects: '{controller}/{action}/{id?}'" TextWrapping="Wrap" Margin="0,0,0,6" />
             <TextBox Text="{Binding Command.DefaultUrlTemplate, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="DefaultUrlTemplate" />
-            
+
+            <TextBlock Text="Document processors (type names in the form 'assemblyName:fullTypeName' or 'fullTypeName', optional, multiple on separate lines)" 
+                       TextWrapping="Wrap" FontWeight="Bold" Margin="0,0,0,6" />
+            <TextBox Text="{Binding Command.DocumentProcessorTypes, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
+                     ToolTip="DocumentProcessors"
+                     Height="52" 
+                     AcceptsReturn="True" 
+                     VerticalScrollBarVisibility="Visible" 
+                     Margin="0,0,0,12" />
+
+            <TextBlock Text="Operation processors (type names in the form 'assemblyName:fullTypeName' or 'fullTypeName', optional, multiple on separate lines)" 
+                       TextWrapping="Wrap" FontWeight="Bold" Margin="0,0,0,6" />
+            <TextBox Text="{Binding Command.OperationProcessorTypes, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
+                     ToolTip="OperationProcessors"
+                     Height="52" 
+                     AcceptsReturn="True" 
+                     VerticalScrollBarVisibility="Visible" 
+                     Margin="0,0,0,12" />
+
             <GroupBox Header="Swagger Information" Margin="0,0,0,8">
                 <StackPanel Margin="4,8,4,-8">
                     <TextBlock Text="Title" FontWeight="Bold" Margin="0,0,0,6" />

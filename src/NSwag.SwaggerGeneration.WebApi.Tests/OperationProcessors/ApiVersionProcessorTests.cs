@@ -68,7 +68,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.OperationProcessors
         {
             //// Arrange
             var settings = new WebApiToSwaggerGeneratorSettings();
-            settings.OperationProcessors.Get<ApiVersionProcessor>().IncludedVersions.Add("1");
+            settings.OperationProcessors.TryGet<ApiVersionProcessor>().IncludedVersions.Add("1");
 
             var generator = new WebApiToSwaggerGenerator(settings);
 

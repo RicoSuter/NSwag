@@ -214,11 +214,13 @@ namespace NSwag.Commands
         {
             var processStart = new ProcessStartInfo(GetProgramName(), GetArgumentsPrefix() + command);
             processStart.RedirectStandardOutput = true;
+            processStart.RedirectStandardError = true;
             processStart.UseShellExecute = false;
             processStart.CreateNoWindow = true;
 
             var process = Process.Start(processStart);
-            var output = await process.StandardOutput.ReadToEndAsync();
+            var output = await process.StandardOutput.ReadToEndAsync() + 
+                "\n\n" + await process.StandardError.ReadToEndAsync();
 
             if (process.ExitCode != 0)
             {
@@ -270,7 +272,7 @@ namespace NSwag.Commands
 #if NET451
 
 	        var runtime = Runtime != Runtime.Default ? Runtime : RuntimeUtilities.CurrentRuntime;
-            if (runtime == Runtime.WinX64)
+            if (runtime == Runtime.WinX64 || runtime == Runtime.Debug)
                 return System.IO.Path.Combine(RootBinaryDirectory, "Win/nswag.exe");
             else if (runtime == Runtime.WinX86)
                 return System.IO.Path.Combine(RootBinaryDirectory, "Win/nswag.x86.exe");
