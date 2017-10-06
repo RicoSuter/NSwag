@@ -258,6 +258,13 @@ namespace NSwag.Commands
             set { Settings.TypeScriptGeneratorSettings.GenerateConstructorInterface = value; }
         }
 
+        [Argument(Name = "ConvertConstructorInterfaceData", IsRequired = false, Description = "Convert POJO objects in the constructor data to DTO instances (GenerateConstructorInterface must be enabled, default: false).")]
+        public bool ConvertConstructorInterfaceData
+        {
+            get { return Settings.TypeScriptGeneratorSettings.ConvertConstructorInterfaceData; }
+            set { Settings.TypeScriptGeneratorSettings.ConvertConstructorInterfaceData = value; }
+        }
+
         [Argument(Name = "ImportRequiredTypes", IsRequired = false, Description = "Specifies whether required types should be imported (default: true).")]
         public bool ImportRequiredTypes
         {

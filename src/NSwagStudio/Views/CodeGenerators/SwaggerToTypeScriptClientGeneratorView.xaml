@@ -178,11 +178,18 @@
                                           ToolTip="GenerateCloneMethod"
                                           Margin="0,0,0,12" />
 
-                                <CheckBox IsChecked="{Binding Command.GenerateConstructorInterface, Mode=TwoWay}" 
-                                          Visibility="{Binding Command.TypeStyle, ConverterParameter='Class', Converter={StaticResource EqualityConverter}}"
-                                          Content="Generate constructor interface which is used to initialize the class"
-                                          ToolTip="GenerateConstructorInterface"
-                                          Margin="0,0,0,12" />
+                                <StackPanel Visibility="{Binding Command.TypeStyle, ConverterParameter='Class', Converter={StaticResource EqualityConverter}}">
+                                    <CheckBox IsChecked="{Binding Command.GenerateConstructorInterface, Mode=TwoWay}" 
+                                              Content="Generate constructor interface which is used to initialize the class"
+                                              ToolTip="GenerateConstructorInterface"
+                                              Margin="0,0,0,12" />
+
+                                    <CheckBox IsChecked="{Binding Command.ConvertConstructorInterfaceData, Mode=TwoWay}" 
+                                              Visibility="{Binding Command.GenerateConstructorInterface, Converter={StaticResource VisibilityConverter}}"
+                                              Content="Convert POJO objects in the constructor data to DTO instances (generates more code)"
+                                              ToolTip="ConvertConstructorInterfaceData"
+                                              Margin="0,0,0,12" />
+                                </StackPanel>
                                 
                                 <CheckBox IsChecked="{Binding Command.ImportRequiredTypes, Mode=TwoWay}" 
                                           Content="Import required types (e.g. Angular types, MomentJS, JQuery, etc.)"
