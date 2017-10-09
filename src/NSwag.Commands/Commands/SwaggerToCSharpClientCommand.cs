@@ -139,13 +139,6 @@ namespace NSwag.Commands
             set { Settings.GenerateSyncMethods = value; }
         }
 
-        [Argument(Name = "JsonConverters", IsRequired = false, Description = "Specifies the custom Json.NET converter types (optional, comma separated).")]
-        public string[] JsonConverters
-        {
-            get { return Settings.CSharpGeneratorSettings.JsonConverters; }
-            set { Settings.CSharpGeneratorSettings.JsonConverters = value; }
-        }
-
         [Argument(Name = "ClientClassAccessModifier", IsRequired = false, Description = "The client class access modifier (default: public).")]
         public string ClientClassAccessModifier
         {

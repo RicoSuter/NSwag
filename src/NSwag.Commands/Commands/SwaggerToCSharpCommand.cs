@@ -78,6 +78,13 @@ namespace NSwag.Commands
             set { Settings.CSharpGeneratorSettings.DateType = value; }
         }
 
+        [Argument(Name = "JsonConverters", IsRequired = false, Description = "Specifies the custom Json.NET converter types (optional, comma separated).")]
+        public string[] JsonConverters
+        {
+            get { return Settings.CSharpGeneratorSettings.JsonConverters; }
+            set { Settings.CSharpGeneratorSettings.JsonConverters = value; }
+        }
+
         [Argument(Name = "DateTimeType", IsRequired = false, Description = "The date time .NET type (default: 'DateTime').")]
         public string DateTimeType
         {

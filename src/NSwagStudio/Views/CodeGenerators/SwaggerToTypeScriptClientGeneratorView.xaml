@@ -138,16 +138,16 @@
 
                     <GroupBox Header="DTO Types" Margin="0,0,0,12">
                         <StackPanel Margin="4,8,4,-8">
-                            <TextBlock Text="Type Style" FontWeight="Bold" Margin="0,0,0,6" />
-                            <ComboBox SelectedItem="{Binding Command.TypeStyle, Mode=TwoWay}" 
-                                      ToolTip="TypeStyle"
-                                      ItemsSource="{Binding TypeStyles}" Margin="0,0,0,12" />
-
                             <CheckBox IsChecked="{Binding Command.GenerateDtoTypes, Mode=TwoWay}" 
                                       ToolTip="GenerateDtoTypes"
-                                      Content="Generate DTO interfaces (e.g. request and response types)" Margin="0,0,0,12" />
+                                      Content="Generate DTO types (e.g. request and response types)" Margin="0,0,0,12" />
 
                             <StackPanel Visibility="{Binding Command.GenerateDtoTypes, Converter={StaticResource VisibilityConverter}}">
+                                <TextBlock Text="Type Style" FontWeight="Bold" Margin="0,0,0,6" />
+                                <ComboBox SelectedItem="{Binding Command.TypeStyle, Mode=TwoWay}" 
+                                          ToolTip="TypeStyle"
+                                          ItemsSource="{Binding TypeStyles}" Margin="0,0,0,12" />
+
                                 <TextBlock Text="Null value used in object initializers" FontWeight="Bold" Margin="0,0,0,6" />
                                 <ComboBox SelectedItem="{Binding Command.NullValue, Mode=TwoWay}" 
                                           ToolTip="NullValue"
@@ -157,11 +157,6 @@
                                 <ComboBox SelectedItem="{Binding Command.DateTimeType, Mode=TwoWay}" 
                                           ToolTip="DateTimeType"
                                           ItemsSource="{Binding DateTimeTypes}" Margin="0,0,0,12" />
-
-                                <CheckBox IsChecked="{Binding Command.HandleReferences, Mode=TwoWay}" 
-                                          Content="Handle JSON references ($ref, $id, $values) (experimental, generates more code)"
-                                          ToolTip="HandleReferences"
-                                          Margin="0,0,0,12" />
 
                                 <CheckBox IsChecked="{Binding Command.GenerateDefaultValues, Mode=TwoWay}" 
                                           ToolTip="GenerateDefaultValues" 
@@ -178,31 +173,38 @@
                                           ToolTip="GenerateCloneMethod"
                                           Margin="0,0,0,12" />
 
-                                <StackPanel Visibility="{Binding Command.TypeStyle, ConverterParameter='Class', Converter={StaticResource EqualityConverter}}">
-                                    <CheckBox IsChecked="{Binding Command.GenerateConstructorInterface, Mode=TwoWay}" 
-                                              Content="Generate constructor interface which is used to initialize the class"
-                                              ToolTip="GenerateConstructorInterface"
-                                              Margin="0,0,0,12" />
-
-                                    <CheckBox IsChecked="{Binding Command.ConvertConstructorInterfaceData, Mode=TwoWay}" 
-                                              Visibility="{Binding Command.GenerateConstructorInterface, Converter={StaticResource VisibilityConverter}}"
-                                              Content="Convert POJO objects in the constructor data to DTO instances (generates more code)"
-                                              ToolTip="ConvertConstructorInterfaceData"
-                                              Margin="0,0,0,12" />
-                                </StackPanel>
-                                
                                 <CheckBox IsChecked="{Binding Command.ImportRequiredTypes, Mode=TwoWay}" 
                                           Content="Import required types (e.g. Angular types, MomentJS, JQuery, etc.)"
                                           ToolTip="ImportRequiredTypes"
                                           Margin="0,0,0,12" />
+
+                                <TextBlock Text="Excluded Type Names (comma separated, must be defined in ExtensionCode or custom import)." FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox ToolTip="ExcludedTypeNames" Text="{Binding ExcludedTypeNames, Mode=TwoWay}" Margin="0,0,0,12" />
 
                                 <StackPanel Visibility="{Binding Command.TypeStyle, ConverterParameter='!Class', Converter={StaticResource EqualityConverter}}">
                                     <TextBlock Text="The type names which always generate plain TypeScript classes (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
                                     <TextBox ToolTip="ClassTypes" Text="{Binding ClassTypes, Mode=TwoWay}" Margin="0,0,0,12" />
                                 </StackPanel>
 
-                                <TextBlock Text="Excluded Type Names (comma separated, must be defined in ExtensionCode or custom import)." FontWeight="Bold" Margin="0,0,0,6" />
-                                <TextBox ToolTip="ExcludedTypeNames" Text="{Binding ExcludedTypeNames, Mode=TwoWay}" Margin="0,0,0,12" />
+                                <GroupBox Header="Serialization" Margin="0,0,0,12" Visibility="{Binding Command.TypeStyle, ConverterParameter='Class', Converter={StaticResource EqualityConverter}}">
+                                    <StackPanel Margin="4,8,4,-8">
+                                        <CheckBox IsChecked="{Binding Command.HandleReferences, Mode=TwoWay}" 
+                                                  Content="Handle JSON references ($ref, $id, $values) (experimental, generates more code)"
+                                                  ToolTip="HandleReferences"
+                                                  Margin="0,0,0,12" />
+
+                                        <CheckBox IsChecked="{Binding Command.GenerateConstructorInterface, Mode=TwoWay}" 
+                                                  Content="Generate constructor interface which is used to initialize the class"
+                                                  ToolTip="GenerateConstructorInterface"
+                                                  Margin="0,0,0,12" />
+
+                                        <CheckBox IsChecked="{Binding Command.ConvertConstructorInterfaceData, Mode=TwoWay}" 
+                                                  Visibility="{Binding Command.GenerateConstructorInterface, Converter={StaticResource VisibilityConverter}}"
+                                                  Content="Convert POJO objects in the constructor data to DTO instances (generates more code)"
+                                                  ToolTip="ConvertConstructorInterfaceData"
+                                                  Margin="0,0,0,12" />
+                                    </StackPanel>
+                                </GroupBox>
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>

@@ -35,7 +35,7 @@
 
                             <TextBlock Text=".NET Assembly Paths (multiple on separate lines)" FontWeight="Bold" Margin="0,0,0,6" />
                             <TextBox Grid.Row="1" Text="{Binding AssemblyPaths, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
-                                     Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"  
+                                     ToolTip="AssemblyPaths" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"  
                                      Margin="0,0,12,0" VerticalAlignment="Center" />
                         </Grid>
 
@@ -45,15 +45,17 @@
 
                     <TextBlock Text="App.config or Web.config file path (optional, automatically searched when empty)" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBlock Text="(Required for correct binding redirects, required when assembly cannot be loaded)" Margin="0,0,0,6" />
-                    <dialogs:FileOpenPicker Margin="0,0,0,12" 
+                    <dialogs:FileOpenPicker ToolTip="AssemblyConfig" Margin="0,0,0,12" 
                                             FilePath="{Binding Command.AssemblyConfig, Mode=TwoWay}"
                                             DefaultExtension=".config"
                                             Filter="Config Files (.config)|*.config"/>
 
                     <TextBlock Text="Paths to search for referenced assembly files (multiple on separate lines)" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.ReferencePaths, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
+                    <TextBox Text="{Binding Command.ReferencePaths, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
+                             ToolTip="ReferencePaths" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
 
-                    <CheckBox IsChecked="{Binding Command.IsAspNetCore, Mode=TwoWay}" Margin="0,0,0,12">
+                    <CheckBox IsChecked="{Binding Command.IsAspNetCore, Mode=TwoWay}" 
+                              ToolTip="IsAspNetCore" Margin="0,0,0,12">
                         <TextBlock Text="Assembly is using ASP.NET Core" TextWrapping="Wrap" />
                     </CheckBox>
 
@@ -64,6 +66,7 @@
 
             <TextBlock Text="Web API Controller Names" FontWeight="Bold" Margin="0,0,0,8" />
             <ListBox ItemsSource="{Binding AllControllerNames}" x:Name="ControllersList"
+                     ToolTip="AllControllerNames" 
                      SelectionChanged="ControllersListSelectionChanged" BorderThickness="0" Padding="0" MaxHeight="300"
                      SelectionMode="Multiple">
                 <ListBox.Resources>
@@ -103,7 +106,8 @@
             <TextBlock Text="When multiple controllers are selected, consider selecting MultipleClientsFromOperationId or MultipleClientsFromPathSegments as operation generation mode."
                        TextWrapping="Wrap" Margin="0,4,0,12" />
 
-            <CheckBox IsChecked="{Binding Command.AddMissingPathParameters, Mode=TwoWay}" Margin="0,0,0,12">
+            <CheckBox IsChecked="{Binding Command.AddMissingPathParameters, Mode=TwoWay}" 
+                      ToolTip="AddMissingPathParameters" Margin="0,0,0,12">
                 <TextBlock Text="Add path parameters which are missing in the action method" TextWrapping="Wrap" />
             </CheckBox>
 
@@ -112,13 +116,16 @@
                 <LineBreak />
                 Choose 'Integer' if you use the default Json.NET serializer or 'String' if a global StringEnumConverter is registered.
             </TextBlock>
-            <ComboBox SelectedItem="{Binding Command.DefaultEnumHandling, Mode=TwoWay}" ItemsSource="{Binding EnumHandlings}" Margin="0,0,0,12" />
+            <ComboBox SelectedItem="{Binding Command.DefaultEnumHandling, Mode=TwoWay}" 
+                      ToolTip="DefaultEnumHandling" ItemsSource="{Binding EnumHandlings}" Margin="0,0,0,12" />
 
             <TextBlock Margin="0,0,0,6" Text="Default Property Name Handling" TextWrapping="Wrap" FontWeight="Bold" />
-            <ComboBox SelectedItem="{Binding Command.DefaultPropertyNameHandling, Mode=TwoWay}" ItemsSource="{Binding PropertyNameHandlings}" Margin="0,0,0,12" />
+            <ComboBox SelectedItem="{Binding Command.DefaultPropertyNameHandling, Mode=TwoWay}" 
+                      ToolTip="DefaultPropertyNameHandling" ItemsSource="{Binding PropertyNameHandlings}" Margin="0,0,0,12" />
 
             <TextBlock Margin="0,0,0,6" Text="The default null handling (if NotNullAttribute and CanBeNullAttribute are missing)" TextWrapping="Wrap" FontWeight="Bold" />
-            <ComboBox SelectedItem="{Binding Command.DefaultReferenceTypeNullHandling, Mode=TwoWay}" ItemsSource="{Binding ReferenceTypeNullHandlings}" Margin="0,0,0,12" />
+            <ComboBox SelectedItem="{Binding Command.DefaultReferenceTypeNullHandling, Mode=TwoWay}" 
+                      ToolTip="DefaultReferenceTypeNullHandling" ItemsSource="{Binding ReferenceTypeNullHandlings}" Margin="0,0,0,12" />
 
             <CheckBox IsChecked="{Binding Command.GenerateAbstractProperties, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="GenerateAbstractProperties">
                 <TextBlock Text="Generate abstract properties (i.e. interface and abstract properties. Properties may defined multiple times in a inheritance hierarchy)" TextWrapping="Wrap" />
@@ -142,49 +149,52 @@
 
             <TextBlock Text="Default URL Template" FontWeight="Bold" Margin="0,0,0,6" />
             <TextBlock Text="Default for Web API: 'api/{controller}/{id}'; for MVC projects: '{controller}/{action}/{id?}'" TextWrapping="Wrap" Margin="0,0,0,6" />
-            <TextBox Text="{Binding Command.DefaultUrlTemplate, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="DefaultUrlTemplate" />
+            <TextBox Text="{Binding Command.DefaultUrlTemplate, Mode=TwoWay}" 
+                     ToolTip="DefaultUrlTemplate" Margin="0,0,0,12" />
 
             <TextBlock Text="Document processors (type names in the form 'assemblyName:fullTypeName' or 'fullTypeName', optional, multiple on separate lines)" 
                        TextWrapping="Wrap" FontWeight="Bold" Margin="0,0,0,6" />
             <TextBox Text="{Binding Command.DocumentProcessorTypes, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
-                     ToolTip="DocumentProcessors"
-                     Height="52" 
-                     AcceptsReturn="True" 
-                     VerticalScrollBarVisibility="Visible" 
-                     Margin="0,0,0,12" />
+                     ToolTip="DocumentProcessors" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
 
-            <TextBlock Text="Operation processors (type names in the form 'assemblyName:fullTypeName' or 'fullTypeName', optional, multiple on separate lines)" 
+            <TextBlock Text="Operation processors (type names in the form 'assemblyName:fullTypeName' or 'fullTypeName', optional, multiple on separate lines)"  
                        TextWrapping="Wrap" FontWeight="Bold" Margin="0,0,0,6" />
             <TextBox Text="{Binding Command.OperationProcessorTypes, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
-                     ToolTip="OperationProcessors"
-                     Height="52" 
-                     AcceptsReturn="True" 
-                     VerticalScrollBarVisibility="Visible" 
-                     Margin="0,0,0,12" />
+                     ToolTip="OperationProcessors" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
 
             <GroupBox Header="Swagger Information" Margin="0,0,0,8">
                 <StackPanel Margin="4,8,4,-8">
                     <TextBlock Text="Title" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.InfoTitle, Mode=TwoWay}" Margin="0,0,0,12" />
+                    <TextBox Text="{Binding Command.InfoTitle, Mode=TwoWay}"
+                             ToolTip="InfoTitle" Margin="0,0,0,12" />
 
                     <TextBlock Text="Description" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.InfoDescription, Mode=TwoWay}" Margin="0,0,0,12" />
+                    <TextBox Text="{Binding Command.InfoDescription, Mode=TwoWay}"
+                             ToolTip="InfoDescription" Margin="0,0,0,12" />
 
                     <TextBlock Text="Version" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.InfoVersion, Mode=TwoWay}" Margin="0,0,0,12" />
+                    <TextBox Text="{Binding Command.InfoVersion, Mode=TwoWay}"
+                             ToolTip="InfoVersion" Margin="0,0,0,12" />
 
                     <TextBlock Text="Service host (optional, use '.' to remove the hostname)" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.ServiceHost, Mode=TwoWay}" Margin="0,0,0,12" />
+                    <TextBox Text="{Binding Command.ServiceHost, Mode=TwoWay}"
+                             ToolTip="ServiceHost"
+                             Margin="0,0,0,12" />
 
                     <TextBlock Text="Service schemes (optional, 'http', 'https', 'ws', 'wss', multiple on separate lines)" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding Command.ServiceSchemes, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
-                             Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
+                             ToolTip="ServiceSchemes"
+                             Height="52" AcceptsReturn="True" 
+                             VerticalScrollBarVisibility="Visible" 
+                             Margin="0,0,0,12" />
 
                     <TextBlock Text="Service base path (optional)" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.ServiceBasePath, Mode=TwoWay}" Margin="0,0,0,12" />
+                    <TextBox Text="{Binding Command.ServiceBasePath, Mode=TwoWay}"
+                             ToolTip="ServiceBasePath"
+                             Margin="0,0,0,12" />
 
                     <TextBlock Text="Document Template" FontWeight="Bold" Margin="0,0,0,6" />
-                    <dialogs:FileOpenPicker Margin="0,0,0,12" 
+                    <dialogs:FileOpenPicker ToolTip="DocumentTemplate" Margin="0,0,0,12" 
                                             FilePath="{Binding Command.DocumentTemplate, Mode=TwoWay}"
                                             DefaultExtension=".json"
                                             Filter="Swagger specifications (.json)|*.json"/>
@@ -192,7 +202,8 @@
             </GroupBox>
 
             <TextBlock Text="Output file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
-            <dialogs:FileSavePicker DefaultExtension=".cs" Filter="Swagger Specification (.json)|*.json"
+            <dialogs:FileSavePicker ToolTip="OutputFilePath" 
+                                    DefaultExtension=".cs" Filter="Swagger Specification (.json)|*.json"
                                     FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" />
         </StackPanel>
     </ScrollViewer>
