@@ -91,20 +91,13 @@ namespace NSwag.Commands
         {
             return await Task.Run(async () =>
             {
-                var generator = await CreateGeneratorAsync();
+                var generator = new AssemblyTypeToSwaggerGenerator(Settings);
                 var document = await generator.GenerateAsync(ClassNames).ConfigureAwait(false);
 #if DEBUG
                 var json = document.ToJson();
 #endif
                 return document;
             });
-        }
-
-        /// <summary>Creates a new generator instance.</summary>
-        /// <returns>The generator.</returns>
-        protected override Task<AssemblyTypeToSwaggerGenerator> CreateGeneratorAsync()
-        {
-            return Task.FromResult(new AssemblyTypeToSwaggerGenerator(Settings));
         }
     }
 }

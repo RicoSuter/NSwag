@@ -314,8 +314,8 @@ if(Model.RequiresFileResponseInterface){
             
             #line default
             #line hidden
-            this.Write("export interface FileResponse {\r\n    data: Blob;\r\n\tstatus: number;\r\n    fileName?" +
-                    ": string;\r\n\theaders?: { [name: string]: any };\r\n}\r\n\r\n");
+            this.Write("export interface FileResponse {\r\n    data: Blob;\r\n    status: number;\r\n    fileNa" +
+                    "me?: string;\r\n    headers?: { [name: string]: any };\r\n}\r\n\r\n");
             
             #line 98 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
 }

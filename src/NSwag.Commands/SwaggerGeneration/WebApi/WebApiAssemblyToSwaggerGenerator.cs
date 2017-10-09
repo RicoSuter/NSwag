@@ -13,12 +13,11 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using NJsonSchema;
 using NSwag.AssemblyLoader;
 using NSwag.AssemblyLoader.Utilities;
 using NSwag.Commands.SwaggerGeneration;
-using NSwag.SwaggerGeneration.WebApi;
+using NSwag.SwaggerGeneration.Processors;
 
 #if !FullNet
 using NJsonSchema.Infrastructure;
@@ -99,7 +98,7 @@ namespace NSwag.SwaggerGeneration.WebApi
 
             private async Task<string> GenerateForControllersAsync(IEnumerable<string> controllerClassNames, string settingsData)
             {
-                var settings = JsonConvert.DeserializeObject<WebApiAssemblyToSwaggerGeneratorSettings>(settingsData);
+                var settings = CreateSettings(settingsData);
 
                 RegisterReferencePaths(GetAllReferencePaths(settings));
                 var controllers = await GetControllerTypesAsync(controllerClassNames, settings);
@@ -107,6 +106,29 @@ namespace NSwag.SwaggerGeneration.WebApi
                 var generator = new WebApiToSwaggerGenerator(settings);
                 var document = await generator.GenerateForControllersAsync(controllers).ConfigureAwait(false);
                 return document.ToJson();
+            }
+
+            private WebApiAssemblyToSwaggerGeneratorSettings CreateSettings(string settingsData)
+            {
+                var settings = JsonConvert.DeserializeObject<WebApiAssemblyToSwaggerGeneratorSettings>(settingsData);
+                if (settings.DocumentProcessorTypes != null)
+                {
+                    foreach (var p in settings.DocumentProcessorTypes)
+                    {
+                        var processor = CreateInstance<IDocumentProcessor>(p);
+                        settings.DocumentProcessors.Add(processor);
+                    }
+                }
+
+                if (settings.OperationProcessorTypes != null)
+                {
+                    foreach (var p in settings.OperationProcessorTypes)
+                    {
+                        var processor = CreateInstance<IOperationProcessor>(p);
+                        settings.OperationProcessors.Add(processor);
+                    }
+                }
+                return settings;
             }
 
             /// <exception cref="InvalidOperationException">No assembly paths have been provided.</exception>

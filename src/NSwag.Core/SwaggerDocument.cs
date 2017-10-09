@@ -155,7 +155,7 @@ namespace NSwag
         [JsonProperty(PropertyName = "externalDocs", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public SwaggerExternalDocumentation ExternalDocumentation { get; set; }
 
-        /// <summary>Converts the description object to JSON.</summary>
+        /// <summary>Converts the Swagger specification to JSON.</summary>
         /// <returns>The JSON string.</returns>
         public string ToJson()
         {

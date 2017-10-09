@@ -41,9 +41,5 @@ namespace NSwag.Commands
             get { return Settings.AssemblySettings.ReferencePaths; }
             set { Settings.AssemblySettings.ReferencePaths = value; }
         }
-
-        /// <summary>Creates a new generator instance.</summary>
-        /// <returns>The generator.</returns>
-        protected abstract Task<TGenerator> CreateGeneratorAsync();
     }
 }

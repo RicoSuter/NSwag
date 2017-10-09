@@ -47,7 +47,8 @@ namespace NSwag.Commands
             });
         }
 
-        protected override async Task<AssemblyTypeToSwaggerGenerator> CreateGeneratorAsync()
+        /// <exception cref="InvalidOperationException">Configuraiton file does not contain AssemblyTypeToSwagger settings.</exception>
+        protected async Task<AssemblyTypeToSwaggerGenerator> CreateGeneratorAsync()
         {
             if (!string.IsNullOrEmpty(File))
             {

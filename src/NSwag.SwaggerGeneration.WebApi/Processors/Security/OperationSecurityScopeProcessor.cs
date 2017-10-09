@@ -20,6 +20,11 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors.Security
     {
         private readonly string _name;
 
+        /// <summary>Initializes a new instance of the <see cref="OperationSecurityScopeProcessor"/> class with 'Bearer' name.</summary>
+        public OperationSecurityScopeProcessor() : this("Bearer")
+        {
+        }
+
         /// <summary>Initializes a new instance of the <see cref="OperationSecurityScopeProcessor"/> class.</summary>
         /// <param name="name">The security definition name.</param>
         public OperationSecurityScopeProcessor(string name)

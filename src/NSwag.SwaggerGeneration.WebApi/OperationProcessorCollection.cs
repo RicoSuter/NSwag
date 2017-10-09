@@ -18,9 +18,9 @@ namespace NSwag.SwaggerGeneration.WebApi
         /// <summary>Gets an operation processor of the specified type.</summary>
         /// <typeparam name="T">The operation processor type.</typeparam>
         /// <returns>The operation processor.</returns>
-        public T Get<T>()
+        public T TryGet<T>()
         {
-            return (T)this.First(p => p is T);
+            return (T)this.FirstOrDefault(p => p is T);
         }
     }
 }

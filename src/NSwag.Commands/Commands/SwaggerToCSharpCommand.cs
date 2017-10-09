@@ -78,6 +78,13 @@ namespace NSwag.Commands
             set { Settings.CSharpGeneratorSettings.DateType = value; }
         }
 
+        [Argument(Name = "JsonConverters", IsRequired = false, Description = "Specifies the custom Json.NET converter types (optional, comma separated).")]
+        public string[] JsonConverters
+        {
+            get { return Settings.CSharpGeneratorSettings.JsonConverters; }
+            set { Settings.CSharpGeneratorSettings.JsonConverters = value; }
+        }
+
         [Argument(Name = "DateTimeType", IsRequired = false, Description = "The date time .NET type (default: 'DateTime').")]
         public string DateTimeType
         {
@@ -197,6 +204,14 @@ namespace NSwag.Commands
         {
             get { return Settings.CSharpGeneratorSettings.GenerateImmutableDictionaryProperties; }
             set { Settings.CSharpGeneratorSettings.GenerateImmutableDictionaryProperties = value; }
+        }
+
+        [Argument(Name = "JsonSerializerSettingsTransformationMethod", IsRequired = false,
+            Description = "The name of a static method which is called to transform the JsonSerializerSettings used in the generated ToJson()/FromJson() methods (default: none).")]
+        public string JsonSerializerSettingsTransformationMethod
+        {
+            get { return Settings.CSharpGeneratorSettings.JsonSerializerSettingsTransformationMethod; }
+            set { Settings.CSharpGeneratorSettings.JsonSerializerSettingsTransformationMethod = value; }
         }
     }
 }

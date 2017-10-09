@@ -135,7 +135,6 @@ namespace NSwag.Commands
         [Argument(Name = "ServiceSchemes", IsRequired = false, Description = "Overrides the allowed schemes of the web service (optional, comma separated, 'http', 'https', 'ws', 'wss').")]
         public string[] ServiceSchemes { get; set; }
 
-
         [Argument(Name = "InfoTitle", IsRequired = false, Description = "Specify the title of the Swagger specification.")]
         public string InfoTitle
         {
@@ -160,6 +159,20 @@ namespace NSwag.Commands
         [Argument(Name = "DocumentTemplate", IsRequired = false, Description = "Specifies the Swagger document template (may be a path or JSON, default: none).")]
         public string DocumentTemplate { get; set; }
 
+        [Argument(Name = "DocumentProcessors", IsRequired = false, Description = "Gets the document processor type names in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
+        public string[] DocumentProcessorTypes
+        {
+            get { return Settings.DocumentProcessorTypes; }
+            set { Settings.DocumentProcessorTypes = value; }
+        }
+        
+        [Argument(Name = "OperationProcessors", IsRequired = false, Description = "Gets the operation processor type names in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
+        public string[] OperationProcessorTypes
+        {
+            get { return Settings.OperationProcessorTypes; }
+            set { Settings.OperationProcessorTypes = value; }
+        }
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var service = await RunAsync();
@@ -181,7 +194,7 @@ namespace NSwag.Commands
                 else
                     Settings.DocumentTemplate = null;
 
-                var generator = await CreateGeneratorAsync();
+                var generator = new WebApiAssemblyToSwaggerGenerator(Settings);
 
                 var controllerNames = ControllerNames.Where(s => !string.IsNullOrWhiteSpace(s)).Distinct().ToList();
                 if (!controllerNames.Any() && Settings.AssemblySettings.AssemblyPaths?.Length > 0)
@@ -208,13 +221,6 @@ namespace NSwag.Commands
 
                 return document;
             });
-        }
-
-        /// <summary>Creates a new generator instance.</summary>
-        /// <returns>The generator.</returns>
-        protected override Task<WebApiAssemblyToSwaggerGenerator> CreateGeneratorAsync()
-        {
-            return Task.FromResult(new WebApiAssemblyToSwaggerGenerator(Settings));
         }
     }
 }
