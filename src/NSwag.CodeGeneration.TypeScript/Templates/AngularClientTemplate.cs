@@ -798,7 +798,7 @@ foreach(var parameter in operation.HeaderParameters){
             #line hidden
             
             #line 77 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularClientTemplate.tt"
-if(operation.HasFormParameters){
+if(!operation.HasFormParameters){
             
             #line default
             #line hidden

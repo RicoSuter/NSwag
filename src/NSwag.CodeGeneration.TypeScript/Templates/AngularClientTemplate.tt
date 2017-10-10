@@ -74,7 +74,7 @@ export class <#=Model.Class#> <#if(Model.HasBaseClass){#>extends <#=Model.BaseCl
 <#foreach(var parameter in operation.HeaderParameters){#>
                 "<#=parameter.Name#>": <#=parameter.VariableName#>, 
 <#}#>
-<#if(operation.HasFormParameters){#>
+<#if(!operation.HasFormParameters){#>
                 "Content-Type": "<#=operation.Consumes#>", 
 <#}#>
 <#if(operation.HasResultType && !operation.HasAcceptHeaderParameterParameter){#>
