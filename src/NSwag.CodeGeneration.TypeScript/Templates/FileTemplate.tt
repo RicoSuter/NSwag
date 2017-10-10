@@ -22,7 +22,11 @@ import 'rxjs/add/operator/catch';
 
 import { Observable } from 'rxjs/Observable';
 import { Injectable, Inject, Optional, OpaqueToken } from '@angular/core';
+<#    if(Model.UseAngularHttpClient){#>
+import { HttpClient, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
+<#    }else{#>
 import { Http, Headers, ResponseContentType, Response<#if(Model.UseTransformOptionsMethod){#>, RequestOptionsArgs<#}#> } from '@angular/http';
+<#    }#>
 <#  }#>
 <#  if(Model.IsAurelia){#>
 
@@ -66,14 +70,14 @@ export const <#=Model.BaseUrlTokenName#> = new OpaqueToken('<#=Model.BaseUrlToke
 <#if(Model.WrapResponses && Model.GenerateResponseClasses){#>
 <#  foreach (var responseClassName in Model.ResponseClassNames){#>
 export class <#=responseClassName#><TResult> {
-	status: number;
-	headers: { [key: string]: any; };
+    status: number;
+    headers: { [key: string]: any; };
     result: TResult;
         
     constructor(status: number, headers: { [key: string]: any; }, result: TResult) 
     {
-		this.status = status;
-		this.headers = headers;
+        this.status = status;
+        this.headers = headers;
         this.result = result;
     }
 }
@@ -101,16 +105,16 @@ export class SwaggerException extends Error {
     message: string;
     status: number; 
     response: string; 
-	headers: { [key: string]: any; };
+    headers: { [key: string]: any; };
     result: any; 
 
     constructor(message: string, status: number, response: string, headers: { [key: string]: any; }, result: any) {
-		super();
+        super();
 
         this.message = message;
         this.status = status;
         this.response = response;
-		this.headers = headers;
+        this.headers = headers;
         this.result = result;
     }
 

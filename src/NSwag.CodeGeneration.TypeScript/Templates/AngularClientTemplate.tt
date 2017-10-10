@@ -19,12 +19,12 @@ export interface I<#=Model.Class#> {
 
 @Injectable()
 export class <#=Model.Class#> <#if(Model.HasBaseClass){#>extends <#=Model.BaseClass#> <#}#><#if(Model.GenerateClientInterfaces){#>implements I<#=Model.Class#> <#}#>{
-    private http: Http;
+    private http: <#=Model.AngularHttpClass#>;
     private baseUrl: string;
     protected jsonParseReviver: <#if(Model.SupportsStrictNullChecks){#>((key: string, value: any) => any) | undefined<#}else{#>(key: string, value: any) => any<#}#> = undefined;
 
 <#if(!Model.HasExtendedConstructor){#>
-    constructor(<#if(Model.HasConfigurationClass){#>@Inject(<#=Model.ConfigurationClass#>) configuration: <#=Model.ConfigurationClass#>, <#}#>@Inject(Http) http: Http, @Optional() @Inject(<#=Model.BaseUrlTokenName#>) baseUrl?: string) {
+    constructor(<#if(Model.HasConfigurationClass){#>@Inject(<#=Model.ConfigurationClass#>) configuration: <#=Model.ConfigurationClass#>, <#}#>@Inject(<#=Model.AngularHttpClass#>) http: <#=Model.AngularHttpClass#>, @Optional() @Inject(<#=Model.BaseUrlTokenName#>) baseUrl?: string) {
 <#if(Model.HasBaseClass){#>
         super(<#if(Model.HasConfigurationClass){#>configuration<#}#>);
 <#}#>
@@ -61,15 +61,20 @@ export class <#=Model.Class#> <#if(Model.HasBaseClass){#>extends <#=Model.BaseCl
 <#if(operation.HasBody){#>
             body: content_,
 <#}#>
+<#if(Model.UseAngularHttpClient){#>
+            observe: "response",
+            responseType: "blob",
+<#}else{#>
             method: "<#=operation.HttpMethodLower#>",
-<#if(operation.IsFile){#>
+<#}#>
+<#if(operation.IsFile && !Model.UseAngularHttpClient){#>
             responseType: ResponseContentType.Blob,
 <#}#>
-            headers: new Headers({
+            headers: new <#if(Model.UseAngularHttpClient){#>HttpHeaders<#}else{#>Headers<#}#>({
 <#foreach(var parameter in operation.HeaderParameters){#>
                 "<#=parameter.Name#>": <#=parameter.VariableName#>, 
 <#}#>
-<#if(!operation.HasFormParameters){#>
+<#if(operation.HasFormParameters){#>
                 "Content-Type": "<#=operation.Consumes#>", 
 <#}#>
 <#if(operation.HasResultType && !operation.HasAcceptHeaderParameterParameter){#>
@@ -80,10 +85,10 @@ export class <#=Model.Class#> <#if(Model.HasBaseClass){#>extends <#=Model.BaseCl
 
 <#if(Model.UseTransformOptionsMethod){#>
         return Observable.fromPromise(this.transformOptions(options_)).flatMap(transformedOptions_ => {
-            return this.http.request(url_, transformedOptions_);
-        }).flatMap((response_) => {
+            return this.http.request(<#if(Model.UseAngularHttpClient){#>"<#=operation.HttpMethodLower#>", <#}#>url_, transformedOptions_);
+        }).flatMap((response_: any) => {
 <#}else{#>
-        return this.http.request(url_, options_).flatMap((response_) => {
+        return this.http.request(<#if(Model.UseAngularHttpClient){#>"<#=operation.HttpMethodLower#>", <#}#>url_, options_).flatMap((response_) => {
 <#}#>
 <#if(Model.UseTransformResultMethod){#>
             return this.transformResult(url_, response_, (r) => this.process<#=operation.ActualOperationNameUpper#>(r));
@@ -91,7 +96,7 @@ export class <#=Model.Class#> <#if(Model.HasBaseClass){#>extends <#=Model.BaseCl
             return this.process<#=operation.ActualOperationNameUpper#>(response_);
 <#}#>
         }).catch((response_: any) => {
-            if (response_ instanceof Response) {
+            if (response_ instanceof <#if(Model.UseAngularHttpClient){#>HttpResponse<#}else{#>Response<#}#>) {
                 try {
 <#if(Model.UseTransformResultMethod){#>
                     return this.transformResult(url_, response_, (r) => this.process<#=operation.ActualOperationNameUpper#>(r));
@@ -106,7 +111,7 @@ export class <#=Model.Class#> <#if(Model.HasBaseClass){#>extends <#=Model.BaseCl
         });
     }
 
-    protected process<#=operation.ActualOperationNameUpper#>(response: Response): Observable<<#=operation.ResultType#>> {
+    protected process<#=operation.ActualOperationNameUpper#>(response: <#if(Model.UseAngularHttpClient){#>HttpResponse<Blob><#}else{#>Response<#}#>): Observable<<#=operation.ResultType#>> {
         const status = response.status; 
 
         <#=TypeScriptTemplatePartGenerator.RenderProcessResponseCode(operation, 2)#>

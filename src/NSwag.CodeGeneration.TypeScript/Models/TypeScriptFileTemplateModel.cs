@@ -54,6 +54,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets a value indicating whether the generated code is for Angular 2.</summary>
         public bool IsAngular => _settings.Template == TypeScriptTemplate.Angular;
 
+        /// <summary>Gets a value indicating whether to use HttpClient with the Angular template.</summary>
+        public bool UseAngularHttpClient => _settings.HttpClass == HttpClass.HttpClient;
+
         /// <summary>Gets a value indicating whether the generated code is for Aurelia.</summary>
         public bool IsAurelia => _settings.Template == TypeScriptTemplate.Aurelia;
 

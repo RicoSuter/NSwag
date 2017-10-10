@@ -41,6 +41,9 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <summary>Gets or sets the output template.</summary>
         public TypeScriptTemplate Template { get; set; }
 
+        /// <summary>Gets or sets the HTTP service class (applies only for the Angular template).</summary>
+        public HttpClass HttpClass { get; set; } = HttpClass.Http;
+
         /// <summary>Gets or sets the promise type.</summary>
         public PromiseType PromiseType { get; set; }
 

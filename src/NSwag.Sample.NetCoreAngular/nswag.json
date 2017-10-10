@@ -1,14 +1,15 @@
 ﻿{
+  "runtime": "Debug",
   "swaggerGenerator": {
     "webApiToSwagger": {
       "assemblyPaths": [
         "bin/Debug/netcoreapp1.1/NSwag.Sample.NetCoreAngular.dll"
       ],
-      "referencePaths": [],
-      "isAspNetCore": true,
       "controllerNames": [],
+      "isAspNetCore": true,
       "defaultUrlTemplate": "api/{controller}/{id?}",
       "defaultPropertyNameHandling": "CamelCase",
+      "defaultReferenceTypeNullHandling": "Null",
       "defaultEnumHandling": "String",
       "flattenInheritanceHierarchy": false,
       "generateKnownTypes": true,
@@ -18,6 +19,7 @@
       "ignoreObsoleteProperties": false,
       "infoTitle": "Web API Swagger specification",
       "infoVersion": "1.0.0",
+      "referencePaths": [],
       "output": "swagger.json"
     }
   },
@@ -29,6 +31,7 @@
       "typeScriptVersion": 2.0,
       "template": "Angular",
       "promiseType": "Promise",
+      "httpClass": "HttpClient",
       "dateTimeType": "MomentJS",
       "nullValue": "Undefined",
       "generateClientClasses": true,
@@ -36,6 +39,9 @@
       "generateOptionalParameters": false,
       "wrapDtoExceptions": false,
       "clientBaseClass": "ServiceBase",
+      "wrapResponses": false,
+      "generateResponseClasses": true,
+      "responseClass": "SwaggerResponse",
       "useTransformOptionsMethod": true,
       "useTransformResultMethod": true,
       "generateDtoTypes": true,
@@ -48,6 +54,7 @@
       "excludedTypeNames": [],
       "handleReferences": false,
       "generateConstructorInterface": true,
+      "convertConstructorInterfaceData": false,
       "importRequiredTypes": true,
       "useGetBaseUrlMethod": false,
       "baseUrlTokenName": "API_BASE_URL",
@@ -73,6 +80,7 @@
       "contractsOutputFilePath": "../NSwag.Sample.NetCoreAngular.Clients/Contracts.cs",
       "parameterDateTimeFormat": "s",
       "generateUpdateJsonSerializerSettingsMethod": true,
+      "serializeTypeInformation": false,
       "className": "{controller}Client",
       "namespace": "NSwag.Sample.NetCoreAngular.Clients",
       "generateOptionalParameters": false,

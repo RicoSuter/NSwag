@@ -33,54 +33,54 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         /// <summary>Gets the supported TypeScript versions.</summary>
         public decimal[] TypeScriptVersions => new[] { 1.8m, 2.0m };
 
-        /// <summary>Gets the output templates. </summary>
+        /// <summary>Gets the output templates.</summary>
         public TypeScriptTemplate[] Templates
         {
             get { return Enum.GetNames(typeof(TypeScriptTemplate)).Select(t => (TypeScriptTemplate)Enum.Parse(typeof(TypeScriptTemplate), t)).ToArray(); }
         }
 
-        /// <summary>Gets the operation modes. </summary>
+        /// <summary>Gets the operation modes.</summary>
         public OperationGenerationMode[] OperationGenerationModes
         {
             get { return Enum.GetNames(typeof(OperationGenerationMode)).Select(t => (OperationGenerationMode)Enum.Parse(typeof(OperationGenerationMode), t)).ToArray(); }
         }
 
-        /// <summary>Gets the promise types. </summary>
+        /// <summary>Gets the promise types.</summary>
         public PromiseType[] PromiseTypes
         {
             get { return Enum.GetNames(typeof(PromiseType)).Select(t => (PromiseType)Enum.Parse(typeof(PromiseType), t)).ToArray(); }
         }
 
-        /// <summary>Gets the list of type styles. </summary>
+        /// <summary>Gets the promise types.</summary>
+        public HttpClass[] HttpClasses
+        {
+            get { return Enum.GetNames(typeof(HttpClass)).Select(t => (HttpClass)Enum.Parse(typeof(HttpClass), t)).ToArray(); }
+        }
+
+        /// <summary>Gets the list of type styles.</summary>
         public TypeScriptTypeStyle[] TypeStyles
         {
             get
             {
-                return Enum.GetNames(typeof(TypeScriptTypeStyle))
-                    .Select(t => (TypeScriptTypeStyle)Enum.Parse(typeof(TypeScriptTypeStyle), t))
-                    .ToArray();
+                return Enum.GetNames(typeof(TypeScriptTypeStyle)).Select(t => (TypeScriptTypeStyle)Enum.Parse(typeof(TypeScriptTypeStyle), t)).ToArray();
             }
         }
 
-        /// <summary>Gets the list of date time types. </summary>
+        /// <summary>Gets the list of date time types.</summary>
         public TypeScriptDateTimeType[] DateTimeTypes
         {
             get
             {
-                return Enum.GetNames(typeof(TypeScriptDateTimeType))
-                    .Select(t => (TypeScriptDateTimeType)Enum.Parse(typeof(TypeScriptDateTimeType), t))
-                    .ToArray();
+                return Enum.GetNames(typeof(TypeScriptDateTimeType)).Select(t => (TypeScriptDateTimeType)Enum.Parse(typeof(TypeScriptDateTimeType), t)).ToArray();
             }
         }
 
-        /// <summary>Gets the list of null values. </summary>
+        /// <summary>Gets the list of null values.</summary>
         public TypeScriptNullValue[] NullValues
         {
             get
             {
-                return Enum.GetNames(typeof(TypeScriptNullValue))
-                    .Select(t => (TypeScriptNullValue)Enum.Parse(typeof(TypeScriptNullValue), t))
-                    .ToArray();
+                return Enum.GetNames(typeof(TypeScriptNullValue)).Select(t => (TypeScriptNullValue)Enum.Parse(typeof(TypeScriptNullValue), t)).ToArray();
             }
         }
 
@@ -137,7 +137,7 @@ namespace NSwagStudio.ViewModels.CodeGenerators
             }
         }
 
-        /// <summary>Gets or sets the client code. </summary>
+        /// <summary>Gets or sets the client code.</summary>
         public string ClientCode
         {
             get { return _clientCode; }

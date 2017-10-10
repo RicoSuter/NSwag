@@ -5,11 +5,12 @@ import { async, inject } from '@angular/core/testing';
 import * as moment from 'moment';
 
 import { SampleDataService, API_BASE_URL, FileType, FileService, EnumerationService, DateService } from '../app/services';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('SampleDataService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpModule],
+      imports: [HttpModule, HttpClientModule],
       providers: [
         SampleDataService,
         FileService,

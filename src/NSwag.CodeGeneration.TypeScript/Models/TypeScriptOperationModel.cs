@@ -137,6 +137,8 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public bool IsFetchOrAurelia => _settings.Template == TypeScriptTemplate.Fetch ||
                                         _settings.Template == TypeScriptTemplate.Aurelia;
 
+        /// <summary>Gets a value indicating whether to use HttpClient with the Angular template.</summary>
+        public bool UseAngularHttpClient => IsAngular && _settings.HttpClass == HttpClass.HttpClient;
 
         /// <summary>Gets a value indicating whether to wrap success responses to allow full response access.</summary>
         public bool WrapResponses => _settings.WrapResponses;
