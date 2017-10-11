@@ -66,7 +66,7 @@ export class <#=Model.Class#> <#if(Model.HasBaseClass){#>extends <#=Model.BaseCl
             method: "<#=operation.HttpMethodUpper.ToUpperInvariant()#>",
             headers: {
 <#foreach(var parameter in operation.HeaderParameters){#>
-                "<#=parameter.Name#>": <#=parameter.VariableName#>, 
+                "<#=parameter.Name#>": <#=parameter.VariableName#> !== undefined && <#=parameter.VariableName#> !== null ? "" + <#=parameter.VariableName#> : "", 
 <#}#>
 <#if(!operation.HasFormParameters){#>
                 "Content-Type": "<#=operation.Consumes#>", 

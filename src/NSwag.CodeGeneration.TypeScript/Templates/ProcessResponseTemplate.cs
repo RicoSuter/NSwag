@@ -143,7 +143,7 @@ if(response.CheckChunkedStatusCode){
             
             #line default
             #line hidden
-            this.Write("(status, _headers, { fileName: fileName, data: response.");
+            this.Write("(status, _headers, { fileName: fileName, data: <any>response.");
             
             #line 25 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
 if(Model.UseAngularHttpClient){
@@ -171,7 +171,7 @@ if(Model.UseAngularHttpClient){
             
             #line default
             #line hidden
-            this.Write("    return Observable.of({ fileName: fileName, data: response.");
+            this.Write("    return Observable.of({ fileName: fileName, data: <any>response.");
             
             #line 27 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ProcessResponseTemplate.tt"
 if(Model.UseAngularHttpClient){

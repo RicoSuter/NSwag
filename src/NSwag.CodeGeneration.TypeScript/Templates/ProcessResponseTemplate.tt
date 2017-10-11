@@ -22,9 +22,9 @@ if (status === <#=response.StatusCode#><#if(response.CheckChunkedStatusCode){#> 
     const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
 <#      if(Model.IsAngular){#>
 <#          if(Model.WrapResponse){#>
-    return Observable.of(new <#=Model.ResponseClass#>(status, _headers, { fileName: fileName, data: response.<#if(Model.UseAngularHttpClient){#>body<#}else{#>blob()<#}#>, status: status, headers: _headers }));
+    return Observable.of(new <#=Model.ResponseClass#>(status, _headers, { fileName: fileName, data: <any>response.<#if(Model.UseAngularHttpClient){#>body<#}else{#>blob()<#}#>, status: status, headers: _headers }));
 <#          }else{#>
-    return Observable.of({ fileName: fileName, data: response.<#if(Model.UseAngularHttpClient){#>body<#}else{#>blob()<#}#>, status: status, headers: _headers });
+    return Observable.of({ fileName: fileName, data: <any>response.<#if(Model.UseAngularHttpClient){#>body<#}else{#>blob()<#}#>, status: status, headers: _headers });
 <#          }#>
 <#      }else if(Model.IsAngularJS){#>
 <#          if(Model.WrapResponse){#>
