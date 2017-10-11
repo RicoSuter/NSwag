@@ -70,7 +70,7 @@ export class <#=Model.Class#> <#if(Model.HasBaseClass){#>extends <#=Model.BaseCl
 <#  }#>
             headers: {
 <#foreach(var parameter in operation.HeaderParameters){#>
-                "<#=parameter.Name#>": <#=parameter.VariableName#>, 
+                "<#=parameter.Name#>": <#=parameter.VariableName#> !== undefined && <#=parameter.VariableName#> !== null ? "" + <#=parameter.VariableName#> : "", 
 <#}#>
                 "Content-Type": "<#=operation.Consumes#>",
 <#if(operation.HasResultType && !operation.HasAcceptHeaderParameterParameter){#>

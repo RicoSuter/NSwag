@@ -8,6 +8,7 @@ import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
 import { CounterComponent } from './components/counter/counter.component';
 
 import { ServicesModule } from './services.module';
+import { HttpClientModule } from '@angular/common/http';
 
 export const sharedConfig: NgModule = {
     bootstrap: [ AppComponent ],
@@ -19,6 +20,7 @@ export const sharedConfig: NgModule = {
         HomeComponent
     ],
     imports: [
+        HttpClientModule,
         ServicesModule, 
         RouterModule.forRoot([
             { path: '', redirectTo: 'home', pathMatch: 'full' },

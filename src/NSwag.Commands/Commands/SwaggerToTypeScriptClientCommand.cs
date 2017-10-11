@@ -72,6 +72,20 @@ namespace NSwag.Commands
             set { Settings.PromiseType = value; }
         }
 
+        [Argument(Name = "HttpClass", IsRequired = false, Description = "The Angular HTTP service class (default 'Http', 'HttpClient').")]
+        public HttpClass HttpClass
+        {
+            get { return Settings.HttpClass; }
+            set { Settings.HttpClass = value; }
+        }
+        
+        [Argument(Name = "InjectionTokenType", IsRequired = false, Description = "The Angular injection token type (default 'OpaqueToken', 'InjectionToken').")]
+        public InjectionTokenType InjectionTokenType
+        {
+            get { return Settings.InjectionTokenType; }
+            set { Settings.InjectionTokenType = value; }
+        }
+
         [Argument(Name = "DateTimeType", IsRequired = false, Description = "The date time type ('Date', 'MomentJS', 'string').")]
         public TypeScriptDateTimeType DateTimeType
         {

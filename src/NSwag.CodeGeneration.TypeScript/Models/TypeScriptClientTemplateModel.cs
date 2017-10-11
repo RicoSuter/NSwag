@@ -107,10 +107,18 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets a value indicating whether the target TypeScript version supports strict null checks.</summary>
         public bool SupportsStrictNullChecks => _settings.TypeScriptGeneratorSettings.TypeScriptVersion >= 2.0m;
 
+        /// <summary>Gets or sets a value indicating whether DTO exceptions are wrapped in a SwaggerException instance.</summary>
+        public bool WrapDtoExceptions => _settings.WrapDtoExceptions;
+
+        // Angular only
+
         /// <summary>Gets or sets the token name for injecting the API base URL string (used in the Angular2 template).</summary>
         public string BaseUrlTokenName => _settings.BaseUrlTokenName;
 
-        /// <summary>Gets or sets a value indicating whether DTO exceptions are wrapped in a SwaggerException instance.</summary>
-        public bool WrapDtoExceptions => _settings.WrapDtoExceptions;
+        /// <summary>Gets a value indicating whether to use HttpClient with the Angular template.</summary>
+        public bool UseAngularHttpClient => _settings.HttpClass == HttpClass.HttpClient;
+
+        /// <summary>Gets the HTTP client class name.</summary>
+        public string AngularHttpClass => UseAngularHttpClient ? "HttpClient" : "Http";
     }
 }
