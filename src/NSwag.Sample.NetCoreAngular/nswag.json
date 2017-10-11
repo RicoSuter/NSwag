@@ -32,6 +32,7 @@
       "template": "Angular",
       "promiseType": "Promise",
       "httpClass": "HttpClient",
+      "injectionTokenType": "InjectionToken",
       "dateTimeType": "MomentJS",
       "nullValue": "Undefined",
       "generateClientClasses": true,

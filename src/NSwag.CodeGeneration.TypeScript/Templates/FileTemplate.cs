@@ -72,8 +72,14 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/catch';
 
 import { Observable } from 'rxjs/Observable';
-import { Injectable, Inject, Optional, OpaqueToken } from '@angular/core';
-");
+import { Injectable, Inject, Optional, ");
+            
+            #line 24 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.InjectionTokenType));
+            
+            #line default
+            #line hidden
+            this.Write(" } from \'@angular/core\';\r\n");
             
             #line 25 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
     if(Model.UseAngularHttpClient){
@@ -236,7 +242,27 @@ if(Model.GenerateClientClasses && Model.IsAngular){
             
             #line default
             #line hidden
-            this.Write(" = new OpaqueToken(\'");
+            this.Write(" = new ");
+            
+            #line 61 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.InjectionTokenType));
+            
+            #line default
+            #line hidden
+            
+            #line 61 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+if(Model.InjectionTokenType == "InjectionToken"){
+            
+            #line default
+            #line hidden
+            this.Write("<string>");
+            
+            #line 61 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("(\'");
             
             #line 61 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\FileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.BaseUrlTokenName));

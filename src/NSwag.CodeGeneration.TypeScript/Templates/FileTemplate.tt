@@ -21,7 +21,7 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/catch';
 
 import { Observable } from 'rxjs/Observable';
-import { Injectable, Inject, Optional, OpaqueToken } from '@angular/core';
+import { Injectable, Inject, Optional, <#=Model.InjectionTokenType#> } from '@angular/core';
 <#    if(Model.UseAngularHttpClient){#>
 import { HttpClient, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
 <#    }else{#>
@@ -58,7 +58,7 @@ module <#=Model.ModuleName#> {
 namespace <#=Model.Namespace#> {
 <#}#>
 <#if(Model.GenerateClientClasses && Model.IsAngular){#>
-export const <#=Model.BaseUrlTokenName#> = new OpaqueToken('<#=Model.BaseUrlTokenName#>');
+export const <#=Model.BaseUrlTokenName#> = new <#=Model.InjectionTokenType#><#if(Model.InjectionTokenType == "InjectionToken"){#><string><#}#>('<#=Model.BaseUrlTokenName#>');
 
 <#}#>
 <#=Model.ExtensionCodeTop#>

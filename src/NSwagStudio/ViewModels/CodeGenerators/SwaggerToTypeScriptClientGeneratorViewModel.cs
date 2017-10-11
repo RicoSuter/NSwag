@@ -57,6 +57,12 @@ namespace NSwagStudio.ViewModels.CodeGenerators
             get { return Enum.GetNames(typeof(HttpClass)).Select(t => (HttpClass)Enum.Parse(typeof(HttpClass), t)).ToArray(); }
         }
 
+        /// <summary>Gets the promise types.</summary>
+        public InjectionTokenType[] InjectionTokenTypes
+        {
+            get { return Enum.GetNames(typeof(InjectionTokenType)).Select(t => (InjectionTokenType)Enum.Parse(typeof(InjectionTokenType), t)).ToArray(); }
+        }
+
         /// <summary>Gets the list of type styles.</summary>
         public TypeScriptTypeStyle[] TypeStyles
         {

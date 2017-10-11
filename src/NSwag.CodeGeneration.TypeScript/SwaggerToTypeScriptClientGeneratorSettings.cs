@@ -25,7 +25,7 @@ namespace NSwag.CodeGeneration.TypeScript
             {
                 SchemaType = SchemaType.Swagger2,
                 MarkOptionalProperties = true,
-                TemplateFactory = new DefaultTemplateFactory(), 
+                TemplateFactory = new DefaultTemplateFactory(),
                 TypeNameGenerator = new TypeScriptTypeNameGenerator()
             };
             BaseUrlTokenName = "API_BASE_URL";
@@ -43,6 +43,9 @@ namespace NSwag.CodeGeneration.TypeScript
 
         /// <summary>Gets or sets the HTTP service class (applies only for the Angular template).</summary>
         public HttpClass HttpClass { get; set; } = HttpClass.Http;
+
+        /// <summary>Gets or sets the injection token type (applies only for the Angular template).</summary>
+        public InjectionTokenType InjectionTokenType { get; set; } = InjectionTokenType.OpaqueToken;
 
         /// <summary>Gets or sets the promise type.</summary>
         public PromiseType PromiseType { get; set; }
