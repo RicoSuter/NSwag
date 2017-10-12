@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
@@ -170,7 +171,17 @@ namespace NSwag.CodeGeneration.Models
         public bool HasBody => HasContent || HasFormParameters;
 
         /// <summary>Gets the content parameter.</summary>
-        public TParameterModel ContentParameter => Parameters.SingleOrDefault(p => p.Kind == SwaggerParameterKind.Body);
+        /// <exception cref="InvalidOperationException" accessor="get">Multiple body parameters found in operation.</exception>
+        public TParameterModel ContentParameter
+        {
+            get
+            {
+                if (Parameters.Count(p => p.Kind == SwaggerParameterKind.Body) > 1)
+                    throw new InvalidOperationException("Multiple body parameters found in operation '" + Operation.OperationId + "'.");
+
+                return Parameters.SingleOrDefault(p => p.Kind == SwaggerParameterKind.Body);
+            }
+        }
 
         /// <summary>Gets the path parameters.</summary>
         public IEnumerable<TParameterModel> PathParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.Path);
