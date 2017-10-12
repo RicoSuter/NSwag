@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard1.6;net451</TargetFrameworks>
+    <Description>NSwag: The Swagger API toolchain for .NET and TypeScript</Description>
+    <Version>11.9.2</Version>
+    <PackageTags>Swagger Documentation WebApi AspNet TypeScript CodeGen</PackageTags>
+    <Copyright>Copyright © Rico Suter, 2017</Copyright>
+    <PackageLicenseUrl>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</PackageLicenseUrl>
+    <PackageProjectUrl>http://NSwag.org</PackageProjectUrl>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>NSwag.snk</AssemblyOriginatorKeyFile>
+    <Authors>Rico Suter</Authors>
+    <PackageIconUrl>https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png</PackageIconUrl>
+    <Company />
+    <DefineConstants>$(DefineConstants);ASPNETCORE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ApiExplorer" Version="1.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="1.0.3" />
+    <PackageReference Include="NJsonSchema" Version="9.7.7" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NSwag.SwaggerGeneration\NSwag.SwaggerGeneration.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="../NSwag.SwaggerGeneration.WebApi/Processors/**/*.cs">
+      <Link>Processors/%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
+  </ItemGroup>
+</Project>

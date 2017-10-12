@@ -14,7 +14,6 @@ using System.Threading.Tasks;
 using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Contexts;
-using NSwag.SwaggerGeneration.WebApi.Infrastructure;
 
 namespace NSwag.SwaggerGeneration.WebApi.Processors
 {
