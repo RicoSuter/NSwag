@@ -208,7 +208,11 @@
                                 <TextBlock Text="Excluded Type Names (comma separated, must be defined in another namespace)." FontWeight="Bold" Margin="0,0,0,6" />
                                 <TextBox Text="{Binding Command.ExcludedTypeNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
                                          ToolTip="ExcludedTypeNames" Margin="0,0,0,12" />
-                                
+
+                                <TextBlock Text="DTO class/enum access modifier" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.TypeAccessModifier, Mode=TwoWay}" 
+                                         ToolTip="TypeAccessModifier" Margin="0,0,0,12" />
+
                                 <CheckBox IsChecked="{Binding Command.GenerateDefaultValues, Mode=TwoWay}" 
                                           ToolTip="GenerateDefaultValues" Margin="0,0,0,12">
                                     <TextBlock Text="Generate default values for properties (if default value is specified)" TextWrapping="Wrap" />
