@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -52,7 +53,7 @@ namespace NSwag.Commands
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var document = await RunAsync();
-            await TryWriteFileOutputAsync(host, () => document.ToJson()).ConfigureAwait(false);
+            await TryWriteDocumentOutputAsync(host, () => document).ConfigureAwait(false);
             return document;
         }
 
@@ -60,11 +61,26 @@ namespace NSwag.Commands
         public async Task<SwaggerDocument> RunAsync()
         {
             if (!string.IsNullOrEmpty(Swagger))
-                return await SwaggerDocument.FromJsonAsync(Swagger).ConfigureAwait(false);
+            {
+                if (Swagger.StartsWith("{"))
+                    return await SwaggerDocument.FromJsonAsync(Swagger).ConfigureAwait(false);
+                else
+                    return await SwaggerYamlDocument.FromYamlAsync(Swagger).ConfigureAwait(false);
+            }
             else if (Url.StartsWith("http://") || Url.StartsWith("https://"))
-                return await SwaggerDocument.FromUrlAsync(Url).ConfigureAwait(false);
+            {
+                if (Url.EndsWith(".yaml", StringComparison.OrdinalIgnoreCase))
+                    return await SwaggerYamlDocument.FromUrlAsync(Url).ConfigureAwait(false);
+                else
+                    return await SwaggerDocument.FromUrlAsync(Url).ConfigureAwait(false);
+            }
             else
-                return await SwaggerDocument.FromFileAsync(Url).ConfigureAwait(false);
+            {
+                if (Url.EndsWith(".yaml", StringComparison.OrdinalIgnoreCase))
+                    return await SwaggerYamlDocument.FromFileAsync(Url).ConfigureAwait(false);
+                else
+                    return await SwaggerDocument.FromFileAsync(Url).ConfigureAwait(false);
+            }
         }
 
         /// <summary>Occurs when property changed.</summary>

@@ -104,7 +104,9 @@ namespace NSwag.SwaggerGeneration.WebApi
 
         private async Task<SwaggerDocument> CreateDocumentAsync(WebApiToSwaggerGeneratorSettings settings)
         {
-            var document = !string.IsNullOrEmpty(settings.DocumentTemplate) ? await SwaggerDocument.FromJsonAsync(settings.DocumentTemplate).ConfigureAwait(false) : new SwaggerDocument();
+            var document = !string.IsNullOrEmpty(settings.DocumentTemplate) ? 
+                await SwaggerDocument.FromJsonAsync(settings.DocumentTemplate).ConfigureAwait(false) : 
+                new SwaggerDocument();
 
             document.Generator = "NSwag v" + SwaggerDocument.ToolchainVersion + " (NJsonSchema v" + JsonSchema4.ToolchainVersion + ")";
             document.Consumes = new List<string> { "application/json" };

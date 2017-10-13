@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="SwaggerDocumentYaml.cs" company="NSwag">
+// <copyright file="SwaggerYamlDocument.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -11,12 +11,13 @@ using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using NJsonSchema.Infrastructure;
 using YamlDotNet.Serialization;
 
 namespace NSwag
 {
     /// <summary>Extension methods to load and save <see cref="SwaggerDocument"/> from/to YAML.</summary>
-    public static class SwaggerDocumentYaml
+    public static class SwaggerYamlDocument
     {
         /// <summary>Creates a Swagger specification from a YAML string.</summary>
         /// <param name="data">The JSON data.</param>
@@ -45,6 +46,24 @@ namespace NSwag
 
             var serializer = new Serializer();
             return serializer.Serialize(deserializedObject);
+        }
+
+        /// <summary>Creates a Swagger specification from a JSON file.</summary>
+        /// <param name="filePath">The file path.</param>
+        /// <returns>The <see cref="SwaggerDocument" />.</returns>
+        public static async Task<SwaggerDocument> FromFileAsync(string filePath)
+        {
+            var data = await DynamicApis.FileReadAllTextAsync(filePath).ConfigureAwait(false);
+            return await FromYamlAsync(data, filePath).ConfigureAwait(false);
+        }
+
+        /// <summary>Creates a Swagger specification from an URL.</summary>
+        /// <param name="url">The URL.</param>
+        /// <returns>The <see cref="SwaggerDocument"/>.</returns>
+        public static async Task<SwaggerDocument> FromUrlAsync(string url)
+        {
+            var data = await DynamicApis.HttpGetAsync(url).ConfigureAwait(false);
+            return await FromYamlAsync(data, url).ConfigureAwait(false);
         }
     }
 }
