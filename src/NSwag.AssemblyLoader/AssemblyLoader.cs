@@ -150,6 +150,7 @@ namespace NSwag.AssemblyLoader
 
         private string[] GetAllDirectories(string rootDirectory)
         {
+            rootDirectory = Environment.ExpandEnvironmentVariables(rootDirectory);
             return Directory.GetDirectories(rootDirectory, "*", SearchOption.AllDirectories);
         }
     }
