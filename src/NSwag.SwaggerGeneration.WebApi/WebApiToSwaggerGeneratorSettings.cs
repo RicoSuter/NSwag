@@ -6,9 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using NJsonSchema.Generation;
 using NSwag.SwaggerGeneration.WebApi.Processors;
 
@@ -29,13 +27,13 @@ namespace NSwag.SwaggerGeneration.WebApi
         public string DefaultUrlTemplate { get; set; } = "api/{controller}/{id?}";
 
         /// <summary>Gets or sets the Swagger specification title.</summary>
-        public string Title { get; set; } = "Web API Swagger specification";
+        public string Title { get; set; }
 
         /// <summary>Gets or sets the Swagger specification description.</summary>
         public string Description { get; set; }
 
         /// <summary>Gets or sets the Swagger specification version.</summary>
-        public string Version { get; set; } = "1.0.0";
+        public string Version { get; set; }
 
         /// <summary>Gets the operation processor.</summary>
         [JsonIgnore]

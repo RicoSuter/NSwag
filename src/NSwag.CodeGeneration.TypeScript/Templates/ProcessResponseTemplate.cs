@@ -121,7 +121,7 @@ if(response.CheckChunkedStatusCode){
             #line default
             #line hidden
             this.Write(@"    const contentDisposition = response.headers ? response.headers.get(""content-disposition"") : undefined;
-    const fileNameMatch = contentDisposition ? /filename=""?([^""]*)""?;/g.exec(contentDisposition) : undefined;
+    const fileNameMatch = contentDisposition ? /filename=""?([^""]*?)""?(;|$)/g.exec(contentDisposition) : undefined;
     const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
 ");
             

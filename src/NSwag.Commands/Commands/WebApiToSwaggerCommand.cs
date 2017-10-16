@@ -175,9 +175,9 @@ namespace NSwag.Commands
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            var service = await RunAsync();
-            await TryWriteFileOutputAsync(host, () => service.ToJson()).ConfigureAwait(false);
-            return service;
+            var document = await RunAsync();
+            await TryWriteDocumentOutputAsync(host, () => document).ConfigureAwait(false);
+            return document;
         }
 
         public async Task<SwaggerDocument> RunAsync()
@@ -190,6 +190,9 @@ namespace NSwag.Commands
                         Settings.DocumentTemplate = await DynamicApis.FileReadAllTextAsync(DocumentTemplate).ConfigureAwait(false);
                     else
                         Settings.DocumentTemplate = DocumentTemplate;
+
+                    if (!string.IsNullOrEmpty(Settings.DocumentTemplate) && !Settings.DocumentTemplate.StartsWith("{"))
+                        Settings.DocumentTemplate = (await SwaggerYamlDocument.FromYamlAsync(Settings.DocumentTemplate)).ToJson();
                 }
                 else
                     Settings.DocumentTemplate = null;

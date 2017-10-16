@@ -126,7 +126,8 @@
             </CheckBox>
 
             <TextBlock Text="Output file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
-            <dialogs:FileSavePicker DefaultExtension=".cs" Filter="Swagger Specification (.json)|*.json"
+            <dialogs:FileSavePicker DefaultExtension=".cs" 
+                                    Filter="Swagger Specification JSON (.json)|*.json|Swagger Specification YAML (.yaml)|*.yaml"
                                     FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" 
                                     Margin="0,0,0,12" />
 
