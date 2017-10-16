@@ -112,6 +112,9 @@ namespace NSwag.SwaggerGeneration.WebApi
             document.Consumes = new List<string> { "application/json" };
             document.Produces = new List<string> { "application/json" };
 
+            if (document.Info == null)
+                document.Info = new SwaggerInfo();
+
             if (!string.IsNullOrEmpty(settings.Title))
                 document.Info.Title = settings.Title;
             if (!string.IsNullOrEmpty(settings.Description))

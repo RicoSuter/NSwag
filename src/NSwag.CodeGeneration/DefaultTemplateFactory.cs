@@ -15,6 +15,12 @@ namespace NSwag.CodeGeneration
     /// <summary>The default template factory which loads templates from embedded resources.</summary>
     public class DefaultTemplateFactory : NJsonSchema.CodeGeneration.DefaultTemplateFactory
     {
+        /// <summary>Initializes a new instance of the <see cref="DefaultTemplateFactory" /> class.</summary>
+        /// <param name="settings">The settings.</param>
+        public DefaultTemplateFactory(CodeGeneratorSettingsBase settings) : base(settings)
+        {
+        }
+
         /// <summary>Creates a template for the given language, template name and template model.</summary>
         /// <param name="package">The package name (i.e. language).</param>
         /// <param name="template">The template name.</param>

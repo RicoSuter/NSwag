@@ -71,7 +71,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         public string Clients => _settings.GenerateClientClasses ? _clientCode : string.Empty;
 
         /// <summary>Gets the classes code.</summary>
-        public string Classes => _settings.GenerateDtoTypes ? _resolver.GenerateClasses() : string.Empty;
+        public string Classes => _settings.GenerateDtoTypes ? _resolver.GenerateTypes().Concatenate() : string.Empty;
 
         /// <summary>Gets a value indicating whether the generated code requires a JSON exception converter.</summary>
         public bool RequiresJsonExceptionConverter => JsonExceptionTypes.Any();
