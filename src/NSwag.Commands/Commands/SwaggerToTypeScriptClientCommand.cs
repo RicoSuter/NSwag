@@ -8,7 +8,6 @@
 
 using System.Threading.Tasks;
 using NConsole;
-using Newtonsoft.Json;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NJsonSchema.Infrastructure;
 using NSwag.CodeGeneration.TypeScript;
@@ -19,15 +18,12 @@ using NSwag.Commands.Base;
 namespace NSwag.Commands
 {
     [Command(Name = "swagger2tsclient", Description = "Generates TypeScript client code from a Swagger specification.")]
-    public class SwaggerToTypeScriptClientCommand : InputOutputCommandBase
+    public class SwaggerToTypeScriptClientCommand : CodeGeneratorCommand<SwaggerToTypeScriptClientGeneratorSettings>
     {
         public SwaggerToTypeScriptClientCommand()
+            : base(new SwaggerToTypeScriptClientGeneratorSettings())
         {
-            Settings = new SwaggerToTypeScriptClientGeneratorSettings();
         }
-
-        [JsonIgnore]
-        public SwaggerToTypeScriptClientGeneratorSettings Settings { get; set; }
 
         [Argument(Name = "ClassName", IsRequired = false, Description = "The class name of the generated client.")]
         public string ClassName
