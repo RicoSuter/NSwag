@@ -104,19 +104,20 @@ namespace NSwag.SwaggerGeneration.WebApi
 
         private async Task<SwaggerDocument> CreateDocumentAsync(WebApiToSwaggerGeneratorSettings settings)
         {
-            var document = !string.IsNullOrEmpty(settings.DocumentTemplate) ? 
-                await SwaggerDocument.FromJsonAsync(settings.DocumentTemplate).ConfigureAwait(false) : 
+            var document = !string.IsNullOrEmpty(settings.DocumentTemplate) ?
+                await SwaggerDocument.FromJsonAsync(settings.DocumentTemplate).ConfigureAwait(false) :
                 new SwaggerDocument();
 
             document.Generator = "NSwag v" + SwaggerDocument.ToolchainVersion + " (NJsonSchema v" + JsonSchema4.ToolchainVersion + ")";
             document.Consumes = new List<string> { "application/json" };
             document.Produces = new List<string> { "application/json" };
-            document.Info = new SwaggerInfo
-            {
-                Title = settings.Title,
-                Description = settings.Description,
-                Version = settings.Version
-            };
+
+            if (!string.IsNullOrEmpty(settings.Title))
+                document.Info.Title = settings.Title;
+            if (!string.IsNullOrEmpty(settings.Description))
+                document.Info.Description = settings.Description;
+            if (!string.IsNullOrEmpty(settings.Version))
+                document.Info.Version = settings.Version;
 
             return document;
         }
@@ -205,8 +206,8 @@ namespace NSwag.SwaggerGeneration.WebApi
 
             foreach (dynamic attribute in operationProcessorAttribute)
             {
-                var operationProcessor = ReflectionExtensions.HasProperty(attribute, "Parameters") ? 
-                    Activator.CreateInstance(attribute.Type, attribute.Parameters) : 
+                var operationProcessor = ReflectionExtensions.HasProperty(attribute, "Parameters") ?
+                    Activator.CreateInstance(attribute.Type, attribute.Parameters) :
                     Activator.CreateInstance(attribute.Type);
 
                 if (operationProcessor.Process(methodInfo, operationDescription, swaggerGenerator, allOperations) == false)
@@ -392,7 +393,7 @@ namespace NSwag.SwaggerGeneration.WebApi
             var methodName = method.Name;
             if (methodName.EndsWith("Async"))
                 methodName = methodName.Substring(0, methodName.Length - 5);
-            
+
             return methodName;
         }
 
