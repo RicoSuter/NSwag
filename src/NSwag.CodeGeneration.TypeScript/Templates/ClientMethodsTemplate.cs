@@ -134,19 +134,24 @@ if(Model.IsAngular){
             #line default
             #line hidden
             this.Write(@"function blobToText(blob: any): Observable<string> {
-    return new Observable<string>((observer: any) => { 
-        let reader = new FileReader(); 
-        reader.onload = function() { 
-            observer.next(this.result);
+    return new Observable<string>((observer: any) => {
+        if (!blob) {
+            observer.next("""");
             observer.complete();
+        } else {
+            let reader = new FileReader(); 
+            reader.onload = function() { 
+                observer.next(this.result);
+                observer.complete();
+            }
+            reader.readAsText(blob); 
         }
-        reader.readAsText(blob); 
     });
 }
 
 ");
             
-            #line 51 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
+            #line 56 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
 }else if(Model.IsAngularJS){
             
             #line default
@@ -163,7 +168,7 @@ if(Model.IsAngular){
 
 ");
             
-            #line 62 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
+            #line 67 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\ClientMethodsTemplate.tt"
 }
             
             #line default
