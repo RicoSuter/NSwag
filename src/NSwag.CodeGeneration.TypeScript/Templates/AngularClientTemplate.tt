@@ -55,9 +55,9 @@ export class <#=Model.Class#> <#if(Model.HasBaseClass){#>extends <#=Model.BaseCl
 
 <#if(operation.HasBody){#>
         <#=TypeScriptTemplatePartGenerator.RenderRequestBodyCode(operation, 2)#>
-        
+
 <#}#>
-        let options_ = {
+        let options_ : any = {
 <#if(operation.HasBody){#>
             body: content_,
 <#}#>
@@ -88,7 +88,7 @@ export class <#=Model.Class#> <#if(Model.HasBaseClass){#>extends <#=Model.BaseCl
             return this.http.request(<#if(Model.UseAngularHttpClient){#>"<#=operation.HttpMethodLower#>", <#}#>url_, transformedOptions_);
         }).flatMap((response_: any) => {
 <#}else{#>
-        return this.http.request(<#if(Model.UseAngularHttpClient){#>"<#=operation.HttpMethodLower#>", <#}#>url_, options_).flatMap((response_) => {
+        return this.http.request(<#if(Model.UseAngularHttpClient){#>"<#=operation.HttpMethodLower#>", <#}#>url_, options_).flatMap((response_ : any) => {
 <#}#>
 <#if(Model.UseTransformResultMethod){#>
             return this.transformResult(url_, response_, (r) => this.process<#=operation.ActualOperationNameUpper#>(r));

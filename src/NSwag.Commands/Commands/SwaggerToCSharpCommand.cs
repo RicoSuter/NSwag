@@ -7,7 +7,6 @@
 //-----------------------------------------------------------------------
 
 using NConsole;
-using Newtonsoft.Json;
 using NJsonSchema.CodeGeneration.CSharp;
 using NSwag.CodeGeneration.CSharp;
 using NSwag.Commands.Base;
@@ -16,16 +15,13 @@ using NSwag.Commands.Base;
 
 namespace NSwag.Commands
 {
-    public abstract class SwaggerToCSharpCommand<TSettings> : InputOutputCommandBase
+    public abstract class SwaggerToCSharpCommand<TSettings> : CodeGeneratorCommand<TSettings>
          where TSettings : SwaggerToCSharpGeneratorSettings
     {
         protected SwaggerToCSharpCommand(TSettings settings)
+            : base(settings)
         {
-            Settings = settings;
         }
-
-        [JsonIgnore]
-        public TSettings Settings { get; set; }
 
         [Argument(Name = "ClassName", IsRequired = false, Description = "The class name of the generated client.")]
         public string ClassName

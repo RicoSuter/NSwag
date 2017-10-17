@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="x-ua-compatible" content="IE=edge">
   <title>Swagger UI</title>
   <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
   <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
@@ -54,28 +55,29 @@
         supportedSubmitMethods: {SupportedSubmitMethods},
         validatorUrl: {ValidatorUrl}, 
         onComplete: function(swaggerApi, swaggerUi){
-          if(typeof initOAuth == "function") {
-            initOAuth({
-              clientId: "{ClientId}",
-              clientSecret: "{ClientSecret}",
-              realm: "{Realm}",
-              appName: "{AppName}",
-              scopeSeparator: "{ScopeSeparator}",
-              additionalQueryStringParams: {AdditionalQueryStringParameters}
-            });
-          }
+            if(typeof initOAuth == "function") {
+                initOAuth({
+                    clientId: "{ClientId}",
+                    clientSecret: "{ClientSecret}",
+                    realm: "{Realm}",
+                    appName: "{AppName}",
+                    scopeSeparator: "{ScopeSeparator}",
+                    additionalQueryStringParams: {AdditionalQueryStringParameters}
+                });
+            }
 
-          if(window.SwaggerTranslator) {
-            window.SwaggerTranslator.translate();
-          }
+            if(window.SwaggerTranslator) {
+                window.SwaggerTranslator.translate();
+            }
         },
         onFailure: function(data) {
-          log("Unable to Load SwaggerUI");
+            log("Unable to Load SwaggerUI");
         },
         docExpansion: "{DocExpansion}",
         jsonEditor: {UseJsonEditor},
         defaultModelRendering: "{DefaultModelRendering}",
-        showRequestHeaders: {ShowRequestHeaders}
+        showRequestHeaders: {ShowRequestHeaders},
+        showOperationIds: false
       });
 
       window.swaggerUi.load();

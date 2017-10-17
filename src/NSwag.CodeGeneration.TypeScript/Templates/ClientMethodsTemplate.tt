@@ -38,13 +38,18 @@ function throwException(message: string, status: number, response: string, heade
 <#}#>
 <#if(Model.IsAngular){#>
 function blobToText(blob: any): Observable<string> {
-    return new Observable<string>((observer: any) => { 
-        let reader = new FileReader(); 
-        reader.onload = function() { 
-            observer.next(this.result);
+    return new Observable<string>((observer: any) => {
+        if (!blob) {
+            observer.next("");
             observer.complete();
+        } else {
+            let reader = new FileReader(); 
+            reader.onload = function() { 
+                observer.next(this.result);
+                observer.complete();
+            }
+            reader.readAsText(blob); 
         }
-        reader.readAsText(blob); 
     });
 }
 

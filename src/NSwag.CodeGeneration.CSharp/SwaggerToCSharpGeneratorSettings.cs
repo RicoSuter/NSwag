@@ -22,9 +22,9 @@ namespace NSwag.CodeGeneration.CSharp
             CSharpGeneratorSettings = new CSharpGeneratorSettings
             {
                 Namespace = "MyNamespace",
-                SchemaType = SchemaType.Swagger2, 
-                TemplateFactory = new DefaultTemplateFactory()
+                SchemaType = SchemaType.Swagger2,
             };
+            CSharpGeneratorSettings.TemplateFactory = new DefaultTemplateFactory(CSharpGeneratorSettings);
         }
 
         /// <summary>Gets or sets the CSharp generator settings.</summary>

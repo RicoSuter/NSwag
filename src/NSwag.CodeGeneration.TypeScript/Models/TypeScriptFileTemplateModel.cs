@@ -171,7 +171,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         private string GenerateDtoTypes()
         {
-            return _settings.GenerateDtoTypes ? _resolver.GenerateTypes(_extensionCode) : string.Empty;
+            return _settings.GenerateDtoTypes ? _resolver.GenerateTypes(_extensionCode).Concatenate() : string.Empty;
         }
 
         private string GenerateExtensionCodeAfter()

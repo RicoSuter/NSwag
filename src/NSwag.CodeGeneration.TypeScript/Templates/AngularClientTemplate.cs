@@ -693,7 +693,7 @@ if(operation.HasBody){
             
             #line default
             #line hidden
-            this.Write("        let options_ = {\r\n");
+            this.Write("        let options_ : any = {\r\n");
             
             #line 61 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularClientTemplate.tt"
 if(operation.HasBody){
@@ -907,7 +907,7 @@ if(Model.UseAngularHttpClient){
             
             #line default
             #line hidden
-            this.Write("url_, options_).flatMap((response_) => {\r\n");
+            this.Write("url_, options_).flatMap((response_ : any) => {\r\n");
             
             #line 92 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\AngularClientTemplate.tt"
 }

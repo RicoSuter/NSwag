@@ -25,9 +25,9 @@ namespace NSwag.CodeGeneration.TypeScript
             {
                 SchemaType = SchemaType.Swagger2,
                 MarkOptionalProperties = true,
-                TemplateFactory = new DefaultTemplateFactory(),
                 TypeNameGenerator = new TypeScriptTypeNameGenerator()
             };
+            TypeScriptGeneratorSettings.TemplateFactory = new DefaultTemplateFactory(TypeScriptGeneratorSettings);
             BaseUrlTokenName = "API_BASE_URL";
             ImportRequiredTypes = true;
         }
