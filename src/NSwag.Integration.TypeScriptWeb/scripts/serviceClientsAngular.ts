@@ -48,7 +48,7 @@ export class GeoClient extends MyBaseClass {
 
         const content_ = JSON.stringify(location);
         
-        let options_ = {
+        let options_ : any = {
             body: content_,
             method: "post",
             headers: new Headers({
@@ -98,7 +98,7 @@ export class GeoClient extends MyBaseClass {
             url_ += "Longitude=" + encodeURIComponent("" + longitude) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ = {
+        let options_ : any = {
             method: "post",
             headers: new Headers({
                 "Content-Type": "application/json", 
@@ -141,7 +141,7 @@ export class GeoClient extends MyBaseClass {
 
         const content_ = JSON.stringify(points);
         
-        let options_ = {
+        let options_ : any = {
             body: content_,
             method: "post",
             headers: new Headers({
@@ -185,7 +185,7 @@ export class GeoClient extends MyBaseClass {
             currentStates && currentStates.forEach(item => { url_ += "currentStates=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ = {
+        let options_ : any = {
             method: "post",
             headers: new Headers({
                 "Content-Type": "application/json", 
@@ -228,7 +228,7 @@ export class GeoClient extends MyBaseClass {
             values && values.forEach(item => { url_ += "values=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ = {
+        let options_ : any = {
             method: "post",
             headers: new Headers({
                 "Content-Type": "application/json", 
@@ -277,7 +277,7 @@ export class GeoClient extends MyBaseClass {
         let url_ = this.baseUrl + "/api/Geo/Refresh";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ = {
+        let options_ : any = {
             method: "post",
             headers: new Headers({
                 "Content-Type": "application/json", 
@@ -322,7 +322,7 @@ export class GeoClient extends MyBaseClass {
         if (file !== null && file !== undefined)
             content_.append("file", file.data, file.fileName ? file.fileName : "file");
         
-        let options_ = {
+        let options_ : any = {
             body: content_,
             method: "post",
             headers: new Headers({
@@ -371,7 +371,7 @@ export class GeoClient extends MyBaseClass {
         if (files !== null && files !== undefined)
             files.forEach(item_ => content_.append("files", item_.data, item_.fileName ? item_.fileName : "files") );
         
-        let options_ = {
+        let options_ : any = {
             body: content_,
             method: "post",
             headers: new Headers({
@@ -414,7 +414,7 @@ export class GeoClient extends MyBaseClass {
 
         const content_ = JSON.stringify(request);
         
-        let options_ = {
+        let options_ : any = {
             body: content_,
             method: "post",
             headers: new Headers({
@@ -470,7 +470,7 @@ export class GeoClient extends MyBaseClass {
             url_ += "override=" + encodeURIComponent("" + override) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ = {
+        let options_ : any = {
             method: "get",
             responseType: ResponseContentType.Blob,
             headers: new Headers({
@@ -518,7 +518,7 @@ export class GeoClient extends MyBaseClass {
             url_ += "value=" + encodeURIComponent("" + value) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ = {
+        let options_ : any = {
             method: "post",
             headers: new Headers({
                 "Content-Type": "application/json", 
@@ -576,7 +576,7 @@ export class PersonsClient extends MyBaseClass {
         let url_ = this.baseUrl + "/api/Persons";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ = {
+        let options_ : any = {
             method: "get",
             headers: new Headers({
                 "Content-Type": "application/json", 
@@ -628,7 +628,7 @@ export class PersonsClient extends MyBaseClass {
 
         const content_ = JSON.stringify(person);
         
-        let options_ = {
+        let options_ : any = {
             body: content_,
             method: "post",
             headers: new Headers({
@@ -673,7 +673,7 @@ export class PersonsClient extends MyBaseClass {
         url_ = url_.replace("{gender}", encodeURIComponent("" + gender)); 
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ = {
+        let options_ : any = {
             method: "post",
             headers: new Headers({
                 "Content-Type": "application/json", 
@@ -727,7 +727,7 @@ export class PersonsClient extends MyBaseClass {
             url_ += "gender=" + encodeURIComponent("" + gender) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ = {
+        let options_ : any = {
             method: "post",
             headers: new Headers({
                 "Content-Type": "application/json", 
@@ -780,7 +780,7 @@ export class PersonsClient extends MyBaseClass {
         url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ = {
+        let options_ : any = {
             method: "get",
             headers: new Headers({
                 "Content-Type": "application/json", 
@@ -835,7 +835,7 @@ export class PersonsClient extends MyBaseClass {
         url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ = {
+        let options_ : any = {
             method: "delete",
             headers: new Headers({
                 "Content-Type": "application/json", 
@@ -878,7 +878,7 @@ export class PersonsClient extends MyBaseClass {
 
         const content_ = JSON.stringify(person);
         
-        let options_ = {
+        let options_ : any = {
             body: content_,
             method: "post",
             headers: new Headers({
@@ -929,7 +929,7 @@ export class PersonsClient extends MyBaseClass {
             url_ += "id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ = {
+        let options_ : any = {
             method: "post",
             headers: new Headers({
                 "Content-Type": "application/json", 
@@ -989,7 +989,7 @@ export class PersonsClient extends MyBaseClass {
         url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ = {
+        let options_ : any = {
             method: "get",
             headers: new Headers({
                 "Content-Type": "application/json", 
@@ -1043,7 +1043,7 @@ export class PersonsClient extends MyBaseClass {
 
         const content_ = person;
         
-        let options_ = {
+        let options_ : any = {
             body: content_,
             method: "post",
             headers: new Headers({
@@ -1091,7 +1091,7 @@ export class PersonsClient extends MyBaseClass {
 
         const content_ = JSON.stringify(data);
         
-        let options_ = {
+        let options_ : any = {
             body: content_,
             method: "post",
             headers: new Headers({
@@ -1517,13 +1517,18 @@ function throwException(message: string, status: number, response: string, heade
 }
 
 function blobToText(blob: any): Observable<string> {
-    return new Observable<string>((observer: any) => { 
-        let reader = new FileReader(); 
-        reader.onload = function() { 
-            observer.next(this.result);
+    return new Observable<string>((observer: any) => {
+        if (!blob) {
+            observer.next("");
             observer.complete();
+        } else {
+            let reader = new FileReader(); 
+            reader.onload = function() { 
+                observer.next(this.result);
+                observer.complete();
+            }
+            reader.readAsText(blob); 
         }
-        reader.readAsText(blob); 
     });
 }
 
