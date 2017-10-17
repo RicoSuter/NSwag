@@ -43,11 +43,7 @@ if (status === <#=response.StatusCode#><#if(response.CheckChunkedStatusCode){#> 
 <#      if(Model.IsFetchOrAurelia){#>
     return response.text().then((_responseText) => {
 <#      }else if(Model.UseAngularHttpClient){#>
-<#         if(Model.UnwrappedResultType != "void"){#>
     return blobToText(response.body).flatMap(_responseText => {
-<#         }else{#>
-    const _responseText = "";
-<#         }#>
 <#      }else if(Model.RequestAngularBlobs){#>
     return blobToText(response.blob()).flatMap(_responseText => {
 <#      }else if(Model.RequestAngularJSBlobs){#>
@@ -101,7 +97,7 @@ if (status === <#=response.StatusCode#><#if(response.CheckChunkedStatusCode){#> 
 <#      }else{#>
     return throwException(<#if(Model.IsAngularJS){#>this.q, <#}#>"A server error occurred.", status, _responseText, _headers);
 <#      }#>
-<#      if(Model.IsFetchOrAurelia || Model.RequestAngularBlobs || (Model.UseAngularHttpClient && Model.UnwrappedResultType != "void") || Model.RequestAngularJSBlobs){#>
+<#      if(Model.IsFetchOrAurelia || Model.RequestAngularBlobs || Model.UseAngularHttpClient || Model.RequestAngularJSBlobs){#>
     });
 <#      }#>
 <#  }#>
@@ -119,11 +115,7 @@ if(Model.HasDefaultResponse){#>{
 <#      if(Model.IsFetchOrAurelia){#>
     return response.text().then((_responseText) => {
 <#      }else if(Model.UseAngularHttpClient){#>
-<#         if(Model.UnwrappedResultType != "void"){#>
     return blobToText(response.body).flatMap(_responseText => {
-<#         }else{#>
-    const _responseText = "";
-<#         }#>
 <#      }else if(Model.RequestAngularBlobs){#>
     return blobToText(response.blob()).flatMap(_responseText => {
 <#      }else if(Model.RequestAngularJSBlobs){#>
@@ -189,7 +181,7 @@ if(Model.HasDefaultResponse){#>{
 <#      }else{#>
     return throwException(<#if(Model.IsAngularJS){#>this.q, <#}#>"A server error occurred.", status, _responseText, _headers);
 <#      }#>
-<#  if(Model.IsFetchOrAurelia || Model.RequestAngularBlobs || (Model.UseAngularHttpClient && Model.UnwrappedResultType != "void") || Model.RequestAngularJSBlobs){#>
+<#  if(Model.IsFetchOrAurelia || Model.RequestAngularBlobs || Model.UseAngularHttpClient || Model.RequestAngularJSBlobs){#>
     });
 <#  }#>
 <#  }#>
@@ -199,11 +191,7 @@ if (status !== 200 && status !== 204) {
 <#      if(Model.IsFetchOrAurelia){#>
     return response.text().then((_responseText) => {
 <#      }else if(Model.UseAngularHttpClient){#>
-<#         if(Model.UnwrappedResultType != "void"){#>
     return blobToText(response.body).flatMap(_responseText => {
-<#         }else{#>
-    const _responseText = "";
-<#         }#>
 <#      }else if(Model.RequestAngularBlobs){#>
     return blobToText(response.blob()).flatMap(_responseText => {
 <#      }else if(Model.RequestAngularJSBlobs){#>
@@ -216,7 +204,7 @@ if (status !== 200 && status !== 204) {
     const _responseText = xhr.responseText; 
 <#      }#>
     return throwException(<#if(Model.IsAngularJS){#>this.q, <#}#>"An unexpected server error occurred.", status, _responseText, _headers);
-<#  if(Model.IsFetchOrAurelia || Model.RequestAngularBlobs || (Model.UseAngularHttpClient && Model.UnwrappedResultType != "void") || Model.RequestAngularJSBlobs){#>
+<#  if(Model.IsFetchOrAurelia || Model.RequestAngularBlobs || Model.UseAngularHttpClient || Model.RequestAngularJSBlobs){#>
     });
 <#  }#>
 }
