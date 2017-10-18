@@ -68,72 +68,38 @@ namespace NSwag.SwaggerGeneration.AspNetCore
 
                     context.OperationDescription.Operation.Parameters.Add(operationParameter);
                 }
+                else if (apiParameter.Source == BindingSource.Header)
+                {
+                    var operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(parameterName, parameter).ConfigureAwait(false);
+                    operationParameter.Kind = SwaggerParameterKind.Header;
+
+                    context.OperationDescription.Operation.Parameters.Add(operationParameter);
+                }
+                else if (apiParameter.Source == BindingSource.Query)
+                {
+                    var operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(parameterName, parameter).ConfigureAwait(false);
+                    operationParameter.Kind = SwaggerParameterKind.Query;
+
+                    context.OperationDescription.Operation.Parameters.Add(operationParameter);
+                }
                 else
                 {
                     var parameterInfo = _settings.ReflectionService.GetDescription(apiParameter.Type, parameter.GetCustomAttributes(), _settings);
                     if (await TryAddFileParameterAsync(context, parameterInfo, parameter).ConfigureAwait(false) == false)
                     {
-                        if (apiParameter.Source == BindingSource.Header)
-                        {
-                            var operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(parameterName, parameter).ConfigureAwait(false);
-                            operationParameter.Kind = SwaggerParameterKind.Header;
+                        if (apiParameter.Source == BindingSource.Body)
+                            await AddBodyParameterAsync(context, parameterName, parameter).ConfigureAwait(false);
 
-                            context.OperationDescription.Operation.Parameters.Add(operationParameter);
-                        }
-                        else if (apiParameter.Source == BindingSource.Query)
+                        else if (parameterInfo.IsComplexType)
                         {
-                            var operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(parameterName, parameter).ConfigureAwait(false);
-                            operationParameter.Kind = SwaggerParameterKind.Query;
-
-                            context.OperationDescription.Operation.Parameters.Add(operationParameter);
+                            // If we are not reading from the body, then treat this as a primitive.
+                            // This may seem odd, but it allows for primitive -> custom complex-type bindings which are very common
+                            // In this case, the API author should use a TypeMapper to define the parameter
+                            await AddPrimitiveParametersFromUriAsync(
+                                context, apiParameter, httpPath, parameterName, parameter, parameterInfo).ConfigureAwait(false);
                         }
                         else
-                        {
-                            if (apiParameter.Source == BindingSource.Body)
-                                await AddBodyParameterAsync(context, parameterName, parameter).ConfigureAwait(false);
-
-                            else if (parameterInfo.IsComplexType)
-                            {
-                                // Try to find a [WillReadBody] attribute on either the action parameter or the bindingAttribute's class
-                                var willReadBodyAttribute = attributes.TryGetIfAssignableTo("WillReadBodyAttribute", TypeNameStyle.Name);
-
-                                if (willReadBodyAttribute == null)
-                                    await AddBodyParameterAsync(context, parameterName, parameter).ConfigureAwait(false);
-                                else
-                                {
-                                    // Try to get a boolean property value from the attribute which explicity tells us whether to read from the body
-                                    // If no such property exists, then default to false since WebAPI's HttpParameterBinding.WillReadBody defaults to false
-                                    var willReadBody = willReadBodyAttribute.TryGetPropertyValue("WillReadBody", true);
-
-                                    if (willReadBody)
-                                        await AddBodyParameterAsync(context, parameterName, parameter).ConfigureAwait(false);
-                                    else
-                                    {
-                                        // If we are not reading from the body, then treat this as a primitive.
-                                        // This may seem odd, but it allows for primitive -> custom complex-type bindings which are very common
-                                        // In this case, the API author should use a TypeMapper to define the parameter
-                                        await AddPrimitiveParametersFromUriAsync(
-                                            context, apiParameter, httpPath, parameterName, parameter, parameterInfo).ConfigureAwait(false);
-                                    }
-                                }
-                            }
-                            else
-                                await AddPrimitiveParameterAsync(parameterName, context.OperationDescription.Operation, parameter, context.SwaggerGenerator).ConfigureAwait(false);
-                        }
-                    }
-                }
-            }
-
-            if (_settings.AddMissingPathParameters)
-            {
-                foreach (Match match in Regex.Matches(httpPath, "{(.*?)(:(([^/]*)?))?}"))
-                {
-                    var parameterName = match.Groups[1].Value;
-                    if (context.OperationDescription.Operation.Parameters.All(p => !string.Equals(p.Name, parameterName, StringComparison.OrdinalIgnoreCase)))
-                    {
-                        var parameterType = match.Groups.Count == 5 ? match.Groups[3].Value : "string";
-                        var operationParameter = context.SwaggerGenerator.CreateUntypedPathParameter(parameterName, parameterType);
-                        context.OperationDescription.Operation.Parameters.Add(operationParameter);
+                            await AddPrimitiveParameterAsync(parameterName, context.OperationDescription.Operation, parameter, context.SwaggerGenerator).ConfigureAwait(false);
                     }
                 }
             }
@@ -149,7 +115,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
         private void EnsureSingleBodyParameter(SwaggerOperationDescription operationDescription)
         {
             if (operationDescription.Operation.ActualParameters.Count(p => p.Kind == SwaggerParameterKind.Body) > 1)
-                throw new InvalidOperationException("The operation '" + operationDescription.Operation.OperationId + "' has more than one body parameter.");
+                throw new InvalidOperationException($"The operation '{operationDescription.Operation.OperationId}' has more than one body parameter.");
         }
 
         private void UpdateConsumedTypes(SwaggerOperationDescription operationDescription)

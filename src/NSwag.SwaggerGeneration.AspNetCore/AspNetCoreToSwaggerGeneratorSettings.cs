@@ -23,9 +23,6 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             OperationProcessors.Add(new OperationResponseProcessor(this));
         }
 
-        /// <summary>Gets or sets the default Web API URL template (default for Web API: 'api/{controller}/{id}'; for MVC projects: '{controller}/{action}/{id?}').</summary>
-        public string DefaultUrlTemplate { get; set; } = "api/{controller}/{id?}";
-
         /// <summary>Gets or sets the Swagger specification title.</summary>
         public string Title { get; set; } = "Web API Swagger specification";
 
@@ -53,11 +50,5 @@ namespace NSwag.SwaggerGeneration.AspNetCore
 
         /// <summary>Gets or sets the document template representing the initial Swagger specification (JSON data).</summary>
         public string DocumentTemplate { get; set; }
-
-        /// <summary>Gets or sets a value indicating whether the controllers are hosted by ASP.NET Core.</summary>
-        public bool IsAspNetCore { get; set; }
-
-        /// <summary>Gets or sets a value indicating whether to add path parameters which are missing in the action method.</summary>
-        public bool AddMissingPathParameters { get; set; }
     }
 }

@@ -15,11 +15,12 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
+using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Contexts;
 
 namespace NSwag.SwaggerGeneration.AspNetCore
 {
-    /// <summary>Generates a <see cref="SwaggerDocument"/> object for the given Web API class type. </summary>
+    /// <summary>Generates a <see cref="SwaggerDocument"/> using <see cref="ApiDescription"/>. </summary>
     public class AspNetCoreToSwaggerGenerator
     {
         private readonly SwaggerJsonSchemaGenerator _schemaGenerator;
@@ -40,27 +41,17 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             _schemaGenerator = schemaGenerator;
         }
 
-        /// <summary>Gets or sets the generator settings.</summary>
+        /// <summary>Gets the generator settings.</summary>
         public AspNetCoreToSwaggerGeneratorSettings Settings { get; }
 
         /// <summary>Generates a Swagger specification for the given <see cref="ApiDescriptionGroupCollection"/>.</summary>
         /// <param name="apiDescriptionGroups"><see cref="ApiDescriptionGroup"/>.</param>
         /// <returns>The <see cref="SwaggerDocument" />.</returns>
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
-        public Task<SwaggerDocument> GenerateAsync(ApiDescriptionGroupCollection apiDescriptionGroups)
+        public async Task<SwaggerDocument> GenerateAsync(ApiDescriptionGroupCollection apiDescriptionGroups)
         {
             var apiDescriptions = apiDescriptionGroups.Items.SelectMany(g => g.Items);
-            return GenerateAsync(apiDescriptions);
-        }
-
-        /// <summary>
-        /// Generates a Swagger specification for the given <see cref="ApiDescription"/> sequence.
-        /// </summary>
-        /// <param name="apiDescriptions"><see cref="ApiDescription"/></param>
-        /// <returns>The <see cref="SwaggerDocument" />.</returns>
-        public async Task<SwaggerDocument> GenerateAsync(IEnumerable<ApiDescription> apiDescriptions)
-        {
-            var document = await CreateDocumentAsync(Settings).ConfigureAwait(false);
+            var document = await CreateDocumentAsync(apiDescriptionGroups).ConfigureAwait(false);
             var schemaResolver = new SwaggerSchemaResolver(document, Settings);
 
             var apiGroups = apiDescriptions.Where(apiDescription => apiDescription.ActionDescriptor is ControllerActionDescriptor)
@@ -98,18 +89,28 @@ namespace NSwag.SwaggerGeneration.AspNetCore
                 var apiDescription = item.Item1;
                 var method = item.Item2;
 
+                var actionHasIgnoreAttribute = method.GetCustomAttributes().Any(a => a.GetType().Name == "SwaggerIgnoreAttribute");
+                if (actionHasIgnoreAttribute)
+                {
+                    continue;
+                }
+
                 var path = apiDescription.RelativePath;
-                if (!path.StartsWith("/"))
+                if (!path.StartsWith("/", StringComparison.Ordinal))
                     path = "/" + path;
+
+                var controllerActionDescriptor = (ControllerActionDescriptor)apiDescription.ActionDescriptor;
+                if (!Enum.TryParse<SwaggerOperationMethod>(apiDescription.HttpMethod, ignoreCase: true, result: out var swaggerOperationMethod))
+                    swaggerOperationMethod = SwaggerOperationMethod.Undefined;
 
                 var operationDescription = new SwaggerOperationDescription
                 {
                     Path = path,
-                    Method = GetSwaggerOperationMethod(apiDescription.HttpMethod),
+                    Method = swaggerOperationMethod,
                     Operation = new SwaggerOperation
                     {
                         IsDeprecated = method.GetCustomAttribute<ObsoleteAttribute>() != null,
-                        OperationId = GetOperationId(document, controllerType.Name, method)
+                        OperationId = GetOperationId(document, controllerActionDescriptor, method)
                     }
                 };
 
@@ -128,6 +129,15 @@ namespace NSwag.SwaggerGeneration.AspNetCore
                 var apiDescription = tuple.Item2;
                 var method = tuple.Item3;
 
+                for (var i = 0; i < apiDescription.SupportedRequestFormats.Count; i++)
+                {
+                    var mediaType = apiDescription.SupportedRequestFormats[i].MediaType;
+                    if (!document.Consumes.Contains(mediaType, StringComparer.OrdinalIgnoreCase))
+                    {
+                        document.Consumes.Add(mediaType);
+                    }
+                }
+
                 var addOperation = await RunOperationProcessorsAsync(document, apiDescription, controllerType, method, operation, allOperation, swaggerGenerator, schemaResolver).ConfigureAwait(false);
                 if (addOperation)
                 {
@@ -138,8 +148,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
 
                     if (document.Paths[path].ContainsKey(operation.Method))
                     {
-                        throw new InvalidOperationException("The method '" + operation.Method + "' on path '" + path + "' is registered multiple times " +
-                            "(check the DefaultUrlTemplate setting [default for Web API: 'api/{controller}/{id}'; for MVC projects: '{controller}/{action}/{id?}']).");
+                        throw new InvalidOperationException($"The method '{operation.Method}' on path '{path}' is registered multiple times.");
                     }
 
                     document.Paths[path][operation.Method] = operation.Operation;
@@ -147,18 +156,16 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             }
         }
 
-        private async Task<SwaggerDocument> CreateDocumentAsync(AspNetCoreToSwaggerGeneratorSettings settings)
+        private async Task<SwaggerDocument> CreateDocumentAsync(ApiDescriptionGroupCollection apiDescriptionGroups)
         {
-            var document = !string.IsNullOrEmpty(settings.DocumentTemplate) ? await SwaggerDocument.FromJsonAsync(settings.DocumentTemplate).ConfigureAwait(false) : new SwaggerDocument();
+            var document = !string.IsNullOrEmpty(Settings.DocumentTemplate) ? await SwaggerDocument.FromJsonAsync(Settings.DocumentTemplate).ConfigureAwait(false) : new SwaggerDocument();
 
-            document.Generator = "NSwag v" + SwaggerDocument.ToolchainVersion + " (NJsonSchema v" + JsonSchema4.ToolchainVersion + ")";
-            document.Consumes = new List<string> { "application/json" };
-            document.Produces = new List<string> { "application/json" };
+            document.Generator = $"NSwag v{SwaggerDocument.ToolchainVersion} (NJsonSchema v{JsonSchema4.ToolchainVersion})";
             document.Info = new SwaggerInfo
             {
-                Title = settings.Title,
-                Description = settings.Description,
-                Version = settings.Version
+                Title = Settings.Title,
+                Description = Settings.Description,
+                Version = Settings.Version,
             };
 
             return document;
@@ -182,22 +189,22 @@ namespace NSwag.SwaggerGeneration.AspNetCore
                 .GetCustomAttributes()
             // 3. Run from method attributes
                 .Concat(methodInfo.GetCustomAttributes())
-                .Where(a => a.GetType().Name == "SwaggerOperationProcessorAttribute");
+                .Where(a => a.GetType().IsAssignableTo("SwaggerOperationProcessorAttribute", TypeNameStyle.Name));
 
             foreach (dynamic attribute in operationProcessorAttribute)
             {
                 var operationProcessor = ReflectionExtensions.HasProperty(attribute, "Parameters") ?
-                    Activator.CreateInstance(attribute.Type, attribute.Parameters) :
-                    Activator.CreateInstance(attribute.Type);
+                    (IOperationProcessor)Activator.CreateInstance(attribute.Type, attribute.Parameters) :
+                    (IOperationProcessor)Activator.CreateInstance(attribute.Type);
 
-                if (operationProcessor.Process(methodInfo, operationDescription, swaggerGenerator, allOperations) == false)
+                if (await operationProcessor.ProcessAsync(operationProcessorContext) == false)
                     return false;
             }
 
             return true;
         }
 
-        private string GetOperationId(SwaggerDocument document, string controllerName, MethodInfo method)
+        private string GetOperationId(SwaggerDocument document, ControllerActionDescriptor actionDescriptor, MethodInfo method)
         {
             string operationId;
 
@@ -206,10 +213,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
                 operationId = swaggerOperationAttribute.OperationId;
             else
             {
-                if (controllerName.EndsWith("Controller"))
-                    controllerName = controllerName.Substring(0, controllerName.Length - 10);
-
-                operationId = controllerName + "_" + GetActionName(method);
+                operationId = actionDescriptor.ControllerName + "_" + GetActionName(actionDescriptor.ActionName);
             }
 
             var number = 1;
@@ -219,39 +223,12 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             return operationId + (number > 1 ? number.ToString() : string.Empty);
         }
 
-        private string GetActionName(MethodInfo method)
+        private static string GetActionName(string actionName)
         {
-            var methodName = method.Name;
-            if (methodName.EndsWith("Async"))
-                methodName = methodName.Substring(0, methodName.Length - 5);
+            if (actionName.EndsWith("Async"))
+                actionName = actionName.Substring(0, actionName.Length - 5);
 
-            return methodName;
-        }
-
-        private SwaggerOperationMethod GetSwaggerOperationMethod(string httpMethod)
-        {
-            if (string.Equals(httpMethod, "GET", StringComparison.OrdinalIgnoreCase))
-                return SwaggerOperationMethod.Get;
-
-            if (string.Equals(httpMethod, "POST", StringComparison.OrdinalIgnoreCase))
-                return SwaggerOperationMethod.Post;
-
-            if (string.Equals(httpMethod, "PUT", StringComparison.OrdinalIgnoreCase))
-                return SwaggerOperationMethod.Put;
-
-            if (string.Equals(httpMethod, "DELETE", StringComparison.OrdinalIgnoreCase))
-                return SwaggerOperationMethod.Delete;
-
-            if (string.Equals(httpMethod, "HEAD", StringComparison.OrdinalIgnoreCase))
-                return SwaggerOperationMethod.Head;
-
-            if (string.Equals(httpMethod, "OPTIONS", StringComparison.OrdinalIgnoreCase))
-                return SwaggerOperationMethod.Options;
-
-            if (string.Equals(httpMethod, "PATCH", StringComparison.OrdinalIgnoreCase))
-                return SwaggerOperationMethod.Patch;
-
-            return SwaggerOperationMethod.Undefined;
+            return actionName;
         }
     }
 }
