@@ -36,9 +36,8 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         public string GetOperationName(SwaggerDocument document, string path, SwaggerOperationMethod httpMethod, SwaggerOperation operation)
         {
             var operationName = path
-                .Split('/', '-')
+                .Split('/', '-', '_')
                 .Where(part => !part.Contains("{") && !string.IsNullOrWhiteSpace(part))
-                .Select(part => part.TrimStart('_'))
                 .Aggregate("", (current, part) => current + CapitalizeFirst(part));
             if (string.IsNullOrEmpty(operationName))
             {
