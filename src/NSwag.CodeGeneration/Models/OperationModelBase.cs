@@ -20,7 +20,7 @@ namespace NSwag.CodeGeneration.Models
         where TResponseModel : ResponseModelBase
     {
         private readonly SwaggerOperation _operation;
-        private readonly ITypeResolver _resolver;
+        private readonly TypeResolverBase _resolver;
         private readonly IClientGenerator _generator;
         private readonly ClientGeneratorBaseSettings _settings;
 
@@ -30,7 +30,7 @@ namespace NSwag.CodeGeneration.Models
         /// <param name="resolver">The resolver.</param>
         /// <param name="generator">The generator.</param>
         /// <param name="settings">The settings.</param>
-        protected OperationModelBase(JsonSchema4 exceptionSchema, SwaggerOperation operation, ITypeResolver resolver, IClientGenerator generator, ClientGeneratorBaseSettings settings)
+        protected OperationModelBase(JsonSchema4 exceptionSchema, SwaggerOperation operation, TypeResolverBase resolver, IClientGenerator generator, ClientGeneratorBaseSettings settings)
         {
             _operation = operation;
             _resolver = resolver;

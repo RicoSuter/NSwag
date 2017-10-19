@@ -7,7 +7,9 @@
 //-----------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration.TypeScript;
 
@@ -171,7 +173,8 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         private string GenerateDtoTypes()
         {
-            return _settings.GenerateDtoTypes ? _resolver.GenerateTypes(_extensionCode).Concatenate() : string.Empty;
+            var generator = new TypeScriptGenerator(_document, _settings.TypeScriptGeneratorSettings, _resolver);
+            return _settings.GenerateDtoTypes ? generator.GenerateTypes(_extensionCode).Concatenate() : string.Empty;
         }
 
         private string GenerateExtensionCodeAfter()

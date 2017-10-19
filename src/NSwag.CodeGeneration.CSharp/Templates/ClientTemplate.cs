@@ -1782,14 +1782,14 @@ foreach(var parameter in operation.PathParameters){
             
             #line default
             #line hidden
-            this.Write("}\", System.Uri.EscapeDataString(string.Join(\",\", ");
+            this.Write("}\", System.Uri.EscapeDataString(string.Join(\",\", System.Linq.Enumerable.Select(");
             
             #line 217 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
-            this.Write(".Select(s_ => s_.ToString(\"");
+            this.Write(", s_ => s_.ToString(\"");
             
             #line 217 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ParameterDateTimeFormat));
@@ -1838,15 +1838,15 @@ foreach(var parameter in operation.PathParameters){
             
             #line default
             #line hidden
-            this.Write("}\", System.Uri.EscapeDataString(string.Join(\",\", ");
+            this.Write("}\", System.Uri.EscapeDataString(string.Join(\",\", System.Linq.Enumerable.Select(");
             
             #line 221 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
-            this.Write(".Select(s_ => System.Convert.ToString(s_, System.Globalization.CultureInfo.Invari" +
-                    "antCulture)))));\r\n");
+            this.Write(", s_ => System.Convert.ToString(s_, System.Globalization.CultureInfo.InvariantCul" +
+                    "ture)))));\r\n");
             
             #line 222 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   }else{

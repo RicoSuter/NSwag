@@ -214,11 +214,11 @@ public partial interface I<#=Model.Class#>
         if (<#=parameter.VariableName#> != null)
 <#  }#>
 <#  if(parameter.IsDateArray){#>
-        urlBuilder_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(string.Join(",", <#=parameter.VariableName#>.Select(s_ => s_.ToString("<#=Model.ParameterDateTimeFormat#>", System.Globalization.CultureInfo.InvariantCulture)))));
+        urlBuilder_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(string.Join(",", System.Linq.Enumerable.Select(<#=parameter.VariableName#>, s_ => s_.ToString("<#=Model.ParameterDateTimeFormat#>", System.Globalization.CultureInfo.InvariantCulture)))));
 <#  }else if(parameter.IsDate){#>
         urlBuilder_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(<#=parameter.VariableName#>.ToString("<#=Model.ParameterDateTimeFormat#>", System.Globalization.CultureInfo.InvariantCulture)));
 <#  }else if(parameter.IsArray){#>
-        urlBuilder_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(string.Join(",", <#=parameter.VariableName#>.Select(s_ => System.Convert.ToString(s_, System.Globalization.CultureInfo.InvariantCulture)))));
+        urlBuilder_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(string.Join(",", System.Linq.Enumerable.Select(<#=parameter.VariableName#>, s_ => System.Convert.ToString(s_, System.Globalization.CultureInfo.InvariantCulture)))));
 <#  }else{#>
         urlBuilder_.Replace("{<#=parameter.Name#>}", System.Uri.EscapeDataString(System.Convert.ToString(<#=parameter.VariableName#>, System.Globalization.CultureInfo.InvariantCulture)));
 <#  }#>
