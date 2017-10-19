@@ -27,7 +27,7 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <param name="settings">The settings.</param>
         /// <exception cref="ArgumentNullException"><paramref name="document" /> is <see langword="null" />.</exception>
         public SwaggerToTypeScriptClientGenerator(SwaggerDocument document, SwaggerToTypeScriptClientGeneratorSettings settings)
-            : this(document, settings, new TypeScriptTypeResolver(settings.TypeScriptGeneratorSettings, document))
+            : this(document, settings, new TypeScriptTypeResolver(settings.TypeScriptGeneratorSettings))
         {
         }
 
@@ -46,7 +46,7 @@ namespace NSwag.CodeGeneration.TypeScript
 
             _document = document;
             _resolver = resolver;
-            _resolver.AddGenerators(_document.Definitions);
+            _resolver.RegisterSchemaDefinitions(_document.Definitions);
             _extensionCode = new TypeScriptExtensionCode(
                 Settings.TypeScriptGeneratorSettings.ExtensionCode,
                 (Settings.TypeScriptGeneratorSettings.ExtendedClasses ?? new string[] { }).Concat(new[] { Settings.ConfigurationClass }).ToArray(),

@@ -29,7 +29,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             SwaggerOperation operation,
             SwaggerToTypeScriptClientGeneratorSettings settings,
             SwaggerToTypeScriptClientGenerator generator,
-            ITypeResolver resolver)
+            TypeResolverBase resolver)
             : base(null, operation, resolver, generator, settings)
         {
             _operation = operation;

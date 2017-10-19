@@ -27,7 +27,7 @@ namespace NSwag.CodeGeneration
         /// <summary>Initializes a new instance of the <see cref="ClientGeneratorBase{TOperationModel, TParameterModel, TResponseModel}"/> class.</summary>
         /// <param name="resolver">The type resolver.</param>
         /// <param name="codeGeneratorSettings">The code generator settings.</param>
-        protected ClientGeneratorBase(ITypeResolver resolver, CodeGeneratorSettingsBase codeGeneratorSettings)
+        protected ClientGeneratorBase(TypeResolverBase resolver, CodeGeneratorSettingsBase codeGeneratorSettings)
         {
             Resolver = resolver;
             codeGeneratorSettings.SchemaType = SchemaType.Swagger2; // enforce Swagger schema output 
@@ -48,7 +48,7 @@ namespace NSwag.CodeGeneration
         public abstract string GetTypeName(JsonSchema4 schema, bool isNullable, string typeNameHint);
 
         /// <summary>Gets the type resolver.</summary>
-        protected ITypeResolver Resolver { get; }
+        protected TypeResolverBase Resolver { get; }
 
         /// <summary>Generates the file.</summary>
         /// <param name="clientCode">The client code.</param>

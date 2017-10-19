@@ -9,6 +9,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
+using NJsonSchema.CodeGeneration.CSharp;
 using NSwag.CodeGeneration.CSharp.Templates;
 
 namespace NSwag.CodeGeneration.CSharp.Models
@@ -44,6 +45,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
             _generator = generator;
             _settings = settings;
             _resolver = resolver;
+
+            Classes = GenerateDtoTypes();
         }
 
         /// <summary>Gets the namespace.</summary>
@@ -71,7 +74,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         public string Clients => _settings.GenerateClientClasses ? _clientCode : string.Empty;
 
         /// <summary>Gets the classes code.</summary>
-        public string Classes => _settings.GenerateDtoTypes ? _resolver.GenerateTypes().Concatenate() : string.Empty;
+        public string Classes { get; }
 
         /// <summary>Gets a value indicating whether the generated code requires a JSON exception converter.</summary>
         public bool RequiresJsonExceptionConverter => JsonExceptionTypes.Any();
@@ -144,6 +147,12 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 }
                 return new string[] { };
             }
+        }
+
+        private string GenerateDtoTypes()
+        {
+            var generator = new CSharpGenerator(_document, _settings.CSharpGeneratorSettings, _resolver);
+            return _settings.GenerateDtoTypes ? generator.GenerateTypes().Concatenate() : string.Empty;
         }
     }
 }
