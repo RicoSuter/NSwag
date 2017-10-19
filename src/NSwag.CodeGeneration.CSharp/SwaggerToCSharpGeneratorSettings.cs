@@ -25,6 +25,11 @@ namespace NSwag.CodeGeneration.CSharp
                 SchemaType = SchemaType.Swagger2,
             };
             CSharpGeneratorSettings.TemplateFactory = new DefaultTemplateFactory(CSharpGeneratorSettings);
+
+#if DEBUG
+            CSharpGeneratorSettings.UseLiquidTemplates = true;
+            //CSharpGeneratorSettings.TemplateDirectory = @"C:\Data\Projects\NJsonSchema\src\NJsonSchema.CodeGeneration.CSharp\Templates\Liquid";
+#endif
         }
 
         /// <summary>Gets or sets the CSharp generator settings.</summary>
