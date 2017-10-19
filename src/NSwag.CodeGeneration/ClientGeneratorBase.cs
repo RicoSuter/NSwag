@@ -109,7 +109,7 @@ namespace NSwag.CodeGeneration
         {
             document.GenerateOperationIds();
 
-            return document.Paths
+            var operations = document.Paths
                 .SelectMany(pair => pair.Value.Select(p => new { Path = pair.Key.Trim('/'), HttpMethod = p.Key, Operation = p.Value }))
                 .Select(tuple =>
                 {
@@ -121,6 +121,119 @@ namespace NSwag.CodeGeneration
                     return operationModel;
                 })
                 .ToList();
+
+            operations = DeconflictOperations(document, operations, DeconflictSuffix.HttpMethod);
+
+            return operations;
+        }
+
+        /// <summary>
+        /// Operation parameter comparer.
+        /// </summary>
+        internal class OperationParameterComparer : IEqualityComparer<TParameterModel>
+        {
+            public bool Equals(TParameterModel x, TParameterModel y)
+            {
+                //Check whether the compared objects reference the same data.
+                if (ReferenceEquals(x, y)) return true;
+
+                //Check whether any of the compared objects is null.
+                if (ReferenceEquals(x, null) || ReferenceEquals(y, null))
+                    return false;
+
+                //Check whether the parameters' properties are equal.
+                return x.Type == y.Type;
+            }
+
+            public int GetHashCode(TParameterModel parameter)
+            {
+                //Check whether the object is null
+                if (ReferenceEquals(parameter, null)) return 0;
+
+                //Get hash code for the Type field if it is not null.
+                return string.IsNullOrEmpty(parameter.Type) ? 0 : parameter.Type.GetHashCode();
+            }
+        }
+
+        /// <summary>
+        /// Enumeration of valid operation name suffixes.
+        /// </summary>
+        internal enum DeconflictSuffix
+        {
+            /// <summary>
+            /// Use operation index as name suffix.
+            /// </summary>
+            Index,
+
+            /// <summary>
+            /// Use underlying HTTP method as name suffix.
+            /// </summary>
+            HttpMethod,
+        }
+
+        /// <summary>
+        /// Tries to resolve controller operations with overlapping names and signatures.
+        /// </summary>
+        /// <param name="document">Original Swagger document.</param>
+        /// <param name="operations">Operations extracted from Swagger document.</param>
+        /// <param name="suffix">Suffix type to use for operation deconfliction.</param>
+        /// <returns>Deduplicated operations.</returns>
+        internal static List<TOperationModel> DeconflictOperations(SwaggerDocument document, List<TOperationModel> operations, DeconflictSuffix suffix)
+        {
+            var ret = new List<TOperationModel>();
+
+            while (operations.Any())
+            {
+                var operation = operations[0];
+                var conflicts = operations.Where(o => (o.ControllerName == operation.ControllerName)
+                                                       && (o.OperationName == operation.OperationName)
+                                                       && (o.Parameters.SequenceEqual(operation.Parameters, new OperationParameterComparer())))
+                                                       .ToList();
+                if (conflicts.Count > 1)
+                {
+                    // Try to resolve by adding a suffix to operation names
+                    for (var idx = 0; idx < conflicts.Count; idx ++)
+                    {
+                        var conflict = conflicts[idx];
+                        switch (suffix)
+                        {
+                            case DeconflictSuffix.Index:
+                                conflict.OperationName += $"_{idx + 1}";
+                                break;
+
+                            case DeconflictSuffix.HttpMethod:
+                                conflict.OperationName += CapitalizeFirst(conflict.HttpMethod.ToString());
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    // Final duplicates check
+                    var final = DeconflictOperations(document, conflicts, DeconflictSuffix.Index);
+                    // Update operations list
+                    ret.AddRange(final);
+                    operations = operations.Except(final).ToList();
+                }
+                else
+                {
+                    ret.Add(operation);
+                    operations.Remove(operation);
+                }
+            }
+            return ret;
+        }
+
+        /// <summary>Capitalizes first letter.</summary>
+        /// <param name="name">The name to capitalize.</param>
+        /// <returns>Capitalized name.</returns>
+        internal static string CapitalizeFirst(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return string.Empty;
+            }
+            var capitalized = name.ToLower();
+            return char.ToUpper(capitalized[0]) + (capitalized.Length > 1 ? capitalized.Substring(1) : "");
         }
     }
 }

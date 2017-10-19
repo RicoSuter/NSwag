@@ -35,17 +35,6 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         /// <returns>The client name.</returns>
         public string GetOperationName(SwaggerDocument document, string path, SwaggerOperationMethod httpMethod, SwaggerOperation operation)
         {
-            var appendMethod = false;
-            var matchingPaths = document.Paths.Where(p => p.Key.Trim('/') == path).ToList();
-            if (matchingPaths.Count() == 1)
-            {
-                var pathOperations = matchingPaths[0].Value.Keys;
-                appendMethod = pathOperations.Count > 1;
-            }
-            else
-            {
-                // Ambiguous paths?
-            }
             var operationName = path
                 .Split('/', '-', '_')
                 .Where(part => !part.Contains("{") && !string.IsNullOrWhiteSpace(part))
@@ -53,9 +42,8 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
             if (string.IsNullOrEmpty(operationName))
             {
                 operationName = "Index";
-                appendMethod = true;
             }
-            return operationName + (appendMethod ? CapitalizeFirst(httpMethod.ToString()) : "");
+            return operationName;
         }
 
         /// <summary>Capitalizes first letter.</summary>
