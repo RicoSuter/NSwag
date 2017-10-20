@@ -1,0 +1,403 @@
+﻿{% if HasOperations -%}
+{% if GenerateContracts && GenerateClientInterfaces -%}
+[System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
+public partial interface I{{ Class }}
+{
+{% for operation in Operations.Where(o => o.IsInterfaceMethod) -%}
+{%   if GenerateOptionalParameters == false -%}
+    {% template Client.Method.Meta %}
+    {{ operation.ResultType }} {{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}{% if parameter.IsLast == false %}, {% endif %}{% endfor %});
+
+{%   endif -%}
+{%   if GenerateSyncMethods -%}
+    {% template Client.Method.Meta %}
+    {{ operation.UnwrappedResultType }} {{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}{% if parameter.IsLast == false %}, {% endif %}{% endfor %});
+
+{%   endif -%}
+    {% template Client.Method.Meta %}
+    {{ operation.ResultType }} {{ operation.ActualOperationName }}Async({% foreach(var parameter in operation.Parameters){ -%}{{ parameter.Type }} {{ parameter.VariableName }}{% if(Model.GenerateOptionalParameters && parameter.IsOptional){ -%} = null{% } -%}, {% } -%}System.Threading.CancellationToken cancellationToken{% if(Model.GenerateOptionalParameters){ -%} = default(System.Threading.CancellationToken){% } -%});
+
+{% endfor -%}
+}
+{% endif -%}
+
+{% if GenerateImplementation -%}
+[System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
+{{ ClientClassAccessModifier }} partial class {{ Class }} {% if HasBaseType %}: {% endif %}{% if HasBaseClass %}{{ BaseClass }}{% if GenerateClientInterfaces %}, {% endif %}{% endif %}{% if GenerateClientInterfaces %}I{{ Class }}{% endif %}
+{
+    private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+{% if UseBaseUrl %}
+    private string _baseUrl = "{{ BaseUrl }}";
+    
+{% endif %}
+{% if InjectHttpClient -%}
+    private {{ HttpClientType }} _httpClient; 
+
+{% endif -%}
+{% if HasConfigurationClass -%}
+    public {{ Class }}({{ ConfigurationClass }} configuration{% if InjectHttpClient %}, {{ HttpClientType }} httpClient{% endif %}) : base(configuration)
+    {
+{%     if InjectHttpClient -%}
+        _httpClient = httpClient; 
+{%     endif -%}
+{% elseif UseBaseUrl and BaseUrl -%}
+    public {{ Class }}(string baseUrl{% if InjectHttpClient -%}, {{ HttpClientType }} httpClient{% endif %})
+    {
+        BaseUrl = baseUrl; 
+{%     if InjectHttpClient -%}
+        _httpClient = httpClient; 
+{%     endif -%}
+{% elseif InjectHttpClient -%}
+    public {{ Class }}({{ HttpClientType }} httpClient)
+    {
+        _httpClient = httpClient; 
+{% else -%}
+    public {{ Class }}()
+    {
+{% endif -%}
+		_settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(() => 
+        {
+            var settings = {{ JsonSerializerParameterCode }};
+{% if SerializeTypeInformation -%}
+		    settings.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto;
+{% endif -%}
+            UpdateJsonSerializerSettings(settings);
+            return settings;
+        });
+	}
+
+{% if UseBaseUrl -%}
+    public string BaseUrl 
+    {
+        get { return _baseUrl; }
+        set { _baseUrl = value; }
+    }
+
+{% endif -%}
+{% if GenerateUpdateJsonSerializerSettingsMethod -%}
+    partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
+{% endif -%}
+    partial void PrepareRequest({{ HttpClientType }} client, System.Net.Http.HttpRequestMessage request, string url);
+    partial void PrepareRequest({{ HttpClientType }} client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
+    partial void ProcessResponse({{ HttpClientType }} client, System.Net.Http.HttpResponseMessage response);
+
+{% for operation in Operations -%}
+{%     if GenerateOptionalParameters == false -%}
+    {% template Client.Method.Meta %}
+    {{ operation.MethodAccessModifier }} {{ operation.ResultType }} {{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}{% if parameter.IsLast == false %}, {% endif %}{% endfor %})
+    {
+        return {{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.VariableName }}, {% } -%}System.Threading.CancellationToken.None);
+    }
+
+{%     endif -%}
+{%     if(Model.GenerateSyncMethods){ -%}
+    {% template Client.Method.Meta %}
+    {{ operation.MethodAccessModifier }} {{ operation.UnwrappedResultType }} {{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}{% if parameter.IsLast == false %}, {% endif %}{% endfor %})
+    {
+        {% if operation.HasResult %}return {% endif %}System.Threading.Tasks.Task.Run(async () => await {{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.VariableName }}, {% endfor %}System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+    }
+
+{%     endif %}
+    {% template Client.Method.Meta %}
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+    {{ operation.MethodAccessModifier }} async {{ operation.ResultType }} {{ operation.ActualOperationName }}Async({% foreach(var parameter in operation.Parameters){ -%}{{ parameter.Type }} {{ parameter.VariableName }}{% if(Model.GenerateOptionalParameters && parameter.IsOptional){ -%} = null{% } -%}, {% } -%}System.Threading.CancellationToken cancellationToken{% if GenerateOptionalParameters %} = default(System.Threading.CancellationToken){% endif %})
+    {
+{% for parameter in operation.PathParameters -%}
+{%     if parameter.IsRequired -%}
+        if ({{ parameter.VariableName }} == null)
+            throw new System.ArgumentNullException("{{ parameter.VariableName }}");
+
+{%     endif -%}
+{% endfor -%}
+{% for parameter in operation.QueryParameters -%}
+{%   if parameter.IsNullable == false -%}
+        if ({{ parameter.VariableName }} == null)
+            throw new System.ArgumentNullException("{{ parameter.VariableName }}");
+
+{%   endif -%}
+{% endfor -%}
+        var urlBuilder_ = new System.Text.StringBuilder();
+        urlBuilder_.Append({% if UseBaseUrl %}BaseUrl).Append("/{% else %}"{% endif %}{{ operation.Path }}{% if operation.HasQueryParameters %}?{% endif %}");
+{% for parameter in operation.PathParameters -%}
+{%     if parameter.IsOptional -%}
+        if ({{ parameter.VariableName }} != null)
+{%     endif -%}
+{%     if parameter.IsDateArray -%}
+        urlBuilder_.Replace("{{{ parameter.Name }}}", System.Uri.EscapeDataString(string.Join(",", System.Linq.Enumerable.Select({{ parameter.VariableName }}, s_ => s_.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture)))));
+{%     elseif parameter.IsDate -%}
+        urlBuilder_.Replace("{{{ parameter.Name }}}", System.Uri.EscapeDataString({{ parameter.VariableName }}.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture)));
+{%     elseif parameter.IsArray -%}
+        urlBuilder_.Replace("{{{ parameter.Name }}}", System.Uri.EscapeDataString(string.Join(",", System.Linq.Enumerable.Select({{ parameter.VariableName }}, s_ => System.Convert.ToString(s_, System.Globalization.CultureInfo.InvariantCulture)))));
+{%     else -%}
+        urlBuilder_.Replace("{{{ parameter.Name }}}", System.Uri.EscapeDataString(System.Convert.ToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture)));
+{%     endif -%}
+{%     if parameter.IsOptional -%}
+       else
+           urlBuilder_.Replace("/{{{ parameter.Name }}}", string.Empty);
+{%     endif -%}
+{% endfor -%}
+{% for parameter in operation.QueryParameters -%}
+        {%   if parameter.IsNullable -%}if ({{ parameter.VariableName }} != null) {% endif -%}
+{%     if parameter.IsDateArray -%}
+foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString(item_.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
+{%     elseif parameter.IsDate -%}
+urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({{ parameter.VariableName }}{% if parameter.Type.EndsWith("?") %}.Value{% endif %}.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+{%     elseif parameter.IsArray -%}
+foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString(System.Convert.ToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
+{%     else -%}
+urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString(System.Convert.ToString({{ parameter.VariableName }}{% if parameter.Type.EndsWith("?") %}.Value{% endif %}, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+{%     endif -%}
+{% endfor -%}
+{% if operation.HasQueryParameters -%}
+        urlBuilder_.Length--;
+{% endif -%}
+
+{% if InjectHttpClient -%}
+        var client_ = _httpClient;
+{% elseif UseHttpClientCreationMethod -%}
+        var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+{% else -%}
+        var client_ = new {{ HttpClientType }}();
+{% endif -%}
+        try
+        {
+{% if UseHttpRequestMessageCreationMethod -%}
+            using (var request_ = await CreateHttpRequestMessageAsync(cancellationToken).ConfigureAwait(false))
+{% else -%}
+            using (var request_ = new System.Net.Http.HttpRequestMessage())
+{% endif -%}
+            {
+{% for parameter in operation.HeaderParameters -%}
+{%     if parameter.IsStringArray -%}
+                request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", {{ parameter.VariableName }});
+{%     else -%}
+                request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", {{ parameter.VariableName }} != null ? System.Convert.ToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture) : null);
+{%     endif -%}
+{% endfor -%}
+{% if operation.HasContent -%}
+{%     if operation.HasBinaryBodyParameter -%}
+                var content_ = new System.Net.Http.StreamContent({{ operation.ContentParameter.VariableName }});
+                content_.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("{{ operation.Consumes }}");
+{%     elseif operation.HasXmlBodyParameter -%}
+                var content_ = new System.Net.Http.StringContent({{ operation.ContentParameter.VariableName }});
+                content_.Headers.ContentType.MediaType = "{{ operation.Consumes }}";
+{%     else -%}
+                var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject({{ operation.ContentParameter.VariableName }}, {% if SerializeTypeInformation %}typeof({{ operation.ContentParameter.Type }}), {% endif %}_settings.Value));
+                content_.Headers.ContentType.MediaType = "{{ operation.Consumes }}";
+{%     endif -%}
+{% else -%}
+{%     if operation.HasFormParameters -%}
+                var boundary_ = System.Guid.NewGuid().ToString();
+                var content_ = new System.Net.Http.MultipartFormDataContent(boundary_);
+                content_.Headers.Remove("Content-Type");
+                content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
+{%         for parameter in operation.FormParameters -%}
+{%             if parameter.IsNullable -%}
+                if ({{ parameter.VariableName }} != null)
+{%             else -%}
+                if ({{ parameter.VariableName }} == null)
+                    throw new System.ArgumentNullException("{{ parameter.VariableName }}");
+                else
+{%             endif -%}
+{%             if parameter.IsFile -%}
+{%                 if parameter.IsArray -%}
+                    foreach (var item_ in {{ parameter.VariableName }}) { content_.Add(new System.Net.Http.StreamContent(item_.Data), "{{ parameter.Name }}", item_.FileName ?? "{{ parameter.Name }}"); }
+{%                 else -%}
+                    content_.Add(new System.Net.Http.StreamContent({{ parameter.VariableName }}.Data), "{{ parameter.Name }}", {{ parameter.VariableName }}.FileName ?? "{{ parameter.Name }}");
+{%                 endif -%}
+{%             else -%}
+                    content_.Add(new System.Net.Http.StringContent(System.Convert.ToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture)), "{{ parameter.Name }}");
+{%             endif -%}
+{%         endfor -%}
+{%     elseif operation.IsGetOrDeleteOrHead == false -%}
+                var content_ = new System.Net.Http.StringContent(string.Empty);
+{%     endif -%}
+{% endif -%}
+{% if operation.IsGetOrDeleteOrHead == false -%}
+                request_.Content = content_;
+{% endif -%}
+                request_.Method = new System.Net.Http.HttpMethod("{{ operation.HttpMethod.ToString().ToUpperInvariant() }}");
+{% if operation.HasResultType and operation.HasAcceptHeaderParameterParameter == false -%}
+                request_.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("{{ operation.Produces }}"));
+{% endif -%}
+
+                PrepareRequest(client_, request_, urlBuilder_);
+                var url_ = urlBuilder_.ToString();
+                request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                PrepareRequest(client_, request_, url_);
+
+                var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                try
+                {
+                    var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                    foreach (var item_ in response_.Content.Headers)
+                        headers_[item_.Key] = item_.Value;
+
+                    ProcessResponse(client_, response_);
+
+                    var status_ = ((int)response_.StatusCode).ToString();
+{% for response in operation.Responses -%}
+                    if (status_ == "{{ response.StatusCode }}"{% if response.CheckChunkedStatusCode %} || status_ == "206"{% endif %}) 
+                    {
+{%     if response.HasType -%}
+{%         if response.IsFile -%}
+{%             if response.IsSuccess(operation) -%}
+                        var responseStream_ = await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                        var fileResponse_ = new FileResponse(status_, headers_, responseStream_, {% if InjectHttpClient %}null{% else %}client_{% endif %}, response_); 
+                        client_ = null; response_ = null; // response and client are disposed by FileResponse
+                        return fileResponse_;
+{%             else -%}
+                        var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
+                        throw new {{ ExceptionClass }}("{{ response.ExceptionDescription }}", status_, responseData_, headers_, null);
+{%             endif -%}
+{%         else -%}
+                        var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
+                        var result_ = default({{ response.Type }}); 
+                        try
+                        {
+                            result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<{{ response.Type }}>(responseData_, _settings.Value);
+{%             if response.IsSuccess(operation) -%}
+{%                 if operation.WrapResponse -%}
+                            return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, result_); 
+{%                 else -%}
+                            return result_; 
+{%                 endif -%}
+{%             endif -%}
+                        } 
+                        catch (System.Exception exception) 
+                        {
+                            throw new {{ ExceptionClass }}("Could not deserialize the response body.", status_, responseData_, headers_, exception);
+                        }
+{%             if response.IsSuccess(operation) == false -%}
+{%                 if response.InheritsExceptionSchema -%}
+                        if (result_ == null)
+                            result_ = new {{ response.Type }}();
+                        result_.Data.Add("HttpStatus", status_);
+                        result_.Data.Add("HttpHeaders", headers_);
+                        result_.Data.Add("HttpResponse", responseData_);
+{%                     if WrapDtoExceptions -%}
+                        throw new {{ ExceptionClass }}<{{ response.Type }}>("{{ response.ExceptionDescription }}", status_, responseData_, headers_, result_, result_);
+{%                     else -%}
+                        throw result_;
+{%                     endif -%}
+{%                 else -%}
+                        throw new {{ ExceptionClass }}<{{ response.Type }}>("{{ response.ExceptionDescription }}", status_, responseData_, headers_, result_, null);
+{%                 endif -%}
+{%             endif -%}
+{%         endif -%}
+{%     elseif response.IsSuccess(operation) -%}
+{%         if operation.HasResultType -%}
+{%             if operation.WrapResponse -%}
+                        return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, default({{ operation.UnwrappedResultType }})); 
+{%             else -%}
+                        return default({{ operation.UnwrappedResultType }});
+{%             endif -%}
+{%         else -%}
+{%             if operation.WrapResponse -%}
+                        return new {{ ResponseClass }}(status_, headers_); 
+{%             else -%}
+                        return;
+{%             endif -%}
+{%         endif -%}
+{%     else -%}
+                        var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
+                        throw new {{ ExceptionClass }}("{{ response.ExceptionDescription }}", status_, responseData_, headers_, null);
+{%     endif -%}
+                    }
+                    else
+{% endfor -%}
+{% if operation.HasDefaultResponse -%}
+{%     if operation.DefaultResponse.HasType -%}
+                    {
+{%         if operation.DefaultResponse.IsFile -%}
+{%             if operation.DefaultResponse.IsSuccess(operation) -%}
+                        var responseStream_ = await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                        var fileResponse_ = new FileResponse(status_, headers_, responseStream_, {% if InjectHttpClient %}null{% else %}client_{% endif %}, response_); 
+                        client_ = null; response_ = null; // response and client are disposed by FileResponse
+                        return fileResponse_;
+{%             else -%}
+                        var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
+                        throw new {{ ExceptionClass }}("{{ operation.DefaultResponse.ExceptionDescription }}", status_, responseData_, headers_, null);
+{%             endif -%}
+{%         else -%}
+                        var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
+                        var result_ = default({{ operation.DefaultResponse.Type }}); 
+                        try
+                        {
+                            result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<{{ operation.DefaultResponse.Type }}>(responseData_, _settings.Value);
+
+{%             if operation.HasOnlyDefaultResponse -%}
+                            if (status_.Length == 3 && status_.StartsWith("2"))
+{%                 if (operation.WrapResponse -%}
+                                return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, result_); 
+{%                 else -%}
+                                return result_; 
+{%                 endif -%}
+{%             endif -%}
+                        } 
+                        catch (System.Exception exception_) 
+                        {
+                            throw new {{ ExceptionClass }}("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+                        }
+
+{%             if operation.DefaultResponse.InheritsExceptionSchema -%}
+                        if (result_ == null)
+                            result_ = new {{ operation.DefaultResponse.Type }}();
+                        result_.Data.Add("HttpStatus", status_);
+                        result_.Data.Add("HttpHeaders", headers_);
+                        result_.Data.Add("HttpResponse", responseData_);
+{%                 if WrapDtoExceptions -%}
+                        throw new {{ ExceptionClass }}<{{ operation.DefaultResponse.Type }}>("{{ operation.DefaultResponse.ExceptionDescription }}", status_, responseData_, headers_, result_, null);
+{%                 else -%}
+                        throw result_;
+{%                 endif -%}
+{%             else -%}
+                        throw new {{ ExceptionClass }}<{{ operation.DefaultResponse.Type }}>("{{ operation.DefaultResponse.ExceptionDescription }}", status_, responseData_, headers_, result_, null);
+{%             endif -%}
+{%         endif -%}
+                    }
+{%     else -%}
+{%         if operation.HasSuccessResponse -%}
+                    var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
+                    throw new {{ ExceptionClass }}("{{ operation.DefaultResponse.ExceptionDescription }}", status_, responseData_, headers_, null);
+{%         endif -%}
+{%     endif -%}
+{% else -%}
+                    if (status_ != "200" && status_ != "204")
+                    {
+                        var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
+                        throw new {{ ExceptionClass }}("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, headers_, null);
+                    }
+{% endif -%}
+{%     if operation.HasResultType -%}
+        
+{%         if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" -%}
+                    return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, default({{ operation.UnwrappedResultType }})); 
+{%         else -%}
+                    return default({{ operation.UnwrappedResultType }});
+{%         endif -%}
+{%     elseif operation.WrapResponse -%}
+
+                    return new {{ ResponseClass }}(status_, headers_); 
+{%     endif -%}
+                }
+                finally
+                {
+                    if (response_ != null)
+                        response_.Dispose();
+                }
+            }
+        }
+        finally
+        {
+{%     if InjectHttpClient == false && DisposeHttpClient -%}
+            if (client_ != null)
+                client_.Dispose();
+{%     endif -%}
+        }
+    }
+
+{% endif -%}
+}
+{% endif -%}
+{% endif -%}

@@ -58,11 +58,8 @@ namespace NSwag.CodeGeneration.Models
         /// <returns>The response model.</returns>
         protected abstract TResponseModel CreateResponseModel(string statusCode, SwaggerResponse response, JsonSchema4 exceptionSchema, IClientGenerator generator, ClientGeneratorBaseSettings settings);
 
-        /// <summary>Gets or sets the operation.</summary>
-        public SwaggerOperation Operation { get; set; }
-
         /// <summary>Gets the operation ID.</summary>
-        public string Id => Operation.OperationId;
+        public string Id => _operation.OperationId;
 
         /// <summary>Gets or sets the HTTP path (i.e. the absolute route).</summary>
         public string Path { get; set; }
@@ -177,7 +174,7 @@ namespace NSwag.CodeGeneration.Models
             get
             {
                 if (Parameters.Count(p => p.Kind == SwaggerParameterKind.Body) > 1)
-                    throw new InvalidOperationException("Multiple body parameters found in operation '" + Operation.OperationId + "'.");
+                    throw new InvalidOperationException("Multiple body parameters found in operation '" + _operation.OperationId + "'.");
 
                 return Parameters.SingleOrDefault(p => p.Kind == SwaggerParameterKind.Body);
             }
@@ -208,29 +205,29 @@ namespace NSwag.CodeGeneration.Models
         public bool HasSummary => !string.IsNullOrEmpty(Summary);
 
         /// <summary>Gets the summary text.</summary>
-        public string Summary => ConversionUtilities.TrimWhiteSpaces(Operation.Summary);
+        public string Summary => ConversionUtilities.TrimWhiteSpaces(_operation.Summary);
 
         /// <summary>Gets a value indicating whether the operation has any documentation.</summary>
-        public bool HasDocumentation => HasSummary || HasResultDescription || Parameters.Any(p => p.HasDescription) || Operation.IsDeprecated;
+        public bool HasDocumentation => HasSummary || HasResultDescription || Parameters.Any(p => p.HasDescription) || _operation.IsDeprecated;
 
         /// <summary>Gets a value indicating whether the operation is deprecated.</summary>
-        public bool IsDeprecated => Operation.IsDeprecated;
+        public bool IsDeprecated => _operation.IsDeprecated;
 
         /// <summary>Gets or sets a value indicating whether this operation has an XML body parameter.</summary>
-        public bool HasXmlBodyParameter => Operation.ActualParameters.Any(p => p.IsXmlBodyParameter);
+        public bool HasXmlBodyParameter => _operation.ActualParameters.Any(p => p.IsXmlBodyParameter);
 
         /// <summary>Gets or sets a value indicating whether this operation has an binary body parameter.</summary>
-        public bool HasBinaryBodyParameter => Operation.ActualParameters.Any(p => p.IsBinaryBodyParameter);
+        public bool HasBinaryBodyParameter => _operation.ActualParameters.Any(p => p.IsBinaryBodyParameter);
 
         /// <summary>Gets the mime type of the request body.</summary>
         public string Consumes
         {
             get
             {
-                if (Operation.ActualConsumes?.Contains("application/json") == true)
+                if (_operation.ActualConsumes?.Contains("application/json") == true)
                     return "application/json";
 
-                return Operation.ActualConsumes?.FirstOrDefault() ?? "application/json";
+                return _operation.ActualConsumes?.FirstOrDefault() ?? "application/json";
             }
         }
 
@@ -239,10 +236,10 @@ namespace NSwag.CodeGeneration.Models
         {
             get
             {
-                if (Operation.ActualProduces?.Contains("application/json") == true)
+                if (_operation.ActualProduces?.Contains("application/json") == true)
                     return "application/json";
 
-                return Operation.ActualProduces?.FirstOrDefault() ?? "application/json";
+                return _operation.ActualProduces?.FirstOrDefault() ?? "application/json";
             }
         }
 
