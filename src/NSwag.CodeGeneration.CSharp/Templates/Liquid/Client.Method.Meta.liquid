@@ -1,5 +1,5 @@
 {% if operation.HasSummary -%}
-/// <summary>{{ operation.Summary | CSharpDocs }}</summary>
+/// <summary>{{ operation.Summary | CSharpDocs: 0 }}</summary>
 {% endif -%}
 {% for parameter in operation.Parameters -%}
 {%     if parameter.HasDescription -%}
