@@ -26,7 +26,7 @@
     <EmbeddedResource Include="Templates\Liquid\Client.Method.Meta.liquid" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="9.9.2" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="9.9.4" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net451'">
     <Reference Include="Microsoft.CSharp" />
