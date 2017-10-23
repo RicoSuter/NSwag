@@ -73,7 +73,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.OperationProcessors
         }
 
         [TestMethod]
-        public async Task When_no_IncludedVersions_are_defined_then_all_routes_are_available_and_replaced()
+        public async Task When_custom_operation_processor_is_added_via_attribute_then_it_is_processed()
         {
             //// Arrange
             var settings = new WebApiToSwaggerGeneratorSettings();
