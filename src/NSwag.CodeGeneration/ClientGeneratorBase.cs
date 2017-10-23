@@ -122,9 +122,45 @@ namespace NSwag.CodeGeneration
                 })
                 .ToList();
 
-            operations = DeconflictOperations(document, operations, DeconflictSuffix.HttpMethod);
+            operations = ResolveOperationConflicts(document, operations);
 
             return operations;
+        }
+
+        /// <summary>
+        /// Operation model comparer.
+        /// </summary>
+        internal class OperationComparer : IEqualityComparer<TOperationModel>
+        {
+            public bool Equals(TOperationModel x, TOperationModel y)
+            {
+                // Check whether the compared objects reference the same data.
+                if (ReferenceEquals(x, y)) return true;
+
+                // Check whether any of the compared objects is null.
+                if (ReferenceEquals(x, null) || ReferenceEquals(y, null))
+                    return false;
+
+                // Check whether the operations' properties are equal.
+                return (x.ControllerName == y.ControllerName)
+                    && (x.OperationName == y.OperationName)
+                    && (x.Parameters.SequenceEqual(y.Parameters, new OperationParameterComparer()));
+            }
+
+            public int GetHashCode(TOperationModel operation)
+            {
+                // Check whether the object is null
+                if (ReferenceEquals(operation, null)) return 0;
+
+                // Calculate the hash code.
+                var hash = string.IsNullOrEmpty(operation.ControllerName) ? 0 : operation.ControllerName.GetHashCode();
+                hash ^= string.IsNullOrEmpty(operation.OperationName) ? 0 : operation.OperationName.GetHashCode();
+                foreach (var parameter in operation.Parameters)
+                {
+                    hash ^= string.IsNullOrEmpty(parameter.Type) ? 0 : parameter.Type.GetHashCode();
+                }
+                return hash;
+            }
         }
 
         /// <summary>
@@ -134,41 +170,46 @@ namespace NSwag.CodeGeneration
         {
             public bool Equals(TParameterModel x, TParameterModel y)
             {
-                //Check whether the compared objects reference the same data.
+                // Check whether the compared objects reference the same data.
                 if (ReferenceEquals(x, y)) return true;
 
-                //Check whether any of the compared objects is null.
+                // Check whether any of the compared objects is null.
                 if (ReferenceEquals(x, null) || ReferenceEquals(y, null))
                     return false;
 
-                //Check whether the parameters' properties are equal.
+                // Check whether the parameters' properties are equal.
                 return x.Type == y.Type;
             }
 
             public int GetHashCode(TParameterModel parameter)
             {
-                //Check whether the object is null
+                // Check whether the object is null
                 if (ReferenceEquals(parameter, null)) return 0;
 
-                //Get hash code for the Type field if it is not null.
+                // Get hash code for the Type field if it is not null.
                 return string.IsNullOrEmpty(parameter.Type) ? 0 : parameter.Type.GetHashCode();
             }
         }
 
         /// <summary>
-        /// Enumeration of valid operation name suffixes.
+        /// Enumeration of operation name deconfliction suffixes.
         /// </summary>
         internal enum DeconflictSuffix
         {
             /// <summary>
-            /// Use operation index as name suffix.
-            /// </summary>
-            Index,
-
-            /// <summary>
             /// Use underlying HTTP method as name suffix.
             /// </summary>
             HttpMethod,
+
+            /// <summary>
+            /// Use operation index as name suffix.
+            /// </summary>
+            OperationIndex,
+
+            /// <summary>
+            /// Placeholder for enumeration end
+            /// </summary>
+            End
         }
 
         /// <summary>
@@ -176,51 +217,57 @@ namespace NSwag.CodeGeneration
         /// </summary>
         /// <param name="document">Original Swagger document.</param>
         /// <param name="operations">Operations extracted from Swagger document.</param>
-        /// <param name="suffix">Suffix type to use for operation deconfliction.</param>
         /// <returns>Deduplicated operations.</returns>
-        internal static List<TOperationModel> DeconflictOperations(SwaggerDocument document, List<TOperationModel> operations, DeconflictSuffix suffix)
+        internal static List<TOperationModel> ResolveOperationConflicts(SwaggerDocument document, List<TOperationModel> operations)
         {
-            var ret = new List<TOperationModel>();
-
-            while (operations.Any())
+            var ret = operations;
+            if (ret == null || ret.Count == 0)
             {
-                var operation = operations[0];
-                var conflicts = operations.Where(o => (o.ControllerName == operation.ControllerName)
-                                                       && (o.OperationName == operation.OperationName)
-                                                       && (o.Parameters.SequenceEqual(operation.Parameters, new OperationParameterComparer())))
-                                                       .ToList();
-                if (conflicts.Count > 1)
+                return ret;
+            }
+            // Set initial deconfliction suffix
+            var suffix = DeconflictSuffix.HttpMethod;
+            List<IGrouping<TOperationModel, TOperationModel>> conflicts = null;
+            do
+            {
+                conflicts = Deconflict(ref operations, conflicts, suffix++);
+            }
+            while (conflicts.Any() && (suffix < DeconflictSuffix.End));
+
+            return ret;
+        }
+
+        internal static List<IGrouping<TOperationModel, TOperationModel>> Deconflict(ref List<TOperationModel> operations, List<IGrouping<TOperationModel, TOperationModel>> conflicts, DeconflictSuffix suffix)
+        {
+            var comparer = new OperationComparer();
+            if (conflicts == null)
+            {
+                conflicts = operations.GroupBy(x => x, comparer).Where(g => g.Count() > 1).ToList();
+            }
+            if (conflicts.Any())
+            {
+                foreach (var conflict in conflicts)
                 {
-                    // Try to resolve by adding a suffix to operation names
-                    for (var idx = 0; idx < conflicts.Count; idx ++)
+                    for (var idx = 0; idx < conflict.Count(); idx++)
                     {
-                        var conflict = conflicts[idx];
+                        var operation = conflict.ElementAt(idx);
                         switch (suffix)
                         {
-                            case DeconflictSuffix.Index:
-                                conflict.OperationName += $"_{idx + 1}";
+                            case DeconflictSuffix.HttpMethod:
+                                operation.OperationName += CapitalizeFirst(operation.HttpMethod.ToString());
                                 break;
 
-                            case DeconflictSuffix.HttpMethod:
-                                conflict.OperationName += CapitalizeFirst(conflict.HttpMethod.ToString());
+                            case DeconflictSuffix.OperationIndex:
+                                operation.OperationName += $"{idx + 1}";
                                 break;
+
                             default:
                                 break;
                         }
                     }
-                    // Final duplicates check
-                    var final = DeconflictOperations(document, conflicts, DeconflictSuffix.Index);
-                    // Update operations list
-                    ret.AddRange(final);
-                    operations = operations.Except(final).ToList();
-                }
-                else
-                {
-                    ret.Add(operation);
-                    operations.Remove(operation);
                 }
             }
-            return ret;
+            return operations.GroupBy(x => x, comparer).Where(g => g.Count() > 1).ToList();
         }
 
         /// <summary>Capitalizes first letter.</summary>
