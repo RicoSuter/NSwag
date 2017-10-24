@@ -43,6 +43,13 @@ namespace NSwag.Commands
             set { Settings.UseCancellationToken = value; }
         }
 
+        [Argument(Name = "AspNetNamespace", Description = "The ASP.NET (Core) framework namespace (default: 'System.Web.Http').", IsRequired = false)]
+        public string AspNetNamespace
+        {
+            get { return Settings.AspNetNamespace; }
+            set { Settings.AspNetNamespace = value; }
+        }
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var code = await RunAsync();

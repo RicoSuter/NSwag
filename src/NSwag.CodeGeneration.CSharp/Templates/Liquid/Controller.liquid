@@ -1,0 +1,98 @@
+﻿{% if GeneratePartialControllers -%}
+[System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
+public interface I{{ Class }}Controller
+{
+{%     for operation in Operations -%}
+{%         if operation.HasSummary -%}
+    /// <summary>{{ operation.Summary | CSharpDocs: 1 }}</summary>
+{%         endif -%}
+{%         for parameter in operation.Parameters -%}
+{%             if parameter.HasDescription -%}
+    /// <param name="{{ parameter.VariableName }}">{{ parameter.Description | CSharpDocs: 1 }}</param>
+{%             endif -%}
+{%         endfor -%}
+{%         if operation.HasResultDescription -%}
+    /// <returns>{{ operation.ResultDescription | CSharpDocs: 1 }}</returns>
+{%         endif -%}
+{%         if operation.IsDeprecated -%}
+    [System.Obsolete]
+{%         endif -%}
+    {{ operation.ResultType }} {{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}{% if parameter.IsLast == false or UseCancellationToken %}, {% endif %}{% endfor %}{% if UseCancellationToken %}System.Threading.CancellationToken cancellationToken{% endif %});
+
+{%      endfor -%}
+}
+
+{% endif -%}
+[System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
+{% if HasBasePath -%}
+[{{ AspNetNamespace }}.RoutePrefix("{{ BasePath }}")]
+{% endif -%}
+{% if GeneratePartialControllers -%}
+public partial class {{ Class }}Controller : {% if HasBaseClass %}{{ BaseClass }}{% else %}{{ AspNetNamespace }}.ApiController{% endif %} 
+{
+    private I{{ Class }}Controller _implementation; 
+
+    public {{ Class }}Controller(I{{ Class }}Controller implementation)
+    {
+        _implementation = implementation; 
+    }
+
+{%     for operation in Operations -%}
+{%         if operation.HasSummary -%}
+    /// <summary>{{ operation.Summary | CSharpDocs: 1 }}</summary>
+{%         endif -%}
+{%         for parameter in operation.Parameters -%}
+{%             if parameter.HasDescription -%}
+    /// <param name="{{ parameter.VariableName }}">{{ parameter.Description | CSharpDocs: 1 }}</param>
+{%             endif -%}
+{%         endfor -%}
+{%         if operation.HasResultDescription -%}
+    /// <returns>{{ operation.ResultDescription | CSharpDocs: 1 }}</returns>
+{%         endif -%}
+{%         if operation.IsDeprecated -%}
+    [System.Obsolete]
+{%         endif -%}
+    public {{ operation.ResultType }} {{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}{% if parameter.IsLast == false or UseCancellationToken %}, {% endif %}{% endfor %}{% if UseCancellationToken %}System.Threading.CancellationToken cancellationToken{% endif %})
+    {    
+{%         if operation.WrapResponse -%}
+        var result = await _implementation.{{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if parameter.IsLast == false or UseCancellationToken %}, {% endif %}{% endfor %}{% if UseCancellationToken %}cancellationToken{% endif %});
+
+        var status = (System.Net.HttpStatusCode)System.Enum.Parse(typeof(System.Net.HttpStatusCode), result.StatusCode);
+        HttpResponseMessage response = Request.CreateResponse(status{% if operation.UnwrappedResultType != "void" %}, result.Result{% endif %});
+    
+        foreach (var header in result.Headers)
+            response.Headers.Add(header.Key, header.Value);
+
+        return response;
+{%         else -%}
+        return _implementation.{{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if parameter.IsLast == false or UseCancellationToken %}, {% endif %}{% endfor %}{% if UseCancellationToken %}cancellationToken{% endif %});
+{%         endif -%}
+
+    }
+
+{%     endfor -%}
+}
+{% elseif GenerateAbstractControllers -%}
+public abstract class {{ Class }}ControllerBase : {% if HasBaseClass %}{{ BaseClass }}{% else %}{{ AspNetNamespace }}.ApiController{% endif %}
+{
+{%     for operation in Operations -%}
+{%         if operation.HasSummary -%}
+    /// <summary>{{ operation.Summary | CSharpDocs: 1 }}</summary>
+{%         endif -%}
+{%         for parameter in operation.Parameters -%}
+{%             if parameter.HasDescription -%}
+    /// <param name="{{ parameter.VariableName }}">{{ parameter.Description | CSharpDocs: 1 }}</param>
+{%             endif -%}
+{%         endfor -%}
+{%         if operation.HasResultDescription -%}
+    /// <returns>{{ operation.ResultDescription | CSharpDocs: 1 }}</returns>
+{%         endif -%}
+{%         if operation.IsDeprecated -%}
+    [System.Obsolete]
+{%         endif -%}
+    [{{ AspNetNamespace }}.Http{{ operation.HttpMethodUpper }}, {{ AspNetNamespace }}.Route("{{ operation.Path }}")]
+    public abstract {%  if operation.WrapResponse %}System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage>{% else %}{{ operation.ResultType }}{% endif %} {{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}{% if parameter.IsLast == false or UseCancellationToken %}, {% endif %}{% endfor %}{% if UseCancellationToken %}System.Threading.CancellationToken cancellationToken{% endif %});
+
+{%     endfor -%}
+}
+{% endif -%}

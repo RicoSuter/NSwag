@@ -22,6 +22,7 @@ namespace NSwag.CodeGeneration.CSharp
             CSharpGeneratorSettings.ArrayType = "System.Collections.Generic.List";
             ControllerStyle = CSharpControllerStyle.Partial;
             UseCancellationToken = false;
+            AspNetNamespace = "System.Web.Http";
         }
 
         /// <summary>Gets or sets the full name of the base class.</summary>
@@ -32,5 +33,8 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets a value indicating whether to allow adding cancellation token </summary>
         public bool UseCancellationToken { get; set; }
+
+        /// <summary>Gets or sets the ASP.NET namespace (default: 'System.Web.Http').</summary>
+        public string AspNetNamespace { get; set; }
     }
 }
