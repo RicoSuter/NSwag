@@ -194,7 +194,7 @@
                                           Margin="0,0,0,12" />
 
                                 <TextBlock Text="Excluded Type Names (comma separated, must be defined in ExtensionCode or custom import)." FontWeight="Bold" Margin="0,0,0,6" />
-                                <TextBox ToolTip="ExcludedTypeNames" Text="{Binding ExcludedTypeNames, Mode=TwoWay}" Margin="0,0,0,12" />
+                                <TextBox ToolTip="ExcludedTypeNames" Text="{Binding ExcludedTypeNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" Margin="0,0,0,12" />
 
                                 <StackPanel Visibility="{Binding Command.TypeStyle, ConverterParameter='!Class', Converter={StaticResource EqualityConverter}}">
                                     <TextBlock Text="The type names which always generate plain TypeScript classes (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
