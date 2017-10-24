@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NSwag.CodeGeneration.OperationNameGenerators
@@ -35,15 +36,38 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         /// <returns>The client name.</returns>
         public string GetOperationName(SwaggerDocument document, string path, SwaggerOperationMethod httpMethod, SwaggerOperation operation)
         {
-            var operationName = path
+            var operationName = PathToName(path);
+            var nameConflict = document.Paths
+                .SelectMany(pair => pair.Value.Select(p => new { Path = pair.Key.Trim('/'), HttpMethod = p.Key, Operation = p.Value }))
+                .Where(op =>
+                          GetClientName(document, op.Path, op.HttpMethod, op.Operation) == GetClientName(document, path, httpMethod, operation)
+                          && PathToName(op.Path) == operationName
+                          //&& op.Operation.Parameters.Count == operation.Parameters.Count // Compare by operation signature
+                )
+                .ToList().Count > 1;
+            if (nameConflict)
+            {
+                operationName += CapitalizeFirst(httpMethod.ToString());
+            }
+            return operationName;
+        }
+
+        /// <summary>
+        /// Converts the path to an operation name.
+        /// </summary>
+        /// <param name="path">The HTTP path.</param>
+        /// <returns>The operation name.</returns>
+        internal static string PathToName(string path)
+        {
+            var name = path
                 .Split('/', '-', '_')
                 .Where(part => !part.Contains("{") && !string.IsNullOrWhiteSpace(part))
                 .Aggregate("", (current, part) => current + CapitalizeFirst(part));
-            if (string.IsNullOrEmpty(operationName))
+            if (string.IsNullOrEmpty(name))
             {
-                operationName = "Index";
+                name = "Index"; // Root path based operation?
             }
-            return operationName;
+            return name;
         }
 
         /// <summary>Capitalizes first letter.</summary>
