@@ -173,7 +173,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         protected override TypeScriptResponseModel CreateResponseModel(string statusCode, SwaggerResponse response,
             JsonSchema4 exceptionSchema, IClientGenerator generator, ClientGeneratorBaseSettings settings)
         {
-            return new TypeScriptResponseModel(statusCode, response, response == GetSuccessResponse(),
+            return new TypeScriptResponseModel(this, statusCode, response, response == GetSuccessResponse(),
                 exceptionSchema, generator, (SwaggerToTypeScriptClientGeneratorSettings)settings);
         }
     }

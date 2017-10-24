@@ -332,7 +332,7 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(Sy
                     {
 <#if(response.HasType){#>
 <#  if(response.IsFile){#>
-<#      if(response.IsSuccess(operation)){#>
+<#      if(response.IsSuccess){#>
                         var responseStream_ = await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
                         var fileResponse_ = new FileResponse(status_, headers_, responseStream_, <#if(Model.InjectHttpClient){#>null<#}else{#>client_<#}#>, response_); 
                         client_ = null; response_ = null; // response and client are disposed by FileResponse
@@ -347,7 +347,7 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(Sy
                         try
                         {
                             result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<<#=response.Type#>>(responseData_, _settings.Value);
-<#      if(response.IsSuccess(operation)){#>
+<#      if(response.IsSuccess){#>
 <#          if (operation.WrapResponse){#>
                             return new <#=Model.ResponseClass#><<#=operation.UnwrappedResultType#>>(status_, headers_, result_); 
 <#          }else{#>
@@ -359,7 +359,7 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(Sy
                         {
                             throw new <#=Model.ExceptionClass#>("Could not deserialize the response body.", status_, responseData_, headers_, exception);
                         }
-<#      if(!response.IsSuccess(operation)){#>
+<#      if(!response.IsSuccess){#>
 <#          if(response.InheritsExceptionSchema){#>
                         if (result_ == null)
                             result_ = new <#=response.Type#>();
@@ -377,7 +377,7 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(Sy
 <#      }#>
 <#  }#>
 <#}else{#>
-<#  if(response.IsSuccess(operation)){#>
+<#  if(response.IsSuccess){#>
 <#      if(operation.HasResultType){#>
 <#          if (operation.WrapResponse){#>
                         return new <#=Model.ResponseClass#><<#=operation.UnwrappedResultType#>>(status_, headers_, default(<#=operation.UnwrappedResultType#>)); 
@@ -403,7 +403,7 @@ urlBuilder_.Append("<#=parameter.Name#>=").Append(System.Uri.EscapeDataString(Sy
 <#  if(operation.DefaultResponse.HasType){#>
                     {
 <#      if(operation.DefaultResponse.IsFile){#>
-<#          if(operation.DefaultResponse.IsSuccess(operation)){#>
+<#          if(operation.DefaultResponse.IsSuccess){#>
                         var responseStream_ = await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
                         var fileResponse_ = new FileResponse(status_, headers_, responseStream_, <#if(Model.InjectHttpClient){#>null<#}else{#>client_<#}#>, response_); 
                         client_ = null; response_ = null; // response and client are disposed by FileResponse

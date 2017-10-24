@@ -135,6 +135,10 @@
                 <TextBlock Text="Ignore properties with the ObsoleteAttribute" TextWrapping="Wrap" />
             </CheckBox>
 
+            <CheckBox IsChecked="{Binding Command.AllowReferencesWithProperties, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="AllowReferencesWithProperties">
+                <TextBlock Text="Use $ref references even if additional properties are defined on the object (otherwise allOf/oneOf with $ref is used)" TextWrapping="Wrap" />
+            </CheckBox>
+
             <CheckBox IsChecked="{Binding Command.FlattenInheritanceHierarchy, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="FlattenInheritanceHierarchy">
                 <TextBlock Text="Flatten the inheritance hierarchy instead of using allOf to describe inheritance" TextWrapping="Wrap" />
             </CheckBox>

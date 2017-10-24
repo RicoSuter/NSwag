@@ -105,7 +105,8 @@ namespace NSwag.Commands
             set { Settings.GenerateXmlObjects = value; }
         }
 
-        [Argument(Name = "GenerateAbstractProperties", IsRequired = false, Description = "Generate abstract properties (i.e. interface and abstract properties. Properties may defined multiple times in a inheritance hierarchy, default: false).")]
+        [Argument(Name = "GenerateAbstractProperties", IsRequired = false, Description = "Generate abstract properties (i.e. interface and abstract properties. " +
+            "Properties may defined multiple times in a inheritance hierarchy, default: false).")]
         public bool GenerateAbstractProperties
         {
             get { return Settings.GenerateAbstractProperties; }
@@ -124,6 +125,14 @@ namespace NSwag.Commands
         {
             get { return Settings.IgnoreObsoleteProperties; }
             set { Settings.IgnoreObsoleteProperties = value; }
+        }
+
+        [Argument(Name = "AllowReferencesWithProperties", IsRequired = false, Description = "Use $ref references even if additional properties are defined on " +
+            "the object (otherwise allOf/oneOf with $ref is used, default: false).")]
+        public bool AllowReferencesWithProperties
+        {
+            get { return Settings.AllowReferencesWithProperties; }
+            set { Settings.AllowReferencesWithProperties = value; }
         }
 
         [Argument(Name = "ServiceHost", IsRequired = false, Description = "Overrides the service host of the web service (optional, use '.' to remove the hostname).")]

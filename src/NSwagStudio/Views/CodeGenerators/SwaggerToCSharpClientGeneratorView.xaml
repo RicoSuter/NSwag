@@ -137,7 +137,7 @@
                                 <TextBox Text="{Binding Command.HttpClientType, Mode=TwoWay}" ToolTip="HttpClientType" Margin="0,0,0,12" />
 
                                 <TextBlock Text="DateTime format for method parameters" FontWeight="Bold" Margin="0,0,0,6" />
-                                <TextBox Text="{Binding Command.ParameterDateTimeFormat, Mode=TwoWay}" ToolTip="ParaeterDateTimeFormat" Margin="0,0,0,12" />
+                                <TextBox Text="{Binding Command.ParameterDateTimeFormat, Mode=TwoWay}" ToolTip="ParameterDateTimeFormat" Margin="0,0,0,12" />
 
                                 <GroupBox Header="Base Class and Configuration Class" Margin="0,0,0,12">
                                     <StackPanel Margin="4,8,4,-8">

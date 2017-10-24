@@ -147,10 +147,10 @@ namespace NSwag.CodeGeneration.Models
         public TResponseModel DefaultResponse { get; }
 
         /// <summary>Gets a value indicating whether the operation has an explicit success response defined.</summary>
-        public bool HasSuccessResponse => Responses.Any(r => r.IsSuccess(this));
+        public bool HasSuccessResponse => Responses.Any(r => r.IsSuccess);
 
         /// <summary>Gets the success response.</summary>
-        public TResponseModel SuccessResponse => Responses.FirstOrDefault(r => r.IsSuccess(this));
+        public TResponseModel SuccessResponse => Responses.FirstOrDefault(r => r.IsSuccess);
 
         /// <summary>Gets the responses.</summary>
         IEnumerable<ResponseModelBase> IOperationModel.Responses => Responses;

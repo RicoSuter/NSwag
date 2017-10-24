@@ -125,7 +125,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 var settings = (SwaggerToCSharpClientGeneratorSettings)_settings;
                 var controllerName = _settings.GenerateControllerName(ControllerName);
                 return Responses
-                    .Where(r => r.ThrowsException(this))
+                    .Where(r => r.ThrowsException)
                     .SelectMany(r =>
                     {
                         if (r.ExpectedSchemas?.Any() == true)
@@ -196,7 +196,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <returns></returns>
         protected override CSharpResponseModel CreateResponseModel(string statusCode, SwaggerResponse response, JsonSchema4 exceptionSchema, IClientGenerator generator, ClientGeneratorBaseSettings settings)
         {
-            return new CSharpResponseModel(statusCode, response, response == GetSuccessResponse(), exceptionSchema, generator, settings.CodeGeneratorSettings);
+            return new CSharpResponseModel(this, statusCode, response, response == GetSuccessResponse(), exceptionSchema, generator, settings.CodeGeneratorSettings);
         }
     }
 }

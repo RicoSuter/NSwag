@@ -18,15 +18,23 @@
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Templates\Liquid\Client.Class.liquid" />
+    <None Remove="Templates\Liquid\Client.Class.ProcessResponse.liquid" />
+    <None Remove="Templates\Liquid\Client.Interface.liquid" />
     <None Remove="Templates\Liquid\Client.liquid" />
+    <None Remove="Templates\Liquid\Client.Method.Documentation.liquid" />
     <None Remove="Templates\Liquid\Client.Method.Meta.liquid" />
+    <None Remove="Templates\Liquid\Client.Method.ProcessResponse.liquid" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Templates\Liquid\Client.Class.liquid" />
+    <EmbeddedResource Include="Templates\Liquid\Client.Class.ProcessResponse.liquid" />
+    <EmbeddedResource Include="Templates\Liquid\Client.Interface.liquid" />
     <EmbeddedResource Include="Templates\Liquid\Client.liquid" />
-    <EmbeddedResource Include="Templates\Liquid\Client.Method.Meta.liquid" />
+    <EmbeddedResource Include="Templates\Liquid\Client.Method.Documentation.liquid" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="9.9.4" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="9.9.10" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net451'">
     <Reference Include="Microsoft.CSharp" />
