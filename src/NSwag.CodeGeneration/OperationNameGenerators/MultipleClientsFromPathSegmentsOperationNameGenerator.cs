@@ -42,13 +42,13 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         {
             var operationName = PathToName(path);
             var nameConflict = document.Paths
-                                   .SelectMany(pair => pair.Value.Select(p => new { Path = pair.Key.Trim('/'), HttpMethod = p.Key, Operation = p.Value }))
-                                   .Where(op =>
-                                           GetClientName(document, op.Path, op.HttpMethod, op.Operation) == GetClientName(document, path, httpMethod, operation)
-                                           && PathToName(op.Path) == operationName
-                                       //&& op.Operation.Parameters.Count == operation.Parameters.Count // Compare by operation signature
-                                   )
-                                   .ToList().Count > 1;
+                .SelectMany(pair => pair.Value.Select(p => new { Path = pair.Key.Trim('/'), HttpMethod = p.Key, Operation = p.Value }))
+                .Where(op =>
+                             GetClientName(document, op.Path, op.HttpMethod, op.Operation) == GetClientName(document, path, httpMethod, operation)
+                          && PathToName(op.Path) == operationName
+                          //&& op.Operation.Parameters.Count == operation.Parameters.Count // Compare by operation signature
+                )
+                .ToList().Count > 1;
             if (nameConflict)
             {
                 operationName += CapitalizeFirst(httpMethod.ToString());
