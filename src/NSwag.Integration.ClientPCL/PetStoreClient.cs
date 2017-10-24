@@ -8,7 +8,7 @@ namespace PetStore
 {
     #pragma warning disable // Disable all warnings
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "9.9.10.0 (Newtonsoft.Json v9.0.0.0)")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
     public partial interface IPetStoreClient
     {
         /// <summary>Update an existing pet</summary>
@@ -258,7 +258,7 @@ namespace PetStore
     
     }
     
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "9.9.10.0 (Newtonsoft.Json v9.0.0.0)")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
     public partial class PetStoreClient : IPetStoreClient
     {
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
@@ -2479,7 +2479,7 @@ namespace PetStore
     
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
     public class FileParameter
     {
         public FileParameter(System.IO.Stream data) 
@@ -2498,7 +2498,7 @@ namespace PetStore
         public string FileName { get; private set; }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
     public class SwaggerException : System.Exception
     {
         public string StatusCode { get; private set; }
@@ -2521,7 +2521,7 @@ namespace PetStore
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
     public class SwaggerException<TResult> : SwaggerException
     {
         public TResult Result { get; private set; }

@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="SwaggerToCSharpWebApiControllerGenerator.cs" company="NSwag">
+// <copyright file="SwaggerToCSharpControllerGenerator.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -13,25 +13,25 @@ using NSwag.CodeGeneration.CSharp.Models;
 namespace NSwag.CodeGeneration.CSharp
 {
     /// <summary>Generates the CSharp service client code. </summary>
-    public class SwaggerToCSharpWebApiControllerGenerator : SwaggerToCSharpGeneratorBase
+    public class SwaggerToCSharpControllerGenerator : SwaggerToCSharpGeneratorBase
     {
         private readonly SwaggerDocument _document;
 
-        /// <summary>Initializes a new instance of the <see cref="SwaggerToCSharpWebApiControllerGenerator" /> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="SwaggerToCSharpControllerGenerator" /> class.</summary>
         /// <param name="document">The Swagger document.</param>
         /// <param name="settings">The settings.</param>
         /// <exception cref="ArgumentNullException"><paramref name="document" /> is <see langword="null" />.</exception>
-        public SwaggerToCSharpWebApiControllerGenerator(SwaggerDocument document, SwaggerToCSharpWebApiControllerGeneratorSettings settings)
+        public SwaggerToCSharpControllerGenerator(SwaggerDocument document, SwaggerToCSharpControllerGeneratorSettings settings)
             : this(document, settings, SwaggerToCSharpTypeResolver.CreateWithDefinitions(settings.CSharpGeneratorSettings, document))
         {
         }
 
-        /// <summary>Initializes a new instance of the <see cref="SwaggerToCSharpWebApiControllerGenerator" /> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="SwaggerToCSharpControllerGenerator" /> class.</summary>
         /// <param name="document">The Swagger document.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="resolver">The resolver.</param>
         /// <exception cref="ArgumentNullException"><paramref name="document" /> is <see langword="null" />.</exception>
-        public SwaggerToCSharpWebApiControllerGenerator(SwaggerDocument document, SwaggerToCSharpWebApiControllerGeneratorSettings settings, SwaggerToCSharpTypeResolver resolver)
+        public SwaggerToCSharpControllerGenerator(SwaggerDocument document, SwaggerToCSharpControllerGeneratorSettings settings, SwaggerToCSharpTypeResolver resolver)
             : base(document, settings, resolver)
         {
             if (document == null)
@@ -42,7 +42,7 @@ namespace NSwag.CodeGeneration.CSharp
         }
 
         /// <summary>Gets or sets the generator settings.</summary>
-        public SwaggerToCSharpWebApiControllerGeneratorSettings Settings { get; set; }
+        public SwaggerToCSharpControllerGeneratorSettings Settings { get; set; }
 
         /// <summary>Gets the base settings.</summary>
         public override ClientGeneratorBaseSettings BaseSettings => Settings;

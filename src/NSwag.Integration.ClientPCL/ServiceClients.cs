@@ -11,7 +11,7 @@ namespace NSwag.Integration.ClientPCL
     #pragma warning disable // Disable all warnings
 
     
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "9.9.10.0 (Newtonsoft.Json v9.0.0.0)")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
     public partial class GeoClient : ClientBase
     {
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
@@ -820,7 +820,7 @@ namespace NSwag.Integration.ClientPCL
     
     
     
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "9.9.10.0 (Newtonsoft.Json v9.0.0.0)")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
     public partial class PersonsClient : ClientBase
     {
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;

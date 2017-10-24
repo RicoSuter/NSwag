@@ -33,7 +33,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 
             //// Act
-            var codeGen = new SwaggerToCSharpWebApiControllerGenerator(document, new SwaggerToCSharpWebApiControllerGeneratorSettings
+            var codeGen = new SwaggerToCSharpControllerGenerator(document, new SwaggerToCSharpControllerGeneratorSettings
             {
                 ControllerStyle = CSharpControllerStyle.Abstract,
             });
@@ -54,7 +54,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 
             //// Act
-            var codeGen = new SwaggerToCSharpWebApiControllerGenerator(document, new SwaggerToCSharpWebApiControllerGeneratorSettings
+            var codeGen = new SwaggerToCSharpControllerGenerator(document, new SwaggerToCSharpControllerGeneratorSettings
             {
                 ControllerStyle = CSharpControllerStyle.Partial,
             });
@@ -75,7 +75,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 
             //// Act
-            var codeGen = new SwaggerToCSharpWebApiControllerGenerator(document, new SwaggerToCSharpWebApiControllerGeneratorSettings
+            var codeGen = new SwaggerToCSharpControllerGenerator(document, new SwaggerToCSharpControllerGeneratorSettings
             {
             });
             var code = codeGen.GenerateFile();

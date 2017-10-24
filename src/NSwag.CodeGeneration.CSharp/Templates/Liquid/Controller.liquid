@@ -52,7 +52,8 @@ public partial class {{ Class }}Controller : {% if HasBaseClass %}{{ BaseClass }
 {%         if operation.IsDeprecated -%}
     [System.Obsolete]
 {%         endif -%}
-    public {{ operation.ResultType }} {{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}{% if parameter.IsLast == false or UseCancellationToken %}, {% endif %}{% endfor %}{% if UseCancellationToken %}System.Threading.CancellationToken cancellationToken{% endif %})
+    [{{ AspNetNamespace }}.Http{{ operation.HttpMethodUpper }}, {{ AspNetNamespace }}.Route("{{ operation.Path }}")]
+    public {{ operation.ResultType }} {{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}{% if parameter.IsLast == false or UseCancellationToken %}, {% endif %}{% endfor %}{% if UseCancellationToken %}System.Threading.CancellationToken cancellationToken{% endif %})
     {    
 {%         if operation.WrapResponse -%}
         var result = await _implementation.{{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if parameter.IsLast == false or UseCancellationToken %}, {% endif %}{% endfor %}{% if UseCancellationToken %}cancellationToken{% endif %});

@@ -8,7 +8,7 @@ namespace NSwag.Integration.Console.Contracts
 {
     #pragma warning disable // Disable all warnings
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "9.9.10.0 (Newtonsoft.Json v9.0.0.0)")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
     public partial interface IGeoClient
     {
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
@@ -94,7 +94,7 @@ namespace NSwag.Integration.Console.Contracts
     
     
     
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "9.9.10.0 (Newtonsoft.Json v9.0.0.0)")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
     public partial interface IPersonsClient
     {
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
@@ -377,7 +377,7 @@ namespace NSwag.Integration.Console.Contracts
         }
     }
     
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.9.10.0 (Newtonsoft.Json v9.0.0.0)")]
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
     [System.AttributeUsage(System.AttributeTargets.Class, AllowMultiple = true)]
     internal class JsonInheritanceAttribute : System.Attribute
     {
@@ -392,7 +392,7 @@ namespace NSwag.Integration.Console.Contracts
         public System.Type Type { get; }
     }
     
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.9.10.0 (Newtonsoft.Json v9.0.0.0)")]
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
     internal class JsonInheritanceConverter : Newtonsoft.Json.JsonConverter
     {
         internal static readonly string DefaultDiscriminatorName = "discriminator";
@@ -494,7 +494,7 @@ namespace NSwag.Integration.Console.Contracts
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
     public class FileParameter
     {
         public FileParameter(System.IO.Stream data) 
@@ -549,7 +549,7 @@ namespace NSwag.Integration.Console.Contracts
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
     public class SwaggerException : System.Exception
     {
         public string StatusCode { get; private set; }
@@ -572,7 +572,7 @@ namespace NSwag.Integration.Console.Contracts
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
     public class SwaggerException<TResult> : SwaggerException
     {
         public TResult Result { get; private set; }

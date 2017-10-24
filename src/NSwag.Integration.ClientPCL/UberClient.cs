@@ -8,7 +8,7 @@ namespace Uber
 {
     #pragma warning disable // Disable all warnings
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "9.9.10.0 (Newtonsoft.Json v9.0.0.0)")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
     public partial interface IClient
     {
         /// <summary>Product Types</summary>
@@ -92,7 +92,7 @@ namespace Uber
     
     }
     
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "9.9.10.0 (Newtonsoft.Json v9.0.0.0)")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
     public partial class Client 
     {
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
@@ -1158,7 +1158,7 @@ namespace Uber
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
     public class SwaggerException : System.Exception
     {
         public string StatusCode { get; private set; }
@@ -1181,7 +1181,7 @@ namespace Uber
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
     public class SwaggerException<TResult> : SwaggerException
     {
         public TResult Result { get; private set; }

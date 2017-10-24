@@ -8,7 +8,7 @@ namespace NSwag.Integration.ClientPCL.Contracts
 {
     #pragma warning disable // Disable all warnings
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "9.9.10.0 (Newtonsoft.Json v9.0.0.0)")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
     public partial interface IGeoClient
     {
         /// <exception cref="GeoClientException">A server side error occurred.</exception>
@@ -94,7 +94,7 @@ namespace NSwag.Integration.ClientPCL.Contracts
     
     
     
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "9.9.10.0 (Newtonsoft.Json v9.0.0.0)")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
     public partial interface IPersonsClient
     {
         /// <exception cref="PersonsClientException">A server side error occurred.</exception>
@@ -377,7 +377,7 @@ namespace NSwag.Integration.ClientPCL.Contracts
         }
     }
     
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.9.10.0 (Newtonsoft.Json v9.0.0.0)")]
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
     [System.AttributeUsage(System.AttributeTargets.Class, AllowMultiple = true)]
     internal class JsonInheritanceAttribute : System.Attribute
     {
@@ -392,7 +392,7 @@ namespace NSwag.Integration.ClientPCL.Contracts
         public System.Type Type { get; }
     }
     
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.9.10.0 (Newtonsoft.Json v9.0.0.0)")]
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
     internal class JsonInheritanceConverter : Newtonsoft.Json.JsonConverter
     {
         internal static readonly string DefaultDiscriminatorName = "discriminator";
@@ -494,7 +494,7 @@ namespace NSwag.Integration.ClientPCL.Contracts
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
     public class FileParameter
     {
         public FileParameter(System.IO.Stream data) 
@@ -549,7 +549,7 @@ namespace NSwag.Integration.ClientPCL.Contracts
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
     public class SwaggerResponse
     {
         public string StatusCode { get; private set; }
@@ -563,7 +563,7 @@ namespace NSwag.Integration.ClientPCL.Contracts
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
     public class SwaggerResponse<TResult> : SwaggerResponse
     {
         public TResult Result { get; private set; }
@@ -575,7 +575,7 @@ namespace NSwag.Integration.ClientPCL.Contracts
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
     public class GeoClientException : System.Exception
     {
         public string StatusCode { get; private set; }
@@ -598,7 +598,7 @@ namespace NSwag.Integration.ClientPCL.Contracts
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
     public class GeoClientException<TResult> : GeoClientException
     {
         public TResult Result { get; private set; }
@@ -610,7 +610,7 @@ namespace NSwag.Integration.ClientPCL.Contracts
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
     public class PersonsClientException : System.Exception
     {
         public string StatusCode { get; private set; }
@@ -633,7 +633,7 @@ namespace NSwag.Integration.ClientPCL.Contracts
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
     public class PersonsClientException<TResult> : PersonsClientException
     {
         public TResult Result { get; private set; }

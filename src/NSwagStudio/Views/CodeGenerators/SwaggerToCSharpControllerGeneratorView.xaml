@@ -37,7 +37,10 @@
                     <ComboBox SelectedItem="{Binding Command.ControllerStyle, Mode=TwoWay}" 
                               ToolTip="ControllerStyle"
                               ItemsSource="{Binding ControllerStyles}" Margin="0,0,0,12" />
-                    
+
+                    <TextBlock Text="The ASP.NET (Core) framework namespace" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding Command.AspNetNamespace, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,12" />
+
                     <CheckBox IsChecked="{Binding Command.UseCancellationToken, Mode=TwoWay}" 
                               Content="Add cancellation token to controller methods" Margin="0,0,0,12" />
                     
@@ -62,7 +65,7 @@
                             <TextBlock Text="Controller Class Name" FontWeight="Bold" Margin="0,0,0,6" />
                             <TextBox Text="{Binding Command.ClassName, Mode=TwoWay}" Margin="0,0,0,12" />
 
-                            <TextBlock Text="Controller Base Class Name (optional)" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBlock Text="Controller Base Class Name (optional, use 'Microsoft.AspNetCore.Mvc.Controller' for ASP.NET Core)" FontWeight="Bold" Margin="0,0,0,6" />
                             <TextBox Text="{Binding Command.ControllerBaseClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,12" />
 
                             <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">

@@ -16,9 +16,9 @@ using NSwag.CodeGeneration.CSharp.Models;
 namespace NSwag.Commands
 {
     [Command(Name = "swagger2cscontroller", Description = "Generates CSharp Web API controller code from a Swagger specification.")]
-    public class SwaggerToCSharpControllerCommand : SwaggerToCSharpCommand<SwaggerToCSharpWebApiControllerGeneratorSettings>
+    public class SwaggerToCSharpControllerCommand : SwaggerToCSharpCommand<SwaggerToCSharpControllerGeneratorSettings>
     {
-        public SwaggerToCSharpControllerCommand() : base(new SwaggerToCSharpWebApiControllerGeneratorSettings())
+        public SwaggerToCSharpControllerCommand() : base(new SwaggerToCSharpControllerGeneratorSettings())
         {
         }
 
@@ -62,7 +62,7 @@ namespace NSwag.Commands
             return await Task.Run(async () =>
             {
                 var document = await GetInputSwaggerDocument().ConfigureAwait(false);
-                var clientGenerator = new SwaggerToCSharpWebApiControllerGenerator(document, Settings);
+                var clientGenerator = new SwaggerToCSharpControllerGenerator(document, Settings);
                 return clientGenerator.GenerateFile();
             });
         }
