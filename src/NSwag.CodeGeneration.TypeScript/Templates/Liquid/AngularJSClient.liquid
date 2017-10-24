@@ -1,0 +1,96 @@
+﻿{% if HasOperations -%}
+{% if GenerateClientInterfaces -%}
+export interface I{{ Class }} {
+{%     for operation in Operations -%}
+    {% template Method.Documentation %}
+    {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}): ng.IPromise<{{ operation.ResultType }}>;
+{%     endfor -%}}
+{% endif -%}
+
+export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %}{% if GenerateClientInterfaces %}implements I{{ Class }} {% endif %}{
+    private baseUrl: string{% if SupportsStrictNullChecks %} | undefined{% endif %} = undefined; 
+    private http: ng.IHttpService; 
+    private q: ng.IQService; 
+    protected jsonParseReviver: {% if SupportsStrictNullChecks %}((key: string, value: any) => any) | undefined{% else %}(key: string, value: any) => any{% endif %} = undefined;
+
+{% if HasExtendedConstructor == false %}
+    constructor({% if HasConfigurationClass %}configuration: {{ ConfigurationClass }}, {% endif %}$http: ng.IHttpService, $q: ng.IQService, baseUrl?: string) {
+{%     if HasBaseClass -%}
+        super({% if HasConfigurationClass %}configuration{% endif %});
+{%     endif -%}
+        this.http = $http;
+        this.q = $q;
+{%     if UseGetBaseUrlMethod -%}
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("{{ BaseUrl }}");
+{%     else -%}
+        this.baseUrl = baseUrl ? baseUrl : "{{ BaseUrl }}";
+{%     endif -%}
+    }
+{% endif -%}
+{% if HasExtensionCode -%}
+    {{ ExtensionCode }}
+    
+{% endif -%}
+{% for operation in Operations -%}
+    {% template Method.Documentation %}
+    {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}): ng.IPromise<{{ operation.ResultType }}> {
+        {{ template RequestUrl }}
+
+{%     if operation.HasBody -%}
+        {{ template RequestBody }}
+{%     endif -%}
+
+        var options_ = <ng.IRequestConfig>{
+            url: url_,
+            method: "{{ operation.HttpMethodUpper | upcase }}",
+{%     if operation.IsFile -%}
+            responseType: "arraybuffer",
+{%     endif -%}
+{%     if operation.HasBody -%}
+            data: content_,
+{%     endif -%}
+            transformResponse: [], 
+            headers: {
+{%     for parameter in operation.HeaderParameters -%}
+                "{{ parameter.Name }}": {{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null ? "" + {{ parameter.VariableName }} : "", 
+{%     endfor -%}
+{%     if operation.HasFormParameters == false -%}
+                "Content-Type": "{{ operation.Consumes }}", 
+{%     endif -%}
+{%     if operation.HasResultType and operation.HasAcceptHeaderParameterParameter == false -%}
+                "Accept": "{{ operation.Produces }}"
+{%     endif -%}
+            }
+        };
+
+{%     if UseTransformOptionsMethod -%}
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http(transformedOptions_);
+        }).then((_response) => {
+{%     else -%}
+        return this.http(options_).then((_response) => {
+{%     endif -%}
+{%     if UseTransformResultMethod -%}
+            return this.transformResult(url_, _response, (_response) => this.process{{ operation.ActualOperationNameUpper }}(_response));
+{%     else -%}
+            return this.process{{ operation.ActualOperationNameUpper }}(_response);
+{%     endif -%}
+        }, (_response) => {
+            if (_response.status)
+{%     if UseTransformResultMethod -%}
+                return this.transformResult(url_, _response, (_response) => this.process{{ operation.ActualOperationNameUpper }}(_response));
+{%     else -%}
+                return this.process{{ operation.ActualOperationNameUpper }}(_response);
+{%     endif -%}
+            throw _response;
+        });
+    }
+
+    protected process{{ operation.ActualOperationNameUpper }}(response: any): ng.IPromise<{{ operation.ResultType }}> {
+        const status = response.status; 
+
+        {{ template ProcessResponse }}
+    }
+{% endif -%}
+}
+{% endif -%}

@@ -1,0 +1,104 @@
+﻿{% if HasOperations -%}
+{% if GenerateClientInterfaces -%}
+export interface I{{ Class }} {
+{%     for operation in Operations -%}
+    {% template Method.Documentation %}
+    {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false%}, {% endif %}{% endfor %}): Observable<{{ operation.ResultType }}>;
+{%     endfor -%}}
+{% endif -%}
+
+@Injectable()
+export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %}{% if GenerateClientInterfaces %}implements I{{ Class }} {% endif %}{
+    private http: {{ AngularHttpClass }};
+    private baseUrl: string;
+    protected jsonParseReviver: {% if SupportsStrictNullChecks %}((key: string, value: any) => any) | undefined{% else %}(key: string, value: any) => any{% endif %} = undefined;
+
+{% if HasExtendedConstructor == false -%}
+    constructor({% if HasConfigurationClass %}@Inject({{ ConfigurationClass }}) configuration: {{ ConfigurationClass }}, {% endif %}@Inject({{ AngularHttpClass }}) http: {{ AngularHttpClass }}, @Optional() @Inject({{ BaseUrlTokenName }}) baseUrl?: string) {
+{%     if HasBaseClass -%}
+        super({% if HasConfigurationClass %}configuration{% endif %});
+{%     endif -%}
+        this.http = http;
+{%     if UseGetBaseUrlMethod -%}
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("{{ BaseUrl }}");
+{%     else -%}
+        this.baseUrl = baseUrl ? baseUrl : "{{ BaseUrl }}";
+{%     endif -%}
+    }
+{% endif -%}
+{% if HasExtensionCode -%}
+    {{ ExtensionCode }}
+    
+{% endif -%}
+{% for operation in Operations -%}
+
+    {% template Method.Documentation %}
+    {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false%}, {% endif %}{% endfor %}): Observable<{{ operation.ResultType }}> {
+        {{ template RequestUrl }}
+
+{%     if operation.HasBody -%}
+        {{ template RequestBody }}
+
+{%     endif -%}
+        let options_ : any = {
+{%     if operation.HasBody -%}
+            body: content_,
+{%     endif -%}
+{%     if UseAngularHttpClient -%}
+            observe: "response",
+            responseType: "blob",
+{%     else -%}
+            method: "{{ operation.HttpMethodLower }}",
+{%     endif -%}
+{%     if operation.IsFile and UseAngularHttpClient == false -%}
+            responseType: ResponseContentType.Blob,
+{%     endif -%}
+            headers: new {% if UseAngularHttpClient %}HttpHeaders{% else %}Headers{% endif %}({
+{%     for parameter in operation.HeaderParameters -%}
+                "{{ parameter.Name }}": {{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null ? "" + {{ parameter.VariableName }} : "", 
+{%     endfor -%}
+{%     if operation.HasFormParameters == false -%}
+                "Content-Type": "{{ operation.Consumes }}", 
+{%     endif -%}
+{%     if operation.HasResultType and operation.HasAcceptHeaderParameterParameter == false -%}
+                "Accept": "{{ operation.Produces }}"
+{%     endif -%}
+            })
+        };
+
+{%     if UseTransformOptionsMethod -%}
+        return Observable.fromPromise(this.transformOptions(options_)).flatMap(transformedOptions_ => {
+            return this.http.request({% if UseAngularHttpClient %}"{{ operation.HttpMethodLower }}", {% endif %}url_, transformedOptions_);
+        }).flatMap((response_: any) => {
+{%     else -%}
+        return this.http.request({% if UseAngularHttpClient %}"{{ operation.HttpMethodLower }}", {% endif %}url_, options_).flatMap((response_ : any) => {
+{%     endif -%}
+{%     if UseTransformResultMethod -%}
+            return this.transformResult(url_, response_, (r) => this.process{{ operation.ActualOperationNameUpper }}(r));
+{%     else -%}
+            return this.process{{ operation.ActualOperationNameUpper }}(response_);
+{%     endif -%}
+        }).catch((response_: any) => {
+            if (response_ instanceof {% if UseAngularHttpClient %}HttpResponse{% else %}Response{% endif %}) {
+                try {
+{%     if UseTransformResultMethod -%}
+                    return this.transformResult(url_, response_, (r) => this.process{{ operation.ActualOperationNameUpper }}(r));
+{%     else -%}
+                    return this.process{{ operation.ActualOperationNameUpper }}(response_);
+{%     endif -%}
+                } catch (e) {
+                    return <Observable<{{ operation.ResultType }}>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<{{ operation.ResultType }}>><any>Observable.throw(response_);
+        });
+    }
+
+    protected process{{ operation.ActualOperationNameUpper }}(response: {% if UseAngularHttpClient %}HttpResponse<Blob>{% else %}Response{% endif %}): Observable<{{ operation.ResultType }}> {
+        const status = response.status; 
+
+        {{ template ProcessResponse }}
+    }
+{% endif -%}
+}
+{% endfor -%}

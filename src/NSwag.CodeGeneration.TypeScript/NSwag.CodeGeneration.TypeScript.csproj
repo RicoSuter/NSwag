@@ -18,6 +18,32 @@
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Templates\Liquid\AngularClient.liquid" />
+    <None Remove="Templates\Liquid\AngularJSClient.liquid" />
+    <None Remove="Templates\Liquid\ClientMethods.liquid" />
+    <None Remove="Templates\Liquid\FetchClient.liquid" />
+    <None Remove="Templates\Liquid\File.liquid" />
+    <None Remove="Templates\Liquid\JQueryCallbacksClient.liquid" />
+    <None Remove="Templates\Liquid\JQueryPromisesClient.liquid" />
+    <None Remove="Templates\Liquid\Method.Documentation.liquid" />
+    <None Remove="Templates\Liquid\ProcessResponse.liquid" />
+    <None Remove="Templates\Liquid\RequestBody.liquid" />
+    <None Remove="Templates\Liquid\RequestUrl.liquid" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\Liquid\AngularClient.liquid" />
+    <EmbeddedResource Include="Templates\Liquid\AngularJSClient.liquid" />
+    <EmbeddedResource Include="Templates\Liquid\ClientMethods.liquid" />
+    <EmbeddedResource Include="Templates\Liquid\FetchClient.liquid" />
+    <EmbeddedResource Include="Templates\Liquid\File.liquid" />
+    <EmbeddedResource Include="Templates\Liquid\JQueryCallbacksClient.liquid" />
+    <EmbeddedResource Include="Templates\Liquid\JQueryPromisesClient.liquid" />
+    <EmbeddedResource Include="Templates\Liquid\Method.Documentation.liquid" />
+    <EmbeddedResource Include="Templates\Liquid\ProcessResponse.liquid" />
+    <EmbeddedResource Include="Templates\Liquid\RequestBody.liquid" />
+    <EmbeddedResource Include="Templates\Liquid\RequestUrl.liquid" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="9.9.10" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net451'">
@@ -54,6 +80,77 @@
     <None Update="Templates\JQueryPromisesClientTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>JQueryPromisesClientTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\Liquid\AngularClientTemplate %281%29.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Templates\Liquid\AngularClientTemplate %2810%29.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AngularClientTemplate (10).cs</LastGenOutput>
+    </None>
+    <None Update="Templates\Liquid\AngularClientTemplate %282%29.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Templates\Liquid\AngularClientTemplate %283%29.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Templates\Liquid\AngularClientTemplate %284%29.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Templates\Liquid\AngularClientTemplate %285%29.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Templates\Liquid\AngularClientTemplate %286%29.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Templates\Liquid\AngularClientTemplate %287%29.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Templates\Liquid\AngularClientTemplate %288%29.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Templates\Liquid\AngularClientTemplate %289%29.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Templates\Liquid\AngularClientTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AngularClientTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\Liquid\AngularJSClientTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AngularJSClientTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\Liquid\ClientMethodsTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ClientMethodsTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\Liquid\FetchClientTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>FetchClientTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\Liquid\FileTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>FileTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\Liquid\JQueryCallbacksClientTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>JQueryCallbacksClientTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\Liquid\JQueryPromisesClientTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>JQueryPromisesClientTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\Liquid\ProcessResponseTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ProcessResponseTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\Liquid\RequestBodyTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>RequestBodyTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\Liquid\RequestUrlTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>RequestUrlTemplate.cs</LastGenOutput>
     </None>
     <None Update="Templates\ProcessResponseTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
@@ -106,6 +203,61 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>JQueryPromisesClientTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\Liquid\AngularClientTemplate %2810%29.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AngularClientTemplate (10).tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\Liquid\AngularClientTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AngularClientTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\Liquid\AngularJSClientTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AngularJSClientTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\Liquid\ClientMethodsTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ClientMethodsTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\Liquid\FetchClientTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>FetchClientTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\Liquid\FileTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>FileTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\Liquid\JQueryCallbacksClientTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>JQueryCallbacksClientTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\Liquid\JQueryPromisesClientTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>JQueryPromisesClientTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\Liquid\ProcessResponseTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ProcessResponseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\Liquid\RequestBodyTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RequestBodyTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\Liquid\RequestUrlTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RequestUrlTemplate.tt</DependentUpon>
     </Compile>
     <Compile Update="Templates\ProcessResponseTemplate.cs">
       <DesignTime>True</DesignTime>

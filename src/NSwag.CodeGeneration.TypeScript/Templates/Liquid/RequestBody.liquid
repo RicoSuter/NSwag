@@ -1,0 +1,31 @@
+﻿{% if operation.HasFormParameters -%}
+const content_ = new FormData();
+{%     for parameter in operation.FormParameters -%}
+{%         if parameter.IsNullable -%}
+if ({{ parameter.VariableName }} !== null && {{ parameter.VariableName }} !== undefined)
+{%         else -%}
+if ({{ parameter.VariableName }} === null || {{ parameter.VariableName }} === undefined)
+    throw new Error("The parameter '{{ parameter.VariableName }}' cannot be null.");
+else
+{%         endif -%}
+{%         if parameter.IsFile %}
+{%             if parameter.IsArray %}
+    {{ parameter.VariableName }}.forEach(item_ => content_.append("{{ parameter.Name }}", item_.data, item_.fileName ? item_.fileName : "{{ parameter.Name }}") );
+{%             else -%}
+    content_.append("{{ parameter.Name }}", {{ parameter.VariableName }}.data, {{ parameter.VariableName }}.fileName ? {{ parameter.VariableName }}.fileName : "{{ parameter.Name }}");
+{%             endif -%}
+{%         else -%}
+    content_.append("{{ parameter.Name }}", {{ parameter.VariableName }}.toString());
+{%         endif -%}
+{%     endfor -%}
+{% else -%}
+{%     if operation.HasContent -%}
+{%         if operation.ContentParameter.IsXmlBodyParameter -%}
+const content_ = {{ ContentParameter.VariableName }};
+{%         else -%}
+const content_ = JSON.stringify({{ ContentParameter.VariableName }});
+{%         endif -%}
+{%     else -%}
+const content_ = undefined;
+{%     endif -%}
+{% endif -%}

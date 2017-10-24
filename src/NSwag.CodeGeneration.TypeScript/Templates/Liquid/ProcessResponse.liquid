@@ -1,0 +1,235 @@
+﻿{% if operation.IsAngular -%}
+{%      if operation.UseAngularHttpClient -%}
+let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+{%      else -%}
+let _headers: any = response.headers ? response.headers.toJSON() : {};
+{%      endif -%}
+{% elseif operation.IsFetchOrAurelia -%}
+let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v, k) => _headers[k] = v); };
+{% else -%}
+let _headers: any = {};
+{% endif -%}
+{% if operation.HandleReferences and operation.RequiresMappings -%}
+let _mappings: { source: any, target: any }[] = [];
+{% endif -%}
+{% for response in operation.Responses -%}
+if (status === {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %} || status === 206{% endif %}) {
+{%     if operation.CanRequestBlobs and response.IsFile -%}
+    const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+    const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+    const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+{%         if operation.IsAngular -%}
+{%             if operation.WrapResponse -%}
+    return Observable.of(new {{ ResponseClass }}(status, _headers, { fileName: fileName, data: <any>response.{% if operation.UseAngularHttpClient %}body{% else %}blob(){% endif %}, status: status, headers: _headers }));
+{%             else -%}
+    return Observable.of({ fileName: fileName, data: <any>response.{% if operation.UseAngularHttpClient %}body{% else %}blob(){% endif %}, status: status, headers: _headers });
+{%             endif -%}
+{%         elseif operation.IsAngularJS -%}
+{%             if operation.WrapResponse -%}
+    return this.q.resolve(new {{ ResponseClass }}(status, _headers, { fileName: fileName, status: status, data: new Blob([response]), headers: _headers }));
+{%             else -%}
+    return this.q.resolve({ fileName: fileName, status: status, data: new Blob([response]), headers: _headers });
+{%             endif -%}
+{%         else -%}
+{%             if operation.WrapResponse -%}
+    return response.blob().then(blob => { return new {{ ResponseClass }}(status, _headers, { fileName: fileName, data: blob, status: status, headers: _headers }); });
+{%             else -%}
+    return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
+{%             endif -%}
+{%         endif -%}
+{%     else -%}
+{%         if operation.IsFetchOrAurelia -%}
+    return response.text().then((_responseText) => {
+{%         elseif operation.UseAngularHttpClient -%}
+    return blobToText(response.body).flatMap(_responseText => {
+{%         elseif operation.RequestAngularBlobs -%}
+    return blobToText(response.blob()).flatMap(_responseText => {
+{%         elseif operation.RequestAngularJSBlobs -%}
+    return blobToText(new Blob([response]), this.q).then(_responseText => {
+{%         elseif operation.IsAngular -%}
+    const _responseText = response.text();
+{%         elseif operation.IsAngularJS -%}
+    const _responseText = response.data;
+{%         else -%}
+    const _responseText = xhr.responseText; 
+{%         endif -%}
+{%         if response.HasType -%}
+    let result{{ response.StatusCode }}: any = null;
+{%             if response.UseDtoClass or response.IsDate -%}
+    let resultData{{ response.StatusCode }} = _responseText === "" ? null : {% if operation.HandleReferences %}jsonParse{% else %}JSON.parse{% endif %}(_responseText, this.jsonParseReviver);
+    {{ response.DataConversionCode | tab: 1 }}
+{%             else -%}
+    result{{ response.StatusCode }} = _responseText === "" ? null : <{{ response.Type }}>{% if operation.HandleReferences %}jsonParse{% else %}JSON.parse{% endif %}(_responseText, this.jsonParseReviver);
+{%             endif -%}
+{%             if response.IsSuccess -%}
+{%                 if operation.IsAngular -%}
+{%                     if operation.WrapResponse -%}
+    return Observable.of(new {{ ResponseClass }}(status, _headers, result{{ response.StatusCode }}));
+{%                     else -%}
+    return Observable.of(result{{ response.StatusCode }});
+{%                     endif -%}
+{%                 elseif operation.IsAngularJS -%}
+{%                     if operation.WrapResponse -%}
+    return this.q.resolve(new {{ ResponseClass }}(status, _headers, result{{ response.StatusCode }}));
+{%                     else -%}
+    return this.q.resolve(result{{ response.StatusCode }});
+{%                     endif -%}
+{%                 else -%}
+{%                     if operation.WrapResponse -%}
+    return new {{ ResponseClass }}(status, _headers, result{{ response.StatusCode }});
+{%                     else -%}
+    return result{{ response.StatusCode }};
+{%                     endif -%}
+{%                 endif -%}
+{%             else -%}
+    return throwException({% if operation.IsAngularJS %}this.q, {% endif %}"A server error occurred.", status, _responseText, _headers, result{{ response.StatusCode }});
+{%             endif -%}
+{%         elseif response.IsSuccess -%}
+{%             if operation.IsAngular -%}
+    return Observable.of<{{ ResultType }}>(<any>null);
+{%             elseif operation.IsAngularJS -%}
+    return this.q.resolve<{{ ResultType }}>(<any>null);
+{%             else -%}
+    return{% if operation.HasResultType %} null{% endif %};
+{%             endif -%}
+{%         else -%}
+    return throwException({% if operation.IsAngularJS %}this.q, {% endif %}"A server error occurred.", status, _responseText, _headers);
+{%         endif -%}
+{%         if operation.IsFetchOrAurelia or operation.RequestAngularBlobs or operation.UseAngularHttpClient or operation.RequestAngularJSBlobs -%}
+    });
+{%         endif -%}
+{%     endif -%}
+} else 
+{% endfor -%}
+{% if operation.HasDefaultResponse -%}
+{%     if operation.CanRequestBlobs and operation.DefaultResponse.IsFile -%}
+{%         if operation.IsAngular -%}
+    return Observable.of(response.blob());
+{%         elseif operation.IsAngularJS -%}
+    return this.q.resolve(new Blob([response]));
+{%         else -%}
+    return response.blob();
+{%         endif -%}
+{%     else -%}
+{%         if operation.IsFetchOrAurelia -%}
+    return response.text().then((_responseText) => {
+{%         elseif operation.UseAngularHttpClient -%}
+    return blobToText(response.body).flatMap(_responseText => {
+{%         elseif operation.RequestAngularBlobs -%}
+    return blobToText(response.blob()).flatMap(_responseText => {
+{%         elseif operation.RequestAngularJSBlobs -%}
+    return blobToText(new Blob([response]), this.q).then(_responseText => {
+{%         elseif operation.IsAngular -%}
+    const _responseText = response.text();
+{%         elseif operation.IsAngularJS -%}
+    const _responseText = response.data;
+{%         else -%}
+    const _responseText = xhr.responseText; 
+{%         endif -%}
+{%         if operation.DefaultResponse.HasType -%}
+    let result: any = null;
+{%             if operation.DefaultResponse.UseDtoClass or operation.DefaultResponse.IsDate -%}
+    let resultData = _responseText === "" ? null : {% if operation.HandleReferences %}jsonParse{% else %}JSON.parse{% endif %}(_responseText, this.jsonParseReviver);
+    {{ DefaultResponse.DataConversionCode | tab: 1 }}
+{%             else -%}
+    result = _responseText === "" ? null : <{{ DefaultResponse.Type }}>{% if operation.HandleReferences %}jsonParse{% else %}JSON.parse{% endif %}(_responseText, this.jsonParseReviver);
+{%             endif -%}
+{%             if operation.HasSuccessResponse == false -%}
+{%                 if operation.IsAngular -%}
+{%                     if operation.WrapResponse -%}
+    return Observable.of(new {{ ResponseClass }}(status, _headers, result));
+{%                     else -%}
+    return Observable.of(result);
+{%                     endif -%}
+{%                 elseif operation.IsAngularJS -%}
+{%                     if operation.WrapResponse -%}
+    return this.q.resolve(new {{ ResponseClass }}(status, _headers, result));
+{%                     else -%}
+    return this.q.resolve(result);
+{%                     endif -%}
+{%                 else -%}
+{%                     if operation.WrapResponse -%}
+    return new {{ ResponseClass }}(status, _headers, result);
+{%                     else -%}
+    return result;
+{%                     endif -%}
+{%                 endif -%}
+{%             else -%}
+    return throwException({% if operation.IsAngularJS %}this.q, {% endif %}"A server error occurred.", status, _responseText, _headers, result);
+{%             endif -%}
+{%         elseif operation.HasSuccessResponse == false -%}
+{%             if operation.IsAngular -%}
+{%                 if operation.WrapResponse -%}
+    return Observable.of<{{ ResultType }}>(new {{ ResponseClass }}(status, _headers, <any>null));
+{%                 else -%}
+    return Observable.of<{{ ResultType }}>(<any>null);
+{%                 endif -%}
+{%             elseif operation.IsAngularJS -%}
+{%                 if operation.WrapResponse -%}
+    return this.q.resolve<{{ ResultType }}>(new {{ ResponseClass }}(status, _headers, <any>null));
+{%                 else -%}
+    return this.q.resolve<{{ ResultType }}>(<any>null);
+{%                 endif -%}
+{%             else -%}
+{%                 if operation.WrapResponse -%}
+    return new {{ ResponseClass }}(status, _headers, {% if operation.HasResultType %}null{% else %}<any>undefined{% endif %});
+{%                 else -%}
+    return{% if operation.HasResultType %} null{% endif %};
+{%                 endif -%}
+{%             endif -%}
+{%         else -%}
+    return throwException({% if operation.IsAngularJS %}this.q, {% endif %}"A server error occurred.", status, _responseText, _headers);
+{%         endif -%}
+{%         if operation.IsFetchOrAurelia or operation.RequestAngularBlobs or operation.UseAngularHttpClient or operation.RequestAngularJSBlobs -%}
+    });
+{%         endif -%}
+{%     endif -%}
+}
+{% else -%}
+if (status !== 200 && status !== 204) {
+{%     if operation.IsFetchOrAurelia -%}
+    return response.text().then((_responseText) => {
+{%     elseif operation.UseAngularHttpClient -%}
+    return blobToText(response.body).flatMap(_responseText => {
+{%     elseif operation.RequestAngularBlobs){ -%}
+    return blobToText(response.blob()).flatMap(_responseText => {
+{%     elseif operation.RequestAngularJSBlobs){ -%}
+    return blobToText(new Blob([response]), this.q).then(_responseText => {
+{%     elseif operation.IsAngular){ -%}
+    const _responseText = response.text();
+{%     elseif operation.IsAngularJS){ -%}
+    const _responseText = response.data;
+{%     else -%}
+    const _responseText = xhr.responseText; 
+{%     endif -%}
+    return throwException({% if operation.IsAngularJS %}this.q, {% endif %}"An unexpected server error occurred.", status, _responseText, _headers);
+{%     if operation.IsFetchOrAurelia or operation.RequestAngularBlobs or operation.UseAngularHttpClient or operation.RequestAngularJSBlobs -%}
+    });
+{%     endif -%}
+}
+{%     if operation.IsFetchOrAurelia -%}
+{%         if operation.WrapResponse -%}
+return Promise.resolve<{{ ResultType }}>(new {{ ResponseClass }}(status, _headers, <any>null));
+{%         else -%}
+return Promise.resolve<{{ ResultType }}>(<any>null);
+{%         endif -%}
+{%     elseif operation.IsAngular -%}
+{%         if operation.WrapResponse -%}
+return Observable.of<{{ ResultType }}>(new {{ ResponseClass }}(status, _headers, <any>null));
+{%         else -%}
+return Observable.of<{{ ResultType }}>(<any>null);
+{%         endif -%}
+{%     elseif operation.IsAngularJS -%}
+{%         if operation.WrapResponse -%}
+return this.q.resolve<{{ ResultType }}>(new {{ ResponseClass }}(status, _headers, <any>null));
+{%         else -%}
+return this.q.resolve<{{ ResultType }}>(<any>null);
+{%         endif -%}
+{%     else -%}
+{%         if operation.WrapResponse -%}
+return new {{ ResponseClass }}(status, _headers, <any>null);
+{%         else -%}
+return{% if operation.HasResultType %} null{% endif %};
+{%         endif -%}
+{%     endif -%}
+{% endif -%}

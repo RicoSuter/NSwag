@@ -1,0 +1,66 @@
+﻿{% if IsAngular -%}
+function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): Observable<any> {
+{%     if WrapDtoExceptions -%}
+    return Observable.throw(new SwaggerException(message, status, response, headers, result));
+{%     else -%}
+    if(result !== null && result !== undefined)
+        return Observable.throw(result);
+    else
+        return Observable.throw(new SwaggerException(message, status, response, headers, null));
+{%     endif -%}
+}
+
+{% elseif IsAngularJS -%}
+function throwException(q: ng.IQService, message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): ng.IPromise<any> {
+{%     if WrapDtoExceptions -%}
+    return q.reject(new SwaggerException(message, status, response, headers, result));
+{%     else -%}
+    if(result !== null && result !== undefined)
+        return q.reject(result);
+    else
+        return q.reject(new SwaggerException(message, status, response, headers, null));
+{%     endif -%}
+}
+
+{% else -%}
+function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): any {
+{%     if WrapDtoExceptions -%}
+    throw new SwaggerException(message, status, response, headers, result);
+{%     else -%}
+    if(result !== null && result !== undefined)
+        throw result;
+    else
+        throw new SwaggerException(message, status, response, headers, null);
+{%     endif -%}
+}
+
+{% endif -%}
+{% if IsAngular -%}
+function blobToText(blob: any): Observable<string> {
+    return new Observable<string>((observer: any) => {
+        if (!blob) {
+            observer.next("");
+            observer.complete();
+        } else {
+            let reader = new FileReader(); 
+            reader.onload = function() { 
+                observer.next(this.result);
+                observer.complete();
+            }
+            reader.readAsText(blob); 
+        }
+    });
+}
+
+{% elseif IsAngularJS -%}
+function blobToText(blob: Blob, q: ng.IQService): ng.IPromise<string> {
+    return new q((resolve) => { 
+        let reader = new FileReader(); 
+        reader.onload = function() { 
+            resolve(this.result);
+        }
+        reader.readAsText(blob); 
+    });
+}
+
+{% endif -%}
