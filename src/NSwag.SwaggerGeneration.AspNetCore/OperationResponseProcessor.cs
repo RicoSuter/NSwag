@@ -44,9 +44,11 @@ namespace NSwag.SwaggerGeneration.AspNetCore
 
             var responseTypeAttributes = context.MethodInfo.GetCustomAttributes()
                 .Where(a => a.GetType().Name == "ResponseTypeAttribute" ||
-                            a.GetType().Name == "SwaggerResponseAttribute")
+                            a.GetType().Name == "SwaggerResponseAttribute" ||
+                            a.GetType().Name == "SwaggerDefaultResponseAttribute")
                 .Concat(context.MethodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes()
-                    .Where(a => a.GetType().Name == "SwaggerResponseAttribute"))
+                    .Where(a => a.GetType().Name == "SwaggerResponseAttribute" ||
+                            a.GetType().Name == "SwaggerDefaultResponseAttribute"))
                 .ToList();
 
             var operation = context.OperationDescription.Operation;

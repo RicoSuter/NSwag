@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -19,6 +20,7 @@ using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Internal;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -31,6 +33,151 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
 {
     public class AspNetCoreToSwaggerGenerationTests
     {
+        [Fact]
+        public async Task SwaggerDocumentIsGeneratedForCustomCreatedApiDescriptions()
+        {
+            //// Arrange
+            var generator = new AspNetCoreToSwaggerGenerator(new AspNetCoreToSwaggerGeneratorSettings());
+            var apiDescriptions = new[]
+            {
+                new ApiDescription
+                {
+                    ActionDescriptor = new ActionDescriptor(),
+                },
+                new ApiDescription
+                {
+                    ActionDescriptor = new ControllerActionDescriptor
+                    {
+                        ControllerTypeInfo = typeof(CustomController).GetTypeInfo(),
+                        MethodInfo = typeof(CustomController).GetMethod(nameof(CustomController.FindModel)),
+                        AttributeRouteInfo = new AttributeRouteInfo
+                        {
+                            Template = "api/test/{id}",
+                        },
+                        ControllerName = "Test",
+                        ActionName = "Find",
+                    },
+                    HttpMethod = "Get",
+                    RelativePath = "api/test/{id}",
+                    ParameterDescriptions =
+                    {
+                        new ApiParameterDescription
+                        {
+                            Name = "id",
+                            Source = BindingSource.Path,
+                            Type = typeof(int),
+                        },
+                    },
+                    SupportedResponseTypes =
+                    {
+                        new ApiResponseType
+                        {
+                            Type = typeof(TestModel),
+                            StatusCode = 200,
+                        }
+                    },
+                },
+                new ApiDescription
+                {
+                    ActionDescriptor = new ControllerActionDescriptor
+                    {
+                        ControllerTypeInfo = typeof(CustomController).GetTypeInfo(),
+                        MethodInfo = typeof(CustomController).GetMethod(nameof(CustomController.Delete)),
+                        ControllerName = "Test",
+                        ActionName = "DeleteModel",
+                    },
+                    HttpMethod = "Delete",
+                    RelativePath = "api/test",
+                    ParameterDescriptions =
+                    {
+                        new ApiParameterDescription
+                        {
+                            Name = "id",
+                            Source = BindingSource.Query,
+                            Type = typeof(int),
+                        },
+                    },
+                    SupportedResponseTypes =
+                    {
+                        new ApiResponseType
+                        {
+                            Type = typeof(StatusCodeResult),
+                            StatusCode = 201,
+                        }
+                    },
+                },
+                new ApiDescription
+                {
+                    ActionDescriptor = new ControllerActionDescriptor
+                    {
+                        ControllerTypeInfo = typeof(CustomController).GetTypeInfo(),
+                        MethodInfo = typeof(CustomController).GetMethod(nameof(CustomController.Update)),
+                        AttributeRouteInfo = new AttributeRouteInfo
+                        {
+                            Template = "api/test/{id}",
+                        },
+                        ControllerName = "Test",
+                        ActionName = "Update",
+                    },
+                    HttpMethod = "Put",
+                    RelativePath = "api/test/{id}",
+                    ParameterDescriptions =
+                    {
+                        new ApiParameterDescription
+                        {
+                            Type = typeof(int),
+                            Name = "id",
+                            Source = BindingSource.Path,
+                        },
+                        new ApiParameterDescription
+                        {
+                            Type = typeof(TestModel),
+                            Name = "model",
+                            Source = BindingSource.Body,
+                        },
+                    },
+                    SupportedResponseTypes =
+                    {
+                        new ApiResponseType
+                        {
+                            Type = typeof(Task<TestModel>),
+                            StatusCode = 200,
+                        }
+                    },
+                },
+            };
+            var apiDescriptionGroupCollection = new ApiDescriptionGroupCollection(
+                new[] { new ApiDescriptionGroup(string.Empty, apiDescriptions) },
+                version: 1);
+
+            //// Act
+            var document = await generator.GenerateAsync(apiDescriptionGroupCollection);
+
+            //// Assert
+            Assert.Collection(
+                document.Operations.OrderBy(o => o.Method.ToString()),
+                operation =>
+                {
+                    Assert.Equal("/api/test", operation.Path);
+                    Assert.Equal(SwaggerOperationMethod.Delete, operation.Method);
+                },
+                operation =>
+                {
+                    Assert.Equal("/api/test/{id}", operation.Path);
+                    Assert.Equal(SwaggerOperationMethod.Get, operation.Method);
+
+                    Assert.Single(operation.Operation.Responses);
+                    var response = operation.Operation.Responses["200"];
+                    var definition = document.Definitions.First(f => f.Value == response.ActualResponseSchema);
+                    Assert.Equal(nameof(TestModel), definition.Key);
+                },
+                operation =>
+                {
+                    Assert.Equal("/api/test/{id}", operation.Path);
+                    Assert.Equal(SwaggerOperationMethod.Put, operation.Method);
+                });
+        }
+
         [Fact]
         public async Task When_generating_swagger_all_apidescriptions_are_discovered()
         {
@@ -259,7 +406,149 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
             Assert.Equal(nameof(TestModel), definition.Key);
         }
 
+        [Fact]
+        public async Task FromHeaderParametersAreDiscovered()
+        {
+            //// Arrange
+            var generator = new AspNetCoreToSwaggerGenerator(new AspNetCoreToSwaggerGeneratorSettings());
+            var apiDescriptions = GetApiDescriptionGroups(typeof(ControllerWithParameters));
+
+            //// Act
+            var document = await generator.GenerateAsync(apiDescriptions);
+
+            //// Assert
+            var operation = Assert.Single(document.Operations, o => o.Path == "/" + nameof(ControllerWithParameters.FromHeaderParameter)).Operation;
+            var parameter = Assert.Single(operation.Parameters);
+            Assert.Equal(SwaggerParameterKind.Header, parameter.Kind);
+            Assert.Equal("parameter1", parameter.Name);
+        }
+
+        [Fact]
+        public async Task FromBodyParametersAreDiscovered()
+        {
+            //// Arrange
+            var generator = new AspNetCoreToSwaggerGenerator(new AspNetCoreToSwaggerGeneratorSettings());
+            var apiDescriptions = GetApiDescriptionGroups(typeof(ControllerWithParameters));
+
+            //// Act
+            var document = await generator.GenerateAsync(apiDescriptions);
+
+            //// Assert
+            var operation = Assert.Single(document.Operations, o => o.Path == "/" + nameof(ControllerWithParameters.FromBodyParameter)).Operation;
+            var parameter = Assert.Single(operation.Parameters);
+            Assert.Equal(SwaggerParameterKind.Body, parameter.Kind);
+            Assert.Equal("model", parameter.Name);
+            Assert.True(parameter.IsRequired);
+        }
+
+        [Fact]
+        public async Task FormFileParametersAreDiscovered()
+        {
+            //// Arrange
+            var generator = new AspNetCoreToSwaggerGenerator(new AspNetCoreToSwaggerGeneratorSettings());
+            var apiDescriptions = GetApiDescriptionGroups(typeof(ControllerWithParameters));
+
+            //// Act
+            var document = await generator.GenerateAsync(apiDescriptions);
+
+            //// Assert
+            var operation = Assert.Single(document.Operations, o => o.Path == "/" + nameof(ControllerWithParameters.FileParameter)).Operation;
+            var parameter = Assert.Single(operation.Parameters);
+            Assert.Equal(SwaggerParameterKind.FormData, parameter.Kind);
+            Assert.Equal("multipart/form-data", Assert.Single(operation.Consumes));
+        }
+
+        [Fact]
+        public async Task ComplexQueryParametersAreProcessed()
+        {
+            //// Arrange
+            var generator = new AspNetCoreToSwaggerGenerator(new AspNetCoreToSwaggerGeneratorSettings());
+            var apiDescriptions = GetApiDescriptionGroups(typeof(ControllerWithParameters));
+
+            //// Act
+            var document = await generator.GenerateAsync(apiDescriptions);
+
+            //// Assert
+            var operation = Assert.Single(document.Operations, o => o.Path == "/" + nameof(ControllerWithParameters.ComplexFromQueryParameter)).Operation;
+            Assert.Collection(
+                operation.Parameters.OrderBy(p => p.Name),
+                parameter =>
+                {
+                    Assert.Equal(nameof(ComplexModel.Header), parameter.Name);
+                    Assert.Equal(SwaggerParameterKind.Query, parameter.Kind);
+                },
+                parameter =>
+                {
+                    Assert.Equal(nameof(ComplexModel.Id), parameter.Name);
+                    Assert.Equal(SwaggerParameterKind.Query, parameter.Kind);
+                },
+                parameter =>
+                {
+                    Assert.Equal(nameof(ComplexModel.QueryValues), parameter.Name);
+                    Assert.Equal(SwaggerParameterKind.Query, parameter.Kind);
+                });
+        }
+
+        [Fact]
+        public async Task BoundPropertiesAreProcessed()
+        {
+            //// Arrange
+            var generator = new AspNetCoreToSwaggerGenerator(new AspNetCoreToSwaggerGeneratorSettings());
+            var apiDescriptions = GetApiDescriptionGroups(typeof(ControllerWithBoundProperties));
+
+            //// Act
+            var document = await generator.GenerateAsync(apiDescriptions);
+
+            //// Assert
+            var operation = Assert.Single(document.Operations).Operation;
+            Assert.Collection(
+                operation.Parameters.OrderBy(p => p.Name),
+                parameter =>
+                {
+                    Assert.Equal(nameof(ControllerWithBoundProperties.HeaderValue), parameter.Name);
+                    Assert.Equal(SwaggerParameterKind.Header, parameter.Kind);
+                },
+                parameter =>
+                {
+                    Assert.Equal(nameof(ControllerWithBoundProperties.Id), parameter.Name);
+                    Assert.Equal(SwaggerParameterKind.Path, parameter.Kind);
+                },
+                parameter =>
+                {
+                    Assert.Equal("model", parameter.Name);
+                    Assert.Equal(SwaggerParameterKind.Body, parameter.Kind);
+                });
+        }
+
+        [Fact]
+        public async Task When_no_IncludedVersions_are_defined_then_all_routes_are_available_and_replaced()
+        {
+            //// Arrange
+            var generator = new AspNetCoreToSwaggerGenerator(new AspNetCoreToSwaggerGeneratorSettings());
+            var apiDescriptions = GetApiDescriptionGroups(typeof(ControllerWithReCodeAttribute));
+
+            //// Act
+            var document = await generator.GenerateAsync(apiDescriptions);
+
+            //// Assert
+            var operation = Assert.Single(document.Operations).Operation;
+            Assert.True(operation.ExtensionData.ContainsKey("x-code-samples"));
+            var extenstionData = (IList<ReDocCodeSampleAttribute.ReDocCodeSample>)operation.ExtensionData["x-code-samples"];
+            Assert.Equal(2, extenstionData.Count);
+        }
+
         #region Controllers
+
+        private class CustomController
+        {
+            public IActionResult FindModel(int id) => null;
+
+            [HttpDelete]
+            public IActionResult Delete(int id) => null;
+
+            [HttpPut]
+            public IActionResult Update(int id, TestModel model) => null;
+        }
 
         private class TestController : ControllerBase
         {
@@ -357,7 +646,109 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
             public IActionResult CreateModel(int id) => null;
         }
 
+        private class ControllerWithParameters
+        {
+            [HttpPost(nameof(FromHeaderParameter))]
+            public IActionResult FromHeaderParameter([FromHeader] string parameter1) => null;
+
+            [HttpPost(nameof(FromBodyParameter))]
+            public IActionResult FromBodyParameter([FromBody] TestModel model) => null;
+
+            [HttpPost(nameof(FileParameter))]
+            public IActionResult FileParameter(IFormFileCollection formFiles) => null;
+
+            [HttpPost(nameof(ComplexFromQueryParameter))]
+            public IActionResult ComplexFromQueryParameter(ComplexModel model) => null;
+        }
+
+        private class ControllerWithBoundProperties
+        {
+            [FromRoute]
+            public int Id { get; set; }
+
+            [FromHeader]
+            public string HeaderValue { get; set; }
+
+            [HttpPost("Action")]
+            public IActionResult TestAction([FromBody] TestModel model) => null;
+        }
+
+        public class ControllerWithReCodeAttribute
+        {
+            [HttpGet("Action")]
+            [ReDocCodeSample("foo", "bar")]
+            [ReDocCodeSample("baz", "buz")]
+            public void Run()
+            {
+            }
+        }
+
         private class TestModel { }
+
+        private class ComplexModel
+        {
+            [FromRoute]
+            public int Id { get; set; }
+
+            [FromBody]
+            public string Header { get; set; }
+
+            [FromQuery(Name = "q")]
+            public int[] QueryValues { get; set; }
+        }
+
+        private class CustomBindingSourceAttribute : Attribute, IBindingSourceMetadata
+        {
+            public BindingSource BindingSource => BindingSource.ModelBinding;
+        }
+
+
+        public class ReDocCodeSampleAttribute : SwaggerOperationProcessorAttribute
+        {
+            public ReDocCodeSampleAttribute(string language, string source)
+                : base(typeof(ReDocCodeSampleAppender), language, source)
+            {
+            }
+
+            internal class ReDocCodeSampleAppender : IOperationProcessor
+            {
+                private readonly string _language;
+                private readonly string _source;
+                private const string ExtensionKey = "x-code-samples";
+
+                public ReDocCodeSampleAppender(string language, string source)
+                {
+                    _language = language;
+                    _source = source;
+                }
+
+                public Task<bool> ProcessAsync(OperationProcessorContext context)
+                {
+                    if (context.OperationDescription.Operation.ExtensionData == null)
+                        context.OperationDescription.Operation.ExtensionData = new Dictionary<string, object>();
+
+                    var data = context.OperationDescription.Operation.ExtensionData;
+                    if (!data.ContainsKey(ExtensionKey))
+                        data[ExtensionKey] = new List<ReDocCodeSample>();
+
+                    var samples = (List<ReDocCodeSample>)data[ExtensionKey];
+                    samples.Add(new ReDocCodeSample
+                    {
+                        Language = _language,
+                        Source = _source,
+                    });
+
+                    return Task.FromResult(true);
+                }
+            }
+
+            public class ReDocCodeSample
+            {
+                public string Language { get; set; }
+
+                public string Source { get; set; }
+            }
+        }
 
         #endregion
 

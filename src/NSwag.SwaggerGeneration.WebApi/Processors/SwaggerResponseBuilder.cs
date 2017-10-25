@@ -127,7 +127,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                 // If there are some attributes declared on the controller \ action, only return a default success response
                 // if a 2xx status code isn't already defined and the SwaggerDefaultResponseAttribute is declared.
                 var operationResponses = _context.OperationDescription.Operation.Responses;
-                var hasSuccessResponse = operationResponses.ContainsKey("200") || operationResponses.ContainsKey("204");
+                var hasSuccessResponse = operationResponses.Keys.Any(HttpUtilities.IsSuccessStatusCode);
 
                 loadDefaultSuccessResponseFromReturnType = !hasSuccessResponse &&
                     _context.MethodInfo.GetCustomAttributes()

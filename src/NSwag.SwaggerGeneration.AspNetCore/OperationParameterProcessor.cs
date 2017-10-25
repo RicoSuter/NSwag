@@ -12,6 +12,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using NJsonSchema;
@@ -48,18 +49,43 @@ namespace NSwag.SwaggerGeneration.AspNetCore
 
             foreach (var apiParameter in parameters.Where(p => p.Source != null))
             {
-                var parameter = methodParameters.FirstOrDefault(m => m.Name == apiParameter.Name);
-                if (parameter == null || parameter.GetCustomAttributes().Any(a => a.GetType().Name == "SwaggerIgnoreAttribute"))
+                var parameterDescriptor = apiParameter.TryGetPropertyValue<ParameterDescriptor>("ParameterDescriptor");
+                var parameterName = parameterDescriptor?.Name ?? apiParameter.Name;
+
+                // In Mvc < 2.0, there isn't a good way to infer the attributes of a parameter with a IModelNameProvider.Name
+                // value that's different than the parameter name. Additionally, ApiExplorer will recurse in to complex model bound types
+                // and expose properties as top level parameters. Consequently, determining the property or parameter of an Api is best
+                // effort attempt.
+                var extendedApiParameter = new ExtendedApiParameterDescription
+                {
+                    ApiParameter = apiParameter,
+                    Attributes = Enumerable.Empty<Attribute>(),
+                };
+
+                var parameter = methodParameters.FirstOrDefault(m => m.Name == parameterName);
+                if (parameter != null)
+                {
+                    extendedApiParameter.ParameterInfo = parameter;
+                    extendedApiParameter.Attributes = parameter.GetCustomAttributes();
+                }
+                else
+                {
+                    var property = operationProcessorContext.ControllerType.GetProperty(parameterName, BindingFlags.Public | BindingFlags.Instance);
+                    if (property != null)
+                    {
+                        extendedApiParameter.PropertyInfo = property;
+                        extendedApiParameter.Attributes = property.GetCustomAttributes();
+                    }
+                }
+
+                if (extendedApiParameter.Attributes.Any(a => a.GetType().Name == "SwaggerIgnoreAttribute"))
                 {
                     continue;
                 }
 
-                var parameterName = apiParameter.Name;
-                var attributes = parameter.GetCustomAttributes();
-
                 if (apiParameter.Source == BindingSource.Path)
                 {
-                    var operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(apiParameter.Name, parameter).ConfigureAwait(false);
+                    var operationParameter = await CreatePrimitiveParameterAsync(context, extendedApiParameter).ConfigureAwait(false);
                     operationParameter.Kind = SwaggerParameterKind.Path;
                     operationParameter.IsRequired = true; // Path is always required => property not needed
 
@@ -70,36 +96,28 @@ namespace NSwag.SwaggerGeneration.AspNetCore
                 }
                 else if (apiParameter.Source == BindingSource.Header)
                 {
-                    var operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(parameterName, parameter).ConfigureAwait(false);
+                    var operationParameter = await CreatePrimitiveParameterAsync(context, extendedApiParameter).ConfigureAwait(false);
                     operationParameter.Kind = SwaggerParameterKind.Header;
 
                     context.OperationDescription.Operation.Parameters.Add(operationParameter);
                 }
                 else if (apiParameter.Source == BindingSource.Query)
                 {
-                    var operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(parameterName, parameter).ConfigureAwait(false);
+                    var operationParameter = await CreatePrimitiveParameterAsync(context, extendedApiParameter).ConfigureAwait(false);
                     operationParameter.Kind = SwaggerParameterKind.Query;
 
                     context.OperationDescription.Operation.Parameters.Add(operationParameter);
                 }
+                else if (apiParameter.Source == BindingSource.Body)
+                    await AddBodyParameterAsync(context, extendedApiParameter).ConfigureAwait(false);
                 else
                 {
-                    var parameterInfo = _settings.ReflectionService.GetDescription(apiParameter.Type, parameter.GetCustomAttributes(), _settings);
-                    if (await TryAddFileParameterAsync(context, parameterInfo, parameter).ConfigureAwait(false) == false)
+                    if (await TryAddFileParameterAsync(context, extendedApiParameter).ConfigureAwait(false) == false)
                     {
-                        if (apiParameter.Source == BindingSource.Body)
-                            await AddBodyParameterAsync(context, parameterName, parameter).ConfigureAwait(false);
+                        var operationParameter = await CreatePrimitiveParameterAsync(context, extendedApiParameter).ConfigureAwait(false);
+                        operationParameter.Kind = SwaggerParameterKind.Query;
 
-                        else if (parameterInfo.IsComplexType)
-                        {
-                            // If we are not reading from the body, then treat this as a primitive.
-                            // This may seem odd, but it allows for primitive -> custom complex-type bindings which are very common
-                            // In this case, the API author should use a TypeMapper to define the parameter
-                            await AddPrimitiveParametersFromUriAsync(
-                                context, apiParameter, httpPath, parameterName, parameter, parameterInfo).ConfigureAwait(false);
-                        }
-                        else
-                            await AddPrimitiveParameterAsync(parameterName, context.OperationDescription.Operation, parameter, context.SwaggerGenerator).ConfigureAwait(false);
+                        context.OperationDescription.Operation.Parameters.Add(operationParameter);
                     }
                 }
             }
@@ -136,33 +154,41 @@ namespace NSwag.SwaggerGeneration.AspNetCore
         }
 
         private async Task<bool> TryAddFileParameterAsync(
-            OperationProcessorContext context, JsonTypeDescription info, ParameterInfo parameter)
+            OperationProcessorContext context, ExtendedApiParameterDescription extendedApiParameter)
         {
-            var isFileArray = IsFileArray(parameter.ParameterType, info);
+            var info = _settings.ReflectionService.GetDescription(extendedApiParameter.ApiParameter.Type, extendedApiParameter.Attributes, _settings);
 
-            var attributes = parameter.GetCustomAttributes()
-                .Union(parameter.ParameterType.GetTypeInfo().GetCustomAttributes());
+            var isFileArray = IsFileArray(extendedApiParameter.ApiParameter.Type, info);
+
+            var attributes = extendedApiParameter.Attributes
+                .Union(extendedApiParameter.ApiParameter.Type.GetTypeInfo().GetCustomAttributes());
 
             var hasSwaggerFileAttribute = attributes.Any(a =>
                 a.GetType().IsAssignableTo("SwaggerFileAttribute", TypeNameStyle.Name));
 
             if (info.Type == JsonObjectType.File || hasSwaggerFileAttribute || isFileArray)
             {
-                await AddFileParameterAsync(context, parameter, isFileArray).ConfigureAwait(false);
+                await AddFileParameterAsync(context, extendedApiParameter, isFileArray).ConfigureAwait(false);
                 return true;
             }
 
             return false;
         }
 
-        private async Task AddFileParameterAsync(OperationProcessorContext context, ParameterInfo parameter, bool isFileArray)
+        private async Task AddFileParameterAsync(OperationProcessorContext context, ExtendedApiParameterDescription extendedApiParameter, bool isFileArray)
         {
-            var attributes = parameter.GetCustomAttributes().ToList();
+            var parameterDocumentation = string.Empty;
+            if (extendedApiParameter.ParameterInfo != null)
+            {
+                parameterDocumentation = await extendedApiParameter.ParameterInfo.GetDescriptionAsync(extendedApiParameter.Attributes).ConfigureAwait(false);
+            }
+            else if (extendedApiParameter.PropertyInfo != null)
+            {
+                parameterDocumentation = await extendedApiParameter.PropertyInfo.GetDescriptionAsync(extendedApiParameter.Attributes).ConfigureAwait(false);
+            }
 
-            // TODO: Check if there is a way to control the property name
-            var parameterDocumentation = await parameter.GetDescriptionAsync(parameter.GetCustomAttributes()).ConfigureAwait(false);
-            var operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(
-                parameter.Name, parameterDocumentation, parameter.ParameterType, attributes).ConfigureAwait(false);
+            var operationParameter = await CreatePrimitiveParameterAsync(
+                context, extendedApiParameter).ConfigureAwait(false);
 
             InitializeFileParameter(operationParameter, isFileArray);
             context.OperationDescription.Operation.Parameters.Add(operationParameter);
@@ -176,116 +202,73 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             return isFormFileCollection || isFileArray;
         }
 
-        private async Task AddBodyParameterAsync(OperationProcessorContext context, string name, ParameterInfo parameter)
+        private async Task AddBodyParameterAsync(OperationProcessorContext context, ExtendedApiParameterDescription extendedApiParameter)
         {
             var operation = context.OperationDescription.Operation;
-            if (parameter.ParameterType.Name == "XmlDocument" || parameter.ParameterType.InheritsFrom("XmlDocument", TypeNameStyle.Name))
+            var parameterType = extendedApiParameter.ApiParameter.Type;
+            if (parameterType.Name == "XmlDocument" || parameterType.InheritsFrom("XmlDocument", TypeNameStyle.Name))
             {
                 operation.Consumes = new List<string> { "application/xml" };
                 operation.Parameters.Add(new SwaggerParameter
                 {
-                    Name = name,
+                    Name = extendedApiParameter.ApiParameter.Name,
                     Kind = SwaggerParameterKind.Body,
                     Schema = new JsonSchema4 { Type = JsonObjectType.String },
                     IsNullableRaw = true,
-                    IsRequired = parameter.HasDefaultValue == false,
-                    Description = await parameter.GetDescriptionAsync(parameter.GetCustomAttributes()).ConfigureAwait(false)
+                    IsRequired = true,
+                    Description = await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false)
                 });
             }
-            else if (parameter.ParameterType.IsAssignableTo("System.IO.Stream", TypeNameStyle.FullName))
+            else if (parameterType.IsAssignableTo("System.IO.Stream", TypeNameStyle.FullName))
             {
                 operation.Consumes = new List<string> { "application/octet-stream" };
                 operation.Parameters.Add(new SwaggerParameter
                 {
-                    Name = name,
+                    Name = extendedApiParameter.ApiParameter.Name,
                     Kind = SwaggerParameterKind.Body,
                     Schema = new JsonSchema4 { Type = JsonObjectType.String, Format = JsonFormatStrings.Byte },
                     IsNullableRaw = true,
-                    IsRequired = parameter.HasDefaultValue == false,
-                    Description = await parameter.GetDescriptionAsync(parameter.GetCustomAttributes()).ConfigureAwait(false)
+                    IsRequired = true,
+                    Description = await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false)
                 });
             }
             else
             {
-                var operationParameter = await context.SwaggerGenerator
-                    .CreateBodyParameterAsync(name, parameter).ConfigureAwait(false);
+                var operationParameter = new SwaggerParameter
+                {
+                    Name = extendedApiParameter.ApiParameter.Name,
+                    Kind = SwaggerParameterKind.Body,
+                    // FromBody parameters are always required.
+                    IsRequired = true,
+                    Description = await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false),
+                    Schema = await context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema4>(
+                        extendedApiParameter.ApiParameter.Type, extendedApiParameter.Attributes, isNullable: false, schemaResolver: context.SchemaResolver).ConfigureAwait(false)
+                };
+
                 operation.Parameters.Add(operationParameter);
             }
         }
 
-        private async Task AddPrimitiveParametersFromUriAsync(OperationProcessorContext context, ApiParameterDescription apiParameterDescription, string httpPath, string name, ParameterInfo parameter, JsonTypeDescription typeDescription)
+        private async Task<SwaggerParameter> CreatePrimitiveParameterAsync(
+            OperationProcessorContext context,
+            ExtendedApiParameterDescription extendedApiParameter)
         {
-            var operation = context.OperationDescription.Operation;
-            if (typeDescription.Type.HasFlag(JsonObjectType.Array))
+            var operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(
+                extendedApiParameter.ApiParameter.Name,
+                await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false),
+                extendedApiParameter.ApiParameter.Type,
+                extendedApiParameter.Attributes).ConfigureAwait(false);
+
+            if (extendedApiParameter.ParameterInfo?.HasDefaultValue == true)
             {
-                var attributes = parameter.GetCustomAttributes();
-
-                var parameterDocumentation = await parameter.GetDescriptionAsync(attributes).ConfigureAwait(false);
-                var operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(
-                    name, parameterDocumentation, parameter.ParameterType, attributes).ConfigureAwait(false);
-
-                operationParameter.Kind = SwaggerParameterKind.Query;
-                operation.Parameters.Add(operationParameter);
+                operationParameter.Default = extendedApiParameter.ParameterInfo.DefaultValue;
             }
             else
             {
-                foreach (var property in parameter.ParameterType.GetRuntimeProperties())
-                {
-                    var attributes = property.GetCustomAttributes().ToList();
-                    if (attributes.All(a => a.GetType().Name != "SwaggerIgnoreAttribute" && a.GetType().Name != "JsonIgnoreAttribute"))
-                    {
-                        var fromQueryAttribute = attributes.SingleOrDefault(a => a.GetType().Name == "FromQueryAttribute");
-                        var propertyName = fromQueryAttribute.TryGetPropertyValue<string>("Name") ??
-                            context.SchemaGenerator.GetPropertyName(null, property);
-
-                        dynamic fromRouteAttribute = attributes.SingleOrDefault(a => a.GetType().FullName == "Microsoft.AspNetCore.Mvc.FromRouteAttribute");
-                        if (fromRouteAttribute != null && !string.IsNullOrEmpty(fromRouteAttribute?.Name))
-                            propertyName = fromRouteAttribute?.Name;
-
-                        dynamic fromHeaderAttribute = attributes.SingleOrDefault(a => a.GetType().FullName == "Microsoft.AspNetCore.Mvc.FromHeaderAttribute");
-                        if (fromHeaderAttribute != null && !string.IsNullOrEmpty(fromHeaderAttribute?.Name))
-                            propertyName = fromHeaderAttribute?.Name;
-
-                        var propertySummary = await property.GetXmlSummaryAsync().ConfigureAwait(false);
-                        var operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(
-                            propertyName, propertySummary, property.PropertyType, attributes).ConfigureAwait(false);
-
-                        // TODO: Check if required can be controlled with mechanisms other than RequiredAttribute
-
-                        var parameterInfo = _settings.ReflectionService.GetDescription(property.PropertyType, attributes, _settings);
-                        var isFileArray = IsFileArray(property.PropertyType, parameterInfo);
-                        if (parameterInfo.Type == JsonObjectType.File || isFileArray)
-                            InitializeFileParameter(operationParameter, isFileArray);
-                        else if (fromRouteAttribute != null
-                            || httpPath.ToLowerInvariant().Contains("{" + propertyName.ToLower() + "}")
-                            || httpPath.ToLowerInvariant().Contains("{" + propertyName.ToLower() + ":"))
-                        {
-                            operationParameter.Kind = SwaggerParameterKind.Path;
-                            operationParameter.IsNullableRaw = false;
-                            operationParameter.IsRequired = true; // Path is always required => property not needed
-                        }
-                        else if (fromHeaderAttribute != null)
-                            operationParameter.Kind = SwaggerParameterKind.Header;
-                        else
-                            operationParameter.Kind = SwaggerParameterKind.Query;
-
-                        operation.Parameters.Add(operationParameter);
-                    }
-                }
+                operationParameter.IsRequired = true;
             }
-        }
 
-        private async Task AddPrimitiveParameterAsync(
-            string name, SwaggerOperation operation, ParameterInfo parameter, SwaggerGenerator swaggerGenerator)
-        {
-            var operationParameter = await swaggerGenerator.CreatePrimitiveParameterAsync(name, parameter).ConfigureAwait(false);
-            operationParameter.Kind = SwaggerParameterKind.Query;
-            operationParameter.IsRequired = operationParameter.IsRequired || parameter.HasDefaultValue == false;
-
-            if (parameter.HasDefaultValue)
-                operationParameter.Default = parameter.DefaultValue;
-
-            operation.Parameters.Add(operationParameter);
+            return operationParameter;
         }
 
         private void InitializeFileParameter(SwaggerParameter operationParameter, bool isFileArray)
@@ -295,6 +278,32 @@ namespace NSwag.SwaggerGeneration.AspNetCore
 
             if (isFileArray)
                 operationParameter.CollectionFormat = SwaggerParameterCollectionFormat.Multi;
+        }
+
+        private class ExtendedApiParameterDescription
+        {
+            public ApiParameterDescription ApiParameter { get; set; }
+
+            public ParameterInfo ParameterInfo { get; set; }
+
+            public PropertyInfo PropertyInfo { get; set; }
+
+            public IEnumerable<Attribute> Attributes { get; set; }
+
+            public async Task<string> GetDocumentationAsync()
+            {
+                var parameterDocumentation = string.Empty;
+                if (ParameterInfo != null)
+                {
+                    parameterDocumentation = await ParameterInfo.GetDescriptionAsync(Attributes).ConfigureAwait(false);
+                }
+                else if (PropertyInfo != null)
+                {
+                    parameterDocumentation = await PropertyInfo.GetDescriptionAsync(Attributes).ConfigureAwait(false);
+                }
+
+                return parameterDocumentation;
+            }
         }
     }
 }
