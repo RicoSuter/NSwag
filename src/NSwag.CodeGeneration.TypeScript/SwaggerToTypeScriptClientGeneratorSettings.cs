@@ -30,6 +30,11 @@ namespace NSwag.CodeGeneration.TypeScript
             TypeScriptGeneratorSettings.TemplateFactory = new DefaultTemplateFactory(TypeScriptGeneratorSettings);
             BaseUrlTokenName = "API_BASE_URL";
             ImportRequiredTypes = true;
+
+#if DEBUG
+            //TypeScriptGeneratorSettings.UseLiquidTemplates = true;
+            //TypeScriptGeneratorSettings.TemplateDirectory = @"C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Liquid";
+#endif
         }
 
         /// <summary>Gets or sets the TypeScript generator settings.</summary>

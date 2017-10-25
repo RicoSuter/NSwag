@@ -63,7 +63,7 @@ if (status === <#=response.StatusCode#><#if(response.CheckChunkedStatusCode){#> 
 <#          }else{#>
     result<#=response.StatusCode#> = _responseText === "" ? null : <<#=response.Type#>><#if(Model.HandleReferences){#>jsonParse<#}else{#>JSON.parse<#}#>(_responseText, this.jsonParseReviver);
 <#          }
-            if(response.IsSuccess(Model)){#>
+            if(response.IsSuccess){#>
 <#              if(Model.IsAngular){#>
 <#				    if(Model.WrapResponse){#>
     return Observable.of(new <#=Model.ResponseClass#>(status, _headers, result<#=response.StatusCode#>));
@@ -86,7 +86,7 @@ if (status === <#=response.StatusCode#><#if(response.CheckChunkedStatusCode){#> 
 <#          }else{#>
     return throwException(<#if(Model.IsAngularJS){#>this.q, <#}#>"A server error occurred.", status, _responseText, _headers, result<#=response.StatusCode#>);
 <#          }
-        }else if(response.IsSuccess(Model)){#>
+        }else if(response.IsSuccess){#>
 <#              if(Model.IsAngular){#>
     return Observable.of<<#=Model.ResultType#>>(<any>null);
 <#              }else if(Model.IsAngularJS){#>

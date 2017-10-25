@@ -77,22 +77,19 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         }
 
         /// <summary>Gets the default enum handlings. </summary>
-        public EnumHandling[] EnumHandlings
-        {
-            get { return Enum.GetNames(typeof(EnumHandling)).Select(t => (EnumHandling)Enum.Parse(typeof(EnumHandling), t)).ToArray(); }
-        }
+        public EnumHandling[] EnumHandlings => Enum.GetNames(typeof(EnumHandling))
+            .Select(t => (EnumHandling)Enum.Parse(typeof(EnumHandling), t))
+            .ToArray();
 
         /// <summary>Gets the default property name handlings. </summary>
-        public PropertyNameHandling[] PropertyNameHandlings
-        {
-            get { return Enum.GetNames(typeof(PropertyNameHandling)).Select(t => (PropertyNameHandling)Enum.Parse(typeof(PropertyNameHandling), t)).ToArray(); }
-        }
+        public PropertyNameHandling[] PropertyNameHandlings => Enum.GetNames(typeof(PropertyNameHandling))
+            .Select(t => (PropertyNameHandling)Enum.Parse(typeof(PropertyNameHandling), t))
+            .ToArray();
 
         /// <summary>Gets the reference type null handlings. </summary>
-        public ReferenceTypeNullHandling[] ReferenceTypeNullHandlings
-        {
-            get { return Enum.GetNames(typeof(ReferenceTypeNullHandling)).Select(t => (ReferenceTypeNullHandling)Enum.Parse(typeof(ReferenceTypeNullHandling), t)).ToArray(); }
-        }
+        public ReferenceTypeNullHandling[] ReferenceTypeNullHandlings => Enum.GetNames(typeof(ReferenceTypeNullHandling))
+            .Select(t => (ReferenceTypeNullHandling)Enum.Parse(typeof(ReferenceTypeNullHandling), t))
+            .ToArray();
 
         /// <summary>Gets or sets the command to browse for an assembly.</summary>
         public AsyncRelayCommand BrowseAssemblyCommand { get; set; }

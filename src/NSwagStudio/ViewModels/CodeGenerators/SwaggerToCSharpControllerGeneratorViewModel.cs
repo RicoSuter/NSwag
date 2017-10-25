@@ -8,9 +8,7 @@
 
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 using NJsonSchema.CodeGeneration.CSharp;
-using NSwag;
 using NSwag.CodeGeneration.CSharp.Models;
 using NSwag.Commands;
 
@@ -33,60 +31,20 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         }
 
         /// <summary>Gets the list of operation modes. </summary>
-        public OperationGenerationMode[] OperationGenerationModes
-        {
-            get
-            {
-                return Enum.GetNames(typeof(OperationGenerationMode))
-                    .Select(t => (OperationGenerationMode)Enum.Parse(typeof(OperationGenerationMode), t))
-                    .ToArray();
-            }
-        }
+        public OperationGenerationMode[] OperationGenerationModes => Enum.GetNames(typeof(OperationGenerationMode))
+            .Select(t => (OperationGenerationMode)Enum.Parse(typeof(OperationGenerationMode), t))
+            .ToArray();
 
         /// <summary>Gets the list of class styles. </summary>
-        public CSharpClassStyle[] ClassStyles
-        {
-            get
-            {
-                return Enum.GetNames(typeof(CSharpClassStyle))
-                    .Select(t => (CSharpClassStyle)Enum.Parse(typeof(CSharpClassStyle), t))
-                    .ToArray();
-            }
-        }
+        public CSharpClassStyle[] ClassStyles => Enum.GetNames(typeof(CSharpClassStyle))
+            .Select(t => (CSharpClassStyle)Enum.Parse(typeof(CSharpClassStyle), t))
+            .ToArray();
 
 
         /// <summary>Gets the list of class styles. </summary>
-        public CSharpControllerStyle[] ControllerStyles
-        {
-            get
-            {
-                return Enum.GetNames(typeof(CSharpControllerStyle))
-                    .Select(t => (CSharpControllerStyle)Enum.Parse(typeof(CSharpControllerStyle), t))
-                    .ToArray();
-            }
-        }
-
-        /// <summary>Gets or sets the namespace usages (comma separated). </summary>
-        public string AdditionalNamespaceUsages
-        {
-            get => FromStringArray(Command?.AdditionalNamespaceUsages);
-            set
-            {
-                Command.AdditionalNamespaceUsages = ToStringArray(value);
-                RaisePropertyChanged();
-            }
-        }
-
-        /// <summary>Gets or sets the list of methods where responses are wrapped ("ControllerName.MethodName", WrapResponses must be true).</summary>
-        public string WrapResponseMethods
-        {
-            get => FromStringArray(Command?.WrapResponseMethods);
-            set
-            {
-                Command.WrapResponseMethods = ToStringArray(value);
-                RaisePropertyChanged();
-            }
-        }
+        public CSharpControllerStyle[] ControllerStyles => Enum.GetNames(typeof(CSharpControllerStyle))
+            .Select(t => (CSharpControllerStyle)Enum.Parse(typeof(CSharpControllerStyle), t))
+            .ToArray();
 
         /// <summary>Gets or sets the client code. </summary>
         public string ClientCode

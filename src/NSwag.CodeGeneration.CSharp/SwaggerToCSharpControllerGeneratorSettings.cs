@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="SwaggerToCSharpClientGeneratorSettings.cs" company="NSwag">
+// <copyright file="SwaggerToCSharpControllerGeneratorSettings.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -12,16 +12,17 @@ namespace NSwag.CodeGeneration.CSharp
 {
     // TODO: Rename to SwaggerToCSharpControllerGeneratorSettings?
 
-    /// <summary>Settings for the <see cref="SwaggerToCSharpWebApiControllerGenerator"/>.</summary>
-    public class SwaggerToCSharpWebApiControllerGeneratorSettings : SwaggerToCSharpGeneratorSettings
+    /// <summary>Settings for the <see cref="SwaggerToCSharpControllerGenerator"/>.</summary>
+    public class SwaggerToCSharpControllerGeneratorSettings : SwaggerToCSharpGeneratorSettings
     {
-        /// <summary>Initializes a new instance of the <see cref="SwaggerToCSharpWebApiControllerGeneratorSettings"/> class.</summary>
-        public SwaggerToCSharpWebApiControllerGeneratorSettings()
+        /// <summary>Initializes a new instance of the <see cref="SwaggerToCSharpControllerGeneratorSettings"/> class.</summary>
+        public SwaggerToCSharpControllerGeneratorSettings()
         {
             ClassName = "{controller}";
             CSharpGeneratorSettings.ArrayType = "System.Collections.Generic.List";
             ControllerStyle = CSharpControllerStyle.Partial;
             UseCancellationToken = false;
+            AspNetNamespace = "System.Web.Http";
         }
 
         /// <summary>Gets or sets the full name of the base class.</summary>
@@ -32,5 +33,8 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets a value indicating whether to allow adding cancellation token </summary>
         public bool UseCancellationToken { get; set; }
+
+        /// <summary>Gets or sets the ASP.NET namespace (default: 'System.Web.Http').</summary>
+        public string AspNetNamespace { get; set; }
     }
 }

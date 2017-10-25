@@ -89,6 +89,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets a value indicating whether to generate client interfaces.</summary>
         public bool GenerateClientInterfaces => _settings.GenerateClientInterfaces;
 
+        /// <summary>Gets a value indicating whether the document has a BaseUrl specified.</summary>
+        public bool HasBaseUrl => !string.IsNullOrEmpty(BaseUrl);
+
         /// <summary>Gets the service base URL.</summary>
         public string BaseUrl => _document.BaseUrl;
 
@@ -112,6 +115,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
         /// <summary>Gets the operations.</summary>
         public IEnumerable<CSharpOperationModel> Operations { get; }
+
+        /// <summary>Gets the operations of the interface.</summary>
+        public IEnumerable<CSharpOperationModel> InterfaceOperations => Operations.Where(o => o.IsInterfaceMethod);
 
         /// <summary>Gets or sets a value indicating whether DTO exceptions are wrapped in a SwaggerException instance.</summary>
         public bool WrapDtoExceptions => _settings.WrapDtoExceptions;

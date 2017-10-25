@@ -16,9 +16,9 @@ using NSwag.CodeGeneration.CSharp.Models;
 namespace NSwag.Commands
 {
     [Command(Name = "swagger2cscontroller", Description = "Generates CSharp Web API controller code from a Swagger specification.")]
-    public class SwaggerToCSharpControllerCommand : SwaggerToCSharpCommand<SwaggerToCSharpWebApiControllerGeneratorSettings>
+    public class SwaggerToCSharpControllerCommand : SwaggerToCSharpCommand<SwaggerToCSharpControllerGeneratorSettings>
     {
-        public SwaggerToCSharpControllerCommand() : base(new SwaggerToCSharpWebApiControllerGeneratorSettings())
+        public SwaggerToCSharpControllerCommand() : base(new SwaggerToCSharpControllerGeneratorSettings())
         {
         }
 
@@ -43,6 +43,13 @@ namespace NSwag.Commands
             set { Settings.UseCancellationToken = value; }
         }
 
+        [Argument(Name = "AspNetNamespace", Description = "The ASP.NET (Core) framework namespace (default: 'System.Web.Http').", IsRequired = false)]
+        public string AspNetNamespace
+        {
+            get { return Settings.AspNetNamespace; }
+            set { Settings.AspNetNamespace = value; }
+        }
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var code = await RunAsync();
@@ -55,7 +62,7 @@ namespace NSwag.Commands
             return await Task.Run(async () =>
             {
                 var document = await GetInputSwaggerDocument().ConfigureAwait(false);
-                var clientGenerator = new SwaggerToCSharpWebApiControllerGenerator(document, Settings);
+                var clientGenerator = new SwaggerToCSharpControllerGenerator(document, Settings);
                 return clientGenerator.GenerateFile();
             });
         }

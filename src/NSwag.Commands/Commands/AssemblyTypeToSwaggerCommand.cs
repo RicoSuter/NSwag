@@ -66,6 +66,21 @@ namespace NSwag.Commands
             set { Settings.FlattenInheritanceHierarchy = value; }
         }
 
+        [Argument(Name = "IgnoreObsoleteProperties", IsRequired = false, Description = "Ignore properties with the ObsoleteAttribute (default: false).")]
+        public bool IgnoreObsoleteProperties
+        {
+            get { return Settings.IgnoreObsoleteProperties; }
+            set { Settings.IgnoreObsoleteProperties = value; }
+        }
+
+        [Argument(Name = "AllowReferencesWithProperties", IsRequired = false, Description = "Use $ref references even if additional properties are defined on " +
+            "the object (otherwise allOf/oneOf with $ref is used, default: false).")]
+        public bool AllowReferencesWithProperties
+        {
+            get { return Settings.AllowReferencesWithProperties; }
+            set { Settings.AllowReferencesWithProperties = value; }
+        }
+
         [Argument(Name = "GenerateKnownTypes", IsRequired = false, Description = "Generate schemas for types in KnownTypeAttribute attributes (default: true).")]
         public bool GenerateKnownTypes
         {

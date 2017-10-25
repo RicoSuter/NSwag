@@ -9,14 +9,24 @@ namespace NSwagStudio.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value != null ? string.Join("\n", (string[])value) : string.Empty;
+            string seperator = "\n";
+            if (parameter != null)
+            {
+                seperator = (string)parameter;
+            }
+            return value != null ? string.Join(seperator, (string[])value) : string.Empty;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            char seperator = '\n';
+            if (parameter != null)
+            {
+                seperator = System.Convert.ToChar(parameter);
+            }
             return value?.ToString()
                 .Trim('\r')
-                .Split('\n')
+                .Split(seperator)
                 .Select(s => s.Trim())
                 .Where(n => !string.IsNullOrEmpty(n))
                 .ToArray() ?? new string[] { };

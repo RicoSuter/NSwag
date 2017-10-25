@@ -14,7 +14,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
     /// <summary>The CSharp controller template model.</summary>
     public class CSharpControllerTemplateModel : CSharpTemplateModelBase
     {
-        private readonly SwaggerToCSharpWebApiControllerGeneratorSettings _settings;
+        private readonly SwaggerToCSharpControllerGeneratorSettings _settings;
         private readonly SwaggerDocument _document;
 
         /// <summary>Initializes a new instance of the <see cref="CSharpControllerTemplateModel" /> class.</summary>
@@ -26,7 +26,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             string controllerName,
             IEnumerable<CSharpOperationModel> operations,
             SwaggerDocument document,
-            SwaggerToCSharpWebApiControllerGeneratorSettings settings)
+            SwaggerToCSharpControllerGeneratorSettings settings)
             : base(controllerName, settings)
         {
             _document = document;
@@ -43,6 +43,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
         /// <summary>Gets a value indicating whether the controller has a base class.</summary>
         public bool HasBaseClass => !string.IsNullOrEmpty(BaseClass);
+
+        /// <summary>Gets the ASP.NET framework namespace.</summary>
+        public string AspNetNamespace => _settings.AspNetNamespace;
 
         /// <summary>Gets the base class.</summary>
         public string BaseClass { get; }

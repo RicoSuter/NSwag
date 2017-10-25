@@ -37,7 +37,10 @@
                     <ComboBox SelectedItem="{Binding Command.ControllerStyle, Mode=TwoWay}" 
                               ToolTip="ControllerStyle"
                               ItemsSource="{Binding ControllerStyles}" Margin="0,0,0,12" />
-                    
+
+                    <TextBlock Text="The ASP.NET (Core) framework namespace" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding Command.AspNetNamespace, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,12" />
+
                     <CheckBox IsChecked="{Binding Command.UseCancellationToken, Mode=TwoWay}" 
                               Content="Add cancellation token to controller methods" Margin="0,0,0,12" />
                     
@@ -46,7 +49,9 @@
 
                     <StackPanel Visibility="{Binding Command.WrapResponses, Converter={StaticResource VisibilityConverter}}">
                         <TextBlock Text="Methods where responses are wrapped (empty for all, 'ControllerName.MethodName', comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
-                        <TextBox ToolTip="WrapResponseMethods" Text="{Binding WrapResponseMethods, Mode=TwoWay}" Margin="0,0,0,12" />
+                        <TextBox ToolTip="WrapResponseMethods" 
+                                 Text="{Binding Command.WrapResponseMethods, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
+                                 Margin="0,0,0,12" />
 
                         <CheckBox IsChecked="{Binding Command.GenerateResponseClasses, Mode=TwoWay}" 
                                   Content="Generate response classes (when disabled, response classes must be imported)" Margin="0,0,0,6" />
@@ -62,7 +67,7 @@
                             <TextBlock Text="Controller Class Name" FontWeight="Bold" Margin="0,0,0,6" />
                             <TextBox Text="{Binding Command.ClassName, Mode=TwoWay}" Margin="0,0,0,12" />
 
-                            <TextBlock Text="Controller Base Class Name (optional)" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBlock Text="Controller Base Class Name (optional, use 'Microsoft.AspNetCore.Mvc.Controller' for ASP.NET Core)" FontWeight="Bold" Margin="0,0,0,6" />
                             <TextBox Text="{Binding Command.ControllerBaseClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,12" />
 
                             <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
@@ -76,7 +81,8 @@
                     </GroupBox>
 
                     <TextBlock Text="Additional Namespace Usages (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding AdditionalNamespaceUsages, Mode=TwoWay}" Margin="0,0,0,12" />
+                    <TextBox Text="{Binding Command.AdditionalNamespaceUsages, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
+                             Margin="0,0,0,12" />
 
                     <CheckBox IsChecked="{Binding Command.GenerateOptionalParameters, Mode=TwoWay}" 
                               Content="Generate optional parameters (reorder parameters (required first, optional at the end) and generate optional parameters)" Margin="0,0,0,12" />
@@ -84,7 +90,7 @@
                     <GroupBox Header="DTO Classes" Margin="0,0,0,12">
                         <StackPanel Margin="4,8,4,-8">
                             <TextBlock Text="Excluded Type Names (comma separated, must be defined in another namespace)." FontWeight="Bold" Margin="0,0,0,6" />
-                            <TextBox Text="{Binding Command.ExcludedTypeNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
+                            <TextBox Text="{Binding Command.ExcludedTypeNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
                                         ToolTip="ExcludedTypeNames" Margin="0,0,0,12" />
 
                             <CheckBox IsChecked="{Binding Command.GenerateDefaultValues, Mode=TwoWay}" 

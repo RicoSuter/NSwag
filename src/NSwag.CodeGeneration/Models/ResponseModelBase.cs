@@ -16,6 +16,7 @@ namespace NSwag.CodeGeneration.Models
     /// <summary>The response template model.</summary>
     public abstract class ResponseModelBase
     {
+        private readonly IOperationModel _operationModel;
         private readonly SwaggerResponse _response;
         private readonly JsonSchema4 _exceptionSchema;
         private readonly IClientGenerator _generator;
@@ -23,20 +24,23 @@ namespace NSwag.CodeGeneration.Models
         private readonly bool _isPrimarySuccessResponse;
 
         /// <summary>Initializes a new instance of the <see cref="ResponseModelBase" /> class.</summary>
+        /// <param name="operationModel">The operation model.</param>
         /// <param name="statusCode">The status code.</param>
         /// <param name="response">The response.</param>
         /// <param name="isPrimarySuccessResponse">Specifies whether this is the success response.</param>
         /// <param name="exceptionSchema">The exception schema.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="generator">The client generator.</param>
-        protected ResponseModelBase(string statusCode, SwaggerResponse response, bool isPrimarySuccessResponse, JsonSchema4 exceptionSchema, CodeGeneratorSettingsBase settings, IClientGenerator generator)
+        protected ResponseModelBase(IOperationModel operationModel, 
+            string statusCode, SwaggerResponse response, bool isPrimarySuccessResponse, 
+            JsonSchema4 exceptionSchema, CodeGeneratorSettingsBase settings, IClientGenerator generator)
         {
             _response = response;
             _exceptionSchema = exceptionSchema;
             _generator = generator;
             _settings = settings;
             _isPrimarySuccessResponse = isPrimarySuccessResponse;
-
+            _operationModel = operationModel;
             StatusCode = statusCode;
         }
 
@@ -56,10 +60,15 @@ namespace NSwag.CodeGeneration.Models
         public ICollection<JsonExpectedSchema> ExpectedSchemas => _response.ExpectedSchemas;
 
         /// <summary>Gets a value indicating whether the response is of type date.</summary>
-        public bool IsDate =>
-            (_response.ActualResponseSchema.Format == JsonFormatStrings.DateTime ||
-            _response.ActualResponseSchema.Format == JsonFormatStrings.Date) &&
-            _generator.GetTypeName(_response.ActualResponseSchema, IsNullable, "Response") != "string";
+        public bool IsDate {
+            get
+            {
+                return _response.ActualResponseSchema != null && 
+                      (_response.ActualResponseSchema.Format == JsonFormatStrings.Date ||
+                       _response.ActualResponseSchema.Format == JsonFormatStrings.DateTime) &&
+                       _generator.GetTypeName(_response.ActualResponseSchema, IsNullable, "Response") != "string";
+            }
+        }
 
         /// <summary>Gets a value indicating whether this is a file response.</summary>
         public bool IsFile => Schema?.ActualSchema.Type == JsonObjectType.File;
@@ -85,22 +94,22 @@ namespace NSwag.CodeGeneration.Models
         public bool IsPrimarySuccessResponse => _isPrimarySuccessResponse;
 
         /// <summary>Gets a value indicating whether this is success response.</summary>
-        public bool IsSuccess(IOperationModel operationModel)
+        public bool IsSuccess
         {
-            if (_isPrimarySuccessResponse)
-                return true;
+            get
+            {
+                if (_isPrimarySuccessResponse)
+                    return true;
 
-            var primarySuccessResponse = operationModel.Responses.FirstOrDefault(r => r.IsPrimarySuccessResponse);
-            return HttpUtilities.IsSuccessStatusCode(StatusCode) && (
-                primarySuccessResponse == null ||
-                primarySuccessResponse.Type == Type
-            );
+                var primarySuccessResponse = _operationModel.Responses.FirstOrDefault(r => r.IsPrimarySuccessResponse);
+                return HttpUtilities.IsSuccessStatusCode(StatusCode) && (
+                    primarySuccessResponse == null ||
+                    primarySuccessResponse.Type == Type
+                );
+            }
         }
 
         /// <summary>Gets a value indicating whether this is an exceptional response.</summary>
-        public bool ThrowsException(dynamic operationModel)
-        {
-            return !IsSuccess(operationModel);
-        }
+        public bool ThrowsException => !IsSuccess;
     }
 }
