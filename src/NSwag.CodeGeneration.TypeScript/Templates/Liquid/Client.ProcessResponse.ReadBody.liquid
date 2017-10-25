@@ -1,0 +1,15 @@
+{% if IsFetchOrAurelia -%}
+    return response.text().then((_responseText) => {
+{% elseif UseAngularHttpClient -%}
+    return blobToText(response.body).flatMap(_responseText => {
+{% elseif operation.RequestAngularBlobs -%}
+    return blobToText(response.blob()).flatMap(_responseText => {
+{% elseif operation.RequestAngularJSBlobs -%}
+    return blobToText(new Blob([response]), this.q).then(_responseText => {
+{% elseif IsAngular -%}
+    const _responseText = response.text();
+{% elseif IsAngularJS -%}
+    const _responseText = response.data;
+{% else -%}
+    const _responseText = xhr.responseText; 
+{% endif -%}

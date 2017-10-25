@@ -1,14 +1,4 @@
-﻿{% if IsAngular -%}
-{%      if UseAngularHttpClient -%}
-let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-{%      else -%}
-let _headers: any = response.headers ? response.headers.toJSON() : {};
-{%      endif -%}
-{% elseif IsFetchOrAurelia -%}
-let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v, k) => _headers[k] = v); };
-{% else -%}
-let _headers: any = {};
-{% endif -%}
+﻿{% template Client.ProcessResponse.ReadHeaders %}
 {% if operation.HandleReferences and operation.RequiresMappings -%}
 let _mappings: { source: any, target: any }[] = [];
 {% endif -%}
@@ -38,21 +28,7 @@ if (status === {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %}
 {%             endif -%}
 {%         endif -%}
 {%     else -%}
-{%         if IsFetchOrAurelia -%}
-    return response.text().then((_responseText) => {
-{%         elseif UseAngularHttpClient -%}
-    return blobToText(response.body).flatMap(_responseText => {
-{%         elseif operation.RequestAngularBlobs -%}
-    return blobToText(response.blob()).flatMap(_responseText => {
-{%         elseif operation.RequestAngularJSBlobs -%}
-    return blobToText(new Blob([response]), this.q).then(_responseText => {
-{%         elseif IsAngular -%}
-    const _responseText = response.text();
-{%         elseif IsAngularJS -%}
-    const _responseText = response.data;
-{%         else -%}
-    const _responseText = xhr.responseText; 
-{%         endif -%}
+    {% template Client.ProcessResponse.ReadBody %}
 {%         if response.HasType -%}
     let result{{ response.StatusCode }}: any = null;
 {%             if response.UseDtoClass or response.IsDate -%}
@@ -111,21 +87,7 @@ if (status === {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %}
     return response.blob();
 {%         endif -%}
 {%     else -%}
-{%         if IsFetchOrAurelia -%}
-    return response.text().then((_responseText) => {
-{%         elseif UseAngularHttpClient -%}
-    return blobToText(response.body).flatMap(_responseText => {
-{%         elseif operation.RequestAngularBlobs -%}
-    return blobToText(response.blob()).flatMap(_responseText => {
-{%         elseif operation.RequestAngularJSBlobs -%}
-    return blobToText(new Blob([response]), this.q).then(_responseText => {
-{%         elseif IsAngular -%}
-    const _responseText = response.text();
-{%         elseif IsAngularJS -%}
-    const _responseText = response.data;
-{%         else -%}
-    const _responseText = xhr.responseText; 
-{%         endif -%}
+    {% template Client.ProcessResponse.ReadBody %}
 {%         if operation.DefaultResponse.HasType -%}
     let result: any = null;
 {%             if operation.DefaultResponse.UseDtoClass or operation.DefaultResponse.IsDate -%}
@@ -187,21 +149,7 @@ if (status === {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %}
 }
 {% else -%}
 if (status !== 200 && status !== 204) {
-{%     if IsFetchOrAurelia -%}
-    return response.text().then((_responseText) => {
-{%     elseif UseAngularHttpClient -%}
-    return blobToText(response.body).flatMap(_responseText => {
-{%     elseif operation.RequestAngularBlobs){ -%}
-    return blobToText(response.blob()).flatMap(_responseText => {
-{%     elseif operation.RequestAngularJSBlobs){ -%}
-    return blobToText(new Blob([response]), this.q).then(_responseText => {
-{%     elseif IsAngular){ -%}
-    const _responseText = response.text();
-{%     elseif IsAngularJS){ -%}
-    const _responseText = response.data;
-{%     else -%}
-    const _responseText = xhr.responseText; 
-{%     endif -%}
+    {% template Client.ProcessResponse.ReadBody %}
     return throwException({% if IsAngularJS %}this.q, {% endif %}"An unexpected server error occurred.", status, _responseText, _headers);
 {%     if IsFetchOrAurelia or operation.RequestAngularBlobs or UseAngularHttpClient or operation.RequestAngularJSBlobs -%}
     });
