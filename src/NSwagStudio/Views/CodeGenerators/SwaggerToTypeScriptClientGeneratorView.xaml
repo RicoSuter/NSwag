@@ -125,7 +125,9 @@
 
                                 <StackPanel Visibility="{Binding Command.WrapResponses, Converter={StaticResource VisibilityConverter}}">
                                     <TextBlock Text="Methods where responses are wrapped (empty for all, 'ControllerName.MethodName', comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
-                                    <TextBox ToolTip="WrapResponseMethods" Text="{Binding WrapResponseMethods, Mode=TwoWay}" Margin="0,0,0,12" />
+                                    <TextBox ToolTip="WrapResponseMethods" 
+                                             Text="{Binding Binding.WrapResponseMethods, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
+                                             Margin="0,0,0,12" />
 
                                     <CheckBox IsChecked="{Binding Command.GenerateResponseClasses, Mode=TwoWay}"
                                               ToolTip="GenerateResponseClasses"
@@ -146,7 +148,9 @@
                                 </CheckBox>
 
                                 <TextBlock Text="Methods with a protected access modifier to use in class extensions ('classname.methodname', comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
-                                <TextBox ToolTip="ProtectedMethods" Text="{Binding Command.ProtectedMethods, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" Margin="0,0,0,12" />
+                                <TextBox ToolTip="ProtectedMethods" 
+                                         Text="{Binding Command.ProtectedMethods, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}"
+                                         Margin="0,0,0,12" />
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
@@ -194,11 +198,15 @@
                                           Margin="0,0,0,12" />
 
                                 <TextBlock Text="Excluded Type Names (comma separated, must be defined in ExtensionCode or custom import)." FontWeight="Bold" Margin="0,0,0,6" />
-                                <TextBox ToolTip="ExcludedTypeNames" Text="{Binding Command.ExcludedTypeNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" Margin="0,0,0,12" />
+                                <TextBox ToolTip="ExcludedTypeNames" 
+                                         Text="{Binding Command.ExcludedTypeNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
+                                         Margin="0,0,0,12" />
 
                                 <StackPanel Visibility="{Binding Command.TypeStyle, ConverterParameter='!Class', Converter={StaticResource EqualityConverter}}">
                                     <TextBlock Text="The type names which always generate plain TypeScript classes (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
-                                    <TextBox ToolTip="ClassTypes" Text="{Binding ClassTypes, Mode=TwoWay}" Margin="0,0,0,12" />
+                                    <TextBox ToolTip="ClassTypes" 
+                                             Text="{Binding Command.ClassTypes, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
+                                             Margin="0,0,0,12" />
                                 </StackPanel>
 
                                 <GroupBox Header="Serialization" Margin="0,0,0,12" Visibility="{Binding Command.TypeStyle, ConverterParameter='Class', Converter={StaticResource EqualityConverter}}">
@@ -227,7 +235,9 @@
                     <GroupBox Header="Class Extensions" Margin="0,0,0,12">
                         <StackPanel Margin="4,8,4,-8">
                             <TextBlock Text="Extended classes (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
-                            <TextBox ToolTip="ExtendedClasses" Text="{Binding ExtendedClasses, Mode=TwoWay}" Margin="0,0,0,12" />
+                            <TextBox ToolTip="ExtendedClasses" 
+                                     Text="{Binding Command.ExtendedClasses, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
+                                     Margin="0,0,0,12" />
 
                             <TextBlock Text="Path to class extension code file (the module import 'generated' is removed and class export keywords are added)" 
                                        FontWeight="Bold" Margin="0,0,0,6" />
