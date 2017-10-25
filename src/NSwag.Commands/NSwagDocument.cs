@@ -239,6 +239,9 @@ namespace NSwag.Commands
                 if (message.Contains("Could not load type"))
                     message = message + "Try running the document in another runtime, e.g. /runtime:NetCore20";
 
+                if (message.Contains("The system cannot find the file specified"))
+                    message = message + "Check if .NET Core is installed and 'dotnet' is globally available.";
+
                 throw new CommandLineException(message, "Runtime: " + Runtime + "\n" + stackTrace);
             }
 
