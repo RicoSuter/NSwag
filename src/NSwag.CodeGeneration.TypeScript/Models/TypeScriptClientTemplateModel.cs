@@ -110,6 +110,27 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets or sets a value indicating whether DTO exceptions are wrapped in a SwaggerException instance.</summary>
         public bool WrapDtoExceptions => _settings.WrapDtoExceptions;
 
+
+
+        /// <summary>Gets a value indicating whether to render for AngularJS.</summary>
+        public bool IsAngularJS => _settings.Template == TypeScriptTemplate.AngularJS;
+
+        /// <summary>Gets a value indicating whether to render for Angular2.</summary>
+        public bool IsAngular => _settings.Template == TypeScriptTemplate.Angular;
+
+        /// <summary>Gets a value indicating whether to render for JQuery.</summary>
+        public bool IsJQuery => _settings.Template == TypeScriptTemplate.JQueryCallbacks ||
+                                _settings.Template == TypeScriptTemplate.JQueryPromises;
+
+        /// <summary>Gets a value indicating whether to render for Fetch or Aurelia</summary>
+        public bool IsFetchOrAurelia => _settings.Template == TypeScriptTemplate.Fetch ||
+                                        _settings.Template == TypeScriptTemplate.Aurelia;
+
+        /// <summary>Gets a value indicating whether to use HttpClient with the Angular template.</summary>
+        public bool UseAngularHttpClient => IsAngular && _settings.HttpClass == HttpClass.HttpClient;
+
+
+
         // Angular only
 
         /// <summary>Gets or sets the token name for injecting the API base URL string (used in the Angular2 template).</summary>
