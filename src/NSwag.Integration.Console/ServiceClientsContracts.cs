@@ -8,185 +8,7 @@ namespace NSwag.Integration.Console.Contracts
 {
     #pragma warning disable // Disable all warnings
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
-    public partial interface IGeoClient
-    {
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task FromBodyTestAsync(GeoPoint location);
     
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task FromBodyTestAsync(GeoPoint location, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task FromUriTestAsync(double? latitude, double? longitude);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task FromUriTestAsync(double? latitude, double? longitude, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task AddPolygonAsync(System.Collections.Generic.IEnumerable<GeoPoint> points);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task AddPolygonAsync(System.Collections.Generic.IEnumerable<GeoPoint> points, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task FilterAsync(System.Collections.Generic.IEnumerable<string> currentStates);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task FilterAsync(System.Collections.Generic.IEnumerable<string> currentStates, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<string>> ReverseAsync(System.Collections.Generic.IEnumerable<string> values);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<string>> ReverseAsync(System.Collections.Generic.IEnumerable<string> values, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task RefreshAsync();
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task RefreshAsync(System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<bool> UploadFileAsync(FileParameter file);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<bool> UploadFileAsync(FileParameter file, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task UploadFilesAsync(System.Collections.Generic.IEnumerable<FileParameter> files);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task UploadFilesAsync(System.Collections.Generic.IEnumerable<FileParameter> files, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <exception cref="SwaggerException{System.Exception}">A custom error occured.</exception>
-        System.Threading.Tasks.Task SaveItemsAsync(GenericRequestOfAddressAndPerson request);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <exception cref="SwaggerException{System.Exception}">A custom error occured.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task SaveItemsAsync(GenericRequestOfAddressAndPerson request, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> GetUploadedFileAsync(int id, bool? @override);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<FileResponse> GetUploadedFileAsync(int id, bool? @override, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<double?> PostDoubleAsync(double? value);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<double?> PostDoubleAsync(double? value, System.Threading.CancellationToken cancellationToken);
-    
-    }
-    
-    
-    
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
-    public partial interface IPersonsClient
-    {
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<Person>> GetAllAsync();
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<Person>> GetAllAsync(System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task AddAsync(Person person);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task AddAsync(Person person, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<Person>> FindAsync(Gender gender);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<Person>> FindAsync(Gender gender, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<Person>> FindOptionalAsync(Gender? gender);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<Person>> FindOptionalAsync(Gender? gender, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <exception cref="SwaggerException{PersonNotFoundException}">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<Person> GetAsync(System.Guid id);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <exception cref="SwaggerException{PersonNotFoundException}">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<Person> GetAsync(System.Guid id, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task DeleteAsync(System.Guid id);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task DeleteAsync(System.Guid id, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<Person> TransformAsync(Person person);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<Person> TransformAsync(Person person, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <exception cref="SwaggerException{PersonNotFoundException}">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<Person> ThrowAsync(System.Guid id);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <exception cref="SwaggerException{PersonNotFoundException}">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<Person> ThrowAsync(System.Guid id, System.Threading.CancellationToken cancellationToken);
-    
-        /// <summary>Gets the name of a person.</summary>
-        /// <param name="id">The person ID.</param>
-        /// <returns>The person's name.</returns>
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <exception cref="SwaggerException{PersonNotFoundException}">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> GetNameAsync(System.Guid id);
-    
-        /// <summary>Gets the name of a person.</summary>
-        /// <param name="id">The person ID.</param>
-        /// <returns>The person's name.</returns>
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <exception cref="SwaggerException{PersonNotFoundException}">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<string> GetNameAsync(System.Guid id, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> AddXmlAsync(string person);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<string> AddXmlAsync(string person, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<byte[]> UploadAsync(System.IO.Stream data);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<byte[]> UploadAsync(System.IO.Stream data, System.Threading.CancellationToken cancellationToken);
-    
-    }
     
     
     
@@ -377,7 +199,7 @@ namespace NSwag.Integration.Console.Contracts
         }
     }
     
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.9.10.0 (Newtonsoft.Json v9.0.0.0)")]
     [System.AttributeUsage(System.AttributeTargets.Class, AllowMultiple = true)]
     internal class JsonInheritanceAttribute : System.Attribute
     {
@@ -392,7 +214,7 @@ namespace NSwag.Integration.Console.Contracts
         public System.Type Type { get; }
     }
     
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.9.10.0 (Newtonsoft.Json v9.0.0.0)")]
     internal class JsonInheritanceConverter : Newtonsoft.Json.JsonConverter
     {
         internal static readonly string DefaultDiscriminatorName = "discriminator";
@@ -494,7 +316,7 @@ namespace NSwag.Integration.Console.Contracts
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
     public class FileParameter
     {
         public FileParameter(System.IO.Stream data) 
@@ -549,7 +371,7 @@ namespace NSwag.Integration.Console.Contracts
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
     public class SwaggerException : System.Exception
     {
         public string StatusCode { get; private set; }
@@ -572,7 +394,7 @@ namespace NSwag.Integration.Console.Contracts
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
     public class SwaggerException<TResult> : SwaggerException
     {
         public TResult Result { get; private set; }

@@ -10,7 +10,7 @@ namespace MyNamespace
 {
     #pragma warning disable // Disable all warnings
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
     public interface IGeoController
     {
         System.Threading.Tasks.Task FromBodyTestAsync(GeoPoint location);
@@ -37,7 +37,7 @@ namespace MyNamespace
     
     }
     
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
     public partial class GeoController : System.Web.Http.ApiController 
     {
         private IGeoController _implementation; 
@@ -126,8 +126,7 @@ namespace MyNamespace
     
     }
     
-    
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
     public interface IPersonsController
     {
         System.Threading.Tasks.Task<System.Collections.Generic.List<Person>> GetAllAsync();
@@ -157,7 +156,7 @@ namespace MyNamespace
     
     }
     
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
     public partial class PersonsController : System.Web.Http.ApiController 
     {
         private IPersonsController _implementation; 
@@ -250,7 +249,6 @@ namespace MyNamespace
     }
     
     
-    
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.9.10.0 (Newtonsoft.Json v9.0.0.0)")]
     public partial class GeoPoint : System.ComponentModel.INotifyPropertyChanged
@@ -286,6 +284,8 @@ namespace MyNamespace
             }
         }
     
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+    
         public string ToJson() 
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this);
@@ -296,8 +296,6 @@ namespace MyNamespace
             return Newtonsoft.Json.JsonConvert.DeserializeObject<GeoPoint>(data);
         }
     
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
         protected virtual void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
         {
             var handler = PropertyChanged;
@@ -340,6 +338,8 @@ namespace MyNamespace
             }
         }
     
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+    
         public string ToJson() 
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this);
@@ -350,8 +350,6 @@ namespace MyNamespace
             return Newtonsoft.Json.JsonConvert.DeserializeObject<GenericRequestOfAddressAndPerson>(data);
         }
     
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
         protected virtual void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
         {
             var handler = PropertyChanged;
@@ -394,6 +392,8 @@ namespace MyNamespace
             }
         }
     
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+    
         public string ToJson() 
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this);
@@ -404,8 +404,6 @@ namespace MyNamespace
             return Newtonsoft.Json.JsonConvert.DeserializeObject<Address>(data);
         }
     
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
         protected virtual void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
         {
             var handler = PropertyChanged;
@@ -613,6 +611,8 @@ namespace MyNamespace
             }
         }
     
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+    
         public string ToJson() 
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this);
@@ -623,8 +623,6 @@ namespace MyNamespace
             return Newtonsoft.Json.JsonConvert.DeserializeObject<Person>(data);
         }
     
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
         protected virtual void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
         {
             var handler = PropertyChanged;
@@ -689,6 +687,8 @@ namespace MyNamespace
             }
         }
     
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+    
         public string ToJson() 
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this);
@@ -699,8 +699,6 @@ namespace MyNamespace
             return Newtonsoft.Json.JsonConvert.DeserializeObject<Teacher>(data);
         }
     
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
         protected virtual void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
         {
             var handler = PropertyChanged;
@@ -729,6 +727,8 @@ namespace MyNamespace
             }
         }
     
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+    
         public string ToJson() 
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this);
@@ -739,8 +739,6 @@ namespace MyNamespace
             return Newtonsoft.Json.JsonConvert.DeserializeObject<PersonNotFoundException>(data);
         }
     
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
         protected virtual void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
         {
             var handler = PropertyChanged;
@@ -749,7 +747,7 @@ namespace MyNamespace
         }
     }
     
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.9.10.0 (Newtonsoft.Json v9.0.0.0)")]
     [System.AttributeUsage(System.AttributeTargets.Class, AllowMultiple = true)]
     internal class JsonInheritanceAttribute : System.Attribute
     {
@@ -764,7 +762,7 @@ namespace MyNamespace
         public System.Type Type { get; }
     }
     
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.9.10.0 (Newtonsoft.Json v9.0.0.0)")]
     internal class JsonInheritanceConverter : Newtonsoft.Json.JsonConverter
     {
         internal static readonly string DefaultDiscriminatorName = "discriminator";
@@ -866,7 +864,7 @@ namespace MyNamespace
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
     public class FileParameter
     {
         public FileParameter(System.IO.Stream data) 

@@ -8,185 +8,7 @@ namespace NSwag.Integration.ClientPCL.Contracts
 {
     #pragma warning disable // Disable all warnings
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
-    public partial interface IGeoClient
-    {
-        /// <exception cref="GeoClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse> FromBodyTestAsync(GeoPoint location);
     
-        /// <exception cref="GeoClientException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<SwaggerResponse> FromBodyTestAsync(GeoPoint location, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="GeoClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse> FromUriTestAsync(double? latitude, double? longitude);
-    
-        /// <exception cref="GeoClientException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<SwaggerResponse> FromUriTestAsync(double? latitude, double? longitude, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="GeoClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse> AddPolygonAsync(System.Collections.Generic.IEnumerable<GeoPoint> points);
-    
-        /// <exception cref="GeoClientException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<SwaggerResponse> AddPolygonAsync(System.Collections.Generic.IEnumerable<GeoPoint> points, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="GeoClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse> FilterAsync(System.Collections.Generic.IEnumerable<string> currentStates);
-    
-        /// <exception cref="GeoClientException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<SwaggerResponse> FilterAsync(System.Collections.Generic.IEnumerable<string> currentStates, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="GeoClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<System.Collections.ObjectModel.ObservableCollection<string>>> ReverseAsync(System.Collections.Generic.IEnumerable<string> values);
-    
-        /// <exception cref="GeoClientException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<SwaggerResponse<System.Collections.ObjectModel.ObservableCollection<string>>> ReverseAsync(System.Collections.Generic.IEnumerable<string> values, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="GeoClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse> RefreshAsync();
-    
-        /// <exception cref="GeoClientException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<SwaggerResponse> RefreshAsync(System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="GeoClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<bool>> UploadFileAsync(FileParameter file);
-    
-        /// <exception cref="GeoClientException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<SwaggerResponse<bool>> UploadFileAsync(FileParameter file, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="GeoClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse> UploadFilesAsync(System.Collections.Generic.IEnumerable<FileParameter> files);
-    
-        /// <exception cref="GeoClientException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<SwaggerResponse> UploadFilesAsync(System.Collections.Generic.IEnumerable<FileParameter> files, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="GeoClientException">A server side error occurred.</exception>
-        /// <exception cref="GeoClientClientException{System.Exception}">A custom error occured.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse> SaveItemsAsync(GenericRequestOfAddressAndPerson request);
-    
-        /// <exception cref="GeoClientException">A server side error occurred.</exception>
-        /// <exception cref="GeoClientClientException{System.Exception}">A custom error occured.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<SwaggerResponse> SaveItemsAsync(GenericRequestOfAddressAndPerson request, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="GeoClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> GetUploadedFileAsync(int id, bool? @override);
-    
-        /// <exception cref="GeoClientException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<FileResponse> GetUploadedFileAsync(int id, bool? @override, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="GeoClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<double?>> PostDoubleAsync(double? value);
-    
-        /// <exception cref="GeoClientException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<SwaggerResponse<double?>> PostDoubleAsync(double? value, System.Threading.CancellationToken cancellationToken);
-    
-    }
-    
-    
-    
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
-    public partial interface IPersonsClient
-    {
-        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<System.Collections.ObjectModel.ObservableCollection<Person>>> GetAllAsync();
-    
-        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<SwaggerResponse<System.Collections.ObjectModel.ObservableCollection<Person>>> GetAllAsync(System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse> AddAsync(Person person);
-    
-        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<SwaggerResponse> AddAsync(Person person, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<System.Collections.ObjectModel.ObservableCollection<Person>>> FindAsync(Gender gender);
-    
-        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<SwaggerResponse<System.Collections.ObjectModel.ObservableCollection<Person>>> FindAsync(Gender gender, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<System.Collections.ObjectModel.ObservableCollection<Person>>> FindOptionalAsync(Gender? gender);
-    
-        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<SwaggerResponse<System.Collections.ObjectModel.ObservableCollection<Person>>> FindOptionalAsync(Gender? gender, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
-        /// <exception cref="PersonsClientClientException{PersonNotFoundException}">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<Person>> GetAsync(System.Guid id);
-    
-        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
-        /// <exception cref="PersonsClientClientException{PersonNotFoundException}">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<SwaggerResponse<Person>> GetAsync(System.Guid id, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse> DeleteAsync(System.Guid id);
-    
-        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<SwaggerResponse> DeleteAsync(System.Guid id, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<Person>> TransformAsync(Person person);
-    
-        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<SwaggerResponse<Person>> TransformAsync(Person person, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
-        /// <exception cref="PersonsClientClientException{PersonNotFoundException}">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<Person>> ThrowAsync(System.Guid id);
-    
-        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
-        /// <exception cref="PersonsClientClientException{PersonNotFoundException}">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<SwaggerResponse<Person>> ThrowAsync(System.Guid id, System.Threading.CancellationToken cancellationToken);
-    
-        /// <summary>Gets the name of a person.</summary>
-        /// <param name="id">The person ID.</param>
-        /// <returns>The person's name.</returns>
-        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
-        /// <exception cref="PersonsClientClientException{PersonNotFoundException}">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<string>> GetNameAsync(System.Guid id);
-    
-        /// <summary>Gets the name of a person.</summary>
-        /// <param name="id">The person ID.</param>
-        /// <returns>The person's name.</returns>
-        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
-        /// <exception cref="PersonsClientClientException{PersonNotFoundException}">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<SwaggerResponse<string>> GetNameAsync(System.Guid id, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<string>> AddXmlAsync(string person);
-    
-        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<SwaggerResponse<string>> AddXmlAsync(string person, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<byte[]>> UploadAsync(System.IO.Stream data);
-    
-        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<SwaggerResponse<byte[]>> UploadAsync(System.IO.Stream data, System.Threading.CancellationToken cancellationToken);
-    
-    }
     
     
     
@@ -377,7 +199,7 @@ namespace NSwag.Integration.ClientPCL.Contracts
         }
     }
     
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.9.10.0 (Newtonsoft.Json v9.0.0.0)")]
     [System.AttributeUsage(System.AttributeTargets.Class, AllowMultiple = true)]
     internal class JsonInheritanceAttribute : System.Attribute
     {
@@ -392,7 +214,7 @@ namespace NSwag.Integration.ClientPCL.Contracts
         public System.Type Type { get; }
     }
     
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.9.10.0 (Newtonsoft.Json v9.0.0.0)")]
     internal class JsonInheritanceConverter : Newtonsoft.Json.JsonConverter
     {
         internal static readonly string DefaultDiscriminatorName = "discriminator";
@@ -494,7 +316,7 @@ namespace NSwag.Integration.ClientPCL.Contracts
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
     public class FileParameter
     {
         public FileParameter(System.IO.Stream data) 
@@ -549,7 +371,7 @@ namespace NSwag.Integration.ClientPCL.Contracts
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
     public class SwaggerResponse
     {
         public string StatusCode { get; private set; }
@@ -563,7 +385,7 @@ namespace NSwag.Integration.ClientPCL.Contracts
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
     public class SwaggerResponse<TResult> : SwaggerResponse
     {
         public TResult Result { get; private set; }
@@ -575,7 +397,7 @@ namespace NSwag.Integration.ClientPCL.Contracts
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
     public class GeoClientException : System.Exception
     {
         public string StatusCode { get; private set; }
@@ -598,7 +420,7 @@ namespace NSwag.Integration.ClientPCL.Contracts
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
     public class GeoClientException<TResult> : GeoClientException
     {
         public TResult Result { get; private set; }
@@ -610,7 +432,7 @@ namespace NSwag.Integration.ClientPCL.Contracts
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
     public class PersonsClientException : System.Exception
     {
         public string StatusCode { get; private set; }
@@ -633,7 +455,7 @@ namespace NSwag.Integration.ClientPCL.Contracts
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
     public class PersonsClientException<TResult> : PersonsClientException
     {
         public TResult Result { get; private set; }

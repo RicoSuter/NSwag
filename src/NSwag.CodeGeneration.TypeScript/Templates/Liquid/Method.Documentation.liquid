@@ -1,18 +1,18 @@
 {% if operation.HasDocumentation -%}
-    /**
+/**
 {%     if operation.HasSummary -%}
-     * {{ operation.Summary }}
+ * {{ operation.Summary }}
 {%     endif -%}
 {%     for parameter in operation.Parameters -%}
 {%         if parameter.HasDescriptionOrIsOptional -%}
-     * @{{ parameter.VariableName }}{% if parameter.IsOptional %} (optional){% endif %} {{ parameter.Description }}
+ * @{{ parameter.VariableName }}{% if parameter.IsOptional %} (optional){% endif %} {{ parameter.Description }}
 {%         endif -%}
 {%     endfor -%}
 {%     if operation.HasResultDescription -%}
-     * @return {{ operation.ResultDescription }}
+ * @return {{ operation.ResultDescription }}
 {%     endif -%}
 {%     if operation.IsDeprecated -%}
-     * @deprecated
+ * @deprecated
 {%     endif -%}
-     */
+ */
 {% endif -%}

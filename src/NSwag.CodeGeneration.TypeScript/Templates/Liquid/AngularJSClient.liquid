@@ -34,10 +34,10 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
 {% for operation in Operations -%}
     {% template Method.Documentation %}
     {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}): ng.IPromise<{{ operation.ResultType }}> {
-        {{ template RequestUrl }}
+        {% template RequestUrl %}
 
 {%     if operation.HasBody -%}
-        {{ template RequestBody }}
+        {% template RequestBody %}
 {%     endif -%}
 
         var options_ = <ng.IRequestConfig>{
@@ -89,7 +89,7 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
     protected process{{ operation.ActualOperationNameUpper }}(response: any): ng.IPromise<{{ operation.ResultType }}> {
         const status = response.status; 
 
-        {{ template ProcessResponse }}
+        {% template ProcessResponse %}
     }
 {% endif -%}
 }

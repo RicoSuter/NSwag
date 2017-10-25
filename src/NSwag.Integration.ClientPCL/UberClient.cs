@@ -8,91 +8,7 @@ namespace Uber
 {
     #pragma warning disable // Disable all warnings
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
-    public partial interface IClient
-    {
-        /// <summary>Product Types</summary>
-        /// <param name="latitude">Latitude component of location.</param>
-        /// <param name="longitude">Longitude component of location.</param>
-        /// <returns>An array of products</returns>
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<Product>> ProductsAsync(double latitude, double longitude);
-    
-        /// <summary>Product Types</summary>
-        /// <param name="latitude">Latitude component of location.</param>
-        /// <param name="longitude">Longitude component of location.</param>
-        /// <returns>An array of products</returns>
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<Product>> ProductsAsync(double latitude, double longitude, System.Threading.CancellationToken cancellationToken);
-    
-        /// <summary>Price Estimates</summary>
-        /// <param name="start_latitude">Latitude component of start location.</param>
-        /// <param name="start_longitude">Longitude component of start location.</param>
-        /// <param name="end_latitude">Latitude component of end location.</param>
-        /// <param name="end_longitude">Longitude component of end location.</param>
-        /// <returns>An array of price estimates by product</returns>
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<PriceEstimate>> PriceAsync(double start_latitude, double start_longitude, double end_latitude, double end_longitude);
-    
-        /// <summary>Price Estimates</summary>
-        /// <param name="start_latitude">Latitude component of start location.</param>
-        /// <param name="start_longitude">Longitude component of start location.</param>
-        /// <param name="end_latitude">Latitude component of end location.</param>
-        /// <param name="end_longitude">Longitude component of end location.</param>
-        /// <returns>An array of price estimates by product</returns>
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<PriceEstimate>> PriceAsync(double start_latitude, double start_longitude, double end_latitude, double end_longitude, System.Threading.CancellationToken cancellationToken);
-    
-        /// <summary>Time Estimates</summary>
-        /// <param name="start_latitude">Latitude component of start location.</param>
-        /// <param name="start_longitude">Longitude component of start location.</param>
-        /// <param name="customer_uuid">Unique customer identifier to be used for experience customization.</param>
-        /// <param name="product_id">Unique identifier representing a specific product for a given latitude & longitude.</param>
-        /// <returns>An array of products</returns>
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<Product>> TimeAsync(double start_latitude, double start_longitude, System.Guid? customer_uuid, string product_id);
-    
-        /// <summary>Time Estimates</summary>
-        /// <param name="start_latitude">Latitude component of start location.</param>
-        /// <param name="start_longitude">Longitude component of start location.</param>
-        /// <param name="customer_uuid">Unique customer identifier to be used for experience customization.</param>
-        /// <param name="product_id">Unique identifier representing a specific product for a given latitude & longitude.</param>
-        /// <returns>An array of products</returns>
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<Product>> TimeAsync(double start_latitude, double start_longitude, System.Guid? customer_uuid, string product_id, System.Threading.CancellationToken cancellationToken);
-    
-        /// <summary>User Profile</summary>
-        /// <returns>Profile information for a user</returns>
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<Profile> MeAsync();
-    
-        /// <summary>User Profile</summary>
-        /// <returns>Profile information for a user</returns>
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<Profile> MeAsync(System.Threading.CancellationToken cancellationToken);
-    
-        /// <summary>User Activity</summary>
-        /// <param name="offset">Offset the list of returned results by this amount. Default is zero.</param>
-        /// <param name="limit">Number of items to retrieve. Default is 5, maximum is 100.</param>
-        /// <returns>History information for the given user</returns>
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<Activities> HistoryAsync(int? offset, int? limit);
-    
-        /// <summary>User Activity</summary>
-        /// <param name="offset">Offset the list of returned results by this amount. Default is zero.</param>
-        /// <param name="limit">Number of items to retrieve. Default is 5, maximum is 100.</param>
-        /// <returns>History information for the given user</returns>
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<Activities> HistoryAsync(int? offset, int? limit, System.Threading.CancellationToken cancellationToken);
-    
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
     public partial class Client 
     {
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
@@ -132,9 +48,9 @@ namespace Uber
         /// <summary>Product Types</summary>
         /// <param name="latitude">Latitude component of location.</param>
         /// <param name="longitude">Longitude component of location.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>An array of products</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         public async System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<Product>> ProductsAsync(double latitude, double longitude, System.Threading.CancellationToken cancellationToken)
         {
             if (latitude == null)
@@ -188,17 +104,18 @@ namespace Uber
                         }
                         else
                         {
-    
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             var result_ = default(Error); 
                             try
                             {
                                 result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Error>(responseData_, _settings.Value);
+    
                             } 
-                            catch (System.Exception exception) 
+                            catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, headers_, exception);
+                                throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
                             }
+    
                             throw new SwaggerException<Error>("Unexpected error", status_, responseData_, headers_, result_, null);
                         }
             
@@ -235,9 +152,9 @@ namespace Uber
         /// <param name="start_longitude">Longitude component of start location.</param>
         /// <param name="end_latitude">Latitude component of end location.</param>
         /// <param name="end_longitude">Longitude component of end location.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>An array of price estimates by product</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         public async System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<PriceEstimate>> PriceAsync(double start_latitude, double start_longitude, double end_latitude, double end_longitude, System.Threading.CancellationToken cancellationToken)
         {
             if (start_latitude == null)
@@ -286,30 +203,31 @@ namespace Uber
                         if (status_ == "200") 
                         {
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            var result_ = default(Error); 
+                            var result_ = default(System.Collections.ObjectModel.ObservableCollection<PriceEstimate>); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Error>(responseData_, _settings.Value);
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<PriceEstimate>>(responseData_, _settings.Value);
+                                return result_; 
                             } 
                             catch (System.Exception exception) 
                             {
                                 throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, headers_, exception);
                             }
-                            throw new SwaggerException<Error>("Unexpected error", status_, responseData_, headers_, result_, null);
                         }
                         else
                         {
-    
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             var result_ = default(Error); 
                             try
                             {
                                 result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Error>(responseData_, _settings.Value);
+    
                             } 
-                            catch (System.Exception exception) 
+                            catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, headers_, exception);
+                                throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
                             }
+    
                             throw new SwaggerException<Error>("Unexpected error", status_, responseData_, headers_, result_, null);
                         }
             
@@ -346,9 +264,9 @@ namespace Uber
         /// <param name="start_longitude">Longitude component of start location.</param>
         /// <param name="customer_uuid">Unique customer identifier to be used for experience customization.</param>
         /// <param name="product_id">Unique identifier representing a specific product for a given latitude & longitude.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>An array of products</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         public async System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<Product>> TimeAsync(double start_latitude, double start_longitude, System.Guid? customer_uuid, string product_id, System.Threading.CancellationToken cancellationToken)
         {
             if (start_latitude == null)
@@ -361,7 +279,7 @@ namespace Uber
             urlBuilder_.Append(BaseUrl).Append("/estimates/time?");
             urlBuilder_.Append("start_latitude=").Append(System.Uri.EscapeDataString(System.Convert.ToString(start_latitude, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             urlBuilder_.Append("start_longitude=").Append(System.Uri.EscapeDataString(System.Convert.ToString(start_longitude, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            if (customer_uuid != null) urlBuilder_.Append("customer_uuid=").Append(System.Uri.EscapeDataString(System.Convert.ToString(customer_uuid, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            if (customer_uuid != null) urlBuilder_.Append("customer_uuid=").Append(System.Uri.EscapeDataString(System.Convert.ToString(customer_uuid.Value, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             if (product_id != null) urlBuilder_.Append("product_id=").Append(System.Uri.EscapeDataString(System.Convert.ToString(product_id, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             urlBuilder_.Length--;
     
@@ -391,30 +309,31 @@ namespace Uber
                         if (status_ == "200") 
                         {
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            var result_ = default(Error); 
+                            var result_ = default(System.Collections.ObjectModel.ObservableCollection<Product>); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Error>(responseData_, _settings.Value);
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<Product>>(responseData_, _settings.Value);
+                                return result_; 
                             } 
                             catch (System.Exception exception) 
                             {
                                 throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, headers_, exception);
                             }
-                            throw new SwaggerException<Error>("Unexpected error", status_, responseData_, headers_, result_, null);
                         }
                         else
                         {
-    
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             var result_ = default(Error); 
                             try
                             {
                                 result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Error>(responseData_, _settings.Value);
+    
                             } 
-                            catch (System.Exception exception) 
+                            catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, headers_, exception);
+                                throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
                             }
+    
                             throw new SwaggerException<Error>("Unexpected error", status_, responseData_, headers_, result_, null);
                         }
             
@@ -443,9 +362,9 @@ namespace Uber
         }
     
         /// <summary>User Profile</summary>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Profile information for a user</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         public async System.Threading.Tasks.Task<Profile> MeAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -477,30 +396,31 @@ namespace Uber
                         if (status_ == "200") 
                         {
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            var result_ = default(Error); 
+                            var result_ = default(Profile); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Error>(responseData_, _settings.Value);
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Profile>(responseData_, _settings.Value);
+                                return result_; 
                             } 
                             catch (System.Exception exception) 
                             {
                                 throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, headers_, exception);
                             }
-                            throw new SwaggerException<Error>("Unexpected error", status_, responseData_, headers_, result_, null);
                         }
                         else
                         {
-    
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             var result_ = default(Error); 
                             try
                             {
                                 result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Error>(responseData_, _settings.Value);
+    
                             } 
-                            catch (System.Exception exception) 
+                            catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, headers_, exception);
+                                throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
                             }
+    
                             throw new SwaggerException<Error>("Unexpected error", status_, responseData_, headers_, result_, null);
                         }
             
@@ -533,15 +453,15 @@ namespace Uber
         /// <summary>User Activity</summary>
         /// <param name="offset">Offset the list of returned results by this amount. Default is zero.</param>
         /// <param name="limit">Number of items to retrieve. Default is 5, maximum is 100.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>History information for the given user</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         public async System.Threading.Tasks.Task<Activities> HistoryAsync(int? offset, int? limit, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl).Append("/history?");
-            if (offset != null) urlBuilder_.Append("offset=").Append(System.Uri.EscapeDataString(System.Convert.ToString(offset, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            if (limit != null) urlBuilder_.Append("limit=").Append(System.Uri.EscapeDataString(System.Convert.ToString(limit, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            if (offset != null) urlBuilder_.Append("offset=").Append(System.Uri.EscapeDataString(System.Convert.ToString(offset.Value, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            if (limit != null) urlBuilder_.Append("limit=").Append(System.Uri.EscapeDataString(System.Convert.ToString(limit.Value, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             urlBuilder_.Length--;
     
             var client_ = new System.Net.Http.HttpClient();
@@ -570,30 +490,31 @@ namespace Uber
                         if (status_ == "200") 
                         {
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            var result_ = default(Error); 
+                            var result_ = default(Activities); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Error>(responseData_, _settings.Value);
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Activities>(responseData_, _settings.Value);
+                                return result_; 
                             } 
                             catch (System.Exception exception) 
                             {
                                 throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, headers_, exception);
                             }
-                            throw new SwaggerException<Error>("Unexpected error", status_, responseData_, headers_, result_, null);
                         }
                         else
                         {
-    
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             var result_ = default(Error); 
                             try
                             {
                                 result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Error>(responseData_, _settings.Value);
+    
                             } 
-                            catch (System.Exception exception) 
+                            catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, headers_, exception);
+                                throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
                             }
+    
                             throw new SwaggerException<Error>("Unexpected error", status_, responseData_, headers_, result_, null);
                         }
             
@@ -614,7 +535,6 @@ namespace Uber
         }
     
     }
-    
     
     
 
@@ -702,6 +622,8 @@ namespace Uber
             }
         }
     
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+    
         public string ToJson() 
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this);
@@ -712,8 +634,6 @@ namespace Uber
             return Newtonsoft.Json.JsonConvert.DeserializeObject<Product>(data);
         }
     
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
         protected virtual void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
         {
             var handler = PropertyChanged;
@@ -838,6 +758,8 @@ namespace Uber
             }
         }
     
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+    
         public string ToJson() 
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this);
@@ -848,8 +770,6 @@ namespace Uber
             return Newtonsoft.Json.JsonConvert.DeserializeObject<PriceEstimate>(data);
         }
     
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
         protected virtual void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
         {
             var handler = PropertyChanged;
@@ -942,6 +862,8 @@ namespace Uber
             }
         }
     
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+    
         public string ToJson() 
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this);
@@ -952,8 +874,6 @@ namespace Uber
             return Newtonsoft.Json.JsonConvert.DeserializeObject<Profile>(data);
         }
     
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
         protected virtual void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
         {
             var handler = PropertyChanged;
@@ -982,6 +902,8 @@ namespace Uber
             }
         }
     
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+    
         public string ToJson() 
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this);
@@ -992,8 +914,6 @@ namespace Uber
             return Newtonsoft.Json.JsonConvert.DeserializeObject<Activity>(data);
         }
     
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
         protected virtual void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
         {
             var handler = PropertyChanged;
@@ -1069,6 +989,8 @@ namespace Uber
             }
         }
     
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+    
         public string ToJson() 
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this);
@@ -1079,8 +1001,6 @@ namespace Uber
             return Newtonsoft.Json.JsonConvert.DeserializeObject<Activities>(data);
         }
     
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
         protected virtual void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
         {
             var handler = PropertyChanged;
@@ -1138,6 +1058,8 @@ namespace Uber
             }
         }
     
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+    
         public string ToJson() 
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this);
@@ -1148,8 +1070,6 @@ namespace Uber
             return Newtonsoft.Json.JsonConvert.DeserializeObject<Error>(data);
         }
     
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
         protected virtual void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
         {
             var handler = PropertyChanged;
@@ -1158,7 +1078,7 @@ namespace Uber
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
     public class SwaggerException : System.Exception
     {
         public string StatusCode { get; private set; }
@@ -1181,7 +1101,7 @@ namespace Uber
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
     public class SwaggerException<TResult> : SwaggerException
     {
         public TResult Result { get; private set; }

@@ -10,8 +10,7 @@ namespace NSwag.Integration.ClientPCL
 {
     #pragma warning disable // Disable all warnings
 
-    
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
     public partial class GeoClient : ClientBase
     {
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
@@ -46,8 +45,8 @@ namespace NSwag.Integration.ClientPCL
             return FromBodyTestAsync(location, System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="GeoClientException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="GeoClientException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<SwaggerResponse> FromBodyTestAsync(GeoPoint location, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -80,7 +79,7 @@ namespace NSwag.Integration.ClientPCL
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "204") 
                         {
-                            return new SwaggerResponse(status_, headers_);
+                            return new SwaggerResponse(status_, headers_); 
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -109,8 +108,8 @@ namespace NSwag.Integration.ClientPCL
             return FromUriTestAsync(latitude, longitude, System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="GeoClientException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="GeoClientException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<SwaggerResponse> FromUriTestAsync(double? latitude, double? longitude, System.Threading.CancellationToken cancellationToken)
         {
             if (latitude == null)
@@ -121,8 +120,8 @@ namespace NSwag.Integration.ClientPCL
     
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl).Append("/api/Geo/FromUriTest?");
-            urlBuilder_.Append("Latitude=").Append(System.Uri.EscapeDataString(System.Convert.ToString(latitude, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            urlBuilder_.Append("Longitude=").Append(System.Uri.EscapeDataString(System.Convert.ToString(longitude, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Append("Latitude=").Append(System.Uri.EscapeDataString(System.Convert.ToString(latitude.Value, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Append("Longitude=").Append(System.Uri.EscapeDataString(System.Convert.ToString(longitude.Value, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             urlBuilder_.Length--;
     
             var client_ = _httpClient;
@@ -151,7 +150,7 @@ namespace NSwag.Integration.ClientPCL
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "204") 
                         {
-                            return new SwaggerResponse(status_, headers_);
+                            return new SwaggerResponse(status_, headers_); 
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -180,8 +179,8 @@ namespace NSwag.Integration.ClientPCL
             return AddPolygonAsync(points, System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="GeoClientException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="GeoClientException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<SwaggerResponse> AddPolygonAsync(System.Collections.Generic.IEnumerable<GeoPoint> points, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -214,7 +213,7 @@ namespace NSwag.Integration.ClientPCL
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "204") 
                         {
-                            return new SwaggerResponse(status_, headers_);
+                            return new SwaggerResponse(status_, headers_); 
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -243,8 +242,8 @@ namespace NSwag.Integration.ClientPCL
             return FilterAsync(currentStates, System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="GeoClientException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="GeoClientException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<SwaggerResponse> FilterAsync(System.Collections.Generic.IEnumerable<string> currentStates, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -278,7 +277,7 @@ namespace NSwag.Integration.ClientPCL
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "204") 
                         {
-                            return new SwaggerResponse(status_, headers_);
+                            return new SwaggerResponse(status_, headers_); 
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -307,8 +306,8 @@ namespace NSwag.Integration.ClientPCL
             return ReverseAsync(values, System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="GeoClientException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="GeoClientException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<SwaggerResponse<System.Collections.ObjectModel.ObservableCollection<string>>> ReverseAsync(System.Collections.Generic.IEnumerable<string> values, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -382,8 +381,8 @@ namespace NSwag.Integration.ClientPCL
             return RefreshAsync(System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="GeoClientException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="GeoClientException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<SwaggerResponse> RefreshAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -415,7 +414,7 @@ namespace NSwag.Integration.ClientPCL
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "204") 
                         {
-                            return new SwaggerResponse(status_, headers_);
+                            return new SwaggerResponse(status_, headers_); 
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -444,8 +443,8 @@ namespace NSwag.Integration.ClientPCL
             return UploadFileAsync(file, System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="GeoClientException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="GeoClientException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<SwaggerResponse<bool>> UploadFileAsync(FileParameter file, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -461,7 +460,7 @@ namespace NSwag.Integration.ClientPCL
                     content_.Headers.Remove("Content-Type");
                     content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
                     if (file != null)
-                        content_.Add(new System.Net.Http.StreamContent(file.Data), "file", file.FileName ?? "file");
+                            content_.Add(new System.Net.Http.StreamContent(file.Data), "file", file.FileName ?? "file");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
@@ -522,8 +521,8 @@ namespace NSwag.Integration.ClientPCL
             return UploadFilesAsync(files, System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="GeoClientException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="GeoClientException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<SwaggerResponse> UploadFilesAsync(System.Collections.Generic.IEnumerable<FileParameter> files, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -560,7 +559,7 @@ namespace NSwag.Integration.ClientPCL
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "204") 
                         {
-                            return new SwaggerResponse(status_, headers_);
+                            return new SwaggerResponse(status_, headers_); 
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -590,9 +589,9 @@ namespace NSwag.Integration.ClientPCL
             return SaveItemsAsync(request, System.Threading.CancellationToken.None);
         }
     
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="GeoClientException">A server side error occurred.</exception>
         /// <exception cref="GeoClientClientException{System.Exception}">A custom error occured.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         public async System.Threading.Tasks.Task<SwaggerResponse> SaveItemsAsync(GenericRequestOfAddressAndPerson request, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -625,7 +624,7 @@ namespace NSwag.Integration.ClientPCL
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "204") 
                         {
-                            return new SwaggerResponse(status_, headers_);
+                            return new SwaggerResponse(status_, headers_); 
                         }
                         else
                         if (status_ == "450") 
@@ -674,8 +673,8 @@ namespace NSwag.Integration.ClientPCL
             return GetUploadedFileAsync(id, @override, System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="GeoClientException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="GeoClientException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<FileResponse> GetUploadedFileAsync(int id, bool? @override, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
@@ -687,7 +686,7 @@ namespace NSwag.Integration.ClientPCL
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl).Append("/api/Geo/GetUploadedFile/{id}?");
             urlBuilder_.Replace("{id}", System.Uri.EscapeDataString(System.Convert.ToString(id, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Append("override=").Append(System.Uri.EscapeDataString(System.Convert.ToString(@override, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Append("override=").Append(System.Uri.EscapeDataString(System.Convert.ToString(@override.Value, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             urlBuilder_.Length--;
     
             var client_ = _httpClient;
@@ -747,13 +746,13 @@ namespace NSwag.Integration.ClientPCL
             return PostDoubleAsync(value, System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="GeoClientException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="GeoClientException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<SwaggerResponse<double?>> PostDoubleAsync(double? value, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl).Append("/api/Geo/PostDouble?");
-            if (value != null) urlBuilder_.Append("value=").Append(System.Uri.EscapeDataString(System.Convert.ToString(value, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            if (value != null) urlBuilder_.Append("value=").Append(System.Uri.EscapeDataString(System.Convert.ToString(value.Value, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             urlBuilder_.Length--;
     
             var client_ = _httpClient;
@@ -818,9 +817,7 @@ namespace NSwag.Integration.ClientPCL
     
     }
     
-    
-    
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0 (NJsonSchema v9.9.10.0 (Newtonsoft.Json v9.0.0.0))")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.11.0.0")]
     public partial class PersonsClient : ClientBase
     {
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
@@ -855,8 +852,8 @@ namespace NSwag.Integration.ClientPCL
             return GetAllAsync(System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<SwaggerResponse<System.Collections.ObjectModel.ObservableCollection<Person>>> GetAllAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -926,8 +923,8 @@ namespace NSwag.Integration.ClientPCL
             return AddAsync(person, System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<SwaggerResponse> AddAsync(Person person, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -960,7 +957,7 @@ namespace NSwag.Integration.ClientPCL
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "204") 
                         {
-                            return new SwaggerResponse(status_, headers_);
+                            return new SwaggerResponse(status_, headers_); 
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -989,8 +986,8 @@ namespace NSwag.Integration.ClientPCL
             return FindAsync(gender, System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<SwaggerResponse<System.Collections.ObjectModel.ObservableCollection<Person>>> FindAsync(Gender gender, System.Threading.CancellationToken cancellationToken)
         {
             if (gender == null)
@@ -1066,13 +1063,13 @@ namespace NSwag.Integration.ClientPCL
             return FindOptionalAsync(gender, System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<SwaggerResponse<System.Collections.ObjectModel.ObservableCollection<Person>>> FindOptionalAsync(Gender? gender, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl).Append("/api/Persons/find2?");
-            if (gender != null) urlBuilder_.Append("gender=").Append(System.Uri.EscapeDataString(System.Convert.ToString(gender, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            if (gender != null) urlBuilder_.Append("gender=").Append(System.Uri.EscapeDataString(System.Convert.ToString(gender.Value, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             urlBuilder_.Length--;
     
             var client_ = _httpClient;
@@ -1142,9 +1139,9 @@ namespace NSwag.Integration.ClientPCL
             return GetAsync(id, System.Threading.CancellationToken.None);
         }
     
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="PersonsClientException">A server side error occurred.</exception>
         /// <exception cref="PersonsClientClientException{PersonNotFoundException}">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         public async System.Threading.Tasks.Task<SwaggerResponse<Person>> GetAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
@@ -1238,8 +1235,8 @@ namespace NSwag.Integration.ClientPCL
             return DeleteAsync(id, System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<SwaggerResponse> DeleteAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
@@ -1273,7 +1270,7 @@ namespace NSwag.Integration.ClientPCL
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "204") 
                         {
-                            return new SwaggerResponse(status_, headers_);
+                            return new SwaggerResponse(status_, headers_); 
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -1302,8 +1299,8 @@ namespace NSwag.Integration.ClientPCL
             return TransformAsync(person, System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<SwaggerResponse<Person>> TransformAsync(Person person, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -1377,9 +1374,9 @@ namespace NSwag.Integration.ClientPCL
             return ThrowAsync(id, System.Threading.CancellationToken.None);
         }
     
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="PersonsClientException">A server side error occurred.</exception>
         /// <exception cref="PersonsClientClientException{PersonNotFoundException}">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         public async System.Threading.Tasks.Task<SwaggerResponse<Person>> ThrowAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
@@ -1482,10 +1479,10 @@ namespace NSwag.Integration.ClientPCL
     
         /// <summary>Gets the name of a person.</summary>
         /// <param name="id">The person ID.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The person's name.</returns>
         /// <exception cref="PersonsClientException">A server side error occurred.</exception>
         /// <exception cref="PersonsClientClientException{PersonNotFoundException}">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         public async System.Threading.Tasks.Task<SwaggerResponse<string>> GetNameAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
@@ -1579,8 +1576,8 @@ namespace NSwag.Integration.ClientPCL
             return AddXmlAsync(person, System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<SwaggerResponse<string>> AddXmlAsync(string person, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -1653,8 +1650,8 @@ namespace NSwag.Integration.ClientPCL
             return UploadAsync(data, System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="PersonsClientException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<SwaggerResponse<byte[]>> UploadAsync(System.IO.Stream data, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -1722,7 +1719,6 @@ namespace NSwag.Integration.ClientPCL
         }
     
     }
-    
     
     
 

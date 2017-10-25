@@ -35,10 +35,10 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
 {% for operation in Operations -%}
     {% template Method.Documentation %}
     {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}): Promise<{{ operation.ResultType }}> {
-        {{ template RequestUrl }}
+        {% template RequestUrl %}
 
 {%     if operation.HasBody -%}
-        {{ template RequestBody }}
+        {% template RequestBody }
 
 {%     endif -%}
         let options_ = <RequestInit>{
@@ -76,7 +76,7 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
 
     protected process{{ operation.ActualOperationNameUpper }}(response: Response): Promise<{{ operation.ResultType }}> {
         const status = response.status;
-        {{ template ProcessResponse }}
+        {% template ProcessResponse %}
     }
 {% endfor -%}
 }
