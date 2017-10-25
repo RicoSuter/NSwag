@@ -6,7 +6,7 @@
 //----------------------
 // ReSharper disable InconsistentNaming
 
-{{ ExtensionCodeImport }}
+{{ ExtensionCodeImport -}}
 {% if ImportRequiredTypes -%}
 {%     if IsAngular -%}
 
@@ -131,6 +131,7 @@ export class SwaggerException extends Error {
 {{ ReferenceHandlingCode }}
 {%     endif -%}
 {% endif -%}
+
 {{ ExtensionCodeBottom }}
 {% if HasNamespace -%}
 }

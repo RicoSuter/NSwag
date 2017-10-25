@@ -1,5 +1,5 @@
 ﻿{% if HasOperations -%}
-{%     if GenerateContracts && GenerateClientInterfaces -%}
+{%     if GenerateContracts and GenerateClientInterfaces -%}
 {% template Client.Interface %}
 {%     endif -%}
 

@@ -20,19 +20,19 @@ if (status === {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %}
     const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
 {%         if operation.IsAngular -%}
 {%             if operation.WrapResponse -%}
-    return Observable.of(new {{ ResponseClass }}(status, _headers, { fileName: fileName, data: <any>response.{% if operation.UseAngularHttpClient %}body{% else %}blob(){% endif %}, status: status, headers: _headers }));
+    return Observable.of(new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, data: <any>response.{% if operation.UseAngularHttpClient %}body{% else %}blob(){% endif %}, status: status, headers: _headers }));
 {%             else -%}
     return Observable.of({ fileName: fileName, data: <any>response.{% if operation.UseAngularHttpClient %}body{% else %}blob(){% endif %}, status: status, headers: _headers });
 {%             endif -%}
 {%         elseif operation.IsAngularJS -%}
 {%             if operation.WrapResponse -%}
-    return this.q.resolve(new {{ ResponseClass }}(status, _headers, { fileName: fileName, status: status, data: new Blob([response]), headers: _headers }));
+    return this.q.resolve(new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, status: status, data: new Blob([response]), headers: _headers }));
 {%             else -%}
     return this.q.resolve({ fileName: fileName, status: status, data: new Blob([response]), headers: _headers });
 {%             endif -%}
 {%         else -%}
 {%             if operation.WrapResponse -%}
-    return response.blob().then(blob => { return new {{ ResponseClass }}(status, _headers, { fileName: fileName, data: blob, status: status, headers: _headers }); });
+    return response.blob().then(blob => { return new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, data: blob, status: status, headers: _headers }); });
 {%             else -%}
     return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
 {%             endif -%}
@@ -64,19 +64,19 @@ if (status === {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %}
 {%             if response.IsSuccess -%}
 {%                 if operation.IsAngular -%}
 {%                     if operation.WrapResponse -%}
-    return Observable.of(new {{ ResponseClass }}(status, _headers, result{{ response.StatusCode }}));
+    return Observable.of(new {{ operation.ResponseClass }}(status, _headers, result{{ response.StatusCode }}));
 {%                     else -%}
     return Observable.of(result{{ response.StatusCode }});
 {%                     endif -%}
 {%                 elseif operation.IsAngularJS -%}
 {%                     if operation.WrapResponse -%}
-    return this.q.resolve(new {{ ResponseClass }}(status, _headers, result{{ response.StatusCode }}));
+    return this.q.resolve(new {{ operation.ResponseClass }}(status, _headers, result{{ response.StatusCode }}));
 {%                     else -%}
     return this.q.resolve(result{{ response.StatusCode }});
 {%                     endif -%}
 {%                 else -%}
 {%                     if operation.WrapResponse -%}
-    return new {{ ResponseClass }}(status, _headers, result{{ response.StatusCode }});
+    return new {{ operation.ResponseClass }}(status, _headers, result{{ response.StatusCode }});
 {%                     else -%}
     return result{{ response.StatusCode }};
 {%                     endif -%}
@@ -86,9 +86,9 @@ if (status === {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %}
 {%             endif -%}
 {%         elseif response.IsSuccess -%}
 {%             if operation.IsAngular -%}
-    return Observable.of<{{ ResultType }}>(<any>null);
+    return Observable.of<{{ operation.ResultType }}>(<any>null);
 {%             elseif operation.IsAngularJS -%}
-    return this.q.resolve<{{ ResultType }}>(<any>null);
+    return this.q.resolve<{{ operation.ResultType }}>(<any>null);
 {%             else -%}
     return{% if operation.HasResultType %} null{% endif %};
 {%             endif -%}
@@ -99,9 +99,9 @@ if (status === {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %}
     });
 {%         endif -%}
 {%     endif -%}
-} else 
-{% endfor -%}
+} else {% endfor -%}
 {% if operation.HasDefaultResponse -%}
+{
 {%     if operation.CanRequestBlobs and operation.DefaultResponse.IsFile -%}
 {%         if operation.IsAngular -%}
     return Observable.of(response.blob());
@@ -130,26 +130,26 @@ if (status === {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %}
     let result: any = null;
 {%             if operation.DefaultResponse.UseDtoClass or operation.DefaultResponse.IsDate -%}
     let resultData = _responseText === "" ? null : {% if operation.HandleReferences %}jsonParse{% else %}JSON.parse{% endif %}(_responseText, this.jsonParseReviver);
-    {{ DefaultResponse.DataConversionCode | tab: 1 }}
+    {{ operation.DefaultResponse.DataConversionCode | tab: 1 }}
 {%             else -%}
-    result = _responseText === "" ? null : <{{ DefaultResponse.Type }}>{% if operation.HandleReferences %}jsonParse{% else %}JSON.parse{% endif %}(_responseText, this.jsonParseReviver);
+    result = _responseText === "" ? null : <{{ operation.DefaultResponse.Type }}>{% if operation.HandleReferences %}jsonParse{% else %}JSON.parse{% endif %}(_responseText, this.jsonParseReviver);
 {%             endif -%}
 {%             if operation.HasSuccessResponse == false -%}
 {%                 if operation.IsAngular -%}
 {%                     if operation.WrapResponse -%}
-    return Observable.of(new {{ ResponseClass }}(status, _headers, result));
+    return Observable.of(new {{ operation.ResponseClass }}(status, _headers, result));
 {%                     else -%}
     return Observable.of(result);
 {%                     endif -%}
 {%                 elseif operation.IsAngularJS -%}
 {%                     if operation.WrapResponse -%}
-    return this.q.resolve(new {{ ResponseClass }}(status, _headers, result));
+    return this.q.resolve(new {{ operation.ResponseClass }}(status, _headers, result));
 {%                     else -%}
     return this.q.resolve(result);
 {%                     endif -%}
 {%                 else -%}
 {%                     if operation.WrapResponse -%}
-    return new {{ ResponseClass }}(status, _headers, result);
+    return new {{ operation.ResponseClass }}(status, _headers, result);
 {%                     else -%}
     return result;
 {%                     endif -%}
@@ -160,19 +160,19 @@ if (status === {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %}
 {%         elseif operation.HasSuccessResponse == false -%}
 {%             if operation.IsAngular -%}
 {%                 if operation.WrapResponse -%}
-    return Observable.of<{{ ResultType }}>(new {{ ResponseClass }}(status, _headers, <any>null));
+    return Observable.of<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
 {%                 else -%}
-    return Observable.of<{{ ResultType }}>(<any>null);
+    return Observable.of<{{ operation.ResultType }}>(<any>null);
 {%                 endif -%}
 {%             elseif operation.IsAngularJS -%}
 {%                 if operation.WrapResponse -%}
-    return this.q.resolve<{{ ResultType }}>(new {{ ResponseClass }}(status, _headers, <any>null));
+    return this.q.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
 {%                 else -%}
-    return this.q.resolve<{{ ResultType }}>(<any>null);
+    return this.q.resolve<{{ operation.ResultType }}>(<any>null);
 {%                 endif -%}
 {%             else -%}
 {%                 if operation.WrapResponse -%}
-    return new {{ ResponseClass }}(status, _headers, {% if operation.HasResultType %}null{% else %}<any>undefined{% endif %});
+    return new {{ operation.ResponseClass }}(status, _headers, {% if operation.HasResultType %}null{% else %}<any>undefined{% endif %});
 {%                 else -%}
     return{% if operation.HasResultType %} null{% endif %};
 {%                 endif -%}
@@ -209,25 +209,25 @@ if (status !== 200 && status !== 204) {
 }
 {%     if operation.IsFetchOrAurelia -%}
 {%         if operation.WrapResponse -%}
-return Promise.resolve<{{ ResultType }}>(new {{ ResponseClass }}(status, _headers, <any>null));
+return Promise.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
 {%         else -%}
-return Promise.resolve<{{ ResultType }}>(<any>null);
+return Promise.resolve<{{ operation.ResultType }}>(<any>null);
 {%         endif -%}
 {%     elseif operation.IsAngular -%}
 {%         if operation.WrapResponse -%}
-return Observable.of<{{ ResultType }}>(new {{ ResponseClass }}(status, _headers, <any>null));
+return Observable.of<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
 {%         else -%}
-return Observable.of<{{ ResultType }}>(<any>null);
+return Observable.of<{{ operation.ResultType }}>(<any>null);
 {%         endif -%}
 {%     elseif operation.IsAngularJS -%}
 {%         if operation.WrapResponse -%}
-return this.q.resolve<{{ ResultType }}>(new {{ ResponseClass }}(status, _headers, <any>null));
+return this.q.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
 {%         else -%}
-return this.q.resolve<{{ ResultType }}>(<any>null);
+return this.q.resolve<{{ operation.ResultType }}>(<any>null);
 {%         endif -%}
 {%     else -%}
 {%         if operation.WrapResponse -%}
-return new {{ ResponseClass }}(status, _headers, <any>null);
+return new {{ operation.ResponseClass }}(status, _headers, <any>null);
 {%         else -%}
 return{% if operation.HasResultType %} null{% endif %};
 {%         endif -%}

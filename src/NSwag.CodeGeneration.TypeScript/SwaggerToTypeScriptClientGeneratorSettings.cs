@@ -33,7 +33,7 @@ namespace NSwag.CodeGeneration.TypeScript
 
 #if DEBUG
             //TypeScriptGeneratorSettings.UseLiquidTemplates = true;
-            //TypeScriptGeneratorSettings.TemplateDirectory = @"C:\Data\Projects\NJsonSchema\src\NJsonSchema.CodeGeneration.TypeScript\Templates\Liquid";
+            //TypeScriptGeneratorSettings.TemplateDirectory = @"C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Liquid";
 #endif
         }
 

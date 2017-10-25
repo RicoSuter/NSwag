@@ -1,4 +1,4 @@
-﻿let url_ = this.baseUrl + "/{{ Path }}{% if operation.HasQueryParameters %}?{% endif %}";
+﻿let url_ = this.baseUrl + "/{{ operation.Path }}{% if operation.HasQueryParameters %}?{% endif %}";
 {% for parameter in operation.PathParameters -%}
 {%     if parameter.IsRequired -%}
 if ({{ parameter.VariableName }} === undefined || {{ parameter.VariableName }} === null)
@@ -7,20 +7,20 @@ if ({{ parameter.VariableName }} === undefined || {{ parameter.VariableName }} =
 if ({{ parameter.VariableName }} !== null && {{ parameter.VariableName }} !== undefined)
 {%     endif -%}
 {%     if parameter.IsDateArray -%}
-url_ = url_.replace("{{{ parameter.Name }}}", encodeURIComponent({{ parameter.VariableName }}.map(s_ => s_ ? s_.toJSON() : "null").join())); 
+url_ = url_.replace("{{ "{" }}{{ parameter.Name }}}", encodeURIComponent({{ parameter.VariableName }}.map(s_ => s_ ? s_.toJSON() : "null").join())); 
 {%     elseif parameter.IsDate -%}
-url_ = url_.replace("{{{ parameter.Name }}}", encodeURIComponent({{ parameter.VariableName }} ? "" + {{ parameter.VariableName }}.toJSON() : "null")); 
+url_ = url_.replace("{{ "{" }}{{ parameter.Name }}}", encodeURIComponent({{ parameter.VariableName }} ? "" + {{ parameter.VariableName }}.toJSON() : "null")); 
 {%     elseif parameter.IsArray -%}
-url_ = url_.replace("{{{ parameter.Name }}}", encodeURIComponent({{ parameter.VariableName }}.join())); 
+url_ = url_.replace("{{ "{" }}{{ parameter.Name }}}", encodeURIComponent({{ parameter.VariableName }}.join())); 
 {%     else -%}
-url_ = url_.replace("{{{ parameter.Name }}}", encodeURIComponent("" + {{ parameter.VariableName }})); 
+url_ = url_.replace("{{ "{" }}{{ parameter.Name }}}", encodeURIComponent("" + {{ parameter.VariableName }})); 
 {%     endif -%}
 {%     if parameter.IsOptional -%}
 else
     url_ = url_.replace("/{{{ parameter.Name }}}", ""); 
 {%     endif -%}
 {% endfor -%}
-{% for parameter in QueryParameters -%}
+{% for parameter in operation.QueryParameters -%}
 {%     if parameter.IsRequired -%}
 {%         if parameter.IsNullable -%}
 if ({{ parameter.VariableName }} === undefined)
@@ -39,7 +39,8 @@ if ({{ parameter.VariableName }} === null)
     throw new Error("The parameter '{{ parameter.VariableName }}' cannot be null.");
 else if ({{ parameter.VariableName }} !== undefined)
 {%         endif -%}
-{%     elseif parameter.IsDateArray -%}
+{%     endif -%}
+{%     if parameter.IsDateArray -%}
     {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach(item_ => { url_ += "{{ parameter.Name }}=" + encodeURIComponent(item_ ? "" + item_.toJSON() : "null") + "&"; });
 {%     elseif parameter.IsObjectArray -%}
     {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach((item, index) => { 
@@ -53,5 +54,5 @@ else if ({{ parameter.VariableName }} !== undefined)
 {%     else -%}
     url_ += "{{ parameter.Name }}=" + encodeURIComponent("" + {{ parameter.VariableName }}) + "&"; 
 {%     endif -%}
-{% endif -%}
+{% endfor -%}
 url_ = url_.replace(/[?&]$/, "");

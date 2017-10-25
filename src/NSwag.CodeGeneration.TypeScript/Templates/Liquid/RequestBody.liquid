@@ -8,8 +8,8 @@ if ({{ parameter.VariableName }} === null || {{ parameter.VariableName }} === un
     throw new Error("The parameter '{{ parameter.VariableName }}' cannot be null.");
 else
 {%         endif -%}
-{%         if parameter.IsFile %}
-{%             if parameter.IsArray %}
+{%         if parameter.IsFile -%}
+{%             if parameter.IsArray -%}
     {{ parameter.VariableName }}.forEach(item_ => content_.append("{{ parameter.Name }}", item_.data, item_.fileName ? item_.fileName : "{{ parameter.Name }}") );
 {%             else -%}
     content_.append("{{ parameter.Name }}", {{ parameter.VariableName }}.data, {{ parameter.VariableName }}.fileName ? {{ parameter.VariableName }}.fileName : "{{ parameter.Name }}");
@@ -21,9 +21,9 @@ else
 {% else -%}
 {%     if operation.HasContent -%}
 {%         if operation.ContentParameter.IsXmlBodyParameter -%}
-const content_ = {{ ContentParameter.VariableName }};
+const content_ = {{ operation.ContentParameter.VariableName }};
 {%         else -%}
-const content_ = JSON.stringify({{ ContentParameter.VariableName }});
+const content_ = JSON.stringify({{ operation.ContentParameter.VariableName }});
 {%         endif -%}
 {%     else -%}
 const content_ = undefined;

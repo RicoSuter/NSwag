@@ -27,8 +27,8 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
     }
 {% endif -%}
 {% if HasExtensionCode -%}
+
     {{ ExtensionCode }}
-    
 {% endif -%}
 {% for operation in Operations -%}
 
@@ -99,6 +99,6 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
 
         {% template ProcessResponse %}
     }
-{% endif -%}
-}
 {% endfor -%}
+}
+{% endif -%}

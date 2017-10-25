@@ -28,10 +28,11 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
     }
 {% endif -%}
 {% if HasExtensionCode -%}
+
     {{ ExtensionCode }}
-    
 {% endif -%}
 {% for operation in Operations -%}
+
     {% template Method.Documentation %}
     {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}): ng.IPromise<{{ operation.ResultType }}> {
         {% template RequestUrl %}
@@ -91,6 +92,6 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
 
         {% template ProcessResponse %}
     }
-{% endif -%}
+{% endfor -%}
 }
 {% endif -%}
