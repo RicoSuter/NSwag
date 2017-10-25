@@ -206,7 +206,7 @@
 
                             <StackPanel Visibility="{Binding Command.GenerateDtoTypes, Converter={StaticResource VisibilityConverter}}">
                                 <TextBlock Text="Excluded Type Names (comma separated, must be defined in another namespace)." FontWeight="Bold" Margin="0,0,0,6" />
-                                <TextBox Text="{Binding Command.ExcludedTypeNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
+                                <TextBox Text="{Binding Command.ExcludedTypeNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
                                          ToolTip="ExcludedTypeNames" Margin="0,0,0,12" />
 
                                 <TextBlock Text="DTO class/enum access modifier" FontWeight="Bold" Margin="0,0,0,6" />
