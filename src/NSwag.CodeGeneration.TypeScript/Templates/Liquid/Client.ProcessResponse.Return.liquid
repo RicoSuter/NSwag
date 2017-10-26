@@ -1,0 +1,25 @@
+{% if IsFetchOrAurelia -%}
+{%     if operation.WrapResponse -%}
+return Promise.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
+{%     else -%}
+return Promise.resolve<{{ operation.ResultType }}>(<any>null);
+{%     endif -%}
+{% elseif IsAngular -%}
+{%     if operation.WrapResponse -%}
+return Observable.of<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
+{%     else -%}
+return Observable.of<{{ operation.ResultType }}>(<any>null);
+{%     endif -%}
+{% elseif IsAngularJS -%}
+{%     if operation.WrapResponse -%}
+return this.q.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
+{%     else -%}
+return this.q.resolve<{{ operation.ResultType }}>(<any>null);
+{%     endif -%}
+{% else -%}
+{%     if operation.WrapResponse -%}
+return new {{ operation.ResponseClass }}(status, _headers, <any>null);
+{%     else -%}
+return{% if operation.HasResultType %} null{% endif %};
+{%     endif -%}
+{% endif -%}

@@ -110,8 +110,6 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets or sets a value indicating whether DTO exceptions are wrapped in a SwaggerException instance.</summary>
         public bool WrapDtoExceptions => _settings.WrapDtoExceptions;
 
-
-
         /// <summary>Gets a value indicating whether to render for AngularJS.</summary>
         public bool IsAngularJS => _settings.Template == TypeScriptTemplate.AngularJS;
 
@@ -125,11 +123,6 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets a value indicating whether to render for Fetch or Aurelia</summary>
         public bool IsFetchOrAurelia => _settings.Template == TypeScriptTemplate.Fetch ||
                                         _settings.Template == TypeScriptTemplate.Aurelia;
-
-        /// <summary>Gets a value indicating whether to use HttpClient with the Angular template.</summary>
-        public bool UseAngularHttpClient => IsAngular && _settings.HttpClass == HttpClass.HttpClient;
-
-
 
         // Angular only
 

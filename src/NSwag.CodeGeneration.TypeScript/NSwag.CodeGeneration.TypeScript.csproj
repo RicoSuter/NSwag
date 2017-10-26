@@ -20,9 +20,19 @@
   <ItemGroup>
     <None Remove="Templates\Liquid\AngularClient.liquid" />
     <None Remove="Templates\Liquid\AngularJSClient.liquid" />
+    <None Remove="Templates\Liquid\Client.Method.Documentation.liquid" />
+    <None Remove="Templates\Liquid\Client.ProcessResponse.HandleStatusCode.liquid" />
+    <None Remove="Templates\Liquid\Client.ProcessResponse.liquid" />
+    <None Remove="Templates\Liquid\Client.ProcessResponse.ReadBodyEnd.liquid" />
+    <None Remove="Templates\Liquid\Client.ProcessResponse.ReadBodyStart.liquid" />
+    <None Remove="Templates\Liquid\Client.ProcessResponse.ReadHeaders.liquid" />
+    <None Remove="Templates\Liquid\Client.ProcessResponse.Return.liquid" />
+    <None Remove="Templates\Liquid\Client.RequestBody.liquid" />
+    <None Remove="Templates\Liquid\Client.RequestUrl.liquid" />
     <None Remove="Templates\Liquid\ClientMethods.liquid" />
     <None Remove="Templates\Liquid\FetchClient.liquid" />
     <None Remove="Templates\Liquid\File.liquid" />
+    <None Remove="Templates\Liquid\File.Utilities.liquid" />
     <None Remove="Templates\Liquid\JQueryCallbacksClient.liquid" />
     <None Remove="Templates\Liquid\JQueryPromisesClient.liquid" />
     <None Remove="Templates\Liquid\Method.Documentation.liquid" />
@@ -33,18 +43,23 @@
   <ItemGroup>
     <EmbeddedResource Include="Templates\Liquid\AngularClient.liquid" />
     <EmbeddedResource Include="Templates\Liquid\AngularJSClient.liquid" />
-    <EmbeddedResource Include="Templates\Liquid\ClientMethods.liquid" />
+    <EmbeddedResource Include="Templates\Liquid\Client.Method.Documentation.liquid" />
+    <EmbeddedResource Include="Templates\Liquid\Client.ProcessResponse.HandleStatusCode.liquid" />
+    <EmbeddedResource Include="Templates\Liquid\Client.ProcessResponse.liquid" />
+    <EmbeddedResource Include="Templates\Liquid\Client.ProcessResponse.ReadBodyEnd.liquid" />
+    <EmbeddedResource Include="Templates\Liquid\Client.ProcessResponse.ReadBodyStart.liquid" />
+    <EmbeddedResource Include="Templates\Liquid\Client.ProcessResponse.ReadHeaders.liquid" />
+    <EmbeddedResource Include="Templates\Liquid\Client.ProcessResponse.Return.liquid" />
+    <EmbeddedResource Include="Templates\Liquid\Client.RequestBody.liquid" />
+    <EmbeddedResource Include="Templates\Liquid\Client.RequestUrl.liquid" />
     <EmbeddedResource Include="Templates\Liquid\FetchClient.liquid" />
     <EmbeddedResource Include="Templates\Liquid\File.liquid" />
+    <EmbeddedResource Include="Templates\Liquid\File.Utilities.liquid" />
     <EmbeddedResource Include="Templates\Liquid\JQueryCallbacksClient.liquid" />
     <EmbeddedResource Include="Templates\Liquid\JQueryPromisesClient.liquid" />
-    <EmbeddedResource Include="Templates\Liquid\Method.Documentation.liquid" />
-    <EmbeddedResource Include="Templates\Liquid\ProcessResponse.liquid" />
-    <EmbeddedResource Include="Templates\Liquid\RequestBody.liquid" />
-    <EmbeddedResource Include="Templates\Liquid\RequestUrl.liquid" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="9.9.11" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="9.9.13" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net451'">
     <Reference Include="Microsoft.CSharp" />

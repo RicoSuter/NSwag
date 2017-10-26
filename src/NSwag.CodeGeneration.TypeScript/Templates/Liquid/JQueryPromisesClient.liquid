@@ -2,7 +2,7 @@
 {% if GenerateClientInterfaces -%}
 export interface I{{ Class }} {
 {%         for operation in Operations -%}
-    {% template Method.Documentation %}
+    {% template Client.Method.Documentation %}
     {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}): {{ PromiseType }}<{{ operation.ResultType }}>;
 {%         endfor -%}
 }
@@ -31,7 +31,7 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
 {% endif -%}
 {% for operation in Operations -%}
 
-    {% template Method.Documentation %}
+    {% template Client.Method.Documentation %}
     {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}) {
         return {{ PromiseConstructor }}<{{ operation.ResultType }}>((resolve, reject) => {
             this.{{ operation.ActualOperationName }}WithCallbacks({% for parameter in operation.Parameters %}{{ parameter.VariableName }}, {% endfor %}(result) => resolve(result), (exception, _reason) => reject(exception));
@@ -39,10 +39,10 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
     }
     
     private {{ operation.ActualOperationName }}WithCallbacks({% for parameter in operation.Parameters %}{{ parameter.VariableName }}: {{ parameter.Type }}{{ parameter.TypePostfix }}, {% endfor %}onSuccess?: (result: {{ operation.ResultType }}) => void, onFail?: (exception: {{ operation.ExceptionType }}, reason: string) => void) {
-        {% template RequestUrl %}
+        {% template Client.RequestUrl %}
 
 {%     if operation.HasBody -%}
-        {% template RequestBody %}
+        {% template Client.RequestBody %}
 
 {%     endif -%}
         jQuery.ajax({% if UseTransformOptionsMethod %}this.transformOptions({% endif %}{
@@ -92,7 +92,7 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
     protected process{{ operation.ActualOperationNameUpper }}(xhr: any): {{ operation.ResultType }}{% if SupportsStrictNullChecks %} | null{% endif %} {
         const status = xhr.status; 
 
-        {% template ProcessResponse %}
+        {% template Client.ProcessResponse %}
     }
 {% endfor -%}
 }

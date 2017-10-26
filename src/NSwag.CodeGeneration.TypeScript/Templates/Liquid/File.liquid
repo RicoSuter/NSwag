@@ -125,7 +125,7 @@ export class SwaggerException extends Error {
 
 {% endif -%}
 {% if GenerateClientClasses -%}
-{% template ClientMethods %}
+{% template File.Utilities %}
 
 {%     if HandleReferences -%}
 {{ ReferenceHandlingCode }}

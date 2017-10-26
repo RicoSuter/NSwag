@@ -2,7 +2,7 @@
 {% if GenerateClientInterfaces -%}
 export interface I{{ Class }} {
 {%     for operation in Operations -%}
-    {% template Method.Documentation %}
+    {% template Client.Method.Documentation %}
     {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}): Promise<{{ operation.ResultType }}>;
 {%     endfor -%}}
 {% endif -%}
@@ -34,12 +34,12 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
 {% endif -%}
 {% for operation in Operations -%}
 
-    {% template Method.Documentation %}
+    {% template Client.Method.Documentation %}
     {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}): Promise<{{ operation.ResultType }}> {
-        {% template RequestUrl %}
+        {% template Client.RequestUrl %}
 
 {%     if operation.HasBody -%}
-        {% template RequestBody %}
+        {% template Client.RequestBody %}
 
 {%     endif -%}
         let options_ = <RequestInit>{
@@ -77,7 +77,7 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
 
     protected process{{ operation.ActualOperationNameUpper }}(response: Response): Promise<{{ operation.ResultType }}> {
         const status = response.status;
-        {% template ProcessResponse %}
+        {% template Client.ProcessResponse %}
     }
 {% endfor -%}
 }
