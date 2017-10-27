@@ -6,7 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
 using System.Linq;
 
 namespace NSwag.CodeGeneration.OperationNameGenerators
@@ -36,37 +35,38 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         /// <returns>The client name.</returns>
         public string GetOperationName(SwaggerDocument document, string path, SwaggerOperationMethod httpMethod, SwaggerOperation operation)
         {
-            var operationName = PathToName(path);
-            var nameConflict = document.Paths
+            var operationName = ConvertPathToName(path);
+            var hasNameConflict = document.Paths
                 .SelectMany(pair => pair.Value.Select(p => new { Path = pair.Key.Trim('/'), HttpMethod = p.Key, Operation = p.Value }))
                 .Where(op => 
-                             GetClientName(document, op.Path, op.HttpMethod, op.Operation) == GetClientName(document, path, httpMethod, operation)
-                          && PathToName(op.Path) == operationName
-                          //&& op.Operation.Parameters.Count == operation.Parameters.Count // Compare by operation signature
+                    GetClientName(document, op.Path, op.HttpMethod, op.Operation) == GetClientName(document, path, httpMethod, operation) && 
+                    ConvertPathToName(op.Path) == operationName
                 )
                 .ToList().Count > 1;
-            if (nameConflict)
+
+            if (hasNameConflict)
             {
                 operationName += CapitalizeFirst(httpMethod.ToString());
             }
+
             return operationName;
         }
 
-        /// <summary>
-        /// Converts the path to an operation name.
-        /// </summary>
+        /// <summary>Converts the path to an operation name.</summary>
         /// <param name="path">The HTTP path.</param>
         /// <returns>The operation name.</returns>
-        internal static string PathToName(string path)
+        internal static string ConvertPathToName(string path)
         {
             var name = path
                 .Split('/', '-', '_')
                 .Where(part => !part.Contains("{") && !string.IsNullOrWhiteSpace(part))
                 .Aggregate("", (current, part) => current + CapitalizeFirst(part));
+
             if (string.IsNullOrEmpty(name))
             {
                 name = "Index"; // Root path based operation?
             }
+
             return name;
         }
 
@@ -79,6 +79,7 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
             {
                 return string.Empty;
             }
+
             var capitalized = name.ToLower();
             return char.ToUpper(capitalized[0]) + (capitalized.Length > 1 ? capitalized.Substring(1) : "");
         }
