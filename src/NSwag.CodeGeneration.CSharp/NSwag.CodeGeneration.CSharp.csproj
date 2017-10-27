@@ -32,6 +32,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Templates\Liquid\Client.Class.liquid" />
     <EmbeddedResource Include="Templates\Liquid\Client.Class.ProcessResponse.liquid" />
+    <EmbeddedResource Include="Templates\Liquid\Client.Interface.Body.liquid" />
     <EmbeddedResource Include="Templates\Liquid\Client.Interface.liquid" />
     <EmbeddedResource Include="Templates\Liquid\Client.liquid" />
     <EmbeddedResource Include="Templates\Liquid\Client.Method.Documentation.liquid" />

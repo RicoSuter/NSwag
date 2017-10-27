@@ -1,6 +1,7 @@
 [System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
 public partial interface I{{ Class }}
 {
+    {% template Client.Interface.Body %}
 {% for operation in InterfaceOperations -%}
 {%   if GenerateOptionalParameters == false -%}
     {% template Client.Method.Documentation %}
