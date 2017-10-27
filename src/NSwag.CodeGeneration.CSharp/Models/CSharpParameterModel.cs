@@ -28,5 +28,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
             : base(parameterName, variableName, typeName, parameter, allParameters, settings, generator)
         {
         }
+
+        /// <summary>Gets a value indicating whether the type is a Nullable&lt;&gt;.</summary>
+        public bool IsSystemNullable => Type.EndsWith("?");
     }
 }
