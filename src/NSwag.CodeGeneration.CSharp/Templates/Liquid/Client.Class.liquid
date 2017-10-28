@@ -113,15 +113,16 @@
 {%         endif -%}
 {%     endfor -%}
 {%     for parameter in operation.QueryParameters -%}
-        {%   if parameter.IsNullable %}if ({{ parameter.VariableName }} != null) {% endif -%}
+        {%   if parameter.IsNullable -%}
+        if ({{ parameter.VariableName }} != null) {% endif -%}
 {%         if parameter.IsDateArray -%}
 foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString(item_.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
 {%         elseif parameter.IsDate -%}
-urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({{ parameter.VariableName }}{% if parameter.Type.EndsWith("?") %}.Value{% endif %}.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({{ parameter.VariableName }}{% if parameter.IsSystemNullable %}.Value{% endif %}.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture))).Append("&");
 {%         elseif parameter.IsArray -%}
 foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString(System.Convert.ToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
 {%         else -%}
-urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString(System.Convert.ToString({{ parameter.VariableName }}{% if parameter.Type.EndsWith("?") %}.Value{% endif %}, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString(System.Convert.ToString({{ parameter.VariableName }}{% if parameter.IsSystemNullable %}.Value{% endif %}, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
 {%         endif -%}
 {%     endfor -%}
 {%     if operation.HasQueryParameters -%}
