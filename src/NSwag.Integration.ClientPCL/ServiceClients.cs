@@ -112,16 +112,10 @@ namespace NSwag.Integration.ClientPCL
         /// <exception cref="GeoClientException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<SwaggerResponse> FromUriTestAsync(double? latitude, double? longitude, System.Threading.CancellationToken cancellationToken)
         {
-            if (latitude == null)
-                throw new System.ArgumentNullException("latitude");
-    
-            if (longitude == null)
-                throw new System.ArgumentNullException("longitude");
-    
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl).Append("/api/Geo/FromUriTest?");
-            urlBuilder_.Append("Latitude=").Append(System.Uri.EscapeDataString(System.Convert.ToString(latitude.Value, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            urlBuilder_.Append("Longitude=").Append(System.Uri.EscapeDataString(System.Convert.ToString(longitude.Value, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            if (latitude != null) urlBuilder_.Append("Latitude=").Append(System.Uri.EscapeDataString(System.Convert.ToString(latitude, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            if (longitude != null) urlBuilder_.Append("Longitude=").Append(System.Uri.EscapeDataString(System.Convert.ToString(longitude, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             urlBuilder_.Length--;
     
             var client_ = _httpClient;
@@ -680,13 +674,10 @@ namespace NSwag.Integration.ClientPCL
             if (id == null)
                 throw new System.ArgumentNullException("id");
     
-            if (@override == null)
-                throw new System.ArgumentNullException("@override");
-    
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl).Append("/api/Geo/GetUploadedFile/{id}?");
             urlBuilder_.Replace("{id}", System.Uri.EscapeDataString(System.Convert.ToString(id, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Append("override=").Append(System.Uri.EscapeDataString(System.Convert.ToString(@override.Value, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            if (@override != null) urlBuilder_.Append("override=").Append(System.Uri.EscapeDataString(System.Convert.ToString(@override, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             urlBuilder_.Length--;
     
             var client_ = _httpClient;
@@ -752,7 +743,7 @@ namespace NSwag.Integration.ClientPCL
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl).Append("/api/Geo/PostDouble?");
-            if (value != null) urlBuilder_.Append("value=").Append(System.Uri.EscapeDataString(System.Convert.ToString(value.Value, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            if (value != null) urlBuilder_.Append("value=").Append(System.Uri.EscapeDataString(System.Convert.ToString(value, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             urlBuilder_.Length--;
     
             var client_ = _httpClient;
@@ -1069,7 +1060,7 @@ namespace NSwag.Integration.ClientPCL
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl).Append("/api/Persons/find2?");
-            if (gender != null) urlBuilder_.Append("gender=").Append(System.Uri.EscapeDataString(System.Convert.ToString(gender.Value, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Append("gender=").Append(System.Uri.EscapeDataString(gender != null ? System.Convert.ToString(gender, System.Globalization.CultureInfo.InvariantCulture) : "null")).Append("&");
             urlBuilder_.Length--;
     
             var client_ = _httpClient;

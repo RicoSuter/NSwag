@@ -1631,7 +1631,7 @@ foreach(var parameter in operation.PathParameters){
             #line hidden
             
             #line 197 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-  if(parameter.IsRequired){
+  if(!parameter.IsNullable && parameter.IsRequired){
             
             #line default
             #line hidden
@@ -1670,7 +1670,7 @@ foreach(var parameter in operation.QueryParameters){
             #line hidden
             
             #line 204 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-  if(!parameter.IsNullable){
+  if(!parameter.IsNullable && parameter.IsRequired){
             
             #line default
             #line hidden
@@ -1909,7 +1909,7 @@ foreach(var parameter in operation.QueryParameters){
             this.Write("        ");
             
             #line 231 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-  if(parameter.IsNullable){
+  if(parameter.IsOptional){
             
             #line default
             #line hidden
@@ -1971,20 +1971,26 @@ foreach(var parameter in operation.QueryParameters){
             this.Write("=\").Append(System.Uri.EscapeDataString(");
             
             #line 235 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+ if(parameter.IsNullable && parameter.IsRequired){ 
+            
+            #line default
+            #line hidden
+            
+            #line 235 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
-            
-            #line 235 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-if(parameter.Type.EndsWith("?")){
-            
-            #line default
-            #line hidden
-            this.Write(".Value");
+            this.Write(" != null ? ");
             
             #line 235 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 }
+            
+            #line default
+            #line hidden
+            
+            #line 235 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
@@ -1995,7 +2001,21 @@ if(parameter.Type.EndsWith("?")){
             
             #line default
             #line hidden
-            this.Write("\", System.Globalization.CultureInfo.InvariantCulture))).Append(\"&\");\r\n");
+            this.Write("\", System.Globalization.CultureInfo.InvariantCulture)");
+            
+            #line 235 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+ if(parameter.IsNullable && parameter.IsRequired){
+            
+            #line default
+            #line hidden
+            this.Write(" : \"null\"");
+            
+            #line 235 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write(")).Append(\"&\");\r\n");
             
             #line 236 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   }else if(parameter.IsArray){
@@ -2031,27 +2051,48 @@ if(parameter.Type.EndsWith("?")){
             
             #line default
             #line hidden
-            this.Write("=\").Append(System.Uri.EscapeDataString(System.Convert.ToString(");
+            this.Write("=\").Append(System.Uri.EscapeDataString(");
+            
+            #line 239 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+ if(parameter.IsNullable && parameter.IsRequired){ 
+            
+            #line default
+            #line hidden
             
             #line 239 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
             
             #line default
             #line hidden
-            
-            #line 239 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
-if(parameter.Type.EndsWith("?")){
-            
-            #line default
-            #line hidden
-            this.Write(".Value");
+            this.Write(" != null ? ");
             
             #line 239 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
 }
             
             #line default
             #line hidden
-            this.Write(", System.Globalization.CultureInfo.InvariantCulture))).Append(\"&\");\r\n");
+            this.Write("System.Convert.ToString(");
+            
+            #line 239 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(parameter.VariableName));
+            
+            #line default
+            #line hidden
+            this.Write(", System.Globalization.CultureInfo.InvariantCulture)");
+            
+            #line 239 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+ if(parameter.IsNullable && parameter.IsRequired){
+            
+            #line default
+            #line hidden
+            this.Write(" : \"null\"");
+            
+            #line 239 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write(")).Append(\"&\");\r\n");
             
             #line 240 "C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.CSharp\Templates\ClientTemplate.tt"
   }

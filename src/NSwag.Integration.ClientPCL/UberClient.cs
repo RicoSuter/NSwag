@@ -279,7 +279,7 @@ namespace Uber
             urlBuilder_.Append(BaseUrl).Append("/estimates/time?");
             urlBuilder_.Append("start_latitude=").Append(System.Uri.EscapeDataString(System.Convert.ToString(start_latitude, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             urlBuilder_.Append("start_longitude=").Append(System.Uri.EscapeDataString(System.Convert.ToString(start_longitude, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            if (customer_uuid != null) urlBuilder_.Append("customer_uuid=").Append(System.Uri.EscapeDataString(System.Convert.ToString(customer_uuid.Value, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            if (customer_uuid != null) urlBuilder_.Append("customer_uuid=").Append(System.Uri.EscapeDataString(System.Convert.ToString(customer_uuid, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             if (product_id != null) urlBuilder_.Append("product_id=").Append(System.Uri.EscapeDataString(System.Convert.ToString(product_id, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             urlBuilder_.Length--;
     
@@ -460,8 +460,8 @@ namespace Uber
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl).Append("/history?");
-            if (offset != null) urlBuilder_.Append("offset=").Append(System.Uri.EscapeDataString(System.Convert.ToString(offset.Value, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            if (limit != null) urlBuilder_.Append("limit=").Append(System.Uri.EscapeDataString(System.Convert.ToString(limit.Value, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            if (offset != null) urlBuilder_.Append("offset=").Append(System.Uri.EscapeDataString(System.Convert.ToString(offset, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            if (limit != null) urlBuilder_.Append("limit=").Append(System.Uri.EscapeDataString(System.Convert.ToString(limit, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             urlBuilder_.Length--;
     
             var client_ = new System.Net.Http.HttpClient();
