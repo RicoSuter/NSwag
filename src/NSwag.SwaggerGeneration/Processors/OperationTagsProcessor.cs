@@ -14,7 +14,7 @@ using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Contexts;
 
-namespace NSwag.SwaggerGeneration.WebApi.Processors
+namespace NSwag.SwaggerGeneration.Processors
 {
     /// <summary>Processes the SwaggerTagsAttribute on the operation method.</summary>
     public class OperationTagsProcessor : IOperationProcessor

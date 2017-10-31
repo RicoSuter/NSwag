@@ -41,5 +41,7 @@
 
   <ItemGroup>
     <Compile Remove="../NSwag.SwaggerGeneration.WebApi/Processors/Models\OperationResponseModel.cs" />
+    <Compile Remove="../NSwag.SwaggerGeneration.WebApi/Processors/OperationParameterProcessor.cs" />
+    <Compile Remove="../NSwag.SwaggerGeneration.WebApi/Processors/OperationResponseProcessor.cs" />
   </ItemGroup>
 </Project>

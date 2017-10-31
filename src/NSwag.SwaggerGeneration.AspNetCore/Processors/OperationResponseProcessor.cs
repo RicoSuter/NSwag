@@ -15,18 +15,18 @@ using NJsonSchema;
 using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Contexts;
-using NSwag.SwaggerGeneration.WebApi.Processors;
 
-namespace NSwag.SwaggerGeneration.AspNetCore
+namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 {
     /// <summary>Generates the operation's response objects based on reflection and the ResponseTypeAttribute, SwaggerResponseAttribute and ProducesResponseTypeAttribute attributes.</summary>
-    public class OperationResponseProcessor : IOperationProcessor
+    public class OperationResponseProcessor : OperationResponseProcessorBase, IOperationProcessor
     {
         private readonly AspNetCoreToSwaggerGeneratorSettings _settings;
 
         /// <summary>Initializes a new instance of the <see cref="OperationParameterProcessor"/> class.</summary>
         /// <param name="settings">The settings.</param>
         public OperationResponseProcessor(AspNetCoreToSwaggerGeneratorSettings settings)
+            : base(settings)
         {
             _settings = settings;
         }
@@ -63,10 +63,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             if (responseTypeAttributes.Count > 0)
             {
                 // if SwaggerResponseAttribute \ ResponseTypeAttributes are present, we'll only use those.
-                var builder = new SwaggerResponseBuilder(context, _settings, "200", successXmlDescription);
-                builder.PopulateModelsFromResponseTypeAttributes(responseTypeAttributes);
-
-                await builder.BuildSwaggerResponseAsync(parameter);
+                await ProcessResponseTypeAttributes(context, parameter, responseTypeAttributes);
             }
             else
             {
@@ -108,6 +105,13 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             }
 
             return true;
+        }
+
+        /// <summary>Gets the response HTTP status code for an empty/void response and the given generator.</summary>
+        /// <returns>The status code.</returns>
+        protected override string GetVoidResponseStatusCode()
+        {
+            return "200";
         }
 
         private bool IsVoidResponse(Type returnType)

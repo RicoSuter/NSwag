@@ -13,7 +13,7 @@ using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Contexts;
 
-namespace NSwag.SwaggerGeneration.WebApi.Processors
+namespace NSwag.SwaggerGeneration.Processors
 {
     /// <summary>Loads the operation summary and description from the DescriptionAttribute and the XML documentation.</summary>
     public class OperationSummaryAndDescriptionProcessor : IOperationProcessor

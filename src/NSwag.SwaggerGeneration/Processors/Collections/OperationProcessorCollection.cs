@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="DocumentProcessorCollection.cs" company="NSwag">
+// <copyright file="OperationProcessorCollection.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -8,12 +8,11 @@
 
 using System.Collections.ObjectModel;
 using System.Linq;
-using NSwag.SwaggerGeneration.Processors;
 
-namespace NSwag.SwaggerGeneration.AspNetCore
+namespace NSwag.SwaggerGeneration.Processors.Collections
 {
-    /// <summary>A collection of docment processors.</summary>
-    public class DocumentProcessorCollection : Collection<IDocumentProcessor>
+    /// <summary>A collection of operation processors.</summary>
+    public class OperationProcessorCollection : Collection<IOperationProcessor>
     {
         /// <summary>Gets an operation processor of the specified type.</summary>
         /// <typeparam name="T">The operation processor type.</typeparam>

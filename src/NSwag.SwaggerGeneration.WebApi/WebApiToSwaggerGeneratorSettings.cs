@@ -8,6 +8,8 @@
 
 using Newtonsoft.Json;
 using NJsonSchema.Generation;
+using NSwag.SwaggerGeneration.Processors;
+using NSwag.SwaggerGeneration.Processors.Collections;
 using NSwag.SwaggerGeneration.WebApi.Processors;
 
 namespace NSwag.SwaggerGeneration.WebApi

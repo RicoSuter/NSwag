@@ -21,7 +21,7 @@ using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Contexts;
 
-namespace NSwag.SwaggerGeneration.AspNetCore
+namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 {
     internal class OperationParameterProcessor : IOperationProcessor
     {

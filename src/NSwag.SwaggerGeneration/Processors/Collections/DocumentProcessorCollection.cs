@@ -8,9 +8,8 @@
 
 using System.Collections.ObjectModel;
 using System.Linq;
-using NSwag.SwaggerGeneration.Processors;
 
-namespace NSwag.SwaggerGeneration.WebApi
+namespace NSwag.SwaggerGeneration.Processors.Collections
 {
     /// <summary>A collection of docment processors.</summary>
     public class DocumentProcessorCollection : Collection<IDocumentProcessor>
