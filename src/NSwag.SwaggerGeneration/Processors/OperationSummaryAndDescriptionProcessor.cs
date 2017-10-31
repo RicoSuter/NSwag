@@ -19,7 +19,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
     public class OperationSummaryAndDescriptionProcessor : IOperationProcessor
     {
         /// <summary>Processes the specified method information.</summary>
-        /// <param name="context"></param>
+        /// <param name="context">The operation processor context.</param>
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
         public async Task<bool> ProcessAsync(OperationProcessorContext context)
         {

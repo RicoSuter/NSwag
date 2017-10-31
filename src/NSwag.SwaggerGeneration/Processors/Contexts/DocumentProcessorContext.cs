@@ -21,7 +21,8 @@ namespace NSwag.SwaggerGeneration.Processors.Contexts
         /// <param name="controllerTypes">The controller types.</param>
         /// <param name="schemaResolver">The schema resolver.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
-        public DocumentProcessorContext(SwaggerDocument document, IEnumerable<Type> controllerTypes, JsonSchemaResolver schemaResolver, JsonSchemaGenerator schemaGenerator)
+        public DocumentProcessorContext(SwaggerDocument document, IEnumerable<Type> controllerTypes, 
+            JsonSchemaResolver schemaResolver, JsonSchemaGenerator schemaGenerator)
         {
             Document = document;
             ControllerTypes = controllerTypes;

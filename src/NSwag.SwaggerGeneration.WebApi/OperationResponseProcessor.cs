@@ -6,15 +6,12 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using NJsonSchema;
 using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Contexts;
-using NSwag.SwaggerGeneration.WebApi.Processors.Models;
 
 namespace NSwag.SwaggerGeneration.WebApi.Processors
 {
@@ -60,30 +57,6 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
 
             await builder.BuildSwaggerResponseAsync(parameter);
             return true;
-        }
-
-        private async Task<ICollection<JsonExpectedSchema>> GenerateExpectedSchemasAsync(OperationProcessorContext context, IGrouping<string, OperationResponseModel> group)
-        {
-            if (group.Count() > 1)
-            {
-                var expectedSchemas = new List<JsonExpectedSchema>();
-                foreach (var response in group)
-                {
-                    var isNullable = _settings.ReflectionService.GetDescription(response.ResponseType, null, _settings).IsNullable;
-                    var schema = await context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema4>(
-                        response.ResponseType, null, isNullable, context.SchemaResolver)
-                        .ConfigureAwait(false);
-
-                    expectedSchemas.Add(new JsonExpectedSchema
-                    {
-                        Schema = schema,
-                        Description = response.Description
-                    });
-                }
-
-                return expectedSchemas;
-            }
-            return null;
         }
 
         private string GetVoidResponseStatusCode()

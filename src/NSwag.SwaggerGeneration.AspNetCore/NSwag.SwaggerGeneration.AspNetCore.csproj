@@ -38,4 +38,8 @@
       <Link>Processors/%(RecursiveDir)%(Filename)%(Extension)</Link>
     </Compile>
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="../NSwag.SwaggerGeneration.WebApi/Processors/Models\OperationResponseModel.cs" />
+  </ItemGroup>
 </Project>
