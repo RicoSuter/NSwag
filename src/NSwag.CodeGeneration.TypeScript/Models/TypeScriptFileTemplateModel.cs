@@ -160,9 +160,6 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets a value indicating whether to handle references.</summary>
         public bool HandleReferences => _settings.TypeScriptGeneratorSettings.HandleReferences;
 
-        /// <summary>Gets the reference handling code.</summary>
-        public string ReferenceHandlingCode => TypeScriptReferenceHandlingCodeGenerator.Generate();
-
         // Angular only
 
         /// <summary>Gets or sets the injection token type (used in the Angular template).</summary>
