@@ -24,13 +24,6 @@ namespace NSwag.Commands.Base
         [JsonIgnore]
         public TSettings Settings { get; }
 
-        [Argument(Name = "UseLiquidTemplates", IsRequired = false, Description = "Specifies whether to use Liquid templates (experimental).")]
-        public bool UseLiquidTemplates
-        {
-            get { return Settings.CodeGeneratorSettings.UseLiquidTemplates; }
-            set { Settings.CodeGeneratorSettings.UseLiquidTemplates = value; }
-        }
-
         [Argument(Name = "TemplateDirectory", IsRequired = false, Description = "The Liquid template directory (experimental).")]
         public string TemplateDirectory
         {

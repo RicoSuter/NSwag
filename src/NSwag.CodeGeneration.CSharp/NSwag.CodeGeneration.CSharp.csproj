@@ -18,27 +18,15 @@
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="Templates\Liquid\Client.Class.liquid" />
-    <None Remove="Templates\Liquid\Client.Class.ProcessResponse.liquid" />
-    <None Remove="Templates\Liquid\Client.Interface.liquid" />
-    <None Remove="Templates\Liquid\Client.liquid" />
-    <None Remove="Templates\Liquid\Client.Method.Documentation.liquid" />
-    <None Remove="Templates\Liquid\Client.Method.Meta.liquid" />
-    <None Remove="Templates\Liquid\Client.Method.ProcessResponse.liquid" />
-    <None Remove="Templates\Liquid\Controller.liquid" />
-    <None Remove="Templates\Liquid\File.liquid" />
-    <None Remove="Templates\Liquid\JsonExceptionConverter.liquid" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\Liquid\Client.Class.liquid" />
-    <EmbeddedResource Include="Templates\Liquid\Client.Class.ProcessResponse.liquid" />
-    <EmbeddedResource Include="Templates\Liquid\Client.Interface.Body.liquid" />
-    <EmbeddedResource Include="Templates\Liquid\Client.Interface.liquid" />
-    <EmbeddedResource Include="Templates\Liquid\Client.liquid" />
-    <EmbeddedResource Include="Templates\Liquid\Client.Method.Documentation.liquid" />
-    <EmbeddedResource Include="Templates\Liquid\Controller.liquid" />
-    <EmbeddedResource Include="Templates\Liquid\File.liquid" />
-    <EmbeddedResource Include="Templates\Liquid\JsonExceptionConverter.liquid" />
+    <EmbeddedResource Include="Templates\Client.Class.liquid" />
+    <EmbeddedResource Include="Templates\Client.Class.ProcessResponse.liquid" />
+    <EmbeddedResource Include="Templates\Client.Interface.Body.liquid" />
+    <EmbeddedResource Include="Templates\Client.Interface.liquid" />
+    <EmbeddedResource Include="Templates\Client.liquid" />
+    <EmbeddedResource Include="Templates\Client.Method.Documentation.liquid" />
+    <EmbeddedResource Include="Templates\Controller.liquid" />
+    <EmbeddedResource Include="Templates\File.liquid" />
+    <EmbeddedResource Include="Templates\JsonExceptionConverter.liquid" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="9.10.0" />
@@ -50,46 +38,6 @@
     <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="Templates\ClientTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>ClientTemplate.cs</LastGenOutput>
-    </None>
-    <None Update="Templates\ControllerTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>ControllerTemplate.cs</LastGenOutput>
-    </None>
-    <None Update="Templates\FileTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>FileTemplate.cs</LastGenOutput>
-    </None>
-    <None Update="Templates\JsonExceptionConverterTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>JsonExceptionConverterTemplate.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="Templates\ClientTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ClientTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Templates\ControllerTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ControllerTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Templates\FileTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>FileTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Templates\JsonExceptionConverterTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>JsonExceptionConverterTemplate.tt</DependentUpon>
-    </Compile>
   </ItemGroup>
 </Project>

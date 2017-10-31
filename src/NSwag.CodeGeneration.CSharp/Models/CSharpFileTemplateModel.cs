@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration.CSharp;
-using NSwag.CodeGeneration.CSharp.Templates;
 
 namespace NSwag.CodeGeneration.CSharp.Models
 {
@@ -79,9 +78,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets a value indicating whether the generated code requires a JSON exception converter.</summary>
         public bool RequiresJsonExceptionConverter => JsonExceptionTypes.Any();
 
-        /// <summary>Gets the JsonExceptionConverter code.</summary>
-        public string JsonExceptionConverterCode => RequiresJsonExceptionConverter ?
-            ConversionUtilities.Tab(new JsonExceptionConverterTemplate(JsonExceptionTypes.FirstOrDefault(t => t != "Exception") ?? "Exception").TransformText(), 1) : string.Empty;
+        /// <summary>Gets the exception model class.</summary>
+        public string ExceptionModelClass => JsonExceptionTypes.FirstOrDefault(t => t != "Exception") ?? "Exception";
 
         private IEnumerable<string> JsonExceptionTypes => ResponsesInheritingFromException.Select(r =>
             _generator.GetTypeName(r.ActualResponseSchema, r.IsNullable(_settings.CSharpGeneratorSettings.SchemaType), "Response"));

@@ -148,7 +148,7 @@ namespace {{ Namespace }}
 {% endif -%}
 {% if GenerateImplementation -%}
 {%     if RequiresJsonExceptionConverter -%}
-    {{ JsonExceptionConverterCode }}
+    {% template JsonExceptionConverter %}
 {%     endif -%}
 {% endif -%}
 }

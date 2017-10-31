@@ -172,17 +172,10 @@
                     
                     <GroupBox Header="Templating (experimental)" Margin="0,0,0,12">
                         <StackPanel Margin="4,8,4,-8">
-                            <CheckBox IsChecked="{Binding Command.UseLiquidTemplates, Mode=TwoWay}" 
-                                      ToolTip="UseLiquidTemplates" Margin="0,0,0,12">
-                                <TextBlock Text="Use Liquid templates" TextWrapping="Wrap" />
-                            </CheckBox>
-
-                            <StackPanel Visibility="{Binding Command.UseLiquidTemplates, Converter={StaticResource VisibilityConverter}}">
-                                <TextBlock Text="Template directory" FontWeight="Bold" Margin="0,0,0,6" />
-                                <TextBox Text="{Binding Command.TemplateDirectory, Mode=TwoWay}"
-                                         ToolTip="TemplateDirectory"
-                                         Margin="0,0,0,12" />
-                            </StackPanel>
+                            <TextBlock Text="Template directory" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Text="{Binding Command.TemplateDirectory, Mode=TwoWay}"
+                                     ToolTip="TemplateDirectory"
+                                     Margin="0,0,0,12" />
                         </StackPanel>
                     </GroupBox>
                 </StackPanel>
