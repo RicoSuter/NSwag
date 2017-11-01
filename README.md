@@ -75,12 +75,16 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 
 **NuGet Packages**
 
+Specification:
+
 - **[NSwag.Core](https://www.nuget.org/packages/NSwag.Core/)** (.NET Standard 1.0 and .NET 4.5): 
     - The Swagger reader and writer classes, see [SwaggerDocument](https://github.com/RSuter/NSwag/wiki/SwaggerDocument)
 - **[NSwag.Core.Yaml](https://www.nuget.org/packages/NSwag.Annotations/)** (.NET Standard 1.3 and .NET 4.5): 
     - Extensions to read and write YAML Swagger specifications
 - **[NSwag.Annotations](https://www.nuget.org/packages/NSwag.Annotations/)** (.NET Standard 1.0 and .NET 4.5): 
     - Attributes to decorate Web API controllers to control the Swagger generation
+
+Swagger generation:
 
 - **[NSwag.SwaggerGeneration](https://www.nuget.org/packages/NSwag.CodeGeneration/)** (.NET Standard 1.0 and .NET 4.5): 
     - Classes to generate Swagger specifications
@@ -89,6 +93,8 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 - **[NSwag.SwaggerGeneration.AspNetCore](https://www.nuget.org/packages/NSwag.CodeGeneration.AspNetCore/)** (.NET Standard 1.6 and .NET 4.5.1): 
     - (Experimental) Classes to generate Swagger specifications from ASP.NET Core MVC controllers using the ApiExplorer
 
+Code generation:
+
 - **[NSwag.CodeGeneration](https://www.nuget.org/packages/NSwag.CodeGeneration/)** (.NET Standard 1.3 / .NET 4.5.1): 
     - Base classes to generate clients from Swagger specifications
 - **[NSwag.CodeGeneration.CSharp](https://www.nuget.org/packages/NSwag.CodeGeneration.CSharp/)** (.NET Standard 1.3 and .NET 4.5.1): 
@@ -96,11 +102,15 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 - **[NSwag.CodeGeneration.TypeScript](https://www.nuget.org/packages/NSwag.CodeGeneration.TypeScript/)** (.NET Standard 1.3 and .NET 4.5.1): 
     - Classes to generate TypeScript clients from Swagger specifications, see [SwaggerToTypeScriptClientGenerator](https://github.com/RSuter/NSwag/wiki/SwaggerToTypeScriptClientGenerator)
 
+ASP.NET:
+
 - **[NSwag.AspNetCore](https://www.nuget.org/packages/NSwag.AspNetCore/)** (.NET Standard 1.6 and .NET 4.5.1+): 
 - **[NSwag.AspNet.Owin](https://www.nuget.org/packages/NSwag.AspNet.Owin/)** (.NET 4.5+): 
     - ASP.NET Core/OWIN middlewares for serving Swagger specifications and Swagger UI
 - **[NSwag.AspNet.WebApi](https://www.nuget.org/packages/NSwag.AspNet.WebApi/)** (.NET 4.5+): 
     - ASP.NET Web API filter which serializes exceptions ([JsonExceptionFilterAttribute](https://github.com/NSwag/NSwag/wiki/JsonExceptionFilterAttribute))
+
+Frontends:
 
 - **[NSwag.AssemblyLoader](https://www.nuget.org/packages/NSwag.AssemblyLoader/)** (.NET Standard 1.6 and .NET 4.5.1): 
     - Classes to load assemblies in an isolated AppDomain and generate Swagger specs from Web API controllers
