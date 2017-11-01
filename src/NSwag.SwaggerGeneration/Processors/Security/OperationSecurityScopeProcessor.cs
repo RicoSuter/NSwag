@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Contexts;
 
-namespace NSwag.SwaggerGeneration.WebApi.Processors.Security
+namespace NSwag.SwaggerGeneration.Processors.Security
 {
     /// <summary>Generates the OAuth2 security scopes for an operation by reflecting the AuthorizeAttribute attributes.</summary>
     public class OperationSecurityScopeProcessor : IOperationProcessor

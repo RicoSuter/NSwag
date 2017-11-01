@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Contexts;
 
-namespace NSwag.SwaggerGeneration.WebApi.Processors.Security
+namespace NSwag.SwaggerGeneration.Processors.Security
 {
     /// <summary>Appends the OAuth2 security scheme to the document's security definitions.</summary>
     public class SecurityDefinitionAppender : IDocumentProcessor

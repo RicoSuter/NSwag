@@ -34,9 +34,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
         {
         }
 
-        /// <summary>
-        /// The <see cref="Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription"/>.
-        /// </summary>
+        /// <summary>The <see cref="Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription"/>.</summary>
         public ApiDescription ApiDescription { get; set; }
     }
 }

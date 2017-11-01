@@ -13,13 +13,13 @@ using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Contexts;
 
-namespace NSwag.SwaggerGeneration.WebApi.Processors
+namespace NSwag.SwaggerGeneration.Processors
 {
     /// <summary>Loads the operation summary and description from the DescriptionAttribute and the XML documentation.</summary>
     public class OperationSummaryAndDescriptionProcessor : IOperationProcessor
     {
         /// <summary>Processes the specified method information.</summary>
-        /// <param name="context"></param>
+        /// <param name="context">The operation processor context.</param>
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
         public async Task<bool> ProcessAsync(OperationProcessorContext context)
         {

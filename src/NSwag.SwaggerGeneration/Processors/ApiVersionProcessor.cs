@@ -15,7 +15,7 @@ using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Contexts;
 
-namespace NSwag.SwaggerGeneration.WebApi.Processors
+namespace NSwag.SwaggerGeneration.Processors
 {
     /// <summary>An operation processor which replaces {version:apiVersion} route placeholders and filters the included versions.</summary>
     public class ApiVersionProcessor : IOperationProcessor

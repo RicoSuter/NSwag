@@ -8,7 +8,9 @@
 
 using Newtonsoft.Json;
 using NJsonSchema.Generation;
-using NSwag.SwaggerGeneration.WebApi.Processors;
+using NSwag.SwaggerGeneration.AspNetCore.Processors;
+using NSwag.SwaggerGeneration.Processors;
+using NSwag.SwaggerGeneration.Processors.Collections;
 
 namespace NSwag.SwaggerGeneration.AspNetCore
 {

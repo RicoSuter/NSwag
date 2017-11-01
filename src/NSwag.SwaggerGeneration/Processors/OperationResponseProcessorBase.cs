@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="AspNetCoreToSwaggerGenerator.cs" company="NSwag">
+// <copyright file="OperationResponseProcessorBase.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -16,32 +16,42 @@ using NJsonSchema;
 using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors.Contexts;
-using NSwag.SwaggerGeneration.WebApi.Processors.Models;
+using NSwag.SwaggerGeneration.Processors;
 
-namespace NSwag.SwaggerGeneration.WebApi.Processors
+namespace NSwag.SwaggerGeneration.Processors
 {
-    internal class SwaggerResponseBuilder
+    /// <summary>The OperationResponseProcessor base class.</summary>
+    public abstract class OperationResponseProcessorBase
     {
-        private readonly OperationProcessorContext _context;
         private readonly JsonSchemaGeneratorSettings _settings;
-        private readonly string _voidResponseStatusCode;
-        private readonly string _successXmlDescription;
 
-        public SwaggerResponseBuilder(
-            OperationProcessorContext context,
-            JsonSchemaGeneratorSettings settings,
-            string voidResponseStatusCode,
-            string successXmlDescription)
+        /// <summary>Initializes a new instance of the <see cref="OperationResponseProcessorBase"/> class.</summary>
+        /// <param name="settings">The settings.</param>
+        public OperationResponseProcessorBase(JsonSchemaGeneratorSettings settings)
         {
-            _context = context;
             _settings = settings;
-            _voidResponseStatusCode = voidResponseStatusCode;
-            _successXmlDescription = successXmlDescription;
         }
 
-        public List<OperationResponseModel> OperationResponseModels { get; } = new List<OperationResponseModel>();
+        /// <summary>Gets the response HTTP status code for an empty/void response and the given generator.</summary>
+        /// <returns>The status code.</returns>
+        protected abstract string GetVoidResponseStatusCode();
 
-        public void PopulateModelsFromResponseTypeAttributes(IEnumerable<Attribute> responseTypeAttributes)
+        /// <summary>Generates the responses based on the given return type attributes.</summary>
+        /// <param name="operationProcessorContext">The context.</param>
+        /// <param name="returnParameter">The return parameter.</param>
+        /// <param name="responseTypeAttributes">The response type attributes.</param>
+        /// <returns>The task.</returns>
+        public async Task ProcessResponseTypeAttributes(OperationProcessorContext operationProcessorContext, ParameterInfo returnParameter, IEnumerable<Attribute> responseTypeAttributes)
+        {
+            var returnParameterAttributes = GetParameterAttributes(returnParameter);
+            var successResponseDescription = await returnParameter.GetDescriptionAsync(returnParameterAttributes)
+                .ConfigureAwait(false) ?? string.Empty;
+
+            var responseDescriptions = GetOperationResponseDescriptions(responseTypeAttributes, successResponseDescription);
+            await ProcessOperationDescriptionsAsync(responseDescriptions, returnParameter, operationProcessorContext, successResponseDescription);
+        }
+
+        private IEnumerable<OperationResponseDescription> GetOperationResponseDescriptions(IEnumerable<Attribute> responseTypeAttributes, string successResponseDescription)
         {
             foreach (var attribute in responseTypeAttributes)
             {
@@ -57,13 +67,13 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                 if (returnType == null)
                     returnType = typeof(void);
 
-                var httpStatusCode = IsVoidResponse(returnType) ? _voidResponseStatusCode : "200";
+                var httpStatusCode = IsVoidResponse(returnType) ? GetVoidResponseStatusCode() : "200";
                 if (attributeType.GetRuntimeProperty("HttpStatusCode") != null && responseTypeAttribute.HttpStatusCode != null)
                     httpStatusCode = responseTypeAttribute.HttpStatusCode.ToString();
                 else if (attributeType.GetRuntimeProperty("StatusCode") != null && responseTypeAttribute.StatusCode != null)
                     httpStatusCode = responseTypeAttribute.StatusCode.ToString();
 
-                var description = HttpUtilities.IsSuccessStatusCode(httpStatusCode) ? _successXmlDescription : string.Empty;
+                var description = HttpUtilities.IsSuccessStatusCode(httpStatusCode) ? successResponseDescription : string.Empty;
                 if (attributeType.GetRuntimeProperty("Description") != null)
                 {
                     if (!string.IsNullOrEmpty(responseTypeAttribute.Description))
@@ -74,27 +84,13 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                 if (attributeType.GetRuntimeProperty("IsNullable") != null)
                     isNullable = responseTypeAttribute.IsNullable;
 
-                OperationResponseModels.Add(new OperationResponseModel(httpStatusCode, returnType, isNullable, description));
+                yield return new OperationResponseDescription(httpStatusCode, returnType, isNullable, description);
             }
         }
-
-        public void PopulateModelsFromProducesAttributes(IEnumerable<Attribute> producesResponseTypeAttributes)
+        
+        private async Task ProcessOperationDescriptionsAsync(IEnumerable<OperationResponseDescription> operationDescriptions, ParameterInfo returnParameter, OperationProcessorContext context, string successResponseDescription)
         {
-            foreach (dynamic producesResponseTypeAttribute in producesResponseTypeAttributes)
-            {
-                var returnType = producesResponseTypeAttribute.Type;
-                var httpStatusCode = producesResponseTypeAttribute.StatusCode.ToString(CultureInfo.InvariantCulture);
-                var description = HttpUtilities.IsSuccessStatusCode(httpStatusCode) ? _successXmlDescription : string.Empty;
-                OperationResponseModels.Add(new OperationResponseModel(httpStatusCode, returnType, true, description));
-            }
-        }
-
-
-        public async Task BuildSwaggerResponseAsync(
-            ParameterInfo returnParameter)
-        {
-            
-            foreach (var statusCodeGroup in OperationResponseModels.GroupBy(r => r.HttpStatusCode))
+            foreach (var statusCodeGroup in operationDescriptions.GroupBy(r => r.StatusCode))
             {
                 var httpStatusCode = statusCodeGroup.Key;
                 var returnType = statusCodeGroup.Select(r => r.ResponseType).FindCommonBaseType();
@@ -110,29 +106,29 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
 
                 if (IsVoidResponse(returnType) == false)
                 {
-                    response.IsNullableRaw = OperationResponseModels.Any(r => r.IsNullable) && typeDescription.IsNullable;
-                    response.ExpectedSchemas = await GenerateExpectedSchemasAsync(statusCodeGroup);
-                    response.Schema = await _context.SchemaGenerator
+                    response.IsNullableRaw = operationDescriptions.Any(r => r.IsNullable) && typeDescription.IsNullable;
+                    response.ExpectedSchemas = await GenerateExpectedSchemasAsync(statusCodeGroup, context);
+                    response.Schema = await context.SchemaGenerator
                         .GenerateWithReferenceAndNullability<JsonSchema4>(
-                            returnType, null, typeDescription.IsNullable, _context.SchemaResolver)
+                            returnType, null, typeDescription.IsNullable, context.SchemaResolver)
                         .ConfigureAwait(false);
                 }
 
-                _context.OperationDescription.Operation.Responses[httpStatusCode] = response;
+                context.OperationDescription.Operation.Responses[httpStatusCode] = response;
             }
 
             bool loadDefaultSuccessResponseFromReturnType;
-            if (OperationResponseModels.Count > 0)
+            if (operationDescriptions.Any())
             {
                 // If there are some attributes declared on the controller \ action, only return a default success response
                 // if a 2xx status code isn't already defined and the SwaggerDefaultResponseAttribute is declared.
-                var operationResponses = _context.OperationDescription.Operation.Responses;
+                var operationResponses = context.OperationDescription.Operation.Responses;
                 var hasSuccessResponse = operationResponses.Keys.Any(HttpUtilities.IsSuccessStatusCode);
 
                 loadDefaultSuccessResponseFromReturnType = !hasSuccessResponse &&
-                    _context.MethodInfo.GetCustomAttributes()
+                    context.MethodInfo.GetCustomAttributes()
                         .Any(a => a.GetType().IsAssignableTo("SwaggerDefaultResponseAttribute", TypeNameStyle.Name)) ||
-                    _context.MethodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes()
+                    context.MethodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes()
                         .Any(a => a.GetType().IsAssignableTo("SwaggerDefaultResponseAttribute", TypeNameStyle.Name));
             }
             else
@@ -142,11 +138,11 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
             }
 
             if (loadDefaultSuccessResponseFromReturnType)
-                await LoadDefaultSuccessResponseAsync(returnParameter);
+                await LoadDefaultSuccessResponseAsync(returnParameter, successResponseDescription, context);
         }
 
         private async Task<ICollection<JsonExpectedSchema>> GenerateExpectedSchemasAsync(
-            IGrouping<string, OperationResponseModel> group)
+            IGrouping<string, OperationResponseDescription> group, OperationProcessorContext context)
         {
             if (group.Count() > 1)
             {
@@ -154,8 +150,8 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                 foreach (var response in group)
                 {
                     var isNullable = _settings.ReflectionService.GetDescription(response.ResponseType, null, _settings).IsNullable;
-                    var schema = await _context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema4>(
-                        response.ResponseType, null, isNullable, _context.SchemaResolver)
+                    var schema = await context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema4>(
+                        response.ResponseType, null, isNullable, context.SchemaResolver)
                         .ConfigureAwait(false);
 
                     expectedSchemas.Add(new JsonExpectedSchema
@@ -170,9 +166,9 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
             return null;
         }
 
-        private async Task LoadDefaultSuccessResponseAsync(ParameterInfo returnParameter)
+        private async Task LoadDefaultSuccessResponseAsync(ParameterInfo returnParameter, string successXmlDescription, OperationProcessorContext context)
         {
-            var operation = _context.OperationDescription.Operation;
+            var operation = context.OperationDescription.Operation;
             var returnType = returnParameter.ParameterType;
             if (returnType == typeof(Task))
                 returnType = typeof(void);
@@ -181,36 +177,40 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
 
             if (IsVoidResponse(returnType))
             {
-                operation.Responses["200"] = new SwaggerResponse
+                operation.Responses[GetVoidResponseStatusCode()] = new SwaggerResponse
                 {
-                    Description = _successXmlDescription
+                    Description = successXmlDescription
                 };
             }
             else
             {
-                IEnumerable<Attribute> attributes;
-                try
-                {
-                    attributes = returnParameter?.GetCustomAttributes(true).Cast<Attribute>();
-                }
-                catch
-                {
-                    attributes = returnParameter?.GetCustomAttributes(false).Cast<Attribute>();
-                }
+                var returnParameterAttributes = GetParameterAttributes(returnParameter);
+                var typeDescription = _settings.ReflectionService.GetDescription(returnType, returnParameterAttributes, _settings);
+                var responseSchema = await context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema4>(
+                    returnType, returnParameterAttributes, typeDescription.IsNullable, context.SchemaResolver).ConfigureAwait(false);
 
-                var typeDescription = _settings.ReflectionService.GetDescription(returnType, attributes, _settings);
                 operation.Responses["200"] = new SwaggerResponse
                 {
-                    Description = _successXmlDescription,
+                    Description = successXmlDescription,
                     IsNullableRaw = typeDescription.IsNullable,
-                    Schema = await _context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema4>(
-                        returnType, attributes, typeDescription.IsNullable, _context.SchemaResolver)
-                        .ConfigureAwait(false)
+                    Schema = responseSchema
                 };
             }
         }
 
-        private static bool IsVoidResponse(Type returnType)
+        private static IEnumerable<Attribute> GetParameterAttributes(ParameterInfo parameter)
+        {
+            try
+            {
+                return parameter?.GetCustomAttributes(true).Cast<Attribute>();
+            }
+            catch
+            {
+                return parameter?.GetCustomAttributes(false).Cast<Attribute>();
+            }
+        }
+
+        private bool IsVoidResponse(Type returnType)
         {
             return returnType == null || returnType.FullName == "System.Void";
         }
