@@ -93,7 +93,7 @@
 {%         endif -%}
 {%     endfor -%}
         var urlBuilder_ = new System.Text.StringBuilder();
-        urlBuilder_.Append({% if UseBaseUrl %}BaseUrl).Append("/{% else %}"{% endif %}{{ operation.Path }}{% if operation.HasQueryParameters %}?{% endif %}");
+        urlBuilder_.Append({% if UseBaseUrl %}BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/{% else %}"{% endif %}{{ operation.Path }}{% if operation.HasQueryParameters %}?{% endif %}");
 {%     for parameter in operation.PathParameters -%}
 {%         if parameter.IsOptional -%}
         if ({{ parameter.VariableName }} != null)
