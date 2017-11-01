@@ -76,7 +76,7 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 **NuGet Packages**
 
 - [NSwag.Core](https://www.nuget.org/packages/NSwag.Core/) (.NET Standard 1.0 and .NET 4.5): 
-    - The Swagger reader and writer classes ([SwaggerDocument](https://github.com/RSuter/NSwag/wiki/SwaggerDocument))
+    - The Swagger reader and writer classes, see [SwaggerDocument](https://github.com/RSuter/NSwag/wiki/SwaggerDocument)
 - [NSwag.Core.Yaml](https://www.nuget.org/packages/NSwag.Annotations/) (.NET Standard 1.3 and .NET 4.5): 
     - Extensions to read and write YAML Swagger specifications
 - [NSwag.Annotations](https://www.nuget.org/packages/NSwag.Annotations/) (.NET Standard 1.0 and .NET 4.5): 
@@ -84,19 +84,19 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 - [NSwag.SwaggerGeneration](https://www.nuget.org/packages/NSwag.CodeGeneration/) (.NET Standard 1.0 and .NET 4.5): 
     - Classes to generate Swagger specifications
 - [NSwag.SwaggerGeneration.WebApi](https://www.nuget.org/packages/NSwag.CodeGeneration.WebApi/) (.NET Standard 1.0 and .NET 4.5): 
-    - Classes to generate Swagger specifications from Web API controllers
+    - Classes to generate Swagger specifications from Web API controllers, see [WebApiToSwaggerGenerator](https://github.com/RSuter/NSwag/wiki/WebApiToSwaggerGenerator)
 - [NSwag.SwaggerGeneration.AspNetCore](https://www.nuget.org/packages/NSwag.CodeGeneration.AspNetCore/) (.NET Standard 1.6 and .NET 4.5.1): 
     - (Experimental) Classes to generate Swagger specifications from ASP.NET Core MVC controllers using the ApiExplorer
 - [NSwag.CodeGeneration](https://www.nuget.org/packages/NSwag.CodeGeneration/) (.NET Standard 1.3 / .NET 4.5.1): 
     - Base classes to generate clients from Swagger specifications
 - [NSwag.CodeGeneration.CSharp](https://www.nuget.org/packages/NSwag.CodeGeneration.CSharp/) (.NET Standard 1.3 and .NET 4.5.1): 
-    - Classes to generate C# clients from Swagger specifications
+    - Classes to generate C# clients from Swagger specifications, see [SwaggerToCSharpClientGenerator](https://github.com/RSuter/NSwag/wiki/SwaggerToCSharpClientGenerator) and [SwaggerToCSharpControllerGenerator](https://github.com/RSuter/NSwag/wiki/SwaggerToCSharpControllerGenerator)
 - [NSwag.CodeGeneration.TypeScript](https://www.nuget.org/packages/NSwag.CodeGeneration.TypeScript/) (.NET Standard 1.3 and .NET 4.5.1): 
-    - Classes to generate TypeScript clients from Swagger specifications
+    - Classes to generate TypeScript clients from Swagger specifications, see [SwaggerToTypeScriptClientGenerator](https://github.com/RSuter/NSwag/wiki/SwaggerToTypeScriptClientGenerator)
 - [NSwag.AssemblyLoader](https://www.nuget.org/packages/NSwag.AssemblyLoader/) (.NET Standard 1.6 and .NET 4.5.1): 
     - Classes to load assemblies in an isolated AppDomain and generate Swagger specs from Web API controllers
 - [NSwag.MSBuild](https://www.nuget.org/packages/NSwag.MSBuild/) (MSBuild .targets): 
-    - Adds a .targets file to your Visual Studio project, so that you can run the NSwag command line tool in an MSBuild target
+    - Adds a .targets file to your Visual Studio project, so that you can run the NSwag command line tool in an MSBuild target, see [MSBuild](https://github.com/RSuter/NSwag/wiki/MSBuild)
 - [NSwag.AspNetCore](https://www.nuget.org/packages/NSwag.AspNetCore/) (.NET Standard 1.6 and .NET 4.5.1+): 
 - [NSwag.AspNet.Owin](https://www.nuget.org/packages/NSwag.AspNet.Owin/) (.NET 4.5+): 
     - ASP.NET Core/OWIN middlewares for serving Swagger specifications and Swagger UI
