@@ -1,0 +1,6 @@
+﻿VERIFICATION
+Verification is intended to assist the Chocolatey moderators and community
+in verifying that this package's contents are trustworthy.
+ 
+The MSI installer should be built by AppVeyor from the NSwag release branch: 
+https://ci.appveyor.com/project/rsuter/nswag/build/artifacts
