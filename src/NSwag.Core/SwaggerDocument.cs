@@ -16,6 +16,7 @@ using NJsonSchema;
 using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
 using NSwag.Collections;
+using NSwag.Infrastructure;
 
 namespace NSwag
 {

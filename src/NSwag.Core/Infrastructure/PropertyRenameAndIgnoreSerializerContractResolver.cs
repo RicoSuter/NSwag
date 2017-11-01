@@ -12,7 +12,7 @@ using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace NSwag
+namespace NSwag.Infrastructure
 {
     /// <summary>JsonConvert resolver that allows to ignore and rename properties for given types.</summary>
     internal class PropertyRenameAndIgnoreSerializerContractResolver : DefaultContractResolver
@@ -27,7 +27,7 @@ namespace NSwag
             Renames = new Dictionary<Type, Dictionary<string, string>>();
         }
 
-        /// <summary>Explicitly ignore the given property(s) for the given type.</summary>
+        /// <summary>Ignore the given property/properties of the given type.</summary>
         /// <param name="type">The type.</param>
         /// <param name="jsonPropertyNames">One or more JSON properties to ignore.</param>
         public void IgnoreProperty(Type type, params string[] jsonPropertyNames)
@@ -39,7 +39,7 @@ namespace NSwag
                 Ignores[type].Add(prop);
         }
 
-        /// <summary>Rename a property for a given type</summary>
+        /// <summary>Rename a property of the given type.</summary>
         /// <param name="type">The type.</param>
         /// <param name="propertyName">The JSON property name to rename.</param>
         /// <param name="newJsonPropertyName">The new JSON property name.</param>
@@ -53,10 +53,10 @@ namespace NSwag
             renames[propertyName] = newJsonPropertyName;
         }
 
-        /// <summary>The decision logic goes here</summary>
-        /// <param name="member">The member to create a <see cref="T:Newtonsoft.Json.Serialization.JsonProperty" /> for.</param>
-        /// <param name="memberSerialization">The member's parent <see cref="T:Newtonsoft.Json.MemberSerialization" />.</param>
-        /// <returns>A created <see cref="T:Newtonsoft.Json.Serialization.JsonProperty" /> for the given <see cref="T:System.Reflection.MemberInfo" />.</returns>
+        /// <summary>Creates a Newtonsoft.Json.Serialization.JsonProperty for the given System.Reflection.MemberInfo.</summary>
+        /// <param name="member">The member's parent Newtonsoft.Json.MemberSerialization.</param>
+        /// <param name="memberSerialization">The member to create a Newtonsoft.Json.Serialization.JsonProperty for.</param>
+        /// <returns>A created Newtonsoft.Json.Serialization.JsonProperty for the given System.Reflection.MemberInfo.</returns>
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
             var property = base.CreateProperty(member, memberSerialization);
