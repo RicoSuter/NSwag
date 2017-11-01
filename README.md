@@ -76,7 +76,7 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 **NuGet Packages**
 
 - [NSwag.Core](https://www.nuget.org/packages/NSwag.Core/) (.NET Standard 1.0 and .NET 4.5): 
-    - The Swagger reader and writer classes
+    - The Swagger reader and writer classes ([SwaggerDocument](https://github.com/RSuter/NSwag/wiki/SwaggerDocument))
 - [NSwag.Core.Yaml](https://www.nuget.org/packages/NSwag.Annotations/) (.NET Standard 1.3 and .NET 4.5): 
     - Extensions to read and write YAML Swagger specifications
 - [NSwag.Annotations](https://www.nuget.org/packages/NSwag.Annotations/) (.NET Standard 1.0 and .NET 4.5): 
