@@ -75,24 +75,26 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 
 **NuGet Packages**
 
-- [NSwag.Core](https://www.nuget.org/packages/NSwag.Core/) (PCL 259 / .NETStandard 1.0): 
+- [NSwag.Core](https://www.nuget.org/packages/NSwag.Core/) (.NETStandard 1.0 and .NET 4.5): 
     - The Swagger reader and writer classes
-- [NSwag.Annotations](https://www.nuget.org/packages/NSwag.Annotations/) (PCL 259 / .NETStandard 1.0): 
+- [NSwag.Core.Yaml](https://www.nuget.org/packages/NSwag.Annotations/) (.NETStandard 1.3 and .NET 4.5): 
+    - Extensions to read and write YAML Swagger specifications
+- [NSwag.Annotations](https://www.nuget.org/packages/NSwag.Annotations/) (.NETStandard 1.0 and .NET 4.5): 
     - Attributes to decorate Web API controllers to control the Swagger generation
-- [NSwag.SwaggerGeneration](https://www.nuget.org/packages/NSwag.CodeGeneration/) (PCL 259 / .NETStandard 1.0): 
-    - Classes to generate Swagger specifications 
-- [NSwag.SwaggerGeneration.WebApi](https://www.nuget.org/packages/NSwag.CodeGeneration/) (PCL 259 / .NETStandard 1.0): 
+- [NSwag.SwaggerGeneration](https://www.nuget.org/packages/NSwag.CodeGeneration/) (.NETStandard 1.0 and .NET 4.5): 
+    - Classes to generate Swagger specifications
+- [NSwag.SwaggerGeneration.WebApi](https://www.nuget.org/packages/NSwag.CodeGeneration.WebApi/) (.NETStandard 1.0 and .NET 4.5): 
     - Classes to generate Swagger specifications from Web API controllers
-- [NSwag.CodeGeneration](https://www.nuget.org/packages/NSwag.CodeGeneration/) (PCL 259 / .NETStandard 1.0): 
+- [NSwag.SwaggerGeneration.AspNetCore](https://www.nuget.org/packages/NSwag.CodeGeneration.AspNetCore/) (.NETStandard 1.6 and .NET 4.5.1): 
+    - (Experimental) Classes to generate Swagger specifications from ASP.NET Core MVC controllers using the ApiExplorer
+- [NSwag.CodeGeneration](https://www.nuget.org/packages/NSwag.CodeGeneration/) (.NETStandard 1.3 / .NET 4.5.1): 
     - Base classes to generate clients from Swagger specifications
-- [NSwag.CodeGeneration.CSharp](https://www.nuget.org/packages/NSwag.CodeGeneration.CSharp/) (PCL 259 / .NETStandard 1.0): 
+- [NSwag.CodeGeneration.CSharp](https://www.nuget.org/packages/NSwag.CodeGeneration.CSharp/) (.NETStandard 1.3 and .NET 4.5.1): 
     - Classes to generate C# clients from Swagger specifications
-- [NSwag.CodeGeneration.TypeScript](https://www.nuget.org/packages/NSwag.CodeGeneration.TypeScript/) (PCL 259 / .NETStandard 1.0): 
+- [NSwag.CodeGeneration.TypeScript](https://www.nuget.org/packages/NSwag.CodeGeneration.TypeScript/) (.NETStandard 1.3 and .NET 4.5.1): 
     - Classes to generate TypeScript clients from Swagger specifications
-- [NSwag.AssemblyLoader](https://www.nuget.org/packages/NSwag.AssemblyLoader/) (.NET 4.5+): 
+- [NSwag.AssemblyLoader](https://www.nuget.org/packages/NSwag.AssemblyLoader/) (.NETStandard 1.6 and .NET 4.5.1): 
     - Classes to load assemblies in an isolated AppDomain and generate Swagger specs from Web API controllers
-- [NSwag.AssemblyLoaderCore](https://www.nuget.org/packages/NSwag.AssemblyLoaderCore/) (.NET Core, .NETStandard 1.6): 
-    - Classes to load assemblies in an AssemblyLoaderContext and generate Swagger specs from Web API controllers
 - [NSwag.MSBuild](https://www.nuget.org/packages/NSwag.MSBuild/) (MSBuild .targets): 
     - Adds a .targets file to your Visual Studio project, so that you can run the NSwag command line tool in an MSBuild target
 - [NSwag.AspNetCore](https://www.nuget.org/packages/NSwag.AspNetCore/) (.NETStandard 1.6 and .NET 4.5.1+): 
@@ -102,9 +104,9 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
     - ASP.NET Web API filter which serializes exceptions ([JsonExceptionFilterAttribute](https://github.com/NSwag/NSwag/wiki/JsonExceptionFilterAttribute))
 - [NSwagStudio](https://chocolatey.org/packages/nswagstudio) (Chocolatey, Windows): 
     - Package to install the NSwagStudio and command line tools via Chocolatey
-- [NSwag.Commands](https://www.nuget.org/packages/NSwag.Commands/) (PCL 259 / .NETStandard 1.0): 
+- [NSwag.Commands](https://www.nuget.org/packages/NSwag.Commands/) (.NETStandard 1.6 and .NET 4.5.1+): 
     - Commands for the command line tool implementations and UI
-- [NSwag.ConsoleCore](https://www.nuget.org/packages/NSwag.ConsoleCore/) (PCL 259 / .NETStandard 1.0): 
+- [NSwag.ConsoleCore](https://www.nuget.org/packages/NSwag.ConsoleCore/) (.NET Core 1.0, 1.1 and 2.0): 
     - Command line tool for .NET Core (`dotnet nswag`)
 
 CI NuGet Feed: https://www.myget.org/gallery/nswag-ci
