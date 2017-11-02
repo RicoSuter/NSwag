@@ -92,6 +92,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CommandLine\AspNetCoreToSwaggerCommandLineTest.cs" />
     <Compile Include="CommandLine\WebApiCommandLineTests.cs" />
     <Compile Include="Commands\WildcardTests.cs" />
     <Compile Include="Converters\ExceptionSerializationTests.cs" />

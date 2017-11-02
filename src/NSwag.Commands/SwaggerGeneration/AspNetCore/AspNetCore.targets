@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="__GetNSwagProjectMetadata">
+    <MSBuild
+      Condition=" '$(TargetFramework)' == '' "
+      Projects="$(MSBuildProjectFile)"
+      Targets="__GetNSwagProjectMetadata"
+      Properties="TargetFramework=$(TargetFrameworks.Split(';')[0]);NSwagOutputMetadataFile=$(NSwagOutputMetadataFile)" />
+    <ItemGroup Condition=" '$(TargetFramework)' != '' ">
+      <NSwagProjectMetadata Include="AssemblyName: $(AssemblyName)" />
+      <NSwagProjectMetadata Include="OutputPath: $(OutputPath)" />
+      <NSwagProjectMetadata Include="PlatformTarget: $(PlatformTarget)" />
+      <NSwagProjectMetadata Include="Platform: $(Platform)" />
+      <NSwagProjectMetadata Include="ProjectDepsFilePath: $(ProjectDepsFilePath)" />
+      <NSwagProjectMetadata Include="ProjectDir: $(ProjectDir)" />
+      <NSwagProjectMetadata Include="ProjectRuntimeConfigFilePath: $(ProjectRuntimeConfigFilePath)" />
+      <NSwagProjectMetadata Include="TargetFileName: $(TargetFileName)" />
+      <NSwagProjectMetadata Include="TargetFrameworkIdentifier: $(TargetFrameworkIdentifier)" />
+    </ItemGroup>
+    <WriteLinesToFile
+      Condition=" '$(TargetFramework)' != '' "
+      File="$(NSwagOutputMetadataFile)"
+      Lines="@(NSwagProjectMetadata)" />
+  </Target>
+</Project>
