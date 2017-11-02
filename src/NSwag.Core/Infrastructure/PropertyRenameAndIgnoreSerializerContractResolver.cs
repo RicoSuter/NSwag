@@ -17,8 +17,8 @@ namespace NSwag.Infrastructure
     /// <summary>JsonConvert resolver that allows to ignore and rename properties for given types.</summary>
     internal class PropertyRenameAndIgnoreSerializerContractResolver : DefaultContractResolver
     {
-        protected readonly Dictionary<Type, HashSet<string>> Ignores;
-        protected readonly Dictionary<Type, Dictionary<string, string>> Renames;
+        private readonly Dictionary<Type, HashSet<string>> Ignores;
+        private readonly Dictionary<Type, Dictionary<string, string>> Renames;
 
         /// <summary>Initializes a new instance of the <see cref="PropertyRenameAndIgnoreSerializerContractResolver"/> class.</summary>
         public PropertyRenameAndIgnoreSerializerContractResolver()
