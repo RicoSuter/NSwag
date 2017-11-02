@@ -17,14 +17,14 @@ namespace NSwag.Infrastructure
     /// <summary>JsonConvert resolver that allows to ignore and rename properties for given types.</summary>
     internal class PropertyRenameAndIgnoreSerializerContractResolver : DefaultContractResolver
     {
-        private readonly Dictionary<Type, HashSet<string>> Ignores;
-        private readonly Dictionary<Type, Dictionary<string, string>> Renames;
+        private readonly Dictionary<Type, HashSet<string>> _ignores;
+        private readonly Dictionary<Type, Dictionary<string, string>> _renames;
 
         /// <summary>Initializes a new instance of the <see cref="PropertyRenameAndIgnoreSerializerContractResolver"/> class.</summary>
         public PropertyRenameAndIgnoreSerializerContractResolver()
         {
-            Ignores = new Dictionary<Type, HashSet<string>>();
-            Renames = new Dictionary<Type, Dictionary<string, string>>();
+            _ignores = new Dictionary<Type, HashSet<string>>();
+            _renames = new Dictionary<Type, Dictionary<string, string>>();
         }
 
         /// <summary>Ignore the given property/properties of the given type.</summary>
@@ -32,11 +32,11 @@ namespace NSwag.Infrastructure
         /// <param name="jsonPropertyNames">One or more JSON properties to ignore.</param>
         public void IgnoreProperty(Type type, params string[] jsonPropertyNames)
         {
-            if (!Ignores.ContainsKey(type))
-                Ignores[type] = new HashSet<string>();
+            if (!_ignores.ContainsKey(type))
+                _ignores[type] = new HashSet<string>();
 
             foreach (var prop in jsonPropertyNames)
-                Ignores[type].Add(prop);
+                _ignores[type].Add(prop);
         }
 
         /// <summary>Rename a property of the given type.</summary>
@@ -47,8 +47,8 @@ namespace NSwag.Infrastructure
         {
             Dictionary<string, string> renames;
 
-            if (!Renames.TryGetValue(type, out renames))
-                Renames[type] = renames = new Dictionary<string, string>();
+            if (!_renames.TryGetValue(type, out renames))
+                _renames[type] = renames = new Dictionary<string, string>();
 
             renames[propertyName] = newJsonPropertyName;
         }
@@ -76,17 +76,17 @@ namespace NSwag.Infrastructure
 
         private bool IsIgnored(Type type, string jsonPropertyName)
         {
-            if (!Ignores.ContainsKey(type))
+            if (!_ignores.ContainsKey(type))
                 return false;
 
-            return Ignores[type].Contains(jsonPropertyName);
+            return _ignores[type].Contains(jsonPropertyName);
         }
 
         private bool IsRenamed(Type type, string jsonPropertyName, out string newJsonPropertyName)
         {
             Dictionary<string, string> renames;
 
-            if (!Renames.TryGetValue(type, out renames) || !renames.TryGetValue(jsonPropertyName, out newJsonPropertyName))
+            if (!_renames.TryGetValue(type, out renames) || !renames.TryGetValue(jsonPropertyName, out newJsonPropertyName))
             {
                 newJsonPropertyName = null;
                 return false;
