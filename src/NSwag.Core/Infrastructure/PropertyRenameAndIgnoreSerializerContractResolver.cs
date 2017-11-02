@@ -45,12 +45,10 @@ namespace NSwag.Infrastructure
         /// <param name="newJsonPropertyName">The new JSON property name.</param>
         public void RenameProperty(Type type, string propertyName, string newJsonPropertyName)
         {
-            Dictionary<string, string> renames;
+            if (!_renames.ContainsKey(type))
+                _renames[type] = new Dictionary<string, string>();
 
-            if (!_renames.TryGetValue(type, out renames))
-                _renames[type] = renames = new Dictionary<string, string>();
-
-            renames[propertyName] = newJsonPropertyName;
+            _renames[type][propertyName] = newJsonPropertyName;
         }
 
         /// <summary>Creates a Newtonsoft.Json.Serialization.JsonProperty for the given System.Reflection.MemberInfo.</summary>
