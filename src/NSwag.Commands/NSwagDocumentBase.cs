@@ -110,7 +110,18 @@ namespace NSwag.Commands
 
         /// <summary>Gets the name of the document.</summary>
         [JsonIgnore]
-        public string Name => System.IO.Path.GetFileName(Path);
+        public string Name
+        {
+            get
+            {
+                var name = System.IO.Path.GetFileName(Path);
+                if (!name.Equals("nswag.json", StringComparison.OrdinalIgnoreCase))
+                    return name;
+
+                var segments = Path.Replace("\\", "/").Split('/');
+                return segments.Length >= 2 ? string.Join("/", segments.Skip(segments.Length - 2)) : name;
+            }
+        }
 
         /// <summary>Gets a value indicating whether the document is dirty (has any changes).</summary>
         [JsonIgnore]
