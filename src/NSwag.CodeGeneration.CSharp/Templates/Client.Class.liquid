@@ -114,7 +114,7 @@
 {%     endfor -%}
 {%     for parameter in operation.QueryParameters -%}
         {% if parameter.IsOptional -%}
-        if ({{ parameter.VariableName }} != null) {% endif -%}
+if ({{ parameter.VariableName }} != null) {% endif -%}
 {%         if parameter.IsDateArray -%}
 foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString(item_.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
 {%         elseif parameter.IsDate -%}
@@ -223,7 +223,7 @@ urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({
 {%     if operation.HasDefaultResponse -%}
 {%         if operation.DefaultResponse.HasType -%}
                     {
-{% assign response = operation.DefaultResponse %}
+{%             assign response = operation.DefaultResponse -%}
                         {% template Client.Class.ProcessResponse %}
                     }
 {%         else -%}

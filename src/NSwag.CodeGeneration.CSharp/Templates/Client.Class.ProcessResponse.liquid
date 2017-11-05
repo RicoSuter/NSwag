@@ -23,9 +23,9 @@ try
 {%             endif -%}
 {%         endif -%}
 } 
-catch (System.Exception exception) 
+catch (System.Exception exception_) 
 {
-    throw new {{ ExceptionClass }}("Could not deserialize the response body.", status_, responseData_, headers_, exception);
+    throw new {{ ExceptionClass }}("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
 }
 {%         if response.IsSuccess == false -%}
 {%             if response.InheritsExceptionSchema -%}
