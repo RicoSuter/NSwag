@@ -16,13 +16,14 @@ using MyToolkit.Command;
 using NJsonSchema;
 using NSwag;
 using NSwag.Commands;
+using NSwag.Commands.SwaggerGeneration;
 
 namespace NSwagStudio.ViewModels.SwaggerGenerators
 {
     public class AssemblyTypeToSwaggerGeneratorViewModel : ViewModelBase
     {
         private string[] _allClassNames;
-        private AssemblyTypeToSwaggerCommand _command = new AssemblyTypeToSwaggerCommand();
+        private TypesToSwaggerCommand _command = new TypesToSwaggerCommand();
         private NSwagDocument _document;
 
         /// <summary>Initializes a new instance of the <see cref="AssemblyTypeToSwaggerGeneratorViewModel"/> class.</summary>
@@ -35,7 +36,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         }
 
         /// <summary>Gets or sets the generator settings.</summary>
-        public AssemblyTypeToSwaggerCommand Command
+        public TypesToSwaggerCommand Command
         {
             get { return _command; }
             set

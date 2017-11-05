@@ -29,7 +29,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
         public async Task When_action_has_ApiExplorerSettingsAttribute_with_IgnoreApi_then_it_is_ignored()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings { IsAspNetCore = true });
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings { IsAspNetCore = true });
 
             //// Act
             var document = await generator.GenerateForControllerAsync<TestController>();

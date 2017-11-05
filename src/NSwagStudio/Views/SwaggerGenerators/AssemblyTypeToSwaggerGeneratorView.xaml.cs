@@ -3,14 +3,14 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using MyToolkit.Mvvm;
 using NSwag.Commands;
-using NSwag.Commands.Base;
+using NSwag.Commands.SwaggerGeneration;
 using NSwagStudio.ViewModels.SwaggerGenerators;
 
 namespace NSwagStudio.Views.SwaggerGenerators
 {
     public partial class AssemblyTypeToSwaggerGeneratorView : ISwaggerGeneratorView
     {
-        public AssemblyTypeToSwaggerGeneratorView(AssemblyTypeToSwaggerCommand command, NSwagDocument document)
+        public AssemblyTypeToSwaggerGeneratorView(TypesToSwaggerCommand command, NSwagDocument document)
         {
             InitializeComponent();
             ViewModelHelper.RegisterViewModel(Model, this);
@@ -27,7 +27,7 @@ namespace NSwagStudio.Views.SwaggerGenerators
 
         public string Title => ".NET Assembly";
 
-        public OutputCommandBase Command => Model.Command;
+        public IOutputCommand Command => Model.Command;
 
         public Task<string> GenerateSwaggerAsync()
         {

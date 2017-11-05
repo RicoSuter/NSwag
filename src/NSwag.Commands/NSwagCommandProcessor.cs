@@ -12,6 +12,7 @@ using System.Reflection;
 using NConsole;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
+using NSwag.Commands.CodeGeneration;
 
 namespace NSwag.Commands
 {

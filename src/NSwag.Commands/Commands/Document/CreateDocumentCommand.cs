@@ -9,6 +9,7 @@
 using System.Threading.Tasks;
 using NConsole;
 using NJsonSchema.Infrastructure;
+using NSwag.Commands.CodeGeneration;
 
 #pragma warning disable 1591
 

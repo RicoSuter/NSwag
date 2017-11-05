@@ -11,11 +11,10 @@ using NConsole;
 using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration.CSharp;
-using NSwag.Commands.Base;
 
 #pragma warning disable 1591
 
-namespace NSwag.Commands
+namespace NSwag.Commands.CodeGeneration
 {
     [Command(Name = "jsonschema2csclient", Description = "Generates CSharp classes from a JSON Schema.")]
     public class JsonSchemaToCSharpCommand : InputOutputCommandBase

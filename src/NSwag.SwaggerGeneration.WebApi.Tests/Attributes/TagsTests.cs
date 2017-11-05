@@ -23,7 +23,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
         public async Task When_controller_has_tag_attributes_then_they_are_processed()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings());
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
             var document = await generator.GenerateForControllerAsync<TagsTest1Controller>();
@@ -57,7 +57,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
         public async Task When_operation_has_tags_attributes_then_they_are_processed()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings());
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
             var document = await generator.GenerateForControllerAsync<TagsTest2Controller>();
@@ -83,7 +83,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
         public async Task When_operation_has_tag_attribute_with_AddToDocument_then_it_is_added_to_document()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings());
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
             var document = await generator.GenerateForControllerAsync<TagsTest3Controller>();
@@ -109,7 +109,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
         public async Task When_operation_has_tags_attribute_with_AddToDocument_then_it_is_added_to_document()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings());
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
             var document = await generator.GenerateForControllerAsync<TagsTest4Controller>();

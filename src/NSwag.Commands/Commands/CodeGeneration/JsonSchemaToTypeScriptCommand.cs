@@ -10,11 +10,10 @@ using System.Threading.Tasks;
 using NConsole;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration.TypeScript;
-using NSwag.Commands.Base;
 
 #pragma warning disable 1591
 
-namespace NSwag.Commands
+namespace NSwag.Commands.CodeGeneration
 {
     [Command(Name = "jsonschema2tsclient", Description = "Generates TypeScript interfaces from a JSON Schema.")]
     public class JsonSchemaToTypeScriptCommand : InputOutputCommandBase

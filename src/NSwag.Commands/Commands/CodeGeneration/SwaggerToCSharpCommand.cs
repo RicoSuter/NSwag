@@ -9,13 +9,12 @@
 using NConsole;
 using NJsonSchema.CodeGeneration.CSharp;
 using NSwag.CodeGeneration.CSharp;
-using NSwag.Commands.Base;
 
 #pragma warning disable 1591
 
-namespace NSwag.Commands
+namespace NSwag.Commands.CodeGeneration
 {
-    public abstract class SwaggerToCSharpCommand<TSettings> : CodeGeneratorCommand<TSettings>
+    public abstract class SwaggerToCSharpCommand<TSettings> : CodeGeneratorCommandBase<TSettings>
          where TSettings : SwaggerToCSharpGeneratorSettings
     {
         protected SwaggerToCSharpCommand(TSettings settings)

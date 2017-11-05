@@ -1,11 +1,10 @@
 using System;
-using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MyToolkit.Command;
 using Newtonsoft.Json;
 using NJsonSchema.Infrastructure;
-using NSwag.Commands;
+using NSwag.Commands.SwaggerGeneration;
 
 namespace NSwagStudio.ViewModels.SwaggerGenerators
 {

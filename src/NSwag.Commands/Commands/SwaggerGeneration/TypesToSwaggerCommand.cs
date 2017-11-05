@@ -1,39 +1,36 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="AssemblyTypeToSwaggerCommand.cs" company="NSwag">
+// <copyright file="TypesToSwaggerCommand.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using NConsole;
 using Newtonsoft.Json;
 using NJsonSchema;
-using NSwag.SwaggerGeneration;
+using NJsonSchema.Generation;
+using NJsonSchema.Infrastructure;
+using NSwag.AssemblyLoader.Utilities;
 
-namespace NSwag.Commands
+namespace NSwag.Commands.SwaggerGeneration
 {
     /// <summary></summary>
     [Command(Name = "types2swagger")]
-    public class AssemblyTypeToSwaggerCommand : AssemblyOutputCommandBase<AssemblyTypeToSwaggerGenerator>
+    public class TypesToSwaggerCommand : IsolatedSwaggerOutputCommandBase
     {
-        /// <summary>Initializes a new instance of the <see cref="AssemblyTypeToSwaggerCommand"/> class.</summary>
-        public AssemblyTypeToSwaggerCommand()
-            : base(new AssemblyTypeToSwaggerGeneratorSettings())
+        /// <summary>Initializes a new instance of the <see cref="TypesToSwaggerCommand"/> class.</summary>
+        public TypesToSwaggerCommand()
         {
+            Settings = new JsonSchemaGeneratorSettings();
             ClassNames = new string[] { };
         }
 
         [JsonIgnore]
-        public new AssemblyTypeToSwaggerGeneratorSettings Settings => (AssemblyTypeToSwaggerGeneratorSettings)base.Settings;
-
-        [Argument(Name = "Assembly", IsRequired = true, Description = "The path to the Web API .NET assembly.")]
-        public string[] AssemblyPaths
-        {
-            get { return Settings.AssemblySettings.AssemblyPaths; }
-            set { Settings.AssemblySettings.AssemblyPaths = value; }
-        }
+        public new JsonSchemaGeneratorSettings Settings { get; }
 
         [Argument(Name = "ClassNames", Description = "The class names.")]
         public string[] ClassNames { get; set; }
@@ -95,24 +92,33 @@ namespace NSwag.Commands
             set { Settings.GenerateXmlObjects = value; }
         }
 
-        public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
+        protected override async Task<string> RunIsolatedAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
-            var document = await RunAsync();
-            await TryWriteDocumentOutputAsync(host, () => document).ConfigureAwait(false);
-            return document;
-        }
+            var document = new SwaggerDocument();
+            var generator = new JsonSchemaGenerator(Settings);
+            var schemaResolver = new SwaggerSchemaResolver(document, Settings);
 
-        public async Task<SwaggerDocument> RunAsync()
-        {
-            return await Task.Run(async () =>
-            {
-                var generator = new AssemblyTypeToSwaggerGenerator(Settings);
-                var document = await generator.GenerateAsync(ClassNames).ConfigureAwait(false);
-#if DEBUG
-                var json = document.ToJson();
+#if FullNet
+            var assemblies = PathUtilities.ExpandFileWildcards(AssemblyPaths)
+                .Select(path => Assembly.LoadFrom(path)).ToArray();
+#else
+            var currentDirectory = await DynamicApis.DirectoryGetCurrentDirectoryAsync().ConfigureAwait(false);
+            var assemblies = PathUtilities.ExpandFileWildcards(AssemblyPaths)
+                .Select(path => assemblyLoader.Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(path, currentDirectory))).ToArray();
 #endif
-                return document;
-            });
+
+            var allExportedClassNames = assemblies.SelectMany(a => a.ExportedTypes).Select(t => t.FullName).ToList();
+            var matchedClassNames = ClassNames
+                .SelectMany(n => PathUtilities.FindWildcardMatches(n, allExportedClassNames, '.'))
+                .Distinct();
+
+            foreach (var className in matchedClassNames)
+            {
+                var type = assemblies.Select(a => a.GetType(className)).FirstOrDefault(t => t != null);
+                await generator.GenerateAsync(type, schemaResolver).ConfigureAwait(false);
+            }
+
+            return document.ToJson();
         }
     }
 }

@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="CodeGeneratorCommand.cs" company="NSwag">
+// <copyright file="CodeGeneratorCommandBase.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -8,15 +8,14 @@
 
 using NConsole;
 using Newtonsoft.Json;
-using NJsonSchema.CodeGeneration;
 using NSwag.CodeGeneration;
 
-namespace NSwag.Commands.Base
+namespace NSwag.Commands.CodeGeneration
 {
-    public abstract class CodeGeneratorCommand<TSettings> : InputOutputCommandBase
+    public abstract class CodeGeneratorCommandBase<TSettings> : InputOutputCommandBase
         where TSettings : ClientGeneratorBaseSettings
     {
-        protected CodeGeneratorCommand(TSettings settings)
+        protected CodeGeneratorCommandBase(TSettings settings)
         {
             Settings = settings;
         }

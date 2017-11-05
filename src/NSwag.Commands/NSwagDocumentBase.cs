@@ -18,7 +18,8 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using NJsonSchema.Infrastructure;
-using NSwag.Commands.Base;
+using NSwag.Commands.CodeGeneration;
+using NSwag.Commands.SwaggerGeneration;
 
 namespace NSwag.Commands
 {
@@ -28,7 +29,7 @@ namespace NSwag.Commands
     {
         private string _path;
         private string _latestData;
-        private OutputCommandBase _selectedSwaggerGenerator;
+        private IOutputCommand _selectedSwaggerGenerator;
 
         /// <summary>Initializes a new instance of the <see cref="NSwagDocumentBase"/> class.</summary>
         protected NSwagDocumentBase()
@@ -66,7 +67,7 @@ namespace NSwag.Commands
                     .Replace("CommandBase", string.Empty)
                     .Replace("Command", string.Empty);
 
-                return JObject.FromObject(new Dictionary<string, OutputCommandBase>
+                return JObject.FromObject(new Dictionary<string, IOutputCommand>
                 {
                     {
                         key[0].ToString().ToLowerInvariant() + key.Substring(1),
@@ -80,7 +81,7 @@ namespace NSwag.Commands
                 var key = generatorProperty.Name + "Command";
                 var collectionProperty = SwaggerGenerators.GetType().GetRuntimeProperty(key[0].ToString().ToUpperInvariant() + key.Substring(1));
                 var generator = collectionProperty.GetValue(SwaggerGenerators);
-                var newGenerator = (OutputCommandBase)JsonConvert.DeserializeObject(generatorProperty.Value.ToString(), generator.GetType(), GetSerializerSettings());
+                var newGenerator = (IOutputCommand)JsonConvert.DeserializeObject(generatorProperty.Value.ToString(), generator.GetType(), GetSerializerSettings());
                 collectionProperty.SetValue(SwaggerGenerators, newGenerator);
                 SelectedSwaggerGenerator = newGenerator;
             }
@@ -117,7 +118,7 @@ namespace NSwag.Commands
 
         /// <summary>Gets the selected Swagger generator.</summary>
         [JsonIgnore]
-        public OutputCommandBase SelectedSwaggerGenerator
+        public IOutputCommand SelectedSwaggerGenerator
         {
             get { return _selectedSwaggerGenerator; }
             set
@@ -261,12 +262,12 @@ namespace NSwag.Commands
                     SwaggerGenerators.WebApiToSwaggerCommand.AssemblyConfig);
             }
 
-            if (SwaggerGenerators.AssemblyTypeToSwaggerCommand != null)
+            if (SwaggerGenerators.TypesToSwaggerCommand != null)
             {
-                SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyPaths = 
-                    SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyPaths.Select(ConvertToAbsolutePath).ToArray();
-                SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyConfig = ConvertToAbsolutePath(
-                    SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyConfig);
+                SwaggerGenerators.TypesToSwaggerCommand.AssemblyPaths = 
+                    SwaggerGenerators.TypesToSwaggerCommand.AssemblyPaths.Select(ConvertToAbsolutePath).ToArray();
+                SwaggerGenerators.TypesToSwaggerCommand.AssemblyConfig = ConvertToAbsolutePath(
+                    SwaggerGenerators.TypesToSwaggerCommand.AssemblyConfig);
             }
 
             if (CodeGenerators.SwaggerToTypeScriptClientCommand != null)
@@ -316,12 +317,12 @@ namespace NSwag.Commands
                     SwaggerGenerators.WebApiToSwaggerCommand.AssemblyConfig);
             }
 
-            if (SwaggerGenerators.AssemblyTypeToSwaggerCommand != null)
+            if (SwaggerGenerators.TypesToSwaggerCommand != null)
             {
-                SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyPaths = 
-                    SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyPaths.Select(ConvertToRelativePath).ToArray();
-                SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyConfig = ConvertToRelativePath(
-                    SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyConfig);
+                SwaggerGenerators.TypesToSwaggerCommand.AssemblyPaths = 
+                    SwaggerGenerators.TypesToSwaggerCommand.AssemblyPaths.Select(ConvertToRelativePath).ToArray();
+                SwaggerGenerators.TypesToSwaggerCommand.AssemblyConfig = ConvertToRelativePath(
+                    SwaggerGenerators.TypesToSwaggerCommand.AssemblyConfig);
             }
 
             if (CodeGenerators.SwaggerToTypeScriptClientCommand != null)
@@ -369,6 +370,12 @@ namespace NSwag.Commands
             saveFile = false;
 
             // New file format
+            if (data.Contains("assemblyTypeToSwagger"))
+            {
+                data = data.Replace("assemblyTypeToSwagger", "typesToSwagger");
+                saveFile = true;
+            }
+
             if (data.Contains("\"template\": \"Angular2\""))
             {
                 data = data.Replace("\"template\": \"Angular2\"", "\"template\": \"Angular\"");

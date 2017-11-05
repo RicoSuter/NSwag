@@ -109,7 +109,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\SwaggerConfig.cs" />
-    <Compile Include="AssemblyLoader\AssemblyTypeToSwaggerGeneratorTests.cs" />
     <Compile Include="Attributes\AcceptVerbsTests.cs" />
     <Compile Include="Attributes\ApiExplorerSettingsAttributeTests.cs" />
     <Compile Include="Attributes\ComplexParametersTests.cs" />

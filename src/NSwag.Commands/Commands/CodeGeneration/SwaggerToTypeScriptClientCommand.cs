@@ -11,14 +11,13 @@ using NConsole;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NJsonSchema.Infrastructure;
 using NSwag.CodeGeneration.TypeScript;
-using NSwag.Commands.Base;
 
 #pragma warning disable 1591
 
-namespace NSwag.Commands
+namespace NSwag.Commands.CodeGeneration
 {
     [Command(Name = "swagger2tsclient", Description = "Generates TypeScript client code from a Swagger specification.")]
-    public class SwaggerToTypeScriptClientCommand : CodeGeneratorCommand<SwaggerToTypeScriptClientGeneratorSettings>
+    public class SwaggerToTypeScriptClientCommand : CodeGeneratorCommandBase<SwaggerToTypeScriptClientGeneratorSettings>
     {
         public SwaggerToTypeScriptClientCommand()
             : base(new SwaggerToTypeScriptClientGeneratorSettings())

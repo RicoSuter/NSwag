@@ -3,11 +3,10 @@ using System.Threading.Tasks;
 using NConsole;
 using Newtonsoft.Json;
 using NJsonSchema;
-using NSwag.Commands.Base;
 
 #pragma warning disable 1591
 
-namespace NSwag.Commands
+namespace NSwag.Commands.CodeGeneration
 {
     public class JsonSchemaToSwaggerCommand : OutputCommandBase
     {

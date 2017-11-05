@@ -15,7 +15,7 @@ using NSwag.CodeGeneration.CSharp;
 
 #pragma warning disable 1591
 
-namespace NSwag.Commands
+namespace NSwag.Commands.CodeGeneration
 {
     [Command(Name = "swagger2csclient", Description = "Generates CSharp client code from a Swagger specification.")]
     public class SwaggerToCSharpClientCommand : SwaggerToCSharpCommand<SwaggerToCSharpClientGeneratorSettings>

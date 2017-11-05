@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-using NSwag.Commands.Base;
+using NSwag.Commands.CodeGeneration;
+using NSwag.Commands.SwaggerGeneration;
 
 namespace NSwag.Commands
 {
@@ -21,16 +22,16 @@ namespace NSwag.Commands
 
         /// <summary>Gets or sets the assembly type to swagger command.</summary>
         [JsonIgnore]
-        public AssemblyTypeToSwaggerCommand AssemblyTypeToSwaggerCommand { get; set; }
+        public TypesToSwaggerCommand TypesToSwaggerCommand { get; set; }
 
         /// <summary>Gets the items.</summary>
         [JsonIgnore]
-        public IEnumerable<OutputCommandBase> Items => new OutputCommandBase[]
+        public IEnumerable<IOutputCommand> Items => new IOutputCommand[]
         {
             FromSwaggerCommand,
             JsonSchemaToSwaggerCommand, 
             WebApiToSwaggerCommand, 
-            AssemblyTypeToSwaggerCommand
+            TypesToSwaggerCommand
         };
     }
 }

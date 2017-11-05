@@ -7,36 +7,33 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using NConsole;
 using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
+using NSwag.AssemblyLoader.Utilities;
+using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.WebApi;
 
-namespace NSwag.Commands
+namespace NSwag.Commands.SwaggerGeneration
 {
     /// <summary>The generator.</summary>
     [Command(Name = "webapi2swagger", Description = "Generates a Swagger specification for a controller or controlles contained in a .NET Web API assembly.")]
-    public class WebApiToSwaggerCommand : AssemblyOutputCommandBase<WebApiAssemblyToSwaggerGenerator>
+    public class WebApiToSwaggerCommand : IsolatedSwaggerOutputCommandBase
     {
         /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerCommand"/> class.</summary>
         public WebApiToSwaggerCommand()
-            : base(new WebApiAssemblyToSwaggerGeneratorSettings())
         {
+            Settings = new WebApiToSwaggerGeneratorSettings();
             ControllerNames = new string[] { };
         }
 
         [JsonIgnore]
-        public new WebApiAssemblyToSwaggerGeneratorSettings Settings => (WebApiAssemblyToSwaggerGeneratorSettings)base.Settings;
-
-        [Argument(Name = "Assembly", Description = "The path or paths to the Web API .NET assemblies (comma separated).")]
-        public string[] AssemblyPaths
-        {
-            get { return Settings.AssemblySettings.AssemblyPaths; }
-            set { Settings.AssemblySettings.AssemblyPaths = value; }
-        }
+        public WebApiToSwaggerGeneratorSettings Settings { get; }
 
         [JsonIgnore]
         [Argument(Name = "Controller", IsRequired = false, Description = "The Web API controller full class name or empty to load all controllers from the assembly.")]
@@ -168,71 +165,137 @@ namespace NSwag.Commands
         [Argument(Name = "DocumentTemplate", IsRequired = false, Description = "Specifies the Swagger document template (may be a path or JSON, default: none).")]
         public string DocumentTemplate { get; set; }
 
-        [Argument(Name = "DocumentProcessors", IsRequired = false, Description = "Gets the document processor type names in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
-        public string[] DocumentProcessorTypes
+        [Argument(Name = "DocumentProcessors", IsRequired = false, Description = "The document processor type names in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
+        public string[] DocumentProcessorTypes { get; set; }
+
+        [Argument(Name = "OperationProcessors", IsRequired = false, Description = "The operation processor type names in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
+        public string[] OperationProcessorTypes { get; set; }
+
+        [Argument(Name = "TypeNameGenerator", IsRequired = false, Description = "The custom ITypeNameGenerator implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
+        public string TypeNameGeneratorType { get; set; }
+
+        protected override async Task<string> RunIsolatedAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
-            get { return Settings.DocumentProcessorTypes; }
-            set { Settings.DocumentProcessorTypes = value; }
-        }
-        
-        [Argument(Name = "OperationProcessors", IsRequired = false, Description = "Gets the operation processor type names in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
-        public string[] OperationProcessorTypes
-        {
-            get { return Settings.OperationProcessorTypes; }
-            set { Settings.OperationProcessorTypes = value; }
+            await TransformAsync(assemblyLoader);
+
+            var controllerNames = ControllerNames.Where(s => !string.IsNullOrWhiteSpace(s)).Distinct().ToList();
+            if (!controllerNames.Any() && AssemblyPaths?.Length > 0)
+                controllerNames = GetControllerNames(assemblyLoader).ToList();
+
+            var controllerTypes = await GetControllerTypesAsync(controllerNames, assemblyLoader);
+
+            var generator = new WebApiToSwaggerGenerator(Settings);
+            var document = await generator.GenerateForControllersAsync(controllerTypes).ConfigureAwait(false);
+
+            if (ServiceHost == ".")
+                document.Host = string.Empty;
+            else if (!string.IsNullOrEmpty(ServiceHost))
+                document.Host = ServiceHost;
+
+            if (!string.IsNullOrEmpty(InfoTitle))
+                document.Info.Title = InfoTitle;
+            if (!string.IsNullOrEmpty(InfoVersion))
+                document.Info.Version = InfoVersion;
+            if (!string.IsNullOrEmpty(InfoDescription))
+                document.Info.Description = InfoDescription;
+
+            if (ServiceSchemes != null && ServiceSchemes.Any())
+                document.Schemes = ServiceSchemes.Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true)).ToList();
+
+            if (!string.IsNullOrEmpty(ServiceBasePath))
+                document.BasePath = ServiceBasePath;
+
+            return document.ToJson();
         }
 
-        public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
+        private async Task TransformAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
-            var document = await RunAsync();
-            await TryWriteDocumentOutputAsync(host, () => document).ConfigureAwait(false);
-            return document;
-        }
-
-        public async Task<SwaggerDocument> RunAsync()
-        {
-            return await Task.Run(async () =>
+            if (!string.IsNullOrEmpty(DocumentTemplate))
             {
-                if (!string.IsNullOrEmpty(DocumentTemplate))
-                {
-                    if (await DynamicApis.FileExistsAsync(DocumentTemplate).ConfigureAwait(false))
-                        Settings.DocumentTemplate = await DynamicApis.FileReadAllTextAsync(DocumentTemplate).ConfigureAwait(false);
-                    else
-                        Settings.DocumentTemplate = DocumentTemplate;
-
-                    if (!string.IsNullOrEmpty(Settings.DocumentTemplate) && !Settings.DocumentTemplate.StartsWith("{"))
-                        Settings.DocumentTemplate = (await SwaggerYamlDocument.FromYamlAsync(Settings.DocumentTemplate)).ToJson();
-                }
+                if (await DynamicApis.FileExistsAsync(DocumentTemplate).ConfigureAwait(false))
+                    Settings.DocumentTemplate = await DynamicApis.FileReadAllTextAsync(DocumentTemplate).ConfigureAwait(false);
                 else
-                    Settings.DocumentTemplate = null;
+                    Settings.DocumentTemplate = DocumentTemplate;
 
-                var generator = new WebApiAssemblyToSwaggerGenerator(Settings);
+                if (!string.IsNullOrEmpty(Settings.DocumentTemplate) && !Settings.DocumentTemplate.StartsWith("{"))
+                    Settings.DocumentTemplate = (await SwaggerYamlDocument.FromYamlAsync(Settings.DocumentTemplate)).ToJson();
+            }
+            else
+                Settings.DocumentTemplate = null;
 
-                var controllerNames = ControllerNames.Where(s => !string.IsNullOrWhiteSpace(s)).Distinct().ToList();
-                if (!controllerNames.Any() && Settings.AssemblySettings.AssemblyPaths?.Length > 0)
-                    controllerNames = generator.GetExportedControllerClassNames().ToList();
+            if (DocumentProcessorTypes != null)
+            {
+                foreach (var p in DocumentProcessorTypes)
+                {
+                    var processor = (IDocumentProcessor)assemblyLoader.CreateInstance(p);
+                    Settings.DocumentProcessors.Add(processor);
+                }
+            }
 
-                var document = await generator.GenerateForControllersAsync(controllerNames).ConfigureAwait(false);
-                if (ServiceHost == ".")
-                    document.Host = string.Empty;
-                else if (!string.IsNullOrEmpty(ServiceHost))
-                    document.Host = ServiceHost;
+            if (OperationProcessorTypes != null)
+            {
+                foreach (var p in OperationProcessorTypes)
+                {
+                    var processor = (IOperationProcessor)assemblyLoader.CreateInstance(p);
+                    Settings.OperationProcessors.Add(processor);
+                }
+            }
 
-                if (!string.IsNullOrEmpty(InfoTitle))
-                    document.Info.Title = InfoTitle;
-                if (!string.IsNullOrEmpty(InfoVersion))
-                    document.Info.Version = InfoVersion;
-                if (!string.IsNullOrEmpty(InfoDescription))
-                    document.Info.Description = InfoDescription;
+            if (!string.IsNullOrEmpty(TypeNameGeneratorType))
+                Settings.TypeNameGenerator = (ITypeNameGenerator)assemblyLoader.CreateInstance(TypeNameGeneratorType);
+        }
 
-                if (ServiceSchemes != null && ServiceSchemes.Any())
-                    document.Schemes = ServiceSchemes.Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true)).ToList();
+        private string[] GetControllerNames(AssemblyLoader.AssemblyLoader assemblyLoader)
+        {
+#if FullNet
+            return PathUtilities.ExpandFileWildcards(AssemblyPaths)
+                .Select(Assembly.LoadFrom)
+#else
+                var currentDirectory = DynamicApis.DirectoryGetCurrentDirectoryAsync().GetAwaiter().GetResult();
+                return PathUtilities.ExpandFileWildcards(AssemblyPaths)
+                    .Select(p => assemblyLoader.Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(p, currentDirectory)))
+#endif
+                    .SelectMany(WebApiToSwaggerGenerator.GetControllerClasses)
+                .Select(t => t.FullName)
+                .OrderBy(c => c)
+                .ToArray();
+        }
 
-                if (!string.IsNullOrEmpty(ServiceBasePath))
-                    document.BasePath = ServiceBasePath;
+        private async Task<IEnumerable<Type>> GetControllerTypesAsync(IEnumerable<string> controllerNames, AssemblyLoader.AssemblyLoader assemblyLoader)
+#pragma warning restore 1998
+        {
+            if (AssemblyPaths == null || AssemblyPaths.Length == 0)
+                throw new InvalidOperationException("No assembly paths have been provided.");
 
-                return document;
-            });
+#if FullNet
+            var assemblies = PathUtilities.ExpandFileWildcards(AssemblyPaths)
+                .Select(path => Assembly.LoadFrom(path)).ToArray();
+#else
+            var currentDirectory = await DynamicApis.DirectoryGetCurrentDirectoryAsync().ConfigureAwait(false);
+            var assemblies = PathUtilities.ExpandFileWildcards(AssemblyPaths)
+                .Select(path => assemblyLoader.Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(path, currentDirectory))).ToArray();
+#endif
+
+            var allExportedNames = assemblies.SelectMany(a => a.ExportedTypes).Select(t => t.FullName).ToList();
+            var matchedControllerNames = controllerNames
+                .SelectMany(n => PathUtilities.FindWildcardMatches(n, allExportedNames, '.'))
+                .Distinct();
+
+            var controllerNamesWithoutWildcard = controllerNames.Where(n => !n.Contains("*")).ToArray();
+            if (controllerNamesWithoutWildcard.Any(n => !matchedControllerNames.Contains(n)))
+                throw new TypeLoadException("Unable to load type for controllers: " + string.Join(", ", controllerNamesWithoutWildcard));
+
+            var controllerTypes = new List<Type>();
+            foreach (var className in matchedControllerNames)
+            {
+                var controllerType = assemblies.Select(a => a.GetType(className)).FirstOrDefault(t => t != null);
+                if (controllerType != null)
+                    controllerTypes.Add(controllerType);
+                else
+                    throw new TypeLoadException("Unable to load type for controller: " + className);
+            }
+
+            return controllerTypes;
         }
     }
 }

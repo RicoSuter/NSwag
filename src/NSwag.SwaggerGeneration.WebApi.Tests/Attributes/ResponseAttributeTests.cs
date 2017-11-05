@@ -34,7 +34,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
         public async Task When_operation_has_ResponseTypeAttribute_then_it_is_processed()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings());
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
             var document = await generator.GenerateForControllerAsync<ResponseAttributeTestController>();
@@ -49,7 +49,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
         public async Task When_operation_has_SwaggerResponseAttribute_then_it_is_processed()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings());
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
             var document = await generator.GenerateForControllerAsync<ResponseAttributeTestController>();
@@ -91,7 +91,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
         public async Task When_response_description_is_defined_then_xml_summary_is_ignored()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings());
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
             var document = await generator.GenerateForControllerAsync<MultipleAttributesController>();

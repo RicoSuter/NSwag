@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using NSwag.CodeGeneration;
 using NSwag.Commands;
-using NSwag.Commands.Base;
+using NSwag.Commands.SwaggerGeneration;
 using NSwagStudio.ViewModels.SwaggerGenerators;
 
 namespace NSwagStudio.Views.SwaggerGenerators
@@ -19,7 +19,7 @@ namespace NSwagStudio.Views.SwaggerGenerators
             Model.RaiseAllPropertiesChanged();
         }
 
-        public OutputCommandBase Command => _command;
+        public IOutputCommand Command => _command;
 
         private SwaggerInputViewModel Model => (SwaggerInputViewModel)Resources["ViewModel"];
 

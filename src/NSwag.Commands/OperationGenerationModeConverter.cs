@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using NSwag.CodeGeneration.OperationNameGenerators;
+using NSwag.Commands.CodeGeneration;
 
 namespace NSwag.Commands
 {

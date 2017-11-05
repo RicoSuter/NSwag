@@ -15,6 +15,7 @@ using MyToolkit.Command;
 using NJsonSchema;
 using NSwag;
 using NSwag.Commands;
+using NSwag.Commands.SwaggerGeneration;
 
 namespace NSwagStudio.ViewModels.SwaggerGenerators
 {
@@ -139,7 +140,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             {
                 AllControllerNames = await Task.Run(async () =>
                 {
-                    if (Command.Settings.AssemblySettings.AssemblyPaths?.Length > 0)
+                    if (Command.AssemblyPaths?.Length > 0)
                         return await Document.GetControllersFromCommandLineAsync();
                     else
                         return new string[] { };
