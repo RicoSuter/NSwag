@@ -38,7 +38,7 @@ namespace NSwag.Commands
 
         public abstract Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host);
 
-        public async Task<TResult> RunIsolatedAsync(string defaultAssemblyDirectory)
+        protected async Task<TResult> RunIsolatedAsync(string defaultAssemblyDirectory)
         {
             var assemblyDirectory = AssemblyPaths.Any() ? Path.GetDirectoryName(Path.GetFullPath(AssemblyPaths.First())) : defaultAssemblyDirectory;
             var bindingRedirects = GetBindingRedirects();
