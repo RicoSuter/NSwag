@@ -25,6 +25,16 @@ namespace NSwag.Commands.SwaggerGeneration
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
+            if (!string.IsNullOrEmpty(File))
+            {
+                var document = await NSwagDocument.LoadAsync(File);
+                var command = (WebApiToSwaggerCommand)document.SelectedSwaggerGenerator;
+
+                AssemblyPaths = command.AssemblyPaths;
+                AssemblyConfig = command.AssemblyConfig;
+                ReferencePaths = command.ReferencePaths;
+            }
+
             var classNames = await RunIsolatedAsync(!string.IsNullOrEmpty(File) ? Path.GetDirectoryName(File) : null);
 
             host.WriteMessage("\r\n");
@@ -37,20 +47,12 @@ namespace NSwag.Commands.SwaggerGeneration
 
         protected override async Task<string[]> RunIsolatedAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
-            var assemblyPaths = AssemblyPaths;
-
-            if (!string.IsNullOrEmpty(File))
-            {
-                var document = await NSwagDocument.LoadAsync(File);
-                assemblyPaths = ((WebApiToSwaggerCommand)document.SelectedSwaggerGenerator).AssemblyPaths;
-            }
-
 #if FullNet
-            return PathUtilities.ExpandFileWildcards(assemblyPaths)
+            return PathUtilities.ExpandFileWildcards(AssemblyPaths)
                 .Select(Assembly.LoadFrom)
 #else
             var currentDirectory = DynamicApis.DirectoryGetCurrentDirectoryAsync().GetAwaiter().GetResult();
-            return PathUtilities.ExpandFileWildcards(assemblyPaths)
+            return PathUtilities.ExpandFileWildcards(AssemblyPaths)
                 .Select(p => assemblyLoader.Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(p, currentDirectory)))
 #endif
                 .SelectMany(WebApiToSwaggerGenerator.GetControllerClasses)
