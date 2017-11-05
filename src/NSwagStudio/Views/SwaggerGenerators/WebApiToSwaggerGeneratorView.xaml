@@ -156,16 +156,6 @@
             <TextBox Text="{Binding Command.DefaultUrlTemplate, Mode=TwoWay}" 
                      ToolTip="DefaultUrlTemplate" Margin="0,0,0,12" />
 
-            <TextBlock Text="Document processors (type names in the form 'assemblyName:fullTypeName' or 'fullTypeName', optional, multiple on separate lines)" 
-                       TextWrapping="Wrap" FontWeight="Bold" Margin="0,0,0,6" />
-            <TextBox Text="{Binding Command.DocumentProcessorTypes, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
-                     ToolTip="DocumentProcessors" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
-
-            <TextBlock Text="Operation processors (type names in the form 'assemblyName:fullTypeName' or 'fullTypeName', optional, multiple on separate lines)"  
-                       TextWrapping="Wrap" FontWeight="Bold" Margin="0,0,0,6" />
-            <TextBox Text="{Binding Command.OperationProcessorTypes, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
-                     ToolTip="OperationProcessors" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
-
             <GroupBox Header="Swagger Information" Margin="0,0,0,8">
                 <StackPanel Margin="4,8,4,-8">
                     <TextBlock Text="Title" FontWeight="Bold" Margin="0,0,0,6" />
@@ -202,6 +192,28 @@
                                             FilePath="{Binding Command.DocumentTemplate, Mode=TwoWay}"
                                             Filter="Swagger Specification JSON (.json)|*.json|Swagger Specification YAML (.yaml)|*.yaml"
                                             DefaultExtension=".json"/>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="Type Extensions" Margin="0,0,0,8">
+                <StackPanel Margin="4,8,4,-8">
+                    <TextBlock Text="Custom IDocumentProcessor implementations (type names in the form 'assemblyName:fullTypeName' or 'fullTypeName', optional, multiple on separate lines)"  
+                               TextWrapping="Wrap" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding Command.DocumentProcessorTypes, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
+                             ToolTip="DocumentProcessors" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
+
+                    <TextBlock Text="Custom IOperationProcessor implementations (type names in the form 'assemblyName:fullTypeName' or 'fullTypeName', optional, multiple on separate lines)"  
+                               TextWrapping="Wrap" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding Command.OperationProcessorTypes, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
+                             ToolTip="OperationProcessors" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
+
+                    <TextBlock Text="Custom ITypeNameGenerator implementation (in the form 'assemblyName:fullTypeName' or 'fullTypeName', optional)" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding Command.TypeNameGeneratorType, Mode=TwoWay}" 
+                             ToolTip="TypeNameGeneratorType" Margin="0,0,0,12" />
+
+                    <TextBlock Text="Custom ISchemaNameGenerator implementation (in the form 'assemblyName:fullTypeName' or 'fullTypeName', optional)" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding Command.SchemaNameGeneratorType, Mode=TwoWay}" 
+                             ToolTip="SchemaNameGeneratorType" Margin="0,0,0,12" />
                 </StackPanel>
             </GroupBox>
 

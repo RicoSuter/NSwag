@@ -174,6 +174,9 @@ namespace NSwag.Commands.SwaggerGeneration
         [Argument(Name = "TypeNameGenerator", IsRequired = false, Description = "The custom ITypeNameGenerator implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
         public string TypeNameGeneratorType { get; set; }
 
+        [Argument(Name = "SchemaNameGenerator", IsRequired = false, Description = "The custom ISchemaNameGenerator implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
+        public string SchemaNameGeneratorType { get; set; }
+
         protected override async Task<string> RunIsolatedAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
             await TransformAsync(assemblyLoader);
@@ -243,6 +246,9 @@ namespace NSwag.Commands.SwaggerGeneration
 
             if (!string.IsNullOrEmpty(TypeNameGeneratorType))
                 Settings.TypeNameGenerator = (ITypeNameGenerator)assemblyLoader.CreateInstance(TypeNameGeneratorType);
+
+            if (!string.IsNullOrEmpty(SchemaNameGeneratorType))
+                Settings.SchemaNameGenerator = (ISchemaNameGenerator)assemblyLoader.CreateInstance(SchemaNameGeneratorType);
         }
 
         private string[] GetControllerNames(AssemblyLoader.AssemblyLoader assemblyLoader)
