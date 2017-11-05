@@ -27,7 +27,7 @@ namespace NSwag.Commands
     /// <summary>A command which is run in isolation.</summary>
     public abstract class IsolatedCommandBase<TResult> : IConsoleCommand
     {
-        [Argument(Name = "Assembly", Description = "The path or paths to the .NET assemblies (comma separated).")]
+        [Argument(Name = "Assembly", IsRequired = false, Description = "The path or paths to the .NET assemblies (comma separated).")]
         public string[] AssemblyPaths { get; set; } = new string[0];
 
         [Argument(Name = "AssemblyConfig", IsRequired = false, Description = "The path to the assembly App.config or Web.config (optional).")]
@@ -36,38 +36,39 @@ namespace NSwag.Commands
         [Argument(Name = "ReferencePaths", IsRequired = false, Description = "The paths to search for referenced assembly files (comma separated).")]
         public string[] ReferencePaths { get; set; } = new string[0];
 
-        public async Task<TResult> RunAsync()
+        public abstract Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host);
+
+        public async Task<TResult> RunIsolatedAsync(string defaultAssemblyDirectory)
         {
-            var assemblyDirectory = Path.GetDirectoryName(Path.GetFullPath(AssemblyPaths.First()));
+            var assemblyDirectory = AssemblyPaths.Any() ? Path.GetDirectoryName(Path.GetFullPath(AssemblyPaths.First())) : defaultAssemblyDirectory;
             var bindingRedirects = GetBindingRedirects();
             var assemblies = GetAssemblies(assemblyDirectory);
 
-            using (var isolated = new AppDomainIsolation<CommandAssemblyLoader<TResult>>(assemblyDirectory, AssemblyConfig, bindingRedirects, assemblies))
+            using (var isolated = new AppDomainIsolation<IsolatedCommandAssemblyLoader<TResult>>(assemblyDirectory, AssemblyConfig, bindingRedirects, assemblies))
             {
-                return await Task.Run(() => isolated.Object.Run(GetType().FullName, JsonConvert.SerializeObject(this))).ConfigureAwait(false);
+                return await Task.Run(() => isolated.Object.Run(GetType().FullName, JsonConvert.SerializeObject(this), AssemblyPaths, ReferencePaths)).ConfigureAwait(false);
             }
         }
 
-        public abstract Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host);
-
         protected abstract Task<TResult> RunIsolatedAsync(AssemblyLoader.AssemblyLoader assemblyLoader);
 
-        private class CommandAssemblyLoader<TResult> : AssemblyLoader.AssemblyLoader
+        private class IsolatedCommandAssemblyLoader<TResult> : AssemblyLoader.AssemblyLoader
         {
-            internal TResult Run(string commandType, string commandData)
+            internal TResult Run(string commandType, string commandData, string[] assemblyPaths, string[] referencePaths)
             {
+                RegisterReferencePaths(GetAllReferencePaths(assemblyPaths, referencePaths));
+
                 var type = Type.GetType(commandType);
                 var command = (IsolatedCommandBase<TResult>)JsonConvert.DeserializeObject(commandData, type);
 
-                RegisterReferencePaths(command.GetAllReferencePaths());
                 return command.RunIsolatedAsync(this).GetAwaiter().GetResult();
             }
         }
 
-        private string[] GetAllReferencePaths()
+        private static string[] GetAllReferencePaths(string[] assemblyPaths, string[] referencePaths)
         {
-            return AssemblyPaths.Select(p => Path.GetDirectoryName(PathUtilities.MakeAbsolutePath(p, Directory.GetCurrentDirectory())))
-                .Concat(ReferencePaths)
+            return assemblyPaths.Select(p => Path.GetDirectoryName(PathUtilities.MakeAbsolutePath(p, Directory.GetCurrentDirectory())))
+                .Concat(referencePaths)
                 .Distinct()
                 .ToArray();
         }

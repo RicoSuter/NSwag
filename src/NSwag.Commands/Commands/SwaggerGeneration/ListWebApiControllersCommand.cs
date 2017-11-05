@@ -13,6 +13,7 @@ using NConsole;
 using NJsonSchema.Infrastructure;
 using NSwag.AssemblyLoader.Utilities;
 using NSwag.SwaggerGeneration.WebApi;
+using System.IO;
 
 namespace NSwag.Commands.SwaggerGeneration
 {
@@ -24,7 +25,7 @@ namespace NSwag.Commands.SwaggerGeneration
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            var classNames = await RunAsync();
+            var classNames = await RunIsolatedAsync(!string.IsNullOrEmpty(File) ? Path.GetDirectoryName(File) : null);
 
             host.WriteMessage("\r\n");
             foreach (var className in classNames)

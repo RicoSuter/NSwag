@@ -21,8 +21,8 @@ namespace NSwag.Commands
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            var data = await RunAsync();
-            var document = await SwaggerDocument.FromJsonAsync((string)data).ConfigureAwait(false);
+            var documentJson = await RunIsolatedAsync(null);
+            var document = await SwaggerDocument.FromJsonAsync(documentJson).ConfigureAwait(false);
             await this.TryWriteDocumentOutputAsync(host, () => document).ConfigureAwait(false);
             return document;
         }
