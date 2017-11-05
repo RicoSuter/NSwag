@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.CSharp;
@@ -19,29 +20,26 @@ namespace NSwag.CodeGeneration.CSharp
         protected SwaggerToCSharpGeneratorSettings()
         {
             AdditionalNamespaceUsages = null;
+
             CSharpGeneratorSettings = new CSharpGeneratorSettings
             {
                 Namespace = "MyNamespace",
                 SchemaType = SchemaType.Swagger2,
             };
             CSharpGeneratorSettings.TemplateFactory = new DefaultTemplateFactory(CSharpGeneratorSettings);
-
-#if DEBUG
-            //CSharpGeneratorSettings.UseLiquidTemplates = true;
-            //CSharpGeneratorSettings.TemplateDirectory = @"C:\Data\Projects\NJsonSchema\src\NJsonSchema.CodeGeneration.CSharp\Templates\Liquid";
-#endif
         }
 
         /// <summary>Gets or sets the CSharp generator settings.</summary>
         public CSharpGeneratorSettings CSharpGeneratorSettings { get; }
+
+        /// <summary>Gets the code generator settings.</summary>
+        [JsonIgnore]
+        public override CodeGeneratorSettingsBase CodeGeneratorSettings => CSharpGeneratorSettings;
 
         /// <summary>Gets or sets the additional namespace usages.</summary>
         public string[] AdditionalNamespaceUsages { get; set; }
 
         /// <summary>Gets or sets the additional contract namespace usages.</summary>
         public string[] AdditionalContractNamespaceUsages { get; set; }
-
-        /// <summary>Gets the code generator settings.</summary>
-        public override CodeGeneratorSettingsBase CodeGeneratorSettings => CSharpGeneratorSettings;
     }
 }
