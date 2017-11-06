@@ -1,5 +1,6 @@
 ﻿using MyToolkit.Mvvm;
 using NSwag.Commands;
+using NSwag.Commands.CodeGeneration;
 using NSwagStudio.ViewModels.CodeGenerators;
 
 namespace NSwagStudio.Views.CodeGenerators

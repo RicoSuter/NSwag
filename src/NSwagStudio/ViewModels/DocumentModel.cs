@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using MyToolkit.Model;
 using NSwag.Commands;
+using NSwag.Commands.SwaggerGeneration;
 using NSwagStudio.Views.CodeGenerators;
 using NSwagStudio.Views.SwaggerGenerators;
 
@@ -26,9 +27,9 @@ namespace NSwagStudio.ViewModels
             SwaggerGeneratorViews = new ISwaggerGeneratorView[]
             {
                 new SwaggerInputView(Document.SwaggerGenerators.FromSwaggerCommand),
-                new WebApiToSwaggerGeneratorView((WebApiToSwaggerCommand) Document.SwaggerGenerators.WebApiToSwaggerCommand, document),
+                new WebApiToSwaggerGeneratorView(Document.SwaggerGenerators.WebApiToSwaggerCommand, document),
                 new JsonSchemaInputView(Document.SwaggerGenerators.JsonSchemaToSwaggerCommand),
-                new AssemblyTypeToSwaggerGeneratorView((AssemblyTypeToSwaggerCommand) Document.SwaggerGenerators.AssemblyTypeToSwaggerCommand, document),
+                new AssemblyTypeToSwaggerGeneratorView(Document.SwaggerGenerators.TypesToSwaggerCommand, document),
             };
 
             CodeGenerators = new CodeGeneratorViewBase[]

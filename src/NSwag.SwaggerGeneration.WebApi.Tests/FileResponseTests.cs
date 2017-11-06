@@ -23,7 +23,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         public async Task When_response_is_file_then_mime_type_is_bytes()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings());
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
             
             //// Act
             var document = await generator.GenerateForControllerAsync<FileResponseController>();

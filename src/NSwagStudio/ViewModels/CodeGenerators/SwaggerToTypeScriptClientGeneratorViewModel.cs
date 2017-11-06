@@ -10,7 +10,7 @@ using System;
 using System.Linq;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag.CodeGeneration.TypeScript;
-using NSwag.Commands;
+using NSwag.Commands.CodeGeneration;
 
 namespace NSwagStudio.ViewModels.CodeGenerators
 {

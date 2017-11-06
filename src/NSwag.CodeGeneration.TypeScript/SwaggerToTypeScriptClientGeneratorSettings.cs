@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.TypeScript;
@@ -21,6 +22,9 @@ namespace NSwag.CodeGeneration.TypeScript
             ClassName = "{controller}Client";
             Template = TypeScriptTemplate.Fetch;
             PromiseType = PromiseType.Promise;
+            BaseUrlTokenName = "API_BASE_URL";
+            ImportRequiredTypes = true;
+
             TypeScriptGeneratorSettings = new TypeScriptGeneratorSettings
             {
                 SchemaType = SchemaType.Swagger2,
@@ -28,19 +32,13 @@ namespace NSwag.CodeGeneration.TypeScript
                 TypeNameGenerator = new TypeScriptTypeNameGenerator()
             };
             TypeScriptGeneratorSettings.TemplateFactory = new DefaultTemplateFactory(TypeScriptGeneratorSettings);
-            BaseUrlTokenName = "API_BASE_URL";
-            ImportRequiredTypes = true;
-
-#if DEBUG
-            //TypeScriptGeneratorSettings.UseLiquidTemplates = true;
-            //TypeScriptGeneratorSettings.TemplateDirectory = @"C:\Data\Projects\NSwag\src\NSwag.CodeGeneration.TypeScript\Templates\Liquid";
-#endif
         }
 
         /// <summary>Gets or sets the TypeScript generator settings.</summary>
         public TypeScriptGeneratorSettings TypeScriptGeneratorSettings { get; }
 
         /// <summary>Gets the code generator settings.</summary>
+        [JsonIgnore]
         public override CodeGeneratorSettingsBase CodeGeneratorSettings => TypeScriptGeneratorSettings;
 
         /// <summary>Gets or sets the output template.</summary>

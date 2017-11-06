@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows;
 using NSwag.Commands;
-using NSwag.Commands.Base;
+using NSwag.Commands.CodeGeneration;
 
 namespace NSwagStudio.Views.SwaggerGenerators
 {
@@ -19,7 +19,7 @@ namespace NSwagStudio.Views.SwaggerGenerators
 
         public string Title => "JSON Schema";
 
-        public OutputCommandBase Command => _command;
+        public IOutputCommand Command => _command;
 
         public async Task<string> GenerateSwaggerAsync()
         {

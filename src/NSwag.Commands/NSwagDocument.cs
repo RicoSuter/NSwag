@@ -15,6 +15,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NSwag.AssemblyLoader.Utilities;
+using NSwag.Commands.SwaggerGeneration;
 
 namespace NSwag.Commands
 {
@@ -33,7 +34,7 @@ namespace NSwag.Commands
         public NSwagDocument()
         {
             SwaggerGenerators.WebApiToSwaggerCommand = new WebApiToSwaggerCommand();
-            SwaggerGenerators.AssemblyTypeToSwaggerCommand = new AssemblyTypeToSwaggerCommand();
+            SwaggerGenerators.TypesToSwaggerCommand = new TypesToSwaggerCommand();
         }
 
         /// <summary>Creates a new NSwagDocument.</summary>
@@ -51,7 +52,7 @@ namespace NSwag.Commands
             return LoadAsync<NSwagDocument>(filePath, new Dictionary<Type, Type>
             {
                 { typeof(WebApiToSwaggerCommand), typeof(WebApiToSwaggerCommand) },
-                { typeof(AssemblyTypeToSwaggerCommand), typeof(AssemblyTypeToSwaggerCommand) }
+                { typeof(TypesToSwaggerCommand), typeof(TypesToSwaggerCommand) }
             });
         }
 
@@ -146,7 +147,7 @@ namespace NSwag.Commands
         {
             return await Task.Run(async () =>
             {
-                if (!(SelectedSwaggerGenerator is AssemblyTypeToSwaggerCommand))
+                if (!(SelectedSwaggerGenerator is TypesToSwaggerCommand))
                     return new string[0];
 
                 var baseFilename = System.IO.Path.GetTempPath() + "nswag_document_" + Guid.NewGuid();

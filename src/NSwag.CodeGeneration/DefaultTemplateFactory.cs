@@ -6,7 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
 using System.Reflection;
 using NJsonSchema.CodeGeneration;
 using System.IO;
@@ -33,10 +32,10 @@ namespace NSwag.CodeGeneration
         /// <param name="language">The language.</param>
         /// <param name="template">The template name.</param>
         /// <returns>The template.</returns>
-        protected override string TryLoadEmbeddedLiquidTemplate(string language, string template)
+        protected override string GetEmbeddedLiquidTemplate(string language, string template)
         {
             var assembly = Assembly.Load(new AssemblyName("NSwag.CodeGeneration." + language));
-            var resourceName = "NSwag.CodeGeneration." + language + ".Templates.Liquid." + template + ".liquid";
+            var resourceName = "NSwag.CodeGeneration." + language + ".Templates." + template + ".liquid";
 
             var resource = assembly.GetManifestResourceStream(resourceName);
             if (resource != null)
@@ -45,26 +44,7 @@ namespace NSwag.CodeGeneration
                     return reader.ReadToEnd();
             }
 
-            return base.TryLoadEmbeddedLiquidTemplate(language, template);
-        }
-
-        /// <summary>Creates a T4 template.</summary>
-        /// <param name="language">The language.</param>
-        /// <param name="template">The template name.</param>
-        /// <param name="model">The template model.</param>
-        /// <returns>The template.</returns>
-        /// <exception cref="InvalidOperationException">Could not load template..</exception>
-        protected override ITemplate CreateT4Template(string language, string template, object model)
-        {
-            var typeName = "NSwag.CodeGeneration." + language + ".Templates." + template + "Template";
-            var type = Type.GetType(typeName);
-            if (type == null)
-                type = Assembly.Load(new AssemblyName("NSwag.CodeGeneration." + language))?.GetType(typeName);
-
-            if (type != null)
-                return (ITemplate)Activator.CreateInstance(type, model);
-
-            return base.CreateT4Template(language, template, model);
+            return base.GetEmbeddedLiquidTemplate(language, template);
         }
     }
 }

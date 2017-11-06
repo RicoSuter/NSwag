@@ -41,7 +41,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         public async Task When_enum_is_used_as_array_item_then_it_is_generated_only_once()
         {
             // Arrange
-            var apiGenerator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings());
+            var apiGenerator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
             var document = await apiGenerator.GenerateForControllerAsync<MyController>();
@@ -70,7 +70,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         public async Task When_response_is_enum_then_it_is_referenced()
         {
             // Arrange
-            var apiGenerator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings());
+            var apiGenerator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
 
             //// Act
             var document = await apiGenerator.GenerateForControllerAsync<MyEnumResultController>();
