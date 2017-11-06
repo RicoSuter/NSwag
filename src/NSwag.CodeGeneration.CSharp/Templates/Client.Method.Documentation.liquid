@@ -1,13 +1,13 @@
 {% if operation.HasSummary -%}
-/// <summary>{{ operation.Summary | CSharpDocs: 0 }}</summary>
+/// <summary>{{ operation.Summary | csharpdocs }}</summary>
 {% endif -%}
 {% for parameter in operation.Parameters -%}
 {%     if parameter.HasDescription -%}
-/// <param name="{{ parameter.VariableName }}">{{ parameter.Description | CSharpDocs }}</param>
+/// <param name="{{ parameter.VariableName }}">{{ parameter.Description | csharpdocs }}</param>
 {%     endif -%}
 {% endfor -%}
 {% if operation.HasResultDescription -%}
-/// <returns>{{ operation.ResultDescription | CSharpDocs }}</returns>
+/// <returns>{{ operation.ResultDescription | csharpdocs }}</returns>
 {% endif -%}
 /// <exception cref="{{ ExceptionClass }}">A server side error occurred.</exception>
 {% for exception in operation.ExceptionDescriptions -%}

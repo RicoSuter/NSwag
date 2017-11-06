@@ -4,15 +4,15 @@ public interface I{{ Class }}Controller
 {
 {%     for operation in Operations -%}
 {%         if operation.HasSummary -%}
-    /// <summary>{{ operation.Summary | CSharpDocs: 1 }}</summary>
+    /// <summary>{{ operation.Summary | csharpdocs }}</summary>
 {%         endif -%}
 {%         for parameter in operation.Parameters -%}
 {%             if parameter.HasDescription -%}
-    /// <param name="{{ parameter.VariableName }}">{{ parameter.Description | CSharpDocs: 1 }}</param>
+    /// <param name="{{ parameter.VariableName }}">{{ parameter.Description | csharpdocs }}</param>
 {%             endif -%}
 {%         endfor -%}
 {%         if operation.HasResultDescription -%}
-    /// <returns>{{ operation.ResultDescription | CSharpDocs: 1 }}</returns>
+    /// <returns>{{ operation.ResultDescription | csharpdocs }}</returns>
 {%         endif -%}
 {%         if operation.IsDeprecated -%}
     [System.Obsolete]
@@ -39,15 +39,15 @@ public partial class {{ Class }}Controller : {% if HasBaseClass %}{{ BaseClass }
 
 {%     for operation in Operations -%}
 {%         if operation.HasSummary -%}
-    /// <summary>{{ operation.Summary | CSharpDocs: 1 }}</summary>
+    /// <summary>{{ operation.Summary | csharpdocs }}</summary>
 {%         endif -%}
 {%         for parameter in operation.Parameters -%}
 {%             if parameter.HasDescription -%}
-    /// <param name="{{ parameter.VariableName }}">{{ parameter.Description | CSharpDocs: 1 }}</param>
+    /// <param name="{{ parameter.VariableName }}">{{ parameter.Description | csharpdocs }}</param>
 {%             endif -%}
 {%         endfor -%}
 {%         if operation.HasResultDescription -%}
-    /// <returns>{{ operation.ResultDescription | CSharpDocs: 1 }}</returns>
+    /// <returns>{{ operation.ResultDescription | csharpdocs }}</returns>
 {%         endif -%}
 {%         if operation.IsDeprecated -%}
     [System.Obsolete]
@@ -78,15 +78,15 @@ public abstract class {{ Class }}ControllerBase : {% if HasBaseClass %}{{ BaseCl
 {
 {%     for operation in Operations -%}
 {%         if operation.HasSummary -%}
-    /// <summary>{{ operation.Summary | CSharpDocs: 1 }}</summary>
+    /// <summary>{{ operation.Summary | csharpdocs }}</summary>
 {%         endif -%}
 {%         for parameter in operation.Parameters -%}
 {%             if parameter.HasDescription -%}
-    /// <param name="{{ parameter.VariableName }}">{{ parameter.Description | CSharpDocs: 1 }}</param>
+    /// <param name="{{ parameter.VariableName }}">{{ parameter.Description | csharpdocs }}</param>
 {%             endif -%}
 {%         endfor -%}
 {%         if operation.HasResultDescription -%}
-    /// <returns>{{ operation.ResultDescription | CSharpDocs: 1 }}</returns>
+    /// <returns>{{ operation.ResultDescription | csharpdocs }}</returns>
 {%         endif -%}
 {%         if operation.IsDeprecated -%}
     [System.Obsolete]

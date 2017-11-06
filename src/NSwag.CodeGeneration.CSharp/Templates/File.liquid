@@ -12,10 +12,10 @@ namespace {{ Namespace }}
 {
     #pragma warning disable // Disable all warnings
 
-    {{ Clients | tab: 1 }}
+    {{ Clients | tab }}
 
 {% if GenerateContracts -%}
-    {{ Classes | tab: 1 }}
+    {{ Classes | tab }}
 
 {%     if RequiresFileParameterType -%}
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
