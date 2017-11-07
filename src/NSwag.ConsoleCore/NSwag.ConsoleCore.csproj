@@ -10,8 +10,6 @@
     <PackageProjectUrl>http://NSwag.org</PackageProjectUrl>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Authors>Rico Suter</Authors>
-    <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>../NSwag.snk</AssemblyOriginatorKeyFile>
     <PackageIconUrl>https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png</PackageIconUrl>
     <Company />
     <AssemblyName>dotnet-nswag</AssemblyName>
