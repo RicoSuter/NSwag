@@ -6,7 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -59,27 +58,8 @@ namespace NSwag.Commands.SwaggerGeneration
         /// <summary>Loads the Swagger spec.</summary>
         public async Task<SwaggerDocument> RunAsync()
         {
-            if (!string.IsNullOrEmpty(Swagger))
-            {
-                if (Swagger.StartsWith("{"))
-                    return await SwaggerDocument.FromJsonAsync(Swagger).ConfigureAwait(false);
-                else
-                    return await SwaggerYamlDocument.FromYamlAsync(Swagger).ConfigureAwait(false);
-            }
-            else if (Url.StartsWith("http://") || Url.StartsWith("https://"))
-            {
-                if (Url.EndsWith(".yaml", StringComparison.OrdinalIgnoreCase))
-                    return await SwaggerYamlDocument.FromUrlAsync(Url).ConfigureAwait(false);
-                else
-                    return await SwaggerDocument.FromUrlAsync(Url).ConfigureAwait(false);
-            }
-            else
-            {
-                if (Url.EndsWith(".yaml", StringComparison.OrdinalIgnoreCase))
-                    return await SwaggerYamlDocument.FromFileAsync(Url).ConfigureAwait(false);
-                else
-                    return await SwaggerDocument.FromFileAsync(Url).ConfigureAwait(false);
-            }
+            var input = !string.IsNullOrEmpty(Swagger) ? Swagger : Url;
+            return await ReadSwaggerDocumentAsync(input);
         }
 
         /// <summary>Occurs when property changed.</summary>
