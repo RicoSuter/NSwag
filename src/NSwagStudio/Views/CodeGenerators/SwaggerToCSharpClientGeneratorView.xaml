@@ -106,8 +106,13 @@
                                          ToolTip="ProtectedMethods" Margin="0,0,0,12" />
 
                                 <CheckBox IsChecked="{Binding Command.UseBaseUrl, Mode=TwoWay}" 
-                                          Content="Use and expose the base URL" 
+                                          Content="Use the base URL for the request" 
                                           ToolTip="UseBaseUrl" Margin="0,0,0,12" />
+                                
+                                <CheckBox IsChecked="{Binding Command.GenerateBaseUrlProperty, Mode=TwoWay}" 
+                                          Visibility="{Binding Command.UseBaseUrl, Converter={StaticResource VisibilityConverter}}"
+                                          Content="Generate the BaseUrl property (must be defined on the base class otherwise)" 
+                                          ToolTip="GenerateBaseUrlProperty" Margin="0,0,0,12" />
 
                                 <CheckBox IsChecked="{Binding Command.GenerateOptionalParameters, Mode=TwoWay}" 
                                           ToolTip="GenerateOptionalParameters"
@@ -139,6 +144,10 @@
 
                                 <TextBlock Text="DateTime format for method parameters" FontWeight="Bold" Margin="0,0,0,6" />
                                 <TextBox Text="{Binding Command.ParameterDateTimeFormat, Mode=TwoWay}" ToolTip="ParameterDateTimeFormat" Margin="0,0,0,12" />
+
+                                <TextBlock Text="Null value used for query parameters which are null" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.QueryNullValue, Mode=TwoWay}" 
+                                         ToolTip="QueryNullValue" Margin="0,0,0,12" />
 
                                 <GroupBox Header="Base Class and Configuration Class" Margin="0,0,0,12">
                                     <StackPanel Margin="4,8,4,-8">

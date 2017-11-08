@@ -25,6 +25,8 @@ namespace NSwag.CodeGeneration.CSharp
             DisposeHttpClient = true;
             ParameterDateTimeFormat = "s";
             GenerateUpdateJsonSerializerSettingsMethod = true;
+            QueryNullValue = "";
+            GenerateBaseUrlProperty = true;
         }
 
         /// <summary>Gets or sets the full name of the base class.</summary>
@@ -63,6 +65,9 @@ namespace NSwag.CodeGeneration.CSharp
         /// <summary>Gets or sets a value indicating whether to use and expose the base URL (default: true).</summary>
         public bool UseBaseUrl { get; set; }
 
+        /// <summary>Gets or sets a value indicating whether to generate the BaseUrl property, must be defined on the base class otherwise (default: true).</summary>
+        public bool GenerateBaseUrlProperty { get; set; }
+
         /// <summary>Gets or sets a value indicating whether to generate synchronous methods (not recommended, default: false).</summary>
         public bool GenerateSyncMethods { get; set; }
 
@@ -80,5 +85,8 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets a value indicating whether to serialize the type information in a $type property (not recommended, also sets TypeNameHandling = Auto).</summary>
         public bool SerializeTypeInformation { get; set; }
+
+        /// <summary>Gets or sets the null value used for query parameters which are null (default: '').</summary>
+        public string QueryNullValue { get; set; }
     }
 }

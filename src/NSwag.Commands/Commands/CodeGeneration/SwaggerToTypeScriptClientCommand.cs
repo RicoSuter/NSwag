@@ -295,6 +295,14 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.BaseUrlTokenName = value; }
         }
 
+        [Argument(Name = nameof(QueryNullValue), IsRequired = false,
+            Description = "The null value used for query parameters which are null (default: '').")]
+        public string QueryNullValue
+        {
+            get { return Settings.QueryNullValue; }
+            set { Settings.QueryNullValue = value; }
+        }
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var code = await RunAsync();

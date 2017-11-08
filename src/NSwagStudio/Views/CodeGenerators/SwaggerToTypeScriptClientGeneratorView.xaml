@@ -108,6 +108,10 @@
                                               Content="Use the 'getBaseUrl(defaultUrl: string)' method from the base class" Margin="0,0,0,12" />
                                 </StackPanel>
 
+                                <TextBlock Text="Null value used for query parameters which are null" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.QueryNullValue, Mode=TwoWay}" 
+                                         ToolTip="QueryNullValue" Margin="0,0,0,12" />
+
                                 <CheckBox IsChecked="{Binding Command.GenerateClientInterfaces, Mode=TwoWay}" 
                                           ToolTip="GenerateClientInterfaces"
                                           Content="Generate interfaces for Client classes" Margin="0,0,0,12" />

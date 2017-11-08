@@ -110,6 +110,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets or sets a value indicating whether DTO exceptions are wrapped in a SwaggerException instance.</summary>
         public bool WrapDtoExceptions => _settings.WrapDtoExceptions;
 
+        /// <summary>Gets or sets the null value used for query parameters which are null.</summary>
+        public string QueryNullValue => _settings.QueryNullValue;
+
         /// <summary>Gets a value indicating whether to render for AngularJS.</summary>
         public bool IsAngularJS => _settings.Template == TypeScriptTemplate.AngularJS;
 
