@@ -14,6 +14,7 @@ namespace NSwag.Integration.Console
     public partial class GeoClient 
     {
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+    
         public GeoClient()
         {
     		_settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(() => 
@@ -810,6 +811,7 @@ namespace NSwag.Integration.Console
     public partial class PersonsClient 
     {
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+    
         public PersonsClient()
         {
     		_settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(() => 

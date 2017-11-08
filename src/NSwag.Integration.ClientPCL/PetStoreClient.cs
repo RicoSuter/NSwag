@@ -261,9 +261,9 @@ namespace PetStore
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.12.7.0 (NJsonSchema v9.10.6.0 (Newtonsoft.Json v9.0.0.0))")]
     public partial class PetStoreClient : IPetStoreClient
     {
-        private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
         private string _baseUrl = "http://petstore.swagger.io/v2";
-        
+        private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+    
         public PetStoreClient()
         {
     		_settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(() => 

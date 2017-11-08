@@ -1,15 +1,14 @@
 [System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
 {{ ClientClassAccessModifier }} partial class {{ Class }} {% if HasBaseType %}: {% endif %}{% if HasBaseClass %}{{ BaseClass }}{% if GenerateClientInterfaces %}, {% endif %}{% endif %}{% if GenerateClientInterfaces %}I{{ Class }}{% endif %}
 {
-    private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
-{% if UseBaseUrl -%}
+{% if UseBaseUrl and GenerateBaseUrlProperty -%}
     private string _baseUrl = "{{ BaseUrl }}";
-    
 {% endif -%}
 {% if InjectHttpClient -%}
-    private {{ HttpClientType }} _httpClient; 
-
+    private {{ HttpClientType }} _httpClient;
 {% endif -%}
+    private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+
 {% if HasConfigurationClass -%}
     public {{ Class }}({{ ConfigurationClass }} configuration{% if InjectHttpClient %}, {{ HttpClientType }} httpClient{% endif %}) : base(configuration)
     {

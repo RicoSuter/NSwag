@@ -11,9 +11,9 @@ namespace Uber
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.12.7.0 (NJsonSchema v9.10.6.0 (Newtonsoft.Json v9.0.0.0))")]
     public partial class Client 
     {
-        private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
         private string _baseUrl = "https://api.uber.com/v1";
-        
+        private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+    
         public Client()
         {
     		_settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(() => 

@@ -13,10 +13,9 @@ namespace NSwag.Integration.ClientPCL
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.12.7.0 (NJsonSchema v9.10.6.0 (Newtonsoft.Json v9.0.0.0))")]
     public partial class GeoClient : ClientBase
     {
-        private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
         private string _baseUrl = "http://localhost:13452";
-        
-        private System.Net.Http.HttpClient _httpClient; 
+        private System.Net.Http.HttpClient _httpClient;
+        private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
     
         public GeoClient(System.Net.Http.HttpClient httpClient)
         {
@@ -811,10 +810,9 @@ namespace NSwag.Integration.ClientPCL
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.12.7.0 (NJsonSchema v9.10.6.0 (Newtonsoft.Json v9.0.0.0))")]
     public partial class PersonsClient : ClientBase
     {
-        private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
         private string _baseUrl = "http://localhost:13452";
-        
-        private System.Net.Http.HttpClient _httpClient; 
+        private System.Net.Http.HttpClient _httpClient;
+        private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
     
         public PersonsClient(System.Net.Http.HttpClient httpClient)
         {
