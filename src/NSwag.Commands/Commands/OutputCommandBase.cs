@@ -71,7 +71,7 @@ namespace NSwag.Commands
 
         protected Task<bool> TryWriteFileOutputAsync(string path, IConsoleHost host, Func<string> generator)
         {
-            return OutputCommandExtensions.TryWriteFileOutputAsync(this, host, generator);
+            return OutputCommandExtensions.TryWriteFileOutputAsync(this, path, host, generator);
         }
     }
 }
