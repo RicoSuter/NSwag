@@ -110,7 +110,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         /// <summary>Gets the clients code.</summary>
         public string Clients => _settings.GenerateClientClasses ? _clientCode : string.Empty;
-
+        
         /// <summary>Gets the types code.</summary>
         public string Types { get; }
 
