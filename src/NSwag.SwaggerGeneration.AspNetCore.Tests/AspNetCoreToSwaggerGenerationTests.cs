@@ -442,6 +442,26 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
         }
 
         [Fact]
+        public async Task FromFormParametersAreDiscovered()
+        {
+            //// Arrange
+            var generator = new AspNetCoreToSwaggerGenerator(new AspNetCoreToSwaggerGeneratorSettings());
+            var apiDescriptions = GetApiDescriptionGroups(typeof(ControllerWithParameters));
+
+            //// Act
+            var document = await generator.GenerateAsync(apiDescriptions);
+
+            //// Assert
+            var operation = Assert.Single(document.Operations, o => o.Path == "/" + nameof(ControllerWithParameters.FromFormParameter)).Operation;
+            var parameter = Assert.Single(operation.Parameters);
+            Assert.Equal(SwaggerParameterKind.FormData, parameter.Kind);
+            Assert.Equal("parameter1", parameter.Name);
+            Assert.True(parameter.IsRequired);
+        }
+
+
+
+        [Fact]
         public async Task FormFileParametersAreDiscovered()
         {
             //// Arrange
@@ -653,6 +673,9 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
 
             [HttpPost(nameof(FromBodyParameter))]
             public IActionResult FromBodyParameter([FromBody] TestModel model) => null;
+
+            [HttpPost(nameof(FromFormParameter))]
+            public IActionResult FromFormParameter([FromForm] string parameter1) => null;
 
             [HttpPost(nameof(FileParameter))]
             public IActionResult FileParameter(IFormFileCollection formFiles) => null;
