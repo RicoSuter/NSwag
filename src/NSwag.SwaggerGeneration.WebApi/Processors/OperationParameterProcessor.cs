@@ -52,6 +52,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                 dynamic fromRouteAttribute = attributes.TryGetIfAssignableTo("Microsoft.AspNetCore.Mvc.FromRouteAttribute");
                 dynamic fromHeaderAttribute = attributes.TryGetIfAssignableTo("Microsoft.AspNetCore.Mvc.FromHeaderAttribute");
                 dynamic fromFormAttribute = attributes.TryGetIfAssignableTo("Microsoft.AspNetCore.Mvc.FromFormAttribute");
+
                 var fromBodyAttribute = attributes.TryGetIfAssignableTo("FromBodyAttribute", TypeNameStyle.Name);
                 var fromUriAttribute = attributes.TryGetIfAssignableTo("FromUriAttribute", TypeNameStyle.Name) ??
                                        attributes.TryGetIfAssignableTo("FromQueryAttribute", TypeNameStyle.Name);
