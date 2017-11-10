@@ -459,8 +459,6 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
             Assert.True(parameter.IsRequired);
         }
 
-
-
         [Fact]
         public async Task FormFileParametersAreDiscovered()
         {
@@ -724,7 +722,6 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
         {
             public BindingSource BindingSource => BindingSource.ModelBinding;
         }
-
 
         public class ReDocCodeSampleAttribute : SwaggerOperationProcessorAttribute
         {
