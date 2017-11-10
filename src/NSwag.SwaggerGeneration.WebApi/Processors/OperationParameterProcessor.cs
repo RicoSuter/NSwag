@@ -103,7 +103,6 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                         {
                             var operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(parameterName, parameter).ConfigureAwait(false);
                             operationParameter.Kind = SwaggerParameterKind.FormData;
-                            operationParameter.IsRequired = true;
 
                             context.OperationDescription.Operation.Parameters.Add(operationParameter);
                         }
