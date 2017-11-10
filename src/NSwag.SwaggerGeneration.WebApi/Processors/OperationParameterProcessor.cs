@@ -98,7 +98,8 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                             operationParameter.Kind = SwaggerParameterKind.Header;
 
                             context.OperationDescription.Operation.Parameters.Add(operationParameter);
-                        } else if (fromFormAttribute != null)
+                        }
+                        else if (fromFormAttribute != null)
                         {
                             var operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(parameterName, parameter).ConfigureAwait(false);
                             operationParameter.Kind = SwaggerParameterKind.FormData;
