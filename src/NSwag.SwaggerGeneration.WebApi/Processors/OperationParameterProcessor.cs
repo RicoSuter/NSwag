@@ -51,6 +51,8 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
 
                 dynamic fromRouteAttribute = attributes.TryGetIfAssignableTo("Microsoft.AspNetCore.Mvc.FromRouteAttribute");
                 dynamic fromHeaderAttribute = attributes.TryGetIfAssignableTo("Microsoft.AspNetCore.Mvc.FromHeaderAttribute");
+                dynamic fromFormAttribute = attributes.TryGetIfAssignableTo("Microsoft.AspNetCore.Mvc.FromFormAttribute");
+
                 var fromBodyAttribute = attributes.TryGetIfAssignableTo("FromBodyAttribute", TypeNameStyle.Name);
                 var fromUriAttribute = attributes.TryGetIfAssignableTo("FromUriAttribute", TypeNameStyle.Name) ??
                                        attributes.TryGetIfAssignableTo("FromQueryAttribute", TypeNameStyle.Name);
@@ -95,6 +97,13 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
 
                             var operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(parameterName, parameter).ConfigureAwait(false);
                             operationParameter.Kind = SwaggerParameterKind.Header;
+
+                            context.OperationDescription.Operation.Parameters.Add(operationParameter);
+                        }
+                        else if (fromFormAttribute != null)
+                        {
+                            var operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(parameterName, parameter).ConfigureAwait(false);
+                            operationParameter.Kind = SwaggerParameterKind.FormData;
 
                             context.OperationDescription.Operation.Parameters.Add(operationParameter);
                         }

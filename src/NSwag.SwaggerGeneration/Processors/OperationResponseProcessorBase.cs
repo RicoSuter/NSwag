@@ -106,7 +106,7 @@ namespace NSwag.SwaggerGeneration.Processors
 
                 if (IsVoidResponse(returnType) == false)
                 {
-                    response.IsNullableRaw = operationDescriptions.Any(r => r.IsNullable) && typeDescription.IsNullable;
+                    response.IsNullableRaw = statusCodeGroup.Any(r => r.IsNullable) && typeDescription.IsNullable;
                     response.ExpectedSchemas = await GenerateExpectedSchemasAsync(statusCodeGroup, context);
                     response.Schema = await context.SchemaGenerator
                         .GenerateWithReferenceAndNullability<JsonSchema4>(

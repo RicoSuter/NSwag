@@ -48,7 +48,7 @@ else if ({{ parameter.VariableName }} !== undefined)
             url_ += "{{ parameter.Name }}[" + index + "]." + attr + "=" + encodeURIComponent("" + item[attr]) + "&";
     });
 {%     elseif parameter.IsDate -%}
-    url_ += "{{ parameter.Name }}=" + encodeURIComponent({{ parameter.VariableName }} ? "" + {{ parameter.VariableName }}.toJSON() : "null") + "&"; 
+    url_ += "{{ parameter.Name }}=" + encodeURIComponent({{ parameter.VariableName }} ? "" + {{ parameter.VariableName }}.toJSON() : "{{ QueryNullValue }}") + "&"; 
 {%     elseif parameter.IsArray -%}
     {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach(item => { url_ += "{{ parameter.Name }}=" + encodeURIComponent("" + item) + "&"; });
 {%     else -%}

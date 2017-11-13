@@ -1,15 +1,14 @@
 [System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
 {{ ClientClassAccessModifier }} partial class {{ Class }} {% if HasBaseType %}: {% endif %}{% if HasBaseClass %}{{ BaseClass }}{% if GenerateClientInterfaces %}, {% endif %}{% endif %}{% if GenerateClientInterfaces %}I{{ Class }}{% endif %}
 {
-    private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
-{% if UseBaseUrl -%}
+{% if UseBaseUrl and GenerateBaseUrlProperty -%}
     private string _baseUrl = "{{ BaseUrl }}";
-    
 {% endif -%}
 {% if InjectHttpClient -%}
-    private {{ HttpClientType }} _httpClient; 
-
+    private {{ HttpClientType }} _httpClient;
 {% endif -%}
+    private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+
 {% if HasConfigurationClass -%}
     public {{ Class }}({{ ConfigurationClass }} configuration{% if InjectHttpClient %}, {{ HttpClientType }} httpClient{% endif %}) : base(configuration)
     {
@@ -42,7 +41,7 @@
         });
 	}
 
-{% if UseBaseUrl -%}
+{% if UseBaseUrl and GenerateBaseUrlProperty -%}
     public string BaseUrl 
     {
         get { return _baseUrl; }
@@ -118,11 +117,11 @@ if ({{ parameter.VariableName }} != null) {% endif -%}
 {%         if parameter.IsDateArray -%}
 foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString(item_.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
 {%         elseif parameter.IsDate -%}
-urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}{{ parameter.VariableName }}{% if parameter.IsSystemNullable %}.Value{% endif %}.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "null"{% endif %})).Append("&");
+urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}{{ parameter.VariableName }}{% if parameter.IsSystemNullable %}.Value{% endif %}.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "{{ QueryNullValue }}"{% endif %})).Append("&");
 {%         elseif parameter.IsArray -%}
 foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString(System.Convert.ToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
 {%         else -%}
-urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}System.Convert.ToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "null"{% endif %})).Append("&");
+urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}System.Convert.ToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "{{ QueryNullValue }}"{% endif %})).Append("&");
 {%         endif -%}
 {%     endfor -%}
 {%     if operation.HasQueryParameters -%}

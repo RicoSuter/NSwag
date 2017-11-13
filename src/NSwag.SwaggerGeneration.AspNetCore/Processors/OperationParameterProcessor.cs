@@ -110,6 +110,13 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                 }
                 else if (apiParameter.Source == BindingSource.Body)
                     await AddBodyParameterAsync(context, extendedApiParameter).ConfigureAwait(false);
+                else if (apiParameter.Source == BindingSource.Form)
+                {
+                    var operationParameter = await CreatePrimitiveParameterAsync(context, extendedApiParameter).ConfigureAwait(false);
+                    operationParameter.Kind = SwaggerParameterKind.FormData;
+
+                    context.OperationDescription.Operation.Parameters.Add(operationParameter);
+                }
                 else
                 {
                     if (await TryAddFileParameterAsync(context, extendedApiParameter).ConfigureAwait(false) == false)

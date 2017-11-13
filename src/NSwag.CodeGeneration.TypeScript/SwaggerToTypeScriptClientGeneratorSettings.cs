@@ -24,6 +24,7 @@ namespace NSwag.CodeGeneration.TypeScript
             PromiseType = PromiseType.Promise;
             BaseUrlTokenName = "API_BASE_URL";
             ImportRequiredTypes = true;
+            QueryNullValue = "";
 
             TypeScriptGeneratorSettings = new TypeScriptGeneratorSettings
             {
@@ -79,6 +80,9 @@ namespace NSwag.CodeGeneration.TypeScript
 
         /// <summary>Gets or sets a value indicating whether to use the 'getBaseUrl(defaultUrl: string)' from the base class (default: false).</summary>
         public bool UseGetBaseUrlMethod { get; set; }
+
+        /// <summary>Gets or sets the null value used for query parameters which are null (default: '').</summary>
+        public string QueryNullValue { get; set; }
 
         internal ITemplate CreateTemplate(object model)
         {
