@@ -62,6 +62,7 @@ namespace NSwag.SwaggerGeneration.Processors
             }
             catch
             {
+                // in some environments, the call to GetCustomAttributes(true) fails
                 return parameter?.GetCustomAttributes(false)?.Cast<Attribute>() ??
                     new Attribute[0];
             }

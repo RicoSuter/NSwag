@@ -24,7 +24,7 @@
     <DefineConstants>TRACE;RELEASE;FullNet;NET451</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="NJsonSchema" Version="9.10.8" />
+    <PackageReference Include="NJsonSchema" Version="9.10.9" />
     <PackageReference Include="System.Net.Http" Version="4.3.2" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
