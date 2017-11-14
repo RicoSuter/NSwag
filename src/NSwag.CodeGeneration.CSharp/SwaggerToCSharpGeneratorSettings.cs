@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.CSharp;
+using System.Reflection;
 
 namespace NSwag.CodeGeneration.CSharp
 {
@@ -26,7 +27,12 @@ namespace NSwag.CodeGeneration.CSharp
                 Namespace = "MyNamespace",
                 SchemaType = SchemaType.Swagger2,
             };
-            CSharpGeneratorSettings.TemplateFactory = new DefaultTemplateFactory(CSharpGeneratorSettings);
+
+            CSharpGeneratorSettings.TemplateFactory = new DefaultTemplateFactory(CSharpGeneratorSettings, new Assembly[]
+            {
+                typeof(CSharpGeneratorSettings).GetTypeInfo().Assembly,
+                typeof(SwaggerToCSharpGeneratorSettings).GetTypeInfo().Assembly,
+            });
         }
 
         /// <summary>Gets or sets the CSharp generator settings.</summary>
