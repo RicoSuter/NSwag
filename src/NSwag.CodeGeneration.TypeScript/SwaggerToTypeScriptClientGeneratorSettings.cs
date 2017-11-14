@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.TypeScript;
+using System.Reflection;
 
 namespace NSwag.CodeGeneration.TypeScript
 {
@@ -32,7 +33,12 @@ namespace NSwag.CodeGeneration.TypeScript
                 MarkOptionalProperties = true,
                 TypeNameGenerator = new TypeScriptTypeNameGenerator()
             };
-            TypeScriptGeneratorSettings.TemplateFactory = new DefaultTemplateFactory(TypeScriptGeneratorSettings);
+
+            TypeScriptGeneratorSettings.TemplateFactory = new DefaultTemplateFactory(TypeScriptGeneratorSettings, new Assembly[]
+            {
+                typeof(TypeScriptGeneratorSettings).GetTypeInfo().Assembly,
+                typeof(SwaggerToTypeScriptClientGeneratorSettings).GetTypeInfo().Assembly,
+            });
         }
 
         /// <summary>Gets or sets the TypeScript generator settings.</summary>

@@ -17,7 +17,9 @@ namespace NSwag.CodeGeneration
     {
         /// <summary>Initializes a new instance of the <see cref="DefaultTemplateFactory" /> class.</summary>
         /// <param name="settings">The settings.</param>
-        public DefaultTemplateFactory(CodeGeneratorSettingsBase settings) : base(settings)
+        /// <param name="assemblies">The assemblies.</param>
+        public DefaultTemplateFactory(CodeGeneratorSettingsBase settings, Assembly[] assemblies) 
+            : base(settings, assemblies)
         {
         }
 

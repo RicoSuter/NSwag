@@ -80,7 +80,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                         httpStatusCode = apiResponse.StatusCode.ToString(CultureInfo.InvariantCulture);
 
                     var typeDescription = _settings.ReflectionService.GetDescription(
-                        returnType, context.MethodInfo.ReturnParameter?.GetCustomAttributes(), _settings);
+                        returnType, GetParameterAttributes(context.MethodInfo.ReturnParameter), _settings);
 
                     if (IsVoidResponse(returnType) == false)
                     {
