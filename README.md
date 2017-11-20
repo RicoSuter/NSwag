@@ -45,6 +45,14 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 
 **Code Generators:** 
 
+- **CSharp Client**
+	- [SwaggerToCSharpClientGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToCSharpClientGenerator)
+		- Generates C# clients from a Swagger specification
+		- Generates POCOs or classes implementing [INotifyPropertyChanged](https://msdn.microsoft.com/en-us/library/system.componentmodel.inotifypropertychanged(v=vs.110).aspx) supporting DTOs
+		- The generated clients can be used with full .NET, .NET Core, Xamarin and .NET Standard 1.4 in general
+- **CSharp Controllers** (contract first/schema first development)
+	- [SwaggerToCSharpControllerGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToCSharpControllerGenerator)
+	    - Generates Web API Controllers based on a Swagger specification (ASP.NET Web API and ASP.NET Core)
 - **TypeScript Client**
 	- [SwaggerToTypeScriptClientGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToTypeScriptClientGenerator)
 		- Generates TypeScript clients from a Swagger specification
@@ -55,14 +63,6 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 			- Angular (v2+) using the http service, `Angular`
 			- window.fetch API and ES6 promises, `Fetch` (use this template in your React/Redux app)
 			- Aurelia using the HttpClient from aurelia-fetch-client, `Aurelia` (based on the Fetch template)
-- **CSharp Client**
-	- [SwaggerToCSharpClientGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToCSharpClientGenerator)
-		- Generates C# clients from a Swagger specification
-		- Generates POCOs or classes implementing [INotifyPropertyChanged](https://msdn.microsoft.com/en-us/library/system.componentmodel.inotifypropertychanged(v=vs.110).aspx) supporting DTOs
-		- The generated clients can be used with full .NET, .NET Core, Xamarin and .NET Standard 1.4 in general
-- **CSharp WebAPI Controllers** (contract first/schema first development)
-	- [SwaggerToCSharpControllerGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToCSharpControllerGenerator)
-	    - Generates Web API Controllers based on a Swagger specification
 	    
 **Downloads**
 
