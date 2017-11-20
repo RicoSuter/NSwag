@@ -35,7 +35,7 @@ namespace NSwag.CodeGeneration.CSharp
             });
         }
 
-        /// <summary>Gets or sets the CSharp generator settings.</summary>
+        /// <summary>Gets the CSharp generator settings.</summary>
         public CSharpGeneratorSettings CSharpGeneratorSettings { get; }
 
         /// <summary>Gets the code generator settings.</summary>
