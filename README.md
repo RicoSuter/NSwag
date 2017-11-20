@@ -106,7 +106,7 @@ ASP.NET:
 
 - **[NSwag.AspNetCore](https://www.nuget.org/packages/NSwag.AspNetCore/)** (.NET Standard 1.6 and .NET 4.5.1+): 
 - **[NSwag.AspNet.Owin](https://www.nuget.org/packages/NSwag.AspNet.Owin/)** (.NET 4.5+): 
-    - ASP.NET Core/OWIN middlewares for serving Swagger specifications and Swagger UI
+    - [ASP.NET Core/OWIN middlewares](https://github.com/NSwag/NSwag/wiki/Middlewares) for serving Swagger specifications and Swagger UI
 - **[NSwag.AspNet.WebApi](https://www.nuget.org/packages/NSwag.AspNet.WebApi/)** (.NET 4.5+): 
     - ASP.NET Web API filter which serializes exceptions ([JsonExceptionFilterAttribute](https://github.com/NSwag/NSwag/wiki/JsonExceptionFilterAttribute))
 
