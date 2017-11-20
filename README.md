@@ -59,6 +59,7 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 	- [SwaggerToCSharpClientGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToCSharpClientGenerator)
 		- Generates C# clients from a Swagger specification
 		- Generates POCOs or classes implementing [INotifyPropertyChanged](https://msdn.microsoft.com/en-us/library/system.componentmodel.inotifypropertychanged(v=vs.110).aspx) supporting DTOs
+		- The generated clients can be used with full .NET, .NET Core, Xamarin and .NET Standard 1.4 in general
 - **CSharp WebAPI Controllers** (contract first/schema first development)
 	- [SwaggerToCSharpControllerGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToCSharpControllerGenerator)
 	    - Generates Web API Controllers based on a Swagger specification
