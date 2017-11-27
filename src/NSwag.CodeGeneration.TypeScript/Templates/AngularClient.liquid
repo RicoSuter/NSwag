@@ -79,7 +79,7 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
             return this.process{{ operation.ActualOperationNameUpper }}(response_);
 {%     endif -%}
         }).catch((response_: any) => {
-            if (response_ instanceof {% if UseAngularHttpClient %}HttpResponse{% else %}Response{% endif %}) {
+            if (response_ instanceof {% if UseAngularHttpClient %}HttpResponseBase{% else %}Response{% endif %}) {
                 try {
 {%     if UseTransformResultMethod -%}
                     return this.transformResult(url_, response_, (r) => this.process{{ operation.ActualOperationNameUpper }}(r));
@@ -94,7 +94,7 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
         });
     }
 
-    protected process{{ operation.ActualOperationNameUpper }}(response: {% if UseAngularHttpClient %}HttpResponse<Blob>{% else %}Response{% endif %}): Observable<{{ operation.ResultType }}> {
+    protected process{{ operation.ActualOperationNameUpper }}(response: {% if UseAngularHttpClient %}HttpResponseBase{% else %}Response{% endif %}): Observable<{{ operation.ResultType }}> {
         const status = response.status; 
 
         {% template Client.ProcessResponse %}

@@ -4,7 +4,7 @@ const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(co
 const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
 {%     if operation.WrapResponse -%}
 {%         if IsAngular -%}
-return Observable.of(new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, data: <any>response.{% if UseAngularHttpClient %}body{% else %}blob(){% endif %}, status: status, headers: _headers }));
+return Observable.of(new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, data: <any>{% if UseAngularHttpClient %}(<HttpResponse<Blob>>response).body{% else %}response.blob(){% endif %}, status: status, headers: _headers }));
 {%         elseif IsAngularJS -%}
 return this.q.resolve(new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, status: status, data: new Blob([response]), headers: _headers }));
 {%         else -%}
@@ -12,7 +12,7 @@ return response.blob().then(blob => { return new {{ operation.ResponseClass }}(s
 {%         endif -%}
 {%     else -%}
 {%         if IsAngular -%}
-return Observable.of({ fileName: fileName, data: <any>response.{% if UseAngularHttpClient %}body{% else %}blob(){% endif %}, status: status, headers: _headers });
+return Observable.of({ fileName: fileName, data: <any>{% if UseAngularHttpClient %}(<HttpResponse<Blob>>response).body{% else %}response.blob(){% endif %}, status: status, headers: _headers });
 {%         elseif IsAngularJS -%}
 return this.q.resolve({ fileName: fileName, status: status, data: new Blob([response]), headers: _headers });
 {%         else -%}
