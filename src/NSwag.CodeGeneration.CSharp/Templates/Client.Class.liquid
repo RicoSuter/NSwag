@@ -189,7 +189,7 @@ urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({
                 var content_ = new System.Net.Http.StringContent(string.Empty);
 {%         endif -%}
 {%     endif -%}
-{%     if operation.IsGetOrDeleteOrHead == false -%}
+{%     if operation.HasContent or operation.HasFormParameters or operation.IsGetOrDeleteOrHead == false -%}
                 request_.Content = content_;
 {%     endif -%}
                 request_.Method = new System.Net.Http.HttpMethod("{{ operation.HttpMethodUpper | upcase }}");
