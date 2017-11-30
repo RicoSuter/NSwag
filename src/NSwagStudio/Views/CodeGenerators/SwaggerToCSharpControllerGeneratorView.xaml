@@ -43,7 +43,7 @@
 
                     <CheckBox IsChecked="{Binding Command.UseCancellationToken, Mode=TwoWay}" 
                               Content="Add cancellation token to controller methods" Margin="0,0,0,12" />
-                    
+
                     <CheckBox IsChecked="{Binding Command.WrapResponses, Mode=TwoWay}" 
                               Content="Wrap success responses to allow full response access" Margin="0,0,0,12" />
 
@@ -165,17 +165,21 @@
                         </StackPanel>
                     </GroupBox>
 
-                    <TextBlock Text="Output file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
-                    <dialogs:FileSavePicker DefaultExtension=".cs" Filter="CSharp Files (.cs)|*.cs"
-                                            FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" 
-                                            Margin="0,0,0,12" />
-                    
-                    <GroupBox Header="Templating (experimental)" Margin="0,0,0,12">
+                    <GroupBox Header="Templating" Margin="0,0,0,12">
                         <StackPanel Margin="4,8,4,-8">
                             <TextBlock Text="Template directory" FontWeight="Bold" Margin="0,0,0,6" />
                             <TextBox Text="{Binding Command.TemplateDirectory, Mode=TwoWay}"
                                      ToolTip="TemplateDirectory"
                                      Margin="0,0,0,12" />
+                        </StackPanel>
+                    </GroupBox>
+
+                    <GroupBox Header="Output" Margin="0,0,0,12">
+                        <StackPanel Margin="4,8,4,-8">
+                            <TextBlock Text="Output file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
+                            <dialogs:FileSavePicker DefaultExtension=".cs" Filter="CSharp Files (.cs)|*.cs"
+                                            FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" 
+                                            Margin="0,0,0,12" />
                         </StackPanel>
                     </GroupBox>
                 </StackPanel>
