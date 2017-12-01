@@ -10,7 +10,7 @@ public partial interface I{{ Class }}
 {%   endif -%}
 {%   if GenerateSyncMethods -%}
     {% template Client.Method.Documentation %}
-    {{ operation.UnwrappedResultType }} {{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}{% if parameter.IsLast == false %}, {% endif %}{% endfor %});
+    {{ operation.SyncResultType }} {{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}{% if parameter.IsLast == false %}, {% endif %}{% endfor %});
 
 {%   endif -%}
     {% template Client.Method.Documentation %}
