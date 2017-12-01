@@ -309,26 +309,30 @@
                         </StackPanel>
                     </GroupBox>
 
-                    <TextBlock Text="Output file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
-                    <dialogs:FileSavePicker DefaultExtension=".cs" Filter="CSharp Files (.cs)|*.cs"
-                                            FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" 
-                                            ToolTip="Output"
-                                            Margin="0,0,0,12" />
-
-                    <StackPanel Visibility="{Binding Command.GenerateContractsOutput, Converter={StaticResource VisibilityConverter}}">
-                        <TextBlock Text="Contracts output file path (empty: single output file output)" FontWeight="Bold" Margin="0,0,0,6" />
-                        <dialogs:FileSavePicker DefaultExtension=".cs" Filter="CSharp Files (.cs)|*.cs"
-                                                FilePath="{Binding Command.ContractsOutputFilePath, Mode=TwoWay}" 
-                                                ToolTip="ContractsOutput"
-                                                Margin="0,0,0,12" />
-                    </StackPanel>
-
-                    <GroupBox Header="Templating (experimental)" Margin="0,0,0,12">
+                    <GroupBox Header="Templating" Margin="0,0,0,12">
                         <StackPanel Margin="4,8,4,-8">
                             <TextBlock Text="Template directory" FontWeight="Bold" Margin="0,0,0,6" />
                             <TextBox Text="{Binding Command.TemplateDirectory, Mode=TwoWay}"
                                      ToolTip="TemplateDirectory"
                                      Margin="0,0,0,12" />
+                        </StackPanel>
+                    </GroupBox>
+
+                    <GroupBox Header="Output" Margin="0,0,0,12">
+                        <StackPanel Margin="4,8,4,-8">
+                            <TextBlock Text="Output file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
+                            <dialogs:FileSavePicker DefaultExtension=".cs" Filter="CSharp Files (.cs)|*.cs"
+                                            FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" 
+                                            ToolTip="Output"
+                                            Margin="0,0,0,12" />
+
+                            <StackPanel Visibility="{Binding Command.GenerateContractsOutput, Converter={StaticResource VisibilityConverter}}">
+                                <TextBlock Text="Contracts output file path (empty: single output file output)" FontWeight="Bold" Margin="0,0,0,6" />
+                                <dialogs:FileSavePicker DefaultExtension=".cs" Filter="CSharp Files (.cs)|*.cs"
+                                                FilePath="{Binding Command.ContractsOutputFilePath, Mode=TwoWay}" 
+                                                ToolTip="ContractsOutput"
+                                                Margin="0,0,0,12" />
+                            </StackPanel>
                         </StackPanel>
                     </GroupBox>
                 </StackPanel>

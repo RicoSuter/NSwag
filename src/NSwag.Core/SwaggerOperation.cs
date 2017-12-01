@@ -124,14 +124,7 @@ namespace NSwag
 
         /// <summary>Gets the responses from the operation and from the <see cref="SwaggerDocument"/> and dereferences them if necessary.</summary>
         [JsonIgnore]
-        public IReadOnlyDictionary<string, SwaggerResponse> ActualResponses
-        {
-            get
-            {
-                var empty = new Dictionary<string, SwaggerResponse>();
-                return (Responses ?? empty).Concat(Parent.Parent.Responses ?? empty).ToDictionary(t => t.Key, t => t.Value.ActualResponse);
-            }
-        }
+        public IReadOnlyDictionary<string, SwaggerResponse> ActualResponses => Responses.ToDictionary(t => t.Key, t => t.Value.ActualResponse);
 
         /// <summary>Gets the actual security description, either from the operation or from the <see cref="SwaggerDocument"/>.</summary>
         [JsonIgnore]

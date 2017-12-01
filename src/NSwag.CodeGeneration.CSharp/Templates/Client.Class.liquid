@@ -67,7 +67,7 @@
 {%     endif -%}
 {%     if GenerateSyncMethods -%}
     {% template Client.Method.Documentation %}
-    {{ operation.MethodAccessModifier }} {{ operation.UnwrappedResultType }} {{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}{% if parameter.IsLast == false %}, {% endif %}{% endfor %})
+    {{ operation.MethodAccessModifier }} {{ operation.SyncResultType }} {{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}{% if parameter.IsLast == false %}, {% endif %}{% endfor %})
     {
         {% if operation.HasResult %}return {% endif %}System.Threading.Tasks.Task.Run(async () => await {{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.VariableName }}, {% endfor %}System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
     }
@@ -161,6 +161,7 @@ urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({
                 var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject({{ operation.ContentParameter.VariableName }}, {% if SerializeTypeInformation %}typeof({{ operation.ContentParameter.Type }}), {% endif %}_settings.Value));
                 content_.Headers.ContentType.MediaType = "{{ operation.Consumes }}";
 {%         endif -%}
+                request_.Content = content_;
 {%     else -%}
 {%         if operation.HasFormParameters -%}
                 var boundary_ = System.Guid.NewGuid().ToString();
@@ -185,12 +186,10 @@ urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({
                     content_.Add(new System.Net.Http.StringContent(System.Convert.ToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture)), "{{ parameter.Name }}");
 {%                 endif -%}
 {%             endfor -%}
-{%         elseif operation.IsGetOrDeleteOrHead == false -%}
-                var content_ = new System.Net.Http.StringContent(string.Empty);
-{%         endif -%}
-{%     endif -%}
-{%     if operation.IsGetOrDeleteOrHead == false -%}
                 request_.Content = content_;
+{%         elseif operation.IsGetOrDeleteOrHead == false -%}
+                request_.Content = new System.Net.Http.StringContent(string.Empty);
+{%         endif -%}
 {%     endif -%}
                 request_.Method = new System.Net.Http.HttpMethod("{{ operation.HttpMethodUpper | upcase }}");
 {%     if operation.HasResultType and operation.HasAcceptHeaderParameterParameter == false -%}
@@ -202,6 +201,7 @@ urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({
                 request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                 PrepareRequest(client_, request_, url_);
 
+                {% template Client.Class.BeforeSend %}
                 var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                 try
                 {
