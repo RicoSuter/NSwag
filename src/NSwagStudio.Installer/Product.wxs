@@ -65,7 +65,7 @@
                        Name="installed" Type="integer"
                        Value="1" KeyPath="yes"/>
 
-        <Environment Id="PATH" Name="PATH" Value="[RootDirectory]full" Permanent="no" Part="last" Action="set" System="no" />
+        <Environment Id="PATH" Name="PATH" Value="[RootDirectory]Win" Permanent="no" Part="last" Action="set" System="no" />
 
         <Shortcut Id="ApplicationStartMenuShortcut"
                   Icon="ApplicationIcon"
@@ -81,7 +81,7 @@
         <ProgId Id='NSwagFile' Description='NSwag Configuration file'>
           <Extension Id='nswag' ContentType='application/json'>
             <Verb Id='open' Command='Open'
-                  TargetFile='fil3D998DFDF0171F45FA4994B3076A1BE3'
+                  TargetFile='filF3BD24AA0D122986D3F6250EA6C47D5B'
                   Argument='"%1"' />
           </Extension>
         </ProgId>
