@@ -74,7 +74,7 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
         return this.http.request({% if UseAngularHttpClient %}"{{ operation.HttpMethodLower }}", {% endif %}url_, options_).flatMap((response_ : any) => {
 {%     endif -%}
 {%     if UseTransformResultMethod -%}
-            return this.transformResult(url_, response_, (r) => this.process{{ operation.ActualOperationNameUpper }}(r));
+            return this.transformResult(url_, response_, (r) => this.process{{ operation.ActualOperationNameUpper }}(<any>r));
 {%     else -%}
             return this.process{{ operation.ActualOperationNameUpper }}(response_);
 {%     endif -%}
