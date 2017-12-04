@@ -33,6 +33,12 @@ namespace NSwag.CodeGeneration.CSharp
                 typeof(CSharpGeneratorSettings).GetTypeInfo().Assembly,
                 typeof(SwaggerToCSharpGeneratorSettings).GetTypeInfo().Assembly,
             });
+
+            ResponseArrayType = "System.Collections.Generic.ICollection";
+            ResponseDictionaryType = "System.Collections.Generic.IDictionary";
+
+            ParameterArrayType = "System.Collections.Generic.IEnumerable";
+            ParameterDictionaryType = "System.Collections.Generic.IReadOnlyDictionary";
         }
 
         /// <summary>Gets the CSharp generator settings.</summary>
@@ -47,5 +53,17 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets the additional contract namespace usages.</summary>
         public string[] AdditionalContractNamespaceUsages { get; set; }
+
+        /// <summary>Gets or sets the array type of operation responses (i.e. the method return type).</summary>
+        public string ResponseArrayType { get; set; }
+
+        /// <summary>Gets or sets the dictionary type of operation responses (i.e. the method return type).</summary>
+        public string ResponseDictionaryType { get; set; }
+
+        /// <summary>Gets or sets the array type of operation parameters.</summary>
+        public string ParameterArrayType { get; set; }
+
+        /// <summary>Gets or sets the dictionary type of operation parameters.</summary>
+        public string ParameterDictionaryType { get; set; }
     }
 }

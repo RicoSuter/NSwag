@@ -14,10 +14,10 @@ using NSwag.CodeGeneration.CSharp;
 
 namespace NSwag.Commands.CodeGeneration
 {
-    public abstract class SwaggerToCSharpCommand<TSettings> : CodeGeneratorCommandBase<TSettings>
+    public abstract class SwaggerToCSharpCommandBase<TSettings> : CodeGeneratorCommandBase<TSettings>
          where TSettings : SwaggerToCSharpGeneratorSettings
     {
-        protected SwaggerToCSharpCommand(TSettings settings)
+        protected SwaggerToCSharpCommandBase(TSettings settings)
             : base(settings)
         {
         }
@@ -113,6 +113,34 @@ namespace NSwag.Commands.CodeGeneration
         {
             get { return Settings.CSharpGeneratorSettings.DictionaryType; }
             set { Settings.CSharpGeneratorSettings.DictionaryType = value; }
+        }
+
+        [Argument(Name = "ParameterArrayType", IsRequired = false, Description = "The generic array .NET type of operation parameters (default: 'IEnumerable').")]
+        public string ParameterArrayType
+        {
+            get { return Settings.ParameterArrayType; }
+            set { Settings.ParameterArrayType = value; }
+        }
+
+        [Argument(Name = "ParameterDictionaryType", IsRequired = false, Description = "The generic dictionary .NET type of operation parameters (default: 'IReadOnlyDictionary').")]
+        public string ParameterDictionaryType
+        {
+            get { return Settings.ParameterDictionaryType; }
+            set { Settings.ParameterDictionaryType = value; }
+        }
+
+        [Argument(Name = "ResponseArrayType", IsRequired = false, Description = "The generic array .NET type of operation responses (default: 'ICollection').")]
+        public string ResponseArrayType
+        {
+            get { return Settings.ResponseArrayType; }
+            set { Settings.ResponseArrayType = value; }
+        }
+
+        [Argument(Name = "ResponseDictionaryType", IsRequired = false, Description = "The generic dictionary .NET type of operation responses (default: 'IDictionary').")]
+        public string ResponseDictionaryType
+        {
+            get { return Settings.ResponseDictionaryType; }
+            set { Settings.ResponseDictionaryType = value; }
         }
 
         [Argument(Name = "ClassStyle", IsRequired = false, Description = "The CSharp class style, 'Poco' or 'Inpc' (default: 'Inpc').")]

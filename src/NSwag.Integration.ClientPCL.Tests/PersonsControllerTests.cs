@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSwag.Integration.ClientPCL.Contracts;
+using System.Linq;
 
 namespace NSwag.Integration.ClientPCL.Tests
 {
@@ -22,8 +23,8 @@ namespace NSwag.Integration.ClientPCL.Tests
 
             //// Assert
             Assert.AreEqual(2, persons.Result.Count);
-            Assert.IsTrue(persons.Result[0].GetType() == typeof(Person));
-            Assert.IsTrue(persons.Result[1].GetType() == typeof(Teacher));
+            Assert.IsTrue(persons.Result.ToList()[0].GetType() == typeof(Person));
+            Assert.IsTrue(persons.Result.ToList()[1].GetType() == typeof(Teacher));
         }
 
         [TestMethod]
@@ -50,7 +51,7 @@ namespace NSwag.Integration.ClientPCL.Tests
             var persons = await personsClient.GetAllAsync();
 
             //// Assert
-            Assert.AreEqual("SE", ((Teacher)persons.Result[1]).Course); // inheritance test
+            Assert.AreEqual("SE", ((Teacher)persons.Result.ToList()[1]).Course); // inheritance test
         }
 
         [TestMethod]
