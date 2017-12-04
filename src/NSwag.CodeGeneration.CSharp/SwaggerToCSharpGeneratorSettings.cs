@@ -34,11 +34,11 @@ namespace NSwag.CodeGeneration.CSharp
                 typeof(SwaggerToCSharpGeneratorSettings).GetTypeInfo().Assembly,
             });
 
-            ResponseArrayType = "System.Collections.Generic.ICollection";
-            ResponseDictionaryType = "System.Collections.Generic.IDictionary";
+            ResponseArrayType = "System.Collections.ObjectModel.ObservableCollection";
+            ResponseDictionaryType = "System.Collections.Generic.Dictionary";
 
             ParameterArrayType = "System.Collections.Generic.IEnumerable";
-            ParameterDictionaryType = "System.Collections.Generic.IReadOnlyDictionary";
+            ParameterDictionaryType = "System.Collections.Generic.IDictionary";
         }
 
         /// <summary>Gets the CSharp generator settings.</summary>
