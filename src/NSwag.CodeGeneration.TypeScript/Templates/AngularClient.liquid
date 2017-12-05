@@ -94,8 +94,13 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
         });
     }
 
-    protected process{{ operation.ActualOperationNameUpper }}(response: {% if UseAngularHttpClient %}HttpResponse<Blob>{% else %}Response{% endif %}): Observable<{{ operation.ResultType }}> {
-        const status = response.status; 
+    protected process{{ operation.ActualOperationNameUpper }}(response: {% if UseAngularHttpClient %}HttpResponseBase{% else %}Response{% endif %}): Observable<{{ operation.ResultType }}> {
+        const status = response.status;
+{% if UseAngularHttpClient -%}
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            response instanceof HttpErrorResponse ? response.error : undefined;
+{% endif -%}
 
         {% template Client.ProcessResponse %}
     }
