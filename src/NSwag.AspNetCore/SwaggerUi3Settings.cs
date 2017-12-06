@@ -29,7 +29,7 @@ namespace NSwag.AspNetCore
         public string DocExpansion { get; set; } = "none";
 
         /// <summary>Gets or sets the server URL.</summary>
-        public string ServerUrl { get; set; }
+        public string ServerUrl { get; set; } = "";
 
         internal override string TransformHtml(string html)
         {
