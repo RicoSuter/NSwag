@@ -43,7 +43,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("addMessage(message: Foo | null): Observable<void>"));
+            Assert.IsTrue(code.Contains("addMessage(message: Foo | null | undefined): Observable<void>"));
         }
     }
 }
