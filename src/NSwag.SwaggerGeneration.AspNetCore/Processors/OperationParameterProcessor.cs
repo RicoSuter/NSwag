@@ -241,12 +241,14 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
             }
             else
             {
+                var typeDescription = _settings.ReflectionService.GetDescription(extendedApiParameter.ApiParameter.Type, extendedApiParameter.Attributes, _settings);
+
                 var operationParameter = new SwaggerParameter
                 {
                     Name = extendedApiParameter.ApiParameter.Name,
                     Kind = SwaggerParameterKind.Body,
-                    // FromBody parameters are always required.
-                    IsRequired = true,
+                    IsRequired = true, // FromBody parameters are always required.
+                    IsNullableRaw = typeDescription.IsNullable,
                     Description = await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false),
                     Schema = await context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema4>(
                         extendedApiParameter.ApiParameter.Type, extendedApiParameter.Attributes, isNullable: false, schemaResolver: context.SchemaResolver).ConfigureAwait(false)

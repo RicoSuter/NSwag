@@ -29,6 +29,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             //// Arrange
             var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<DiscussionController>();
+            var json = document.ToJson();
 
             //// Act
             var codeGen = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
@@ -43,7 +44,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("addMessage(message: Foo | null | undefined): Observable<void>"));
+            Assert.IsTrue(code.Contains("addMessage(message: Foo | null): Observable<void>"));
         }
     }
 }
