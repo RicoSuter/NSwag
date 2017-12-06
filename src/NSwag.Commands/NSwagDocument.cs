@@ -170,7 +170,11 @@ namespace NSwag.Commands
         /// <returns>The absolute path.</returns>
         protected override string ConvertToAbsolutePath(string pathToConvert)
         {
-            if (!string.IsNullOrEmpty(pathToConvert) && !System.IO.Path.IsPathRooted(pathToConvert))
+            if (string.IsNullOrEmpty(pathToConvert))
+                return pathToConvert;
+
+            pathToConvert = Environment.ExpandEnvironmentVariables(pathToConvert);
+            if (!System.IO.Path.IsPathRooted(pathToConvert))
                 return PathUtilities.MakeAbsolutePath(pathToConvert, GetDocumentDirectory());
             return pathToConvert;
         }
@@ -220,7 +224,7 @@ namespace NSwag.Commands
             processStart.CreateNoWindow = true;
 
             var process = Process.Start(processStart);
-            var output = await process.StandardOutput.ReadToEndAsync() + 
+            var output = await process.StandardOutput.ReadToEndAsync() +
                 "\n\n" + await process.StandardError.ReadToEndAsync();
 
             if (process.ExitCode != 0)
