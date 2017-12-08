@@ -191,8 +191,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
             }
 
             return base.ResolveParameterType(parameter)
-                .Replace(_settings.CSharpGeneratorSettings.ArrayType + "<", "System.Collections.Generic.IEnumerable<")
-                .Replace(_settings.CSharpGeneratorSettings.DictionaryType + "<", "System.Collections.Generic.IDictionary<");
+                .Replace(_settings.CSharpGeneratorSettings.ArrayType + "<", _settings.ParameterArrayType + "<")
+                .Replace(_settings.CSharpGeneratorSettings.DictionaryType + "<", _settings.ParameterDictionaryType + "<");
         }
 
         /// <summary>Creates the response model.</summary>

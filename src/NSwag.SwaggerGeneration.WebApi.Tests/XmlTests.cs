@@ -49,7 +49,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
             //// Assert
             Assert.IsTrue(code.Contains("(string xmlDocument, "));
             Assert.IsTrue(code.Contains("var content_ = new System.Net.Http.StringContent(xmlDocument);"));
-            Assert.IsTrue(code.Contains("content_.Headers.ContentType.MediaType = \"application/xml\";"));
+            Assert.IsTrue(code.Contains("content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse(\"application/xml\");"));
         }
 
         [TestMethod]

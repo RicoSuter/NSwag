@@ -153,14 +153,12 @@ urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({
 {%     if operation.HasContent -%}
 {%         if operation.HasBinaryBodyParameter -%}
                 var content_ = new System.Net.Http.StreamContent({{ operation.ContentParameter.VariableName }});
-                content_.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("{{ operation.Consumes }}");
 {%         elseif operation.HasXmlBodyParameter -%}
                 var content_ = new System.Net.Http.StringContent({{ operation.ContentParameter.VariableName }});
-                content_.Headers.ContentType.MediaType = "{{ operation.Consumes }}";
 {%         else -%}
                 var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject({{ operation.ContentParameter.VariableName }}, {% if SerializeTypeInformation %}typeof({{ operation.ContentParameter.Type }}), {% endif %}_settings.Value));
-                content_.Headers.ContentType.MediaType = "{{ operation.Consumes }}";
 {%         endif -%}
+                content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
                 request_.Content = content_;
 {%     else -%}
 {%         if operation.HasFormParameters -%}

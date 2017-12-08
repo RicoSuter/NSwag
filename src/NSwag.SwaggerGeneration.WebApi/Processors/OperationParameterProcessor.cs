@@ -272,8 +272,20 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
             }
             else
             {
-                var operationParameter = await context.SwaggerGenerator
-                    .CreateBodyParameterAsync(name, parameter).ConfigureAwait(false);
+                var attributes = parameter.GetCustomAttributes();
+                var typeDescription = _settings.ReflectionService.GetDescription(parameter.ParameterType, attributes, _settings);
+
+                var operationParameter = new SwaggerParameter
+                {
+                    Name = name,
+                    Kind = SwaggerParameterKind.Body,
+                    IsRequired = true, // FromBody parameters are always required
+                    IsNullableRaw = typeDescription.IsNullable,
+                    Description = await parameter.GetDescriptionAsync(attributes).ConfigureAwait(false),
+                    Schema = await context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema4>(
+                        parameter.ParameterType, parameter.GetCustomAttributes(), isNullable: false, schemaResolver: context.SchemaResolver).ConfigureAwait(false)
+                };
+
                 operation.Parameters.Add(operationParameter);
             }
         }

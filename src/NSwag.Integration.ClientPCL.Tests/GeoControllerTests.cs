@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSwag.Integration.ClientPCL.Contracts;
+using System.Linq;
 
 namespace NSwag.Integration.ClientPCL.Tests
 {
@@ -60,8 +61,8 @@ namespace NSwag.Integration.ClientPCL.Tests
 
             //// Assert
             Assert.AreEqual(2, result.Result.Count);
-            Assert.AreEqual("foo", result.Result[1]);
-            Assert.AreEqual("bar", result.Result[0]);
+            Assert.AreEqual("foo", result.Result.ToList()[1]);
+            Assert.AreEqual("bar", result.Result.ToList()[0]);
         }
 
         [TestMethod]

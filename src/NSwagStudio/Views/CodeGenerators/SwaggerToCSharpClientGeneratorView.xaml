@@ -206,6 +206,26 @@
                                         </StackPanel>
                                     </StackPanel>
                                 </GroupBox>
+
+                                <GroupBox Header="Parameter Types" Margin="0,0,0,12">
+                                    <StackPanel Margin="4,8,4,-8">
+                                        <TextBlock Text="Generic Array Type" FontWeight="Bold" Margin="0,0,0,6" />
+                                        <TextBox Text="{Binding Command.ParameterArrayType, Mode=TwoWay}" ToolTip="ParameterArrayType" Margin="0,0,0,12" />
+
+                                        <TextBlock Text="Generic Dictionary Type" FontWeight="Bold" Margin="0,0,0,6" />
+                                        <TextBox Text="{Binding Command.ParameterDictionaryType, Mode=TwoWay}" ToolTip="ParameterDictionaryType" Margin="0,0,0,12" />
+                                    </StackPanel>
+                                </GroupBox>
+
+                                <GroupBox Header="Response Types" Margin="0,0,0,12">
+                                    <StackPanel Margin="4,8,4,-8">
+                                        <TextBlock Text="Generic Array Type" FontWeight="Bold" Margin="0,0,0,6" />
+                                        <TextBox Text="{Binding Command.ResponseArrayType, Mode=TwoWay}" ToolTip="ResponseArrayType" Margin="0,0,0,12" />
+
+                                        <TextBlock Text="Generic Dictionary Type" FontWeight="Bold" Margin="0,0,0,6" />
+                                        <TextBox Text="{Binding Command.ResponseDictionaryType, Mode=TwoWay}" ToolTip="ResponseDictionaryType" Margin="0,0,0,12" />
+                                    </StackPanel>
+                                </GroupBox>
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>

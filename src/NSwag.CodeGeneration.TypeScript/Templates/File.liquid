@@ -22,7 +22,7 @@ import 'rxjs/add/operator/catch';
 import { Observable } from 'rxjs/Observable';
 import { Injectable, Inject, Optional, {{ InjectionTokenType }} } from '@angular/core';
 {%             if UseAngularHttpClient -%}
-import { HttpClient, HttpHeaders, HttpResponse, HttpParams, HttpResponseBase } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse, HttpResponseBase, HttpErrorResponse } from '@angular/common/http';
 {%             else -%}
 import { Http, Headers, ResponseContentType, Response{% if UseTransformOptionsMethod %}, RequestOptionsArgs{% endif %} } from '@angular/http';
 {%             endif -%}

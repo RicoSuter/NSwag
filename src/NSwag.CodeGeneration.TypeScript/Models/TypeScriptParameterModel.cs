@@ -37,12 +37,15 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         {
             get
             {
-                if (IsNullable && _settings.TypeScriptGeneratorSettings.SupportsStrictNullChecks)
-                    return " | null";
+                if (_settings.TypeScriptGeneratorSettings.SupportsStrictNullChecks)
+                {
+                    return (IsNullable == true ? " | null" : "") + (IsRequired == false ? " | undefined" : "");
+                }
                 else
+                {
                     return string.Empty;
+                }
             }
         }
-
     }
 }

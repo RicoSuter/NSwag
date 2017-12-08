@@ -142,31 +142,6 @@ namespace NSwag.SwaggerGeneration
             return operationParameter;
         }
 
-        /// <summary>Creates a primitive parameter for the given parameter information reflection object.</summary>
-        /// <param name="name">The name.</param>
-        /// <param name="parameter">The parameter.</param>
-        /// <returns>The parameter.</returns>
-        public async Task<SwaggerParameter> CreateBodyParameterAsync(string name, ParameterInfo parameter)
-        {
-            var attributes = parameter.GetCustomAttributes();
-
-            var isRequired = IsParameterRequired(parameter);
-            var typeDescription = _settings.ReflectionService.GetDescription(parameter.ParameterType, attributes, _settings);
-
-            var operationParameter = new SwaggerParameter
-            {
-                Name = name,
-                Kind = SwaggerParameterKind.Body,
-                IsRequired = isRequired,
-                IsNullableRaw = typeDescription.IsNullable,
-                Description = await parameter.GetDescriptionAsync(attributes).ConfigureAwait(false),
-                Schema = await _schemaGenerator.GenerateWithReferenceAndNullability<JsonSchema4>(
-                    parameter.ParameterType, attributes, !isRequired, _schemaResolver).ConfigureAwait(false)
-            };
-
-            return operationParameter;
-        }
-
         private bool IsParameterRequired(ParameterInfo parameter)
         {
             if (parameter == null)
