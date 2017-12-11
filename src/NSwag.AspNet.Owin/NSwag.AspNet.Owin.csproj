@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>net45</TargetFrameworks>
     <Description>NSwag: The Swagger API toolchain for .NET and TypeScript</Description>
-    <Version>11.12.11</Version>
+    <Version>11.12.12</Version>
     <PackageTags>Swagger Documentation WebApi AspNet TypeScript CodeGen</PackageTags>
     <Copyright>Copyright © Rico Suter, 2017</Copyright>
     <PackageLicenseUrl>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</PackageLicenseUrl>
@@ -39,7 +39,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Owin" Version="3.0.1" />
     <PackageReference Include="Microsoft.Owin.StaticFiles" Version="3.0.1" />
-    <PackageReference Include="NJsonSchema" Version="9.10.12" />
+    <PackageReference Include="NJsonSchema" Version="9.10.13" />
     <PackageReference Include="Owin" Version="1.0" />
   </ItemGroup>
   <ItemGroup>

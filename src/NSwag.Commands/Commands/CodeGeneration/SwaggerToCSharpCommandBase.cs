@@ -29,11 +29,11 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.ClassName = value; }
         }
 
-        [Argument(Name = "Namespace", Description = "The namespace of the generated classes.")]
-        public string Namespace
+        [Argument(Name = "OperationGenerationMode", IsRequired = false, Description = "The operation generation mode ('SingleClientFromOperationId' or 'MultipleClientsFromPathSegments').")]
+        public OperationGenerationMode OperationGenerationMode
         {
-            get { return Settings.CSharpGeneratorSettings.Namespace; }
-            set { Settings.CSharpGeneratorSettings.Namespace = value; }
+            get { return OperationGenerationModeConverter.GetOperationGenerationMode(Settings.OperationNameGenerator); }
+            set { Settings.OperationNameGenerator = OperationGenerationModeConverter.GetOperationNameGenerator(value); }
         }
 
         [Argument(Name = "AdditionalNamespaceUsages", IsRequired = false, Description = "The additional namespace usages.")]
@@ -56,6 +56,71 @@ namespace NSwag.Commands.CodeGeneration
         {
             get { return Settings.GenerateOptionalParameters; }
             set { Settings.GenerateOptionalParameters = value; }
+        }
+
+        [Argument(Name = "ParameterArrayType", IsRequired = false, Description = "The generic array .NET type of operation parameters (default: 'IEnumerable').")]
+        public string ParameterArrayType
+        {
+            get { return Settings.ParameterArrayType; }
+            set { Settings.ParameterArrayType = value; }
+        }
+
+        [Argument(Name = "ParameterDictionaryType", IsRequired = false, Description = "The generic dictionary .NET type of operation parameters (default: 'IReadOnlyDictionary').")]
+        public string ParameterDictionaryType
+        {
+            get { return Settings.ParameterDictionaryType; }
+            set { Settings.ParameterDictionaryType = value; }
+        }
+
+        [Argument(Name = "ResponseArrayType", IsRequired = false, Description = "The generic array .NET type of operation responses (default: 'ICollection').")]
+        public string ResponseArrayType
+        {
+            get { return Settings.ResponseArrayType; }
+            set { Settings.ResponseArrayType = value; }
+        }
+
+        [Argument(Name = "ResponseDictionaryType", IsRequired = false, Description = "The generic dictionary .NET type of operation responses (default: 'IDictionary').")]
+        public string ResponseDictionaryType
+        {
+            get { return Settings.ResponseDictionaryType; }
+            set { Settings.ResponseDictionaryType = value; }
+        }
+
+        [Argument(Name = "WrapResponses", IsRequired = false, Description = "Specifies whether to wrap success responses to allow full response access.")]
+        public bool WrapResponses
+        {
+            get { return Settings.WrapResponses; }
+            set { Settings.WrapResponses = value; }
+        }
+
+        [Argument(Name = "WrapResponseMethods", IsRequired = false, Description = "List of methods where responses are wrapped ('ControllerName.MethodName', WrapResponses must be true).")]
+        public string[] WrapResponseMethods
+        {
+            get { return Settings.WrapResponseMethods; }
+            set { Settings.WrapResponseMethods = value; }
+        }
+
+        [Argument(Name = "GenerateResponseClasses", IsRequired = false, Description = "Specifies whether to generate response classes (default: true).")]
+        public bool GenerateResponseClasses
+        {
+            get { return Settings.GenerateResponseClasses; }
+            set { Settings.GenerateResponseClasses = value; }
+        }
+
+        [Argument(Name = "ResponseClass", IsRequired = false, Description = "The response class (default 'SwaggerResponse', may use '{controller}' placeholder).")]
+        public string ResponseClass
+        {
+            get { return Settings.ResponseClass; }
+            set { Settings.ResponseClass = value; }
+        }
+
+        // CSharpGeneratorSettings
+
+        [Argument(Name = "Namespace", Description = "The namespace of the generated classes.")]
+        public string Namespace
+        {
+            get { return Settings.CSharpGeneratorSettings.Namespace; }
+            set { Settings.CSharpGeneratorSettings.Namespace = value; }
         }
 
         [Argument(Name = "RequiredPropertiesMustBeDefined", IsRequired = false,
@@ -115,32 +180,18 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.CSharpGeneratorSettings.DictionaryType = value; }
         }
 
-        [Argument(Name = "ParameterArrayType", IsRequired = false, Description = "The generic array .NET type of operation parameters (default: 'IEnumerable').")]
-        public string ParameterArrayType
+        [Argument(Name = "ArrayBaseType", IsRequired = false, Description = "The generic array .NET type (default: 'ObservableCollection').")]
+        public string ArrayBaseType
         {
-            get { return Settings.ParameterArrayType; }
-            set { Settings.ParameterArrayType = value; }
+            get { return Settings.CSharpGeneratorSettings.ArrayBaseType; }
+            set { Settings.CSharpGeneratorSettings.ArrayBaseType = value; }
         }
 
-        [Argument(Name = "ParameterDictionaryType", IsRequired = false, Description = "The generic dictionary .NET type of operation parameters (default: 'IReadOnlyDictionary').")]
-        public string ParameterDictionaryType
+        [Argument(Name = "DictionaryBaseType", IsRequired = false, Description = "The generic dictionary .NET type (default: 'Dictionary').")]
+        public string DictionaryBaseType
         {
-            get { return Settings.ParameterDictionaryType; }
-            set { Settings.ParameterDictionaryType = value; }
-        }
-
-        [Argument(Name = "ResponseArrayType", IsRequired = false, Description = "The generic array .NET type of operation responses (default: 'ICollection').")]
-        public string ResponseArrayType
-        {
-            get { return Settings.ResponseArrayType; }
-            set { Settings.ResponseArrayType = value; }
-        }
-
-        [Argument(Name = "ResponseDictionaryType", IsRequired = false, Description = "The generic dictionary .NET type of operation responses (default: 'IDictionary').")]
-        public string ResponseDictionaryType
-        {
-            get { return Settings.ResponseDictionaryType; }
-            set { Settings.ResponseDictionaryType = value; }
+            get { return Settings.CSharpGeneratorSettings.DictionaryBaseType; }
+            set { Settings.CSharpGeneratorSettings.DictionaryBaseType = value; }
         }
 
         [Argument(Name = "ClassStyle", IsRequired = false, Description = "The CSharp class style, 'Poco' or 'Inpc' (default: 'Inpc').")]
@@ -148,13 +199,6 @@ namespace NSwag.Commands.CodeGeneration
         {
             get { return Settings.CSharpGeneratorSettings.ClassStyle; }
             set { Settings.CSharpGeneratorSettings.ClassStyle = value; }
-        }
-
-        [Argument(Name = "OperationGenerationMode", IsRequired = false, Description = "The operation generation mode ('SingleClientFromOperationId' or 'MultipleClientsFromPathSegments').")]
-        public OperationGenerationMode OperationGenerationMode
-        {
-            get { return OperationGenerationModeConverter.GetOperationGenerationMode(Settings.OperationNameGenerator); }
-            set { Settings.OperationNameGenerator = OperationGenerationModeConverter.GetOperationNameGenerator(value); }
         }
 
         [Argument(Name = "GenerateDefaultValues", IsRequired = false, Description = "Specifies whether to generate default values for properties (may generate CSharp 6 code, default: true).")]
@@ -176,34 +220,6 @@ namespace NSwag.Commands.CodeGeneration
         {
             get { return Settings.CSharpGeneratorSettings.ExcludedTypeNames; }
             set { Settings.CSharpGeneratorSettings.ExcludedTypeNames = value; }
-        }
-
-        [Argument(Name = "WrapResponses", IsRequired = false, Description = "Specifies whether to wrap success responses to allow full response access.")]
-        public bool WrapResponses
-        {
-            get { return Settings.WrapResponses; }
-            set { Settings.WrapResponses = value; }
-        }
-
-        [Argument(Name = "WrapResponseMethods", IsRequired = false, Description = "List of methods where responses are wrapped ('ControllerName.MethodName', WrapResponses must be true).")]
-        public string[] WrapResponseMethods
-        {
-            get { return Settings.WrapResponseMethods; }
-            set { Settings.WrapResponseMethods = value; }
-        }
-
-        [Argument(Name = "GenerateResponseClasses", IsRequired = false, Description = "Specifies whether to generate response classes (default: true).")]
-        public bool GenerateResponseClasses
-        {
-            get { return Settings.GenerateResponseClasses; }
-            set { Settings.GenerateResponseClasses = value; }
-        }
-
-        [Argument(Name = "ResponseClass", IsRequired = false, Description = "The response class (default 'SwaggerResponse', may use '{controller}' placeholder).")]
-        public string ResponseClass
-        {
-            get { return Settings.ResponseClass; }
-            set { Settings.ResponseClass = value; }
         }
 
         [Argument(Name = "HandleReferences", IsRequired = false, Description = "Use preserve references handling (All) in the JSON serializer (default: false).")]
