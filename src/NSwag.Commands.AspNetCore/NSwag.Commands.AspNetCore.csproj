@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp1.0;net451</TargetFrameworks>
+    <OutputType>Exe</OutputType>
+    <Description>NSwag: The Swagger API toolchain for .NET and TypeScript</Description>
+    <Version>11.9.3</Version>
+    <PackageTags>Swagger Documentation WebApi AspNet TypeScript CodeGen</PackageTags>
+    <Copyright>Copyright © Rico Suter, 2017</Copyright>
+    <PackageLicenseUrl>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</PackageLicenseUrl>
+    <PackageProjectUrl>http://NSwag.org</PackageProjectUrl>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\NSwag.snk</AssemblyOriginatorKeyFile>
+    <Authors>Rico Suter</Authors>
+    <PackageIconUrl>https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png</PackageIconUrl>
+    <Company />
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NSwag.SwaggerGeneration.AspNetCore\NSwag.SwaggerGeneration.AspNetCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="build\**\*.*" Pack="true" PackagePath="%(Identity)" />
+    <None Include="$(OutputPath)netcoreapp1.0\$(AssemblyName).dll" Pack="true" PackagePath="build\netstandard1.0\$(AssemblyName).dll" />
+  </ItemGroup>
+</Project>

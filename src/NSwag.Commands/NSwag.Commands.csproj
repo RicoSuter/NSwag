@@ -13,6 +13,7 @@
     <Authors>Rico Suter</Authors>
     <PackageIconUrl>https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png</PackageIconUrl>
     <Company />
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
@@ -23,6 +24,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net451|AnyCPU'">
     <DefineConstants>TRACE;RELEASE;FullNet;NET451</DefineConstants>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="SwaggerGeneration\AspNetCore\AspNetCore.targets" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SwaggerGeneration\AspNetCore\AspNetCore.targets" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
