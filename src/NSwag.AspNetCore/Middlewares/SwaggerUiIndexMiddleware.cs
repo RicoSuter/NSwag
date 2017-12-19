@@ -1,10 +1,8 @@
 using System;
-using System.Collections;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
 
 namespace NSwag.AspNetCore.Middlewares
 {

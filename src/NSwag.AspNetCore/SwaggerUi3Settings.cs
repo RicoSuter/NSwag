@@ -41,8 +41,10 @@ namespace NSwag.AspNetCore
             }
 
             html = html.Replace("{ValidatorUrl}", ValidateSpecification ? "undefined" : "null");
-            html = html.Replace("{RedirectUrl}", ServerUrl + SwaggerUiRoute + "/oauth2-redirect.html");
             html = html.Replace("{DocExpansion}", DocExpansion);
+            html = html.Replace("{RedirectUrl}", string.IsNullOrEmpty(ServerUrl) ?
+                "window.location.origin + \"" + SwaggerUiRoute + "/oauth2-redirect.html\"" :
+                "\"" + ServerUrl + SwaggerUiRoute + "/oauth2-redirect.html\"");
 
             return html;
         }
