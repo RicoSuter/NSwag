@@ -99,7 +99,7 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
 {% if UseAngularHttpClient -%}
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
-            response instanceof HttpErrorResponse ? response.error : undefined;
+            response.error instanceof Blob ? response.error : undefined;
 {% endif -%}
 
         {% template Client.ProcessResponse %}
