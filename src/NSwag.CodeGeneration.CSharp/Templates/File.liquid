@@ -19,7 +19,7 @@ namespace {{ Namespace }}
 
 {%     if RequiresFileParameterType -%}
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
-    public class FileParameter
+    public partial class FileParameter
     {
         public FileParameter(System.IO.Stream data) 
             : this (data, null)
@@ -39,7 +39,7 @@ namespace {{ Namespace }}
 
 {%     endif -%}
 {%     if GenerateFileResponseClass -%}
-    public class FileResponse : System.IDisposable
+    public partial class FileResponse : System.IDisposable
     {
         private System.IDisposable _client; 
         private System.IDisposable _response; 
