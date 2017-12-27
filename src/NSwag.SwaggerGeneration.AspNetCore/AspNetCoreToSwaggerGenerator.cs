@@ -132,6 +132,9 @@ namespace NSwag.SwaggerGeneration.AspNetCore
                 for (var i = 0; i < apiDescription.SupportedRequestFormats.Count; i++)
                 {
                     var mediaType = apiDescription.SupportedRequestFormats[i].MediaType;
+                    if (document.Consumes == null)
+                        document.Consumes = new List<string>();
+
                     if (!document.Consumes.Contains(mediaType, StringComparer.OrdinalIgnoreCase))
                     {
                         document.Consumes.Add(mediaType);

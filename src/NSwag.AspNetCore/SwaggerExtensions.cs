@@ -16,6 +16,9 @@ using Microsoft.Extensions.FileProviders;
 using NSwag.AspNetCore.Middlewares;
 using NSwag.SwaggerGeneration;
 using NSwag.SwaggerGeneration.WebApi;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Mvc;
 
 namespace NSwag.AspNetCore
 {
@@ -92,6 +95,29 @@ namespace NSwag.AspNetCore
             var settings = new SwaggerSettings();
             configure?.Invoke(settings);
             return app.UseSwagger(controllerTypes, settings, new SwaggerJsonSchemaGenerator(settings));
+        }
+
+        /// <summary>Adds the Swagger generator that uses Api Description to perform Swagger generation.</summary>
+        /// <param name="app">The app.</param>
+        /// <param name="configure">Configure the Swagger generator settings.</param>
+        public static IApplicationBuilder UseSwaggerWithApiDescription(
+            this IApplicationBuilder app,
+            Action<AspNetCoreToSwaggerMiddlewareSettings> configure = null)
+        {
+            var settings = new AspNetCoreToSwaggerMiddlewareSettings();
+            configure?.Invoke(settings);
+            return app.UseMiddleware<AspNetCoreSwaggerMiddleware>(settings, new SwaggerJsonSchemaGenerator(settings));
+        }
+
+        /// <summary>Adds services required for swagger generation.</summary>
+        /// <param name="serviceCollection">The <see cref="IServiceCollection"/>.</param>
+        /// <remarks>
+        /// This is currently only required in conjunction with <see cref="SwaggerExtensions.UseSwaggerWithApiDescription(IApplicationBuilder, Action{AspNetCoreToSwaggerMiddlewareSettings})"/>.
+        /// </remarks>
+        public static IServiceCollection AddSwagger(
+            this IServiceCollection serviceCollection)
+        {
+            return serviceCollection.AddSingleton<IConfigureOptions<MvcOptions>, NSwagConfigureMvcOptions>();
         }
 
         #endregion
