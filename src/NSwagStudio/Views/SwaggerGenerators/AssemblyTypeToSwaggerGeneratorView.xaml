@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:swaggerGenerators="clr-namespace:NSwagStudio.ViewModels.SwaggerGenerators"
              xmlns:converters="clr-namespace:NSwagStudio.Converters"
-             xmlns:controls="clr-namespace:NSwagStudio.Controls"
              xmlns:dialogs="clr-namespace:MyToolkit.Dialogs;assembly=MyToolkit.Extended"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
@@ -13,6 +12,7 @@
     <UserControl.Resources>
         <swaggerGenerators:AssemblyTypeToSwaggerGeneratorViewModel x:Key="ViewModel" />
         <converters:NumberAdditionConverter x:Key="NumberAdditionConverter" />
+        <converters:StringArrayConverter x:Key="StringArrayConverter" />
     </UserControl.Resources>
 
     <ScrollViewer DataContext="{StaticResource ViewModel}" x:Name="ScrollViewer" 
@@ -35,8 +35,9 @@
                                 <RowDefinition Height="Auto"></RowDefinition>
                             </Grid.RowDefinitions>
 
-                            <TextBlock Text=".NET Assembly" FontWeight="Bold" Margin="0,0,0,6" />
-                            <TextBox Grid.Row="1" Text="{Binding AssemblyPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            <TextBlock Text=".NET Assembly Paths (multiple on separate lines)" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Grid.Row="1" Text="{Binding AssemblyPaths, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
+                                     Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"  
                                      Margin="0,0,12,0" VerticalAlignment="Center" />
                         </Grid>
 
@@ -55,14 +56,14 @@
                     <TextBlock Text="Paths to search for referenced assembly files (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding ReferencePaths, Mode=TwoWay}" Margin="0,0,0,12" />
 
-                    <Button Command="{Binding LoadAssemblyCommand}" VerticalAlignment="Stretch"
+                    <Button Command="{Binding LoadAssembliesCommand}" VerticalAlignment="Stretch"
                             Padding="8,4,8,4" Margin="0,0,0,12" Content="Load Assembly" />
                 </StackPanel>
             </GroupBox>
 
             <TextBlock Text="Classes" FontWeight="Bold" Margin="0,0,0,6" />
             <ListBox ItemsSource="{Binding AllClassNames}" x:Name="ControllersList" 
-                     SelectionChanged="ControllersListSelectionChanged" BorderThickness="0" Padding="0"
+                     SelectionChanged="ControllersListSelectionChanged" BorderThickness="0" Padding="0" MaxHeight="300"
                      SelectionMode="Multiple">
                 <ListBox.Resources>
                     <Style TargetType="{x:Type ListBoxItem}">
@@ -109,6 +110,17 @@
             <TextBlock Margin="0,0,0,6" Text="Default Property Name Handling" TextWrapping="Wrap" FontWeight="Bold" />
             <ComboBox SelectedItem="{Binding Command.DefaultPropertyNameHandling, Mode=TwoWay}" ItemsSource="{Binding PropertyNameHandlings}" Margin="0,0,0,12" />
 
+            <TextBlock Margin="0,0,0,6" Text="The default null handling (if NotNullAttribute and CanBeNullAttribute are missing)" TextWrapping="Wrap" FontWeight="Bold" />
+            <ComboBox SelectedItem="{Binding Command.DefaultReferenceTypeNullHandling, Mode=TwoWay}" ItemsSource="{Binding ReferenceTypeNullHandlings}" Margin="0,0,0,12" />
+
+            <CheckBox IsChecked="{Binding Command.IgnoreObsoleteProperties, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="IgnoreObsoleteProperties">
+                <TextBlock Text="Ignore properties with the ObsoleteAttribute" TextWrapping="Wrap" />
+            </CheckBox>
+
+            <CheckBox IsChecked="{Binding Command.AllowReferencesWithProperties, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="AllowReferencesWithProperties">
+                <TextBlock Text="Use $ref references even if additional properties are defined on the object (otherwise allOf/oneOf with $ref is used)" TextWrapping="Wrap" />
+            </CheckBox>
+
             <CheckBox IsChecked="{Binding Command.FlattenInheritanceHierarchy, Mode=TwoWay}" Margin="0,0,0,12">
                 <TextBlock Text="Flatten the inheritance hierarchy instead of using allOf to describe inheritance" TextWrapping="Wrap" />
             </CheckBox>
@@ -122,7 +134,8 @@
             </CheckBox>
 
             <TextBlock Text="Output file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
-            <dialogs:FileSavePicker DefaultExtension=".cs" Filter="Swagger Specification (.json)|*.json"
+            <dialogs:FileSavePicker DefaultExtension=".cs" 
+                                    Filter="Swagger Specification JSON (.json)|*.json|Swagger Specification YAML (.yaml)|*.yaml"
                                     FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" 
                                     Margin="0,0,0,12" />
 

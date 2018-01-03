@@ -1,0 +1,18 @@
+{% if operation.HasSummary -%}
+/// <summary>{{ operation.Summary | csharpdocs }}</summary>
+{% endif -%}
+{% for parameter in operation.Parameters -%}
+{%     if parameter.HasDescription -%}
+/// <param name="{{ parameter.VariableName }}">{{ parameter.Description | csharpdocs }}</param>
+{%     endif -%}
+{% endfor -%}
+{% if operation.HasResultDescription -%}
+/// <returns>{{ operation.ResultDescription | csharpdocs }}</returns>
+{% endif -%}
+/// <exception cref="{{ ExceptionClass }}">A server side error occurred.</exception>
+{% for exception in operation.ExceptionDescriptions -%}
+/// <exception cref="{{ exception.Type }}">{{ exception.Description }}</exception>
+{% endfor -%}
+{% if operation.IsDeprecated -%}
+[System.Obsolete]
+{% endif -%}

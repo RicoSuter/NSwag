@@ -16,39 +16,51 @@ using MyToolkit.Command;
 using NJsonSchema;
 using NSwag;
 using NSwag.Commands;
-using NSwag.SwaggerGeneration;
+using NSwag.Commands.SwaggerGeneration;
 
 namespace NSwagStudio.ViewModels.SwaggerGenerators
 {
     public class AssemblyTypeToSwaggerGeneratorViewModel : ViewModelBase
     {
         private string[] _allClassNames;
-        private AssemblyTypeToSwaggerCommand _command = new AssemblyTypeToSwaggerCommand();
+        private TypesToSwaggerCommand _command = new TypesToSwaggerCommand();
+        private NSwagDocument _document;
 
         /// <summary>Initializes a new instance of the <see cref="AssemblyTypeToSwaggerGeneratorViewModel"/> class.</summary>
         public AssemblyTypeToSwaggerGeneratorViewModel()
         {
             BrowseAssemblyCommand = new AsyncRelayCommand(BrowseAssembly);
 
-            LoadAssemblyCommand = new AsyncRelayCommand(LoadAssemblyAsync, () => !string.IsNullOrEmpty(AssemblyPath));
-            LoadAssemblyCommand.TryExecute();
+            LoadAssembliesCommand = new AsyncRelayCommand(async () => await LoadAssembliesAsync(), () => AssemblyPaths?.Length > 0);
+            LoadAssembliesCommand.TryExecute();
         }
 
         /// <summary>Gets or sets the generator settings.</summary>
-        public AssemblyTypeToSwaggerCommand Command
+        public TypesToSwaggerCommand Command
         {
             get { return _command; }
             set
             {
                 if (Set(ref _command, value))
-                {
                     RaiseAllPropertiesChanged();
-                    LoadAssemblyCommand.RaiseCanExecuteChanged();
-                    LoadAssemblyAsync();
+            }
+        }
+
+        /// <summary>Gets or sets the document.</summary>
+        public NSwagDocument Document
+        {
+            get { return _document; }
+            set
+            {
+                if (Set(ref _document, value))
+                {
+                    LoadAssembliesCommand.RaiseCanExecuteChanged();
+                    LoadAssembliesAsync();
                 }
             }
         }
 
+        /// <summary>Gets or sets the reference path. </summary>
         public string ReferencePaths
         {
             get
@@ -66,38 +78,41 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         }
 
         /// <summary>Gets the default enum handlings. </summary>
-        public EnumHandling[] EnumHandlings
-        {
-            get { return Enum.GetNames(typeof(EnumHandling)).Select(t => (EnumHandling)Enum.Parse(typeof(EnumHandling), t)).ToArray(); }
-        }
+        public EnumHandling[] EnumHandlings => Enum.GetNames(typeof(EnumHandling))
+            .Select(t => (EnumHandling)Enum.Parse(typeof(EnumHandling), t))
+            .ToArray();
 
         /// <summary>Gets the default property name handlings. </summary>
-        public PropertyNameHandling[] PropertyNameHandlings
-        {
-            get { return Enum.GetNames(typeof(PropertyNameHandling)).Select(t => (PropertyNameHandling)Enum.Parse(typeof(PropertyNameHandling), t)).ToArray(); }
-        }
+        public PropertyNameHandling[] PropertyNameHandlings => Enum.GetNames(typeof(PropertyNameHandling))
+            .Select(t => (PropertyNameHandling)Enum.Parse(typeof(PropertyNameHandling), t))
+            .ToArray();
+
+        /// <summary>Gets the reference type null handlings. </summary>
+        public ReferenceTypeNullHandling[] ReferenceTypeNullHandlings => Enum.GetNames(typeof(ReferenceTypeNullHandling))
+            .Select(t => (ReferenceTypeNullHandling)Enum.Parse(typeof(ReferenceTypeNullHandling), t))
+            .ToArray();
 
         /// <summary>Gets or sets the command to browse for an assembly.</summary>
         public AsyncRelayCommand BrowseAssemblyCommand { get; set; }
 
         /// <summary>Gets or sets the command to load the types from an assembly.</summary>
-        public AsyncRelayCommand LoadAssemblyCommand { get; set; }
+        public AsyncRelayCommand LoadAssembliesCommand { get; set; }
 
         /// <summary>Gets or sets the assembly path. </summary>
-        public string AssemblyPath
+        public string[] AssemblyPaths
         {
-            get { return Command.AssemblyPath; }
+            get { return Command.AssemblyPaths; }
             set
             {
-                Command.AssemblyPath = value;
-                LoadAssemblyCommand.RaiseCanExecuteChanged();
-                RaisePropertyChanged(() => AssemblyPath);
+                Command.AssemblyPaths = value;
+                LoadAssembliesCommand.RaiseCanExecuteChanged();
+                RaisePropertyChanged(() => AssemblyPaths);
                 RaisePropertyChanged(() => AssemblyName);
             }
         }
 
         /// <summary>Gets the name of the selected assembly.</summary>
-        public string AssemblyName => Path.GetFileName(AssemblyPath);
+        public string AssemblyName => Path.GetFileName(AssemblyPaths.FirstOrDefault());
 
         /// <summary>Gets or sets the class names. </summary>
         public IEnumerable<string> ClassNames
@@ -124,20 +139,16 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             dlg.Filter = ".NET Assemblies (*.dll;*.exe)|*.dll;*.exe";
             if (dlg.ShowDialog() == true)
             {
-                AssemblyPath = dlg.FileName;
-                await LoadAssemblyAsync();
+                AssemblyPaths = new[] { dlg.FileName };
+                await LoadAssembliesAsync();
             }
         }
 
-        private Task LoadAssemblyAsync()
+        private Task LoadAssembliesAsync()
         {
             return RunTaskAsync(async () =>
             {
-                AllClassNames = await Task.Run(() =>
-                {
-                    var generator = new AssemblyTypeToSwaggerGenerator(Command.Settings);
-                    return generator.GetExportedClassNames();
-                });
+                AllClassNames = await Task.Run(async () => await Document.GetTypesFromCommandLineAsync());
             });
         }
 

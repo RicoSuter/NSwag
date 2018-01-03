@@ -8,11 +8,9 @@
 
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 using NJsonSchema.CodeGeneration.TypeScript;
-using NSwag;
 using NSwag.CodeGeneration.TypeScript;
-using NSwag.Commands;
+using NSwag.Commands.CodeGeneration;
 
 namespace NSwagStudio.ViewModels.CodeGenerators
 {
@@ -35,122 +33,51 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         /// <summary>Gets the supported TypeScript versions.</summary>
         public decimal[] TypeScriptVersions => new[] { 1.8m, 2.0m };
 
-        /// <summary>Gets the output templates. </summary>
-        public TypeScriptTemplate[] Templates
-        {
-            get { return Enum.GetNames(typeof(TypeScriptTemplate)).Select(t => (TypeScriptTemplate)Enum.Parse(typeof(TypeScriptTemplate), t)).ToArray(); }
-        }
+        /// <summary>Gets the output templates.</summary>
+        public TypeScriptTemplate[] Templates => Enum.GetNames(typeof(TypeScriptTemplate))
+            .Select(t => (TypeScriptTemplate)Enum.Parse(typeof(TypeScriptTemplate), t))
+            .ToArray();
 
-        /// <summary>Gets the operation modes. </summary>
-        public OperationGenerationMode[] OperationGenerationModes
-        {
-            get { return Enum.GetNames(typeof(OperationGenerationMode)).Select(t => (OperationGenerationMode)Enum.Parse(typeof(OperationGenerationMode), t)).ToArray(); }
-        }
+        /// <summary>Gets the operation modes.</summary>
+        public OperationGenerationMode[] OperationGenerationModes => Enum.GetNames(typeof(OperationGenerationMode))
+            .Select(t => (OperationGenerationMode)Enum.Parse(typeof(OperationGenerationMode), t))
+            .ToArray();
 
-        /// <summary>Gets the promise types. </summary>
-        public PromiseType[] PromiseTypes
-        {
-            get { return Enum.GetNames(typeof(PromiseType)).Select(t => (PromiseType)Enum.Parse(typeof(PromiseType), t)).ToArray(); }
-        }
+        /// <summary>Gets the promise types.</summary>
+        public PromiseType[] PromiseTypes => Enum.GetNames(typeof(PromiseType))
+            .Select(t => (PromiseType)Enum.Parse(typeof(PromiseType), t))
+            .ToArray();
 
-        /// <summary>Gets the list of type styles. </summary>
-        public TypeScriptTypeStyle[] TypeStyles
-        {
-            get
-            {
-                return Enum.GetNames(typeof(TypeScriptTypeStyle))
-                    .Select(t => (TypeScriptTypeStyle)Enum.Parse(typeof(TypeScriptTypeStyle), t))
-                    .ToArray();
-            }
-        }
+        /// <summary>Gets the promise types.</summary>
+        public HttpClass[] HttpClasses => Enum.GetNames(typeof(HttpClass))
+            .Select(t => (HttpClass)Enum.Parse(typeof(HttpClass), t))
+            .ToArray();
 
-        /// <summary>Gets the list of date time types. </summary>
-        public TypeScriptDateTimeType[] DateTimeTypes
-        {
-            get
-            {
-                return Enum.GetNames(typeof(TypeScriptDateTimeType))
-                    .Select(t => (TypeScriptDateTimeType)Enum.Parse(typeof(TypeScriptDateTimeType), t))
-                    .ToArray();
-            }
-        }
+        /// <summary>Gets the promise types.</summary>
+        public InjectionTokenType[] InjectionTokenTypes => Enum.GetNames(typeof(InjectionTokenType))
+            .Select(t => (InjectionTokenType)Enum.Parse(typeof(InjectionTokenType), t))
+            .ToArray();
 
-        /// <summary>Gets the list of null values. </summary>
-        public TypeScriptNullValue[] NullValues
-        {
-            get
-            {
-                return Enum.GetNames(typeof(TypeScriptNullValue))
-                    .Select(t => (TypeScriptNullValue)Enum.Parse(typeof(TypeScriptNullValue), t))
-                    .ToArray();
-            }
-        }
+        /// <summary>Gets the list of type styles.</summary>
+        public TypeScriptTypeStyle[] TypeStyles => Enum.GetNames(typeof(TypeScriptTypeStyle))
+            .Select(t => (TypeScriptTypeStyle)Enum.Parse(typeof(TypeScriptTypeStyle), t))
+            .ToArray();
 
-        /// <summary>Gets or sets the excluded type names (must be defined in an import or other namespace).</summary>
-        public string ExcludedTypeNames
-        {
-            get => FromStringArray(Command?.ExcludedTypeNames);
-            set
-            {
-                Command.ExcludedTypeNames = ToStringArray(value);
-                RaisePropertyChanged();
-            }
-        }
+        /// <summary>Gets the list of date time types.</summary>
+        public TypeScriptDateTimeType[] DateTimeTypes => Enum.GetNames(typeof(TypeScriptDateTimeType))
+            .Select(t => (TypeScriptDateTimeType)Enum.Parse(typeof(TypeScriptDateTimeType), t))
+            .ToArray();
 
-        /// <summary>Gets or sets the list of methods with a protected access modifier ("classname.methodname").</summary>
-        public string ProtectedMethods
-        {
-            get => FromStringArray(Command?.ProtectedMethods);
-            set
-            {
-                Command.ProtectedMethods = ToStringArray(value);
-                RaisePropertyChanged();
-            }
-        }
+        /// <summary>Gets the list of null values.</summary>
+        public TypeScriptNullValue[] NullValues => Enum.GetNames(typeof(TypeScriptNullValue))
+            .Select(t => (TypeScriptNullValue)Enum.Parse(typeof(TypeScriptNullValue), t))
+            .ToArray();
 
-        public string ClassTypes
-        {
-            get => FromStringArray(Command?.ClassTypes);
-            set
-            {
-                Command.ClassTypes = ToStringArray(value);
-                RaisePropertyChanged();
-            }
-        }
-
-        public string ExtendedClasses
-        {
-            get => FromStringArray(Command?.ExtendedClasses);
-            set
-            {
-                Command.ExtendedClasses = ToStringArray(value);
-                RaisePropertyChanged();
-            }
-        }
-
-        /// <summary>Gets or sets the client code. </summary>
+        /// <summary>Gets or sets the client code.</summary>
         public string ClientCode
         {
             get { return _clientCode; }
             set { Set(ref _clientCode, value); }
-        }
-
-        public Task GenerateClientAsync(SwaggerDocument document, string documentPath)
-        {
-            return RunTaskAsync(async () =>
-            {
-                var code = string.Empty;
-                await Task.Run(async () =>
-                {
-                    if (document != null)
-                    {
-                        Command.Input = document;
-                        code = await Command.RunAsync();
-                        Command.Input = null;
-                    }
-                });
-                ClientCode = code ?? string.Empty;
-            });
         }
     }
 }

@@ -20,12 +20,14 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         private readonly SwaggerDocument _document;
 
         /// <summary>Initializes a new instance of the <see cref="TypeScriptClientTemplateModel" /> class.</summary>
+        /// <param name="controllerName">Name of the controller.</param>
         /// <param name="controllerClassName">Name of the controller.</param>
         /// <param name="operations">The operations.</param>
         /// <param name="extensionCode">The extension code.</param>
         /// <param name="document">The Swagger document.</param>
         /// <param name="settings">The settings.</param>
         public TypeScriptClientTemplateModel(
+            string controllerName,
             string controllerClassName,
             IEnumerable<TypeScriptOperationModel> operations,
             TypeScriptExtensionCode extensionCode,
@@ -38,16 +40,18 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
             Class = controllerClassName;
             Operations = operations;
+
+            BaseClass = _settings.ClientBaseClass?.Replace("{controller}", controllerName);
         }
 
         /// <summary>Gets the class name.</summary>
         public string Class { get; }
 
-        /// <summary>Gets the client base class.</summary>
-        public string ClientBaseClass => _settings.ClientBaseClass;
-
         /// <summary>Gets a value indicating whether the client class has a base class.</summary>
-        public bool HasClientBaseClass => !string.IsNullOrEmpty(ClientBaseClass);
+        public bool HasBaseClass => !string.IsNullOrEmpty(BaseClass);
+
+        /// <summary>Gets the client base class.</summary>
+        public string BaseClass { get; }
 
         /// <summary>Gets or sets a value indicating whether to use the getBaseUrl(defaultUrl: string) from the base class.</summary>
         public bool UseGetBaseUrlMethod => _settings.UseGetBaseUrlMethod;
@@ -56,7 +60,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public string ConfigurationClass => _settings.ConfigurationClass;
 
         /// <summary>Gets a value indicating whether the client class has a base class.</summary>
-        public bool HasConfigurationClass => HasClientBaseClass && !string.IsNullOrEmpty(ConfigurationClass);
+        public bool HasConfigurationClass => HasBaseClass && !string.IsNullOrEmpty(ConfigurationClass);
 
         /// <summary>Gets or sets a value indicating whether to call 'transformOptions' on the base class or extension class.</summary>
         public bool UseTransformOptionsMethod => _settings.UseTransformOptionsMethod;
@@ -103,10 +107,35 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets a value indicating whether the target TypeScript version supports strict null checks.</summary>
         public bool SupportsStrictNullChecks => _settings.TypeScriptGeneratorSettings.TypeScriptVersion >= 2.0m;
 
+        /// <summary>Gets or sets a value indicating whether DTO exceptions are wrapped in a SwaggerException instance.</summary>
+        public bool WrapDtoExceptions => _settings.WrapDtoExceptions;
+
+        /// <summary>Gets or sets the null value used for query parameters which are null.</summary>
+        public string QueryNullValue => _settings.QueryNullValue;
+
+        /// <summary>Gets a value indicating whether to render for AngularJS.</summary>
+        public bool IsAngularJS => _settings.Template == TypeScriptTemplate.AngularJS;
+
+        /// <summary>Gets a value indicating whether to render for Angular2.</summary>
+        public bool IsAngular => _settings.Template == TypeScriptTemplate.Angular;
+
+        /// <summary>Gets a value indicating whether to render for JQuery.</summary>
+        public bool IsJQuery => _settings.Template == TypeScriptTemplate.JQueryCallbacks ||
+                                _settings.Template == TypeScriptTemplate.JQueryPromises;
+
+        /// <summary>Gets a value indicating whether to render for Fetch or Aurelia</summary>
+        public bool IsFetchOrAurelia => _settings.Template == TypeScriptTemplate.Fetch ||
+                                        _settings.Template == TypeScriptTemplate.Aurelia;
+
+        // Angular only
+
         /// <summary>Gets or sets the token name for injecting the API base URL string (used in the Angular2 template).</summary>
         public string BaseUrlTokenName => _settings.BaseUrlTokenName;
 
-        /// <summary>Gets or sets a value indicating whether DTO exceptions are wrapped in a SwaggerException instance.</summary>
-        public bool WrapDtoExceptions => _settings.WrapDtoExceptions;
+        /// <summary>Gets a value indicating whether to use HttpClient with the Angular template.</summary>
+        public bool UseAngularHttpClient => _settings.HttpClass == HttpClass.HttpClient;
+
+        /// <summary>Gets the HTTP client class name.</summary>
+        public string AngularHttpClass => UseAngularHttpClient ? "HttpClient" : "Http";
     }
 }

@@ -7,7 +7,9 @@
 //-----------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration.TypeScript;
 
@@ -54,6 +56,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets a value indicating whether the generated code is for Angular 2.</summary>
         public bool IsAngular => _settings.Template == TypeScriptTemplate.Angular;
 
+        /// <summary>Gets a value indicating whether to use HttpClient with the Angular template.</summary>
+        public bool UseAngularHttpClient => _settings.HttpClass == HttpClass.HttpClient;
+
         /// <summary>Gets a value indicating whether the generated code is for Aurelia.</summary>
         public bool IsAurelia => _settings.Template == TypeScriptTemplate.Aurelia;
 
@@ -69,6 +74,31 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets or sets a value indicating whether DTO exceptions are wrapped in a SwaggerException instance.</summary>
         public bool WrapDtoExceptions => _settings.WrapDtoExceptions;
 
+        /// <summary>Gets or sets a value indicating whether to wrap success responses to allow full response access.</summary>
+        public bool WrapResponses => _settings.WrapResponses;
+
+        /// <summary>Gets or sets a value indicating whether to generate the response class (only applied when WrapResponses == true, default: true).</summary>
+        public bool GenerateResponseClasses => _settings.GenerateResponseClasses;
+
+        /// <summary>Gets the response class names.</summary>
+        public IEnumerable<string> ResponseClassNames
+        {
+            get
+            {
+                // TODO: Merge with ResponseClassNames of C#
+                if (_settings.OperationNameGenerator.SupportsMultipleClients)
+                {
+                    return _document.Operations
+                        .GroupBy(o => _settings.OperationNameGenerator.GetClientName(_document, o.Path, o.Method, o.Operation))
+                        .Select(g => _settings.ResponseClass.Replace("{controller}", g.Key))
+                        .Where(a => _settings.TypeScriptGeneratorSettings.ExcludedTypeNames?.Contains(a) != true)
+                        .Distinct();
+                }
+
+                return new[] { _settings.ResponseClass.Replace("{controller}", string.Empty) };
+            }
+        }
+
         /// <summary>Gets a value indicating whether MomentJS is required.</summary>
         public bool RequiresMomentJS => _settings.TypeScriptGeneratorSettings.DateTimeType == TypeScriptDateTimeType.MomentJS;
 
@@ -80,7 +110,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         /// <summary>Gets the clients code.</summary>
         public string Clients => _settings.GenerateClientClasses ? _clientCode : string.Empty;
-
+        
         /// <summary>Gets the types code.</summary>
         public string Types { get; }
 
@@ -116,7 +146,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public bool RequiresFileResponseInterface =>
             !IsJQuery &&
             !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("FileResponse") &&
-            _document.Operations.Any(o => o.Operation.AllResponses.Any(r => r.Value.Schema?.ActualSchema.Type == JsonObjectType.File));
+            _document.Operations.Any(o => o.Operation.ActualResponses.Any(r => r.Value.Schema?.ActualSchema.Type == JsonObjectType.File));
 
         /// <summary>Gets a value indicating whether the SwaggerException class is required.</summary>
         public bool RequiresSwaggerExceptionClass =>
@@ -127,18 +157,21 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Table containing list of the generated classes.</summary>
         public string[] ClientClasses { get; }
 
-        /// <summary>Gets or sets the token name for injecting the API base URL string (used in the Angular2 template).</summary>
-        public string BaseUrlTokenName => _settings.BaseUrlTokenName;
-
         /// <summary>Gets a value indicating whether to handle references.</summary>
         public bool HandleReferences => _settings.TypeScriptGeneratorSettings.HandleReferences;
 
-        /// <summary>Gets the reference handling code.</summary>
-        public string ReferenceHandlingCode => TypeScriptReferenceHandlingCodeGenerator.Generate();
+        // Angular only
+
+        /// <summary>Gets or sets the injection token type (used in the Angular template).</summary>
+        public string InjectionTokenType => _settings.InjectionTokenType.ToString();
+
+        /// <summary>Gets or sets the token name for injecting the API base URL string (used in the Angular template).</summary>
+        public string BaseUrlTokenName => _settings.BaseUrlTokenName;
 
         private string GenerateDtoTypes()
         {
-            return _settings.GenerateDtoTypes ? _resolver.GenerateTypes(_extensionCode) : string.Empty;
+            var generator = new TypeScriptGenerator(_document, _settings.TypeScriptGeneratorSettings, _resolver);
+            return _settings.GenerateDtoTypes ? generator.GenerateTypes(_extensionCode).Concatenate() : string.Empty;
         }
 
         private string GenerateExtensionCodeAfter()

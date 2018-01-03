@@ -98,7 +98,7 @@ namespace NSwag.Demo.Web.Controllers
         [SwaggerIgnore]
         public async Task<HttpResponseMessage> Swagger()
         {
-            var generator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
             {
                 DefaultUrlTemplate = Configuration.Routes.First(r => !string.IsNullOrEmpty(r.RouteTemplate)).RouteTemplate
             });

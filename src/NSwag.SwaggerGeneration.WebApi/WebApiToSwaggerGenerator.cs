@@ -14,6 +14,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
+using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Contexts;
 using NSwag.SwaggerGeneration.WebApi.Infrastructure;
 
@@ -92,7 +93,7 @@ namespace NSwag.SwaggerGeneration.WebApi
             var schemaResolver = new SwaggerSchemaResolver(document, Settings);
 
             foreach (var controllerType in controllerTypes)
-                await GenerateForControllerAsync(document, controllerType, new SwaggerGenerator(_schemaGenerator, Settings, schemaResolver)).ConfigureAwait(false);
+                await GenerateForControllerAsync(document, controllerType, new SwaggerGenerator(_schemaGenerator, Settings, schemaResolver), schemaResolver).ConfigureAwait(false);
 
             document.GenerateOperationIds();
 
@@ -104,23 +105,29 @@ namespace NSwag.SwaggerGeneration.WebApi
 
         private async Task<SwaggerDocument> CreateDocumentAsync(WebApiToSwaggerGeneratorSettings settings)
         {
-            var document = !string.IsNullOrEmpty(settings.DocumentTemplate) ? await SwaggerDocument.FromJsonAsync(settings.DocumentTemplate).ConfigureAwait(false) : new SwaggerDocument();
+            var document = !string.IsNullOrEmpty(settings.DocumentTemplate) ?
+                await SwaggerDocument.FromJsonAsync(settings.DocumentTemplate).ConfigureAwait(false) :
+                new SwaggerDocument();
 
             document.Generator = "NSwag v" + SwaggerDocument.ToolchainVersion + " (NJsonSchema v" + JsonSchema4.ToolchainVersion + ")";
             document.Consumes = new List<string> { "application/json" };
             document.Produces = new List<string> { "application/json" };
-            document.Info = new SwaggerInfo
-            {
-                Title = settings.Title,
-                Description = settings.Description,
-                Version = settings.Version
-            };
+
+            if (document.Info == null)
+                document.Info = new SwaggerInfo();
+
+            if (!string.IsNullOrEmpty(settings.Title))
+                document.Info.Title = settings.Title;
+            if (!string.IsNullOrEmpty(settings.Description))
+                document.Info.Description = settings.Description;
+            if (!string.IsNullOrEmpty(settings.Version))
+                document.Info.Version = settings.Version;
 
             return document;
         }
 
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
-        private async Task GenerateForControllerAsync(SwaggerDocument document, Type controllerType, SwaggerGenerator swaggerGenerator)
+        private async Task GenerateForControllerAsync(SwaggerDocument document, Type controllerType, SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver)
         {
             var hasIgnoreAttribute = controllerType.GetTypeInfo()
                 .GetCustomAttributes()
@@ -154,11 +161,11 @@ namespace NSwag.SwaggerGeneration.WebApi
                     }
                 }
 
-                await AddOperationDescriptionsToDocumentAsync(document, controllerType, operations, swaggerGenerator).ConfigureAwait(false);
+                await AddOperationDescriptionsToDocumentAsync(document, controllerType, operations, swaggerGenerator, schemaResolver).ConfigureAwait(false);
             }
         }
 
-        private async Task AddOperationDescriptionsToDocumentAsync(SwaggerDocument document, Type controllerType, List<Tuple<SwaggerOperationDescription, MethodInfo>> operations, SwaggerGenerator swaggerGenerator)
+        private async Task AddOperationDescriptionsToDocumentAsync(SwaggerDocument document, Type controllerType, List<Tuple<SwaggerOperationDescription, MethodInfo>> operations, SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver)
         {
             var allOperation = operations.Select(t => t.Item1).ToList();
             foreach (var tuple in operations)
@@ -166,7 +173,7 @@ namespace NSwag.SwaggerGeneration.WebApi
                 var operation = tuple.Item1;
                 var method = tuple.Item2;
 
-                var addOperation = await RunOperationProcessorsAsync(document, controllerType, method, operation, allOperation, swaggerGenerator).ConfigureAwait(false);
+                var addOperation = await RunOperationProcessorsAsync(document, controllerType, method, operation, allOperation, swaggerGenerator, schemaResolver).ConfigureAwait(false);
                 if (addOperation)
                 {
                     var path = operation.Path.Replace("//", "/");
@@ -185,13 +192,15 @@ namespace NSwag.SwaggerGeneration.WebApi
             }
         }
 
-        private async Task<bool> RunOperationProcessorsAsync(SwaggerDocument document, Type controllerType, MethodInfo methodInfo,
-            SwaggerOperationDescription operationDescription, List<SwaggerOperationDescription> allOperations, SwaggerGenerator swaggerGenerator)
+        private async Task<bool> RunOperationProcessorsAsync(SwaggerDocument document, Type controllerType, MethodInfo methodInfo, SwaggerOperationDescription operationDescription, List<SwaggerOperationDescription> allOperations, SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver)
         {
+            var context = new OperationProcessorContext(document, operationDescription, controllerType, 
+                methodInfo, swaggerGenerator, _schemaGenerator, schemaResolver, allOperations);
+
             // 1. Run from settings
             foreach (var operationProcessor in Settings.OperationProcessors)
             {
-                if (await operationProcessor.ProcessAsync(new OperationProcessorContext(document, operationDescription, controllerType, methodInfo, swaggerGenerator, allOperations)).ConfigureAwait(false) == false)
+                if (await operationProcessor.ProcessAsync(context).ConfigureAwait(false) == false)
                     return false;
             }
 
@@ -200,12 +209,15 @@ namespace NSwag.SwaggerGeneration.WebApi
                 .GetCustomAttributes()
             // 3. Run from method attributes
                 .Concat(methodInfo.GetCustomAttributes())
-                .Where(a => a.GetType().Name == "SwaggerOperationProcessorAttribute");
+                .Where(a => a.GetType().IsAssignableTo("SwaggerOperationProcessorAttribute", TypeNameStyle.Name));
 
             foreach (dynamic attribute in operationProcessorAttribute)
             {
-                var operationProcessor = Activator.CreateInstance(attribute.Type);
-                if (operationProcessor.Process(methodInfo, operationDescription, swaggerGenerator, allOperations) == false)
+                var operationProcessor = ReflectionExtensions.HasProperty(attribute, "Parameters") ?
+                    (IOperationProcessor)Activator.CreateInstance(attribute.Type, attribute.Parameters) :
+                    (IOperationProcessor)Activator.CreateInstance(attribute.Type);
+
+                if (await operationProcessor.ProcessAsync(context).ConfigureAwait(false) == false)
                     return false;
             }
 
@@ -388,7 +400,7 @@ namespace NSwag.SwaggerGeneration.WebApi
             var methodName = method.Name;
             if (methodName.EndsWith("Async"))
                 methodName = methodName.Substring(0, methodName.Length - 5);
-            
+
             return methodName;
         }
 

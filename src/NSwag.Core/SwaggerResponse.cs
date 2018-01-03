@@ -7,17 +7,27 @@
 //-----------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using NJsonSchema;
+using NJsonSchema.References;
 
 namespace NSwag
 {
     /// <summary>The Swagger response.</summary>
-    public class SwaggerResponse : JsonExtensionObject
+    public class SwaggerResponse : JsonReferenceBase<SwaggerResponse>, IJsonReference
     {
+        /// <summary>Gets or sets the extension data (i.e. additional properties which are not directly defined by the JSON object).</summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> ExtensionData { get; set; }
+
         /// <summary>Gets the parent <see cref="SwaggerOperation"/>.</summary>
         [JsonIgnore]
-        public SwaggerOperation Parent { get; internal set; }
+        public object Parent { get; internal set; }
+
+        /// <summary>Gets the actual response, either this or the referenced response.</summary>
+        [JsonIgnore]
+        public SwaggerResponse ActualResponse => Reference ?? this;
 
         /// <summary>Gets or sets the response's description.</summary>
         [JsonProperty(PropertyName = "description")]
@@ -38,27 +48,27 @@ namespace NSwag
 
         /// <summary>Gets the actual non-nullable response schema (either oneOf schema or the actual schema).</summary>
         [JsonIgnore]
-        public JsonSchema4 ActualResponseSchema => GetActualResponseSchema();
+        public JsonSchema4 ActualResponseSchema => ActualResponse.GetActualResponseSchema();
 
         /// <summary>Gets or sets the expected child schemas of the base schema (can be used for generating enhanced typings/documentation).</summary>
         [JsonProperty(PropertyName = "x-expectedSchemas", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public ICollection<JsonExpectedSchema> ExpectedSchemas { get; set; }
 
         /// <summary>Determines whether the specified null handling is nullable (fallback value: false).</summary>
-        /// <param name="nullHandling">The null handling.</param>
+        /// <param name="schemaType">The schema type.</param>
         /// <returns>The result.</returns>
-        public bool IsNullable(NullHandling nullHandling)
+        public bool IsNullable(SchemaType schemaType)
         {
-            return IsNullable(nullHandling, false);
+            return IsNullable(schemaType, false);
         }
 
         /// <summary>Determines whether the specified null handling is nullable.</summary>
-        /// <param name="nullHandling">The null handling.</param>
+        /// <param name="schemaType">The schema type.</param>
         /// <param name="fallbackValue">The fallback value when 'x-nullable' is not defined.</param>
         /// <returns>The result.</returns>
-        public bool IsNullable(NullHandling nullHandling, bool fallbackValue)
+        public bool IsNullable(SchemaType schemaType, bool fallbackValue)
         {
-            if (nullHandling == NullHandling.Swagger)
+            if (schemaType == SchemaType.Swagger2)
             {
                 if (IsNullableRaw == null)
                     return fallbackValue;
@@ -66,16 +76,26 @@ namespace NSwag
                 return IsNullableRaw.Value;
             }
 
-            return Schema?.ActualSchema.IsNullable(nullHandling) ?? false;
+            return Schema?.ActualSchema.IsNullable(schemaType) ?? false;
         }
 
         private JsonSchema4 GetActualResponseSchema()
         {
-            if (Parent?.Produces?.Contains("application/octet-stream") == true)
+            if ((Parent as SwaggerOperation)?.ActualProduces?.Contains("application/octet-stream") == true)
                 return new JsonSchema4 { Type = JsonObjectType.File };
 
             return Schema?.ActualSchema;
         }
+
+        #region Implementation of IJsonReference
+
+        [JsonIgnore]
+        IJsonReference IJsonReference.ActualObject => ActualResponse;
+
+        [JsonIgnore]
+        object IJsonReference.PossibleRoot => (Parent as SwaggerOperation)?.Parent?.Parent;
+
+        #endregion
     }
 
     /// <summary></summary>

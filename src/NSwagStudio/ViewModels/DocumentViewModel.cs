@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using MyToolkit.Command;
 using MyToolkit.Utilities;
-using NSwag;
+using NSwag.Commands;
 
 namespace NSwagStudio.ViewModels
 {
@@ -34,16 +34,37 @@ namespace NSwagStudio.ViewModels
         /// <summary>Gets the application version with build time. </summary>
         public string ApplicationVersion => GetType().Assembly.GetVersionWithBuildTime();
 
+        /// <summary>Gets the available runtimes.</summary>
+        public Runtime[] Runtimes
+        {
+            get
+            {
+                return Enum.GetNames(typeof(Runtime))
+                    .Select(t => (Runtime)Enum.Parse(typeof(Runtime), t))
+                    .ToArray();
+            }
+        }
+
         private async Task GenerateAsync(string type)
         {
             IsLoading = true;
             await RunTaskAsync(async () =>
             {
-                if (type == "files")
+                var redirectOutput = type != "files";
+
+                var start = Stopwatch.GetTimestamp();
+                var result = await Document.Document.ExecuteCommandLineAsync(redirectOutput);
+                var duration = TimeSpan.FromSeconds((Stopwatch.GetTimestamp() - start) / Stopwatch.Frequency);
+
+                if (redirectOutput)
                 {
-                    var start = Stopwatch.GetTimestamp();
-                    await Document.Document.ExecuteAsync();
-                    var duration = TimeSpan.FromSeconds((Stopwatch.GetTimestamp() - start) / Stopwatch.Frequency);
+                    foreach (var codeGenerator in Document.CodeGenerators)
+                        codeGenerator.View.UpdateOutput(result);
+                }
+                else
+                {
+                    foreach (var codeGenerator in Document.CodeGenerators)
+                        codeGenerator.View.UpdateOutput(result);
 
 #pragma warning disable CS4014
                     Application.Current.Dispatcher.InvokeAsync(() =>
@@ -51,19 +72,6 @@ namespace NSwagStudio.ViewModels
                         MessageBox.Show("File: " + Document.Document.Path + "\nDuration: " + duration, "Generation complete!");
                     });
 #pragma warning restore CS4014
-                }
-                else
-                {
-                    var generator = Document.GetSwaggerGeneratorView();
-                    var swaggerCode = await generator.GenerateSwaggerAsync();
-
-                    if (!string.IsNullOrEmpty(swaggerCode))
-                    {
-                        var document = await SwaggerDocument.FromJsonAsync(swaggerCode);
-                        var documentPath = Document.GetDocumentPath(generator);
-                        foreach (var codeGenerator in Document.CodeGenerators.Where(c => c.View.IsSelected))
-                            await codeGenerator.View.GenerateClientAsync(document, documentPath);
-                    }
                 }
             });
             IsLoading = false;

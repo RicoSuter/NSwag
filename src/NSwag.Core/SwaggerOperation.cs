@@ -122,16 +122,9 @@ namespace NSwag
         [JsonIgnore]
         public IEnumerable<SwaggerSchema> ActualSchemes => Schemes ?? Parent.Parent.Schemes;
 
-        /// <summary>Gets the responses from the operation and from the <see cref="SwaggerDocument"/>.</summary>
+        /// <summary>Gets the responses from the operation and from the <see cref="SwaggerDocument"/> and dereferences them if necessary.</summary>
         [JsonIgnore]
-        public IReadOnlyDictionary<string, SwaggerResponse> AllResponses
-        {
-            get
-            {
-                var empty = new Dictionary<string, SwaggerResponse>();
-                return (Responses ?? empty).Concat(Parent.Parent.Responses ?? empty).ToDictionary(t => t.Key, t => t.Value);
-            }
-        }
+        public IReadOnlyDictionary<string, SwaggerResponse> ActualResponses => Responses.ToDictionary(t => t.Key, t => t.Value.ActualResponse);
 
         /// <summary>Gets the actual security description, either from the operation or from the <see cref="SwaggerDocument"/>.</summary>
         [JsonIgnore]

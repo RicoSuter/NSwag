@@ -5,6 +5,7 @@ using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using NJsonSchema;
+using NSwag.SwaggerGeneration.WebApi;
 
 namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
 {
@@ -158,7 +159,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
         public async Task When_parameter_is_nullable_then_it_is_optional()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings { IsAspNetCore = true });
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings { IsAspNetCore = true });
 
             //// Act
             var document = await generator.GenerateForControllerAsync<MyTestClass>();

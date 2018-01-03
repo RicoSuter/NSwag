@@ -39,7 +39,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = clientGenerator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("test(a: number, b: number | undefined)"));
+            Assert.IsTrue(code.Contains("test(a: number, b: number | null)"));
         }
     }
 }

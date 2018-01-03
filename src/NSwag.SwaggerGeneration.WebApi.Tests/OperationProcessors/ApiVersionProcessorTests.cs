@@ -5,6 +5,7 @@ using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Web.Http;
 using NSwag.SwaggerGeneration.WebApi.Processors;
+using NSwag.SwaggerGeneration.Processors;
 
 namespace NSwag.SwaggerGeneration.WebApi.Tests.OperationProcessors
 {
@@ -68,7 +69,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.OperationProcessors
         {
             //// Arrange
             var settings = new WebApiToSwaggerGeneratorSettings();
-            settings.OperationProcessors.Get<ApiVersionProcessor>().IncludedVersions.Add("1");
+            settings.OperationProcessors.TryGet<ApiVersionProcessor>().IncludedVersions.Add("1");
 
             var generator = new WebApiToSwaggerGenerator(settings);
 

@@ -5,6 +5,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSwag.SwaggerGeneration.WebApi;
 
 namespace NSwag.SwaggerGeneration.WebApi.Tests
 {
@@ -106,25 +107,6 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
 
             //// Assert
             Assert.IsFalse(controllerClasses.Contains(typeof(MyAbstractController)));
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(TypeLoadException))]
-        public async Task When_controller_type_is_not_found_then_type_load_exception_is_thrown()
-        {
-            //// Arrange
-            var settings = new WebApiAssemblyToSwaggerGeneratorSettings
-            {
-                AssemblyPaths = new[] { @"./NSwag.SwaggerGeneration.WebApi.Tests.dll" },
-                DefaultUrlTemplate = "api/{controller}/{action}/{id}"
-            };
-
-            var generator = new WebApiAssemblyToSwaggerGenerator(settings);
-
-            //// Act
-            var document = await generator.GenerateForControllersAsync(new[] { "NonExistingClass" }); // Should throw exception
-
-            //// Assert
         }
     }
 }

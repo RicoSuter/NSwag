@@ -18,7 +18,8 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using NJsonSchema.Infrastructure;
-using NSwag.Commands.Base;
+using NSwag.Commands.CodeGeneration;
+using NSwag.Commands.SwaggerGeneration;
 
 namespace NSwag.Commands
 {
@@ -28,7 +29,7 @@ namespace NSwag.Commands
     {
         private string _path;
         private string _latestData;
-        private OutputCommandBase _selectedSwaggerGenerator;
+        private IOutputCommand _selectedSwaggerGenerator;
 
         /// <summary>Initializes a new instance of the <see cref="NSwagDocumentBase"/> class.</summary>
         protected NSwagDocumentBase()
@@ -49,6 +50,13 @@ namespace NSwag.Commands
         /// <returns>The relative path.</returns>
         protected abstract string ConvertToRelativePath(string pathToConvert);
 
+        /// <summary>Executes the current document.</summary>
+        /// <returns>The result.</returns>
+        public abstract Task<SwaggerDocumentExecutionResult> ExecuteAsync();
+        
+        /// <summary>Gets or sets the runtime where the document should be processed.</summary>
+        public Runtime Runtime { get; set; }
+
         /// <summary>Gets or sets the selected swagger generator JSON.</summary>
         [JsonProperty("SwaggerGenerator")]
         internal JObject SelectedSwaggerGeneratorRaw
@@ -59,7 +67,7 @@ namespace NSwag.Commands
                     .Replace("CommandBase", string.Empty)
                     .Replace("Command", string.Empty);
 
-                return JObject.FromObject(new Dictionary<string, OutputCommandBase>
+                return JObject.FromObject(new Dictionary<string, IOutputCommand>
                 {
                     {
                         key[0].ToString().ToLowerInvariant() + key.Substring(1),
@@ -73,7 +81,7 @@ namespace NSwag.Commands
                 var key = generatorProperty.Name + "Command";
                 var collectionProperty = SwaggerGenerators.GetType().GetRuntimeProperty(key[0].ToString().ToUpperInvariant() + key.Substring(1));
                 var generator = collectionProperty.GetValue(SwaggerGenerators);
-                var newGenerator = (OutputCommandBase)JsonConvert.DeserializeObject(generatorProperty.Value.ToString(), generator.GetType(), GetSerializerSettings());
+                var newGenerator = (IOutputCommand)JsonConvert.DeserializeObject(generatorProperty.Value.ToString(), generator.GetType(), GetSerializerSettings());
                 collectionProperty.SetValue(SwaggerGenerators, newGenerator);
                 SelectedSwaggerGenerator = newGenerator;
             }
@@ -102,7 +110,18 @@ namespace NSwag.Commands
 
         /// <summary>Gets the name of the document.</summary>
         [JsonIgnore]
-        public string Name => System.IO.Path.GetFileName(Path);
+        public string Name
+        {
+            get
+            {
+                var name = System.IO.Path.GetFileName(Path);
+                if (!name.Equals("nswag.json", StringComparison.OrdinalIgnoreCase))
+                    return name;
+
+                var segments = Path.Replace("\\", "/").Split('/');
+                return segments.Length >= 2 ? string.Join("/", segments.Skip(segments.Length - 2)) : name;
+            }
+        }
 
         /// <summary>Gets a value indicating whether the document is dirty (has any changes).</summary>
         [JsonIgnore]
@@ -110,7 +129,7 @@ namespace NSwag.Commands
 
         /// <summary>Gets the selected Swagger generator.</summary>
         [JsonIgnore]
-        public OutputCommandBase SelectedSwaggerGenerator
+        public IOutputCommand SelectedSwaggerGenerator
         {
             get { return _selectedSwaggerGenerator; }
             set
@@ -149,10 +168,7 @@ namespace NSwag.Commands
                 var settings = GetSerializerSettings();
                 settings.ContractResolver = new BaseTypeMappingContractResolver(mappings);
 
-                var document = JsonConvert.DeserializeObject<TDocument>(data, settings);
-                document.Path = filePath;
-                document.ConvertToAbsolutePaths();
-                document._latestData = JsonConvert.SerializeObject(document, Formatting.Indented, GetSerializerSettings());
+                var document = FromJson<TDocument>(filePath, data);
 
                 if (saveFile)
                     await document.SaveAsync();
@@ -161,35 +177,64 @@ namespace NSwag.Commands
             });
         }
 
+        /// <summary>Converts the document to JSON.</summary>
+        /// <typeparam name="TDocument">The document type.</typeparam>
+        /// <param name="filePath">The file path.</param>
+        /// <param name="data">The JSON data.</param>
+        /// <returns>The document.</returns>
+        public static TDocument FromJson<TDocument>(string filePath, string data)
+            where TDocument : NSwagDocumentBase, new()
+        {
+            var settings = GetSerializerSettings();
+            var document = JsonConvert.DeserializeObject<TDocument>(data, settings);
+
+            if (filePath != null)
+            {
+                document.Path = filePath;
+                document.ConvertToAbsolutePaths();
+            }
+
+            document._latestData = JsonConvert.SerializeObject(document, Formatting.Indented, GetSerializerSettings());
+
+            return document;
+        }
+
         /// <summary>Saves the document.</summary>
         /// <returns>The task.</returns>
         public Task SaveAsync()
         {
             return Task.Run(async () =>
             {
-                ConvertToRelativePaths();
-                var data = JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings());
-                await DynamicApis.FileWriteAllTextAsync(Path, data).ConfigureAwait(false);
-
-                ConvertToAbsolutePaths();
+                await DynamicApis.FileWriteAllTextAsync(Path, ToJsonWithRelativePaths()).ConfigureAwait(false);
                 _latestData = JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings());
             });
         }
 
-        /// <summary>Executes the document.</summary>
-        /// <returns>The task.</returns>
-        public async Task ExecuteAsync()
+        /// <summary>Converts the document to JSON with relative paths.</summary>
+        /// <returns>The JSON data.</returns>
+        public string ToJsonWithRelativePaths()
         {
-            var document = await GenerateDocumentAsync();
-            foreach (var codeGenerator in CodeGenerators.Items.Where(c => !string.IsNullOrEmpty(c.OutputFilePath)))
+            ConvertToRelativePaths();
+            try
             {
-                codeGenerator.Input = document;
-                await codeGenerator.RunAsync(null, null);
-                codeGenerator.Input = null;
+                return ToJson();
+            }
+            finally
+            {
+                ConvertToAbsolutePaths();
             }
         }
 
-        private async Task<SwaggerDocument> GenerateDocumentAsync()
+        /// <summary>Converts the document to JSON.</summary>
+        /// <returns>The JSON data.</returns>
+        public string ToJson()
+        {
+            return JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings());
+        }
+
+        /// <summary>Generates the <see cref="SwaggerDocument"/> with the currently selected generator.</summary>
+        /// <returns>The document.</returns>
+        protected async Task<SwaggerDocument> GenerateSwaggerDocumentAsync()
         {
             return (SwaggerDocument)await SelectedSwaggerGenerator.RunAsync(null, null);
         }
@@ -217,26 +262,45 @@ namespace NSwag.Commands
 
             if (SwaggerGenerators.WebApiToSwaggerCommand != null)
             {
-                SwaggerGenerators.WebApiToSwaggerCommand.DocumentTemplate = ConvertToAbsolutePath(SwaggerGenerators.WebApiToSwaggerCommand.DocumentTemplate);
-                SwaggerGenerators.WebApiToSwaggerCommand.AssemblyPaths = SwaggerGenerators.WebApiToSwaggerCommand.AssemblyPaths.Select(ConvertToAbsolutePath).ToArray();
-                SwaggerGenerators.WebApiToSwaggerCommand.ReferencePaths = SwaggerGenerators.WebApiToSwaggerCommand.ReferencePaths.Select(ConvertToAbsolutePath).ToArray();
-                SwaggerGenerators.WebApiToSwaggerCommand.AssemblyConfig = ConvertToAbsolutePath(SwaggerGenerators.WebApiToSwaggerCommand.AssemblyConfig);
+                SwaggerGenerators.WebApiToSwaggerCommand.AssemblyPaths = 
+                    SwaggerGenerators.WebApiToSwaggerCommand.AssemblyPaths.Select(ConvertToAbsolutePath).ToArray();
+                SwaggerGenerators.WebApiToSwaggerCommand.ReferencePaths = 
+                    SwaggerGenerators.WebApiToSwaggerCommand.ReferencePaths.Select(ConvertToAbsolutePath).ToArray();
+
+                SwaggerGenerators.WebApiToSwaggerCommand.DocumentTemplate = ConvertToAbsolutePath(
+                    SwaggerGenerators.WebApiToSwaggerCommand.DocumentTemplate);
+                SwaggerGenerators.WebApiToSwaggerCommand.AssemblyConfig = ConvertToAbsolutePath(
+                    SwaggerGenerators.WebApiToSwaggerCommand.AssemblyConfig);
             }
 
-            if (SwaggerGenerators.AssemblyTypeToSwaggerCommand != null)
+            if (SwaggerGenerators.TypesToSwaggerCommand != null)
             {
-                SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyPath = ConvertToAbsolutePath(SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyPath);
-                SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyConfig = ConvertToAbsolutePath(SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyConfig);
+                SwaggerGenerators.TypesToSwaggerCommand.AssemblyPaths = 
+                    SwaggerGenerators.TypesToSwaggerCommand.AssemblyPaths.Select(ConvertToAbsolutePath).ToArray();
+                SwaggerGenerators.TypesToSwaggerCommand.AssemblyConfig = ConvertToAbsolutePath(
+                    SwaggerGenerators.TypesToSwaggerCommand.AssemblyConfig);
             }
 
             if (CodeGenerators.SwaggerToTypeScriptClientCommand != null)
             {
-                CodeGenerators.SwaggerToTypeScriptClientCommand.ExtensionCode = ConvertToAbsolutePath(CodeGenerators.SwaggerToTypeScriptClientCommand.ExtensionCode);
+                CodeGenerators.SwaggerToTypeScriptClientCommand.ExtensionCode = ConvertToAbsolutePath(
+                    CodeGenerators.SwaggerToTypeScriptClientCommand.ExtensionCode);
+                CodeGenerators.SwaggerToTypeScriptClientCommand.TemplateDirectory = ConvertToAbsolutePath(
+                    CodeGenerators.SwaggerToTypeScriptClientCommand.TemplateDirectory);
             }
 
             if (CodeGenerators.SwaggerToCSharpClientCommand != null)
             {
-                CodeGenerators.SwaggerToCSharpClientCommand.ContractsOutputFilePath = ConvertToAbsolutePath(CodeGenerators.SwaggerToCSharpClientCommand.ContractsOutputFilePath);
+                CodeGenerators.SwaggerToCSharpClientCommand.ContractsOutputFilePath = ConvertToAbsolutePath(
+                    CodeGenerators.SwaggerToCSharpClientCommand.ContractsOutputFilePath);
+                CodeGenerators.SwaggerToCSharpClientCommand.TemplateDirectory = ConvertToAbsolutePath(
+                    CodeGenerators.SwaggerToCSharpClientCommand.TemplateDirectory);
+            }
+
+            if (CodeGenerators.SwaggerToCSharpControllerCommand != null)
+            {
+                CodeGenerators.SwaggerToCSharpControllerCommand.TemplateDirectory = ConvertToAbsolutePath(
+                    CodeGenerators.SwaggerToCSharpControllerCommand.TemplateDirectory);
             }
 
             foreach (var generator in CodeGenerators.Items.Concat(SwaggerGenerators.Items))
@@ -253,26 +317,45 @@ namespace NSwag.Commands
 
             if (SwaggerGenerators.WebApiToSwaggerCommand != null)
             {
-                SwaggerGenerators.WebApiToSwaggerCommand.DocumentTemplate = ConvertToRelativePath(SwaggerGenerators.WebApiToSwaggerCommand.DocumentTemplate);
-                SwaggerGenerators.WebApiToSwaggerCommand.AssemblyPaths = SwaggerGenerators.WebApiToSwaggerCommand.AssemblyPaths.Select(ConvertToRelativePath).ToArray();
-                SwaggerGenerators.WebApiToSwaggerCommand.ReferencePaths = SwaggerGenerators.WebApiToSwaggerCommand.ReferencePaths.Select(ConvertToRelativePath).ToArray();
-                SwaggerGenerators.WebApiToSwaggerCommand.AssemblyConfig = ConvertToRelativePath(SwaggerGenerators.WebApiToSwaggerCommand.AssemblyConfig);
+                SwaggerGenerators.WebApiToSwaggerCommand.AssemblyPaths = 
+                    SwaggerGenerators.WebApiToSwaggerCommand.AssemblyPaths.Select(ConvertToRelativePath).ToArray();
+                SwaggerGenerators.WebApiToSwaggerCommand.ReferencePaths = 
+                    SwaggerGenerators.WebApiToSwaggerCommand.ReferencePaths.Select(ConvertToRelativePath).ToArray();
+
+                SwaggerGenerators.WebApiToSwaggerCommand.DocumentTemplate = ConvertToRelativePath(
+                    SwaggerGenerators.WebApiToSwaggerCommand.DocumentTemplate);
+                SwaggerGenerators.WebApiToSwaggerCommand.AssemblyConfig = ConvertToRelativePath(
+                    SwaggerGenerators.WebApiToSwaggerCommand.AssemblyConfig);
             }
 
-            if (SwaggerGenerators.AssemblyTypeToSwaggerCommand != null)
+            if (SwaggerGenerators.TypesToSwaggerCommand != null)
             {
-                SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyPath = ConvertToRelativePath(SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyPath);
-                SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyConfig = ConvertToRelativePath(SwaggerGenerators.AssemblyTypeToSwaggerCommand.AssemblyConfig);
+                SwaggerGenerators.TypesToSwaggerCommand.AssemblyPaths = 
+                    SwaggerGenerators.TypesToSwaggerCommand.AssemblyPaths.Select(ConvertToRelativePath).ToArray();
+                SwaggerGenerators.TypesToSwaggerCommand.AssemblyConfig = ConvertToRelativePath(
+                    SwaggerGenerators.TypesToSwaggerCommand.AssemblyConfig);
             }
 
             if (CodeGenerators.SwaggerToTypeScriptClientCommand != null)
             {
-                CodeGenerators.SwaggerToTypeScriptClientCommand.ExtensionCode = ConvertToRelativePath(CodeGenerators.SwaggerToTypeScriptClientCommand.ExtensionCode);
+                CodeGenerators.SwaggerToTypeScriptClientCommand.ExtensionCode = ConvertToRelativePath(
+                    CodeGenerators.SwaggerToTypeScriptClientCommand.ExtensionCode);
+                CodeGenerators.SwaggerToTypeScriptClientCommand.TemplateDirectory = ConvertToRelativePath(
+                    CodeGenerators.SwaggerToTypeScriptClientCommand.TemplateDirectory);
             }
 
             if (CodeGenerators.SwaggerToCSharpClientCommand != null)
             {
-                CodeGenerators.SwaggerToCSharpClientCommand.ContractsOutputFilePath = ConvertToRelativePath(CodeGenerators.SwaggerToCSharpClientCommand.ContractsOutputFilePath);
+                CodeGenerators.SwaggerToCSharpClientCommand.ContractsOutputFilePath = ConvertToRelativePath(
+                    CodeGenerators.SwaggerToCSharpClientCommand.ContractsOutputFilePath);
+                CodeGenerators.SwaggerToCSharpClientCommand.TemplateDirectory = ConvertToRelativePath(
+                    CodeGenerators.SwaggerToCSharpClientCommand.TemplateDirectory);
+            }
+
+            if (CodeGenerators.SwaggerToCSharpControllerCommand != null)
+            {
+                CodeGenerators.SwaggerToCSharpControllerCommand.TemplateDirectory = ConvertToRelativePath(
+                    CodeGenerators.SwaggerToCSharpControllerCommand.TemplateDirectory);
             }
 
             foreach (var generator in CodeGenerators.Items.Where(i => i != null).Concat(SwaggerGenerators.Items))
@@ -298,6 +381,12 @@ namespace NSwag.Commands
             saveFile = false;
 
             // New file format
+            if (data.Contains("assemblyTypeToSwagger"))
+            {
+                data = data.Replace("assemblyTypeToSwagger", "typesToSwagger");
+                saveFile = true;
+            }
+
             if (data.Contains("\"template\": \"Angular2\""))
             {
                 data = data.Replace("\"template\": \"Angular2\"", "\"template\": \"Angular\"");
@@ -409,4 +498,3 @@ namespace NSwag.Commands
         }
     }
 }
-

@@ -1,0 +1,21 @@
+﻿{% template Client.ProcessResponse.ReadHeaders %}
+{% if operation.HandleReferences and operation.RequiresMappings -%}
+let _mappings: { source: any, target: any }[] = [];
+{% endif -%}
+{% for response in operation.Responses -%}
+if (status === {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %} || status === 206{% endif %}) {
+    {% template Client.ProcessResponse.HandleStatusCode %}
+} else {% endfor -%}
+{% if operation.HasDefaultResponse -%}
+{
+{%     assign response = operation.DefaultResponse -%}
+    {% template Client.ProcessResponse.HandleStatusCode %}
+}
+{% else -%}
+if (status !== 200 && status !== 204) {
+    {% template Client.ProcessResponse.ReadBodyStart %}
+    return throwException({% if IsAngularJS %}this.q, {% endif %}"An unexpected server error occurred.", status, _responseText, _headers);
+    {% template Client.ProcessResponse.ReadBodyEnd %}
+}
+{% template Client.ProcessResponse.Return %}
+{% endif -%}

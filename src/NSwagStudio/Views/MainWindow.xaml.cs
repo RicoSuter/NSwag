@@ -27,7 +27,7 @@ namespace NSwagStudio.Views
             LoadWindowState();
             RegisterFileOpenHandler();
 
-            Title += IntPtr.Size == 4 ? " (x86)" : " (x64)";
+            Title += IntPtr.Size == 4 ? " (x86), v" : " (x64), v" + Model.NSwagVersion;
         }
 
         private MainWindowModel Model => (MainWindowModel)Resources["ViewModel"];

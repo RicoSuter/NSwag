@@ -23,6 +23,9 @@ namespace NSwag.CodeGeneration
 
             OperationNameGenerator = new MultipleClientsFromOperationIdOperationNameGenerator();
             ParameterNameGenerator = new DefaultParameterNameGenerator();
+
+            GenerateResponseClasses = true;
+            ResponseClass = "SwaggerResponse";
         }
 
         /// <summary>Gets the code generator settings.</summary>
@@ -43,7 +46,7 @@ namespace NSwag.CodeGeneration
         /// <summary>Gets or sets the operation name generator.</summary>
         public IOperationNameGenerator OperationNameGenerator { get; set; }
 
-        /// <summary>Gets or sets a value indicating whether to reorder parameters (required first, optional at the end) and generate optional C# parameters (default: true).</summary>
+        /// <summary>Gets or sets a value indicating whether to reorder parameters (required first, optional at the end) and generate optional parameters.</summary>
         public bool GenerateOptionalParameters { get; set; }
 
         /// <summary>Gets or sets the parameter name generator.</summary>
@@ -56,5 +59,17 @@ namespace NSwag.CodeGeneration
         {
             return ClassName.Replace("{controller}", ConversionUtilities.ConvertToUpperCamelCase(controllerName, false));
         }
+
+        /// <summary>Gets or sets a value indicating whether to wrap success responses to allow full response access.</summary>
+        public bool WrapResponses { get; set; }
+
+        /// <summary>Gets or sets the list of methods where responses are wrapped ("ControllerName.MethodName", WrapResponses must be true).</summary>
+        public string[] WrapResponseMethods { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether to generate the response classes (only needed when WrapResponses == true, default: true).</summary>
+        public bool GenerateResponseClasses { get; set; }
+
+        /// <summary>Gets or sets the name of the response class (supports the '{controller}' placeholder).</summary>
+        public string ResponseClass { get; set; }
     }
 }

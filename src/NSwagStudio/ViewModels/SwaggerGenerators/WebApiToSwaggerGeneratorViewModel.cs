@@ -15,7 +15,7 @@ using MyToolkit.Command;
 using NJsonSchema;
 using NSwag;
 using NSwag.Commands;
-using NSwag.SwaggerGeneration.WebApi;
+using NSwag.Commands.SwaggerGeneration;
 
 namespace NSwagStudio.ViewModels.SwaggerGenerators
 {
@@ -23,6 +23,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
     {
         private string[] _allControllerNames = { };
         private WebApiToSwaggerCommand _command = new WebApiToSwaggerCommand();
+        private NSwagDocument _document;
 
         /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerGeneratorViewModel"/> class.</summary>
         public WebApiToSwaggerGeneratorViewModel()
@@ -34,16 +35,19 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         }
 
         /// <summary>Gets the default enum handlings. </summary>
-        public EnumHandling[] EnumHandlings
-        {
-            get { return Enum.GetNames(typeof(EnumHandling)).Select(t => (EnumHandling)Enum.Parse(typeof(EnumHandling), t)).ToArray(); }
-        }
+        public EnumHandling[] EnumHandlings => Enum.GetNames(typeof(EnumHandling))
+            .Select(t => (EnumHandling)Enum.Parse(typeof(EnumHandling), t))
+            .ToArray();
 
         /// <summary>Gets the default property name handlings. </summary>
-        public PropertyNameHandling[] PropertyNameHandlings
-        {
-            get { return Enum.GetNames(typeof(PropertyNameHandling)).Select(t => (PropertyNameHandling)Enum.Parse(typeof(PropertyNameHandling), t)).ToArray(); }
-        }
+        public PropertyNameHandling[] PropertyNameHandlings => Enum.GetNames(typeof(PropertyNameHandling))
+            .Select(t => (PropertyNameHandling)Enum.Parse(typeof(PropertyNameHandling), t))
+            .ToArray();
+
+        /// <summary>Gets the reference type null handlings. </summary>
+        public ReferenceTypeNullHandling[] ReferenceTypeNullHandlings => Enum.GetNames(typeof(ReferenceTypeNullHandling))
+            .Select(t => (ReferenceTypeNullHandling)Enum.Parse(typeof(ReferenceTypeNullHandling), t))
+            .ToArray();
 
         /// <summary>Gets or sets the command to browse for an assembly.</summary>
         public AsyncRelayCommand BrowseAssemblyCommand { get; set; }
@@ -58,8 +62,18 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             set
             {
                 if (Set(ref _command, value))
-                {
                     RaiseAllPropertiesChanged();
+            }
+        }
+
+        /// <summary>Gets or sets the document.</summary>
+        public NSwagDocument Document
+        {
+            get { return _document; }
+            set
+            {
+                if (Set(ref _document, value))
+                {
                     LoadAssembliesCommand.RaiseCanExecuteChanged();
                     LoadAssembliesAsync();
                 }
@@ -124,13 +138,10 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         {
             return RunTaskAsync(async () =>
             {
-                AllControllerNames = await Task.Run(() =>
+                AllControllerNames = await Task.Run(async () =>
                 {
-                    if (Command.Settings.AssemblyPaths?.Length > 0)
-                    {
-                        var generator = new WebApiAssemblyToSwaggerGenerator(Command.Settings);
-                        return generator.GetControllerClasses();
-                    }
+                    if (Command.AssemblyPaths?.Length > 0)
+                        return await Document.GetControllersFromCommandLineAsync();
                     else
                         return new string[] { };
                 });

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -5,9 +6,11 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using NSwag.AspNetCore;
 
-namespace NSwag_Sample_NetCoreAngular
+namespace NSwag.Sample.NetCoreAngular
 {
     public class Startup
     {
@@ -27,7 +30,11 @@ namespace NSwag_Sample_NetCoreAngular
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(o =>
+            {
+                o.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
+                o.SerializerSettings.Converters = new List<JsonConverter> { new StringEnumConverter() };
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

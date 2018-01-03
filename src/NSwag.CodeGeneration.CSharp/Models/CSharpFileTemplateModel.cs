@@ -9,7 +9,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
-using NSwag.CodeGeneration.CSharp.Templates;
+using NJsonSchema.CodeGeneration.CSharp;
 
 namespace NSwag.CodeGeneration.CSharp.Models
 {
@@ -44,6 +44,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
             _generator = generator;
             _settings = settings;
             _resolver = resolver;
+
+            Classes = GenerateDtoTypes();
         }
 
         /// <summary>Gets the namespace.</summary>
@@ -71,20 +73,19 @@ namespace NSwag.CodeGeneration.CSharp.Models
         public string Clients => _settings.GenerateClientClasses ? _clientCode : string.Empty;
 
         /// <summary>Gets the classes code.</summary>
-        public string Classes => _settings.GenerateDtoTypes ? _resolver.GenerateClasses() : string.Empty;
+        public string Classes { get; }
 
         /// <summary>Gets a value indicating whether the generated code requires a JSON exception converter.</summary>
         public bool RequiresJsonExceptionConverter => JsonExceptionTypes.Any();
 
-        /// <summary>Gets the JsonExceptionConverter code.</summary>
-        public string JsonExceptionConverterCode => RequiresJsonExceptionConverter ?
-            ConversionUtilities.Tab(new JsonExceptionConverterTemplate(JsonExceptionTypes.FirstOrDefault(t => t != "Exception") ?? "Exception").TransformText(), 1) : string.Empty;
+        /// <summary>Gets the exception model class.</summary>
+        public string ExceptionModelClass => JsonExceptionTypes.FirstOrDefault(t => t != "Exception") ?? "Exception";
 
         private IEnumerable<string> JsonExceptionTypes => ResponsesInheritingFromException.Select(r =>
-            _generator.GetTypeName(r.ActualResponseSchema, r.IsNullable(_settings.CSharpGeneratorSettings.NullHandling), "Response"));
+            _generator.GetTypeName(r.ActualResponseSchema, r.IsNullable(_settings.CSharpGeneratorSettings.SchemaType), "Response"));
 
         private IEnumerable<SwaggerResponse> ResponsesInheritingFromException =>
-            _document.Operations.SelectMany(o => o.Operation.AllResponses.Values.Where(r => r.ActualResponseSchema?.InheritsSchema(_resolver.ExceptionSchema) == true));
+            _document.Operations.SelectMany(o => o.Operation.ActualResponses.Values.Where(r => r.ActualResponseSchema?.InheritsSchema(_resolver.ExceptionSchema) == true));
 
         /// <summary>Gets a value indicating whether the generated code requires the FileParameter type.</summary>
         public bool RequiresFileParameterType =>
@@ -94,7 +95,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets a value indicating whether [generate file response class].</summary>
         public bool GenerateFileResponseClass =>
             _settings.CSharpGeneratorSettings.ExcludedTypeNames?.Contains("FileResponse") != true &&
-            _document.Operations.Any(o => o.Operation.Responses.Any(r => r.Value.ActualResponseSchema?.Type == JsonObjectType.File));
+            _document.Operations.Any(o => o.Operation.ActualResponses.Any(r => r.Value.ActualResponseSchema?.Type == JsonObjectType.File));
 
         /// <summary>Gets or sets a value indicating whether to generate exception classes (default: true).</summary>
         public bool GenerateExceptionClasses => (_settings as SwaggerToCSharpClientGeneratorSettings)?.GenerateExceptionClasses == true;
@@ -144,6 +145,12 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 }
                 return new string[] { };
             }
+        }
+
+        private string GenerateDtoTypes()
+        {
+            var generator = new CSharpGenerator(_document, _settings.CSharpGeneratorSettings, _resolver);
+            return _settings.GenerateDtoTypes ? generator.GenerateTypes().Concatenate() : string.Empty;
         }
     }
 }

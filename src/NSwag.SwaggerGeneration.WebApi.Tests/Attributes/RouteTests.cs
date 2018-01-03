@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSwag.SwaggerGeneration.WebApi;
 
 namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
 {
@@ -30,7 +31,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
         public async Task When_route_contains_path_parameter_and_action_method_proper_parameter_then_it_is_generated_as_parameter()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings { IsAspNetCore = true });
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings { IsAspNetCore = true });
 
             //// Act
             var document = await generator.GenerateForControllerAsync<FoodsController>();

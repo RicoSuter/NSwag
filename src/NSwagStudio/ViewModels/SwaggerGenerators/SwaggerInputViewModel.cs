@@ -1,10 +1,10 @@
-using System.Net;
+using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MyToolkit.Command;
 using Newtonsoft.Json;
 using NJsonSchema.Infrastructure;
-using NSwag.Commands;
+using NSwag.Commands.SwaggerGeneration;
 
 namespace NSwagStudio.ViewModels.SwaggerGenerators
 {
@@ -24,7 +24,9 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             var json = string.Empty;
             await RunTaskAsync(async () =>
             {
-                json = await DynamicApis.HttpGetAsync(url);
+                json = url.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase) || 
+                       url.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase) ? 
+                    await DynamicApis.HttpGetAsync(url) : await DynamicApis.FileReadAllTextAsync(url);
                 json = JsonConvert.SerializeObject(JsonConvert.DeserializeObject(json), Formatting.Indented);
             });
 

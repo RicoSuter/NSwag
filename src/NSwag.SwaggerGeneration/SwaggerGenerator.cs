@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Serialization;
 using NJsonSchema;
 using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
@@ -21,8 +20,8 @@ namespace NSwag.SwaggerGeneration
     /// <summary>Provides services to for Swagger generators like the creation of parameters and handling of schemas.</summary>
     public class SwaggerGenerator
     {
-        private readonly JsonSchemaResolver _schemaResolver;
         private readonly JsonSchemaGenerator _schemaGenerator;
+        private readonly JsonSchemaResolver _schemaResolver;
         private readonly JsonSchemaGeneratorSettings _settings;
 
         /// <summary>Initializes a new instance of the <see cref="SwaggerGenerator"/> class.</summary>
@@ -31,32 +30,24 @@ namespace NSwag.SwaggerGeneration
         /// <param name="schemaResolver">The schema resolver.</param>
         public SwaggerGenerator(JsonSchemaGenerator schemaGenerator, JsonSchemaGeneratorSettings schemaGeneratorSettings, JsonSchemaResolver schemaResolver)
         {
-            _schemaResolver = schemaResolver;
             _schemaGenerator = schemaGenerator;
+            _schemaResolver = schemaResolver;
             _settings = schemaGeneratorSettings;
-        }
-
-        /// <summary>Creates a primitive parameter for the given parameter information reflection object.</summary>
-        /// <param name="name">The name.</param>
-        /// <param name="parameter">The parameter information.</param>
-        /// <returns>The created parameter.</returns>
-        public async Task<SwaggerParameter> CreatePrimitiveParameterAsync(string name, ParameterInfo parameter)
-        {
-            var documentation = await parameter.GetDescriptionAsync(parameter.GetCustomAttributes()).ConfigureAwait(false);
-            return await CreatePrimitiveParameterAsync(name, documentation, parameter.ParameterType, parameter.GetCustomAttributes().ToList()).ConfigureAwait(false);
         }
 
         /// <summary>Creates a path parameter for a given type.</summary>
         /// <param name="parameterName">Name of the parameter.</param>
         /// <param name="parameterType">Type of the parameter.</param>
         /// <returns>The parameter.</returns>
-        public SwaggerParameter CreatePathParameter(string parameterName, string parameterType)
+        public SwaggerParameter CreateUntypedPathParameter(string parameterName, string parameterType)
         {
             var parameter = new SwaggerParameter();
             parameter.Name = parameterName;
             parameter.Kind = SwaggerParameterKind.Path;
             parameter.IsRequired = true;
-            parameter.IsNullableRaw = false;
+
+            if (_settings.SchemaType == SchemaType.Swagger2)
+                parameter.IsNullableRaw = false;
 
             if (parameterType == "guid")
             {
@@ -75,159 +66,80 @@ namespace NSwag.SwaggerGeneration
 
         /// <summary>Creates a primitive parameter for the given parameter information reflection object.</summary>
         /// <param name="name">The name.</param>
+        /// <param name="parameter">The parameter information.</param>
+        /// <returns>The parameter.</returns>
+        public async Task<SwaggerParameter> CreatePrimitiveParameterAsync(string name, ParameterInfo parameter)
+        {
+            var attributes = parameter.GetCustomAttributes();
+            var documentation = await parameter.GetDescriptionAsync(attributes).ConfigureAwait(false);
+            return await CreatePrimitiveParameterAsync(name, documentation, parameter.ParameterType, attributes)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>Creates a primitive parameter for the given parameter information reflection object.</summary>
+        /// <param name="name">The name.</param>
         /// <param name="description">The description.</param>
         /// <param name="parameterType">Type of the parameter.</param>
         /// <param name="parentAttributes">The parent attributes.</param>
-        /// <returns></returns>
-        public async Task<SwaggerParameter> CreatePrimitiveParameterAsync(string name, string description, Type parameterType, IList<Attribute> parentAttributes)
+        /// <returns>The parameter.</returns>
+        public async Task<SwaggerParameter> CreatePrimitiveParameterAsync(
+            string name, string description, Type parameterType, IEnumerable<Attribute> parentAttributes)
         {
-            var typeDescription = JsonObjectTypeDescription.FromType(parameterType, ResolveContract(parameterType), parentAttributes, _settings.DefaultEnumHandling);
-
             SwaggerParameter operationParameter;
-            if (typeDescription.IsEnum)
+
+            var typeDescription = _settings.ReflectionService.GetDescription(parameterType, parentAttributes, _settings);
+            if (typeDescription.RequiresSchemaReference(_settings.TypeMappers))
             {
-                // TODO(incompatibility): We use "schema" even it is not allowed in non-body parameters
-                parameterType = parameterType.Name == "Nullable`1" ? parameterType.GetGenericTypeArguments().Single() : parameterType;
-                operationParameter = new SwaggerParameter
+                var schema = await _schemaGenerator
+                    .GenerateAsync(parameterType, parentAttributes, _schemaResolver)
+                    .ConfigureAwait(false);
+
+                operationParameter = new SwaggerParameter();
+                operationParameter.Type = typeDescription.Type;
+
+                if (_settings.SchemaType == SchemaType.Swagger2)
                 {
-                    Type = typeDescription.Type, // Used as fallback for generators which do not check the "schema" property
-                    Schema = new JsonSchema4
+                    operationParameter.CustomSchema = new JsonSchema4 { SchemaReference = schema.ActualSchema };
+
+                    // Copy enumeration for compatibility with other tools which do not understand x-schema.
+                    // The enumeration will be ignored by NSwag and only the x-schema is processed
+                    if (schema.ActualSchema.IsEnumeration)
                     {
-                        SchemaReference = await _schemaGenerator.GenerateAsync(parameterType, parentAttributes, _schemaResolver).ConfigureAwait(false)
+                        operationParameter.Enumeration.Clear();
+                        foreach (var item in schema.ActualSchema.Enumeration)
+                            operationParameter.Enumeration.Add(item);
                     }
-                };
+                }
+                else
+                {
+                    // TODO(OpenApi3): How to handle this in OpenApi3?
+                    operationParameter.Schema = new JsonSchema4 { SchemaReference = schema.ActualSchema };
+                }
             }
             else
             {
-                var hasTypeMapper = _settings.TypeMappers.Any(tm => tm.MappedType == parameterType);
-                if (!hasTypeMapper)
-                    parameterType = typeDescription.Type.HasFlag(JsonObjectType.Object) ? typeof(string) : parameterType; // object types must be treated as string
+                operationParameter = await _schemaGenerator
+                    .GenerateAsync<SwaggerParameter>(parameterType, parentAttributes, _schemaResolver)
+                    .ConfigureAwait(false);
 
-                operationParameter = await _schemaGenerator.GenerateAsync<SwaggerParameter>(parameterType, parentAttributes, _schemaResolver).ConfigureAwait(false);
-                _schemaGenerator.ApplyPropertyAnnotations(operationParameter, new Newtonsoft.Json.Serialization.JsonProperty(), parameterType, parentAttributes, typeDescription);
-
-                // check if the type mapper did not properly change the type to a primitive
-                if (hasTypeMapper && typeDescription.Type.HasFlag(JsonObjectType.Object) && operationParameter.Type == JsonObjectType.Object)
-                    operationParameter.Type = JsonObjectType.String; // enforce string as default
+                if (typeDescription.Type.HasFlag(JsonObjectType.Array))
+                    operationParameter.CollectionFormat = SwaggerParameterCollectionFormat.Multi;
             }
 
             operationParameter.Name = name;
-            operationParameter.IsRequired = parentAttributes?.Any(a => a.GetType().Name == "RequiredAttribute") ?? false;
-            operationParameter.IsNullableRaw = typeDescription.IsNullable;
+            operationParameter.IsRequired = parentAttributes.TryGetIfAssignableTo("RequiredAttribute", TypeNameStyle.Name) != null;
 
-            if (typeDescription.Type.HasFlag(JsonObjectType.Array))
-                operationParameter.CollectionFormat = SwaggerParameterCollectionFormat.Multi;
+            if (_settings.SchemaType == SchemaType.Swagger2)
+                operationParameter.IsNullableRaw = typeDescription.IsNullable;
+            else if (typeDescription.IsNullable)
+                operationParameter.Type = typeDescription.Type | JsonObjectType.Null;
+
+            _schemaGenerator.ApplyDataAnnotations(operationParameter, typeDescription, parentAttributes);
 
             if (description != string.Empty)
                 operationParameter.Description = description;
 
             return operationParameter;
-        }
-
-        /// <summary>Gets the contract for the given type.</summary>
-        /// <param name="parameterType"></param>
-        /// <returns>The contract.</returns>
-        public JsonContract ResolveContract(Type parameterType)
-        {
-            return _settings.ActualContractResolver.ResolveContract(parameterType);
-        }
-
-        /// <summary>Creates a primitive parameter for the given parameter information reflection object.</summary>
-        /// <param name="name">The name.</param>
-        /// <param name="parameter">The parameter.</param>
-        /// <returns></returns>
-        public async Task<SwaggerParameter> CreateBodyParameterAsync(string name, ParameterInfo parameter)
-        {
-            var isRequired = IsParameterRequired(parameter);
-
-            var typeDescription = JsonObjectTypeDescription.FromType(parameter.ParameterType, ResolveContract(parameter.ParameterType), parameter.GetCustomAttributes(), _settings.DefaultEnumHandling);
-            var operationParameter = new SwaggerParameter
-            {
-                Name = name,
-                Kind = SwaggerParameterKind.Body,
-                IsRequired = isRequired,
-                IsNullableRaw = typeDescription.IsNullable,
-                Schema = await GenerateAndAppendSchemaFromTypeAsync(parameter.ParameterType, !isRequired, parameter.GetCustomAttributes()).ConfigureAwait(false),
-            };
-
-            operationParameter.Description = await parameter.GetDescriptionAsync(parameter.GetCustomAttributes()).ConfigureAwait(false);
-            return operationParameter;
-        }
-
-        /// <summary>Generates and appends a schema from a given type.</summary>
-        /// <param name="type">The type.</param>
-        /// <param name="mayBeNull">if set to <c>true</c> [may be null].</param>
-        /// <param name="parentAttributes">The parent attributes.</param>
-        /// <returns></returns>
-        public async Task<JsonSchema4> GenerateAndAppendSchemaFromTypeAsync(Type type, bool mayBeNull, IEnumerable<Attribute> parentAttributes)
-        {
-            if (type.Name == "Task`1")
-                type = type.GenericTypeArguments[0];
-
-            if (type.Name == "JsonResult`1")
-                type = type.GenericTypeArguments[0];
-
-            if (IsFileResponse(type))
-                return new JsonSchema4 { Type = JsonObjectType.File };
-
-            var typeDescription = JsonObjectTypeDescription.FromType(type, ResolveContract(type), parentAttributes, _settings.DefaultEnumHandling);
-            if (typeDescription.Type.HasFlag(JsonObjectType.Object) && !typeDescription.IsDictionary)
-            {
-                if (type == typeof(object))
-                {
-                    return new JsonSchema4
-                    {
-                        // IsNullable is directly set on SwaggerParameter or SwaggerResponse
-                        Type = _settings.NullHandling == NullHandling.JsonSchema ? JsonObjectType.Object | JsonObjectType.Null : JsonObjectType.Object,
-                        AllowAdditionalProperties = false
-                    };
-                }
-
-                if (!_schemaResolver.HasSchema(type, false))
-                    await _schemaGenerator.GenerateAsync(type, _schemaResolver).ConfigureAwait(false);
-
-                if (mayBeNull)
-                {
-                    if (_settings.NullHandling == NullHandling.JsonSchema)
-                    {
-                        var schema = new JsonSchema4();
-                        schema.OneOf.Add(new JsonSchema4 { Type = JsonObjectType.Null });
-                        schema.OneOf.Add(new JsonSchema4 { SchemaReference = _schemaResolver.GetSchema(type, false) });
-                        return schema;
-                    }
-                    else
-                    {
-                        // TODO: Fix this bad design
-                        // IsNullable must be directly set on SwaggerParameter or SwaggerResponse
-                        return new JsonSchema4 { SchemaReference = _schemaResolver.GetSchema(type, false) };
-                    }
-                }
-                else
-                    return new JsonSchema4 { SchemaReference = _schemaResolver.GetSchema(type, false) };
-            }
-
-            if (typeDescription.Type.HasFlag(JsonObjectType.Array))
-            {
-                var jsonType = _settings.NullHandling == NullHandling.JsonSchema
-                    ? JsonObjectType.Array | JsonObjectType.Null
-                    : JsonObjectType.Array;
-
-                var itemType = type.GetEnumerableItemType();
-                var itemSchema = itemType != null
-                    ? await GenerateAndAppendSchemaFromTypeAsync(itemType, false, null).ConfigureAwait(false)
-                    : JsonSchema4.CreateAnySchema();
-
-                return new JsonSchema4
-                {
-                    Type = jsonType,
-                    Item = itemSchema
-                };
-
-                // TODO: Fix this bad design
-                // IsNullable must be directly set on SwaggerParameter or SwaggerResponse
-            }
-
-            return await _schemaGenerator.GenerateAsync(type, _schemaResolver).ConfigureAwait(false);
         }
 
         private bool IsParameterRequired(ParameterInfo parameter)
@@ -246,17 +158,6 @@ namespace NSwag.SwaggerGeneration
                 return false;
 
             return parameter.ParameterType.GetTypeInfo().IsValueType;
-        }
-
-        private bool IsFileResponse(Type returnType)
-        {
-
-            return returnType.IsAssignableTo("FileResult", TypeNameStyle.Name) ||
-                   returnType.Name == "IActionResult" ||
-                   returnType.Name == "IHttpActionResult" ||
-                   returnType.Name == "HttpResponseMessage" ||
-                   returnType.InheritsFrom("ActionResult", TypeNameStyle.Name) ||
-                   returnType.InheritsFrom("HttpResponseMessage", TypeNameStyle.Name);
         }
     }
 }

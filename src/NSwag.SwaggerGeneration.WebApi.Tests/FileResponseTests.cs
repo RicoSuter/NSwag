@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NJsonSchema;
+using NSwag.SwaggerGeneration.WebApi;
 
 namespace NSwag.SwaggerGeneration.WebApi.Tests
 {
@@ -22,7 +23,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         public async Task When_response_is_file_then_mime_type_is_bytes()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiAssemblyToSwaggerGeneratorSettings());
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
             
             //// Act
             var document = await generator.GenerateForControllerAsync<FileResponseController>();
@@ -32,7 +33,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
             var operation = document.Operations.First().Operation;
 
             //Assert.AreEqual("application/octet-stream", operation.ActualProduces.First());
-            Assert.AreEqual(JsonObjectType.File, operation.Responses.First().Value.Schema.Type);
+            Assert.AreEqual(JsonObjectType.File, operation.ActualResponses.First().Value.Schema.Type);
             
             // TODO: File response should produce application/octet-stream
         }

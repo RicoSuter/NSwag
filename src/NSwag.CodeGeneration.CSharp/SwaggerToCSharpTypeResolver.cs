@@ -22,8 +22,8 @@ namespace NSwag.CodeGeneration.CSharp
         /// <param name="settings">The generator settings.</param>
         /// <param name="exceptionSchema">The exception type schema.</param>
         /// <param name="document">The document </param>
-        public SwaggerToCSharpTypeResolver(CSharpGeneratorSettings settings, JsonSchema4 exceptionSchema, SwaggerDocument document)
-            : base(settings, document)
+        public SwaggerToCSharpTypeResolver(CSharpGeneratorSettings settings, JsonSchema4 exceptionSchema)
+            : base(settings)
         {
             ExceptionSchema = exceptionSchema;
         }
@@ -35,8 +35,8 @@ namespace NSwag.CodeGeneration.CSharp
         {
             var exceptionSchema = document.Definitions.ContainsKey("Exception") ? document.Definitions["Exception"] : null;
 
-            var resolver = new SwaggerToCSharpTypeResolver(settings, exceptionSchema, document);
-            resolver.AddGenerators(document.Definitions
+            var resolver = new SwaggerToCSharpTypeResolver(settings, exceptionSchema);
+            resolver.RegisterSchemaDefinitions(document.Definitions
                 .Where(p => p.Value != exceptionSchema)
                 .ToDictionary(p => p.Key, p => p.Value));
 

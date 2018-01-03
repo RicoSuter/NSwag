@@ -43,6 +43,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             Class = controllerClassName;
             Operations = operations;
 
+            BaseClass = _settings.ClientBaseClass?.Replace("{controller}", controllerName);
             ExceptionClass = _settings.ExceptionClass.Replace("{controller}", controllerName);
         }
 
@@ -55,11 +56,11 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets the class name.</summary>
         public string Class { get; }
 
-        /// <summary>Gets the base class name.</summary>
-        public string BaseClass => _settings.ClientBaseClass;
-
         /// <summary>Gets a value indicating whether the client has a base class.</summary>
-        public bool HasBaseClass => !string.IsNullOrEmpty(_settings.ClientBaseClass);
+        public bool HasBaseClass => !string.IsNullOrEmpty(BaseClass);
+
+        /// <summary>Gets the base class name.</summary>
+        public string BaseClass { get; }
 
         /// <summary>Gets a value indicating whether the client has configuration class.</summary>
         public bool HasConfigurationClass => !string.IsNullOrEmpty(_settings.ConfigurationClass);
@@ -91,6 +92,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets a value indicating whether to generate client interfaces.</summary>
         public bool GenerateClientInterfaces => _settings.GenerateClientInterfaces;
 
+        /// <summary>Gets a value indicating whether the document has a BaseUrl specified.</summary>
+        public bool HasBaseUrl => !string.IsNullOrEmpty(BaseUrl);
+
         /// <summary>Gets the service base URL.</summary>
         public string BaseUrl => _document.BaseUrl;
 
@@ -106,6 +110,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets or sets a value indicating whether to use and expose the base URL (default: true).</summary>
         public bool UseBaseUrl => _settings.UseBaseUrl;
 
+        /// <summary>Gets or sets a value indicating whether to generate the BaseUrl property, must be defined on the base class otherwise (default: true).</summary>
+        public bool GenerateBaseUrlProperty => _settings.GenerateBaseUrlProperty;
+
         /// <summary>Gets or sets a value indicating whether to generate synchronous methods (not recommended, default: false).</summary>
         public bool GenerateSyncMethods => _settings.GenerateSyncMethods;
 
@@ -114,6 +121,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
         /// <summary>Gets the operations.</summary>
         public IEnumerable<CSharpOperationModel> Operations { get; }
+
+        /// <summary>Gets the operations of the interface.</summary>
+        public IEnumerable<CSharpOperationModel> InterfaceOperations => Operations.Where(o => o.IsInterfaceMethod);
 
         /// <summary>Gets or sets a value indicating whether DTO exceptions are wrapped in a SwaggerException instance.</summary>
         public bool WrapDtoExceptions => _settings.WrapDtoExceptions;
@@ -124,19 +134,21 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets or sets a value indicating whether to generate the UpdateJsonSerializerSettings method.</summary>
         public bool GenerateUpdateJsonSerializerSettingsMethod => _settings.GenerateUpdateJsonSerializerSettingsMethod;
 
+        /// <summary>Gets or sets a value indicating whether to serialize the type information in a $type property (not recommended, also sets TypeNameHandling = Auto).</summary>
+        public bool SerializeTypeInformation => _settings.SerializeTypeInformation;
+
+        /// <summary>Gets or sets the null value used for query parameters which are null.</summary>
+        public string QueryNullValue => _settings.QueryNullValue;
+
         /// <summary>Gets the JSON serializer parameter code.</summary>
         public string JsonSerializerParameterCode
         {
             get
             {
-                var handleReferences = _settings.CSharpGeneratorSettings.HandleReferences;
-
-                IEnumerable<string> jsonConverters = _settings.CSharpGeneratorSettings.JsonConverters ?? new string[] { };
-                if (RequiresJsonExceptionConverter)
-                    jsonConverters = jsonConverters.Concat(new[] { "JsonExceptionConverter" });
-
                 // TODO: Fix this in NJS (remove ", ", cleanup)
-                var parameterCode = CSharpJsonSerializerGenerator.GenerateJsonSerializerParameterCode(handleReferences, jsonConverters.ToList());
+                var parameterCode = CSharpJsonSerializerGenerator.GenerateJsonSerializerParameterCode(
+                    _settings.CSharpGeneratorSettings, RequiresJsonExceptionConverter ? new[] { "JsonExceptionConverter" } : null);
+
                 if (string.IsNullOrEmpty(parameterCode))
                     parameterCode = "new Newtonsoft.Json.JsonSerializerSettings()";
                 else if(!parameterCode.Contains("new Newtonsoft.Json.JsonSerializerSettings"))
@@ -149,6 +161,6 @@ namespace NSwag.CodeGeneration.CSharp.Models
         }
 
         private bool RequiresJsonExceptionConverter => _settings.CSharpGeneratorSettings.ExcludedTypeNames?.Contains("JsonExceptionConverter") != true &&
-            _document.Operations.Any(o => o.Operation.AllResponses.Any(r => r.Value.ActualResponseSchema?.InheritsSchema(_exceptionSchema) == true));
+            _document.Operations.Any(o => o.Operation.ActualResponses.Any(r => r.Value.ActualResponseSchema?.InheritsSchema(_exceptionSchema) == true));
     }
 }

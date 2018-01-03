@@ -7,7 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System.Threading.Tasks;
-using NSwag.Commands.Base;
+using NSwag.Commands;
 
 namespace NSwagStudio
 {
@@ -18,7 +18,7 @@ namespace NSwagStudio
         string Title { get; }
 
         /// <summary>Gets the command.</summary>
-        OutputCommandBase Command { get; }
+        IOutputCommand Command { get; }
 
         /// <summary>Generates the Swagger specification.</summary>
         Task<string> GenerateSwaggerAsync();

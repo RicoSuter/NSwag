@@ -27,10 +27,10 @@ namespace NSwag.CodeGeneration
         /// <summary>Initializes a new instance of the <see cref="ClientGeneratorBase{TOperationModel, TParameterModel, TResponseModel}"/> class.</summary>
         /// <param name="resolver">The type resolver.</param>
         /// <param name="codeGeneratorSettings">The code generator settings.</param>
-        protected ClientGeneratorBase(ITypeResolver resolver, CodeGeneratorSettingsBase codeGeneratorSettings)
+        protected ClientGeneratorBase(TypeResolverBase resolver, CodeGeneratorSettingsBase codeGeneratorSettings)
         {
             Resolver = resolver;
-            codeGeneratorSettings.NullHandling = NullHandling.Swagger; // Enforce Swagger null handling 
+            codeGeneratorSettings.SchemaType = SchemaType.Swagger2; // enforce Swagger schema output 
         }
 
         /// <summary>Generates the the whole file containing all needed types.</summary>
@@ -48,7 +48,7 @@ namespace NSwag.CodeGeneration
         public abstract string GetTypeName(JsonSchema4 schema, bool isNullable, string typeNameHint);
 
         /// <summary>Gets the type resolver.</summary>
-        protected ITypeResolver Resolver { get; }
+        protected TypeResolverBase Resolver { get; }
 
         /// <summary>Generates the file.</summary>
         /// <param name="clientCode">The client code.</param>
@@ -110,14 +110,13 @@ namespace NSwag.CodeGeneration
             document.GenerateOperationIds();
 
             return document.Paths
-                .SelectMany(pair => pair.Value.Select(p => new { Path = pair.Key.Trim('/'), HttpMethod = p.Key, Operation = p.Value }))
+                .SelectMany(pair => pair.Value.Select(p => new { Path = pair.Key.TrimStart('/'), HttpMethod = p.Key, Operation = p.Value }))
                 .Select(tuple =>
                 {
                     var operationModel = CreateOperationModel(tuple.Operation, BaseSettings);
                     operationModel.ControllerName = BaseSettings.OperationNameGenerator.GetClientName(document, tuple.Path, tuple.HttpMethod, tuple.Operation);
                     operationModel.Path = tuple.Path;
                     operationModel.HttpMethod = tuple.HttpMethod;
-                    operationModel.Operation = tuple.Operation;
                     operationModel.OperationName = BaseSettings.OperationNameGenerator.GetOperationName(document, tuple.Path, tuple.HttpMethod, tuple.Operation);
                     return operationModel;
                 })

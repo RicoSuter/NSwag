@@ -6,9 +6,11 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.TypeScript;
+using System.Reflection;
 
 namespace NSwag.CodeGeneration.TypeScript
 {
@@ -21,25 +23,39 @@ namespace NSwag.CodeGeneration.TypeScript
             ClassName = "{controller}Client";
             Template = TypeScriptTemplate.Fetch;
             PromiseType = PromiseType.Promise;
-            TypeScriptGeneratorSettings = new TypeScriptGeneratorSettings
-            {
-                NullHandling = NullHandling.Swagger,
-                MarkOptionalProperties = true,
-                TemplateFactory = new DefaultTemplateFactory(), 
-                TypeNameGenerator = new TypeScriptTypeNameGenerator()
-            };
             BaseUrlTokenName = "API_BASE_URL";
             ImportRequiredTypes = true;
+            QueryNullValue = "";
+
+            TypeScriptGeneratorSettings = new TypeScriptGeneratorSettings
+            {
+                SchemaType = SchemaType.Swagger2,
+                MarkOptionalProperties = true,
+                TypeNameGenerator = new TypeScriptTypeNameGenerator()
+            };
+
+            TypeScriptGeneratorSettings.TemplateFactory = new DefaultTemplateFactory(TypeScriptGeneratorSettings, new Assembly[]
+            {
+                typeof(TypeScriptGeneratorSettings).GetTypeInfo().Assembly,
+                typeof(SwaggerToTypeScriptClientGeneratorSettings).GetTypeInfo().Assembly,
+            });
         }
 
-        /// <summary>Gets or sets the TypeScript generator settings.</summary>
+        /// <summary>Gets the TypeScript generator settings.</summary>
         public TypeScriptGeneratorSettings TypeScriptGeneratorSettings { get; }
 
         /// <summary>Gets the code generator settings.</summary>
+        [JsonIgnore]
         public override CodeGeneratorSettingsBase CodeGeneratorSettings => TypeScriptGeneratorSettings;
 
         /// <summary>Gets or sets the output template.</summary>
         public TypeScriptTemplate Template { get; set; }
+
+        /// <summary>Gets or sets the HTTP service class (applies only for the Angular template).</summary>
+        public HttpClass HttpClass { get; set; } = HttpClass.Http;
+
+        /// <summary>Gets or sets the injection token type (applies only for the Angular template).</summary>
+        public InjectionTokenType InjectionTokenType { get; set; } = InjectionTokenType.OpaqueToken;
 
         /// <summary>Gets or sets the promise type.</summary>
         public PromiseType PromiseType { get; set; }
@@ -70,6 +86,9 @@ namespace NSwag.CodeGeneration.TypeScript
 
         /// <summary>Gets or sets a value indicating whether to use the 'getBaseUrl(defaultUrl: string)' from the base class (default: false).</summary>
         public bool UseGetBaseUrlMethod { get; set; }
+
+        /// <summary>Gets or sets the null value used for query parameters which are null (default: '').</summary>
+        public string QueryNullValue { get; set; }
 
         internal ITemplate CreateTemplate(object model)
         {

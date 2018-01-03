@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
@@ -19,7 +20,7 @@ namespace NSwag.CodeGeneration.Models
         where TResponseModel : ResponseModelBase
     {
         private readonly SwaggerOperation _operation;
-        private readonly ITypeResolver _resolver;
+        private readonly TypeResolverBase _resolver;
         private readonly IClientGenerator _generator;
         private readonly ClientGeneratorBaseSettings _settings;
 
@@ -29,14 +30,14 @@ namespace NSwag.CodeGeneration.Models
         /// <param name="resolver">The resolver.</param>
         /// <param name="generator">The generator.</param>
         /// <param name="settings">The settings.</param>
-        protected OperationModelBase(JsonSchema4 exceptionSchema, SwaggerOperation operation, ITypeResolver resolver, IClientGenerator generator, ClientGeneratorBaseSettings settings)
+        protected OperationModelBase(JsonSchema4 exceptionSchema, SwaggerOperation operation, TypeResolverBase resolver, IClientGenerator generator, ClientGeneratorBaseSettings settings)
         {
             _operation = operation;
             _resolver = resolver;
             _generator = generator;
             _settings = settings;
 
-            var responses = _operation.Responses
+            var responses = _operation.ActualResponses
                 .Select(response => CreateResponseModel(response.Key, response.Value, exceptionSchema, generator, settings))
                 .ToList();
 
@@ -57,11 +58,8 @@ namespace NSwag.CodeGeneration.Models
         /// <returns>The response model.</returns>
         protected abstract TResponseModel CreateResponseModel(string statusCode, SwaggerResponse response, JsonSchema4 exceptionSchema, IClientGenerator generator, ClientGeneratorBaseSettings settings);
 
-        /// <summary>Gets or sets the operation.</summary>
-        public SwaggerOperation Operation { get; set; }
-
         /// <summary>Gets the operation ID.</summary>
-        public string Id => Operation.OperationId;
+        public string Id => _operation.OperationId;
 
         /// <summary>Gets or sets the HTTP path (i.e. the absolute route).</summary>
         public string Path { get; set; }
@@ -113,7 +111,7 @@ namespace NSwag.CodeGeneration.Models
                 if (response?.ActualResponseSchema == null)
                     return "void";
 
-                var isNullable = response.IsNullable(_settings.CodeGeneratorSettings.NullHandling);
+                var isNullable = response.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
                 return _generator.GetTypeName(response.ActualResponseSchema, isNullable, "Response");
             }
         }
@@ -149,10 +147,10 @@ namespace NSwag.CodeGeneration.Models
         public TResponseModel DefaultResponse { get; }
 
         /// <summary>Gets a value indicating whether the operation has an explicit success response defined.</summary>
-        public bool HasSuccessResponse => Responses.Any(r => r.IsSuccess(this));
+        public bool HasSuccessResponse => Responses.Any(r => r.IsSuccess);
 
         /// <summary>Gets the success response.</summary>
-        public TResponseModel SuccessResponse => Responses.FirstOrDefault(r => r.IsSuccess(this));
+        public TResponseModel SuccessResponse => Responses.FirstOrDefault(r => r.IsSuccess);
 
         /// <summary>Gets the responses.</summary>
         IEnumerable<ResponseModelBase> IOperationModel.Responses => Responses;
@@ -170,7 +168,17 @@ namespace NSwag.CodeGeneration.Models
         public bool HasBody => HasContent || HasFormParameters;
 
         /// <summary>Gets the content parameter.</summary>
-        public TParameterModel ContentParameter => Parameters.SingleOrDefault(p => p.Kind == SwaggerParameterKind.Body);
+        /// <exception cref="InvalidOperationException" accessor="get">Multiple body parameters found in operation.</exception>
+        public TParameterModel ContentParameter
+        {
+            get
+            {
+                if (Parameters.Count(p => p.Kind == SwaggerParameterKind.Body) > 1)
+                    throw new InvalidOperationException("Multiple body parameters found in operation '" + _operation.OperationId + "'.");
+
+                return Parameters.SingleOrDefault(p => p.Kind == SwaggerParameterKind.Body);
+            }
+        }
 
         /// <summary>Gets the path parameters.</summary>
         public IEnumerable<TParameterModel> PathParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.Path);
@@ -197,26 +205,29 @@ namespace NSwag.CodeGeneration.Models
         public bool HasSummary => !string.IsNullOrEmpty(Summary);
 
         /// <summary>Gets the summary text.</summary>
-        public string Summary => ConversionUtilities.TrimWhiteSpaces(Operation.Summary);
+        public string Summary => ConversionUtilities.TrimWhiteSpaces(_operation.Summary);
 
         /// <summary>Gets a value indicating whether the operation has any documentation.</summary>
-        public bool HasDocumentation => HasSummary || HasResultDescription || Parameters.Any(p => p.HasDescription) || Operation.IsDeprecated;
+        public bool HasDocumentation => HasSummary || HasResultDescription || Parameters.Any(p => p.HasDescription) || _operation.IsDeprecated;
 
         /// <summary>Gets a value indicating whether the operation is deprecated.</summary>
-        public bool IsDeprecated => Operation.IsDeprecated;
+        public bool IsDeprecated => _operation.IsDeprecated;
 
         /// <summary>Gets or sets a value indicating whether this operation has an XML body parameter.</summary>
-        public bool HasXmlBodyParameter => Operation.ActualParameters.Any(p => p.IsXmlBodyParameter);
+        public bool HasXmlBodyParameter => _operation.ActualParameters.Any(p => p.IsXmlBodyParameter);
+
+        /// <summary>Gets or sets a value indicating whether this operation has an binary body parameter.</summary>
+        public bool HasBinaryBodyParameter => _operation.ActualParameters.Any(p => p.IsBinaryBodyParameter);
 
         /// <summary>Gets the mime type of the request body.</summary>
         public string Consumes
         {
             get
             {
-                if (Operation.ActualConsumes?.Contains("application/json") == true)
+                if (_operation.ActualConsumes?.Contains("application/json") == true)
                     return "application/json";
 
-                return Operation.ActualConsumes?.FirstOrDefault() ?? "application/json";
+                return _operation.ActualConsumes?.FirstOrDefault() ?? "application/json";
             }
         }
 
@@ -225,28 +236,34 @@ namespace NSwag.CodeGeneration.Models
         {
             get
             {
-                if (Operation.ActualProduces?.Contains("application/json") == true)
+                if (_operation.ActualProduces?.Contains("application/json") == true)
                     return "application/json";
 
-                return Operation.ActualProduces?.FirstOrDefault() ?? "application/json";
+                return _operation.ActualProduces?.FirstOrDefault() ?? "application/json";
             }
         }
 
         /// <summary>Gets a value indicating whether a file response is expected from one of the responses.</summary>
-        public bool IsFile => _operation.AllResponses.Any(r => r.Value.Schema?.ActualSchema.Type == JsonObjectType.File);
+        public bool IsFile => _operation.ActualResponses.Any(r => r.Value.Schema?.ActualSchema.Type == JsonObjectType.File);
+
+        /// <summary>Gets a value indicating whether to wrap the response of this operation.</summary>
+        public bool WrapResponse => _settings.WrapResponses && (
+                                    _settings.WrapResponseMethods == null ||
+                                    _settings.WrapResponseMethods.Length == 0 ||
+                                    _settings.WrapResponseMethods.Contains(_settings.GenerateControllerName(ControllerName) + "." + ActualOperationName));
 
         /// <summary>Gets the success response.</summary>
         /// <returns>The response.</returns>
         protected SwaggerResponse GetSuccessResponse()
         {
-            if (_operation.Responses.Any(r => r.Key == "200"))
-                return _operation.Responses.Single(r => r.Key == "200").Value;
+            if (_operation.ActualResponses.Any(r => r.Key == "200"))
+                return _operation.ActualResponses.Single(r => r.Key == "200").Value;
 
-            var response = _operation.Responses.FirstOrDefault(r => HttpUtilities.IsSuccessStatusCode(r.Key)).Value;
+            var response = _operation.ActualResponses.FirstOrDefault(r => HttpUtilities.IsSuccessStatusCode(r.Key)).Value;
             if (response != null)
                 return response;
 
-            return _operation.Responses.FirstOrDefault(r => r.Key == "default").Value;
+            return _operation.ActualResponses.FirstOrDefault(r => r.Key == "default").Value;
         }
 
         /// <summary>Gets the name of the parameter variable.</summary>
@@ -272,7 +289,9 @@ namespace NSwag.CodeGeneration.Models
                 schema = new JsonSchema4 { Type = JsonObjectType.Array, Item = schema };
 
             var typeNameHint = ConversionUtilities.ConvertToUpperCamelCase(parameter.Name, true);
-            return _resolver.Resolve(schema, parameter.IsRequired == false || parameter.IsNullable(_settings.CodeGeneratorSettings.NullHandling), typeNameHint);
+            var isNullable = parameter.IsRequired == false || parameter.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
+
+            return _resolver.Resolve(schema, isNullable, typeNameHint);
         }
     }
 };

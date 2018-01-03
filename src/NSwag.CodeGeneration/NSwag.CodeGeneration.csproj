@@ -2,14 +2,14 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard1.3;net451</TargetFrameworks>
     <Description>NSwag: The Swagger API toolchain for .NET and TypeScript</Description>
-    <Version>11.3.3</Version>
+    <Version>11.12.16</Version>
     <PackageTags>Swagger Documentation WebApi AspNet TypeScript CodeGen</PackageTags>
     <Copyright>Copyright © Rico Suter, 2017</Copyright>
     <PackageLicenseUrl>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</PackageLicenseUrl>
     <PackageProjectUrl>http://NSwag.org</PackageProjectUrl>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>NSwag.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>../NSwag.snk</AssemblyOriginatorKeyFile>
     <Authors>Rico Suter</Authors>
     <PackageIconUrl>https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png</PackageIconUrl>
     <Company />
@@ -19,8 +19,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-    <PackageReference Include="NJsonSchema" Version="9.4.3" />
-    <PackageReference Include="NJsonSchema.CodeGeneration" Version="9.4.3" />
+    <PackageReference Include="NJsonSchema" Version="9.10.19" />
+    <PackageReference Include="NJsonSchema.CodeGeneration" Version="9.10.19" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net451'">
     <Reference Include="Microsoft.CSharp" />

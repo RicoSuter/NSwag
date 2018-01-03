@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Xml;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NJsonSchema;
 using NSwag.CodeGeneration.CSharp;
 using NSwag.CodeGeneration.TypeScript;
 
@@ -31,7 +32,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
             //// Assert
             var operation = document.Operations.First().Operation;
             Assert.AreEqual("application/xml", operation.Consumes[0]);
-            Assert.IsNull(operation.Parameters.First().Schema);
+            Assert.AreEqual(JsonObjectType.String, operation.Parameters.First().Schema.ActualSchema.Type);
         }
 
         [TestMethod]
@@ -48,7 +49,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
             //// Assert
             Assert.IsTrue(code.Contains("(string xmlDocument, "));
             Assert.IsTrue(code.Contains("var content_ = new System.Net.Http.StringContent(xmlDocument);"));
-            Assert.IsTrue(code.Contains("content_.Headers.ContentType.MediaType = \"application/xml\";"));
+            Assert.IsTrue(code.Contains("content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse(\"application/xml\");"));
         }
 
         [TestMethod]

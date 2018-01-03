@@ -64,13 +64,13 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
 
             /// Assert
             var operationAbc = document.Operations.Single(o => o.Path.Contains("Abc"));
-            var responseAbc = operationAbc.Operation.Responses.First(r => r.Key == "500").Value;
+            var responseAbc = operationAbc.Operation.ActualResponses.First(r => r.Key == "500").Value;
 
             Assert.AreEqual(document.Definitions["Animal"].ActualSchema, responseAbc.Schema.ActualSchema);
             Assert.AreEqual(2, responseAbc.ExpectedSchemas.Count);
 
             var operationDef = document.Operations.Single(o => o.Path.Contains("Abc"));
-            var responseDef = operationDef.Operation.Responses.First(r => r.Key == "500").Value;
+            var responseDef = operationDef.Operation.ActualResponses.First(r => r.Key == "500").Value;
 
             Assert.AreEqual(document.Definitions["Animal"].ActualSchema, responseDef.Schema.ActualSchema);
             Assert.AreEqual(2, responseDef.ExpectedSchemas.Count);
@@ -99,7 +99,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
             var json = document.ToJson();
 
             /// Assert
-            Assert.IsTrue(document.Operations.First().Operation.Responses.First().Value.Schema.Item.IsAnyType);
+            Assert.IsTrue(document.Operations.First().Operation.ActualResponses.First().Value.Schema.Item.IsAnyType);
         }
     }
 }

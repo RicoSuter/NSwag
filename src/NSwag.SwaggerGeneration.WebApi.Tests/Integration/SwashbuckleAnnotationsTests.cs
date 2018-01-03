@@ -60,7 +60,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Integration
                     })
                 },
                 AddMissingPathParameters = false,
-                NullHandling = NullHandling.Swagger,
+                SchemaType = SchemaType.Swagger2,
                 GenerateKnownTypes = true,
                 FlattenInheritanceHierarchy = true,
                 DefaultEnumHandling = EnumHandling.String,
@@ -88,7 +88,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Integration
             var json = document.ToJson();
 
             //// Assert
-            Assert.IsTrue(document.Operations.First().Operation.Responses.ContainsKey("403"));
+            Assert.IsTrue(document.Operations.First().Operation.ActualResponses.ContainsKey("403"));
         }
     }
 }

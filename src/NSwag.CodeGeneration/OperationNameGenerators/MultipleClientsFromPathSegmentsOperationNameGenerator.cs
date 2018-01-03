@@ -40,11 +40,48 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         /// <returns>The client name.</returns>
         public string GetOperationName(SwaggerDocument document, string path, SwaggerOperationMethod httpMethod, SwaggerOperation operation)
         {
+            var operationName = ConvertPathToName(path);
+
+            var hasNameConflict = document.Paths
+                .SelectMany(pair => pair.Value.Select(p => new { Path = pair.Key.Trim('/'), HttpMethod = p.Key, Operation = p.Value }))
+                .Where(op => 
+                    GetClientName(document, op.Path, op.HttpMethod, op.Operation) == GetClientName(document, path, httpMethod, operation) && 
+                    ConvertPathToName(op.Path) == operationName
+                ).ToList()
+                .Count > 1;
+
+            if (hasNameConflict)
+            {
+                operationName += CapitalizeFirst(httpMethod.ToString());
+            }
+
+            return operationName;
+        }
+
+        /// <summary>Converts the path to an operation name.</summary>
+        /// <param name="path">The HTTP path.</param>
+        /// <returns>The operation name.</returns>
+        internal static string ConvertPathToName(string path)
+        {
             return path
                 .Split('/')
                 .Where(p => !p.Contains("{") && !string.IsNullOrWhiteSpace(p))
                 .Reverse()
                 .FirstOrDefault() ?? "Index";
+        }
+
+        /// <summary>Capitalizes first letter.</summary>
+        /// <param name="name">The name to capitalize.</param>
+        /// <returns>Capitalized name.</returns>
+        internal static string CapitalizeFirst(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return string.Empty;
+            }
+
+            var capitalized = name.ToLower();
+            return char.ToUpper(capitalized[0]) + (capitalized.Length > 1 ? capitalized.Substring(1) : "");
         }
     }
 }

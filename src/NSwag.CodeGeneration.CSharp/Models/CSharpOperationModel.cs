@@ -84,22 +84,30 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets a value indicating whether the operation has a result type.</summary>
         public bool HasResult => UnwrappedResultType != "void";
 
+        /// <summary>Gets or sets the synchronous type of the result.</summary>
+        public string SyncResultType
+        {
+            get
+            {
+                if (_settings != null && WrapResponse && UnwrappedResultType != "FileResponse")
+                {
+                    return UnwrappedResultType == "void"
+                        ? _settings.ResponseClass.Replace("{controller}", ControllerName)
+                        : _settings.ResponseClass.Replace("{controller}", ControllerName) + "<" + UnwrappedResultType + ">";
+                }
+
+                return UnwrappedResultType;
+            }
+        }
+
         /// <summary>Gets or sets the type of the result.</summary>
         public override string ResultType
         {
             get
             {
-                if (UnwrappedResultType == "FileResponse")
-                    return "System.Threading.Tasks.Task<FileResponse>";
-
-                if (_settings != null && _settings.WrapResponses)
-                    return UnwrappedResultType == "void"
-                        ? "System.Threading.Tasks.Task<" + _settings.ResponseClass.Replace("{controller}", ControllerName) + ">"
-                        : "System.Threading.Tasks.Task<" + _settings.ResponseClass.Replace("{controller}", ControllerName) + "<" + UnwrappedResultType + ">>";
-
-                return UnwrappedResultType == "void"
+                return SyncResultType == "void"
                     ? "System.Threading.Tasks.Task"
-                    : "System.Threading.Tasks.Task<" + UnwrappedResultType + ">";
+                    : "System.Threading.Tasks.Task<" + SyncResultType + ">";
             }
         }
 
@@ -108,11 +116,12 @@ namespace NSwag.CodeGeneration.CSharp.Models
         {
             get
             {
-                if (_operation.Responses.Count(r => !HttpUtilities.IsSuccessStatusCode(r.Key)) != 1)
+                if (_operation.ActualResponses.Count(r => !HttpUtilities.IsSuccessStatusCode(r.Key)) != 1)
                     return "System.Exception";
 
-                var response = _operation.Responses.Single(r => !HttpUtilities.IsSuccessStatusCode(r.Key)).Value;
-                return _generator.GetTypeName(response.ActualResponseSchema, response.IsNullable(_settings.CodeGeneratorSettings.NullHandling), "Exception");
+                var response = _operation.ActualResponses.Single(r => !HttpUtilities.IsSuccessStatusCode(r.Key)).Value;
+                var isNullable = response.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
+                return _generator.GetTypeName(response.ActualResponseSchema, isNullable, "Exception");
             }
         }
 
@@ -124,7 +133,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 var settings = (SwaggerToCSharpClientGeneratorSettings)_settings;
                 var controllerName = _settings.GenerateControllerName(ControllerName);
                 return Responses
-                    .Where(r => r.ThrowsException(this))
+                    .Where(r => r.ThrowsException)
                     .SelectMany(r =>
                     {
                         if (r.ExpectedSchemas?.Any() == true)
@@ -134,7 +143,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
                                 .Select(s =>
                                 {
                                     var schema = s.Schema;
-                                    var isNullable = schema.IsNullable(_settings.CSharpGeneratorSettings.NullHandling);
+                                    var isNullable = schema.IsNullable(_settings.CSharpGeneratorSettings.SchemaType);
                                     var typeName = _generator.GetTypeName(schema.ActualSchema, isNullable, "Response");
                                     return new CSharpExceptionDescriptionModel(typeName, s.Description, controllerName, settings);
                                 });
@@ -176,9 +185,14 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 return "FileParameter";
             }
 
+            if (parameter.IsBinaryBodyParameter)
+            {
+                return "System.IO.Stream";
+            }
+
             return base.ResolveParameterType(parameter)
-                .Replace(_settings.CSharpGeneratorSettings.ArrayType + "<", "System.Collections.Generic.IEnumerable<")
-                .Replace(_settings.CSharpGeneratorSettings.DictionaryType + "<", "System.Collections.Generic.IDictionary<");
+                .Replace(_settings.CSharpGeneratorSettings.ArrayType + "<", _settings.ParameterArrayType + "<")
+                .Replace(_settings.CSharpGeneratorSettings.DictionaryType + "<", _settings.ParameterDictionaryType + "<");
         }
 
         /// <summary>Creates the response model.</summary>
@@ -190,7 +204,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <returns></returns>
         protected override CSharpResponseModel CreateResponseModel(string statusCode, SwaggerResponse response, JsonSchema4 exceptionSchema, IClientGenerator generator, ClientGeneratorBaseSettings settings)
         {
-            return new CSharpResponseModel(statusCode, response, response == GetSuccessResponse(), exceptionSchema, generator, settings.CodeGeneratorSettings);
+            return new CSharpResponseModel(this, statusCode, response, response == GetSuccessResponse(), exceptionSchema, generator, settings.CodeGeneratorSettings);
         }
     }
 }
