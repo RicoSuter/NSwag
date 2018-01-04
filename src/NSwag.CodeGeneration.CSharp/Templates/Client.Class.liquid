@@ -147,7 +147,8 @@ urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({
 {%         if parameter.IsStringArray -%}
                 request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", {{ parameter.VariableName }});
 {%         else -%}
-                request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", {{ parameter.VariableName }} != null ? ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture) : null);
+                if ({{ parameter.VariableName }} != null)
+                    request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture));
 {%         endif -%}
 {%     endfor -%}
 {%     if operation.HasContent -%}
