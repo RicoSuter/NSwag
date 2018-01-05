@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard1.3;net45</TargetFrameworks>
     <Description>NSwag: The Swagger API toolchain for .NET and TypeScript</Description>
-    <Version>11.12.2</Version>
+    <Version>11.12.16</Version>
     <PackageTags>Swagger Documentation WebApi AspNet TypeScript CodeGen</PackageTags>
     <Copyright>Copyright © Rico Suter, 2017</Copyright>
     <PackageLicenseUrl>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</PackageLicenseUrl>
@@ -16,7 +16,7 @@
     <RootNamespace>NSwag</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="YamlDotNet" Version="4.2.2" />
+    <PackageReference Include="YamlDotNet.Signed" Version="4.2.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj" />

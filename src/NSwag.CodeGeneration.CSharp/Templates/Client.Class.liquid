@@ -1,15 +1,14 @@
 [System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
 {{ ClientClassAccessModifier }} partial class {{ Class }} {% if HasBaseType %}: {% endif %}{% if HasBaseClass %}{{ BaseClass }}{% if GenerateClientInterfaces %}, {% endif %}{% endif %}{% if GenerateClientInterfaces %}I{{ Class }}{% endif %}
 {
-    private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
-{% if UseBaseUrl -%}
+{% if UseBaseUrl and GenerateBaseUrlProperty -%}
     private string _baseUrl = "{{ BaseUrl }}";
-    
 {% endif -%}
 {% if InjectHttpClient -%}
-    private {{ HttpClientType }} _httpClient; 
-
+    private {{ HttpClientType }} _httpClient;
 {% endif -%}
+    private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+
 {% if HasConfigurationClass -%}
     public {{ Class }}({{ ConfigurationClass }} configuration{% if InjectHttpClient %}, {{ HttpClientType }} httpClient{% endif %}) : base(configuration)
     {
@@ -42,7 +41,7 @@
         });
 	}
 
-{% if UseBaseUrl -%}
+{% if UseBaseUrl and GenerateBaseUrlProperty -%}
     public string BaseUrl 
     {
         get { return _baseUrl; }
@@ -68,7 +67,7 @@
 {%     endif -%}
 {%     if GenerateSyncMethods -%}
     {% template Client.Method.Documentation %}
-    {{ operation.MethodAccessModifier }} {{ operation.UnwrappedResultType }} {{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}{% if parameter.IsLast == false %}, {% endif %}{% endfor %})
+    {{ operation.MethodAccessModifier }} {{ operation.SyncResultType }} {{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}{% if parameter.IsLast == false %}, {% endif %}{% endfor %})
     {
         {% if operation.HasResult %}return {% endif %}System.Threading.Tasks.Task.Run(async () => await {{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.VariableName }}, {% endfor %}System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
     }
@@ -103,9 +102,9 @@
 {%         elseif parameter.IsDate -%}
         urlBuilder_.Replace("{{ "{" }}{{ parameter.Name }}}", System.Uri.EscapeDataString({{ parameter.VariableName }}.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture)));
 {%         elseif parameter.IsArray -%}
-        urlBuilder_.Replace("{{ "{" }}{{ parameter.Name }}}", System.Uri.EscapeDataString(string.Join(",", System.Linq.Enumerable.Select({{ parameter.VariableName }}, s_ => System.Convert.ToString(s_, System.Globalization.CultureInfo.InvariantCulture)))));
+        urlBuilder_.Replace("{{ "{" }}{{ parameter.Name }}}", System.Uri.EscapeDataString(string.Join(",", System.Linq.Enumerable.Select({{ parameter.VariableName }}, s_ => ConvertToString(s_, System.Globalization.CultureInfo.InvariantCulture)))));
 {%         else -%}
-        urlBuilder_.Replace("{{ "{" }}{{ parameter.Name }}}", System.Uri.EscapeDataString(System.Convert.ToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture)));
+        urlBuilder_.Replace("{{ "{" }}{{ parameter.Name }}}", System.Uri.EscapeDataString(ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture)));
 {%         endif -%}
 {%         if parameter.IsOptional -%}
         else
@@ -118,11 +117,11 @@ if ({{ parameter.VariableName }} != null) {% endif -%}
 {%         if parameter.IsDateArray -%}
 foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString(item_.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
 {%         elseif parameter.IsDate -%}
-urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}{{ parameter.VariableName }}{% if parameter.IsSystemNullable %}.Value{% endif %}.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "null"{% endif %})).Append("&");
+urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}{{ parameter.VariableName }}{% if parameter.IsSystemNullable %}.Value{% endif %}.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "{{ QueryNullValue }}"{% endif %})).Append("&");
 {%         elseif parameter.IsArray -%}
-foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString(System.Convert.ToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
+foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
 {%         else -%}
-urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}System.Convert.ToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "null"{% endif %})).Append("&");
+urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "{{ QueryNullValue }}"{% endif %})).Append("&");
 {%         endif -%}
 {%     endfor -%}
 {%     if operation.HasQueryParameters -%}
@@ -146,22 +145,23 @@ urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({
             {
 {%     for parameter in operation.HeaderParameters -%}
 {%         if parameter.IsStringArray -%}
-                request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", {{ parameter.VariableName }});
+                if ({{ parameter.VariableName }} != null && {{ parameter.VariableName }}.Length != 0}})
+                    request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", {{ parameter.VariableName }});
 {%         else -%}
-                request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", {{ parameter.VariableName }} != null ? System.Convert.ToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture) : null);
+                if ({{ parameter.VariableName }} != null)
+                    request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture));
 {%         endif -%}
 {%     endfor -%}
 {%     if operation.HasContent -%}
 {%         if operation.HasBinaryBodyParameter -%}
                 var content_ = new System.Net.Http.StreamContent({{ operation.ContentParameter.VariableName }});
-                content_.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("{{ operation.Consumes }}");
 {%         elseif operation.HasXmlBodyParameter -%}
                 var content_ = new System.Net.Http.StringContent({{ operation.ContentParameter.VariableName }});
-                content_.Headers.ContentType.MediaType = "{{ operation.Consumes }}";
 {%         else -%}
                 var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject({{ operation.ContentParameter.VariableName }}, {% if SerializeTypeInformation %}typeof({{ operation.ContentParameter.Type }}), {% endif %}_settings.Value));
-                content_.Headers.ContentType.MediaType = "{{ operation.Consumes }}";
 {%         endif -%}
+                content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
+                request_.Content = content_;
 {%     else -%}
 {%         if operation.HasFormParameters -%}
                 var boundary_ = System.Guid.NewGuid().ToString();
@@ -183,15 +183,13 @@ urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({
                     content_.Add(new System.Net.Http.StreamContent({{ parameter.VariableName }}.Data), "{{ parameter.Name }}", {{ parameter.VariableName }}.FileName ?? "{{ parameter.Name }}");
 {%                     endif -%}
 {%                 else -%}
-                    content_.Add(new System.Net.Http.StringContent(System.Convert.ToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture)), "{{ parameter.Name }}");
+                    content_.Add(new System.Net.Http.StringContent(ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture)), "{{ parameter.Name }}");
 {%                 endif -%}
 {%             endfor -%}
-{%         elseif operation.IsGetOrDeleteOrHead == false -%}
-                var content_ = new System.Net.Http.StringContent(string.Empty);
-{%         endif -%}
-{%     endif -%}
-{%     if operation.IsGetOrDeleteOrHead == false -%}
                 request_.Content = content_;
+{%         elseif operation.IsGetOrDeleteOrHead == false -%}
+                request_.Content = new System.Net.Http.StringContent(string.Empty);
+{%         endif -%}
 {%     endif -%}
                 request_.Method = new System.Net.Http.HttpMethod("{{ operation.HttpMethodUpper | upcase }}");
 {%     if operation.HasResultType and operation.HasAcceptHeaderParameterParameter == false -%}
@@ -203,6 +201,7 @@ urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({
                 request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
                 PrepareRequest(client_, request_, url_);
 
+                {% template Client.Class.BeforeSend %}
                 var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                 try
                 {
@@ -268,4 +267,26 @@ urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({
     }
 
 {% endfor -%}
+	private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
+	{
+		if (value is System.Enum)
+		{
+			string name = System.Enum.GetName(value.GetType(), value);
+			if (name != null)
+			{
+				var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+				if (field != null)
+				{
+					var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
+						as System.Runtime.Serialization.EnumMemberAttribute;
+					if (attribute != null)
+					{
+						return attribute.Value;
+					}
+				}
+			}
+		}
+
+		return System.Convert.ToString(value, cultureInfo);
+	}
 }

@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -16,7 +15,6 @@ using NJsonSchema;
 using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors.Contexts;
-using NSwag.SwaggerGeneration.Processors;
 
 namespace NSwag.SwaggerGeneration.Processors
 {
@@ -49,6 +47,25 @@ namespace NSwag.SwaggerGeneration.Processors
 
             var responseDescriptions = GetOperationResponseDescriptions(responseTypeAttributes, successResponseDescription);
             await ProcessOperationDescriptionsAsync(responseDescriptions, returnParameter, operationProcessorContext, successResponseDescription);
+        }
+        
+        /// <summary>Gets all attributes of the given parameter.</summary>
+        /// <param name="parameter">The parameter.</param>
+        /// <returns>The attributes.</returns>
+        protected IEnumerable<Attribute> GetParameterAttributes(ParameterInfo parameter)
+        {
+            try
+            {
+                return parameter?.GetCustomAttributes(true)?.Cast<Attribute>() ??
+                    parameter?.GetCustomAttributes(false)?.Cast<Attribute>() ??
+                    new Attribute[0];
+            }
+            catch
+            {
+                // in some environments, the call to GetCustomAttributes(true) fails
+                return parameter?.GetCustomAttributes(false)?.Cast<Attribute>() ??
+                    new Attribute[0];
+            }
         }
 
         private IEnumerable<OperationResponseDescription> GetOperationResponseDescriptions(IEnumerable<Attribute> responseTypeAttributes, string successResponseDescription)
@@ -87,7 +104,7 @@ namespace NSwag.SwaggerGeneration.Processors
                 yield return new OperationResponseDescription(httpStatusCode, returnType, isNullable, description);
             }
         }
-        
+
         private async Task ProcessOperationDescriptionsAsync(IEnumerable<OperationResponseDescription> operationDescriptions, ParameterInfo returnParameter, OperationProcessorContext context, string successResponseDescription)
         {
             foreach (var statusCodeGroup in operationDescriptions.GroupBy(r => r.StatusCode))
@@ -97,7 +114,7 @@ namespace NSwag.SwaggerGeneration.Processors
                 var description = string.Join("\nor\n", statusCodeGroup.Select(r => r.Description));
 
                 var typeDescription = _settings.ReflectionService.GetDescription(
-                    returnType, returnParameter?.GetCustomAttributes(), _settings);
+                    returnType, GetParameterAttributes(returnParameter), _settings);
 
                 var response = new SwaggerResponse
                 {
@@ -106,7 +123,7 @@ namespace NSwag.SwaggerGeneration.Processors
 
                 if (IsVoidResponse(returnType) == false)
                 {
-                    response.IsNullableRaw = operationDescriptions.Any(r => r.IsNullable) && typeDescription.IsNullable;
+                    response.IsNullableRaw = statusCodeGroup.Any(r => r.IsNullable) && typeDescription.IsNullable;
                     response.ExpectedSchemas = await GenerateExpectedSchemasAsync(statusCodeGroup, context);
                     response.Schema = await context.SchemaGenerator
                         .GenerateWithReferenceAndNullability<JsonSchema4>(
@@ -195,18 +212,6 @@ namespace NSwag.SwaggerGeneration.Processors
                     IsNullableRaw = typeDescription.IsNullable,
                     Schema = responseSchema
                 };
-            }
-        }
-
-        private static IEnumerable<Attribute> GetParameterAttributes(ParameterInfo parameter)
-        {
-            try
-            {
-                return parameter?.GetCustomAttributes(true).Cast<Attribute>();
-            }
-            catch
-            {
-                return parameter?.GetCustomAttributes(false).Cast<Attribute>();
             }
         }
 

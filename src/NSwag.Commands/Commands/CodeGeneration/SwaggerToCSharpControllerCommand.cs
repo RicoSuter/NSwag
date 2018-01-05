@@ -16,7 +16,7 @@ using NSwag.CodeGeneration.CSharp.Models;
 namespace NSwag.Commands.CodeGeneration
 {
     [Command(Name = "swagger2cscontroller", Description = "Generates CSharp Web API controller code from a Swagger specification.")]
-    public class SwaggerToCSharpControllerCommand : SwaggerToCSharpCommand<SwaggerToCSharpControllerGeneratorSettings>
+    public class SwaggerToCSharpControllerCommand : SwaggerToCSharpCommandBase<SwaggerToCSharpControllerGeneratorSettings>
     {
         public SwaggerToCSharpControllerCommand() : base(new SwaggerToCSharpControllerGeneratorSettings())
         {

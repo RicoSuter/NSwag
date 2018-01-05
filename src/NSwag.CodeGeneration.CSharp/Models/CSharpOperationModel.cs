@@ -84,22 +84,30 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets a value indicating whether the operation has a result type.</summary>
         public bool HasResult => UnwrappedResultType != "void";
 
+        /// <summary>Gets or sets the synchronous type of the result.</summary>
+        public string SyncResultType
+        {
+            get
+            {
+                if (_settings != null && WrapResponse && UnwrappedResultType != "FileResponse")
+                {
+                    return UnwrappedResultType == "void"
+                        ? _settings.ResponseClass.Replace("{controller}", ControllerName)
+                        : _settings.ResponseClass.Replace("{controller}", ControllerName) + "<" + UnwrappedResultType + ">";
+                }
+
+                return UnwrappedResultType;
+            }
+        }
+
         /// <summary>Gets or sets the type of the result.</summary>
         public override string ResultType
         {
             get
             {
-                if (UnwrappedResultType == "FileResponse")
-                    return "System.Threading.Tasks.Task<FileResponse>";
-
-                if (_settings != null && WrapResponse)
-                    return UnwrappedResultType == "void"
-                        ? "System.Threading.Tasks.Task<" + _settings.ResponseClass.Replace("{controller}", ControllerName) + ">"
-                        : "System.Threading.Tasks.Task<" + _settings.ResponseClass.Replace("{controller}", ControllerName) + "<" + UnwrappedResultType + ">>";
-
-                return UnwrappedResultType == "void"
+                return SyncResultType == "void"
                     ? "System.Threading.Tasks.Task"
-                    : "System.Threading.Tasks.Task<" + UnwrappedResultType + ">";
+                    : "System.Threading.Tasks.Task<" + SyncResultType + ">";
             }
         }
 
@@ -183,8 +191,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
             }
 
             return base.ResolveParameterType(parameter)
-                .Replace(_settings.CSharpGeneratorSettings.ArrayType + "<", "System.Collections.Generic.IEnumerable<")
-                .Replace(_settings.CSharpGeneratorSettings.DictionaryType + "<", "System.Collections.Generic.IDictionary<");
+                .Replace(_settings.CSharpGeneratorSettings.ArrayType + "<", _settings.ParameterArrayType + "<")
+                .Replace(_settings.CSharpGeneratorSettings.DictionaryType + "<", _settings.ParameterDictionaryType + "<");
         }
 
         /// <summary>Creates the response model.</summary>

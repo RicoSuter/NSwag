@@ -2,21 +2,19 @@
 const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
 const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
 const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-{%     if IsAngular -%}
-{%         if operation.WrapResponse -%}
-return Observable.of(new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, data: <any>response.{% if UseAngularHttpClient %}body{% else %}blob(){% endif %}, status: status, headers: _headers }));
-{%         else -%}
-return Observable.of({ fileName: fileName, data: <any>response.{% if UseAngularHttpClient %}body{% else %}blob(){% endif %}, status: status, headers: _headers });
-{%         endif -%}
-{%     elseif IsAngularJS -%}
-{%         if operation.WrapResponse -%}
+{%     if operation.WrapResponse -%}
+{%         if IsAngular -%}
+return Observable.of(new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, data: {% if UseAngularHttpClient %}<any>responseBlob{% else %}<any>response.blob(){% endif %}, status: status, headers: _headers }));
+{%         elseif IsAngularJS -%}
 return this.q.resolve(new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, status: status, data: new Blob([response]), headers: _headers }));
 {%         else -%}
-return this.q.resolve({ fileName: fileName, status: status, data: new Blob([response]), headers: _headers });
+return response.blob().then(blob => { return new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, data: blob, status: status, headers: _headers }); });
 {%         endif -%}
 {%     else -%}
-{%         if operation.WrapResponse -%}
-return response.blob().then(blob => { return new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, data: blob, status: status, headers: _headers }); });
+{%         if IsAngular -%}
+return Observable.of({ fileName: fileName, data: {% if UseAngularHttpClient %}<any>responseBlob{% else %}<any>response.blob(){% endif %}, status: status, headers: _headers });
+{%         elseif IsAngularJS -%}
+return this.q.resolve({ fileName: fileName, status: status, data: new Blob([response]), headers: _headers });
 {%         else -%}
 return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
 {%         endif -%}
@@ -32,21 +30,19 @@ let resultData{{ response.StatusCode }} = _responseText === "" ? null : {% if op
 result{{ response.StatusCode }} = _responseText === "" ? null : <{{ response.Type }}>{% if operation.HandleReferences %}jsonParse{% else %}JSON.parse{% endif %}(_responseText, this.jsonParseReviver);
 {%         endif -%}
 {%         if response.IsSuccess -%}
-{%             if IsAngular -%}
-{%                 if operation.WrapResponse -%}
+{%             if operation.WrapResponse -%}
+{%                 if IsAngular -%}
 return Observable.of(new {{ operation.ResponseClass }}(status, _headers, result{{ response.StatusCode }}));
-{%                 else -%}
-return Observable.of(result{{ response.StatusCode }});
-{%                 endif -%}
-{%             elseif IsAngularJS -%}
-{%                 if operation.WrapResponse -%}
+{%                 elseif IsAngularJS -%}
 return this.q.resolve(new {{ operation.ResponseClass }}(status, _headers, result{{ response.StatusCode }}));
 {%                 else -%}
-return this.q.resolve(result{{ response.StatusCode }});
+return new {{ operation.ResponseClass }}(status, _headers, result{{ response.StatusCode }});
 {%                 endif -%}
 {%             else -%}
-{%                 if operation.WrapResponse -%}
-return new {{ operation.ResponseClass }}(status, _headers, result{{ response.StatusCode }});
+{%                 if IsAngular -%}
+return Observable.of(result{{ response.StatusCode }});
+{%                 elseif IsAngularJS -%}
+return this.q.resolve(result{{ response.StatusCode }});
 {%                 else -%}
 return result{{ response.StatusCode }};
 {%                 endif -%}
@@ -55,12 +51,22 @@ return result{{ response.StatusCode }};
 return throwException({% if IsAngularJS %}this.q, {% endif %}"A server error occurred.", status, _responseText, _headers, result{{ response.StatusCode }});
 {%         endif -%}
 {%     elseif response.IsSuccess -%}
-{%         if IsAngular -%}
-return Observable.of<{{ operation.ResultType }}>(<any>null);
-{%         elseif IsAngularJS -%}
-return this.q.resolve<{{ operation.ResultType }}>(<any>null);
+{%         if operation.WrapResponse -%}
+{%             if IsAngular -%}
+return Observable.of<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
+{%             elseif IsAngularJS -%}
+return this.q.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
+{%             else -%}
+return new {{ operation.ResponseClass }}(status, _headers, <any>null);
+{%             endif -%}
 {%         else -%}
+{%             if IsAngular -%}
+return Observable.of<{{ operation.ResultType }}>(<any>null);
+{%             elseif IsAngularJS -%}
+return this.q.resolve<{{ operation.ResultType }}>(<any>null);
+{%             else -%}
 return{% if operation.HasResultType %} null{% endif %};
+{%             endif -%}
 {%         endif -%}
 {%     else -%}
 return throwException({% if IsAngularJS %}this.q, {% endif %}"A server error occurred.", status, _responseText, _headers);

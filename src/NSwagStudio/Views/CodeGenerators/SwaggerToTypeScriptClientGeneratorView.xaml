@@ -108,6 +108,10 @@
                                               Content="Use the 'getBaseUrl(defaultUrl: string)' method from the base class" Margin="0,0,0,12" />
                                 </StackPanel>
 
+                                <TextBlock Text="Null value used for query parameters which are null" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.QueryNullValue, Mode=TwoWay}" 
+                                         ToolTip="QueryNullValue" Margin="0,0,0,12" />
+
                                 <CheckBox IsChecked="{Binding Command.GenerateClientInterfaces, Mode=TwoWay}" 
                                           ToolTip="GenerateClientInterfaces"
                                           Content="Generate interfaces for Client classes" Margin="0,0,0,12" />
@@ -258,18 +262,22 @@
                         </StackPanel>
                     </GroupBox>
 
-                    <TextBlock Text="Output file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
-                    <dialogs:FileSavePicker DefaultExtension=".ts" Filter="TypeScript Files (.ts)|*.ts"
-                                            FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" 
-                                            ToolTip="Output"
-                                            Margin="0,0,0,12" />
-                    
-                    <GroupBox Header="Templating (experimental)" Margin="0,0,0,12">
+                    <GroupBox Header="Templating" Margin="0,0,0,12">
                         <StackPanel Margin="4,8,4,-8">
                             <TextBlock Text="Template directory" FontWeight="Bold" Margin="0,0,0,6" />
                             <TextBox Text="{Binding Command.TemplateDirectory, Mode=TwoWay}"
                                      ToolTip="TemplateDirectory"
                                      Margin="0,0,0,12" />
+                        </StackPanel>
+                    </GroupBox>
+
+                    <GroupBox Header="Output" Margin="0,0,0,12">
+                        <StackPanel Margin="4,8,4,-8">
+                            <TextBlock Text="Output file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
+                            <dialogs:FileSavePicker DefaultExtension=".ts" Filter="TypeScript Files (.ts)|*.ts"
+                                            FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" 
+                                            ToolTip="Output"
+                                            Margin="0,0,0,12" />
                         </StackPanel>
                     </GroupBox>
                 </StackPanel>

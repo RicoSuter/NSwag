@@ -51,6 +51,8 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
 
                 dynamic fromRouteAttribute = attributes.TryGetIfAssignableTo("Microsoft.AspNetCore.Mvc.FromRouteAttribute");
                 dynamic fromHeaderAttribute = attributes.TryGetIfAssignableTo("Microsoft.AspNetCore.Mvc.FromHeaderAttribute");
+                dynamic fromFormAttribute = attributes.TryGetIfAssignableTo("Microsoft.AspNetCore.Mvc.FromFormAttribute");
+
                 var fromBodyAttribute = attributes.TryGetIfAssignableTo("FromBodyAttribute", TypeNameStyle.Name);
                 var fromUriAttribute = attributes.TryGetIfAssignableTo("FromUriAttribute", TypeNameStyle.Name) ??
                                        attributes.TryGetIfAssignableTo("FromQueryAttribute", TypeNameStyle.Name);
@@ -95,6 +97,13 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
 
                             var operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(parameterName, parameter).ConfigureAwait(false);
                             operationParameter.Kind = SwaggerParameterKind.Header;
+
+                            context.OperationDescription.Operation.Parameters.Add(operationParameter);
+                        }
+                        else if (fromFormAttribute != null)
+                        {
+                            var operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(parameterName, parameter).ConfigureAwait(false);
+                            operationParameter.Kind = SwaggerParameterKind.FormData;
 
                             context.OperationDescription.Operation.Parameters.Add(operationParameter);
                         }
@@ -263,8 +272,20 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
             }
             else
             {
-                var operationParameter = await context.SwaggerGenerator
-                    .CreateBodyParameterAsync(name, parameter).ConfigureAwait(false);
+                var attributes = parameter.GetCustomAttributes();
+                var typeDescription = _settings.ReflectionService.GetDescription(parameter.ParameterType, attributes, _settings);
+
+                var operationParameter = new SwaggerParameter
+                {
+                    Name = name,
+                    Kind = SwaggerParameterKind.Body,
+                    IsRequired = true, // FromBody parameters are always required
+                    IsNullableRaw = typeDescription.IsNullable,
+                    Description = await parameter.GetDescriptionAsync(attributes).ConfigureAwait(false),
+                    Schema = await context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema4>(
+                        parameter.ParameterType, parameter.GetCustomAttributes(), isNullable: false, schemaResolver: context.SchemaResolver).ConfigureAwait(false)
+                };
+
                 operation.Parameters.Add(operationParameter);
             }
         }

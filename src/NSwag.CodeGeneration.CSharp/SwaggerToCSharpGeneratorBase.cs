@@ -57,7 +57,9 @@ namespace NSwag.CodeGeneration.CSharp
             if (schema.ActualSchema.IsAnyType)
                 return "object";
 
-            return Resolver.Resolve(schema.ActualSchema, isNullable, typeNameHint);
+            return Resolver.Resolve(schema.ActualSchema, isNullable, typeNameHint)
+                .Replace(_settings.CSharpGeneratorSettings.ArrayType + "<", _settings.ResponseArrayType + "<")
+                .Replace(_settings.CSharpGeneratorSettings.DictionaryType + "<", _settings.ResponseDictionaryType + "<");
         }
     }
 }

@@ -87,10 +87,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                 {
                     var operationParameter = await CreatePrimitiveParameterAsync(context, extendedApiParameter).ConfigureAwait(false);
                     operationParameter.Kind = SwaggerParameterKind.Path;
-                    operationParameter.IsRequired = true; // Path is always required => property not needed
-
-                    if (_settings.SchemaType == SchemaType.Swagger2)
-                        operationParameter.IsNullableRaw = false;
+                    operationParameter.IsRequired = !apiParameter.RouteInfo.IsOptional;
 
                     context.OperationDescription.Operation.Parameters.Add(operationParameter);
                 }
@@ -110,6 +107,13 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                 }
                 else if (apiParameter.Source == BindingSource.Body)
                     await AddBodyParameterAsync(context, extendedApiParameter).ConfigureAwait(false);
+                else if (apiParameter.Source == BindingSource.Form)
+                {
+                    var operationParameter = await CreatePrimitiveParameterAsync(context, extendedApiParameter).ConfigureAwait(false);
+                    operationParameter.Kind = SwaggerParameterKind.FormData;
+
+                    context.OperationDescription.Operation.Parameters.Add(operationParameter);
+                }
                 else
                 {
                     if (await TryAddFileParameterAsync(context, extendedApiParameter).ConfigureAwait(false) == false)
@@ -234,12 +238,14 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
             }
             else
             {
+                var typeDescription = _settings.ReflectionService.GetDescription(extendedApiParameter.ApiParameter.Type, extendedApiParameter.Attributes, _settings);
+
                 var operationParameter = new SwaggerParameter
                 {
                     Name = extendedApiParameter.ApiParameter.Name,
                     Kind = SwaggerParameterKind.Body,
-                    // FromBody parameters are always required.
-                    IsRequired = true,
+                    IsRequired = true, // FromBody parameters are always required.
+                    IsNullableRaw = typeDescription.IsNullable,
                     Description = await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false),
                     Schema = await context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema4>(
                         extendedApiParameter.ApiParameter.Type, extendedApiParameter.Attributes, isNullable: false, schemaResolver: context.SchemaResolver).ConfigureAwait(false)

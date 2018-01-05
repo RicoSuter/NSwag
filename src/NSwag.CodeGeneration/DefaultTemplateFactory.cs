@@ -17,7 +17,9 @@ namespace NSwag.CodeGeneration
     {
         /// <summary>Initializes a new instance of the <see cref="DefaultTemplateFactory" /> class.</summary>
         /// <param name="settings">The settings.</param>
-        public DefaultTemplateFactory(CodeGeneratorSettingsBase settings) : base(settings)
+        /// <param name="assemblies">The assemblies.</param>
+        public DefaultTemplateFactory(CodeGeneratorSettingsBase settings, Assembly[] assemblies) 
+            : base(settings, assemblies)
         {
         }
 
@@ -34,7 +36,7 @@ namespace NSwag.CodeGeneration
         /// <returns>The template.</returns>
         protected override string GetEmbeddedLiquidTemplate(string language, string template)
         {
-            var assembly = Assembly.Load(new AssemblyName("NSwag.CodeGeneration." + language));
+            var assembly = GetLiquidAssembly("NSwag.CodeGeneration." + language);
             var resourceName = "NSwag.CodeGeneration." + language + ".Templates." + template + ".liquid";
 
             var resource = assembly.GetManifestResourceStream(resourceName);

@@ -18,7 +18,7 @@ using NSwag.CodeGeneration.CSharp;
 namespace NSwag.Commands.CodeGeneration
 {
     [Command(Name = "swagger2csclient", Description = "Generates CSharp client code from a Swagger specification.")]
-    public class SwaggerToCSharpClientCommand : SwaggerToCSharpCommand<SwaggerToCSharpClientGeneratorSettings>
+    public class SwaggerToCSharpClientCommand : SwaggerToCSharpCommandBase<SwaggerToCSharpClientGeneratorSettings>
     {
         public SwaggerToCSharpClientCommand() : base(new SwaggerToCSharpClientGeneratorSettings())
         {
@@ -131,6 +131,14 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.UseBaseUrl = value; }
         }
 
+        [Argument(Name = nameof(GenerateBaseUrlProperty), IsRequired = false,
+                  Description = "Specifies whether to generate the BaseUrl property, must be defined on the base class otherwise (default: true).")]
+        public bool GenerateBaseUrlProperty
+        {
+            get { return Settings.GenerateBaseUrlProperty; }
+            set { Settings.GenerateBaseUrlProperty = value; }
+        }
+
         [Argument(Name = "GenerateSyncMethods", IsRequired = false,
                   Description = "Specifies whether to generate synchronous methods (not recommended, default: false).")]
         public bool GenerateSyncMethods
@@ -186,6 +194,14 @@ namespace NSwag.Commands.CodeGeneration
         {
             get { return Settings.SerializeTypeInformation; }
             set { Settings.SerializeTypeInformation = value; }
+        }
+
+        [Argument(Name = nameof(QueryNullValue), IsRequired = false, 
+            Description = "The null value used for query parameters which are null (default: '').")]
+        public string QueryNullValue
+        {
+            get { return Settings.QueryNullValue; }
+            set { Settings.QueryNullValue = value; }
         }
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)

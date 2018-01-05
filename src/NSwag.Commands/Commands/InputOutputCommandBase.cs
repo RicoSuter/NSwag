@@ -35,16 +35,12 @@ namespace NSwag.Commands
             var document = Input as SwaggerDocument;
             if (document == null)
             {
-                var inputString = Input.ToString();
-                if (string.IsNullOrEmpty(inputString))
+                var input = Input.ToString();
+
+                if (string.IsNullOrEmpty(input))
                     throw new ArgumentException("The argument 'Input' was empty.");
 
-                if (IsJson(inputString))
-                    document = await SwaggerDocument.FromJsonAsync(inputString).ConfigureAwait(false);
-                else if (inputString.StartsWith("http://") || inputString.StartsWith("https://"))
-                    document = await SwaggerDocument.FromUrlAsync(inputString).ConfigureAwait(false);
-                else
-                    document = await SwaggerDocument.FromFileAsync(inputString).ConfigureAwait(false);
+                document = await ReadSwaggerDocumentAsync(input);
             }
 
             if (ServiceHost == ".")
@@ -61,22 +57,17 @@ namespace NSwag.Commands
         /// <exception cref="ArgumentException">The argument 'Input' was empty.</exception>
         protected async Task<string> GetInputJsonAsync()
         {
-            var inputString = Input.ToString();
-            if (string.IsNullOrEmpty(inputString))
+            var input = Input.ToString();
+            if (string.IsNullOrEmpty(input))
                 throw new ArgumentException("The argument 'Input' was empty.");
 
-            if (IsJson(inputString))
-                return inputString;
+            if (IsJson(input))
+                return input;
 
-            if (await DynamicApis.FileExistsAsync(inputString).ConfigureAwait(false))
-                return await DynamicApis.FileReadAllTextAsync(inputString).ConfigureAwait(false);
+            if (await DynamicApis.FileExistsAsync(input).ConfigureAwait(false))
+                return await DynamicApis.FileReadAllTextAsync(input).ConfigureAwait(false);
 
-            return await DynamicApis.HttpGetAsync(inputString).ConfigureAwait(false);
-        }
-
-        private bool IsJson(string data)
-        {
-            return !string.IsNullOrEmpty(data) && data.Contains("{");
+            return await DynamicApis.HttpGetAsync(input).ConfigureAwait(false);
         }
     }
 }

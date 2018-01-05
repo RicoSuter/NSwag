@@ -81,7 +81,8 @@ window.onload = function() {
   // Build a system
   var ui = SwaggerUIBundle({
     url: url,
-    validatorUrl: {ValidatorUrl}, 
+    validatorUrl: {ValidatorUrl},
+    oauth2RedirectUrl: {RedirectUrl},
     docExpansion: "{DocExpansion}",
 
     dom_id: '#swagger-ui',

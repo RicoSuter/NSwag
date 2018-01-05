@@ -1,5 +1,5 @@
 ﻿{
-  "x-generator": "NSwag v11.12.2.0 (NJsonSchema v9.10.4.0 (Newtonsoft.Json v9.0.0.0))",
+  "x-generator": "NSwag v11.12.14.0 (NJsonSchema v9.10.15.0 (Newtonsoft.Json v9.0.0.0))",
   "info": {
     "title": "Web API Swagger specification",
     "version": "1.0.0"
@@ -25,6 +25,7 @@
           {
             "name": "location",
             "in": "body",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/GeoPoint"
             },
@@ -77,6 +78,7 @@
           {
             "name": "points",
             "in": "body",
+            "required": true,
             "schema": {
               "type": "array",
               "items": {
@@ -230,6 +232,7 @@
           {
             "name": "request",
             "in": "body",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/GenericRequestOfAddressAndPerson"
             },
@@ -340,6 +343,7 @@
           {
             "name": "person",
             "in": "body",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/Person"
             },
@@ -490,6 +494,7 @@
           {
             "name": "person",
             "in": "body",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/Person"
             },
