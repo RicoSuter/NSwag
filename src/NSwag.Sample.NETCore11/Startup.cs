@@ -30,7 +30,7 @@ namespace NSwag.Sample.NETCore11
                 options.OutputFormatters.Add(new YamlOutputFormatter());
             });
                 
-            services.AddSwaggerWithApiDescription();
+            services.AddSwagger();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
