@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -54,6 +55,9 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
             var operation = context.OperationDescription.Operation;
             foreach (var requestFormat in context.ApiDescription.SupportedRequestFormats)
             {
+                if (operation.Consumes == null)
+                    operation.Consumes = new List<string>();
+
                 if (!operation.Consumes.Contains(requestFormat.MediaType, StringComparer.OrdinalIgnoreCase))
                 {
                     operation.Consumes.Add(requestFormat.MediaType);
@@ -96,6 +100,9 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 
                     foreach (var responseFormat in apiResponse.ApiResponseFormats)
                     {
+                        if (context.Document.Produces == null)
+                            context.Document.Produces = new List<string>();
+
                         if (!context.Document.Produces.Contains(responseFormat.MediaType, StringComparer.OrdinalIgnoreCase))
                         {
                             context.Document.Produces.Add(responseFormat.MediaType);
