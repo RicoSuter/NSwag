@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NSwag.AspNetCore;
+using System.Reflection;
 
 namespace NSwag.Sample.NETCore11
 {
@@ -29,7 +30,7 @@ namespace NSwag.Sample.NETCore11
             {
                 options.OutputFormatters.Add(new YamlOutputFormatter());
             });
-                
+
             services.AddSwagger();
         }
 
@@ -41,6 +42,9 @@ namespace NSwag.Sample.NETCore11
 
             app.UseMvc();
             app.UseSwaggerWithApiDescription();
+
+            // old generator
+            app.UseSwagger(typeof(Startup).GetTypeInfo().Assembly, new SwaggerSettings { SwaggerRoute = "/oldswagger.json" });
         }
     }
 }
