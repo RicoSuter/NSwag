@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using NSwag.Commands;
 
 namespace NSwag
