@@ -144,12 +144,21 @@ urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({
 {%     endif -%}
             {
 {%     for parameter in operation.HeaderParameters -%}
-{%         if parameter.IsStringArray -%}
-                if ({{ parameter.VariableName }} != null && {{ parameter.VariableName }}.Length != 0}})
-                    request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", {{ parameter.VariableName }});
+{%         if parameter.IsRequired -%}
+                if ({{ parameter.VariableName }} == null)
+                    throw new System.ArgumentNullException("{{ parameter.VariableName }}");
+{%             if parameter.IsStringArray -%}
+                request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", {{ parameter.VariableName }});
+{%             else -%}
+                request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture));
+{%             endif -%}
 {%         else -%}
                 if ({{ parameter.VariableName }} != null)
+{%             if parameter.IsStringArray -%}
+                    request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", {{ parameter.VariableName }});
+{%             else -%}
                     request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture));
+{%             endif -%}
 {%         endif -%}
 {%     endfor -%}
 {%     if operation.HasContent -%}
