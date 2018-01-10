@@ -117,7 +117,7 @@ namespace NSwag.Integration.NETCore11
                 parameter =>
                 {
                     Assert.Equal("skip", parameter.Name);
-                    Assert.False(parameter.IsRequired);
+                    Assert.True(parameter.IsRequired);
                     Assert.Equal(SwaggerParameterKind.Path, parameter.Kind);
                     Assert.Equal(JsonObjectType.Integer, parameter.Type);
                 },

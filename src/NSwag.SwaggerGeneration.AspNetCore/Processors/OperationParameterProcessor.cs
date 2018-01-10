@@ -87,7 +87,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                 {
                     var operationParameter = await CreatePrimitiveParameterAsync(context, extendedApiParameter).ConfigureAwait(false);
                     operationParameter.Kind = SwaggerParameterKind.Path;
-                    operationParameter.IsRequired = !apiParameter.RouteInfo.IsOptional;
+                    operationParameter.IsRequired = true; // apiParameter.RouteInfo?.IsOptional == false;
 
                     context.OperationDescription.Operation.Parameters.Add(operationParameter);
                 }
