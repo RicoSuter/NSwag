@@ -102,9 +102,9 @@
 {%         elseif parameter.IsDate -%}
         urlBuilder_.Replace("{{ "{" }}{{ parameter.Name }}}", System.Uri.EscapeDataString({{ parameter.VariableName }}.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture)));
 {%         elseif parameter.IsArray -%}
-        urlBuilder_.Replace("{{ "{" }}{{ parameter.Name }}}", System.Uri.EscapeDataString(string.Join(",", System.Linq.Enumerable.Select({{ parameter.VariableName }}, s_ => ClientUtilities.ConvertToString(s_, System.Globalization.CultureInfo.InvariantCulture)))));
+        urlBuilder_.Replace("{{ "{" }}{{ parameter.Name }}}", System.Uri.EscapeDataString(string.Join(",", System.Linq.Enumerable.Select({{ parameter.VariableName }}, s_ => ConvertToString(s_, System.Globalization.CultureInfo.InvariantCulture)))));
 {%         else -%}
-        urlBuilder_.Replace("{{ "{" }}{{ parameter.Name }}}", System.Uri.EscapeDataString(ClientUtilities.ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture)));
+        urlBuilder_.Replace("{{ "{" }}{{ parameter.Name }}}", System.Uri.EscapeDataString(ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture)));
 {%         endif -%}
 {%         if parameter.IsOptional -%}
         else
@@ -119,9 +119,9 @@ foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append("{{ par
 {%         elseif parameter.IsDate -%}
 urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}{{ parameter.VariableName }}{% if parameter.IsSystemNullable %}.Value{% endif %}.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "{{ QueryNullValue }}"{% endif %})).Append("&");
 {%         elseif parameter.IsArray -%}
-foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString(ClientUtilities.ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
+foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
 {%         else -%}
-urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}ClientUtilities.ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "{{ QueryNullValue }}"{% endif %})).Append("&");
+urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "{{ QueryNullValue }}"{% endif %})).Append("&");
 {%         endif -%}
 {%     endfor -%}
 {%     if operation.HasQueryParameters -%}
@@ -144,10 +144,21 @@ urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({
 {%     endif -%}
             {
 {%     for parameter in operation.HeaderParameters -%}
-{%         if parameter.IsStringArray -%}
+{%         if parameter.IsRequired -%}
+                if ({{ parameter.VariableName }} == null)
+                    throw new System.ArgumentNullException("{{ parameter.VariableName }}");
+{%             if parameter.IsStringArray -%}
                 request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", {{ parameter.VariableName }});
+{%             else -%}
+                request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture));
+{%             endif -%}
 {%         else -%}
-                request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", {{ parameter.VariableName }} != null ? ClientUtilities.ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture) : null);
+                if ({{ parameter.VariableName }} != null)
+{%             if parameter.IsStringArray -%}
+                    request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", {{ parameter.VariableName }});
+{%             else -%}
+                    request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture));
+{%             endif -%}
 {%         endif -%}
 {%     endfor -%}
 {%     if operation.HasContent -%}
@@ -181,7 +192,7 @@ urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({
                     content_.Add(new System.Net.Http.StreamContent({{ parameter.VariableName }}.Data), "{{ parameter.Name }}", {{ parameter.VariableName }}.FileName ?? "{{ parameter.Name }}");
 {%                     endif -%}
 {%                 else -%}
-                    content_.Add(new System.Net.Http.StringContent(ClientUtilities.ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture)), "{{ parameter.Name }}");
+                    content_.Add(new System.Net.Http.StringContent(ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture)), "{{ parameter.Name }}");
 {%                 endif -%}
 {%             endfor -%}
                 request_.Content = content_;
@@ -265,4 +276,26 @@ urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({
     }
 
 {% endfor -%}
+	private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
+	{
+		if (value is System.Enum)
+		{
+			string name = System.Enum.GetName(value.GetType(), value);
+			if (name != null)
+			{
+				var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+				if (field != null)
+				{
+					var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
+						as System.Runtime.Serialization.EnumMemberAttribute;
+					if (attribute != null)
+					{
+						return attribute.Value;
+					}
+				}
+			}
+		}
+
+		return System.Convert.ToString(value, cultureInfo);
+	}
 }

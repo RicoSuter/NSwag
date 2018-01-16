@@ -16,6 +16,9 @@ using Microsoft.Extensions.FileProviders;
 using NSwag.AspNetCore.Middlewares;
 using NSwag.SwaggerGeneration;
 using NSwag.SwaggerGeneration.WebApi;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Mvc;
 
 namespace NSwag.AspNetCore
 {
@@ -24,7 +27,7 @@ namespace NSwag.AspNetCore
     {
         #region Swagger
 
-        /// <summary>Addes the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
+        /// <summary>Adds the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
         /// <param name="app">The app.</param>
         /// <param name="webApiAssembly">The Web API assembly to search for controller types.</param>
         /// <param name="settings">The Swagger generator settings.</param>
@@ -37,7 +40,7 @@ namespace NSwag.AspNetCore
             return app.UseSwagger(new[] { webApiAssembly }, settings);
         }
 
-        /// <summary>Addes the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
+        /// <summary>Adds the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
         /// <param name="app">The app.</param>
         /// <param name="webApiAssemblies">The Web API assemblies to search for controller types.</param>
         /// <param name="settings">The Swagger generator settings.</param>
@@ -51,7 +54,7 @@ namespace NSwag.AspNetCore
             return app.UseSwagger(controllerTypes, settings);
         }
 
-        /// <summary>Addes the Swagger generator to the OWIN pipeline.</summary>
+        /// <summary>Adds the Swagger generator to the OWIN pipeline.</summary>
         /// <param name="app">The app.</param>
         /// <param name="controllerTypes">The Web API controller types.</param>
         /// <param name="settings">The Swagger generator settings.</param>
@@ -64,7 +67,7 @@ namespace NSwag.AspNetCore
             return app.UseSwagger(controllerTypes, settings, new SwaggerJsonSchemaGenerator(settings));
         }
 
-        /// <summary>Addes the Swagger generator to the OWIN pipeline.</summary>
+        /// <summary>Adds the Swagger generator to the OWIN pipeline.</summary>
         /// <param name="app">The app.</param>
         /// <param name="controllerTypes">The Web API controller types.</param>
         /// <param name="settings">The Swagger generator settings.</param>
@@ -94,11 +97,34 @@ namespace NSwag.AspNetCore
             return app.UseSwagger(controllerTypes, settings, new SwaggerJsonSchemaGenerator(settings));
         }
 
+        /// <summary>Adds the Swagger generator that uses Api Description to perform Swagger generation.</summary>
+        /// <param name="app">The app.</param>
+        /// <param name="configure">Configure the Swagger generator settings.</param>
+        public static IApplicationBuilder UseSwaggerWithApiDescription(
+            this IApplicationBuilder app,
+            Action<AspNetCoreToSwaggerMiddlewareSettings> configure = null)
+        {
+            var settings = new AspNetCoreToSwaggerMiddlewareSettings();
+            configure?.Invoke(settings);
+            return app.UseMiddleware<AspNetCoreSwaggerMiddleware>(settings, new SwaggerJsonSchemaGenerator(settings));
+        }
+
+        /// <summary>Adds services required for swagger generation.</summary>
+        /// <param name="serviceCollection">The <see cref="IServiceCollection"/>.</param>
+        /// <remarks>
+        /// This is currently only required in conjunction with 
+        /// <see cref="SwaggerExtensions.UseSwaggerWithApiDescription(IApplicationBuilder, Action{AspNetCoreToSwaggerMiddlewareSettings})"/>.
+        /// </remarks>
+        public static IServiceCollection AddSwagger(this IServiceCollection serviceCollection)
+        {
+            return serviceCollection.AddSingleton<IConfigureOptions<MvcOptions>, NSwagConfigureMvcOptions>();
+        }
+
         #endregion
 
         #region SwaggerUi
 
-        /// <summary>Addes the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
+        /// <summary>Adds the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
         /// <param name="app">The app.</param>
         /// <param name="webApiAssembly">The Web API assembly to search for controller types.</param>
         /// <param name="settings">The Swagger UI and generator settings.</param>
@@ -111,7 +137,7 @@ namespace NSwag.AspNetCore
             return app.UseSwaggerUi(new[] { webApiAssembly }, settings);
         }
 
-        /// <summary>Addes the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
+        /// <summary>Adds the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
         /// <param name="app">The app.</param>
         /// <param name="webApiAssemblies">The Web API assemblies to search for controller types.</param>
         /// <param name="settings">The Swagger UI and generator settings.</param>
@@ -125,7 +151,7 @@ namespace NSwag.AspNetCore
             return app.UseSwaggerUi(controllerTypes, settings, new SwaggerJsonSchemaGenerator(settings));
         }
 
-        /// <summary>Addes the Swagger UI (only) to the OWIN pipeline.</summary>
+        /// <summary>Adds the Swagger UI (only) to the OWIN pipeline.</summary>
         /// <param name="app">The app.</param>
         /// <param name="settings">The Swagger UI settings.</param>
         /// <returns>The app builder.</returns>
@@ -136,7 +162,7 @@ namespace NSwag.AspNetCore
             return app.UseSwaggerUi(null, settings, null);
         }
 
-        /// <summary>Addes the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
+        /// <summary>Adds the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
         /// <param name="app">The app.</param>
         /// <param name="controllerTypes">The Web API controller types.</param>
         /// <param name="settings">The Swagger UI and generator settings.</param>
@@ -180,7 +206,7 @@ namespace NSwag.AspNetCore
 
         #region SwaggerUi3
 
-        /// <summary>Addes the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
+        /// <summary>Adds the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
         /// <param name="app">The app.</param>
         /// <param name="webApiAssembly">The Web API assembly to search for controller types.</param>
         /// <param name="settings">The Swagger UI and generator settings.</param>
@@ -193,7 +219,7 @@ namespace NSwag.AspNetCore
             return app.UseSwaggerUi3(new[] { webApiAssembly }, settings);
         }
 
-        /// <summary>Addes the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
+        /// <summary>Adds the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
         /// <param name="app">The app.</param>
         /// <param name="webApiAssemblies">The Web API assemblies to search for controller types.</param>
         /// <param name="settings">The Swagger UI and generator settings.</param>
@@ -207,7 +233,7 @@ namespace NSwag.AspNetCore
             return app.UseSwaggerUi3(controllerTypes, settings, new SwaggerJsonSchemaGenerator(settings));
         }
 
-        /// <summary>Addes the Swagger UI (only) to the OWIN pipeline.</summary>
+        /// <summary>Adds the Swagger UI (only) to the OWIN pipeline.</summary>
         /// <param name="app">The app.</param>
         /// <param name="settings">The Swagger UI settings.</param>
         /// <returns>The app builder.</returns>
@@ -218,7 +244,7 @@ namespace NSwag.AspNetCore
             return app.UseSwaggerUi3(null, settings, null);
         }
 
-        /// <summary>Addes the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
+        /// <summary>Adds the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
         /// <param name="app">The app.</param>
         /// <param name="controllerTypes">The Web API controller types.</param>
         /// <param name="settings">The Swagger UI and generator settings.</param>
@@ -262,7 +288,7 @@ namespace NSwag.AspNetCore
 
         #region ReDoc
 
-        /// <summary>Addes the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
+        /// <summary>Adds the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
         /// <param name="app">The app.</param>
         /// <param name="webApiAssembly">The Web API assembly to search for controller types.</param>
         /// <param name="settings">The Swagger UI and generator settings.</param>
@@ -275,7 +301,7 @@ namespace NSwag.AspNetCore
             return app.UseSwaggerReDoc(new[] { webApiAssembly }, settings);
         }
 
-        /// <summary>Addes the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
+        /// <summary>Adds the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
         /// <param name="app">The app.</param>
         /// <param name="webApiAssemblies">The Web API assemblies to search for controller types.</param>
         /// <param name="settings">The Swagger UI and generator settings.</param>
@@ -289,7 +315,7 @@ namespace NSwag.AspNetCore
             return app.UseSwaggerReDoc(controllerTypes, settings, new SwaggerJsonSchemaGenerator(settings));
         }
 
-        /// <summary>Addes the Swagger UI (only) to the OWIN pipeline.</summary>
+        /// <summary>Adds the Swagger UI (only) to the OWIN pipeline.</summary>
         /// <param name="app">The app.</param>
         /// <param name="settings">The Swagger UI settings.</param>
         /// <returns>The app builder.</returns>
@@ -300,7 +326,7 @@ namespace NSwag.AspNetCore
             return app.UseSwaggerReDoc(null, settings, null);
         }
 
-        /// <summary>Addes the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
+        /// <summary>Adds the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
         /// <param name="app">The app.</param>
         /// <param name="controllerTypes">The Web API controller types.</param>
         /// <param name="settings">The Swagger UI and generator settings.</param>
