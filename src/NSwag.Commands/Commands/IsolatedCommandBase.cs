@@ -40,7 +40,7 @@ namespace NSwag.Commands
 
         protected async Task<TResult> RunIsolatedAsync(string configurationFile)
         {
-            var assemblyDirectory = AssemblyPaths.Any() ? Path.GetDirectoryName(Path.GetFullPath(AssemblyPaths.First())) : configurationFile;
+            var assemblyDirectory = AssemblyPaths.Any() ? Path.GetDirectoryName(Path.GetFullPath(PathUtilities.ExpandFileWildcards(AssemblyPaths).First())) : configurationFile;
             var bindingRedirects = GetBindingRedirects();
             var assemblies = GetAssemblies(assemblyDirectory);
 
