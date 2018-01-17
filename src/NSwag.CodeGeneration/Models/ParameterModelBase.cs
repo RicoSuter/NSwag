@@ -32,24 +32,68 @@ namespace NSwag.CodeGeneration.Models
         protected ParameterModelBase(string parameterName, string variableName, string typeName,
             SwaggerParameter parameter, IList<SwaggerParameter> allParameters, CodeGeneratorSettingsBase settings, IClientGenerator generator)
         {
-            Type = typeName;
-            Name = parameterName;
-            VariableName = variableName;
-
             _allParameters = allParameters;
             _parameter = parameter;
             _settings = settings;
             _generator = generator;
+
+            Type = typeName;
+            Name = parameterName;
+            VariableName = variableName;
+
+            if ( !parameter.IsRequired && parameter.Default != null ) {
+                Default = DefaultToString( parameter );
+
+                // If a default value is supplied, then we can automatically set 
+                // it when using the controller interface indirection
+                TypeInControllerInterface = 
+                    Type.EndsWith( "?" ) ? Type.Substring( 0, Type.Length - 1 ) : Type;
+            }
+            else {
+                TypeInControllerInterface = Type;
+            }
+        }
+
+        private static string DefaultToString( SwaggerParameter parameter ) {
+            switch ( parameter.Type ) {
+                case JsonObjectType.Number:
+                    switch ( parameter.Format ) {
+                        case JsonFormatStrings.Decimal:
+                            return $"{parameter.Default}M";
+                        default:
+                            return $"{parameter.Default}D";
+                    }
+                case JsonObjectType.String:
+                    return $"@\"{( (string) parameter.Default ).Replace( "\"", "\"\"" )}\"";
+                case JsonObjectType.Boolean:
+                    return (bool) parameter.Default ? "true" : "false";
+                default:
+                    return parameter.Default.ToString();
+            }
         }
 
         /// <summary>Gets the type of the parameter.</summary>
         public string Type { get; }
+
+        /// <summary>Gets the type of the parameter when used in a controller interface where
+        /// we can set default values before calling.</summary>
+        public string TypeInControllerInterface { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether a default value is available.
+        /// </summary>
+        public bool HasDefault => Default != null;
 
         /// <summary>Gets the name.</summary>
         public string Name { get; }
 
         /// <summary>Gets the variable name in (usually lowercase).</summary>
         public string VariableName { get; }
+
+        /// <summary>
+        /// The default value for the variable.
+        /// </summary>
+        public string Default { get; }
 
         /// <summary>Gets the parameter kind.</summary>
         public SwaggerParameterKind Kind => _parameter.Kind;
