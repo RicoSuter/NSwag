@@ -197,7 +197,7 @@ urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({
 {%             endfor -%}
                 request_.Content = content_;
 {%         elseif operation.IsGetOrDeleteOrHead == false -%}
-                request_.Content = new System.Net.Http.StringContent(string.Empty);
+                request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "{{ operation.Produces }}");
 {%         endif -%}
 {%     endif -%}
                 request_.Method = new System.Net.Http.HttpMethod("{{ operation.HttpMethodUpper | upcase }}");
