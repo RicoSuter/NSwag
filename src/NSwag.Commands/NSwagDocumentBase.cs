@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -53,9 +54,12 @@ namespace NSwag.Commands
         /// <summary>Executes the current document.</summary>
         /// <returns>The result.</returns>
         public abstract Task<SwaggerDocumentExecutionResult> ExecuteAsync();
-        
+
         /// <summary>Gets or sets the runtime where the document should be processed.</summary>
         public Runtime Runtime { get; set; }
+
+        /// <summary>Gets or sets the default variables.</summary>
+        public string DefaultVariables { get; set; }
 
         /// <summary>Gets or sets the selected swagger generator JSON.</summary>
         [JsonProperty("SwaggerGenerator")]
@@ -154,16 +158,39 @@ namespace NSwag.Commands
         /// <summary>Loads an existing NSwagDocument.</summary>
         /// <typeparam name="TDocument">The type.</typeparam>
         /// <param name="filePath">The file path.</param>
+        /// <param name="variables">The variables.</param>
+        /// <param name="expandEnvironmentVariables">Specifies whether to expand environment variables.</param>
         /// <param name="mappings">The mappings.</param>
         /// <returns>The document.</returns>
-        protected static Task<TDocument> LoadAsync<TDocument>(string filePath, IDictionary<Type, Type> mappings)
+        protected static Task<TDocument> LoadAsync<TDocument>(
+            string filePath,
+            string variables,
+            bool expandEnvironmentVariables,
+            IDictionary<Type, Type> mappings)
             where TDocument : NSwagDocumentBase, new()
         {
             return Task.Run(async () =>
             {
                 var saveFile = false;
+
                 var data = await DynamicApis.FileReadAllTextAsync(filePath).ConfigureAwait(false);
                 data = TransformLegacyDocument(data, out saveFile); // TODO: Remove this legacy stuff later
+
+                if (expandEnvironmentVariables)
+                    data = Regex.Replace(Environment.ExpandEnvironmentVariables(data), "[^\\\\]\\\\[^\\\\]", p => p.Value.Replace("\\", "\\\\"));
+
+                foreach (var p in ConvertVariables(variables))
+                    data = data.Replace("$(" + p.Key + ")", p.Value);
+
+                var obj = JObject.Parse(data);
+                if (obj["defaultVariables"] != null)
+                {
+                    var defaultVariables = obj["defaultVariables"].Value<string>();
+                    foreach (var p in ConvertVariables(defaultVariables))
+                    {
+                        data = data.Replace("$(" + p.Key + ")", p.Value);
+                    }
+                }
 
                 var settings = GetSerializerSettings();
                 settings.ContractResolver = new BaseTypeMappingContractResolver(mappings);
@@ -239,6 +266,13 @@ namespace NSwag.Commands
             return (SwaggerDocument)await SelectedSwaggerGenerator.RunAsync(null, null);
         }
 
+        private static Dictionary<string, string> ConvertVariables(string variables)
+        {
+            return (variables ?? "")
+                .Split(',').Where(p => !string.IsNullOrEmpty(p))
+                .ToDictionary(p => p.Split('=')[0], p => p.Split('=')[1]);
+        }
+
         private static JsonSerializerSettings GetSerializerSettings()
         {
             return new JsonSerializerSettings
@@ -262,9 +296,9 @@ namespace NSwag.Commands
 
             if (SwaggerGenerators.WebApiToSwaggerCommand != null)
             {
-                SwaggerGenerators.WebApiToSwaggerCommand.AssemblyPaths = 
+                SwaggerGenerators.WebApiToSwaggerCommand.AssemblyPaths =
                     SwaggerGenerators.WebApiToSwaggerCommand.AssemblyPaths.Select(ConvertToAbsolutePath).ToArray();
-                SwaggerGenerators.WebApiToSwaggerCommand.ReferencePaths = 
+                SwaggerGenerators.WebApiToSwaggerCommand.ReferencePaths =
                     SwaggerGenerators.WebApiToSwaggerCommand.ReferencePaths.Select(ConvertToAbsolutePath).ToArray();
 
                 SwaggerGenerators.WebApiToSwaggerCommand.DocumentTemplate = ConvertToAbsolutePath(
@@ -275,7 +309,7 @@ namespace NSwag.Commands
 
             if (SwaggerGenerators.TypesToSwaggerCommand != null)
             {
-                SwaggerGenerators.TypesToSwaggerCommand.AssemblyPaths = 
+                SwaggerGenerators.TypesToSwaggerCommand.AssemblyPaths =
                     SwaggerGenerators.TypesToSwaggerCommand.AssemblyPaths.Select(ConvertToAbsolutePath).ToArray();
                 SwaggerGenerators.TypesToSwaggerCommand.AssemblyConfig = ConvertToAbsolutePath(
                     SwaggerGenerators.TypesToSwaggerCommand.AssemblyConfig);
@@ -317,9 +351,9 @@ namespace NSwag.Commands
 
             if (SwaggerGenerators.WebApiToSwaggerCommand != null)
             {
-                SwaggerGenerators.WebApiToSwaggerCommand.AssemblyPaths = 
+                SwaggerGenerators.WebApiToSwaggerCommand.AssemblyPaths =
                     SwaggerGenerators.WebApiToSwaggerCommand.AssemblyPaths.Select(ConvertToRelativePath).ToArray();
-                SwaggerGenerators.WebApiToSwaggerCommand.ReferencePaths = 
+                SwaggerGenerators.WebApiToSwaggerCommand.ReferencePaths =
                     SwaggerGenerators.WebApiToSwaggerCommand.ReferencePaths.Select(ConvertToRelativePath).ToArray();
 
                 SwaggerGenerators.WebApiToSwaggerCommand.DocumentTemplate = ConvertToRelativePath(
@@ -330,7 +364,7 @@ namespace NSwag.Commands
 
             if (SwaggerGenerators.TypesToSwaggerCommand != null)
             {
-                SwaggerGenerators.TypesToSwaggerCommand.AssemblyPaths = 
+                SwaggerGenerators.TypesToSwaggerCommand.AssemblyPaths =
                     SwaggerGenerators.TypesToSwaggerCommand.AssemblyPaths.Select(ConvertToRelativePath).ToArray();
                 SwaggerGenerators.TypesToSwaggerCommand.AssemblyConfig = ConvertToRelativePath(
                     SwaggerGenerators.TypesToSwaggerCommand.AssemblyConfig);

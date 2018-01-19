@@ -46,6 +46,9 @@
                               ItemsSource="{Binding Runtimes}" Margin="0,0,0,6" />
                     <TextBlock Text="Specifies the used command line binary; should match the selected assembly type." 
                                TextWrapping="Wrap" Margin="0,0,0,12" />
+
+                    <TextBlock Margin="0,0,0,4" Text="Default Variables ('foo=bar,baz=bar'), usage: $(foo)" TextWrapping="Wrap" FontWeight="Bold" />
+                    <TextBox Margin="0,0,0,12" Text="{Binding Document.Document.DefaultVariables}" />
                 </StackPanel>
                 <TabControl Grid.Row="2" x:Name="InputTabControl"
                             ItemsSource="{Binding Document.SwaggerGeneratorViews}" 
