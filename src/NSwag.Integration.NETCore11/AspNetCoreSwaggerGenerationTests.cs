@@ -104,6 +104,7 @@ namespace NSwag.Integration.NETCore11
             var method = Assert.Single(
                 document.Operations,
                 operation => operation.Path == "/pet/findByStatus/{skip}/{sortOrder}");
+
             Assert.Collection(
                 method.Operation.Parameters,
                 parameter =>
@@ -124,7 +125,7 @@ namespace NSwag.Integration.NETCore11
                 parameter =>
                 {
                     Assert.Equal("sortOrder", parameter.Name);
-                    Assert.False(parameter.IsRequired);
+                    Assert.True(parameter.IsRequired); // path parameters are always true
                     Assert.Equal(SwaggerParameterKind.Path, parameter.Kind);
                     Assert.Equal(JsonObjectType.String, parameter.Type);
                 });

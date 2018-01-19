@@ -11,7 +11,7 @@ namespace NSwag.Tests.CommandLine
     {
         private static readonly string DefaultOutputPath = Path.GetFullPath("../../Output.json");
 
-        [TestMethod]
+        //[TestMethod]
         public async Task When_aspnetcore2swagger_is_called_then_file_is_created()
         {
             //// Arrange
