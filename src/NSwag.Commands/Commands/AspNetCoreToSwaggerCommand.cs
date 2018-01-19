@@ -21,7 +21,7 @@ using NSwag.SwaggerGeneration.AspNetCore;
 namespace NSwag.Commands
 {
     /// <summary>The generator.</summary>
-    [Command(Name = "aspnetcore2swagger", Description = "Generates a Swagger specification ASP.NET Core Mvc application using ApiExplorer.")]
+    [Command(Name = "aspnetcore2swagger", Description = "Generates a Swagger specification ASP.NET Core Mvc application using ApiExplorer (experimental).")]
     public class AspNetCoreToSwaggerCommand : IConsoleCommand
     {
         private const string LauncherBinaryName = "NSwag.AspNetCore.Launcher";

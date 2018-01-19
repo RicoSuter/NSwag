@@ -100,6 +100,7 @@ namespace NSwag.AspNetCore
         /// <summary>Adds the Swagger generator that uses Api Description to perform Swagger generation.</summary>
         /// <param name="app">The app.</param>
         /// <param name="configure">Configure the Swagger generator settings.</param>
+        [Obsolete("This method is currently experimental.")]
         public static IApplicationBuilder UseSwaggerWithApiDescription(
             this IApplicationBuilder app,
             Action<AspNetCoreToSwaggerMiddlewareSettings> configure = null)
