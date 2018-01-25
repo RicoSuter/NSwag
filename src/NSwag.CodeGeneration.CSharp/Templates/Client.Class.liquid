@@ -30,16 +30,16 @@
     public {{ Class }}()
     {
 {% endif -%}
-		_settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(() => 
+        _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(() => 
         {
             var settings = {{ JsonSerializerParameterCode }};
 {% if SerializeTypeInformation -%}
-		    settings.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto;
+            settings.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto;
 {% endif -%}
             UpdateJsonSerializerSettings(settings);
             return settings;
         });
-	}
+    }
 
 {% if UseBaseUrl and GenerateBaseUrlProperty -%}
     public string BaseUrl 
@@ -144,10 +144,21 @@ urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({
 {%     endif -%}
             {
 {%     for parameter in operation.HeaderParameters -%}
-{%         if parameter.IsStringArray -%}
+{%         if parameter.IsRequired -%}
+                if ({{ parameter.VariableName }} == null)
+                    throw new System.ArgumentNullException("{{ parameter.VariableName }}");
+{%             if parameter.IsStringArray -%}
                 request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", {{ parameter.VariableName }});
+{%             else -%}
+                request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture));
+{%             endif -%}
 {%         else -%}
-                request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", {{ parameter.VariableName }} != null ? ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture) : null);
+                if ({{ parameter.VariableName }} != null)
+{%             if parameter.IsStringArray -%}
+                    request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", {{ parameter.VariableName }});
+{%             else -%}
+                    request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture));
+{%             endif -%}
 {%         endif -%}
 {%     endfor -%}
 {%     if operation.HasContent -%}
@@ -186,7 +197,7 @@ urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({
 {%             endfor -%}
                 request_.Content = content_;
 {%         elseif operation.IsGetOrDeleteOrHead == false -%}
-                request_.Content = new System.Net.Http.StringContent(string.Empty);
+                request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "{{ operation.Produces }}");
 {%         endif -%}
 {%     endif -%}
                 request_.Method = new System.Net.Http.HttpMethod("{{ operation.HttpMethodUpper | upcase }}");
@@ -265,26 +276,31 @@ urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({
     }
 
 {% endfor -%}
-	private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
-	{
-		if (value is System.Enum)
-		{
-			string name = System.Enum.GetName(value.GetType(), value);
-			if (name != null)
-			{
-				var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
-				if (field != null)
-				{
-					var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
-						as System.Runtime.Serialization.EnumMemberAttribute;
-					if (attribute != null)
-					{
-						return attribute.Value;
-					}
-				}
-			}
-		}
+    private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
+    {
+        if (value is System.Enum)
+        {
+            string name = System.Enum.GetName(value.GetType(), value);
+            if (name != null)
+            {
+                var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+                if (field != null)
+                {
+                    var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
+                        as System.Runtime.Serialization.EnumMemberAttribute;
+                    if (attribute != null)
+                    {
+                        return attribute.Value;
+                    }
+                }
+            }
+        }
+        else if (value.GetType().IsArray)
+        {
+            var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
+            return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
+        }
 
-		return System.Convert.ToString(value, cultureInfo);
-	}
+        return System.Convert.ToString(value, cultureInfo);
+    }
 }

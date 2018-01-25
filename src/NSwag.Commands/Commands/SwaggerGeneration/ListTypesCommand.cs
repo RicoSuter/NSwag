@@ -19,14 +19,17 @@ namespace NSwag.Commands.SwaggerGeneration
     [Command(Name = "list-types", Description = "List all types for the given assembly and settings.")]
     public class ListTypesCommand : IsolatedCommandBase<string[]>
     {
-        [Argument(Name = "File", IsRequired = false, Description = "The nswag.json configuration file path.")]
+        [Argument(Name = nameof(File), IsRequired = false, Description = "The nswag.json configuration file path.")]
         public string File { get; set; }
+
+        [Argument(Name = nameof(Variables), IsRequired = false)]
+        public string Variables { get; set; }
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             if (!string.IsNullOrEmpty(File))
             {
-                var document = await NSwagDocument.LoadAsync(File);
+                var document = await NSwagDocument.LoadWithTransformationsAsync(File, Variables);
                 var command = (TypesToSwaggerCommand)document.SelectedSwaggerGenerator;
 
                 AssemblyPaths = command.AssemblyPaths;

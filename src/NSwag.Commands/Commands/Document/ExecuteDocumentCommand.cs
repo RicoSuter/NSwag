@@ -22,6 +22,9 @@ namespace NSwag.Commands.Document
         [Argument(Position = 1, IsRequired = false)]
         public string Input { get; set; }
 
+        [Argument(Name = nameof(Variables), IsRequired = false)]
+        public string Variables { get; set; }
+
         public async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             if (!string.IsNullOrEmpty(Input) && !Input.StartsWith("/") && !Input.StartsWith("-"))
@@ -49,29 +52,29 @@ namespace NSwag.Commands.Document
         {
             host.WriteMessage("\nExecuting file '" + filePath + "'...\n");
 
-            var document = await NSwagDocument.LoadAsync(filePath);
-	        if (document.Runtime != Runtime.Default)
-	        {
-		        if (document.Runtime != RuntimeUtilities.CurrentRuntime)
-		        {
-			        throw new InvalidOperationException("The specified runtime in the document (" + document.Runtime + ") differs " +
-			                                            "from the current process runtime (" + RuntimeUtilities.CurrentRuntime + "). " +
-			                                            "Change the runtime with the '/runtime:" + document.Runtime + "' parameter " +
-			                                            "or run the file with the correct command line binary.");
-		        }
+            var document = await NSwagDocument.LoadWithTransformationsAsync(filePath, Variables);
+            if (document.Runtime != Runtime.Default)
+            {
+                if (document.Runtime != RuntimeUtilities.CurrentRuntime)
+                {
+                    throw new InvalidOperationException("The specified runtime in the document (" + document.Runtime + ") differs " +
+                                                        "from the current process runtime (" + RuntimeUtilities.CurrentRuntime + "). " +
+                                                        "Change the runtime with the '/runtime:" + document.Runtime + "' parameter " +
+                                                        "or run the file with the correct command line binary.");
+                }
 
-		        if (document.SelectedSwaggerGenerator == document.SwaggerGenerators.WebApiToSwaggerCommand &&
-		            document.SwaggerGenerators.WebApiToSwaggerCommand.IsAspNetCore == false &&
-		            document.Runtime != Runtime.Debug &&
-		            document.Runtime != Runtime.WinX86 &&
-		            document.Runtime != Runtime.WinX64)
-		        {
-			        throw new InvalidOperationException("The runtime " + document.Runtime + " in the document must be used " +
-			                                            "with ASP.NET Core. Enable /isAspNetCore:true.");
-		        }
-	        }
+                if (document.SelectedSwaggerGenerator == document.SwaggerGenerators.WebApiToSwaggerCommand &&
+                    document.SwaggerGenerators.WebApiToSwaggerCommand.IsAspNetCore == false &&
+                    document.Runtime != Runtime.Debug &&
+                    document.Runtime != Runtime.WinX86 &&
+                    document.Runtime != Runtime.WinX64)
+                {
+                    throw new InvalidOperationException("The runtime " + document.Runtime + " in the document must be used " +
+                                                        "with ASP.NET Core. Enable /isAspNetCore:true.");
+                }
+            }
 
-			await document.ExecuteAsync();
+            await document.ExecuteAsync();
             host.WriteMessage("Done.\n");
         }
     }
