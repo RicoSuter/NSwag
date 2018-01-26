@@ -177,7 +177,7 @@ namespace NSwag.Commands
                 data = TransformLegacyDocument(data, out saveFile); // TODO: Remove this legacy stuff later
 
                 if (expandEnvironmentVariables)
-                    data = Regex.Replace(Environment.ExpandEnvironmentVariables(data), "[^\\\\]\\\\[^\\\\]", p => p.Value.Replace("\\", "\\\\"));
+                    data = Regex.Replace(data, "%[A-Za-z0-9_]*?%", p => Environment.ExpandEnvironmentVariables(p.Value).Replace("\\", "/"));
 
                 foreach (var p in ConvertVariables(variables))
                     data = data.Replace("$(" + p.Key + ")", p.Value);
