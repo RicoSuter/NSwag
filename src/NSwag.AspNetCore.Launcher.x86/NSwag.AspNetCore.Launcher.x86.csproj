@@ -13,6 +13,7 @@
     <PackageProjectUrl>http://NSwag.org</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png</PackageIconUrl>
     <PackageTags>Swagger Documentation WebApi AspNet TypeScript CodeGen</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
