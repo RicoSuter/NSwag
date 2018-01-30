@@ -27,19 +27,25 @@ namespace NSwag.Commands
             {
                 if (input.StartsWith("http://") || input.StartsWith("https://"))
                 {
-                    if (input.EndsWith(".yaml", StringComparison.OrdinalIgnoreCase))
+                    if (input.EndsWith(".yaml", StringComparison.OrdinalIgnoreCase) ||
+                        input.EndsWith(".yml", StringComparison.OrdinalIgnoreCase))
+                    {
                         return await SwaggerYamlDocument.FromUrlAsync(input).ConfigureAwait(false);
+                    }
                     else
                         return await SwaggerDocument.FromUrlAsync(input).ConfigureAwait(false);
                 }
                 else
                 {
-                    if (input.EndsWith(".yaml", StringComparison.OrdinalIgnoreCase))
+                    if (input.EndsWith(".yaml", StringComparison.OrdinalIgnoreCase) ||
+                        input.EndsWith(".yml", StringComparison.OrdinalIgnoreCase))
+                    {
                         return await SwaggerYamlDocument.FromFileAsync(input).ConfigureAwait(false);
+                    }
                     else
                         return await SwaggerDocument.FromFileAsync(input).ConfigureAwait(false);
                 }
-            }               
+            }
             else
             {
                 if (IsYaml(input))
