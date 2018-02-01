@@ -136,29 +136,42 @@ namespace NSwag.SwaggerGeneration.WebApi
             if (!hasIgnoreAttribute)
             {
                 var operations = new List<Tuple<SwaggerOperationDescription, MethodInfo>>();
-                foreach (var method in GetActionMethods(controllerType))
+
+                var currentControllerType = controllerType;
+                while (currentControllerType != null)
                 {
-                    var httpPaths = GetHttpPaths(controllerType, method).ToList();
-                    var httpMethods = GetSupportedHttpMethods(method).ToList();
-
-                    foreach (var httpPath in httpPaths)
+                    foreach (var method in GetActionMethods(currentControllerType))
                     {
-                        foreach (var httpMethod in httpMethods)
-                        {
-                            var operationDescription = new SwaggerOperationDescription
-                            {
-                                Path = httpPath,
-                                Method = httpMethod,
-                                Operation = new SwaggerOperation
-                                {
-                                    IsDeprecated = method.GetCustomAttribute<ObsoleteAttribute>() != null,
-                                    OperationId = GetOperationId(document, controllerType.Name, method)
-                                }
-                            };
+                        var httpPaths = GetHttpPaths(controllerType, method).ToList();
+                        var httpMethods = GetSupportedHttpMethods(method).ToList();
 
-                            operations.Add(new Tuple<SwaggerOperationDescription, MethodInfo>(operationDescription, method));
+                        foreach (var httpPath in httpPaths)
+                        {
+                            foreach (var httpMethod in httpMethods)
+                            {
+                                var isPathAlreadyDefinedInInheritanceHierarchy =
+                                    operations.Any(o => o.Item1.Path == httpPath && o.Item1.Method == httpMethod);
+
+                                if (isPathAlreadyDefinedInInheritanceHierarchy == false)
+                                {
+                                    var operationDescription = new SwaggerOperationDescription
+                                    {
+                                        Path = httpPath,
+                                        Method = httpMethod,
+                                        Operation = new SwaggerOperation
+                                        {
+                                            IsDeprecated = method.GetCustomAttribute<ObsoleteAttribute>() != null,
+                                            OperationId = GetOperationId(document, controllerType.Name, method)
+                                        }
+                                    };
+
+                                    operations.Add(new Tuple<SwaggerOperationDescription, MethodInfo>(operationDescription, method));
+                                }
+                            }
                         }
                     }
+
+                    currentControllerType = currentControllerType.GetTypeInfo().BaseType;
                 }
 
                 await AddOperationDescriptionsToDocumentAsync(document, controllerType, operations, swaggerGenerator, schemaResolver).ConfigureAwait(false);
@@ -194,7 +207,7 @@ namespace NSwag.SwaggerGeneration.WebApi
 
         private async Task<bool> RunOperationProcessorsAsync(SwaggerDocument document, Type controllerType, MethodInfo methodInfo, SwaggerOperationDescription operationDescription, List<SwaggerOperationDescription> allOperations, SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver)
         {
-            var context = new OperationProcessorContext(document, operationDescription, controllerType, 
+            var context = new OperationProcessorContext(document, operationDescription, controllerType,
                 methodInfo, swaggerGenerator, _schemaGenerator, schemaResolver, allOperations);
 
             // 1. Run from settings
@@ -229,7 +242,7 @@ namespace NSwag.SwaggerGeneration.WebApi
             var methods = controllerType.GetRuntimeMethods().Where(m => m.IsPublic);
             return methods.Where(m =>
                 m.IsSpecialName == false && // avoid property methods
-                m.DeclaringType != null &&
+                m.DeclaringType == controllerType && // no inherited methods (handled in GenerateForControllerAsync)
                 m.DeclaringType != typeof(object) &&
                 m.IsStatic == false &&
                 m.GetCustomAttributes().All(a => a.GetType().Name != "SwaggerIgnoreAttribute" && a.GetType().Name != "NonActionAttribute") &&
