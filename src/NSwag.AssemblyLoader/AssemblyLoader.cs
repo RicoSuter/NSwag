@@ -76,12 +76,7 @@ namespace NSwag.AssemblyLoader
 
         protected void RegisterReferencePaths(IEnumerable<string> referencePaths)
         {
-#if FullNet
-            var allReferencePaths = new List<string>(GetAllDirectories(AppDomain.CurrentDomain.SetupInformation.ApplicationBase));
-#else
             var allReferencePaths = new List<string>();
-#endif
-
             foreach (var path in referencePaths.Where(p => !string.IsNullOrWhiteSpace(p)))
             {
                 allReferencePaths.Add(path);
@@ -93,6 +88,10 @@ namespace NSwag.AssemblyLoader
             allReferencePaths = allReferencePaths.Distinct().ToList();
 
 #if FullNet
+            allReferencePaths.AddRange(GetAllDirectories(AppDomain.CurrentDomain.SetupInformation.ApplicationBase));
+#endif
+
+#if FullNet
             AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
 #else
             var assembliesLoadedByName = new HashSet<string>(); // used to avoid recursions
@@ -102,12 +101,54 @@ namespace NSwag.AssemblyLoader
                 var separatorIndex = args.Name.IndexOf(",", StringComparison.Ordinal);
                 var assemblyName = separatorIndex > 0 ? args.Name.Substring(0, separatorIndex) : args.Name;
 
+                string assemblyVersion = null;
+                if (separatorIndex > 0)
+                {
+                    separatorIndex = args.Name.IndexOf("=", separatorIndex, StringComparison.Ordinal);
+                    if (separatorIndex > 0)
+                    {
+                        var endIndex = args.Name.IndexOf(",", separatorIndex, StringComparison.Ordinal);
+                        if (endIndex > 0)
+                            assemblyVersion = string.Join(".", args.Name.Substring(separatorIndex + 1, endIndex - separatorIndex - 1).Split('.').Take(3));
+                    }
+                }
+
 #if FullNet
                 var existingAssembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetName().Name == assemblyName);
                 if (existingAssembly != null)
                     return existingAssembly;
 #endif
 
+                // search for exact version
+                if (assemblyVersion != null)
+                {
+                    foreach (var path in allReferencePaths)
+                    {
+                        var files = Directory.GetFiles(path, assemblyName + ".dll", SearchOption.TopDirectoryOnly);
+                        foreach (var file in files)
+                        {
+                            try
+                            {
+                                var info = FileVersionInfo.GetVersionInfo(file);
+                                if (info.FileVersion.StartsWith(assemblyVersion))
+                                {
+#if FullNet
+                                    return Assembly.LoadFrom(file);
+#else
+                                    var currentDirectory = DynamicApis.DirectoryGetCurrentDirectoryAsync().GetAwaiter().GetResult();
+                                    return Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(file, currentDirectory));
+#endif
+                                }
+                            }
+                            catch (Exception exception)
+                            {
+                                Debug.WriteLine("NSwag: AssemblyLoader exception when loading assembly by file '" + file + "': \n" + exception.ToString());
+                            }
+                        }
+                    }
+                }
+
+                // search only for assembly name
                 foreach (var path in allReferencePaths)
                 {
                     var files = Directory.GetFiles(path, assemblyName + ".dll", SearchOption.TopDirectoryOnly);
