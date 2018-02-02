@@ -109,7 +109,11 @@ namespace NSwag.AssemblyLoader
                     {
                         var endIndex = args.Name.IndexOf(",", separatorIndex, StringComparison.Ordinal);
                         if (endIndex > 0)
-                            assemblyVersion = string.Join(".", args.Name.Substring(separatorIndex + 1, endIndex - separatorIndex - 1).Split('.').Take(3));
+                        {
+                            assemblyVersion = string.Join(".", args.Name
+                                .Substring(separatorIndex + 1, endIndex - separatorIndex - 1)
+                                .Split('.').Take(3)) + ".";
+                        }
                     }
                 }
 
