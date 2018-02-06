@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace NSwag.AspNetCore.Launcher
 {
-    public class Program
+    internal class Program
     {
         private const string EntryPointType = "NSwag.SwaggerGeneration.AspNetCore.AspNetCoreToSwaggerGeneratorCommandEntryPoint";
         private static readonly AssemblyName AspNetCoreSwaggerGenerationAssembly = new AssemblyName("NSwag.SwaggerGeneration.AspNetCore");
