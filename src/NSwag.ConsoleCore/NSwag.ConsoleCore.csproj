@@ -16,7 +16,7 @@
     <PackageId>NSwag.ConsoleCore</PackageId>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NSwag.AspNetCore.Launcher\NSwag.AspNetCore.Launcher.csproj" />
+    <ProjectReference Include="..\NSwag.AspNetCore.Launcher\NSwag.AspNetCore.Launcher.csproj" PrivateAssets="All" />
     <ProjectReference Include="..\NSwag.Commands\NSwag.Commands.csproj" />
   </ItemGroup>
   <ItemGroup>
@@ -24,4 +24,15 @@
     <PackageReference Include="System.IO.FileSystem" Version="4.3.0" />
     <PackageReference Include="System.Net.Http" Version="4.3.2" />
   </ItemGroup>
+
+  <!-- Workaround for https://github.com/NuGet/Home/issues/3891 -->
+  <PropertyGroup>
+     <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);IncludeP2POutput</TargetsForTfmSpecificBuildOutput>
+  </PropertyGroup>
+
+  <Target Name="IncludeP2POutput">
+    <ItemGroup>
+      <BuildOutputInPackage Include="$(OutputPath)NSwag.AspNetCore.Launcher.dll" />
+    </ItemGroup>
+  </Target>
 </Project>
