@@ -1,14 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace NSwag.Sample.NetCore2.Controllers
+namespace NSwag.Sample.NETCore20.Controllers
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
-        /// <summary>
-        /// Gets two values.
-        /// </summary>
+        // GET api/values
         [HttpGet]
         public IEnumerable<string> Get()
         {
@@ -24,6 +25,7 @@ namespace NSwag.Sample.NetCore2.Controllers
 
         // POST api/values
         [HttpPost]
+        [DisableRequestSizeLimit]
         public void Post([FromBody]string value)
         {
         }

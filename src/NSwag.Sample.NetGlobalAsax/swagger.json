@@ -1,0 +1,142 @@
+﻿{
+  "x-generator": "NSwag v11.13.3.0 (NJsonSchema v9.10.22.0 (Newtonsoft.Json v9.0.0.0))",
+  "swagger": "2.0",
+  "info": {
+    "title": "",
+    "version": ""
+  },
+  "schemes": [],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/Values": {
+      "get": {
+        "tags": [
+          "Values"
+        ],
+        "operationId": "Values_GetAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "x-nullable": true
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Values"
+        ],
+        "operationId": "Values_Post",
+        "parameters": [
+          {
+            "name": "value",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/Values/{id}": {
+      "get": {
+        "tags": [
+          "Values"
+        ],
+        "operationId": "Values_Get",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "x-nullable": false,
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "string"
+            },
+            "x-nullable": true
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Values"
+        ],
+        "operationId": "Values_Put",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "x-nullable": false,
+            "format": "int32"
+          },
+          {
+            "name": "value",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Values"
+        ],
+        "operationId": "Values_Delete",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "x-nullable": false,
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        }
+      }
+    }
+  },
+  "definitions": {},
+  "parameters": {},
+  "responses": {},
+  "securityDefinitions": {}
+}

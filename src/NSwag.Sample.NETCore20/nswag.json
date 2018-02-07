@@ -1,0 +1,28 @@
+﻿{
+  "runtime": "NetCore20",
+  "swaggerGenerator": {
+    "webApiToSwagger": {
+      "controllerNames": [
+        "NSwag.Sample.NETCore20.Controllers.ValuesController"
+      ],
+      "isAspNetCore": true,
+      "defaultUrlTemplate": "api/{controller}/{id?}",
+      "defaultPropertyNameHandling": "Default",
+      "defaultReferenceTypeNullHandling": "Null",
+      "defaultEnumHandling": "Integer",
+      "flattenInheritanceHierarchy": false,
+      "generateKnownTypes": true,
+      "generateXmlObjects": false,
+      "generateAbstractProperties": false,
+      "addMissingPathParameters": false,
+      "ignoreObsoleteProperties": false,
+      "allowReferencesWithProperties": false,
+      "output": "swagger.json",
+      "assemblyPaths": [
+        "bin/Debug/netcoreapp2.0/NSwag.Sample.NETCore20.dll"
+      ],
+      "referencePaths": []
+    }
+  },
+  "codeGenerators": {}
+}

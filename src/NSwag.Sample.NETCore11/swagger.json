@@ -1,0 +1,319 @@
+﻿{
+  "x-generator": "NSwag v11.13.3.0 (NJsonSchema v9.10.22.0 (Newtonsoft.Json v9.0.0.0))",
+  "swagger": "2.0",
+  "info": {
+    "title": "",
+    "version": ""
+  },
+  "schemes": [],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/pet": {
+      "post": {
+        "tags": [
+          "Pet"
+        ],
+        "summary": "Creates a Pet.",
+        "operationId": "Pet_Post",
+        "parameters": [
+          {
+            "name": "pet",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Pet"
+            },
+            "x-nullable": true,
+            "description": "The Pet to create."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK if successful, BadRequest when iput validation fails.",
+            "schema": {
+              "type": "file"
+            },
+            "x-nullable": true
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Pet"
+        ],
+        "operationId": "Pet_Put",
+        "parameters": [
+          {
+            "name": "pet",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Pet"
+            },
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "file"
+            },
+            "x-nullable": true
+          }
+        }
+      }
+    },
+    "/pet/findByStatus/{skip}/{sortOrder}": {
+      "get": {
+        "tags": [
+          "Pet"
+        ],
+        "operationId": "Pet_FindByStatus",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "status",
+            "in": "query",
+            "required": true,
+            "x-schema": {
+              "$ref": "#/definitions/Status"
+            },
+            "x-nullable": false,
+            "enum": [
+              0,
+              1,
+              2
+            ]
+          },
+          {
+            "type": "integer",
+            "name": "skip",
+            "in": "path",
+            "required": true,
+            "x-nullable": false,
+            "format": "int32"
+          },
+          {
+            "type": "string",
+            "name": "sortOrder",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "file"
+            },
+            "x-nullable": true
+          }
+        }
+      }
+    },
+    "/pet/findByTags": {
+      "get": {
+        "tags": [
+          "Pet"
+        ],
+        "operationId": "Pet_FindByTags",
+        "parameters": [
+          {
+            "type": "array",
+            "name": "tags",
+            "in": "query",
+            "x-nullable": true,
+            "collectionFormat": "multi",
+            "items": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Pet"
+              }
+            },
+            "x-nullable": true
+          }
+        }
+      }
+    },
+    "/pet/{id}": {
+      "delete": {
+        "tags": [
+          "Pet"
+        ],
+        "operationId": "Pet_Delete",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "x-nullable": false,
+            "format": "int32"
+          },
+          {
+            "type": "string",
+            "name": "api_key",
+            "in": "header",
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "file"
+            },
+            "x-nullable": true
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Pet"
+        ],
+        "operationId": "Pet_Get",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "x-nullable": false,
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Pet"
+            },
+            "x-nullable": true
+          },
+          "400": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/SerializableError"
+            },
+            "x-nullable": true
+          },
+          "404": {
+            "description": ""
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Pet": {
+      "type": "object",
+      "description": "A domestic or tamed animal such as an opposum.",
+      "additionalProperties": false,
+      "required": [
+        "Id",
+        "Status"
+      ],
+      "properties": {
+        "Id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "Category": {
+          "$ref": "#/definitions/Category"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "PhotoUrls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "Tags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Tag"
+          }
+        },
+        "Status": {
+          "$ref": "#/definitions/Status"
+        }
+      }
+    },
+    "Category": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "Id"
+      ],
+      "properties": {
+        "Id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "Name": {
+          "type": "string"
+        }
+      }
+    },
+    "Tag": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "Id"
+      ],
+      "properties": {
+        "Id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "Name": {
+          "type": "string"
+        }
+      }
+    },
+    "Status": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Available",
+        "Pending",
+        "Sold"
+      ],
+      "enum": [
+        0,
+        1,
+        2
+      ]
+    },
+    "SerializableError": {
+      "type": "object",
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "type": "object",
+          "additionalProperties": {}
+        }
+      ]
+    }
+  },
+  "parameters": {},
+  "responses": {},
+  "securityDefinitions": {}
+}

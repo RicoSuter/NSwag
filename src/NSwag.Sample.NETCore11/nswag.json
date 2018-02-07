@@ -1,0 +1,28 @@
+﻿{
+  "runtime": "NetCore11",
+  "swaggerGenerator": {
+    "webApiToSwagger": {
+      "controllerNames": [
+        "NSwag.Sample.NETCore11.Controllers.PetController"
+      ],
+      "isAspNetCore": true,
+      "defaultUrlTemplate": "api/{controller}/{id?}",
+      "defaultPropertyNameHandling": "Default",
+      "defaultReferenceTypeNullHandling": "Null",
+      "defaultEnumHandling": "Integer",
+      "flattenInheritanceHierarchy": false,
+      "generateKnownTypes": true,
+      "generateXmlObjects": false,
+      "generateAbstractProperties": false,
+      "addMissingPathParameters": false,
+      "ignoreObsoleteProperties": false,
+      "allowReferencesWithProperties": false,
+      "output": "swagger.json",
+      "assemblyPaths": [
+        "bin/Debug/netcoreapp1.1/NSwag.Sample.NETCore11.dll"
+      ],
+      "referencePaths": []
+    }
+  },
+  "codeGenerators": {}
+}

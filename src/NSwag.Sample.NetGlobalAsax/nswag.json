@@ -1,0 +1,28 @@
+﻿{
+  "runtime": "Default",
+  "swaggerGenerator": {
+    "webApiToSwagger": {
+      "controllerNames": [
+        "NSwag.Sample.NetOwin.Controllers.ValuesController"
+      ],
+      "isAspNetCore": false,
+      "defaultUrlTemplate": "api/{controller}/{id?}",
+      "defaultPropertyNameHandling": "Default",
+      "defaultReferenceTypeNullHandling": "Null",
+      "defaultEnumHandling": "Integer",
+      "flattenInheritanceHierarchy": false,
+      "generateKnownTypes": true,
+      "generateXmlObjects": false,
+      "generateAbstractProperties": false,
+      "addMissingPathParameters": false,
+      "ignoreObsoleteProperties": false,
+      "allowReferencesWithProperties": false,
+      "output": "swagger.json",
+      "assemblyPaths": [
+        "bin/NSwag.Sample.NetGlobalAsax.dll"
+      ],
+      "referencePaths": []
+    }
+  },
+  "codeGenerators": {}
+}
