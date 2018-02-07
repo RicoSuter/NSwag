@@ -33,7 +33,7 @@
     <EmbeddedResource Include="Templates\JsonExceptionConverter.liquid" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="9.10.22" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="9.10.23" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net451'">
     <Reference Include="Microsoft.CSharp" />
