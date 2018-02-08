@@ -159,13 +159,13 @@ namespace NSwag.Commands
         /// <typeparam name="TDocument">The type.</typeparam>
         /// <param name="filePath">The file path.</param>
         /// <param name="variables">The variables.</param>
-        /// <param name="expandEnvironmentVariables">Specifies whether to expand environment variables.</param>
+        /// <param name="applyTransformations">Specifies whether to expand environment variables and convert variables.</param>
         /// <param name="mappings">The mappings.</param>
         /// <returns>The document.</returns>
         protected static Task<TDocument> LoadAsync<TDocument>(
             string filePath,
             string variables,
-            bool expandEnvironmentVariables,
+            bool applyTransformations,
             IDictionary<Type, Type> mappings)
             where TDocument : NSwagDocumentBase, new()
         {
@@ -176,19 +176,21 @@ namespace NSwag.Commands
                 var data = await DynamicApis.FileReadAllTextAsync(filePath).ConfigureAwait(false);
                 data = TransformLegacyDocument(data, out saveFile); // TODO: Remove this legacy stuff later
 
-                if (expandEnvironmentVariables)
+                if (applyTransformations)
+                {
                     data = Regex.Replace(data, "%[A-Za-z0-9_]*?%", p => Environment.ExpandEnvironmentVariables(p.Value).Replace("\\", "/"));
 
-                foreach (var p in ConvertVariables(variables))
-                    data = data.Replace("$(" + p.Key + ")", p.Value);
-
-                var obj = JObject.Parse(data);
-                if (obj["defaultVariables"] != null)
-                {
-                    var defaultVariables = obj["defaultVariables"].Value<string>();
-                    foreach (var p in ConvertVariables(defaultVariables))
-                    {
+                    foreach (var p in ConvertVariables(variables))
                         data = data.Replace("$(" + p.Key + ")", p.Value);
+
+                    var obj = JObject.Parse(data);
+                    if (obj["defaultVariables"] != null)
+                    {
+                        var defaultVariables = obj["defaultVariables"].Value<string>();
+                        foreach (var p in ConvertVariables(defaultVariables))
+                        {
+                            data = data.Replace("$(" + p.Key + ")", p.Value);
+                        }
                     }
                 }
 
