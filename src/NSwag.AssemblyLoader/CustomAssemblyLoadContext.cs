@@ -35,8 +35,6 @@ namespace NSwag.AssemblyLoader
                 return Assemblies[args.Name];
             }
 
-            Console.WriteLine("  " + args.FullName);
-
             var separatorIndex = args.Name.IndexOf(",", StringComparison.Ordinal);
             var assemblyName = separatorIndex > 0 ? args.Name.Substring(0, separatorIndex) : args.Name;
 
