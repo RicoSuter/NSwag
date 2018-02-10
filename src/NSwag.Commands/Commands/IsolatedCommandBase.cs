@@ -20,6 +20,7 @@ using NSwag.Annotations;
 using NSwag.AssemblyLoader;
 using NSwag.AssemblyLoader.Utilities;
 using NSwag.SwaggerGeneration;
+using NSwag.SwaggerGeneration.AspNetCore;
 using NSwag.SwaggerGeneration.WebApi;
 
 namespace NSwag.Commands
@@ -85,6 +86,7 @@ namespace NSwag.Commands
             yield return codeBaseDirectory + "/NSwag.Commands.dll";
             yield return codeBaseDirectory + "/NSwag.SwaggerGeneration.dll";
             yield return codeBaseDirectory + "/NSwag.SwaggerGeneration.WebApi.dll";
+            yield return codeBaseDirectory + "/NSwag.SwaggerGeneration.AspNetCore.dll";
         }
 #else
         public IEnumerable<Assembly> GetAssemblies(string assemblyDirectory)
@@ -95,7 +97,7 @@ namespace NSwag.Commands
             yield return typeof(InputOutputCommandBase).GetTypeInfo().Assembly;
             yield return typeof(SwaggerJsonSchemaGenerator).GetTypeInfo().Assembly;
             yield return typeof(WebApiToSwaggerGenerator).GetTypeInfo().Assembly;
-            yield return typeof(AspNetCoreToSwaggerCommand).GetTypeInfo().Assembly;
+            yield return typeof(AspNetCoreToSwaggerGeneratorSettings).GetTypeInfo().Assembly;
         }
 #endif
 

@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 using NJsonSchema.Infrastructure;
@@ -33,6 +34,8 @@ namespace NSwag.AssemblyLoader
             {
                 return Assemblies[args.Name];
             }
+
+            Console.WriteLine("  " + args.FullName);
 
             var separatorIndex = args.Name.IndexOf(",", StringComparison.Ordinal);
             var assemblyName = separatorIndex > 0 ? args.Name.Substring(0, separatorIndex) : args.Name;
@@ -62,7 +65,14 @@ namespace NSwag.AssemblyLoader
                 }
             }
 
-            var assembly = TryLoadByName(AllReferencePaths, assemblyName);
+            var assembly = TryLoadByAssemblyName(args.FullName);
+            if (assembly != null)
+            {
+                Assemblies[args.Name] = assembly;
+                return assembly;
+            }
+
+            assembly = TryLoadByName(AllReferencePaths, assemblyName);
             if (assembly != null)
             {
                 Assemblies[args.Name] = assembly;
@@ -85,8 +95,9 @@ namespace NSwag.AssemblyLoader
                         var info = FileVersionInfo.GetVersionInfo(file);
                         if (info.FileVersion.StartsWith(assemblyVersion))
                         {
-                            var currentDirectory = DynamicApis.DirectoryGetCurrentDirectoryAsync().GetAwaiter().GetResult();
-                            return LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(file, currentDirectory));
+                            var assembly = TryLoadByPath(assemblyName, file);
+                            if (assembly != null)
+                                return assembly;
                         }
                     }
                     catch (Exception exception)
@@ -106,16 +117,29 @@ namespace NSwag.AssemblyLoader
                 var files = Directory.GetFiles(path, assemblyName + ".dll", SearchOption.TopDirectoryOnly);
                 foreach (var file in files)
                 {
-                    try
-                    {
-                        var currentDirectory = DynamicApis.DirectoryGetCurrentDirectoryAsync().GetAwaiter().GetResult();
-                        return LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(file, currentDirectory));
-                    }
-                    catch (Exception exception)
-                    {
-                        Debug.WriteLine("NSwag: AssemblyLoader exception when loading assembly by file '" + file + "': \n" + exception);
-                    }
+                    var assembly = TryLoadByPath(assemblyName, file);
+                    if (assembly != null)
+                        return assembly;
                 }
+            }
+
+            return null;
+        }
+
+        private Assembly TryLoadByPath(string assemblyName, string file)
+        {
+            try
+            {
+                if (!file.EndsWith("/refs/" + assemblyName + ".dll") &&
+                    !file.EndsWith("\\refs\\" + assemblyName + ".dll"))
+                {
+                    var currentDirectory = DynamicApis.DirectoryGetCurrentDirectoryAsync().GetAwaiter().GetResult();
+                    return LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(file, currentDirectory));
+                }
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine("NSwag: AssemblyLoader exception when loading assembly by file '" + file + "': \n" + exception);
             }
 
             return null;
