@@ -73,6 +73,7 @@ namespace NSwag.Commands
                 .ToArray();
         }
 
+#if NET451
         public IEnumerable<string> GetAssemblies(string assemblyDirectory)
         {
             var codeBaseDirectory = Path.GetDirectoryName(typeof(IsolatedSwaggerOutputCommandBase).GetTypeInfo()
@@ -85,6 +86,18 @@ namespace NSwag.Commands
             yield return codeBaseDirectory + "/NSwag.SwaggerGeneration.dll";
             yield return codeBaseDirectory + "/NSwag.SwaggerGeneration.WebApi.dll";
         }
+#else
+        public IEnumerable<Assembly> GetAssemblies(string assemblyDirectory)
+        {
+            yield return typeof(JToken).GetTypeInfo().Assembly;
+            yield return typeof(JsonSchema4).GetTypeInfo().Assembly;
+            yield return typeof(SwaggerDocument).GetTypeInfo().Assembly;
+            yield return typeof(InputOutputCommandBase).GetTypeInfo().Assembly;
+            yield return typeof(SwaggerJsonSchemaGenerator).GetTypeInfo().Assembly;
+            yield return typeof(WebApiToSwaggerGenerator).GetTypeInfo().Assembly;
+            yield return typeof(AspNetCoreToSwaggerCommand).GetTypeInfo().Assembly;
+        }
+#endif
 
         public IEnumerable<BindingRedirect> GetBindingRedirects()
         {

@@ -8,8 +8,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Reflection;
+
+#if NET451
+using System.Diagnostics;
+using Newtonsoft.Json.Linq;
+#endif
 
 namespace NSwag.AssemblyLoader
 {
@@ -65,21 +69,15 @@ namespace NSwag.AssemblyLoader
     public sealed class AppDomainIsolation<T> : IDisposable where T : AssemblyLoader, new()
     {
         /// <exception cref="ArgumentNullException"><paramref name="assemblyDirectory"/> is <see langword="null" />.</exception>
-        public AppDomainIsolation(string assemblyDirectory, string assemblyConfiguration, IEnumerable<BindingRedirect> bindingRedirects, IEnumerable<string> preloadedAssemblies)
+        public AppDomainIsolation(string assemblyDirectory, string assemblyConfiguration, IEnumerable<BindingRedirect> bindingRedirects, IEnumerable<Assembly> preloadedAssemblies)
         {
             Object = new T();
 
             foreach (var pa in preloadedAssemblies)
             {
-                try
-                {
-                    Object.Context.LoadFromAssemblyPath(pa);
-                }
-                catch (Exception exception)
-                {
-                    Debug.WriteLine("AppDomainIsolation exception when preloaded DLL '" + pa + "': \n" + exception);
-                }
+                Object.Context.Assemblies[pa.GetName().Name] = pa;
             }
+
         }
 
         public T Object { get; }
