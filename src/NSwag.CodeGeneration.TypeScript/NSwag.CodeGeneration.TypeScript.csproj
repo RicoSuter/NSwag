@@ -36,7 +36,7 @@
     <EmbeddedResource Include="Templates\JQueryPromisesClient.liquid" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="9.10.25" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="9.10.26" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net451'">
     <Reference Include="Microsoft.CSharp" />
