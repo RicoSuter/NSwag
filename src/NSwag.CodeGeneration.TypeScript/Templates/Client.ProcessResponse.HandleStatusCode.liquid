@@ -1,12 +1,16 @@
 {% if operation.CanRequestBlobs and response.IsFile -%}
+{%     if IsAngularJS -%}
+const contentDisposition = response.headers ? response.headers("content-disposition") : undefined;
+{%     else -%}
 const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+{%     endif -%}
 const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
 const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
 {%     if operation.WrapResponse -%}
 {%         if IsAngular -%}
 return Observable.of(new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, data: {% if UseAngularHttpClient %}<any>responseBlob{% else %}<any>response.blob(){% endif %}, status: status, headers: _headers }));
 {%         elseif IsAngularJS -%}
-return this.q.resolve(new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, status: status, data: new Blob([response]), headers: _headers }));
+return this.q.resolve(new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, status: status, data: new Blob([response.data]), headers: _headers }));
 {%         else -%}
 return response.blob().then(blob => { return new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, data: blob, status: status, headers: _headers }); });
 {%         endif -%}
@@ -14,7 +18,7 @@ return response.blob().then(blob => { return new {{ operation.ResponseClass }}(s
 {%         if IsAngular -%}
 return Observable.of({ fileName: fileName, data: {% if UseAngularHttpClient %}<any>responseBlob{% else %}<any>response.blob(){% endif %}, status: status, headers: _headers });
 {%         elseif IsAngularJS -%}
-return this.q.resolve({ fileName: fileName, status: status, data: new Blob([response]), headers: _headers });
+return this.q.resolve({ fileName: fileName, status: status, data: new Blob([response.data]), headers: _headers });
 {%         else -%}
 return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
 {%         endif -%}

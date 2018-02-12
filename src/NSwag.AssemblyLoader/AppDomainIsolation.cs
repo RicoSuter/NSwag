@@ -77,7 +77,6 @@ namespace NSwag.AssemblyLoader
             {
                 Object.Context.Assemblies[pa.GetName().Name] = pa;
             }
-
         }
 
         public T Object { get; }
