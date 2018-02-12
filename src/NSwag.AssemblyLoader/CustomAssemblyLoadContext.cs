@@ -38,6 +38,13 @@ namespace NSwag.AssemblyLoader
             var separatorIndex = args.Name.IndexOf(",", StringComparison.Ordinal);
             var assemblyName = separatorIndex > 0 ? args.Name.Substring(0, separatorIndex) : args.Name;
 
+            var assembly = TryLoadExistingAssemblyName(args.FullName);
+            if (assembly != null)
+            {
+                Assemblies[args.Name] = assembly;
+                return assembly;
+            }
+
             var version = args.Version;
             if (version != null)
             {
@@ -63,7 +70,7 @@ namespace NSwag.AssemblyLoader
                 }
             }
 
-            var assembly = TryLoadByAssemblyName(args.FullName);
+            assembly = TryLoadByAssemblyName(args.FullName);
             if (assembly != null)
             {
                 Assemblies[args.Name] = assembly;
@@ -79,6 +86,20 @@ namespace NSwag.AssemblyLoader
 
             Assemblies[args.Name] = TryLoadByAssemblyName(assemblyName);
             return Assemblies[args.Name];
+        }
+
+        private Assembly TryLoadExistingAssemblyName(string assemblyName)
+        {
+            try
+            {
+                return Default.LoadFromAssemblyName(new AssemblyName(assemblyName));
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine("NSwag: AssemblyLoader exception when loading assembly by name in Default context '" + assemblyName + "': \n" + exception);
+            }
+
+            return null;
         }
 
         private Assembly TryLoadByVersion(List<string> allReferencePaths, string assemblyName, string assemblyVersion)
