@@ -7,9 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration.TypeScript;
 
@@ -100,7 +98,8 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         }
 
         /// <summary>Gets a value indicating whether MomentJS is required.</summary>
-        public bool RequiresMomentJS => _settings.TypeScriptGeneratorSettings.DateTimeType == TypeScriptDateTimeType.MomentJS;
+        public bool RequiresMomentJS => _settings.TypeScriptGeneratorSettings.DateTimeType == TypeScriptDateTimeType.MomentJS ||
+                                        _settings.TypeScriptGeneratorSettings.DateTimeType == TypeScriptDateTimeType.OffsetMomentJS;
 
         /// <summary>Gets a value indicating whether required types should be imported.</summary>
         public bool ImportRequiredTypes => _settings.ImportRequiredTypes;

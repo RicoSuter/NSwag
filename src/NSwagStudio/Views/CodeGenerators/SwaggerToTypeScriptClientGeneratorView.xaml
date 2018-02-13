@@ -197,7 +197,7 @@
                                           Margin="0,0,0,12" />
 
                                 <CheckBox IsChecked="{Binding Command.ImportRequiredTypes, Mode=TwoWay}" 
-                                          Content="Import required types (e.g. Angular types, MomentJS, JQuery, etc.)"
+                                          Content="Import required types (e.g. Angular types, Moment.js, JQuery, etc.)"
                                           ToolTip="ImportRequiredTypes"
                                           Margin="0,0,0,12" />
 
