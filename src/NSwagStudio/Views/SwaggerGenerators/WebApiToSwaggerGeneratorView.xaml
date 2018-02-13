@@ -156,7 +156,7 @@
             <TextBox Text="{Binding Command.DefaultUrlTemplate, Mode=TwoWay}" 
                      ToolTip="DefaultUrlTemplate" Margin="0,0,0,12" />
 
-            <TextBlock Text="The excluded type names (same as JsonSchemaIgnoreAttribute)." FontWeight="Bold" Margin="0,0,0,6" />
+            <TextBlock Text="The excluded type names (same as JsonSchemaIgnoreAttribute, comma separated)." FontWeight="Bold" Margin="0,0,0,6" />
             <TextBox Text="{Binding Command.ExcludedTypeNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
                      ToolTip="ExcludedTypeNames" Margin="0,0,0,12" />
 
