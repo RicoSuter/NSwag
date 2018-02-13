@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <NSwagExe>"$(MSBuildThisFileDirectory)\Win\NSwag.exe"</NSwagExe>
-    <NSwagExe_x86>"$(MSBuildThisFileDirectory)\Win\NSwag.x86.exe"</NSwagExe_x86>
+    <NSwagExe>"$(MSBuildThisFileDirectory)Win/NSwag.exe"</NSwagExe>
+    <NSwagExe_x86>"$(MSBuildThisFileDirectory)Win/NSwag.x86.exe"</NSwagExe_x86>
     <NSwagExe_Core10>dotnet "$(MSBuildThisFileDirectory)NetCore10/dotnet-nswag.dll"</NSwagExe_Core10>
     <NSwagExe_Core11>dotnet "$(MSBuildThisFileDirectory)NetCore11/dotnet-nswag.dll"</NSwagExe_Core11>
     <NSwagExe_Core20>dotnet "$(MSBuildThisFileDirectory)NetCore20/dotnet-nswag.dll"</NSwagExe_Core20>
 
-    <NSwagDir>$(MSBuildThisFileDirectory)\Win\</NSwagDir>
+    <NSwagDir>$(MSBuildThisFileDirectory)Win/</NSwagDir>
     <NSwagDir_Core10>$(MSBuildThisFileDirectory)NetCore10/</NSwagDir_Core10>
     <NSwagDir_Core11>$(MSBuildThisFileDirectory)NetCore11/</NSwagDir_Core11>
     <NSwagDir_Core20>$(MSBuildThisFileDirectory)NetCore20/</NSwagDir_Core20>
