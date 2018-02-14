@@ -110,5 +110,8 @@ namespace NSwag.CodeGeneration.Models
         public bool IsObjectArray => IsArray && 
             (Schema.Item?.ActualSchema.Type == JsonObjectType.Object || 
              Schema.Item?.ActualSchema.IsAnyType == true);
+
+        /// <summary>Gets a value indicating whether the parameter is of type object.</summary>
+        public bool IsObject => Schema.Type.HasFlag(JsonObjectType.Object);
     }
 }
