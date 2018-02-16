@@ -81,7 +81,7 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.InjectionTokenType = value; }
         }
 
-        [Argument(Name = "DateTimeType", IsRequired = false, Description = "The date time type ('Date', 'MomentJS', 'string').")]
+        [Argument(Name = "DateTimeType", IsRequired = false, Description = "The date time type ('Date', 'MomentJS', 'OffsetMomentJS', 'string').")]
         public TypeScriptDateTimeType DateTimeType
         {
             get { return Settings.TypeScriptGeneratorSettings.DateTimeType; }

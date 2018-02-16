@@ -81,7 +81,7 @@ namespace NSwag.AssemblyLoader
             }
 
             // Add path to executable directory
-            allReferencePaths.Add(Path.GetDirectoryName(typeof(AssemblyLoader).GetTypeInfo().Assembly.CodeBase.Replace("file:///", string.Empty)));
+            allReferencePaths.Add(Path.GetDirectoryName(typeof(AssemblyLoader).GetTypeInfo().Assembly.Location));
             allReferencePaths = allReferencePaths.Distinct().ToList();
 
 #if !FullNet
