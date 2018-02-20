@@ -116,6 +116,7 @@ namespace NSwag.AspNetCore
         /// This is currently only required in conjunction with 
         /// <see cref="SwaggerExtensions.UseSwaggerWithApiDescription(IApplicationBuilder, Action{AspNetCoreToSwaggerMiddlewareSettings})"/>.
         /// </remarks>
+        [Obsolete("This method is currently experimental.")]
         public static IServiceCollection AddSwagger(this IServiceCollection serviceCollection)
         {
             return serviceCollection.AddSingleton<IConfigureOptions<MvcOptions>, NSwagConfigureMvcOptions>();

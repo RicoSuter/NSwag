@@ -42,6 +42,11 @@ namespace NSwag.Sample.NETCore11
 
             app.UseMvc();
             app.UseSwaggerWithApiDescription();
+            //app.UseSwaggerUi(GetType().GetTypeInfo().Assembly, new SwaggerUiSettings
+            //{
+            //    SwaggerRoute = "/SwaggerLegacy.json",
+            //    SwaggerUiRoute = "/SwaggerLegacy",
+            //});
 
             // old generator
             app.UseSwagger(typeof(Startup).GetTypeInfo().Assembly, new SwaggerSettings { SwaggerRoute = "/oldswagger.json" });

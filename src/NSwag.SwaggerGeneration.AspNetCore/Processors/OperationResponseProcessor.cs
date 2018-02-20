@@ -41,7 +41,6 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                 return false;
 
             var parameter = context.MethodInfo.ReturnParameter;
-            var successXmlDescription = await parameter.GetDescriptionAsync(parameter.GetCustomAttributes()).ConfigureAwait(false) ?? string.Empty;
 
             var responseTypeAttributes = context.MethodInfo.GetCustomAttributes()
                 .Where(a => a.GetType().Name == "ResponseTypeAttribute" ||
@@ -109,6 +108,27 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                         }
                     }
                 }
+            }
+
+            if (context.OperationDescription.Operation.Responses.Count == 0)
+            {
+                context.OperationDescription.Operation.Responses[GetVoidResponseStatusCode()] = new SwaggerResponse
+                {
+                    IsNullableRaw = true,
+                    Schema = new JsonSchema4
+                    {
+                        Type = JsonObjectType.File
+                    }
+                };
+            }
+
+            var successXmlDescription = await parameter.GetDescriptionAsync(parameter.GetCustomAttributes())
+                .ConfigureAwait(false) ?? string.Empty;
+
+            foreach (var response in context.OperationDescription.Operation.Responses.Where(r =>
+                HttpUtilities.IsSuccessStatusCode(r.Key)))
+            {
+                response.Value.Description = successXmlDescription;
             }
 
             return true;
