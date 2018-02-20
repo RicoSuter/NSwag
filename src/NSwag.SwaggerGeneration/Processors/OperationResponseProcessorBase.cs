@@ -75,33 +75,39 @@ namespace NSwag.SwaggerGeneration.Processors
                 dynamic responseTypeAttribute = attribute;
                 var attributeType = attribute.GetType();
 
-                var returnType = typeof(void);
-                if (attributeType.GetRuntimeProperty("ResponseType") != null)
-                    returnType = responseTypeAttribute.ResponseType;
-                else if (attributeType.GetRuntimeProperty("Type") != null)
-                    returnType = responseTypeAttribute.Type;
+                var isProducesAttributeWithNoType = // ignore ProducesAttribute if it has no type, https://github.com/RSuter/NSwag/issues/1201
+                    attributeType.Name == "ProducesAttribute" && attribute.HasProperty("Type") && responseTypeAttribute.Type == null;
 
-                if (returnType == null)
-                    returnType = typeof(void);
-
-                var httpStatusCode = IsVoidResponse(returnType) ? GetVoidResponseStatusCode() : "200";
-                if (attributeType.GetRuntimeProperty("HttpStatusCode") != null && responseTypeAttribute.HttpStatusCode != null)
-                    httpStatusCode = responseTypeAttribute.HttpStatusCode.ToString();
-                else if (attributeType.GetRuntimeProperty("StatusCode") != null && responseTypeAttribute.StatusCode != null)
-                    httpStatusCode = responseTypeAttribute.StatusCode.ToString();
-
-                var description = HttpUtilities.IsSuccessStatusCode(httpStatusCode) ? successResponseDescription : string.Empty;
-                if (attributeType.GetRuntimeProperty("Description") != null)
+                if (!isProducesAttributeWithNoType)
                 {
-                    if (!string.IsNullOrEmpty(responseTypeAttribute.Description))
-                        description = responseTypeAttribute.Description;
+                    var returnType = typeof(void);
+                    if (attributeType.GetRuntimeProperty("ResponseType") != null)
+                        returnType = responseTypeAttribute.ResponseType;
+                    else if (attributeType.GetRuntimeProperty("Type") != null)
+                        returnType = responseTypeAttribute.Type;
+
+                    if (returnType == null)
+                        returnType = typeof(void);
+
+                    var httpStatusCode = IsVoidResponse(returnType) ? GetVoidResponseStatusCode() : "200";
+                    if (attributeType.GetRuntimeProperty("HttpStatusCode") != null && responseTypeAttribute.HttpStatusCode != null)
+                        httpStatusCode = responseTypeAttribute.HttpStatusCode.ToString();
+                    else if (attributeType.GetRuntimeProperty("StatusCode") != null && responseTypeAttribute.StatusCode != null)
+                        httpStatusCode = responseTypeAttribute.StatusCode.ToString();
+
+                    var description = HttpUtilities.IsSuccessStatusCode(httpStatusCode) ? successResponseDescription : string.Empty;
+                    if (attributeType.GetRuntimeProperty("Description") != null)
+                    {
+                        if (!string.IsNullOrEmpty(responseTypeAttribute.Description))
+                            description = responseTypeAttribute.Description;
+                    }
+
+                    var isNullable = true;
+                    if (attributeType.GetRuntimeProperty("IsNullable") != null)
+                        isNullable = responseTypeAttribute.IsNullable;
+
+                    yield return new OperationResponseDescription(httpStatusCode, returnType, isNullable, description);
                 }
-
-                var isNullable = true;
-                if (attributeType.GetRuntimeProperty("IsNullable") != null)
-                    isNullable = responseTypeAttribute.IsNullable;
-
-                yield return new OperationResponseDescription(httpStatusCode, returnType, isNullable, description);
             }
         }
 
