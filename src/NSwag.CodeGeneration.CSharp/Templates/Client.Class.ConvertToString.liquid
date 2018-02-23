@@ -17,6 +17,10 @@
             }
         }
     }
+    else if (value is byte[])
+    {
+        return System.Convert.ToBase64String((byte[]) value);
+    }
     else if (value.GetType().IsArray)
     {
         var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
