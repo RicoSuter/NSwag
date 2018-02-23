@@ -297,7 +297,7 @@ urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({
         }
         else if (value is byte[])
         {
-            return System.Convert.ToBase64String((byte[])value);
+            return System.Convert.ToBase64String((byte[]) value);
         }
         else if (value.GetType().IsArray)
         {
