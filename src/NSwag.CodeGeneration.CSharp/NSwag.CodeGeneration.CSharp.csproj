@@ -19,11 +19,13 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Templates\Client.Class.BeforeSend.liquid" />
+    <None Remove="Templates\Client.ConvertToString.liquid" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Templates\Client.Class.BeforeSend.liquid" />
     <EmbeddedResource Include="Templates\Client.Class.liquid" />
     <EmbeddedResource Include="Templates\Client.Class.ProcessResponse.liquid" />
+    <EmbeddedResource Include="Templates\Client.ConvertToString.liquid" />
     <EmbeddedResource Include="Templates\Client.Interface.Body.liquid" />
     <EmbeddedResource Include="Templates\Client.Interface.liquid" />
     <EmbeddedResource Include="Templates\Client.liquid" />
