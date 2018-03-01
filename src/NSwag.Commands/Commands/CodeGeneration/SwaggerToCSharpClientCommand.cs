@@ -147,6 +147,14 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.GenerateSyncMethods = value; }
         }
 
+        [Argument(Name = nameof(ExposeJsonSerializerSettings), IsRequired = false,
+            Description = "Specifies whether to expose the JsonSerializerSettings property (default: false).")]
+        public bool ExposeJsonSerializerSettings
+        {
+            get { return Settings.ExposeJsonSerializerSettings; }
+            set { Settings.ExposeJsonSerializerSettings = value; }
+        }
+
         [Argument(Name = "ClientClassAccessModifier", IsRequired = false, Description = "The client class access modifier (default: public).")]
         public string ClientClassAccessModifier
         {
