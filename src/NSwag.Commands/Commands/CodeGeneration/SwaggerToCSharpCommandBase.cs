@@ -58,6 +58,14 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.GenerateOptionalParameters = value; }
         }
 
+        [Argument(Name = "GenerateJsonMethods", IsRequired = false,
+            Description = "Specifies whether to render ToJson() and FromJson() methods for DTOs (default: true).")]
+        public bool GenerateJsonMethods
+        {
+            get { return Settings.CSharpGeneratorSettings.GenerateJsonMethods; }
+            set { Settings.CSharpGeneratorSettings.GenerateJsonMethods = value; }
+        }
+
         [Argument(Name = "ParameterArrayType", IsRequired = false, Description = "The generic array .NET type of operation parameters (default: 'IEnumerable').")]
         public string ParameterArrayType
         {

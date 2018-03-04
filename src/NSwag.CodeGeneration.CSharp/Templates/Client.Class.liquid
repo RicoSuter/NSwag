@@ -49,10 +49,8 @@
     }
 
 {% endif -%}
-{% if ExposeJsonSerializerSettings -%}
-    public Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
+    {% if ExposeJsonSerializerSettings %}public{% else %}protected{% endif %} Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
-{% endif -%}
 {% if GenerateUpdateJsonSerializerSettingsMethod -%}
     partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
 {% endif -%}

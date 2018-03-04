@@ -50,7 +50,7 @@ namespace NSwag.SwaggerGeneration
                     _isRootType = false;
                 }
 
-                schema.SchemaReference = schemaResolver.GetSchema(type, false);
+                schema.Reference = schemaResolver.GetSchema(type, false);
             }
         }
 

@@ -49,6 +49,11 @@
                     <TextBlock Text="Generate data annotation attributes" TextWrapping="Wrap" />
                 </CheckBox>
 
+                <CheckBox IsChecked="{Binding Command.GenerateJsonMethods, Mode=TwoWay}" 
+                          ToolTip="GenerateJsonMethods" Margin="0,0,0,12">
+                    <TextBlock Text="Generate ToJson() and FromJson() methods" TextWrapping="Wrap" />
+                </CheckBox>
+
                 <TextBlock Text="Class Style" FontWeight="Bold" Margin="0,0,0,6" />
                 <ComboBox SelectedItem="{Binding Command.ClassStyle, Mode=TwoWay}" 
                           ToolTip="ClassStyle"
