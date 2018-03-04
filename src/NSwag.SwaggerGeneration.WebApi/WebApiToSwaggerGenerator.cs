@@ -150,7 +150,10 @@ namespace NSwag.SwaggerGeneration.WebApi
                             foreach (var httpMethod in httpMethods)
                             {
                                 var isPathAlreadyDefinedInInheritanceHierarchy =
-                                    operations.Any(o => o.Item1.Path == httpPath && o.Item1.Method == httpMethod);
+                                    operations.Any(o => o.Item1.Path == httpPath && 
+                                                        o.Item1.Method == httpMethod && 
+                                                        o.Item2.DeclaringType != currentControllerType &&
+                                                        o.Item2.DeclaringType.IsAssignableTo(currentControllerType.FullName, TypeNameStyle.FullName));
 
                                 if (isPathAlreadyDefinedInInheritanceHierarchy == false)
                                 {

@@ -123,6 +123,10 @@
                                           Content="Generate synchronous methods (not recommended)" 
                                           ToolTip="GenerateSyncMethods" Margin="0,0,0,12" />
 
+                                <CheckBox IsChecked="{Binding Command.ExposeJsonSerializerSettings, Mode=TwoWay}" 
+                                          Content="Expose the JsonSerializerSettings property" 
+                                          ToolTip="ExposeJsonSerializerSettings" Margin="0,0,0,12" />
+
                                 <CheckBox IsChecked="{Binding Command.InjectHttpClient, Mode=TwoWay}" 
                                           ToolTip="InjectHttpClient"
                                           Content="Inject HttpClient via constructor (life cycle is managed by the caller)" Margin="0,0,0,12" />
