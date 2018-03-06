@@ -29,8 +29,10 @@ namespace NSwag.CodeGeneration.Models
         /// <param name="allParameters">All parameters.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="generator">The client generator base.</param>
+        /// <param name="valueGenerator">Settings used to generate default values.</param>
         protected ParameterModelBase(string parameterName, string variableName, string typeName,
-            SwaggerParameter parameter, IList<SwaggerParameter> allParameters, CodeGeneratorSettingsBase settings, IClientGenerator generator)
+            SwaggerParameter parameter, IList<SwaggerParameter> allParameters, CodeGeneratorSettingsBase settings,
+            IClientGenerator generator, ValueGeneratorBase valueGenerator )
         {
             _allParameters = allParameters;
             _parameter = parameter;
@@ -38,6 +40,7 @@ namespace NSwag.CodeGeneration.Models
             _generator = generator;
 
             Type = typeName;
+            ValueGenerator = valueGenerator;
             Name = parameterName;
             VariableName = variableName;
 
@@ -54,22 +57,13 @@ namespace NSwag.CodeGeneration.Models
             }
         }
 
-        private static string DefaultToString( SwaggerParameter parameter ) {
-            switch ( parameter.Type ) {
-                case JsonObjectType.Number:
-                    switch ( parameter.Format ) {
-                        case JsonFormatStrings.Decimal:
-                            return $"{parameter.Default}M";
-                        default:
-                            return $"{parameter.Default}D";
-                    }
-                case JsonObjectType.String:
-                    return $"@\"{( (string) parameter.Default ).Replace( "\"", "\"\"" )}\"";
-                case JsonObjectType.Boolean:
-                    return (bool) parameter.Default ? "true" : "false";
-                default:
-                    return parameter.Default.ToString();
-            }
+        /// <summary>
+        /// Value generator to use for mapping from <see cref="SwaggerParameter"/> to <see cref="string"/> value in the generated code.
+        /// </summary>
+        protected ValueGeneratorBase ValueGenerator { get; set; }
+
+        private string DefaultToString( SwaggerParameter parameter ) {
+            return ValueGenerator?.GetDefaultValue( parameter, false, parameter.ActualTypeSchema.Id, null, true );
         }
 
         /// <summary>Gets the type of the parameter.</summary>

@@ -80,7 +80,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests {
             var code = generator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue( code.Contains( "_implementation.BarAsync(abc, booldef ?? true, intdef ?? 42, doubledef ?? 0.6822871999174D, decdef ?? 79228162514264337593543950335M, strdef ?? @\"default\"\"string\"\"\", bar)" ) );
+            Assert.IsTrue( code.Contains(
+                "_implementation.BarAsync(abc, booldef ?? true, intdef ?? 42, doubledef ?? 0.6822871999174D, decdef ?? 79228162514264337593543950335M, strdef ?? \"default\\\"string\\\"\", bar)" ) );
 
             Assert.IsTrue( code.Contains( "BarAsync(int abc, bool booldef, int intdef, double doubledef, decimal decdef, string strdef, int? bar = null);" ) );
 

@@ -8,6 +8,7 @@
 
 using System.Collections.Generic;
 using NJsonSchema.CodeGeneration;
+using NJsonSchema.CodeGeneration.CSharp;
 using NSwag.CodeGeneration.Models;
 
 namespace NSwag.CodeGeneration.CSharp.Models
@@ -23,10 +24,17 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <param name="allParameters">All parameters.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="generator">The client generator base.</param>
-        public CSharpParameterModel(string parameterName, string variableName, string typeName, SwaggerParameter parameter, 
-            IList<SwaggerParameter> allParameters, CodeGeneratorSettingsBase settings, IClientGenerator generator)
-            : base(parameterName, variableName, typeName, parameter, allParameters, settings, generator)
-        {
+        public CSharpParameterModel( string parameterName,
+            string variableName,
+            string typeName,
+            SwaggerParameter parameter,
+            IList<SwaggerParameter> allParameters,
+            CodeGeneratorSettingsBase settings,
+            IClientGenerator generator )
+            : base( parameterName, variableName, typeName, 
+                parameter, allParameters, settings, generator, 
+                new CSharpValueGenerator( new CSharpTypeResolver( (CSharpGeneratorSettings) settings ), 
+                    (CSharpGeneratorSettings) settings ) ) {
         }
 
         /// <summary>Gets a value indicating whether the type is a Nullable&lt;&gt;.</summary>
