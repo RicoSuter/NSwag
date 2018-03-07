@@ -87,10 +87,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                 {
                     var operationParameter = await CreatePrimitiveParameterAsync(context, extendedApiParameter).ConfigureAwait(false);
                     operationParameter.Kind = SwaggerParameterKind.Path;
-                    operationParameter.IsRequired = true; // Path is always required => property not needed
-
-                    if (_settings.SchemaType == SchemaType.Swagger2)
-                        operationParameter.IsNullableRaw = false;
+                    operationParameter.IsRequired = true; // apiParameter.RouteInfo?.IsOptional == false;
 
                     context.OperationDescription.Operation.Parameters.Add(operationParameter);
                 }
@@ -98,6 +95,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                 {
                     var operationParameter = await CreatePrimitiveParameterAsync(context, extendedApiParameter).ConfigureAwait(false);
                     operationParameter.Kind = SwaggerParameterKind.Header;
+                    operationParameter.IsRequired = parameter != null && !IsNullable(parameter);
 
                     context.OperationDescription.Operation.Parameters.Add(operationParameter);
                 }
@@ -158,6 +156,15 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                     return "{" + parameterName + "}";
                 return string.Empty;
             }).TrimEnd('/');
+        }
+
+        private bool IsNullable(ParameterInfo parameter)
+        {
+            var isNullable = Nullable.GetUnderlyingType(parameter.ParameterType) != null;
+            if (isNullable)
+                return false;
+
+            return parameter.ParameterType.GetTypeInfo().IsValueType;
         }
 
         private async Task<bool> TryAddFileParameterAsync(

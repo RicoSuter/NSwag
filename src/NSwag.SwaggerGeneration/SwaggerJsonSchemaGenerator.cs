@@ -50,7 +50,7 @@ namespace NSwag.SwaggerGeneration
                     _isRootType = false;
                 }
 
-                schema.SchemaReference = schemaResolver.GetSchema(type, false);
+                schema.Reference = schemaResolver.GetSchema(type, false);
             }
         }
 
@@ -84,7 +84,7 @@ namespace NSwag.SwaggerGeneration
                    returnType.Name == "IActionResult" ||
                    returnType.Name == "IHttpActionResult" ||
                    returnType.Name == "HttpResponseMessage" ||
-                   returnType.InheritsFrom("ActionResult", TypeNameStyle.Name) ||
+                   returnType.IsAssignableTo("ActionResult", TypeNameStyle.Name) ||
                    returnType.InheritsFrom("HttpResponseMessage", TypeNameStyle.Name);
         }
     }

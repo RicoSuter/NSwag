@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -40,7 +41,6 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                 return false;
 
             var parameter = context.MethodInfo.ReturnParameter;
-            var successXmlDescription = await parameter.GetDescriptionAsync(parameter.GetCustomAttributes()).ConfigureAwait(false) ?? string.Empty;
 
             var responseTypeAttributes = context.MethodInfo.GetCustomAttributes()
                 .Where(a => a.GetType().Name == "ResponseTypeAttribute" ||
@@ -54,6 +54,9 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
             var operation = context.OperationDescription.Operation;
             foreach (var requestFormat in context.ApiDescription.SupportedRequestFormats)
             {
+                if (operation.Consumes == null)
+                    operation.Consumes = new List<string>();
+
                 if (!operation.Consumes.Contains(requestFormat.MediaType, StringComparer.OrdinalIgnoreCase))
                 {
                     operation.Consumes.Add(requestFormat.MediaType);
@@ -96,12 +99,36 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 
                     foreach (var responseFormat in apiResponse.ApiResponseFormats)
                     {
+                        if (context.Document.Produces == null)
+                            context.Document.Produces = new List<string>();
+
                         if (!context.Document.Produces.Contains(responseFormat.MediaType, StringComparer.OrdinalIgnoreCase))
                         {
                             context.Document.Produces.Add(responseFormat.MediaType);
                         }
                     }
                 }
+            }
+
+            if (context.OperationDescription.Operation.Responses.Count == 0)
+            {
+                context.OperationDescription.Operation.Responses[GetVoidResponseStatusCode()] = new SwaggerResponse
+                {
+                    IsNullableRaw = true,
+                    Schema = new JsonSchema4
+                    {
+                        Type = JsonObjectType.File
+                    }
+                };
+            }
+
+            var successXmlDescription = await parameter.GetDescriptionAsync(parameter.GetCustomAttributes())
+                .ConfigureAwait(false) ?? string.Empty;
+
+            foreach (var response in context.OperationDescription.Operation.Responses.Where(r =>
+                HttpUtilities.IsSuccessStatusCode(r.Key)))
+            {
+                response.Value.Description = successXmlDescription;
             }
 
             return true;

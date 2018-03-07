@@ -65,7 +65,7 @@
                        Name="installed" Type="integer"
                        Value="1" KeyPath="yes"/>
 
-        <Environment Id="PATH" Name="PATH" Value="[RootDirectory]Win" Permanent="no" Part="last" Action="set" System="no" />
+        <Environment Id="PATH" Name="PATH" Value="[RootDirectory]" Permanent="no" Part="last" Action="set" System="no" />
 
         <Shortcut Id="ApplicationStartMenuShortcut"
                   Icon="ApplicationIcon"

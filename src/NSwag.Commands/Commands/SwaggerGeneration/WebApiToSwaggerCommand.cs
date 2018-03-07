@@ -132,6 +132,13 @@ namespace NSwag.Commands.SwaggerGeneration
             set { Settings.AllowReferencesWithProperties = value; }
         }
 
+        [Argument(Name = "ExcludedTypeNames", IsRequired = false, Description = "The excluded type names (same as JsonSchemaIgnoreAttribute).")]
+        public string[] ExcludedTypeNames
+        {
+            get { return Settings.ExcludedTypeNames; }
+            set { Settings.ExcludedTypeNames = value; }
+        }
+
         [Argument(Name = "ServiceHost", IsRequired = false, Description = "Overrides the service host of the web service (optional, use '.' to remove the hostname).")]
         public string ServiceHost { get; set; }
 
