@@ -31,7 +31,7 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         }
 
         /// <summary>Gets the supported TypeScript versions.</summary>
-        public decimal[] TypeScriptVersions => new[] { 1.8m, 2.0m, 2.7m };
+        public decimal[] TypeScriptVersions => new[] { 1.8m, 2.0m, 2.4m, 2.7m };
 
         /// <summary>Gets the output templates.</summary>
         public TypeScriptTemplate[] Templates => Enum.GetNames(typeof(TypeScriptTemplate))
