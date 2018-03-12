@@ -16,7 +16,6 @@ using NJsonSchema;
 using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
 using NSwag.Collections;
-using NSwag.Infrastructure;
 
 namespace NSwag
 {
@@ -27,6 +26,8 @@ namespace NSwag
         public SwaggerDocument()
         {
             Swagger = "2.0";
+            OpenApi = "3.0";
+
             Info = new SwaggerInfo();
             Schemes = new List<SwaggerSchema>();
             SecurityDefinitions = new Dictionary<string, SwaggerSecurityScheme>();
@@ -83,6 +84,10 @@ namespace NSwag
         /// <summary>Gets or sets the Swagger specification version being used.</summary>
         [JsonProperty(PropertyName = "swagger", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Swagger { get; set; }
+
+        /// <summary>Gets or sets the OpenAPI specification version being used.</summary>
+        [JsonProperty(PropertyName = "openapi", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public string OpenApi { get; set; }
 
         /// <summary>Gets or sets the metadata about the API.</summary>
         [JsonProperty(PropertyName = "info", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
@@ -160,27 +165,19 @@ namespace NSwag
         /// <returns>The JSON string.</returns>
         public string ToJson()
         {
-            return ToJson(new JsonSchemaGeneratorSettings());
+            return ToJson(SchemaType.Swagger2);
         }
 
         /// <summary>Converts the description object to JSON.</summary>
-        /// <param name="settings">The JSON Schema generator settings.</param>
+        /// <param name="schemaType">The schema type.</param>
         /// <returns>The JSON string.</returns>
-        public string ToJson(JsonSchemaGeneratorSettings settings)
+        public string ToJson(SchemaType schemaType)
         {
-            var jsonResolver = new PropertyRenameAndIgnoreSerializerContractResolver();
-
-            // Ignore properties which are not allowed in Swagger
-            jsonResolver.IgnoreProperty(typeof(SwaggerParameter), "title");
-            
-            // Newtonsoft.Json and NJsonSchema call it "readonly", but Swagger calls it "readOnly"
-            jsonResolver.RenameProperty(typeof(JsonProperty), "readonly", "readOnly");
-
             var serializerSettings = new JsonSerializerSettings
             {
                 PreserveReferencesHandling = PreserveReferencesHandling.None,
                 Formatting = Formatting.Indented,
-                ContractResolver = jsonResolver
+                ContractResolver = CreateJsonSerializerContractResolver(schemaType)
             };
 
             GenerateOperationIds();
@@ -192,22 +189,47 @@ namespace NSwag
         /// <summary>Creates a Swagger specification from a JSON string.</summary>
         /// <param name="data">The JSON data.</param>
         /// <param name="documentPath">The document path (URL or file path) for resolving relative document references.</param>
+        /// <param name="schemaType">The schema type.</param>
         /// <returns>The <see cref="SwaggerDocument"/>.</returns>
-        public static async Task<SwaggerDocument> FromJsonAsync(string data, string documentPath = null)
+        public static async Task<SwaggerDocument> FromJsonAsync(string data, string documentPath = null, SchemaType schemaType = SchemaType.Swagger2)
         {
             data = JsonSchemaReferenceUtilities.ConvertJsonReferences(data);
+
             var document = JsonConvert.DeserializeObject<SwaggerDocument>(data, new JsonSerializerSettings
             {
+                MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
                 ConstructorHandling = ConstructorHandling.Default,
                 ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
-                PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+                ContractResolver = CreateJsonSerializerContractResolver(schemaType)
             });
+
             document.DocumentPath = documentPath;
 
             var schemaResolver = new SwaggerSchemaResolver(document, new JsonSchemaGeneratorSettings());
             var referenceResolver = new JsonReferenceResolver(schemaResolver); 
             await JsonSchemaReferenceUtilities.UpdateSchemaReferencesAsync(document, referenceResolver).ConfigureAwait(false);
             return document;
+        }
+
+        /// <summary>Creates the serializer contract resolver based on the <see cref="SchemaType"/>.</summary>
+        /// <param name="schemaType">The schema type.</param>
+        /// <returns>The settings.</returns>
+        public static PropertyRenameAndIgnoreSerializerContractResolver CreateJsonSerializerContractResolver(SchemaType schemaType)
+        {
+            var resolver = JsonSchema4.CreateJsonSerializerContractResolver(schemaType);
+
+            if (schemaType == SchemaType.OpenApi3)
+            {
+                resolver.IgnoreProperty(typeof(SwaggerDocument), "swagger");
+            }
+            else if (schemaType == SchemaType.Swagger2)
+            {
+                resolver.IgnoreProperty(typeof(SwaggerParameter), "title");
+                resolver.IgnoreProperty(typeof(SwaggerDocument), "openapi");
+            }
+
+            return resolver;
         }
 
         /// <summary>Creates a Swagger specification from a JSON file.</summary>
