@@ -26,7 +26,9 @@ namespace NSwag.AspNetCore.Middlewares
         private readonly IApiDescriptionGroupCollectionProvider _apiDescriptionGroupCollectionProvider;
 
         private int _version;
-        private string _swaggerJson = null;
+        private string _schemaJson;
+        private Exception _schemaException;
+        private DateTimeOffset _schemaTimestamp;
 
         /// <summary>Initializes a new instance of the <see cref="SwaggerMiddleware"/> class.</summary>
         /// <param name="nextDelegate">The next delegate.</param>
@@ -49,9 +51,10 @@ namespace NSwag.AspNetCore.Middlewares
         {
             if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value.Trim('/'), _path.Trim('/'), StringComparison.OrdinalIgnoreCase))
             {
+                var schemaJson = await GenerateSwaggerAsync(context);
                 context.Response.StatusCode = 200;
                 context.Response.Headers["Content-Type"] = "application/json; charset=utf-8";
-                await context.Response.WriteAsync(await GenerateSwaggerAsync(context));
+                await context.Response.WriteAsync(schemaJson);
             }
             else
                 await _nextDelegate(context);
@@ -62,9 +65,12 @@ namespace NSwag.AspNetCore.Middlewares
         /// <returns>The Swagger specification.</returns>
         protected virtual async Task<string> GenerateSwaggerAsync(HttpContext context)
         {
+            if (_schemaException != null && _schemaTimestamp + _settings.ExceptionCacheTime > DateTimeOffset.UtcNow)
+                throw _schemaException;
+
             var apiDescriptionGroups = _apiDescriptionGroupCollectionProvider.ApiDescriptionGroups;
-            if (apiDescriptionGroups.Version == Volatile.Read(ref _version) && _swaggerJson != null)
-                return _swaggerJson;
+            if (apiDescriptionGroups.Version == Volatile.Read(ref _version) && _schemaJson != null)
+                return _schemaJson;
 
             try
             {
@@ -76,15 +82,20 @@ namespace NSwag.AspNetCore.Middlewares
                 document.BasePath = context.Request.PathBase.Value?.Substring(0, context.Request.PathBase.Value.Length - (_settings.MiddlewareBasePath?.Length ?? 0)) ?? "";
 
                 _settings.PostProcess?.Invoke(document);
-                _swaggerJson = document.ToJson();
+                _schemaJson = document.ToJson();
+                _schemaException = null;
                 _version = apiDescriptionGroups.Version;
+                _schemaTimestamp = DateTimeOffset.UtcNow;
             }
             catch (Exception exception)
             {
-                _swaggerJson = exception.ToString();
+                _schemaJson = null;
+                _schemaException = exception;
+                _schemaTimestamp = DateTimeOffset.UtcNow;
+                throw _schemaException;
             }
 
-            return _swaggerJson;
+            return _schemaJson;
         }
     }
 }

@@ -21,8 +21,11 @@ namespace NSwag.AspNet.Owin.Middlewares
         private readonly string _path;
         private readonly SwaggerSettings _settings;
         private readonly IEnumerable<Type> _controllerTypes;
-        private string _swaggerJson = null;
         private readonly SwaggerJsonSchemaGenerator _schemaGenerator;
+
+        private string _schemaJson;
+        private Exception _schemaException;
+        private DateTimeOffset _schemaTimestamp;
 
         /// <summary>Initializes a new instance of the <see cref="SwaggerMiddleware"/> class.</summary>
         /// <param name="next">The next middleware.</param>
@@ -46,9 +49,10 @@ namespace NSwag.AspNet.Owin.Middlewares
         {
             if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value.Trim('/'), _path.Trim('/'), StringComparison.OrdinalIgnoreCase))
             {
+                var schemaJson = await GenerateSwaggerAsync(context);
                 context.Response.StatusCode = 200;
                 context.Response.Headers["Content-Type"] = "application/json; charset=utf-8";
-                context.Response.Write(await GenerateSwaggerAsync(context));
+                context.Response.Write(schemaJson);
             }
             else
                 await Next.Invoke(context);
@@ -59,7 +63,10 @@ namespace NSwag.AspNet.Owin.Middlewares
         /// <returns>The Swagger specification.</returns>
         protected virtual async Task<string> GenerateSwaggerAsync(IOwinContext context)
         {
-            if (_swaggerJson == null)
+            if (_schemaException != null && _schemaTimestamp + _settings.ExceptionCacheTime > DateTimeOffset.UtcNow)
+                throw _schemaException;
+
+            if (_schemaJson == null)
             {
                 try
                 {
@@ -71,15 +78,20 @@ namespace NSwag.AspNet.Owin.Middlewares
                     document.BasePath = context.Request.PathBase.Value?.Substring(0, context.Request.PathBase.Value.Length - (_settings.MiddlewareBasePath?.Length ?? 0)) ?? "";
 
                     _settings.PostProcess?.Invoke(document);
-                    _swaggerJson = document.ToJson();
+                    _schemaJson = document.ToJson();
+                    _schemaException = null;
+                    _schemaTimestamp = DateTimeOffset.UtcNow;
                 }
                 catch (Exception exception)
                 {
-                    _swaggerJson = exception.ToString();
+                    _schemaJson = null;
+                    _schemaException = exception;
+                    _schemaTimestamp = DateTimeOffset.UtcNow;
+                    throw _schemaException;
                 }
             }
 
-            return _swaggerJson;
+            return _schemaJson;
         }
     }
 }
