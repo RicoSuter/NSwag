@@ -20,7 +20,7 @@ using NSwag.Collections;
 namespace NSwag
 {
     /// <summary>Describes a JSON web service.</summary>
-    public class SwaggerDocument : JsonExtensionObject, IDocumentPathProvider
+    public partial class SwaggerDocument : JsonExtensionObject, IDocumentPathProvider
     {
         /// <summary>Initializes a new instance of the <see cref="SwaggerDocument"/> class.</summary>
         public SwaggerDocument()
@@ -30,20 +30,8 @@ namespace NSwag
 
             Info = new SwaggerInfo();
             Schemes = new List<SwaggerSchema>();
-            SecurityDefinitions = new Dictionary<string, SwaggerSecurityScheme>();
-            Info = new SwaggerInfo
-            {
-                Version = string.Empty,
-                Title = string.Empty
-            };
 
-            var definitions = new ObservableDictionary<string, JsonSchema4>();
-            definitions.CollectionChanged += (sender, args) =>
-            {
-                foreach (var path in Definitions.Values)
-                    path.Parent = this;
-            };
-            Definitions = definitions;
+            Components = new SwaggerComponents(this);
 
             var paths = new ObservableDictionary<string, SwaggerOperations>();
             paths.CollectionChanged += (sender, args) =>
@@ -53,21 +41,11 @@ namespace NSwag
             };
             Paths = paths;
 
-            var parameters = new ObservableDictionary<string, SwaggerParameter>();
-            parameters.CollectionChanged += (sender, args) =>
+            Info = new SwaggerInfo
             {
-                foreach (var path in Parameters.Values)
-                    path.Parent = this;
+                Version = string.Empty,
+                Title = string.Empty
             };
-            Parameters = parameters;
-
-            var responses = new ObservableDictionary<string, SwaggerResponse>();
-            responses.CollectionChanged += (sender, args) =>
-            {
-                foreach (var path in Responses.Values)
-                    path.Parent = this;
-            };
-            Responses = responses;
         }
 
         /// <summary>Gets the NSwag toolchain version.</summary>
@@ -116,22 +94,28 @@ namespace NSwag
         /// <summary>Gets or sets the operations.</summary>
         [JsonProperty(PropertyName = "paths", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public IDictionary<string, SwaggerOperations> Paths { get; }
+        
 
-        /// <summary>Gets or sets the types.</summary>
+        /// <summary>Gets or sets the types (Swagger only).</summary>
         [JsonProperty(PropertyName = "definitions", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IDictionary<string, JsonSchema4> Definitions { get; }
+        public IDictionary<string, JsonSchema4> Definitions => Components.Schemas;
 
-        /// <summary>Gets or sets the parameters which can be used for all operations.</summary>
+        /// <summary>Gets or sets the parameters which can be used for all operations (Swagger only).</summary>
         [JsonProperty(PropertyName = "parameters", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IDictionary<string, SwaggerParameter> Parameters { get; }
+        public IDictionary<string, SwaggerParameter> Parameters => Components.Parameters;
 
-        /// <summary>Gets or sets the responses which can be used for all operations.</summary>
+        /// <summary>Gets or sets the responses which can be used for all operations (Swagger only).</summary>
         [JsonProperty(PropertyName = "responses", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IDictionary<string, SwaggerResponse> Responses { get; }
+        public IDictionary<string, SwaggerResponse> Responses => Components.Responses;
 
-        /// <summary>Gets or sets the security definitions.</summary>
+        /// <summary>Gets or sets the security definitions (Swagger only).</summary>
         [JsonProperty(PropertyName = "securityDefinitions", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public Dictionary<string, SwaggerSecurityScheme> SecurityDefinitions { get; }
+        public Dictionary<string, SwaggerSecurityScheme> SecurityDefinitions => Components.SecuritySchemes;
+
+        /// <summary>Gets or sets the components.</summary>
+        [JsonProperty(PropertyName = "components", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public SwaggerComponents Components { get; }
+
 
         /// <summary>Gets or sets a security description.</summary>
         [JsonProperty(PropertyName = "security", DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -173,16 +157,17 @@ namespace NSwag
         /// <returns>The JSON string.</returns>
         public string ToJson(SchemaType schemaType)
         {
+            var contractResolver = CreateJsonSerializerContractResolver(schemaType);
             var serializerSettings = new JsonSerializerSettings
             {
                 PreserveReferencesHandling = PreserveReferencesHandling.None,
                 Formatting = Formatting.Indented,
-                ContractResolver = CreateJsonSerializerContractResolver(schemaType)
+                ContractResolver = contractResolver
             };
 
             GenerateOperationIds();
 
-            JsonSchemaReferenceUtilities.UpdateSchemaReferencePaths(this);
+            JsonSchemaReferenceUtilities.UpdateSchemaReferencePaths(this, false, contractResolver);
             return JsonSchemaReferenceUtilities.ConvertPropertyReferences(JsonConvert.SerializeObject(this, serializerSettings));
         }
 
@@ -195,13 +180,14 @@ namespace NSwag
         {
             data = JsonSchemaReferenceUtilities.ConvertJsonReferences(data);
 
+            var contractResolver = CreateJsonSerializerContractResolver(schemaType);
             var document = JsonConvert.DeserializeObject<SwaggerDocument>(data, new JsonSerializerSettings
             {
                 MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
                 ConstructorHandling = ConstructorHandling.Default,
                 ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
                 PreserveReferencesHandling = PreserveReferencesHandling.Objects,
-                ContractResolver = CreateJsonSerializerContractResolver(schemaType)
+                ContractResolver = contractResolver
             });
 
             document.DocumentPath = documentPath;
@@ -210,26 +196,6 @@ namespace NSwag
             var referenceResolver = new JsonReferenceResolver(schemaResolver); 
             await JsonSchemaReferenceUtilities.UpdateSchemaReferencesAsync(document, referenceResolver).ConfigureAwait(false);
             return document;
-        }
-
-        /// <summary>Creates the serializer contract resolver based on the <see cref="SchemaType"/>.</summary>
-        /// <param name="schemaType">The schema type.</param>
-        /// <returns>The settings.</returns>
-        public static PropertyRenameAndIgnoreSerializerContractResolver CreateJsonSerializerContractResolver(SchemaType schemaType)
-        {
-            var resolver = JsonSchema4.CreateJsonSerializerContractResolver(schemaType);
-
-            if (schemaType == SchemaType.OpenApi3)
-            {
-                resolver.IgnoreProperty(typeof(SwaggerDocument), "swagger");
-            }
-            else if (schemaType == SchemaType.Swagger2)
-            {
-                resolver.IgnoreProperty(typeof(SwaggerParameter), "title");
-                resolver.IgnoreProperty(typeof(SwaggerDocument), "openapi");
-            }
-
-            return resolver;
         }
 
         /// <summary>Creates a Swagger specification from a JSON file.</summary>

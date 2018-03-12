@@ -61,6 +61,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Sample.NETCore20", "N
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.AssemblyLoader", "NSwag.AssemblyLoader\NSwag.AssemblyLoader.csproj", "{E6A8E5FD-4DD2-4D44-B843-F3975631423C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Core.Tests", "NSwag.Core.Tests\NSwag.Core.Tests.csproj", "{6AB4FD70-2CCF-4876-A193-B5FD6B32C39A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -450,6 +452,24 @@ Global
 		{E6A8E5FD-4DD2-4D44-B843-F3975631423C}.ReleaseTypeScriptStrict|x64.Build.0 = Release|Any CPU
 		{E6A8E5FD-4DD2-4D44-B843-F3975631423C}.ReleaseTypeScriptStrict|x86.ActiveCfg = Release|Any CPU
 		{E6A8E5FD-4DD2-4D44-B843-F3975631423C}.ReleaseTypeScriptStrict|x86.Build.0 = Release|Any CPU
+		{6AB4FD70-2CCF-4876-A193-B5FD6B32C39A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AB4FD70-2CCF-4876-A193-B5FD6B32C39A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AB4FD70-2CCF-4876-A193-B5FD6B32C39A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6AB4FD70-2CCF-4876-A193-B5FD6B32C39A}.Debug|x64.Build.0 = Debug|Any CPU
+		{6AB4FD70-2CCF-4876-A193-B5FD6B32C39A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6AB4FD70-2CCF-4876-A193-B5FD6B32C39A}.Debug|x86.Build.0 = Debug|Any CPU
+		{6AB4FD70-2CCF-4876-A193-B5FD6B32C39A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AB4FD70-2CCF-4876-A193-B5FD6B32C39A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AB4FD70-2CCF-4876-A193-B5FD6B32C39A}.Release|x64.ActiveCfg = Release|Any CPU
+		{6AB4FD70-2CCF-4876-A193-B5FD6B32C39A}.Release|x64.Build.0 = Release|Any CPU
+		{6AB4FD70-2CCF-4876-A193-B5FD6B32C39A}.Release|x86.ActiveCfg = Release|Any CPU
+		{6AB4FD70-2CCF-4876-A193-B5FD6B32C39A}.Release|x86.Build.0 = Release|Any CPU
+		{6AB4FD70-2CCF-4876-A193-B5FD6B32C39A}.ReleaseTypeScriptStrict|Any CPU.ActiveCfg = Release|Any CPU
+		{6AB4FD70-2CCF-4876-A193-B5FD6B32C39A}.ReleaseTypeScriptStrict|Any CPU.Build.0 = Release|Any CPU
+		{6AB4FD70-2CCF-4876-A193-B5FD6B32C39A}.ReleaseTypeScriptStrict|x64.ActiveCfg = Release|Any CPU
+		{6AB4FD70-2CCF-4876-A193-B5FD6B32C39A}.ReleaseTypeScriptStrict|x64.Build.0 = Release|Any CPU
+		{6AB4FD70-2CCF-4876-A193-B5FD6B32C39A}.ReleaseTypeScriptStrict|x86.ActiveCfg = Release|Any CPU
+		{6AB4FD70-2CCF-4876-A193-B5FD6B32C39A}.ReleaseTypeScriptStrict|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -476,6 +496,7 @@ Global
 		{51740C29-AF4F-40AD-BFDE-09E6F8C873D2} = {48E8B044-3374-4F39-A180-9E01F7A10785}
 		{8522EA49-D7FA-4582-A535-ED28C5AFD746} = {D8CC0D1C-8DAC-49FE-AA78-C028DC124DD5}
 		{EC94C4C5-3822-46D0-A8B4-B241D34830C0} = {D8CC0D1C-8DAC-49FE-AA78-C028DC124DD5}
+		{6AB4FD70-2CCF-4876-A193-B5FD6B32C39A} = {1030C3AA-7549-473B-AA7E-5DFAC2F9D37A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {98FCEEE2-A45C-41E7-B2ED-1B14755E9067}
