@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -173,13 +174,20 @@ namespace NSwag
         /// <summary>Creates a Swagger specification from a JSON string.</summary>
         /// <param name="data">The JSON data.</param>
         /// <param name="documentPath">The document path (URL or file path) for resolving relative document references.</param>
-        /// <param name="schemaType">The schema type.</param>
+        /// <param name="expectedSchemaType">The expected schema type which is used when the type cannot be determined.</param>
         /// <returns>The <see cref="SwaggerDocument"/>.</returns>
-        public static async Task<SwaggerDocument> FromJsonAsync(string data, string documentPath = null, SchemaType schemaType = SchemaType.Swagger2)
+        public static async Task<SwaggerDocument> FromJsonAsync(string data, string documentPath = null, SchemaType expectedSchemaType = SchemaType.Swagger2)
         {
+            if (data.Contains(@"""swagger"": ""2"))
+                expectedSchemaType = SchemaType.Swagger2;
+            else if (data.Contains(@"""openapi"": ""3"))
+                expectedSchemaType = SchemaType.OpenApi3;
+            else if (expectedSchemaType == SchemaType.JsonSchema)
+                throw new NotSupportedException("The schema type JsonSchema is not supported.");
+
             data = JsonSchemaReferenceUtilities.ConvertJsonReferences(data);
 
-            var contractResolver = CreateJsonSerializerContractResolver(schemaType);
+            var contractResolver = CreateJsonSerializerContractResolver(expectedSchemaType);
             var document = JsonConvert.DeserializeObject<SwaggerDocument>(data, new JsonSerializerSettings
             {
                 MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
