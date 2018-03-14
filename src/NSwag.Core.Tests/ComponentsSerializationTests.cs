@@ -15,7 +15,7 @@ namespace NSwag.Core.Tests
 
             //// Act
             var json = document.ToJson(SchemaType.Swagger2);
-            document = await SwaggerDocument.FromJsonAsync(json, schemaType: SchemaType.OpenApi3);
+            document = await SwaggerDocument.FromJsonAsync(json, schemaType: SchemaType.Swagger2);
 
             //// Assert
             Assert.Contains("definitions", json);
