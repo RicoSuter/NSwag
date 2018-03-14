@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Newtonsoft.Json;
 using NSwag.Collections;
@@ -32,9 +33,21 @@ namespace NSwag
         [JsonIgnore]
         public SwaggerDocument Parent { get; internal set; }
 
+        /// <summary>Gets or sets the summary (OpenApi only).</summary>
+        [JsonProperty(PropertyName = "summary", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public string Summary { get; set; }
+
+        /// <summary>Gets or sets the description (OpenApi only).</summary>
+        [JsonProperty(PropertyName = "description", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public string Description { get; set; }
+
+        /// <summary>Gets or sets the servers (OpenAPI only).</summary>
+        [JsonProperty(PropertyName = "servers", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public ICollection<OpenApiServer> Servers { get; set; } = new Collection<OpenApiServer>();
+
         /// <summary>Gets or sets the parameters.</summary>
         [JsonProperty(PropertyName = "parameters", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public List<SwaggerParameter> Parameters { get; set; }
+        public ICollection<SwaggerParameter> Parameters { get; set; } = new Collection<SwaggerParameter>();
 
         // Needed to convert dictionary keys to lower case
         internal class SwaggerOperationsJsonConverter : JsonConverter
