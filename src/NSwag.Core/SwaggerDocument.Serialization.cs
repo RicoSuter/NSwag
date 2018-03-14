@@ -29,7 +29,13 @@ namespace NSwag
             if (schemaType == SchemaType.OpenApi3)
             {
                 resolver.IgnoreProperty(typeof(SwaggerDocument), "swagger");
+
                 resolver.IgnoreProperty(typeof(SwaggerDocument), "host");
+                resolver.IgnoreProperty(typeof(SwaggerDocument), "basePath");
+                resolver.IgnoreProperty(typeof(SwaggerDocument), "schemes");
+
+                //resolver.IgnoreProperty(typeof(SwaggerDocument), "consumes");
+                //resolver.IgnoreProperty(typeof(SwaggerDocument), "produces");
 
                 resolver.IgnoreProperty(typeof(SwaggerDocument), "definitions");
                 resolver.IgnoreProperty(typeof(SwaggerDocument), "parameters");
@@ -60,7 +66,7 @@ namespace NSwag
             get
             {
                 var segments = Servers?.FirstOrDefault()?.Url?.Replace("http://", "").Replace("https://", "").Split('/').Skip(1);
-                return segments != null ? string.Join("/", segments) : null;
+                return segments != null ? "/" + string.Join("/", segments) : null;
             }
             set { UpdateServers(Schemes, Host, value); }
         }
@@ -86,19 +92,19 @@ namespace NSwag
                 _schemes.CollectionChanged += OnSchemesChanged;
                 return _schemes;
             }
-            set { UpdateServers(value, Host, BaseUrl); }
+            set { UpdateServers(value, Host, BasePath); }
         }
 
         private void OnSchemesChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            UpdateServers(Schemes, Host, BaseUrl);
+            UpdateServers((ICollection<SwaggerSchema>)sender, Host, BasePath);
         }
 
         private void UpdateServers(ICollection<SwaggerSchema> schemes, string host, string basePath)
         {
             Servers = schemes?.Select(s => new OpenApiServer
             {
-                Url = s + host + basePath
+                Url = s.ToString().ToLowerInvariant() + "://" + host + basePath
             }).ToList() ?? new List<OpenApiServer>();
         }
 

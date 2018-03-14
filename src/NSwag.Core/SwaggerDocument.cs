@@ -9,12 +9,10 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using NJsonSchema;
 using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
@@ -32,9 +30,7 @@ namespace NSwag
             OpenApi = "3.0";
 
             Info = new SwaggerInfo();
-            Schemes = new List<SwaggerSchema>();
-
-            Components = new SwaggerComponents(this);
+            Components = new OpenApiComponents(this);
 
             var paths = new ObservableDictionary<string, SwaggerOperations>();
             paths.CollectionChanged += (sender, args) =>
@@ -84,7 +80,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the components.</summary>
         [JsonProperty(PropertyName = "components", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public SwaggerComponents Components { get; }
+        public OpenApiComponents Components { get; }
 
         /// <summary>Gets or sets a security description.</summary>
         [JsonProperty(PropertyName = "security", DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -96,19 +92,7 @@ namespace NSwag
 
         /// <summary>Gets the base URL of the web service.</summary>
         [JsonIgnore]
-        public string BaseUrl
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(Host))
-                    return "";
-
-                if (Schemes.Any())
-                    return (Schemes.First().ToString().ToLowerInvariant() + "://" + Host + (!string.IsNullOrEmpty(BasePath) ? "/" + BasePath.Trim('/') : string.Empty)).Trim('/');
-
-                return ("http://" + Host + (!string.IsNullOrEmpty(BasePath) ? "/" + BasePath.Trim('/') : string.Empty)).Trim('/');
-            }
-        }
+        public string BaseUrl => Servers?.FirstOrDefault()?.Url ?? "";
 
         /// <summary>Gets or sets the external documentation.</summary>
         [JsonProperty(PropertyName = "externalDocs", DefaultValueHandling = DefaultValueHandling.Ignore)]

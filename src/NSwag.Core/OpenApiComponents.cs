@@ -6,10 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
 using Newtonsoft.Json;
 using NJsonSchema;
 using NSwag.Collections;
@@ -17,11 +14,11 @@ using NSwag.Collections;
 namespace NSwag
 {
     /// <summary>Container for reusable components (OpenAPI only).</summary>
-    public class SwaggerComponents
+    public class OpenApiComponents
     {
         /// <summary></summary>
         /// <param name="document"></param>
-        public SwaggerComponents(SwaggerDocument document)
+        public OpenApiComponents(SwaggerDocument document)
         {
             SecuritySchemes = new Dictionary<string, SwaggerSecurityScheme>();
             Examples = new Dictionary<string, SwaggerExample>();
