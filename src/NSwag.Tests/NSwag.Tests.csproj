@@ -100,7 +100,6 @@
     <Compile Include="Converters\ExceptionSerializationTests.cs" />
     <Compile Include="Specification\DocumentReferenceTests.cs" />
     <Compile Include="Specification\OperationIdTests.cs" />
-    <Compile Include="Specification\GeneralTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

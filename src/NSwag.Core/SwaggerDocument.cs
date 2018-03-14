@@ -157,18 +157,17 @@ namespace NSwag
         /// <returns>The JSON string.</returns>
         public string ToJson(SchemaType schemaType)
         {
-            var contractResolver = CreateJsonSerializerContractResolver(schemaType);
-            var serializerSettings = new JsonSerializerSettings
-            {
-                PreserveReferencesHandling = PreserveReferencesHandling.None,
-                Formatting = Formatting.Indented,
-                ContractResolver = contractResolver
-            };
-
             GenerateOperationIds();
 
+            var contractResolver = CreateJsonSerializerContractResolver(schemaType);
             JsonSchemaReferenceUtilities.UpdateSchemaReferencePaths(this, false, contractResolver);
-            return JsonSchemaReferenceUtilities.ConvertPropertyReferences(JsonConvert.SerializeObject(this, serializerSettings));
+
+            var json = JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings
+            {
+                ContractResolver = contractResolver
+            });
+
+            return JsonSchemaReferenceUtilities.ConvertPropertyReferences(json);
         }
 
         /// <summary>Creates a Swagger specification from a JSON string.</summary>
@@ -195,6 +194,7 @@ namespace NSwag
             var schemaResolver = new SwaggerSchemaResolver(document, new JsonSchemaGeneratorSettings());
             var referenceResolver = new JsonReferenceResolver(schemaResolver); 
             await JsonSchemaReferenceUtilities.UpdateSchemaReferencesAsync(document, referenceResolver).ConfigureAwait(false);
+
             return document;
         }
 
