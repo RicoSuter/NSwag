@@ -41,6 +41,10 @@ namespace NSwag
         [JsonProperty(PropertyName = "headers", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public SwaggerHeaders Headers { get; set; }
 
+        /// <summary>Gets or sets the headers (Swagger only).</summary>
+        [JsonProperty(PropertyName = "examples", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public object Examples { get; set; }
+
         /// <summary>Sets a value indicating whether the response can be null (use IsNullable() to get a parameter's nullability).</summary>
         /// <remarks>The Swagger spec does not support null in schemas, see https://github.com/OAI/OpenAPI-Specification/issues/229 </remarks>
         [JsonProperty(PropertyName = "x-nullable", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
@@ -96,17 +100,5 @@ namespace NSwag
         object IJsonReference.PossibleRoot => (Parent as SwaggerOperation)?.Parent?.Parent;
 
         #endregion
-    }
-
-    /// <summary></summary>
-    public class JsonExpectedSchema
-    {
-        /// <summary>Gets or sets the description.</summary>
-        [JsonProperty(PropertyName = "description", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string Description { get; set; }
-
-        /// <summary>Gets or sets the schema.</summary>
-        [JsonProperty(PropertyName = "schema", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public JsonSchema4 Schema { get; set; }
     }
 }

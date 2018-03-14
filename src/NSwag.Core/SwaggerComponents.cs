@@ -1,4 +1,15 @@
-﻿using System.Collections.Generic;
+﻿//-----------------------------------------------------------------------
+// <copyright file="SwaggerComponents.cs" company="NSwag">
+//     Copyright (c) Rico Suter. All rights reserved.
+// </copyright>
+// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <author>Rico Suter, mail@rsuter.com</author>
+//-----------------------------------------------------------------------
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
 using Newtonsoft.Json;
 using NJsonSchema;
 using NSwag.Collections;
@@ -13,14 +24,23 @@ namespace NSwag
         public SwaggerComponents(SwaggerDocument document)
         {
             SecuritySchemes = new Dictionary<string, SwaggerSecurityScheme>();
+            Examples = new Dictionary<string, SwaggerExample>();
 
-            var definitions = new ObservableDictionary<string, JsonSchema4>();
-            definitions.CollectionChanged += (sender, args) =>
+            var schemas = new ObservableDictionary<string, JsonSchema4>();
+            schemas.CollectionChanged += (sender, args) =>
             {
                 foreach (var path in Schemas.Values)
                     path.Parent = document;
             };
-            Schemas = definitions;
+            Schemas = schemas;
+
+            var headers = new ObservableDictionary<string, JsonSchema4>();
+            headers.CollectionChanged += (sender, args) =>
+            {
+                foreach (var path in Schemas.Values)
+                    path.Parent = document;
+            };
+            Headers = headers;
 
             var parameters = new ObservableDictionary<string, SwaggerParameter>();
             parameters.CollectionChanged += (sender, args) =>
@@ -54,5 +74,13 @@ namespace NSwag
         /// <summary>Gets or sets the security definitions.</summary>
         [JsonProperty(PropertyName = "securitySchemes", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Dictionary<string, SwaggerSecurityScheme> SecuritySchemes { get; }
+
+        /// <summary>Gets or sets the headers.</summary>
+        [JsonProperty(PropertyName = "examples", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public IDictionary<string, SwaggerExample> Examples { get; set; }
+
+        /// <summary>Gets or sets the types.</summary>
+        [JsonProperty(PropertyName = "headers", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public IDictionary<string, JsonSchema4> Headers { get; }
     }
 }

@@ -1,9 +1,8 @@
-using System;
 using System.Threading.Tasks;
 using NJsonSchema;
 using Xunit;
 
-namespace NSwag.Core.Tests
+namespace NSwag.Core.Tests.Serialization
 {
     public class ComponentsSerializationTests
     {
@@ -15,9 +14,12 @@ namespace NSwag.Core.Tests
 
             //// Act
             var json = document.ToJson(SchemaType.Swagger2);
-            document = await SwaggerDocument.FromJsonAsync(json, schemaType: SchemaType.Swagger2);
+            document = await SwaggerDocument.FromJsonAsync(json);
 
             //// Assert
+            Assert.Contains(@"""swagger""", json);
+            Assert.DoesNotContain(@"""openapi""", json);
+
             Assert.Contains("definitions", json);
             Assert.DoesNotContain("components", json);
 
@@ -32,9 +34,12 @@ namespace NSwag.Core.Tests
 
             //// Act
             var json = document.ToJson(SchemaType.OpenApi3);
-            document = await SwaggerDocument.FromJsonAsync(json, schemaType: SchemaType.OpenApi3);
+            document = await SwaggerDocument.FromJsonAsync(json);
 
             //// Assert
+            Assert.DoesNotContain(@"""swagger""", json);
+            Assert.Contains(@"""openapi""", json);
+
             Assert.Contains("components", json);
             Assert.Contains("schemas", json);
             Assert.DoesNotContain("#/definitions/Foo", json);

@@ -7,10 +7,10 @@ using Xunit;
 
 namespace NSwag.Core.Tests
 {
-    public class GeneralTests
+    public class DocumentLoadingTests
     {
         [Fact]
-        public async Task WhenConvertingAndBackThenItShouldBeTheSame()
+        public async Task When_document_contains_readOnly_properties_then_they_are_correctly_loaded()
         {
             //// Arrange
             var json = _sampleServiceCode;
@@ -30,7 +30,7 @@ namespace NSwag.Core.Tests
         }
 
         [Fact]
-        public async Task WhenGeneratingOperationIdsThenMissingIdsAreGenerated()
+        public async Task When_generating_operation_ids_then_missing_ids_are_generated()
         {
             //// Arrange
             var json = _sampleServiceCode;
@@ -44,7 +44,7 @@ namespace NSwag.Core.Tests
         }
 
         [Fact]
-        public async Task ExtensionDataTest()
+        public async Task When_json_has_extension_data_then_it_is_loaded()
         {
             //// Arrange
             var json = _jsonVendorExtensionData;
