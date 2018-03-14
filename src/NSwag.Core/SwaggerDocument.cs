@@ -8,6 +8,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -60,11 +62,11 @@ namespace NSwag
         [JsonProperty(PropertyName = "x-generator", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Generator { get; set; }
 
-        /// <summary>Gets or sets the Swagger specification version being used.</summary>
+        /// <summary>Gets or sets the Swagger specification version being used (Swagger only).</summary>
         [JsonProperty(PropertyName = "swagger", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Swagger { get; set; }
 
-        /// <summary>Gets or sets the OpenAPI specification version being used.</summary>
+        /// <summary>Gets or sets the OpenAPI specification version being used (OpenAPI only).</summary>
         [JsonProperty(PropertyName = "openapi", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string OpenApi { get; set; }
 
@@ -72,51 +74,17 @@ namespace NSwag
         [JsonProperty(PropertyName = "info", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public SwaggerInfo Info { get; set; }
 
-        /// <summary>Gets or sets the host (name or ip) serving the API.</summary>
-        [JsonProperty(PropertyName = "host", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public string Host { get; set; }
-
-        /// <summary>Gets or sets the base path on which the API is served, which is relative to the <see cref="Host"/>.</summary>
-        [JsonProperty(PropertyName = "basePath", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public string BasePath { get; set; }
-
-        /// <summary>Gets or sets the schemes.</summary>
-        [JsonProperty(PropertyName = "schemes", DefaultValueHandling = DefaultValueHandling.Ignore, ItemConverterType = typeof(StringEnumConverter))]
-        public List<SwaggerSchema> Schemes { get; set; }
-
-        /// <summary>Gets or sets a list of MIME types the operation can consume.</summary>
-        [JsonProperty(PropertyName = "consumes", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public List<string> Consumes { get; set; }
-
-        /// <summary>Gets or sets a list of MIME types the operation can produce.</summary>
-        [JsonProperty(PropertyName = "produces", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public List<string> Produces { get; set; }
+        /// <summary>Gets or sets the servers (OpenAPI only).</summary>
+        [JsonProperty(PropertyName = "servers", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public ICollection<OpenApiServer> Servers { get; private set; } = new Collection<OpenApiServer>();
 
         /// <summary>Gets or sets the operations.</summary>
         [JsonProperty(PropertyName = "paths", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public IDictionary<string, SwaggerOperations> Paths { get; }
-        
-
-        /// <summary>Gets or sets the types (Swagger only).</summary>
-        [JsonProperty(PropertyName = "definitions", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IDictionary<string, JsonSchema4> Definitions => Components.Schemas;
-
-        /// <summary>Gets or sets the parameters which can be used for all operations (Swagger only).</summary>
-        [JsonProperty(PropertyName = "parameters", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IDictionary<string, SwaggerParameter> Parameters => Components.Parameters;
-
-        /// <summary>Gets or sets the responses which can be used for all operations (Swagger only).</summary>
-        [JsonProperty(PropertyName = "responses", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IDictionary<string, SwaggerResponse> Responses => Components.Responses;
-
-        /// <summary>Gets or sets the security definitions (Swagger only).</summary>
-        [JsonProperty(PropertyName = "securityDefinitions", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public Dictionary<string, SwaggerSecurityScheme> SecurityDefinitions => Components.SecuritySchemes;
 
         /// <summary>Gets or sets the components.</summary>
         [JsonProperty(PropertyName = "components", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public SwaggerComponents Components { get; }
-
 
         /// <summary>Gets or sets a security description.</summary>
         [JsonProperty(PropertyName = "security", DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -200,7 +168,7 @@ namespace NSwag
             document.DocumentPath = documentPath;
 
             var schemaResolver = new SwaggerSchemaResolver(document, new JsonSchemaGeneratorSettings());
-            var referenceResolver = new JsonReferenceResolver(schemaResolver); 
+            var referenceResolver = new JsonReferenceResolver(schemaResolver);
             await JsonSchemaReferenceUtilities.UpdateSchemaReferencesAsync(document, referenceResolver).ConfigureAwait(false);
 
             return document;
