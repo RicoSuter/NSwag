@@ -15,7 +15,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         {
             //// Arrange
             var document = new SwaggerDocument();
-            document.Paths["foo/bar"] = new SwaggerOperations
+            document.Paths["foo/bar"] = new SwaggerPathItem
             {
                 {
                     SwaggerOperationMethod.Post,

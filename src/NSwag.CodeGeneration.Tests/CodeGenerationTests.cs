@@ -102,7 +102,7 @@ namespace NSwag.CodeGeneration.Tests
             var settings = new JsonSchemaGeneratorSettings();
             var generator = new JsonSchemaGenerator(settings);
 
-            document.Paths["/Person"] = new SwaggerOperations();
+            document.Paths["/Person"] = new SwaggerPathItem();
             document.Paths["/Person"][SwaggerOperationMethod.Get] = new SwaggerOperation
             {
                 Responses = 

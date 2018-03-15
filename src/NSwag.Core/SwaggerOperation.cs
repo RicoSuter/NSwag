@@ -19,7 +19,7 @@ namespace NSwag
     /// <summary>Describes a JSON web service operation. </summary>
     public class SwaggerOperation : JsonExtensionObject
     {
-        /// <summary>Initializes a new instance of the <see cref="SwaggerOperations"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="SwaggerPathItem"/> class.</summary>
         public SwaggerOperation()
         {
             Tags = new List<string>();
@@ -43,7 +43,7 @@ namespace NSwag
 
         /// <summary>Gets the parent operations list.</summary>
         [JsonIgnore]
-        public SwaggerOperations Parent { get; internal set; }
+        public SwaggerPathItem Parent { get; internal set; }
 
         /// <summary>Gets or sets the tags.</summary>
         [JsonProperty(PropertyName = "tags", DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -108,7 +108,15 @@ namespace NSwag
 
         /// <summary>Gets or sets a security description.</summary>
         [JsonProperty(PropertyName = "security", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public List<SwaggerSecurityRequirement> Security { get; set; }
+        public ICollection<SwaggerSecurityRequirement> Security { get; set; } = new Collection<SwaggerSecurityRequirement>();
+
+        /// <summary>Gets or sets the servers (OpenAPI only).</summary>
+        [JsonProperty(PropertyName = "servers", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public ICollection<OpenApiServer> Servers { get; set; } = new Collection<OpenApiServer>();
+
+        /// <summary>Gets or sets the callbacks (OpenAPI only).</summary>
+        [JsonProperty(PropertyName = "callbacks", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public IDictionary<string, OpenApiCallback> Callbacks { get; set; } = new Dictionary<string, OpenApiCallback>();
 
         /// <summary>Gets the list of MIME types the operation can consume, either from the operation or from the <see cref="SwaggerDocument"/>.</summary>
         [JsonIgnore]
@@ -128,6 +136,6 @@ namespace NSwag
 
         /// <summary>Gets the actual security description, either from the operation or from the <see cref="SwaggerDocument"/>.</summary>
         [JsonIgnore]
-        public List<SwaggerSecurityRequirement> ActualSecurity => Security ?? Parent.Parent.Security;
+        public ICollection<SwaggerSecurityRequirement> ActualSecurity => Security ?? Parent.Parent.Security;
     }
 }

@@ -40,7 +40,7 @@ namespace NSwag.Core.Tests.Serialization
         private static SwaggerDocument CreateDocument()
         {
             var document = new SwaggerDocument();
-            document.Paths["foo"] = new SwaggerOperations
+            document.Paths["foo"] = new SwaggerPathItem
             {
                 {
                     SwaggerOperationMethod.Get,
@@ -52,11 +52,11 @@ namespace NSwag.Core.Tests.Serialization
                             {
                                 Kind = SwaggerParameterKind.Query,
                                 Example = 2,
-                                Examples = new Dictionary<string, SwaggerExample>
+                                Examples = new Dictionary<string, OpenApiExample>
                                 {
                                     {
                                         "ParameterExamples",
-                                        new SwaggerExample
+                                        new OpenApiExample
                                         {
                                             Description = "Bar"
                                         }

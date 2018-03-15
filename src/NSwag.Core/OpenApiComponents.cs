@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="SwaggerComponents.cs" company="NSwag">
+// <copyright file="OpenApiComponents.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -21,7 +21,7 @@ namespace NSwag
         public OpenApiComponents(SwaggerDocument document)
         {
             SecuritySchemes = new Dictionary<string, SwaggerSecurityScheme>();
-            Examples = new Dictionary<string, SwaggerExample>();
+            Examples = new Dictionary<string, OpenApiExample>();
 
             var schemas = new ObservableDictionary<string, JsonSchema4>();
             schemas.CollectionChanged += (sender, args) =>
@@ -74,7 +74,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the headers.</summary>
         [JsonProperty(PropertyName = "examples", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IDictionary<string, SwaggerExample> Examples { get; set; }
+        public IDictionary<string, OpenApiExample> Examples { get; set; }
 
         /// <summary>Gets or sets the types.</summary>
         [JsonProperty(PropertyName = "headers", DefaultValueHandling = DefaultValueHandling.Ignore)]

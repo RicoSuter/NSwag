@@ -37,6 +37,10 @@ namespace NSwag
                 //resolver.IgnoreProperty(typeof(SwaggerDocument), "consumes");
                 //resolver.IgnoreProperty(typeof(SwaggerDocument), "produces");
 
+                resolver.IgnoreProperty(typeof(SwaggerOperation), "schemes");
+                resolver.IgnoreProperty(typeof(SwaggerOperation), "consumes");
+                resolver.IgnoreProperty(typeof(SwaggerOperation), "produces");
+
                 //resolver.IgnoreProperty(typeof(SwaggerResponse), "consumes"); => TODO map to response.content
                 //resolver.IgnoreProperty(typeof(SwaggerResponse), "produces");
 
@@ -54,9 +58,12 @@ namespace NSwag
                 resolver.IgnoreProperty(typeof(SwaggerParameter), "title");
 
                 // TODO: Use rename for not mapped properties!
-                resolver.IgnoreProperty(typeof(SwaggerOperations), "summary");
-                resolver.IgnoreProperty(typeof(SwaggerOperations), "description");
-                resolver.IgnoreProperty(typeof(SwaggerOperations), "servers");
+                resolver.IgnoreProperty(typeof(SwaggerPathItem), "summary");
+                resolver.IgnoreProperty(typeof(SwaggerPathItem), "description");
+                resolver.IgnoreProperty(typeof(SwaggerPathItem), "servers");
+
+                resolver.IgnoreProperty(typeof(SwaggerOperation), "callbacks");
+                resolver.IgnoreProperty(typeof(SwaggerOperation), "servers");
 
                 resolver.IgnoreProperty(typeof(SwaggerDocument), "components");
                 resolver.IgnoreProperty(typeof(SwaggerParameter), "examples");

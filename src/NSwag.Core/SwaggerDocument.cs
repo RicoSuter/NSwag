@@ -32,7 +32,7 @@ namespace NSwag
             Info = new SwaggerInfo();
             Components = new OpenApiComponents(this);
 
-            var paths = new ObservableDictionary<string, SwaggerOperations>();
+            var paths = new ObservableDictionary<string, SwaggerPathItem>();
             paths.CollectionChanged += (sender, args) =>
             {
                 foreach (var path in Paths.Values)
@@ -76,7 +76,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the operations.</summary>
         [JsonProperty(PropertyName = "paths", Order = 11, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IDictionary<string, SwaggerOperations> Paths { get; }
+        public IDictionary<string, SwaggerPathItem> Paths { get; }
 
         /// <summary>Gets or sets the components.</summary>
         [JsonProperty(PropertyName = "components", Order = 12, DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -84,11 +84,11 @@ namespace NSwag
 
         /// <summary>Gets or sets a security description.</summary>
         [JsonProperty(PropertyName = "security", Order = 17, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public List<SwaggerSecurityRequirement> Security { get; set; }
+        public ICollection<SwaggerSecurityRequirement> Security { get; set; } = new Collection<SwaggerSecurityRequirement>();
 
         /// <summary>Gets or sets the description.</summary>
         [JsonProperty(PropertyName = "tags", Order = 18, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public List<SwaggerTag> Tags { get; set; }
+        public ICollection<SwaggerTag> Tags { get; set; } = new Collection<SwaggerTag>();
 
         /// <summary>Gets the base URL of the web service.</summary>
         [JsonIgnore]

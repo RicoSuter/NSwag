@@ -147,7 +147,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
                     var path = operation.Path.Replace("//", "/");
 
                     if (!document.Paths.ContainsKey(path))
-                        document.Paths[path] = new SwaggerOperations();
+                        document.Paths[path] = new SwaggerPathItem();
 
                     if (document.Paths[path].ContainsKey(operation.Method))
                     {
