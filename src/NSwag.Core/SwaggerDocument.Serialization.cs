@@ -67,34 +67,35 @@ namespace NSwag
 
         private ObservableCollection<SwaggerSchema> _schemes = new ObservableCollection<SwaggerSchema>();
 
-        /// <summary>Gets or sets the base path on which the API is served, which is relative to the <see cref="Host"/>.</summary>
-        [JsonProperty(PropertyName = "basePath", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public string BasePath
-        {
-            get
-            {
-                var segments = Servers?.FirstOrDefault()?.Url?.Replace("http://", "").Replace("https://", "").Split('/').Skip(1);
-                return segments != null ? "/" + string.Join("/", segments) : null;
-            }
-            set { UpdateServers(Schemes, Host, value); }
-        }
-
         /// <summary>Gets or sets the host (name or ip) serving the API (Swagger only).</summary>
-        [JsonProperty(PropertyName = "host", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(PropertyName = "host", Order = 5, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Host
         {
             get { return Servers?.FirstOrDefault()?.Url?.Replace("http://", "").Replace("https://", "").Split('/')[0]; }
             set { UpdateServers(Schemes, value, BasePath); }
         }
 
+        /// <summary>Gets or sets the base path on which the API is served, which is relative to the <see cref="Host"/>.</summary>
+        [JsonProperty(PropertyName = "basePath", Order = 6, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public string BasePath
+        {
+            get
+            {
+                var segments = Servers?.FirstOrDefault()?.Url?.Replace("http://", "").Replace("https://", "").Split('/').Skip(1).ToArray();
+                return segments != null && segments.Length > 0 ? "/" + string.Join("/", segments) : null;
+            }
+            set { UpdateServers(Schemes, Host, value); }
+        }
+
         /// <summary>Gets or sets the schemes.</summary>
-        [JsonProperty(PropertyName = "schemes", DefaultValueHandling = DefaultValueHandling.Ignore, ItemConverterType = typeof(StringEnumConverter))]
+        [JsonProperty(PropertyName = "schemes", Order = 7, DefaultValueHandling = DefaultValueHandling.Ignore, ItemConverterType = typeof(StringEnumConverter))]
         public ICollection<SwaggerSchema> Schemes
         {
             get
             {
                 if (_schemes != null) _schemes.CollectionChanged -= OnSchemesChanged;
                 _schemes = new ObservableCollection<SwaggerSchema>(Servers?
+                    .Where(s => s.Url.Contains("://"))
                     .Select(s => s.Url.StartsWith("http://") ? SwaggerSchema.Http : SwaggerSchema.Https)
                     .Distinct() ?? new List<SwaggerSchema>());
                 _schemes.CollectionChanged += OnSchemesChanged;
@@ -110,34 +111,47 @@ namespace NSwag
 
         private void UpdateServers(ICollection<SwaggerSchema> schemes, string host, string basePath)
         {
-            Servers = schemes?.Select(s => new OpenApiServer
+            if ((schemes == null || schemes.Count == 0) && (!string.IsNullOrEmpty(host) || !string.IsNullOrEmpty(basePath)))
             {
-                Url = s.ToString().ToLowerInvariant() + "://" + host + basePath
-            }).ToList() ?? new List<OpenApiServer>();
+                Servers = new List<OpenApiServer>
+                {
+                    new OpenApiServer
+                    {
+                        Url = host + basePath
+                    }
+                };
+            }
+            else
+            {
+                Servers = schemes?.Select(s => new OpenApiServer
+                {
+                    Url = s.ToString().ToLowerInvariant() + "://" + host + basePath
+                }).ToList() ?? new List<OpenApiServer>();
+            }
         }
 
-        /// <summary>Gets or sets the types (Swagger only).</summary>
-        [JsonProperty(PropertyName = "definitions", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IDictionary<string, JsonSchema4> Definitions => Components.Schemas;
-
-        /// <summary>Gets or sets the parameters which can be used for all operations (Swagger only).</summary>
-        [JsonProperty(PropertyName = "parameters", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IDictionary<string, SwaggerParameter> Parameters => Components.Parameters;
-
-        /// <summary>Gets or sets the responses which can be used for all operations (Swagger only).</summary>
-        [JsonProperty(PropertyName = "responses", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IDictionary<string, SwaggerResponse> Responses => Components.Responses;
-
-        /// <summary>Gets or sets the security definitions (Swagger only).</summary>
-        [JsonProperty(PropertyName = "securityDefinitions", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public Dictionary<string, SwaggerSecurityScheme> SecurityDefinitions => Components.SecuritySchemes;
-
         /// <summary>Gets or sets a list of MIME types the operation can consume.</summary>
-        [JsonProperty(PropertyName = "consumes", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "consumes", Order = 8, DefaultValueHandling = DefaultValueHandling.Ignore)]
         public ICollection<string> Consumes { get; set; } = new List<string>();
 
         /// <summary>Gets or sets a list of MIME types the operation can produce.</summary>
-        [JsonProperty(PropertyName = "produces", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "produces", Order = 9, DefaultValueHandling = DefaultValueHandling.Ignore)]
         public ICollection<string> Produces { get; set; } = new List<string>();
+
+        /// <summary>Gets or sets the types (Swagger only).</summary>
+        [JsonProperty(PropertyName = "definitions", Order = 13, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public IDictionary<string, JsonSchema4> Definitions => Components.Schemas;
+
+        /// <summary>Gets or sets the parameters which can be used for all operations (Swagger only).</summary>
+        [JsonProperty(PropertyName = "parameters", Order = 14, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public IDictionary<string, SwaggerParameter> Parameters => Components.Parameters;
+
+        /// <summary>Gets or sets the responses which can be used for all operations (Swagger only).</summary>
+        [JsonProperty(PropertyName = "responses", Order = 15, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public IDictionary<string, SwaggerResponse> Responses => Components.Responses;
+
+        /// <summary>Gets or sets the security definitions (Swagger only).</summary>
+        [JsonProperty(PropertyName = "securityDefinitions", Order = 16, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public Dictionary<string, SwaggerSecurityScheme> SecurityDefinitions => Components.SecuritySchemes;
     }
 }

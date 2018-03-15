@@ -55,39 +55,39 @@ namespace NSwag
         public string DocumentPath { get; private set; }
 
         /// <summary>Gets or sets the Swagger generator information.</summary>
-        [JsonProperty(PropertyName = "x-generator", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(PropertyName = "x-generator", Order = 1, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Generator { get; set; }
 
         /// <summary>Gets or sets the Swagger specification version being used (Swagger only).</summary>
-        [JsonProperty(PropertyName = "swagger", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(PropertyName = "swagger", Order = 2, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Swagger { get; set; }
 
         /// <summary>Gets or sets the OpenAPI specification version being used (OpenAPI only).</summary>
-        [JsonProperty(PropertyName = "openapi", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(PropertyName = "openapi", Order = 3, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string OpenApi { get; set; }
 
         /// <summary>Gets or sets the metadata about the API.</summary>
-        [JsonProperty(PropertyName = "info", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(PropertyName = "info", Order = 4, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public SwaggerInfo Info { get; set; }
 
         /// <summary>Gets or sets the servers (OpenAPI only).</summary>
-        [JsonProperty(PropertyName = "servers", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(PropertyName = "servers", Order = 10, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public ICollection<OpenApiServer> Servers { get; private set; } = new Collection<OpenApiServer>();
 
         /// <summary>Gets or sets the operations.</summary>
-        [JsonProperty(PropertyName = "paths", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "paths", Order = 11, DefaultValueHandling = DefaultValueHandling.Ignore)]
         public IDictionary<string, SwaggerOperations> Paths { get; }
 
         /// <summary>Gets or sets the components.</summary>
-        [JsonProperty(PropertyName = "components", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "components", Order = 12, DefaultValueHandling = DefaultValueHandling.Ignore)]
         public OpenApiComponents Components { get; }
 
         /// <summary>Gets or sets a security description.</summary>
-        [JsonProperty(PropertyName = "security", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "security", Order = 17, DefaultValueHandling = DefaultValueHandling.Ignore)]
         public List<SwaggerSecurityRequirement> Security { get; set; }
 
         /// <summary>Gets or sets the description.</summary>
-        [JsonProperty(PropertyName = "tags", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "tags", Order = 18, DefaultValueHandling = DefaultValueHandling.Ignore)]
         public List<SwaggerTag> Tags { get; set; }
 
         /// <summary>Gets the base URL of the web service.</summary>
@@ -95,7 +95,7 @@ namespace NSwag
         public string BaseUrl => Servers?.FirstOrDefault()?.Url ?? "";
 
         /// <summary>Gets or sets the external documentation.</summary>
-        [JsonProperty(PropertyName = "externalDocs", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "externalDocs", Order = 19, DefaultValueHandling = DefaultValueHandling.Ignore)]
         public SwaggerExternalDocumentation ExternalDocumentation { get; set; }
 
         /// <summary>Converts the Swagger specification to JSON.</summary>
