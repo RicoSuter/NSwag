@@ -88,7 +88,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the description.</summary>
         [JsonProperty(PropertyName = "tags", Order = 18, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public ICollection<SwaggerTag> Tags { get; set; } = new Collection<SwaggerTag>();
+        public IList<SwaggerTag> Tags { get; set; } = new Collection<SwaggerTag>();
 
         /// <summary>Gets the base URL of the web service.</summary>
         [JsonIgnore]
