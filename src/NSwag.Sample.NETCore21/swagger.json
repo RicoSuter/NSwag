@@ -5,13 +5,17 @@
     "title": "Web API Swagger specification",
     "version": "1.0.0"
   },
-  "host": "localhost:65385",
+  "host": "localhost:44370",
   "basePath": "",
   "schemes": [
-    "http"
+    "https"
   ],
   "consumes": [
-    "application/json"
+    "application/json",
+    "application/json-patch+json",
+    "text/json",
+    "application/*+json",
+    "multipart/form-data"
   ],
   "produces": [
     "application/json"
@@ -83,30 +87,27 @@
           "Pet"
         ],
         "operationId": "Pet_FindByStatus",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
         "parameters": [
           {
-            "type": "array",
             "name": "status",
-            "in": "query",
+            "in": "body",
             "required": true,
-            "x-nullable": true,
-            "collectionFormat": "multi",
-            "items": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/Pet"
+                "type": "string"
               }
             },
             "x-nullable": true
-          },
+          }
+        ],
+        "responses": {
           "400": {
             "description": "",
             "schema": {
@@ -133,16 +134,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Pet"
-              }
-            },
-            "x-nullable": true
-          },
           "400": {
             "description": "",
             "schema": {
@@ -170,13 +161,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/Pet"
-            },
-            "x-nullable": true
-          },
           "400": {
             "description": "",
             "schema": {
@@ -347,13 +331,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/ApiResponse"
-            },
-            "x-nullable": true
-          },
           "400": {
             "description": "",
             "schema": {
@@ -475,25 +452,6 @@
           "additionalProperties": {}
         }
       ]
-    },
-    "ApiResponse": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "code"
-      ],
-      "properties": {
-        "code": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "message": {
-          "type": "string"
-        },
-        "type": {
-          "type": "string"
-        }
-      }
     }
   },
   "parameters": {},

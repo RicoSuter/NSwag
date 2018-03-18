@@ -1,11 +1,15 @@
 ﻿{
-  "x-generator": "NSwag v11.15.4.0 (NJsonSchema v9.10.29.0 (Newtonsoft.Json v9.0.0.0))",
+  "x-generator": "NSwag v11.15.4.0 (NJsonSchema v9.10.31.0 (Newtonsoft.Json v9.0.0.0))",
   "swagger": "2.0",
   "info": {
-    "title": "",
-    "version": ""
+    "title": "Web API Swagger specification",
+    "version": "1.0.0"
   },
-  "schemes": [],
+  "host": "localhost:62102",
+  "basePath": "",
+  "schemes": [
+    "http"
+  ],
   "consumes": [
     "application/json"
   ],
@@ -18,8 +22,10 @@
         "tags": [
           "Pet"
         ],
-        "summary": "Creates a Pet.",
-        "operationId": "Pet_Post",
+        "operationId": "Pet_AddPet",
+        "consumes": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "pet",
@@ -28,15 +34,14 @@
             "schema": {
               "$ref": "#/definitions/Pet"
             },
-            "x-nullable": true,
-            "description": "The Pet to create."
+            "x-nullable": true
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK if successful, BadRequest when iput validation fails.",
+          "400": {
+            "description": "",
             "schema": {
-              "type": "file"
+              "$ref": "#/definitions/SerializableError"
             },
             "x-nullable": true
           }
@@ -46,7 +51,10 @@
         "tags": [
           "Pet"
         ],
-        "operationId": "Pet_Put",
+        "operationId": "Pet_EditPet",
+        "consumes": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "pet",
@@ -59,17 +67,17 @@
           }
         ],
         "responses": {
-          "200": {
+          "400": {
             "description": "",
             "schema": {
-              "type": "file"
+              "$ref": "#/definitions/SerializableError"
             },
             "x-nullable": true
           }
         }
       }
     },
-    "/pet/findByStatus/{skip}/{sortOrder}": {
+    "/pet/findByStatus": {
       "get": {
         "tags": [
           "Pet"
@@ -77,58 +85,10 @@
         "operationId": "Pet_FindByStatus",
         "parameters": [
           {
-            "type": "integer",
+            "type": "array",
             "name": "status",
             "in": "query",
             "required": true,
-            "x-schema": {
-              "$ref": "#/definitions/Status"
-            },
-            "x-nullable": false,
-            "enum": [
-              0,
-              1,
-              2
-            ]
-          },
-          {
-            "type": "integer",
-            "name": "skip",
-            "in": "path",
-            "required": true,
-            "x-nullable": false,
-            "format": "int32"
-          },
-          {
-            "type": "string",
-            "name": "sortOrder",
-            "in": "path",
-            "required": true,
-            "x-nullable": false
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "file"
-            },
-            "x-nullable": true
-          }
-        }
-      }
-    },
-    "/pet/findByTags": {
-      "get": {
-        "tags": [
-          "Pet"
-        ],
-        "operationId": "Pet_FindByTags",
-        "parameters": [
-          {
-            "type": "array",
-            "name": "tags",
-            "in": "query",
             "x-nullable": true,
             "collectionFormat": "multi",
             "items": {
@@ -146,29 +106,29 @@
               }
             },
             "x-nullable": true
+          },
+          "400": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/SerializableError"
+            },
+            "x-nullable": true
           }
         }
       }
     },
-    "/pet/{id}": {
-      "delete": {
+    "/pet/findByCategory": {
+      "get": {
         "tags": [
           "Pet"
         ],
-        "operationId": "Pet_Delete",
+        "operationId": "Pet_FindByCategory",
         "parameters": [
           {
-            "type": "integer",
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "x-nullable": false,
-            "format": "int32"
-          },
-          {
             "type": "string",
-            "name": "api_key",
-            "in": "header",
+            "name": "category",
+            "in": "query",
+            "required": true,
             "x-nullable": true
           }
         ],
@@ -176,21 +136,33 @@
           "200": {
             "description": "",
             "schema": {
-              "type": "file"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Pet"
+              }
+            },
+            "x-nullable": true
+          },
+          "400": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/SerializableError"
             },
             "x-nullable": true
           }
         }
-      },
+      }
+    },
+    "/pet/{petId}": {
       "get": {
         "tags": [
           "Pet"
         ],
-        "operationId": "Pet_Get",
+        "operationId": "Pet_FindById",
         "parameters": [
           {
             "type": "integer",
-            "name": "id",
+            "name": "petId",
             "in": "path",
             "required": true,
             "x-nullable": false,
@@ -216,43 +188,269 @@
             "description": ""
           }
         }
+      },
+      "post": {
+        "tags": [
+          "Pet"
+        ],
+        "operationId": "Pet_EditPet2",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "petId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false,
+            "format": "int32"
+          },
+          {
+            "type": "integer",
+            "name": "Id",
+            "in": "formData",
+            "required": true,
+            "x-nullable": false,
+            "format": "int32"
+          },
+          {
+            "type": "integer",
+            "name": "Age",
+            "in": "formData",
+            "required": true,
+            "x-nullable": false,
+            "format": "int32"
+          },
+          {
+            "type": "integer",
+            "name": "Category.Id",
+            "in": "formData",
+            "required": true,
+            "x-nullable": false,
+            "format": "int32"
+          },
+          {
+            "type": "string",
+            "name": "Category.Name",
+            "in": "formData",
+            "required": true,
+            "x-nullable": true
+          },
+          {
+            "type": "boolean",
+            "name": "HasVaccinations",
+            "in": "formData",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "type": "string",
+            "name": "Name",
+            "in": "formData",
+            "required": true,
+            "x-nullable": true
+          },
+          {
+            "type": "array",
+            "name": "Images",
+            "in": "formData",
+            "required": true,
+            "x-nullable": true,
+            "collectionFormat": "multi",
+            "items": {
+              "$ref": "#/definitions/Image"
+            }
+          },
+          {
+            "type": "array",
+            "name": "Tags",
+            "in": "formData",
+            "required": true,
+            "x-nullable": true,
+            "collectionFormat": "multi",
+            "items": {
+              "$ref": "#/definitions/Tag"
+            }
+          },
+          {
+            "type": "string",
+            "name": "Status",
+            "in": "formData",
+            "required": true,
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/SerializableError"
+            },
+            "x-nullable": true
+          },
+          "404": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Pet"
+        ],
+        "operationId": "Pet_DeletePet",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "petId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false,
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/SerializableError"
+            },
+            "x-nullable": true
+          },
+          "404": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/pet/{petId}/uploadImage": {
+      "post": {
+        "tags": [
+          "Pet"
+        ],
+        "operationId": "Pet_UploadImage",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "petId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false,
+            "format": "int32"
+          },
+          {
+            "type": "string",
+            "name": "ContentType",
+            "in": "query",
+            "required": true,
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "ContentDisposition",
+            "in": "query",
+            "required": true,
+            "x-nullable": true
+          },
+          {
+            "type": "object",
+            "name": "Headers",
+            "in": "query",
+            "required": true,
+            "x-schema": {
+              "$ref": "#/definitions/IHeaderDictionary"
+            },
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "Length",
+            "in": "query",
+            "required": true,
+            "x-nullable": false,
+            "format": "int64"
+          },
+          {
+            "type": "string",
+            "name": "Name",
+            "in": "query",
+            "required": true,
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "FileName",
+            "in": "query",
+            "required": true,
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            },
+            "x-nullable": true
+          },
+          "400": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/SerializableError"
+            },
+            "x-nullable": true
+          },
+          "404": {
+            "description": ""
+          }
+        }
       }
     }
   },
   "definitions": {
     "Pet": {
       "type": "object",
-      "description": "A domestic or tamed animal such as an opposum.",
       "additionalProperties": false,
       "required": [
-        "Id",
-        "Status"
+        "id",
+        "age",
+        "hasVaccinations",
+        "name",
+        "status"
       ],
       "properties": {
-        "Id": {
+        "id": {
           "type": "integer",
-          "format": "int64"
+          "format": "int32"
         },
-        "Category": {
+        "age": {
+          "type": "integer",
+          "format": "int32",
+          "maximum": 150.0,
+          "minimum": 0.0
+        },
+        "category": {
           "$ref": "#/definitions/Category"
         },
-        "Name": {
-          "type": "string"
+        "hasVaccinations": {
+          "type": "boolean"
         },
-        "PhotoUrls": {
+        "name": {
+          "type": "string",
+          "maxLength": 50,
+          "minLength": 2
+        },
+        "images": {
           "type": "array",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/Image"
           }
         },
-        "Tags": {
+        "tags": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/Tag"
           }
         },
-        "Status": {
-          "$ref": "#/definitions/Status"
+        "status": {
+          "type": "string"
         }
       }
     },
@@ -260,14 +458,30 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "Id"
+        "id"
       ],
       "properties": {
-        "Id": {
+        "id": {
           "type": "integer",
-          "format": "int64"
+          "format": "int32"
         },
-        "Name": {
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "Image": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "url": {
           "type": "string"
         }
       }
@@ -276,34 +490,21 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "Id"
+        "id"
       ],
       "properties": {
-        "Id": {
+        "id": {
           "type": "integer",
-          "format": "int64"
+          "format": "int32"
         },
-        "Name": {
+        "name": {
           "type": "string"
         }
       }
     },
-    "Status": {
-      "type": "integer",
-      "description": "",
-      "x-enumNames": [
-        "Available",
-        "Pending",
-        "Sold"
-      ],
-      "enum": [
-        0,
-        1,
-        2
-      ]
-    },
     "SerializableError": {
       "type": "object",
+      "description": "Defines a serializable container for storing ModelState information.\nThis information is stored as key/value pairs.",
       "additionalProperties": false,
       "allOf": [
         {
@@ -311,6 +512,42 @@
           "additionalProperties": {}
         }
       ]
+    },
+    "IHeaderDictionary": {
+      "type": "object",
+      "description": "Represents HttpRequest and HttpResponse headers",
+      "x-abstract": true,
+      "additionalProperties": false,
+      "required": [
+        "item"
+      ],
+      "properties": {
+        "item": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ApiResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code"
+      ],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      }
     }
   },
   "parameters": {},

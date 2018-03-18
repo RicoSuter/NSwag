@@ -1,14 +1,14 @@
-﻿{
+{
   "x-generator": "NSwag v11.15.4.0 (NJsonSchema v9.10.31.0 (Newtonsoft.Json v10.0.0.0))",
   "swagger": "2.0",
   "info": {
-    "title": "Web API Swagger specification",
-    "version": "1.0.0"
+    "title": "",
+    "version": ""
   },
-  "host": "localhost:65385",
+  "host": "localhost:5001",
   "basePath": "",
   "schemes": [
-    "http"
+    "https"
   ],
   "consumes": [
     "application/json"
@@ -23,9 +23,6 @@
           "Pet"
         ],
         "operationId": "Pet_AddPet",
-        "consumes": [
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "pet",
@@ -52,9 +49,6 @@
           "Pet"
         ],
         "operationId": "Pet_EditPet",
-        "consumes": [
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "pet",
@@ -88,7 +82,6 @@
             "type": "array",
             "name": "status",
             "in": "query",
-            "required": true,
             "x-nullable": true,
             "collectionFormat": "multi",
             "items": {
@@ -97,16 +90,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Pet"
-              }
-            },
-            "x-nullable": true
-          },
           "400": {
             "description": "",
             "schema": {
@@ -133,16 +116,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Pet"
-              }
-            },
-            "x-nullable": true
-          },
           "400": {
             "description": "",
             "schema": {
@@ -170,13 +143,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/Pet"
-            },
-            "x-nullable": true
-          },
           "400": {
             "description": "",
             "schema": {
@@ -204,77 +170,12 @@
             "format": "int32"
           },
           {
-            "type": "integer",
-            "name": "Id",
+            "type": "object",
+            "name": "pet",
             "in": "formData",
-            "required": true,
-            "x-nullable": false,
-            "format": "int32"
-          },
-          {
-            "type": "integer",
-            "name": "Age",
-            "in": "formData",
-            "required": true,
-            "x-nullable": false,
-            "format": "int32"
-          },
-          {
-            "type": "integer",
-            "name": "Category.Id",
-            "in": "formData",
-            "required": true,
-            "x-nullable": false,
-            "format": "int32"
-          },
-          {
-            "type": "string",
-            "name": "Category.Name",
-            "in": "formData",
-            "required": true,
-            "x-nullable": true
-          },
-          {
-            "type": "boolean",
-            "name": "HasVaccinations",
-            "in": "formData",
-            "required": true,
-            "x-nullable": false
-          },
-          {
-            "type": "string",
-            "name": "Name",
-            "in": "formData",
-            "required": true,
-            "x-nullable": true
-          },
-          {
-            "type": "array",
-            "name": "Images",
-            "in": "formData",
-            "required": true,
-            "x-nullable": true,
-            "collectionFormat": "multi",
-            "items": {
-              "$ref": "#/definitions/Image"
-            }
-          },
-          {
-            "type": "array",
-            "name": "Tags",
-            "in": "formData",
-            "required": true,
-            "x-nullable": true,
-            "collectionFormat": "multi",
-            "items": {
-              "$ref": "#/definitions/Tag"
-            }
-          },
-          {
-            "type": "string",
-            "name": "Status",
-            "in": "formData",
-            "required": true,
+            "x-schema": {
+              "$ref": "#/definitions/Pet"
+            },
             "x-nullable": true
           }
         ],
@@ -342,18 +243,10 @@
             "type": "file",
             "name": "file",
             "in": "formData",
-            "required": true,
             "x-nullable": true
           }
         ],
         "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/ApiResponse"
-            },
-            "x-nullable": true
-          },
           "400": {
             "description": "",
             "schema": {
@@ -475,25 +368,6 @@
           "additionalProperties": {}
         }
       ]
-    },
-    "ApiResponse": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "code"
-      ],
-      "properties": {
-        "code": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "message": {
-          "type": "string"
-        },
-        "type": {
-          "type": "string"
-        }
-      }
     }
   },
   "parameters": {},
