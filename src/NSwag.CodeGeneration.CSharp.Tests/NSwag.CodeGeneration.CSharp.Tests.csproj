@@ -67,7 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArrayParameterTests.cs" />
-    <Compile Include="ControllerGenerationDefaultParameter.cs" />
+    <Compile Include="Controllers\ControllerGenerationDefaultParameterTests.cs" />
     <Compile Include="ControllerGenerationFormatTests.cs" />
     <Compile Include="CSharpClientSettingsTests.cs" />
     <Compile Include="FileDownloadTests.cs" />

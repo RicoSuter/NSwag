@@ -19,7 +19,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="9.10.37" />
     <PackageReference Include="NJsonSchema" Version="9.10.37" />
     <PackageReference Include="NJsonSchema.CodeGeneration" Version="9.10.37" />
   </ItemGroup>
