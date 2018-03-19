@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="SwaggerExample.cs" company="NSwag">
+// <copyright file="OpenApiExample.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -12,7 +12,7 @@ using NJsonSchema.References;
 namespace NSwag
 {
     /// <summary>The Swagger example (OpenAPI only).</summary>
-    public class SwaggerExample : JsonReferenceBase<SwaggerExample>, IJsonReference
+    public class OpenApiExample : JsonReferenceBase<OpenApiExample>, IJsonReference
     {
         /// <summary>Gets or sets the example's description.</summary>
         [JsonProperty(PropertyName = "summary", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]

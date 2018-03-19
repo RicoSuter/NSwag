@@ -52,7 +52,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the headers (OpenAPI only).</summary>
         [JsonProperty(PropertyName = "examples", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IDictionary<string, SwaggerExample> Examples { get; set; }
+        public IDictionary<string, OpenApiExample> Examples { get; set; }
         
         /// <summary>Gets a value indicating whether the validated data can be null.</summary>
         /// <param name="schemaType">The schema type.</param>

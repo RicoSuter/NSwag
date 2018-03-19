@@ -18,6 +18,7 @@
     "NSwag.Sample.NETCore11": {
       "commandName": "Project",
       "launchBrowser": true,
+      "launchUrl": "swagger/v1/swagger.json",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

@@ -11,7 +11,7 @@ namespace NSwag.Tests.Specification
         {
             //// Arrange
             var document = new SwaggerDocument();
-            document.Paths["path"] = new SwaggerOperations
+            document.Paths["path"] = new SwaggerPathItem
             {
                 {
                     SwaggerOperationMethod.Get,

@@ -46,6 +46,10 @@ namespace NSwag
 
         /// <summary>The HTTP PATCH method. </summary>
         [EnumMember(Value = "patch")]
-        Patch
+        Patch,
+
+        /// <summary>The HTTP TRACE method (OpenAPI only). </summary>
+        [EnumMember(Value = "trace")]
+        Trace
     }
 }
