@@ -17,11 +17,11 @@ using NSwag.SwaggerGeneration.AspNetCore;
 namespace NSwag.AspNetCore.Middlewares
 {
     /// <summary>Generates a Swagger specification on a given path.</summary>
-    public class AspNetCoreSwaggerMiddleware
+    public class AspNetCoreToSwaggerMiddleware
     {
         private readonly RequestDelegate _nextDelegate;
         private readonly string _path;
-        private readonly AspNetCoreToSwaggerMiddlewareSettings _settings;
+        private readonly SwaggerSettings<AspNetCoreToSwaggerGeneratorSettings> _settings;
         private readonly SwaggerJsonSchemaGenerator _schemaGenerator;
         private readonly IApiDescriptionGroupCollectionProvider _apiDescriptionGroupCollectionProvider;
 
@@ -30,12 +30,12 @@ namespace NSwag.AspNetCore.Middlewares
         private Exception _schemaException;
         private DateTimeOffset _schemaTimestamp;
 
-        /// <summary>Initializes a new instance of the <see cref="SwaggerMiddleware"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerMiddleware"/> class.</summary>
         /// <param name="nextDelegate">The next delegate.</param>
         /// <param name="apiDescriptionGroupCollectionProvider">The <see cref="IApiDescriptionGroupCollectionProvider"/>.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
-        public AspNetCoreSwaggerMiddleware(RequestDelegate nextDelegate, IApiDescriptionGroupCollectionProvider apiDescriptionGroupCollectionProvider, AspNetCoreToSwaggerMiddlewareSettings settings, SwaggerJsonSchemaGenerator schemaGenerator)
+        public AspNetCoreToSwaggerMiddleware(RequestDelegate nextDelegate, IApiDescriptionGroupCollectionProvider apiDescriptionGroupCollectionProvider, SwaggerSettings<AspNetCoreToSwaggerGeneratorSettings> settings, SwaggerJsonSchemaGenerator schemaGenerator)
         {
             _nextDelegate = nextDelegate;
             _settings = settings;
@@ -74,7 +74,7 @@ namespace NSwag.AspNetCore.Middlewares
 
             try
             {
-                var generator = new AspNetCoreToSwaggerGenerator(_settings, _schemaGenerator);
+                var generator = new AspNetCoreToSwaggerGenerator(_settings.GeneratorSettings, _schemaGenerator);
                 var document = await generator.GenerateAsync(apiDescriptionGroups);
 
                 document.Host = context.Request.Host.Value ?? "";

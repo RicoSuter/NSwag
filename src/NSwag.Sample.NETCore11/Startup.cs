@@ -41,15 +41,46 @@ namespace NSwag.Sample.NETCore11
             loggerFactory.AddDebug();
 
             app.UseMvc();
-            app.UseSwaggerWithApiDescription();
-            //app.UseSwaggerUi(GetType().GetTypeInfo().Assembly, new SwaggerUiSettings
-            //{
-            //    SwaggerRoute = "/SwaggerLegacy.json",
-            //    SwaggerUiRoute = "/SwaggerLegacy",
-            //});
 
-            // old generator
-            app.UseSwagger(typeof(Startup).GetTypeInfo().Assembly, new SwaggerSettings { SwaggerRoute = "/oldswagger.json" });
+            // API Explorer based (new)
+
+            app.UseSwaggerUiWithApiExplorer(s =>
+            {
+                s.SwaggerRoute = "/swagger_api_ui/v1/swagger.json";
+                s.SwaggerUiRoute = "/swagger_api_ui";
+            });
+
+            app.UseSwaggerUi3WithApiExplorer(s =>
+            {
+                s.SwaggerRoute = "/swagger_api_ui3/v1/swagger.json";
+                s.SwaggerUiRoute = "/swagger_api_ui3";
+            });
+
+            app.UseSwaggerReDocWithApiExplorer(s =>
+            {
+                s.SwaggerRoute = "/swagger_api_redoc/v1/swagger.json";
+                s.SwaggerUiRoute = "/swagger_api_redoc";
+            });
+
+            // Reflection based (old)
+
+            app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, s =>
+            {
+                s.SwaggerRoute = "/swagger_ui/v1/swagger.json";
+                s.SwaggerUiRoute = "/swagger_ui";
+            });
+
+            app.UseSwaggerUi3(typeof(Startup).GetTypeInfo().Assembly, s =>
+            {
+                s.SwaggerRoute = "/swagger_ui3/v1/swagger.json";
+                s.SwaggerUiRoute = "/swagger_ui3";
+            });
+
+            app.UseSwaggerReDoc(typeof(Startup).GetTypeInfo().Assembly, s =>
+            {
+                s.SwaggerRoute = "/swagger_redoc/v1/swagger.json";
+                s.SwaggerUiRoute = "/swagger_redoc";
+            });
         }
     }
 }

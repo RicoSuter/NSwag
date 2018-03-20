@@ -16,26 +16,26 @@ using NSwag.SwaggerGeneration.WebApi;
 namespace NSwag.AspNetCore.Middlewares
 {
     /// <summary>Generates a Swagger specification on a given path.</summary>
-    public class SwaggerMiddleware
+    public class WebApiToSwaggerMiddleware
     {
         private readonly RequestDelegate _nextDelegate;
 
         private readonly string _path;
         private readonly IEnumerable<Type> _controllerTypes;
-        private readonly SwaggerSettings _settings;
+        private readonly SwaggerSettings<WebApiToSwaggerGeneratorSettings> _settings;
         private readonly SwaggerJsonSchemaGenerator _schemaGenerator;
 
         private string _schemaJson;
         private Exception _schemaException;
         private DateTimeOffset _schemaTimestamp;
 
-        /// <summary>Initializes a new instance of the <see cref="SwaggerMiddleware"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerMiddleware"/> class.</summary>
         /// <param name="nextDelegate">The next delegate.</param>
         /// <param name="path">The path.</param>
         /// <param name="controllerTypes">The controller types.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
-        public SwaggerMiddleware(RequestDelegate nextDelegate, string path, IEnumerable<Type> controllerTypes, SwaggerSettings settings, SwaggerJsonSchemaGenerator schemaGenerator)
+        public WebApiToSwaggerMiddleware(RequestDelegate nextDelegate, string path, IEnumerable<Type> controllerTypes, SwaggerSettings<WebApiToSwaggerGeneratorSettings> settings, SwaggerJsonSchemaGenerator schemaGenerator)
         {
             _nextDelegate = nextDelegate;
             _path = path;
@@ -74,7 +74,7 @@ namespace NSwag.AspNetCore.Middlewares
                 {
                     try
                     {
-                        var generator = new WebApiToSwaggerGenerator(_settings, _schemaGenerator);
+                        var generator = new WebApiToSwaggerGenerator(_settings.GeneratorSettings, _schemaGenerator);
                         var document = await generator.GenerateForControllersAsync(_controllerTypes);
 
                         document.Host = context.Request.Host.Value ?? "";

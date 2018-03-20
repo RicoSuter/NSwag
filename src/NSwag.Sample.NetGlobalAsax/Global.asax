@@ -1,1 +1,1 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="NSwag.Sample.NetOwin.WebApiApplication" Language="C#" %>
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="NSwag.Sample.NetGlobalAsax.WebApiApplication" Language="C#" %>

@@ -1,7 +1,6 @@
-﻿using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
-namespace NSwag.Sample.NetOwin
+namespace NSwag.Sample.NetGlobalAsax
 {
     public class FilterConfig
     {

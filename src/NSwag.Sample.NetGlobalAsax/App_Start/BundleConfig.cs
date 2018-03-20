@@ -1,7 +1,6 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
-namespace NSwag.Sample.NetOwin
+namespace NSwag.Sample.NetGlobalAsax
 {
     public class BundleConfig
     {
