@@ -149,6 +149,10 @@
       <Project>{8A547CB0-930F-466D-92EB-E780FF14C0A6}</Project>
       <Name>NSwag.SwaggerGeneration.WebApi</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NSwag.SwaggerGeneration\NSwag.SwaggerGeneration.csproj">
+      <Project>{5EBE3EFF-9558-45F2-9C8F-5C8CFB74D574}</Project>
+      <Name>NSwag.SwaggerGeneration</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
