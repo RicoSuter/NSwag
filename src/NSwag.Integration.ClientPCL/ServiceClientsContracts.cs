@@ -365,7 +365,7 @@ namespace NSwag.Integration.ClientPCL.Contracts
 
         public bool IsPartial
         {
-            get { return StatusCode == "206"; }
+            get { return StatusCode == 206; }
         }
 
         public FileResponse(int statusCode, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.IO.Stream stream, System.IDisposable client, System.IDisposable response)
