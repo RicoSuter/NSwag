@@ -104,7 +104,7 @@ namespace Uber
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                         }
                         else
@@ -117,9 +117,9 @@ namespace Uber
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
-                            throw new SwaggerException<Error>("Unexpected error", status_, responseData_, headers_, result_, null);
+                            throw new SwaggerException<Error>("Unexpected error", (int)response_.StatusCode, responseData_, headers_, result_, null);
                         }
             
                         return default(System.Collections.ObjectModel.ObservableCollection<Product>);
@@ -217,7 +217,7 @@ namespace Uber
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                         }
                         else
@@ -230,9 +230,9 @@ namespace Uber
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
-                            throw new SwaggerException<Error>("Unexpected error", status_, responseData_, headers_, result_, null);
+                            throw new SwaggerException<Error>("Unexpected error", (int)response_.StatusCode, responseData_, headers_, result_, null);
                         }
             
                         return default(System.Collections.ObjectModel.ObservableCollection<PriceEstimate>);
@@ -324,7 +324,7 @@ namespace Uber
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                         }
                         else
@@ -337,9 +337,9 @@ namespace Uber
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
-                            throw new SwaggerException<Error>("Unexpected error", status_, responseData_, headers_, result_, null);
+                            throw new SwaggerException<Error>("Unexpected error", (int)response_.StatusCode, responseData_, headers_, result_, null);
                         }
             
                         return default(System.Collections.ObjectModel.ObservableCollection<Product>);
@@ -412,7 +412,7 @@ namespace Uber
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                         }
                         else
@@ -425,9 +425,9 @@ namespace Uber
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
-                            throw new SwaggerException<Error>("Unexpected error", status_, responseData_, headers_, result_, null);
+                            throw new SwaggerException<Error>("Unexpected error", (int)response_.StatusCode, responseData_, headers_, result_, null);
                         }
             
                         return default(Profile);
@@ -507,7 +507,7 @@ namespace Uber
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                         }
                         else
@@ -520,9 +520,9 @@ namespace Uber
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
-                            throw new SwaggerException<Error>("Unexpected error", status_, responseData_, headers_, result_, null);
+                            throw new SwaggerException<Error>("Unexpected error", (int)response_.StatusCode, responseData_, headers_, result_, null);
                         }
             
                         return default(Activities);
@@ -1125,13 +1125,13 @@ namespace Uber
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.15.4.0 (NJsonSchema v9.10.39.0 (Newtonsoft.Json v9.0.0.0))")]
     public partial class SwaggerException : System.Exception
     {
-        public string StatusCode { get; private set; }
+        public int StatusCode { get; private set; }
 
         public string Response { get; private set; }
 
         public System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
 
-        public SwaggerException(string message, string statusCode, string response, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Exception innerException) 
+        public SwaggerException(string message, int statusCode, string response, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Exception innerException) 
             : base(message, innerException)
         {
             StatusCode = statusCode;

@@ -83,16 +83,16 @@ namespace NSwag.Integration.ClientPCL
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "204") 
                         {
-                            return new SwaggerResponse(status_, headers_);
+                            return new SwaggerResponse((int)response_.StatusCode, headers_);
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, headers_, null);
+                            throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
     
-                        return new SwaggerResponse(status_, headers_); 
+                        return new SwaggerResponse((int)response_.StatusCode, headers_); 
                     }
                     finally
                     {
@@ -150,16 +150,16 @@ namespace NSwag.Integration.ClientPCL
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "204") 
                         {
-                            return new SwaggerResponse(status_, headers_);
+                            return new SwaggerResponse((int)response_.StatusCode, headers_);
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, headers_, null);
+                            throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
     
-                        return new SwaggerResponse(status_, headers_); 
+                        return new SwaggerResponse((int)response_.StatusCode, headers_); 
                     }
                     finally
                     {
@@ -216,16 +216,16 @@ namespace NSwag.Integration.ClientPCL
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "204") 
                         {
-                            return new SwaggerResponse(status_, headers_);
+                            return new SwaggerResponse((int)response_.StatusCode, headers_);
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, headers_, null);
+                            throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
     
-                        return new SwaggerResponse(status_, headers_); 
+                        return new SwaggerResponse((int)response_.StatusCode, headers_); 
                     }
                     finally
                     {
@@ -282,16 +282,16 @@ namespace NSwag.Integration.ClientPCL
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "204") 
                         {
-                            return new SwaggerResponse(status_, headers_);
+                            return new SwaggerResponse((int)response_.StatusCode, headers_);
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, headers_, null);
+                            throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
     
-                        return new SwaggerResponse(status_, headers_); 
+                        return new SwaggerResponse((int)response_.StatusCode, headers_); 
                     }
                     finally
                     {
@@ -354,21 +354,21 @@ namespace NSwag.Integration.ClientPCL
                             try
                             {
                                 result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<string>>(responseData_, _settings.Value);
-                                return new SwaggerResponse<System.Collections.ObjectModel.ObservableCollection<string>>(status_, headers_, result_); 
+                                return new SwaggerResponse<System.Collections.ObjectModel.ObservableCollection<string>>((int)response_.StatusCode, headers_, result_); 
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new GeoClientException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+                                throw new GeoClientException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, headers_, null);
+                            throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
             
-                        return new SwaggerResponse<System.Collections.ObjectModel.ObservableCollection<string>>(status_, headers_, default(System.Collections.ObjectModel.ObservableCollection<string>)); 
+                        return new SwaggerResponse<System.Collections.ObjectModel.ObservableCollection<string>>((int)response_.StatusCode, headers_, default(System.Collections.ObjectModel.ObservableCollection<string>)); 
                     }
                     finally
                     {
@@ -423,16 +423,16 @@ namespace NSwag.Integration.ClientPCL
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "204") 
                         {
-                            return new SwaggerResponse(status_, headers_);
+                            return new SwaggerResponse((int)response_.StatusCode, headers_);
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, headers_, null);
+                            throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
     
-                        return new SwaggerResponse(status_, headers_); 
+                        return new SwaggerResponse((int)response_.StatusCode, headers_); 
                     }
                     finally
                     {
@@ -499,21 +499,21 @@ namespace NSwag.Integration.ClientPCL
                             try
                             {
                                 result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<bool>(responseData_, _settings.Value);
-                                return new SwaggerResponse<bool>(status_, headers_, result_); 
+                                return new SwaggerResponse<bool>((int)response_.StatusCode, headers_, result_); 
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new GeoClientException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+                                throw new GeoClientException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, headers_, null);
+                            throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
             
-                        return new SwaggerResponse<bool>(status_, headers_, default(bool)); 
+                        return new SwaggerResponse<bool>((int)response_.StatusCode, headers_, default(bool)); 
                     }
                     finally
                     {
@@ -574,16 +574,16 @@ namespace NSwag.Integration.ClientPCL
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "204") 
                         {
-                            return new SwaggerResponse(status_, headers_);
+                            return new SwaggerResponse((int)response_.StatusCode, headers_);
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, headers_, null);
+                            throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
     
-                        return new SwaggerResponse(status_, headers_); 
+                        return new SwaggerResponse((int)response_.StatusCode, headers_); 
                     }
                     finally
                     {
@@ -642,7 +642,7 @@ namespace NSwag.Integration.ClientPCL
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "204") 
                         {
-                            return new SwaggerResponse(status_, headers_);
+                            return new SwaggerResponse((int)response_.StatusCode, headers_);
                         }
                         else
                         if (status_ == "450") 
@@ -655,23 +655,23 @@ namespace NSwag.Integration.ClientPCL
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new GeoClientException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+                                throw new GeoClientException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                             if (result_ == null)
                                 result_ = new System.Exception();
                             result_.Data.Add("HttpStatus", status_);
                             result_.Data.Add("HttpHeaders", headers_);
                             result_.Data.Add("HttpResponse", responseData_);
-                            throw new GeoClientException<System.Exception>("A custom error occured.", status_, responseData_, headers_, result_, result_);
+                            throw new GeoClientException<System.Exception>("A custom error occured.", (int)response_.StatusCode, responseData_, headers_, result_, result_);
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, headers_, null);
+                            throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
     
-                        return new SwaggerResponse(status_, headers_); 
+                        return new SwaggerResponse((int)response_.StatusCode, headers_); 
                     }
                     finally
                     {
@@ -741,7 +741,7 @@ namespace NSwag.Integration.ClientPCL
                         if (status_ != "200" && status_ != "204")
                         {
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, headers_, null);
+                            throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
             
                         return default(FileResponse);
@@ -807,21 +807,21 @@ namespace NSwag.Integration.ClientPCL
                             try
                             {
                                 result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<double?>(responseData_, _settings.Value);
-                                return new SwaggerResponse<double?>(status_, headers_, result_); 
+                                return new SwaggerResponse<double?>((int)response_.StatusCode, headers_, result_); 
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new GeoClientException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+                                throw new GeoClientException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, headers_, null);
+                            throw new GeoClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
             
-                        return new SwaggerResponse<double?>(status_, headers_, default(double?)); 
+                        return new SwaggerResponse<double?>((int)response_.StatusCode, headers_, default(double?)); 
                     }
                     finally
                     {
@@ -944,21 +944,21 @@ namespace NSwag.Integration.ClientPCL
                             try
                             {
                                 result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<Person>>(responseData_, _settings.Value);
-                                return new SwaggerResponse<System.Collections.ObjectModel.ObservableCollection<Person>>(status_, headers_, result_); 
+                                return new SwaggerResponse<System.Collections.ObjectModel.ObservableCollection<Person>>((int)response_.StatusCode, headers_, result_); 
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new PersonsClientException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+                                throw new PersonsClientException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, headers_, null);
+                            throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
             
-                        return new SwaggerResponse<System.Collections.ObjectModel.ObservableCollection<Person>>(status_, headers_, default(System.Collections.ObjectModel.ObservableCollection<Person>)); 
+                        return new SwaggerResponse<System.Collections.ObjectModel.ObservableCollection<Person>>((int)response_.StatusCode, headers_, default(System.Collections.ObjectModel.ObservableCollection<Person>)); 
                     }
                     finally
                     {
@@ -1015,16 +1015,16 @@ namespace NSwag.Integration.ClientPCL
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "204") 
                         {
-                            return new SwaggerResponse(status_, headers_);
+                            return new SwaggerResponse((int)response_.StatusCode, headers_);
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, headers_, null);
+                            throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
     
-                        return new SwaggerResponse(status_, headers_); 
+                        return new SwaggerResponse((int)response_.StatusCode, headers_); 
                     }
                     finally
                     {
@@ -1089,21 +1089,21 @@ namespace NSwag.Integration.ClientPCL
                             try
                             {
                                 result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<Person>>(responseData_, _settings.Value);
-                                return new SwaggerResponse<System.Collections.ObjectModel.ObservableCollection<Person>>(status_, headers_, result_); 
+                                return new SwaggerResponse<System.Collections.ObjectModel.ObservableCollection<Person>>((int)response_.StatusCode, headers_, result_); 
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new PersonsClientException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+                                throw new PersonsClientException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, headers_, null);
+                            throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
             
-                        return new SwaggerResponse<System.Collections.ObjectModel.ObservableCollection<Person>>(status_, headers_, default(System.Collections.ObjectModel.ObservableCollection<Person>)); 
+                        return new SwaggerResponse<System.Collections.ObjectModel.ObservableCollection<Person>>((int)response_.StatusCode, headers_, default(System.Collections.ObjectModel.ObservableCollection<Person>)); 
                     }
                     finally
                     {
@@ -1166,21 +1166,21 @@ namespace NSwag.Integration.ClientPCL
                             try
                             {
                                 result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<Person>>(responseData_, _settings.Value);
-                                return new SwaggerResponse<System.Collections.ObjectModel.ObservableCollection<Person>>(status_, headers_, result_); 
+                                return new SwaggerResponse<System.Collections.ObjectModel.ObservableCollection<Person>>((int)response_.StatusCode, headers_, result_); 
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new PersonsClientException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+                                throw new PersonsClientException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, headers_, null);
+                            throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
             
-                        return new SwaggerResponse<System.Collections.ObjectModel.ObservableCollection<Person>>(status_, headers_, default(System.Collections.ObjectModel.ObservableCollection<Person>)); 
+                        return new SwaggerResponse<System.Collections.ObjectModel.ObservableCollection<Person>>((int)response_.StatusCode, headers_, default(System.Collections.ObjectModel.ObservableCollection<Person>)); 
                     }
                     finally
                     {
@@ -1249,14 +1249,14 @@ namespace NSwag.Integration.ClientPCL
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new PersonsClientException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+                                throw new PersonsClientException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                             if (result_ == null)
                                 result_ = new PersonNotFoundException();
                             result_.Data.Add("HttpStatus", status_);
                             result_.Data.Add("HttpHeaders", headers_);
                             result_.Data.Add("HttpResponse", responseData_);
-                            throw new PersonsClientException<PersonNotFoundException>("A server side error occurred.", status_, responseData_, headers_, result_, result_);
+                            throw new PersonsClientException<PersonNotFoundException>("A server side error occurred.", (int)response_.StatusCode, responseData_, headers_, result_, result_);
                         }
                         else
                         if (status_ == "200") 
@@ -1266,21 +1266,21 @@ namespace NSwag.Integration.ClientPCL
                             try
                             {
                                 result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Person>(responseData_, _settings.Value);
-                                return new SwaggerResponse<Person>(status_, headers_, result_); 
+                                return new SwaggerResponse<Person>((int)response_.StatusCode, headers_, result_); 
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new PersonsClientException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+                                throw new PersonsClientException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, headers_, null);
+                            throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
             
-                        return new SwaggerResponse<Person>(status_, headers_, default(Person)); 
+                        return new SwaggerResponse<Person>((int)response_.StatusCode, headers_, default(Person)); 
                     }
                     finally
                     {
@@ -1338,16 +1338,16 @@ namespace NSwag.Integration.ClientPCL
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "204") 
                         {
-                            return new SwaggerResponse(status_, headers_);
+                            return new SwaggerResponse((int)response_.StatusCode, headers_);
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, headers_, null);
+                            throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
     
-                        return new SwaggerResponse(status_, headers_); 
+                        return new SwaggerResponse((int)response_.StatusCode, headers_); 
                     }
                     finally
                     {
@@ -1410,21 +1410,21 @@ namespace NSwag.Integration.ClientPCL
                             try
                             {
                                 result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Person>(responseData_, _settings.Value);
-                                return new SwaggerResponse<Person>(status_, headers_, result_); 
+                                return new SwaggerResponse<Person>((int)response_.StatusCode, headers_, result_); 
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new PersonsClientException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+                                throw new PersonsClientException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, headers_, null);
+                            throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
             
-                        return new SwaggerResponse<Person>(status_, headers_, default(Person)); 
+                        return new SwaggerResponse<Person>((int)response_.StatusCode, headers_, default(Person)); 
                     }
                     finally
                     {
@@ -1492,11 +1492,11 @@ namespace NSwag.Integration.ClientPCL
                             try
                             {
                                 result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Person>(responseData_, _settings.Value);
-                                return new SwaggerResponse<Person>(status_, headers_, result_); 
+                                return new SwaggerResponse<Person>((int)response_.StatusCode, headers_, result_); 
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new PersonsClientException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+                                throw new PersonsClientException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                         }
                         else
@@ -1510,23 +1510,23 @@ namespace NSwag.Integration.ClientPCL
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new PersonsClientException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+                                throw new PersonsClientException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                             if (result_ == null)
                                 result_ = new PersonNotFoundException();
                             result_.Data.Add("HttpStatus", status_);
                             result_.Data.Add("HttpHeaders", headers_);
                             result_.Data.Add("HttpResponse", responseData_);
-                            throw new PersonsClientException<PersonNotFoundException>("A server side error occurred.", status_, responseData_, headers_, result_, result_);
+                            throw new PersonsClientException<PersonNotFoundException>("A server side error occurred.", (int)response_.StatusCode, responseData_, headers_, result_, result_);
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, headers_, null);
+                            throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
             
-                        return new SwaggerResponse<Person>(status_, headers_, default(Person)); 
+                        return new SwaggerResponse<Person>((int)response_.StatusCode, headers_, default(Person)); 
                     }
                     finally
                     {
@@ -1598,11 +1598,11 @@ namespace NSwag.Integration.ClientPCL
                             try
                             {
                                 result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(responseData_, _settings.Value);
-                                return new SwaggerResponse<string>(status_, headers_, result_); 
+                                return new SwaggerResponse<string>((int)response_.StatusCode, headers_, result_); 
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new PersonsClientException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+                                throw new PersonsClientException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                         }
                         else
@@ -1616,23 +1616,23 @@ namespace NSwag.Integration.ClientPCL
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new PersonsClientException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+                                throw new PersonsClientException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                             if (result_ == null)
                                 result_ = new PersonNotFoundException();
                             result_.Data.Add("HttpStatus", status_);
                             result_.Data.Add("HttpHeaders", headers_);
                             result_.Data.Add("HttpResponse", responseData_);
-                            throw new PersonsClientException<PersonNotFoundException>("A server side error occurred.", status_, responseData_, headers_, result_, result_);
+                            throw new PersonsClientException<PersonNotFoundException>("A server side error occurred.", (int)response_.StatusCode, responseData_, headers_, result_, result_);
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, headers_, null);
+                            throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
             
-                        return new SwaggerResponse<string>(status_, headers_, default(string)); 
+                        return new SwaggerResponse<string>((int)response_.StatusCode, headers_, default(string)); 
                     }
                     finally
                     {
@@ -1695,21 +1695,21 @@ namespace NSwag.Integration.ClientPCL
                             try
                             {
                                 result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(responseData_, _settings.Value);
-                                return new SwaggerResponse<string>(status_, headers_, result_); 
+                                return new SwaggerResponse<string>((int)response_.StatusCode, headers_, result_); 
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new PersonsClientException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+                                throw new PersonsClientException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, headers_, null);
+                            throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
             
-                        return new SwaggerResponse<string>(status_, headers_, default(string)); 
+                        return new SwaggerResponse<string>((int)response_.StatusCode, headers_, default(string)); 
                     }
                     finally
                     {
@@ -1772,21 +1772,21 @@ namespace NSwag.Integration.ClientPCL
                             try
                             {
                                 result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<byte[]>(responseData_, _settings.Value);
-                                return new SwaggerResponse<byte[]>(status_, headers_, result_); 
+                                return new SwaggerResponse<byte[]>((int)response_.StatusCode, headers_, result_); 
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new PersonsClientException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+                                throw new PersonsClientException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                         }
                         else
                         if (status_ != "200" && status_ != "204")
                         {
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, headers_, null);
+                            throw new PersonsClientException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
             
-                        return new SwaggerResponse<byte[]>(status_, headers_, default(byte[])); 
+                        return new SwaggerResponse<byte[]>((int)response_.StatusCode, headers_, default(byte[])); 
                     }
                     finally
                     {

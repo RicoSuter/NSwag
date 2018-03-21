@@ -391,13 +391,13 @@ namespace NSwag.Integration.Console.Contracts
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.15.4.0 (NJsonSchema v9.10.39.0 (Newtonsoft.Json v9.0.0.0))")]
     public partial class SwaggerException : System.Exception
     {
-        public string StatusCode { get; private set; }
+        public int StatusCode { get; private set; }
 
         public string Response { get; private set; }
 
         public System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
 
-        public SwaggerException(string message, string statusCode, string response, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Exception innerException) 
+        public SwaggerException(string message, int statusCode, string response, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Exception innerException) 
             : base(message, innerException)
         {
             StatusCode = statusCode;

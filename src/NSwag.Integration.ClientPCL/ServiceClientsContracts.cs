@@ -391,11 +391,11 @@ namespace NSwag.Integration.ClientPCL.Contracts
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.15.4.0 (NJsonSchema v9.10.39.0 (Newtonsoft.Json v9.0.0.0))")]
     public partial class SwaggerResponse
     {
-        public string StatusCode { get; private set; }
+        public int StatusCode { get; private set; }
 
         public System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
         
-        public SwaggerResponse(string statusCode, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers) 
+        public SwaggerResponse(int statusCode, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers) 
         {
             StatusCode = statusCode; 
             Headers = headers;
@@ -417,13 +417,13 @@ namespace NSwag.Integration.ClientPCL.Contracts
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.15.4.0 (NJsonSchema v9.10.39.0 (Newtonsoft.Json v9.0.0.0))")]
     public partial class GeoClientException : System.Exception
     {
-        public string StatusCode { get; private set; }
+        public int StatusCode { get; private set; }
 
         public string Response { get; private set; }
 
         public System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
 
-        public GeoClientException(string message, string statusCode, string response, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Exception innerException) 
+        public GeoClientException(string message, int statusCode, string response, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Exception innerException) 
             : base(message, innerException)
         {
             StatusCode = statusCode;
@@ -452,13 +452,13 @@ namespace NSwag.Integration.ClientPCL.Contracts
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.15.4.0 (NJsonSchema v9.10.39.0 (Newtonsoft.Json v9.0.0.0))")]
     public partial class PersonsClientException : System.Exception
     {
-        public string StatusCode { get; private set; }
+        public int StatusCode { get; private set; }
 
         public string Response { get; private set; }
 
         public System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
 
-        public PersonsClientException(string message, string statusCode, string response, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Exception innerException) 
+        public PersonsClientException(string message, int statusCode, string response, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Exception innerException) 
             : base(message, innerException)
         {
             StatusCode = statusCode;
