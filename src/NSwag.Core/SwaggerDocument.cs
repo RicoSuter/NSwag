@@ -113,6 +113,8 @@ namespace NSwag
             GenerateOperationIds();
 
             var contractResolver = CreateJsonSerializerContractResolver(schemaType);
+
+            JsonSchemaSerializationContext.CurrentSchemaType = schemaType;
             JsonSchemaReferenceUtilities.UpdateSchemaReferencePaths(this, false, contractResolver);
 
             var json = JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings

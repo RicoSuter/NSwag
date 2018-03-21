@@ -1,15 +1,10 @@
 ﻿{
-  "x-generator": "NSwag v11.15.4.0 (NJsonSchema v9.10.31.0 (Newtonsoft.Json v9.0.0.0))",
+  "x-generator": "NSwag v11.15.4.0 (NJsonSchema v9.10.39.0 (Newtonsoft.Json v9.0.0.0))",
   "swagger": "2.0",
   "info": {
     "title": "Web API Swagger specification",
     "version": "1.0.0"
   },
-  "host": "localhost:62102",
-  "basePath": "",
-  "schemes": [
-    "http"
-  ],
   "consumes": [
     "application/json"
   ],
@@ -23,9 +18,6 @@
           "Pet"
         ],
         "operationId": "Pet_AddPet",
-        "consumes": [
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "pet",
@@ -52,9 +44,6 @@
           "Pet"
         ],
         "operationId": "Pet_EditPet",
-        "consumes": [
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "pet",
@@ -88,9 +77,8 @@
             "type": "array",
             "name": "status",
             "in": "query",
-            "required": true,
-            "x-nullable": true,
             "collectionFormat": "multi",
+            "x-nullable": true,
             "items": {
               "type": "string"
             }
@@ -165,8 +153,8 @@
             "name": "petId",
             "in": "path",
             "required": true,
-            "x-nullable": false,
-            "format": "int32"
+            "format": "int32",
+            "x-nullable": false
           }
         ],
         "responses": {
@@ -200,81 +188,16 @@
             "name": "petId",
             "in": "path",
             "required": true,
-            "x-nullable": false,
-            "format": "int32"
-          },
-          {
-            "type": "integer",
-            "name": "Id",
-            "in": "formData",
-            "required": true,
-            "x-nullable": false,
-            "format": "int32"
-          },
-          {
-            "type": "integer",
-            "name": "Age",
-            "in": "formData",
-            "required": true,
-            "x-nullable": false,
-            "format": "int32"
-          },
-          {
-            "type": "integer",
-            "name": "Category.Id",
-            "in": "formData",
-            "required": true,
-            "x-nullable": false,
-            "format": "int32"
-          },
-          {
-            "type": "string",
-            "name": "Category.Name",
-            "in": "formData",
-            "required": true,
-            "x-nullable": true
-          },
-          {
-            "type": "boolean",
-            "name": "HasVaccinations",
-            "in": "formData",
-            "required": true,
+            "format": "int32",
             "x-nullable": false
           },
           {
-            "type": "string",
-            "name": "Name",
+            "type": "object",
+            "name": "pet",
             "in": "formData",
-            "required": true,
-            "x-nullable": true
-          },
-          {
-            "type": "array",
-            "name": "Images",
-            "in": "formData",
-            "required": true,
-            "x-nullable": true,
-            "collectionFormat": "multi",
-            "items": {
-              "$ref": "#/definitions/Image"
-            }
-          },
-          {
-            "type": "array",
-            "name": "Tags",
-            "in": "formData",
-            "required": true,
-            "x-nullable": true,
-            "collectionFormat": "multi",
-            "items": {
-              "$ref": "#/definitions/Tag"
-            }
-          },
-          {
-            "type": "string",
-            "name": "Status",
-            "in": "formData",
-            "required": true,
+            "x-schema": {
+              "$ref": "#/definitions/Pet"
+            },
             "x-nullable": true
           }
         ],
@@ -302,8 +225,8 @@
             "name": "petId",
             "in": "path",
             "required": true,
-            "x-nullable": false,
-            "format": "int32"
+            "format": "int32",
+            "x-nullable": false
           }
         ],
         "responses": {
@@ -326,59 +249,22 @@
           "Pet"
         ],
         "operationId": "Pet_UploadImage",
+        "consumes": [
+          "multipart/form-data"
+        ],
         "parameters": [
           {
             "type": "integer",
             "name": "petId",
             "in": "path",
             "required": true,
-            "x-nullable": false,
-            "format": "int32"
+            "format": "int32",
+            "x-nullable": false
           },
           {
-            "type": "string",
-            "name": "ContentType",
-            "in": "query",
-            "required": true,
-            "x-nullable": true
-          },
-          {
-            "type": "string",
-            "name": "ContentDisposition",
-            "in": "query",
-            "required": true,
-            "x-nullable": true
-          },
-          {
-            "type": "object",
-            "name": "Headers",
-            "in": "query",
-            "required": true,
-            "x-schema": {
-              "$ref": "#/definitions/IHeaderDictionary"
-            },
-            "x-nullable": true
-          },
-          {
-            "type": "integer",
-            "name": "Length",
-            "in": "query",
-            "required": true,
-            "x-nullable": false,
-            "format": "int64"
-          },
-          {
-            "type": "string",
-            "name": "Name",
-            "in": "query",
-            "required": true,
-            "x-nullable": true
-          },
-          {
-            "type": "string",
-            "name": "FileName",
-            "in": "query",
-            "required": true,
+            "type": "file",
+            "name": "file",
+            "in": "formData",
             "x-nullable": true
           }
         ],
@@ -504,7 +390,6 @@
     },
     "SerializableError": {
       "type": "object",
-      "description": "Defines a serializable container for storing ModelState information.\nThis information is stored as key/value pairs.",
       "additionalProperties": false,
       "allOf": [
         {
@@ -512,23 +397,6 @@
           "additionalProperties": {}
         }
       ]
-    },
-    "IHeaderDictionary": {
-      "type": "object",
-      "description": "Represents HttpRequest and HttpResponse headers",
-      "x-abstract": true,
-      "additionalProperties": false,
-      "required": [
-        "item"
-      ],
-      "properties": {
-        "item": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
     },
     "ApiResponse": {
       "type": "object",
@@ -549,8 +417,5 @@
         }
       }
     }
-  },
-  "parameters": {},
-  "responses": {},
-  "securityDefinitions": {}
+  }
 }

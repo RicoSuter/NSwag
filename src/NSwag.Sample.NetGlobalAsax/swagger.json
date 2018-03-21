@@ -1,9 +1,9 @@
 ﻿{
-  "x-generator": "NSwag v11.15.4.0 (NJsonSchema v9.10.37.0 (Newtonsoft.Json v9.0.0.0))",
+  "x-generator": "NSwag v11.15.4.0 (NJsonSchema v9.10.39.0 (Newtonsoft.Json v9.0.0.0))",
   "swagger": "2.0",
   "info": {
-    "title": "",
-    "version": ""
+    "title": "Web API Swagger specification",
+    "version": "1.0.0"
   },
   "consumes": [
     "application/json"

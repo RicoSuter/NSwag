@@ -1,5 +1,5 @@
 ﻿{
-  "x-generator": "NSwag v11.15.4.0 (NJsonSchema v9.10.29.0 (Newtonsoft.Json v9.0.0.0))",
+  "x-generator": "NSwag v11.15.4.0 (NJsonSchema v9.10.39.0 (Newtonsoft.Json v9.0.0.0))",
   "info": {
     "title": "Web API Swagger specification",
     "version": "1.0.0"
@@ -50,15 +50,15 @@
             "type": "number",
             "name": "Latitude",
             "in": "query",
-            "x-nullable": false,
-            "format": "double"
+            "format": "double",
+            "x-nullable": false
           },
           {
             "type": "number",
             "name": "Longitude",
             "in": "query",
-            "x-nullable": false,
-            "format": "double"
+            "format": "double",
+            "x-nullable": false
           }
         ],
         "responses": {
@@ -106,8 +106,8 @@
             "type": "array",
             "name": "currentStates",
             "in": "query",
-            "x-nullable": true,
             "collectionFormat": "multi",
+            "x-nullable": true,
             "items": {
               "type": "string"
             }
@@ -131,8 +131,8 @@
             "type": "array",
             "name": "values",
             "in": "query",
-            "x-nullable": true,
             "collectionFormat": "multi",
+            "x-nullable": true,
             "items": {
               "type": "string"
             }
@@ -158,7 +158,6 @@
           "Geo"
         ],
         "operationId": "Geo_Refresh",
-        "parameters": [],
         "responses": {
           "204": {
             "description": ""
@@ -208,8 +207,8 @@
             "type": "file",
             "name": "files",
             "in": "formData",
-            "x-nullable": true,
             "collectionFormat": "multi",
+            "x-nullable": true,
             "items": {
               "type": "file"
             }
@@ -265,15 +264,15 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "x-nullable": false,
-            "format": "int32"
+            "format": "int32",
+            "x-nullable": false
           },
           {
             "type": "boolean",
             "name": "override",
             "in": "query",
-            "x-nullable": false,
-            "default": false
+            "default": false,
+            "x-nullable": false
           }
         ],
         "responses": {
@@ -298,8 +297,8 @@
             "type": "number",
             "name": "value",
             "in": "query",
-            "x-nullable": true,
-            "format": "double"
+            "format": "double",
+            "x-nullable": true
           }
         ],
         "responses": {
@@ -320,7 +319,6 @@
           "Persons"
         ],
         "operationId": "Persons_GetAll",
-        "parameters": [],
         "responses": {
           "200": {
             "description": "",
@@ -441,8 +439,8 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "x-nullable": false,
-            "format": "guid"
+            "format": "guid",
+            "x-nullable": false
           }
         ],
         "responses": {
@@ -473,8 +471,8 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "x-nullable": false,
-            "format": "guid"
+            "format": "guid",
+            "x-nullable": false
           }
         ],
         "responses": {
@@ -524,8 +522,8 @@
             "name": "id",
             "in": "query",
             "required": true,
-            "x-nullable": false,
-            "format": "guid"
+            "format": "guid",
+            "x-nullable": false
           }
         ],
         "responses": {
@@ -559,9 +557,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "x-nullable": false,
             "description": "The person ID.",
-            "format": "guid"
+            "format": "guid",
+            "x-nullable": false
           }
         ],
         "responses": {
@@ -858,8 +856,6 @@
       ]
     }
   },
-  "parameters": {},
-  "responses": {},
   "securityDefinitions": {
     "api_key": {
       "type": "apiKey",
