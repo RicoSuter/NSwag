@@ -242,26 +242,26 @@ urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({
 {%         else -%}
 {%             if operation.HasSuccessResponse -%}
                     var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                    throw new {{ ExceptionClass }}("{{ operation.DefaultResponse.ExceptionDescription }}", status_, responseData_, headers_, null);
+                    throw new {{ ExceptionClass }}("{{ operation.DefaultResponse.ExceptionDescription }}", (int)response_.StatusCode, responseData_, headers_, null);
 {%             endif -%}
 {%         endif -%}
 {%     else -%}
                     if (status_ != "200" && status_ != "204")
                     {
                         var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                        throw new {{ ExceptionClass }}("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, headers_, null);
+                        throw new {{ ExceptionClass }}("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                     }
 {%     endif -%}
 {%     if operation.HasResultType -%}
         
 {%         if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" -%}
-                    return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, default({{ operation.UnwrappedResultType }})); 
+                    return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>((int)response_.StatusCode, headers_, default({{ operation.UnwrappedResultType }})); 
 {%         else -%}
                     return default({{ operation.UnwrappedResultType }});
 {%         endif -%}
 {%     elseif operation.WrapResponse -%}
 
-                    return new {{ ResponseClass }}(status_, headers_); 
+                    return new {{ ResponseClass }}((int)response_.StatusCode, headers_); 
 {%     endif -%}
                 }
                 finally
