@@ -733,7 +733,7 @@ namespace NSwag.Integration.ClientPCL
                         if (status_ == "200" || status_ == "206") 
                         {
                             var responseStream_ = await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                            var fileResponse_ = new FileResponse(status_, headers_, responseStream_, null, response_); 
+                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_); 
                             client_ = null; response_ = null; // response and client are disposed by FileResponse
                             return fileResponse_;
                         }

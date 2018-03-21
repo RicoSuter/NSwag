@@ -883,7 +883,7 @@ namespace MyNamespace
         private System.IDisposable _client; 
         private System.IDisposable _response; 
 
-        public string StatusCode { get; private set; }
+        public int StatusCode { get; private set; }
 
         public System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
 
@@ -894,7 +894,7 @@ namespace MyNamespace
             get { return StatusCode == "206"; }
         }
 
-        public FileResponse(string statusCode, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.IO.Stream stream, System.IDisposable client, System.IDisposable response)
+        public FileResponse(int statusCode, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.IO.Stream stream, System.IDisposable client, System.IDisposable response)
         {
             StatusCode = statusCode; 
             Headers = headers; 

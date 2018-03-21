@@ -357,7 +357,7 @@ namespace NSwag.Integration.ClientPCL.Contracts
         private System.IDisposable _client; 
         private System.IDisposable _response; 
 
-        public string StatusCode { get; private set; }
+        public int StatusCode { get; private set; }
 
         public System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
 
@@ -368,7 +368,7 @@ namespace NSwag.Integration.ClientPCL.Contracts
             get { return StatusCode == "206"; }
         }
 
-        public FileResponse(string statusCode, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.IO.Stream stream, System.IDisposable client, System.IDisposable response)
+        public FileResponse(int statusCode, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.IO.Stream stream, System.IDisposable client, System.IDisposable response)
         {
             StatusCode = statusCode; 
             Headers = headers; 
@@ -407,7 +407,7 @@ namespace NSwag.Integration.ClientPCL.Contracts
     {
         public TResult Result { get; private set; }
         
-        public SwaggerResponse(string statusCode, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result) 
+        public SwaggerResponse(int statusCode, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result) 
             : base(statusCode, headers)
         {
             Result = result;
@@ -442,7 +442,7 @@ namespace NSwag.Integration.ClientPCL.Contracts
     {
         public TResult Result { get; private set; }
 
-        public GeoClientException(string message, string statusCode, string response, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result, System.Exception innerException) 
+        public GeoClientException(string message, int statusCode, string response, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result, System.Exception innerException) 
             : base(message, statusCode, response, headers, innerException)
         {
             Result = result;
@@ -477,7 +477,7 @@ namespace NSwag.Integration.ClientPCL.Contracts
     {
         public TResult Result { get; private set; }
 
-        public PersonsClientException(string message, string statusCode, string response, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result, System.Exception innerException) 
+        public PersonsClientException(string message, int statusCode, string response, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result, System.Exception innerException) 
             : base(message, statusCode, response, headers, innerException)
         {
             Result = result;
