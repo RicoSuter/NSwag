@@ -8,6 +8,26 @@ namespace NSwag.Core.Tests.Serialization
     public class ServersSerializationTests
     {
         [Fact]
+        public async Task When_document_is_empty_then_serialized_correctly_in_Swagger()
+        {
+            //// Arrange
+            var document = new SwaggerDocument();
+
+            //// Act
+            var json = document.ToJson(SchemaType.Swagger2);
+
+            //// Assert
+            Assert.Equal(
+@"{
+  ""swagger"": ""2.0"",
+  ""info"": {
+    ""title"": """",
+    ""version"": """"
+  }
+}", json);
+        }
+
+        [Fact]
         public async Task When_schema_is_added_to_definitions_then_it_is_serialized_correctly_in_Swagger()
         {
             //// Arrange
