@@ -202,12 +202,15 @@ namespace NSwag.Commands.SwaggerGeneration
             else if (!string.IsNullOrEmpty(ServiceHost))
                 document.Host = ServiceHost;
 
-            if (!string.IsNullOrEmpty(InfoTitle))
-                document.Info.Title = InfoTitle;
-            if (!string.IsNullOrEmpty(InfoVersion))
-                document.Info.Version = InfoVersion;
-            if (!string.IsNullOrEmpty(InfoDescription))
-                document.Info.Description = InfoDescription;
+            if (string.IsNullOrEmpty(DocumentTemplate))
+            {
+                if (!string.IsNullOrEmpty(InfoTitle))
+                    document.Info.Title = InfoTitle;
+                if (!string.IsNullOrEmpty(InfoVersion))
+                    document.Info.Version = InfoVersion;
+                if (!string.IsNullOrEmpty(InfoDescription))
+                    document.Info.Description = InfoDescription;
+            }
 
             if (ServiceSchemes != null && ServiceSchemes.Any())
                 document.Schemes = ServiceSchemes.Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true)).ToList();
@@ -264,11 +267,11 @@ namespace NSwag.Commands.SwaggerGeneration
             return PathUtilities.ExpandFileWildcards(AssemblyPaths)
                 .Select(Assembly.LoadFrom)
 #else
-                var currentDirectory = DynamicApis.DirectoryGetCurrentDirectoryAsync().GetAwaiter().GetResult();
-                return PathUtilities.ExpandFileWildcards(AssemblyPaths)
-                    .Select(p => assemblyLoader.Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(p, currentDirectory)))
+            var currentDirectory = DynamicApis.DirectoryGetCurrentDirectoryAsync().GetAwaiter().GetResult();
+            return PathUtilities.ExpandFileWildcards(AssemblyPaths)
+                .Select(p => assemblyLoader.Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(p, currentDirectory)))
 #endif
-                    .SelectMany(WebApiToSwaggerGenerator.GetControllerClasses)
+                .SelectMany(WebApiToSwaggerGenerator.GetControllerClasses)
                 .Select(t => t.FullName)
                 .OrderBy(c => c)
                 .ToArray();

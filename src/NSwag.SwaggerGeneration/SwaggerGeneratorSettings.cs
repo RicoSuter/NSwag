@@ -23,7 +23,7 @@ namespace NSwag.SwaggerGeneration
         }
 
         /// <summary>Gets or sets the Swagger specification title.</summary>
-        public string Title { get; set; } = "Web API Swagger specification";
+        public string Title { get; set; } = "My Title";
 
         /// <summary>Gets or sets the Swagger specification description.</summary>
         public string Description { get; set; }
