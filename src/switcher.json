@@ -1,1 +1,21 @@
-{"solution":"NSwag.sln","mappings":{"NJsonSchema":{"version":"9.3.1","path":"../../NJsonSchema/src/NJsonSchema/NJsonSchema.csproj"},"NJsonSchema.CodeGeneration":{"version":"9.3.1","path":"../../NJsonSchema/src/NJsonSchema.CodeGeneration/NJsonSchema.CodeGeneration.csproj"},"NJsonSchema.CodeGeneration.CSharp":{"version":"9.3.1","path":"../../NJsonSchema/src/NJsonSchema.CodeGeneration.CSharp/NJsonSchema.CodeGeneration.CSharp.csproj"},"NJsonSchema.CodeGeneration.TypeScript":{"version":"9.3.1","path":"../../NJsonSchema/src/NJsonSchema.CodeGeneration.TypeScript/NJsonSchema.CodeGeneration.TypeScript.csproj"}}}
+{
+  "solution": "NSwag.Min.sln",
+  "mappings": {
+    "NJsonSchema": {
+      "version": "9.10.35",
+      "path": "../../NJsonSchema/src/NJsonSchema/NJsonSchema.csproj"
+    },
+    "NJsonSchema.CodeGeneration": {
+      "version": "9.10.35",
+      "path": "../../NJsonSchema/src/NJsonSchema.CodeGeneration/NJsonSchema.CodeGeneration.csproj"
+    },
+    "NJsonSchema.CodeGeneration.CSharp": {
+      "version": "9.10.35",
+      "path": "../../NJsonSchema/src/NJsonSchema.CodeGeneration.CSharp/NJsonSchema.CodeGeneration.CSharp.csproj"
+    },
+    "NJsonSchema.CodeGeneration.TypeScript": {
+      "version": "9.10.35",
+      "path": "../../NJsonSchema/src/NJsonSchema.CodeGeneration.TypeScript/NJsonSchema.CodeGeneration.TypeScript.csproj"
+    }
+  }
+}

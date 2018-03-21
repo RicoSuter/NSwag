@@ -9,6 +9,7 @@
 using System.Collections;
 using System.Reflection;
 using Newtonsoft.Json;
+using NSwag.SwaggerGeneration;
 
 #if AspNetOwin
 namespace NSwag.AspNet.Owin
@@ -17,7 +18,8 @@ namespace NSwag.AspNetCore
 #endif
 {
     /// <summary>The settings for UseSwaggerUi3.</summary>
-    public class SwaggerUi3Settings : SwaggerUiSettingsBase
+    public class SwaggerUi3Settings<T> : SwaggerUiSettingsBase<T>
+        where T : SwaggerGeneratorSettings, new()
     {
         /// <summary>Gets or sets a value indicating whether the Swagger specification should be validated.</summary>
         public bool ValidateSpecification { get; set; } = false;

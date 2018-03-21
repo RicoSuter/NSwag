@@ -2,29 +2,15 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NJsonSchema;
+using Xunit;
 
-namespace NSwag.Tests.Specification
+namespace NSwag.Core.Tests
 {
-    [TestClass]
-    public class GeneralTests
+    public class DocumentLoadingTests
     {
-        [TestMethod]
-        public async Task When_Swagger_is_loaded_from_url_then_it_works()
-        {
-            //// Arrange
-
-
-            //// Act
-            var document = await SwaggerDocument.FromUrlAsync("http://petstore.swagger.io/v2/swagger.json");
-
-            //// Assert
-            Assert.IsNotNull(document);
-        }
-
-        [TestMethod]
-        public async Task WhenConvertingAndBackThenItShouldBeTheSame()
+        [Fact]
+        public async Task When_document_contains_readOnly_properties_then_they_are_correctly_loaded()
         {
             //// Arrange
             var json = _sampleServiceCode;
@@ -35,16 +21,16 @@ namespace NSwag.Tests.Specification
             var reference = document.Paths["/pets"][SwaggerOperationMethod.Get].ActualResponses["200"].Schema.Item.Reference;
 
             //// Assert
-            Assert.IsNotNull(json2);
-            Assert.IsNotNull(reference);
-            Assert.AreEqual(3, reference.Properties.Count);
-            Assert.IsTrue(document.Definitions["Pet"].Properties["id"].IsReadOnly);
-            Assert.IsFalse(json2.Contains(@"""readonly"""));
-            Assert.IsTrue(json2.Contains(@"""readOnly"""));
+            Assert.NotNull(json2);
+            Assert.NotNull(reference);
+            Assert.Equal(3, reference.Properties.Count);
+            Assert.True(document.Definitions["Pet"].Properties["id"].IsReadOnly);
+            Assert.DoesNotContain(@"""readonly""", json2);
+            Assert.Contains(@"""readOnly""", json2);
         }
 
-        [TestMethod]
-        public async Task WhenGeneratingOperationIdsThenMissingIdsAreGenerated()
+        [Fact]
+        public async Task When_generating_operation_ids_then_missing_ids_are_generated()
         {
             //// Arrange
             var json = _sampleServiceCode;
@@ -54,11 +40,11 @@ namespace NSwag.Tests.Specification
             document.GenerateOperationIds();
 
             //// Assert
-            Assert.AreEqual("pets", document.Operations.First().Operation.OperationId);
+            Assert.Equal("pets", document.Operations.First().Operation.OperationId);
         }
 
-        [TestMethod]
-        public async Task ExtensionDataTest()
+        [Fact]
+        public async Task When_json_has_extension_data_then_it_is_loaded()
         {
             //// Arrange
             var json = _jsonVendorExtensionData;
@@ -67,10 +53,10 @@ namespace NSwag.Tests.Specification
             var document = await SwaggerDocument.FromJsonAsync(json);
 
             //// Assert
-            Assert.IsNotNull(document.Operations.First().Operation.ActualResponses["202"].ExtensionData);
+            Assert.NotNull(document.Operations.First().Operation.ActualResponses["202"].ExtensionData);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_locale_is_not_english_then_types_are_correctly_serialized()
         {
             // https://github.com/NSwag/NSwag/issues/518
@@ -89,7 +75,7 @@ namespace NSwag.Tests.Specification
             var j = document.ToJson();
 
             //// Assert
-            Assert.AreEqual(JsonObjectType.Integer, document.Definitions["Pet"].Properties["id"].Type);
+            Assert.Equal(JsonObjectType.Integer, document.Definitions["Pet"].Properties["id"].Type);
         }
 
         private string _sampleServiceCode = 
@@ -144,7 +130,7 @@ namespace NSwag.Tests.Specification
         ""id"": {
           ""type"": ""integer"",
           ""format"": ""int64"",
-          ""readOnly"": ""true""
+          ""x-readOnly"": ""true""
         },
         ""name"": {
           ""type"": ""string""
@@ -276,8 +262,5 @@ namespace NSwag.Tests.Specification
     }
   }
 }";
-
-
-
     }
 }

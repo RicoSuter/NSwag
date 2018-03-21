@@ -16,7 +16,7 @@ namespace NSwag.Annotations
     public class SwaggerOperationProcessorAttribute : Attribute
     {
         /// <summary>Initializes a new instance of the <see cref="SwaggerOperationProcessorAttribute"/> class.</summary>
-        /// <param name="type">The type.</param>
+        /// <param name="type">The operation processor type (must implement IOperationProcessor).</param>
         /// <param name="parameters">The parameters.</param>
         public SwaggerOperationProcessorAttribute(Type type, params object[] parameters)
         {

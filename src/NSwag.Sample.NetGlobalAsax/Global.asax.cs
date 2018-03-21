@@ -4,7 +4,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using NSwag.AspNet.Owin;
 
-namespace NSwag.Sample.NetOwin
+namespace NSwag.Sample.NetGlobalAsax
 {
     public class WebApiApplication : System.Web.HttpApplication
     {
@@ -12,10 +12,10 @@ namespace NSwag.Sample.NetOwin
         {
             RouteTable.Routes.MapOwinPath("swagger", app =>
             {
-                app.UseSwaggerUi(typeof(WebApiApplication).Assembly, new SwaggerUiSettings
+                app.UseSwaggerReDoc(typeof(WebApiApplication).Assembly, s =>
                 {
-                    DefaultUrlTemplate = "api/{controller}/{id}",
-                    MiddlewareBasePath = "/swagger"
+                    s.GeneratorSettings.DefaultUrlTemplate = "api/{controller}/{id}";
+                    s.MiddlewareBasePath = "/swagger";
                 });
             });
 

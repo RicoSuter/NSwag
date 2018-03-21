@@ -44,7 +44,7 @@ namespace {{ Namespace }}
         private System.IDisposable _client; 
         private System.IDisposable _response; 
 
-        public string StatusCode { get; private set; }
+        public int StatusCode { get; private set; }
 
         public System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
 
@@ -52,10 +52,10 @@ namespace {{ Namespace }}
 
         public bool IsPartial
         {
-            get { return StatusCode == "206"; }
+            get { return StatusCode == 206; }
         }
 
-        public FileResponse(string statusCode, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.IO.Stream stream, System.IDisposable client, System.IDisposable response)
+        public FileResponse(int statusCode, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.IO.Stream stream, System.IDisposable client, System.IDisposable response)
         {
             StatusCode = statusCode; 
             Headers = headers; 
@@ -81,11 +81,11 @@ namespace {{ Namespace }}
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
     public partial class {{ responseClassName }}
     {
-        public string StatusCode { get; private set; }
+        public int StatusCode { get; private set; }
 
         public System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
         
-        public {{ responseClassName }}(string statusCode, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers) 
+        public {{ responseClassName }}(int statusCode, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers) 
         {
             StatusCode = statusCode; 
             Headers = headers;
@@ -97,7 +97,7 @@ namespace {{ Namespace }}
     {
         public TResult Result { get; private set; }
         
-        public {{ responseClassName }}(string statusCode, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result) 
+        public {{ responseClassName }}(int statusCode, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result) 
             : base(statusCode, headers)
         {
             Result = result;
@@ -111,13 +111,13 @@ namespace {{ Namespace }}
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
     public partial class {{ exceptionClassName }} : System.Exception
     {
-        public string StatusCode { get; private set; }
+        public int StatusCode { get; private set; }
 
         public string Response { get; private set; }
 
         public System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
 
-        public {{ exceptionClassName }}(string message, string statusCode, string response, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Exception innerException) 
+        public {{ exceptionClassName }}(string message, int statusCode, string response, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Exception innerException) 
             : base(message, innerException)
         {
             StatusCode = statusCode;
@@ -136,7 +136,7 @@ namespace {{ Namespace }}
     {
         public TResult Result { get; private set; }
 
-        public {{ exceptionClassName }}(string message, string statusCode, string response, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result, System.Exception innerException) 
+        public {{ exceptionClassName }}(string message, int statusCode, string response, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result, System.Exception innerException) 
             : base(message, statusCode, response, headers, innerException)
         {
             Result = result;

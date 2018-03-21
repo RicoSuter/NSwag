@@ -7,7 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System.Collections.Generic;
-using NJsonSchema.CodeGeneration;
+using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag.CodeGeneration.Models;
 
 namespace NSwag.CodeGeneration.TypeScript.Models
@@ -27,7 +27,8 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <param name="generator">The client generator base.</param>
         public TypeScriptParameterModel(string parameterName, string variableName, string typeName, SwaggerParameter parameter,
             IList<SwaggerParameter> allParameters, SwaggerToTypeScriptClientGeneratorSettings settings, SwaggerToTypeScriptClientGenerator generator)
-            : base(parameterName, variableName, typeName, parameter, allParameters, settings.TypeScriptGeneratorSettings, generator)
+            : base(parameterName, variableName, typeName, parameter, allParameters, settings.TypeScriptGeneratorSettings, generator,
+                new TypeScriptValueGenerator(new TypeScriptTypeResolver(settings.TypeScriptGeneratorSettings), settings.TypeScriptGeneratorSettings))
         {
             _settings = settings;
         }

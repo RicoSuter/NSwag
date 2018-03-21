@@ -1,7 +1,7 @@
-﻿using NSwag.Annotations;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using NSwag.Annotations;
 
-namespace NSwag.Sample.NetOwin.Controllers
+namespace NSwag.Sample.NetGlobalAsax.Controllers
 {
     [SwaggerIgnore]
     public class HomeController : Controller

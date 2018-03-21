@@ -2,12 +2,12 @@
 {%     if response.IsFile -%}
 {%         if response.IsSuccess -%}
 var responseStream_ = await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-var fileResponse_ = new FileResponse(status_, headers_, responseStream_, {% if InjectHttpClient %}null{% else %}client_{% endif %}, response_); 
+var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, {% if InjectHttpClient %}null{% else %}client_{% endif %}, response_); 
 client_ = null; response_ = null; // response and client are disposed by FileResponse
 return fileResponse_;
 {%         else -%}
 var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-throw new {{ ExceptionClass }}("{{ response.ExceptionDescription }}", status_, responseData_, headers_, null);
+throw new {{ ExceptionClass }}("{{ response.ExceptionDescription }}", (int)response_.StatusCode, responseData_, headers_, null);
 {%         endif -%}
 {%     else -%}
 var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
@@ -17,7 +17,7 @@ try
     result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<{{ response.Type }}>(responseData_, _settings.Value);
 {%         if response.IsSuccess -%}
 {%             if operation.WrapResponse -%}
-    return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, result_); 
+    return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>((int)response_.StatusCode, headers_, result_); 
 {%             else -%}
     return result_; 
 {%             endif -%}
@@ -25,7 +25,7 @@ try
 } 
 catch (System.Exception exception_) 
 {
-    throw new {{ ExceptionClass }}("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+    throw new {{ ExceptionClass }}("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
 }
 {%         if response.IsSuccess == false -%}
 {%             if response.InheritsExceptionSchema -%}
@@ -35,30 +35,30 @@ result_.Data.Add("HttpStatus", status_);
 result_.Data.Add("HttpHeaders", headers_);
 result_.Data.Add("HttpResponse", responseData_);
 {%                 if WrapDtoExceptions -%}
-throw new {{ ExceptionClass }}<{{ response.Type }}>("{{ response.ExceptionDescription }}", status_, responseData_, headers_, result_, result_);
+throw new {{ ExceptionClass }}<{{ response.Type }}>("{{ response.ExceptionDescription }}", (int)response_.StatusCode, responseData_, headers_, result_, result_);
 {%                 else -%}
 throw result_;
 {%                 endif -%}
 {%             else -%}
-throw new {{ ExceptionClass }}<{{ response.Type }}>("{{ response.ExceptionDescription }}", status_, responseData_, headers_, result_, null);
+throw new {{ ExceptionClass }}<{{ response.Type }}>("{{ response.ExceptionDescription }}", (int)response_.StatusCode, responseData_, headers_, result_, null);
 {%             endif -%}
 {%         endif -%}
 {%     endif -%}
 {% elseif response.IsSuccess -%}
 {%     if operation.HasResultType -%}
 {%         if operation.WrapResponse -%}
-return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, default({{ operation.UnwrappedResultType }})); 
+return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>((int)response_.StatusCode, headers_, default({{ operation.UnwrappedResultType }})); 
 {%         else -%}
 return default({{ operation.UnwrappedResultType }});
 {%         endif -%}
 {%     else -%}
 {%         if operation.WrapResponse -%}
-return new {{ ResponseClass }}(status_, headers_); 
+return new {{ ResponseClass }}((int)response_.StatusCode, headers_); 
 {%         else -%}
 return;
 {%         endif -%}
 {%     endif -%}
 {% else -%}
 var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-throw new {{ ExceptionClass }}("{{ response.ExceptionDescription }}", status_, responseData_, headers_, null);
+throw new {{ ExceptionClass }}("{{ response.ExceptionDescription }}", (int)response_.StatusCode, responseData_, headers_, null);
 {% endif -%}

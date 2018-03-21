@@ -3,7 +3,7 @@
   "swaggerGenerator": {
     "webApiToSwagger": {
       "controllerNames": [
-        "NSwag.Sample.NetOwin.Controllers.ValuesController"
+        "NSwag.Sample.NetGlobalAsax.Controllers.ValuesController"
       ],
       "isAspNetCore": false,
       "defaultUrlTemplate": "api/{controller}/{id?}",

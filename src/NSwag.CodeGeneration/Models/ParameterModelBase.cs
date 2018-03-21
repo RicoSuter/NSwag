@@ -20,6 +20,7 @@ namespace NSwag.CodeGeneration.Models
         private readonly IList<SwaggerParameter> _allParameters;
         private readonly CodeGeneratorSettingsBase _settings;
         private readonly IClientGenerator _generator;
+        private readonly ValueGeneratorBase _valueGenerator;
 
         /// <summary>Initializes a new instance of the <see cref="ParameterModelBase" /> class.</summary>
         /// <param name="parameterName">Name of the parameter.</param>
@@ -29,17 +30,20 @@ namespace NSwag.CodeGeneration.Models
         /// <param name="allParameters">All parameters.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="generator">The client generator base.</param>
+        /// <param name="valueGenerator">Settings used to generate default values.</param>
         protected ParameterModelBase(string parameterName, string variableName, string typeName,
-            SwaggerParameter parameter, IList<SwaggerParameter> allParameters, CodeGeneratorSettingsBase settings, IClientGenerator generator)
+            SwaggerParameter parameter, IList<SwaggerParameter> allParameters, CodeGeneratorSettingsBase settings,
+            IClientGenerator generator, ValueGeneratorBase valueGenerator)
         {
-            Type = typeName;
-            Name = parameterName;
-            VariableName = variableName;
-
             _allParameters = allParameters;
             _parameter = parameter;
             _settings = settings;
             _generator = generator;
+            _valueGenerator = valueGenerator;
+
+            Type = typeName;
+            Name = parameterName;
+            VariableName = variableName;
         }
 
         /// <summary>Gets the type of the parameter.</summary>
@@ -50,6 +54,13 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets the variable name in (usually lowercase).</summary>
         public string VariableName { get; }
+
+        /// <summary>Gets a value indicating whether a default value is available.</summary>
+        public bool HasDefault => Default != null;
+
+        /// <summary>The default value for the variable.</summary>
+        public string Default => !_parameter.IsRequired && _parameter.Default != null ?
+            _valueGenerator?.GetDefaultValue(_parameter, false, _parameter.ActualTypeSchema.Id, null, true) : null;
 
         /// <summary>Gets the parameter kind.</summary>
         public SwaggerParameterKind Kind => _parameter.Kind;
@@ -107,8 +118,8 @@ namespace NSwag.CodeGeneration.Models
             _generator.GetTypeName(Schema.Item.ActualSchema, IsNullable, "Response") != "string";
 
         /// <summary>Gets a value indicating whether the parameter is of type object array.</summary>
-        public bool IsObjectArray => IsArray && 
-            (Schema.Item?.ActualSchema.Type == JsonObjectType.Object || 
+        public bool IsObjectArray => IsArray &&
+            (Schema.Item?.ActualSchema.Type == JsonObjectType.Object ||
              Schema.Item?.ActualSchema.IsAnyType == true);
 
         /// <summary>Gets a value indicating whether the parameter is of type object.</summary>

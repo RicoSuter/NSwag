@@ -42,7 +42,7 @@ namespace NSwag_Sample_NetCoreAurelia
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, new SwaggerUiSettings());
+            app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly);
 
             if (env.IsDevelopment())
             {

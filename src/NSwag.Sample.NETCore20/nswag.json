@@ -2,12 +2,10 @@
   "runtime": "NetCore20",
   "swaggerGenerator": {
     "webApiToSwagger": {
-      "controllerNames": [
-        "NSwag.Sample.NETCore20.Controllers.ValuesController"
-      ],
+      "controllerNames": [],
       "isAspNetCore": true,
       "defaultUrlTemplate": "api/{controller}/{id?}",
-      "defaultPropertyNameHandling": "Default",
+      "defaultPropertyNameHandling": "CamelCase",
       "defaultReferenceTypeNullHandling": "Null",
       "defaultEnumHandling": "Integer",
       "flattenInheritanceHierarchy": false,
