@@ -77,6 +77,7 @@ namespace NSwag.AspNetCore
         /// <param name="app">The app.</param>
         /// <param name="configure">Configure the Swagger settings.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
+        [Obsolete("API Explorer support is experimental and the output may change until it's stable.")]
         public static IApplicationBuilder UseSwaggerWithApiExplorer(
             this IApplicationBuilder app,
             Action<SwaggerSettings<AspNetCoreToSwaggerGeneratorSettings>> configure = null,
@@ -174,6 +175,7 @@ namespace NSwag.AspNetCore
         /// <param name="configure">Configure the Swagger settings.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
         /// <returns>The app builder.</returns>
+        [Obsolete("API Explorer support is experimental and the output may change until it's stable.")]
         public static IApplicationBuilder UseSwaggerUiWithApiExplorer(
             this IApplicationBuilder app,
             Action<SwaggerUiSettings<AspNetCoreToSwaggerGeneratorSettings>> configure = null,
@@ -270,6 +272,7 @@ namespace NSwag.AspNetCore
         /// <param name="configure">Configure the Swagger settings.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
         /// <returns>The app builder.</returns>
+        [Obsolete("API Explorer support is experimental and the output may change until it's stable.")]
         public static IApplicationBuilder UseSwaggerUi3WithApiExplorer(
             this IApplicationBuilder app,
             Action<SwaggerUiSettings<AspNetCoreToSwaggerGeneratorSettings>> configure = null,
@@ -366,6 +369,7 @@ namespace NSwag.AspNetCore
         /// <param name="configure">Configure the Swagger settings.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
         /// <returns>The app builder.</returns>
+        [Obsolete("API Explorer support is experimental and the output may change until it's stable.")]
         public static IApplicationBuilder UseSwaggerReDocWithApiExplorer(
             this IApplicationBuilder app,
             Action<SwaggerUiSettings<AspNetCoreToSwaggerGeneratorSettings>> configure = null,
