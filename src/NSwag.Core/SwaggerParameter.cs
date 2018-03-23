@@ -47,6 +47,7 @@ namespace NSwag
         public override JsonSchema4 ActualSchema => Schema?.ActualSchema ?? CustomSchema?.ActualSchema ?? base.ActualSchema; // TODO: Use/override ActualTypeSchema?
 
         /// <summary>Gets the actual parameter.</summary>
+        [JsonIgnore]
         public SwaggerParameter ActualParameter => Reference is SwaggerParameter ? (SwaggerParameter)Reference : this;
 
         /// <summary>Gets or sets the format of the array if type array is used.</summary>
