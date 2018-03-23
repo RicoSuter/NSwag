@@ -38,7 +38,7 @@ namespace NSwag
                 foreach (var response in Responses.Values)
                     response.Parent = this;
             };
-            Responses = responses; 
+            Responses = responses;
         }
 
         /// <summary>Gets the parent operations list.</summary>
@@ -87,8 +87,9 @@ namespace NSwag
         {
             get
             {
-                var allParameters = Parent?.Parameters == null ? Parameters :
-                    Parameters.Concat(Parent.Parameters)
+                var parameters = Parameters.Select(p => (SwaggerParameter)p.ActualSchema);
+                var allParameters = Parent?.Parameters == null ? parameters :
+                    parameters.Concat(Parent.Parameters)
                     .GroupBy(p => p.Name + "|" + p.Kind)
                     .Select(p => p.First());
 

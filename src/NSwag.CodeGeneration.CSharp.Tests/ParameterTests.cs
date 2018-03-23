@@ -110,7 +110,92 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             //// Act
             var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
             var code = generator.GenerateFile();
+
+            //// Assert
             Assert.IsTrue(code.Contains("RemoveElementAsync(string x_User, System.Collections.Generic.IEnumerable<long> elementId, string secureToken)"));          
+        }
+
+        [TestMethod]
+        public void When_swagger_contains_optional_parameters_then_they_are_rendered_in_CSharp()
+        {
+            //// Arrange
+            var swagger = @"{
+   ""paths"":{
+      ""/journeys"":{
+         ""get"":{
+            ""tags"":[
+               ""CheckIn""
+            ],
+            ""summary"":""Retrieve journeys"",
+            ""operationId"":""retrieveJourneys"",
+            ""description"":"""",
+            ""parameters"":[
+               {
+                  ""$ref"":""#/parameters/lastName""
+               },
+               {
+                  ""$ref"":""#/parameters/optionalOrderId""
+               },
+               {
+                  ""$ref"":""#/parameters/eTicketNumber""
+               },
+               {
+                  ""$ref"":""#/parameters/optionalFrequentFlyerCardId""
+               },
+               {
+                  ""$ref"":""#/parameters/optionalDepartureDate""
+               },
+               {
+                  ""$ref"":""#/parameters/optionalOriginLocationCode""
+               }
+            ],
+            ""responses"": {}
+         }
+      }
+   },
+   ""parameters"":{
+      ""lastName"":{
+         ""name"":""lastName"",
+         ""type"":""string"",
+         ""required"":true
+      },
+      ""optionalOrderId"":{
+         ""name"":""optionalOrderId"",
+         ""type"":""string"",
+         ""required"":false
+      },
+      ""eTicketNumber"":{
+         ""name"":""eTicketNumber"",
+         ""type"":""string"",
+         ""required"":false
+      },
+      ""optionalFrequentFlyerCardId"":{
+         ""name"":""optionalFrequentFlyerCardId"",
+         ""type"":""string"",
+         ""required"":false
+      },
+      ""optionalDepartureDate"":{
+         ""name"":""optionalDepartureDate"",
+         ""type"":""string"",
+         ""required"":false
+      },
+      ""optionalOriginLocationCode"":{
+         ""name"":""optionalOriginLocationCode"",
+         ""type"":""string"",
+         ""required"":false
+      }
+   }
+}";
+
+            var document = SwaggerDocument.FromJsonAsync(swagger).Result;
+
+            //// Act
+            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+            var code = generator.GenerateFile();
+
+            //// Assert
+            Assert.IsTrue(code.Contains("lastName"));
+            Assert.IsTrue(code.Contains("optionalOrderId"));
         }
     }
 }
