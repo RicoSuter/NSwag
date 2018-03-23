@@ -87,7 +87,7 @@ namespace NSwag
         {
             get
             {
-                var parameters = Parameters.Select(p => (SwaggerParameter)p.ActualSchema);
+                var parameters = Parameters.Select(p => p.ActualParameter);
                 var allParameters = Parent?.Parameters == null ? parameters :
                     parameters.Concat(Parent.Parameters)
                     .GroupBy(p => p.Name + "|" + p.Kind)
