@@ -49,6 +49,7 @@ namespace NSwag
                 resolver.IgnoreProperty(typeof(SwaggerDocument), "responses");
                 resolver.IgnoreProperty(typeof(SwaggerDocument), "securityDefinitions");
 
+                resolver.IgnoreProperty(typeof(SwaggerResponse), "schema");
                 resolver.IgnoreProperty(typeof(SwaggerResponse), "examples");
             }
             else if (schemaType == SchemaType.Swagger2)
@@ -67,6 +68,9 @@ namespace NSwag
 
                 resolver.IgnoreProperty(typeof(SwaggerDocument), "components");
                 resolver.IgnoreProperty(typeof(SwaggerParameter), "examples");
+
+                resolver.IgnoreProperty(typeof(SwaggerResponse), "content");
+                resolver.IgnoreProperty(typeof(SwaggerResponse), "links");
             }
 
             return resolver;
@@ -159,6 +163,6 @@ namespace NSwag
 
         /// <summary>Gets or sets the security definitions (Swagger only).</summary>
         [JsonProperty(PropertyName = "securityDefinitions", Order = 16, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public Dictionary<string, SwaggerSecurityScheme> SecurityDefinitions => Components.SecuritySchemes;
+        public IDictionary<string, SwaggerSecurityScheme> SecurityDefinitions => Components.SecuritySchemes;
     }
 }
