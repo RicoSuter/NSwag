@@ -47,7 +47,7 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
             body: content_,
 {%     endif -%}
             method: "{{ operation.HttpMethodUpper | upcase }}",
-            headers: new Headers({
+            headers: {
 {%     for parameter in operation.HeaderParameters -%}
                 "{{ parameter.Name }}": {{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null ? "" + {{ parameter.VariableName }} : "", 
 {%     endfor -%}
@@ -57,7 +57,7 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
 {%     if operation.HasResultType and operation.HasAcceptHeaderParameterParameter == false -%}
                 "Accept": "{{ operation.Produces }}"
 {%     endif -%}
-            })
+            }
         };
 
 {%     if UseTransformOptionsMethod -%}
