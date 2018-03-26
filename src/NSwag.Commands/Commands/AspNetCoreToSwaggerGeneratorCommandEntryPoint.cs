@@ -8,11 +8,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using NSwag.SwaggerGeneration.AspNetCore;
 using NSwag.SwaggerGeneration.Processors;
 
-namespace NSwag.SwaggerGeneration.AspNetCore
+namespace NSwag.Commands
 {
-    /// <summary>An entry point for the aspnetcore2swagger command.</summary>
+    /// <summary>In-process entry point for the aspnetcore2swagger command.</summary>
     internal class AspNetCoreToSwaggerGeneratorCommandEntryPoint
     {
         public static void Process(string settingsData)
