@@ -49,8 +49,14 @@ namespace NSwag.CodeGeneration.CSharp.Models
             _resolver = resolver;
 
             var parameters = _operation.ActualParameters.ToList();
+
             if (settings.GenerateOptionalParameters)
-                parameters = parameters.OrderBy(p => !p.IsRequired).ToList();
+            {
+                if (generator is SwaggerToCSharpControllerGenerator)
+                    parameters = parameters.OrderBy(p => !p.IsRequired).ThenBy(p => p.Default == null).ToList();
+                else
+                    parameters = parameters.OrderBy(p => !p.IsRequired).ToList();
+            }
 
             Parameters = parameters.Select(parameter =>
                 new CSharpParameterModel(parameter.Name, GetParameterVariableName(parameter, _operation.Parameters),

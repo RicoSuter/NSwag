@@ -7,9 +7,12 @@ namespace NSwag.AspNetCore.Launcher
 {
     internal class Program
     {
-        private const string EntryPointType = "NSwag.SwaggerGeneration.AspNetCore.AspNetCoreToSwaggerGeneratorCommandEntryPoint";
-        private static readonly AssemblyName AspNetCoreSwaggerGenerationAssembly = new AssemblyName("NSwag.SwaggerGeneration.AspNetCore");
+        // Used to load NSwag.Commands into a process running with the app's dependency context
+        private const string EntryPointType = "NSwag.Commands.AspNetCoreToSwaggerGeneratorCommandEntryPoint";
+        private static readonly AssemblyName CommandsAssemblyName = new AssemblyName("NSwag.Commands");
+
         private static readonly Version NSwagVersion = typeof(Program).GetTypeInfo().Assembly.GetName().Version;
+
         // List of assemblies and versions referenced by NSwag.SwaggerGeneration.AspNetCore. This represents the minimum versions
         // required to successfully run the tool.
         private static readonly Dictionary<string, AssemblyLoadInfo> NSwagReferencedAssemblies = new Dictionary<string, AssemblyLoadInfo>(StringComparer.OrdinalIgnoreCase)
@@ -43,6 +46,7 @@ namespace NSwag.AspNetCore.Launcher
             ["Newtonsoft.Json"] = new AssemblyLoadInfo(new Version(9, 0, 0)),
             ["NJsonSchema"] = new AssemblyLoadInfo(new Version(9, 7, 7)),
             ["NSwag.AssemblyLoader"] = new AssemblyLoadInfo(NSwagVersion),
+            ["NSwag.Commands"] = new AssemblyLoadInfo(NSwagVersion),
             ["NSwag.Core"] = new AssemblyLoadInfo(NSwagVersion),
             ["NSwag.SwaggerGeneration.AspNetCore"] = new AssemblyLoadInfo(NSwagVersion),
             ["NSwag.SwaggerGeneration"] = new AssemblyLoadInfo(NSwagVersion),
@@ -87,7 +91,7 @@ namespace NSwag.AspNetCore.Launcher
                     throw new InvalidOperationException($"Referenced assembly '{assemblyName}' was not found in {toolsDirectory}.");
                 return context.LoadFromAssemblyPath(assemblyLocation);
             };
-            var assembly = loadContext.LoadFromAssemblyName(AspNetCoreSwaggerGenerationAssembly);
+            var assembly = loadContext.LoadFromAssemblyName(CommandsAssemblyName);
 #else
             AppDomain.CurrentDomain.AssemblyResolve += (source, eventArgs) =>
             {
@@ -106,7 +110,7 @@ namespace NSwag.AspNetCore.Launcher
                 return Assembly.LoadFile(assemblyLocation);
             };
 
-            var assembly = Assembly.Load(AspNetCoreSwaggerGenerationAssembly);
+            var assembly = Assembly.Load(CommandsAssemblyName);
 #endif
 
             var type = assembly.GetType(EntryPointType, throwOnError: true);

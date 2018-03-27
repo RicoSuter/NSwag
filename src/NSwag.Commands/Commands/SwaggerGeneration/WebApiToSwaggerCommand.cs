@@ -148,21 +148,21 @@ namespace NSwag.Commands.SwaggerGeneration
         [Argument(Name = "ServiceSchemes", IsRequired = false, Description = "Overrides the allowed schemes of the web service (optional, comma separated, 'http', 'https', 'ws', 'wss').")]
         public string[] ServiceSchemes { get; set; }
 
-        [Argument(Name = "InfoTitle", IsRequired = false, Description = "Specify the title of the Swagger specification.")]
+        [Argument(Name = "InfoTitle", IsRequired = false, Description = "Specify the title of the Swagger specification (ignored when DocumentTemplate is set).")]
         public string InfoTitle
         {
             get { return Settings.Title; }
             set { Settings.Title = value; }
         }
 
-        [Argument(Name = "InfoDescription", IsRequired = false, Description = "Specify the description of the Swagger specification.")]
+        [Argument(Name = "InfoDescription", IsRequired = false, Description = "Specify the description of the Swagger specification (ignored when DocumentTemplate is set).")]
         public string InfoDescription
         {
             get { return Settings.Description; }
             set { Settings.Description = value; }
         }
 
-        [Argument(Name = "InfoVersion", IsRequired = false, Description = "Specify the version of the Swagger specification (default: 1.0.0).")]
+        [Argument(Name = "InfoVersion", IsRequired = false, Description = "Specify the version of the Swagger specification (default: 1.0.0, ignored when DocumentTemplate is set).")]
         public string InfoVersion
         {
             get { return Settings.Version; }
@@ -202,12 +202,15 @@ namespace NSwag.Commands.SwaggerGeneration
             else if (!string.IsNullOrEmpty(ServiceHost))
                 document.Host = ServiceHost;
 
-            if (!string.IsNullOrEmpty(InfoTitle))
-                document.Info.Title = InfoTitle;
-            if (!string.IsNullOrEmpty(InfoVersion))
-                document.Info.Version = InfoVersion;
-            if (!string.IsNullOrEmpty(InfoDescription))
-                document.Info.Description = InfoDescription;
+            if (string.IsNullOrEmpty(DocumentTemplate))
+            {
+                if (!string.IsNullOrEmpty(InfoTitle))
+                    document.Info.Title = InfoTitle;
+                if (!string.IsNullOrEmpty(InfoVersion))
+                    document.Info.Version = InfoVersion;
+                if (!string.IsNullOrEmpty(InfoDescription))
+                    document.Info.Description = InfoDescription;
+            }
 
             if (ServiceSchemes != null && ServiceSchemes.Any())
                 document.Schemes = ServiceSchemes.Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true)).ToList();
@@ -264,11 +267,11 @@ namespace NSwag.Commands.SwaggerGeneration
             return PathUtilities.ExpandFileWildcards(AssemblyPaths)
                 .Select(Assembly.LoadFrom)
 #else
-                var currentDirectory = DynamicApis.DirectoryGetCurrentDirectoryAsync().GetAwaiter().GetResult();
-                return PathUtilities.ExpandFileWildcards(AssemblyPaths)
-                    .Select(p => assemblyLoader.Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(p, currentDirectory)))
+            var currentDirectory = DynamicApis.DirectoryGetCurrentDirectoryAsync().GetAwaiter().GetResult();
+            return PathUtilities.ExpandFileWildcards(AssemblyPaths)
+                .Select(p => assemblyLoader.Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(p, currentDirectory)))
 #endif
-                    .SelectMany(WebApiToSwaggerGenerator.GetControllerClasses)
+                .SelectMany(WebApiToSwaggerGenerator.GetControllerClasses)
                 .Select(t => t.FullName)
                 .OrderBy(c => c)
                 .ToArray();

@@ -30,15 +30,11 @@ namespace NSwag
         public SwaggerResponse ActualResponse => Reference ?? this;
 
         /// <summary>Gets or sets the response's description.</summary>
-        [JsonProperty(PropertyName = "description")]
+        [JsonProperty(PropertyName = "description", Order = 1)]
         public string Description { get; set; } = "";
 
-        /// <summary>Gets or sets the response schema.</summary>
-        [JsonProperty(PropertyName = "schema", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public JsonSchema4 Schema { get; set; }
-
         /// <summary>Gets or sets the headers.</summary>
-        [JsonProperty(PropertyName = "headers", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "headers", Order = 3, DefaultValueHandling = DefaultValueHandling.Ignore)]
         public SwaggerHeaders Headers { get; set; }
 
         /// <summary>Sets a value indicating whether the response can be null (use IsNullable() to get a parameter's nullability).</summary>
@@ -51,8 +47,47 @@ namespace NSwag
         public JsonSchema4 ActualResponseSchema => ActualResponse.GetActualResponseSchema();
 
         /// <summary>Gets or sets the expected child schemas of the base schema (can be used for generating enhanced typings/documentation).</summary>
-        [JsonProperty(PropertyName = "x-expectedSchemas", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(PropertyName = "x-expectedSchemas", Order = 7, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public ICollection<JsonExpectedSchema> ExpectedSchemas { get; set; }
+
+        /// <summary>Gets or sets the descriptions of potential response payloads (OpenApi only).</summary>
+        [JsonProperty(PropertyName = "content", Order = 4, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public IDictionary<string, OpenApiMediaType> Content { get; } = new Dictionary<string, OpenApiMediaType>();
+
+        /// <summary>Gets or sets the links that can be followed from the response (OpenApi only).</summary>
+        [JsonProperty(PropertyName = "links", Order = 5, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public IDictionary<string, OpenApiLink> Links { get; } = new Dictionary<string, OpenApiLink>();
+
+        /// <summary>Gets or sets the response schema (Swagger only).</summary>
+        [JsonProperty(PropertyName = "schema", Order = 2, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public JsonSchema4 Schema
+        {
+            get => Content.FirstOrDefault(c => c.Value.Schema != null).Value?.Schema;
+            set => UpdateContent(value, Examples);
+        }
+
+        /// <summary>Gets or sets the headers (Swagger only).</summary>
+        [JsonProperty(PropertyName = "examples", Order = 6, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public object Examples
+        {
+            get => Content.FirstOrDefault(c => c.Value.Example != null).Value?.Example;
+            set => UpdateContent(Schema, value);
+        }
+
+        private void UpdateContent(JsonSchema4 schema, object example)
+        {
+            Content.Clear();
+
+            if (schema != null || example != null)
+            {
+                var type = schema?.Type == JsonObjectType.File ? "application/octet-stream" : "application/json";
+                Content[type] = new OpenApiMediaType
+                {
+                    Schema = schema,
+                    Example = example
+                };
+            }
+        }
 
         /// <summary>Determines whether the specified null handling is nullable (fallback value: false).</summary>
         /// <param name="schemaType">The schema type.</param>
@@ -96,17 +131,5 @@ namespace NSwag
         object IJsonReference.PossibleRoot => (Parent as SwaggerOperation)?.Parent?.Parent;
 
         #endregion
-    }
-
-    /// <summary></summary>
-    public class JsonExpectedSchema
-    {
-        /// <summary>Gets or sets the description.</summary>
-        [JsonProperty(PropertyName = "description", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string Description { get; set; }
-
-        /// <summary>Gets or sets the schema.</summary>
-        [JsonProperty(PropertyName = "schema", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public JsonSchema4 Schema { get; set; }
     }
 }
