@@ -44,7 +44,16 @@ namespace NSwag
         /// <summary>Gets the actual schema, either the parameter schema itself (or its reference) or the <see cref="Schema"/> property when <see cref="Kind"/> == body.</summary>
         /// <exception cref="InvalidOperationException" accessor="get">The schema reference path is not resolved.</exception>
         [JsonIgnore]
-        public override JsonSchema4 ActualSchema => Schema?.ActualSchema ?? CustomSchema?.ActualSchema ?? base.ActualSchema; // TODO: Use/override ActualTypeSchema?
+        public override JsonSchema4 ActualSchema
+        {
+            get
+            {
+                if (Reference is SwaggerParameter parameter)
+                    return parameter.ActualSchema;
+                else
+                    return Schema?.ActualSchema ?? CustomSchema?.ActualSchema ?? base.ActualSchema;
+            }
+        }
 
         /// <summary>Gets the actual parameter.</summary>
         [JsonIgnore]
