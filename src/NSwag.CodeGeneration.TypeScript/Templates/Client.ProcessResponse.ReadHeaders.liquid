@@ -4,7 +4,7 @@ let _headers: any = {}; if (response.headers) { for (let key of response.headers
 {%      else -%}
 let _headers: any = response.headers ? response.headers.toJSON() : {};
 {%      endif -%}
-{% elseif IsFetchOrAurelia -%}
+{% elseif IsFetch or Aurelia -%}
 let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
 {% else -%}
 let _headers: any = {};

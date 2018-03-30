@@ -1,0 +1,19 @@
+const result: any = _responseText === "" ? null : <T>{% if HandleReferences %}jsonParse{% else %}JSON.parse{% endif %}(_responseText, this.jsonParseReviver);
+{% if WrapResponses -%}
+if (responseWrapperClass) {
+{%                 if IsAngular -%}
+    return Observable.of(new responseWrapperClass(status, _headers, result));
+{%                 elseif IsAngularJS -%}
+    return q.resolve(new responseWrapperClass(status, _headers, result));
+{%                 else -%}
+    return new responseWrapperClass(status, _headers, result);
+{%                 endif -%}
+}
+{% endif -%}
+{%                 if IsAngular -%}
+return Observable.of(result);
+{%                 elseif IsAngularJS -%}
+return q.resolve(result);
+{%                 else -%}
+return result;
+{%                 endif -%}

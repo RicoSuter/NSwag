@@ -21,12 +21,13 @@
     <EmbeddedResource Include="Templates\AngularClient.liquid" />
     <EmbeddedResource Include="Templates\AngularJSClient.liquid" />
     <EmbeddedResource Include="Templates\Client.Method.Documentation.liquid" />
-    <EmbeddedResource Include="Templates\Client.ProcessResponse.HandleStatusCode.liquid" />
+    <EmbeddedResource Include="Templates\Client.ProcessResponse.HandleFileResponse.liquid" />
+    <EmbeddedResource Include="Templates\Client.ProcessResponse.HandleResponse.liquid" />
+    <EmbeddedResource Include="Templates\Client.ProcessResponse.HandleResponse.Return.liquid" />
     <EmbeddedResource Include="Templates\Client.ProcessResponse.liquid" />
-    <EmbeddedResource Include="Templates\Client.ProcessResponse.ReadBodyEnd.liquid" />
-    <EmbeddedResource Include="Templates\Client.ProcessResponse.ReadBodyStart.liquid" />
     <EmbeddedResource Include="Templates\Client.ProcessResponse.ReadHeaders.liquid" />
     <EmbeddedResource Include="Templates\Client.ProcessResponse.Return.liquid" />
+    <EmbeddedResource Include="Templates\Client.ProcessResponse.ThrowException.liquid" />
     <EmbeddedResource Include="Templates\Client.RequestBody.liquid" />
     <EmbeddedResource Include="Templates\Client.RequestUrl.liquid" />
     <EmbeddedResource Include="Templates\FetchClient.liquid" />

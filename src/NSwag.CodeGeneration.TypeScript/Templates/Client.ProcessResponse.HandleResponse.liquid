@@ -1,0 +1,30 @@
+{% if IsFetch or IsAurelia -%}
+return response.text().then((_responseText) => {
+    {% template Client.ProcessResponse.HandleResponse.Return %}
+});
+{% elseif UseAngularHttpClient -%}
+return Utilities.blobToText(responseBlob).flatMap(_responseText => {
+    {% template Client.ProcessResponse.HandleResponse.Return %}
+});
+{% elseif IsAngular -%}
+if(isFile) {
+    return Utilities.blobToText(response.blob()).flatMap(_responseText => {
+        {% template Client.ProcessResponse.HandleResponse.Return %}
+    });
+}
+
+const _responseText = response.text();
+{% template Client.ProcessResponse.HandleResponse.Return %}
+{% elseif IsAngularJS -%}
+if(isFile) {
+    return Utilities.blobToText(new Blob([response]), q).then(_responseText => {
+        {% template Client.ProcessResponse.HandleResponse.Return %}
+    });
+}
+
+const _responseText = response.data;
+{% template Client.ProcessResponse.HandleResponse.Return %}
+{% else -%}
+const _responseText = xhr.responseText;
+{% template Client.ProcessResponse.HandleResponse.Return %}
+{% endif -%}
