@@ -61,10 +61,10 @@ namespace NSwag.Core.Tests.Serialization
             ""description"": """",
             ""content"": {
               ""application/json"": {
-                ""example"": 123,
                 ""schema"": {
                   ""type"": ""string""
-                }
+                },
+                ""example"": 123
               }
             }
           }
@@ -132,10 +132,10 @@ namespace NSwag.Core.Tests.Serialization
             ""description"": """",
             ""content"": {
               ""application/octet-stream"": {
-                ""example"": 123,
                 ""schema"": {
                   ""type"": ""file""
-                }
+                },
+                ""example"": 123
               }
             }
           }

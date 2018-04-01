@@ -65,6 +65,7 @@ namespace NSwag
 
                 resolver.IgnoreProperty(typeof(SwaggerOperation), "callbacks");
                 resolver.IgnoreProperty(typeof(SwaggerOperation), "servers");
+                resolver.IgnoreProperty(typeof(SwaggerOperation), "requestBody");
 
                 resolver.IgnoreProperty(typeof(SwaggerDocument), "components");
                 resolver.IgnoreProperty(typeof(SwaggerParameter), "examples");

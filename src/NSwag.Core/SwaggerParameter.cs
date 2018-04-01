@@ -17,17 +17,50 @@ namespace NSwag
     /// <summary>Describes an operation parameter. </summary>
     public class SwaggerParameter : JsonSchema4
     {
+        private string _name;
+        private SwaggerParameterKind _kind;
+        private bool _isRequired = false;
+        private JsonSchema4 _schema;
+        private IDictionary<string, OpenApiExample> _examples;
+
+        [JsonIgnore]
+        internal SwaggerOperation ParentOperation => Parent as SwaggerOperation;
+
         /// <summary>Gets or sets the name.</summary>
         [JsonProperty(PropertyName = "name", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public string Name { get; set; }
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                _name = value;
+                ParentOperation?.UpdateRequestBody(this);
+            }
+        }
 
         /// <summary>Gets or sets the kind of the parameter.</summary>
         [JsonProperty(PropertyName = "in", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public SwaggerParameterKind Kind { get; set; }
+        public SwaggerParameterKind Kind
+        {
+            get => _kind;
+            set
+            {
+                _kind = value;
+                ParentOperation?.UpdateRequestBody(this);
+            }
+        }
 
         /// <summary>Gets or sets a value indicating whether the parameter is required (default: false).</summary>
         [JsonProperty(PropertyName = "required", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public bool IsRequired { get; set; } = false;
+        public bool IsRequired
+        {
+            get => _isRequired;
+            set
+            {
+                _isRequired = value;
+                ParentOperation?.UpdateRequestBody(this);
+            }
+        }
 
         /// <summary>Gets or sets a value indicating whether passing empty-valued parameters is allowed (default: false).</summary>
         [JsonProperty(PropertyName = "allowEmptyValue", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
@@ -35,7 +68,15 @@ namespace NSwag
 
         /// <summary>Gets or sets the schema which is only available when <see cref="Kind"/> == body.</summary>
         [JsonProperty(PropertyName = "schema", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public JsonSchema4 Schema { get; set; }
+        public JsonSchema4 Schema
+        {
+            get => _schema;
+            set
+            {
+                _schema = value;
+                ParentOperation?.UpdateRequestBody(this);
+            }
+        }
 
         /// <summary>Gets or sets the custom schema which is used when <see cref="Kind"/> != body.</summary>
         [JsonProperty(PropertyName = "x-schema", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
@@ -65,8 +106,16 @@ namespace NSwag
 
         /// <summary>Gets or sets the headers (OpenAPI only).</summary>
         [JsonProperty(PropertyName = "examples", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IDictionary<string, OpenApiExample> Examples { get; set; }
-        
+        public IDictionary<string, OpenApiExample> Examples
+        {
+            get => _examples;
+            set
+            {
+                _examples = value;
+                ParentOperation?.UpdateRequestBody(this);
+            }
+        }
+
         /// <summary>Gets a value indicating whether the validated data can be null.</summary>
         /// <param name="schemaType">The schema type.</param>
         /// <returns>The result.</returns>

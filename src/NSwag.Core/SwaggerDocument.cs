@@ -114,6 +114,7 @@ namespace NSwag
 
             var contractResolver = CreateJsonSerializerContractResolver(schemaType);
 
+            SwaggerOperation.IsWriting = false;
             JsonSchemaSerializationContext.CurrentSchemaType = schemaType;
             JsonSchemaReferenceUtilities.UpdateSchemaReferencePaths(this, false, contractResolver);
 
@@ -142,6 +143,9 @@ namespace NSwag
             data = JsonSchemaReferenceUtilities.ConvertJsonReferences(data);
 
             var contractResolver = CreateJsonSerializerContractResolver(expectedSchemaType);
+
+            SwaggerOperation.IsWriting = true;
+            JsonSchemaSerializationContext.CurrentSchemaType = expectedSchemaType;
             var document = JsonConvert.DeserializeObject<SwaggerDocument>(data, new JsonSerializerSettings
             {
                 MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
