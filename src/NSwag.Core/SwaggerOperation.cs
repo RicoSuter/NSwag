@@ -175,7 +175,7 @@ namespace NSwag
                 if (IsWriting)
                     return Parameters;
 
-                if (JsonSchemaSerializationContext.CurrentSchemaType != SchemaType.Swagger2)
+                if (JsonSchemaSerialization.CurrentSchemaType != SchemaType.Swagger2)
                     return Parameters.Where(p => p.Kind != SwaggerParameterKind.Body).ToList();
                 else
                     return Parameters;

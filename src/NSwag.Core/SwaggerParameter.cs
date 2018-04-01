@@ -78,6 +78,18 @@ namespace NSwag
             }
         }
 
+        /// <summary>Gets or sets the description. </summary>
+        [Newtonsoft.Json.JsonProperty("description", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public override string Description
+        {
+            get => base.Description;
+            set
+            {
+                base.Description = value;
+                ParentOperation?.UpdateRequestBody(this);
+            }
+        }
+
         /// <summary>Gets or sets the custom schema which is used when <see cref="Kind"/> != body.</summary>
         [JsonProperty(PropertyName = "x-schema", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public JsonSchema4 CustomSchema { get; set; }
