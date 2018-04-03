@@ -178,10 +178,10 @@ namespace NSwag.Commands
 
                 if (applyTransformations)
                 {
-                    data = Regex.Replace(data, "%[A-Za-z0-9_]*?%", p => JsonConvert.ToString(Environment.ExpandEnvironmentVariables(p.Value)));
+                    data = Regex.Replace(data, "%[A-Za-z0-9_]*?%", p => JsonEscapeString(Environment.ExpandEnvironmentVariables(p.Value)));
 
                     foreach (var p in ConvertVariables(variables))
-                        data = data.Replace("$(" + p.Key + ")", JsonConvert.ToString(p.Value));
+                        data = data.Replace("$(" + p.Key + ")", JsonEscapeString(p.Value));
 
                     var obj = JObject.Parse(data);
                     if (obj["defaultVariables"] != null)
@@ -189,7 +189,7 @@ namespace NSwag.Commands
                         var defaultVariables = obj["defaultVariables"].Value<string>();
                         foreach (var p in ConvertVariables(defaultVariables))
                         {
-                            data = data.Replace("$(" + p.Key + ")", p.Value);
+                            data = data.Replace("$(" + p.Key + ")", JsonEscapeString(p.Value));
                         }
                     }
                 }
@@ -410,6 +410,12 @@ namespace NSwag.Commands
         public void RaiseAllPropertiesChanged()
         {
             OnPropertyChanged(null);
+        }
+
+        private static string JsonEscapeString(string s)
+        {
+            var result = JsonConvert.ToString(s);
+            return result.Substring(1, result.Length - 2);
         }
 
         private static string TransformLegacyDocument(string data, out bool saveFile)
