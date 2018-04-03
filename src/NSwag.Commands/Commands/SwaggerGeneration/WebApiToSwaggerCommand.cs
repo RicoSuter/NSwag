@@ -218,7 +218,7 @@ namespace NSwag.Commands.SwaggerGeneration
             if (!string.IsNullOrEmpty(ServiceBasePath))
                 document.BasePath = ServiceBasePath;
 
-            return document.ToJson();
+            return document.ToJson(OutputType);
         }
 
         private async Task TransformAsync(AssemblyLoader.AssemblyLoader assemblyLoader)

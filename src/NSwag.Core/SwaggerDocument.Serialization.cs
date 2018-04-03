@@ -19,7 +19,7 @@ namespace NSwag
 {
     public partial class SwaggerDocument
     {
-        /// <summary>Creates the serializer contract resolver based on the <see cref="SchemaType"/>.</summary>
+        /// <summary>Creates the serializer contract resolver based on the <see cref="NJsonSchema.SchemaType"/>.</summary>
         /// <param name="schemaType">The schema type.</param>
         /// <returns>The settings.</returns>
         public static PropertyRenameAndIgnoreSerializerContractResolver CreateJsonSerializerContractResolver(SchemaType schemaType)

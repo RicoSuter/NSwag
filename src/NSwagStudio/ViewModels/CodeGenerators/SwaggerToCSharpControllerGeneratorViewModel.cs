@@ -31,18 +31,17 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         }
 
         /// <summary>Gets the list of operation modes. </summary>
-        public OperationGenerationMode[] OperationGenerationModes => Enum.GetNames(typeof(OperationGenerationMode))
+        public OperationGenerationMode[] OperationGenerationModes { get; } = Enum.GetNames(typeof(OperationGenerationMode))
             .Select(t => (OperationGenerationMode)Enum.Parse(typeof(OperationGenerationMode), t))
             .ToArray();
 
         /// <summary>Gets the list of class styles. </summary>
-        public CSharpClassStyle[] ClassStyles => Enum.GetNames(typeof(CSharpClassStyle))
+        public CSharpClassStyle[] ClassStyles { get; } = Enum.GetNames(typeof(CSharpClassStyle))
             .Select(t => (CSharpClassStyle)Enum.Parse(typeof(CSharpClassStyle), t))
             .ToArray();
 
-
         /// <summary>Gets the list of class styles. </summary>
-        public CSharpControllerStyle[] ControllerStyles => Enum.GetNames(typeof(CSharpControllerStyle))
+        public CSharpControllerStyle[] ControllerStyles { get; } = Enum.GetNames(typeof(CSharpControllerStyle))
             .Select(t => (CSharpControllerStyle)Enum.Parse(typeof(CSharpControllerStyle), t))
             .ToArray();
 

@@ -78,19 +78,22 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         }
 
         /// <summary>Gets the default enum handlings. </summary>
-        public EnumHandling[] EnumHandlings => Enum.GetNames(typeof(EnumHandling))
+        public EnumHandling[] EnumHandlings { get; } = Enum.GetNames(typeof(EnumHandling))
             .Select(t => (EnumHandling)Enum.Parse(typeof(EnumHandling), t))
             .ToArray();
 
         /// <summary>Gets the default property name handlings. </summary>
-        public PropertyNameHandling[] PropertyNameHandlings => Enum.GetNames(typeof(PropertyNameHandling))
+        public PropertyNameHandling[] PropertyNameHandlings { get; } = Enum.GetNames(typeof(PropertyNameHandling))
             .Select(t => (PropertyNameHandling)Enum.Parse(typeof(PropertyNameHandling), t))
             .ToArray();
 
         /// <summary>Gets the reference type null handlings. </summary>
-        public ReferenceTypeNullHandling[] ReferenceTypeNullHandlings => Enum.GetNames(typeof(ReferenceTypeNullHandling))
+        public ReferenceTypeNullHandling[] ReferenceTypeNullHandlings { get; } = Enum.GetNames(typeof(ReferenceTypeNullHandling))
             .Select(t => (ReferenceTypeNullHandling)Enum.Parse(typeof(ReferenceTypeNullHandling), t))
             .ToArray();
+
+        /// <summary>Gets the output types. </summary>
+        public SchemaType[] OutputTypes { get; } = { SchemaType.Swagger2, SchemaType.OpenApi3 };
 
         /// <summary>Gets or sets the command to browse for an assembly.</summary>
         public AsyncRelayCommand BrowseAssemblyCommand { get; set; }

@@ -50,6 +50,10 @@ namespace NSwag
         /// <summary>Gets the NSwag toolchain version.</summary>
         public static string ToolchainVersion => typeof(SwaggerDocument).GetTypeInfo().Assembly.GetName().Version.ToString();
 
+        /// <summary>Gets or sets the preferred schema type.</summary>
+        [JsonIgnore]
+        public SchemaType SchemaType { get; set; } = SchemaType.Swagger2;
+
         /// <summary>Gets the document path (URI or file path).</summary>
         [JsonIgnore]
         public string DocumentPath { get; private set; }
@@ -102,7 +106,7 @@ namespace NSwag
         /// <returns>The JSON string.</returns>
         public string ToJson()
         {
-            return ToJson(SchemaType.Swagger2);
+            return ToJson(SchemaType);
         }
 
         /// <summary>Converts the description object to JSON.</summary>
@@ -133,6 +137,7 @@ namespace NSwag
             var contractResolver = CreateJsonSerializerContractResolver(expectedSchemaType);
             return await JsonSchemaSerialization.FromJsonAsync<SwaggerDocument>(data, expectedSchemaType, documentPath, document =>
             {
+                document.SchemaType = expectedSchemaType;
                 var schemaResolver = new SwaggerSchemaResolver(document, new JsonSchemaGeneratorSettings());
                 return new JsonReferenceResolver(schemaResolver);
             }, contractResolver).ConfigureAwait(false);
