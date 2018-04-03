@@ -150,8 +150,8 @@ namespace NSwag.SwaggerGeneration.WebApi
                             foreach (var httpMethod in httpMethods)
                             {
                                 var isPathAlreadyDefinedInInheritanceHierarchy =
-                                    operations.Any(o => o.Item1.Path == httpPath && 
-                                                        o.Item1.Method == httpMethod && 
+                                    operations.Any(o => o.Item1.Path == httpPath &&
+                                                        o.Item1.Method == httpMethod &&
                                                         o.Item2.DeclaringType != currentControllerType &&
                                                         o.Item2.DeclaringType.IsAssignableTo(currentControllerType.FullName, TypeNameStyle.FullName));
 
@@ -479,7 +479,11 @@ namespace NSwag.SwaggerGeneration.WebApi
 
             if (acceptVerbsAttribute != null)
             {
-                foreach (var verb in ((ICollection)acceptVerbsAttribute.HttpMethods).OfType<object>().Select(v => v.ToString().ToLowerInvariant()))
+                var httpMethods = acceptVerbsAttribute.HttpMethods is ICollection
+                    ? ((ICollection)acceptVerbsAttribute.HttpMethods).OfType<object>().Select(v => v.ToString().ToLowerInvariant())
+                    : ((IEnumerable<string>)acceptVerbsAttribute.HttpMethods).Select(v => v.ToLowerInvariant());
+
+                foreach (var verb in httpMethods)
                 {
                     if (verb == "get")
                         yield return SwaggerOperationMethod.Get;
