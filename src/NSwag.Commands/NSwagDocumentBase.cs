@@ -178,10 +178,10 @@ namespace NSwag.Commands
 
                 if (applyTransformations)
                 {
-                    data = Regex.Replace(data, "%[A-Za-z0-9_]*?%", p => JsonConvert.ToString(Environment.ExpandEnvironmentVariables(p.Value)));
+                    data = Regex.Replace(data, "%[A-Za-z0-9_]*?%", p => EscapeJsonString(Environment.ExpandEnvironmentVariables(p.Value)));
 
                     foreach (var p in ConvertVariables(variables))
-                        data = data.Replace("$(" + p.Key + ")", JsonConvert.ToString(p.Value));
+                        data = data.Replace("$(" + p.Key + ")", EscapeJsonString(p.Value));
 
                     var obj = JObject.Parse(data);
                     if (obj["defaultVariables"] != null)
@@ -189,7 +189,7 @@ namespace NSwag.Commands
                         var defaultVariables = obj["defaultVariables"].Value<string>();
                         foreach (var p in ConvertVariables(defaultVariables))
                         {
-                            data = data.Replace("$(" + p.Key + ")", JsonConvert.ToString(p.Value));
+                            data = data.Replace("$(" + p.Key + ")", EscapeJsonString(p.Value));
                         }
                     }
                 }
@@ -266,6 +266,17 @@ namespace NSwag.Commands
         protected async Task<SwaggerDocument> GenerateSwaggerDocumentAsync()
         {
             return (SwaggerDocument)await SelectedSwaggerGenerator.RunAsync(null, null);
+        }
+
+        private static string EscapeJsonString(string value)
+        {
+            if (!string.IsNullOrEmpty(value))
+            {
+                value = JsonConvert.ToString(value);
+                return value.Substring(1, value.Length - 2);
+            }
+
+            return string.Empty;
         }
 
         private static Dictionary<string, string> ConvertVariables(string variables)
