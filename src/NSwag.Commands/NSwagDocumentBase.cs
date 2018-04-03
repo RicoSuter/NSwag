@@ -189,7 +189,7 @@ namespace NSwag.Commands
                         var defaultVariables = obj["defaultVariables"].Value<string>();
                         foreach (var p in ConvertVariables(defaultVariables))
                         {
-                            data = data.Replace("$(" + p.Key + ")", p.Value);
+                            data = data.Replace("$(" + p.Key + ")", JsonConvert.ToString(p.Value));
                         }
                     }
                 }
