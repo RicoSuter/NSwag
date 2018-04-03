@@ -178,10 +178,10 @@ namespace NSwag.Commands
 
                 if (applyTransformations)
                 {
-                    data = Regex.Replace(data, "%[A-Za-z0-9_]*?%", p => Environment.ExpandEnvironmentVariables(p.Value).Replace("\\", "/"));
+                    data = Regex.Replace(data, "%[A-Za-z0-9_]*?%", p => JsonConvert.ToString(Environment.ExpandEnvironmentVariables(p.Value)));
 
                     foreach (var p in ConvertVariables(variables))
-                        data = data.Replace("$(" + p.Key + ")", p.Value);
+                        data = data.Replace("$(" + p.Key + ")", JsonConvert.ToString(p.Value));
 
                     var obj = JObject.Parse(data);
                     if (obj["defaultVariables"] != null)
