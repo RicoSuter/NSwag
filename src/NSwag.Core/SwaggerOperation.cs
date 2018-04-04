@@ -164,15 +164,13 @@ namespace NSwag
         [JsonIgnore]
         public ICollection<SwaggerSecurityRequirement> ActualSecurity => Security ?? Parent.Parent.Security;
 
-        internal static bool IsWriting { get; set; } = false;
-
         /// <summary>Gets or sets the parameters.</summary>
         [JsonProperty(PropertyName = "parameters", Order = 6, DefaultValueHandling = DefaultValueHandling.Ignore)]
         internal IList<SwaggerParameter> ParametersRaw
         {
             get
             {
-                if (IsWriting)
+                if (JsonSchemaSerialization.IsWriting)
                     return Parameters;
 
                 if (JsonSchemaSerialization.CurrentSchemaType != SchemaType.Swagger2)
