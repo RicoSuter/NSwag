@@ -32,11 +32,11 @@ namespace NSwag.Core.Tests.Serialization
       }
     }
   }
-}".Replace("\r", ""), json);
+}".Replace("\r", ""), json.Replace("\r", ""));
         }
 
         [Fact]
-        public void When_when_response_schema_and_example_is_set_then_it_is_serialized_correctly_in_OpenApi()
+        public void When_response_schema_and_example_is_set_then_it_is_serialized_correctly_in_OpenApi()
         {
             //// Arrange
             var document = CreateDocument(JsonObjectType.String);
@@ -73,7 +73,7 @@ namespace NSwag.Core.Tests.Serialization
     }
   },
   ""components"": {}
-}".Replace("\r", ""), json);
+}".Replace("\r", ""), json.Replace("\r", ""));
         }
 
         [Fact]
