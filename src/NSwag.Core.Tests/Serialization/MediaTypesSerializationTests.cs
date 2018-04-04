@@ -32,7 +32,7 @@ namespace NSwag.Core.Tests.Serialization
       }
     }
   }
-}", json);
+}".Replace("\r", ""), json);
         }
 
         [Fact]
@@ -73,7 +73,7 @@ namespace NSwag.Core.Tests.Serialization
     }
   },
   ""components"": {}
-}", json);
+}".Replace("\r", ""), json);
         }
 
         [Fact]
@@ -103,7 +103,7 @@ namespace NSwag.Core.Tests.Serialization
       }
     }
   }
-}", json);
+}".Replace("\r", ""), json);
         }
 
         [Fact]
@@ -144,7 +144,7 @@ namespace NSwag.Core.Tests.Serialization
     }
   },
   ""components"": {}
-}", json);
+}".Replace("\r", ""), json);
         }
 
 
