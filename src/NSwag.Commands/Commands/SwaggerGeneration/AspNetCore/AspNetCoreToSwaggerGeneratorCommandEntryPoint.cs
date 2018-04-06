@@ -4,12 +4,12 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using NSwag.SwaggerGeneration.AspNetCore;
-using NSwag.SwaggerGeneration.Processors;
 
 namespace NSwag.Commands.SwaggerGeneration.AspNetCore
 {
@@ -21,13 +21,19 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
             var serviceProvider = GetServiceProvider(applicationName);
             var apiDescriptionProvider = serviceProvider.GetRequiredService<IApiDescriptionGroupCollectionProvider>();
 
-            var settings = CreateSettings(commandContent);
-            var swaggerGenerator = new AspNetCoreToSwaggerGenerator(settings);
-            var swaggerDocument = swaggerGenerator.GenerateAsync(apiDescriptionProvider.ApiDescriptionGroups).GetAwaiter().GetResult();
+            var assemblyLoader = new AssemblyLoader.AssemblyLoader();
+
+            var command = JsonConvert.DeserializeObject<AspNetCoreToSwaggerCommand>(commandContent);
+            command.InitializeCustomTypes(assemblyLoader);
+
+            var generator = new AspNetCoreToSwaggerGenerator(command.Settings);
+            var document = generator.GenerateAsync(apiDescriptionProvider.ApiDescriptionGroups).GetAwaiter().GetResult();
+
+            command.PostprocessDocument(document);
 
             var outputPathDirectory = Path.GetDirectoryName(outputFile);
             Directory.CreateDirectory(outputPathDirectory);
-            File.WriteAllText(outputFile, swaggerDocument.ToJson());
+            File.WriteAllText(outputFile, document.ToJson());
         }
 
         private static IServiceProvider GetServiceProvider(string applicationName)
@@ -48,7 +54,6 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
             if (buildWebHostMethod != null)
             {
                 var result = buildWebHostMethod.Invoke(null, new object[] { args });
-                var resultType = result.GetType();
                 webHost = (IWebHost)result;
             }
             else
@@ -66,34 +71,10 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
                 return webHost.Services;
             }
 
-            throw new InvalidOperationException($"aspnet2swaggercommand requires the entry point type {entryPointType.FullName} to have either an BuildWebHost or CreateWebHostBuilder method. See https://docs.microsoft.com/en-us/aspnet/core/fundamentals/hosting?tabs=aspnetcore2x for suggestions on ways to refactor your startup type.");
-        }
-
-        private static AspNetCoreToSwaggerGeneratorSettings CreateSettings(string commandData)
-        {
-            var assemblyLoader = new AssemblyLoader.AssemblyLoader();
-            var command = JsonConvert.DeserializeObject<AspNetCoreToSwaggerCommand>(commandData);
-
-            var settings = command.Settings;
-            if (command.DocumentProcessorTypes != null)
-            {
-                foreach (var type in command.DocumentProcessorTypes)
-                {
-                    var processor = (IDocumentProcessor)assemblyLoader.CreateInstance(type);
-                    settings.DocumentProcessors.Add(processor);
-                }
-            }
-
-            if (command.OperationProcessorTypes != null)
-            {
-                foreach (var type in command.OperationProcessorTypes)
-                {
-                    var processor = (IOperationProcessor)assemblyLoader.CreateInstance(type);
-                    settings.OperationProcessors.Add(processor);
-                }
-            }
-
-            return settings;
+            throw new InvalidOperationException($"aspnet2swaggercommand requires the entry point type {entryPointType.FullName} to have " +
+                                                $"either an BuildWebHost or CreateWebHostBuilder method. " +
+                                                $"See https://docs.microsoft.com/en-us/aspnet/core/fundamentals/hosting?tabs=aspnetcore2x " +
+                                                $"for suggestions on ways to refactor your startup type.");
         }
     }
 }

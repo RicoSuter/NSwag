@@ -14,12 +14,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using NConsole;
 using Newtonsoft.Json;
-using NJsonSchema;
-using NJsonSchema.Infrastructure;
-using NSwag.Commands.SwaggerGeneration;
-using NSwag.Commands.SwaggerGeneration.AspNetCore;
 using NSwag.SwaggerGeneration.AspNetCore;
-using NSwag.SwaggerGeneration.WebApi;
 
 namespace NSwag.Commands.SwaggerGeneration.AspNetCore
 {
@@ -52,122 +47,141 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            Settings.DocumentTemplate = await GetDocumentTemplateAsync();
+            // Run with .csproj
+            if (!string.IsNullOrEmpty(Project))
+            {
+                var verboseHost = Verbose ? host : null;
 
-            var verboseHost = Verbose ? host : null;
+                var projectFile = ProjectMetadata.FindProject(Project);
+                var projectMetadata = await ProjectMetadata.GetProjectMetadata(
+                    projectFile,
+                    MSBuildProjectExtensionsPath,
+                    TargetFramework,
+                    Configuration,
+                    Runtime,
+                    NoBuild,
+                    verboseHost).ConfigureAwait(false);
 
-            var projectFile = ProjectMetadata.FindProject(Project);
-            var projectMetadata = await ProjectMetadata.GetProjectMetadata(
-                projectFile,
-                MSBuildProjectExtensionsPath,
-                TargetFramework,
-                Configuration,
-                Runtime,
-                NoBuild,
-                verboseHost).ConfigureAwait(false);
+                if (!File.Exists(Path.Combine(projectMetadata.OutputPath, projectMetadata.TargetFileName)))
+                {
+                    throw new InvalidOperationException($"Project outputs could not be located in " +
+                                                        $"'{projectMetadata.OutputPath}'. Ensure that the project has been built.");
+                }
 
-            var targetDir = Path.GetFullPath(projectMetadata.ProjectDir);
+                var cleanupFiles = new List<string>();
 
-            // Ensure the project has been built.
-            if (!File.Exists(Path.Combine(projectMetadata.OutputPath, projectMetadata.TargetFileName)))
-                throw new InvalidOperationException($"Project outputs could not be located in '{projectMetadata.OutputPath}'. Ensure that the project has been built.");
-
-            var cleanupFiles = new List<string>();
-
-            var toolDirectory = Path.GetDirectoryName(typeof(AspNetCoreToSwaggerCommand).GetTypeInfo().Assembly.Location);
-            var args = new List<string>();
-            string executable;
+                var toolDirectory = Path.GetDirectoryName(typeof(AspNetCoreToSwaggerCommand).GetTypeInfo().Assembly.Location);
+                var args = new List<string>();
+                string executable;
 
 #if NET451
-            if (projectMetadata.TargetFrameworkIdentifier == ".NETFramework")
-            {
-                string binaryName;
-                var is32BitProject = string.Equals(projectMetadata.PlatformTarget, "x86", StringComparison.OrdinalIgnoreCase);
-                if (is32BitProject)
+                if (projectMetadata.TargetFrameworkIdentifier == ".NETFramework")
                 {
-                    if (Environment.Is64BitProcess)
-                        throw new InvalidOperationException($"The ouput of {projectFile} is a 32-bit application and requires NSwag.Console.x86 to be processed.");
-                    binaryName = LauncherBinaryName + ".x86.exe";
+                    string binaryName;
+                    var is32BitProject = string.Equals(projectMetadata.PlatformTarget, "x86", StringComparison.OrdinalIgnoreCase);
+                    if (is32BitProject)
+                    {
+                        if (Environment.Is64BitProcess)
+                            throw new InvalidOperationException($"The ouput of {projectFile} is a 32-bit application and requires NSwag.Console.x86 to be processed.");
+                        binaryName = LauncherBinaryName + ".x86.exe";
+                    }
+                    else
+                    {
+                        if (!Environment.Is64BitProcess)
+                            throw new InvalidOperationException($"The ouput of {projectFile} is a 64-bit application and requires NSwag.Console to be processed.");
+                        binaryName = LauncherBinaryName + ".exe";
+                    }
+
+                    var executableSource = Path.Combine(toolDirectory, binaryName);
+                    if (!File.Exists(executableSource))
+                        throw new InvalidOperationException($"Unable to locate {binaryName} in {toolDirectory}.");
+
+                    executable = Path.Combine(projectMetadata.OutputPath, binaryName);
+                    File.Copy(executableSource, executable, overwrite: true);
+                    cleanupFiles.Add(executable);
+
+                    var appConfig = Path.Combine(projectMetadata.OutputPath, projectMetadata.TargetFileName + ".config");
+                    if (File.Exists(appConfig))
+                    {
+                        var copiedAppConfig = Path.ChangeExtension(executable, ".exe.config");
+                        File.Copy(appConfig, copiedAppConfig, overwrite: true);
+                        cleanupFiles.Add(copiedAppConfig);
+                    }
                 }
+#elif NETSTANDARD1_6
+                if (projectMetadata.TargetFrameworkIdentifier == ".NETCoreApp")
+                {
+                    executable = "dotnet";
+                    args.Add("exec");
+                    args.Add("--depsfile");
+                    args.Add(projectMetadata.ProjectDepsFilePath);
+
+                    args.Add("--runtimeconfig");
+                    args.Add(projectMetadata.ProjectRuntimeConfigFilePath);
+
+                    var binaryName = LauncherBinaryName + ".dll";
+                    var executorBinary = Path.Combine(toolDirectory, binaryName);
+                    if (!File.Exists(executorBinary))
+                    {
+                        throw new InvalidOperationException($"Unable to locate {binaryName} in {toolDirectory}.");
+                    }
+                    args.Add(executorBinary);
+                }
+#endif
                 else
                 {
-                    if (!Environment.Is64BitProcess)
-                        throw new InvalidOperationException($"The ouput of {projectFile} is a 64-bit application and requires NSwag.Console to be processed.");
-                    binaryName = LauncherBinaryName + ".exe";
+                    throw new InvalidOperationException($"Unsupported target framework '{projectMetadata.TargetFrameworkIdentifier}'.");
                 }
 
-                var executableSource = Path.Combine(toolDirectory, binaryName);
-                if (!File.Exists(executableSource))
-                    throw new InvalidOperationException($"Unable to locate {binaryName} in {toolDirectory}.");
+                var commandFile = Path.GetTempFileName();
+                var outputFile = Path.GetTempFileName();
+                File.WriteAllText(commandFile, JsonConvert.SerializeObject(this));
+                cleanupFiles.Add(commandFile);
+                cleanupFiles.Add(outputFile);
 
-                executable = Path.Combine(projectMetadata.OutputPath, binaryName);
-                File.Copy(executableSource, executable, overwrite: true);
-                cleanupFiles.Add(executable);
-
-                var appConfig = Path.Combine(projectMetadata.OutputPath, projectMetadata.TargetFileName + ".config");
-                if (File.Exists(appConfig))
+                args.Add(commandFile);
+                args.Add(outputFile);
+                args.Add(projectMetadata.AssemblyName);
+                args.Add(toolDirectory);
+                try
                 {
-                    var copiedAppConfig = Path.ChangeExtension(executable, ".exe.config");
-                    File.Copy(appConfig, copiedAppConfig, overwrite: true);
-                    cleanupFiles.Add(copiedAppConfig);
+                    var exitCode = await Exe.RunAsync(executable, args, verboseHost).ConfigureAwait(false);
+                    if (exitCode != 0)
+                        throw new InvalidOperationException($"Swagger generation failed with non-zero exit code '{exitCode}'.");
+
+                    host?.WriteMessage($"Output written to {outputFile}.{Environment.NewLine}");
+
+                    var documentJson = File.ReadAllText(outputFile);
+                    var document = await SwaggerDocument.FromJsonAsync(documentJson, expectedSchemaType: OutputType).ConfigureAwait(false);
+                    await this.TryWriteDocumentOutputAsync(host, () => document).ConfigureAwait(false);
+                    return document;
+                }
+                finally
+                {
+                    TryDeleteFiles(cleanupFiles);
                 }
             }
-#elif NETSTANDARD1_6
-            if (projectMetadata.TargetFrameworkIdentifier == ".NETCoreApp")
-            {
-                executable = "dotnet";
-                args.Add("exec");
-                args.Add("--depsfile");
-                args.Add(projectMetadata.ProjectDepsFilePath);
-
-                args.Add("--runtimeconfig");
-                args.Add(projectMetadata.ProjectRuntimeConfigFilePath);
-
-                var binaryName = LauncherBinaryName + ".dll";
-                var executorBinary = Path.Combine(toolDirectory, binaryName);
-                if (!File.Exists(executorBinary))
-                {
-                    throw new InvalidOperationException($"Unable to locate {binaryName} in {toolDirectory}.");
-                }
-                args.Add(executorBinary);
-            }
-#endif            
             else
             {
-                throw new InvalidOperationException($"Unsupported target framework '{projectMetadata.TargetFrameworkIdentifier}'.");
-            }
-
-            var commandFile = Path.GetTempFileName();
-            var outputFile = Path.GetTempFileName();
-            File.WriteAllText(commandFile, JsonConvert.SerializeObject(this));
-            cleanupFiles.Add(commandFile);
-            cleanupFiles.Add(outputFile);
-
-            args.Add(commandFile);
-            args.Add(outputFile);
-            args.Add(projectMetadata.AssemblyName);
-            args.Add(toolDirectory);
-            try
-            {
-                var exitCode = await Exe.RunAsync(executable, args, verboseHost).ConfigureAwait(false);
-                if (exitCode != 0)
-                    throw new InvalidOperationException($"Swagger generation failed with non-zero exit code '{exitCode}'.");
-                host?.WriteMessage($"Output written to {outputFile}.{Environment.NewLine}");
-
-                var documentJson = File.ReadAllText(outputFile);
-                var document = await SwaggerDocument.FromJsonAsync(documentJson, expectedSchemaType: OutputType).ConfigureAwait(false);
-                await this.TryWriteDocumentOutputAsync(host, () => document).ConfigureAwait(false);
-                return document;
-            }
-            finally
-            {
-                TryDeleteFiles(cleanupFiles);
+                return await base.RunAsync(processor, host);
             }
         }
 
-        protected override Task<string> RunIsolatedAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
+        protected override async Task<string> RunIsolatedAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
-            throw new NotImplementedException();
+            // Run with .dll
+
+            Settings.DocumentTemplate = await GetDocumentTemplateAsync();
+            InitializeCustomTypes(assemblyLoader);
+
+            // TODO: Load TestServer, get ApiExplorer, run generator
+
+            //var generator = new AspNetCoreToSwaggerGenerator(Settings);
+            //var document = await generator.GenerateAsync(controllerTypes).ConfigureAwait(false);
+
+            //return PostprocessDocument(document);
+
+            return null;
         }
 
         private static void TryDeleteFiles(List<string> files)

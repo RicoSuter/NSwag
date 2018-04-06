@@ -14,10 +14,8 @@ using System.Reflection;
 using System.Threading.Tasks;
 using NConsole;
 using Newtonsoft.Json;
-using NJsonSchema;
 using NJsonSchema.Infrastructure;
 using NSwag.AssemblyLoader.Utilities;
-using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.WebApi;
 
 namespace NSwag.Commands.SwaggerGeneration.WebApi
@@ -67,7 +65,7 @@ namespace NSwag.Commands.SwaggerGeneration.WebApi
         protected override async Task<string> RunIsolatedAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
             Settings.DocumentTemplate = await GetDocumentTemplateAsync();
-            await TransformAsync(assemblyLoader);
+            InitializeCustomTypes(assemblyLoader);
 
             var controllerNames = ControllerNames.Where(s => !string.IsNullOrWhiteSpace(s)).Distinct().ToList();
             if (!controllerNames.Any() && AssemblyPaths?.Length > 0)
@@ -78,55 +76,7 @@ namespace NSwag.Commands.SwaggerGeneration.WebApi
             var generator = new WebApiToSwaggerGenerator(Settings);
             var document = await generator.GenerateForControllersAsync(controllerTypes).ConfigureAwait(false);
 
-            if (ServiceHost == ".")
-                document.Host = string.Empty;
-            else if (!string.IsNullOrEmpty(ServiceHost))
-                document.Host = ServiceHost;
-
-            if (string.IsNullOrEmpty(DocumentTemplate))
-            {
-                if (!string.IsNullOrEmpty(InfoTitle))
-                    document.Info.Title = InfoTitle;
-                if (!string.IsNullOrEmpty(InfoVersion))
-                    document.Info.Version = InfoVersion;
-                if (!string.IsNullOrEmpty(InfoDescription))
-                    document.Info.Description = InfoDescription;
-            }
-
-            if (ServiceSchemes != null && ServiceSchemes.Any())
-                document.Schemes = ServiceSchemes.Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true)).ToList();
-
-            if (!string.IsNullOrEmpty(ServiceBasePath))
-                document.BasePath = ServiceBasePath;
-
-            return document.ToJson(OutputType);
-        }
-
-        private async Task TransformAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
-        {
-            if (DocumentProcessorTypes != null)
-            {
-                foreach (var p in DocumentProcessorTypes)
-                {
-                    var processor = (IDocumentProcessor)assemblyLoader.CreateInstance(p);
-                    Settings.DocumentProcessors.Add(processor);
-                }
-            }
-
-            if (OperationProcessorTypes != null)
-            {
-                foreach (var p in OperationProcessorTypes)
-                {
-                    var processor = (IOperationProcessor)assemblyLoader.CreateInstance(p);
-                    Settings.OperationProcessors.Add(processor);
-                }
-            }
-
-            if (!string.IsNullOrEmpty(TypeNameGeneratorType))
-                Settings.TypeNameGenerator = (ITypeNameGenerator)assemblyLoader.CreateInstance(TypeNameGeneratorType);
-
-            if (!string.IsNullOrEmpty(SchemaNameGeneratorType))
-                Settings.SchemaNameGenerator = (ISchemaNameGenerator)assemblyLoader.CreateInstance(SchemaNameGeneratorType);
+            return PostprocessDocument(document);
         }
 
         private string[] GetControllerNames(AssemblyLoader.AssemblyLoader assemblyLoader)
