@@ -74,16 +74,12 @@ namespace NSwag
         [JsonProperty(PropertyName = "operationId", Order = 5, DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string OperationId { get; set; }
 
-        /// <summary>Gets or sets the schemes.</summary>
-        [JsonProperty(PropertyName = "schemes", DefaultValueHandling = DefaultValueHandling.Ignore, ItemConverterType = typeof(StringEnumConverter))]
-        public List<SwaggerSchema> Schemes { get; set; }
-
         /// <summary>Gets or sets a list of MIME types the operation can consume.</summary>
-        [JsonProperty(PropertyName = "consumes", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "consumes", Order = 6, DefaultValueHandling = DefaultValueHandling.Ignore)]
         public List<string> Consumes { get; set; }
 
         /// <summary>Gets or sets a list of MIME types the operation can produce.</summary>
-        [JsonProperty(PropertyName = "produces", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "produces", Order = 7, DefaultValueHandling = DefaultValueHandling.Ignore)]
         public List<string> Produces { get; set; }
 
         /// <summary>Gets or sets the parameters.</summary>
@@ -91,7 +87,7 @@ namespace NSwag
         public IList<SwaggerParameter> Parameters { get; }
 
         /// <summary>Gets or sets the request body (OpenAPI only).</summary>
-        [JsonProperty(PropertyName = "requestBody", Order = 7, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "requestBody", Order = 9, DefaultValueHandling = DefaultValueHandling.Ignore)]
         public OpenApiRequestBody RequestBody
         {
             get => _requestBody;
@@ -125,24 +121,28 @@ namespace NSwag
         }
 
         /// <summary>Gets or sets the HTTP Status Code/Response pairs.</summary>
-        [JsonProperty(PropertyName = "responses", Order = 8, Required = Required.Always, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "responses", Order = 10, Required = Required.Always, DefaultValueHandling = DefaultValueHandling.Ignore)]
         public IDictionary<string, SwaggerResponse> Responses { get; }
 
+        /// <summary>Gets or sets the schemes.</summary>
+        [JsonProperty(PropertyName = "schemes", Order = 11, DefaultValueHandling = DefaultValueHandling.Ignore, ItemConverterType = typeof(StringEnumConverter))]
+        public List<SwaggerSchema> Schemes { get; set; }
+
+        /// <summary>Gets or sets the callbacks (OpenAPI only).</summary>
+        [JsonProperty(PropertyName = "callbacks", Order = 12, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public IDictionary<string, OpenApiCallback> Callbacks { get; set; } = new Dictionary<string, OpenApiCallback>();
+
         /// <summary>Gets or sets a value indicating whether the operation is deprecated.</summary>
-        [JsonProperty(PropertyName = "deprecated", Order = 10, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "deprecated", Order = 13, DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool IsDeprecated { get; set; }
 
         /// <summary>Gets or sets a security description.</summary>
-        [JsonProperty(PropertyName = "security", Order = 11, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "security", Order = 14, DefaultValueHandling = DefaultValueHandling.Ignore)]
         public ICollection<SwaggerSecurityRequirement> Security { get; set; } = new Collection<SwaggerSecurityRequirement>();
 
         /// <summary>Gets or sets the servers (OpenAPI only).</summary>
-        [JsonProperty(PropertyName = "servers", Order = 12, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(PropertyName = "servers", Order = 15, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public ICollection<OpenApiServer> Servers { get; set; } = new Collection<OpenApiServer>();
-
-        /// <summary>Gets or sets the callbacks (OpenAPI only).</summary>
-        [JsonProperty(PropertyName = "callbacks", Order = 9, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public IDictionary<string, OpenApiCallback> Callbacks { get; set; } = new Dictionary<string, OpenApiCallback>();
 
         /// <summary>Gets the list of MIME types the operation can consume, either from the operation or from the <see cref="SwaggerDocument"/>.</summary>
         [JsonIgnore]
@@ -165,7 +165,7 @@ namespace NSwag
         public ICollection<SwaggerSecurityRequirement> ActualSecurity => Security ?? Parent.Parent.Security;
 
         /// <summary>Gets or sets the parameters.</summary>
-        [JsonProperty(PropertyName = "parameters", Order = 6, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "parameters", Order = 8, DefaultValueHandling = DefaultValueHandling.Ignore)]
         internal IList<SwaggerParameter> ParametersRaw
         {
             get
