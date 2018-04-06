@@ -320,6 +320,26 @@ namespace NSwag.Commands
                     SwaggerGenerators.WebApiToSwaggerCommand.AssemblyConfig);
             }
 
+            if (SwaggerGenerators.AspNetCoreToSwaggerCommand != null)
+            {
+                SwaggerGenerators.AspNetCoreToSwaggerCommand.AssemblyPaths =
+                    SwaggerGenerators.AspNetCoreToSwaggerCommand.AssemblyPaths.Select(ConvertToAbsolutePath).ToArray();
+                SwaggerGenerators.AspNetCoreToSwaggerCommand.ReferencePaths =
+                    SwaggerGenerators.AspNetCoreToSwaggerCommand.ReferencePaths.Select(ConvertToAbsolutePath).ToArray();
+
+                SwaggerGenerators.AspNetCoreToSwaggerCommand.DocumentTemplate = ConvertToAbsolutePath(
+                    SwaggerGenerators.AspNetCoreToSwaggerCommand.DocumentTemplate);
+                SwaggerGenerators.AspNetCoreToSwaggerCommand.AssemblyConfig = ConvertToAbsolutePath(
+                    SwaggerGenerators.AspNetCoreToSwaggerCommand.AssemblyConfig);
+
+                SwaggerGenerators.AspNetCoreToSwaggerCommand.Project = ConvertToAbsolutePath(
+                    SwaggerGenerators.AspNetCoreToSwaggerCommand.Project);
+                SwaggerGenerators.AspNetCoreToSwaggerCommand.Configuration = ConvertToAbsolutePath(
+                    SwaggerGenerators.AspNetCoreToSwaggerCommand.Configuration);
+                SwaggerGenerators.AspNetCoreToSwaggerCommand.MSBuildProjectExtensionsPath = ConvertToAbsolutePath(
+                    SwaggerGenerators.AspNetCoreToSwaggerCommand.MSBuildProjectExtensionsPath);
+            }
+
             if (SwaggerGenerators.TypesToSwaggerCommand != null)
             {
                 SwaggerGenerators.TypesToSwaggerCommand.AssemblyPaths =
@@ -374,6 +394,27 @@ namespace NSwag.Commands
                 SwaggerGenerators.WebApiToSwaggerCommand.AssemblyConfig = ConvertToRelativePath(
                     SwaggerGenerators.WebApiToSwaggerCommand.AssemblyConfig);
             }
+
+            if (SwaggerGenerators.AspNetCoreToSwaggerCommand != null)
+            {
+                SwaggerGenerators.AspNetCoreToSwaggerCommand.AssemblyPaths =
+                    SwaggerGenerators.AspNetCoreToSwaggerCommand.AssemblyPaths.Select(ConvertToRelativePath).ToArray();
+                SwaggerGenerators.AspNetCoreToSwaggerCommand.ReferencePaths =
+                    SwaggerGenerators.AspNetCoreToSwaggerCommand.ReferencePaths.Select(ConvertToRelativePath).ToArray();
+
+                SwaggerGenerators.AspNetCoreToSwaggerCommand.DocumentTemplate = ConvertToRelativePath(
+                    SwaggerGenerators.AspNetCoreToSwaggerCommand.DocumentTemplate);
+                SwaggerGenerators.AspNetCoreToSwaggerCommand.AssemblyConfig = ConvertToRelativePath(
+                    SwaggerGenerators.AspNetCoreToSwaggerCommand.AssemblyConfig);
+
+                SwaggerGenerators.AspNetCoreToSwaggerCommand.Project = ConvertToRelativePath(
+                    SwaggerGenerators.AspNetCoreToSwaggerCommand.Project);
+                SwaggerGenerators.AspNetCoreToSwaggerCommand.Configuration = ConvertToRelativePath(
+                    SwaggerGenerators.AspNetCoreToSwaggerCommand.Configuration);
+                SwaggerGenerators.AspNetCoreToSwaggerCommand.MSBuildProjectExtensionsPath = ConvertToRelativePath(
+                    SwaggerGenerators.AspNetCoreToSwaggerCommand.MSBuildProjectExtensionsPath);
+            }
+
 
             if (SwaggerGenerators.TypesToSwaggerCommand != null)
             {

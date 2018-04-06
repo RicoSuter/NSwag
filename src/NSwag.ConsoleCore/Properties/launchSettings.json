@@ -2,7 +2,7 @@
   "profiles": {
     "NSwag.ConsoleCore": {
       "commandName": "Project",
-      "commandLineArgs": "run \"C:\\Data\\Projects\\NSwag\\src\\NSwag.Sample.NETCore11\\nswag.json\""
+      "commandLineArgs": "run \"C:\\Users\\mail\\Desktop\\nswag.json\""
     }
   }
 }

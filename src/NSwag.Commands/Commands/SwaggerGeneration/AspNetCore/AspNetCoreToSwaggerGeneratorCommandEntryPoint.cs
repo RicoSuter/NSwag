@@ -11,23 +11,23 @@ using Newtonsoft.Json;
 using NSwag.SwaggerGeneration.AspNetCore;
 using NSwag.SwaggerGeneration.Processors;
 
-namespace NSwag.Commands
+namespace NSwag.Commands.SwaggerGeneration.AspNetCore
 {
     /// <summary>In-process entry point for the aspnetcore2swagger command.</summary>
     internal class AspNetCoreToSwaggerGeneratorCommandEntryPoint
     {
-        public static void Process(string settingsData)
+        public static void Process(string commandContent, string outputFile, string applicationName)
         {
-            var settings = CreateSettings(settingsData);
-            var serviceProvider = GetServiceProvider(settings.ApplicationName);
+            var serviceProvider = GetServiceProvider(applicationName);
             var apiDescriptionProvider = serviceProvider.GetRequiredService<IApiDescriptionGroupCollectionProvider>();
 
-            var swaggerGenerator = new AspNetCoreToSwaggerGenerator(new AspNetCoreToSwaggerGeneratorSettings());
+            var settings = CreateSettings(commandContent);
+            var swaggerGenerator = new AspNetCoreToSwaggerGenerator(settings);
             var swaggerDocument = swaggerGenerator.GenerateAsync(apiDescriptionProvider.ApiDescriptionGroups).GetAwaiter().GetResult();
 
-            var outputPathDirectory = Path.GetDirectoryName(settings.Output);
+            var outputPathDirectory = Path.GetDirectoryName(outputFile);
             Directory.CreateDirectory(outputPathDirectory);
-            File.WriteAllText(settings.Output, swaggerDocument.ToJson());
+            File.WriteAllText(outputFile, swaggerDocument.ToJson());
         }
 
         private static IServiceProvider GetServiceProvider(string applicationName)
@@ -69,24 +69,26 @@ namespace NSwag.Commands
             throw new InvalidOperationException($"aspnet2swaggercommand requires the entry point type {entryPointType.FullName} to have either an BuildWebHost or CreateWebHostBuilder method. See https://docs.microsoft.com/en-us/aspnet/core/fundamentals/hosting?tabs=aspnetcore2x for suggestions on ways to refactor your startup type.");
         }
 
-        private static AspNetCoreToSwaggerGeneratorCommandSettings CreateSettings(string settingsData)
+        private static AspNetCoreToSwaggerGeneratorSettings CreateSettings(string commandData)
         {
             var assemblyLoader = new AssemblyLoader.AssemblyLoader();
-            var settings = JsonConvert.DeserializeObject<AspNetCoreToSwaggerGeneratorCommandSettings>(settingsData);
-            if (settings.DocumentProcessorTypes != null)
+            var command = JsonConvert.DeserializeObject<AspNetCoreToSwaggerCommand>(commandData);
+
+            var settings = command.Settings;
+            if (command.DocumentProcessorTypes != null)
             {
-                foreach (var p in settings.DocumentProcessorTypes)
+                foreach (var type in command.DocumentProcessorTypes)
                 {
-                    var processor = (IDocumentProcessor)assemblyLoader.CreateInstance(p);
+                    var processor = (IDocumentProcessor)assemblyLoader.CreateInstance(type);
                     settings.DocumentProcessors.Add(processor);
                 }
             }
 
-            if (settings.OperationProcessorTypes != null)
+            if (command.OperationProcessorTypes != null)
             {
-                foreach (var p in settings.OperationProcessorTypes)
+                foreach (var type in command.OperationProcessorTypes)
                 {
-                    var processor = (IOperationProcessor)assemblyLoader.CreateInstance(p);
+                    var processor = (IOperationProcessor)assemblyLoader.CreateInstance(type);
                     settings.OperationProcessors.Add(processor);
                 }
             }

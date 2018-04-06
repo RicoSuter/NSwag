@@ -5,6 +5,7 @@
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
 using System.Threading.Tasks;
 using NConsole;
@@ -17,7 +18,7 @@ namespace NSwag.Commands
     public abstract class IsolatedSwaggerOutputCommandBase : IsolatedCommandBase<string>, IOutputCommand
     {
         /// <summary>Initializes a new instance of the <see cref="IsolatedSwaggerOutputCommandBase"/> class.</summary>
-        public IsolatedSwaggerOutputCommandBase()
+        protected IsolatedSwaggerOutputCommandBase()
         {
             OutputType = SchemaType.Swagger2;
         }

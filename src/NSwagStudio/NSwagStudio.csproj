@@ -174,6 +174,7 @@
     <Compile Include="ViewModels\DocumentModel.cs" />
     <Compile Include="ViewModels\DocumentViewModel.cs" />
     <Compile Include="ViewModels\SwaggerGenerators\AssemblyTypeToSwaggerGeneratorViewModel.cs" />
+    <Compile Include="ViewModels\SwaggerGenerators\AspNetCoreToSwaggerGeneratorViewModel.cs" />
     <Compile Include="ViewModels\SwaggerGenerators\WebApiToSwaggerGeneratorViewModel.cs" />
     <Compile Include="ViewModels\MainWindowModel.cs" />
     <Compile Include="ViewModels\CodeGenerators\SwaggerToTypeScriptClientGeneratorViewModel.cs" />
@@ -205,6 +206,9 @@
       <DependentUpon>SwaggerInputView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\SwaggerGenerators\SwaggerInputViewModel.cs" />
+    <Compile Include="Views\SwaggerGenerators\AspNetCoreToSwaggerGeneratorView.xaml.cs">
+      <DependentUpon>AspNetCoreToSwaggerGeneratorView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SwaggerGenerators\WebApiToSwaggerGeneratorView.xaml.cs">
       <DependentUpon>WebApiToSwaggerGeneratorView.xaml</DependentUpon>
     </Compile>
@@ -249,6 +253,10 @@
     <Page Include="Views\SwaggerGenerators\SwaggerInputView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SwaggerGenerators\AspNetCoreToSwaggerGeneratorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\SwaggerGenerators\WebApiToSwaggerGeneratorView.xaml">
       <SubType>Designer</SubType>

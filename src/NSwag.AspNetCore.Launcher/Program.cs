@@ -8,7 +8,7 @@ namespace NSwag.AspNetCore.Launcher
     internal class Program
     {
         // Used to load NSwag.Commands into a process running with the app's dependency context
-        private const string EntryPointType = "NSwag.Commands.AspNetCoreToSwaggerGeneratorCommandEntryPoint";
+        private const string EntryPointType = "NSwag.Commands.SwaggerGeneration.AspNetCore.AspNetCoreToSwaggerGeneratorCommandEntryPoint";
         private static readonly AssemblyName CommandsAssemblyName = new AssemblyName("NSwag.Commands");
 
         private static readonly Version NSwagVersion = typeof(Program).GetTypeInfo().Assembly.GetName().Version;
@@ -44,6 +44,7 @@ namespace NSwag.AspNetCore.Launcher
             ["Microsoft.Extensions.Primitives"] = new AssemblyLoadInfo(new Version(1, 0, 1)),
             ["Microsoft.Net.Http.Headers"] = new AssemblyLoadInfo(new Version(1, 0, 2)),
             ["Newtonsoft.Json"] = new AssemblyLoadInfo(new Version(9, 0, 0)),
+            ["NConsole"] = new AssemblyLoadInfo(new Version(3, 9, 0, 0)),
             ["NJsonSchema"] = new AssemblyLoadInfo(new Version(9, 7, 7)),
             ["NSwag.AssemblyLoader"] = new AssemblyLoadInfo(NSwagVersion),
             ["NSwag.Commands"] = new AssemblyLoadInfo(NSwagVersion),
@@ -63,15 +64,17 @@ namespace NSwag.AspNetCore.Launcher
                 return (int)ExitCode.InsufficientArguments;
             }
 
-            var settingsFilePath = args[0];
-            var toolsDirectory = args[1];
+            var commandFile = args[0];
+            var outputFile = args[1];
+            var applicationName = args[2];
+            var toolsDirectory = args[3];
 
-            if (!File.Exists(settingsFilePath))
+            if (!File.Exists(commandFile))
             {
                 return (int)ExitCode.SettingsFileNotFound;
             }
 
-            var settingsContent = File.ReadAllText(settingsFilePath);
+            var commandContent = File.ReadAllText(commandFile);
 
             if (!TryLoadReferencedAssemblies())
             {
@@ -89,6 +92,7 @@ namespace NSwag.AspNetCore.Launcher
 
                 if (!File.Exists(assemblyLocation))
                     throw new InvalidOperationException($"Referenced assembly '{assemblyName}' was not found in {toolsDirectory}.");
+
                 return context.LoadFromAssemblyPath(assemblyLocation);
             };
             var assembly = loadContext.LoadFromAssemblyName(CommandsAssemblyName);
@@ -118,7 +122,7 @@ namespace NSwag.AspNetCore.Launcher
 
             try
             {
-                method.Invoke(null, new[] { settingsContent });
+                method.Invoke(null, new[] { commandContent, outputFile, applicationName });
             }
             catch (Exception ex)
             {

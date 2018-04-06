@@ -2,6 +2,8 @@
 using Newtonsoft.Json;
 using NSwag.Commands.CodeGeneration;
 using NSwag.Commands.SwaggerGeneration;
+using NSwag.Commands.SwaggerGeneration.AspNetCore;
+using NSwag.Commands.SwaggerGeneration.WebApi;
 
 namespace NSwag.Commands
 {
@@ -20,6 +22,10 @@ namespace NSwag.Commands
         [JsonIgnore]
         public WebApiToSwaggerCommand WebApiToSwaggerCommand { get; set; }
 
+        /// <summary>Gets or sets the ASP.NET Core to swagger command.</summary>
+        [JsonIgnore]
+        public AspNetCoreToSwaggerCommand AspNetCoreToSwaggerCommand { get; set; }
+
         /// <summary>Gets or sets the assembly type to swagger command.</summary>
         [JsonIgnore]
         public TypesToSwaggerCommand TypesToSwaggerCommand { get; set; }
@@ -31,7 +37,8 @@ namespace NSwag.Commands
             FromSwaggerCommand,
             JsonSchemaToSwaggerCommand, 
             WebApiToSwaggerCommand, 
-            TypesToSwaggerCommand
+            TypesToSwaggerCommand,
+            AspNetCoreToSwaggerCommand
         };
     }
 }
