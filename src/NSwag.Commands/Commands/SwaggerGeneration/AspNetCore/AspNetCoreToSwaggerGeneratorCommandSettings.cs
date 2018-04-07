@@ -6,7 +6,9 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-namespace NSwag.SwaggerGeneration.AspNetCore
+using NSwag.SwaggerGeneration.AspNetCore;
+
+namespace NSwag.Commands.SwaggerGeneration.AspNetCore
 {
     /// <summary>Settings for the AspNetCoreToSwaggerGeneratorCommand and AspNetCoreToSwaggerGeneratorCommandEntryPoint.</summary>
     public class AspNetCoreToSwaggerGeneratorCommandSettings : AspNetCoreToSwaggerGeneratorSettings

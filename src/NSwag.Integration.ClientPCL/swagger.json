@@ -1,5 +1,5 @@
 ﻿{
-  "x-generator": "NSwag v11.16.0.0 (NJsonSchema v9.10.39.0 (Newtonsoft.Json v9.0.0.0))",
+  "x-generator": "NSwag v11.16.1.0 (NJsonSchema v9.10.42.0 (Newtonsoft.Json v9.0.0.0))",
   "info": {
     "title": "Web API Swagger specification",
     "version": "1.0.0"
@@ -140,14 +140,14 @@
         ],
         "responses": {
           "200": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "type": "array",
               "items": {
                 "type": "string"
               }
-            },
-            "x-nullable": true
+            }
           }
         }
       }
@@ -184,11 +184,11 @@
         ],
         "responses": {
           "200": {
+            "x-nullable": false,
             "description": "",
             "schema": {
               "type": "boolean"
-            },
-            "x-nullable": false
+            }
           }
         }
       }
@@ -243,11 +243,11 @@
             "description": ""
           },
           "450": {
+            "x-nullable": true,
             "description": "A custom error occured.",
             "schema": {
               "$ref": "#/definitions/Exception"
-            },
-            "x-nullable": true
+            }
           }
         }
       }
@@ -277,11 +277,11 @@
         ],
         "responses": {
           "200": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "type": "file"
-            },
-            "x-nullable": true
+            }
           }
         }
       }
@@ -303,12 +303,12 @@
         ],
         "responses": {
           "200": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "type": "number",
               "format": "double"
-            },
-            "x-nullable": true
+            }
           }
         }
       }
@@ -321,14 +321,14 @@
         "operationId": "Persons_GetAll",
         "responses": {
           "200": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "type": "array",
               "items": {
                 "$ref": "#/definitions/Person"
               }
-            },
-            "x-nullable": true
+            }
           }
         }
       },
@@ -379,14 +379,14 @@
         ],
         "responses": {
           "200": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "type": "array",
               "items": {
                 "$ref": "#/definitions/Person"
               }
-            },
-            "x-nullable": true
+            }
           }
         }
       }
@@ -415,14 +415,14 @@
         ],
         "responses": {
           "200": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "type": "array",
               "items": {
                 "$ref": "#/definitions/Person"
               }
-            },
-            "x-nullable": true
+            }
           }
         }
       }
@@ -445,18 +445,18 @@
         ],
         "responses": {
           "500": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "$ref": "#/definitions/PersonNotFoundException"
-            },
-            "x-nullable": true
+            }
           },
           "200": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "$ref": "#/definitions/Person"
-            },
-            "x-nullable": true
+            }
           }
         }
       },
@@ -501,11 +501,11 @@
         ],
         "responses": {
           "200": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "$ref": "#/definitions/Person"
-            },
-            "x-nullable": true
+            }
           }
         }
       }
@@ -528,18 +528,18 @@
         ],
         "responses": {
           "200": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "$ref": "#/definitions/Person"
-            },
-            "x-nullable": true
+            }
           },
           "500": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "$ref": "#/definitions/PersonNotFoundException"
-            },
-            "x-nullable": true
+            }
           }
         }
       }
@@ -564,18 +564,18 @@
         ],
         "responses": {
           "200": {
+            "x-nullable": true,
             "description": "The person's name.",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": true
+            }
           },
           "500": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "$ref": "#/definitions/PersonNotFoundException"
-            },
-            "x-nullable": true
+            }
           }
         }
       }
@@ -602,11 +602,11 @@
         ],
         "responses": {
           "200": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": true
+            }
           }
         }
       }
@@ -634,12 +634,12 @@
         ],
         "responses": {
           "200": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "type": "string",
               "format": "byte"
-            },
-            "x-nullable": true
+            }
           }
         }
       }

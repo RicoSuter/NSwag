@@ -50,6 +50,10 @@ namespace NSwag
         /// <summary>Gets the NSwag toolchain version.</summary>
         public static string ToolchainVersion => typeof(SwaggerDocument).GetTypeInfo().Assembly.GetName().Version.ToString();
 
+        /// <summary>Gets or sets the preferred schema type.</summary>
+        [JsonIgnore]
+        public SchemaType SchemaType { get; set; } = SchemaType.Swagger2;
+
         /// <summary>Gets the document path (URI or file path).</summary>
         [JsonIgnore]
         public string DocumentPath { get; private set; }
@@ -102,7 +106,7 @@ namespace NSwag
         /// <returns>The JSON string.</returns>
         public string ToJson()
         {
-            return ToJson(SchemaType.Swagger2);
+            return ToJson(SchemaType);
         }
 
         /// <summary>Converts the description object to JSON.</summary>
@@ -113,16 +117,7 @@ namespace NSwag
             GenerateOperationIds();
 
             var contractResolver = CreateJsonSerializerContractResolver(schemaType);
-
-            JsonSchemaSerializationContext.CurrentSchemaType = schemaType;
-            JsonSchemaReferenceUtilities.UpdateSchemaReferencePaths(this, false, contractResolver);
-
-            var json = JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings
-            {
-                ContractResolver = contractResolver
-            });
-
-            return JsonSchemaReferenceUtilities.ConvertPropertyReferences(json);
+            return JsonSchemaSerialization.ToJson(this, schemaType, contractResolver);
         }
 
         /// <summary>Creates a Swagger specification from a JSON string.</summary>
@@ -139,25 +134,13 @@ namespace NSwag
             else if (expectedSchemaType == SchemaType.JsonSchema)
                 throw new NotSupportedException("The schema type JsonSchema is not supported.");
 
-            data = JsonSchemaReferenceUtilities.ConvertJsonReferences(data);
-
             var contractResolver = CreateJsonSerializerContractResolver(expectedSchemaType);
-            var document = JsonConvert.DeserializeObject<SwaggerDocument>(data, new JsonSerializerSettings
+            return await JsonSchemaSerialization.FromJsonAsync<SwaggerDocument>(data, expectedSchemaType, documentPath, document =>
             {
-                MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
-                ConstructorHandling = ConstructorHandling.Default,
-                ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
-                PreserveReferencesHandling = PreserveReferencesHandling.Objects,
-                ContractResolver = contractResolver
-            });
-
-            document.DocumentPath = documentPath;
-
-            var schemaResolver = new SwaggerSchemaResolver(document, new JsonSchemaGeneratorSettings());
-            var referenceResolver = new JsonReferenceResolver(schemaResolver);
-            await JsonSchemaReferenceUtilities.UpdateSchemaReferencesAsync(document, referenceResolver).ConfigureAwait(false);
-
-            return document;
+                document.SchemaType = expectedSchemaType;
+                var schemaResolver = new SwaggerSchemaResolver(document, new JsonSchemaGeneratorSettings());
+                return new JsonReferenceResolver(schemaResolver);
+            }, contractResolver).ConfigureAwait(false);
         }
 
         /// <summary>Creates a Swagger specification from a JSON file.</summary>

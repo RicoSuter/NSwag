@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using MyToolkit.Mvvm;
 using NSwag.Commands;
-using NSwag.Commands.SwaggerGeneration;
+using NSwag.Commands.SwaggerGeneration.WebApi;
 using NSwagStudio.ViewModels.SwaggerGenerators;
 
 namespace NSwagStudio.Views.SwaggerGenerators
@@ -25,7 +25,7 @@ namespace NSwagStudio.Views.SwaggerGenerators
 
         private WebApiToSwaggerGeneratorViewModel Model => (WebApiToSwaggerGeneratorViewModel)Resources["ViewModel"];
 
-        public string Title => "Web API Assembly";
+        public string Title => "Web API or ASP.NET Core Assembly";
 
         public IOutputCommand Command => Model.Command;
 

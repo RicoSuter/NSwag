@@ -36,8 +36,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Core.Yaml", "NSwag.Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.SwaggerGeneration.AspNetCore", "NSwag.SwaggerGeneration.AspNetCore\NSwag.SwaggerGeneration.AspNetCore.csproj", "{51740C29-AF4F-40AD-BFDE-09E6F8C873D2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.AssemblyLoader", "NSwag.AssemblyLoader\NSwag.AssemblyLoader.csproj", "{E6A8E5FD-4DD2-4D44-B843-F3975631423C}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Core.Tests", "NSwag.Core.Tests\NSwag.Core.Tests.csproj", "{6AB4FD70-2CCF-4876-A193-B5FD6B32C39A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "09 Samples", "09 Samples", "{A0338E8D-A4A3-4380-9FF7-1D0BDC260E31}"
@@ -275,24 +273,6 @@ Global
 		{51740C29-AF4F-40AD-BFDE-09E6F8C873D2}.ReleaseTypeScriptStrict|x64.Build.0 = Release|Any CPU
 		{51740C29-AF4F-40AD-BFDE-09E6F8C873D2}.ReleaseTypeScriptStrict|x86.ActiveCfg = Release|Any CPU
 		{51740C29-AF4F-40AD-BFDE-09E6F8C873D2}.ReleaseTypeScriptStrict|x86.Build.0 = Release|Any CPU
-		{E6A8E5FD-4DD2-4D44-B843-F3975631423C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E6A8E5FD-4DD2-4D44-B843-F3975631423C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E6A8E5FD-4DD2-4D44-B843-F3975631423C}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{E6A8E5FD-4DD2-4D44-B843-F3975631423C}.Debug|x64.Build.0 = Debug|Any CPU
-		{E6A8E5FD-4DD2-4D44-B843-F3975631423C}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{E6A8E5FD-4DD2-4D44-B843-F3975631423C}.Debug|x86.Build.0 = Debug|Any CPU
-		{E6A8E5FD-4DD2-4D44-B843-F3975631423C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E6A8E5FD-4DD2-4D44-B843-F3975631423C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E6A8E5FD-4DD2-4D44-B843-F3975631423C}.Release|x64.ActiveCfg = Release|Any CPU
-		{E6A8E5FD-4DD2-4D44-B843-F3975631423C}.Release|x64.Build.0 = Release|Any CPU
-		{E6A8E5FD-4DD2-4D44-B843-F3975631423C}.Release|x86.ActiveCfg = Release|Any CPU
-		{E6A8E5FD-4DD2-4D44-B843-F3975631423C}.Release|x86.Build.0 = Release|Any CPU
-		{E6A8E5FD-4DD2-4D44-B843-F3975631423C}.ReleaseTypeScriptStrict|Any CPU.ActiveCfg = Release|Any CPU
-		{E6A8E5FD-4DD2-4D44-B843-F3975631423C}.ReleaseTypeScriptStrict|Any CPU.Build.0 = Release|Any CPU
-		{E6A8E5FD-4DD2-4D44-B843-F3975631423C}.ReleaseTypeScriptStrict|x64.ActiveCfg = Release|Any CPU
-		{E6A8E5FD-4DD2-4D44-B843-F3975631423C}.ReleaseTypeScriptStrict|x64.Build.0 = Release|Any CPU
-		{E6A8E5FD-4DD2-4D44-B843-F3975631423C}.ReleaseTypeScriptStrict|x86.ActiveCfg = Release|Any CPU
-		{E6A8E5FD-4DD2-4D44-B843-F3975631423C}.ReleaseTypeScriptStrict|x86.Build.0 = Release|Any CPU
 		{6AB4FD70-2CCF-4876-A193-B5FD6B32C39A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6AB4FD70-2CCF-4876-A193-B5FD6B32C39A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AB4FD70-2CCF-4876-A193-B5FD6B32C39A}.Debug|x64.ActiveCfg = Debug|Any CPU

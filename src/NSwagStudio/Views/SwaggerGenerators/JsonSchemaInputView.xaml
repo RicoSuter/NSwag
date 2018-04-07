@@ -6,11 +6,11 @@
              xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:controls="clr-namespace:NSwagStudio.Controls"
-             xmlns:commands="clr-namespace:NSwag.Commands;assembly=NSwag.Commands"
+             xmlns:codeGeneration="clr-namespace:NSwag.Commands.CodeGeneration;assembly=NSwag.Commands"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
-    <Grid Margin="8" d:DataContext="{d:DesignInstance commands:JsonSchemaToSwaggerCommand}">
+    <Grid Margin="8" d:DataContext="{d:DesignInstance codeGeneration:JsonSchemaToSwaggerCommand}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />

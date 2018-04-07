@@ -1,8 +1,8 @@
 ﻿{
-  "x-generator": "NSwag v11.16.0.0 (NJsonSchema v9.10.39.0 (Newtonsoft.Json v9.0.0.0))",
+  "x-generator": "NSwag v11.16.1.0 (NJsonSchema v9.10.42.0 (Newtonsoft.Json v9.0.0.0))",
   "swagger": "2.0",
   "info": {
-    "title": "Web API Swagger specification",
+    "title": "My Title",
     "version": "1.0.0"
   },
   "consumes": [
@@ -20,14 +20,14 @@
         "operationId": "Values_GetAll",
         "responses": {
           "200": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "type": "array",
               "items": {
                 "type": "string"
               }
-            },
-            "x-nullable": true
+            }
           }
         }
       },
@@ -72,11 +72,11 @@
         ],
         "responses": {
           "200": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "type": "string"
-            },
-            "x-nullable": true
+            }
           }
         }
       },

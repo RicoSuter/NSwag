@@ -19,6 +19,8 @@
                   VerticalScrollBarVisibility="Visible" 
                   HorizontalScrollBarVisibility="Hidden">
         <StackPanel Margin="8" Width="{Binding ElementName=ScrollViewer, Path=ActualWidth, Converter={StaticResource NumberAdditionConverter}, ConverterParameter=-32}">
+            <TextBlock Text="This generator uses .NET reflection to analyze ASP.NET Web API or ASP.NET Core controllers." TextWrapping="Wrap" Margin="0,0,0,12" />
+
             <GroupBox Header="Assembly" Margin="0,0,0,12">
                 <StackPanel Margin="4,8,4,-8">
                     <Grid Margin="0,0,0,12">
@@ -230,7 +232,11 @@
             <dialogs:FileSavePicker ToolTip="OutputFilePath" 
                                     Filter="Swagger Specification JSON (.json)|*.json|Swagger Specification YAML (.yaml)|*.yaml"
                                     DefaultExtension=".cs" 
+                                    Margin="0,0,0,12"
                                     FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" />
+
+            <TextBlock Margin="0,0,0,6" Text="Output Type" TextWrapping="Wrap" FontWeight="Bold" />
+            <ComboBox SelectedItem="{Binding Command.OutputType, Mode=TwoWay}" ItemsSource="{Binding OutputTypes}" Margin="0,0,0,12" />
         </StackPanel>
     </ScrollViewer>
 </UserControl>

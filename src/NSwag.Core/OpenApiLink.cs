@@ -12,7 +12,7 @@ using NJsonSchema.References;
 
 namespace NSwag
 {
-    /// <summary>The Swagger example (OpenAPI only).</summary>
+    /// <summary>The OpenApi link (OpenAPI only).</summary>
     public class OpenApiLink : JsonReferenceBase<OpenApiLink>, IJsonReference
     {
         /// <summary>Gets or sets the example's description.</summary>

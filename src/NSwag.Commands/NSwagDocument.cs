@@ -16,6 +16,8 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NSwag.AssemblyLoader.Utilities;
 using NSwag.Commands.SwaggerGeneration;
+using NSwag.Commands.SwaggerGeneration.AspNetCore;
+using NSwag.Commands.SwaggerGeneration.WebApi;
 
 namespace NSwag.Commands
 {
@@ -33,6 +35,7 @@ namespace NSwag.Commands
         /// <summary>Initializes a new instance of the <see cref="NSwagDocument"/> class.</summary>
         public NSwagDocument()
         {
+            SwaggerGenerators.AspNetCoreToSwaggerCommand = new AspNetCoreToSwaggerCommand();
             SwaggerGenerators.WebApiToSwaggerCommand = new WebApiToSwaggerCommand();
             SwaggerGenerators.TypesToSwaggerCommand = new TypesToSwaggerCommand();
         }
@@ -51,6 +54,7 @@ namespace NSwag.Commands
         {
             return await LoadAsync<NSwagDocument>(filePath, null, false, new Dictionary<Type, Type>
             {
+                { typeof(AspNetCoreToSwaggerCommand), typeof(AspNetCoreToSwaggerCommand) },
                 { typeof(WebApiToSwaggerCommand), typeof(WebApiToSwaggerCommand) },
                 { typeof(TypesToSwaggerCommand), typeof(TypesToSwaggerCommand) }
             });
@@ -64,6 +68,7 @@ namespace NSwag.Commands
         {
             return await LoadAsync<NSwagDocument>(filePath, variables, true, new Dictionary<Type, Type>
             {
+                { typeof(AspNetCoreToSwaggerCommand), typeof(AspNetCoreToSwaggerCommand) },
                 { typeof(WebApiToSwaggerCommand), typeof(WebApiToSwaggerCommand) },
                 { typeof(TypesToSwaggerCommand), typeof(TypesToSwaggerCommand) }
             });

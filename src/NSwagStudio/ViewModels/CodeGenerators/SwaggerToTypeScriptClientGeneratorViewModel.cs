@@ -34,42 +34,42 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         public decimal[] TypeScriptVersions => new[] { 1.8m, 2.0m, 2.4m, 2.7m };
 
         /// <summary>Gets the output templates.</summary>
-        public TypeScriptTemplate[] Templates => Enum.GetNames(typeof(TypeScriptTemplate))
+        public TypeScriptTemplate[] Templates { get; } = Enum.GetNames(typeof(TypeScriptTemplate))
             .Select(t => (TypeScriptTemplate)Enum.Parse(typeof(TypeScriptTemplate), t))
             .ToArray();
 
         /// <summary>Gets the operation modes.</summary>
-        public OperationGenerationMode[] OperationGenerationModes => Enum.GetNames(typeof(OperationGenerationMode))
+        public OperationGenerationMode[] OperationGenerationModes { get; } = Enum.GetNames(typeof(OperationGenerationMode))
             .Select(t => (OperationGenerationMode)Enum.Parse(typeof(OperationGenerationMode), t))
             .ToArray();
 
         /// <summary>Gets the promise types.</summary>
-        public PromiseType[] PromiseTypes => Enum.GetNames(typeof(PromiseType))
+        public PromiseType[] PromiseTypes { get; } = Enum.GetNames(typeof(PromiseType))
             .Select(t => (PromiseType)Enum.Parse(typeof(PromiseType), t))
             .ToArray();
 
         /// <summary>Gets the promise types.</summary>
-        public HttpClass[] HttpClasses => Enum.GetNames(typeof(HttpClass))
+        public HttpClass[] HttpClasses { get; } = Enum.GetNames(typeof(HttpClass))
             .Select(t => (HttpClass)Enum.Parse(typeof(HttpClass), t))
             .ToArray();
 
         /// <summary>Gets the promise types.</summary>
-        public InjectionTokenType[] InjectionTokenTypes => Enum.GetNames(typeof(InjectionTokenType))
+        public InjectionTokenType[] InjectionTokenTypes { get; } = Enum.GetNames(typeof(InjectionTokenType))
             .Select(t => (InjectionTokenType)Enum.Parse(typeof(InjectionTokenType), t))
             .ToArray();
 
         /// <summary>Gets the list of type styles.</summary>
-        public TypeScriptTypeStyle[] TypeStyles => Enum.GetNames(typeof(TypeScriptTypeStyle))
+        public TypeScriptTypeStyle[] TypeStyles { get; } = Enum.GetNames(typeof(TypeScriptTypeStyle))
             .Select(t => (TypeScriptTypeStyle)Enum.Parse(typeof(TypeScriptTypeStyle), t))
             .ToArray();
 
         /// <summary>Gets the list of date time types.</summary>
-        public TypeScriptDateTimeType[] DateTimeTypes => Enum.GetNames(typeof(TypeScriptDateTimeType))
+        public TypeScriptDateTimeType[] DateTimeTypes { get; } = Enum.GetNames(typeof(TypeScriptDateTimeType))
             .Select(t => (TypeScriptDateTimeType)Enum.Parse(typeof(TypeScriptDateTimeType), t))
             .ToArray();
 
         /// <summary>Gets the list of null values.</summary>
-        public TypeScriptNullValue[] NullValues => Enum.GetNames(typeof(TypeScriptNullValue))
+        public TypeScriptNullValue[] NullValues { get; } = Enum.GetNames(typeof(TypeScriptNullValue))
             .Select(t => (TypeScriptNullValue)Enum.Parse(typeof(TypeScriptNullValue), t))
             .ToArray();
 
