@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NConsole;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration;
@@ -149,6 +150,9 @@ namespace NSwag.Commands.SwaggerGeneration
         [Argument(Name = "SchemaNameGenerator", IsRequired = false, Description = "The custom ISchemaNameGenerator implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
         public string SchemaNameGeneratorType { get; set; }
 
+        [Argument(Name = "ContractResolver", IsRequired = false, Description = "The custom IContractResolver implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
+        public string ContractResolverType { get; set; }
+
         public void InitializeCustomTypes(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
             if (DocumentProcessorTypes != null)
@@ -174,6 +178,9 @@ namespace NSwag.Commands.SwaggerGeneration
 
             if (!string.IsNullOrEmpty(SchemaNameGeneratorType))
                 Settings.SchemaNameGenerator = (ISchemaNameGenerator)assemblyLoader.CreateInstance(SchemaNameGeneratorType);
+
+            if (!string.IsNullOrEmpty(ContractResolverType))
+                Settings.ContractResolver = (IContractResolver)assemblyLoader.CreateInstance(ContractResolverType);
         }
 
         public string PostprocessDocument(SwaggerDocument document)
