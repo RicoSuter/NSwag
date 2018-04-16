@@ -17,7 +17,7 @@ url_ = url_.replace("{{ "{" }}{{ parameter.Name }}}", encodeURIComponent("" + {{
 {%     endif -%}
 {%     if parameter.IsOptional -%}
 else
-    url_ = url_.replace("/{{{ parameter.Name }}}", ""); 
+    url_ = url_.replace("/{{ "{" }}{{ parameter.Name }}}", "");
 {%     endif -%}
 {% endfor -%}
 {% for parameter in operation.QueryParameters -%}
