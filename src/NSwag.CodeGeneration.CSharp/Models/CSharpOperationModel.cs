@@ -9,6 +9,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
+using NJsonSchema.CodeGeneration.CSharp;
 using NSwag.CodeGeneration.Models;
 
 namespace NSwag.CodeGeneration.CSharp.Models
@@ -29,7 +30,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         private readonly SwaggerToCSharpGeneratorSettings _settings;
         private readonly SwaggerOperation _operation;
         private readonly SwaggerToCSharpGeneratorBase _generator;
-        private readonly SwaggerToCSharpTypeResolver _resolver;
+        private readonly CSharpTypeResolver _resolver;
 
         /// <summary>Initializes a new instance of the <see cref="CSharpOperationModel" /> class.</summary>
         /// <param name="operation">The operation.</param>
@@ -40,7 +41,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             SwaggerOperation operation,
             SwaggerToCSharpGeneratorSettings settings,
             SwaggerToCSharpGeneratorBase generator,
-            SwaggerToCSharpTypeResolver resolver)
+            CSharpTypeResolver resolver)
             : base(resolver.ExceptionSchema, operation, resolver, generator, settings)
         {
             _settings = settings;

@@ -19,7 +19,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         private readonly string _clientCode;
         private readonly SwaggerDocument _document;
         private readonly SwaggerToCSharpGeneratorSettings _settings;
-        private readonly SwaggerToCSharpTypeResolver _resolver;
+        private readonly CSharpTypeResolver _resolver;
         private readonly ClientGeneratorOutputType _outputType;
         private readonly SwaggerToCSharpGeneratorBase _generator;
 
@@ -36,7 +36,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             SwaggerDocument document,
             SwaggerToCSharpGeneratorSettings settings,
             SwaggerToCSharpGeneratorBase generator,
-            SwaggerToCSharpTypeResolver resolver)
+            CSharpTypeResolver resolver)
         {
             _clientCode = clientCode;
             _outputType = outputType;
