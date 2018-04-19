@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using NJsonSchema.CodeGeneration.CSharp;
 using NSwag.CodeGeneration.CSharp.Models;
 
 namespace NSwag.CodeGeneration.CSharp
@@ -22,7 +23,7 @@ namespace NSwag.CodeGeneration.CSharp
         /// <param name="settings">The settings.</param>
         /// <exception cref="ArgumentNullException"><paramref name="document" /> is <see langword="null" />.</exception>
         public SwaggerToCSharpClientGenerator(SwaggerDocument document, SwaggerToCSharpClientGeneratorSettings settings)
-            : this(document, settings, SwaggerToCSharpTypeResolver.CreateWithDefinitions(settings.CSharpGeneratorSettings, document))
+            : this(document, settings, CreateResolverWithExceptionSchema(settings.CSharpGeneratorSettings, document))
         {
         }
 
@@ -31,7 +32,7 @@ namespace NSwag.CodeGeneration.CSharp
         /// <param name="settings">The settings.</param>
         /// <param name="resolver">The resolver.</param>
         /// <exception cref="ArgumentNullException"><paramref name="document" /> is <see langword="null" />.</exception>
-        public SwaggerToCSharpClientGenerator(SwaggerDocument document, SwaggerToCSharpClientGeneratorSettings settings, SwaggerToCSharpTypeResolver resolver)
+        public SwaggerToCSharpClientGenerator(SwaggerDocument document, SwaggerToCSharpClientGeneratorSettings settings, CSharpTypeResolver resolver)
             : base(document, settings, resolver)
         {
             if (document == null)
@@ -70,7 +71,7 @@ namespace NSwag.CodeGeneration.CSharp
         /// <returns>The code.</returns>
         protected override string GenerateClientClass(string controllerName, string controllerClassName, IList<CSharpOperationModel> operations, ClientGeneratorOutputType outputType)
         {
-            var exceptionSchema = (Resolver as SwaggerToCSharpTypeResolver)?.ExceptionSchema;
+            var exceptionSchema = (Resolver as CSharpTypeResolver)?.ExceptionSchema;
             var model = new CSharpClientTemplateModel(controllerName, controllerClassName, operations, exceptionSchema, _document, Settings)
             {
                 GenerateContracts = outputType == ClientGeneratorOutputType.Full || outputType == ClientGeneratorOutputType.Contracts,
@@ -87,7 +88,7 @@ namespace NSwag.CodeGeneration.CSharp
         /// <returns>The operation model.</returns>
         protected override CSharpOperationModel CreateOperationModel(SwaggerOperation operation, ClientGeneratorBaseSettings settings)
         {
-            return new CSharpOperationModel(operation, (SwaggerToCSharpGeneratorSettings)settings, this, (SwaggerToCSharpTypeResolver)Resolver);
+            return new CSharpOperationModel(operation, (SwaggerToCSharpGeneratorSettings)settings, this, (CSharpTypeResolver)Resolver);
         }
     }
 }

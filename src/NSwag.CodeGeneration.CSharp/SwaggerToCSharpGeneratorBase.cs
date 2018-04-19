@@ -7,7 +7,9 @@
 //-----------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Linq;
 using NJsonSchema;
+using NJsonSchema.CodeGeneration.CSharp;
 using NSwag.CodeGeneration.CSharp.Models;
 
 namespace NSwag.CodeGeneration.CSharp
@@ -22,7 +24,7 @@ namespace NSwag.CodeGeneration.CSharp
         /// <param name="document">The document.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="resolver">The resolver.</param>
-        protected SwaggerToCSharpGeneratorBase(SwaggerDocument document, SwaggerToCSharpGeneratorSettings settings, SwaggerToCSharpTypeResolver resolver)
+        protected SwaggerToCSharpGeneratorBase(SwaggerDocument document, SwaggerToCSharpGeneratorSettings settings, CSharpTypeResolver resolver)
             : base(resolver, settings.CodeGeneratorSettings)
         {
             _document = document;
@@ -36,7 +38,7 @@ namespace NSwag.CodeGeneration.CSharp
         /// <returns>The code.</returns>
         protected override string GenerateFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType)
         {
-            var model = new CSharpFileTemplateModel(clientCode, outputType, _document, _settings, this, (SwaggerToCSharpTypeResolver)Resolver);
+            var model = new CSharpFileTemplateModel(clientCode, outputType, _document, _settings, this, (CSharpTypeResolver)Resolver);
             var template = _settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "File", model);
             return template.Render();
         }
@@ -60,6 +62,21 @@ namespace NSwag.CodeGeneration.CSharp
             return Resolver.Resolve(schema.ActualSchema, isNullable, typeNameHint)
                 .Replace(_settings.CSharpGeneratorSettings.ArrayType + "<", _settings.ResponseArrayType + "<")
                 .Replace(_settings.CSharpGeneratorSettings.DictionaryType + "<", _settings.ResponseDictionaryType + "<");
+        }
+
+        /// <summary>Creates a new resolver, adds the given schema definitions and registers an exception schema if available.</summary>
+        /// <param name="settings">The settings.</param>
+        /// <param name="document">The document </param>
+        public static CSharpTypeResolver CreateResolverWithExceptionSchema(CSharpGeneratorSettings settings, SwaggerDocument document)
+        {
+            var exceptionSchema = document.Definitions.ContainsKey("Exception") ? document.Definitions["Exception"] : null;
+
+            var resolver = new CSharpTypeResolver(settings, exceptionSchema);
+            resolver.RegisterSchemaDefinitions(document.Definitions
+                .Where(p => p.Value != exceptionSchema)
+                .ToDictionary(p => p.Key, p => p.Value));
+
+            return resolver;
         }
     }
 }
