@@ -98,7 +98,7 @@ namespace NSwag.SwaggerGeneration.WebApi
             document.GenerateOperationIds();
 
             foreach (var processor in Settings.DocumentProcessors)
-                await processor.ProcessAsync(new DocumentProcessorContext(document, controllerTypes, schemaResolver, _schemaGenerator));
+                await processor.ProcessAsync(new DocumentProcessorContext(document, controllerTypes, schemaResolver, _schemaGenerator, Settings));
 
             return document;
         }
@@ -211,7 +211,7 @@ namespace NSwag.SwaggerGeneration.WebApi
         private async Task<bool> RunOperationProcessorsAsync(SwaggerDocument document, Type controllerType, MethodInfo methodInfo, SwaggerOperationDescription operationDescription, List<SwaggerOperationDescription> allOperations, SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver)
         {
             var context = new OperationProcessorContext(document, operationDescription, controllerType,
-                methodInfo, swaggerGenerator, _schemaGenerator, schemaResolver, allOperations);
+                methodInfo, swaggerGenerator, _schemaGenerator, schemaResolver, Settings, allOperations);
 
             // 1. Run from settings
             foreach (var operationProcessor in Settings.OperationProcessors)
