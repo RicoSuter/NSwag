@@ -275,10 +275,10 @@ namespace NSwag.AspNetCore
         [Obsolete("API Explorer support is experimental and the output may change until it's stable.")]
         public static IApplicationBuilder UseSwaggerUi3WithApiExplorer(
             this IApplicationBuilder app,
-            Action<SwaggerUiSettings<AspNetCoreToSwaggerGeneratorSettings>> configure = null,
+            Action<SwaggerUi3Settings<AspNetCoreToSwaggerGeneratorSettings>> configure = null,
             SwaggerJsonSchemaGenerator schemaGenerator = null)
         {
-            var settings = new SwaggerUiSettings<AspNetCoreToSwaggerGeneratorSettings>();
+            var settings = new SwaggerUi3Settings<AspNetCoreToSwaggerGeneratorSettings>();
             configure?.Invoke(settings);
 
             app.UseMiddleware<AspNetCoreToSwaggerMiddleware>(settings, schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings));
