@@ -30,6 +30,7 @@ namespace NSwag.SwaggerGeneration.Processors
         {
             var versionAttributes = context.MethodInfo.GetCustomAttributes()
                 .Concat(context.MethodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes())
+                .Concat(context.ControllerType.GetTypeInfo().GetCustomAttributes())
                 .Where(a => a.GetType().IsAssignableTo("MapToApiVersionAttribute", TypeNameStyle.Name) ||
                             a.GetType().IsAssignableTo("ApiVersionAttribute", TypeNameStyle.Name))
                 .Select(a => (dynamic)a)

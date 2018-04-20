@@ -24,6 +24,7 @@ namespace NSwag.SwaggerGeneration.Processors.Contexts
         /// <param name="methodInfo">The method information.</param>
         /// <param name="swaggerGenerator">The swagger generator.</param>
         /// <param name="schemaResolver">The schema resolver.</param>
+        /// <param name="settings">The settings.</param>
         /// <param name="allOperationDescriptions">All operation descriptions.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
         public OperationProcessorContext(
@@ -34,6 +35,7 @@ namespace NSwag.SwaggerGeneration.Processors.Contexts
             SwaggerGenerator swaggerGenerator,
             JsonSchemaGenerator schemaGenerator,
             JsonSchemaResolver schemaResolver,
+            SwaggerGeneratorSettings settings,
             IList<SwaggerOperationDescription> allOperationDescriptions)
         {
             Document = document;
@@ -42,6 +44,7 @@ namespace NSwag.SwaggerGeneration.Processors.Contexts
             MethodInfo = methodInfo;
             SwaggerGenerator = swaggerGenerator;
             SchemaResolver = schemaResolver;
+            Settings = settings;
             SchemaGenerator = schemaGenerator;
             AllOperationDescriptions = allOperationDescriptions;
         }
@@ -63,10 +66,13 @@ namespace NSwag.SwaggerGeneration.Processors.Contexts
         public SwaggerGenerator SwaggerGenerator { get; }
 
         /// <summary>Gets the schema resolver.</summary>
-        public JsonSchemaResolver SchemaResolver { get; private set; }
+        public JsonSchemaResolver SchemaResolver { get; }
+
+        /// <summary>Gets the settings.</summary>
+        public SwaggerGeneratorSettings Settings { get; }
 
         /// <summary>Gets the schema generator.</summary>
-        public JsonSchemaGenerator SchemaGenerator { get; private set; }
+        public JsonSchemaGenerator SchemaGenerator { get; }
 
         /// <summary>Gets or sets all operation descriptions.</summary>
         public IList<SwaggerOperationDescription> AllOperationDescriptions { get; }

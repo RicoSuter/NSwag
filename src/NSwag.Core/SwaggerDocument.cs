@@ -54,9 +54,9 @@ namespace NSwag
         [JsonIgnore]
         public SchemaType SchemaType { get; set; } = SchemaType.Swagger2;
 
-        /// <summary>Gets the document path (URI or file path).</summary>
+        /// <summary>Gets or sets the document path (URI or file path).</summary>
         [JsonIgnore]
-        public string DocumentPath { get; private set; }
+        public string DocumentPath { get; set; }
 
         /// <summary>Gets or sets the Swagger generator information.</summary>
         [JsonProperty(PropertyName = "x-generator", Order = 1, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
