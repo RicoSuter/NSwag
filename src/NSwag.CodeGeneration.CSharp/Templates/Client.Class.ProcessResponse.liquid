@@ -1,7 +1,7 @@
 {% if response.HasType -%}
 {%     if response.IsFile -%}
 {%         if response.IsSuccess -%}
-var responseStream_ = response_.Content == null ? null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
+var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
 var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, {% if InjectHttpClient %}null{% else %}client_{% endif %}, response_); 
 client_ = null; response_ = null; // response and client are disposed by FileResponse
 return fileResponse_;
