@@ -241,14 +241,14 @@ urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({
                     }
 {%         else -%}
 {%             if operation.HasSuccessResponse -%}
-                    var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                     throw new {{ ExceptionClass }}("{{ operation.DefaultResponse.ExceptionDescription }}", (int)response_.StatusCode, responseData_, headers_, null);
 {%             endif -%}
 {%         endif -%}
 {%     else -%}
                     if (status_ != "200" && status_ != "204")
                     {
-                        var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
+                        var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                         throw new {{ ExceptionClass }}("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                     }
 {%     endif -%}
