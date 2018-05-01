@@ -255,7 +255,7 @@ namespace NSwag
         private void UpdateBodyParameter(SwaggerParameter parameter)
         {
             parameter.Kind = SwaggerParameterKind.Body;
-            parameter.Name = RequestBody.Name;
+            parameter.Name = RequestBody.ActualName;
             parameter.Description = RequestBody.Description;
             parameter.IsRequired = RequestBody.IsRequired;
             parameter.Example = RequestBody.Content.FirstOrDefault().Value?.Example;
