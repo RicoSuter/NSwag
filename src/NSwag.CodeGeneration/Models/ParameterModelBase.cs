@@ -6,8 +6,10 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 
@@ -21,6 +23,7 @@ namespace NSwag.CodeGeneration.Models
         private readonly CodeGeneratorSettingsBase _settings;
         private readonly IClientGenerator _generator;
         private readonly ValueGeneratorBase _valueGenerator;
+        private bool _explode;
 
         /// <summary>Initializes a new instance of the <see cref="ParameterModelBase" /> class.</summary>
         /// <param name="parameterName">Name of the parameter.</param>
@@ -64,6 +67,19 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets the parameter kind.</summary>
         public SwaggerParameterKind Kind => _parameter.Kind;
+
+        /// <summary>Gets the parameter style.</summary>
+        public SwaggerParameterStyle Style => _parameter.Style;
+
+        /// <summary>Gets the the value indicating if the parameter values should be exploded when included in the query string.</summary>
+        public bool Explode => _parameter.Explode;
+
+        public bool IsDeepObject => _parameter.Style == SwaggerParameterStyle.DeepObject;
+        
+        public IEnumerable<string> ContainingValuePropertiesNames => _parameter.ActualSchema.ActualProperties.Where(a => a.Value.Type != JsonObjectType.Array).Select(b => Capitalize(b.Key));
+
+
+        public IEnumerable<string> ContainingCollectionPropertiesNames => _parameter.ActualSchema.ActualProperties.Where(a => a.Value.Type == JsonObjectType.Array).Select(b => Capitalize(b.Key));
 
         /// <summary>Gets a value indicating whether the parameter has a description.</summary>
         public bool HasDescription => !string.IsNullOrEmpty(Description);
@@ -124,5 +140,20 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets a value indicating whether the parameter is of type object.</summary>
         public bool IsBody => this.Kind == SwaggerParameterKind.Body;
+        
+
+        private static object GetDefaultValue(Type type)
+        {
+            return type.GetTypeInfo().IsValueType ? Activator.CreateInstance(type) : null;
+        }
+        private static string Capitalize(string argKey)
+        {
+            if (!string.IsNullOrWhiteSpace(argKey))
+            {
+                argKey = argKey.First().ToString().ToUpper() + argKey.Substring(1);
+            }
+
+            return argKey;
+        }
     }
 }

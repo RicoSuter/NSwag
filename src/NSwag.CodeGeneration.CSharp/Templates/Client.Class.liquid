@@ -114,17 +114,41 @@
 {%         endif -%}
 {%     endfor -%}
 {%     for parameter in operation.QueryParameters -%}
-        {% if parameter.IsOptional -%}
-if ({{ parameter.VariableName }} != null) {% endif -%}
-{%         if parameter.IsDateArray -%}
-foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString(item_.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
-{%         elseif parameter.IsDate -%}
-urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}{{ parameter.VariableName }}{% if parameter.IsSystemNullable %}.Value{% endif %}.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "{{ QueryNullValue }}"{% endif %})).Append("&");
-{%         elseif parameter.IsArray -%}
-foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
-{%         else -%}
-urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "{{ QueryNullValue }}"{% endif %})).Append("&");
-{%         endif -%}
+{%- if parameter.IsOptional -%}
+		if ({{ parameter.VariableName }} != null) 
+		{
+{%- endif -%}
+{% if parameter.IsDateArray -%}
+			foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString(item_.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
+{% elseif parameter.IsDate -%}
+			urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}{{ parameter.VariableName }}{% if parameter.IsSystemNullable %}.Value{% endif %}.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "{{ QueryNullValue }}"{% endif %})).Append("&");
+{% elseif parameter.IsArray -%}
+			foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
+{% elseif parameter.IsDeepObject -%}
+{% for property in parameter.ContainingValuePropertiesNames -%}
+			if ({{parameter.Name}}.{{property}} != null)
+			{
+				urlBuilder_.Append("{{parameter.Name}}[{{property}}]=").Append(System.Uri.EscapeDataString(ConvertToString({{parameter.Name}}.{{property}}, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+			}
+{% endfor -%}
+{% for property in parameter.ContainingCollectionPropertiesNames -%}
+			if ({{parameter.Name}}.{{property}} != null && {{parameter.Name}}.{{property}}.Count > 0)
+			{
+                urlBuilder_.Append("{{parameter.Name}}[{{property}}]=");
+                foreach (var p_ in {{parameter.Name}}.{{property}})
+                {
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(p_, System.Globalization.CultureInfo.InvariantCulture))).Append(",");
+                }
+				urlBuilder_.Length--;
+                urlBuilder_.Append("&");
+			}
+{% endfor -%}
+{% else -%}
+			urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "{{ QueryNullValue }}"{% endif %})).Append("&");
+{% endif -%}
+{%- if parameter.IsOptional -%}
+		}
+{%- endif -%}
 {%     endfor -%}
 {%     if operation.HasQueryParameters -%}
         urlBuilder_.Length--;
