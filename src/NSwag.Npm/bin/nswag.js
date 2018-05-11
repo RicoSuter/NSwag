@@ -2,7 +2,7 @@
 "use strict";
 
 var defaultCoreVersion = "11";
-var supportedCoreVersions = ["10", "11", "20"];
+var supportedCoreVersions = ["10", "11", "20", "21"];
 
 // Initialize
 process.title = 'nswag';
@@ -15,6 +15,7 @@ args = args.replace("/runtime:x86", "/runtime:WinX86");
 args = args.replace("--core 1.0", "/runtime:NetCore10");
 args = args.replace("--core 1.1", "/runtime:NetCore11");
 args = args.replace("--core 2.0", "/runtime:NetCore20");
+args = args.replace("--core 2.1", "/runtime:NetCore21");
 args = args.replace("--core", "/runtime:NetCore" + defaultCoreVersion);
 
 // Search for full .NET installation

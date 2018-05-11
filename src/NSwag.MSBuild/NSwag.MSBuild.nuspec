@@ -25,5 +25,6 @@
     <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp1.0\Publish\*" target="build/NetCore10" />
     <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp1.1\Publish\*" target="build/NetCore11" />
     <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp2.0\Publish\*" target="build/NetCore20" />
+    <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp2.1\Publish\*" target="build/NetCore21" />
   </files>
 </package>

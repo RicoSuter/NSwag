@@ -284,6 +284,8 @@ namespace NSwag.Commands
                 return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "NetCore11/dotnet-nswag.dll") + "\" ";
             else if (runtime == Runtime.NetCore20)
                 return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "NetCore20/dotnet-nswag.dll") + "\" ";
+            else if (runtime == Runtime.NetCore21)
+                return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "NetCore21/dotnet-nswag.dll") + "\" ";
             else
 #endif
             return "";
