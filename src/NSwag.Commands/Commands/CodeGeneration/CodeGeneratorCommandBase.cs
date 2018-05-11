@@ -8,6 +8,8 @@
 
 using NConsole;
 using Newtonsoft.Json;
+using NJsonSchema;
+using NJsonSchema.CodeGeneration;
 using NSwag.CodeGeneration;
 
 namespace NSwag.Commands.CodeGeneration
@@ -28,6 +30,28 @@ namespace NSwag.Commands.CodeGeneration
         {
             get { return Settings.CodeGeneratorSettings.TemplateDirectory; }
             set { Settings.CodeGeneratorSettings.TemplateDirectory = value; }
+        }
+
+        [Argument(Name = "TypeNameGenerator", IsRequired = false, Description = "The custom ITypeNameGenerator implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
+        public string TypeNameGeneratorType { get; set; }
+
+        [Argument(Name = "PropertyNameGeneratorType", IsRequired = false, Description = "The custom IPropertyNameGenerator implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
+        public string PropertyNameGeneratorType { get; set; }
+
+        [Argument(Name = "EnumNameGeneratorType", IsRequired = false, Description = "The custom IEnumNameGenerator implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
+        public string EnumNameGeneratorType { get; set; }
+
+        // TODO: Use InitializeCustomTypes method
+        public void InitializeCustomTypes(AssemblyLoader.AssemblyLoader assemblyLoader)
+        {
+            if (!string.IsNullOrEmpty(TypeNameGeneratorType))
+                Settings.CodeGeneratorSettings.TypeNameGenerator = (ITypeNameGenerator)assemblyLoader.CreateInstance(TypeNameGeneratorType);
+
+            if (!string.IsNullOrEmpty(PropertyNameGeneratorType))
+                Settings.CodeGeneratorSettings.PropertyNameGenerator = (IPropertyNameGenerator)assemblyLoader.CreateInstance(PropertyNameGeneratorType);
+
+            if (!string.IsNullOrEmpty(EnumNameGeneratorType))
+                Settings.CodeGeneratorSettings.EnumNameGenerator = (IEnumNameGenerator)assemblyLoader.CreateInstance(EnumNameGeneratorType);
         }
     }
 }
