@@ -15,10 +15,12 @@ dotnet restore "%~dp0/../src/NSwag.ConsoleCore" --no-cache
 dotnet publish "%~dp0/../src/NSwag.ConsoleCore" -c release -f "netcoreapp1.0" -o "bin/release/netcoreapp1.0/Publish" || goto :error
 dotnet publish "%~dp0/../src/NSwag.ConsoleCore" -c release -f "netcoreapp1.1" -o "bin/release/netcoreapp1.1/Publish" || goto :error
 dotnet publish "%~dp0/../src/NSwag.ConsoleCore" -c release -f "netcoreapp2.0" -o "bin/release/netcoreapp2.0/Publish" || goto :error
+dotnet publish "%~dp0/../src/NSwag.ConsoleCore" -c release -f "netcoreapp2.1" -o "bin/release/netcoreapp2.1/Publish" || goto :error
 
 xcopy "%~dp0/../src/NSwag.ConsoleCore/bin/release/netcoreapp1.0/publish" "%~dp0/../src/NSwag.Npm/bin/binaries/NetCore10" /E /I /y
 xcopy "%~dp0/../src/NSwag.ConsoleCore/bin/release/netcoreapp1.1/publish" "%~dp0/../src/NSwag.Npm/bin/binaries/NetCore11" /E /I /y
 xcopy "%~dp0/../src/NSwag.ConsoleCore/bin/release/netcoreapp2.0/publish" "%~dp0/../src/NSwag.Npm/bin/binaries/NetCore20" /E /I /y
+xcopy "%~dp0/../src/NSwag.ConsoleCore/bin/release/netcoreapp2.1/publish" "%~dp0/../src/NSwag.Npm/bin/binaries/NetCore21" /E /I /y
 
 REM Package nuspecs
 "%~dp0/nuget.exe" pack "%~dp0/../src/NSwag.MSBuild/NSwag.MSBuild.nuspec" || goto :error

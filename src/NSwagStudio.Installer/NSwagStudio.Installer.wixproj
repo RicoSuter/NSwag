@@ -56,17 +56,21 @@
 rmdir "../../../../src/NSwagStudio/bin/$(ConfigurationName)/NetCore10" /Q /S nonemptydir
 rmdir "../../../../src/NSwagStudio/bin/$(ConfigurationName)/NetCore11" /Q /S nonemptydir
 rmdir "../../../../src/NSwagStudio/bin/$(ConfigurationName)/NetCore20" /Q /S nonemptydir
+rmdir "../../../../src/NSwagStudio/bin/$(ConfigurationName)/NetCore21" /Q /S nonemptydir
 
 dotnet restore "../../../../src/NSwag.ConsoleCore" --no-cache
 dotnet publish "../../../../src/NSwag.ConsoleCore" -c $(ConfigurationName) -f "netcoreapp1.0" -o "bin/$(ConfigurationName)/netcoreapp1.0/Publish"
 dotnet publish "../../../../src/NSwag.ConsoleCore" -c $(ConfigurationName) -f "netcoreapp1.1" -o "bin/$(ConfigurationName)/netcoreapp1.1/Publish"
 dotnet publish "../../../../src/NSwag.ConsoleCore" -c $(ConfigurationName) -f "netcoreapp2.0" -o "bin/$(ConfigurationName)/netcoreapp2.0/Publish"
+dotnet publish "../../../../src/NSwag.ConsoleCore" -c $(ConfigurationName) -f "netcoreapp2.1" -o "bin/$(ConfigurationName)/netcoreapp2.1/Publish"
 
 xcopy "../../../../src/NSwag.Console.x86/bin/$(ConfigurationName)/net461" "../../../../src/NSwagStudio/bin/$(ConfigurationName)/Win" /E /I /y
 xcopy "../../../../src/NSwag.Console/bin/$(ConfigurationName)/net461" "../../../../src/NSwagStudio/bin/$(ConfigurationName)/Win" /E /I /y
 
 xcopy "../../../../src/NSwag.ConsoleCore/bin/$(ConfigurationName)/netcoreapp1.0/publish" "../../../../src/NSwagStudio/bin/$(ConfigurationName)/NetCore10" /E /I /y
 xcopy "../../../../src/NSwag.ConsoleCore/bin/$(ConfigurationName)/netcoreapp1.1/publish" "../../../../src/NSwagStudio/bin/$(ConfigurationName)/NetCore11" /E /I /y
-xcopy "../../../../src/NSwag.ConsoleCore/bin/$(ConfigurationName)/netcoreapp2.0/publish" "../../../../src/NSwagStudio/bin/$(ConfigurationName)/NetCore20" /E /I /y</PreBuildEvent>
+xcopy "../../../../src/NSwag.ConsoleCore/bin/$(ConfigurationName)/netcoreapp2.0/publish" "../../../../src/NSwagStudio/bin/$(ConfigurationName)/NetCore20" /E /I /y
+xcopy "../../../../src/NSwag.ConsoleCore/bin/$(ConfigurationName)/netcoreapp2.1/publish" "../../../../src/NSwagStudio/bin/$(ConfigurationName)/NetCore21" /E /I /y
+    </PreBuildEvent>
   </PropertyGroup>
 </Project>
