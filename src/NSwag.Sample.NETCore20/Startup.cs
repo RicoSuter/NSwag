@@ -19,7 +19,6 @@ namespace NSwag.Sample.NETCore20
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-
             services.AddSwagger();
         }
 
