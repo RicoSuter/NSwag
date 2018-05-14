@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Options;
+using NJsonSchema;
 using NSwag.SwaggerGeneration;
 using NSwag.SwaggerGeneration.AspNetCore;
 
@@ -78,11 +79,13 @@ namespace NSwag.AspNetCore.Middlewares
 
             try
             {
-                if (_settings.GeneratorSettings.ContractResolver == null)
-                {
-                    // Use MVC configured contract resolver if not already specified in settings
+                // TODO: Move to NJS
+                var isContractResolverSpecified =
+                    _settings.GeneratorSettings.DefaultPropertyNameHandling != PropertyNameHandling.Default ||
+                    _settings.GeneratorSettings.ContractResolver != null;
+
+                if (!isContractResolverSpecified)
                     _settings.GeneratorSettings.ContractResolver = _mvcJsonOptions.Value.SerializerSettings.ContractResolver;
-                }
 
                 var generator = new AspNetCoreToSwaggerGenerator(_settings.GeneratorSettings, _schemaGenerator);
                 var document = await generator.GenerateAsync(apiDescriptionGroups);
