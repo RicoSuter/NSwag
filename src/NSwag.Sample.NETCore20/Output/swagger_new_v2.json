@@ -192,7 +192,7 @@
         "tags": [
           "Pet"
         ],
-        "operationId": "Pet_EditPet2",
+        "operationId": "Pet_EditPetWithFormData",
         "parameters": [
           {
             "type": "integer",
@@ -361,6 +361,81 @@
             }
           },
           "404": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/pet/RequiredAndOptional": {
+      "post": {
+        "tags": [
+          "Pet"
+        ],
+        "operationId": "Pet_RequiredAndOptional",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "int_RequiredAndNotNullable",
+            "in": "query",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          },
+          {
+            "type": "integer",
+            "name": "int_RequiredAndNullable",
+            "in": "query",
+            "required": true,
+            "format": "int32",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "string_RequiredAndNullable",
+            "in": "query",
+            "required": true,
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "string_RequiredAndNotNullable",
+            "in": "query",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "type": "number",
+            "name": "decimalWithDefault_NotRequiredAndNotNullable",
+            "in": "query",
+            "format": "decimal",
+            "default": 1.0,
+            "x-nullable": false
+          },
+          {
+            "type": "number",
+            "name": "decimalWithDefault_NotRequiredAndNullable",
+            "in": "query",
+            "format": "decimal",
+            "default": 1.0,
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "stringWithDefault_NotRequiredAndNullable",
+            "in": "query",
+            "default": "foo",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "stringWithDefault_NotRequiredAndNotNullable",
+            "in": "query",
+            "default": "foo",
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
             "description": ""
           }
         }

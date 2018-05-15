@@ -1,6 +1,6 @@
 Try
 {
-    New-Item -ItemType directory -Path "$PSScriptRoot/Output"
+    New-Item -ItemType directory -Force -Path "$PSScriptRoot/Output"
 
     Invoke-WebRequest -Uri 'http://localhost:65384/swagger_new_ui/v1/swagger.json' -OutFile "$PSScriptRoot/Output/swagger_new_v2.json"
 
