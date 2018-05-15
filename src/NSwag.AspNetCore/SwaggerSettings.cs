@@ -28,10 +28,7 @@ namespace NSwag.AspNetCore
 
 #if !AspNetOwin
             if (GeneratorSettings is WebApiToSwaggerGeneratorSettings)
-            {
                 ((WebApiToSwaggerGeneratorSettings)(object)GeneratorSettings).IsAspNetCore = true;
-                GeneratorSettings.DefaultPropertyNameHandling = PropertyNameHandling.CamelCase;
-            }
 #endif
         }
 
