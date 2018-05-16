@@ -33,9 +33,15 @@ namespace NSwag.AspNetCore.Middlewares
                 context.Response.StatusCode = 302;
 
                 if (context.Request.PathBase.HasValue)
-                    context.Response.Headers.Add("Location", context.Request.PathBase.Value + _fromPath + "/index.html?url=" + context.Request.PathBase.Value + _swaggerPath);
+                {
+                    var suffix = !string.IsNullOrWhiteSpace(_swaggerPath) ? "?url=" + context.Request.PathBase.Value + _swaggerPath : "";
+                    context.Response.Headers.Add("Location", context.Request.PathBase.Value + _fromPath + "/index.html" + suffix);
+                }
                 else
-                    context.Response.Headers.Add("Location", _fromPath + "/index.html?url=" + _swaggerPath);
+                {
+                    var suffix = !string.IsNullOrWhiteSpace(_swaggerPath) ? "?url=" + _swaggerPath : "";
+                    context.Response.Headers.Add("Location", _fromPath + "/index.html" + suffix);
+                }
             }
             else
                 await _nextDelegate.Invoke(context);

@@ -89,6 +89,14 @@ namespace NSwag.Sample.NETCore20
                 s.GeneratorSettings.SchemaType = SchemaType.OpenApi3;
                 s.SwaggerRoute = "/swagger_old_v3/v1/swagger.json";
             });
+
+            // All
+            app.UseSwaggerUi3(s =>
+            {
+                s.SwaggerRoutes.Add(new SwaggerUi3Route("A", "/swagger_new_ui/v1/swagger.json"));
+                s.SwaggerRoutes.Add(new SwaggerUi3Route("B", "http://petstore.swagger.io/v2/swagger.json"));
+                s.SwaggerUiRoute = "/swagger_all";
+            });
         }
     }
 }
