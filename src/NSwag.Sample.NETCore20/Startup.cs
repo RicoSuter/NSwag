@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NJsonSchema;
 using NSwag.AspNetCore;
 
 namespace NSwag.Sample.NETCore20
@@ -33,42 +34,60 @@ namespace NSwag.Sample.NETCore20
 
             // API Explorer based (new)
 
+            // Swagger v2.0
+
             app.UseSwaggerUiWithApiExplorer(s =>
             {
-                s.SwaggerRoute = "/swagger_api_ui/v1/swagger.json";
-                s.SwaggerUiRoute = "/swagger_api_ui";
+                s.SwaggerRoute = "/swagger_new_ui/v1/swagger.json";
+                s.SwaggerUiRoute = "/swagger_new_ui";
             });
 
             app.UseSwaggerUi3WithApiExplorer(s =>
             {
-                s.SwaggerRoute = "/swagger_api_ui3/v1/swagger.json";
-                s.SwaggerUiRoute = "/swagger_api_ui3";
+                s.SwaggerRoute = "/swagger_new_ui3/v1/swagger.json";
+                s.SwaggerUiRoute = "/swagger_new_ui3";
             });
 
             app.UseSwaggerReDocWithApiExplorer(s =>
             {
-                s.SwaggerRoute = "/swagger_api_redoc/v1/swagger.json";
-                s.SwaggerUiRoute = "/swagger_api_redoc";
+                s.SwaggerRoute = "/swagger_new_redoc/v1/swagger.json";
+                s.SwaggerUiRoute = "/swagger_new_redoc";
+            });
+
+            // Swagger 3.0
+
+            app.UseSwaggerWithApiExplorer(s =>
+            {
+                s.GeneratorSettings.SchemaType = SchemaType.OpenApi3;
+                s.SwaggerRoute = "/swagger_new_v3/v1/swagger.json";
             });
 
             // Reflection based (old)
 
             app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, s =>
             {
-                s.SwaggerRoute = "/swagger_ui/v1/swagger.json";
-                s.SwaggerUiRoute = "/swagger_ui";
+                s.SwaggerRoute = "/swagger_old_ui/v1/swagger.json";
+                s.SwaggerUiRoute = "/swagger_old_ui";
             });
 
             app.UseSwaggerUi3(typeof(Startup).GetTypeInfo().Assembly, s =>
             {
-                s.SwaggerRoute = "/swagger_ui3/v1/swagger.json";
-                s.SwaggerUiRoute = "/swagger_ui3";
+                s.SwaggerRoute = "/swagger_old_ui3/v1/swagger.json";
+                s.SwaggerUiRoute = "/swagger_old_ui3";
             });
 
             app.UseSwaggerReDoc(typeof(Startup).GetTypeInfo().Assembly, s =>
             {
-                s.SwaggerRoute = "/swagger_redoc/v1/swagger.json";
-                s.SwaggerUiRoute = "/swagger_redoc";
+                s.SwaggerRoute = "/swagger_old_redoc/v1/swagger.json";
+                s.SwaggerUiRoute = "/swagger_old_redoc";
+            });
+
+            // Swagger 3.0
+
+            app.UseSwagger(typeof(Startup).GetTypeInfo().Assembly, s =>
+            {
+                s.GeneratorSettings.SchemaType = SchemaType.OpenApi3;
+                s.SwaggerRoute = "/swagger_old_v3/v1/swagger.json";
             });
         }
     }

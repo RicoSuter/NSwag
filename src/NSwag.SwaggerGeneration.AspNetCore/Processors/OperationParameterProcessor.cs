@@ -49,9 +49,12 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 
             foreach (var apiParameter in parameters.Where(p => p.Source != null))
             {
+                if (apiParameter.Type == null)
+                    throw new InvalidOperationException("The parameter '" + apiParameter.Name + "' on path '" + httpPath + "' has no type.");
+
                 var parameterDescriptor = apiParameter.TryGetPropertyValue<ParameterDescriptor>("ParameterDescriptor");
                 var parameterName = parameterDescriptor?.Name ?? apiParameter.Name;
-
+                
                 // In Mvc < 2.0, there isn't a good way to infer the attributes of a parameter with a IModelNameProvider.Name
                 // value that's different than the parameter name. Additionally, ApiExplorer will recurse in to complex model bound types
                 // and expose properties as top level parameters. Consequently, determining the property or parameter of an Api is best

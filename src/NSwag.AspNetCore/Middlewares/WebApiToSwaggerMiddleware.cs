@@ -10,6 +10,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using NJsonSchema;
 using NSwag.SwaggerGeneration;
 using NSwag.SwaggerGeneration.WebApi;
 
@@ -19,6 +22,7 @@ namespace NSwag.AspNetCore.Middlewares
     public class WebApiToSwaggerMiddleware
     {
         private readonly RequestDelegate _nextDelegate;
+        private readonly IOptions<MvcJsonOptions> _mvcJsonOptions;
 
         private readonly string _path;
         private readonly IEnumerable<Type> _controllerTypes;
@@ -31,13 +35,15 @@ namespace NSwag.AspNetCore.Middlewares
 
         /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerMiddleware"/> class.</summary>
         /// <param name="nextDelegate">The next delegate.</param>
+        /// <param name="mvcJsonOptions">The injected MVC JSON options.</param>
         /// <param name="path">The path.</param>
         /// <param name="controllerTypes">The controller types.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
-        public WebApiToSwaggerMiddleware(RequestDelegate nextDelegate, string path, IEnumerable<Type> controllerTypes, SwaggerSettings<WebApiToSwaggerGeneratorSettings> settings, SwaggerJsonSchemaGenerator schemaGenerator)
+        public WebApiToSwaggerMiddleware(RequestDelegate nextDelegate, IOptions<MvcJsonOptions> mvcJsonOptions, string path, IEnumerable<Type> controllerTypes, SwaggerSettings<WebApiToSwaggerGeneratorSettings> settings, SwaggerJsonSchemaGenerator schemaGenerator)
         {
             _nextDelegate = nextDelegate;
+            _mvcJsonOptions = mvcJsonOptions;
             _path = path;
             _controllerTypes = controllerTypes;
             _settings = settings;
@@ -74,6 +80,14 @@ namespace NSwag.AspNetCore.Middlewares
                 {
                     try
                     {
+                        // TODO: Move to NJS
+                        var isContractResolverSpecified =
+                            _settings.GeneratorSettings.DefaultPropertyNameHandling != PropertyNameHandling.Default ||
+                            _settings.GeneratorSettings.ContractResolver != null;
+
+                        if (!isContractResolverSpecified)
+                            _settings.GeneratorSettings.ContractResolver = _mvcJsonOptions.Value.SerializerSettings.ContractResolver;
+
                         var generator = new WebApiToSwaggerGenerator(_settings.GeneratorSettings, _schemaGenerator);
                         var document = await generator.GenerateForControllersAsync(_controllerTypes);
 
