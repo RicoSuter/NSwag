@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NSwag.AspNetCore\NSwag.AspNetCore.csproj" />
+    <ProjectReference Include="..\NSwag.Sample.NETCore20.Part\NSwag.Sample.NETCore20.Part.csproj" />
   </ItemGroup>
 
 </Project>

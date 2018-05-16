@@ -10,8 +10,13 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.DependencyInjection;
 using NConsole;
 using Newtonsoft.Json;
 using NSwag.SwaggerGeneration.AspNetCore;
@@ -169,19 +174,23 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
 
         protected override async Task<string> RunIsolatedAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
-            // Run with .dll
-
             Settings.DocumentTemplate = await GetDocumentTemplateAsync();
             InitializeCustomTypes(assemblyLoader);
 
-            // TODO: Load TestServer, get ApiExplorer, run generator
+            var assemblies = await LoadAssembliesAsync(AssemblyPaths, assemblyLoader).ConfigureAwait(false);
+            var startupType = assemblies.First().ExportedTypes.First(t => t.Name == "Startup"); // TODO: Use .NET Core startup lookup or provide setting
 
-            //var generator = new AspNetCoreToSwaggerGenerator(Settings);
-            //var document = await generator.GenerateAsync(controllerTypes).ConfigureAwait(false);
+            using (var testServer = new TestServer(new WebHostBuilder().UseStartup(startupType)))
+            {
+                // See https://github.com/aspnet/Mvc/issues/5690
 
-            //return PostprocessDocument(document);
+                var apiDescriptionProvider = testServer.Host.Services.GetRequiredService<IApiDescriptionGroupCollectionProvider>();
 
-            return null;
+                var generator = new AspNetCoreToSwaggerGenerator(Settings);
+                var document = await generator.GenerateAsync(apiDescriptionProvider.ApiDescriptionGroups).ConfigureAwait(false);
+
+                return PostprocessDocument(document);
+            }
         }
 
         private static void TryDeleteFiles(List<string> files)

@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NJsonSchema;
 using NSwag.AspNetCore;
+using NSwag.Sample.NETCore20.Part;
 
 namespace NSwag.Sample.NETCore20
 {
@@ -19,7 +20,9 @@ namespace NSwag.Sample.NETCore20
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc().
+                AddApplicationPart(typeof(SampleController).GetTypeInfo().Assembly);
+
             services.AddSwagger();
         }
 
