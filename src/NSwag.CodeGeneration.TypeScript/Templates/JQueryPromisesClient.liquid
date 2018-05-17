@@ -11,7 +11,6 @@ export interface I{{ Class }} {
 export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %}{% if GenerateClientInterfaces %}implements I{{ Class }} {% endif %}{
     baseUrl: string; 
     beforeSend: any = undefined; 
-    protected jsonParseReviver: {% if SupportsStrictNullChecks %}((key: string, value: any) => any) | undefined{% else -%}(key: string, value: any) => any{% endif %} = undefined;
 
 {% if HasExtendedConstructor == false -%}
     constructor({% if HasConfigurationClass %}configuration: {{ ConfigurationClass }}, {% endif %}baseUrl?: string) {
@@ -77,9 +76,9 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
     private process{{ operation.ActualOperationNameUpper }}WithCallbacks(_url: string, xhr: any, onSuccess?: any, onFail?: any): void {
         try {
 {%     if UseTransformResultMethod -%}
-            let result = this.transformResult(_url, xhr, (xhr) => this.process{{ operation.ActualOperationNameUpper }}(xhr));
+            let result = this.transformResult(_url, xhr, (xhr) => Utilities.processResponse<{{ operation.ResultType }}>(xhr{% if WrapResponses -%}, {{ operation.ResponseClass }}{% endif -%}));
 {%     else -%}
-            let result = this.process{{ operation.ActualOperationNameUpper }}(xhr);
+            let result = Utilities.processResponse<{{ operation.ResultType }}>(xhr{% if WrapResponses -%}, {{ operation.ResponseClass }}{% endif -%});
 {%     endif -%}
             if (onSuccess !== undefined)
                 onSuccess(result);
@@ -87,12 +86,6 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
             if (onFail !== undefined)
                 onFail(e, "http_service_exception");
         }
-    }
-
-    protected process{{ operation.ActualOperationNameUpper }}(xhr: any): {{ operation.ResultType }}{% if SupportsStrictNullChecks %} | null{% endif %} {
-        const status = xhr.status; 
-
-        {% template Client.ProcessResponse %}
     }
 {% endfor -%}
 }

@@ -144,7 +144,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public bool WrapResponses => _settings.WrapResponses;
 
         /// <summary>Gets the response class name.</summary>
-        public string ResponseClass => _settings.ResponseClass.Replace("{controller}", ControllerName);
+        public string ResponseClass => WrapResponses ? _settings.ResponseClass.Replace("{controller}", ControllerName) : "null";
 
         /// <summary>Resolves the type of the parameter.</summary>
         /// <param name="parameter">The parameter.</param>

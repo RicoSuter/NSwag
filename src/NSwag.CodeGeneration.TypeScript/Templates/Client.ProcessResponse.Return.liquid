@@ -1,25 +1,29 @@
-{% if IsFetchOrAurelia -%}
-{%     if operation.WrapResponse -%}
-return Promise.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
-{%     else -%}
-return Promise.resolve<{{ operation.ResultType }}>(<any>null);
-{%     endif -%}
+{% if IsFetch or IsAurelia -%}
+{% if WrapResponses -%}
+if(responseWrapperClass) {
+    return Promise.resolve<T>(new responseWrapperClass(status, _headers, <any>null));
+}
+{% endif -%}
+return Promise.resolve<T>(<any>null);
 {% elseif IsAngular -%}
-{%     if operation.WrapResponse -%}
-return Observable.of<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
-{%     else -%}
-return Observable.of<{{ operation.ResultType }}>(<any>null);
-{%     endif -%}
+{% if WrapResponses -%}
+if(responseWrapperClass) {
+    return Observable.of<T>(new responseWrapperClass(status, _headers, <any>null));
+}
+{% endif -%}
+return Observable.of<T>(<any>null);
 {% elseif IsAngularJS -%}
-{%     if operation.WrapResponse -%}
-return this.q.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
-{%     else -%}
-return this.q.resolve<{{ operation.ResultType }}>(<any>null);
-{%     endif -%}
+{% if WrapResponses -%}
+if(responseWrapperClass) {
+    return q.resolve<T>(new responseWrapperClass(status, _headers, <any>null));
+}
+{% endif -%}
+return q.resolve<T>(<any>null);
 {% else -%}
-{%     if operation.WrapResponse -%}
-return new {{ operation.ResponseClass }}(status, _headers, <any>null);
-{%     else -%}
-return{% if operation.HasResultType %} null{% endif %};
-{%     endif -%}
+{% if WrapResponses -%}
+if(responseWrapperClass) {
+    return new responseWrapperClass(status, _headers, <any>null);
+}
+{% endif -%}
+return null;
 {% endif -%}

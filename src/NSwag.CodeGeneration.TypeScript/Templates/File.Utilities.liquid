@@ -1,66 +1,123 @@
-﻿{% if IsAngular -%}
-function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): Observable<any> {
+﻿export class Utilities
+{
+    protected static jsonParseReviver?: {% if SupportsStrictNullChecks %}((key: string, value: any) => any) | undefined{% else %}(key: string, value: any) => any{% endif %} = undefined;
+    
+{% if IsFetch or IsAurelia -%}
+    public static processResponse<T>(
+        response: Response,
+{% if WrapResponses -%}        responseWrapperClass: { new(status: number, headers: any, response: any): T ;} | null,{% endif -%}
+        isFile: boolean
+    ): Promise<T> {
+        const status = response.status;
+        {% template Client.ProcessResponse %}
+    }
+{% elseif IsAngular -%}
+    public static processResponse<T>(
+        response: {% if UseAngularHttpClient %}HttpResponseBase{% else %}Response{% endif %},
+{% if WrapResponses -%}        responseWrapperClass: { new(status: number, headers: any, response: any): T ;} | null,{% endif -%}
+        isFile: boolean
+    ): Observable<T> {
+        const status = response.status;
+        {% if UseAngularHttpClient -%}
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        {% endif -%}
+
+        {% template Client.ProcessResponse %}
+    }
+{% elseif IsAngularJS -%}
+    public static processResponse<T>(
+        q: ng.IQService,
+        response: any,
+{% if WrapResponses -%}        responseWrapperClass: { new(status: number, headers: any, response: any): T ;} | null,{% endif -%}
+        isFile: boolean
+    ): ng.IPromise<T> {
+        const status = response.status; 
+
+        {% template Client.ProcessResponse %}
+    }
+{% elseif IsJQueryCallbacks -%}
+    public static processResponse<T>(
+        xhr: any,
+{% if WrapResponses -%}        responseWrapperClass: { new(status: number, headers: any, response: any): T ;} | null,{% endif -%}
+    ): T {
+        const status = xhr.status;
+
+        {% template Client.ProcessResponse %}
+    }
+{% elseif IsJQueryPromises -%}
+    public static processResponse<T>(
+        xhr: any,
+{% if WrapResponses -%}        responseWrapperClass: { new(status: number, headers: any, response: any): T ;} | null,{% endif -%}
+    ): T{% if SupportsStrictNullChecks %} | null{% endif %} {
+        const status = xhr.status; 
+
+        {% template Client.ProcessResponse %}
+    }
+{% endif -%}
+
+{% if IsAngular -%}
+    public static throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): Observable<any> {
 {%     if WrapDtoExceptions -%}
-    return Observable.throw(new SwaggerException(message, status, response, headers, result));
+        return Observable.throw(new SwaggerException(message, status, response, headers, result));
 {%     else -%}
-    if(result !== null && result !== undefined)
-        return Observable.throw(result);
-    else
-        return Observable.throw(new SwaggerException(message, status, response, headers, null));
+        if(result !== null && result !== undefined)
+            return Observable.throw(result);
+        else
+            return Observable.throw(new SwaggerException(message, status, response, headers, null));
 {%     endif -%}
-}
+    }
 
 {% elseif IsAngularJS -%}
-function throwException(q: ng.IQService, message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): ng.IPromise<any> {
+    public static throwException(q: ng.IQService, message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): ng.IPromise<any> {
 {%     if WrapDtoExceptions -%}
-    return q.reject(new SwaggerException(message, status, response, headers, result));
+        return q.reject(new SwaggerException(message, status, response, headers, result));
 {%     else -%}
-    if(result !== null && result !== undefined)
-        return q.reject(result);
-    else
-        return q.reject(new SwaggerException(message, status, response, headers, null));
+        if(result !== null && result !== undefined)
+            return q.reject(result);
+        else
+            return q.reject(new SwaggerException(message, status, response, headers, null));
 {%     endif -%}
-}
+    }
 
 {% else -%}
-function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): any {
+    public static throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): any {
 {%     if WrapDtoExceptions -%}
-    throw new SwaggerException(message, status, response, headers, result);
+        throw new SwaggerException(message, status, response, headers, result);
 {%     else -%}
-    if(result !== null && result !== undefined)
-        throw result;
-    else
-        throw new SwaggerException(message, status, response, headers, null);
+        if(result !== null && result !== undefined)
+            throw result;
+        else
+            throw new SwaggerException(message, status, response, headers, null);
 {%     endif -%}
-}
-
+    }
 {% endif -%}
 {% if IsAngular -%}
-function blobToText(blob: any): Observable<string> {
-    return new Observable<string>((observer: any) => {
-        if (!blob) {
-            observer.next("");
-            observer.complete();
-        } else {
+    public static blobToText(blob: any): Observable<string> {
+        return new Observable<string>((observer: any) => {
+            if (!blob) {
+                observer.next("");
+                observer.complete();
+            } else {
+                let reader = new FileReader(); 
+                reader.onload = function() { 
+                    observer.next(this.result);
+                    observer.complete();
+                }
+                reader.readAsText(blob); 
+            }
+        });
+    }
+{% elseif IsAngularJS -%}
+    public static blobToText(blob: Blob, q: ng.IQService): ng.IPromise<string> {
+        return new q((resolve) => { 
             let reader = new FileReader(); 
             reader.onload = function() { 
-                observer.next(this.result);
-                observer.complete();
+                resolve(this.result);
             }
             reader.readAsText(blob); 
-        }
-    });
-}
-
-{% elseif IsAngularJS -%}
-function blobToText(blob: Blob, q: ng.IQService): ng.IPromise<string> {
-    return new q((resolve) => { 
-        let reader = new FileReader(); 
-        reader.onload = function() { 
-            resolve(this.result);
-        }
-        reader.readAsText(blob); 
-    });
-}
-
+        });
+    }
 {% endif -%}
+}

@@ -1,0 +1,38 @@
+{% if CanRequestBlobs -%}
+if (isFile) {
+{%     if IsAngularJS -%}
+    const contentDisposition = response.headers ? response.headers("content-disposition") : undefined;
+{%     else -%}
+    const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+{%     endif -%}
+    const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+    const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+{% if WrapResponses -%}
+    if (responseWrapperClass) {
+{%         if IsAngular -%}
+        return Observable.of(new responseWrapperClass(status, _headers, { fileName: fileName, data: {% if UseAngularHttpClient %}<any>responseBlob{% else %}<any>response.blob(){% endif %}, status: status, headers: _headers }));
+{%         elseif IsAngularJS -%}
+        return q.resolve(new responseWrapperClass(status, _headers, { fileName: fileName, status: status, data: new Blob([response.data]), headers: _headers }));
+{%         else -%}
+        return response.blob().then(blob => { return new responseWrapperClass(status, _headers, { fileName: fileName, data: blob, status: status, headers: _headers }); });
+{%         endif -%}
+    } else {
+{%         if IsAngular -%}
+        return Observable.of(<T><any>{ fileName: fileName, data: {% if UseAngularHttpClient %}<any>responseBlob{% else %}<any>response.blob(){% endif %}, status: status, headers: _headers });
+{%         elseif IsAngularJS -%}
+        return q.resolve(<T><any>{ fileName: fileName, status: status, data: new Blob([response.data]), headers: _headers });
+{%         else -%}
+        return response.blob().then(blob => { return <T><any>{ fileName: fileName, data: blob, status: status, headers: _headers }; });
+{%         endif -%}
+    }
+{% else -%}
+{%         if IsAngular -%}
+    return Observable.of(<T><any>{ fileName: fileName, data: {% if UseAngularHttpClient %}<any>responseBlob{% else %}<any>response.blob(){% endif %}, status: status, headers: _headers });
+{%         elseif IsAngularJS -%}
+    return q.resolve(<T><any>{ fileName: fileName, status: status, data: new Blob([response.data]), headers: _headers });
+{%         else -%}
+    return response.blob().then(blob => { return <T><any>{ fileName: fileName, data: blob, status: status, headers: _headers }; });
+{%         endif -%}
+{% endif -%}
+}
+{% endif -%}

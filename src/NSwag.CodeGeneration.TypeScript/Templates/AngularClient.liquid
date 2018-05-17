@@ -11,7 +11,6 @@ export interface I{{ Class }} {
 export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %}{% if GenerateClientInterfaces %}implements I{{ Class }} {% endif %}{
     private http: {{ AngularHttpClass }};
     private baseUrl: string;
-    protected jsonParseReviver: {% if SupportsStrictNullChecks %}((key: string, value: any) => any) | undefined{% else %}(key: string, value: any) => any{% endif %} = undefined;
 
 {% if HasExtendedConstructor == false -%}
     constructor({% if HasConfigurationClass %}@Inject({{ ConfigurationClass }}) configuration: {{ ConfigurationClass }}, {% endif %}@Inject({{ AngularHttpClass }}) http: {{ AngularHttpClass }}, @Optional() @Inject({{ BaseUrlTokenName }}) baseUrl?: string) {
@@ -74,17 +73,17 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
         return this.http.request({% if UseAngularHttpClient %}"{{ operation.HttpMethodLower }}", {% endif %}url_, options_).flatMap((response_ : any) => {
 {%     endif -%}
 {%     if UseTransformResultMethod -%}
-            return this.transformResult(url_, response_, (r) => this.process{{ operation.ActualOperationNameUpper }}(<any>r));
+            return this.transformResult(url_, response_, (r) => Utilities.processResponse<{{ operation.ResultType }}>(<any>r{% if WrapResponses -%}, {{ operation.ResponseClass }}{% endif -%}, {{ operation.IsFile }}));
 {%     else -%}
-            return this.process{{ operation.ActualOperationNameUpper }}(response_);
+            return Utilities.processResponse<{{ operation.ResultType }}>(response_{% if WrapResponses -%}, {{ operation.ResponseClass }}{% endif -%}, {{ operation.IsFile }});
 {%     endif -%}
         }).catch((response_: any) => {
             if (response_ instanceof {% if UseAngularHttpClient %}HttpResponseBase{% else %}Response{% endif %}) {
                 try {
 {%     if UseTransformResultMethod -%}
-                    return this.transformResult(url_, response_, (r) => this.process{{ operation.ActualOperationNameUpper }}(<any>r));
+                    return this.transformResult(url_, response_, (r) => Utilities.processResponse<{{ operation.ResultType }}>(<any>r{% if WrapResponses -%}, {{ operation.ResponseClass }}{% endif -%}, {{ operation.IsFile }}));
 {%     else -%}
-                    return this.process{{ operation.ActualOperationNameUpper }}(<any>response_);
+                    return Utilities.processResponse<{{ operation.ResultType }}>(<any>response_{% if WrapResponses -%}, {{ operation.ResponseClass }}{% endif -%}, {{ operation.IsFile }});
 {%     endif -%}
                 } catch (e) {
                     return <Observable<{{ operation.ResultType }}>><any>Observable.throw(e);
@@ -92,17 +91,6 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
             } else
                 return <Observable<{{ operation.ResultType }}>><any>Observable.throw(response_);
         });
-    }
-
-    protected process{{ operation.ActualOperationNameUpper }}(response: {% if UseAngularHttpClient %}HttpResponseBase{% else %}Response{% endif %}): Observable<{{ operation.ResultType }}> {
-        const status = response.status;
-{% if UseAngularHttpClient -%}
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-{% endif -%}
-
-        {% template Client.ProcessResponse %}
     }
 {% endfor -%}
 }

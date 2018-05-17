@@ -1,0 +1,19 @@
+﻿const errorMessage = status < 500 ? "A server error occurred." : "An unexpected server error occurred.";
+{% if IsFetch or IsAurelia -%}
+return response.text().then((_responseText) => {
+    return Utilities.throwException(errorMessage, status, _responseText, _headers);
+});
+{% elseif UseAngularHttpClient -%}
+return Utilities.blobToText(responseBlob).flatMap(_responseText => {
+    return Utilities.throwException(errorMessage, status, _responseText, _headers);
+});
+{% elseif IsAngular -%}
+const _responseText = response.text();
+return Utilities.throwException(errorMessage, status, _responseText, _headers);
+{% elseif IsAngularJS -%}
+const _responseText = response.data;
+return Utilities.throwException(q, errorMessage, status, _responseText, _headers);
+{% else -%}
+const _responseText = xhr.responseText;
+return Utilities.throwException(errorMessage, status, _responseText, _headers);
+{% endif -%}

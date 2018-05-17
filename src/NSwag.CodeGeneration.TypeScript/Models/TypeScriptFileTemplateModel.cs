@@ -60,6 +60,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets a value indicating whether the generated code is for Aurelia.</summary>
         public bool IsAurelia => _settings.Template == TypeScriptTemplate.Aurelia;
 
+        /// <summary>Gets a value indicating whether the generated code is for Fetch.</summary>
+        public bool IsFetch => _settings.Template == TypeScriptTemplate.Fetch;
+
         /// <summary>Gets a value indicating whether the generated code is for Angular.</summary>
         public bool IsAngularJS => _settings.Template == TypeScriptTemplate.AngularJS;
 
@@ -68,12 +71,21 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         /// <summary>Gets a value indicating whether to render for JQuery.</summary>
         public bool IsJQuery => _settings.Template == TypeScriptTemplate.JQueryCallbacks || _settings.Template == TypeScriptTemplate.JQueryPromises;
+        
+        /// <summary>Gets a value indicating whether to render for JQueryCallbacks.</summary>
+        public bool IsJQueryCallbacks => _settings.Template == TypeScriptTemplate.JQueryCallbacks;
+
+        /// <summary>Gets a value indicating whether to render for JQueryPromises.</summary>
+        public bool IsJQueryPromises => _settings.Template == TypeScriptTemplate.JQueryPromises;
 
         /// <summary>Gets or sets a value indicating whether DTO exceptions are wrapped in a SwaggerException instance.</summary>
         public bool WrapDtoExceptions => _settings.WrapDtoExceptions;
 
         /// <summary>Gets or sets a value indicating whether to wrap success responses to allow full response access.</summary>
         public bool WrapResponses => _settings.WrapResponses;
+        
+        /// <summary>Gets a value indicating whether the template can request blobs.</summary>
+        public bool CanRequestBlobs => !IsJQuery;
 
         /// <summary>Gets or sets a value indicating whether to generate the response class (only applied when WrapResponses == true, default: true).</summary>
         public bool GenerateResponseClasses => _settings.GenerateResponseClasses;
