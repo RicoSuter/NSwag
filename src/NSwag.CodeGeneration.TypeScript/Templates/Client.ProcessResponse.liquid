@@ -14,7 +14,7 @@ if (status === {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %}
 {% else -%}
 if (status !== 200 && status !== 204) {
     {% template Client.ProcessResponse.ReadBodyStart %}
-    return throwException({% if IsAngularJS %}this.q, {% endif %}"An unexpected server error occurred.", status, _responseText, _headers);
+    return throwException({% if Framework.IsAngularJS %}this.q, {% endif %}"An unexpected server error occurred.", status, _responseText, _headers);
     {% template Client.ProcessResponse.ReadBodyEnd %}
 }
 {% template Client.ProcessResponse.Return %}
