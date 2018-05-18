@@ -7,7 +7,13 @@ export interface I{{ Class }} {
 {%     endfor -%}}
 {% endif -%}
 
+{% if UseSingletonProvider -%}
+@Injectable({
+    providedIn: 'root'
+})
+{% else -%}
 @Injectable()
+{% endif -%}
 export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %}{% if GenerateClientInterfaces %}implements I{{ Class }} {% endif %}{
     private http: {{ AngularHttpClass }};
     private baseUrl: string;
