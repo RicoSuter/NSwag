@@ -54,6 +54,12 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <summary>Gets or sets the HTTP service class (applies only for the Angular template).</summary>
         public HttpClass HttpClass { get; set; } = HttpClass.Http;
 
+        /// <summary>Gets or sets the RxJS version (<= 5.2 or >= 6) to be used in the generated template (applies only for the Angular template).</summary>
+        public bool UseRxJs6 { get; set; } = true;
+
+        /// <summary>Gets or sets the Angular 6 Singleton Provider (applies only for the Angular template).</summary>
+        public bool UseSingletonProvider { get; set; } = true;
+
         /// <summary>Gets or sets the injection token type (applies only for the Angular template).</summary>
         public InjectionTokenType InjectionTokenType { get; set; } = InjectionTokenType.OpaqueToken;
 
