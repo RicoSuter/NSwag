@@ -19,18 +19,18 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         }
 
         /// <summary>Gets the RxJs observable mergeMap method name.</summary>
-        public string ObservableMergeMapMethod => _model.UseRxJs5 ? "flatMap" : "observableMergeMap";
+        public string ObservableMergeMapMethod => _model.UseRxJs5 ? "flatMap" : "observableMergeMap_";
 
         /// <summary>Gets the RxJs observable catch method name.</summary>
-        public string ObservableCatchMethod => _model.UseRxJs5 ? "catch" : "observableCatch";
+        public string ObservableCatchMethod => _model.UseRxJs5 ? "catch" : "observableCatch_";
 
         /// <summary>Gets the RxJs observable of method name.</summary>
-        public string ObservableOfMethod => _model.UseRxJs5 ? "Observable.of" : "observableOf";
+        public string ObservableOfMethod => _model.UseRxJs5 ? "Observable.of" : "observableOf_";
 
         /// <summary>Gets the RxJs observable from method name.</summary>
-        public string ObservableFromMethod => _model.UseRxJs5 ? "Observable.fromPromise" : "observableFrom";
+        public string ObservableFromMethod => _model.UseRxJs5 ? "Observable.fromPromise" : "observableFrom_";
 
         /// <summary>Gets the RxJs observable throw method name.</summary>
-        public string ObservableThrowMethod => _model.UseRxJs5 ? "Observable.throw" : "observableThrow";
+        public string ObservableThrowMethod => _model.UseRxJs5 ? "Observable.throw" : "observableThrow_";
     }
 }

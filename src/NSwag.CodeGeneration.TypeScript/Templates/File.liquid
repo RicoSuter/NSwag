@@ -11,7 +11,7 @@
 {%     if GenerateClientClasses -%}
 {%         if Framework.IsAngular -%}
 
-{%             if UseRxJx5 -%}
+{%             if Framework.UseRxJs5 -%}
 import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/throw';
@@ -22,8 +22,8 @@ import 'rxjs/add/operator/catch';
 
 import { Observable } from 'rxjs/Observable';
 {%             else -%}
-import { mergeMap as observableMergeMap, catchError as observableCatch } from 'rxjs/operators';
-import { Observable, from as observableFrom, throwError as observableThrow, of as observableOf } from 'rxjs';
+import { mergeMap as {{ Framework.RxJs.ObservableMergeMapMethod }}, catchError as {{ Framework.RxJs.ObservableCatchMethod }} } from 'rxjs/operators';
+import { Observable, from as {{ Framework.RxJs.ObservableFromMethod }}, throwError as {{ Framework.RxJs.ObservableThrowMethod }}, of as {{ Framework.RxJs.ObservableOfMethod }} } from 'rxjs';
 {%             endif -%}
 import { Injectable, Inject, Optional, {{ Framework.Angular.InjectionTokenType }} } from '@angular/core';
 {%             if Framework.Angular.UseHttpClient -%}
