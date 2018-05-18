@@ -24,10 +24,15 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets or sets the token name for injecting the API base URL string (used in the Angular template).</summary>
         public string BaseUrlTokenName => _settings.BaseUrlTokenName;
 
-        /// <summary>Gets a value indicating whether to use HttpClient with the Angular template.</summary>
-        public bool UseHttpClient => _settings.HttpClass == TypeScript.HttpClass.HttpClient;
-
         /// <summary>Gets the HTTP client class name.</summary>
         public string HttpClass => UseHttpClient ? "HttpClient" : "Http";
+
+        /// <summary>Gets a value indicating whether to use HttpClient with the Angular template.</summary>
+        public bool UseHttpClient => _settings.Template == TypeScriptTemplate.Angular && 
+                                     _settings.HttpClass == TypeScript.HttpClass.HttpClient;
+
+        /// <summary>Gets a value indicating whether to use the Angular 6 Singleton Provider (Angular template only, default: false).</summary>
+        public bool UseSingletonProvider => _settings.Template == TypeScriptTemplate.Angular && 
+                                            _settings.UseSingletonProvider;
     }
 }

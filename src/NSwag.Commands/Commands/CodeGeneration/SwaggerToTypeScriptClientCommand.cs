@@ -73,7 +73,14 @@ namespace NSwag.Commands.CodeGeneration
             get { return Settings.HttpClass; }
             set { Settings.HttpClass = value; }
         }
-        
+
+        [Argument(Name = "UseSingletonProvider", IsRequired = false, Description = "Specifies whether to use the Angular 6 Singleton Provider (Angular template only, default: false).")]
+        public bool UseSingletonProvider
+        {
+            get { return Settings.UseSingletonProvider; }
+            set { Settings.UseSingletonProvider = value; }
+        }
+
         [Argument(Name = "InjectionTokenType", IsRequired = false, Description = "The Angular injection token type (default 'OpaqueToken', 'InjectionToken').")]
         public InjectionTokenType InjectionTokenType
         {
