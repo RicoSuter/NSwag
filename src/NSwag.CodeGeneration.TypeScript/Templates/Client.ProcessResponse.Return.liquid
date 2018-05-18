@@ -6,9 +6,9 @@ return Promise.resolve<{{ operation.ResultType }}>(<any>null);
 {%     endif -%}
 {% elseif IsAngular -%}
 {%     if operation.WrapResponse -%}
-return Observable.of<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
+return {{ ObservableOfMethod }}<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
 {%     else -%}
-return Observable.of<{{ operation.ResultType }}>(<any>null);
+return {{ ObservableOfMethod }}<{{ operation.ResultType }}>(<any>null);
 {%     endif -%}
 {% elseif IsAngularJS -%}
 {%     if operation.WrapResponse -%}

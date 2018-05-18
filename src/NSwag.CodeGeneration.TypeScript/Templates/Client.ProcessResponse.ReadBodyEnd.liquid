@@ -1,3 +1,7 @@
 {% if IsFetchOrAurelia or operation.RequestAngularBlobs or UseAngularHttpClient or operation.RequestAngularJSBlobs -%}
+{%     if UseRxJs6 -%}
+}));
+{%     else -%}
 });
+{%     endif -%}
 {% endif -%}

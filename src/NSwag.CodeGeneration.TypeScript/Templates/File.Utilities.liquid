@@ -1,12 +1,12 @@
 ﻿{% if IsAngular -%}
 function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): Observable<any> {
 {%     if WrapDtoExceptions -%}
-    return Observable.throw(new SwaggerException(message, status, response, headers, result));
+    return {{ ObservableThrowMethod }}(new SwaggerException(message, status, response, headers, result));
 {%     else -%}
     if(result !== null && result !== undefined)
-        return Observable.throw(result);
+        return {{ ObservableThrowMethod }}(result);
     else
-        return Observable.throw(new SwaggerException(message, status, response, headers, null));
+        return {{ ObservableThrowMethod }}(new SwaggerException(message, status, response, headers, null));
 {%     endif -%}
 }
 

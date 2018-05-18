@@ -127,6 +127,16 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public bool IsFetchOrAurelia => _settings.Template == TypeScriptTemplate.Fetch ||
                                         _settings.Template == TypeScriptTemplate.Aurelia;
 
+        public string ObservableMergeMapMethod => UseRxJs5 ? "flatMap" : "observableMergeMap";
+
+        public string ObservableCatchMethod => UseRxJs5 ? "catch" : "observableCatch";
+
+        public string ObservableOfMethod => UseRxJs5 ? "Observable.of" : "observableOf";
+
+        public string ObservableFromMethod => UseRxJs5 ? "Observable.fromPromise" : "observableFrom";
+
+        public string ObservableThrowMethod => UseRxJs5 ? "Observable.throw" : "observableThrow";
+
         // Angular only
 
         /// <summary>Gets or sets the token name for injecting the API base URL string (used in the Angular2 template).</summary>
@@ -137,5 +147,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         /// <summary>Gets the HTTP client class name.</summary>
         public string AngularHttpClass => UseAngularHttpClient ? "HttpClient" : "Http";
+
+        public bool UseRxJs5 => false;
+
+        public bool UseRxJs6 => true;
     }
 }

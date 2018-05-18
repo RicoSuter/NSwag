@@ -68,6 +68,12 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         /// <summary>Gets a value indicating whether to render for JQuery.</summary>
         public bool IsJQuery => _settings.Template == TypeScriptTemplate.JQueryCallbacks || _settings.Template == TypeScriptTemplate.JQueryPromises;
+        
+        public bool UseRxJs5 => false;
+
+        public bool UseRxJs6 => true;
+
+        public string ObservableThrowMethod => UseRxJs5 ? "Observable.throw" : "observableThrow";
 
         /// <summary>Gets or sets a value indicating whether DTO exceptions are wrapped in a SwaggerException instance.</summary>
         public bool WrapDtoExceptions => _settings.WrapDtoExceptions;
@@ -166,7 +172,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         /// <summary>Gets or sets the token name for injecting the API base URL string (used in the Angular template).</summary>
         public string BaseUrlTokenName => _settings.BaseUrlTokenName;
-
+        
         private string GenerateDtoTypes()
         {
             var generator = new TypeScriptGenerator(_document, _settings.TypeScriptGeneratorSettings, _resolver);

@@ -11,6 +11,7 @@
 {%     if GenerateClientClasses -%}
 {%         if IsAngular -%}
 
+{%             if UseRxJx5 -%}
 import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/throw';
@@ -20,6 +21,10 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/catch';
 
 import { Observable } from 'rxjs/Observable';
+{%             else -%}
+import { mergeMap as observableMergeMap, catchError as observableCatch } from 'rxjs/operators';
+import { Observable, from as observableFrom, throwError as observableThrow, of as observableOf } from 'rxjs';
+{%             endif -%}
 import { Injectable, Inject, Optional, {{ InjectionTokenType }} } from '@angular/core';
 {%             if UseAngularHttpClient -%}
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse, HttpResponseBase, HttpErrorResponse } from '@angular/common/http';
