@@ -69,9 +69,14 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets a value indicating whether to render for JQuery.</summary>
         public bool IsJQuery => _settings.Template == TypeScriptTemplate.JQueryCallbacks || _settings.Template == TypeScriptTemplate.JQueryPromises;
         
-        public bool UseRxJs5 => false;
+        /// <summary>Gets a value indicating to use RxJS5 with Angular template..</summary>
+        public bool UseRxJs5 => !_settings.UseRxJs6;
 
-        public bool UseRxJs6 => true;
+        /// <summary>Gets a value indicating to use RxJS6 with Angular template..</summary>
+        public bool UseRxJs6 => _settings.UseRxJs6;
+
+        /// <summary>Gets a value indicating to use new Angular 6 Singleton Provider with Angular template..</summary>
+        public bool UseSingletonProvider => _settings.UseSingletonProvider;
 
         public string ObservableThrowMethod => UseRxJs5 ? "Observable.throw" : "observableThrow";
 
