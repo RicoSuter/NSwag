@@ -63,6 +63,11 @@
                                 <GroupBox Header="Angular" 
                                           Visibility="{Binding Command.Template, ConverterParameter='Angular', Converter={StaticResource EqualityConverter}}" Margin="0,0,0,12">
                                     <StackPanel Margin="4,4,4,-8">
+                                        <TextBlock Text="RxJs Version" FontWeight="Bold" Margin="0,0,0,6" />
+                                        <ComboBox SelectedItem="{Binding Command.RxJsVersion, Mode=TwoWay}" 
+                                                  ToolTip="RxJsVersion"
+                                                  ItemsSource="{Binding RxJsVersions}" Margin="0,0,0,12" />
+
                                         <TextBlock Text="HTTP service class" FontWeight="Bold" Margin="0,0,0,6" />
                                         <TextBlock Text="HttpClient recommended for new projects (Angular 4.3+)" Margin="0,0,0,6" />
                                         <ComboBox SelectedItem="{Binding Command.HttpClass, Mode=TwoWay}" 

@@ -90,6 +90,9 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <summary>Gets or sets the null value used for query parameters which are null (default: '').</summary>
         public string QueryNullValue { get; set; }
 
+        /// <summary>Gets the RxJs version (Angular template only, default: 5.0).</summary>
+        public decimal RxJsVersion { get; set; } = 5.0m;
+
         internal ITemplate CreateTemplate(object model)
         {
             if (Template == TypeScriptTemplate.Aurelia)

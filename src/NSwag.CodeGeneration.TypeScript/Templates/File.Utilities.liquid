@@ -1,16 +1,16 @@
-﻿{% if IsAngular -%}
+﻿{% if Framework.IsAngular -%}
 function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): Observable<any> {
 {%     if WrapDtoExceptions -%}
-    return {{ ObservableThrowMethod }}(new SwaggerException(message, status, response, headers, result));
+    return {{ Framework.RxJx.ObservableThrowMethod }}(new SwaggerException(message, status, response, headers, result));
 {%     else -%}
     if(result !== null && result !== undefined)
-        return {{ ObservableThrowMethod }}(result);
+        return {{ Framework.RxJx.ObservableThrowMethod }}(result);
     else
-        return {{ ObservableThrowMethod }}(new SwaggerException(message, status, response, headers, null));
+        return {{ Framework.RxJx.ObservableThrowMethod }}(new SwaggerException(message, status, response, headers, null));
 {%     endif -%}
 }
 
-{% elseif IsAngularJS -%}
+{% elseif Framework.IsAngularJS -%}
 function throwException(q: ng.IQService, message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): ng.IPromise<any> {
 {%     if WrapDtoExceptions -%}
     return q.reject(new SwaggerException(message, status, response, headers, result));
@@ -35,7 +35,7 @@ function throwException(message: string, status: number, response: string, heade
 }
 
 {% endif -%}
-{% if IsAngular -%}
+{% if Framework.IsAngular -%}
 function blobToText(blob: any): Observable<string> {
     return new Observable<string>((observer: any) => {
         if (!blob) {
@@ -52,7 +52,7 @@ function blobToText(blob: any): Observable<string> {
     });
 }
 
-{% elseif IsAngularJS -%}
+{% elseif Framework.IsAngularJS -%}
 function blobToText(blob: Blob, q: ng.IQService): ng.IPromise<string> {
     return new q((resolve) => { 
         let reader = new FileReader(); 

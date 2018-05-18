@@ -81,6 +81,13 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.InjectionTokenType = value; }
         }
 
+        [Argument(Name = "RxJsVersion", IsRequired = false, Description = "The target RxJs version (default: 5.0).")]
+        public decimal RxJsVersion
+        {
+            get { return Settings.RxJsVersion; }
+            set { Settings.RxJsVersion = value; }
+        }
+
         [Argument(Name = "DateTimeType", IsRequired = false, Description = "The date time type ('Date', 'MomentJS', 'OffsetMomentJS', 'string').")]
         public TypeScriptDateTimeType DateTimeType
         {

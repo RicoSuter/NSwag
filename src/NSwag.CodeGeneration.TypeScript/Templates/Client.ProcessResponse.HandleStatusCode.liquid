@@ -1,5 +1,5 @@
 {% if operation.CanRequestBlobs and response.IsFile -%}
-{%     if IsAngularJS -%}
+{%     if Framework.IsAngularJS -%}
 const contentDisposition = response.headers ? response.headers("content-disposition") : undefined;
 {%     else -%}
 const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
@@ -7,17 +7,17 @@ const contentDisposition = response.headers ? response.headers.get("content-disp
 const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
 const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
 {%     if operation.WrapResponse -%}
-{%         if IsAngular -%}
-return {{ ObservableOfMethod }}(new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, data: {% if UseAngularHttpClient %}<any>responseBlob{% else %}<any>response.blob(){% endif %}, status: status, headers: _headers }));
-{%         elseif IsAngularJS -%}
+{%         if Framework.IsAngular -%}
+return {{ Framework.RxJx.ObservableOfMethod }}(new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, data: {% if Framework.Angular.UseHttpClient %}<any>responseBlob{% else %}<any>response.blob(){% endif %}, status: status, headers: _headers }));
+{%         elseif Framework.IsAngularJS -%}
 return this.q.resolve(new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, status: status, data: new Blob([response.data]), headers: _headers }));
 {%         else -%}
 return response.blob().then(blob => { return new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, data: blob, status: status, headers: _headers }); });
 {%         endif -%}
 {%     else -%}
-{%         if IsAngular -%}
-return {{ ObservableOfMethod }}({ fileName: fileName, data: {% if UseAngularHttpClient %}<any>responseBlob{% else %}<any>response.blob(){% endif %}, status: status, headers: _headers });
-{%         elseif IsAngularJS -%}
+{%         if Framework.IsAngular -%}
+return {{ Framework.RxJx.ObservableOfMethod }}({ fileName: fileName, data: {% if Framework.Angular.UseHttpClient %}<any>responseBlob{% else %}<any>response.blob(){% endif %}, status: status, headers: _headers });
+{%         elseif Framework.IsAngularJS -%}
 return this.q.resolve({ fileName: fileName, status: status, data: new Blob([response.data]), headers: _headers });
 {%         else -%}
 return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
@@ -35,45 +35,45 @@ result{{ response.StatusCode }} = _responseText === "" ? null : <{{ response.Typ
 {%         endif -%}
 {%         if response.IsSuccess -%}
 {%             if operation.WrapResponse -%}
-{%                 if IsAngular -%}
-return {{ ObservableOfMethod }}(new {{ operation.ResponseClass }}(status, _headers, result{{ response.StatusCode }}));
-{%                 elseif IsAngularJS -%}
+{%                 if Framework.IsAngular -%}
+return {{ Framework.RxJx.ObservableOfMethod }}(new {{ operation.ResponseClass }}(status, _headers, result{{ response.StatusCode }}));
+{%                 elseif Framework.IsAngularJS -%}
 return this.q.resolve(new {{ operation.ResponseClass }}(status, _headers, result{{ response.StatusCode }}));
 {%                 else -%}
 return new {{ operation.ResponseClass }}(status, _headers, result{{ response.StatusCode }});
 {%                 endif -%}
 {%             else -%}
-{%                 if IsAngular -%}
-return {{ ObservableOfMethod }}(result{{ response.StatusCode }});
-{%                 elseif IsAngularJS -%}
+{%                 if Framework.IsAngular -%}
+return {{ Framework.RxJx.ObservableOfMethod }}(result{{ response.StatusCode }});
+{%                 elseif Framework.IsAngularJS -%}
 return this.q.resolve(result{{ response.StatusCode }});
 {%                 else -%}
 return result{{ response.StatusCode }};
 {%                 endif -%}
 {%             endif -%}
 {%         else -%}
-return throwException({% if IsAngularJS %}this.q, {% endif %}"A server error occurred.", status, _responseText, _headers, result{{ response.StatusCode }});
+return throwException({% if Framework.IsAngularJS %}this.q, {% endif %}"A server error occurred.", status, _responseText, _headers, result{{ response.StatusCode }});
 {%         endif -%}
 {%     elseif response.IsSuccess -%}
 {%         if operation.WrapResponse -%}
-{%             if IsAngular -%}
-return {{ ObservableOfMethod }}<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
-{%             elseif IsAngularJS -%}
+{%             if Framework.IsAngular -%}
+return {{ Framework.RxJx.ObservableOfMethod }}<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
+{%             elseif Framework.IsAngularJS -%}
 return this.q.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
 {%             else -%}
 return new {{ operation.ResponseClass }}(status, _headers, <any>null);
 {%             endif -%}
 {%         else -%}
-{%             if IsAngular -%}
-return {{ ObservableOfMethod }}<{{ operation.ResultType }}>(<any>null);
-{%             elseif IsAngularJS -%}
+{%             if Framework.IsAngular -%}
+return {{ Framework.RxJx.ObservableOfMethod }}<{{ operation.ResultType }}>(<any>null);
+{%             elseif Framework.IsAngularJS -%}
 return this.q.resolve<{{ operation.ResultType }}>(<any>null);
 {%             else -%}
 return{% if operation.HasResultType %} null{% endif %};
 {%             endif -%}
 {%         endif -%}
 {%     else -%}
-return throwException({% if IsAngularJS %}this.q, {% endif %}"A server error occurred.", status, _responseText, _headers);
+return throwException({% if Framework.IsAngularJS %}this.q, {% endif %}"A server error occurred.", status, _responseText, _headers);
 {%     endif -%}
 {% template Client.ProcessResponse.ReadBodyEnd %}
 {% endif -%}

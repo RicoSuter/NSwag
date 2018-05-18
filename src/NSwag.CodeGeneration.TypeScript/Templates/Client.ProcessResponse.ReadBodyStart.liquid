@@ -1,22 +1,22 @@
-{% if IsFetchOrAurelia -%}
+{% if Framework.IsFetchOrAurelia -%}
 return response.text().then((_responseText) => {
-{% elseif UseAngularHttpClient -%}
-{%     if UseRxJs6 -%}
-return blobToText(responseBlob).pipe({{ ObservableMergeMapMethod }}(_responseText => {
+{% elseif Framework.Angular.UseHttpClient -%}
+{%     if Framework.UseRxJs6 -%}
+return blobToText(responseBlob).pipe({{ Framework.RxJx.ObservableMergeMapMethod }}(_responseText => {
 {%     else -%}
 return blobToText(responseBlob).flatMap(_responseText => {
 {%     endif -%}
 {% elseif operation.RequestAngularBlobs -%}
-{%     if UseRxJs6 -%}
-return blobToText(response.blob()).pipe({{ ObservableMergeMapMethod }}(_responseText => {
+{%     if Framework.UseRxJs6 -%}
+return blobToText(response.blob()).pipe({{ Framework.RxJx.ObservableMergeMapMethod }}(_responseText => {
 {%     else -%}
 return blobToText(response.blob()).flatMap(_responseText => {
 {%     endif -%}
 {% elseif operation.RequestAngularJSBlobs -%}
 return blobToText(new Blob([response]), this.q).then(_responseText => {
-{% elseif IsAngular -%}
+{% elseif Framework.IsAngular -%}
 const _responseText = response.text();
-{% elseif IsAngularJS -%}
+{% elseif Framework.IsAngularJS -%}
 const _responseText = response.data;
 {% else -%}
 const _responseText = xhr.responseText; 
