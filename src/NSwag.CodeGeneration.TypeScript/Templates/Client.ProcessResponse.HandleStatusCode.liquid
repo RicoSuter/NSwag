@@ -8,7 +8,7 @@ const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(co
 const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
 {%     if operation.WrapResponse -%}
 {%         if Framework.IsAngular -%}
-return {{ Framework.RxJx.ObservableOfMethod }}(new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, data: {% if Framework.Angular.UseHttpClient %}<any>responseBlob{% else %}<any>response.blob(){% endif %}, status: status, headers: _headers }));
+return {{ Framework.RxJs.ObservableOfMethod }}(new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, data: {% if Framework.Angular.UseHttpClient %}<any>responseBlob{% else %}<any>response.blob(){% endif %}, status: status, headers: _headers }));
 {%         elseif Framework.IsAngularJS -%}
 return this.q.resolve(new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, status: status, data: new Blob([response.data]), headers: _headers }));
 {%         else -%}
@@ -16,7 +16,7 @@ return response.blob().then(blob => { return new {{ operation.ResponseClass }}(s
 {%         endif -%}
 {%     else -%}
 {%         if Framework.IsAngular -%}
-return {{ Framework.RxJx.ObservableOfMethod }}({ fileName: fileName, data: {% if Framework.Angular.UseHttpClient %}<any>responseBlob{% else %}<any>response.blob(){% endif %}, status: status, headers: _headers });
+return {{ Framework.RxJs.ObservableOfMethod }}({ fileName: fileName, data: {% if Framework.Angular.UseHttpClient %}<any>responseBlob{% else %}<any>response.blob(){% endif %}, status: status, headers: _headers });
 {%         elseif Framework.IsAngularJS -%}
 return this.q.resolve({ fileName: fileName, status: status, data: new Blob([response.data]), headers: _headers });
 {%         else -%}
@@ -36,7 +36,7 @@ result{{ response.StatusCode }} = _responseText === "" ? null : <{{ response.Typ
 {%         if response.IsSuccess -%}
 {%             if operation.WrapResponse -%}
 {%                 if Framework.IsAngular -%}
-return {{ Framework.RxJx.ObservableOfMethod }}(new {{ operation.ResponseClass }}(status, _headers, result{{ response.StatusCode }}));
+return {{ Framework.RxJs.ObservableOfMethod }}(new {{ operation.ResponseClass }}(status, _headers, result{{ response.StatusCode }}));
 {%                 elseif Framework.IsAngularJS -%}
 return this.q.resolve(new {{ operation.ResponseClass }}(status, _headers, result{{ response.StatusCode }}));
 {%                 else -%}
@@ -44,7 +44,7 @@ return new {{ operation.ResponseClass }}(status, _headers, result{{ response.Sta
 {%                 endif -%}
 {%             else -%}
 {%                 if Framework.IsAngular -%}
-return {{ Framework.RxJx.ObservableOfMethod }}(result{{ response.StatusCode }});
+return {{ Framework.RxJs.ObservableOfMethod }}(result{{ response.StatusCode }});
 {%                 elseif Framework.IsAngularJS -%}
 return this.q.resolve(result{{ response.StatusCode }});
 {%                 else -%}
@@ -57,7 +57,7 @@ return throwException({% if Framework.IsAngularJS %}this.q, {% endif %}"A server
 {%     elseif response.IsSuccess -%}
 {%         if operation.WrapResponse -%}
 {%             if Framework.IsAngular -%}
-return {{ Framework.RxJx.ObservableOfMethod }}<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
+return {{ Framework.RxJs.ObservableOfMethod }}<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
 {%             elseif Framework.IsAngularJS -%}
 return this.q.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
 {%             else -%}
@@ -65,7 +65,7 @@ return new {{ operation.ResponseClass }}(status, _headers, <any>null);
 {%             endif -%}
 {%         else -%}
 {%             if Framework.IsAngular -%}
-return {{ Framework.RxJx.ObservableOfMethod }}<{{ operation.ResultType }}>(<any>null);
+return {{ Framework.RxJs.ObservableOfMethod }}<{{ operation.ResultType }}>(<any>null);
 {%             elseif Framework.IsAngularJS -%}
 return this.q.resolve<{{ operation.ResultType }}>(<any>null);
 {%             else -%}

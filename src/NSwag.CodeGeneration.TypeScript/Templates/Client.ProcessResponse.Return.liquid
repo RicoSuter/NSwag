@@ -6,9 +6,9 @@ return Promise.resolve<{{ operation.ResultType }}>(<any>null);
 {%     endif -%}
 {% elseif Framework.IsAngular -%}
 {%     if operation.WrapResponse -%}
-return {{ Framework.RxJx.ObservableOfMethod }}<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
+return {{ Framework.RxJs.ObservableOfMethod }}<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
 {%     else -%}
-return {{ Framework.RxJx.ObservableOfMethod }}<{{ operation.ResultType }}>(<any>null);
+return {{ Framework.RxJs.ObservableOfMethod }}<{{ operation.ResultType }}>(<any>null);
 {%     endif -%}
 {% elseif Framework.IsAngularJS -%}
 {%     if operation.WrapResponse -%}

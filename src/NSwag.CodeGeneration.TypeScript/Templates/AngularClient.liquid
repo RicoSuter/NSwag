@@ -73,18 +73,18 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
         };
 
 {%     if UseTransformOptionsMethod -%}
-        return {{ Framework.RxJx.ObservableFromMethod }}(this.transformOptions(options_)).{% if Framework.UseRxJs6 %}pipe({% endif %}{{ Framework.RxJx.ObservableMergeMapMethod }}(transformedOptions_ => {
+        return {{ Framework.RxJs.ObservableFromMethod }}(this.transformOptions(options_)).{% if Framework.UseRxJs6 %}pipe({% endif %}{{ Framework.RxJs.ObservableMergeMapMethod }}(transformedOptions_ => {
             return this.http.request({% if Framework.Angular.UseHttpClient %}"{{ operation.HttpMethodLower }}", {% endif %}url_, transformedOptions_);
-        }){% if Framework.UseRxJs6 %}){% endif %}.{% if Framework.UseRxJs6 %}pipe({% endif %}{{ Framework.RxJx.ObservableMergeMapMethod }}((response_: any) => {
+        }){% if Framework.UseRxJs6 %}){% endif %}.{% if Framework.UseRxJs6 %}pipe({% endif %}{{ Framework.RxJs.ObservableMergeMapMethod }}((response_: any) => {
 {%     else -%}
-        return this.http.request({% if Framework.Angular.UseHttpClient %}"{{ operation.HttpMethodLower }}", {% endif %}url_, options_).{% if Framework.UseRxJs6 %}pipe({% endif %}{{ Framework.RxJx.ObservableMergeMapMethod }}((response_ : any) => {
+        return this.http.request({% if Framework.Angular.UseHttpClient %}"{{ operation.HttpMethodLower }}", {% endif %}url_, options_).{% if Framework.UseRxJs6 %}pipe({% endif %}{{ Framework.RxJs.ObservableMergeMapMethod }}((response_ : any) => {
 {%     endif -%}
 {%     if UseTransformResultMethod -%}
             return this.transformResult(url_, response_, (r) => this.process{{ operation.ActualOperationNameUpper }}(<any>r));
 {%     else -%}
             return this.process{{ operation.ActualOperationNameUpper }}(response_);
 {%     endif -%}
-        }){% if Framework.UseRxJs6 %}){% endif %}.{% if Framework.UseRxJs6 %}pipe({% endif %}{{ Framework.RxJx.ObservableCatchMethod }}((response_: any) => {
+        }){% if Framework.UseRxJs6 %}){% endif %}.{% if Framework.UseRxJs6 %}pipe({% endif %}{{ Framework.RxJs.ObservableCatchMethod }}((response_: any) => {
             if (response_ instanceof {% if Framework.Angular.UseHttpClient %}HttpResponseBase{% else %}Response{% endif %}) {
                 try {
 {%     if UseTransformResultMethod -%}
@@ -93,10 +93,10 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
                     return this.process{{ operation.ActualOperationNameUpper }}(<any>response_);
 {%     endif -%}
                 } catch (e) {
-                    return <Observable<{{ operation.ResultType }}>><any>{{ Framework.RxJx.ObservableThrowMethod }}(e);
+                    return <Observable<{{ operation.ResultType }}>><any>{{ Framework.RxJs.ObservableThrowMethod }}(e);
                 }
             } else
-                return <Observable<{{ operation.ResultType }}>><any>{{ Framework.RxJx.ObservableThrowMethod }}(response_);
+                return <Observable<{{ operation.ResultType }}>><any>{{ Framework.RxJs.ObservableThrowMethod }}(response_);
         }){% if Framework.UseRxJs6 %}){% endif %};
     }
 

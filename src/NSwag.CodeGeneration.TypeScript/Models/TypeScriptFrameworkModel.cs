@@ -19,7 +19,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         {
             _settings = settings;
 
-            RxJx = new TypeScriptFrameworkRxJsModel(this);
+            RxJs = new TypeScriptFrameworkRxJsModel(this);
             Angular = new TypeScriptFrameworkAngularModel(settings);
         }
 
@@ -53,7 +53,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public bool UseRxJs6 => _settings.RxJsVersion >= 6.0m;
 
         /// <summary>Gets Rxjs information.</summary>
-        public TypeScriptFrameworkRxJsModel RxJx { get; }
+        public TypeScriptFrameworkRxJsModel RxJs { get; }
 
         /// <summary>Gets Angular information.</summary>
         public TypeScriptFrameworkAngularModel Angular { get; set; }
