@@ -58,7 +58,7 @@ public partial class {{ Class }}Controller : {% if HasBaseClass %}{{ BaseClass }
 {%         if operation.WrapResponse -%}
         var result = await _implementation.{{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if parameter.IsLast == false or UseCancellationToken %}, {% endif %}{% endfor %}{% if UseCancellationToken %}cancellationToken{% endif %}).ConfigureAwait(false);
 
-        var status = (System.Net.HttpStatusCode)System.Enum.Parse(typeof(System.Net.HttpStatusCode), result.StatusCode);
+        var status = (System.Net.HttpStatusCode)result.StatusCode;
         HttpResponseMessage response = Request.CreateResponse(status{% if operation.UnwrappedResultType != "void" %}, result.Result{% endif %});
 
         foreach (var header in result.Headers)
