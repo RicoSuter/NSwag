@@ -81,7 +81,7 @@ namespace NSwag.AspNetCore.Launcher
                 return (int)ExitCode.VersionConflict;
             }
 
-#if NETCOREAPP1_0
+#if NETCOREAPP1_0 || NETSTANDARD1_6
             var loadContext = System.Runtime.Loader.AssemblyLoadContext.Default;
             loadContext.Resolving += (context, assemblyName) =>
             {
@@ -118,7 +118,11 @@ namespace NSwag.AspNetCore.Launcher
 #endif
 
             var type = assembly.GetType(EntryPointType, throwOnError: true);
+#if NETSTANDARD1_6
+            var method = type.GetTypeInfo().GetMethod("Process", BindingFlags.Public | BindingFlags.Static);
+#else
             var method = type.GetMethod("Process", BindingFlags.Public | BindingFlags.Static);
+#endif
 
             try
             {

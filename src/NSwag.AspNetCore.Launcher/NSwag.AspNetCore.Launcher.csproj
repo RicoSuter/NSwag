@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp1.0;net461</TargetFrameworks>
+    <TargetFrameworks>netcoreapp1.0;net461;netstandard1.6</TargetFrameworks>
     <PlatformTarget Condition="'$(TargetFramework)'=='net461'">x64</PlatformTarget>
     <OutputType>Exe</OutputType>
     <IsPackable>false</IsPackable>
@@ -17,6 +17,9 @@
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp1.0'">
+    <PackageReference Include="System.Runtime.Loader" Version="4.0.0" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)'=='netstandard1.6'">
     <PackageReference Include="System.Runtime.Loader" Version="4.0.0" />
   </ItemGroup>
 </Project>
