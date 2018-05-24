@@ -6,7 +6,10 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json;
 using NSwag.SwaggerGeneration;
@@ -33,6 +36,11 @@ namespace NSwag.AspNetCore
         /// <summary>Gets or sets the server URL.</summary>
         public string ServerUrl { get; set; } = "";
 
+        /// <summary>Gets or sets the Swagger URL routes (must start with '/', hides SwaggerRoute).</summary>
+        public ICollection<SwaggerUi3Route> SwaggerRoutes { get; } = new List<SwaggerUi3Route>();
+
+        internal override string ActualSwaggerRoute => SwaggerRoutes.Any() ? "" : base.ActualSwaggerRoute;
+
         internal override string TransformHtml(string html)
         {
             var oauth2Settings = OAuth2Client ?? new OAuth2ClientSettings();
@@ -42,6 +50,12 @@ namespace NSwag.AspNetCore
                 html = html.Replace("{" + property.Name + "}", value is IDictionary ? JsonConvert.SerializeObject(value) : value?.ToString() ?? "");
             }
 
+            html = html.Replace("{Urls}", !SwaggerRoutes.Any() ? 
+                "undefined" : 
+                JsonConvert.SerializeObject(
+                    SwaggerRoutes.Select(r => new SwaggerUi3Route(r.Name, r.Url.Substring(MiddlewareBasePath?.Length ?? 0)))
+                ));
+
             html = html.Replace("{ValidatorUrl}", ValidateSpecification ? "undefined" : "null");
             html = html.Replace("{DocExpansion}", DocExpansion);
             html = html.Replace("{RedirectUrl}", string.IsNullOrEmpty(ServerUrl) ?
@@ -50,5 +64,26 @@ namespace NSwag.AspNetCore
 
             return html;
         }
+    }
+
+    /// <summary>Specifies a route in the Swagger dropdown.</summary>
+    public class SwaggerUi3Route
+    {
+        public SwaggerUi3Route(string name, string url)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentNullException(nameof(name));
+            if (string.IsNullOrWhiteSpace(url))
+                throw new ArgumentNullException(nameof(url));
+
+            Name = name;
+            Url = url;
+        }
+
+        [JsonProperty("url")]
+        public string Url { get; internal set; }
+
+        [JsonProperty("name")]
+        public string Name { get; internal set; }
     }
 }

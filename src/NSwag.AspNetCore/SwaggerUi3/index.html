@@ -75,12 +75,14 @@ window.onload = function() {
   if (url && url.length > 1) {
     url = decodeURIComponent(url[1]);
   } else {
-    url = "http://petstore.swagger.io/v2/swagger.json";
+    url = undefined;
   }
+  var urls = {Urls};
 
   // Build a system
   var ui = SwaggerUIBundle({
     url: url,
+    urls: urls,  
     validatorUrl: {ValidatorUrl},
     oauth2RedirectUrl: {RedirectUrl},
     docExpansion: "{DocExpansion}",

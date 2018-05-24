@@ -1,16 +1,16 @@
-{% if IsFetchOrAurelia -%}
+{% if Framework.IsFetchOrAurelia -%}
 {%     if operation.WrapResponse -%}
 return Promise.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
 {%     else -%}
 return Promise.resolve<{{ operation.ResultType }}>(<any>null);
 {%     endif -%}
-{% elseif IsAngular -%}
+{% elseif Framework.IsAngular -%}
 {%     if operation.WrapResponse -%}
-return Observable.of<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
+return {{ Framework.RxJs.ObservableOfMethod }}<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
 {%     else -%}
-return Observable.of<{{ operation.ResultType }}>(<any>null);
+return {{ Framework.RxJs.ObservableOfMethod }}<{{ operation.ResultType }}>(<any>null);
 {%     endif -%}
-{% elseif IsAngularJS -%}
+{% elseif Framework.IsAngularJS -%}
 {%     if operation.WrapResponse -%}
 return this.q.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
 {%     else -%}

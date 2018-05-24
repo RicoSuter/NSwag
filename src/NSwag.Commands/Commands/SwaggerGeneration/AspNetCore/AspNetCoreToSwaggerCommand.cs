@@ -75,11 +75,14 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
 
                 var cleanupFiles = new List<string>();
 
-                var toolDirectory = Path.GetDirectoryName(typeof(AspNetCoreToSwaggerCommand).GetTypeInfo().Assembly.Location);
                 var args = new List<string>();
                 string executable;
 
 #if NET451
+                var toolDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                if (!Directory.Exists(toolDirectory))
+                    toolDirectory = Path.GetDirectoryName(typeof(AspNetCoreToSwaggerCommand).GetTypeInfo().Assembly.Location);
+
                 if (projectMetadata.TargetFrameworkIdentifier == ".NETFramework")
                 {
                     string binaryName;
@@ -114,6 +117,10 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
                     }
                 }
 #elif NETSTANDARD1_6
+                var toolDirectory = AppContext.BaseDirectory;
+                if (!Directory.Exists(toolDirectory))
+                    toolDirectory = Path.GetDirectoryName(typeof(AspNetCoreToSwaggerCommand).GetTypeInfo().Assembly.Location);
+
                 if (projectMetadata.TargetFrameworkIdentifier == ".NETCoreApp")
                 {
                     executable = "dotnet";

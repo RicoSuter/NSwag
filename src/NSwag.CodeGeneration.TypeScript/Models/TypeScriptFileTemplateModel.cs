@@ -46,28 +46,14 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
             Types = GenerateDtoTypes();
             ExtensionCodeBottom = GenerateExtensionCodeAfter();
+            Framework = new TypeScriptFrameworkModel(settings);
         }
+
+        /// <summary>Gets framework specific information.</summary>
+        public TypeScriptFrameworkModel Framework { get; set; }
 
         /// <summary>Gets a value indicating whether to generate client classes.</summary>
         public bool GenerateClientClasses => _settings.GenerateClientClasses;
-
-        /// <summary>Gets a value indicating whether the generated code is for Angular 2.</summary>
-        public bool IsAngular => _settings.Template == TypeScriptTemplate.Angular;
-
-        /// <summary>Gets a value indicating whether to use HttpClient with the Angular template.</summary>
-        public bool UseAngularHttpClient => _settings.HttpClass == HttpClass.HttpClient;
-
-        /// <summary>Gets a value indicating whether the generated code is for Aurelia.</summary>
-        public bool IsAurelia => _settings.Template == TypeScriptTemplate.Aurelia;
-
-        /// <summary>Gets a value indicating whether the generated code is for Angular.</summary>
-        public bool IsAngularJS => _settings.Template == TypeScriptTemplate.AngularJS;
-
-        /// <summary>Gets a value indicating whether the generated code is for Knockout.</summary>
-        public bool IsKnockout => _settings.TypeScriptGeneratorSettings.TypeStyle == TypeScriptTypeStyle.KnockoutClass;
-
-        /// <summary>Gets a value indicating whether to render for JQuery.</summary>
-        public bool IsJQuery => _settings.Template == TypeScriptTemplate.JQueryCallbacks || _settings.Template == TypeScriptTemplate.JQueryPromises;
 
         /// <summary>Gets or sets a value indicating whether DTO exceptions are wrapped in a SwaggerException instance.</summary>
         public bool WrapDtoExceptions => _settings.WrapDtoExceptions;
@@ -96,10 +82,6 @@ namespace NSwag.CodeGeneration.TypeScript.Models
                 return new[] { _settings.ResponseClass.Replace("{controller}", string.Empty) };
             }
         }
-
-        /// <summary>Gets a value indicating whether MomentJS is required.</summary>
-        public bool RequiresMomentJS => _settings.TypeScriptGeneratorSettings.DateTimeType == TypeScriptDateTimeType.MomentJS ||
-                                        _settings.TypeScriptGeneratorSettings.DateTimeType == TypeScriptDateTimeType.OffsetMomentJS;
 
         /// <summary>Gets a value indicating whether required types should be imported.</summary>
         public bool ImportRequiredTypes => _settings.ImportRequiredTypes;
@@ -143,7 +125,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         /// <summary>Gets a value indicating whether the FileResponse interface should be rendered.</summary>
         public bool RequiresFileResponseInterface =>
-            !IsJQuery &&
+            !Framework.IsJQuery &&
             !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("FileResponse") &&
             _document.Operations.Any(o => o.Operation.ActualResponses.Any(r => r.Value.Schema?.ActualSchema.Type == JsonObjectType.File));
 
@@ -158,15 +140,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         /// <summary>Gets a value indicating whether to handle references.</summary>
         public bool HandleReferences => _settings.TypeScriptGeneratorSettings.HandleReferences;
-
-        // Angular only
-
-        /// <summary>Gets or sets the injection token type (used in the Angular template).</summary>
-        public string InjectionTokenType => _settings.InjectionTokenType.ToString();
-
-        /// <summary>Gets or sets the token name for injecting the API base URL string (used in the Angular template).</summary>
-        public string BaseUrlTokenName => _settings.BaseUrlTokenName;
-
+        
         private string GenerateDtoTypes()
         {
             var generator = new TypeScriptGenerator(_document, _settings.TypeScriptGeneratorSettings, _resolver);

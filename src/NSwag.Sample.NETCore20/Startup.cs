@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NJsonSchema;
 using NSwag.AspNetCore;
 using NSwag.Sample.NETCore20.Part;
+using NSwag.SwaggerGeneration.Processors.Security;
 
 namespace NSwag.Sample.NETCore20
 {
@@ -43,12 +44,28 @@ namespace NSwag.Sample.NETCore20
             {
                 s.SwaggerRoute = "/swagger_new_ui/v1/swagger.json";
                 s.SwaggerUiRoute = "/swagger_new_ui";
+
+                s.GeneratorSettings.DocumentProcessors.Add(new SecurityDefinitionAppender("TEST_HEADER", new SwaggerSecurityScheme
+                {
+                    Type = SwaggerSecuritySchemeType.ApiKey,
+                    Name = "TEST_HEADER",
+                    In = SwaggerSecurityApiKeyLocation.Header,
+                    Description = "TEST_HEADER"
+                }));
             });
 
             app.UseSwaggerUi3WithApiExplorer(s =>
             {
                 s.SwaggerRoute = "/swagger_new_ui3/v1/swagger.json";
                 s.SwaggerUiRoute = "/swagger_new_ui3";
+
+                s.GeneratorSettings.DocumentProcessors.Add(new SecurityDefinitionAppender("TEST_HEADER", new SwaggerSecurityScheme
+                {
+                    Type = SwaggerSecuritySchemeType.ApiKey,
+                    Name = "TEST_HEADER",
+                    In = SwaggerSecurityApiKeyLocation.Header,
+                    Description = "TEST_HEADER"
+                }));
             });
 
             app.UseSwaggerReDocWithApiExplorer(s =>
@@ -91,6 +108,14 @@ namespace NSwag.Sample.NETCore20
             {
                 s.GeneratorSettings.SchemaType = SchemaType.OpenApi3;
                 s.SwaggerRoute = "/swagger_old_v3/v1/swagger.json";
+            });
+
+            // All
+            app.UseSwaggerUi3(s =>
+            {
+                s.SwaggerRoutes.Add(new SwaggerUi3Route("A", "/swagger_new_ui/v1/swagger.json"));
+                s.SwaggerRoutes.Add(new SwaggerUi3Route("B", "http://petstore.swagger.io/v2/swagger.json"));
+                s.SwaggerUiRoute = "/swagger_all";
             });
         }
     }
