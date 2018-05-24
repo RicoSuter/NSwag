@@ -12,7 +12,6 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using NJsonSchema.Infrastructure;
-using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Contexts;
 
 namespace NSwag.SwaggerGeneration.Processors
