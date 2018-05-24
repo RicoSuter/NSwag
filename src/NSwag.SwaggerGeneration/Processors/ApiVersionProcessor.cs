@@ -12,7 +12,6 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using NJsonSchema.Infrastructure;
-using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Contexts;
 
 namespace NSwag.SwaggerGeneration.Processors
@@ -30,7 +29,7 @@ namespace NSwag.SwaggerGeneration.Processors
         {
             var versionAttributes = context.MethodInfo.GetCustomAttributes()
                 .Concat(context.MethodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes())
-                .Concat(context.ControllerType.GetTypeInfo().GetCustomAttributes())
+                .Concat(context.ControllerType.GetTypeInfo().GetCustomAttributes(inherit: true))
                 .Where(a => a.GetType().IsAssignableTo("MapToApiVersionAttribute", TypeNameStyle.Name) ||
                             a.GetType().IsAssignableTo("ApiVersionAttribute", TypeNameStyle.Name))
                 .Select(a => (dynamic)a)
