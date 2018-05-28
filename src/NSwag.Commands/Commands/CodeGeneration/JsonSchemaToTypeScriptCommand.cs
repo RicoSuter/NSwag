@@ -23,8 +23,7 @@ namespace NSwag.Commands.CodeGeneration
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            var inputJson = await GetInputJsonAsync().ConfigureAwait(false);
-            var schema = await JsonSchema4.FromJsonAsync(inputJson).ConfigureAwait(false);
+            var schema = await GetJsonSchemaAsync().ConfigureAwait(false);
             var generator = new TypeScriptGenerator(schema);
 
             var code = generator.GenerateFile(Name);
