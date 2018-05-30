@@ -24,6 +24,7 @@ namespace NSwag.CodeGeneration.Models
         private readonly IClientGenerator _generator;
         private readonly ValueGeneratorBase _valueGenerator;
         private bool _explode;
+        private readonly TypeResolverBase _typeResolver;
 
         /// <summary>Initializes a new instance of the <see cref="ParameterModelBase" /> class.</summary>
         /// <param name="parameterName">Name of the parameter.</param>
