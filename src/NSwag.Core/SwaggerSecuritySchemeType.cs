@@ -26,6 +26,10 @@ namespace NSwag
 
         /// <summary>OAuth2 authentication.</summary>
         [EnumMember(Value = "oauth2")]
-        OAuth2
+        OAuth2,
+		
+		/// <summary>Basic authentication.</summary>
+        [EnumMember(Value = "http")]
+        Http
     }
 }
