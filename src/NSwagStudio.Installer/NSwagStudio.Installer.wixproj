@@ -65,10 +65,10 @@ dotnet build "../../../../src/NSwag.ConsoleCore" -c $(ConfigurationName) -f "net
 dotnet build "../../../../src/NSwag.ConsoleCore" -c $(ConfigurationName) -f "netcoreapp2.0" -o "bin/$(ConfigurationName)/netcoreapp2.0"
 dotnet build "../../../../src/NSwag.ConsoleCore" -c $(ConfigurationName) -f "netcoreapp2.1" -o "bin/$(ConfigurationName)/netcoreapp2.1"
 
-dotnet publish "../../../../src/NSwag.ConsoleCore" -c $(ConfigurationName) -f "netcoreapp1.0" -o "bin/$(ConfigurationName)/netcoreapp1.0/Publish"
-dotnet publish "../../../../src/NSwag.ConsoleCore" -c $(ConfigurationName) -f "netcoreapp1.1" -o "bin/$(ConfigurationName)/netcoreapp1.1/Publish"
-dotnet publish "../../../../src/NSwag.ConsoleCore" -c $(ConfigurationName) -f "netcoreapp2.0" -o "bin/$(ConfigurationName)/netcoreapp2.0/Publish"
-dotnet publish "../../../../src/NSwag.ConsoleCore" -c $(ConfigurationName) -f "netcoreapp2.1" -o "bin/$(ConfigurationName)/netcoreapp2.1/Publish"
+dotnet publish "../../../../src/NSwag.ConsoleCore" -c $(ConfigurationName) -f "netcoreapp1.0" -o "bin/$(ConfigurationName)/netcoreapp1.0/Publish" --no-build
+dotnet publish "../../../../src/NSwag.ConsoleCore" -c $(ConfigurationName) -f "netcoreapp1.1" -o "bin/$(ConfigurationName)/netcoreapp1.1/Publish" --no-build
+dotnet publish "../../../../src/NSwag.ConsoleCore" -c $(ConfigurationName) -f "netcoreapp2.0" -o "bin/$(ConfigurationName)/netcoreapp2.0/Publish" --no-build
+dotnet publish "../../../../src/NSwag.ConsoleCore" -c $(ConfigurationName) -f "netcoreapp2.1" -o "bin/$(ConfigurationName)/netcoreapp2.1/Publish" --no-build
 
 xcopy "../../../../src/NSwag.Console.x86/bin/$(ConfigurationName)/net461" "../../../../src/NSwagStudio/bin/$(ConfigurationName)/Win" /E /I /y
 xcopy "../../../../src/NSwag.Console/bin/$(ConfigurationName)/net461" "../../../../src/NSwagStudio/bin/$(ConfigurationName)/Win" /E /I /y
