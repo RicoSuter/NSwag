@@ -11,11 +11,11 @@ xcopy "%~dp0\..\src\NSwag.Console.x86\bin\Release\net461\NSwag.x86.exe" "%~dp0\.
 xcopy "%~dp0\..\src\NSwag.Console.x86\bin\Release\net461\NSwag.x86.exe.config" "%~dp0\..\src\NSwag.Npm\bin\binaries\Win"
 
 REM Build and copy .NET Core command line
-REM dotnet restore "%~dp0/../src/NSwag.ConsoleCore" --no-cache
-REM dotnet publish "%~dp0/../src/NSwag.ConsoleCore" -c release -f "netcoreapp1.0" -o "bin/release/netcoreapp1.0/Publish" || goto :error
-REM dotnet publish "%~dp0/../src/NSwag.ConsoleCore" -c release -f "netcoreapp1.1" -o "bin/release/netcoreapp1.1/Publish" || goto :error
-REM dotnet publish "%~dp0/../src/NSwag.ConsoleCore" -c release -f "netcoreapp2.0" -o "bin/release/netcoreapp2.0/Publish" || goto :error
-REM dotnet publish "%~dp0/../src/NSwag.ConsoleCore" -c release -f "netcoreapp2.1" -o "bin/release/netcoreapp2.1/Publish" || goto :error
+dotnet restore "%~dp0/../src/NSwag.ConsoleCore" --no-cache
+dotnet publish "%~dp0/../src/NSwag.ConsoleCore" -c release -f "netcoreapp1.0" -o "bin/release/netcoreapp1.0/Publish" || goto :error
+dotnet publish "%~dp0/../src/NSwag.ConsoleCore" -c release -f "netcoreapp1.1" -o "bin/release/netcoreapp1.1/Publish" || goto :error
+dotnet publish "%~dp0/../src/NSwag.ConsoleCore" -c release -f "netcoreapp2.0" -o "bin/release/netcoreapp2.0/Publish" || goto :error
+dotnet publish "%~dp0/../src/NSwag.ConsoleCore" -c release -f "netcoreapp2.1" -o "bin/release/netcoreapp2.1/Publish" || goto :error
 
 xcopy "%~dp0/../src/NSwag.ConsoleCore/bin/release/netcoreapp1.0/publish" "%~dp0/../src/NSwag.Npm/bin/binaries/NetCore10" /E /I /y
 xcopy "%~dp0/../src/NSwag.ConsoleCore/bin/release/netcoreapp1.1/publish" "%~dp0/../src/NSwag.Npm/bin/binaries/NetCore11" /E /I /y
