@@ -14,6 +14,7 @@
     <Company />
     <AssemblyName>dotnet-nswag</AssemblyName>
     <PackageId>NSwag.ConsoleCore</PackageId>
+    <OutputPath>bin/$(Configuration)/$(TargetFramework)</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\NSwag.AspNetCore.Launcher\NSwag.AspNetCore.Launcher.csproj" PrivateAssets="All" />
