@@ -129,7 +129,7 @@ foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append("{{ par
 				urlBuilder_.Append("{{parameter.Name}}[{{property}}]=").Append(System.Uri.EscapeDataString(ConvertToString({{parameter.Name}}.{{property}}, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
 			}
 {%           endfor -%}
-{%         for property in parameter.CollectionPropertyNames -%}
+{%           for property in parameter.CollectionPropertyNames -%}
 			if ({{parameter.Name}}.{{property}} != null && {{parameter.Name}}.{{property}}.Count > 0)
 			{
                 urlBuilder_.Append("{{parameter.Name}}[{{property}}]=");
@@ -140,7 +140,7 @@ foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append("{{ par
 				urlBuilder_.Length--;
                 urlBuilder_.Append("&");
 			}
-{% endfor -%}
+{%           endfor -%}
 {%         else -%}
 urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "{{ QueryNullValue }}"{% endif %})).Append("&");
 {%         endif -%}
