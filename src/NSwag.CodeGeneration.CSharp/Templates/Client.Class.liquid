@@ -124,22 +124,22 @@ urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({
 foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
 {%         elseif parameter.IsDeepObject -%}
 {%           for property in parameter.PropertyNames -%}
-			if ({{parameter.Name}}.{{property}} != null)
-			{
-				urlBuilder_.Append("{{parameter.Name}}[{{property}}]=").Append(System.Uri.EscapeDataString(ConvertToString({{parameter.Name}}.{{property}}, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-			}
+            if ({{parameter.Name}}.{{property}} != null)
+            {
+                urlBuilder_.Append("{{parameter.Name}}[{{property}}]=").Append(System.Uri.EscapeDataString(ConvertToString({{parameter.Name}}.{{property}}, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
 {%           endfor -%}
 {%           for property in parameter.CollectionPropertyNames -%}
-			if ({{parameter.Name}}.{{property}} != null && {{parameter.Name}}.{{property}}.Count > 0)
-			{
+            if ({{parameter.Name}}.{{property}} != null && {{parameter.Name}}.{{property}}.Count > 0)
+            {
                 urlBuilder_.Append("{{parameter.Name}}[{{property}}]=");
                 foreach (var p_ in {{parameter.Name}}.{{property}})
                 {
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(p_, System.Globalization.CultureInfo.InvariantCulture))).Append(",");
                 }
-				urlBuilder_.Length--;
+                urlBuilder_.Length--;
                 urlBuilder_.Append("&");
-			}
+            }
 {%           endfor -%}
 {%         else -%}
 urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "{{ QueryNullValue }}"{% endif %})).Append("&");
