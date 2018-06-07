@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>NSwag.MSBuild</id>
-    <version>11.17.3</version>
+    <version>11.17.13</version>
     <authors>Rico Suter</authors>
     <owners>Rico Suter</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -25,5 +25,6 @@
     <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp1.0\Publish\*" target="build/NetCore10" />
     <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp1.1\Publish\*" target="build/NetCore11" />
     <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp2.0\Publish\*" target="build/NetCore20" />
+    <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp2.1\Publish\*" target="build/NetCore21" />
   </files>
 </package>

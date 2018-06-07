@@ -34,16 +34,16 @@ namespace NSwag.CodeGeneration.Models
         /// <param name="allParameters">All parameters.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="generator">The client generator base.</param>
-        /// <param name="valueGenerator">Settings used to generate default values.</param>
+        /// <param name="typeResolver">The type resolver.</param>
         protected ParameterModelBase(string parameterName, string variableName, string typeName,
             SwaggerParameter parameter, IList<SwaggerParameter> allParameters, CodeGeneratorSettingsBase settings,
-            IClientGenerator generator, ValueGeneratorBase valueGenerator)
+            IClientGenerator generator, TypeResolverBase typeResolver)
         {
             _allParameters = allParameters;
             _parameter = parameter;
             _settings = settings;
             _generator = generator;
-            _valueGenerator = valueGenerator;
+            _typeResolver = typeResolver;
 
             Type = typeName;
             Name = parameterName;
@@ -64,7 +64,8 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>The default value for the variable.</summary>
         public string Default => !_parameter.IsRequired && _parameter.Default != null ?
-            _valueGenerator?.GetDefaultValue(_parameter, false, _parameter.ActualTypeSchema.Id, null, true) : null;
+            _settings.ValueGenerator?.GetDefaultValue(_parameter, false, _parameter.ActualTypeSchema.Id, null, true, _typeResolver) :
+            null;
 
         /// <summary>Gets the parameter kind.</summary>
         public SwaggerParameterKind Kind => _parameter.Kind;

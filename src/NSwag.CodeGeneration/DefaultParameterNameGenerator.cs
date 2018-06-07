@@ -24,7 +24,9 @@ namespace NSwag.CodeGeneration
             var variableName = ConversionUtilities.ConvertToLowerCamelCase(parameter.Name
                 .Replace("-", "_")
                 .Replace(".", "_")
-                .Replace("$", string.Empty), true);
+                .Replace("$", string.Empty)
+                .Replace("[", string.Empty)
+                .Replace("]", string.Empty), true);
 
             if (allParameters.Count(p => p.Name == parameter.Name) > 1)
                 return variableName + parameter.Kind;

@@ -7,14 +7,20 @@ export interface I{{ Class }} {
 {%     endfor -%}}
 {% endif -%}
 
+{% if Framework.Angular.UseSingletonProvider -%}
+@Injectable({
+    providedIn: 'root'
+})
+{% else -%}
 @Injectable()
+{% endif -%}
 export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %}{% if GenerateClientInterfaces %}implements I{{ Class }} {% endif %}{
-    private http: {{ AngularHttpClass }};
+    private http: {{ Framework.Angular.HttpClass }};
     private baseUrl: string;
     protected jsonParseReviver: {% if SupportsStrictNullChecks %}((key: string, value: any) => any) | undefined{% else %}(key: string, value: any) => any{% endif %} = undefined;
 
 {% if HasExtendedConstructor == false -%}
-    constructor({% if HasConfigurationClass %}@Inject({{ ConfigurationClass }}) configuration: {{ ConfigurationClass }}, {% endif %}@Inject({{ AngularHttpClass }}) http: {{ AngularHttpClass }}, @Optional() @Inject({{ BaseUrlTokenName }}) baseUrl?: string) {
+    constructor({% if HasConfigurationClass %}@Inject({{ ConfigurationClass }}) configuration: {{ ConfigurationClass }}, {% endif %}@Inject({{ Framework.Angular.HttpClass }}) http: {{ Framework.Angular.HttpClass }}, @Optional() @Inject({{ Framework.Angular.BaseUrlTokenName }}) baseUrl?: string) {
 {%     if HasBaseClass -%}
         super({% if HasConfigurationClass %}configuration{% endif %});
 {%     endif -%}
@@ -44,16 +50,16 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
 {%     if operation.HasBody -%}
             body: content_,
 {%     endif -%}
-{%     if UseAngularHttpClient -%}
+{%     if Framework.Angular.UseHttpClient -%}
             observe: "response",
             responseType: "blob",
 {%     else -%}
             method: "{{ operation.HttpMethodLower }}",
 {%     endif -%}
-{%     if operation.IsFile and UseAngularHttpClient == false -%}
+{%     if operation.IsFile and Framework.Angular.UseHttpClient == false -%}
             responseType: ResponseContentType.Blob,
 {%     endif -%}
-            headers: new {% if UseAngularHttpClient %}HttpHeaders{% else %}Headers{% endif %}({
+            headers: new {% if Framework.Angular.UseHttpClient %}HttpHeaders{% else %}Headers{% endif %}({
 {%     for parameter in operation.HeaderParameters -%}
                 "{{ parameter.Name }}": {{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null ? "" + {{ parameter.VariableName }} : "", 
 {%     endfor -%}
@@ -67,19 +73,19 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
         };
 
 {%     if UseTransformOptionsMethod -%}
-        return Observable.fromPromise(this.transformOptions(options_)).flatMap(transformedOptions_ => {
-            return this.http.request({% if UseAngularHttpClient %}"{{ operation.HttpMethodLower }}", {% endif %}url_, transformedOptions_);
-        }).flatMap((response_: any) => {
+        return {{ Framework.RxJs.ObservableFromMethod }}(this.transformOptions(options_)).{% if Framework.UseRxJs6 %}pipe({% endif %}{{ Framework.RxJs.ObservableMergeMapMethod }}(transformedOptions_ => {
+            return this.http.request({% if Framework.Angular.UseHttpClient %}"{{ operation.HttpMethodLower }}", {% endif %}url_, transformedOptions_);
+        }){% if Framework.UseRxJs6 %}){% endif %}.{% if Framework.UseRxJs6 %}pipe({% endif %}{{ Framework.RxJs.ObservableMergeMapMethod }}((response_: any) => {
 {%     else -%}
-        return this.http.request({% if UseAngularHttpClient %}"{{ operation.HttpMethodLower }}", {% endif %}url_, options_).flatMap((response_ : any) => {
+        return this.http.request({% if Framework.Angular.UseHttpClient %}"{{ operation.HttpMethodLower }}", {% endif %}url_, options_).{% if Framework.UseRxJs6 %}pipe({% endif %}{{ Framework.RxJs.ObservableMergeMapMethod }}((response_ : any) => {
 {%     endif -%}
 {%     if UseTransformResultMethod -%}
             return this.transformResult(url_, response_, (r) => this.process{{ operation.ActualOperationNameUpper }}(<any>r));
 {%     else -%}
             return this.process{{ operation.ActualOperationNameUpper }}(response_);
 {%     endif -%}
-        }).catch((response_: any) => {
-            if (response_ instanceof {% if UseAngularHttpClient %}HttpResponseBase{% else %}Response{% endif %}) {
+        }){% if Framework.UseRxJs6 %}){% endif %}.{% if Framework.UseRxJs6 %}pipe({% endif %}{{ Framework.RxJs.ObservableCatchMethod }}((response_: any) => {
+            if (response_ instanceof {% if Framework.Angular.UseHttpClient %}HttpResponseBase{% else %}Response{% endif %}) {
                 try {
 {%     if UseTransformResultMethod -%}
                     return this.transformResult(url_, response_, (r) => this.process{{ operation.ActualOperationNameUpper }}(<any>r));
@@ -87,16 +93,16 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
                     return this.process{{ operation.ActualOperationNameUpper }}(<any>response_);
 {%     endif -%}
                 } catch (e) {
-                    return <Observable<{{ operation.ResultType }}>><any>Observable.throw(e);
+                    return <Observable<{{ operation.ResultType }}>><any>{{ Framework.RxJs.ObservableThrowMethod }}(e);
                 }
             } else
-                return <Observable<{{ operation.ResultType }}>><any>Observable.throw(response_);
-        });
+                return <Observable<{{ operation.ResultType }}>><any>{{ Framework.RxJs.ObservableThrowMethod }}(response_);
+        }){% if Framework.UseRxJs6 %}){% endif %};
     }
 
-    protected process{{ operation.ActualOperationNameUpper }}(response: {% if UseAngularHttpClient %}HttpResponseBase{% else %}Response{% endif %}): Observable<{{ operation.ResultType }}> {
+    protected process{{ operation.ActualOperationNameUpper }}(response: {% if Framework.Angular.UseHttpClient %}HttpResponseBase{% else %}Response{% endif %}): Observable<{{ operation.ResultType }}> {
         const status = response.status;
-{% if UseAngularHttpClient -%}
+{% if Framework.Angular.UseHttpClient -%}
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;

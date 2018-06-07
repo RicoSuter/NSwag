@@ -43,7 +43,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             Parameters = parameters.Select(parameter =>
                 new TypeScriptParameterModel(parameter.Name,
                     GetParameterVariableName(parameter, _operation.Parameters), ResolveParameterType(parameter),
-                    parameter, parameters, _settings, _generator))
+                    parameter, parameters, _settings, _generator, resolver))
                 .ToList();
         }
 

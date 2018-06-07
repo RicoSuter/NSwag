@@ -174,10 +174,13 @@ namespace NSwag
 
         /// <summary>Gets a value indicating whether this is an XML body parameter.</summary>
         [JsonIgnore]
-        public bool IsXmlBodyParameter => Kind == SwaggerParameterKind.Body && (Parent as SwaggerOperation)?.ActualConsumes?.FirstOrDefault() == "application/xml";
+        public bool IsXmlBodyParameter => Kind == SwaggerParameterKind.Body &&
+                                          (Parent as SwaggerOperation)?.ActualConsumes?.FirstOrDefault() == "application/xml" &&
+                                          ((SwaggerOperation)Parent).ActualConsumes?.Contains("application/json") != true;
 
         /// <summary>Gets a value indicating whether this is an binary body parameter.</summary>
         [JsonIgnore]
-        public bool IsBinaryBodyParameter => Kind == SwaggerParameterKind.Body && (Parent as SwaggerOperation)?.ActualConsumes?.FirstOrDefault() == "application/octet-stream";
+        public bool IsBinaryBodyParameter => Kind == SwaggerParameterKind.Body &&
+                                             (Parent as SwaggerOperation)?.ActualConsumes?.FirstOrDefault() == "application/octet-stream";
     }
 }
