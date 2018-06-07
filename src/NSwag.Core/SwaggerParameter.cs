@@ -52,7 +52,7 @@ namespace NSwag
             }
         }
 
-        /// <summary> Gets or sets the style of the parameter. </summary>
+        /// <summary>Gets or sets the style of the parameter (OpenAPI only).</summary>
         [JsonProperty(PropertyName = "style", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public SwaggerParameterStyle Style
         {
@@ -64,7 +64,7 @@ namespace NSwag
             }
         }
 
-        /// <summary> Gets or sets the explode setting for the parameter </summary>
+        /// <summary>Gets or sets the explode setting for the parameter (OpenAPI only).</summary>
         [JsonProperty(PropertyName = "explode", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool Explode
         {
