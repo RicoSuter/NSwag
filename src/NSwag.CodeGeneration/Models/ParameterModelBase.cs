@@ -76,12 +76,14 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Gets the the value indicating if the parameter values should be exploded when included in the query string.</summary>
         public bool Explode => _parameter.Explode;
 
+        /// <summary>Gets a value indicating whether the parameter is a deep object (OpenAPI 3).</summary>
         public bool IsDeepObject => _parameter.Style == SwaggerParameterStyle.DeepObject;
         
-        public IEnumerable<string> ContainingValuePropertiesNames => _parameter.ActualSchema.ActualProperties.Where(a => a.Value.Type != JsonObjectType.Array).Select(b => Capitalize(b.Key));
+        /// <summary>Gets the contained value property names (OpenAPI 3).</summary>
+        public IEnumerable<string> PropertyNames => _parameter.ActualSchema.ActualProperties.Where(a => a.Value.Type != JsonObjectType.Array).Select(b => ConversionUtilities.ConvertToUpperCamelCase(b.Key, true));
 
-
-        public IEnumerable<string> ContainingCollectionPropertiesNames => _parameter.ActualSchema.ActualProperties.Where(a => a.Value.Type == JsonObjectType.Array).Select(b => Capitalize(b.Key));
+        /// <summary>Gets the contained collection property names (OpenAPI 3).</summary>
+        public IEnumerable<string> CollectionPropertyNames => _parameter.ActualSchema.ActualProperties.Where(a => a.Value.Type == JsonObjectType.Array).Select(b => ConversionUtilities.ConvertToUpperCamelCase(b.Key, true));
 
         /// <summary>Gets a value indicating whether the parameter has a description.</summary>
         public bool HasDescription => !string.IsNullOrEmpty(Description);
@@ -142,20 +144,5 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets a value indicating whether the parameter is of type object.</summary>
         public bool IsBody => this.Kind == SwaggerParameterKind.Body;
-        
-
-        private static object GetDefaultValue(Type type)
-        {
-            return type.GetTypeInfo().IsValueType ? Activator.CreateInstance(type) : null;
-        }
-        private static string Capitalize(string argKey)
-        {
-            if (!string.IsNullOrWhiteSpace(argKey))
-            {
-                argKey = argKey.First().ToString().ToUpper() + argKey.Substring(1);
-            }
-
-            return argKey;
-        }
     }
 }
