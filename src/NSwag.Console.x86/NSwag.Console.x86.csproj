@@ -39,6 +39,7 @@
     <PackageReference Include="NConsole" Version="3.9.6519.30868" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
     <PackageReference Include="System.Net.Http" Version="4.3.2" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="1.1.3" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj" />
