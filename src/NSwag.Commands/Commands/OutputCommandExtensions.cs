@@ -37,9 +37,15 @@ namespace NSwag.Commands
                     await DynamicApis.DirectoryCreateDirectoryAsync(directory).ConfigureAwait(false);
 
                 var data = generator();
-                await DynamicApis.FileWriteAllTextAsync(path, data).ConfigureAwait(false);
-                host?.WriteMessage("Code has been successfully written to file.\n");
-
+                if (!await DynamicApis.FileExistsAsync(path) || await DynamicApis.FileReadAllTextAsync(path) != data)
+                {
+                    await DynamicApis.FileWriteAllTextAsync(path, data).ConfigureAwait(false);
+                    host?.WriteMessage("Code has been successfully written to file.\n");
+                }
+                else
+                {
+                    host?.WriteMessage("Code has been successfully generated but not written to file (no change detected).\n");
+                }
                 return true; 
             }
             return false;
