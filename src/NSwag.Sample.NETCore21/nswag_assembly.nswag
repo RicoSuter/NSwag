@@ -1,5 +1,5 @@
 ﻿{
-  "runtime": "Default",
+  "runtime": "NetCore21",
   "swaggerGenerator": {
     "aspNetCoreToSwagger": {
       "project": "",
@@ -22,7 +22,9 @@
       "assemblyPaths": [
         "bin/Debug/netcoreapp2.1/NSwag.Sample.NETCore21.dll"
       ],
-      "referencePaths": []
+      "referencePaths": [
+        "%USERPROFILE%/.nuget/packages"
+      ]
     }
   },
   "codeGenerators": {}

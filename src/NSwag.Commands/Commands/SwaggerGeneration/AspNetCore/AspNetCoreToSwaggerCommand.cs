@@ -21,6 +21,10 @@ using NConsole;
 using Newtonsoft.Json;
 using NSwag.SwaggerGeneration.AspNetCore;
 
+#if NETSTANDARD
+using System.Runtime.Loader;
+#endif
+
 namespace NSwag.Commands.SwaggerGeneration.AspNetCore
 {
     /// <summary>The generator.</summary>
@@ -116,7 +120,7 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
                         cleanupFiles.Add(copiedAppConfig);
                     }
                 }
-#elif NETSTANDARD1_6
+#elif NETSTANDARD
                 var toolDirectory = AppContext.BaseDirectory;
                 if (!Directory.Exists(toolDirectory))
                     toolDirectory = Path.GetDirectoryName(typeof(AspNetCoreToSwaggerCommand).GetTypeInfo().Assembly.Location);
