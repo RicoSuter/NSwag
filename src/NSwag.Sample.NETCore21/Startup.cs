@@ -15,14 +15,14 @@ namespace NSwag.Sample.NETCore21
         }
 
         public IConfiguration Configuration { get; }
-        
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddSwagger();
         }
-        
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -36,8 +36,8 @@ namespace NSwag.Sample.NETCore21
 
             app.UseHttpsRedirection();
             app.UseMvc();
-            app.UseSwaggerWithApiDescription();
-            app.UseSwagger(typeof(Startup).Assembly, new SwaggerSettings { SwaggerRoute = "/oldswagger.json" });
+            app.UseSwaggerWithApiExplorer();
+            app.UseSwagger(typeof(Startup).Assembly, settings => settings.SwaggerRoute = "/oldswagger.json");
         }
     }
 }
