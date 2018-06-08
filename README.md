@@ -17,6 +17,14 @@ The project combines the functionality of Swashbuckle (Swagger generation) and A
 
 The project is developed and maintained by [Rico Suter](http://rsuter.com) and other contributors. 
 
+**Features:**
+
+- Generate Swagger 2.0 and OpenAPI 3.0 specifications from C# ASP.NET (Core) controllers
+- Serve the specs via ASP.NET (Core) middleware, optionally with Swagger UI or ReDoc
+- Generate C# or TypeScript clients/proxies from these specs
+- Everything can be automated via CLI (distributed via NuGet tool or build target; or NPM)
+- CLI configured via JSON file or NSwagStudio Windows UI
+
 **Ways to use the toolchain:** 
 
 - Simple to use Windows GUI, [NSwagStudio](https://github.com/NSwag/NSwag/wiki/NSwagStudio)
