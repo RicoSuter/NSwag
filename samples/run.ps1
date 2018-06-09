@@ -26,14 +26,18 @@ function NSwagRun([string]$projectDirectory, [string]$configurationFile, [string
 }
 
 # WithoutMiddleware/Sample.AspNetCore20
-NSwagRun "$samplesPath/WithoutMiddleware/Sample.AspNetCore20" "nswag_project" "NetCore20" "Release" false
+# NSwagRun "$samplesPath/WithoutMiddleware/Sample.AspNetCore20" "nswag_project" "NetCore20" "Release" false
+NSwagRun "$samplesPath/WithoutMiddleware/Sample.AspNetCore20" "nswag_assembly" "NetCore20" "Release" true
+
+# NSwagRun "$samplesPath/WithoutMiddleware/Sample.AspNetCore20" "nswag_project" "NetCore20" "Debug" false
+# NSwagRun "$samplesPath/WithoutMiddleware/Sample.AspNetCore20" "nswag_assembly" "NetCore20" "Debug" true
 
 # WithoutMiddleware/Sample.AspNetCore21
-NSwagRun "$samplesPath/WithoutMiddleware/Sample.AspNetCore21" "nswag_project" "NetCore21" "Release" false
-NSwagRun "$samplesPath/WithoutMiddleware/Sample.AspNetCore21" "nswag_assembly" "NetCore21" "Release" true
-NSwagRun "$samplesPath/WithoutMiddleware/Sample.AspNetCore21" "nswag_reflection" "NetCore21" "Release" false
-
-NSwagRun "$samplesPath/WithoutMiddleware/Sample.AspNetCore21" "nswag_project" "NetCore21" "Debug" false
-NSwagRun "$samplesPath/WithoutMiddleware/Sample.AspNetCore21" "nswag_assembly" "NetCore21" "Debug" true
-NSwagRun "$samplesPath/WithoutMiddleware/Sample.AspNetCore21" "nswag_reflection" "NetCore21" "Debug" false
+# NSwagRun "$samplesPath/WithoutMiddleware/Sample.AspNetCore21" "nswag_project" "NetCore21" "Release" false
+# NSwagRun "$samplesPath/WithoutMiddleware/Sample.AspNetCore21" "nswag_assembly" "NetCore21" "Release" true
+# NSwagRun "$samplesPath/WithoutMiddleware/Sample.AspNetCore21" "nswag_reflection" "NetCore21" "Release" false
+# 
+# NSwagRun "$samplesPath/WithoutMiddleware/Sample.AspNetCore21" "nswag_project" "NetCore21" "Debug" false
+# NSwagRun "$samplesPath/WithoutMiddleware/Sample.AspNetCore21" "nswag_assembly" "NetCore21" "Debug" true
+# NSwagRun "$samplesPath/WithoutMiddleware/Sample.AspNetCore21" "nswag_reflection" "NetCore21" "Debug" false
 

@@ -3,7 +3,6 @@
   "defaultVariables": "configuration=Debug",
   "swaggerGenerator": {
     "aspNetCoreToSwagger": {
-      "project": "Sample.AspNetCore20.csproj",
       "noBuild": false,
       "verbose": false,
       "defaultPropertyNameHandling": "Default",
@@ -18,9 +17,11 @@
       "excludedTypeNames": [],
       "infoTitle": "My Title",
       "infoVersion": "1.0.0",
-      "output": "nswag_project_swagger.json",
+      "output": "nswag_assembly_swagger.json",
       "outputType": "Swagger2",
-      "assemblyPaths": [],
+      "assemblyPaths": [
+        "bin/$(configuration)/netcoreapp2.0/Sample.AspNetCore20.dll"
+      ],
       "referencePaths": []
     }
   },
