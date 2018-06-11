@@ -19,9 +19,11 @@ namespace NSwag
     {
         private string _name;
         private SwaggerParameterKind _kind;
+        private SwaggerParameterStyle _style;
         private bool _isRequired = false;
         private JsonSchema4 _schema;
         private IDictionary<string, OpenApiExample> _examples;
+        private bool _explode;
 
         [JsonIgnore]
         internal SwaggerOperation ParentOperation => Parent as SwaggerOperation;
@@ -46,6 +48,30 @@ namespace NSwag
             set
             {
                 _kind = value;
+                ParentOperation?.UpdateRequestBody(this);
+            }
+        }
+
+        /// <summary>Gets or sets the style of the parameter (OpenAPI only).</summary>
+        [JsonProperty(PropertyName = "style", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public SwaggerParameterStyle Style
+        {
+            get => _style;
+            set
+            {
+                _style = value;
+                ParentOperation?.UpdateRequestBody(this);
+            }
+        }
+
+        /// <summary>Gets or sets the explode setting for the parameter (OpenAPI only).</summary>
+        [JsonProperty(PropertyName = "explode", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool Explode
+        {
+            get => _explode;
+            set
+            {
+                _explode = value;
                 ParentOperation?.UpdateRequestBody(this);
             }
         }
