@@ -6,8 +6,10 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 
@@ -20,6 +22,8 @@ namespace NSwag.CodeGeneration.Models
         private readonly IList<SwaggerParameter> _allParameters;
         private readonly CodeGeneratorSettingsBase _settings;
         private readonly IClientGenerator _generator;
+        private readonly ValueGeneratorBase _valueGenerator;
+        private bool _explode;
         private readonly TypeResolverBase _typeResolver;
 
         /// <summary>Initializes a new instance of the <see cref="ParameterModelBase" /> class.</summary>
@@ -65,6 +69,21 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets the parameter kind.</summary>
         public SwaggerParameterKind Kind => _parameter.Kind;
+
+        /// <summary>Gets the parameter style.</summary>
+        public SwaggerParameterStyle Style => _parameter.Style;
+
+        /// <summary>Gets the the value indicating if the parameter values should be exploded when included in the query string.</summary>
+        public bool Explode => _parameter.Explode;
+
+        /// <summary>Gets a value indicating whether the parameter is a deep object (OpenAPI 3).</summary>
+        public bool IsDeepObject => _parameter.Style == SwaggerParameterStyle.DeepObject;
+        
+        /// <summary>Gets the contained value property names (OpenAPI 3).</summary>
+        public IEnumerable<string> PropertyNames => _parameter.ActualSchema.ActualProperties.Where(a => a.Value.Type != JsonObjectType.Array).Select(b => ConversionUtilities.ConvertToUpperCamelCase(b.Key, true));
+
+        /// <summary>Gets the contained collection property names (OpenAPI 3).</summary>
+        public IEnumerable<string> CollectionPropertyNames => _parameter.ActualSchema.ActualProperties.Where(a => a.Value.Type == JsonObjectType.Array).Select(b => ConversionUtilities.ConvertToUpperCamelCase(b.Key, true));
 
         /// <summary>Gets a value indicating whether the parameter has a description.</summary>
         public bool HasDescription => !string.IsNullOrEmpty(Description);
