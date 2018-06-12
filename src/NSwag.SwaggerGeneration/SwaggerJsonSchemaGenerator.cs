@@ -72,6 +72,9 @@ namespace NSwag.SwaggerGeneration
             if (type.Name == "JsonResult`1")
                 type = type.GenericTypeArguments[0];
 
+            if (type.Name == "ActionResult`1")
+                type = type.GenericTypeArguments[0];
+
             if (IsFileResponse(type))
                 return new TSchemaType { Type = JsonObjectType.File };
 
