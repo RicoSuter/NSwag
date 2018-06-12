@@ -51,6 +51,11 @@ namespace NSwag
 
                 resolver.IgnoreProperty(typeof(SwaggerResponse), "schema");
                 resolver.IgnoreProperty(typeof(SwaggerResponse), "examples");
+
+                resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "flow");
+                resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "authorizationUrl");
+                resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "tokenUrl");
+                resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "scopes");
             }
             else if (schemaType == SchemaType.Swagger2)
             {
@@ -72,6 +77,11 @@ namespace NSwag
 
                 resolver.IgnoreProperty(typeof(SwaggerResponse), "content");
                 resolver.IgnoreProperty(typeof(SwaggerResponse), "links");
+
+                resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "scheme");
+                resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "bearerFormat");
+                resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "openIdConnectUrl");
+                resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "flows");
             }
 
             return resolver;

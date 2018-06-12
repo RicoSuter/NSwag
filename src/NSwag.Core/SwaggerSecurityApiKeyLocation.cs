@@ -22,6 +22,10 @@ namespace NSwag
 
         /// <summary>In the HTTP header.</summary>
         [EnumMember(Value = "header")]
-        Header
+        Header,
+
+        /// <summary>In the HTTP cookie (OpenAPI only).</summary>
+        [EnumMember(Value = "cookie")]
+        Cookie
     }
 }
