@@ -1,0 +1,27 @@
+﻿{
+  "runtime": "NetCore21",
+  "swaggerGenerator": {
+    "aspNetCoreToSwagger": {
+      "project": "NSwag.Sample.NETCore21.csproj",
+      "noBuild": false,
+      "verbose": false,
+      "defaultPropertyNameHandling": "Default",
+      "defaultReferenceTypeNullHandling": "Null",
+      "defaultEnumHandling": "Integer",
+      "flattenInheritanceHierarchy": false,
+      "generateKnownTypes": true,
+      "generateXmlObjects": false,
+      "generateAbstractProperties": false,
+      "ignoreObsoleteProperties": false,
+      "allowReferencesWithProperties": false,
+      "excludedTypeNames": [],
+      "infoTitle": "My Title",
+      "infoVersion": "1.0.0",
+      "output": "swagger_project_cli.json",
+      "outputType": "Swagger2",
+      "assemblyPaths": [],
+      "referencePaths": []
+    }
+  },
+  "codeGenerators": {}
+}

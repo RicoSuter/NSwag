@@ -7,10 +7,15 @@
 //-----------------------------------------------------------------------
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using NConsole;
 using Newtonsoft.Json;
 using NJsonSchema;
+using NJsonSchema.Infrastructure;
+using NSwag.AssemblyLoader.Utilities;
 
 namespace NSwag.Commands
 {
@@ -36,6 +41,20 @@ namespace NSwag.Commands
             var document = await SwaggerDocument.FromJsonAsync(documentJson, expectedSchemaType: OutputType).ConfigureAwait(false);
             await this.TryWriteDocumentOutputAsync(host, () => document).ConfigureAwait(false);
             return document;
+        }
+
+        protected async Task<Assembly[]> LoadAssembliesAsync(IEnumerable<string> assemblyPaths, AssemblyLoader.AssemblyLoader assemblyLoader)
+        {
+#if FullNet
+            var assemblies = PathUtilities.ExpandFileWildcards(assemblyPaths)
+                .Select(path => Assembly.LoadFrom(path)).ToArray();
+#else
+            var currentDirectory = await DynamicApis.DirectoryGetCurrentDirectoryAsync().ConfigureAwait(false);
+            var assemblies = PathUtilities.ExpandFileWildcards(assemblyPaths)
+                .Select(path => assemblyLoader.Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(path, currentDirectory)))
+                .ToArray();
+#endif
+            return assemblies;
         }
     }
 }

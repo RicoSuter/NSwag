@@ -26,6 +26,14 @@ namespace NSwag
 
         /// <summary>OAuth2 authentication.</summary>
         [EnumMember(Value = "oauth2")]
-        OAuth2
+        OAuth2,
+
+        /// <summary>HTTP authentication (OpenAPI only).</summary>
+        [EnumMember(Value = "http")]
+        Http,
+
+        /// <summary>OpenIdConnect authentication (OpenAPI only).</summary>
+        [EnumMember(Value = "openIdConnect")]
+        OpenIdConnect,
     }
 }

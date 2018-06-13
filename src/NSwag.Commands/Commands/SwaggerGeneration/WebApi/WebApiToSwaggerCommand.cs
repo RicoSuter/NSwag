@@ -101,14 +101,7 @@ namespace NSwag.Commands.SwaggerGeneration.WebApi
             if (AssemblyPaths == null || AssemblyPaths.Length == 0)
                 throw new InvalidOperationException("No assembly paths have been provided.");
 
-#if FullNet
-            var assemblies = PathUtilities.ExpandFileWildcards(AssemblyPaths)
-                .Select(path => Assembly.LoadFrom(path)).ToArray();
-#else
-            var currentDirectory = await DynamicApis.DirectoryGetCurrentDirectoryAsync().ConfigureAwait(false);
-            var assemblies = PathUtilities.ExpandFileWildcards(AssemblyPaths)
-                .Select(path => assemblyLoader.Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(path, currentDirectory))).ToArray();
-#endif
+            var assemblies = await LoadAssembliesAsync(AssemblyPaths, assemblyLoader);
 
             var allExportedNames = assemblies.SelectMany(a => a.ExportedTypes).Select(t => t.FullName).ToList();
             var matchedControllerNames = controllerNames

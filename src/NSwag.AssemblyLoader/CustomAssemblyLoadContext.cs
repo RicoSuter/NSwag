@@ -12,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 using NJsonSchema.Infrastructure;
@@ -23,10 +22,19 @@ namespace NSwag.AssemblyLoader
     public class CustomAssemblyLoadContext : AssemblyLoadContext
     {
         private readonly HashSet<string> _assembliesLoadedByAssemblyName = new HashSet<string>();
+        private bool _isResolving = false;
 
         internal Dictionary<string, Assembly> Assemblies { get; } = new Dictionary<string, Assembly>();
 
         internal List<string> AllReferencePaths { get; set; }
+
+        public Assembly Resolve(AssemblyName args)
+        {
+            if (!_isResolving)
+                return Load(args);
+            else
+                return null;
+        }
 
         protected override Assembly Load(AssemblyName args)
         {
@@ -92,11 +100,17 @@ namespace NSwag.AssemblyLoader
         {
             try
             {
+                _isResolving = true;
                 return Default.LoadFromAssemblyName(new AssemblyName(assemblyName));
             }
             catch (Exception exception)
             {
-                Debug.WriteLine("NSwag: AssemblyLoader exception when loading assembly by name in Default context '" + assemblyName + "': \n" + exception);
+                Debug.WriteLine("NSwag: AssemblyLoader exception when loading assembly by name in Default context '" +
+                                assemblyName + "': \n" + exception);
+            }
+            finally
+            {
+                _isResolving = false;
             }
 
             return null;

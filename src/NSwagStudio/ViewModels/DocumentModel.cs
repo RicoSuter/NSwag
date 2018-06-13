@@ -27,8 +27,8 @@ namespace NSwagStudio.ViewModels
             SwaggerGeneratorViews = new ISwaggerGeneratorView[]
             {
                 new SwaggerInputView(Document.SwaggerGenerators.FromSwaggerCommand),
-                new WebApiToSwaggerGeneratorView(Document.SwaggerGenerators.WebApiToSwaggerCommand, document),
                 new AspNetCoreToSwaggerGeneratorView(Document.SwaggerGenerators.AspNetCoreToSwaggerCommand, document),
+                new WebApiToSwaggerGeneratorView(Document.SwaggerGenerators.WebApiToSwaggerCommand, document),
                 new JsonSchemaInputView(Document.SwaggerGenerators.JsonSchemaToSwaggerCommand),
                 new AssemblyTypeToSwaggerGeneratorView(Document.SwaggerGenerators.TypesToSwaggerCommand, document),
             };
