@@ -127,12 +127,33 @@ namespace NSwag
         /// <returns>The <see cref="SwaggerDocument"/>.</returns>
         public static async Task<SwaggerDocument> FromJsonAsync(string data, string documentPath = null, SchemaType expectedSchemaType = SchemaType.Swagger2)
         {
-            if (data.Contains(@"""swagger"": ""2"))
+            //Parse the JSON to a dynamic obj so we can check version
+            Newtonsoft.Json.Linq.JObject jsonObj = Newtonsoft.Json.Linq.JObject.Parse(data);
+
+            string rootName = ((Newtonsoft.Json.Linq.JProperty)jsonObj.First).Name;
+            string rootValue = ((Newtonsoft.Json.Linq.JProperty)jsonObj.First).Value.ToString();
+
+            if (rootName == "swagger" && rootValue.StartsWith("2"))
+            {
+                expectedSchemaType = SchemaType.Swagger2;
+            }
+            else if (rootName == "openapi" && rootValue.StartsWith("3"))
+            {
+                expectedSchemaType = SchemaType.OpenApi3;
+            }
+            else if (expectedSchemaType == SchemaType.JsonSchema)
+            {
+                throw new NotSupportedException("The schema type JsonSchema is not supported.");
+            }
+
+/*
+             if (data.Contains(@"""swagger"": ""2"))
                 expectedSchemaType = SchemaType.Swagger2;
             else if (data.Contains(@"""openapi"": ""3"))
                 expectedSchemaType = SchemaType.OpenApi3;
             else if (expectedSchemaType == SchemaType.JsonSchema)
                 throw new NotSupportedException("The schema type JsonSchema is not supported.");
+            */
 
             var contractResolver = CreateJsonSerializerContractResolver(expectedSchemaType);
             return await JsonSchemaSerialization.FromJsonAsync<SwaggerDocument>(data, expectedSchemaType, documentPath, document =>
