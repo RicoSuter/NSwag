@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NJsonSchema;
@@ -127,34 +128,41 @@ namespace NSwag
         /// <returns>The <see cref="SwaggerDocument"/>.</returns>
         public static async Task<SwaggerDocument> FromJsonAsync(string data, string documentPath = null, SchemaType expectedSchemaType = SchemaType.Swagger2)
         {
-            //Parse the JSON to a dynamic obj so we can check version
-            Newtonsoft.Json.Linq.JObject jsonObj = Newtonsoft.Json.Linq.JObject.Parse(data);
-
-            string rootName = ((Newtonsoft.Json.Linq.JProperty)jsonObj.First).Name;
-            string rootValue = ((Newtonsoft.Json.Linq.JProperty)jsonObj.First).Value.ToString();
-
-            if (rootName == "swagger" && rootValue.StartsWith("2"))
-            {
-                expectedSchemaType = SchemaType.Swagger2;
-            }
-            else if (rootName == "openapi" && rootValue.StartsWith("3"))
-            {
-                expectedSchemaType = SchemaType.OpenApi3;
-            }
-            else if (expectedSchemaType == SchemaType.JsonSchema)
+            if (expectedSchemaType == SchemaType.JsonSchema)
             {
                 throw new NotSupportedException("The schema type JsonSchema is not supported.");
             }
 
-/*
-             if (data.Contains(@"""swagger"": ""2"))
-                expectedSchemaType = SchemaType.Swagger2;
-            else if (data.Contains(@"""openapi"": ""3"))
-                expectedSchemaType = SchemaType.OpenApi3;
-            else if (expectedSchemaType == SchemaType.JsonSchema)
-                throw new NotSupportedException("The schema type JsonSchema is not supported.");
-            */
+            //Determine SchemaType from the JSON using REGEX
+            //For explanation of the regex use https://regexr.com/ and the below unescaped pattern that is without named groups
+            //  (?:\"(openapi|swagger)\")(?:\s*:\s*)(?:\"([^"]*)\")
 
+            string pattern = "(?:\\\"(?<schemaType>openapi|swagger)\\\")(?:\\s*:\\s*)(?:\\\"(?<schemaVersion>[^\"]*)\\\")";
+
+            string schemaType = "";
+            string schemaVersion = "";
+
+            Regex r = new Regex(pattern, RegexOptions.IgnoreCase);
+            Match m = r.Match(data);
+            if (m.Success)
+            {
+                schemaType = m.Groups["schemaType"].Value.ToLower();
+                schemaVersion = m.Groups["schemaVersion"].Value.ToLower();
+
+                if (schemaType == "swagger" && schemaVersion.StartsWith("2"))
+                {
+                    expectedSchemaType = SchemaType.Swagger2;
+                }
+                else if (schemaType == "openapi" && schemaVersion.StartsWith("3"))
+                {
+                    expectedSchemaType = SchemaType.OpenApi3;
+                }
+
+            } else
+            {
+                throw new NotSupportedException("The schema type could not be identified.");
+            }
+           
             var contractResolver = CreateJsonSerializerContractResolver(expectedSchemaType);
             return await JsonSchemaSerialization.FromJsonAsync<SwaggerDocument>(data, expectedSchemaType, documentPath, document =>
             {
