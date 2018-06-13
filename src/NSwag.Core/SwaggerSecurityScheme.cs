@@ -177,7 +177,10 @@ namespace NSwag
             if (flowType == SwaggerOAuth2Flow.AccessCode)
                 return Flows?.AuthorizationCode;
 
-            return null;
+            return Flows?.Implicit ??
+                   Flows?.Password ??
+                   Flows?.ClientCredentials ??
+                   Flows?.AuthorizationCode;
         }
     }
 }
