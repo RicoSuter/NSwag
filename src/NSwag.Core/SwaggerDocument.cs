@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NJsonSchema;
@@ -127,13 +128,30 @@ namespace NSwag
         /// <returns>The <see cref="SwaggerDocument"/>.</returns>
         public static async Task<SwaggerDocument> FromJsonAsync(string data, string documentPath = null, SchemaType expectedSchemaType = SchemaType.Swagger2)
         {
-            if (data.Contains(@"""swagger"": ""2"))
-                expectedSchemaType = SchemaType.Swagger2;
-            else if (data.Contains(@"""openapi"": ""3"))
-                expectedSchemaType = SchemaType.OpenApi3;
-            else if (expectedSchemaType == SchemaType.JsonSchema)
-                throw new NotSupportedException("The schema type JsonSchema is not supported.");
+            // For explanation of the regex use https://regexr.com/ and the below unescaped pattern that is without named groups
+            // (?:\"(openapi|swagger)\")(?:\s*:\s*)(?:\"([^"]*)\")
+            var pattern = "(?:\\\"(?<schemaType>openapi|swagger)\\\")(?:\\s*:\\s*)(?:\\\"(?<schemaVersion>[^\"]*)\\\")";
+            var match = Regex.Match(data, pattern, RegexOptions.IgnoreCase);
+            if (match.Success)
+            {
+                var schemaType = match.Groups["schemaType"].Value.ToLower();
+                var schemaVersion = match.Groups["schemaVersion"].Value.ToLower();
 
+                if (schemaType == "swagger" && schemaVersion.StartsWith("2"))
+                {
+                    expectedSchemaType = SchemaType.Swagger2;
+                }
+                else if (schemaType == "openapi" && schemaVersion.StartsWith("3"))
+                {
+                    expectedSchemaType = SchemaType.OpenApi3;
+                }
+            }
+
+            if (expectedSchemaType == SchemaType.JsonSchema)
+            {
+                throw new NotSupportedException("The schema type JsonSchema is not supported.");
+            }
+           
             var contractResolver = CreateJsonSerializerContractResolver(expectedSchemaType);
             return await JsonSchemaSerialization.FromJsonAsync<SwaggerDocument>(data, expectedSchemaType, documentPath, document =>
             {
