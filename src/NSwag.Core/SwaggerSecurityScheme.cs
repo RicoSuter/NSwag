@@ -104,14 +104,17 @@ namespace NSwag
         {
             get
             {
-                if (Flows?.Implicit != null)
-                    return SwaggerOAuth2Flow.Implicit;
-                if (Flows?.Password != null)
-                    return SwaggerOAuth2Flow.Password;
-                if (Flows?.ClientCredentials != null)
-                    return SwaggerOAuth2Flow.Application;
-                if (Flows?.AuthorizationCode != null)
-                    return SwaggerOAuth2Flow.AccessCode;
+                if (Type == SwaggerSecuritySchemeType.OAuth2)
+                {
+                    if (Flows?.Implicit != null)
+                        return SwaggerOAuth2Flow.Implicit;
+                    if (Flows?.Password != null)
+                        return SwaggerOAuth2Flow.Password;
+                    if (Flows?.ClientCredentials != null)
+                        return SwaggerOAuth2Flow.Application;
+                    if (Flows?.AuthorizationCode != null)
+                        return SwaggerOAuth2Flow.AccessCode;
+                }
 
                 return SwaggerOAuth2Flow.Undefined;
             }
@@ -160,7 +163,7 @@ namespace NSwag
             if (flowType == SwaggerOAuth2Flow.AccessCode)
                 Flows = new OpenApiOAuthFlows { AuthorizationCode = flow };
 
-            Flows = new OpenApiOAuthFlows { Implicit = flow }; // Use Implicit as default
+            Flows = new OpenApiOAuthFlows { Implicit = flow }; // use Implicit as default "store"
         }
 
         private OpenApiOAuthFlow GetFlow(SwaggerOAuth2Flow flowType)
