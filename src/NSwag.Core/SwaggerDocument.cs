@@ -128,11 +128,6 @@ namespace NSwag
         /// <returns>The <see cref="SwaggerDocument"/>.</returns>
         public static async Task<SwaggerDocument> FromJsonAsync(string data, string documentPath = null, SchemaType expectedSchemaType = SchemaType.Swagger2)
         {
-            if (expectedSchemaType == SchemaType.JsonSchema)
-            {
-                throw new NotSupportedException("The schema type JsonSchema is not supported.");
-            }
-
             // For explanation of the regex use https://regexr.com/ and the below unescaped pattern that is without named groups
             // (?:\"(openapi|swagger)\")(?:\s*:\s*)(?:\"([^"]*)\")
             var pattern = "(?:\\\"(?<schemaType>openapi|swagger)\\\")(?:\\s*:\\s*)(?:\\\"(?<schemaVersion>[^\"]*)\\\")";
@@ -150,6 +145,11 @@ namespace NSwag
                 {
                     expectedSchemaType = SchemaType.OpenApi3;
                 }
+            }
+
+            if (expectedSchemaType == SchemaType.JsonSchema)
+            {
+                throw new NotSupportedException("The schema type JsonSchema is not supported.");
             }
            
             var contractResolver = CreateJsonSerializerContractResolver(expectedSchemaType);
