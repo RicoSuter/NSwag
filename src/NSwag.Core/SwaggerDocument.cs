@@ -133,21 +133,14 @@ namespace NSwag
                 throw new NotSupportedException("The schema type JsonSchema is not supported.");
             }
 
-            //Determine SchemaType from the JSON using REGEX
-            //For explanation of the regex use https://regexr.com/ and the below unescaped pattern that is without named groups
-            //  (?:\"(openapi|swagger)\")(?:\s*:\s*)(?:\"([^"]*)\")
-
-            string pattern = "(?:\\\"(?<schemaType>openapi|swagger)\\\")(?:\\s*:\\s*)(?:\\\"(?<schemaVersion>[^\"]*)\\\")";
-
-            string schemaType = "";
-            string schemaVersion = "";
-
-            Regex r = new Regex(pattern, RegexOptions.IgnoreCase);
-            Match m = r.Match(data);
-            if (m.Success)
+            // For explanation of the regex use https://regexr.com/ and the below unescaped pattern that is without named groups
+            // (?:\"(openapi|swagger)\")(?:\s*:\s*)(?:\"([^"]*)\")
+            var pattern = "(?:\\\"(?<schemaType>openapi|swagger)\\\")(?:\\s*:\\s*)(?:\\\"(?<schemaVersion>[^\"]*)\\\")";
+            var match = Regex.Match(data, pattern, RegexOptions.IgnoreCase);
+            if (match.Success)
             {
-                schemaType = m.Groups["schemaType"].Value.ToLower();
-                schemaVersion = m.Groups["schemaVersion"].Value.ToLower();
+                var schemaType = match.Groups["schemaType"].Value.ToLower();
+                var schemaVersion = match.Groups["schemaVersion"].Value.ToLower();
 
                 if (schemaType == "swagger" && schemaVersion.StartsWith("2"))
                 {
@@ -157,10 +150,6 @@ namespace NSwag
                 {
                     expectedSchemaType = SchemaType.OpenApi3;
                 }
-
-            } else
-            {
-                throw new NotSupportedException("The schema type could not be identified.");
             }
            
             var contractResolver = CreateJsonSerializerContractResolver(expectedSchemaType);
