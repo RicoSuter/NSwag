@@ -140,7 +140,7 @@
                                 <StackPanel Visibility="{Binding Command.WrapResponses, Converter={StaticResource VisibilityConverter}}">
                                     <TextBlock Text="Methods where responses are wrapped (empty for all, 'ControllerName.MethodName', comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
                                     <TextBox ToolTip="WrapResponseMethods" 
-                                             Text="{Binding Binding.WrapResponseMethods, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
+                                             Text="{Binding Command.WrapResponseMethods, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
                                              Margin="0,0,0,12" />
 
                                     <CheckBox IsChecked="{Binding Command.GenerateResponseClasses, Mode=TwoWay}"
