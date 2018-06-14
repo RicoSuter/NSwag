@@ -282,7 +282,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                     IsRequired = true, // FromBody parameters are always required
                     IsNullableRaw = typeDescription.IsNullable,
                     Description = await parameter.GetDescriptionAsync(attributes).ConfigureAwait(false),
-                    Schema = await context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema4>(
+                    Schema = await context.SchemaGenerator.GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(
                         parameter.ParameterType, parameter.GetCustomAttributes(), isNullable: false, schemaResolver: context.SchemaResolver).ConfigureAwait(false)
                 };
 

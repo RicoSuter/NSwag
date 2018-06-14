@@ -132,7 +132,7 @@ namespace NSwag.SwaggerGeneration.Processors
                     response.IsNullableRaw = statusCodeGroup.Any(r => r.IsNullable) && typeDescription.IsNullable;
                     response.ExpectedSchemas = await GenerateExpectedSchemasAsync(statusCodeGroup, context);
                     response.Schema = await context.SchemaGenerator
-                        .GenerateWithReferenceAndNullability<JsonSchema4>(
+                        .GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(
                             returnType, null, typeDescription.IsNullable, context.SchemaResolver)
                         .ConfigureAwait(false);
                 }
@@ -173,7 +173,7 @@ namespace NSwag.SwaggerGeneration.Processors
                 foreach (var response in group)
                 {
                     var isNullable = _settings.ReflectionService.GetDescription(response.ResponseType, null, _settings).IsNullable;
-                    var schema = await context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema4>(
+                    var schema = await context.SchemaGenerator.GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(
                         response.ResponseType, null, isNullable, context.SchemaResolver)
                         .ConfigureAwait(false);
 
@@ -211,7 +211,7 @@ namespace NSwag.SwaggerGeneration.Processors
             {
                 var returnParameterAttributes = GetParameterAttributes(returnParameter);
                 var typeDescription = _settings.ReflectionService.GetDescription(returnType, returnParameterAttributes, _settings);
-                var responseSchema = await context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema4>(
+                var responseSchema = await context.SchemaGenerator.GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(
                     returnType, returnParameterAttributes, typeDescription.IsNullable, context.SchemaResolver).ConfigureAwait(false);
 
                 operation.Responses["200"] = new SwaggerResponse

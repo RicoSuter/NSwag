@@ -62,7 +62,7 @@ namespace NSwag.SwaggerGeneration
         /// <param name="schemaResolver">The schema resolver.</param>
         /// <param name="transformation">An action to transform the resulting schema (e.g. property or parameter) before the type of reference is determined (with $ref or allOf/oneOf).</param>
         /// <returns>The requested schema object.</returns>
-        public override async Task<TSchemaType> GenerateWithReferenceAndNullability<TSchemaType>(
+        public override async Task<TSchemaType> GenerateWithReferenceAndNullabilityAsync<TSchemaType>(
             Type type, IEnumerable<Attribute> parentAttributes, bool isNullable,
             JsonSchemaResolver schemaResolver, Func<TSchemaType, JsonSchema4, Task> transformation = null)
         {
@@ -78,7 +78,7 @@ namespace NSwag.SwaggerGeneration
             if (IsFileResponse(type))
                 return new TSchemaType { Type = JsonObjectType.File };
 
-            return await base.GenerateWithReferenceAndNullability(type, parentAttributes, isNullable, schemaResolver, transformation);
+            return await base.GenerateWithReferenceAndNullabilityAsync(type, parentAttributes, isNullable, schemaResolver, transformation);
         }
 
         private bool IsFileResponse(Type returnType)

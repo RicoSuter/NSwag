@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Properties xmlns="http://schemas.microsoft.com/servicebusexplorer">
+  <Property Key="MachineName" Type="String" Value="RICOT460P" />
+  <Property Key="UserName" Type="String" Value="mail" />
+</Properties>
