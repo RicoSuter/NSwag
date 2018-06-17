@@ -37,14 +37,16 @@ namespace NSwag.SwaggerGeneration
         {
             new ApiVersionProcessor(),
             new OperationSummaryAndDescriptionProcessor(),
-            new OperationTagsProcessor()
+            new OperationTagsProcessor(),
+            new OperationExtensionDataProcessor(),
         };
 
         /// <summary>Gets the operation processor.</summary>
         [JsonIgnore]
         public DocumentProcessorCollection DocumentProcessors { get; } = new DocumentProcessorCollection
         {
-            new DocumentTagsProcessor()
+            new DocumentTagsProcessor(),
+            new DocumentExtensionDataProcessor(),
         };
 
         /// <summary>Gets or sets the document template representing the initial Swagger specification (JSON data).</summary>

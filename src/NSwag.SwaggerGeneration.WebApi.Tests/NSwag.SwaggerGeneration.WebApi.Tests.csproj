@@ -114,6 +114,7 @@
     <Compile Include="Attributes\AcceptVerbsTests.cs" />
     <Compile Include="Attributes\ApiExplorerSettingsAttributeTests.cs" />
     <Compile Include="Attributes\ComplexParametersTests.cs" />
+    <Compile Include="Attributes\ExtensionDataTests.cs" />
     <Compile Include="Attributes\PrimitivePathParametersTests.cs" />
     <Compile Include="Attributes\PrimitiveQueryParametersTests.cs" />
     <Compile Include="Attributes\ResponseAttributeTests.cs" />
