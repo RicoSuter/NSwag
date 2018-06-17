@@ -20,6 +20,7 @@ namespace NSwag.Sample
         [HttpPost]
         [Consumes("application/json")]
         [Produces("application/json")]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.NoContent)]
         [ProducesResponseType(typeof(SerializableError), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> AddPet([FromBody] Pet pet)
         {
@@ -31,6 +32,7 @@ namespace NSwag.Sample
         [HttpPut]
         [Consumes("application/json")]
         [Produces("application/json")]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.NoContent)]
         [ProducesResponseType(typeof(SerializableError), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> EditPet([FromBody] Pet pet)
         {
@@ -44,9 +46,9 @@ namespace NSwag.Sample
         }
 
         // 'status' is intended to be an optional query string parameter
+        // Sample with ActionResult<T> auto-detection
         [HttpGet("findByStatus")]
         [Produces("application/json")]
-        [ProducesResponseType(typeof(SerializableError), (int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<IEnumerable<Pet>>> FindByStatus(string[] status)
         {
             await Task.Delay(0);
@@ -57,6 +59,7 @@ namespace NSwag.Sample
         // to represent an action with a required query parameter.
         [HttpGet("findByCategory")]
         [Produces("application/json")]
+        [ProducesResponseType(typeof(IEnumerable<Pet>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(SerializableError), (int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<IEnumerable<Pet>>> FindByCategory([BindRequired] string category)
         {
@@ -66,6 +69,7 @@ namespace NSwag.Sample
 
         [HttpGet("{petId}", Name = "FindPetById")]
         [Produces("application/json")]
+        [ProducesResponseType(typeof(Pet), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(SerializableError), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<Pet>> FindById(int petId)
@@ -87,6 +91,7 @@ namespace NSwag.Sample
         [HttpPost("{petId}")]
         [Consumes("application/www-form-url-encoded")]
         [Produces("application/json")]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.NoContent)]
         [ProducesResponseType(typeof(SerializableError), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> EditPet(int petId, [FromForm] Pet pet)
@@ -102,6 +107,7 @@ namespace NSwag.Sample
 
         [HttpDelete("{petId}")]
         [Produces("application/json")]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.NoContent)]
         [ProducesResponseType(typeof(SerializableError), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> DeletePet(int petId)
@@ -118,6 +124,7 @@ namespace NSwag.Sample
         [HttpPost("{petId}/uploadImage")]
         [Consumes("multipart/form-data")]
         [Produces("application/json")]
+        [ProducesResponseType(typeof(ApiResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(SerializableError), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<ApiResponse>> UploadImage(int petId, IFormFile file)

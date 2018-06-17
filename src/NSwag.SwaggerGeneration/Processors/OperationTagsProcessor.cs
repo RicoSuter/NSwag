@@ -11,7 +11,6 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using NJsonSchema.Infrastructure;
-using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Contexts;
 
 namespace NSwag.SwaggerGeneration.Processors
@@ -44,21 +43,15 @@ namespace NSwag.SwaggerGeneration.Processors
 
         private void ProcessSwaggerTagAttributes(SwaggerDocument document, SwaggerOperationDescription operationDescription, MethodInfo methodInfo)
         {
-            var tagAttributes = methodInfo.GetCustomAttributes()
-                .Where(a => a.GetType().Name == "SwaggerTagAttribute")
-                .Select(a => (dynamic)a)
-                .ToArray();
-
-            if (tagAttributes.Any())
+            foreach (var tagAttribute in methodInfo.GetCustomAttributes()
+                                            .Where(a => a.GetType().Name == "SwaggerTagAttribute")
+                                            .Select(a => (dynamic)a))
             {
-                foreach (var tagAttribute in tagAttributes)
-                {
-                    if (operationDescription.Operation.Tags.All(t => t != tagAttribute.Name))
-                        operationDescription.Operation.Tags.Add(tagAttribute.Name);
+                if (operationDescription.Operation.Tags.All(t => t != tagAttribute.Name))
+                    operationDescription.Operation.Tags.Add(tagAttribute.Name);
 
-                    if (ReflectionExtensions.HasProperty(tagAttribute, "AddToDocument") && tagAttribute.AddToDocument)
-                        DocumentTagsProcessor.AddTagFromSwaggerTagAttribute(document, tagAttribute);
-                }
+                if (ReflectionExtensions.HasProperty(tagAttribute, "AddToDocument") && tagAttribute.AddToDocument)
+                    DocumentTagsProcessor.AddTagFromSwaggerTagAttribute(document, tagAttribute);
             }
         }
 
