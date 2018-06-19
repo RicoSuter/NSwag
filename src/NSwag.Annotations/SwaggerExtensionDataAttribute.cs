@@ -10,35 +10,25 @@ using System;
 
 namespace NSwag.Annotations
 {
-    /// <summary>
-    /// Indicates extension data to be added to the Swagger definition.
-    /// </summary>
+    /// <summary>Indicates extension data to be added to the Swagger definition.</summary>
     /// <remarks>Requires the SwaggerExtensionDataOperationProcessor to be used in the Swagger definition generation.</remarks>
     /// <seealso cref="System.Attribute" />
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method | AttributeTargets.Parameter, AllowMultiple = true)]
     public sealed class SwaggerExtensionDataAttribute : Attribute
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SwaggerExtensionDataAttribute"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="SwaggerExtensionDataAttribute"/> class.</summary>
         /// <param name="key">The key.</param>
         /// <param name="value">The value.</param>
         public SwaggerExtensionDataAttribute(string key, string value)
         {
-            this.Key = key;
-            this.Value = value;
+            Key = key;
+            Value = value;
         }
 
-        /// <summary>
-        /// Gets the key.
-        /// </summary>
-        /// <value>The key.</value>
+        /// <summary>Gets the key.</summary>
         public string Key { get; }
 
-        /// <summary>
-        /// Gets the value.
-        /// </summary>
-        /// <value>The value.</value>
+        /// <summary>Gets the value.</summary>
         public string Value { get; }
     }
 }
