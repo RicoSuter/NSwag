@@ -195,9 +195,7 @@ namespace NSwag.SwaggerGeneration.Processors
             var returnType = returnParameter.ParameterType;
             if (returnType == typeof(Task))
                 returnType = typeof(void);
-            else if (returnType.Name == "Task`1")
-                returnType = returnType.GenericTypeArguments[0];
-            else if (returnType.Name == "ActionResult`1")
+            while (returnType.Name == "Task`1" || returnType.Name == "ActionResult`1")
                 returnType = returnType.GenericTypeArguments[0];
 
             if (IsVoidResponse(returnType))
