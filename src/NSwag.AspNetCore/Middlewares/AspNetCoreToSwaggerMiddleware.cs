@@ -79,13 +79,15 @@ namespace NSwag.AspNetCore.Middlewares
 
             try
             {
-                // TODO: Move to NJS
-                var isContractResolverSpecified =
+                // TODO: Move to NJS (same in other generator)
+                var isSerializerSettingsSpecified =
                     _settings.GeneratorSettings.DefaultPropertyNameHandling != PropertyNameHandling.Default ||
-                    _settings.GeneratorSettings.ContractResolver != null;
+                    _settings.GeneratorSettings.DefaultEnumHandling != EnumHandling.Integer ||
+                    _settings.GeneratorSettings.ContractResolver != null |
+                    _settings.GeneratorSettings.SerializerSettings != null;
 
-                if (!isContractResolverSpecified)
-                    _settings.GeneratorSettings.ContractResolver = _mvcJsonOptions.Value.SerializerSettings.ContractResolver;
+                if (!isSerializerSettingsSpecified)
+                    _settings.GeneratorSettings.SerializerSettings = _mvcJsonOptions.Value.SerializerSettings;
 
                 var generator = new AspNetCoreToSwaggerGenerator(_settings.GeneratorSettings, _schemaGenerator);
                 var document = await generator.GenerateAsync(apiDescriptionGroups);
