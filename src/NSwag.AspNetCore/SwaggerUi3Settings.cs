@@ -33,6 +33,12 @@ namespace NSwag.AspNetCore
         /// <summary>Controls how the API listing is displayed. It can be set to 'none' (default), 'list' (shows operations for each resource), or 'full' (fully expanded: shows operations and their details).</summary>
         public string DocExpansion { get; set; } = "none";
 
+        /// <summary>Specifies the API sorter in Swagger UI 3.</summary>
+        public string ApisSorter { get; set; } = "none";
+
+        /// <summary>Specifies the operations sorter in Swagger UI 3.</summary>
+        public string OperationsSorter { get; set; } = "none";
+
         /// <summary>Gets or sets the server URL.</summary>
         public string ServerUrl { get; set; } = "";
 
@@ -50,14 +56,16 @@ namespace NSwag.AspNetCore
                 html = html.Replace("{" + property.Name + "}", value is IDictionary ? JsonConvert.SerializeObject(value) : value?.ToString() ?? "");
             }
 
-            html = html.Replace("{Urls}", !SwaggerRoutes.Any() ? 
-                "undefined" : 
+            html = html.Replace("{Urls}", !SwaggerRoutes.Any() ?
+                "undefined" :
                 JsonConvert.SerializeObject(
                     SwaggerRoutes.Select(r => new SwaggerUi3Route(r.Name, r.Url.Substring(MiddlewareBasePath?.Length ?? 0)))
                 ));
 
             html = html.Replace("{ValidatorUrl}", ValidateSpecification ? "undefined" : "null");
             html = html.Replace("{DocExpansion}", DocExpansion);
+            html = html.Replace("{ApisSorter}", ApisSorter);
+            html = html.Replace("{OperationsSorter}", OperationsSorter);
             html = html.Replace("{RedirectUrl}", string.IsNullOrEmpty(ServerUrl) ?
                 "window.location.origin + \"" + SwaggerUiRoute + "/oauth2-redirect.html\"" :
                 "\"" + ServerUrl + SwaggerUiRoute + "/oauth2-redirect.html\"");
