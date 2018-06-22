@@ -28,7 +28,7 @@ namespace NSwag.CodeGeneration.CSharp
                 SchemaType = SchemaType.Swagger2,
             };
 
-            CSharpGeneratorSettings.TemplateFactory = new DefaultTemplateFactory(CSharpGeneratorSettings, new Assembly[]
+            CSharpGeneratorSettings.TemplateFactory = new DefaultTemplateFactory(CSharpGeneratorSettings, new[]
             {
                 typeof(CSharpGeneratorSettings).GetTypeInfo().Assembly,
                 typeof(SwaggerToCSharpGeneratorSettings).GetTypeInfo().Assembly,

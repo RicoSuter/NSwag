@@ -201,6 +201,14 @@
                     <TextBlock Text="Custom ISchemaNameGenerator implementation" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding Command.SchemaNameGeneratorType, Mode=TwoWay}" 
                              ToolTip="SchemaNameGeneratorType" Margin="0,0,0,12" />
+
+                    <TextBlock Text="Custom IContractResolver implementation (deprecated)" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding Command.ContractResolverType, Mode=TwoWay}" 
+                             ToolTip="ContractResolverType" Margin="0,0,0,12" />
+
+                    <TextBlock Text="Custom JsonSerializerSettings implementation" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding Command.SerializerSettingsType, Mode=TwoWay}" 
+                             ToolTip="SerializerSettingsType" Margin="0,0,0,12" />
                 </StackPanel>
             </GroupBox>
 

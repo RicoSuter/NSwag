@@ -150,8 +150,11 @@ namespace NSwag.Commands.SwaggerGeneration
         [Argument(Name = "SchemaNameGenerator", IsRequired = false, Description = "The custom ISchemaNameGenerator implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
         public string SchemaNameGeneratorType { get; set; }
 
-        [Argument(Name = "ContractResolver", IsRequired = false, Description = "The custom IContractResolver implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
+        [Argument(Name = "ContractResolver", IsRequired = false, Description = "DEPRECATED: The custom IContractResolver implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
         public string ContractResolverType { get; set; }
+
+        [Argument(Name = "SerializerSettings", IsRequired = false, Description = "The custom JsonSerializerSettings implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
+        public string SerializerSettingsType { get; set; }
 
         public void InitializeCustomTypes(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
@@ -181,6 +184,9 @@ namespace NSwag.Commands.SwaggerGeneration
 
             if (!string.IsNullOrEmpty(ContractResolverType))
                 Settings.ContractResolver = (IContractResolver)assemblyLoader.CreateInstance(ContractResolverType);
+
+            if (!string.IsNullOrEmpty(SerializerSettingsType))
+                Settings.SerializerSettings = (JsonSerializerSettings)assemblyLoader.CreateInstance(SerializerSettingsType);
         }
 
         public string PostprocessDocument(SwaggerDocument document)
