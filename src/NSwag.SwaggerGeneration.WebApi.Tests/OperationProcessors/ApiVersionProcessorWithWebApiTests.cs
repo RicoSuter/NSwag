@@ -4,13 +4,12 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Web.Http;
-using NSwag.SwaggerGeneration.WebApi.Processors;
 using NSwag.SwaggerGeneration.Processors;
 
 namespace NSwag.SwaggerGeneration.WebApi.Tests.OperationProcessors
 {
     [TestClass]
-    public class ApiVersionProcessorTests
+    public class ApiVersionProcessorWithWebApiTests
     {
         [ApiVersion("1")]
         public class VersionedControllerV1 : ApiController
@@ -69,7 +68,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.OperationProcessors
         {
             //// Arrange
             var settings = new WebApiToSwaggerGeneratorSettings();
-            settings.OperationProcessors.TryGet<ApiVersionProcessor>().IncludedVersions.Add("1");
+            settings.OperationProcessors.TryGet<ApiVersionProcessor>().IncludedVersions = new[] { "1" };
 
             var generator = new WebApiToSwaggerGenerator(settings);
 
@@ -79,6 +78,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.OperationProcessors
                 typeof(VersionedControllerV1),
                 typeof(VersionedControllerV2)
             });
+            var json = document.ToJson();
 
             //// Assert
             Assert.AreEqual(2, document.Paths.Count);

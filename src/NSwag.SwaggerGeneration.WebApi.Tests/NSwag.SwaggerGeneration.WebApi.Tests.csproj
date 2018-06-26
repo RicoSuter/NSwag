@@ -125,7 +125,7 @@
     <Compile Include="ControllerClassesTests.cs" />
     <Compile Include="OperationNameGenerator\MultipleClientsFromOperationIdOperationNameGeneratorTests.cs" />
     <Compile Include="OperationNameGenerator\MultipleClientsFromPathSegmentsOperationNameGeneratorTests.cs" />
-    <Compile Include="OperationProcessors\ApiVersionProcessorTests.cs" />
+    <Compile Include="OperationProcessors\ApiVersionProcessorWithWebApiTests.cs" />
     <Compile Include="Nullability\ParameterNullabilityTests.cs" />
     <Compile Include="Nullability\ResponseNullabilityTests.cs" />
     <Compile Include="OperationProcessors\SwaggerOperationProcessorAttributeTests.cs" />
