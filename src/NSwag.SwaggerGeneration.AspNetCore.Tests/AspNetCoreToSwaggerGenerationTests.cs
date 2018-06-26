@@ -782,18 +782,22 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
 
             var actionDescriptorProvider = new ControllerActionDescriptorProvider(
                 applicationPartManager,
-                new IApplicationModelProvider[] { new DefaultApplicationModelProvider(options), new MakeApiExplorerVisibleProvider(), },
+                new IApplicationModelProvider[]
+                {
+                    new DefaultApplicationModelProvider(options, new EmptyModelMetadataProvider()),
+                    new MakeApiExplorerVisibleProvider(),
+                },
                 options);
 
             var actionDescriptorProviderContext = new ActionDescriptorProviderContext();
             actionDescriptorProvider.OnProvidersExecuting(actionDescriptorProviderContext);
 
-            var apiDescriptionProvider = new DefaultApiDescriptionProvider(
-                options,
-                Mock.Of<IInlineConstraintResolver>(),
-                new EmptyModelMetadataProvider());
+            var apiDescriptionProvider = new DefaultApiDescriptionProvider(options,Mock.Of<IInlineConstraintResolver>(), 
+                new EmptyModelMetadataProvider(), new ActionResultTypeMapper());
+
             var apiDescriptionProviderContext = new ApiDescriptionProviderContext(actionDescriptorProviderContext.Results.ToArray());
             apiDescriptionProvider.OnProvidersExecuting(apiDescriptionProviderContext);
+
             var groups = apiDescriptionProviderContext.Results.GroupBy(a => a.GroupName)
                 .Select(g => new ApiDescriptionGroup(g.Key, g.ToArray()))
                 .ToArray();
