@@ -195,7 +195,8 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
             {
                 // See https://github.com/aspnet/Mvc/issues/5690
 
-                var apiDescriptionProvider = testServer.Host.Services.GetRequiredService<IApiDescriptionGroupCollectionProvider>();
+                var type = typeof(IApiDescriptionGroupCollectionProvider);
+                var apiDescriptionProvider = (IApiDescriptionGroupCollectionProvider)testServer.Host.Services.GetRequiredService(type);
 
                 var generator = new AspNetCoreToSwaggerGenerator(Settings);
                 var document = await generator.GenerateAsync(apiDescriptionProvider.ApiDescriptionGroups).ConfigureAwait(false);

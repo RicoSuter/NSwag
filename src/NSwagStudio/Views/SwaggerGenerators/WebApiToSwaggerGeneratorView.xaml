@@ -162,6 +162,10 @@
             <TextBox Text="{Binding Command.ExcludedTypeNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
                      ToolTip="ExcludedTypeNames" Margin="0,0,0,12" />
 
+            <TextBlock Text="Included API versions used by the ApiVersionProcessor (empty = all, comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
+            <TextBox Text="{Binding Command.IncludedVersions, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
+                     ToolTip="IncludedVersions" Margin="0,0,0,12" />
+
             <GroupBox Header="Swagger Information" Margin="0,0,0,8">
                 <StackPanel Margin="4,8,4,-8">
                     <TextBlock Text="Title" FontWeight="Bold" Margin="0,0,0,6" />
@@ -225,6 +229,14 @@
                     <TextBlock Text="Custom ISchemaNameGenerator implementation" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding Command.SchemaNameGeneratorType, Mode=TwoWay}" 
                              ToolTip="SchemaNameGeneratorType" Margin="0,0,0,12" />
+
+                    <TextBlock Text="Custom IContractResolver implementation (deprecated)" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding Command.ContractResolverType, Mode=TwoWay}" 
+                             ToolTip="ContractResolverType" Margin="0,0,0,12" />
+
+                    <TextBlock Text="Custom JsonSerializerSettings implementation" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding Command.SerializerSettingsType, Mode=TwoWay}" 
+                             ToolTip="SerializerSettingsType" Margin="0,0,0,12" />
                 </StackPanel>
             </GroupBox>
 

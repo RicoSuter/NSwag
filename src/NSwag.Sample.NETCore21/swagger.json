@@ -1,12 +1,11 @@
-﻿{
-  "x-generator": "NSwag v11.15.4.0 (NJsonSchema v9.10.31.0 (Newtonsoft.Json v10.0.0.0))",
+{
+  "x-generator": "NSwag v11.17.15.0 (NJsonSchema v9.10.53.0 (Newtonsoft.Json v10.0.0.0))",
   "swagger": "2.0",
   "info": {
-    "title": "Web API Swagger specification",
+    "title": "My Title",
     "version": "1.0.0"
   },
   "host": "localhost:44370",
-  "basePath": "",
   "schemes": [
     "https"
   ],
@@ -42,12 +41,15 @@
           }
         ],
         "responses": {
+          "204": {
+            "description": ""
+          },
           "400": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
-            },
-            "x-nullable": true
+            }
           }
         }
       },
@@ -71,12 +73,15 @@
           }
         ],
         "responses": {
+          "204": {
+            "description": ""
+          },
           "400": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
-            },
-            "x-nullable": true
+            }
           }
         }
       }
@@ -108,12 +113,15 @@
           }
         ],
         "responses": {
-          "400": {
+          "200": {
+            "x-nullable": true,
             "description": "",
             "schema": {
-              "$ref": "#/definitions/SerializableError"
-            },
-            "x-nullable": true
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Pet"
+              }
+            }
           }
         }
       }
@@ -134,12 +142,22 @@
           }
         ],
         "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Pet"
+              }
+            }
+          },
           "400": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
-            },
-            "x-nullable": true
+            }
           }
         }
       }
@@ -156,17 +174,24 @@
             "name": "petId",
             "in": "path",
             "required": true,
-            "x-nullable": false,
-            "format": "int32"
+            "format": "int32",
+            "x-nullable": false
           }
         ],
         "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Pet"
+            }
+          },
           "400": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
-            },
-            "x-nullable": true
+            }
           },
           "404": {
             "description": ""
@@ -184,32 +209,32 @@
             "name": "petId",
             "in": "path",
             "required": true,
-            "x-nullable": false,
-            "format": "int32"
+            "format": "int32",
+            "x-nullable": false
           },
           {
             "type": "integer",
             "name": "Id",
             "in": "formData",
             "required": true,
-            "x-nullable": false,
-            "format": "int32"
+            "format": "int32",
+            "x-nullable": false
           },
           {
             "type": "integer",
             "name": "Age",
             "in": "formData",
             "required": true,
-            "x-nullable": false,
-            "format": "int32"
+            "format": "int32",
+            "x-nullable": false
           },
           {
             "type": "integer",
             "name": "Category.Id",
             "in": "formData",
             "required": true,
-            "x-nullable": false,
-            "format": "int32"
+            "format": "int32",
+            "x-nullable": false
           },
           {
             "type": "string",
@@ -237,8 +262,8 @@
             "name": "Images",
             "in": "formData",
             "required": true,
-            "x-nullable": true,
             "collectionFormat": "multi",
+            "x-nullable": true,
             "items": {
               "$ref": "#/definitions/Image"
             }
@@ -248,8 +273,8 @@
             "name": "Tags",
             "in": "formData",
             "required": true,
-            "x-nullable": true,
             "collectionFormat": "multi",
+            "x-nullable": true,
             "items": {
               "$ref": "#/definitions/Tag"
             }
@@ -263,12 +288,15 @@
           }
         ],
         "responses": {
+          "204": {
+            "description": ""
+          },
           "400": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
-            },
-            "x-nullable": true
+            }
           },
           "404": {
             "description": ""
@@ -286,17 +314,20 @@
             "name": "petId",
             "in": "path",
             "required": true,
-            "x-nullable": false,
-            "format": "int32"
+            "format": "int32",
+            "x-nullable": false
           }
         ],
         "responses": {
+          "204": {
+            "description": ""
+          },
           "400": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
-            },
-            "x-nullable": true
+            }
           },
           "404": {
             "description": ""
@@ -319,8 +350,8 @@
             "name": "petId",
             "in": "path",
             "required": true,
-            "x-nullable": false,
-            "format": "int32"
+            "format": "int32",
+            "x-nullable": false
           },
           {
             "type": "file",
@@ -331,12 +362,19 @@
           }
         ],
         "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
           "400": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
-            },
-            "x-nullable": true
+            }
           },
           "404": {
             "description": ""
@@ -452,9 +490,25 @@
           "additionalProperties": {}
         }
       ]
+    },
+    "ApiResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code"
+      ],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      }
     }
-  },
-  "parameters": {},
-  "responses": {},
-  "securityDefinitions": {}
+  }
 }

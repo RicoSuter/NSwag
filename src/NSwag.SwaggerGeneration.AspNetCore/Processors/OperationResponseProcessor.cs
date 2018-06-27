@@ -90,7 +90,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                         response.IsNullableRaw = typeDescription.IsNullable;
 
                         response.Schema = await context.SchemaGenerator
-                            .GenerateWithReferenceAndNullability<JsonSchema4>(
+                            .GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(
                                 returnType, null, typeDescription.IsNullable, context.SchemaResolver)
                             .ConfigureAwait(false);
                     }

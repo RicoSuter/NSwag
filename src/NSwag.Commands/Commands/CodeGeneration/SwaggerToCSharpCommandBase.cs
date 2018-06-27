@@ -66,6 +66,14 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.CSharpGeneratorSettings.GenerateJsonMethods = value; }
         }
 
+        [Argument(Name = "EnforceFlagEnums", IsRequired = false,
+            Description = "Specifies whether enums should be always generated as bit flags (default: false).")]
+        public bool EnforceFlagEnums
+        {
+            get { return Settings.CSharpGeneratorSettings.EnforceFlagEnums; }
+            set { Settings.CSharpGeneratorSettings.EnforceFlagEnums = value; }
+        }
+
         [Argument(Name = "ParameterArrayType", IsRequired = false, Description = "The generic array .NET type of operation parameters (default: 'IEnumerable').")]
         public string ParameterArrayType
         {
