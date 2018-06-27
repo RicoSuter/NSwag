@@ -156,14 +156,14 @@ namespace NSwag
 
             if (flowType == SwaggerOAuth2Flow.Implicit)
                 Flows = new OpenApiOAuthFlows { Implicit = flow };
-            if (flowType == SwaggerOAuth2Flow.Password)
+            else if (flowType == SwaggerOAuth2Flow.Password)
                 Flows = new OpenApiOAuthFlows { Password = flow };
-            if (flowType == SwaggerOAuth2Flow.Application)
+            else if (flowType == SwaggerOAuth2Flow.Application)
                 Flows = new OpenApiOAuthFlows { ClientCredentials = flow };
-            if (flowType == SwaggerOAuth2Flow.AccessCode)
+            else if (flowType == SwaggerOAuth2Flow.AccessCode)
                 Flows = new OpenApiOAuthFlows { AuthorizationCode = flow };
-
-            Flows = new OpenApiOAuthFlows { Implicit = flow }; // use Implicit as default "store"
+            else
+                Flows = new OpenApiOAuthFlows { Implicit = flow }; // use Implicit as default "store"
         }
 
         private OpenApiOAuthFlow GetFlow(SwaggerOAuth2Flow flowType)
