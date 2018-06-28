@@ -1,25 +1,12 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.DependencyInjection;
-using NSwag.SwaggerGeneration.AspNetCore.Tests.Web;
 using NSwag.SwaggerGeneration.Processors;
 using Xunit;
 
 namespace NSwag.SwaggerGeneration.AspNetCore.Tests
 {
-    public class ApiVersionProcessorWithAspNetCoreTests : IDisposable
+    public class ApiVersionProcessorWithAspNetCoreTests : AspNetCoreTestsBase
     {
-        private readonly TestServer _testServer;
-
-        public ApiVersionProcessorWithAspNetCoreTests()
-        {
-            _testServer = new TestServer(new WebHostBuilder().UseStartup<Startup>());
-        }
-
         [Fact]
         public async Task When_generating_v1_then_only_v1_operations_are_included()
         {
@@ -27,16 +14,14 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
             var settings = new AspNetCoreToSwaggerGeneratorSettings();
             settings.OperationProcessors.TryGet<ApiVersionProcessor>().IncludedVersions = new[] { "1" };
 
-            var generator = new AspNetCoreToSwaggerGenerator(settings);
-            var provider = _testServer.Host.Services.GetRequiredService<IApiDescriptionGroupCollectionProvider>();
-
             // Act
-            var document = await generator.GenerateAsync(provider.ApiDescriptionGroups);
+            var document = await GenerateDocumentAsync(settings);
             var json = document.ToJson();
 
             // Assert
-            Assert.Equal(4, document.Operations.Count());
-            Assert.True(document.Operations.All(o => o.Path.Contains("/v1/")));
+            var operations = GetControllerOperations(document, "VersionedValues");
+            Assert.Equal(4, operations.Count());
+            Assert.True(operations.All(o => o.Path.Contains("/v1/")));
         }
 
         [Fact]
@@ -46,21 +31,13 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
             var settings = new AspNetCoreToSwaggerGeneratorSettings();
             settings.OperationProcessors.TryGet<ApiVersionProcessor>().IncludedVersions = new[] { "2" };
 
-            var generator = new AspNetCoreToSwaggerGenerator(settings);
-            var provider = _testServer.Host.Services.GetRequiredService<IApiDescriptionGroupCollectionProvider>();
-
             // Act
-            var document = await generator.GenerateAsync(provider.ApiDescriptionGroups);
-            var json = document.ToJson();
+            var document = await GenerateDocumentAsync(settings);
 
             // Assert
-            Assert.Equal(2, document.Operations.Count());
-            Assert.True(document.Operations.All(o => o.Path.Contains("/v2/")));
-        }
-
-        public void Dispose()
-        {
-            _testServer.Dispose();
+            var operations = GetControllerOperations(document, "VersionedValues");
+            Assert.Equal(2, operations.Count());
+            Assert.True(operations.All(o => o.Path.Contains("/v2/")));
         }
     }
 }
