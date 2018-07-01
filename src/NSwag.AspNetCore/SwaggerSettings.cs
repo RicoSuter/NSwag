@@ -7,13 +7,20 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Threading.Tasks;
 using NJsonSchema;
 using NSwag.SwaggerGeneration;
 using NSwag.SwaggerGeneration.WebApi;
+using Newtonsoft.Json;
 
 #if AspNetOwin
+using Microsoft.Owin;
+
 namespace NSwag.AspNet.Owin
 #else
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+
 namespace NSwag.AspNetCore
 #endif
 {
@@ -22,7 +29,7 @@ namespace NSwag.AspNetCore
         where T : SwaggerGeneratorSettings, new()
     {
         /// <summary>Initializes a new instance of the <see cref="SwaggerSettings{T}"/> class.</summary>
-        public SwaggerSettings ()
+        public SwaggerSettings()
         {
             GeneratorSettings = new T();
 
@@ -34,6 +41,13 @@ namespace NSwag.AspNetCore
 
         /// <summary>Gets the generator settings.</summary>
         public T GeneratorSettings { get; }
+
+        /// <summary>Gets or sets the settings factory.</summary>
+#if !AspNetOwin
+        public ISwaggerGeneratorSettingsFactory<T, IServiceProvider> SettingsFactory { get; set; }
+#else
+        public ISwaggerGeneratorSettingsFactory<T, IOwinContext> SettingsFactory { get; set; }
+#endif
 
         /// <summary>Gets or sets the OWIN base path (when mapped via app.MapOwinPath()) (must start with '/').</summary>
         public string MiddlewareBasePath { get; set; }
@@ -48,5 +62,20 @@ namespace NSwag.AspNetCore
         public TimeSpan ExceptionCacheTime { get; set; } = TimeSpan.FromSeconds(10);
 
         internal virtual string ActualSwaggerRoute => SwaggerRoute.Substring(MiddlewareBasePath?.Length ?? 0);
+
+#if !AspNetOwin
+        public async Task<T> CreateGeneratorSettingsAsync(IServiceProvider context, JsonSerializerSettings serializerSettings)
+#else
+        public async Task<T> CreateGeneratorSettingsAsync(IOwinContext context, JsonSerializerSettings serializerSettings)
+#endif
+        {
+            if (SettingsFactory != null)
+                return await SettingsFactory.CreateAsync(serializerSettings, context);
+            else
+            {
+                GeneratorSettings.TryApplySerializerSettings(serializerSettings);
+                return GeneratorSettings;
+            }
+        }
     }
 }

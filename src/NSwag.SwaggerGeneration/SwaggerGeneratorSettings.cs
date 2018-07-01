@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using Newtonsoft.Json;
+using NJsonSchema;
 using NJsonSchema.Generation;
 using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Collections;
@@ -19,7 +20,7 @@ namespace NSwag.SwaggerGeneration
         /// <summary>Initializes a new instance of the <see cref="SwaggerGeneratorSettings"/> class.</summary>
         public SwaggerGeneratorSettings()
         {
-            SchemaType = NJsonSchema.SchemaType.Swagger2;
+            SchemaType = SchemaType.Swagger2;
         }
 
         /// <summary>Gets or sets the Swagger specification title.</summary>
@@ -49,5 +50,21 @@ namespace NSwag.SwaggerGeneration
 
         /// <summary>Gets or sets the document template representing the initial Swagger specification (JSON data).</summary>
         public string DocumentTemplate { get; set; }
+
+        public void TryApplySerializerSettings(JsonSerializerSettings serializerSettings)
+        {
+            if (serializerSettings != null)
+            {
+                // TODO: Move to NJS => JsonSchemaGeneratorSettings
+                var areSerializerSettingsSpecified =
+                    DefaultPropertyNameHandling != PropertyNameHandling.Default ||
+                    DefaultEnumHandling != EnumHandling.Integer ||
+                    ContractResolver != null |
+                    SerializerSettings != null;
+
+                if (!areSerializerSettingsSpecified)
+                    SerializerSettings = serializerSettings;
+            }
+        }
     }
 }

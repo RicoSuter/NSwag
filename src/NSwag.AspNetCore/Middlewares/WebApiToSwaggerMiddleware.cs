@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using NJsonSchema;
 using NSwag.SwaggerGeneration;
 using NSwag.SwaggerGeneration.WebApi;
 
@@ -80,17 +79,9 @@ namespace NSwag.AspNetCore.Middlewares
                 {
                     try
                     {
-                        // TODO: Move to NJS (same in other generator)
-                        var isSerializerSettingsSpecified =
-                            _settings.GeneratorSettings.DefaultPropertyNameHandling != PropertyNameHandling.Default ||
-                            _settings.GeneratorSettings.DefaultEnumHandling != EnumHandling.Integer ||
-                            _settings.GeneratorSettings.ContractResolver != null |
-                            _settings.GeneratorSettings.SerializerSettings != null;
-
-                        if (!isSerializerSettingsSpecified)
-                            _settings.GeneratorSettings.SerializerSettings = _mvcJsonOptions.Value.SerializerSettings;
-
-                        var generator = new WebApiToSwaggerGenerator(_settings.GeneratorSettings, _schemaGenerator);
+                        var serializerSettings = _mvcJsonOptions.Value.SerializerSettings;
+                        var settings = await _settings.CreateGeneratorSettingsAsync(context.RequestServices, serializerSettings);
+                        var generator = new WebApiToSwaggerGenerator(settings, _schemaGenerator);
                         var document = await generator.GenerateForControllersAsync(_controllerTypes);
 
                         document.Host = context.Request.Host.Value ?? "";

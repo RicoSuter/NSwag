@@ -13,7 +13,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Options;
-using NJsonSchema;
 using NSwag.SwaggerGeneration;
 using NSwag.SwaggerGeneration.AspNetCore;
 
@@ -37,6 +36,7 @@ namespace NSwag.AspNetCore.Middlewares
         /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerMiddleware"/> class.</summary>
         /// <param name="nextDelegate">The next delegate.</param>
         /// <param name="apiDescriptionGroupCollectionProvider">The <see cref="IApiDescriptionGroupCollectionProvider"/>.</param>
+        /// <param name="mvcJsonOptions">The json options.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
         public AspNetCoreToSwaggerMiddleware(RequestDelegate nextDelegate, IApiDescriptionGroupCollectionProvider apiDescriptionGroupCollectionProvider, IOptions<MvcJsonOptions> mvcJsonOptions, SwaggerSettings<AspNetCoreToSwaggerGeneratorSettings> settings, SwaggerJsonSchemaGenerator schemaGenerator)
@@ -79,17 +79,9 @@ namespace NSwag.AspNetCore.Middlewares
 
             try
             {
-                // TODO: Move to NJS (same in other generator)
-                var isSerializerSettingsSpecified =
-                    _settings.GeneratorSettings.DefaultPropertyNameHandling != PropertyNameHandling.Default ||
-                    _settings.GeneratorSettings.DefaultEnumHandling != EnumHandling.Integer ||
-                    _settings.GeneratorSettings.ContractResolver != null |
-                    _settings.GeneratorSettings.SerializerSettings != null;
-
-                if (!isSerializerSettingsSpecified)
-                    _settings.GeneratorSettings.SerializerSettings = _mvcJsonOptions.Value.SerializerSettings;
-
-                var generator = new AspNetCoreToSwaggerGenerator(_settings.GeneratorSettings, _schemaGenerator);
+                var serializerSettings = _mvcJsonOptions.Value.SerializerSettings;
+                var settings = await _settings.CreateGeneratorSettingsAsync(context.RequestServices, serializerSettings);
+                var generator = new AspNetCoreToSwaggerGenerator(settings, _schemaGenerator);
                 var document = await generator.GenerateAsync(apiDescriptionGroups);
 
                 document.Host = context.Request.Host.Value ?? "";

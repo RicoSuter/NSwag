@@ -10,6 +10,11 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using NConsole;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -21,17 +26,17 @@ using NSwag.SwaggerGeneration.Processors;
 namespace NSwag.Commands.SwaggerGeneration
 {
     /// <inheritdoc />
-    public abstract class SwaggerGeneratorCommandBase<T> : IsolatedSwaggerOutputCommandBase
-        where T : SwaggerGeneratorSettings, new()
+    public abstract class SwaggerGeneratorCommandBase<TSettings> : IsolatedSwaggerOutputCommandBase
+        where TSettings : SwaggerGeneratorSettings, new()
     {
         /// <summary>Initializes a new instance of the <see cref="SwaggerGeneratorCommandBase{T}"/> class.</summary>
         protected SwaggerGeneratorCommandBase()
         {
-            Settings = new T();
+            Settings = new TSettings();
         }
 
         [JsonIgnore]
-        public T Settings { get; }
+        protected TSettings Settings { get; }
 
         [Argument(Name = nameof(DefaultPropertyNameHandling), IsRequired = false, Description = "The default property name handling ('Default' or 'CamelCase').")]
         public PropertyNameHandling DefaultPropertyNameHandling
@@ -163,8 +168,54 @@ namespace NSwag.Commands.SwaggerGeneration
         [Argument(Name = "SerializerSettings", IsRequired = false, Description = "The custom JsonSerializerSettings implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
         public string SerializerSettingsType { get; set; }
 
-        public void InitializeCustomTypes(AssemblyLoader.AssemblyLoader assemblyLoader)
+        [Argument(Name = "SettingsFactory", IsRequired = false, Description = "The ISettingsFactory<AspNetCoreToSwaggerGeneratorSettings, IWebHost> type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
+        public string SettingsFactoryType { get; set; }
+
+        [Argument(Name = "Startup", IsRequired = false, Description = "The Startup class type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
+        public string StartupType { get; set; }
+
+        public async Task<TSettings> CreateSettingsAsync(AssemblyLoader.AssemblyLoader assemblyLoader, IWebHost webHost)
         {
+            Settings.DocumentTemplate = await GetDocumentTemplateAsync();
+
+            var options = webHost?.Services?.GetRequiredService<IOptions<MvcJsonOptions>>();
+            var serializerSettings = options?.Value?.SerializerSettings;
+
+            if (!string.IsNullOrEmpty(SettingsFactoryType))
+            {
+                var factory = (dynamic)assemblyLoader.CreateInstance(SettingsFactoryType);
+                return await factory.CreateAsync(serializerSettings, webHost?.Services);
+            }
+            else
+            {
+                Settings.TryApplySerializerSettings(serializerSettings);
+                Settings.DocumentTemplate = await GetDocumentTemplateAsync();
+
+                InitializeCustomTypes(assemblyLoader);
+
+                return Settings;
+            }
+        }
+
+        protected async Task<TestServer> CreateTestServerAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
+        {
+            Type startupType;
+
+            if (string.IsNullOrEmpty(StartupType))
+            {
+                // TODO: Implement proper auto discovery
+                var assemblies = await LoadAssembliesAsync(AssemblyPaths, assemblyLoader).ConfigureAwait(false);
+                startupType = assemblies.First().ExportedTypes.First(t => t.Name == "Startup");
+            }
+            else
+                startupType = assemblyLoader.GetType(StartupType);
+
+            return new TestServer(new WebHostBuilder().UseStartup(startupType));
+        }
+
+        protected void InitializeCustomTypes(AssemblyLoader.AssemblyLoader assemblyLoader)
+        {
+            Settings.DocumentProcessors.Clear();
             if (DocumentProcessorTypes != null)
             {
                 foreach (var p in DocumentProcessorTypes)
@@ -174,6 +225,7 @@ namespace NSwag.Commands.SwaggerGeneration
                 }
             }
 
+            Settings.OperationProcessors.Clear();
             if (OperationProcessorTypes != null)
             {
                 foreach (var p in OperationProcessorTypes)
@@ -183,42 +235,49 @@ namespace NSwag.Commands.SwaggerGeneration
                 }
             }
 
+            Settings.TypeNameGenerator = null;
             if (!string.IsNullOrEmpty(TypeNameGeneratorType))
                 Settings.TypeNameGenerator = (ITypeNameGenerator)assemblyLoader.CreateInstance(TypeNameGeneratorType);
 
+            Settings.SchemaNameGenerator = null;
             if (!string.IsNullOrEmpty(SchemaNameGeneratorType))
                 Settings.SchemaNameGenerator = (ISchemaNameGenerator)assemblyLoader.CreateInstance(SchemaNameGeneratorType);
 
+            Settings.ContractResolver = null;
             if (!string.IsNullOrEmpty(ContractResolverType))
                 Settings.ContractResolver = (IContractResolver)assemblyLoader.CreateInstance(ContractResolverType);
 
+            Settings.SerializerSettings = null;
             if (!string.IsNullOrEmpty(SerializerSettingsType))
                 Settings.SerializerSettings = (JsonSerializerSettings)assemblyLoader.CreateInstance(SerializerSettingsType);
         }
 
         public string PostprocessDocument(SwaggerDocument document)
         {
-            if (ServiceHost == ".")
-                document.Host = string.Empty;
-            else if (!string.IsNullOrEmpty(ServiceHost))
-                document.Host = ServiceHost;
-
-            if (string.IsNullOrEmpty(DocumentTemplate))
+            if (string.IsNullOrEmpty(SettingsFactoryType))
             {
-                if (!string.IsNullOrEmpty(InfoTitle))
-                    document.Info.Title = InfoTitle;
-                if (!string.IsNullOrEmpty(InfoVersion))
-                    document.Info.Version = InfoVersion;
-                if (!string.IsNullOrEmpty(InfoDescription))
-                    document.Info.Description = InfoDescription;
+                if (ServiceHost == ".")
+                    document.Host = string.Empty;
+                else if (!string.IsNullOrEmpty(ServiceHost))
+                    document.Host = ServiceHost;
+
+                if (string.IsNullOrEmpty(DocumentTemplate))
+                {
+                    if (!string.IsNullOrEmpty(InfoTitle))
+                        document.Info.Title = InfoTitle;
+                    if (!string.IsNullOrEmpty(InfoVersion))
+                        document.Info.Version = InfoVersion;
+                    if (!string.IsNullOrEmpty(InfoDescription))
+                        document.Info.Description = InfoDescription;
+                }
+
+                if (ServiceSchemes != null && ServiceSchemes.Any())
+                    document.Schemes = ServiceSchemes.Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true))
+                        .ToList();
+
+                if (!string.IsNullOrEmpty(ServiceBasePath))
+                    document.BasePath = ServiceBasePath;
             }
-
-            if (ServiceSchemes != null && ServiceSchemes.Any())
-                document.Schemes = ServiceSchemes.Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true))
-                    .ToList();
-
-            if (!string.IsNullOrEmpty(ServiceBasePath))
-                document.BasePath = ServiceBasePath;
 
             return document.ToJson(OutputType);
         }

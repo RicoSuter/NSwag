@@ -6,6 +6,7 @@
              xmlns:swaggerGenerators="clr-namespace:NSwagStudio.ViewModels.SwaggerGenerators"
              xmlns:converters="clr-namespace:NSwagStudio.Converters"
              xmlns:dialogs="clr-namespace:MyToolkit.Dialogs;assembly=MyToolkit.Extended"
+             xmlns:converters1="clr-namespace:MyToolkit.Converters;assembly=MyToolkit.Extended"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
 
@@ -13,6 +14,7 @@
         <swaggerGenerators:AspNetCoreToSwaggerGeneratorViewModel x:Key="ViewModel" />
         <converters:NumberAdditionConverter x:Key="NumberAdditionConverter" />
         <converters:StringArrayConverter x:Key="StringArrayConverter" />
+        <converters1:NotConverter x:Key="NotConverter" />
     </UserControl.Resources>
 
     <ScrollViewer DataContext="{StaticResource ViewModel}" x:Name="ScrollViewer" 
@@ -91,130 +93,140 @@
                     <TextBlock Text="Paths to search for referenced assembly files (multiple on separate lines)" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding Command.ReferencePaths, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
                              ToolTip="ReferencePaths" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
+
+                    <TextBlock Text="Startup type (leave empty for auto-discovery)" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding Command.StartupType, Mode=TwoWay}" 
+                             ToolTip="StartupType" Margin="0,0,0,12" />
                 </StackPanel>
             </GroupBox>
 
-            <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
-                <Run Text="Default Enum Handling" FontWeight="Bold" />
-                <LineBreak />
-                Choose 'Integer' if you use the default Json.NET serializer or 'String' if a global StringEnumConverter is registered.
-            </TextBlock>
-            <ComboBox SelectedItem="{Binding Command.DefaultEnumHandling, Mode=TwoWay}" 
-                      ToolTip="DefaultEnumHandling" ItemsSource="{Binding EnumHandlings}" Margin="0,0,0,12" />
+            <TextBlock Text="Custom ISettingsFactory&lt;AspNetCoreToSwaggerGeneratorSettings, IWebHost&gt; type" FontWeight="Bold" Margin="0,0,0,6" />
+            <TextBox Text="{Binding Command.SettingsFactoryType, Mode=TwoWay}" 
+                     ToolTip="SettingsFactoryType" Margin="0,0,0,12" />
 
-            <TextBlock Margin="0,0,0,6" Text="Default Property Name Handling" TextWrapping="Wrap" FontWeight="Bold" />
-            <ComboBox SelectedItem="{Binding Command.DefaultPropertyNameHandling, Mode=TwoWay}" 
-                      ToolTip="DefaultPropertyNameHandling" ItemsSource="{Binding PropertyNameHandlings}" Margin="0,0,0,12" />
+            <StackPanel Visibility="{Binding Command.SettingsFactoryType, Converter={StaticResource NotConverter}}">
+                <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
+                    <Run Text="Default Enum Handling" FontWeight="Bold" />
+                    <LineBreak />
+                    Choose 'Integer' if you use the default Json.NET serializer or 'String' if a global StringEnumConverter is registered.
+                </TextBlock>
+                <ComboBox SelectedItem="{Binding Command.DefaultEnumHandling, Mode=TwoWay}" 
+                          ToolTip="DefaultEnumHandling" ItemsSource="{Binding EnumHandlings}" Margin="0,0,0,12" />
 
-            <TextBlock Margin="0,0,0,6" Text="The default null handling (if NotNullAttribute and CanBeNullAttribute are missing)" TextWrapping="Wrap" FontWeight="Bold" />
-            <ComboBox SelectedItem="{Binding Command.DefaultReferenceTypeNullHandling, Mode=TwoWay}" 
-                      ToolTip="DefaultReferenceTypeNullHandling" ItemsSource="{Binding ReferenceTypeNullHandlings}" Margin="0,0,0,12" />
+                <TextBlock Margin="0,0,0,6" Text="Default Property Name Handling" TextWrapping="Wrap" FontWeight="Bold" />
+                <ComboBox SelectedItem="{Binding Command.DefaultPropertyNameHandling, Mode=TwoWay}" 
+                          ToolTip="DefaultPropertyNameHandling" ItemsSource="{Binding PropertyNameHandlings}" Margin="0,0,0,12" />
 
-            <CheckBox IsChecked="{Binding Command.GenerateAbstractProperties, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="GenerateAbstractProperties">
-                <TextBlock Text="Generate abstract properties (i.e. interface and abstract properties. Properties may defined multiple times in a inheritance hierarchy)" TextWrapping="Wrap" />
-            </CheckBox>
+                <TextBlock Margin="0,0,0,6" Text="The default null handling (if NotNullAttribute and CanBeNullAttribute are missing)" TextWrapping="Wrap" FontWeight="Bold" />
+                <ComboBox SelectedItem="{Binding Command.DefaultReferenceTypeNullHandling, Mode=TwoWay}" 
+                          ToolTip="DefaultReferenceTypeNullHandling" ItemsSource="{Binding ReferenceTypeNullHandlings}" Margin="0,0,0,12" />
 
-            <CheckBox IsChecked="{Binding Command.IgnoreObsoleteProperties, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="IgnoreObsoleteProperties">
-                <TextBlock Text="Ignore properties with the ObsoleteAttribute" TextWrapping="Wrap" />
-            </CheckBox>
+                <CheckBox IsChecked="{Binding Command.GenerateAbstractProperties, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="GenerateAbstractProperties">
+                    <TextBlock Text="Generate abstract properties (i.e. interface and abstract properties. Properties may defined multiple times in a inheritance hierarchy)" TextWrapping="Wrap" />
+                </CheckBox>
 
-            <CheckBox IsChecked="{Binding Command.AllowReferencesWithProperties, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="AllowReferencesWithProperties">
-                <TextBlock Text="Use $ref references even if additional properties are defined on the object (otherwise allOf/oneOf with $ref is used)" TextWrapping="Wrap" />
-            </CheckBox>
+                <CheckBox IsChecked="{Binding Command.IgnoreObsoleteProperties, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="IgnoreObsoleteProperties">
+                    <TextBlock Text="Ignore properties with the ObsoleteAttribute" TextWrapping="Wrap" />
+                </CheckBox>
 
-            <CheckBox IsChecked="{Binding Command.FlattenInheritanceHierarchy, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="FlattenInheritanceHierarchy">
-                <TextBlock Text="Flatten the inheritance hierarchy instead of using allOf to describe inheritance" TextWrapping="Wrap" />
-            </CheckBox>
+                <CheckBox IsChecked="{Binding Command.AllowReferencesWithProperties, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="AllowReferencesWithProperties">
+                    <TextBlock Text="Use $ref references even if additional properties are defined on the object (otherwise allOf/oneOf with $ref is used)" TextWrapping="Wrap" />
+                </CheckBox>
 
-            <CheckBox IsChecked="{Binding Command.GenerateKnownTypes, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="GenerateKnownTypes">
-                <TextBlock Text="Generate schemas for types in KnownTypeAttribute attributes" TextWrapping="Wrap" />
-            </CheckBox>
+                <CheckBox IsChecked="{Binding Command.FlattenInheritanceHierarchy, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="FlattenInheritanceHierarchy">
+                    <TextBlock Text="Flatten the inheritance hierarchy instead of using allOf to describe inheritance" TextWrapping="Wrap" />
+                </CheckBox>
 
-            <CheckBox IsChecked="{Binding Command.GenerateXmlObjects, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="GenerateXmlObjects">
-                <TextBlock Text="Generate xmlObject representation for definitions" TextWrapping="Wrap" />
-            </CheckBox>
+                <CheckBox IsChecked="{Binding Command.GenerateKnownTypes, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="GenerateKnownTypes">
+                    <TextBlock Text="Generate schemas for types in KnownTypeAttribute attributes" TextWrapping="Wrap" />
+                </CheckBox>
 
-            <TextBlock Text="The excluded type names (same as JsonSchemaIgnoreAttribute, comma separated)." FontWeight="Bold" Margin="0,0,0,6" />
-            <TextBox Text="{Binding Command.ExcludedTypeNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
-                     ToolTip="ExcludedTypeNames" Margin="0,0,0,12" />
+                <CheckBox IsChecked="{Binding Command.GenerateXmlObjects, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="GenerateXmlObjects">
+                    <TextBlock Text="Generate xmlObject representation for definitions" TextWrapping="Wrap" />
+                </CheckBox>
 
-            <TextBlock Text="Included API versions used by the ApiVersionProcessor (empty = all, comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
-            <TextBox Text="{Binding Command.IncludedVersions, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
-                     ToolTip="IncludedVersions" Margin="0,0,0,12" />
+                <TextBlock Text="The excluded type names (same as JsonSchemaIgnoreAttribute, comma separated)." FontWeight="Bold" Margin="0,0,0,6" />
+                <TextBox Text="{Binding Command.ExcludedTypeNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
+                         ToolTip="ExcludedTypeNames" Margin="0,0,0,12" />
 
-            <GroupBox Header="Swagger Information" Margin="0,0,0,8">
-                <StackPanel Margin="4,8,4,-8">
-                    <TextBlock Text="Title" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.InfoTitle, Mode=TwoWay}"
-                             ToolTip="InfoTitle" Margin="0,0,0,12" />
+                <TextBlock Text="Included API versions used by the ApiVersionProcessor (empty = all, comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
+                <TextBox Text="{Binding Command.IncludedVersions, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
+                         ToolTip="IncludedVersions" Margin="0,0,0,12" />
 
-                    <TextBlock Text="Description" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.InfoDescription, Mode=TwoWay}"
-                             ToolTip="InfoDescription" Margin="0,0,0,12" />
+                <GroupBox Header="Swagger Information" Margin="0,0,0,8">
+                    <StackPanel Margin="4,8,4,-8">
+                        <TextBlock Text="Title" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.InfoTitle, Mode=TwoWay}"
+                                 ToolTip="InfoTitle" Margin="0,0,0,12" />
 
-                    <TextBlock Text="Version" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.InfoVersion, Mode=TwoWay}"
-                             ToolTip="InfoVersion" Margin="0,0,0,12" />
+                        <TextBlock Text="Description" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.InfoDescription, Mode=TwoWay}"
+                                 ToolTip="InfoDescription" Margin="0,0,0,12" />
 
-                    <TextBlock Text="Service host (optional, use '.' to remove the hostname)" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.ServiceHost, Mode=TwoWay}"
-                             ToolTip="ServiceHost"
-                             Margin="0,0,0,12" />
+                        <TextBlock Text="Version" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.InfoVersion, Mode=TwoWay}"
+                                 ToolTip="InfoVersion" Margin="0,0,0,12" />
 
-                    <TextBlock Text="Service schemes (optional, 'http', 'https', 'ws', 'wss', multiple on separate lines)" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.ServiceSchemes, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
-                             ToolTip="ServiceSchemes"
-                             Height="52" AcceptsReturn="True" 
-                             VerticalScrollBarVisibility="Visible" 
-                             Margin="0,0,0,12" />
+                        <TextBlock Text="Service host (optional, use '.' to remove the hostname)" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.ServiceHost, Mode=TwoWay}"
+                                 ToolTip="ServiceHost"
+                                 Margin="0,0,0,12" />
 
-                    <TextBlock Text="Service base path (optional)" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.ServiceBasePath, Mode=TwoWay}"
-                             ToolTip="ServiceBasePath"
-                             Margin="0,0,0,12" />
+                        <TextBlock Text="Service schemes (optional, 'http', 'https', 'ws', 'wss', multiple on separate lines)" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.ServiceSchemes, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
+                                 ToolTip="ServiceSchemes"
+                                 Height="52" AcceptsReturn="True" 
+                                 VerticalScrollBarVisibility="Visible" 
+                                 Margin="0,0,0,12" />
 
-                    <TextBlock Text="Document Template" FontWeight="Bold" Margin="0,0,0,6" />
-                    <dialogs:FileOpenPicker ToolTip="DocumentTemplate" Margin="0,0,0,12" 
-                                            FilePath="{Binding Command.DocumentTemplate, Mode=TwoWay}"
-                                            Filter="Swagger Specification JSON (.json)|*.json|Swagger Specification YAML (.yaml)|*.yaml"
-                                            DefaultExtension=".json"/>
-                </StackPanel>
-            </GroupBox>
+                        <TextBlock Text="Service base path (optional)" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.ServiceBasePath, Mode=TwoWay}"
+                                 ToolTip="ServiceBasePath"
+                                 Margin="0,0,0,12" />
 
-            <GroupBox Header="Type Extensions" Margin="0,0,0,8">
-                <StackPanel Margin="4,8,4,-8">
-                    <TextBlock Text="Use type names in the form 'assemblyName:fullTypeName' or 'fullTypeName'" 
-                               TextWrapping="Wrap" Margin="0,0,0,6" />
+                        <TextBlock Text="Document Template" FontWeight="Bold" Margin="0,0,0,6" />
+                        <dialogs:FileOpenPicker ToolTip="DocumentTemplate" Margin="0,0,0,12" 
+                                                FilePath="{Binding Command.DocumentTemplate, Mode=TwoWay}"
+                                                Filter="Swagger Specification JSON (.json)|*.json|Swagger Specification YAML (.yaml)|*.yaml"
+                                                DefaultExtension=".json"/>
+                    </StackPanel>
+                </GroupBox>
 
-                    <TextBlock Text="Custom IDocumentProcessor implementations (multiple on separate lines)"  
-                               TextWrapping="Wrap" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.DocumentProcessorTypes, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
-                             ToolTip="DocumentProcessors" Height="52" AcceptsReturn="True" 
-                             VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
+                <GroupBox Header="Type Extensions" Margin="0,0,0,8">
+                    <StackPanel Margin="4,8,4,-8">
+                        <TextBlock Text="Use type names in the form 'assemblyName:fullTypeName' or 'fullTypeName'" 
+                                   TextWrapping="Wrap" Margin="0,0,0,6" />
 
-                    <TextBlock Text="Custom IOperationProcessor implementations (multiple on separate lines)"  
-                               TextWrapping="Wrap" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.OperationProcessorTypes, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
-                             ToolTip="OperationProcessors" Height="52" AcceptsReturn="True" 
-                             VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
+                        <TextBlock Text="Custom IDocumentProcessor implementations (multiple on separate lines)"  
+                                   TextWrapping="Wrap" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.DocumentProcessorTypes, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
+                                 ToolTip="DocumentProcessors" Height="52" AcceptsReturn="True" 
+                                 VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
 
-                    <TextBlock Text="Custom ITypeNameGenerator implementation" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.TypeNameGeneratorType, Mode=TwoWay}" 
-                             ToolTip="TypeNameGeneratorType" Margin="0,0,0,12" />
+                        <TextBlock Text="Custom IOperationProcessor implementations (multiple on separate lines)"  
+                                   TextWrapping="Wrap" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.OperationProcessorTypes, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
+                                 ToolTip="OperationProcessors" Height="52" AcceptsReturn="True" 
+                                 VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
 
-                    <TextBlock Text="Custom ISchemaNameGenerator implementation" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.SchemaNameGeneratorType, Mode=TwoWay}" 
-                             ToolTip="SchemaNameGeneratorType" Margin="0,0,0,12" />
+                        <TextBlock Text="Custom ITypeNameGenerator implementation" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.TypeNameGeneratorType, Mode=TwoWay}" 
+                                 ToolTip="TypeNameGeneratorType" Margin="0,0,0,12" />
 
-                    <TextBlock Text="Custom IContractResolver implementation (deprecated)" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.ContractResolverType, Mode=TwoWay}" 
-                             ToolTip="ContractResolverType" Margin="0,0,0,12" />
+                        <TextBlock Text="Custom ISchemaNameGenerator implementation" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.SchemaNameGeneratorType, Mode=TwoWay}" 
+                                 ToolTip="SchemaNameGeneratorType" Margin="0,0,0,12" />
 
-                    <TextBlock Text="Custom JsonSerializerSettings implementation" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.SerializerSettingsType, Mode=TwoWay}" 
-                             ToolTip="SerializerSettingsType" Margin="0,0,0,12" />
-                </StackPanel>
-            </GroupBox>
+                        <TextBlock Text="Custom IContractResolver implementation (deprecated)" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.ContractResolverType, Mode=TwoWay}" 
+                                 ToolTip="ContractResolverType" Margin="0,0,0,12" />
+
+                        <TextBlock Text="Custom JsonSerializerSettings implementation" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.SerializerSettingsType, Mode=TwoWay}" 
+                                 ToolTip="SerializerSettingsType" Margin="0,0,0,12" />
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
 
             <TextBlock Text="Output file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
             <dialogs:FileSavePicker ToolTip="OutputFilePath" 
