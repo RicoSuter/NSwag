@@ -112,7 +112,7 @@ namespace NSwag.Commands.SwaggerGeneration
         public string ServiceBasePath { get; set; }
 
         [Argument(Name = "ServiceSchemes", IsRequired = false, Description = "Overrides the allowed schemes of the web service (optional, comma separated, 'http', 'https', 'ws', 'wss').")]
-        public string[] ServiceSchemes { get; set; }
+        public string[] ServiceSchemes { get; set; } = new string[0];
 
         [Argument(Name = "InfoTitle", IsRequired = false, Description = "Specify the title of the Swagger specification (ignored when DocumentTemplate is set).")]
         public string InfoTitle
@@ -146,10 +146,10 @@ namespace NSwag.Commands.SwaggerGeneration
         public string DocumentTemplate { get; set; }
 
         [Argument(Name = "DocumentProcessors", IsRequired = false, Description = "The document processor type names in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
-        public string[] DocumentProcessorTypes { get; set; }
+        public string[] DocumentProcessorTypes { get; set; } = new string[0];
 
         [Argument(Name = "OperationProcessors", IsRequired = false, Description = "The operation processor type names in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
-        public string[] OperationProcessorTypes { get; set; }
+        public string[] OperationProcessorTypes { get; set; } = new string[0];
 
         [Argument(Name = "TypeNameGenerator", IsRequired = false, Description = "The custom ITypeNameGenerator implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
         public string TypeNameGeneratorType { get; set; }
