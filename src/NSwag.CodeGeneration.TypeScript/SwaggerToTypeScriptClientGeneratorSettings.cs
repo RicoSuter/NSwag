@@ -39,6 +39,8 @@ namespace NSwag.CodeGeneration.TypeScript
                 typeof(TypeScriptGeneratorSettings).GetTypeInfo().Assembly,
                 typeof(SwaggerToTypeScriptClientGeneratorSettings).GetTypeInfo().Assembly,
             });
+
+            ProtectedMethods = new string[0];
         }
 
         /// <summary>Gets the TypeScript generator settings.</summary>
