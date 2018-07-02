@@ -1,45 +1,38 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 
 namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers
 {
-    [ApiVersion("1")]
-    [ApiVersion("2")]
-    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
-    [SwaggerTag("VersionedValues", Description = "Old operations")]
-    public class VersionedValuesController : ControllerBase
+    [ApiVersion("3")]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [SwaggerTag("V3VersionedValues", Description = "New operations that should be only visible for version 3")]
+    public class VersionedV3ValuesController : ControllerBase
     {
         [HttpGet]
-        [MapToApiVersion("1")]
-        [MapToApiVersion("2")]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return new string[] { "value1", "value2" };
+            return new[] { "value1", "value2" };
         }
 
         [HttpGet("{id}")]
-        [MapToApiVersion("2")]
         public ActionResult<string> Get(int id)
         {
             return "value";
         }
 
         [HttpPost]
-        [MapToApiVersion("1")]
         public void Post([FromBody] string value)
         {
         }
 
         [HttpPut("{id}")]
-        [MapToApiVersion("1")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
         [HttpDelete("{id}")]
-        [MapToApiVersion("1")]
         public void Delete(int id)
         {
         }
