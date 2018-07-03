@@ -1,11 +1,12 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using NSwag.SwaggerGeneration.AspNetCore.Tests.Web;
 using NSwag.SwaggerGeneration.Processors;
 using Xunit;
 
 namespace NSwag.SwaggerGeneration.AspNetCore.Tests
 {
-    public class ApiVersionProcessorWithAspNetCoreTests : AspNetCoreTestsBase
+    public class ApiVersionProcessorWithAspNetCoreTests : AspNetCoreTestsBase<Startup>
     {
         [Fact]
         public async Task When_generating_v1_then_only_v1_operations_are_included()
