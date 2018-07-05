@@ -6,10 +6,8 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 
@@ -22,8 +20,6 @@ namespace NSwag.CodeGeneration.Models
         private readonly IList<SwaggerParameter> _allParameters;
         private readonly CodeGeneratorSettingsBase _settings;
         private readonly IClientGenerator _generator;
-        private readonly ValueGeneratorBase _valueGenerator;
-        private bool _explode;
         private readonly TypeResolverBase _typeResolver;
 
         /// <summary>Initializes a new instance of the <see cref="ParameterModelBase" /> class.</summary>
@@ -144,5 +140,8 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets a value indicating whether the parameter is of type object.</summary>
         public bool IsBody => this.Kind == SwaggerParameterKind.Body;
+
+        /// <summary>Gets the parameter extension data.</summary>
+        public IDictionary<string, object> ExtensionData => _parameter.ExtensionData;
     }
 }
