@@ -111,8 +111,5 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets a value indicating whether this is an exceptional response.</summary>
         public bool ThrowsException => !IsSuccess;
-
-        /// <summary>Gets the response extension data.</summary>
-        public IDictionary<string, object> ExtensionData => _response.ExtensionData;
     }
 }
