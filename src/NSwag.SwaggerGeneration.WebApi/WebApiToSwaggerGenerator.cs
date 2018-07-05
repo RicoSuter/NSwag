@@ -92,13 +92,19 @@ namespace NSwag.SwaggerGeneration.WebApi
             var document = await CreateDocumentAsync(Settings).ConfigureAwait(false);
             var schemaResolver = new SwaggerSchemaResolver(document, Settings);
 
+            var usedControllerTypes = new List<Type>();
             foreach (var controllerType in controllerTypes)
-                await GenerateForControllerAsync(document, controllerType, new SwaggerGenerator(_schemaGenerator, Settings, schemaResolver), schemaResolver).ConfigureAwait(false);
+            {
+                var generator = new SwaggerGenerator(_schemaGenerator, Settings, schemaResolver);
+                var isIncluded = await GenerateForControllerAsync(document, controllerType, generator, schemaResolver).ConfigureAwait(false);
+                if (isIncluded)
+                    usedControllerTypes.Add(controllerType);
+            }
 
             document.GenerateOperationIds();
 
             foreach (var processor in Settings.DocumentProcessors)
-                await processor.ProcessAsync(new DocumentProcessorContext(document, controllerTypes, schemaResolver, _schemaGenerator, Settings));
+                await processor.ProcessAsync(new DocumentProcessorContext(document, controllerTypes, usedControllerTypes, schemaResolver, _schemaGenerator, Settings));
 
             return document;
         }
@@ -127,62 +133,63 @@ namespace NSwag.SwaggerGeneration.WebApi
         }
 
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
-        private async Task GenerateForControllerAsync(SwaggerDocument document, Type controllerType, SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver)
+        private async Task<bool> GenerateForControllerAsync(SwaggerDocument document, Type controllerType, SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver)
         {
             var hasIgnoreAttribute = controllerType.GetTypeInfo()
                 .GetCustomAttributes()
                 .Any(a => a.GetType().Name == "SwaggerIgnoreAttribute");
 
-            if (!hasIgnoreAttribute)
+            if (hasIgnoreAttribute)
+                return false;
+
+            var operations = new List<Tuple<SwaggerOperationDescription, MethodInfo>>();
+
+            var currentControllerType = controllerType;
+            while (currentControllerType != null)
             {
-                var operations = new List<Tuple<SwaggerOperationDescription, MethodInfo>>();
-
-                var currentControllerType = controllerType;
-                while (currentControllerType != null)
+                foreach (var method in GetActionMethods(currentControllerType))
                 {
-                    foreach (var method in GetActionMethods(currentControllerType))
+                    var httpPaths = GetHttpPaths(controllerType, method).ToList();
+                    var httpMethods = GetSupportedHttpMethods(method).ToList();
+
+                    foreach (var httpPath in httpPaths)
                     {
-                        var httpPaths = GetHttpPaths(controllerType, method).ToList();
-                        var httpMethods = GetSupportedHttpMethods(method).ToList();
-
-                        foreach (var httpPath in httpPaths)
+                        foreach (var httpMethod in httpMethods)
                         {
-                            foreach (var httpMethod in httpMethods)
+                            var isPathAlreadyDefinedInInheritanceHierarchy =
+                                operations.Any(o => o.Item1.Path == httpPath &&
+                                                    o.Item1.Method == httpMethod &&
+                                                    o.Item2.DeclaringType != currentControllerType &&
+                                                    o.Item2.DeclaringType.IsAssignableTo(currentControllerType.FullName, TypeNameStyle.FullName));
+
+                            if (isPathAlreadyDefinedInInheritanceHierarchy == false)
                             {
-                                var isPathAlreadyDefinedInInheritanceHierarchy =
-                                    operations.Any(o => o.Item1.Path == httpPath &&
-                                                        o.Item1.Method == httpMethod &&
-                                                        o.Item2.DeclaringType != currentControllerType &&
-                                                        o.Item2.DeclaringType.IsAssignableTo(currentControllerType.FullName, TypeNameStyle.FullName));
-
-                                if (isPathAlreadyDefinedInInheritanceHierarchy == false)
+                                var operationDescription = new SwaggerOperationDescription
                                 {
-                                    var operationDescription = new SwaggerOperationDescription
+                                    Path = httpPath,
+                                    Method = httpMethod,
+                                    Operation = new SwaggerOperation
                                     {
-                                        Path = httpPath,
-                                        Method = httpMethod,
-                                        Operation = new SwaggerOperation
-                                        {
-                                            IsDeprecated = method.GetCustomAttribute<ObsoleteAttribute>() != null,
-                                            OperationId = GetOperationId(document, controllerType.Name, method)
-                                        }
-                                    };
+                                        IsDeprecated = method.GetCustomAttribute<ObsoleteAttribute>() != null,
+                                        OperationId = GetOperationId(document, controllerType.Name, method)
+                                    }
+                                };
 
-                                    operations.Add(new Tuple<SwaggerOperationDescription, MethodInfo>(operationDescription, method));
-                                }
+                                operations.Add(new Tuple<SwaggerOperationDescription, MethodInfo>(operationDescription, method));
                             }
                         }
                     }
-
-                    currentControllerType = currentControllerType.GetTypeInfo().BaseType;
                 }
 
-                await AddOperationDescriptionsToDocumentAsync(document, controllerType, operations, swaggerGenerator, schemaResolver).ConfigureAwait(false);
+                currentControllerType = currentControllerType.GetTypeInfo().BaseType;
             }
+
+            return await AddOperationDescriptionsToDocumentAsync(document, controllerType, operations, swaggerGenerator, schemaResolver).ConfigureAwait(false);
         }
 
-        private async Task AddOperationDescriptionsToDocumentAsync(SwaggerDocument document, Type controllerType, List<Tuple<SwaggerOperationDescription, MethodInfo>> operations, SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver)
+        private async Task<bool> AddOperationDescriptionsToDocumentAsync(SwaggerDocument document, Type controllerType, List<Tuple<SwaggerOperationDescription, MethodInfo>> operations, SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver)
         {
+            var addedOperations = 0;
             var allOperation = operations.Select(t => t.Item1).ToList();
             foreach (var tuple in operations)
             {
@@ -204,8 +211,11 @@ namespace NSwag.SwaggerGeneration.WebApi
                     }
 
                     document.Paths[path][operation.Method] = operation.Operation;
+                    addedOperations++;
                 }
             }
+
+            return addedOperations > 0;
         }
 
         private async Task<bool> RunOperationProcessorsAsync(SwaggerDocument document, Type controllerType, MethodInfo methodInfo, SwaggerOperationDescription operationDescription, List<SwaggerOperationDescription> allOperations, SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver)
