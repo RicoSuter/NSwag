@@ -75,10 +75,11 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                     var returnType = apiResponse.Type;
                     var response = new SwaggerResponse();
                     string httpStatusCode;
-                    if (apiResponse.StatusCode == 0 && IsVoidResponse(returnType))
-                        httpStatusCode = "200";
-                    else if (apiResponse.TryGetPropertyValue<bool>("IsDefaultResponse"))
+
+                    if (apiResponse.TryGetPropertyValue<bool>("IsDefaultResponse"))
                         httpStatusCode = "default";
+                    else if (apiResponse.StatusCode == 0 && IsVoidResponse(returnType))
+                        httpStatusCode = "200";
                     else
                         httpStatusCode = apiResponse.StatusCode.ToString(CultureInfo.InvariantCulture);
 
