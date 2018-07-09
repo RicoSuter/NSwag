@@ -18,9 +18,18 @@
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ReDoc\**\*" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
+    <EmbeddedResource Include="ReDoc\dist\redoc.js" />
+    <EmbeddedResource Include="ReDoc\dist\redoc.min.js" />
+    <EmbeddedResource Include="ReDoc\index.html" />
     <EmbeddedResource Include="SwaggerUi\**\*" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
-    <EmbeddedResource Include="SwaggerUi3\**\*" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
+    <EmbeddedResource Include="SwaggerUi3\favicon-16x16.png" />
+    <EmbeddedResource Include="SwaggerUi3\favicon-32x32.png" />
+    <EmbeddedResource Include="SwaggerUi3\index.html" />
+    <EmbeddedResource Include="SwaggerUi3\oauth2-redirect.html" />
+    <EmbeddedResource Include="SwaggerUi3\swagger-ui-bundle.js" />
+    <EmbeddedResource Include="SwaggerUi3\swagger-ui-standalone-preset.js" />
+    <EmbeddedResource Include="SwaggerUi3\swagger-ui.css" />
+    <EmbeddedResource Include="SwaggerUi3\swagger-ui.js" />
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net45|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;AspNetOwin;NET45</DefineConstants>
