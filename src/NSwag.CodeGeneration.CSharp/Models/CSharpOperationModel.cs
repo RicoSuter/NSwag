@@ -169,6 +169,19 @@ namespace NSwag.CodeGeneration.CSharp.Models
             }
         }
 
+        /// <summary>Gets the route name for this operation.</summary>
+        public string RouteName
+        {
+            get
+            {
+                var settings = _settings as SwaggerToCSharpControllerGeneratorSettings;
+                if (settings != null)
+                    return settings.GetRouteName(_operation);
+
+                return null;
+            }
+        }
+
         /// <summary>Gets the name of the parameter variable.</summary>
         /// <param name="parameter">The parameter.</param>
         /// <param name="allParameters">All parameters.</param>
