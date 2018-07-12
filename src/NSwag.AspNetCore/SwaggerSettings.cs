@@ -28,10 +28,7 @@ namespace NSwag.AspNetCore
 
 #if !AspNetOwin
             if (GeneratorSettings is WebApiToSwaggerGeneratorSettings)
-            {
                 ((WebApiToSwaggerGeneratorSettings)(object)GeneratorSettings).IsAspNetCore = true;
-                GeneratorSettings.DefaultPropertyNameHandling = PropertyNameHandling.CamelCase;
-            }
 #endif
         }
 
@@ -50,6 +47,6 @@ namespace NSwag.AspNetCore
         /// <summary>Gets or sets for how long a <see cref="Exception"/> caught during schema generation is cached.</summary>
         public TimeSpan ExceptionCacheTime { get; set; } = TimeSpan.FromSeconds(10);
 
-        internal string ActualSwaggerRoute => SwaggerRoute.Substring(MiddlewareBasePath?.Length ?? 0);
+        internal virtual string ActualSwaggerRoute => SwaggerRoute.Substring(MiddlewareBasePath?.Length ?? 0);
     }
 }

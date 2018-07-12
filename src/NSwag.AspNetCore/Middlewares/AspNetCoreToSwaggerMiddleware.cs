@@ -10,7 +10,10 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.Extensions.Options;
+using NJsonSchema;
 using NSwag.SwaggerGeneration;
 using NSwag.SwaggerGeneration.AspNetCore;
 
@@ -24,6 +27,7 @@ namespace NSwag.AspNetCore.Middlewares
         private readonly SwaggerSettings<AspNetCoreToSwaggerGeneratorSettings> _settings;
         private readonly SwaggerJsonSchemaGenerator _schemaGenerator;
         private readonly IApiDescriptionGroupCollectionProvider _apiDescriptionGroupCollectionProvider;
+        private readonly IOptions<MvcJsonOptions> _mvcJsonOptions;
 
         private int _version;
         private string _schemaJson;
@@ -35,13 +39,14 @@ namespace NSwag.AspNetCore.Middlewares
         /// <param name="apiDescriptionGroupCollectionProvider">The <see cref="IApiDescriptionGroupCollectionProvider"/>.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
-        public AspNetCoreToSwaggerMiddleware(RequestDelegate nextDelegate, IApiDescriptionGroupCollectionProvider apiDescriptionGroupCollectionProvider, SwaggerSettings<AspNetCoreToSwaggerGeneratorSettings> settings, SwaggerJsonSchemaGenerator schemaGenerator)
+        public AspNetCoreToSwaggerMiddleware(RequestDelegate nextDelegate, IApiDescriptionGroupCollectionProvider apiDescriptionGroupCollectionProvider, IOptions<MvcJsonOptions> mvcJsonOptions, SwaggerSettings<AspNetCoreToSwaggerGeneratorSettings> settings, SwaggerJsonSchemaGenerator schemaGenerator)
         {
             _nextDelegate = nextDelegate;
             _settings = settings;
             _path = settings.ActualSwaggerRoute;
             _schemaGenerator = schemaGenerator;
             _apiDescriptionGroupCollectionProvider = apiDescriptionGroupCollectionProvider;
+            _mvcJsonOptions = mvcJsonOptions;
         }
 
         /// <summary>Invokes the specified context.</summary>
@@ -74,6 +79,16 @@ namespace NSwag.AspNetCore.Middlewares
 
             try
             {
+                // TODO: Move to NJS (same in other generator)
+                var isSerializerSettingsSpecified =
+                    _settings.GeneratorSettings.DefaultPropertyNameHandling != PropertyNameHandling.Default ||
+                    _settings.GeneratorSettings.DefaultEnumHandling != EnumHandling.Integer ||
+                    _settings.GeneratorSettings.ContractResolver != null |
+                    _settings.GeneratorSettings.SerializerSettings != null;
+
+                if (!isSerializerSettingsSpecified)
+                    _settings.GeneratorSettings.SerializerSettings = _mvcJsonOptions.Value.SerializerSettings;
+
                 var generator = new AspNetCoreToSwaggerGenerator(_settings.GeneratorSettings, _schemaGenerator);
                 var document = await generator.GenerateAsync(apiDescriptionGroups);
 

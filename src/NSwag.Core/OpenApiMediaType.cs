@@ -15,20 +15,42 @@ namespace NSwag
     /// <summary>The Swagger media type (OpenAPI only).</summary>
     public class OpenApiMediaType
     {
+        private JsonSchema4 _schema;
+        private object _example;
+
+        [JsonIgnore]
+        internal OpenApiRequestBody Parent { get; set; }
+
         /// <summary>Gets or sets the schema.</summary>
-        [JsonProperty(PropertyName = "schema", Order = 2, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public JsonSchema4 Schema { get; set; }
+        [JsonProperty(PropertyName = "schema", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public JsonSchema4 Schema
+        {
+            get => _schema;
+            set
+            {
+                _schema = value;
+                Parent?.Parent?.UpdateBodyParameter();
+            }
+        }
 
         /// <summary>Gets or sets the example.</summary>
         [JsonProperty(PropertyName = "example", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public object Example { get; set; }
+        public object Example
+        {
+            get => _example;
+            set
+            {
+                _example = value;
+                Parent?.Parent?.UpdateBodyParameter();
+            }
+        }
 
         /// <summary>Gets or sets the headers (OpenAPI only).</summary>
         [JsonProperty(PropertyName = "examples", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IDictionary<string, OpenApiExample> Examples { get; } = new Dictionary<string, OpenApiExample>();
+        public IDictionary<string, OpenApiExample> Examples { get; internal set; } = new Dictionary<string, OpenApiExample>();
 
         /// <summary>Gets or sets the example's value.</summary>
         [JsonProperty(PropertyName = "encoding", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public object Encoding { get; set; } // TODO: Implement model
+        public IDictionary<string, OpenApiEncoding> Encoding { get; } = new Dictionary<string, OpenApiEncoding>();
     }
 }

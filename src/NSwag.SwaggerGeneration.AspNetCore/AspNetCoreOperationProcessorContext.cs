@@ -27,10 +27,20 @@ namespace NSwag.SwaggerGeneration.AspNetCore
         /// <param name="methodInfo">The method information.</param>
         /// <param name="swaggerGenerator">The swagger generator.</param>
         /// <param name="schemaResolver">The schema resolver.</param>
+        /// <param name="settings">The sett</param>
         /// <param name="allOperationDescriptions">All operation descriptions.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
-        public AspNetCoreOperationProcessorContext(SwaggerDocument document, SwaggerOperationDescription operationDescription, Type controllerType, MethodInfo methodInfo, SwaggerGenerator swaggerGenerator, JsonSchemaGenerator schemaGenerator, JsonSchemaResolver schemaResolver, IList<SwaggerOperationDescription> allOperationDescriptions) 
-            : base(document, operationDescription, controllerType, methodInfo, swaggerGenerator, schemaGenerator, schemaResolver, allOperationDescriptions)
+        public AspNetCoreOperationProcessorContext(
+            SwaggerDocument document, 
+            SwaggerOperationDescription operationDescription, 
+            Type controllerType, 
+            MethodInfo methodInfo, 
+            SwaggerGenerator swaggerGenerator, 
+            JsonSchemaGenerator schemaGenerator, 
+            JsonSchemaResolver schemaResolver, 
+            SwaggerGeneratorSettings settings, 
+            IList<SwaggerOperationDescription> allOperationDescriptions) 
+            : base(document, operationDescription, controllerType, methodInfo, swaggerGenerator, schemaGenerator, schemaResolver, settings, allOperationDescriptions)
         {
         }
 

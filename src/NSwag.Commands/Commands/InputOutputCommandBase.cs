@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NConsole;
 using Newtonsoft.Json;
+using NJsonSchema;
 using NJsonSchema.Infrastructure;
 
 #pragma warning disable 1591
@@ -55,19 +56,19 @@ namespace NSwag.Commands
         }
 
         /// <exception cref="ArgumentException">The argument 'Input' was empty.</exception>
-        protected async Task<string> GetInputJsonAsync()
+        protected async Task<JsonSchema4> GetJsonSchemaAsync()
         {
             var input = Input.ToString();
             if (string.IsNullOrEmpty(input))
                 throw new ArgumentException("The argument 'Input' was empty.");
 
             if (IsJson(input))
-                return input;
+                return await JsonSchema4.FromJsonAsync(input).ConfigureAwait(false);
 
             if (await DynamicApis.FileExistsAsync(input).ConfigureAwait(false))
-                return await DynamicApis.FileReadAllTextAsync(input).ConfigureAwait(false);
+                return await JsonSchema4.FromFileAsync(input).ConfigureAwait(false);
 
-            return await DynamicApis.HttpGetAsync(input).ConfigureAwait(false);
+            return await JsonSchema4.FromUrlAsync(input).ConfigureAwait(false);
         }
     }
 }

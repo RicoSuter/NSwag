@@ -14,6 +14,8 @@ using System.Reflection;
 
 #if FullNet
 using System.Diagnostics;
+#else
+using System.Runtime.Loader;
 #endif
 
 namespace NSwag.AssemblyLoader
@@ -28,7 +30,8 @@ namespace NSwag.AssemblyLoader
 
         public AssemblyLoader()
         {
-            Context = new CustomAssemblyLoadContext(); // TODO: Switch back to new CustomAssemblyLoadContext(); ?
+            Context = new CustomAssemblyLoadContext();
+            AssemblyLoadContext.Default.Resolving += (context, name) => Context.Resolve(name);
         }
 
 #endif

@@ -47,11 +47,11 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 
             var methodParameters = context.MethodInfo.GetParameters();
 
-            foreach (var apiParameter in parameters.Where(p => p.Source != null))
+            foreach (var apiParameter in parameters.Where(p => p.Source != null && p.Type != null))
             {
                 var parameterDescriptor = apiParameter.TryGetPropertyValue<ParameterDescriptor>("ParameterDescriptor");
                 var parameterName = parameterDescriptor?.Name ?? apiParameter.Name;
-
+                
                 // In Mvc < 2.0, there isn't a good way to infer the attributes of a parameter with a IModelNameProvider.Name
                 // value that's different than the parameter name. Additionally, ApiExplorer will recurse in to complex model bound types
                 // and expose properties as top level parameters. Consequently, determining the property or parameter of an Api is best
@@ -201,6 +201,8 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                 parameterDocumentation = await extendedApiParameter.PropertyInfo.GetDescriptionAsync(extendedApiParameter.Attributes).ConfigureAwait(false);
             }
 
+            // TODO: Process parameterDocumentation (AspNetCoreToSwaggerGenerator)
+
             var operationParameter = await CreatePrimitiveParameterAsync(
                 context, extendedApiParameter).ConfigureAwait(false);
 
@@ -257,7 +259,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                     IsRequired = true, // FromBody parameters are always required.
                     IsNullableRaw = typeDescription.IsNullable,
                     Description = await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false),
-                    Schema = await context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema4>(
+                    Schema = await context.SchemaGenerator.GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(
                         extendedApiParameter.ApiParameter.Type, extendedApiParameter.Attributes, isNullable: false, schemaResolver: context.SchemaResolver).ConfigureAwait(false)
                 };
 

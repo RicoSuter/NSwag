@@ -122,6 +122,25 @@ foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append("{{ par
 urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}{{ parameter.VariableName }}{% if parameter.IsSystemNullable %}.Value{% endif %}.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "{{ QueryNullValue }}"{% endif %})).Append("&");
 {%         elseif parameter.IsArray -%}
 foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
+{%         elseif parameter.IsDeepObject -%}
+{%           for property in parameter.PropertyNames -%}
+            if ({{parameter.Name}}.{{property}} != null)
+            {
+                urlBuilder_.Append("{{parameter.Name}}[{{property}}]=").Append(System.Uri.EscapeDataString(ConvertToString({{parameter.Name}}.{{property}}, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+{%           endfor -%}
+{%           for property in parameter.CollectionPropertyNames -%}
+            if ({{parameter.Name}}.{{property}} != null && {{parameter.Name}}.{{property}}.Count > 0)
+            {
+                urlBuilder_.Append("{{parameter.Name}}[{{property}}]=");
+                foreach (var p_ in {{parameter.Name}}.{{property}})
+                {
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(p_, System.Globalization.CultureInfo.InvariantCulture))).Append(",");
+                }
+                urlBuilder_.Length--;
+                urlBuilder_.Append("&");
+            }
+{%           endfor -%}
 {%         else -%}
 urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "{{ QueryNullValue }}"{% endif %})).Append("&");
 {%         endif -%}
@@ -241,14 +260,14 @@ urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({
                     }
 {%         else -%}
 {%             if operation.HasSuccessResponse -%}
-                    var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
+                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                     throw new {{ ExceptionClass }}("{{ operation.DefaultResponse.ExceptionDescription }}", (int)response_.StatusCode, responseData_, headers_, null);
 {%             endif -%}
 {%         endif -%}
 {%     else -%}
                     if (status_ != "200" && status_ != "204")
                     {
-                        var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
+                        var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                         throw new {{ ExceptionClass }}("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                     }
 {%     endif -%}

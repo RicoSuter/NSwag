@@ -6,7 +6,7 @@ namespace NSwag.Core.Tests.Serialization
     public class MediaTypesSerializationTests
     {
         [Fact]
-        public void When_when_response_schema_and_example_is_set_then_it_is_serialized_correctly_in_Swagger()
+        public void When_response_schema_and_example_is_set_then_it_is_serialized_correctly_in_Swagger()
         {
             //// Arrange
             var document = CreateDocument(JsonObjectType.String);
@@ -32,11 +32,11 @@ namespace NSwag.Core.Tests.Serialization
       }
     }
   }
-}", json);
+}".Replace("\r", ""), json.Replace("\r", ""));
         }
 
         [Fact]
-        public void When_when_response_schema_and_example_is_set_then_it_is_serialized_correctly_in_OpenApi()
+        public void When_response_schema_and_example_is_set_then_it_is_serialized_correctly_in_OpenApi()
         {
             //// Arrange
             var document = CreateDocument(JsonObjectType.String);
@@ -61,10 +61,10 @@ namespace NSwag.Core.Tests.Serialization
             ""description"": """",
             ""content"": {
               ""application/json"": {
-                ""example"": 123,
                 ""schema"": {
                   ""type"": ""string""
-                }
+                },
+                ""example"": 123
               }
             }
           }
@@ -73,11 +73,11 @@ namespace NSwag.Core.Tests.Serialization
     }
   },
   ""components"": {}
-}", json);
+}".Replace("\r", ""), json.Replace("\r", ""));
         }
 
         [Fact]
-        public void When_when_response_schema_and_example_is_set_as_file_then_it_is_serialized_correctly_in_Swagger()
+        public void When_response_schema_and_example_is_set_as_file_then_it_is_serialized_correctly_in_Swagger()
         {
             //// Arrange
             var document = CreateDocument(JsonObjectType.File);
@@ -103,11 +103,11 @@ namespace NSwag.Core.Tests.Serialization
       }
     }
   }
-}", json);
+}".Replace("\r", ""), json.Replace("\r", ""));
         }
 
         [Fact]
-        public void When_when_response_schema_and_example_is_set_as_file_then_it_is_serialized_correctly_in_OpenApi()
+        public void When_response_schema_and_example_is_set_as_file_then_it_is_serialized_correctly_in_OpenApi()
         {
             //// Arrange
             var document = CreateDocument(JsonObjectType.File);
@@ -132,10 +132,10 @@ namespace NSwag.Core.Tests.Serialization
             ""description"": """",
             ""content"": {
               ""application/octet-stream"": {
-                ""example"": 123,
                 ""schema"": {
                   ""type"": ""file""
-                }
+                },
+                ""example"": 123
               }
             }
           }
@@ -144,7 +144,7 @@ namespace NSwag.Core.Tests.Serialization
     }
   },
   ""components"": {}
-}", json);
+}".Replace("\r", ""), json.Replace("\r", ""));
         }
 
 

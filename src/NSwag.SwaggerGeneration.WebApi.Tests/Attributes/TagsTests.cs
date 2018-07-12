@@ -4,7 +4,6 @@ using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using NSwag.Annotations;
-using NSwag.SwaggerGeneration.WebApi;
 
 namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
 {
@@ -16,7 +15,11 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
         [SwaggerTag("b1", Description = "b2", DocumentationDescription = "b3", DocumentationUrl = "b4")]
         public class TagsTest1Controller : ApiController
         {
+            [Route("foo")]
+            public void Foo()
+            {
 
+            }
         }
 
         [TestMethod]
@@ -27,6 +30,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
 
             //// Act
             var document = await generator.GenerateForControllerAsync<TagsTest1Controller>();
+            var json = document.ToJson();
 
             //// Assert
             Assert.AreEqual(4, document.Tags.Count);

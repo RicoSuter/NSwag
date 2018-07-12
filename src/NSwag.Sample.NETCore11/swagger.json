@@ -1,8 +1,8 @@
 ﻿{
-  "x-generator": "NSwag v11.16.0.0 (NJsonSchema v9.10.39.0 (Newtonsoft.Json v9.0.0.0))",
+  "x-generator": "NSwag v11.17.7.0 (NJsonSchema v9.10.46.0 (Newtonsoft.Json v9.0.0.0))",
   "swagger": "2.0",
   "info": {
-    "title": "Web API Swagger specification",
+    "title": "My Title",
     "version": "1.0.0"
   },
   "consumes": [
@@ -31,11 +31,11 @@
         ],
         "responses": {
           "400": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
-            },
-            "x-nullable": true
+            }
           }
         }
       },
@@ -57,11 +57,11 @@
         ],
         "responses": {
           "400": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
-            },
-            "x-nullable": true
+            }
           }
         }
       }
@@ -86,21 +86,21 @@
         ],
         "responses": {
           "200": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "type": "array",
               "items": {
                 "$ref": "#/definitions/Pet"
               }
-            },
-            "x-nullable": true
+            }
           },
           "400": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
-            },
-            "x-nullable": true
+            }
           }
         }
       }
@@ -122,21 +122,21 @@
         ],
         "responses": {
           "200": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "type": "array",
               "items": {
                 "$ref": "#/definitions/Pet"
               }
-            },
-            "x-nullable": true
+            }
           },
           "400": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
-            },
-            "x-nullable": true
+            }
           }
         }
       }
@@ -159,18 +159,18 @@
         ],
         "responses": {
           "200": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "$ref": "#/definitions/Pet"
-            },
-            "x-nullable": true
+            }
           },
           "400": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
-            },
-            "x-nullable": true
+            }
           },
           "404": {
             "description": ""
@@ -181,7 +181,7 @@
         "tags": [
           "Pet"
         ],
-        "operationId": "Pet_EditPet2",
+        "operationId": "Pet_EditPetWithFormData",
         "parameters": [
           {
             "type": "integer",
@@ -203,11 +203,11 @@
         ],
         "responses": {
           "400": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
-            },
-            "x-nullable": true
+            }
           },
           "404": {
             "description": ""
@@ -231,11 +231,11 @@
         ],
         "responses": {
           "400": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
-            },
-            "x-nullable": true
+            }
           },
           "404": {
             "description": ""
@@ -270,20 +270,95 @@
         ],
         "responses": {
           "200": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "$ref": "#/definitions/ApiResponse"
-            },
-            "x-nullable": true
+            }
           },
           "400": {
+            "x-nullable": true,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
-            },
-            "x-nullable": true
+            }
           },
           "404": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/pet/RequiredAndOptional": {
+      "post": {
+        "tags": [
+          "Pet"
+        ],
+        "operationId": "Pet_RequiredAndOptional",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "int_RequiredAndNotNullable",
+            "in": "query",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          },
+          {
+            "type": "integer",
+            "name": "int_RequiredAndNullable",
+            "in": "query",
+            "required": true,
+            "format": "int32",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "string_RequiredAndNullable",
+            "in": "query",
+            "required": true,
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "string_RequiredAndNotNullable",
+            "in": "query",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "type": "number",
+            "name": "decimalWithDefault_NotRequiredAndNotNullable",
+            "in": "query",
+            "format": "decimal",
+            "default": 1.0,
+            "x-nullable": false
+          },
+          {
+            "type": "number",
+            "name": "decimalWithDefault_NotRequiredAndNullable",
+            "in": "query",
+            "format": "decimal",
+            "default": 1.0,
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "stringWithDefault_NotRequiredAndNullable",
+            "in": "query",
+            "default": "foo",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "stringWithDefault_NotRequiredAndNotNullable",
+            "in": "query",
+            "default": "foo",
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
             "description": ""
           }
         }

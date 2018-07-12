@@ -118,7 +118,7 @@ namespace NSwag.Commands.SwaggerGeneration
                 await generator.GenerateAsync(type, schemaResolver).ConfigureAwait(false);
             }
 
-            return document.ToJson();
+            return document.ToJson(OutputType);
         }
     }
 }

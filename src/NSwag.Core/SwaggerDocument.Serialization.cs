@@ -19,7 +19,7 @@ namespace NSwag
 {
     public partial class SwaggerDocument
     {
-        /// <summary>Creates the serializer contract resolver based on the <see cref="SchemaType"/>.</summary>
+        /// <summary>Creates the serializer contract resolver based on the <see cref="NJsonSchema.SchemaType"/>.</summary>
         /// <param name="schemaType">The schema type.</param>
         /// <returns>The settings.</returns>
         public static PropertyRenameAndIgnoreSerializerContractResolver CreateJsonSerializerContractResolver(SchemaType schemaType)
@@ -51,6 +51,11 @@ namespace NSwag
 
                 resolver.IgnoreProperty(typeof(SwaggerResponse), "schema");
                 resolver.IgnoreProperty(typeof(SwaggerResponse), "examples");
+
+                resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "flow");
+                resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "authorizationUrl");
+                resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "tokenUrl");
+                resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "scopes");
             }
             else if (schemaType == SchemaType.Swagger2)
             {
@@ -65,12 +70,18 @@ namespace NSwag
 
                 resolver.IgnoreProperty(typeof(SwaggerOperation), "callbacks");
                 resolver.IgnoreProperty(typeof(SwaggerOperation), "servers");
+                resolver.IgnoreProperty(typeof(SwaggerOperation), "requestBody");
 
                 resolver.IgnoreProperty(typeof(SwaggerDocument), "components");
                 resolver.IgnoreProperty(typeof(SwaggerParameter), "examples");
 
                 resolver.IgnoreProperty(typeof(SwaggerResponse), "content");
                 resolver.IgnoreProperty(typeof(SwaggerResponse), "links");
+
+                resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "scheme");
+                resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "bearerFormat");
+                resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "openIdConnectUrl");
+                resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "flows");
             }
 
             return resolver;

@@ -24,7 +24,7 @@ namespace NSwag.Core.Tests.Serialization
     ""title"": """",
     ""version"": """"
   }
-}", json);
+}".Replace("\r", ""), json.Replace("\r", ""));
         }
 
         [Fact]

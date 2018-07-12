@@ -18,28 +18,37 @@ namespace NSwag.SwaggerGeneration.Processors.Contexts
     {
         /// <summary>Initializes a new instance of the <see cref="DocumentProcessorContext" /> class.</summary>
         /// <param name="document">The document.</param>
-        /// <param name="controllerTypes">The controller types.</param>
+        /// <param name="allControllerTypes">The controller types.</param>
         /// <param name="schemaResolver">The schema resolver.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
-        public DocumentProcessorContext(SwaggerDocument document, IEnumerable<Type> controllerTypes, 
-            JsonSchemaResolver schemaResolver, JsonSchemaGenerator schemaGenerator)
+        /// <param name="settings">The settings.</param>
+        public DocumentProcessorContext(SwaggerDocument document, IEnumerable<Type> allControllerTypes, IEnumerable<Type> controllerTypes,
+            JsonSchemaResolver schemaResolver, JsonSchemaGenerator schemaGenerator, SwaggerGeneratorSettings settings)
         {
             Document = document;
+            AllControllerTypes = allControllerTypes;
             ControllerTypes = controllerTypes;
             SchemaResolver = schemaResolver;
             SchemaGenerator = schemaGenerator;
+            Settings = settings;
         }
 
         /// <summary>Gets the Swagger document.</summary>
         public SwaggerDocument Document { get; }
 
-        /// <summary>Gets the controller types.</summary>
+        /// <summary>Gets the all controller types even the excluded/ignored ones.</summary>
+        public IEnumerable<Type> AllControllerTypes { get; }
+
+        /// <summary>Gets the controller types which have actually been used for operation generation.</summary>
         public IEnumerable<Type> ControllerTypes { get; }
 
         /// <summary>Gets or sets the schema resolver.</summary>
-        public JsonSchemaResolver SchemaResolver { get; set; }
+        public JsonSchemaResolver SchemaResolver { get; }
 
-        /// <summary>Gets or sets the schema generator (call Generate() with JsonSchemaResolver property!).</summary>
-        public JsonSchemaGenerator SchemaGenerator { get; set; }
+        /// <summary>Gets the schema generator (call Generate() with JsonSchemaResolver property!).</summary>
+        public JsonSchemaGenerator SchemaGenerator { get; }
+
+        /// <summary>Gets the settings.</summary>
+        public SwaggerGeneratorSettings Settings { get; }
     }
 }

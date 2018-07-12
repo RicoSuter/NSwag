@@ -26,6 +26,8 @@ namespace NSwag.CodeGeneration
 
             GenerateResponseClasses = true;
             ResponseClass = "SwaggerResponse";
+
+            WrapResponseMethods = new string[0];
         }
 
         /// <summary>Gets the code generator settings.</summary>

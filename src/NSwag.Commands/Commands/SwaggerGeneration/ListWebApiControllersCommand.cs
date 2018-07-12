@@ -14,6 +14,7 @@ using NJsonSchema.Infrastructure;
 using NSwag.AssemblyLoader.Utilities;
 using NSwag.SwaggerGeneration.WebApi;
 using System.IO;
+using NSwag.Commands.SwaggerGeneration.WebApi;
 
 namespace NSwag.Commands.SwaggerGeneration
 {

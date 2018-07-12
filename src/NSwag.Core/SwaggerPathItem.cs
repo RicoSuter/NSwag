@@ -16,7 +16,7 @@ using NSwag.Collections;
 namespace NSwag
 {
     /// <summary>A Swagger path.</summary>
-    [JsonConverter(typeof(SwaggerOperationsJsonConverter))]
+    [JsonConverter(typeof(SwaggerPathItemConverter))]
     public class SwaggerPathItem : ObservableDictionary<SwaggerOperationMethod, SwaggerOperation>
     {
         /// <summary>Initializes a new instance of the <see cref="SwaggerPathItem"/> class.</summary>
@@ -50,7 +50,7 @@ namespace NSwag
         public ICollection<SwaggerParameter> Parameters { get; set; } = new Collection<SwaggerParameter>();
 
         // Needed to convert dictionary keys to lower case
-        internal class SwaggerOperationsJsonConverter : JsonConverter
+        internal class SwaggerPathItemConverter : JsonConverter
         {
             public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
             {

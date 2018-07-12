@@ -42,7 +42,11 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             Operations = operations;
 
             BaseClass = _settings.ClientBaseClass?.Replace("{controller}", controllerName);
+            Framework = new TypeScriptFrameworkModel(settings);
         }
+
+        /// <summary>Gets framework specific information.</summary>
+        public TypeScriptFrameworkModel Framework { get; set; }
 
         /// <summary>Gets the class name.</summary>
         public string Class { get; }
@@ -86,9 +90,6 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets the operations.</summary>
         public IEnumerable<TypeScriptOperationModel> Operations { get; }
 
-        /// <summary>Gets a value indicating whether the client uses KnockoutJS.</summary>
-        public bool UsesKnockout => _settings.TypeScriptGeneratorSettings.TypeStyle == TypeScriptTypeStyle.KnockoutClass;
-
         /// <summary>Gets the service base URL.</summary>
         public string BaseUrl => _document.BaseUrl;
 
@@ -112,30 +113,5 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         /// <summary>Gets or sets the null value used for query parameters which are null.</summary>
         public string QueryNullValue => _settings.QueryNullValue;
-
-        /// <summary>Gets a value indicating whether to render for AngularJS.</summary>
-        public bool IsAngularJS => _settings.Template == TypeScriptTemplate.AngularJS;
-
-        /// <summary>Gets a value indicating whether to render for Angular2.</summary>
-        public bool IsAngular => _settings.Template == TypeScriptTemplate.Angular;
-
-        /// <summary>Gets a value indicating whether to render for JQuery.</summary>
-        public bool IsJQuery => _settings.Template == TypeScriptTemplate.JQueryCallbacks ||
-                                _settings.Template == TypeScriptTemplate.JQueryPromises;
-
-        /// <summary>Gets a value indicating whether to render for Fetch or Aurelia</summary>
-        public bool IsFetchOrAurelia => _settings.Template == TypeScriptTemplate.Fetch ||
-                                        _settings.Template == TypeScriptTemplate.Aurelia;
-
-        // Angular only
-
-        /// <summary>Gets or sets the token name for injecting the API base URL string (used in the Angular2 template).</summary>
-        public string BaseUrlTokenName => _settings.BaseUrlTokenName;
-
-        /// <summary>Gets a value indicating whether to use HttpClient with the Angular template.</summary>
-        public bool UseAngularHttpClient => _settings.HttpClass == HttpClass.HttpClient;
-
-        /// <summary>Gets the HTTP client class name.</summary>
-        public string AngularHttpClass => UseAngularHttpClient ? "HttpClient" : "Http";
     }
 }

@@ -5,7 +5,7 @@
 {%     endif -%}
 {%     for parameter in operation.Parameters -%}
 {%         if parameter.HasDescriptionOrIsOptional -%}
- * @{{ parameter.VariableName }}{% if parameter.IsOptional %} (optional){% endif %} {{ parameter.Description }}
+ * @param {{ parameter.VariableName }}{% if parameter.IsOptional %} (optional){% endif %} {{ parameter.Description }}
 {%         endif -%}
 {%     endfor -%}
 {%     if operation.HasResultDescription -%}

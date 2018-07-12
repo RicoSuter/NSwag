@@ -62,7 +62,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
 
         public class MultipleAttributesController : ApiController
         {
-            /// <returns>Bar.</returns>>
+            /// <returns>Bar.</returns>
             [Route("foo")]
             [SwaggerResponse(HttpStatusCode.OK, typeof(void), Description = "Foo")]
             public void Foo()
@@ -70,7 +70,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
 
             }
 
-            /// <returns>Bar.</returns>>
+            /// <returns>Bar.</returns>
             [Route("bar")]
             public void Bar()
             {

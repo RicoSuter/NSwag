@@ -74,7 +74,16 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets a value indicating whether to generate abstract controllers.</summary>
         public bool GenerateAbstractControllers => _settings.ControllerStyle == CSharpControllerStyle.Abstract;
 
-        /// <summary>Gets a value  indicating whether to allow adding cancellation token.</summary>
+        /// <summary>Gets a value indicating whether to allow adding cancellation token.</summary>
         public bool UseCancellationToken => _settings.UseCancellationToken;
+
+        /// <summary>Gets the Title.</summary>
+        public string Title => _document.Info.Title;
+
+        /// <summary>Gets the Description.</summary>
+        public string Description => _document.Info.Description;
+
+        /// <summary>Gets the API version.</summary>
+        public string Version => _document.Info.Version;
     }
 }

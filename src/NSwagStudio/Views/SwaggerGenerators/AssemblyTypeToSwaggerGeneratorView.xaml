@@ -139,6 +139,9 @@
                                     FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" 
                                     Margin="0,0,0,12" />
 
+            <TextBlock Margin="0,0,0,6" Text="Output Type" TextWrapping="Wrap" FontWeight="Bold" />
+            <ComboBox SelectedItem="{Binding Command.OutputType, Mode=TwoWay}" ItemsSource="{Binding OutputTypes}" Margin="0,0,0,12" />
+
             <TextBlock TextWrapping="Wrap" Margin="0,8,0,0" FontWeight="Bold"
                        Text="Generates a Swagger definition with the given class type and no operations. Use this generator to create DTO code for another platform." />
         </StackPanel>
