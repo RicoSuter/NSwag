@@ -1,14 +1,13 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="CSharpControllerRouteNamingStrategy.cs" company="NSwag">
-//     Copyright (c) Sam Goldmann. All rights reserved.
+//     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
-// <author>Sam Goldmann, sam.goldmann@gmail.com</author>
+// <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
 namespace NSwag.CodeGeneration.CSharp.Models
 {
-    
     /// <summary>The CSharp controller routing naming strategy enum.</summary>
     public enum CSharpControllerRouteNamingStrategy
     {

@@ -169,6 +169,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
             }
         }
 
+        /// <summary>Gets a value indicating whether a route name is available.</summary>
+        public bool HasRouteName => RouteName != null;
+
         /// <summary>Gets the route name for this operation.</summary>
         public string RouteName
         {
@@ -176,7 +179,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
             {
                 var settings = _settings as SwaggerToCSharpControllerGeneratorSettings;
                 if (settings != null)
+                {
                     return settings.GetRouteName(_operation);
+                }
 
                 return null;
             }

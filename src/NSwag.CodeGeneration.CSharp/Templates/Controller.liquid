@@ -52,7 +52,7 @@ public partial class {{ Class }}Controller : {% if HasBaseClass %}{{ BaseClass }
 {%         if operation.IsDeprecated -%}
     [System.Obsolete]
 {%         endif -%}
-    [{{ AspNetNamespace }}.Http{{ operation.HttpMethodUpper }}, {{ AspNetNamespace }}.Route("{{ operation.Path }}"{% if operation.RouteName != null %}, Name = "{{ operation.RouteName }}"{% endif %})]
+    [{{ AspNetNamespace }}.Http{{ operation.HttpMethodUpper }}, {{ AspNetNamespace }}.Route("{{ operation.Path }}"{% if operation.HasRouteName %}, Name = "{{ operation.RouteName }}"{% endif %})]
     public {% if operation.WrapResponse %}async System.Threading.Tasks.Task<HttpResponseMessage>{% else %}{{ operation.ResultType }}{% endif %} {{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{% if parameter.IsBody %}[{{ AspNetNamespace }}.FromBody] {% endif %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}{% if parameter.IsLast == false or UseCancellationToken %}, {% endif %}{% endfor %}{% if UseCancellationToken %}System.Threading.CancellationToken cancellationToken{% endif %})
     {
 {%         if operation.WrapResponse -%}
@@ -90,7 +90,7 @@ public abstract class {{ Class }}ControllerBase : {% if HasBaseClass %}{{ BaseCl
 {%         if operation.IsDeprecated -%}
     [System.Obsolete]
 {%         endif -%}
-    [{{ AspNetNamespace }}.Http{{ operation.HttpMethodUpper }}, {{ AspNetNamespace }}.Route("{{ operation.Path }}"{% if operation.RouteName != null %}, Name = "{{ operation.RouteName }}"{% endif %})]
+    [{{ AspNetNamespace }}.Http{{ operation.HttpMethodUpper }}, {{ AspNetNamespace }}.Route("{{ operation.Path }}"{% if operation.HasRouteName %}, Name = "{{ operation.RouteName }}"{% endif %})]
     public abstract {%  if operation.WrapResponse %}System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage>{% else %}{{ operation.ResultType }}{% endif %} {{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{% if parameter.IsBody %}[{{ AspNetNamespace }}.FromBody] {% endif %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}{% if parameter.IsLast == false or UseCancellationToken %}, {% endif %}{% endfor %}{% if UseCancellationToken %}System.Threading.CancellationToken cancellationToken{% endif %});
 
 {%     endfor -%}

@@ -32,7 +32,9 @@ namespace NSwag.CodeGeneration.CSharp
         public string GetRouteName(SwaggerOperation operation)
         {
             if (RouteNamingStrategy == CSharpControllerRouteNamingStrategy.OperationId)
+            {
                 return operation.OperationId;
+            }
 
             return null;
         }
