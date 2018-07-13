@@ -30,22 +30,27 @@ namespace NSwagStudio.ViewModels.CodeGenerators
             }
         }
 
-        /// <summary>Gets the list of operation modes. </summary>
+        /// <summary>Gets the list of operation modes.</summary>
         public OperationGenerationMode[] OperationGenerationModes { get; } = Enum.GetNames(typeof(OperationGenerationMode))
             .Select(t => (OperationGenerationMode)Enum.Parse(typeof(OperationGenerationMode), t))
             .ToArray();
 
-        /// <summary>Gets the list of class styles. </summary>
+        /// <summary>Gets the list of class styles.</summary>
         public CSharpClassStyle[] ClassStyles { get; } = Enum.GetNames(typeof(CSharpClassStyle))
             .Select(t => (CSharpClassStyle)Enum.Parse(typeof(CSharpClassStyle), t))
             .ToArray();
 
-        /// <summary>Gets the list of class styles. </summary>
+        /// <summary>Gets the list of class styles.</summary>
         public CSharpControllerStyle[] ControllerStyles { get; } = Enum.GetNames(typeof(CSharpControllerStyle))
             .Select(t => (CSharpControllerStyle)Enum.Parse(typeof(CSharpControllerStyle), t))
             .ToArray();
 
-        /// <summary>Gets or sets the client code. </summary>
+        /// <summary>Gets the list of route naming strategies.</summary>
+        public CSharpControllerRouteNamingStrategy[] RouteNamingStrategies { get; } = Enum.GetNames(typeof(CSharpControllerRouteNamingStrategy))
+            .Select(t => (CSharpControllerRouteNamingStrategy)Enum.Parse(typeof(CSharpControllerRouteNamingStrategy), t))
+            .ToArray();
+
+        /// <summary>Gets or sets the client code.</summary>
         public string ClientCode
         {
             get { return _clientCode; }
