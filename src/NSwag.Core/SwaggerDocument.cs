@@ -115,10 +115,19 @@ namespace NSwag
         /// <returns>The JSON string.</returns>
         public string ToJson(SchemaType schemaType)
         {
+            return ToJson(schemaType, Formatting.Indented);
+        }
+
+        /// <summary>Converts the description object to JSON.</summary>
+        /// <param name="schemaType">The schema type.</param>
+        /// <param name="formatting">The formatting.</param>
+        /// <returns>The JSON string.</returns>
+        public string ToJson(SchemaType schemaType, Formatting formatting)
+        {
             GenerateOperationIds();
 
             var contractResolver = CreateJsonSerializerContractResolver(schemaType);
-            return JsonSchemaSerialization.ToJson(this, schemaType, contractResolver);
+            return JsonSchemaSerialization.ToJson(this, schemaType, contractResolver, formatting);
         }
 
         /// <summary>Creates a Swagger specification from a JSON string.</summary>
