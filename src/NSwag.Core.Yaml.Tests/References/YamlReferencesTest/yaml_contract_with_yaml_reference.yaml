@@ -1,0 +1,17 @@
+---
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Yaml Contract with Yaml Reference
+  description: Yaml Contract with Yaml Reference
+paths:
+definitions:
+  ContractObject:
+    type: object
+    properties:
+      bar:
+        "$ref": "./baseContract.yaml#/definitions/myBool"
+      foo:
+        "$ref": "#/definitions/baseContract/baseContractInt"
+  baseContractInt:
+    "$ref": "./baseContract.yaml#/definitions/myInt"
