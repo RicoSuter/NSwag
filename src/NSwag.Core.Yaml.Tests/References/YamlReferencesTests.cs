@@ -3,7 +3,6 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using NJsonSchema;
-using NJsonSchema.References;
 using Xunit;
 
 namespace NSwag.Core.Yaml.Tests.References
@@ -12,11 +11,11 @@ namespace NSwag.Core.Yaml.Tests.References
     {
 
         [Theory]
-        [InlineData("/References/YamlReferencesTest/json_contract_with_json_reference.json", "./baseContract.json#/definitions/myInt")]
-        [InlineData("/References/YamlReferencesTest/yaml_contract_with_json_reference.yaml", "./baseContract.json#/definitions/myInt")]
-        [InlineData("/References/YamlReferencesTest/yaml_contract_with_yaml_reference.yaml", "./baseContract.yaml#/definitions/myInt")]
-        [InlineData("/References/YamlReferencesTest/json_contract_with_yaml_reference.json", "./baseContract.yaml#/definitions/myInt")]
-        public async Task When_yaml_schema_has_references_it_works(string relativePath, string documentPath)
+        [InlineData("/References/YamlReferencesTest/json_contract_with_json_reference.json")]
+        [InlineData("/References/YamlReferencesTest/yaml_contract_with_json_reference.yaml")]
+        [InlineData("/References/YamlReferencesTest/yaml_contract_with_yaml_reference.yaml")]
+        [InlineData("/References/YamlReferencesTest/json_contract_with_yaml_reference.json")]
+        public async Task When_yaml_schema_has_references_it_works(string relativePath)
         {
             //// Arrange
             var path = GetTestDirectory() + relativePath;

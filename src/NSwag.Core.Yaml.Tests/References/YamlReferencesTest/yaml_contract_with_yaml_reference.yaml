@@ -12,6 +12,6 @@ definitions:
       bar:
         "$ref": "./baseContract.yaml#/definitions/myBool"
       foo:
-        "$ref": "#/definitions/baseContract/baseContractInt"
+        "$ref": "#/definitions/baseContractInt"
   baseContractInt:
     "$ref": "./baseContract.yaml#/definitions/myInt"

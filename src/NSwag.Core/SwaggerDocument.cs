@@ -128,6 +128,18 @@ namespace NSwag
         /// <returns>The <see cref="SwaggerDocument"/>.</returns>
         public static async Task<SwaggerDocument> FromJsonAsync(string data, string documentPath = null, SchemaType expectedSchemaType = SchemaType.Swagger2)
         {
+            return await FromJsonAsync(data, CreateDefaultReferenceResolverFactory(), documentPath, expectedSchemaType).ConfigureAwait(false);
+        }
+
+        /// <summary>Creates a Swagger specification from a JSON string.</summary>
+        /// <param name="data">The JSON data.</param>
+        /// <param name="referenceResolverFactory">The JSON Schema reference resolver factory for custom resolution of relative document references</param>
+        /// <param name="documentPath">The document path (URL or file path) for resolving relative document references.</param>
+        /// <param name="expectedSchemaType">The expected schema type which is used when the type cannot be determined.</param>
+        /// <returns>The <see cref="SwaggerDocument"/>.</returns>
+        /// <exception cref="NotSupportedException">If expectedSchemaType is not supported.</exception>
+        public static async Task<SwaggerDocument> FromJsonAsync(string data, Func<SwaggerDocument, JsonReferenceResolver> referenceResolverFactory, string documentPath = null, SchemaType expectedSchemaType = SchemaType.Swagger2)
+        {
             // For explanation of the regex use https://regexr.com/ and the below unescaped pattern that is without named groups
             // (?:\"(openapi|swagger)\")(?:\s*:\s*)(?:\"([^"]*)\")
             var pattern = "(?:\\\"(?<schemaType>openapi|swagger)\\\")(?:\\s*:\\s*)(?:\\\"(?<schemaVersion>[^\"]*)\\\")";
@@ -153,12 +165,12 @@ namespace NSwag
             }
            
             var contractResolver = CreateJsonSerializerContractResolver(expectedSchemaType);
-            return await JsonSchemaSerialization.FromJsonAsync<SwaggerDocument>(data, expectedSchemaType, documentPath, document =>
+            Func<SwaggerDocument, JsonReferenceResolver> factory = document =>
             {
                 document.SchemaType = expectedSchemaType;
-                var schemaResolver = new SwaggerSchemaResolver(document, new JsonSchemaGeneratorSettings());
-                return new JsonReferenceResolver(schemaResolver);
-            }, contractResolver).ConfigureAwait(false);
+                return referenceResolverFactory(document);
+            };
+            return await JsonSchemaSerialization.FromJsonAsync(data, expectedSchemaType, documentPath, factory, contractResolver).ConfigureAwait(false);
         }
 
         /// <summary>Creates a Swagger specification from a JSON file.</summary>
@@ -241,6 +253,15 @@ namespace NSwag
             var pathSegments = operation.Path.Trim('/').Split('/');
             var lastPathSegment = pathSegments.LastOrDefault(s => !s.Contains("{"));
             return string.IsNullOrEmpty(lastPathSegment) ? "Anonymous" : lastPathSegment;
+        }
+        
+        private static Func<SwaggerDocument, JsonReferenceResolver> CreateDefaultReferenceResolverFactory()
+        {
+            return document =>
+            {
+                var schemaResolver = new SwaggerSchemaResolver(document, new JsonSchemaGeneratorSettings());
+                return new JsonReferenceResolver(schemaResolver);
+            };
         }
     }
 }
