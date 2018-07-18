@@ -132,10 +132,38 @@ namespace NSwag
 
         /// <summary>Creates a Swagger specification from a JSON string.</summary>
         /// <param name="data">The JSON data.</param>
+        /// <returns>The <see cref="SwaggerDocument"/>.</returns>
+        public static Task<SwaggerDocument> FromJsonAsync(string data)
+        {
+            return FromJsonAsync(data, null, SchemaType.Swagger2, null);
+        }
+
+        /// <summary>Creates a Swagger specification from a JSON string.</summary>
+        /// <param name="data">The JSON data.</param>
+        /// <param name="documentPath">The document path (URL or file path) for resolving relative document references.</param>
+        /// <returns>The <see cref="SwaggerDocument"/>.</returns>
+        public static Task<SwaggerDocument> FromJsonAsync(string data, string documentPath)
+        {
+            return FromJsonAsync(data, documentPath, SchemaType.Swagger2, null);
+        }
+
+        /// <summary>Creates a Swagger specification from a JSON string.</summary>
+        /// <param name="data">The JSON data.</param>
         /// <param name="documentPath">The document path (URL or file path) for resolving relative document references.</param>
         /// <param name="expectedSchemaType">The expected schema type which is used when the type cannot be determined.</param>
         /// <returns>The <see cref="SwaggerDocument"/>.</returns>
-        public static async Task<SwaggerDocument> FromJsonAsync(string data, string documentPath = null, SchemaType expectedSchemaType = SchemaType.Swagger2)
+        public static Task<SwaggerDocument> FromJsonAsync(string data, string documentPath, SchemaType expectedSchemaType)
+        {
+            return FromJsonAsync(data, documentPath, expectedSchemaType, null);
+        }
+
+        /// <summary>Creates a Swagger specification from a JSON string.</summary>
+        /// <param name="data">The JSON data.</param>
+        /// <param name="documentPath">The document path (URL or file path) for resolving relative document references.</param>
+        /// <param name="expectedSchemaType">The expected schema type which is used when the type cannot be determined.</param>
+        /// <param name="referenceResolverFactory">The JSON reference resolver factory.</param>
+        /// <returns>The <see cref="SwaggerDocument"/>.</returns>
+        public static async Task<SwaggerDocument> FromJsonAsync(string data, string documentPath, SchemaType expectedSchemaType, Func<SwaggerDocument, JsonReferenceResolver> referenceResolverFactory)
         {
             // For explanation of the regex use https://regexr.com/ and the below unescaped pattern that is without named groups
             // (?:\"(openapi|swagger)\")(?:\s*:\s*)(?:\"([^"]*)\")
@@ -160,13 +188,20 @@ namespace NSwag
             {
                 throw new NotSupportedException("The schema type JsonSchema is not supported.");
             }
-           
+
             var contractResolver = CreateJsonSerializerContractResolver(expectedSchemaType);
             return await JsonSchemaSerialization.FromJsonAsync<SwaggerDocument>(data, expectedSchemaType, documentPath, document =>
             {
                 document.SchemaType = expectedSchemaType;
-                var schemaResolver = new SwaggerSchemaResolver(document, new JsonSchemaGeneratorSettings());
-                return new JsonReferenceResolver(schemaResolver);
+                if (referenceResolverFactory != null)
+                {
+                    return referenceResolverFactory(document);
+                }
+                else
+                {
+                    var schemaResolver = new SwaggerSchemaResolver(document, new JsonSchemaGeneratorSettings());
+                    return new JsonReferenceResolver(schemaResolver);
+                }
             }, contractResolver).ConfigureAwait(false);
         }
 
