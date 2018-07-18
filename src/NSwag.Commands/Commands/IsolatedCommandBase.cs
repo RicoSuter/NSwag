@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using NConsole;
 using Newtonsoft.Json;
@@ -37,6 +38,9 @@ namespace NSwag.Commands
         [Argument(Name = "ReferencePaths", IsRequired = false, Description = "The paths to search for referenced assembly files (comma separated).")]
         public string[] ReferencePaths { get; set; } = new string[0];
 
+        [Argument(Name = "LoadDefaultNugetCaches", IsRequired = false, Description = "Determines if local Nuget's cache folder should be put in the ReferencePaths by default")]
+        public bool LoadDefaultNugetCaches { get; set; } = false;
+
         public abstract Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host);
 
         protected async Task<TResult> RunIsolatedAsync(string configurationFile)
@@ -44,6 +48,17 @@ namespace NSwag.Commands
             var assemblyDirectory = AssemblyPaths.Any() ? Path.GetDirectoryName(Path.GetFullPath(PathUtilities.ExpandFileWildcards(AssemblyPaths).First())) : configurationFile;
             var bindingRedirects = GetBindingRedirects();
             var assemblies = GetAssemblies(assemblyDirectory);
+
+            Console.WriteLine($"LoadDefaultNugetCaches: {LoadDefaultNugetCaches}");
+
+            if (LoadDefaultNugetCaches)
+            {
+                var defaultNugetPackages = LoadDefaultNugetCache();
+                ReferencePaths = ReferencePaths.Concat(defaultNugetPackages).ToArray();
+
+                Console.WriteLine("Loaded Reference Paths");
+                Console.WriteLine(string.Join(", ", ReferencePaths));
+            }
 
             using (var isolated = new AppDomainIsolation<IsolatedCommandAssemblyLoader<TResult>>(assemblyDirectory, AssemblyConfig, bindingRedirects, assemblies))
             {
@@ -72,6 +87,14 @@ namespace NSwag.Commands
                 .Concat(referencePaths)
                 .Distinct()
                 .ToArray();
+        }
+
+        private static string[] LoadDefaultNugetCache()
+        {
+            var envHome = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "HOMEPATH" : "HOME";
+            var home = Environment.GetEnvironmentVariable(envHome);
+
+            return new[] { Path.Combine(home, ".nuget", "packages") };
         }
 
 #if NET451

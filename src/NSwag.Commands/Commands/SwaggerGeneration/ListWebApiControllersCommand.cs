@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ using NJsonSchema.Infrastructure;
 using NSwag.AssemblyLoader.Utilities;
 using NSwag.SwaggerGeneration.WebApi;
 using System.IO;
+using System.Runtime.InteropServices;
 using NSwag.Commands.SwaggerGeneration.WebApi;
 
 namespace NSwag.Commands.SwaggerGeneration
@@ -29,6 +31,8 @@ namespace NSwag.Commands.SwaggerGeneration
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
+            Console.WriteLine($"LoadDefaultNugetCaches: {LoadDefaultNugetCaches}");
+
             if (!string.IsNullOrEmpty(File))
             {
                 var document = await NSwagDocument.LoadWithTransformationsAsync(File, Variables);
@@ -37,6 +41,15 @@ namespace NSwag.Commands.SwaggerGeneration
                 AssemblyPaths = command.AssemblyPaths;
                 AssemblyConfig = command.AssemblyConfig;
                 ReferencePaths = command.ReferencePaths;
+
+                if (LoadDefaultNugetCaches)
+                {
+                    var defaultNugetPackages = LoadDefaultNugetCache();
+                    ReferencePaths = ReferencePaths.Concat(defaultNugetPackages).ToArray();
+
+                    Console.WriteLine("Loaded Reference Paths");
+                    Console.WriteLine(string.Join(", ", ReferencePaths));
+                }
             }
 
             var classNames = await RunIsolatedAsync(!string.IsNullOrEmpty(File) ? Path.GetDirectoryName(File) : null);
@@ -64,5 +77,15 @@ namespace NSwag.Commands.SwaggerGeneration
                 .OrderBy(c => c)
                 .ToArray();
         }
+
+        
+        private static string[] LoadDefaultNugetCache()
+        {
+            var envHome = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "HOMEPATH" : "HOME";
+            var home = Environment.GetEnvironmentVariable(envHome);
+
+            return new[] { Path.Combine(home, ".nuget", "packages") };
+        }
+
     }
 }
