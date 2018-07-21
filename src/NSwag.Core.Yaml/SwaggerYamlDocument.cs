@@ -24,20 +24,48 @@ namespace NSwag
     public static class SwaggerYamlDocument
     {
         /// <summary>Creates a Swagger specification from a YAML string.</summary>
-        /// <param name="data">The JSON data.</param>
+        /// <param name="data">The JSON or YAML data.</param>
+        /// <returns>The <see cref="SwaggerDocument"/>.</returns>
+        public static Task<SwaggerDocument> FromYamlAsync(string data)
+        {
+            return FromYamlAsync(data, null, SchemaType.Swagger2, null);
+        }
+
+        /// <summary>Creates a Swagger specification from a YAML string.</summary>
+        /// <param name="data">The JSON or YAML data.</param>
         /// <param name="documentPath">The document path (URL or file path) for resolving relative document references.</param>
         /// <returns>The <see cref="SwaggerDocument"/>.</returns>
-        public static async Task<SwaggerDocument> FromYamlAsync(string data, string documentPath = null)
+        public static Task<SwaggerDocument> FromYamlAsync(string data, string documentPath)
+        {
+            return FromYamlAsync(data, documentPath, SchemaType.Swagger2, null);
+        }
+
+        /// <summary>Creates a Swagger specification from a YAML string.</summary>
+        /// <param name="data">The JSON or YAML data.</param>
+        /// <param name="documentPath">The document path (URL or file path) for resolving relative document references.</param>
+        /// <param name="expectedSchemaType">The expected schema type which is used when the type cannot be determined.</param>
+        /// <returns>The <see cref="SwaggerDocument"/>.</returns>
+        public static Task<SwaggerDocument> FromYamlAsync(string data, string documentPath, SchemaType expectedSchemaType)
+        {
+            return FromYamlAsync(data, documentPath, expectedSchemaType, null);
+        }
+
+        /// <summary>Creates a Swagger specification from a YAML string.</summary>
+        /// <param name="data">The JSON or YAML data.</param>
+        /// <param name="documentPath">The document path (URL or file path) for resolving relative document references.</param>
+        /// <param name="expectedSchemaType">The expected schema type which is used when the type cannot be determined.</param>
+        /// <param name="referenceResolverFactory">The JSON reference resolver factory.</param>
+        /// <returns>The <see cref="SwaggerDocument"/>.</returns>
+        public static async Task<SwaggerDocument> FromYamlAsync(string data, string documentPath = null, SchemaType expectedSchemaType = SchemaType.Swagger2, Func<SwaggerDocument, JsonReferenceResolver> referenceResolverFactory = null)
         {
             var deserializer = new DeserializerBuilder().Build();
             var yamlObject = deserializer.Deserialize(new StringReader(data));
-
             var serializer = new SerializerBuilder()
                 .JsonCompatible()
                 .Build();
 
             var json = serializer.Serialize(yamlObject);
-            return await SwaggerDocument.FromJsonAsync(json, CreateReferenceResolverFactory(), documentPath).ConfigureAwait(false);
+            return await SwaggerDocument.FromJsonAsync(json, documentPath, expectedSchemaType, referenceResolverFactory).ConfigureAwait(false);
         }
 
         /// <summary>Converts the Swagger specification to YAML.</summary>

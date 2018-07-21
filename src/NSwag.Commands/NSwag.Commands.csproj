@@ -32,6 +32,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
     <PackageReference Include="NConsole" Version="3.9.6519.30868" />
     <PackageReference Include="NJsonSchema" Version="9.10.64" />
+    <PackageReference Include="NJsonSchema.Yaml" Version="9.10.64" />
     <PackageReference Include="NJsonSchema.CodeGeneration" Version="9.10.64" />
     <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="9.10.64" />
     <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="9.10.64" />
