@@ -56,7 +56,7 @@ namespace NSwag
         /// <param name="expectedSchemaType">The expected schema type which is used when the type cannot be determined.</param>
         /// <param name="referenceResolverFactory">The JSON reference resolver factory.</param>
         /// <returns>The <see cref="SwaggerDocument"/>.</returns>
-        public static async Task<SwaggerDocument> FromYamlAsync(string data, string documentPath = null, SchemaType expectedSchemaType = SchemaType.Swagger2, Func<SwaggerDocument, JsonReferenceResolver> referenceResolverFactory = null)
+        public static async Task<SwaggerDocument> FromYamlAsync(string data, string documentPath, SchemaType expectedSchemaType, Func<SwaggerDocument, JsonReferenceResolver> referenceResolverFactory)
         {
             var deserializer = new DeserializerBuilder().Build();
             var yamlObject = deserializer.Deserialize(new StringReader(data));
@@ -65,6 +65,8 @@ namespace NSwag
                 .Build();
 
             var json = serializer.Serialize(yamlObject);
+
+            referenceResolverFactory = referenceResolverFactory ?? CreateReferenceResolverFactory();
             return await SwaggerDocument.FromJsonAsync(json, documentPath, expectedSchemaType, referenceResolverFactory).ConfigureAwait(false);
         }
 
