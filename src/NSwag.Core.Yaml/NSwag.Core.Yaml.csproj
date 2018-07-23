@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard1.3;net45</TargetFrameworks>
     <Description>NSwag: The Swagger API toolchain for .NET and TypeScript</Description>
@@ -16,6 +16,7 @@
     <RootNamespace>NSwag</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="NJsonSchema.Yaml" Version="9.10.64" />
     <PackageReference Include="YamlDotNet.Signed" Version="4.2.2" />
   </ItemGroup>
   <ItemGroup>

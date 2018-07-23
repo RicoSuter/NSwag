@@ -21,7 +21,7 @@ using NSwag.SwaggerGeneration.Processors;
 namespace NSwag.Commands.SwaggerGeneration
 {
     /// <inheritdoc />
-    public abstract class SwaggerGeneratorCommandBase<T> : IsolatedSwaggerOutputCommandBase
+    public abstract class SwaggerGeneratorCommandBase<T> : IsolatedSwaggerOutputCommandBase<T>
         where T : SwaggerGeneratorSettings, new()
     {
         /// <summary>Initializes a new instance of the <see cref="SwaggerGeneratorCommandBase{T}"/> class.</summary>
@@ -31,7 +31,7 @@ namespace NSwag.Commands.SwaggerGeneration
         }
 
         [JsonIgnore]
-        public T Settings { get; }
+        public override T Settings { get; }
 
         [Argument(Name = nameof(DefaultPropertyNameHandling), IsRequired = false, Description = "The default property name handling ('Default' or 'CamelCase').")]
         public PropertyNameHandling DefaultPropertyNameHandling
