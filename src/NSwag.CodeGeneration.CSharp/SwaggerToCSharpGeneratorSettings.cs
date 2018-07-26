@@ -20,15 +20,13 @@ namespace NSwag.CodeGeneration.CSharp
         /// <summary>Initializes a new instance of the <see cref="SwaggerToCSharpClientGeneratorSettings"/> class.</summary>
         protected SwaggerToCSharpGeneratorSettings()
         {
-            AdditionalNamespaceUsages = null;
-
             CSharpGeneratorSettings = new CSharpGeneratorSettings
             {
                 Namespace = "MyNamespace",
                 SchemaType = SchemaType.Swagger2,
             };
 
-            CSharpGeneratorSettings.TemplateFactory = new DefaultTemplateFactory(CSharpGeneratorSettings, new Assembly[]
+            CSharpGeneratorSettings.TemplateFactory = new DefaultTemplateFactory(CSharpGeneratorSettings, new[]
             {
                 typeof(CSharpGeneratorSettings).GetTypeInfo().Assembly,
                 typeof(SwaggerToCSharpGeneratorSettings).GetTypeInfo().Assembly,
@@ -39,6 +37,9 @@ namespace NSwag.CodeGeneration.CSharp
 
             ParameterArrayType = "System.Collections.Generic.IEnumerable";
             ParameterDictionaryType = "System.Collections.Generic.IDictionary";
+
+            AdditionalNamespaceUsages = new string[0];
+            AdditionalContractNamespaceUsages = new string[0];
         }
 
         /// <summary>Gets the CSharp generator settings.</summary>

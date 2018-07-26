@@ -21,7 +21,7 @@
     {
         return System.Convert.ToBase64String((byte[]) value);
     }
-    else if (value.GetType().IsArray)
+    else if (value != null && value.GetType().IsArray)
     {
         var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
         return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));

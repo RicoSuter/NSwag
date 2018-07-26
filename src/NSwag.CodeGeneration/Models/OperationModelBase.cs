@@ -252,6 +252,9 @@ namespace NSwag.CodeGeneration.Models
                                     _settings.WrapResponseMethods.Length == 0 ||
                                     _settings.WrapResponseMethods.Contains(_settings.GenerateControllerName(ControllerName) + "." + ActualOperationName));
 
+        /// <summary>Gets the operation extension data.</summary>
+        public IDictionary<string, object> ExtensionData => _operation.ExtensionData;
+
         /// <summary>Gets the success response.</summary>
         /// <returns>The response.</returns>
         protected SwaggerResponse GetSuccessResponse()

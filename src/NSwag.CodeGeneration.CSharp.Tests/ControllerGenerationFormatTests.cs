@@ -145,6 +145,46 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             Assert.IsTrue(code.Contains("Foo(string test, bool test2)"));
             Assert.IsTrue(code.Contains("Bar()"));
         }
+
+        [TestMethod]
+        public async Task When_controllerroutenamingstrategy_operationid_then_route_attribute_name_specified()
+        {
+            //// Arrange
+            var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var document = await swaggerGen.GenerateForControllerAsync<TestController>();
+            var settings = new SwaggerToCSharpControllerGeneratorSettings
+            {
+                RouteNamingStrategy = CSharpControllerRouteNamingStrategy.OperationId
+            };
+
+            //// Act
+            var codeGen = new SwaggerToCSharpControllerGenerator(document, settings);
+            var code = codeGen.GenerateFile();
+
+            //// Assert
+            Assert.IsTrue(code.Contains("Route(\"Foo\", Name = \"Test_Foo\")"));
+            Assert.IsTrue(code.Contains("Route(\"Bar\", Name = \"Test_Bar\")"));
+        }
+
+        [TestMethod]
+        public async Task When_controllerroutenamingstrategy_none_then_route_attribute_name_not_specified()
+        {
+            //// Arrange
+            var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var document = await swaggerGen.GenerateForControllerAsync<TestController>();
+            var settings = new SwaggerToCSharpControllerGeneratorSettings
+            {
+                RouteNamingStrategy = CSharpControllerRouteNamingStrategy.None
+            };
+
+            //// Act
+            var codeGen = new SwaggerToCSharpControllerGenerator(document, settings);
+            var code = codeGen.GenerateFile();
+
+            //// Assert
+            Assert.IsTrue(code.Contains("Route(\"Foo\")"));
+            Assert.IsTrue(code.Contains("Route(\"Bar\")"));
+        }
     }
 }
 

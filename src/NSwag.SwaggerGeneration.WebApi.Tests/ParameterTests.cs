@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NJsonSchema;
+using NJsonSchema.Annotations;
 
 namespace NSwag.SwaggerGeneration.WebApi.Tests
 {
@@ -218,6 +219,32 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
             //// Assert 
             Assert.IsTrue(document.Paths.ContainsKey("/api/{id1}/Services"));
             Assert.IsTrue(document.Paths.ContainsKey("/api/{id1}/Services/{id2}"));
+        }
+
+        [RoutePrefix("api/{id1}")]
+        public class MyControllerWithJsonSchemaTypeParameter : ApiController
+        {
+            [HttpGet]
+            [Route("Services")]
+            public IHttpActionResult Operation1([JsonSchemaType(typeof(int))]string id1)
+            {
+                return null;
+            }
+        }
+
+        [TestMethod]
+        public async Task When_parameter_has_JsonSchemaTypeAttribute_then_it_is_processed()
+        {
+            //// Arrange
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+
+            //// Act
+            var document = await generator.GenerateForControllerAsync(typeof(MyControllerWithJsonSchemaTypeParameter));
+            var json = document.ToJson();
+
+            //// Assert 
+            var parameter = document.Operations.First().Operation.ActualParameters.First().ActualParameter;
+            Assert.IsTrue(parameter.ActualTypeSchema.Type.HasFlag(JsonObjectType.Integer));
         }
     }
 }

@@ -21,7 +21,7 @@ using NSwag.SwaggerGeneration.Processors;
 namespace NSwag.Commands.SwaggerGeneration
 {
     /// <inheritdoc />
-    public abstract class SwaggerGeneratorCommandBase<T> : IsolatedSwaggerOutputCommandBase
+    public abstract class SwaggerGeneratorCommandBase<T> : IsolatedSwaggerOutputCommandBase<T>
         where T : SwaggerGeneratorSettings, new()
     {
         /// <summary>Initializes a new instance of the <see cref="SwaggerGeneratorCommandBase{T}"/> class.</summary>
@@ -31,7 +31,7 @@ namespace NSwag.Commands.SwaggerGeneration
         }
 
         [JsonIgnore]
-        public T Settings { get; }
+        public override T Settings { get; }
 
         [Argument(Name = nameof(DefaultPropertyNameHandling), IsRequired = false, Description = "The default property name handling ('Default' or 'CamelCase').")]
         public PropertyNameHandling DefaultPropertyNameHandling
@@ -112,7 +112,7 @@ namespace NSwag.Commands.SwaggerGeneration
         public string ServiceBasePath { get; set; }
 
         [Argument(Name = "ServiceSchemes", IsRequired = false, Description = "Overrides the allowed schemes of the web service (optional, comma separated, 'http', 'https', 'ws', 'wss').")]
-        public string[] ServiceSchemes { get; set; }
+        public string[] ServiceSchemes { get; set; } = new string[0];
 
         [Argument(Name = "InfoTitle", IsRequired = false, Description = "Specify the title of the Swagger specification (ignored when DocumentTemplate is set).")]
         public string InfoTitle
@@ -135,14 +135,21 @@ namespace NSwag.Commands.SwaggerGeneration
             set => Settings.Version = value;
         }
 
+        [Argument(Name = "IncludedVersions", IsRequired = false, Description = "The included API versions used by the ApiVersionProcessor (default: empty = all).")]
+        public string[] IncludedVersions
+        {
+            get => Settings.OperationProcessors.TryGet<ApiVersionProcessor>().IncludedVersions;
+            set => Settings.OperationProcessors.TryGet<ApiVersionProcessor>().IncludedVersions = value;
+        }
+
         [Argument(Name = "DocumentTemplate", IsRequired = false, Description = "Specifies the Swagger document template (may be a path or JSON, default: none).")]
         public string DocumentTemplate { get; set; }
 
         [Argument(Name = "DocumentProcessors", IsRequired = false, Description = "The document processor type names in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
-        public string[] DocumentProcessorTypes { get; set; }
+        public string[] DocumentProcessorTypes { get; set; } = new string[0];
 
         [Argument(Name = "OperationProcessors", IsRequired = false, Description = "The operation processor type names in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
-        public string[] OperationProcessorTypes { get; set; }
+        public string[] OperationProcessorTypes { get; set; } = new string[0];
 
         [Argument(Name = "TypeNameGenerator", IsRequired = false, Description = "The custom ITypeNameGenerator implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
         public string TypeNameGeneratorType { get; set; }
@@ -150,8 +157,11 @@ namespace NSwag.Commands.SwaggerGeneration
         [Argument(Name = "SchemaNameGenerator", IsRequired = false, Description = "The custom ISchemaNameGenerator implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
         public string SchemaNameGeneratorType { get; set; }
 
-        [Argument(Name = "ContractResolver", IsRequired = false, Description = "The custom IContractResolver implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
+        [Argument(Name = "ContractResolver", IsRequired = false, Description = "DEPRECATED: The custom IContractResolver implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
         public string ContractResolverType { get; set; }
+
+        [Argument(Name = "SerializerSettings", IsRequired = false, Description = "The custom JsonSerializerSettings implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
+        public string SerializerSettingsType { get; set; }
 
         public void InitializeCustomTypes(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
@@ -181,6 +191,9 @@ namespace NSwag.Commands.SwaggerGeneration
 
             if (!string.IsNullOrEmpty(ContractResolverType))
                 Settings.ContractResolver = (IContractResolver)assemblyLoader.CreateInstance(ContractResolverType);
+
+            if (!string.IsNullOrEmpty(SerializerSettingsType))
+                Settings.SerializerSettings = (JsonSerializerSettings)assemblyLoader.CreateInstance(SerializerSettingsType);
         }
 
         public string PostprocessDocument(SwaggerDocument document)

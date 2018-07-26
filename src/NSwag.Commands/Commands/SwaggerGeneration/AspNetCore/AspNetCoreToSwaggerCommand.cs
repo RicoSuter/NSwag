@@ -10,11 +10,23 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.DependencyInjection;
 using NConsole;
 using Newtonsoft.Json;
 using NSwag.SwaggerGeneration.AspNetCore;
+using NJsonSchema.Yaml;
+using Newtonsoft.Json.Schema;
+using NJsonSchema;
+
+#if NETSTANDARD
+using System.Runtime.Loader;
+#endif
 
 namespace NSwag.Commands.SwaggerGeneration.AspNetCore
 {
@@ -111,7 +123,7 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
                         cleanupFiles.Add(copiedAppConfig);
                     }
                 }
-#elif NETSTANDARD1_6
+#elif NETSTANDARD
                 var toolDirectory = AppContext.BaseDirectory;
                 if (!Directory.Exists(toolDirectory))
                     toolDirectory = Path.GetDirectoryName(typeof(AspNetCoreToSwaggerCommand).GetTypeInfo().Assembly.Location);
@@ -158,8 +170,11 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
 
                     host?.WriteMessage($"Output written to {outputFile}.{Environment.NewLine}");
 
+                    JsonReferenceResolver ReferenceResolverFactory(SwaggerDocument d) =>
+                        new JsonAndYamlReferenceResolver(new NJsonSchema.JsonSchemaResolver(d, Settings));
+
                     var documentJson = File.ReadAllText(outputFile);
-                    var document = await SwaggerDocument.FromJsonAsync(documentJson, expectedSchemaType: OutputType).ConfigureAwait(false);
+                    var document = await SwaggerDocument.FromJsonAsync(documentJson, null, OutputType, ReferenceResolverFactory).ConfigureAwait(false);
                     await this.TryWriteDocumentOutputAsync(host, () => document).ConfigureAwait(false);
                     return document;
                 }
@@ -176,19 +191,24 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
 
         protected override async Task<string> RunIsolatedAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
-            // Run with .dll
-
             Settings.DocumentTemplate = await GetDocumentTemplateAsync();
             InitializeCustomTypes(assemblyLoader);
 
-            // TODO: Load TestServer, get ApiExplorer, run generator
+            var assemblies = await LoadAssembliesAsync(AssemblyPaths, assemblyLoader).ConfigureAwait(false);
+            var startupType = assemblies.First().ExportedTypes.First(t => t.Name == "Startup"); // TODO: Use .NET Core startup lookup or provide setting
 
-            //var generator = new AspNetCoreToSwaggerGenerator(Settings);
-            //var document = await generator.GenerateAsync(controllerTypes).ConfigureAwait(false);
+            using (var testServer = new TestServer(new WebHostBuilder().UseStartup(startupType)))
+            {
+                // See https://github.com/aspnet/Mvc/issues/5690
 
-            //return PostprocessDocument(document);
+                var type = typeof(IApiDescriptionGroupCollectionProvider);
+                var apiDescriptionProvider = (IApiDescriptionGroupCollectionProvider)testServer.Host.Services.GetRequiredService(type);
 
-            return null;
+                var generator = new AspNetCoreToSwaggerGenerator(Settings);
+                var document = await generator.GenerateAsync(apiDescriptionProvider.ApiDescriptionGroups).ConfigureAwait(false);
+
+                return PostprocessDocument(document);
+            }
         }
 
         private static void TryDeleteFiles(List<string> files)

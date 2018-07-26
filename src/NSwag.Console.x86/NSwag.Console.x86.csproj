@@ -5,7 +5,7 @@
   <PropertyGroup>
     <TargetFramework>net461</TargetFramework>
     <Description>NSwag: The Swagger API toolchain for .NET and TypeScript</Description>
-    <Version>11.17.13</Version>
+    <Version>11.17.21</Version>
     <PackageTags>Swagger Documentation WebApi AspNet TypeScript CodeGen</PackageTags>
     <Copyright>Copyright © Rico Suter, 2017</Copyright>
     <PackageLicenseUrl>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</PackageLicenseUrl>
@@ -39,6 +39,7 @@
     <PackageReference Include="NConsole" Version="3.9.6519.30868" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
     <PackageReference Include="System.Net.Http" Version="4.3.2" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="1.1.3" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj" />

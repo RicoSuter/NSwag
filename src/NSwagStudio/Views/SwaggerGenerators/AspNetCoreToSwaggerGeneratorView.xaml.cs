@@ -21,7 +21,7 @@ namespace NSwagStudio.Views.SwaggerGenerators
 
         private AspNetCoreToSwaggerGeneratorViewModel Model => (AspNetCoreToSwaggerGeneratorViewModel)Resources["ViewModel"];
 
-        public string Title => "ASP.NET Core Project (experimental)";
+        public string Title => "ASP.NET Core via API Explorer (new)";
 
         public IOutputCommand Command => Model.Command;
 

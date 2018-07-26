@@ -27,7 +27,7 @@ import { Observable, from as {{ Framework.RxJs.ObservableFromMethod }}, throwErr
 {%             endif -%}
 import { Injectable, Inject, Optional, {{ Framework.Angular.InjectionTokenType }} } from '@angular/core';
 {%             if Framework.Angular.UseHttpClient -%}
-import { HttpClient, HttpHeaders, HttpParams, HttpResponse, HttpResponseBase, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
 {%             else -%}
 import { Http, Headers, ResponseContentType, Response{% if UseTransformOptionsMethod %}, RequestOptionsArgs{% endif %} } from '@angular/http';
 {%             endif -%}

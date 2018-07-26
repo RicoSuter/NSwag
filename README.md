@@ -9,13 +9,21 @@
 [![StackOverflow](https://img.shields.io/badge/questions-on%20StackOverflow-orange.svg?style=flat)](http://stackoverflow.com/questions/tagged/nswag)
 [![Wiki](https://img.shields.io/badge/docs-in%20wiki-orange.svg?style=flat)](https://github.com/rsuter/nswag/wiki)
 
-NSwag is a Swagger/OpenAPI 2.0 (3.0 in the works) toolchain for .NET, .NET Core, Web API, ASP.NET Core, TypeScript (jQuery, AngularJS, Angular 2+, Aurelia, KnockoutJS, and more) and other platforms, written in C#. The [Swagger specification](http://swagger.io) uses JSON and JSON Schema to describe a RESTful web API. The NSwag project provides tools to generate Swagger specifications from existing ASP.NET Web API controllers and client code from these Swagger specifications. 
+NSwag is a Swagger/OpenAPI 2.0 and 3.0 toolchain for .NET, .NET Core, Web API, ASP.NET Core, TypeScript (jQuery, AngularJS, Angular 2+, Aurelia, KnockoutJS, and more) and other platforms, written in C#. The [Swagger specification](http://swagger.io) uses JSON and JSON Schema to describe a RESTful web API. The NSwag project provides tools to generate Swagger specifications from existing ASP.NET Web API controllers and client code from these Swagger specifications. 
 
 The project combines the functionality of Swashbuckle (Swagger generation) and AutoRest (client generation) in one toolchain. This way a lot of incompatibilites can be avoided and features which are not well described by the Swagger specification or JSON Schema are better supported (e.g. [inheritance](https://github.com/NJsonSchema/NJsonSchema/wiki/Inheritance), [enum](https://github.com/NJsonSchema/NJsonSchema/wiki/Enums) and reference handling). The NSwag project heavily uses [NJsonSchema for .NET](http://njsonschema.org) for JSON Schema handling and C#/TypeScript class/interface generation. 
 
 ![ToolchainDiagram](assets/ToolchainDiagram.png)
 
 The project is developed and maintained by [Rico Suter](http://rsuter.com) and other contributors. 
+
+**Features:**
+
+- Generate Swagger 2.0 and OpenAPI 3.0 specifications from C# ASP.NET (Core) controllers
+- Serve the specs via ASP.NET (Core) middleware, optionally with Swagger UI or ReDoc
+- Generate C# or TypeScript clients/proxies from these specs
+- Everything can be automated via CLI (distributed via NuGet tool or build target; or NPM)
+- CLI configured via JSON file or NSwagStudio Windows UI
 
 **Ways to use the toolchain:** 
 

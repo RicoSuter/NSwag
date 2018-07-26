@@ -1,0 +1,153 @@
+﻿{
+  "x-generator": "NSwag v11.17.13.0 (NJsonSchema v9.10.51.0 (Newtonsoft.Json v11.0.0.0))",
+  "swagger": "2.0",
+  "info": {
+    "title": "My Title",
+    "version": "1.0.0"
+  },
+  "consumes": [
+    "application/json-patch+json",
+    "application/json",
+    "text/json",
+    "application/*+json"
+  ],
+  "produces": [
+    "text/plain",
+    "application/json",
+    "text/json"
+  ],
+  "paths": {
+    "/api/Values": {
+      "get": {
+        "tags": [
+          "Values"
+        ],
+        "operationId": "Values_GetAll",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Values"
+        ],
+        "operationId": "Values_Post",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "name": "value",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/Values/{id}": {
+      "get": {
+        "tags": [
+          "Values"
+        ],
+        "operationId": "Values_Get",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Values"
+        ],
+        "operationId": "Values_Put",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          },
+          {
+            "name": "value",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Values"
+        ],
+        "operationId": "Values_Delete",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    }
+  }
+}

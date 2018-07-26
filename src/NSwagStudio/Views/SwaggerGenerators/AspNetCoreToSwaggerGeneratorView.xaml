@@ -19,7 +19,7 @@
                   VerticalScrollBarVisibility="Visible" 
                   HorizontalScrollBarVisibility="Hidden">
         <StackPanel Margin="8" Width="{Binding ElementName=ScrollViewer, Path=ActualWidth, Converter={StaticResource NumberAdditionConverter}, ConverterParameter=-32}">
-            <TextBlock Text="This generator uses the API Explorer of ASP.NET Core. The output is not stable yet. Please try it and give feedback." TextWrapping="Wrap" Margin="0,0,0,12" />
+            <TextBlock Text="AspNetCoreToSwaggerGenerator (new): This generator uses the API Explorer of ASP.NET Core." TextWrapping="Wrap" Margin="0,0,0,12" />
 
             <TextBlock Text="Either use Project (to load a .csproj file) or Assembly (from compiled .dll)." TextWrapping="Wrap" FontWeight="Bold" Margin="0,0,0,12" />
 
@@ -138,6 +138,10 @@
             <TextBox Text="{Binding Command.ExcludedTypeNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
                      ToolTip="ExcludedTypeNames" Margin="0,0,0,12" />
 
+            <TextBlock Text="Included API versions used by the ApiVersionProcessor (empty = all, comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
+            <TextBox Text="{Binding Command.IncludedVersions, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
+                     ToolTip="IncludedVersions" Margin="0,0,0,12" />
+
             <GroupBox Header="Swagger Information" Margin="0,0,0,8">
                 <StackPanel Margin="4,8,4,-8">
                     <TextBlock Text="Title" FontWeight="Bold" Margin="0,0,0,6" />
@@ -201,6 +205,14 @@
                     <TextBlock Text="Custom ISchemaNameGenerator implementation" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding Command.SchemaNameGeneratorType, Mode=TwoWay}" 
                              ToolTip="SchemaNameGeneratorType" Margin="0,0,0,12" />
+
+                    <TextBlock Text="Custom IContractResolver implementation (deprecated)" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding Command.ContractResolverType, Mode=TwoWay}" 
+                             ToolTip="ContractResolverType" Margin="0,0,0,12" />
+
+                    <TextBlock Text="Custom JsonSerializerSettings implementation" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding Command.SerializerSettingsType, Mode=TwoWay}" 
+                             ToolTip="SerializerSettingsType" Margin="0,0,0,12" />
                 </StackPanel>
             </GroupBox>
 

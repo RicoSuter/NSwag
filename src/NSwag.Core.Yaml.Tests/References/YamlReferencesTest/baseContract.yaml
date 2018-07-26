@@ -1,0 +1,12 @@
+---
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Base Contract
+  description: Base Contract
+paths:
+definitions:
+  myInt:
+    type: integer
+  myBool:
+    type: boolean
