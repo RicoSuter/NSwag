@@ -114,22 +114,24 @@
 {%         endif -%}
 {%     endfor -%}
 {%     for parameter in operation.QueryParameters -%}
-        {% if parameter.IsOptional -%}
-if ({{ parameter.VariableName }} != null) {% endif -%}
+{%         if parameter.IsOptional -%}
+        if ({{ parameter.VariableName }} != null) 
+        {
+{%         endif -%}
 {%         if parameter.IsDateArray -%}
-foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString(item_.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
+            foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString(item_.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
 {%         elseif parameter.IsDate -%}
-urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}{{ parameter.VariableName }}{% if parameter.IsSystemNullable %}.Value{% endif %}.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "{{ QueryNullValue }}"{% endif %})).Append("&");
+            urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}{{ parameter.VariableName }}{% if parameter.IsSystemNullable %}.Value{% endif %}.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "{{ QueryNullValue }}"{% endif %})).Append("&");
 {%         elseif parameter.IsArray -%}
-foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
+            foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
 {%         elseif parameter.IsDeepObject -%}
-{%           for property in parameter.PropertyNames -%}
+{%             for property in parameter.PropertyNames -%}
             if ({{parameter.Name}}.{{property}} != null)
             {
                 urlBuilder_.Append("{{parameter.Name}}[{{property}}]=").Append(System.Uri.EscapeDataString(ConvertToString({{parameter.Name}}.{{property}}, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             }
-{%           endfor -%}
-{%           for property in parameter.CollectionPropertyNames -%}
+{%             endfor -%}
+{%             for property in parameter.CollectionPropertyNames -%}
             if ({{parameter.Name}}.{{property}} != null && {{parameter.Name}}.{{property}}.Count > 0)
             {
                 urlBuilder_.Append("{{parameter.Name}}[{{property}}]=");
@@ -140,9 +142,12 @@ foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append("{{ par
                 urlBuilder_.Length--;
                 urlBuilder_.Append("&");
             }
-{%           endfor -%}
+{%             endfor -%}
 {%         else -%}
-urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "{{ QueryNullValue }}"{% endif %})).Append("&");
+            urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "{{ QueryNullValue }}"{% endif %})).Append("&");
+{%         endif -%}
+{%         if parameter.IsOptional -%}
+        }
 {%         endif -%}
 {%     endfor -%}
 {%     if operation.HasQueryParameters -%}
@@ -258,11 +263,9 @@ urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({
 {%             assign response = operation.DefaultResponse -%}
                         {% template Client.Class.ProcessResponse %}
                     }
-{%         else -%}
-{%             if operation.HasSuccessResponse -%}
+{%         elseif operation.HasSuccessResponse -%}
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                     throw new {{ ExceptionClass }}("{{ operation.DefaultResponse.ExceptionDescription }}", (int)response_.StatusCode, responseData_, headers_, null);
-{%             endif -%}
 {%         endif -%}
 {%     else -%}
                     if (status_ != "200" && status_ != "204")
@@ -271,16 +274,18 @@ urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({
                         throw new {{ ExceptionClass }}("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                     }
 {%     endif -%}
-{%     if operation.HasResultType -%}
+{%     if operation.HasDefaultResponse == false or (operation.DefaultResponse.HasType == false and operation.HasSuccessResponse == false) -%}
+{%         if operation.HasResultType -%}
         
-{%         if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" -%}
+{%             if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" -%}
                     return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>((int)response_.StatusCode, headers_, default({{ operation.UnwrappedResultType }})); 
-{%         else -%}
+{%             else -%}
                     return default({{ operation.UnwrappedResultType }});
-{%         endif -%}
-{%     elseif operation.WrapResponse -%}
+{%             endif -%}
+{%         elseif operation.WrapResponse -%}
 
                     return new {{ ResponseClass }}((int)response_.StatusCode, headers_); 
+{%         endif -%}
 {%     endif -%}
                 }
                 finally
