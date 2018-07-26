@@ -263,11 +263,9 @@
 {%             assign response = operation.DefaultResponse -%}
                         {% template Client.Class.ProcessResponse %}
                     }
-{%         else -%}
-{%             if operation.HasSuccessResponse -%}
+{%         elseif operation.HasSuccessResponse -%}
                     var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                     throw new {{ ExceptionClass }}("{{ operation.DefaultResponse.ExceptionDescription }}", (int)response_.StatusCode, responseData_, headers_, null);
-{%             endif -%}
 {%         endif -%}
 {%     else -%}
                     if (status_ != "200" && status_ != "204")
@@ -276,16 +274,18 @@
                         throw new {{ ExceptionClass }}("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                     }
 {%     endif -%}
-{%     if operation.HasResultType -%}
+{%     if operation.HasDefaultResponse == false or (operation.DefaultResponse.HasType == false and operation.HasSuccessResponse == false) -%}
+{%         if operation.HasResultType -%}
         
-{%         if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" -%}
+{%             if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" -%}
                     return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>((int)response_.StatusCode, headers_, default({{ operation.UnwrappedResultType }})); 
-{%         else -%}
+{%             else -%}
                     return default({{ operation.UnwrappedResultType }});
-{%         endif -%}
-{%     elseif operation.WrapResponse -%}
+{%             endif -%}
+{%         elseif operation.WrapResponse -%}
 
                     return new {{ ResponseClass }}((int)response_.StatusCode, headers_); 
+{%         endif -%}
 {%     endif -%}
                 }
                 finally
