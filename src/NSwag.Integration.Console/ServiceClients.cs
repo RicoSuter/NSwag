@@ -1143,7 +1143,7 @@ namespace NSwag.Integration.Console
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("api/Persons/find2?");
-                urlBuilder_.Append("gender=").Append(System.Uri.EscapeDataString(gender != null ? ConvertToString(gender, System.Globalization.CultureInfo.InvariantCulture) : "")).Append("&");
+            urlBuilder_.Append("gender=").Append(System.Uri.EscapeDataString(gender != null ? ConvertToString(gender, System.Globalization.CultureInfo.InvariantCulture) : "")).Append("&");
             urlBuilder_.Length--;
     
             var client_ = new System.Net.Http.HttpClient();
@@ -1475,7 +1475,7 @@ namespace NSwag.Integration.Console
     
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("api/Persons/Throw?");
-                urlBuilder_.Append("id=").Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Append("id=").Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             urlBuilder_.Length--;
     
             var client_ = new System.Net.Http.HttpClient();

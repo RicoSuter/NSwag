@@ -63,8 +63,8 @@ namespace Uber
     
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/products?");
-                urlBuilder_.Append("latitude=").Append(System.Uri.EscapeDataString(ConvertToString(latitude, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-                urlBuilder_.Append("longitude=").Append(System.Uri.EscapeDataString(ConvertToString(longitude, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Append("latitude=").Append(System.Uri.EscapeDataString(ConvertToString(latitude, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Append("longitude=").Append(System.Uri.EscapeDataString(ConvertToString(longitude, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             urlBuilder_.Length--;
     
             var client_ = new System.Net.Http.HttpClient();
@@ -172,10 +172,10 @@ namespace Uber
     
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/estimates/price?");
-                urlBuilder_.Append("start_latitude=").Append(System.Uri.EscapeDataString(ConvertToString(start_latitude, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-                urlBuilder_.Append("start_longitude=").Append(System.Uri.EscapeDataString(ConvertToString(start_longitude, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-                urlBuilder_.Append("end_latitude=").Append(System.Uri.EscapeDataString(ConvertToString(end_latitude, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-                urlBuilder_.Append("end_longitude=").Append(System.Uri.EscapeDataString(ConvertToString(end_longitude, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Append("start_latitude=").Append(System.Uri.EscapeDataString(ConvertToString(start_latitude, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Append("start_longitude=").Append(System.Uri.EscapeDataString(ConvertToString(start_longitude, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Append("end_latitude=").Append(System.Uri.EscapeDataString(ConvertToString(end_latitude, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Append("end_longitude=").Append(System.Uri.EscapeDataString(ConvertToString(end_longitude, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             urlBuilder_.Length--;
     
             var client_ = new System.Net.Http.HttpClient();
@@ -277,8 +277,8 @@ namespace Uber
     
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/estimates/time?");
-                urlBuilder_.Append("start_latitude=").Append(System.Uri.EscapeDataString(ConvertToString(start_latitude, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-                urlBuilder_.Append("start_longitude=").Append(System.Uri.EscapeDataString(ConvertToString(start_longitude, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Append("start_latitude=").Append(System.Uri.EscapeDataString(ConvertToString(start_latitude, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Append("start_longitude=").Append(System.Uri.EscapeDataString(ConvertToString(start_longitude, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             if (customer_uuid != null) 
             {
                 urlBuilder_.Append("customer_uuid=").Append(System.Uri.EscapeDataString(ConvertToString(customer_uuid, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
