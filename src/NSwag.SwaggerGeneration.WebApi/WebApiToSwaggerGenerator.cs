@@ -89,7 +89,7 @@ namespace NSwag.SwaggerGeneration.WebApi
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
         public async Task<SwaggerDocument> GenerateForControllersAsync(IEnumerable<Type> controllerTypes)
         {
-            var document = await CreateDocumentAsync(Settings).ConfigureAwait(false);
+            var document = await CreateDocumentAsync().ConfigureAwait(false);
             var schemaResolver = new SwaggerSchemaResolver(document, Settings);
 
             var usedControllerTypes = new List<Type>();
@@ -109,25 +109,27 @@ namespace NSwag.SwaggerGeneration.WebApi
             return document;
         }
 
-        private async Task<SwaggerDocument> CreateDocumentAsync(WebApiToSwaggerGeneratorSettings settings)
+        private async Task<SwaggerDocument> CreateDocumentAsync()
         {
-            var document = !string.IsNullOrEmpty(settings.DocumentTemplate) ?
-                await SwaggerDocument.FromJsonAsync(settings.DocumentTemplate).ConfigureAwait(false) :
+            var document = !string.IsNullOrEmpty(Settings.DocumentTemplate) ?
+                await SwaggerDocument.FromJsonAsync(Settings.DocumentTemplate).ConfigureAwait(false) :
                 new SwaggerDocument();
 
             document.Generator = "NSwag v" + SwaggerDocument.ToolchainVersion + " (NJsonSchema v" + JsonSchema4.ToolchainVersion + ")";
+            document.SchemaType = Settings.SchemaType;
+
             document.Consumes = new List<string> { "application/json" };
             document.Produces = new List<string> { "application/json" };
 
             if (document.Info == null)
                 document.Info = new SwaggerInfo();
 
-            if (!string.IsNullOrEmpty(settings.Title))
-                document.Info.Title = settings.Title;
-            if (!string.IsNullOrEmpty(settings.Description))
-                document.Info.Description = settings.Description;
-            if (!string.IsNullOrEmpty(settings.Version))
-                document.Info.Version = settings.Version;
+            if (!string.IsNullOrEmpty(Settings.Title))
+                document.Info.Title = Settings.Title;
+            if (!string.IsNullOrEmpty(Settings.Description))
+                document.Info.Description = Settings.Description;
+            if (!string.IsNullOrEmpty(Settings.Version))
+                document.Info.Version = Settings.Version;
 
             return document;
         }
