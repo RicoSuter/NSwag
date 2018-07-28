@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using NSwag.Annotations;
 
 namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers
 {
@@ -7,6 +8,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers
     [ApiVersion("2")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
+    [SwaggerTag("VersionedValues", Description = "Old operations")]
     public class VersionedValuesController : ControllerBase
     {
         [HttpGet]

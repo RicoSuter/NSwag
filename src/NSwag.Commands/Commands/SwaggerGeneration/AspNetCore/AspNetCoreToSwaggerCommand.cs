@@ -20,6 +20,9 @@ using Microsoft.Extensions.DependencyInjection;
 using NConsole;
 using Newtonsoft.Json;
 using NSwag.SwaggerGeneration.AspNetCore;
+using NJsonSchema.Yaml;
+using Newtonsoft.Json.Schema;
+using NJsonSchema;
 
 #if NETSTANDARD
 using System.Runtime.Loader;
@@ -167,8 +170,11 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
 
                     host?.WriteMessage($"Output written to {outputFile}.{Environment.NewLine}");
 
+                    JsonReferenceResolver ReferenceResolverFactory(SwaggerDocument d) =>
+                        new JsonAndYamlReferenceResolver(new NJsonSchema.JsonSchemaResolver(d, Settings));
+
                     var documentJson = File.ReadAllText(outputFile);
-                    var document = await SwaggerDocument.FromJsonAsync(documentJson, expectedSchemaType: OutputType).ConfigureAwait(false);
+                    var document = await SwaggerDocument.FromJsonAsync(documentJson, null, OutputType, ReferenceResolverFactory).ConfigureAwait(false);
                     await this.TryWriteDocumentOutputAsync(host, () => document).ConfigureAwait(false);
                     return document;
                 }

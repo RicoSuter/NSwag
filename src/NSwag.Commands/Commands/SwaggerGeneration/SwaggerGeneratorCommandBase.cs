@@ -26,7 +26,7 @@ using NSwag.SwaggerGeneration.Processors;
 namespace NSwag.Commands.SwaggerGeneration
 {
     /// <inheritdoc />
-    public abstract class SwaggerGeneratorCommandBase<TSettings> : IsolatedSwaggerOutputCommandBase
+    public abstract class SwaggerGeneratorCommandBase<TSettings> : IsolatedSwaggerOutputCommandBase<TSettings>
         where TSettings : SwaggerGeneratorSettings, new()
     {
         /// <summary>Initializes a new instance of the <see cref="SwaggerGeneratorCommandBase{T}"/> class.</summary>
