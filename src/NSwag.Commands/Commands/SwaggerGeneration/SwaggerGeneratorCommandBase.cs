@@ -36,7 +36,7 @@ namespace NSwag.Commands.SwaggerGeneration
         }
 
         [JsonIgnore]
-        protected TSettings Settings { get; }
+        protected override TSettings Settings { get; }
 
         [Argument(Name = nameof(DefaultPropertyNameHandling), IsRequired = false, Description = "The default property name handling ('Default' or 'CamelCase').")]
         public PropertyNameHandling DefaultPropertyNameHandling

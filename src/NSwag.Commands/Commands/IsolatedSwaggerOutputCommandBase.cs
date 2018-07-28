@@ -25,14 +25,14 @@ namespace NSwag.Commands
     public abstract class IsolatedSwaggerOutputCommandBase<T> : IsolatedCommandBase<string>, IOutputCommand
         where T : JsonSchemaGeneratorSettings
     {
-        /// <summary>Initializes a new instance of the <see cref="IsolatedSwaggerOutputCommandBase"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="IsolatedSwaggerOutputCommandBase{}"/> class.</summary>
         protected IsolatedSwaggerOutputCommandBase()
         {
             OutputType = SchemaType.Swagger2;
         }
 
         [JsonIgnore]
-        public abstract T Settings { get; }
+        protected abstract T Settings { get; }
 
         [Argument(Name = "Output", IsRequired = false, Description = "The output file path (optional).")]
         [JsonProperty("output", NullValueHandling = NullValueHandling.Include)]
