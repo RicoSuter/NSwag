@@ -47,7 +47,7 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
                     }
                     else
                     {
-                        tcs.TrySetException(new Exception($"Process failed wtih non-zero exit code '{process.ExitCode}'."));
+                        tcs.TrySetException(new Exception($"Process failed with non-zero exit code '{process.ExitCode}'."));
                     }
                 };
 

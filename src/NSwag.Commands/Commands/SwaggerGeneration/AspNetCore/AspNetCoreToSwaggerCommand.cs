@@ -57,6 +57,9 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
         [Argument(Name = nameof(Verbose), IsRequired = false, Description = "Print verbose output.")]
         public bool Verbose { get; set; }
 
+        [Argument(Name = nameof(WorkingDirectory), IsRequired = false, Description = "The working directory to use.")]
+        public string WorkingDirectory { get; set; }
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             // Run with .csproj
@@ -189,11 +192,40 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
             }
         }
 
+        public string ChangeWorkingDirectory()
+        {
+            var currentWorkingDirectory = Directory.GetCurrentDirectory();
+
+            if (!string.IsNullOrEmpty(WorkingDirectory))
+            {
+                Directory.SetCurrentDirectory(WorkingDirectory);
+            }
+            else if (!string.IsNullOrEmpty(Project))
+            {
+                var workingDirectory = Path.GetDirectoryName(Project);
+                if (Directory.Exists(workingDirectory))
+                {
+                    Directory.SetCurrentDirectory(workingDirectory);
+                }
+            }
+            else if (AssemblyPaths.Any())
+            {
+                var workingDirectory = Path.GetDirectoryName(AssemblyPaths.First());
+                if (Directory.Exists(workingDirectory))
+                {
+                    Directory.SetCurrentDirectory(workingDirectory);
+                }
+            }
+
+            return currentWorkingDirectory;
+        }
+
         protected override async Task<string> RunIsolatedAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
             Settings.DocumentTemplate = await GetDocumentTemplateAsync();
             InitializeCustomTypes(assemblyLoader);
 
+            var previousWorkingDirectory = ChangeWorkingDirectory();
             var assemblies = await LoadAssembliesAsync(AssemblyPaths, assemblyLoader).ConfigureAwait(false);
             var startupType = assemblies.First().ExportedTypes.First(t => t.Name == "Startup"); // TODO: Use .NET Core startup lookup or provide setting
 
@@ -207,7 +239,9 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
                 var generator = new AspNetCoreToSwaggerGenerator(Settings);
                 var document = await generator.GenerateAsync(apiDescriptionProvider.ApiDescriptionGroups).ConfigureAwait(false);
 
-                return PostprocessDocument(document);
+                var json = PostprocessDocument(document);
+                Directory.SetCurrentDirectory(previousWorkingDirectory);
+                return json;
             }
         }
 

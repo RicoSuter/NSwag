@@ -339,6 +339,9 @@ namespace NSwag.Commands
                     SwaggerGenerators.AspNetCoreToSwaggerCommand.Configuration);
                 SwaggerGenerators.AspNetCoreToSwaggerCommand.MSBuildProjectExtensionsPath = ConvertToAbsolutePath(
                     SwaggerGenerators.AspNetCoreToSwaggerCommand.MSBuildProjectExtensionsPath);
+
+                SwaggerGenerators.AspNetCoreToSwaggerCommand.WorkingDirectory = ConvertToAbsolutePath(
+                    SwaggerGenerators.AspNetCoreToSwaggerCommand.WorkingDirectory);
             }
 
             if (SwaggerGenerators.TypesToSwaggerCommand != null)
@@ -414,6 +417,9 @@ namespace NSwag.Commands
                     SwaggerGenerators.AspNetCoreToSwaggerCommand.Configuration);
                 SwaggerGenerators.AspNetCoreToSwaggerCommand.MSBuildProjectExtensionsPath = ConvertToRelativePath(
                     SwaggerGenerators.AspNetCoreToSwaggerCommand.MSBuildProjectExtensionsPath);
+
+                SwaggerGenerators.AspNetCoreToSwaggerCommand.WorkingDirectory = ConvertToRelativePath(
+                    SwaggerGenerators.AspNetCoreToSwaggerCommand.WorkingDirectory);
             }
 
 

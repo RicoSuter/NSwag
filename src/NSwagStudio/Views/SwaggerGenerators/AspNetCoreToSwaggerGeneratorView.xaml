@@ -94,6 +94,11 @@
                 </StackPanel>
             </GroupBox>
 
+            <TextBlock Text="Working Directory (optional, i.e. directory of appsettings.json)" FontWeight="Bold" Margin="0,0,0,6" />
+            <TextBox Text="{Binding Command.WorkingDirectory, Mode=TwoWay}"
+                     ToolTip="WorkingDirectory"
+                     Margin="0,0,0,12" />
+
             <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
                 <Run Text="Default Enum Handling" FontWeight="Bold" />
                 <LineBreak />
