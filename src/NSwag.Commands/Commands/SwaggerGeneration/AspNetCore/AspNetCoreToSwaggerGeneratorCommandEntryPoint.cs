@@ -30,8 +30,6 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
             var apiDescriptionProvider = webHost.Services.GetRequiredService<IApiDescriptionGroupCollectionProvider>();
 
             var assemblyLoader = new AssemblyLoader.AssemblyLoader();
-            command.InitializeCustomTypes(assemblyLoader);
-
             var settings = Task.Run(async () => await command.CreateSettingsAsync(assemblyLoader, webHost)).GetAwaiter().GetResult();
             var generator = new AspNetCoreToSwaggerGenerator(settings);
             var document = generator.GenerateAsync(apiDescriptionProvider.ApiDescriptionGroups).GetAwaiter().GetResult();
