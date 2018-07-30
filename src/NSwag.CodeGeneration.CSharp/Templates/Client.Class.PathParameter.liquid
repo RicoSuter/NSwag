@@ -1,0 +1,9 @@
+{% if parameter.IsDateArray -%}
+urlBuilder_.Replace("{{ "{" }}{{ parameter.Name }}}", System.Uri.EscapeDataString(string.Join(",", System.Linq.Enumerable.Select({{ parameter.VariableName }}, s_ => s_.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture)))));
+{% elseif parameter.IsDate -%}
+urlBuilder_.Replace("{{ "{" }}{{ parameter.Name }}}", System.Uri.EscapeDataString({{ parameter.VariableName }}.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture)));
+{% elseif parameter.IsArray -%}
+urlBuilder_.Replace("{{ "{" }}{{ parameter.Name }}}", System.Uri.EscapeDataString(string.Join(",", System.Linq.Enumerable.Select({{ parameter.VariableName }}, s_ => ConvertToString(s_, System.Globalization.CultureInfo.InvariantCulture)))));
+{% else -%}
+urlBuilder_.Replace("{{ "{" }}{{ parameter.Name }}}", System.Uri.EscapeDataString(ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture)));
+{% endif -%}

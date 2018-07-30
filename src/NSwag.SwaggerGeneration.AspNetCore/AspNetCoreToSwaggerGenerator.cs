@@ -51,7 +51,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
         public async Task<SwaggerDocument> GenerateAsync(ApiDescriptionGroupCollection apiDescriptionGroups)
         {
             var apiDescriptions = apiDescriptionGroups.Items.SelectMany(g => g.Items);
-            var document = await CreateDocumentAsync(apiDescriptionGroups).ConfigureAwait(false);
+            var document = await CreateDocumentAsync().ConfigureAwait(false);
             var schemaResolver = new SwaggerSchemaResolver(document, Settings);
 
             var apiGroups = apiDescriptions.Where(apiDescription => apiDescription.ActionDescriptor is ControllerActionDescriptor)
@@ -168,11 +168,13 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             return addedOperations > 0;
         }
 
-        private async Task<SwaggerDocument> CreateDocumentAsync(ApiDescriptionGroupCollection apiDescriptionGroups)
+        private async Task<SwaggerDocument> CreateDocumentAsync()
         {
             var document = !string.IsNullOrEmpty(Settings.DocumentTemplate) ? await SwaggerDocument.FromJsonAsync(Settings.DocumentTemplate).ConfigureAwait(false) : new SwaggerDocument();
 
             document.Generator = $"NSwag v{SwaggerDocument.ToolchainVersion} (NJsonSchema v{JsonSchema4.ToolchainVersion})";
+            document.SchemaType = Settings.SchemaType;
+
             document.Info = new SwaggerInfo
             {
                 Title = Settings.Title,

@@ -20,7 +20,7 @@ namespace NSwag.Commands.SwaggerGeneration
 {
     /// <summary></summary>
     [Command(Name = "types2swagger")]
-    public class TypesToSwaggerCommand : IsolatedSwaggerOutputCommandBase
+    public class TypesToSwaggerCommand : IsolatedSwaggerOutputCommandBase<JsonSchemaGeneratorSettings>
     {
         /// <summary>Initializes a new instance of the <see cref="TypesToSwaggerCommand"/> class.</summary>
         public TypesToSwaggerCommand()
@@ -30,7 +30,7 @@ namespace NSwag.Commands.SwaggerGeneration
         }
 
         [JsonIgnore]
-        public new JsonSchemaGeneratorSettings Settings { get; }
+        public override JsonSchemaGeneratorSettings Settings { get; }
 
         [Argument(Name = "ClassNames", Description = "The class names.")]
         public string[] ClassNames { get; set; }
