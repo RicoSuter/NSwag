@@ -23,21 +23,25 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
     {
         public static void Process(string commandContent, string outputFile, string applicationName)
         {
+            var command = JsonConvert.DeserializeObject<AspNetCoreToSwaggerCommand>(commandContent);
+
+            var previousWorkingDirectory = command.ChangeWorkingDirectory();
             var webHost = GetWebHost(applicationName);
             var apiDescriptionProvider = webHost.Services.GetRequiredService<IApiDescriptionGroupCollectionProvider>();
 
             var assemblyLoader = new AssemblyLoader.AssemblyLoader();
-            var command = JsonConvert.DeserializeObject<AspNetCoreToSwaggerCommand>(commandContent);
+            command.InitializeCustomTypes(assemblyLoader);
 
             var settings = Task.Run(async () => await command.CreateSettingsAsync(assemblyLoader, webHost)).GetAwaiter().GetResult();
             var generator = new AspNetCoreToSwaggerGenerator(settings);
             var document = generator.GenerateAsync(apiDescriptionProvider.ApiDescriptionGroups).GetAwaiter().GetResult();
 
-            command.PostprocessDocument(document);
+            var json = command.PostprocessDocument(document);
+            Directory.SetCurrentDirectory(previousWorkingDirectory);
 
             var outputPathDirectory = Path.GetDirectoryName(outputFile);
             Directory.CreateDirectory(outputPathDirectory);
-            File.WriteAllText(outputFile, document.ToJson());
+            File.WriteAllText(outputFile, json);
         }
 
         private static IWebHost GetWebHost(string applicationName)

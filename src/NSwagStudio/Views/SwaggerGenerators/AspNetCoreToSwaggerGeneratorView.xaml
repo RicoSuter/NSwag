@@ -99,6 +99,11 @@
                              ToolTip="StartupType" Margin="0,0,0,12" />
                 </StackPanel>
             </GroupBox>
+            
+            <TextBlock Text="Working Directory (optional, i.e. directory of appsettings.json)" FontWeight="Bold" Margin="0,0,0,6" />
+            <TextBox Text="{Binding Command.WorkingDirectory, Mode=TwoWay}"
+                     ToolTip="WorkingDirectory"
+                     Margin="0,0,0,12" />
 
             <TextBlock Text="Custom ISettingsFactory&lt;AspNetCoreToSwaggerGeneratorSettings, IWebHost&gt; type" FontWeight="Bold" Margin="0,0,0,6" />
             <TextBox Text="{Binding Command.SettingsFactoryType, Mode=TwoWay}" 
