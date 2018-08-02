@@ -335,8 +335,6 @@ namespace NSwag.Commands
 
                 SwaggerGenerators.AspNetCoreToSwaggerCommand.Project = ConvertToAbsolutePath(
                     SwaggerGenerators.AspNetCoreToSwaggerCommand.Project);
-                SwaggerGenerators.AspNetCoreToSwaggerCommand.Configuration = ConvertToAbsolutePath(
-                    SwaggerGenerators.AspNetCoreToSwaggerCommand.Configuration);
                 SwaggerGenerators.AspNetCoreToSwaggerCommand.MSBuildProjectExtensionsPath = ConvertToAbsolutePath(
                     SwaggerGenerators.AspNetCoreToSwaggerCommand.MSBuildProjectExtensionsPath);
 
@@ -413,8 +411,6 @@ namespace NSwag.Commands
 
                 SwaggerGenerators.AspNetCoreToSwaggerCommand.Project = ConvertToRelativePath(
                     SwaggerGenerators.AspNetCoreToSwaggerCommand.Project);
-                SwaggerGenerators.AspNetCoreToSwaggerCommand.Configuration = ConvertToRelativePath(
-                    SwaggerGenerators.AspNetCoreToSwaggerCommand.Configuration);
                 SwaggerGenerators.AspNetCoreToSwaggerCommand.MSBuildProjectExtensionsPath = ConvertToRelativePath(
                     SwaggerGenerators.AspNetCoreToSwaggerCommand.MSBuildProjectExtensionsPath);
 
