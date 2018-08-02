@@ -91,7 +91,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         /// <summary>Gets the clients code.</summary>
         public string Clients => _settings.GenerateClientClasses ? _clientCode : string.Empty;
-        
+
         /// <summary>Gets the types code.</summary>
         public string Types { get; }
 
@@ -140,7 +140,10 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         /// <summary>Gets a value indicating whether to handle references.</summary>
         public bool HandleReferences => _settings.TypeScriptGeneratorSettings.HandleReferences;
-        
+
+        /// <summary>Gets a value indicating whether MomentJS duration format is needed (moment-duration-format package).</summary>
+        public bool RequiresMomentJSDuration => Types?.Contains("moment.duration(") == true;
+
         private string GenerateDtoTypes()
         {
             var generator = new TypeScriptGenerator(_document, _settings.TypeScriptGeneratorSettings, _resolver);
