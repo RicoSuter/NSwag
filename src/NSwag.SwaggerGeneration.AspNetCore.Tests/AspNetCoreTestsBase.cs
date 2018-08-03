@@ -5,15 +5,15 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
-using NSwag.SwaggerGeneration.AspNetCore.Tests.Web;
 
 namespace NSwag.SwaggerGeneration.AspNetCore.Tests
 {
-    public class AspNetCoreTestsBase : IDisposable
+    public class AspNetCoreTestsBase<TStartup> : IDisposable 
+        where TStartup : class
     {
         public AspNetCoreTestsBase()
         {
-            TestServer = new TestServer(new WebHostBuilder().UseStartup<Startup>());
+            TestServer = new TestServer(new WebHostBuilder().UseStartup<TStartup>());
         }
 
         protected TestServer TestServer { get; }
