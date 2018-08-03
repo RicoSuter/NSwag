@@ -53,6 +53,9 @@ import * as jQuery from 'jquery';
 {%     if Framework.UseMomentJS -%}
 
 import * as moment from 'moment';
+{%         if RequiresMomentJSDuration -%}
+import 'moment-duration-format';
+{%         endif -%}
 {%     endif -%}
 {% endif -%}
 
