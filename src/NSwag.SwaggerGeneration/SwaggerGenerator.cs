@@ -88,7 +88,8 @@ namespace NSwag.SwaggerGeneration
             SwaggerParameter operationParameter;
 
             var typeDescription = _settings.ReflectionService.GetDescription(parameterType, parentAttributes, _settings);
-            if (typeDescription.RequiresSchemaReference(_settings.TypeMappers))
+            if (typeDescription.RequiresSchemaReference(_settings.TypeMappers) || 
+                _settings.SchemaType == SchemaType.OpenApi3) // OpeNAPI 3 requires to always use "schema"
             {
                 var schema = await _schemaGenerator
                     .GenerateAsync(parameterType, parentAttributes, _schemaResolver)
@@ -99,7 +100,7 @@ namespace NSwag.SwaggerGeneration
 
                 if (_settings.SchemaType == SchemaType.Swagger2)
                 {
-                    operationParameter.CustomSchema = new JsonSchema4 { SchemaReference = schema.ActualSchema };
+                    operationParameter.CustomSchema = new JsonSchema4 { Reference = schema.ActualSchema };
 
                     // Copy enumeration for compatibility with other tools which do not understand x-schema.
                     // The enumeration will be ignored by NSwag and only the x-schema is processed
@@ -112,8 +113,7 @@ namespace NSwag.SwaggerGeneration
                 }
                 else
                 {
-                    // TODO(OpenApi3): How to handle this in OpenApi3?
-                    operationParameter.Schema = new JsonSchema4 { SchemaReference = schema.ActualSchema };
+                    operationParameter.Schema = new JsonSchema4 { Reference = schema.ActualSchema };
                 }
             }
             else
