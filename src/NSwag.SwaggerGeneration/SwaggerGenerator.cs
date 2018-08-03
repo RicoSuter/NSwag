@@ -121,13 +121,13 @@ namespace NSwag.SwaggerGeneration
                 operationParameter = await _schemaGenerator
                     .GenerateAsync<SwaggerParameter>(parameterType, parentAttributes, _schemaResolver)
                     .ConfigureAwait(false);
-
-                if (typeDescription.Type.HasFlag(JsonObjectType.Array))
-                    operationParameter.CollectionFormat = SwaggerParameterCollectionFormat.Multi;
             }
 
             operationParameter.Name = name;
             operationParameter.IsRequired = parentAttributes.TryGetIfAssignableTo("RequiredAttribute", TypeNameStyle.Name) != null;
+
+            if (typeDescription.Type.HasFlag(JsonObjectType.Array))
+                operationParameter.CollectionFormat = SwaggerParameterCollectionFormat.Multi;
 
             if (_settings.SchemaType == SchemaType.Swagger2)
                 operationParameter.IsNullableRaw = typeDescription.IsNullable;
