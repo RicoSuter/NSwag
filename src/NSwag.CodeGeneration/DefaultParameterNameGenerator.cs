@@ -21,6 +21,11 @@ namespace NSwag.CodeGeneration
         /// <returns>The parameter name.</returns>
         public string Generate(SwaggerParameter parameter, IEnumerable<SwaggerParameter> allParameters)
         {
+            if (string.IsNullOrEmpty(parameter.Name))
+            {
+                return "unnamed";
+            }
+
             var variableName = ConversionUtilities.ConvertToLowerCamelCase(parameter.Name
                 .Replace("-", "_")
                 .Replace(".", "_")
