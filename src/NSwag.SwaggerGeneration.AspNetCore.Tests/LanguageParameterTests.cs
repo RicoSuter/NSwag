@@ -12,6 +12,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
         {
             // Arrange
             var settings = new AspNetCoreToSwaggerGeneratorSettings();
+            settings.SchemaType = SchemaType.OpenApi3;
 
             // Act
             var document = await GenerateDocumentAsync(settings);
@@ -25,7 +26,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
 
             var parameter = operation.Operation.ActualParameters.Single(p => p.Name == "language");
             Assert.Equal(JsonObjectType.String, parameter.ActualTypeSchema.Type);
-            Assert.False(parameter.IsNullable(SchemaType.Swagger2));
+            Assert.False(parameter.IsNullable(settings.SchemaType));
         }
     }
 }

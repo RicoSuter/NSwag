@@ -88,15 +88,13 @@ namespace NSwag.SwaggerGeneration
             SwaggerParameter operationParameter;
 
             var typeDescription = _settings.ReflectionService.GetDescription(parameterType, parentAttributes, _settings);
-            if (typeDescription.RequiresSchemaReference(_settings.TypeMappers) || 
-                _settings.SchemaType == SchemaType.OpenApi3) // OpeNAPI 3 requires to always use "schema"
+            if (typeDescription.RequiresSchemaReference(_settings.TypeMappers))
             {
                 var schema = await _schemaGenerator
                     .GenerateAsync(parameterType, parentAttributes, _schemaResolver)
                     .ConfigureAwait(false);
 
                 operationParameter = new SwaggerParameter();
-                operationParameter.Type = typeDescription.Type;
 
                 if (_settings.SchemaType == SchemaType.Swagger2)
                 {
@@ -118,9 +116,21 @@ namespace NSwag.SwaggerGeneration
             }
             else
             {
-                operationParameter = await _schemaGenerator
-                    .GenerateAsync<SwaggerParameter>(parameterType, parentAttributes, _schemaResolver)
-                    .ConfigureAwait(false);
+                if (_settings.SchemaType == SchemaType.Swagger2)
+                {
+                    operationParameter = await _schemaGenerator
+                        .GenerateAsync<SwaggerParameter>(parameterType, parentAttributes, _schemaResolver)
+                        .ConfigureAwait(false);
+                }
+                else
+                {
+                    operationParameter = new SwaggerParameter
+                    {
+                        Schema = await _schemaGenerator
+                            .GenerateAsync(parameterType, parentAttributes, _schemaResolver)
+                            .ConfigureAwait(false)
+                    };
+                }
             }
 
             operationParameter.Name = name;
@@ -129,11 +139,7 @@ namespace NSwag.SwaggerGeneration
             if (typeDescription.Type.HasFlag(JsonObjectType.Array))
                 operationParameter.CollectionFormat = SwaggerParameterCollectionFormat.Multi;
 
-            if (_settings.SchemaType == SchemaType.Swagger2)
-                operationParameter.IsNullableRaw = typeDescription.IsNullable;
-            else if (typeDescription.IsNullable)
-                operationParameter.Type = typeDescription.Type | JsonObjectType.Null;
-
+            operationParameter.IsNullableRaw = typeDescription.IsNullable;
             _schemaGenerator.ApplyDataAnnotations(operationParameter, typeDescription, parentAttributes);
 
             if (description != string.Empty)
