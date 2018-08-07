@@ -1,5 +1,5 @@
 {
-  "x-generator": "NSwag v11.17.5.0 (NJsonSchema v9.10.46.0 (Newtonsoft.Json v10.0.0.0))",
+  "x-generator": "NSwag v11.18.2.0 (NJsonSchema v9.10.66.0 (Newtonsoft.Json v10.0.0.0))",
   "swagger": "2.0",
   "info": {
     "title": "My Title",
@@ -196,7 +196,6 @@
             "x-nullable": false
           },
           {
-            "type": "object",
             "name": "pet",
             "in": "formData",
             "x-schema": {
@@ -415,7 +414,8 @@
           }
         },
         "status": {
-          "type": "string"
+          "type": "string",
+          "minLength": 1
         }
       }
     },
