@@ -143,12 +143,16 @@ namespace NSwag
                     }
                 };
             }
-            else
+            else if (!string.IsNullOrEmpty(host))
             {
                 Servers = schemes?.Select(s => new OpenApiServer
                 {
                     Url = s.ToString().ToLowerInvariant() + "://" + host + basePath
                 }).ToList() ?? new List<OpenApiServer>();
+            }
+            else
+            {
+                Servers.Clear();
             }
         }
 
