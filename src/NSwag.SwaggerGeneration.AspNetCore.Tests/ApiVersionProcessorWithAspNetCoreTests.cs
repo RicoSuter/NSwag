@@ -73,5 +73,25 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
             // VersionedIgnoredValues tag should not be in json document
             Assert.Equal(1, document.Tags.Count);
         }
+
+        [Fact]
+        public async Task When_generating_versioned_controllers_then_version_path_parameter_is_not_present()
+        {
+            // Arrange
+            var settings = new AspNetCoreToSwaggerGeneratorSettings{};
+            settings.OperationProcessors.TryGet<ApiVersionProcessor>().IncludedVersions = new[] { "3" };
+
+            // Act
+            var document = await GenerateDocumentAsync(settings);
+            var json = document.ToJson();
+
+            // Assert
+            var operation = GetControllerOperations(document, "VersionedValues")
+                .Concat(GetControllerOperations(document, "VersionedV3Values"))
+                .First();
+
+            // check that implict unused path parameter is not in the spec
+            Assert.DoesNotContain(operation.Operation.ActualParameters, p => p.Name == "version");
+        }
     }
 }
