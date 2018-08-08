@@ -86,6 +86,13 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 
                     if (apiParameter.Source == BindingSource.Path)
                     {
+                        // ignore unused implicit path parameters
+                        if (!httpPath.ToLowerInvariant().Contains("{" + apiParameter.Name.ToLowerInvariant() + ":") &&
+                            !httpPath.ToLowerInvariant().Contains("{" + apiParameter.Name.ToLowerInvariant() + "}"))
+                        {
+                            continue;
+                        }
+
                         extendedApiParameter.Attributes = extendedApiParameter.Attributes.Concat(new[] { new NotNullAttribute() });
                     }
                 }

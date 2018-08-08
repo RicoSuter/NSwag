@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using NJsonSchema;
+using NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers;
 using Xunit;
 
 namespace NSwag.SwaggerGeneration.AspNetCore.Tests
@@ -15,11 +16,11 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
             settings.SchemaType = SchemaType.OpenApi3;
 
             // Act
-            var document = await GenerateDocumentAsync(settings);
+            var document = await GenerateDocumentAsync(settings, typeof(LanguagesController));
             var json = document.ToJson();
 
             // Assert
-            var operation = GetControllerOperations(document, "Languages").Single();
+            var operation = document.Operations.Single();
 
             Assert.Equal(2, operation.Operation.ActualParameters.Count);
             Assert.Contains(operation.Operation.ActualParameters, p => p.Name == "language");
