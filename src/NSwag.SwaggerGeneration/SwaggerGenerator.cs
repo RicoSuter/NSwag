@@ -98,6 +98,7 @@ namespace NSwag.SwaggerGeneration
 
                 if (_settings.SchemaType == SchemaType.Swagger2)
                 {
+                    operationParameter.Type = typeDescription.Type;
                     operationParameter.CustomSchema = new JsonSchema4 { Reference = schema.ActualSchema };
 
                     // Copy enumeration for compatibility with other tools which do not understand x-schema.
