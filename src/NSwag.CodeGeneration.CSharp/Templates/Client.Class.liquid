@@ -221,8 +221,10 @@
                         {% template Client.Class.ProcessResponse %}
                     }
 {%         elseif operation.HasSuccessResponse -%}
-                    var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                    throw new {{ ExceptionClass }}("{{ operation.DefaultResponse.ExceptionDescription }}", (int)response_.StatusCode, responseData_, headers_, null);
+                    {
+                        var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
+                        throw new {{ ExceptionClass }}("{{ operation.DefaultResponse.ExceptionDescription }}", (int)response_.StatusCode, responseData_, headers_, null);
+                    }
 {%         endif -%}
 {%     else -%}
                     if (status_ != "200" && status_ != "204")
