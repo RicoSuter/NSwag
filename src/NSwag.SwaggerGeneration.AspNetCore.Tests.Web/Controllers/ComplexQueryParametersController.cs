@@ -14,9 +14,9 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers
 
         public class GetListCommand
         {
-            public int? Page { get; set; } = null;
+            public int? Page { get; set; }
 
-            public int? PageSize { get; set; } = null;
+            public int? PageSize { get; set; }
         }
     }
 }
