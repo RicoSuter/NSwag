@@ -28,7 +28,7 @@ namespace NSwag
         public SwaggerDocument()
         {
             Swagger = "2.0";
-            OpenApi = "3.0";
+            OpenApi = "3.0.0";
 
             Info = new SwaggerInfo();
             Components = new OpenApiComponents(this);
