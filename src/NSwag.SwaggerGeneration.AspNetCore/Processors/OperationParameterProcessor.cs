@@ -300,11 +300,8 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
             {
                 operationParameter.Default = extendedApiParameter.ParameterInfo.DefaultValue;
             }
-            else
-            {
-                operationParameter.IsRequired = true;
-            }
 
+            operationParameter.IsRequired = extendedApiParameter.IsRequired;
             return operationParameter;
         }
 
@@ -328,6 +325,40 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
             public Type ParameterType { get; set; }
 
             public IEnumerable<Attribute> Attributes { get; set; }
+
+            public bool IsRequired
+            {
+                get
+                {
+                    // available in asp.net core >= 2.2
+                    if (ApiParameter.HasProperty("IsRequired"))
+                    {
+                        return ApiParameter.TryGetPropertyValue("IsRequired", false);
+                    }
+
+                    // fallback for asp.net core <= 2.1
+                    if (ApiParameter.Source == BindingSource.Body)
+                    {
+                        return true;
+                    }
+
+                    if (ApiParameter.ModelMetadata != null &&
+                        ApiParameter.ModelMetadata.IsBindingRequired)
+
+                    {
+                        return true;
+                    }
+
+                    if (ApiParameter.Source == BindingSource.Path &&
+                        ApiParameter.RouteInfo != null &&
+                        ApiParameter.RouteInfo.IsOptional == false)
+                    {
+                        return true;
+                    }
+
+                    return false;
+                }
+            }
 
             public async Task<string> GetDocumentationAsync()
             {

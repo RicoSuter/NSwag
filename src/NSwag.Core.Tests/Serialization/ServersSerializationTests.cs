@@ -106,6 +106,45 @@ namespace NSwag.Core.Tests.Serialization
             Assert.Equal(SwaggerSchema.Http, document.Schemes.First());
         }
 
+        [Fact]
+        public void When_scheme_without_host_is_added_then_servers_are_not_cleared()
+        {
+            //// Arrange
+            var document = new SwaggerDocument
+            {
+                BasePath = "/myapi",
+                Schemes = { SwaggerSchema.Http }
+            };
+
+            //// Act
+            document.Schemes.Add(SwaggerSchema.Https);
+            document.Host = "localhost:12354";
+
+            var json = document.ToJson(SchemaType.Swagger2);
+
+            //// Assert
+            Assert.Equal(2, document.Servers.Count);
+        }
+
+        [Fact]
+        public void When_host_is_removed_then_base_url_is_also_empty()
+        {
+            //// Arrange
+            var document = new SwaggerDocument
+            {
+                Host = "localhost:12354",
+                BasePath = "/myapi",
+                Schemes = { SwaggerSchema.Http }
+            };
+
+            //// Act
+            document.Host = string.Empty;
+            var json = document.ToJson(SchemaType.Swagger2);
+
+            //// Assert
+            Assert.True(string.IsNullOrEmpty(document.BaseUrl));
+        }
+
         private static SwaggerDocument CreateDocument()
         {
             var document = new SwaggerDocument

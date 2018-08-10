@@ -456,7 +456,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
             var parameter = Assert.Single(operation.Parameters);
             Assert.Equal(SwaggerParameterKind.FormData, parameter.Kind);
             Assert.Equal("parameter1", parameter.Name);
-            Assert.True(parameter.IsRequired);
+            Assert.False(parameter.IsRequired);
         }
 
         [Fact]
