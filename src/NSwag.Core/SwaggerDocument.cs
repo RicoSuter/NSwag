@@ -97,7 +97,7 @@ namespace NSwag
 
         /// <summary>Gets the base URL of the web service.</summary>
         [JsonIgnore]
-        public string BaseUrl => Servers?.FirstOrDefault()?.Url ?? "";
+        public string BaseUrl => Servers?.FirstOrDefault(s => s.IsValid)?.Url ?? "";
 
         /// <summary>Gets or sets the external documentation.</summary>
         [JsonProperty(PropertyName = "externalDocs", Order = 19, DefaultValueHandling = DefaultValueHandling.Ignore)]
