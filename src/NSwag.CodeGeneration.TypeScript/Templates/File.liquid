@@ -23,7 +23,7 @@ import 'rxjs/add/operator/catch';
 import { Observable } from 'rxjs/Observable';
 {%             else -%}
 import { mergeMap as {{ Framework.RxJs.ObservableMergeMapMethod }}, catchError as {{ Framework.RxJs.ObservableCatchMethod }} } from 'rxjs/operators';
-import { Observable, from as {{ Framework.RxJs.ObservableFromMethod }}, throwError as {{ Framework.RxJs.ObservableThrowMethod }}, of as {{ Framework.RxJs.ObservableOfMethod }} } from 'rxjs';
+import { Observable, {% if UseTransformOptionsMethod %}from as {{ Framework.RxJs.ObservableFromMethod }}, {% endif %}throwError as {{ Framework.RxJs.ObservableThrowMethod }}, of as {{ Framework.RxJs.ObservableOfMethod }} } from 'rxjs';
 {%             endif -%}
 import { Injectable, Inject, Optional, {{ Framework.Angular.InjectionTokenType }} } from '@angular/core';
 {%             if Framework.Angular.UseHttpClient -%}
