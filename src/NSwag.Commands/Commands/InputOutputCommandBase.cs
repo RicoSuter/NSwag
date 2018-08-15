@@ -45,12 +45,18 @@ namespace NSwag.Commands
             }
 
             if (ServiceHost == ".")
+            {
                 document.Host = string.Empty;
-            else if (!string.IsNullOrEmpty(ServiceHost))
-                document.Host = ServiceHost;
+                document.Schemes.Clear();
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(ServiceHost))
+                    document.Host = ServiceHost;
 
-            if (ServiceSchemes != null && ServiceSchemes.Any())
-                document.Schemes = ServiceSchemes.Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true)).ToList();
+                if (ServiceSchemes != null && ServiceSchemes.Any())
+                    document.Schemes = ServiceSchemes.Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true)).ToList();
+            }
 
             return document;
         }
