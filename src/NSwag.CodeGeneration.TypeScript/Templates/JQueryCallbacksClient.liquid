@@ -86,7 +86,7 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
         }
     }
 
-    protected process{{ operation.ActualOperationNameUpper }}(xhr: any): {{ operation.ResultType }} {
+    protected process{{ operation.ActualOperationNameUpper }}(xhr: any): {{ operation.ResultType }}{% if operation.HasResultType and SupportsStrictNullChecks %} | null{% endif %} {
         const status = xhr.status;
 
         {% template Client.ProcessResponse %}
