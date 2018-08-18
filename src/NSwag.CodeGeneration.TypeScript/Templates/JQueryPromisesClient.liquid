@@ -1,6 +1,6 @@
 ﻿{% if HasOperations -%}
 {% if GenerateClientInterfaces -%}
-export interface I{{ Class }} {
+{% if ExportTypes %}export {% endif %}interface I{{ Class }} {
 {%         for operation in Operations -%}
     {% template Client.Method.Documentation %}
     {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}): {{ PromiseType }}<{{ operation.ResultType }}>;
@@ -8,7 +8,7 @@ export interface I{{ Class }} {
 }
 {% endif -%}
 
-export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %}{% if GenerateClientInterfaces %}implements I{{ Class }} {% endif %}{
+{% if ExportTypes %}export {% endif %}class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %}{% if GenerateClientInterfaces %}implements I{{ Class }} {% endif %}{
     baseUrl: string; 
     beforeSend: any = undefined; 
     protected jsonParseReviver: {% if SupportsStrictNullChecks %}((key: string, value: any) => any) | undefined{% else -%}(key: string, value: any) => any{% endif %} = undefined;

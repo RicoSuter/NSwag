@@ -122,6 +122,10 @@
                                 <TextBox Text="{Binding Command.QueryNullValue, Mode=TwoWay}" 
                                          ToolTip="QueryNullValue" Margin="0,0,0,12" />
 
+                                <CheckBox IsChecked="{Binding Command.ExportTypes, Mode=TwoWay}" 
+                                          ToolTip="ExportTypes"
+                                          Content="Export classes and enums" Margin="0,0,0,12" />
+
                                 <CheckBox IsChecked="{Binding Command.GenerateClientInterfaces, Mode=TwoWay}" 
                                           ToolTip="GenerateClientInterfaces"
                                           Content="Generate interfaces for Client classes" Margin="0,0,0,12" />

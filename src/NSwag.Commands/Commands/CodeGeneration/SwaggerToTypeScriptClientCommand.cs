@@ -130,6 +130,13 @@ namespace NSwag.Commands.CodeGeneration
             get { return Settings.GenerateOptionalParameters; }
             set { Settings.GenerateOptionalParameters = value; }
         }
+        
+        [Argument(Name = "ExportTypes", IsRequired = false, Description = "Specifies whether whether the export keyword should be added to all classes and enums (default: true).")]
+        public bool ExportTypes
+        {
+            get { return Settings.TypeScriptGeneratorSettings.ExportTypes; }
+            set { Settings.TypeScriptGeneratorSettings.ExportTypes = value; }
+        }
 
         [Argument(Name = "WrapDtoExceptions", IsRequired = false, Description = "Specifies whether DTO exceptions are wrapped in a SwaggerException instance (default: false).")]
         public bool WrapDtoExceptions
