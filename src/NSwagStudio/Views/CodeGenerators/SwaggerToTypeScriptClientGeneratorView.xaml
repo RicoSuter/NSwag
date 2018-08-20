@@ -124,7 +124,7 @@
 
                                 <CheckBox IsChecked="{Binding Command.ExportTypes, Mode=TwoWay}" 
                                           ToolTip="ExportTypes"
-                                          Content="Export classes and enums" Margin="0,0,0,12" />
+                                          Content="Export types (classes, interfaces and enums)" Margin="0,0,0,12" />
 
                                 <CheckBox IsChecked="{Binding Command.GenerateClientInterfaces, Mode=TwoWay}" 
                                           ToolTip="GenerateClientInterfaces"

@@ -131,7 +131,7 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.GenerateOptionalParameters = value; }
         }
         
-        [Argument(Name = "ExportTypes", IsRequired = false, Description = "Specifies whether whether the export keyword should be added to all classes and enums (default: true).")]
+        [Argument(Name = "ExportTypes", IsRequired = false, Description = "Specifies whether the export keyword should be added to all classes, interfaces and enums (default: true).")]
         public bool ExportTypes
         {
             get { return Settings.TypeScriptGeneratorSettings.ExportTypes; }
