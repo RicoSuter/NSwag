@@ -118,6 +118,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets the namespace.</summary>
         public string Namespace => _settings.TypeScriptGeneratorSettings.Namespace;
 
+        /// <summary>Gets whether the export keyword should be added to all classes and enums.</summary>
+        public bool ExportTypes => _settings.TypeScriptGeneratorSettings.ExportTypes;
+
         /// <summary>Gets a value indicating whether the FileParameter interface should be rendered.</summary>
         public bool RequiresFileParameterInterface =>
             !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("FileParameter") &&
