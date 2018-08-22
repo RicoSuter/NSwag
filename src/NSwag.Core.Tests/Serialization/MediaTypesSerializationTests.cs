@@ -47,7 +47,7 @@ namespace NSwag.Core.Tests.Serialization
             //// Assert
             Assert.Equal(
 @"{
-  ""openapi"": ""3.0"",
+  ""openapi"": ""3.0.0"",
   ""info"": {
     ""title"": """",
     ""version"": """"
@@ -118,7 +118,7 @@ namespace NSwag.Core.Tests.Serialization
             //// Assert
             Assert.Equal(
                 @"{
-  ""openapi"": ""3.0"",
+  ""openapi"": ""3.0.0"",
   ""info"": {
     ""title"": """",
     ""version"": """"

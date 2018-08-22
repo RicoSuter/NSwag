@@ -53,17 +53,20 @@ import * as jQuery from 'jquery';
 {%     if Framework.UseMomentJS -%}
 
 import * as moment from 'moment';
+{%         if RequiresMomentJSDuration -%}
+import 'moment-duration-format';
+{%         endif -%}
 {%     endif -%}
 {% endif -%}
 
 {% if HasModuleName -%}
-export module {{ ModuleName }} {
+{% if ExportTypes %}export {% endif %}module {{ ModuleName }} {
 {% endif -%}
 {% if HasNamespace -%}
 namespace {{ Namespace }} {
 {% endif -%}
 {% if GenerateClientClasses and Framework.IsAngular -%}
-export const {{ Framework.Angular.BaseUrlTokenName }} = new {{ Framework.Angular.InjectionTokenType }}{% if Framework.Angular.InjectionTokenType == "InjectionToken" %}<string>{% endif %}('{{ Framework.Angular.BaseUrlTokenName }}');
+{% if ExportTypes %}export {% endif %}const {{ Framework.Angular.BaseUrlTokenName }} = new {{ Framework.Angular.InjectionTokenType }}{% if Framework.Angular.InjectionTokenType == "InjectionToken" %}<string>{% endif %}('{{ Framework.Angular.BaseUrlTokenName }}');
 
 {% endif -%}
 {{ ExtensionCodeTop }}
@@ -74,7 +77,7 @@ export const {{ Framework.Angular.BaseUrlTokenName }} = new {{ Framework.Angular
 
 {% if WrapResponses and GenerateResponseClasses -%}
 {%     for responseClassName in ResponseClassNames -%}
-export class {{ responseClassName }}<TResult> {
+{% if ExportTypes %}export {% endif %}class {{ responseClassName }}<TResult> {
     status: number;
     headers: { [key: string]: any; };
     result: TResult;
@@ -90,14 +93,14 @@ export class {{ responseClassName }}<TResult> {
 {%     endfor -%}
 {% endif -%}
 {% if RequiresFileParameterInterface -%}
-export interface FileParameter {
+{% if ExportTypes %}export {% endif %}interface FileParameter {
     data: any;
     fileName: string;
 }
 
 {% endif -%}
 {% if RequiresFileResponseInterface -%}
-export interface FileResponse {
+{% if ExportTypes %}export {% endif %}interface FileResponse {
     data: Blob;
     status: number;
     fileName?: string;
@@ -106,7 +109,7 @@ export interface FileResponse {
 
 {% endif -%}
 {% if RequiresSwaggerExceptionClass -%}
-export class SwaggerException extends Error {
+{% if ExportTypes %}export {% endif %}class SwaggerException extends Error {
     message: string;
     status: number; 
     response: string; 

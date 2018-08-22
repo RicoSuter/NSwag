@@ -95,11 +95,11 @@ namespace NSwag.SwaggerGeneration
                     .ConfigureAwait(false);
 
                 operationParameter = new SwaggerParameter();
-                operationParameter.Type = typeDescription.Type;
 
                 if (_settings.SchemaType == SchemaType.Swagger2)
                 {
-                    operationParameter.CustomSchema = new JsonSchema4 { SchemaReference = schema.ActualSchema };
+                    operationParameter.Type = typeDescription.Type;
+                    operationParameter.CustomSchema = new JsonSchema4 { Reference = schema.ActualSchema };
 
                     // Copy enumeration for compatibility with other tools which do not understand x-schema.
                     // The enumeration will be ignored by NSwag and only the x-schema is processed
@@ -112,28 +112,35 @@ namespace NSwag.SwaggerGeneration
                 }
                 else
                 {
-                    // TODO(OpenApi3): How to handle this in OpenApi3?
-                    operationParameter.Schema = new JsonSchema4 { SchemaReference = schema.ActualSchema };
+                    operationParameter.Schema = new JsonSchema4 { Reference = schema.ActualSchema };
                 }
             }
             else
             {
-                operationParameter = await _schemaGenerator
-                    .GenerateAsync<SwaggerParameter>(parameterType, parentAttributes, _schemaResolver)
-                    .ConfigureAwait(false);
-
-                if (typeDescription.Type.HasFlag(JsonObjectType.Array))
-                    operationParameter.CollectionFormat = SwaggerParameterCollectionFormat.Multi;
+                if (_settings.SchemaType == SchemaType.Swagger2)
+                {
+                    operationParameter = await _schemaGenerator
+                        .GenerateAsync<SwaggerParameter>(parameterType, parentAttributes, _schemaResolver)
+                        .ConfigureAwait(false);
+                }
+                else
+                {
+                    operationParameter = new SwaggerParameter
+                    {
+                        Schema = await _schemaGenerator
+                            .GenerateAsync(parameterType, parentAttributes, _schemaResolver)
+                            .ConfigureAwait(false)
+                    };
+                }
             }
 
             operationParameter.Name = name;
             operationParameter.IsRequired = parentAttributes.TryGetIfAssignableTo("RequiredAttribute", TypeNameStyle.Name) != null;
 
-            if (_settings.SchemaType == SchemaType.Swagger2)
-                operationParameter.IsNullableRaw = typeDescription.IsNullable;
-            else if (typeDescription.IsNullable)
-                operationParameter.Type = typeDescription.Type | JsonObjectType.Null;
+            if (typeDescription.Type.HasFlag(JsonObjectType.Array))
+                operationParameter.CollectionFormat = SwaggerParameterCollectionFormat.Multi;
 
+            operationParameter.IsNullableRaw = typeDescription.IsNullable;
             _schemaGenerator.ApplyDataAnnotations(operationParameter, typeDescription, parentAttributes);
 
             if (description != string.Empty)

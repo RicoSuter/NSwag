@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>NSwag.MSBuild</id>
-    <version>11.18.0</version>
+    <version>11.18.6</version>
     <authors>Rico Suter</authors>
     <owners>Rico Suter</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -17,14 +17,15 @@
   </metadata>
   <files>
     <file src="NSwag.MSBuild.props" target="build" />
+    <file src="NSwag.MSBuild.props" target="buildCrossTargeting" />
 
-    <file src="..\NSwag.Console\bin\Release\net461\*" target="build/Win" />    
-    <file src="..\NSwag.Console.x86\bin\Release\net461\NSwag.x86.exe" target="build/Win" />
-    <file src="..\NSwag.Console.x86\bin\Release\net461\NSwag.x86.exe.config" target="build/Win" />
+    <file src="..\NSwag.Console\bin\Release\net461\*" target="tools/Win" />    
+    <file src="..\NSwag.Console.x86\bin\Release\net461\NSwag.x86.exe" target="tools/Win" />
+    <file src="..\NSwag.Console.x86\bin\Release\net461\NSwag.x86.exe.config" target="tools/Win" />
 
-    <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp1.0\Publish\*" target="build/NetCore10" />
-    <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp1.1\Publish\*" target="build/NetCore11" />
-    <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp2.0\Publish\*" target="build/NetCore20" />
-    <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp2.1\Publish\*" target="build/NetCore21" />
+    <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp1.0\Publish\*" target="tools/NetCore10" />
+    <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp1.1\Publish\*" target="tools/NetCore11" />
+    <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp2.0\Publish\*" target="tools/NetCore20" />
+    <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp2.1\Publish\*" target="tools/NetCore21" />
   </files>
 </package>

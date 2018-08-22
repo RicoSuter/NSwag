@@ -115,7 +115,7 @@ namespace NSwag
                     .Select(p => p.First());
 
                 return new ReadOnlyCollection<SwaggerParameter>(allParameters
-                    .Select(p => p.ActualSchema is SwaggerParameter ? (SwaggerParameter)p.ActualSchema : p)
+                    .Select(p => p.ActualParameter)
                     .ToList());
             }
         }

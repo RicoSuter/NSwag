@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <NSwagExe>"$(MSBuildThisFileDirectory)Win/NSwag.exe"</NSwagExe>
-    <NSwagExe_x86>"$(MSBuildThisFileDirectory)Win/NSwag.x86.exe"</NSwagExe_x86>
-    <NSwagExe_Core10>dotnet "$(MSBuildThisFileDirectory)NetCore10/dotnet-nswag.dll"</NSwagExe_Core10>
-    <NSwagExe_Core11>dotnet "$(MSBuildThisFileDirectory)NetCore11/dotnet-nswag.dll"</NSwagExe_Core11>
-    <NSwagExe_Core20>dotnet "$(MSBuildThisFileDirectory)NetCore20/dotnet-nswag.dll"</NSwagExe_Core20>
-    <NSwagExe_Core21>dotnet "$(MSBuildThisFileDirectory)NetCore21/dotnet-nswag.dll"</NSwagExe_Core21>
+    <NSwagExe>"$(MSBuildThisFileDirectory)../tools/Win/NSwag.exe"</NSwagExe>
+    <NSwagExe_x86>"$(MSBuildThisFileDirectory)../tools/Win/NSwag.x86.exe"</NSwagExe_x86>
+    <NSwagExe_Core10>dotnet "$(MSBuildThisFileDirectory)../tools/NetCore10/dotnet-nswag.dll"</NSwagExe_Core10>
+    <NSwagExe_Core11>dotnet "$(MSBuildThisFileDirectory)../tools/NetCore11/dotnet-nswag.dll"</NSwagExe_Core11>
+    <NSwagExe_Core20>dotnet "$(MSBuildThisFileDirectory)../tools/NetCore20/dotnet-nswag.dll"</NSwagExe_Core20>
+    <NSwagExe_Core21>dotnet "$(MSBuildThisFileDirectory)../tools/NetCore21/dotnet-nswag.dll"</NSwagExe_Core21>
 
-    <NSwagDir>$(MSBuildThisFileDirectory)Win/</NSwagDir>
-    <NSwagDir_Core10>$(MSBuildThisFileDirectory)NetCore10/</NSwagDir_Core10>
-    <NSwagDir_Core11>$(MSBuildThisFileDirectory)NetCore11/</NSwagDir_Core11>
-    <NSwagDir_Core20>$(MSBuildThisFileDirectory)NetCore20/</NSwagDir_Core20>
-    <NSwagDir_Core21>$(MSBuildThisFileDirectory)NetCore21/</NSwagDir_Core21>
+    <NSwagDir>$(MSBuildThisFileDirectory)../tools/Win/</NSwagDir>
+    <NSwagDir_Core10>$(MSBuildThisFileDirectory)../tools/NetCore10/</NSwagDir_Core10>
+    <NSwagDir_Core11>$(MSBuildThisFileDirectory)../tools/NetCore11/</NSwagDir_Core11>
+    <NSwagDir_Core20>$(MSBuildThisFileDirectory)../tools/NetCore20/</NSwagDir_Core20>
+    <NSwagDir_Core21>$(MSBuildThisFileDirectory)../tools/NetCore21/</NSwagDir_Core21>
   </PropertyGroup>
 </Project>

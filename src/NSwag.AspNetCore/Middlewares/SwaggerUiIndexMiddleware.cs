@@ -25,7 +25,7 @@ namespace NSwag.AspNetCore.Middlewares
 
         public async Task Invoke(HttpContext context)
         {
-            if (context.Request.Path.HasValue && context.Request.Path.Value.Trim('/').StartsWith(_indexPath.Trim('/'), StringComparison.OrdinalIgnoreCase))
+            if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value.Trim('/'), _indexPath.Trim('/'), StringComparison.OrdinalIgnoreCase))
             {
                 var stream = typeof(SwaggerUiIndexMiddleware<T>).GetTypeInfo().Assembly.GetManifestResourceStream(_resourcePath);
                 using (var reader = new StreamReader(stream))
