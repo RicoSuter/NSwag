@@ -189,25 +189,11 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.CSharpGeneratorSettings.ArrayType = value; }
         }
 
-        [Argument(Name = "ArrayInstanceType", IsRequired = false, Description = "The generic array .NET instance type (default: empty = ArrayType).")]
-        public string ArrayInstanceType
-        {
-            get { return Settings.CSharpGeneratorSettings.ArrayInstanceType; }
-            set { Settings.CSharpGeneratorSettings.ArrayInstanceType = value; }
-        }
-
         [Argument(Name = "DictionaryType", IsRequired = false, Description = "The generic dictionary .NET type (default: 'Dictionary').")]
         public string DictionaryType
         {
             get { return Settings.CSharpGeneratorSettings.DictionaryType; }
             set { Settings.CSharpGeneratorSettings.DictionaryType = value; }
-        }
-
-        [Argument(Name = "DictionaryInstanceType", IsRequired = false, Description = "The generic dictionary .NET instance type (default: empty = DictionaryType).")]
-        public string DictionaryInstanceType
-        {
-            get { return Settings.CSharpGeneratorSettings.DictionaryInstanceType; }
-            set { Settings.CSharpGeneratorSettings.DictionaryInstanceType = value; }
         }
 
         [Argument(Name = "ArrayBaseType", IsRequired = false, Description = "The generic array .NET type (default: 'ObservableCollection').")]
