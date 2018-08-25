@@ -34,5 +34,8 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets a value indicating whether to use the Angular 6 Singleton Provider (Angular template only, default: false).</summary>
         public bool UseSingletonProvider => _settings.Template == TypeScriptTemplate.Angular && 
                                             _settings.UseSingletonProvider;
+
+        /// <summary>Gets whether the export keyword should be added to all classes and enums.</summary>
+        public bool ExportTypes => _settings.TypeScriptGeneratorSettings.ExportTypes;
     }
 }

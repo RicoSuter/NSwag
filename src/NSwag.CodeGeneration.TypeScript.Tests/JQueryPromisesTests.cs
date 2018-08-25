@@ -6,7 +6,7 @@ using NSwag.SwaggerGeneration.WebApi;
 namespace NSwag.CodeGeneration.TypeScript.Tests
 {
     [TestClass]
-    public class AngularTests
+    public class JQueryPromisesTests
     {
         public class Foo
         {
@@ -22,30 +22,6 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         }
 
         [TestMethod]
-        public async Task When_return_value_is_void_then_client_returns_observable_of_void()
-        {
-            //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
-            var document = await generator.GenerateForControllerAsync<DiscussionController>();
-            var json = document.ToJson();
-
-            //// Act
-            var codeGen = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
-            {
-                Template = TypeScriptTemplate.Angular,
-                GenerateClientInterfaces = true,
-                TypeScriptGeneratorSettings =
-                {
-                    TypeScriptVersion = 2.0m
-                }
-            });
-            var code = codeGen.GenerateFile();
-
-            //// Assert
-            Assert.IsTrue(code.Contains("addMessage(message: Foo | null): Observable<void>"));
-        }
-
-        [TestMethod]
         public async Task When_export_types_is_true_then_add_export_before_classes()
         {
             //// Arrange
@@ -56,7 +32,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             //// Act
             var codeGen = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
             {
-                Template = TypeScriptTemplate.Angular,
+                Template = TypeScriptTemplate.JQueryPromises,
                 GenerateClientInterfaces = true,
                 TypeScriptGeneratorSettings =
                 {
@@ -82,7 +58,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             //// Act
             var codeGen = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
             {
-                Template = TypeScriptTemplate.Angular,
+                Template = TypeScriptTemplate.JQueryPromises,
                 GenerateClientInterfaces = true,
                 TypeScriptGeneratorSettings =
                 {

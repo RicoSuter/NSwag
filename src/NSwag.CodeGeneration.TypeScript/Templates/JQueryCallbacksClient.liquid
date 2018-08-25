@@ -1,13 +1,13 @@
 ﻿{% if HasOperations -%}
 {% if GenerateClientInterfaces -%}
-export interface I{{ Class }} {
+{% if ExportTypes %}export {% endif %}interface I{{ Class }} {
 {%     for operation in Operations -%}
     {% template Client.Method.Documentation %}
     {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}, {% endfor %}onSuccess?: ({% if operation.HasResultType %}result: {{ operation.ResultType }}{% endif %}) => void, onFail?: (exception: {{ operation.ExceptionType }}, reason: string) => void): JQueryXHR;
 {%     endfor -%}}
 {% endif -%}
 
-export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %}{% if GenerateClientInterfaces %}implements I{{ Class }} {% endif %}{
+{% if ExportTypes %}export {% endif %}class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %}{% if GenerateClientInterfaces %}implements I{{ Class }} {% endif %}{
     baseUrl: string;
     beforeSend: any = undefined;
     protected jsonParseReviver: {% if SupportsStrictNullChecks %}((key: string, value: any) => any) | undefined{% else %}(key: string, value: any) => any{% endif %} = undefined;
@@ -86,7 +86,7 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
         }
     }
 
-    protected process{{ operation.ActualOperationNameUpper }}(xhr: any): {{ operation.ResultType }} {
+    protected process{{ operation.ActualOperationNameUpper }}(xhr: any): {{ operation.ResultType }}{% if operation.HasResultType and SupportsStrictNullChecks %} | null{% endif %} {
         const status = xhr.status;
 
         {% template Client.ProcessResponse %}
