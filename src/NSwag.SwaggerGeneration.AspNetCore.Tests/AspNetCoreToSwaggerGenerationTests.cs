@@ -820,7 +820,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
             var actionDescriptorProviderContext = new ActionDescriptorProviderContext();
             actionDescriptorProvider.OnProvidersExecuting(actionDescriptorProviderContext);
 
-            var apiDescriptionProvider = new DefaultApiDescriptionProvider(options,Mock.Of<IInlineConstraintResolver>(), 
+            var apiDescriptionProvider = new DefaultApiDescriptionProvider(options, Mock.Of<IInlineConstraintResolver>(),
                 new EmptyModelMetadataProvider(), new ActionResultTypeMapper());
 
             var apiDescriptionProviderContext = new ApiDescriptionProviderContext(actionDescriptorProviderContext.Results.ToArray());
