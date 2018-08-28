@@ -48,7 +48,7 @@ namespace NSwag.Commands
             var assemblyDirectory = AssemblyPaths.Any() ? Path.GetDirectoryName(Path.GetFullPath(PathUtilities.ExpandFileWildcards(AssemblyPaths).First())) : configurationFile;
             var bindingRedirects = GetBindingRedirects();
             var assemblies = GetAssemblies(assemblyDirectory);
-
+            
             Console.WriteLine($"LoadDefaultNugetCaches: {LoadDefaultNugetCaches}");
 
             if (LoadDefaultNugetCaches)
@@ -88,13 +88,14 @@ namespace NSwag.Commands
                 .Distinct()
                 .ToArray();
         }
-
+        
         private static string[] LoadDefaultNugetCache()
         {
             var envHome = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "HOMEPATH" : "HOME";
             var home = Environment.GetEnvironmentVariable(envHome);
+            var path = Path.Combine(home, ".nuget", "packages");
 
-            return new[] { Path.Combine(home, ".nuget", "packages") };
+            return new[] { Path.GetFullPath(path) };
         }
 
 #if NET451
