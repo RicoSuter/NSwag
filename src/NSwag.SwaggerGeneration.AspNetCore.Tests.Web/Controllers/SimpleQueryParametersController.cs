@@ -7,7 +7,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers
     public class SimpleQueryParametersController : Controller
     {
         [HttpGet]
-        public ActionResult GetList(int? page = null, int? pageSize = null)
+        public ActionResult GetList(int? page, int pageSize = 10)
         {
             return Ok();
         }
