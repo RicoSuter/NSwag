@@ -49,15 +49,10 @@ namespace NSwag.Commands
             var bindingRedirects = GetBindingRedirects();
             var assemblies = GetAssemblies(assemblyDirectory);
             
-            Console.WriteLine($"LoadDefaultNugetCaches: {LoadDefaultNugetCaches}");
-
             if (LoadDefaultNugetCaches)
             {
                 var defaultNugetPackages = LoadDefaultNugetCache();
                 ReferencePaths = ReferencePaths.Concat(defaultNugetPackages).ToArray();
-
-                Console.WriteLine("Loaded Reference Paths");
-                Console.WriteLine(string.Join(", ", ReferencePaths));
             }
 
             using (var isolated = new AppDomainIsolation<IsolatedCommandAssemblyLoader<TResult>>(assemblyDirectory, AssemblyConfig, bindingRedirects, assemblies))
