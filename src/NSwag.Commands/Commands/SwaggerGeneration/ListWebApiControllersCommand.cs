@@ -6,7 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -15,7 +14,6 @@ using NJsonSchema.Infrastructure;
 using NSwag.AssemblyLoader.Utilities;
 using NSwag.SwaggerGeneration.WebApi;
 using System.IO;
-using System.Runtime.InteropServices;
 using NSwag.Commands.SwaggerGeneration.WebApi;
 
 namespace NSwag.Commands.SwaggerGeneration
