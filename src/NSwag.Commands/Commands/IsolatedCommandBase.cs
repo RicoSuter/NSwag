@@ -38,8 +38,8 @@ namespace NSwag.Commands
         [Argument(Name = "ReferencePaths", IsRequired = false, Description = "The paths to search for referenced assembly files (comma separated).")]
         public string[] ReferencePaths { get; set; } = new string[0];
 
-        [Argument(Name = "LoadDefaultNugetCaches", IsRequired = false, Description = "Determines if local Nuget's cache folder should be put in the ReferencePaths by default")]
-        public bool LoadDefaultNugetCaches { get; set; } = false;
+        [Argument(Name = "UseNuGetCache", IsRequired = false, Description = "Determines if local Nuget's cache folder should be put in the ReferencePaths by default")]
+        public bool UseNuGetCache { get; set; } = false;
 
         public abstract Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host);
 
@@ -49,7 +49,7 @@ namespace NSwag.Commands
             var bindingRedirects = GetBindingRedirects();
             var assemblies = GetAssemblies(assemblyDirectory);
             
-            if (LoadDefaultNugetCaches)
+            if (UseNuGetCache)
             {
                 var defaultNugetPackages = LoadDefaultNugetCache();
                 ReferencePaths = ReferencePaths.Concat(defaultNugetPackages).ToArray();
