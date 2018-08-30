@@ -98,15 +98,23 @@ namespace NSwag.Tests.CommandLine
             {
                 FileName = Path.GetFullPath("../../../NSwag.Console/bin/" + configuration + "/net461/NSwag.exe"),
                 Arguments = command,
-                CreateNoWindow = true, 
-                WindowStyle = ProcessWindowStyle.Hidden
+                //CreateNoWindow = true, 
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+                //WindowStyle = ProcessWindowStyle.Hidden
             });
 
             if (!process.WaitForExit(10000))
             {
+                var cmdOutput2 = process.StandardOutput.ReadToEnd();
+                Console.WriteLine(cmdOutput2);
+
                 process.Kill();
                 throw new InvalidOperationException("The process did not terminate.");
             }
+
+            var cmdOutput = process.StandardOutput.ReadToEnd();
+            Console.WriteLine(cmdOutput);
 
             var output = File.ReadAllText(outputPath);
 
