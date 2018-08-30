@@ -70,7 +70,7 @@ namespace NSwag.AspNet.Owin.Middlewares
             {
                 try
                 {
-                    var settings = await _settings.CreateGeneratorSettingsAsync(context, null);
+                    var settings = _settings.CreateGeneratorSettings(null);
                     var generator = new WebApiToSwaggerGenerator(settings, _schemaGenerator);
                     var document = await generator.GenerateForControllersAsync(_controllerTypes);
 

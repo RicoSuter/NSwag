@@ -80,7 +80,7 @@ namespace NSwag.AspNetCore.Middlewares
                     try
                     {
                         var serializerSettings = _mvcJsonOptions.Value.SerializerSettings;
-                        var settings = await _settings.CreateGeneratorSettingsAsync(context.RequestServices, serializerSettings);
+                        var settings = _settings.CreateGeneratorSettings(serializerSettings);
                         var generator = new WebApiToSwaggerGenerator(settings, _schemaGenerator);
                         var document = await generator.GenerateForControllersAsync(_controllerTypes);
 

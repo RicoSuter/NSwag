@@ -56,11 +56,7 @@ namespace NSwag.AspNetCore
 
         internal virtual string ActualSwaggerRoute => SwaggerRoute.Substring(MiddlewareBasePath?.Length ?? 0);
 
-#if !AspNetOwin
-        public async Task<T> CreateGeneratorSettingsAsync(IServiceProvider context, JsonSerializerSettings serializerSettings)
-#else
-        public async Task<T> CreateGeneratorSettingsAsync(IOwinContext context, JsonSerializerSettings serializerSettings)
-#endif
+        internal T CreateGeneratorSettings(JsonSerializerSettings serializerSettings)
         {
             GeneratorSettings.TryApplySerializerSettings(serializerSettings);
             return GeneratorSettings;

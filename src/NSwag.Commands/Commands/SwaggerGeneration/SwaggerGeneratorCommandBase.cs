@@ -253,7 +253,7 @@ namespace NSwag.Commands.SwaggerGeneration
 
         public string PostprocessDocument(SwaggerDocument document)
         {
-            if (string.IsNullOrEmpty(SettingsFactoryType))
+            if (!UseDocumentProvider)
             {
                 if (ServiceHost == ".")
                     document.Host = string.Empty;
