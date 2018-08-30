@@ -56,6 +56,10 @@
                     <TextBox Text="{Binding Command.ReferencePaths, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
                              ToolTip="ReferencePaths" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
 
+                    <CheckBox IsChecked="{Binding Command.UseNuGetCache, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="UseNuGetCache">
+                        <TextBlock Text="Add local Nuget's cache folder to reference paths" TextWrapping="Wrap" />
+                    </CheckBox>
+
                     <CheckBox IsChecked="{Binding Command.IsAspNetCore, Mode=TwoWay}" 
                               ToolTip="IsAspNetCore" Margin="0,0,0,12">
                         <TextBlock Text="Assembly is using ASP.NET Core" TextWrapping="Wrap" />
