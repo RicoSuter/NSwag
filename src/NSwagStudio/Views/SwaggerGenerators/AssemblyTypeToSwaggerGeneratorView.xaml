@@ -53,8 +53,13 @@
                                             DefaultExtension=".config"
                                             Filter="Config Files (.config)|*.config"/>
 
-                    <TextBlock Text="Paths to search for referenced assembly files (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding ReferencePaths, Mode=TwoWay}" Margin="0,0,0,12" />
+                    <TextBlock Text="Paths to search for referenced assembly files (multiple on separate lines)" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding Command.ReferencePaths, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
+                             ToolTip="ReferencePaths" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
+
+                    <CheckBox IsChecked="{Binding Command.UseNuGetCache, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="UseNuGetCache">
+                        <TextBlock Text="Add local Nuget's cache folder to reference paths" TextWrapping="Wrap" />
+                    </CheckBox>
 
                     <Button Command="{Binding LoadAssembliesCommand}" VerticalAlignment="Stretch"
                             Padding="8,4,8,4" Margin="0,0,0,12" Content="Load Assembly" />

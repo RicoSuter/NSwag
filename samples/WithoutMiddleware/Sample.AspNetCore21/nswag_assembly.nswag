@@ -22,7 +22,8 @@
       "assemblyPaths": [
         "bin/$(configuration)/netcoreapp2.1/Sample.AspNetCore21.dll"
       ],
-      "referencePaths": []
+      "referencePaths": [],
+      "useNuGetCache": false
     }
   },
   "codeGenerators": {}

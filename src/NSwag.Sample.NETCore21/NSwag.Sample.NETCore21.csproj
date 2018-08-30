@@ -15,6 +15,7 @@
   </ItemGroup>
   
   <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.1.0" />
     <ProjectReference Include="..\NSwag.AspNetCore\NSwag.AspNetCore.csproj" />
   </ItemGroup>
 

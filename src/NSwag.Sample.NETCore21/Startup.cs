@@ -51,6 +51,9 @@ namespace NSwag.Sample.NETCore21
 
             app.UseSwaggerWithApiExplorer(settings => settings.SettingsFactory = new MySettingsFactory());
             app.UseSwagger(typeof(Startup).Assembly, settings => settings.SwaggerRoute = "/oldswagger.json");
+
+            app.UseSwaggerUi3WithApiExplorer();
+            //app.UseSwagger(typeof(Startup).Assembly, settings => settings.SwaggerRoute = "/oldswagger.json");
         }
     }
 }

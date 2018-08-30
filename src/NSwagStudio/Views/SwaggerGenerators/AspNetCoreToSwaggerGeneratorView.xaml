@@ -94,6 +94,10 @@
                     <TextBox Text="{Binding Command.ReferencePaths, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
                              ToolTip="ReferencePaths" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
 
+                    <CheckBox IsChecked="{Binding Command.UseNuGetCache, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="UseNuGetCache">
+                        <TextBlock Text="Add local Nuget's cache folder to reference paths" TextWrapping="Wrap" />
+                    </CheckBox>
+
                     <TextBlock Text="Startup type (leave empty for auto-discovery)" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding Command.StartupType, Mode=TwoWay}" 
                              ToolTip="StartupType" Margin="0,0,0,12" />
