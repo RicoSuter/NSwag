@@ -168,8 +168,8 @@ namespace NSwag.Commands.SwaggerGeneration
         [Argument(Name = "SerializerSettings", IsRequired = false, Description = "The custom JsonSerializerSettings implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
         public string SerializerSettingsType { get; set; }
 
-        [Argument(Name = "SettingsFactory", IsRequired = false, Description = "The ISettingsFactory<AspNetCoreToSwaggerGeneratorSettings, IWebHost> type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
-        public string SettingsFactoryType { get; set; }
+        [Argument(Name = "UseDocumentProvider", IsRequired = false, Description = ".")]
+        public bool UseDocumentProvider { get; set; } = false;
 
         [Argument(Name = "Startup", IsRequired = false, Description = "The Startup class type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
         public string StartupType { get; set; }
@@ -181,10 +181,9 @@ namespace NSwag.Commands.SwaggerGeneration
             var options = webHost?.Services?.GetRequiredService<IOptions<MvcJsonOptions>>();
             var serializerSettings = options?.Value?.SerializerSettings;
 
-            if (!string.IsNullOrEmpty(SettingsFactoryType))
+            if (UseDocumentProvider)
             {
-                var factory = (dynamic)assemblyLoader.CreateInstance(SettingsFactoryType);
-                return await factory.CreateAsync(serializerSettings, webHost?.Services);
+                throw new NotImplementedException("The UseDocumentProvider feature is not yet implemented.");
             }
             else
             {

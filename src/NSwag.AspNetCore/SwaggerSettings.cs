@@ -42,13 +42,6 @@ namespace NSwag.AspNetCore
         /// <summary>Gets the generator settings.</summary>
         public T GeneratorSettings { get; }
 
-        /// <summary>Gets or sets the settings factory.</summary>
-#if !AspNetOwin
-        public ISwaggerGeneratorSettingsFactory<T, IServiceProvider> SettingsFactory { get; set; }
-#else
-        public ISwaggerGeneratorSettingsFactory<T, IOwinContext> SettingsFactory { get; set; }
-#endif
-
         /// <summary>Gets or sets the OWIN base path (when mapped via app.MapOwinPath()) (must start with '/').</summary>
         public string MiddlewareBasePath { get; set; }
 
@@ -69,13 +62,8 @@ namespace NSwag.AspNetCore
         public async Task<T> CreateGeneratorSettingsAsync(IOwinContext context, JsonSerializerSettings serializerSettings)
 #endif
         {
-            if (SettingsFactory != null)
-                return await SettingsFactory.CreateAsync(serializerSettings, context);
-            else
-            {
-                GeneratorSettings.TryApplySerializerSettings(serializerSettings);
-                return GeneratorSettings;
-            }
+            GeneratorSettings.TryApplySerializerSettings(serializerSettings);
+            return GeneratorSettings;
         }
     }
 }

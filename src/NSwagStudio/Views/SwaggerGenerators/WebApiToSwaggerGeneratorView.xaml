@@ -73,7 +73,7 @@
                         <TextBox Text="{Binding Command.StartupType, Mode=TwoWay}" 
                                  ToolTip="StartupType" Margin="0,0,0,12" />
                     </StackPanel>
-                    
+
                     <Button Command="{Binding LoadAssembliesCommand}" VerticalAlignment="Stretch" Margin="0,0,0,12"
                             Padding="8,4,8,4" Content="Load Assemblies" />
                 </StackPanel>
@@ -122,11 +122,7 @@
             <TextBlock Text="When multiple controllers are selected, consider selecting MultipleClientsFromOperationId or MultipleClientsFromPathSegments as operation generation mode."
                        TextWrapping="Wrap" Margin="0,4,0,12" />
 
-            <TextBlock Text="Custom ISettingsFactory&lt;WebApiToSwaggerGeneratorSettings, IWebHost&gt; type" FontWeight="Bold" Margin="0,0,0,6" />
-            <TextBox Text="{Binding Command.SettingsFactoryType, Mode=TwoWay}" 
-                     ToolTip="SettingsFactoryType" Margin="0,0,0,12" />
-
-            <StackPanel Visibility="{Binding Command.SettingsFactoryType, Converter={StaticResource NotConverter}}">
+            <StackPanel>
                 <CheckBox IsChecked="{Binding Command.AddMissingPathParameters, Mode=TwoWay}" 
                           ToolTip="AddMissingPathParameters" Margin="0,0,0,12">
                     <TextBlock Text="Add path parameters which are missing in the action method" TextWrapping="Wrap" />

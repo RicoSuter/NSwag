@@ -109,11 +109,11 @@
                      ToolTip="WorkingDirectory"
                      Margin="0,0,0,12" />
 
-            <TextBlock Text="Custom ISettingsFactory&lt;AspNetCoreToSwaggerGeneratorSettings, IWebHost&gt; type" FontWeight="Bold" Margin="0,0,0,6" />
-            <TextBox Text="{Binding Command.SettingsFactoryType, Mode=TwoWay}" 
+            <TextBlock Text="Use IDocumentProvider (not implemented yet)" FontWeight="Bold" Margin="0,0,0,6" />
+            <TextBox Text="{Binding Command.UseDocumentProvider, Mode=TwoWay}" 
                      ToolTip="SettingsFactoryType" Margin="0,0,0,12" />
 
-            <StackPanel Visibility="{Binding Command.SettingsFactoryType, Converter={StaticResource NotConverter}}">
+            <StackPanel Visibility="{Binding Command.UseDocumentProvider, Converter={StaticResource NotConverter}}">
                 <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
                     <Run Text="Default Enum Handling" FontWeight="Bold" />
                     <LineBreak />
