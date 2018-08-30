@@ -19,7 +19,8 @@
       "assemblyPaths": [
         "bin/Debug/netcoreapp2.0/NSwag.Sample.NETCore20.dll"
       ],
-      "referencePaths": []
+      "referencePaths": [],
+      "useNuGetCache": false
     }
   },
   "codeGenerators": {}
