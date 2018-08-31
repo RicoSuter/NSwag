@@ -26,13 +26,12 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
             var command = JsonConvert.DeserializeObject<AspNetCoreToSwaggerCommand>(commandContent);
 
             var previousWorkingDirectory = command.ChangeWorkingDirectory();
-            var serviceProvider = GetServiceProvider(applicationName);
-            var apiDescriptionProvider = serviceProvider.GetRequiredService<IApiDescriptionGroupCollectionProvider>();
+            var webHost = GetWebHost(applicationName);
+            var apiDescriptionProvider = webHost.Services.GetRequiredService<IApiDescriptionGroupCollectionProvider>();
 
             var assemblyLoader = new AssemblyLoader.AssemblyLoader();
-            command.InitializeCustomTypes(assemblyLoader);
-
-            var generator = new AspNetCoreToSwaggerGenerator(command.Settings);
+            var settings = Task.Run(async () => await command.CreateSettingsAsync(assemblyLoader, webHost)).GetAwaiter().GetResult();
+            var generator = new AspNetCoreToSwaggerGenerator(settings);
             var document = generator.GenerateAsync(apiDescriptionProvider.ApiDescriptionGroups).GetAwaiter().GetResult();
 
             var json = command.PostprocessDocument(document);
@@ -43,7 +42,7 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
             File.WriteAllText(outputFile, json);
         }
 
-        private static IServiceProvider GetServiceProvider(string applicationName)
+        private static IWebHost GetWebHost(string applicationName)
         {
             var assemblyName = new AssemblyName(applicationName);
             var assembly = Assembly.Load(assemblyName);
@@ -75,7 +74,7 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
 
             if (webHost != null)
             {
-                return webHost.Services;
+                return webHost;
             }
 
             throw new InvalidOperationException($"aspnet2swaggercommand requires the entry point type {entryPointType.FullName} to have " +

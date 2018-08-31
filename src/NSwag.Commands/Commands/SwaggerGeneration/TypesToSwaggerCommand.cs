@@ -30,7 +30,7 @@ namespace NSwag.Commands.SwaggerGeneration
         }
 
         [JsonIgnore]
-        public override JsonSchemaGeneratorSettings Settings { get; }
+        protected override JsonSchemaGeneratorSettings Settings { get; }
 
         [Argument(Name = "ClassNames", Description = "The class names.")]
         public string[] ClassNames { get; set; }

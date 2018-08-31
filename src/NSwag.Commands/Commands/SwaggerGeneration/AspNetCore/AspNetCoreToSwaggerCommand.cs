@@ -55,7 +55,7 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
         public bool NoBuild { get; set; }
 
         [Argument(Name = nameof(Verbose), IsRequired = false, Description = "Print verbose output.")]
-        public bool Verbose { get; set; }
+        public bool Verbose { get; set; } = true;
 
         [Argument(Name = nameof(WorkingDirectory), IsRequired = false, Description = "The working directory to use.")]
         public string WorkingDirectory { get; set; }
@@ -226,17 +226,15 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
             InitializeCustomTypes(assemblyLoader);
 
             var previousWorkingDirectory = ChangeWorkingDirectory();
-            var assemblies = await LoadAssembliesAsync(AssemblyPaths, assemblyLoader).ConfigureAwait(false);
-            var startupType = assemblies.First().ExportedTypes.First(t => t.Name == "Startup"); // TODO: Use .NET Core startup lookup or provide setting
-
-            using (var testServer = new TestServer(new WebHostBuilder().UseStartup(startupType)))
+            using (var testServer = await CreateTestServerAsync(assemblyLoader))
             {
                 // See https://github.com/aspnet/Mvc/issues/5690
 
                 var type = typeof(IApiDescriptionGroupCollectionProvider);
                 var apiDescriptionProvider = (IApiDescriptionGroupCollectionProvider)testServer.Host.Services.GetRequiredService(type);
 
-                var generator = new AspNetCoreToSwaggerGenerator(Settings);
+                var settings = await CreateSettingsAsync(assemblyLoader, testServer.Host);
+                var generator = new AspNetCoreToSwaggerGenerator(settings);
                 var document = await generator.GenerateAsync(apiDescriptionProvider.ApiDescriptionGroups).ConfigureAwait(false);
 
                 var json = PostprocessDocument(document);

@@ -7,13 +7,20 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Threading.Tasks;
 using NJsonSchema;
 using NSwag.SwaggerGeneration;
 using NSwag.SwaggerGeneration.WebApi;
+using Newtonsoft.Json;
 
 #if AspNetOwin
+using Microsoft.Owin;
+
 namespace NSwag.AspNet.Owin
 #else
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+
 namespace NSwag.AspNetCore
 #endif
 {
@@ -22,7 +29,7 @@ namespace NSwag.AspNetCore
         where T : SwaggerGeneratorSettings, new()
     {
         /// <summary>Initializes a new instance of the <see cref="SwaggerSettings{T}"/> class.</summary>
-        public SwaggerSettings ()
+        public SwaggerSettings()
         {
             GeneratorSettings = new T();
 
@@ -48,5 +55,11 @@ namespace NSwag.AspNetCore
         public TimeSpan ExceptionCacheTime { get; set; } = TimeSpan.FromSeconds(10);
 
         internal virtual string ActualSwaggerRoute => SwaggerRoute.Substring(MiddlewareBasePath?.Length ?? 0);
+
+        internal T CreateGeneratorSettings(JsonSerializerSettings serializerSettings)
+        {
+            GeneratorSettings.TryApplySerializerSettings(serializerSettings);
+            return GeneratorSettings;
+        }
     }
 }

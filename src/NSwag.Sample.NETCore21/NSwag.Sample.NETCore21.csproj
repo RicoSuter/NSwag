@@ -13,13 +13,14 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.0" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.1.0" />
-  </ItemGroup>
-  
-  <ItemGroup>
     <ProjectReference Include="..\NSwag.AspNetCore\NSwag.AspNetCore.csproj" />
   </ItemGroup>
-  
+
+  <Target Name="NSwag" AfterTargets="Build">
+    <Copy SourceFiles="@(Reference)" DestinationFolder="$(OutDir)References" />
+  </Target>
+
 </Project>

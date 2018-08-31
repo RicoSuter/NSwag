@@ -10,6 +10,11 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using NConsole;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -21,17 +26,17 @@ using NSwag.SwaggerGeneration.Processors;
 namespace NSwag.Commands.SwaggerGeneration
 {
     /// <inheritdoc />
-    public abstract class SwaggerGeneratorCommandBase<T> : IsolatedSwaggerOutputCommandBase<T>
-        where T : SwaggerGeneratorSettings, new()
+    public abstract class SwaggerGeneratorCommandBase<TSettings> : IsolatedSwaggerOutputCommandBase<TSettings>
+        where TSettings : SwaggerGeneratorSettings, new()
     {
         /// <summary>Initializes a new instance of the <see cref="SwaggerGeneratorCommandBase{T}"/> class.</summary>
         protected SwaggerGeneratorCommandBase()
         {
-            Settings = new T();
+            Settings = new TSettings();
         }
 
         [JsonIgnore]
-        public override T Settings { get; }
+        protected override TSettings Settings { get; }
 
         [Argument(Name = nameof(DefaultPropertyNameHandling), IsRequired = false, Description = "The default property name handling ('Default' or 'CamelCase').")]
         public PropertyNameHandling DefaultPropertyNameHandling
@@ -163,7 +168,51 @@ namespace NSwag.Commands.SwaggerGeneration
         [Argument(Name = "SerializerSettings", IsRequired = false, Description = "The custom JsonSerializerSettings implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
         public string SerializerSettingsType { get; set; }
 
-        public void InitializeCustomTypes(AssemblyLoader.AssemblyLoader assemblyLoader)
+        [Argument(Name = "UseDocumentProvider", IsRequired = false, Description = ".")]
+        public bool UseDocumentProvider { get; set; } = false;
+
+        [Argument(Name = "Startup", IsRequired = false, Description = "The Startup class type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
+        public string StartupType { get; set; }
+
+        public async Task<TSettings> CreateSettingsAsync(AssemblyLoader.AssemblyLoader assemblyLoader, IWebHost webHost)
+        {
+            Settings.DocumentTemplate = await GetDocumentTemplateAsync();
+
+            var options = webHost?.Services?.GetRequiredService<IOptions<MvcJsonOptions>>();
+            var serializerSettings = options?.Value?.SerializerSettings;
+
+            if (UseDocumentProvider)
+            {
+                throw new NotImplementedException("The UseDocumentProvider feature is not yet implemented.");
+            }
+            else
+            {
+                Settings.TryApplySerializerSettings(serializerSettings);
+                Settings.DocumentTemplate = await GetDocumentTemplateAsync();
+
+                InitializeCustomTypes(assemblyLoader);
+
+                return Settings;
+            }
+        }
+
+        protected async Task<TestServer> CreateTestServerAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
+        {
+            Type startupType;
+
+            if (string.IsNullOrEmpty(StartupType))
+            {
+                // TODO: Implement proper auto discovery
+                var assemblies = await LoadAssembliesAsync(AssemblyPaths, assemblyLoader).ConfigureAwait(false);
+                startupType = assemblies.First().ExportedTypes.First(t => t.Name == "Startup");
+            }
+            else
+                startupType = assemblyLoader.GetType(StartupType);
+
+            return new TestServer(new WebHostBuilder().UseStartup(startupType));
+        }
+
+        protected void InitializeCustomTypes(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
             if (DocumentProcessorTypes != null)
             {
@@ -198,29 +247,33 @@ namespace NSwag.Commands.SwaggerGeneration
 
         public string PostprocessDocument(SwaggerDocument document)
         {
-            if (ServiceHost == ".")
-                document.Host = string.Empty;
-            else if (!string.IsNullOrEmpty(ServiceHost))
-                document.Host = ServiceHost;
-
-            if (string.IsNullOrEmpty(DocumentTemplate))
+            if (!UseDocumentProvider)
             {
-                if (!string.IsNullOrEmpty(InfoTitle))
-                    document.Info.Title = InfoTitle;
-                if (!string.IsNullOrEmpty(InfoVersion))
-                    document.Info.Version = InfoVersion;
-                if (!string.IsNullOrEmpty(InfoDescription))
-                    document.Info.Description = InfoDescription;
+                if (ServiceHost == ".")
+                    document.Host = string.Empty;
+                else if (!string.IsNullOrEmpty(ServiceHost))
+                    document.Host = ServiceHost;
+
+                if (string.IsNullOrEmpty(DocumentTemplate))
+                {
+                    if (!string.IsNullOrEmpty(InfoTitle))
+                        document.Info.Title = InfoTitle;
+                    if (!string.IsNullOrEmpty(InfoVersion))
+                        document.Info.Version = InfoVersion;
+                    if (!string.IsNullOrEmpty(InfoDescription))
+                        document.Info.Description = InfoDescription;
+                }
+
+                if (ServiceSchemes != null && ServiceSchemes.Any())
+                    document.Schemes = ServiceSchemes.Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true))
+                        .ToList();
+
+                if (!string.IsNullOrEmpty(ServiceBasePath))
+                    document.BasePath = ServiceBasePath;
             }
 
-            if (ServiceSchemes != null && ServiceSchemes.Any())
-                document.Schemes = ServiceSchemes.Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true))
-                    .ToList();
-
-            if (!string.IsNullOrEmpty(ServiceBasePath))
-                document.BasePath = ServiceBasePath;
-
-            return document.ToJson(OutputType);
+            var json = document.ToJson(OutputType);
+            return json;
         }
 
         public async Task<string> GetDocumentTemplateAsync()
