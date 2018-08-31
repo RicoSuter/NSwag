@@ -68,6 +68,12 @@
                         <TextBlock Text="Assembly is using ASP.NET Core" TextWrapping="Wrap" />
                     </CheckBox>
 
+                    <CheckBox IsChecked="{Binding Command.ResolveJsonOptions, Mode=TwoWay}" 
+                              Visibility="{Binding Command.IsAspNetCore, Converter={StaticResource VisibilityConverter}}"
+                              ToolTip="Resolve MvcJsonOptions to infer serializer settings (only applies when DefaultPropertyNameHandling, DefaultEnumHandling, ContractResolver, SerializerSettings are not changed)" Margin="0,0,0,12">
+                        <TextBlock Text="Resl" TextWrapping="Wrap" />
+                    </CheckBox>
+
                     <StackPanel Visibility="{Binding Command.IsAspNetCore, Converter={StaticResource VisibilityConverter}}">
                         <TextBlock Text="Startup type (leave empty for auto-discovery)" FontWeight="Bold" Margin="0,0,0,6" />
                         <TextBox Text="{Binding Command.StartupType, Mode=TwoWay}" 

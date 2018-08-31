@@ -48,6 +48,9 @@ namespace NSwag.Commands.SwaggerGeneration.WebApi
             set => Settings.IsAspNetCore = value;
         }
 
+        [Argument(Name = "ResolveJsonOptions", IsRequired = false, Description = "Specifies whether to resolve MvcJsonOptions to infer serializer settings (recommended, default: false, only available when IsAspNetCore is set).")]
+        public bool ResolveJsonOptions { get; set; }
+
         [Argument(Name = "DefaultUrlTemplate", IsRequired = false, Description = "The Web API default URL template (default for Web API: 'api/{controller}/{id}'; for MVC projects: '{controller}/{action}/{id?}').")]
         public string DefaultUrlTemplate
         {
@@ -71,7 +74,7 @@ namespace NSwag.Commands.SwaggerGeneration.WebApi
             var controllerTypes = await GetControllerTypesAsync(controllerNames, assemblyLoader);
 
             WebApiToSwaggerGeneratorSettings settings;
-            if (IsAspNetCore)
+            if (IsAspNetCore && ResolveJsonOptions)
             {
                 using (var testServer = await CreateTestServerAsync(assemblyLoader))
                     settings = await CreateSettingsAsync(assemblyLoader, testServer.Host);
