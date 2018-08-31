@@ -214,7 +214,6 @@ namespace NSwag.Commands.SwaggerGeneration
 
         protected void InitializeCustomTypes(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
-            Settings.DocumentProcessors.Clear();
             if (DocumentProcessorTypes != null)
             {
                 foreach (var p in DocumentProcessorTypes)
@@ -224,7 +223,6 @@ namespace NSwag.Commands.SwaggerGeneration
                 }
             }
 
-            Settings.OperationProcessors.Clear();
             if (OperationProcessorTypes != null)
             {
                 foreach (var p in OperationProcessorTypes)
@@ -234,19 +232,15 @@ namespace NSwag.Commands.SwaggerGeneration
                 }
             }
 
-            Settings.TypeNameGenerator = null;
             if (!string.IsNullOrEmpty(TypeNameGeneratorType))
                 Settings.TypeNameGenerator = (ITypeNameGenerator)assemblyLoader.CreateInstance(TypeNameGeneratorType);
 
-            Settings.SchemaNameGenerator = null;
             if (!string.IsNullOrEmpty(SchemaNameGeneratorType))
                 Settings.SchemaNameGenerator = (ISchemaNameGenerator)assemblyLoader.CreateInstance(SchemaNameGeneratorType);
 
-            Settings.ContractResolver = null;
             if (!string.IsNullOrEmpty(ContractResolverType))
                 Settings.ContractResolver = (IContractResolver)assemblyLoader.CreateInstance(ContractResolverType);
 
-            Settings.SerializerSettings = null;
             if (!string.IsNullOrEmpty(SerializerSettingsType))
                 Settings.SerializerSettings = (JsonSerializerSettings)assemblyLoader.CreateInstance(SerializerSettingsType);
         }
@@ -278,7 +272,8 @@ namespace NSwag.Commands.SwaggerGeneration
                     document.BasePath = ServiceBasePath;
             }
 
-            return document.ToJson(OutputType);
+            var json = document.ToJson(OutputType);
+            return json;
         }
 
         public async Task<string> GetDocumentTemplateAsync()

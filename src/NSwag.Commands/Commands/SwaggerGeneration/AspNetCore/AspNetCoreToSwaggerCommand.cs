@@ -226,9 +226,6 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
             InitializeCustomTypes(assemblyLoader);
 
             var previousWorkingDirectory = ChangeWorkingDirectory();
-            var assemblies = await LoadAssembliesAsync(AssemblyPaths, assemblyLoader).ConfigureAwait(false);
-            var startupType = assemblies.First().ExportedTypes.First(t => t.Name == "Startup"); // TODO: Use .NET Core startup lookup or provide setting
-
             using (var testServer = await CreateTestServerAsync(assemblyLoader))
             {
                 // See https://github.com/aspnet/Mvc/issues/5690

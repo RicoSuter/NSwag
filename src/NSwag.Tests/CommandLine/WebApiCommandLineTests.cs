@@ -57,7 +57,8 @@ namespace NSwag.Tests.CommandLine
             var document = await SwaggerDocument.FromJsonAsync(output);
 
             //// Assert
-            Assert.IsTrue(document.ToJson().Contains("\"Bar\": {"));
+            var json = document.ToJson();
+            Assert.IsTrue(json.Contains("\"Bar\": {"));
         }
 
         [TestMethod]
