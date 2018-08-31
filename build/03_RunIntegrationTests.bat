@@ -3,6 +3,10 @@ REM dotnet publish || goto :error
 REM "%~dp0\..src\NSwagStudio\bin\Release\nswag" run /runtime:NetCore11 || goto :error
 REM popd
 
+pushd "%~dp0\..\samples"
+cmd /c call powershell .\run.ps1 Release || goto :error
+popd
+
 pushd "%~dp0\..\src\NSwag.Sample.NETCore11"
 dotnet publish || goto :error
 cmd /c call "%~dp0\..\src\NSwagStudio\bin\Release\nswag.cmd" run /runtime:NetCore11 || goto :error

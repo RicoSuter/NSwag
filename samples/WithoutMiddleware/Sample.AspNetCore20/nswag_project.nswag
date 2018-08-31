@@ -5,7 +5,7 @@
     "aspNetCoreToSwagger": {
       "project": "Sample.AspNetCore20.csproj",
       "noBuild": false,
-      "verbose": false,
+      "verbose": true,
       "defaultPropertyNameHandling": "Default",
       "defaultReferenceTypeNullHandling": "Null",
       "defaultEnumHandling": "Integer",

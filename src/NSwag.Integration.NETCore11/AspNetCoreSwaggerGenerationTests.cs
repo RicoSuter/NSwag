@@ -99,6 +99,7 @@ namespace NSwag.Integration.NETCore11
         {
             // Arrange & Act
             var document = await GetSwaggerDocument();
+            var json = document.ToJson();
 
             // Assert
             var method = Assert.Single(
@@ -196,7 +197,7 @@ namespace NSwag.Integration.NETCore11
         private async Task<SwaggerDocument> GetSwaggerDocument()
         {
             var responseBody = await Client.GetStringAsync("swagger/v1/swagger.json");
-            return JsonConvert.DeserializeObject<SwaggerDocument>(responseBody);
+            return await SwaggerDocument.FromJsonAsync(responseBody);
         }
 
         public void Dispose()
