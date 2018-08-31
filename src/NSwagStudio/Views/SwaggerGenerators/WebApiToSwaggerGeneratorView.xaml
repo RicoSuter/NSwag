@@ -69,9 +69,8 @@
                     </CheckBox>
 
                     <CheckBox IsChecked="{Binding Command.ResolveJsonOptions, Mode=TwoWay}" 
-                              Visibility="{Binding Command.IsAspNetCore, Converter={StaticResource VisibilityConverter}}"
-                              ToolTip="Resolve MvcJsonOptions to infer serializer settings (only applies when DefaultPropertyNameHandling, DefaultEnumHandling, ContractResolver, SerializerSettings are not changed)" Margin="0,0,0,12">
-                        <TextBlock Text="Resl" TextWrapping="Wrap" />
+                              ToolTip="ResolveJsonOptions" Margin="0,0,0,12">
+                        <TextBlock Text="Resolve MvcJsonOptions to infer serializer settings (only applies for IsAspNetCore and when DefaultPropertyNameHandling, DefaultEnumHandling, ContractResolver, SerializerSettings are not changed)" TextWrapping="Wrap" />
                     </CheckBox>
 
                     <StackPanel Visibility="{Binding Command.IsAspNetCore, Converter={StaticResource VisibilityConverter}}">
