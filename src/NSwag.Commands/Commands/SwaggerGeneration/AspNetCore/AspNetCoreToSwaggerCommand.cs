@@ -13,18 +13,15 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using NConsole;
 using Newtonsoft.Json;
 using NSwag.SwaggerGeneration.AspNetCore;
 using NJsonSchema.Yaml;
-using Newtonsoft.Json.Schema;
 using NJsonSchema;
 
-#if NETSTANDARD
+#if NETCOREAPP || NETSTANDARD
 using System.Runtime.Loader;
 #endif
 
@@ -126,7 +123,7 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
                         cleanupFiles.Add(copiedAppConfig);
                     }
                 }
-#elif NETSTANDARD
+#elif NETCOREAPP || NETSTANDARD
                 var toolDirectory = AppContext.BaseDirectory;
                 if (!Directory.Exists(toolDirectory))
                     toolDirectory = Path.GetDirectoryName(typeof(AspNetCoreToSwaggerCommand).GetTypeInfo().Assembly.Location);

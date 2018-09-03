@@ -1,5 +1,5 @@
 ﻿{
-  "x-generator": "NSwag v11.18.7.0 (NJsonSchema v9.10.71.0 (Newtonsoft.Json v10.0.0.0))",
+  "x-generator": "NSwag v11.18.7.0 (NJsonSchema v9.10.71.0 (Newtonsoft.Json v9.0.0.0))",
   "swagger": "2.0",
   "info": {
     "title": "My Title",
@@ -71,6 +71,45 @@
         "tags": [
           "Pet"
         ],
+        "operationId": "Pet_FindByStatusAll",
+        "parameters": [
+          {
+            "type": "array",
+            "name": "status",
+            "in": "query",
+            "collectionFormat": "multi",
+            "x-nullable": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Pet"
+              }
+            }
+          },
+          "400": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/SerializableError"
+            }
+          }
+        }
+      }
+    },
+    "/pet/findByStatus/{skip}/{sortOrder}": {
+      "get": {
+        "tags": [
+          "Pet"
+        ],
         "operationId": "Pet_FindByStatus",
         "parameters": [
           {
@@ -82,6 +121,22 @@
             "items": {
               "type": "string"
             }
+          },
+          {
+            "type": "integer",
+            "name": "skip",
+            "in": "path",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          },
+          {
+            "type": "integer",
+            "name": "sortOrder",
+            "in": "path",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
           }
         ],
         "responses": {

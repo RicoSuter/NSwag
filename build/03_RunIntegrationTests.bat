@@ -9,22 +9,22 @@ popd
 
 pushd "%~dp0\..\src\NSwag.Sample.NETCore11"
 dotnet publish || goto :error
-cmd /c call "%~dp0\..\src\NSwagStudio\bin\Release\nswag.cmd" run /runtime:NetCore11 || goto :error
+cmd /c call "..\NSwagStudio\bin\Release\nswag.cmd" run /runtime:NetCore11 || goto :error
 popd
 
 pushd "%~dp0\..\src\NSwag.Sample.NETCore20"
 dotnet publish || goto :error
-cmd /c call "%~dp0\..\src\NSwagStudio\bin\Release\nswag.cmd" run /runtime:NetCore20 || goto :error
+cmd /c call "..\NSwagStudio\bin\Release\nswag.cmd" run /runtime:NetCore20 || goto :error
 popd
 
 pushd "%~dp0\..\src\NSwag.Sample.NetGlobalAsax"
 msbuild || goto :error
-cmd /c call "%~dp0\..\src\NSwagStudio\bin\Release\nswag.cmd" run /runtime:Winx64 || goto :error
+cmd /c call "..\NSwagStudio\bin\Release\nswag.cmd" run /runtime:Winx64 || goto :error
 popd
 
 pushd "%~dp0\..\src\NSwag.Integration.WebAPI"
 msbuild || goto :error
-cmd /c call "%~dp0\..\src\NSwagStudio\bin\Release\nswag.cmd" run /runtime:Winx64 || goto :error
+cmd /c call "..\NSwagStudio\bin\Release\nswag.cmd" run /runtime:Winx64 || goto :error
 popd
 
 goto :EOF
