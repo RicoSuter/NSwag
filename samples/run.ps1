@@ -16,6 +16,10 @@ function NSwagRun([string]$projectDirectory, [string]$configurationFile, [string
   {
     dotnet build "$projectDirectory" -c $configuration
   }
+  else
+  {
+    dotnet restore "$projectDirectory" -c $configuration
+  }
 
   dotnet "$cliPath/$runtime/dotnet-nswag.dll" run "$nswagConfigurationFile" /variables:configuration=$configuration
 
