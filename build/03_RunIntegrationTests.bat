@@ -8,11 +8,13 @@ cmd /c call powershell .\run.ps1 Release || goto :error
 popd
 
 pushd "%~dp0\..\src\NSwag.Sample.NETCore11"
+dotnet restore || goto :error
 dotnet publish || goto :error
 cmd /c call "..\NSwagStudio\bin\Release\nswag.cmd" run /runtime:NetCore11 || goto :error
 popd
 
 pushd "%~dp0\..\src\NSwag.Sample.NETCore20"
+dotnet restore || goto :error
 dotnet publish || goto :error
 cmd /c call "..\NSwagStudio\bin\Release\nswag.cmd" run /runtime:NetCore20 || goto :error
 popd
