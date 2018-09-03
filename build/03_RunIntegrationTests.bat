@@ -4,7 +4,7 @@ REM "%~dp0\..src\NSwagStudio\bin\Release\nswag" run /runtime:NetCore11 || goto :
 REM popd
 
 pushd "%~dp0\..\samples"
-REM cmd /c call powershell .\run.ps1 Release || goto :error
+cmd /c call powershell .\run.ps1 Release || goto :error
 popd
 
 pushd "%~dp0\..\src\NSwag.Sample.NETCore11"
