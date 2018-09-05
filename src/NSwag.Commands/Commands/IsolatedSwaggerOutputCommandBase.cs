@@ -25,7 +25,7 @@ namespace NSwag.Commands
     public abstract class IsolatedSwaggerOutputCommandBase<T> : IsolatedCommandBase<string>, IOutputCommand
         where T : JsonSchemaGeneratorSettings
     {
-        /// <summary>Initializes a new instance of the <see cref="IsolatedSwaggerOutputCommandBase{}"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="IsolatedSwaggerOutputCommandBase{T}"/> class.</summary>
         protected IsolatedSwaggerOutputCommandBase()
         {
             OutputType = SchemaType.Swagger2;
