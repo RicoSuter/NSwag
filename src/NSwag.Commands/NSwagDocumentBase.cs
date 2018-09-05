@@ -281,9 +281,17 @@ namespace NSwag.Commands
 
         private static Dictionary<string, string> ConvertVariables(string variables)
         {
-            return (variables ?? "")
-                .Split(',').Where(p => !string.IsNullOrEmpty(p))
-                .ToDictionary(p => p.Split('=')[0], p => p.Split('=')[1]);
+            try
+            {
+                return (variables ?? "")
+                    .Split(',').Where(p => !string.IsNullOrEmpty(p))
+                    .ToDictionary(p => p.Split('=')[0], p => p.Split('=')[1]);
+            }
+            catch (Exception exception)
+            {
+                throw new InvalidOperationException("Could not parse variables, ensure that they are " +
+                                                    "in the form 'key1=value1,key2=value2', variables: " + variables, exception);
+            }
         }
 
         private static JsonSerializerSettings GetSerializerSettings()
