@@ -36,8 +36,8 @@ namespace NSwag.Sample.NETCore21
 
             app.UseHttpsRedirection();
             app.UseMvc();
-            app.UseSwaggerWithApiExplorer();
-            app.UseSwagger(typeof(Startup).Assembly, settings => settings.SwaggerRoute = "/oldswagger.json");
+
+            app.UseSwaggerUi3WithApiExplorer();
         }
     }
 }

@@ -19,7 +19,7 @@ namespace NSwag.Commands
         {
             get
             {
-#if !NETSTANDARD
+#if !NETCOREAPP && !NETSTANDARD
                 return IntPtr.Size == 4 ? Runtime.WinX86 : Runtime.WinX64;
 #else
                 var framework = PlatformServices.Default.Application.RuntimeFramework;

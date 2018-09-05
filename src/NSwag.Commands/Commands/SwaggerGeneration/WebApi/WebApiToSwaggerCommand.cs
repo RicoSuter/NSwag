@@ -48,6 +48,9 @@ namespace NSwag.Commands.SwaggerGeneration.WebApi
             set => Settings.IsAspNetCore = value;
         }
 
+        [Argument(Name = "ResolveJsonOptions", IsRequired = false, Description = "Specifies whether to resolve MvcJsonOptions to infer serializer settings (recommended, default: false, only available when IsAspNetCore is set).")]
+        public bool ResolveJsonOptions { get; set; }
+
         [Argument(Name = "DefaultUrlTemplate", IsRequired = false, Description = "The Web API default URL template (default for Web API: 'api/{controller}/{id}'; for MVC projects: '{controller}/{action}/{id?}').")]
         public string DefaultUrlTemplate
         {
@@ -64,16 +67,22 @@ namespace NSwag.Commands.SwaggerGeneration.WebApi
 
         protected override async Task<string> RunIsolatedAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
-            Settings.DocumentTemplate = await GetDocumentTemplateAsync();
-            InitializeCustomTypes(assemblyLoader);
-
             var controllerNames = ControllerNames.Where(s => !string.IsNullOrWhiteSpace(s)).Distinct().ToList();
             if (!controllerNames.Any() && AssemblyPaths?.Length > 0)
                 controllerNames = GetControllerNames(assemblyLoader).ToList();
 
             var controllerTypes = await GetControllerTypesAsync(controllerNames, assemblyLoader);
 
-            var generator = new WebApiToSwaggerGenerator(Settings);
+            WebApiToSwaggerGeneratorSettings settings;
+            if (IsAspNetCore && ResolveJsonOptions)
+            {
+                using (var testServer = await CreateTestServerAsync(assemblyLoader))
+                    settings = await CreateSettingsAsync(assemblyLoader, testServer.Host);
+            }
+            else
+                settings = await CreateSettingsAsync(assemblyLoader, null);
+
+            var generator = new WebApiToSwaggerGenerator(settings);
             var document = await generator.GenerateForControllersAsync(controllerTypes).ConfigureAwait(false);
 
             return PostprocessDocument(document);

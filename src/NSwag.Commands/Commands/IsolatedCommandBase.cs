@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using NConsole;
 using Newtonsoft.Json;
@@ -37,6 +38,9 @@ namespace NSwag.Commands
         [Argument(Name = "ReferencePaths", IsRequired = false, Description = "The paths to search for referenced assembly files (comma separated).")]
         public string[] ReferencePaths { get; set; } = new string[0];
 
+        [Argument(Name = "UseNuGetCache", IsRequired = false, Description = "Determines if local Nuget's cache folder should be put in the ReferencePaths by default")]
+        public bool UseNuGetCache { get; set; } = false;
+
         public abstract Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host);
 
         protected async Task<TResult> RunIsolatedAsync(string configurationFile)
@@ -44,6 +48,12 @@ namespace NSwag.Commands
             var assemblyDirectory = AssemblyPaths.Any() ? Path.GetDirectoryName(Path.GetFullPath(PathUtilities.ExpandFileWildcards(AssemblyPaths).First())) : configurationFile;
             var bindingRedirects = GetBindingRedirects();
             var assemblies = GetAssemblies(assemblyDirectory);
+            
+            if (UseNuGetCache)
+            {
+                var defaultNugetPackages = LoadDefaultNugetCache();
+                ReferencePaths = ReferencePaths.Concat(defaultNugetPackages).ToArray();
+            }
 
             using (var isolated = new AppDomainIsolation<IsolatedCommandAssemblyLoader<TResult>>(assemblyDirectory, AssemblyConfig, bindingRedirects, assemblies))
             {
@@ -73,6 +83,15 @@ namespace NSwag.Commands
                 .Distinct()
                 .ToArray();
         }
+        
+        private static string[] LoadDefaultNugetCache()
+        {
+            var envHome = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "HOMEPATH" : "HOME";
+            var home = Environment.GetEnvironmentVariable(envHome);
+            var path = Path.Combine(home, ".nuget", "packages");
+
+            return new[] { Path.GetFullPath(path) };
+        }
 
 #if NET451
         public IEnumerable<string> GetAssemblies(string assemblyDirectory)
@@ -98,6 +117,7 @@ namespace NSwag.Commands
             yield return typeof(SwaggerJsonSchemaGenerator).GetTypeInfo().Assembly;
             yield return typeof(WebApiToSwaggerGenerator).GetTypeInfo().Assembly;
             yield return typeof(AspNetCoreToSwaggerGeneratorSettings).GetTypeInfo().Assembly;
+            yield return typeof(SwaggerYamlDocument).GetTypeInfo().Assembly;
         }
 #endif
 
@@ -110,6 +130,7 @@ namespace NSwag.Commands
             yield return new BindingRedirect("NSwag.SwaggerGeneration", typeof(SwaggerJsonSchemaGenerator), "c2d88086e098d109");
             yield return new BindingRedirect("NSwag.SwaggerGeneration.WebApi", typeof(WebApiToSwaggerGenerator), "c2d88086e098d109");
             yield return new BindingRedirect("NSwag.Annotations", typeof(SwaggerTagsAttribute), "c2d88086e098d109");
+            yield return new BindingRedirect("NSwag.Core.Yaml", typeof(SwaggerYamlDocument), "c2d88086e098d109");
             yield return new BindingRedirect("System.Runtime", "4.0.0.0", "b03f5f7f11d50a3a");
 #else
             return new BindingRedirect[0];

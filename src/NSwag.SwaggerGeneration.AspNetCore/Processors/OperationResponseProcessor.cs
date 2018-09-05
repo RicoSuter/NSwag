@@ -98,14 +98,14 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 
                     context.OperationDescription.Operation.Responses[httpStatusCode] = response;
 
+                    if (operation.Produces == null)
+                        operation.Produces = new List<string>();
+
                     foreach (var responseFormat in apiResponse.ApiResponseFormats)
                     {
-                        if (context.Document.Produces == null)
-                            context.Document.Produces = new List<string>();
-
-                        if (!context.Document.Produces.Contains(responseFormat.MediaType, StringComparer.OrdinalIgnoreCase))
+                        if (!operation.Produces.Contains(responseFormat.MediaType, StringComparer.OrdinalIgnoreCase))
                         {
-                            context.Document.Produces.Add(responseFormat.MediaType);
+                            operation.Produces.Add(responseFormat.MediaType);
                         }
                     }
                 }

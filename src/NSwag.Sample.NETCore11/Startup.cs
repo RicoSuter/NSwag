@@ -81,6 +81,10 @@ namespace NSwag.Sample.NETCore11
                 s.SwaggerRoute = "/swagger_redoc/v1/swagger.json";
                 s.SwaggerUiRoute = "/swagger_redoc";
             });
+
+            // Tests
+
+            app.UseSwaggerWithApiExplorer(s => s.SwaggerRoute = "/swagger/v1/swagger.json");
         }
     }
 }

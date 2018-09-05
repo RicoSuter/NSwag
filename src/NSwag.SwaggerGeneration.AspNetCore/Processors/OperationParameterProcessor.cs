@@ -330,33 +330,35 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
             {
                 get
                 {
-                    // available in asp.net core >= 2.2
-                    if (ApiParameter.HasProperty("IsRequired"))
-                    {
-                        return ApiParameter.TryGetPropertyValue("IsRequired", false);
-                    }
+                    return ParameterInfo?.HasDefaultValue != true;
 
-                    // fallback for asp.net core <= 2.1
-                    if (ApiParameter.Source == BindingSource.Body)
-                    {
-                        return true;
-                    }
+                    //// available in asp.net core >= 2.2
+                    //if (ApiParameter.HasProperty("IsRequired"))
+                    //{
+                    //    return ApiParameter.TryGetPropertyValue("IsRequired", false);
+                    //}
 
-                    if (ApiParameter.ModelMetadata != null &&
-                        ApiParameter.ModelMetadata.IsBindingRequired)
+                    //// fallback for asp.net core <= 2.1
+                    //if (ApiParameter.Source == BindingSource.Body)
+                    //{
+                    //    return true;
+                    //}
 
-                    {
-                        return true;
-                    }
+                    //if (ApiParameter.ModelMetadata != null &&
+                    //    ApiParameter.ModelMetadata.IsBindingRequired)
 
-                    if (ApiParameter.Source == BindingSource.Path &&
-                        ApiParameter.RouteInfo != null &&
-                        ApiParameter.RouteInfo.IsOptional == false)
-                    {
-                        return true;
-                    }
+                    //{
+                    //    return true;
+                    //}
 
-                    return false;
+                    //if (ApiParameter.Source == BindingSource.Path &&
+                    //    ApiParameter.RouteInfo != null &&
+                    //    ApiParameter.RouteInfo.IsOptional == false)
+                    //{
+                    //    return true;
+                    //}
+
+                    //return false;
                 }
             }
 

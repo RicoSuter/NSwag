@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Sample.AspNetCore20.Controllers
 {
     [Route("api/[controller]")]
+    [ApiExplorerSettings(IgnoreApi = false, GroupName = nameof(ValuesController))]
     public class ValuesController : Controller
     {
         // GET api/values

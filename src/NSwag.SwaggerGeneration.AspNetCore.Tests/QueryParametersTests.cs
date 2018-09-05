@@ -19,7 +19,8 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
             // Assert
             var operation = document.Operations.First().Operation;
 
-            Assert.True(operation.ActualParameters.All(p => p.IsRequired == false));
+            Assert.True(operation.ActualParameters.First().IsRequired);
+            Assert.True(operation.ActualParameters.Last().IsRequired);
         }
 
         [Fact]
@@ -34,7 +35,8 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
             // Assert
             var operation = document.Operations.First().Operation;
 
-            Assert.True(operation.ActualParameters.All(p => p.IsRequired == false));
+            Assert.True(operation.ActualParameters.First().IsRequired);
+            Assert.False(operation.ActualParameters.Last().IsRequired);
         }
     }
 }

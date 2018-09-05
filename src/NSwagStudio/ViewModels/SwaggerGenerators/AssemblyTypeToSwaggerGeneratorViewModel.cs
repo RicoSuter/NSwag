@@ -60,23 +60,6 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             }
         }
 
-        /// <summary>Gets or sets the reference path. </summary>
-        public string ReferencePaths
-        {
-            get
-            {
-                return Command.ReferencePaths != null ? string.Join(",", Command.ReferencePaths) : "";
-            }
-            set
-            {
-                if (!string.IsNullOrEmpty(value))
-                    Command.ReferencePaths = value.Split(',').Select(n => n.Trim()).Where(n => !string.IsNullOrEmpty(n)).ToArray();
-                else
-                    Command.ReferencePaths = new string[] { };
-                RaisePropertyChanged(() => ReferencePaths);
-            }
-        }
-
         /// <summary>Gets the default enum handlings. </summary>
         public EnumHandling[] EnumHandlings { get; } = Enum.GetNames(typeof(EnumHandling))
             .Select(t => (EnumHandling)Enum.Parse(typeof(EnumHandling), t))
