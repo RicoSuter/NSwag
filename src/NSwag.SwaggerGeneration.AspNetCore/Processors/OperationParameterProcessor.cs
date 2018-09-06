@@ -115,7 +115,6 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                 {
                     operationParameter = await CreatePrimitiveParameterAsync(context, extendedApiParameter).ConfigureAwait(false);
                     operationParameter.Kind = SwaggerParameterKind.Header;
-                    operationParameter.IsRequired = parameter != null && !IsNullable(parameter);
 
                     context.OperationDescription.Operation.Parameters.Add(operationParameter);
                 }

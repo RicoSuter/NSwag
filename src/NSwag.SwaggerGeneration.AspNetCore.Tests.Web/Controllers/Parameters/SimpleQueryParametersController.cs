@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers
+namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers.Parameters
 {
     [ApiController]
-    [Route("api/complexqueryparameters")]
+    [Route("api/[controller]")]
     public class SimpleQueryParametersController : Controller
     {
         [HttpGet]
