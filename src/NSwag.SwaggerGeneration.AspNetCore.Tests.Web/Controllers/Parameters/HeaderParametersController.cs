@@ -7,7 +7,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers.Parameters
     public class HeaderParametersController : Controller
     {
         [HttpGet]
-        public ActionResult MyAction([FromHeader] string first, [FromHeader] string second = null)
+        public ActionResult MyAction([FromHeader] string required, [FromHeader] string optional = null)
         {
             return Ok();
         }

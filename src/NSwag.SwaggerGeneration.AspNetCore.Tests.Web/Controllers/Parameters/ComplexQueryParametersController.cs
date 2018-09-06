@@ -14,9 +14,9 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers.Parameters
 
         public class GetListCommand
         {
-            public int? Page { get; set; }
+            public int? Required01 { get; set; }
 
-            public int PageSize { get; set; } = 10;
+            public int Required02 { get; set; } = 10; // TODO: Should be optional
         }
     }
 }
