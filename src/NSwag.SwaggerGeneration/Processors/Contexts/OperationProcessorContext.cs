@@ -76,5 +76,8 @@ namespace NSwag.SwaggerGeneration.Processors.Contexts
 
         /// <summary>Gets or sets all operation descriptions.</summary>
         public IList<SwaggerOperationDescription> AllOperationDescriptions { get; }
+
+        /// <summary>Gets the ParameterInfo to SwaggerParameter mappings.</summary>
+        public IReadOnlyDictionary<ParameterInfo, SwaggerParameter> Parameters { get; } = new Dictionary<ParameterInfo, SwaggerParameter>();
     }
 }

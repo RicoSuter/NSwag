@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors.Contexts;
 
 namespace NSwag.SwaggerGeneration.Processors
@@ -24,22 +25,43 @@ namespace NSwag.SwaggerGeneration.Processors
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
         public Task<bool> ProcessAsync(OperationProcessorContext context)
         {
-            foreach (var extensionDataAttribute in from extensionDataAttribute in context.MethodInfo.GetCustomAttributes()
-                                                                                  .Where(a => a.GetType().Name == "SwaggerExtensionDataAttribute")
-                                                   select (dynamic)extensionDataAttribute)
+            var operation = context.OperationDescription.Operation;
+            if (operation.ExtensionData == null)
+            {
+                operation.ExtensionData = new Dictionary<string, object>();
+            }
+
+            foreach (var extensionDataAttribute in
+                    from extensionDataAttribute
+                    in context.MethodInfo.GetCustomAttributes()
+                        .Where(a => a.GetType().IsAssignableTo("SwaggerExtensionDataAttribute", TypeNameStyle.Name))
+                    select (dynamic)extensionDataAttribute)
             {
                 string key = extensionDataAttribute.Key;
                 string value = extensionDataAttribute.Value;
 
-                if (context.OperationDescription.Operation.ExtensionData == null)
-                {
-                    context.OperationDescription.Operation.ExtensionData = new Dictionary<string, object>();
-                }
-
-                context.OperationDescription.Operation.ExtensionData[key] = value;
+                operation.ExtensionData[key] = value;
             }
 
-            // TODO: process for parameters
+            foreach (var parameter in context.Parameters)
+            {
+                if (parameter.Value.ExtensionData == null)
+                {
+                    parameter.Value.ExtensionData = new Dictionary<string, object>();
+                }
+
+                foreach (var extensionDataAttribute in
+                    from extensionDataAttribute
+                    in parameter.Key.GetCustomAttributes(true)
+                        .Where(a => a.GetType().IsAssignableTo("SwaggerExtensionDataAttribute", TypeNameStyle.Name))
+                    select (dynamic)extensionDataAttribute)
+                {
+                    string key = extensionDataAttribute.Key;
+                    string value = extensionDataAttribute.Value;
+
+                    parameter.Value.ExtensionData[key] = value;
+                }
+            }
 
             return Task.FromResult(true);
         }

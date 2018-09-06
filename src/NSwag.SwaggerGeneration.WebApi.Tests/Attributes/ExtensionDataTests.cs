@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
 using NSwag.Annotations;
 
 namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
@@ -32,11 +31,12 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
             Assert.AreEqual("b", document.ExtensionData["a"]);
             Assert.AreEqual("y", document.ExtensionData["x"]);
         }
+
         public class TagsTest3Controller : ApiController
         {
             [SwaggerExtensionData("a", "b")]
             [SwaggerExtensionData("x", "y")]
-            public void MyAction()
+            public void MyAction([SwaggerExtensionData("c", "d")] string foo)
             {
 
             }
@@ -57,6 +57,8 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
 
             Assert.AreEqual("b", document.Operations.First().Operation.ExtensionData["a"]);
             Assert.AreEqual("y", document.Operations.First().Operation.ExtensionData["x"]);
+            Assert.AreEqual("foo", document.Operations.First().Operation.Parameters.First().Name);
+            Assert.AreEqual("d", document.Operations.First().Operation.Parameters.First().ExtensionData["c"]);
         }
     }
 }

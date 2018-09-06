@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors.Contexts;
 
 namespace NSwag.SwaggerGeneration.Processors
@@ -23,18 +24,19 @@ namespace NSwag.SwaggerGeneration.Processors
         /// <param name="context">The processor context.</param>
         public Task ProcessAsync(DocumentProcessorContext context)
         {
-            foreach (var extensionDataAttribute in from type in context.ControllerTypes
-                                                   from extensionDataAttribute in type.GetTypeInfo().GetCustomAttributes()
-                                                                                      .Where(a => a.GetType().Name == "SwaggerExtensionDataAttribute")
-                                                   select (dynamic)extensionDataAttribute)
+            if (context.Document.ExtensionData == null)
+            {
+                context.Document.ExtensionData = new Dictionary<string, object>();
+            }
+
+            foreach (var extensionDataAttribute in
+                from type in context.AllControllerTypes
+                from extensionDataAttribute in type.GetTypeInfo().GetCustomAttributes(true)
+                    .Where(a => a.GetType().IsAssignableTo("SwaggerExtensionDataAttribute", TypeNameStyle.Name))
+                select (dynamic)extensionDataAttribute)
             {
                 string key = extensionDataAttribute.Key;
                 string value = extensionDataAttribute.Value;
-
-                if (context.Document.ExtensionData == null)
-                {
-                    context.Document.ExtensionData = new Dictionary<string, object>();
-                }
 
                 context.Document.ExtensionData[key] = value;
             }
