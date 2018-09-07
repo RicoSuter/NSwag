@@ -222,11 +222,13 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
             Settings.DocumentTemplate = await GetDocumentTemplateAsync();
             InitializeCustomTypes(assemblyLoader);
 
-            var previousWorkingDirectory = ChangeWorkingDirectory();
-            using (var testServer = await CreateTestServerAsync(assemblyLoader))
+            var startupType = await GetStartupTypeAsync(assemblyLoader);
+            var currentWorkingDirectory = ChangeWorkingDirectory();
+            using (var testServer = CreateTestServer(startupType))
             {
-                // See https://github.com/aspnet/Mvc/issues/5690
+                Directory.SetCurrentDirectory(currentWorkingDirectory);
 
+                // See https://github.com/aspnet/Mvc/issues/5690
                 var type = typeof(IApiDescriptionGroupCollectionProvider);
                 var apiDescriptionProvider = (IApiDescriptionGroupCollectionProvider)testServer.Host.Services.GetRequiredService(type);
 
@@ -235,7 +237,6 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
                 var document = await generator.GenerateAsync(apiDescriptionProvider.ApiDescriptionGroups).ConfigureAwait(false);
 
                 var json = PostprocessDocument(document);
-                Directory.SetCurrentDirectory(previousWorkingDirectory);
                 return json;
             }
         }

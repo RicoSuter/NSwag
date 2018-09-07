@@ -16,8 +16,8 @@ namespace NSwag.SwaggerGeneration.AspNetCore
         /// <summary>Initializes a new instance of the <see cref="AspNetCoreToSwaggerGeneratorSettings"/> class.</summary>
         public AspNetCoreToSwaggerGeneratorSettings()
         {
-            OperationProcessors.Add(new OperationParameterProcessor(this));
-            OperationProcessors.Add(new OperationResponseProcessor(this));
+            OperationProcessors.Insert(3, new OperationParameterProcessor(this));
+            OperationProcessors.Insert(3, new OperationResponseProcessor(this));
         }
     }
 }

@@ -76,7 +76,8 @@ namespace NSwag.Commands.SwaggerGeneration.WebApi
             WebApiToSwaggerGeneratorSettings settings;
             if (IsAspNetCore && ResolveJsonOptions)
             {
-                using (var testServer = await CreateTestServerAsync(assemblyLoader))
+                var startupType = await GetStartupTypeAsync(assemblyLoader);
+                using (var testServer = CreateTestServer(startupType))
                     settings = await CreateSettingsAsync(assemblyLoader, testServer.Host);
             }
             else

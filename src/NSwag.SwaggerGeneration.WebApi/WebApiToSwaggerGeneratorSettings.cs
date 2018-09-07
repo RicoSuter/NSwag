@@ -16,8 +16,8 @@ namespace NSwag.SwaggerGeneration.WebApi
         /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerGeneratorSettings"/> class.</summary>
         public WebApiToSwaggerGeneratorSettings()
         {
-            OperationProcessors.Add(new OperationParameterProcessor(this));
-            OperationProcessors.Add(new OperationResponseProcessor(this));
+            OperationProcessors.Insert(3, new OperationParameterProcessor(this));
+            OperationProcessors.Insert(3, new OperationResponseProcessor(this));
         }
 
         /// <summary>Gets or sets the default Web API URL template (default for Web API: 'api/{controller}/{id}'; for MVC projects: '{controller}/{action}/{id?}').</summary>

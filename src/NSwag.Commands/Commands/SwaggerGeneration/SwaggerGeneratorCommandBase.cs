@@ -196,7 +196,12 @@ namespace NSwag.Commands.SwaggerGeneration
             }
         }
 
-        protected async Task<TestServer> CreateTestServerAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
+        protected TestServer CreateTestServer(Type startupType)
+        {
+            return new TestServer(new WebHostBuilder().UseStartup(startupType));
+        }
+
+        protected async Task<Type> GetStartupTypeAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
             Type startupType;
 
@@ -209,7 +214,7 @@ namespace NSwag.Commands.SwaggerGeneration
             else
                 startupType = assemblyLoader.GetType(StartupType);
 
-            return new TestServer(new WebHostBuilder().UseStartup(startupType));
+            return startupType;
         }
 
         protected void InitializeCustomTypes(AssemblyLoader.AssemblyLoader assemblyLoader)

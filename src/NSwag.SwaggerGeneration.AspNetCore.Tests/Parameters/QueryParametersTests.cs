@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers;
+using NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers.Parameters;
 using Xunit;
 
-namespace NSwag.SwaggerGeneration.AspNetCore.Tests
+namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Parameters
 {
     public class QueryParametersTests : AspNetCoreTestsBase
     {
