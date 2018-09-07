@@ -1,5 +1,5 @@
 ﻿{
-  "x-generator": "NSwag v11.19.0.0 (NJsonSchema v9.10.72.0 (Newtonsoft.Json v9.0.0.0))",
+  "x-generator": "NSwag v11.19.1.0 (NJsonSchema v9.10.72.0 (Newtonsoft.Json v9.0.0.0))",
   "swagger": "2.0",
   "info": {
     "title": "My Title",
@@ -421,6 +421,16 @@
     }
   },
   "definitions": {
+    "SerializableError": {
+      "type": "object",
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "type": "object",
+          "additionalProperties": {}
+        }
+      ]
+    },
     "Pet": {
       "type": "object",
       "additionalProperties": false,
@@ -518,16 +528,6 @@
           "type": "string"
         }
       }
-    },
-    "SerializableError": {
-      "type": "object",
-      "additionalProperties": false,
-      "allOf": [
-        {
-          "type": "object",
-          "additionalProperties": {}
-        }
-      ]
     },
     "ApiResponse": {
       "type": "object",
