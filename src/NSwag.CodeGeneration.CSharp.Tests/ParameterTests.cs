@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NJsonSchema;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
@@ -196,6 +197,82 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             //// Assert
             Assert.IsTrue(code.Contains("lastName"));
             Assert.IsTrue(code.Contains("optionalOrderId"));
+        }
+
+        [TestMethod]
+        public void Deep_object_properties_are_correctly_named()
+        {
+            //// Arrange
+            var swagger = @"{
+   'openapi' : '3.0',
+   'info' : {
+      'version' : '1.0.2',
+       'title' : 'Test API'
+   },
+   'paths': {
+      '/journeys': {
+         'get': {
+            'tags': [
+               'CheckIn'
+            ],
+            'summary': 'Retrieve journeys',
+            'operationId': 'retrieveJourneys',
+            'description': '',
+            'parameters': [
+                {
+                   'name': 'lastName',
+                   'in': 'query',
+                   'schema': { 'type': 'string' }
+                },
+                {
+                   'name': 'eTicketNumber',
+                   'in': 'query',
+                   'schema': { 'type': 'string' }
+                },
+                {
+                   'name': 'options',
+                   'in': 'query',
+                   'style': 'deepObject',
+                   'explode': true,
+                   'schema': { '$ref': '#/components/schemas/Options' }
+                }
+            ],
+            'responses': {}
+         }
+      }
+   },
+   'components':{
+      'schemas': {
+         'Options': {
+            'type':'object',
+            'properties': {
+               'optionalOrder.id': {
+                  'schema': { 'type': 'string' }
+               },
+               'optionalFrequentFlyerCard.id':{
+                  'schema': { 'type': 'string' }
+               },
+               'optionalDepartureDate':{
+                  'schema': { 'type': 'string' }
+               },
+               'optionalOriginLocationCode':{
+                  'schema': { 'type': 'string' }
+               }
+            }
+         }
+      }
+   }
+}";
+
+            var document = SwaggerDocument.FromJsonAsync(swagger, "", SchemaType.OpenApi3).Result;
+
+            //// Act
+            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+            var code = generator.GenerateFile();
+
+            //// Assert
+            Assert.IsTrue(code.Contains("options[optionalOrder.id]="));
+            Assert.IsTrue(code.Contains("options.OptionalOrderId"));
         }
     }
 }
