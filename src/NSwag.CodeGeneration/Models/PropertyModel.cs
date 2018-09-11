@@ -20,7 +20,7 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>
         /// The generated property name suitable for use in the target language
         /// </summary>
-        public string PropertyName { get; }
+        public string Name { get; }
 
         /// <summary>
         /// Indicates whether the property is a collection
@@ -28,17 +28,17 @@ namespace NSwag.CodeGeneration.Models
         public bool IsCollection => JsonProperty.Type == JsonObjectType.Array;
 
         /// <inheritdoc />
-        public PropertyModel(string key, JsonProperty jsonProperty, string propertyName)
+        public PropertyModel(string key, JsonProperty jsonProperty, string name)
         {
             Key = key;
             JsonProperty = jsonProperty;
-            PropertyName = propertyName;
+            Name = name;
         }
 
         /// <inheritdoc />
         public override string ToString()
         {
-            return PropertyName;
+            return Name;
         }
     }
 }

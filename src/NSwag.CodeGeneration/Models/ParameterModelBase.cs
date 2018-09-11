@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 using System.Collections.Generic;
@@ -46,7 +47,7 @@ namespace NSwag.CodeGeneration.Models
             Name = parameterName;
             VariableName = variableName;
 
-            var propertyNameGenerator = settings?.PropertyNameGenerator ?? new DefaultPropertyNameGenerator();
+            var propertyNameGenerator = settings?.PropertyNameGenerator ?? throw new InvalidOperationException("PropertyNameGenerator not set.");
 
             _properties = _parameter.ActualSchema.ActualProperties
                 .Select(p => new PropertyModel(p.Key, p.Value, propertyNameGenerator.Generate(p.Value)))
