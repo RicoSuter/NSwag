@@ -199,7 +199,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             Assert.IsTrue(code.Contains("optionalOrderId"));
         }
 
-         [TestMethod]
+        [TestMethod]
         public void Deep_object_properties_are_correctly_named()
         {
             //// Arrange
