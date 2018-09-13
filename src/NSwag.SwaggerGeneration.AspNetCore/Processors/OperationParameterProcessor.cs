@@ -217,22 +217,9 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 
         private async Task AddFileParameterAsync(OperationProcessorContext context, ExtendedApiParameterDescription extendedApiParameter, bool isFileArray)
         {
-            var parameterDocumentation = string.Empty;
-            if (extendedApiParameter.ParameterInfo != null)
-            {
-                parameterDocumentation = await extendedApiParameter.ParameterInfo.GetDescriptionAsync(extendedApiParameter.Attributes).ConfigureAwait(false);
-            }
-            else if (extendedApiParameter.PropertyInfo != null)
-            {
-                parameterDocumentation = await extendedApiParameter.PropertyInfo.GetDescriptionAsync(extendedApiParameter.Attributes).ConfigureAwait(false);
-            }
-
-            // TODO: Process parameterDocumentation (AspNetCoreToSwaggerGenerator)
-
-            var operationParameter = await CreatePrimitiveParameterAsync(
-                context, extendedApiParameter).ConfigureAwait(false);
-
+            var operationParameter = await CreatePrimitiveParameterAsync(context, extendedApiParameter).ConfigureAwait(false);
             InitializeFileParameter(operationParameter, isFileArray);
+
             context.OperationDescription.Operation.Parameters.Add(operationParameter);
         }
 
