@@ -6,16 +6,33 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers.Parameters
     [Route("api/[controller]")]
     public class BodyParametersController : Controller
     {
-        [HttpPost("required")]
-        public ActionResult Required([FromBody] string required)
+        [HttpPost("RequiredPrimitive")]
+        public ActionResult RequiredPrimitive([FromBody] string required)
         {
             return Ok();
         }
 
-        [HttpPost("optional")]
-        public ActionResult Optional([FromBody] string optional = null)
+        [HttpPost("OptionalPrimitive")]
+        public ActionResult OptionalPrimitive([FromBody] string optional = null)
         {
             return Ok();
+        }
+
+        [HttpPost("RequiredComplex")]
+        public ActionResult RequiredComplex(ComplexThing required)
+        {
+            return Ok();
+        }
+
+        [HttpPost("OptionalComplex")]
+        public ActionResult OptionalComplex(ComplexThing optional = null)
+        {
+            return Ok();
+        }
+
+        public class ComplexThing
+        {
+            public string Foo { get; set; }
         }
     }
 }
