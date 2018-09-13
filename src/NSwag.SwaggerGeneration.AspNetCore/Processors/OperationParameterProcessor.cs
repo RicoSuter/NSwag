@@ -246,7 +246,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                     Kind = SwaggerParameterKind.Body,
                     Schema = new JsonSchema4 { Type = JsonObjectType.String },
                     IsNullableRaw = true,
-                    IsRequired = true,
+                    IsRequired = extendedApiParameter.IsRequired,
                     Description = await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false)
                 };
             }
@@ -259,7 +259,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                     Kind = SwaggerParameterKind.Body,
                     Schema = new JsonSchema4 { Type = JsonObjectType.String, Format = JsonFormatStrings.Byte },
                     IsNullableRaw = true,
-                    IsRequired = true,
+                    IsRequired = extendedApiParameter.IsRequired,
                     Description = await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false)
                 };
             }
@@ -271,7 +271,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                 {
                     Name = extendedApiParameter.ApiParameter.Name,
                     Kind = SwaggerParameterKind.Body,
-                    IsRequired = true, // FromBody parameters are always required.
+                    IsRequired = extendedApiParameter.IsRequired,
                     IsNullableRaw = typeDescription.IsNullable,
                     Description = await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false),
                     Schema = await context.SchemaGenerator.GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(
