@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Mvc.Versioning;
 
 namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web
 {
@@ -21,6 +22,13 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web
             services.AddApiVersioning(options =>
             {
                 options.AssumeDefaultVersionWhenUnspecified = true;
+            })
+            .AddMvcCore()
+            .AddVersionedApiExplorer(o =>
+            {
+                o.GroupNameFormat = "VVV";
+                o.ApiVersionParameterSource = new HeaderApiVersionReader("api-version");
+                o.AssumeDefaultVersionWhenUnspecified = false;
             });
         }
 

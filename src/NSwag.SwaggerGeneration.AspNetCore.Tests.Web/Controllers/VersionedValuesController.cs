@@ -13,7 +13,6 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers
     {
         [HttpGet]
         [MapToApiVersion("1")]
-        [MapToApiVersion("2")]
         public ActionResult<IEnumerable<string>> Get()
         {
             return new string[] { "value1", "value2" };
@@ -26,6 +25,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers
             return "value";
         }
 
+        
         [HttpPost]
         [MapToApiVersion("1")]
         public void Post([FromBody] string value)
