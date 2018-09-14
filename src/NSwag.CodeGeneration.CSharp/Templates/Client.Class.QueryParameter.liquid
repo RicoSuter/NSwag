@@ -6,16 +6,16 @@ urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString({
 foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append("{{ parameter.Name }}=").Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
 {% elseif parameter.IsDeepObject -%}
 {%     for property in parameter.PropertyNames -%}
-if ({{parameter.Name}}.{{property}} != null)
+if ({{parameter.Name}}.{{property.Name}} != null)
 {
-    urlBuilder_.Append("{{parameter.Name}}[{{property}}]=").Append(System.Uri.EscapeDataString(ConvertToString({{parameter.Name}}.{{property}}, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+    urlBuilder_.Append("{{parameter.Name}}[{{property.Key}}]=").Append(System.Uri.EscapeDataString(ConvertToString({{parameter.Name}}.{{property.Name}}, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
 }
 {%     endfor -%}
 {%     for property in parameter.CollectionPropertyNames -%}
-if ({{parameter.Name}}.{{property}} != null && {{parameter.Name}}.{{property}}.Count > 0)
+if ({{parameter.Name}}.{{property.Name}} != null && {{parameter.Name}}.{{property.Name}}.Count > 0)
 {
-    urlBuilder_.Append("{{parameter.Name}}[{{property}}]=");
-    foreach (var p_ in {{parameter.Name}}.{{property}})
+    urlBuilder_.Append("{{parameter.Name}}[{{property.Key}}]=");
+    foreach (var p_ in {{parameter.Name}}.{{property.Name}})
     {
         urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(p_, System.Globalization.CultureInfo.InvariantCulture))).Append(",");
     }
