@@ -20,7 +20,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Parameters
             var operation = document.Operations.First().Operation;
 
             Assert.True(operation.ActualParameters.First().IsRequired);
-            Assert.True(operation.ActualParameters.Last().IsRequired);
+            Assert.False(operation.ActualParameters.Last().IsRequired);
         }
 
         [Fact]

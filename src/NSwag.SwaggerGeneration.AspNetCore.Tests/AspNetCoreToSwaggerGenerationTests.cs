@@ -456,7 +456,6 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
             var parameter = Assert.Single(operation.Parameters);
             Assert.Equal(SwaggerParameterKind.FormData, parameter.Kind);
             Assert.Equal("formParameter", parameter.Name);
-            Assert.True(parameter.IsRequired);
         }
 
         [Fact]
@@ -479,9 +478,6 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
 
             Assert.Equal("queryParameter1", requiredParameter.Name);
             Assert.Equal("queryParameter2", optionalParameter.Name);
-
-            Assert.True(requiredParameter.IsRequired);
-            Assert.False(optionalParameter.IsRequired);
         }
 
         [Fact]
@@ -698,7 +694,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
             public IActionResult FromBodyParameter([FromBody] TestModel model) => null;
 
             [HttpPost(nameof(FromFormParameter))]
-            public IActionResult FromFormParameter([FromForm] string formParameter) => null;
+            public IActionResult FromFormParameter([FromForm, BindRequired] string formParameter) => null;
 
             [HttpPost(nameof(FileParameter))]
             public IActionResult FileParameter(IFormFileCollection formFiles) => null;
@@ -707,7 +703,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
             public IActionResult ComplexFromQueryParameter(ComplexModel model) => null;
 
             [HttpPost(nameof(QueryParameter))]
-            public IActionResult QueryParameter(string queryParameter1, string queryParameter2 = null) => null;
+            public IActionResult QueryParameter([BindRequired]string queryParameter1, string queryParameter2 = null) => null;
         }
 
         private class ControllerWithBoundProperties

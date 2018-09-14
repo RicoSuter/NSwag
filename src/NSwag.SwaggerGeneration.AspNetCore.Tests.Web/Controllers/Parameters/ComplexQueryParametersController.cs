@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers.Parameters
 {
@@ -14,9 +15,10 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers.Parameters
 
         public class GetListCommand
         {
-            public int? Required01 { get; set; }
+            [BindRequired]
+            public int? Required { get; set; }
 
-            public int Required02 { get; set; } = 10; // TODO: Should be optional
+            public int Optional { get; set; } = 10;
         }
     }
 }
