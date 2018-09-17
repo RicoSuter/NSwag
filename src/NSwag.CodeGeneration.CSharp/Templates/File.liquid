@@ -118,7 +118,7 @@ namespace {{ Namespace }}
         public System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
 
         public {{ exceptionClassName }}(string message, int statusCode, string response, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Exception innerException) 
-            : base(message, innerException)
+            : base($"{message} [status: {statusCode}, response: {response}]", innerException)
         {
             StatusCode = statusCode;
             Response = response; 
