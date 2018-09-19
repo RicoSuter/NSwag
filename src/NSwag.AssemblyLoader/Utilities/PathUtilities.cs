@@ -98,8 +98,8 @@ namespace NSwag.AssemblyLoader.Utilities
         /// <exception cref="ArgumentException">The path of the two files doesn't have any common base.</exception>
         public static string MakeRelativePath(string absolutePath, string relativeTo)
         {
-            string[] absParts = absolutePath.Split(System.IO.Path.DirectorySeparatorChar);
-            string[] relParts = relativeTo.Split(System.IO.Path.DirectorySeparatorChar);
+            string[] absParts = absolutePath.Split(Path.DirectorySeparatorChar);
+            string[] relParts = relativeTo.Split(Path.DirectorySeparatorChar);
 
             // Get the shortest of the two paths
             int len = absParts.Length < relParts.Length ? absParts.Length : relParts.Length;
@@ -128,14 +128,14 @@ namespace NSwag.AssemblyLoader.Utilities
             for (index = lastCommonRoot + 1; index < relParts.Length; index++)
             {
                 relativePath.Append("..");
-                relativePath.Append(System.IO.Path.DirectorySeparatorChar);
+                relativePath.Append(Path.DirectorySeparatorChar);
             }
 
             // Add on the folders
             for (index = lastCommonRoot + 1; index < absParts.Length - 1; index++)
             {
                 relativePath.Append(absParts[index]);
-                relativePath.Append(System.IO.Path.DirectorySeparatorChar);
+                relativePath.Append(Path.DirectorySeparatorChar);
             }
             relativePath.Append(absParts[absParts.Length - 1]);
 
