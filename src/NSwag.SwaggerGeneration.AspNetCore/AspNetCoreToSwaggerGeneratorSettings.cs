@@ -19,5 +19,9 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             OperationProcessors.Insert(3, new OperationParameterProcessor(this));
             OperationProcessors.Insert(3, new OperationResponseProcessor(this));
         }
+
+        /// <summary>Gets or sets a value indicating whether to use strict required parameter handling
+        /// (i.e. api explorer info and only optional when default is set, legacy, default: false).</summary>
+        public bool UseStrictRequiredParameterHandling { get; set; }
     }
 }

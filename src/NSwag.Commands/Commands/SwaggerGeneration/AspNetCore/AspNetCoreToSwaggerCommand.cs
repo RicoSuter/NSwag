@@ -57,6 +57,14 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
         [Argument(Name = nameof(WorkingDirectory), IsRequired = false, Description = "The working directory to use.")]
         public string WorkingDirectory { get; set; }
 
+        [Argument(Name = "UseStrictRequiredParameterHandling", IsRequired = false, Description = "Use strict required parameter handling " +
+                                                                                                 "(i.e. api explorer info and only optional when default is set, legacy, default: false).")]
+        public bool UseStrictRequiredParameterHandling
+        {
+            get => Settings.UseStrictRequiredParameterHandling;
+            set => Settings.UseStrictRequiredParameterHandling = value;
+        }
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             // Run with .csproj
