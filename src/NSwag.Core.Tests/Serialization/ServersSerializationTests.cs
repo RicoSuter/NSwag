@@ -21,8 +21,8 @@ namespace NSwag.Core.Tests.Serialization
 @"{
   ""swagger"": ""2.0"",
   ""info"": {
-    ""title"": """",
-    ""version"": """"
+    ""title"": ""Swagger specification"",
+    ""version"": ""1.0.0""
   }
 }".Replace("\r", ""), json.Replace("\r", ""));
         }

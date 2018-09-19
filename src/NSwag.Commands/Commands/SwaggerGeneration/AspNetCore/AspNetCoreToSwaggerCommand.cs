@@ -178,8 +178,7 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
 
                     host?.WriteMessage($"Output written to {outputFile}.{Environment.NewLine}");
 
-                    JsonReferenceResolver ReferenceResolverFactory(SwaggerDocument d) =>
-                        new JsonAndYamlReferenceResolver(new NJsonSchema.JsonSchemaResolver(d, Settings));
+                    JsonReferenceResolver ReferenceResolverFactory(SwaggerDocument d) => new JsonAndYamlReferenceResolver(new JsonSchemaResolver(d, Settings));
 
                     var documentJson = File.ReadAllText(outputFile);
                     var document = await SwaggerDocument.FromJsonAsync(documentJson, null, OutputType, ReferenceResolverFactory).ConfigureAwait(false);
@@ -227,7 +226,6 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
 
         protected override async Task<string> RunIsolatedAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
-            Settings.DocumentTemplate = await GetDocumentTemplateAsync();
             InitializeCustomTypes(assemblyLoader);
 
             var startupType = await GetStartupTypeAsync(assemblyLoader);
@@ -240,7 +238,7 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
                 var type = typeof(IApiDescriptionGroupCollectionProvider);
                 var apiDescriptionProvider = (IApiDescriptionGroupCollectionProvider)testServer.Host.Services.GetRequiredService(type);
 
-                var settings = await CreateSettingsAsync(assemblyLoader, testServer.Host);
+                var settings = await CreateSettingsAsync(assemblyLoader, testServer.Host, currentWorkingDirectory);
                 var generator = new AspNetCoreToSwaggerGenerator(settings);
                 var document = await generator.GenerateAsync(apiDescriptionProvider.ApiDescriptionGroups).ConfigureAwait(false);
 

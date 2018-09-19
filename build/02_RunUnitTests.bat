@@ -7,6 +7,7 @@ vstest.console /logger:Appveyor "%~dp0../src\NSwag.Tests\bin/Release/NSwag.Tests
 dotnet test "%~dp0/../src/NSwag.SwaggerGeneration.AspNetCore.Tests/NSwag.SwaggerGeneration.AspNetCore.Tests.csproj" -c Release || goto :error
 dotnet test "%~dp0/../src/NSwag.Core.Tests/NSwag.Core.Tests.csproj" -c Release || goto :error
 dotnet test "%~dp0/../src/NSwag.Core.Yaml.Tests/NSwag.Core.Yaml.Tests.csproj" -c Release || goto :error
+dotnet test "%~dp0/../src/NSwag.AssemblyLoader.Tests/NSwag.AssemblyLoader.Tests.csproj" -c Release || goto :error
 
 goto :EOF
 :error

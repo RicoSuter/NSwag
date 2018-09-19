@@ -170,17 +170,25 @@ namespace NSwag.SwaggerGeneration.AspNetCore
 
         private async Task<SwaggerDocument> CreateDocumentAsync()
         {
-            var document = !string.IsNullOrEmpty(Settings.DocumentTemplate) ? await SwaggerDocument.FromJsonAsync(Settings.DocumentTemplate).ConfigureAwait(false) : new SwaggerDocument();
+            var document = !string.IsNullOrEmpty(Settings.DocumentTemplate) ? 
+                await SwaggerDocument.FromJsonAsync(Settings.DocumentTemplate).ConfigureAwait(false) : 
+                new SwaggerDocument();
 
             document.Generator = $"NSwag v{SwaggerDocument.ToolchainVersion} (NJsonSchema v{JsonSchema4.ToolchainVersion})";
             document.SchemaType = Settings.SchemaType;
 
-            document.Info = new SwaggerInfo
+            if (document.Info == null)
+                document.Info = new SwaggerInfo();
+
+            if (string.IsNullOrEmpty(Settings.DocumentTemplate))
             {
-                Title = Settings.Title,
-                Description = Settings.Description,
-                Version = Settings.Version,
-            };
+                if (!string.IsNullOrEmpty(Settings.Title))
+                    document.Info.Title = Settings.Title;
+                if (!string.IsNullOrEmpty(Settings.Description))
+                    document.Info.Description = Settings.Description;
+                if (!string.IsNullOrEmpty(Settings.Version))
+                    document.Info.Version = Settings.Version;
+            }
 
             return document;
         }

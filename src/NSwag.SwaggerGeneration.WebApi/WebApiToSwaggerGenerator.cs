@@ -124,12 +124,15 @@ namespace NSwag.SwaggerGeneration.WebApi
             if (document.Info == null)
                 document.Info = new SwaggerInfo();
 
-            if (!string.IsNullOrEmpty(Settings.Title))
-                document.Info.Title = Settings.Title;
-            if (!string.IsNullOrEmpty(Settings.Description))
-                document.Info.Description = Settings.Description;
-            if (!string.IsNullOrEmpty(Settings.Version))
-                document.Info.Version = Settings.Version;
+            if (string.IsNullOrEmpty(Settings.DocumentTemplate))
+            {
+                if (!string.IsNullOrEmpty(Settings.Title))
+                    document.Info.Title = Settings.Title;
+                if (!string.IsNullOrEmpty(Settings.Description))
+                    document.Info.Description = Settings.Description;
+                if (!string.IsNullOrEmpty(Settings.Version))
+                    document.Info.Version = Settings.Version;
+            }
 
             return document;
         }
