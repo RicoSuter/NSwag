@@ -39,10 +39,7 @@ namespace NSwag
             };
 
             Paths = paths;
-            Info = new SwaggerInfo
-            {
-                Title = string.Empty
-            };
+            Info = new SwaggerInfo();
         }
 
         /// <summary>Gets the NSwag toolchain version.</summary>
