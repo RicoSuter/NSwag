@@ -13,7 +13,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers.Parameters
         }
 
         [HttpPost("OptionalPrimitive")]
-        public ActionResult OptionalPrimitive([FromBody] string optional = null)
+        public ActionResult RequiredPrimitiveWithDefault([FromBody] string required = null)
         {
             return Ok();
         }
@@ -25,7 +25,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers.Parameters
         }
 
         [HttpPost("OptionalComplex")]
-        public ActionResult OptionalComplex(ComplexThing optional = null)
+        public ActionResult RequiredComplexWithDefault(ComplexThing required = null)
         {
             return Ok();
         }

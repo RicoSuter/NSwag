@@ -32,7 +32,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Parameters
             var document = await GenerateDocumentAsync(settings, typeof(BodyParametersController));
 
             // Assert
-            var operation = document.Operations.First(o => o.Operation.OperationId == "BodyParameters_OptionalPrimitive").Operation;
+            var operation = document.Operations.First(o => o.Operation.OperationId == "BodyParameters_RequiredPrimitiveWithDefault").Operation;
 
             Assert.True(operation.ActualParameters.First().IsRequired);
         }
@@ -62,7 +62,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Parameters
             var document = await GenerateDocumentAsync(settings, typeof(BodyParametersController));
 
             // Assert
-            var operation = document.Operations.First(o => o.Operation.OperationId == "BodyParameters_OptionalComplex").Operation;
+            var operation = document.Operations.First(o => o.Operation.OperationId == "BodyParameters_RequiredComplexWithDefault").Operation;
 
             Assert.True(operation.ActualParameters.First().IsRequired);
         }
