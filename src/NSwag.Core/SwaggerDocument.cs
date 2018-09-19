@@ -41,8 +41,7 @@ namespace NSwag
             Paths = paths;
             Info = new SwaggerInfo
             {
-                Title = string.Empty,
-                Description = string.Empty
+                Title = string.Empty
             };
         }
 
