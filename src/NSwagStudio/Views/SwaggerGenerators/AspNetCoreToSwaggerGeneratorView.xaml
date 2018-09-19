@@ -114,17 +114,21 @@
             </CheckBox>
 
             <StackPanel Visibility="{Binding Command.UseDocumentProvider, Converter={StaticResource NotConverter}}">
-                <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
-                    <Run Text="Default Enum Handling" FontWeight="Bold" />
-                    <LineBreak />
-                    Choose 'Integer' if you use the default Json.NET serializer or 'String' if a global StringEnumConverter is registered.
-                </TextBlock>
-                <ComboBox SelectedItem="{Binding Command.DefaultEnumHandling, Mode=TwoWay}" 
-                          ToolTip="DefaultEnumHandling" ItemsSource="{Binding EnumHandlings}" Margin="0,0,0,12" />
+                <GroupBox Header="Deprecated, automatically resolved via DI (do not change)" Margin="0,0,0,8">
+                    <StackPanel Margin="4,8,4,-8">
+                        <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
+                        <Run Text="Default Enum Handling" FontWeight="Bold" />
+                        <LineBreak />
+                            Choose 'Integer' if you use the default Json.NET serializer or 'String' if a global StringEnumConverter is registered.
+                        </TextBlock>
+                        <ComboBox SelectedItem="{Binding Command.DefaultEnumHandling, Mode=TwoWay}" 
+                                  ToolTip="DefaultEnumHandling" ItemsSource="{Binding EnumHandlings}" Margin="0,0,0,12" />
 
-                <TextBlock Margin="0,0,0,6" Text="Default Property Name Handling" TextWrapping="Wrap" FontWeight="Bold" />
-                <ComboBox SelectedItem="{Binding Command.DefaultPropertyNameHandling, Mode=TwoWay}" 
-                          ToolTip="DefaultPropertyNameHandling" ItemsSource="{Binding PropertyNameHandlings}" Margin="0,0,0,12" />
+                        <TextBlock Margin="0,0,0,6" Text="Default Property Name Handling" TextWrapping="Wrap" FontWeight="Bold" />
+                        <ComboBox SelectedItem="{Binding Command.DefaultPropertyNameHandling, Mode=TwoWay}" 
+                                  ToolTip="DefaultPropertyNameHandling" ItemsSource="{Binding PropertyNameHandlings}" Margin="0,0,0,12" />
+                    </StackPanel>
+                </GroupBox>
 
                 <TextBlock Margin="0,0,0,6" Text="The default null handling (if NotNullAttribute and CanBeNullAttribute are missing)" TextWrapping="Wrap" FontWeight="Bold" />
                 <ComboBox SelectedItem="{Binding Command.DefaultReferenceTypeNullHandling, Mode=TwoWay}" 
@@ -226,11 +230,11 @@
                         <TextBox Text="{Binding Command.SchemaNameGeneratorType, Mode=TwoWay}" 
                                  ToolTip="SchemaNameGeneratorType" Margin="0,0,0,12" />
 
-                        <TextBlock Text="Custom IContractResolver implementation (deprecated)" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBlock Text="Custom IContractResolver implementation (deprecated, automatically resolved via DI)" FontWeight="Bold" Margin="0,0,0,6" />
                         <TextBox Text="{Binding Command.ContractResolverType, Mode=TwoWay}" 
                                  ToolTip="ContractResolverType" Margin="0,0,0,12" />
 
-                        <TextBlock Text="Custom JsonSerializerSettings implementation" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBlock Text="Custom JsonSerializerSettings implementation (deprecated, automatically resolved via DI)" FontWeight="Bold" Margin="0,0,0,6" />
                         <TextBox Text="{Binding Command.SerializerSettingsType, Mode=TwoWay}" 
                                  ToolTip="SerializerSettingsType" Margin="0,0,0,12" />
                     </StackPanel>
