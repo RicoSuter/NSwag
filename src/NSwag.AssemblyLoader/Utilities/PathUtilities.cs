@@ -98,8 +98,13 @@ namespace NSwag.AssemblyLoader.Utilities
         /// <exception cref="ArgumentException">The path of the two files doesn't have any common base.</exception>
         public static string MakeRelativePath(string absolutePath, string relativeTo)
         {
-            string[] absParts = absolutePath.Split(Path.DirectorySeparatorChar);
-            string[] relParts = relativeTo.Split(Path.DirectorySeparatorChar);
+            string[] absParts = absolutePath.Split(Path.DirectorySeparatorChar, '/');
+            string[] relParts = relativeTo.Split(Path.DirectorySeparatorChar, '/');
+
+            if (absParts.SequenceEqual(relParts))
+            {
+                return ".";
+            }
 
             // Get the shortest of the two paths
             int len = absParts.Length < relParts.Length ? absParts.Length : relParts.Length;
