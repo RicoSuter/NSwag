@@ -27,15 +27,17 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
 
             var previousWorkingDirectory = command.ChangeWorkingDirectory();
             var webHost = GetWebHost(applicationName);
+
+            Directory.SetCurrentDirectory(previousWorkingDirectory);
+
             var apiDescriptionProvider = webHost.Services.GetRequiredService<IApiDescriptionGroupCollectionProvider>();
 
             var assemblyLoader = new AssemblyLoader.AssemblyLoader();
-            var settings = Task.Run(async () => await command.CreateSettingsAsync(assemblyLoader, webHost)).GetAwaiter().GetResult();
+            var settings = Task.Run(async () => await command.CreateSettingsAsync(assemblyLoader, webHost, previousWorkingDirectory)).GetAwaiter().GetResult();
+
             var generator = new AspNetCoreToSwaggerGenerator(settings);
             var document = generator.GenerateAsync(apiDescriptionProvider.ApiDescriptionGroups).GetAwaiter().GetResult();
-
             var json = command.PostprocessDocument(document);
-            Directory.SetCurrentDirectory(previousWorkingDirectory);
 
             var outputPathDirectory = Path.GetDirectoryName(outputFile);
             Directory.CreateDirectory(outputPathDirectory);

@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -74,14 +75,15 @@ namespace NSwag.Commands.SwaggerGeneration.WebApi
             var controllerTypes = await GetControllerTypesAsync(controllerNames, assemblyLoader);
 
             WebApiToSwaggerGeneratorSettings settings;
+            var workingDirectory = Directory.GetCurrentDirectory();
             if (IsAspNetCore && ResolveJsonOptions)
             {
                 var startupType = await GetStartupTypeAsync(assemblyLoader);
                 using (var testServer = CreateTestServer(startupType))
-                    settings = await CreateSettingsAsync(assemblyLoader, testServer.Host);
+                    settings = await CreateSettingsAsync(assemblyLoader, testServer.Host, workingDirectory);
             }
             else
-                settings = await CreateSettingsAsync(assemblyLoader, null);
+                settings = await CreateSettingsAsync(assemblyLoader, null, workingDirectory);
 
             var generator = new WebApiToSwaggerGenerator(settings);
             var document = await generator.GenerateForControllersAsync(controllerTypes).ConfigureAwait(false);
