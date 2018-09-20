@@ -18,8 +18,6 @@
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ReDoc\dist\redoc.js" />
-    <EmbeddedResource Include="ReDoc\dist\redoc.min.js" />
     <EmbeddedResource Include="ReDoc\index.html" />
     <EmbeddedResource Include="SwaggerUi\**\*" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
     <EmbeddedResource Include="SwaggerUi3\favicon-16x16.png" />
