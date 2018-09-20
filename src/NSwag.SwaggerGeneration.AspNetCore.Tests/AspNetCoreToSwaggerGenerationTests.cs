@@ -445,7 +445,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
         public async Task FromFormParametersAreDiscovered()
         {
             //// Arrange
-            var generator = new AspNetCoreToSwaggerGenerator(new AspNetCoreToSwaggerGeneratorSettings());
+            var generator = new AspNetCoreToSwaggerGenerator(new AspNetCoreToSwaggerGeneratorSettings { RequireParametersWithoutDefault = true });
             var apiDescriptions = GetApiDescriptionGroups(typeof(ControllerWithParameters));
 
             //// Act
@@ -463,7 +463,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
         public async Task QueryParametersAreDiscovered()
         {
             //// Arrange
-            var generator = new AspNetCoreToSwaggerGenerator(new AspNetCoreToSwaggerGeneratorSettings());
+            var generator = new AspNetCoreToSwaggerGenerator(new AspNetCoreToSwaggerGeneratorSettings { RequireParametersWithoutDefault = true });
             var apiDescriptions = GetApiDescriptionGroups(typeof(ControllerWithParameters));
 
             //// Act
