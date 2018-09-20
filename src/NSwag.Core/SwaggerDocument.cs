@@ -29,8 +29,6 @@ namespace NSwag
         {
             Swagger = "2.0";
             OpenApi = "3.0.0";
-
-            Info = new SwaggerInfo();
             Components = new OpenApiComponents(this);
 
             var paths = new ObservableDictionary<string, SwaggerPathItem>();
@@ -39,13 +37,9 @@ namespace NSwag
                 foreach (var path in Paths.Values)
                     path.Parent = this;
             };
-            Paths = paths;
 
-            Info = new SwaggerInfo
-            {
-                Version = string.Empty,
-                Title = string.Empty
-            };
+            Paths = paths;
+            Info = new SwaggerInfo();
         }
 
         /// <summary>Gets the NSwag toolchain version.</summary>

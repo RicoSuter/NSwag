@@ -49,8 +49,8 @@ namespace NSwag.Core.Tests.Serialization
 @"{
   ""openapi"": ""3.0.0"",
   ""info"": {
-    ""title"": """",
-    ""version"": """"
+    ""title"": ""Swagger specification"",
+    ""version"": ""1.0.0""
   },
   ""paths"": {
     ""/foo"": {
@@ -120,8 +120,8 @@ namespace NSwag.Core.Tests.Serialization
                 @"{
   ""openapi"": ""3.0.0"",
   ""info"": {
-    ""title"": """",
-    ""version"": """"
+    ""title"": ""Swagger specification"",
+    ""version"": ""1.0.0""
   },
   ""paths"": {
     ""/foo"": {

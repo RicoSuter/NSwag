@@ -25,12 +25,6 @@ namespace NSwag.Commands
     public abstract class IsolatedSwaggerOutputCommandBase<T> : IsolatedCommandBase<string>, IOutputCommand
         where T : JsonSchemaGeneratorSettings
     {
-        /// <summary>Initializes a new instance of the <see cref="IsolatedSwaggerOutputCommandBase{T}"/> class.</summary>
-        protected IsolatedSwaggerOutputCommandBase()
-        {
-            OutputType = SchemaType.Swagger2;
-        }
-
         [JsonIgnore]
         protected abstract T Settings { get; }
 
@@ -39,7 +33,11 @@ namespace NSwag.Commands
         public string OutputFilePath { get; set; }
 
         [Argument(Name = "OutputType", IsRequired = false, Description = "Specifies the output schema type (Swagger2|OpenApi3, default: Swagger2).")]
-        public SchemaType OutputType { get; set; }
+        public SchemaType OutputType
+        {
+            get { return Settings.SchemaType; }
+            set { Settings.SchemaType = value; }
+        }
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
