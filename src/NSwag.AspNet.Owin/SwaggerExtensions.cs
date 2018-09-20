@@ -82,6 +82,7 @@ namespace NSwag.AspNet.Owin
         /// <param name="webApiAssembly">The Web API assembly to search for controller types.</param>
         /// <param name="configure">Configure the Swagger settings.</param>
         /// <returns>The app builder.</returns>
+        [Obsolete("Use " + nameof(UseSwaggerUi3) + " instead.")]
         public static IAppBuilder UseSwaggerUi(
             this IAppBuilder app,
             Assembly webApiAssembly,
@@ -95,6 +96,7 @@ namespace NSwag.AspNet.Owin
         /// <param name="webApiAssemblies">The Web API assemblies to search for controller types.</param>
         /// <param name="configure">Configure the Swagger settings.</param>
         /// <returns>The app builder.</returns>
+        [Obsolete("Use " + nameof(UseSwaggerUi3) + " instead.")]
         public static IAppBuilder UseSwaggerUi(
             this IAppBuilder app,
             IEnumerable<Assembly> webApiAssemblies,
@@ -108,6 +110,7 @@ namespace NSwag.AspNet.Owin
         /// <param name="app">The app.</param>
         /// <param name="configure">Configure the Swagger settings.</param>
         /// <returns>The app builder.</returns>
+        [Obsolete("Use " + nameof(UseSwaggerUi3) + " instead.")]
         public static IAppBuilder UseSwaggerUi(
             this IAppBuilder app,
             Action<SwaggerSettings<WebApiToSwaggerGeneratorSettings>> configure = null)
@@ -121,6 +124,7 @@ namespace NSwag.AspNet.Owin
         /// <param name="configure">Configure the Swagger settings.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
         /// <returns>The app builder.</returns>
+        [Obsolete("Use " + nameof(UseSwaggerUi3) + " instead.")]
         public static IAppBuilder UseSwaggerUi(
             this IAppBuilder app,
             IEnumerable<Type> controllerTypes,
