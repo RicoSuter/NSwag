@@ -480,9 +480,9 @@ namespace NSwag.Commands
             saveFile = false;
 
             // New file format
-            if (data.Contains("\"noBuild\":") && !data.ToLowerInvariant().Contains("UseStrictRequiredParameterHandling".ToLowerInvariant()))
+            if (data.Contains("\"noBuild\":") && !data.ToLowerInvariant().Contains("RequireParametersWithoutDefault".ToLowerInvariant()))
             {
-                data = data.Replace("\"noBuild\":", "\"useStrictRequiredParameterHandling\": true, \"noBuild\":");
+                data = data.Replace("\"noBuild\":", "\"requireParametersWithoutDefault\": true, \"noBuild\":");
                 saveFile = true;
             }
 

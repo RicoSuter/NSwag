@@ -246,7 +246,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                     Kind = SwaggerParameterKind.Body,
                     Schema = new JsonSchema4 { Type = JsonObjectType.String },
                     IsNullableRaw = true,
-                    IsRequired = extendedApiParameter.IsRequired(_settings.UseStrictRequiredParameterHandling),
+                    IsRequired = extendedApiParameter.IsRequired(_settings.RequireParametersWithoutDefault),
                     Description = await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false)
                 };
             }
@@ -259,7 +259,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                     Kind = SwaggerParameterKind.Body,
                     Schema = new JsonSchema4 { Type = JsonObjectType.String, Format = JsonFormatStrings.Byte },
                     IsNullableRaw = true,
-                    IsRequired = extendedApiParameter.IsRequired(_settings.UseStrictRequiredParameterHandling),
+                    IsRequired = extendedApiParameter.IsRequired(_settings.RequireParametersWithoutDefault),
                     Description = await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false)
                 };
             }
@@ -271,7 +271,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                 {
                     Name = extendedApiParameter.ApiParameter.Name,
                     Kind = SwaggerParameterKind.Body,
-                    IsRequired = extendedApiParameter.IsRequired(_settings.UseStrictRequiredParameterHandling),
+                    IsRequired = extendedApiParameter.IsRequired(_settings.RequireParametersWithoutDefault),
                     IsNullableRaw = typeDescription.IsNullable,
                     Description = await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false),
                     Schema = await context.SchemaGenerator.GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(
@@ -298,7 +298,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                 operationParameter.Default = extendedApiParameter.ParameterInfo.DefaultValue;
             }
 
-            operationParameter.IsRequired = extendedApiParameter.IsRequired(_settings.UseStrictRequiredParameterHandling);
+            operationParameter.IsRequired = extendedApiParameter.IsRequired(_settings.RequireParametersWithoutDefault);
             return operationParameter;
         }
 
@@ -323,7 +323,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 
             public IEnumerable<Attribute> Attributes { get; set; }
 
-            public bool IsRequired(bool useStrictRequiredParameterHandling)
+            public bool IsRequired(bool requireParametersWithoutDefault)
             {
                 var isRequired = false;
 
@@ -353,7 +353,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                     }
                 }
 
-                return isRequired || (useStrictRequiredParameterHandling && ParameterInfo?.HasDefaultValue != true);
+                return isRequired || (requireParametersWithoutDefault && ParameterInfo?.HasDefaultValue != true);
             }
 
             public async Task<string> GetDocumentationAsync()
