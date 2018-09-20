@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers.Parameters
 {
@@ -7,7 +8,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers.Parameters
     public class HeaderParametersController : Controller
     {
         [HttpGet]
-        public ActionResult MyAction([FromHeader] string required, [FromHeader] string optional = null)
+        public ActionResult MyAction([FromHeader, BindRequired] string required, [FromHeader] string optional = null)
         {
             return Ok();
         }

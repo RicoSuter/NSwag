@@ -327,35 +327,33 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
             {
                 get
                 {
-                    return ParameterInfo?.HasDefaultValue != true;
+                    // available in asp.net core >= 2.2
+                    if (ApiParameter.HasProperty("IsRequired"))
+                    {
+                        return ApiParameter.TryGetPropertyValue("IsRequired", false);
+                    }
 
-                    //// available in asp.net core >= 2.2
-                    //if (ApiParameter.HasProperty("IsRequired"))
-                    //{
-                    //    return ApiParameter.TryGetPropertyValue("IsRequired", false);
-                    //}
+                    // fallback for asp.net core <= 2.1
+                    if (ApiParameter.Source == BindingSource.Body)
+                    {
+                        return true;
+                    }
 
-                    //// fallback for asp.net core <= 2.1
-                    //if (ApiParameter.Source == BindingSource.Body)
-                    //{
-                    //    return true;
-                    //}
+                    if (ApiParameter.ModelMetadata != null &&
+                        ApiParameter.ModelMetadata.IsBindingRequired)
 
-                    //if (ApiParameter.ModelMetadata != null &&
-                    //    ApiParameter.ModelMetadata.IsBindingRequired)
+                    {
+                        return true;
+                    }
 
-                    //{
-                    //    return true;
-                    //}
+                    if (ApiParameter.Source == BindingSource.Path &&
+                        ApiParameter.RouteInfo != null &&
+                        ApiParameter.RouteInfo.IsOptional == false)
+                    {
+                        return true;
+                    }
 
-                    //if (ApiParameter.Source == BindingSource.Path &&
-                    //    ApiParameter.RouteInfo != null &&
-                    //    ApiParameter.RouteInfo.IsOptional == false)
-                    //{
-                    //    return true;
-                    //}
-
-                    //return false;
+                    return false;
                 }
             }
 
