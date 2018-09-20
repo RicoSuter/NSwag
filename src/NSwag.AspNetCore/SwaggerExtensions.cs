@@ -33,6 +33,7 @@ namespace NSwag.AspNetCore
         /// <param name="webApiAssembly">The Web API assembly to search for controller types.</param>
         /// <param name="configure">Configure the Swagger settings.</param>
         /// <returns>The app builder.</returns>
+        [Obsolete("Use " + nameof(UseSwaggerWithApiExplorer) + " instead.")]
         public static IApplicationBuilder UseSwagger(
             this IApplicationBuilder app,
             Assembly webApiAssembly,
@@ -46,6 +47,7 @@ namespace NSwag.AspNetCore
         /// <param name="webApiAssemblies">The Web API assemblies to search for controller types.</param>
         /// <param name="configure">Configure the Swagger settings.</param>
         /// <returns>The app builder.</returns>
+        [Obsolete("Use " + nameof(UseSwaggerWithApiExplorer) + " instead.")]
         public static IApplicationBuilder UseSwagger(
             this IApplicationBuilder app,
             IEnumerable<Assembly> webApiAssemblies,
@@ -61,6 +63,7 @@ namespace NSwag.AspNetCore
         /// <param name="configure">Configure the Swagger settings.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
         /// <returns>The app builder.</returns>
+        [Obsolete("Use " + nameof(UseSwaggerWithApiExplorer) + " instead.")]
         public static IApplicationBuilder UseSwagger(
             this IApplicationBuilder app,
             IEnumerable<Type> controllerTypes,
@@ -107,6 +110,7 @@ namespace NSwag.AspNetCore
         /// <param name="webApiAssembly">The Web API assembly to search for controller types.</param>
         /// <param name="configure">Configure the Swagger settings.</param>
         /// <returns>The app builder.</returns>
+        [Obsolete("Use " + nameof(UseSwaggerUi3WithApiExplorer) + " instead.")]
         public static IApplicationBuilder UseSwaggerUi(
             this IApplicationBuilder app,
             Assembly webApiAssembly,
@@ -120,6 +124,7 @@ namespace NSwag.AspNetCore
         /// <param name="webApiAssemblies">The Web API assemblies to search for controller types.</param>
         /// <param name="configure">Configure the Swagger settings.</param>
         /// <returns>The app builder.</returns>
+        [Obsolete("Use " + nameof(UseSwaggerUi3WithApiExplorer) + " instead.")]
         public static IApplicationBuilder UseSwaggerUi(
             this IApplicationBuilder app,
             IEnumerable<Assembly> webApiAssemblies,
@@ -133,6 +138,7 @@ namespace NSwag.AspNetCore
         /// <param name="app">The app.</param>
         /// <param name="configure">Configure the Swagger settings.</param>
         /// <returns>The app builder.</returns>
+        [Obsolete("Use " + nameof(UseSwaggerUi3) + " instead.")]
         public static IApplicationBuilder UseSwaggerUi(
             this IApplicationBuilder app,
             Action<SwaggerUiSettings<WebApiToSwaggerGeneratorSettings>> configure = null)
@@ -146,6 +152,7 @@ namespace NSwag.AspNetCore
         /// <param name="configure">Configure the Swagger settings.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
         /// <returns>The app builder.</returns>
+        [Obsolete("Use " + nameof(UseSwaggerUi3WithApiExplorer) + " instead.")]
         public static IApplicationBuilder UseSwaggerUi(
             this IApplicationBuilder app,
             IEnumerable<Type> controllerTypes,
@@ -174,6 +181,7 @@ namespace NSwag.AspNetCore
         /// <param name="configure">Configure the Swagger settings.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
         /// <returns>The app builder.</returns>
+        [Obsolete("Use " + nameof(UseSwaggerUi3WithApiExplorer) + " instead.")]
         public static IApplicationBuilder UseSwaggerUiWithApiExplorer(
             this IApplicationBuilder app,
             Action<SwaggerUiSettings<AspNetCoreToSwaggerGeneratorSettings>> configure = null,
@@ -203,6 +211,7 @@ namespace NSwag.AspNetCore
         /// <param name="webApiAssembly">The Web API assembly to search for controller types.</param>
         /// <param name="configure">Configure the Swagger settings.</param>
         /// <returns>The app builder.</returns>
+        [Obsolete("Use " + nameof(UseSwaggerUi3WithApiExplorer) + " instead.")]
         public static IApplicationBuilder UseSwaggerUi3(
             this IApplicationBuilder app,
             Assembly webApiAssembly,
@@ -216,6 +225,7 @@ namespace NSwag.AspNetCore
         /// <param name="webApiAssemblies">The Web API assemblies to search for controller types.</param>
         /// <param name="configure">Configure the Swagger settings.</param>
         /// <returns>The app builder.</returns>
+        [Obsolete("Use " + nameof(UseSwaggerUi3WithApiExplorer) + " instead.")]
         public static IApplicationBuilder UseSwaggerUi3(
             this IApplicationBuilder app,
             IEnumerable<Assembly> webApiAssemblies,
@@ -242,6 +252,7 @@ namespace NSwag.AspNetCore
         /// <param name="configure">Configure the Swagger settings.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
         /// <returns>The app builder.</returns>
+        [Obsolete("Use " + nameof(UseSwaggerUi3WithApiExplorer) + " instead.")]
         public static IApplicationBuilder UseSwaggerUi3(
             this IApplicationBuilder app,
             IEnumerable<Type> controllerTypes,
@@ -294,11 +305,12 @@ namespace NSwag.AspNetCore
 
         #region ReDoc
 
-        /// <summary>Adds the Swagger generator and Swagger UI to the pipeline.</summary>
+        /// <summary>Adds the Swagger generator and ReDoc UI to the pipeline.</summary>
         /// <param name="app">The app.</param>
         /// <param name="webApiAssembly">The Web API assembly to search for controller types.</param>
         /// <param name="configure">Configure the Swagger settings.</param>
         /// <returns>The app builder.</returns>
+        [Obsolete("Use " + nameof(UseSwaggerReDocWithApiExplorer) + " instead.")]
         public static IApplicationBuilder UseSwaggerReDoc(
             this IApplicationBuilder app,
             Assembly webApiAssembly,
@@ -307,11 +319,12 @@ namespace NSwag.AspNetCore
             return app.UseSwaggerReDoc(new[] { webApiAssembly }, configure);
         }
 
-        /// <summary>Adds the Swagger generator and Swagger UI to the pipeline.</summary>
+        /// <summary>Adds the Swagger generator and ReDoc UI to the pipeline.</summary>
         /// <param name="app">The app.</param>
         /// <param name="webApiAssemblies">The Web API assemblies to search for controller types.</param>
         /// <param name="configure">Configure the Swagger settings.</param>
         /// <returns>The app builder.</returns>
+        [Obsolete("Use " + nameof(UseSwaggerReDocWithApiExplorer) + " instead.")]
         public static IApplicationBuilder UseSwaggerReDoc(
             this IApplicationBuilder app,
             IEnumerable<Assembly> webApiAssemblies,
@@ -321,7 +334,7 @@ namespace NSwag.AspNetCore
             return app.UseSwaggerReDoc(controllerTypes, configure);
         }
 
-        /// <summary>Adds the Swagger UI (only) to the pipeline.</summary>
+        /// <summary>Adds the ReDoc UI (only) to the pipeline.</summary>
         /// <param name="app">The app.</param>
         /// <param name="configure">Configure the Swagger settings.</param>
         /// <returns>The app builder.</returns>
@@ -332,12 +345,13 @@ namespace NSwag.AspNetCore
             return app.UseSwaggerReDoc(null, configure, null);
         }
 
-        /// <summary>Adds the Swagger generator and Swagger UI to the pipeline.</summary>
+        /// <summary>Adds the Swagger generator and ReDoc UI to the pipeline.</summary>
         /// <param name="app">The app.</param>
         /// <param name="controllerTypes">The Web API controller types.</param>
         /// <param name="configure">Configure the Swagger settings.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
         /// <returns>The app builder.</returns>
+        [Obsolete("Use " + nameof(UseSwaggerReDocWithApiExplorer) + " instead.")]
         public static IApplicationBuilder UseSwaggerReDoc(
             this IApplicationBuilder app,
             IEnumerable<Type> controllerTypes,
