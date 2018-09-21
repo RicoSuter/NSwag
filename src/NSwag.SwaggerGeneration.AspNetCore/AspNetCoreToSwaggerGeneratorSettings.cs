@@ -19,5 +19,9 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             OperationProcessors.Insert(3, new OperationParameterProcessor(this));
             OperationProcessors.Insert(3, new OperationResponseProcessor(this));
         }
+
+        /// <summary>Gets or sets a value indicating whether parameters without default value are always required
+        /// (legacy, default: false).</summary>
+        public bool RequireParametersWithoutDefault { get; set; }
     }
 }

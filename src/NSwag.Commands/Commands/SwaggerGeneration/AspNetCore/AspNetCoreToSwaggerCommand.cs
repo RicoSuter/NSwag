@@ -57,6 +57,14 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
         [Argument(Name = nameof(WorkingDirectory), IsRequired = false, Description = "The working directory to use.")]
         public string WorkingDirectory { get; set; }
 
+        [Argument(Name = "RequireParametersWithoutDefault", IsRequired = false, Description = "Parameters without default value are always required" +
+                                                                                              "(i.e. api explorer info and only optional when default is set, legacy, default: false).")]
+        public bool RequireParametersWithoutDefault
+        {
+            get => Settings.RequireParametersWithoutDefault;
+            set => Settings.RequireParametersWithoutDefault = value;
+        }
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             // Run with .csproj

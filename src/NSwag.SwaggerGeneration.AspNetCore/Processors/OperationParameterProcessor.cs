@@ -255,7 +255,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                     Kind = SwaggerParameterKind.Body,
                     Schema = new JsonSchema4 { Type = JsonObjectType.String },
                     IsNullableRaw = true,
-                    IsRequired = true,
+                    IsRequired = extendedApiParameter.IsRequired(_settings.RequireParametersWithoutDefault),
                     Description = await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false)
                 };
             }
@@ -268,7 +268,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                     Kind = SwaggerParameterKind.Body,
                     Schema = new JsonSchema4 { Type = JsonObjectType.String, Format = JsonFormatStrings.Byte },
                     IsNullableRaw = true,
-                    IsRequired = true,
+                    IsRequired = extendedApiParameter.IsRequired(_settings.RequireParametersWithoutDefault),
                     Description = await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false)
                 };
             }
@@ -280,7 +280,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                 {
                     Name = extendedApiParameter.ApiParameter.Name,
                     Kind = SwaggerParameterKind.Body,
-                    IsRequired = true, // FromBody parameters are always required.
+                    IsRequired = extendedApiParameter.IsRequired(_settings.RequireParametersWithoutDefault),
                     IsNullableRaw = typeDescription.IsNullable,
                     Description = await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false),
                     Schema = await context.SchemaGenerator.GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(
@@ -307,7 +307,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                 operationParameter.Default = extendedApiParameter.ParameterInfo.DefaultValue;
             }
 
-            operationParameter.IsRequired = extendedApiParameter.IsRequired;
+            operationParameter.IsRequired = extendedApiParameter.IsRequired(_settings.RequireParametersWithoutDefault);
             return operationParameter;
         }
 
@@ -332,40 +332,37 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 
             public IEnumerable<Attribute> Attributes { get; set; }
 
-            public bool IsRequired
+            public bool IsRequired(bool requireParametersWithoutDefault)
             {
-                get
+                var isRequired = false;
+
+                // available in asp.net core >= 2.2
+                if (ApiParameter.HasProperty("IsRequired"))
                 {
-                    return ParameterInfo?.HasDefaultValue != true;
-
-                    //// available in asp.net core >= 2.2
-                    //if (ApiParameter.HasProperty("IsRequired"))
-                    //{
-                    //    return ApiParameter.TryGetPropertyValue("IsRequired", false);
-                    //}
-
-                    //// fallback for asp.net core <= 2.1
-                    //if (ApiParameter.Source == BindingSource.Body)
-                    //{
-                    //    return true;
-                    //}
-
-                    //if (ApiParameter.ModelMetadata != null &&
-                    //    ApiParameter.ModelMetadata.IsBindingRequired)
-
-                    //{
-                    //    return true;
-                    //}
-
-                    //if (ApiParameter.Source == BindingSource.Path &&
-                    //    ApiParameter.RouteInfo != null &&
-                    //    ApiParameter.RouteInfo.IsOptional == false)
-                    //{
-                    //    return true;
-                    //}
-
-                    //return false;
+                    isRequired = ApiParameter.TryGetPropertyValue("IsRequired", false);
                 }
+                else
+                {
+                    // fallback for asp.net core <= 2.1
+                    if (ApiParameter.Source == BindingSource.Body)
+                    {
+                        isRequired = true;
+                    }
+                    else if (ApiParameter.ModelMetadata != null &&
+                             ApiParameter.ModelMetadata.IsBindingRequired)
+
+                    {
+                        isRequired = true;
+                    }
+                    else if (ApiParameter.Source == BindingSource.Path &&
+                             ApiParameter.RouteInfo != null &&
+                             ApiParameter.RouteInfo.IsOptional == false)
+                    {
+                        isRequired = true;
+                    }
+                }
+
+                return isRequired || (requireParametersWithoutDefault && ParameterInfo?.HasDefaultValue != true);
             }
 
             public async Task<string> GetDocumentationAsync()

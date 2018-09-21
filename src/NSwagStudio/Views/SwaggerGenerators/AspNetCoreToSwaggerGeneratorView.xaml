@@ -109,9 +109,13 @@
                      ToolTip="WorkingDirectory"
                      Margin="0,0,0,12" />
 
-            <CheckBox IsChecked="{Binding Command.UseDocumentProvider, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="UseDocumentProvider">
-                <TextBlock Text="Use IDocumentProvider (not implemented yet)" TextWrapping="Wrap" />
+            <CheckBox IsChecked="{Binding Command.RequireParametersWithoutDefault, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="RequireParametersWithoutDefault">
+                <TextBlock Text="Parameters without default value are always required (should not be enabled, legacy)." TextWrapping="Wrap" />
             </CheckBox>
+
+            <TextBlock Text="Use IDocumentProvider (not implemented yet)" FontWeight="Bold" Margin="0,0,0,6" />
+            <TextBox Text="{Binding Command.UseDocumentProvider, Mode=TwoWay}" 
+                     ToolTip="UseDocumentProvider" Margin="0,0,0,12" />
 
             <StackPanel Visibility="{Binding Command.UseDocumentProvider, Converter={StaticResource NotConverter}}">
                 <GroupBox Header="Deprecated, automatically resolved via DI (do not change)" Margin="0,0,0,8">
