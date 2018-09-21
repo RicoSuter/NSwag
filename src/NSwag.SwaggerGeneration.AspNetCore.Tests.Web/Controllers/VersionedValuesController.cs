@@ -25,7 +25,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers
         {
             return "value";
         }
-        
+
         [HttpPost]
         [MapToApiVersion("1")]
         public void Post([FromBody] string value)
