@@ -92,18 +92,6 @@ namespace NSwag
         [JsonProperty(PropertyName = "allowEmptyValue", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public bool AllowEmptyValue { get; set; }
 
-        /// <summary>Gets or sets the schema which is only available when <see cref="Kind"/> == body.</summary>
-        [JsonProperty(PropertyName = "schema", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public JsonSchema4 Schema
-        {
-            get => _schema;
-            set
-            {
-                _schema = value;
-                ParentOperation?.UpdateRequestBody(this);
-            }
-        }
-
         /// <summary>Gets or sets the description. </summary>
         [Newtonsoft.Json.JsonProperty("description", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public override string Description
@@ -113,24 +101,6 @@ namespace NSwag
             {
                 base.Description = value;
                 ParentOperation?.UpdateRequestBody(this);
-            }
-        }
-
-        /// <summary>Gets or sets the custom schema which is used when <see cref="Kind"/> != body.</summary>
-        [JsonProperty(PropertyName = "x-schema", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public JsonSchema4 CustomSchema { get; set; }
-
-        /// <summary>Gets the actual schema, either the parameter schema itself (or its reference) or the <see cref="Schema"/> property when <see cref="Kind"/> == body.</summary>
-        /// <exception cref="InvalidOperationException" accessor="get">The schema reference path is not resolved.</exception>
-        [JsonIgnore]
-        public override JsonSchema4 ActualSchema
-        {
-            get
-            {
-                if (Reference is SwaggerParameter parameter)
-                    return parameter.ActualSchema;
-                else
-                    return Schema?.ActualSchema ?? CustomSchema?.ActualSchema ?? base.ActualSchema;
             }
         }
 
@@ -151,6 +121,36 @@ namespace NSwag
             {
                 _examples = value;
                 ParentOperation?.UpdateRequestBody(this);
+            }
+        }
+
+        /// <summary>Gets or sets the custom schema which is used when <see cref="Kind"/> != body.</summary>
+        [JsonProperty(PropertyName = "x-schema", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public JsonSchema4 CustomSchema { get; set; }
+
+        /// <summary>Gets or sets the schema which is only available when <see cref="Kind"/> == body.</summary>
+        [JsonProperty(PropertyName = "schema", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public JsonSchema4 Schema
+        {
+            get => _schema;
+            set
+            {
+                _schema = value;
+                ParentOperation?.UpdateRequestBody(this);
+            }
+        }
+
+        /// <summary>Gets the actual schema, either the parameter schema itself (or its reference) or the <see cref="Schema"/> property when <see cref="Kind"/> == body.</summary>
+        /// <exception cref="InvalidOperationException" accessor="get">The schema reference path is not resolved.</exception>
+        [JsonIgnore]
+        public override JsonSchema4 ActualSchema
+        {
+            get
+            {
+                if (Reference is SwaggerParameter parameter)
+                    return parameter.ActualSchema;
+                else
+                    return Schema?.ActualSchema ?? CustomSchema?.ActualSchema ?? base.ActualSchema;
             }
         }
 

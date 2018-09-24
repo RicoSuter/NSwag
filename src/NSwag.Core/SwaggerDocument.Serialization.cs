@@ -41,6 +41,8 @@ namespace NSwag
                 resolver.IgnoreProperty(typeof(SwaggerOperation), "consumes");
                 resolver.IgnoreProperty(typeof(SwaggerOperation), "produces");
 
+                //resolver.IgnoreProperty(typeof(SwaggerParameter), "x-nullable");
+                
                 //resolver.IgnoreProperty(typeof(SwaggerResponse), "consumes"); => TODO map to response.content
                 //resolver.IgnoreProperty(typeof(SwaggerResponse), "produces");
 
@@ -51,6 +53,7 @@ namespace NSwag
 
                 resolver.IgnoreProperty(typeof(SwaggerResponse), "schema");
                 resolver.IgnoreProperty(typeof(SwaggerResponse), "examples");
+                resolver.IgnoreProperty(typeof(SwaggerResponse), "x-nullable");
 
                 resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "flow");
                 resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "authorizationUrl");

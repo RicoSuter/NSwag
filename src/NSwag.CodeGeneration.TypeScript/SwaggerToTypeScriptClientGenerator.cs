@@ -37,14 +37,11 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <param name="resolver">The resolver.</param>
         /// <exception cref="ArgumentNullException"><paramref name="document" /> is <see langword="null" />.</exception>
         public SwaggerToTypeScriptClientGenerator(SwaggerDocument document, SwaggerToTypeScriptClientGeneratorSettings settings, TypeScriptTypeResolver resolver)
-            : base(resolver, settings.CodeGeneratorSettings)
+            : base(document, settings.CodeGeneratorSettings, resolver)
         {
-            if (document == null)
-                throw new ArgumentNullException(nameof(document));
-
             Settings = settings;
 
-            _document = document;
+            _document = document ?? throw new ArgumentNullException(nameof(document));
             _resolver = resolver;
             _resolver.RegisterSchemaDefinitions(_document.Definitions);
             _extensionCode = new TypeScriptExtensionCode(
