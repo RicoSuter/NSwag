@@ -48,6 +48,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 
             var methodParameters = context.MethodInfo.GetParameters();
 
+            var position = 1;
             foreach (var apiParameter in parameters.Where(p => p.Source != null))
             {
                 var parameterDescriptor = apiParameter.TryGetPropertyValue<ParameterDescriptor>("ParameterDescriptor");
@@ -154,7 +155,9 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                         operationParameter.IsNullableRaw = null;
                     }
 
+                    operationParameter.Position = position;
                     ((Dictionary<ParameterInfo, SwaggerParameter>)operationProcessorContext.Parameters)[parameter] = operationParameter;
+                    position++;
                 }
             }
 

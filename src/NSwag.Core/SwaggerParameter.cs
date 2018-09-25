@@ -24,6 +24,7 @@ namespace NSwag
         private JsonSchema4 _schema;
         private IDictionary<string, OpenApiExample> _examples;
         private bool _explode;
+        private int? _position;
 
         [JsonIgnore]
         internal SwaggerOperation ParentOperation => Parent as SwaggerOperation;
@@ -124,10 +125,6 @@ namespace NSwag
             }
         }
 
-        /// <summary>Gets or sets the custom schema which is used when <see cref="Kind"/> != body.</summary>
-        [JsonProperty(PropertyName = "x-schema", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public JsonSchema4 CustomSchema { get; set; }
-
         /// <summary>Gets or sets the schema which is only available when <see cref="Kind"/> == body.</summary>
         [JsonProperty(PropertyName = "schema", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public JsonSchema4 Schema
@@ -136,6 +133,22 @@ namespace NSwag
             set
             {
                 _schema = value;
+                ParentOperation?.UpdateRequestBody(this);
+            }
+        }
+
+        /// <summary>Gets or sets the custom schema which is used when <see cref="Kind"/> != body.</summary>
+        [JsonProperty(PropertyName = "x-schema", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public JsonSchema4 CustomSchema { get; set; }
+
+        /// <summary>Gets or sets the name.</summary>
+        [JsonProperty(PropertyName = "x-position", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public int? Position
+        {
+            get => _position;
+            set
+            {
+                _position = value;
                 ParentOperation?.UpdateRequestBody(this);
             }
         }
@@ -166,8 +179,15 @@ namespace NSwag
 
                 return IsNullableRaw.Value;
             }
-            else if (schemaType == SchemaType.OpenApi3 && IsNullableRaw.HasValue)
-                return IsNullableRaw.Value;
+            else if (schemaType == SchemaType.OpenApi3)
+            {
+                if (IsNullableRaw.HasValue)
+                    return IsNullableRaw.Value;
+                else if (Schema != null)
+                    return Schema.IsNullable(schemaType);
+                else if (CustomSchema != null)
+                    return CustomSchema.IsNullable(schemaType);
+            }
 
             return base.IsNullable(schemaType);
         }

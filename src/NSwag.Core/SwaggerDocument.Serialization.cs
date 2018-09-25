@@ -77,6 +77,7 @@ namespace NSwag
 
                 resolver.IgnoreProperty(typeof(SwaggerDocument), "components");
                 resolver.IgnoreProperty(typeof(SwaggerParameter), "examples");
+                resolver.IgnoreProperty(typeof(SwaggerParameter), "x-position");
 
                 resolver.IgnoreProperty(typeof(SwaggerResponse), "content");
                 resolver.IgnoreProperty(typeof(SwaggerResponse), "links");

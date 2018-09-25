@@ -41,6 +41,8 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
         {
             var httpPath = context.OperationDescription.Path;
             var parameters = context.MethodInfo.GetParameters().ToList();
+
+            var position = 1;
             foreach (var parameter in parameters.Where(p => p.ParameterType != typeof(CancellationToken) &&
                                                             p.GetCustomAttributes().All(a => a.GetType().Name != "SwaggerIgnoreAttribute") &&
                                                             p.GetCustomAttributes().All(a => a.GetType().Name != "FromServicesAttribute") &&
@@ -164,7 +166,9 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                         operationParameter.IsNullableRaw = null;
                     }
 
+                    operationParameter.Position = position;
                     ((Dictionary<ParameterInfo, SwaggerParameter>)context.Parameters)[parameter] = operationParameter;
+                    position++;
                 }
             }
 
