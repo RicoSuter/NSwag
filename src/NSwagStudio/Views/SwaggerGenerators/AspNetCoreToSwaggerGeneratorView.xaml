@@ -172,17 +172,25 @@
 
                 <GroupBox Header="Swagger Information" Margin="0,0,0,8">
                     <StackPanel Margin="4,8,4,-8">
-                        <TextBlock Text="Title" FontWeight="Bold" Margin="0,0,0,6" />
-                        <TextBox Text="{Binding Command.InfoTitle, Mode=TwoWay}"
-                                 ToolTip="InfoTitle" Margin="0,0,0,12" />
+                        <TextBlock Text="Document Template" FontWeight="Bold" Margin="0,0,0,6" />
+                        <dialogs:FileOpenPicker ToolTip="DocumentTemplate" Margin="0,0,0,12" 
+                                                FilePath="{Binding Command.DocumentTemplate, Mode=TwoWay}"
+                                                Filter="Swagger Specification JSON (.json)|*.json|Swagger Specification YAML (.yaml)|*.yaml"
+                                                DefaultExtension=".json"/>
 
-                        <TextBlock Text="Description" FontWeight="Bold" Margin="0,0,0,6" />
-                        <TextBox Text="{Binding Command.InfoDescription, Mode=TwoWay}"
-                                 ToolTip="InfoDescription" Margin="0,0,0,12" />
+                        <StackPanel Visibility="{Binding Command.DocumentTemplate, Converter={StaticResource NotConverter}}">
+                            <TextBlock Text="Title" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Text="{Binding Command.InfoTitle, Mode=TwoWay}"
+                                     ToolTip="InfoTitle" Margin="0,0,0,12" />
 
-                        <TextBlock Text="Version" FontWeight="Bold" Margin="0,0,0,6" />
-                        <TextBox Text="{Binding Command.InfoVersion, Mode=TwoWay}"
-                                 ToolTip="InfoVersion" Margin="0,0,0,12" />
+                            <TextBlock Text="Description" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Text="{Binding Command.InfoDescription, Mode=TwoWay}"
+                                     ToolTip="InfoDescription" Margin="0,0,0,12" />
+
+                            <TextBlock Text="Version" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Text="{Binding Command.InfoVersion, Mode=TwoWay}"
+                                     ToolTip="InfoVersion" Margin="0,0,0,12" />
+                        </StackPanel>
 
                         <TextBlock Text="Service host (optional, use '.' to remove the hostname)" FontWeight="Bold" Margin="0,0,0,6" />
                         <TextBox Text="{Binding Command.ServiceHost, Mode=TwoWay}"
@@ -200,12 +208,6 @@
                         <TextBox Text="{Binding Command.ServiceBasePath, Mode=TwoWay}"
                                  ToolTip="ServiceBasePath"
                                  Margin="0,0,0,12" />
-
-                        <TextBlock Text="Document Template" FontWeight="Bold" Margin="0,0,0,6" />
-                        <dialogs:FileOpenPicker ToolTip="DocumentTemplate" Margin="0,0,0,12" 
-                                                FilePath="{Binding Command.DocumentTemplate, Mode=TwoWay}"
-                                                Filter="Swagger Specification JSON (.json)|*.json|Swagger Specification YAML (.yaml)|*.yaml"
-                                                DefaultExtension=".json"/>
                     </StackPanel>
                 </GroupBox>
 
