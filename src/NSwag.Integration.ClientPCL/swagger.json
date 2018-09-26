@@ -1,7 +1,7 @@
 ﻿{
-  "x-generator": "NSwag v11.19.2.0 (NJsonSchema v9.10.73.0 (Newtonsoft.Json v9.0.0.0))",
+  "x-generator": "NSwag v11.19.2.0 (NJsonSchema v9.11.0.0 (Newtonsoft.Json v9.0.0.0))",
   "info": {
-    "title": "Web API Swagger specification",
+    "title": "Swagger specification",
     "version": "1.0.0"
   },
   "host": "localhost:13452",
@@ -595,7 +595,8 @@
             "in": "body",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "x-nullable": true
             },
             "x-nullable": true
           }
@@ -627,7 +628,8 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "byte"
+              "format": "byte",
+              "x-nullable": true
             },
             "x-nullable": true
           }
@@ -814,45 +816,49 @@
       ]
     },
     "Teacher": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "SkillLevel"
-      ],
-      "properties": {
-        "Course": {
-          "type": "string"
-        },
-        "SkillLevel": {
-          "default": 1,
-          "allOf": [
-            {
-              "$ref": "#/definitions/SkillLevel"
-            }
-          ]
-        }
-      },
       "allOf": [
         {
           "$ref": "#/definitions/Person"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "SkillLevel"
+          ],
+          "properties": {
+            "Course": {
+              "type": "string"
+            },
+            "SkillLevel": {
+              "default": 1,
+              "allOf": [
+                {
+                  "$ref": "#/definitions/SkillLevel"
+                }
+              ]
+            }
+          }
         }
       ]
     },
     "PersonNotFoundException": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "id"
-      ],
-      "properties": {
-        "id": {
-          "type": "string",
-          "format": "guid"
-        }
-      },
       "allOf": [
         {
           "$ref": "#/definitions/Exception"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "guid"
+            }
+          }
         }
       ]
     }
