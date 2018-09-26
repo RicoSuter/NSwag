@@ -50,6 +50,15 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 
             foreach (var apiParameter in parameters.Where(p => p.Source != null))
             {
+                // TODO: Provide extension point so that this can be implemented in the ApiVersionProcessor class
+                var versionProcessor = _settings.OperationProcessors.TryGet<ApiVersionProcessor>();
+                if (versionProcessor != null &&
+                    versionProcessor.IgnoreParameter &&
+                    apiParameter.ModelMetadata?.DataTypeName == "ApiVersion")
+                {
+                    continue;
+                }
+
                 var parameterDescriptor = apiParameter.TryGetPropertyValue<ParameterDescriptor>("ParameterDescriptor");
                 var parameterName = parameterDescriptor?.Name ?? apiParameter.Name;
 
