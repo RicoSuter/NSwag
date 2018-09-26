@@ -48,6 +48,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 
             var methodParameters = context.MethodInfo.GetParameters();
 
+            var position = 1;
             foreach (var apiParameter in parameters.Where(p => p.Source != null))
             {
                 // TODO: Provide extension point so that this can be implemented in the ApiVersionProcessor class
@@ -158,7 +159,14 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 
                 if (parameter != null && operationParameter != null)
                 {
+                    if (_settings.SchemaType == SchemaType.OpenApi3)
+                    {
+                        operationParameter.IsNullableRaw = null;
+                    }
+
+                    operationParameter.Position = position;
                     ((Dictionary<ParameterInfo, SwaggerParameter>)operationProcessorContext.Parameters)[parameter] = operationParameter;
+                    position++;
                 }
             }
 
@@ -244,6 +252,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
         {
             SwaggerParameter operationParameter;
 
+            // TODO: Check IsNullableRaw here 
             var operation = context.OperationDescription.Operation;
             var parameterType = extendedApiParameter.ParameterType;
             if (parameterType.Name == "XmlDocument" || parameterType.InheritsFrom("XmlDocument", TypeNameStyle.Name))
@@ -253,7 +262,11 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                 {
                     Name = extendedApiParameter.ApiParameter.Name,
                     Kind = SwaggerParameterKind.Body,
-                    Schema = new JsonSchema4 { Type = JsonObjectType.String },
+                    Schema = new JsonSchema4
+                    {
+                        Type = JsonObjectType.String,
+                        IsNullableRaw = true
+                    },
                     IsNullableRaw = true,
                     IsRequired = extendedApiParameter.IsRequired(_settings.RequireParametersWithoutDefault),
                     Description = await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false)
@@ -266,13 +279,18 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                 {
                     Name = extendedApiParameter.ApiParameter.Name,
                     Kind = SwaggerParameterKind.Body,
-                    Schema = new JsonSchema4 { Type = JsonObjectType.String, Format = JsonFormatStrings.Byte },
+                    Schema = new JsonSchema4
+                    {
+                        Type = JsonObjectType.String,
+                        Format = JsonFormatStrings.Byte,
+                        IsNullableRaw = true
+                    },
                     IsNullableRaw = true,
                     IsRequired = extendedApiParameter.IsRequired(_settings.RequireParametersWithoutDefault),
                     Description = await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false)
                 };
             }
-            else
+            else // body from type
             {
                 var typeDescription = _settings.ReflectionService.GetDescription(extendedApiParameter.ParameterType, extendedApiParameter.Attributes, _settings);
 
@@ -284,7 +302,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                     IsNullableRaw = typeDescription.IsNullable,
                     Description = await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false),
                     Schema = await context.SchemaGenerator.GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(
-                        extendedApiParameter.ParameterType, extendedApiParameter.Attributes, isNullable: false, schemaResolver: context.SchemaResolver).ConfigureAwait(false)
+                        extendedApiParameter.ParameterType, extendedApiParameter.Attributes, isNullable: false/*typeDescription.IsNullable*/, schemaResolver: context.SchemaResolver).ConfigureAwait(false)
                 };
             }
 

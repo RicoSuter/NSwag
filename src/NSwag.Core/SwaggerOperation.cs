@@ -194,6 +194,7 @@ namespace NSwag
                             RequestBody = new OpenApiRequestBody();
 
                         RequestBody.Name = parameter.Name;
+                        RequestBody.Position = parameter.Position;
                         RequestBody.Description = parameter.Description;
                         RequestBody.IsRequired = parameter.IsRequired;
 
@@ -256,6 +257,7 @@ namespace NSwag
         {
             parameter.Kind = SwaggerParameterKind.Body;
             parameter.Name = RequestBody.ActualName;
+            parameter.Position = RequestBody.Position;
             parameter.Description = RequestBody.Description;
             parameter.IsRequired = RequestBody.IsRequired;
             parameter.Example = RequestBody.Content.FirstOrDefault().Value?.Example;

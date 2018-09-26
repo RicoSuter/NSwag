@@ -112,7 +112,15 @@ namespace NSwag.SwaggerGeneration
                 }
                 else
                 {
-                    operationParameter.Schema = new JsonSchema4 { Reference = schema.ActualSchema };
+                    if (typeDescription.IsNullable)
+                    {
+                        operationParameter.Schema = new JsonSchema4 { IsNullableRaw = true };
+                        operationParameter.Schema.OneOf.Add(new JsonSchema4 { Reference = schema.ActualSchema });
+                    }
+                    else
+                    {
+                        operationParameter.Schema = new JsonSchema4 { Reference = schema.ActualSchema };
+                    }
                 }
             }
             else
@@ -128,7 +136,8 @@ namespace NSwag.SwaggerGeneration
                     operationParameter = new SwaggerParameter
                     {
                         Schema = await _schemaGenerator
-                            .GenerateAsync(parameterType, parentAttributes, _schemaResolver)
+                            .GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(
+                                parameterType, parentAttributes, typeDescription.IsNullable, _schemaResolver)
                             .ConfigureAwait(false)
                     };
                 }

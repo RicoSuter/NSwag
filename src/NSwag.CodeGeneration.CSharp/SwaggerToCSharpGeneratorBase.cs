@@ -25,7 +25,7 @@ namespace NSwag.CodeGeneration.CSharp
         /// <param name="settings">The settings.</param>
         /// <param name="resolver">The resolver.</param>
         protected SwaggerToCSharpGeneratorBase(SwaggerDocument document, SwaggerToCSharpGeneratorSettings settings, CSharpTypeResolver resolver)
-            : base(resolver, settings.CodeGeneratorSettings)
+            : base(document, settings.CodeGeneratorSettings, resolver)
         {
             _document = document;
             _settings = settings;

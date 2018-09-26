@@ -111,7 +111,7 @@ namespace NSwag
                 return IsNullableRaw.Value;
             }
 
-            return Schema?.ActualSchema.IsNullable(schemaType) ?? false;
+            return ActualResponse.Schema?.IsNullable(schemaType) ?? false;
         }
 
         private JsonSchema4 GetActualResponseSchema()
