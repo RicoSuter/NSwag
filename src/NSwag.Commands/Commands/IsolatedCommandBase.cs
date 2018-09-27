@@ -96,8 +96,7 @@ namespace NSwag.Commands
 #if NET451
         public IEnumerable<string> GetAssemblies(string assemblyDirectory)
         {
-            var codeBaseDirectory = Path.GetDirectoryName(typeof(IsolatedCommandBase<>).GetTypeInfo()
-                .Assembly.CodeBase.Replace("file:///", string.Empty));
+            var codeBaseDirectory = Path.GetDirectoryName(new Uri(typeof(IsolatedCommandBase<>).GetTypeInfo().Assembly.CodeBase).LocalPath);
 
             yield return codeBaseDirectory + "/Newtonsoft.Json.dll";
             yield return codeBaseDirectory + "/NJsonSchema.dll";

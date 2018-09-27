@@ -84,8 +84,7 @@ namespace NSwag.AspNetCore.Launcher
                 return (int)ExitCode.VersionConflict;
             }
 
-            var codeBaseDirectory = Path.GetDirectoryName(typeof(Program).GetTypeInfo()
-                .Assembly.CodeBase.Replace("file:///", string.Empty));
+            var codeBaseDirectory = Path.GetDirectoryName(new Uri(typeof(Program).GetTypeInfo().Assembly.CodeBase).LocalPath);
 
             Console.WriteLine("Launcher directory: " + codeBaseDirectory);
 
