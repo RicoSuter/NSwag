@@ -63,7 +63,7 @@
 {%     for parameter in operation.HeaderParameters -%}
                 "{{ parameter.Name }}": {{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null ? "" + {{ parameter.VariableName }} : "", 
 {%     endfor -%}
-{%     if operation.HasFormParameters == false -%}
+{%     if operation.HasContent -%}
                 "Content-Type": "{{ operation.Consumes }}", 
 {%     endif -%}
 {%     if operation.HasResultType and operation.HasAcceptHeaderParameterParameter == false -%}
