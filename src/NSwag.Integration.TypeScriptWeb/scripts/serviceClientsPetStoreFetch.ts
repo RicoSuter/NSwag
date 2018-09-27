@@ -116,7 +116,6 @@ export class Client {
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };
@@ -169,7 +168,6 @@ export class Client {
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };
@@ -220,7 +218,6 @@ export class Client {
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };
@@ -318,7 +315,6 @@ export class Client {
             method: "DELETE",
             headers: {
                 "api_key": api_key !== undefined && api_key !== null ? "" + api_key : "", 
-                "Content-Type": "application/json", 
             }
         };
 
@@ -408,7 +404,6 @@ export class Client {
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };
@@ -504,7 +499,6 @@ export class Client {
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };
@@ -554,7 +548,6 @@ export class Client {
         let options_ = <RequestInit>{
             method: "DELETE",
             headers: {
-                "Content-Type": "application/json", 
             }
         };
 
@@ -705,7 +698,6 @@ export class Client {
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };
@@ -748,7 +740,6 @@ export class Client {
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json", 
             }
         };
 
@@ -782,7 +773,6 @@ export class Client {
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };
@@ -878,7 +868,6 @@ export class Client {
         let options_ = <RequestInit>{
             method: "DELETE",
             headers: {
-                "Content-Type": "application/json", 
             }
         };
 

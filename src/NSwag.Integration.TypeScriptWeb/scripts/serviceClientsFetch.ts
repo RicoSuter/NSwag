@@ -65,7 +65,6 @@ export class GeoClient {
         let options_ = <RequestInit>{
             method: "POST",
             headers: {
-                "Content-Type": "application/json", 
             }
         };
 
@@ -132,7 +131,6 @@ export class GeoClient {
         let options_ = <RequestInit>{
             method: "POST",
             headers: {
-                "Content-Type": "application/json", 
             }
         };
 
@@ -165,7 +163,6 @@ export class GeoClient {
         let options_ = <RequestInit>{
             method: "POST",
             headers: {
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };
@@ -204,7 +201,6 @@ export class GeoClient {
         let options_ = <RequestInit>{
             method: "POST",
             headers: {
-                "Content-Type": "application/json", 
             }
         };
 
@@ -357,7 +353,6 @@ export class GeoClient {
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };
@@ -392,7 +387,6 @@ export class GeoClient {
         let options_ = <RequestInit>{
             method: "POST",
             headers: {
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };
@@ -438,7 +432,6 @@ export class PersonsClient {
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };
@@ -514,7 +507,6 @@ export class PersonsClient {
         let options_ = <RequestInit>{
             method: "POST",
             headers: {
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };
@@ -557,7 +549,6 @@ export class PersonsClient {
         let options_ = <RequestInit>{
             method: "POST",
             headers: {
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };
@@ -599,7 +590,6 @@ export class PersonsClient {
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };
@@ -644,7 +634,6 @@ export class PersonsClient {
         let options_ = <RequestInit>{
             method: "DELETE",
             headers: {
-                "Content-Type": "application/json", 
             }
         };
 
@@ -717,7 +706,6 @@ export class PersonsClient {
         let options_ = <RequestInit>{
             method: "POST",
             headers: {
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };
@@ -767,7 +755,6 @@ export class PersonsClient {
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };

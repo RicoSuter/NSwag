@@ -76,7 +76,6 @@ export class GeoClient {
             method: "POST",
             transformResponse: [], 
             headers: {
-                "Content-Type": "application/json", 
             }
         };
 
@@ -153,7 +152,6 @@ export class GeoClient {
             method: "POST",
             transformResponse: [], 
             headers: {
-                "Content-Type": "application/json", 
             }
         };
 
@@ -191,7 +189,6 @@ export class GeoClient {
             method: "POST",
             transformResponse: [], 
             headers: {
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };
@@ -235,7 +232,6 @@ export class GeoClient {
             method: "POST",
             transformResponse: [], 
             headers: {
-                "Content-Type": "application/json", 
             }
         };
 
@@ -408,7 +404,6 @@ export class GeoClient {
             responseType: "arraybuffer",
             transformResponse: [], 
             headers: {
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };
@@ -450,7 +445,6 @@ export class GeoClient {
             method: "POST",
             transformResponse: [], 
             headers: {
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };
@@ -503,7 +497,6 @@ export class PersonsClient {
             method: "GET",
             transformResponse: [], 
             headers: {
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };
@@ -589,7 +582,6 @@ export class PersonsClient {
             method: "POST",
             transformResponse: [], 
             headers: {
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };
@@ -637,7 +629,6 @@ export class PersonsClient {
             method: "POST",
             transformResponse: [], 
             headers: {
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };
@@ -684,7 +675,6 @@ export class PersonsClient {
             method: "GET",
             transformResponse: [], 
             headers: {
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };
@@ -733,7 +723,6 @@ export class PersonsClient {
             method: "DELETE",
             transformResponse: [], 
             headers: {
-                "Content-Type": "application/json", 
             }
         };
 
@@ -816,7 +805,6 @@ export class PersonsClient {
             method: "POST",
             transformResponse: [], 
             headers: {
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };
@@ -870,7 +858,6 @@ export class PersonsClient {
             method: "GET",
             transformResponse: [], 
             headers: {
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };

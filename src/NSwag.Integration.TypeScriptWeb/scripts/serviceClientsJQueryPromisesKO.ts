@@ -38,7 +38,7 @@ export class GeoClient {
             data: content_,
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             }
         }).done((_data, _textStatus, xhr) => {
             this.processFromBodyTestWithCallbacks(url_, xhr, onSuccess, onFail);
@@ -96,7 +96,6 @@ export class GeoClient {
             type: "post",
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
             }
         }).done((_data, _textStatus, xhr) => {
             this.processFromUriTestWithCallbacks(url_, xhr, onSuccess, onFail);
@@ -149,7 +148,7 @@ export class GeoClient {
             data: content_,
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             }
         }).done((_data, _textStatus, xhr) => {
             this.processAddPolygonWithCallbacks(url_, xhr, onSuccess, onFail);
@@ -201,7 +200,6 @@ export class GeoClient {
             type: "post",
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
             }
         }).done((_data, _textStatus, xhr) => {
             this.processFilterWithCallbacks(url_, xhr, onSuccess, onFail);
@@ -253,7 +251,6 @@ export class GeoClient {
             type: "post",
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
                 "Accept": "application/json"
             }
         }).done((_data, _textStatus, xhr) => {
@@ -311,7 +308,6 @@ export class GeoClient {
             type: "post",
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
             }
         }).done((_data, _textStatus, xhr) => {
             this.processRefreshWithCallbacks(url_, xhr, onSuccess, onFail);
@@ -367,7 +363,6 @@ export class GeoClient {
             mimeType: "multipart/form-data",
             contentType: false,
             headers: {
-                "Content-Type": "multipart/form-data",
                 "Accept": "application/json"
             }
         }).done((_data, _textStatus, xhr) => {
@@ -427,7 +422,6 @@ export class GeoClient {
             mimeType: "multipart/form-data",
             contentType: false,
             headers: {
-                "Content-Type": "multipart/form-data",
             }
         }).done((_data, _textStatus, xhr) => {
             this.processUploadFilesWithCallbacks(url_, xhr, onSuccess, onFail);
@@ -480,7 +474,7 @@ export class GeoClient {
             data: content_,
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             }
         }).done((_data, _textStatus, xhr) => {
             this.processSaveItemsWithCallbacks(url_, xhr, onSuccess, onFail);
@@ -543,7 +537,6 @@ export class GeoClient {
             type: "get",
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
                 "Accept": "application/json"
             }
         }).done((_data, _textStatus, xhr) => {
@@ -599,7 +592,6 @@ export class GeoClient {
             type: "post",
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
                 "Accept": "application/json"
             }
         }).done((_data, _textStatus, xhr) => {
@@ -663,7 +655,6 @@ export class PersonsClient {
             type: "get",
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
                 "Accept": "application/json"
             }
         }).done((_data, _textStatus, xhr) => {
@@ -724,7 +715,7 @@ export class PersonsClient {
             data: content_,
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             }
         }).done((_data, _textStatus, xhr) => {
             this.processAddWithCallbacks(url_, xhr, onSuccess, onFail);
@@ -777,7 +768,6 @@ export class PersonsClient {
             type: "post",
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
                 "Accept": "application/json"
             }
         }).done((_data, _textStatus, xhr) => {
@@ -839,7 +829,6 @@ export class PersonsClient {
             type: "post",
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
                 "Accept": "application/json"
             }
         }).done((_data, _textStatus, xhr) => {
@@ -900,7 +889,6 @@ export class PersonsClient {
             type: "get",
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
                 "Accept": "application/json"
             }
         }).done((_data, _textStatus, xhr) => {
@@ -963,7 +951,6 @@ export class PersonsClient {
             type: "delete",
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
             }
         }).done((_data, _textStatus, xhr) => {
             this.processDeleteWithCallbacks(url_, xhr, onSuccess, onFail);
@@ -1016,7 +1003,7 @@ export class PersonsClient {
             data: content_,
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         }).done((_data, _textStatus, xhr) => {
@@ -1074,7 +1061,6 @@ export class PersonsClient {
             type: "post",
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
                 "Accept": "application/json"
             }
         }).done((_data, _textStatus, xhr) => {
@@ -1142,7 +1128,6 @@ export class PersonsClient {
             type: "get",
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
                 "Accept": "application/json"
             }
         }).done((_data, _textStatus, xhr) => {
@@ -1205,7 +1190,7 @@ export class PersonsClient {
             data: content_,
             dataType: "text",
             headers: {
-                "Content-Type": "application/xml",
+                "Content-Type": "application/xml", 
                 "Accept": "application/json"
             }
         }).done((_data, _textStatus, xhr) => {
@@ -1262,7 +1247,7 @@ export class PersonsClient {
             data: content_,
             dataType: "text",
             headers: {
-                "Content-Type": "application/octet-stream",
+                "Content-Type": "application/octet-stream", 
                 "Accept": "application/json"
             }
         }).done((_data, _textStatus, xhr) => {

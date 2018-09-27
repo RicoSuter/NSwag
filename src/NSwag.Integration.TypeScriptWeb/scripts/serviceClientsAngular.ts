@@ -101,7 +101,6 @@ export class GeoClient extends MyBaseClass {
         let options_ : any = {
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
             })
         };
 
@@ -188,7 +187,6 @@ export class GeoClient extends MyBaseClass {
         let options_ : any = {
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
             })
         };
 
@@ -231,7 +229,6 @@ export class GeoClient extends MyBaseClass {
         let options_ : any = {
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -280,7 +277,6 @@ export class GeoClient extends MyBaseClass {
         let options_ : any = {
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
             })
         };
 
@@ -474,7 +470,6 @@ export class GeoClient extends MyBaseClass {
             method: "get",
             responseType: ResponseContentType.Blob,
             headers: new Headers({
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -521,7 +516,6 @@ export class GeoClient extends MyBaseClass {
         let options_ : any = {
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -579,7 +573,6 @@ export class PersonsClient extends MyBaseClass {
         let options_ : any = {
             method: "get",
             headers: new Headers({
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -676,7 +669,6 @@ export class PersonsClient extends MyBaseClass {
         let options_ : any = {
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -730,7 +722,6 @@ export class PersonsClient extends MyBaseClass {
         let options_ : any = {
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -783,7 +774,6 @@ export class PersonsClient extends MyBaseClass {
         let options_ : any = {
             method: "get",
             headers: new Headers({
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -838,7 +828,6 @@ export class PersonsClient extends MyBaseClass {
         let options_ : any = {
             method: "delete",
             headers: new Headers({
-                "Content-Type": "application/json", 
             })
         };
 
@@ -932,7 +921,6 @@ export class PersonsClient extends MyBaseClass {
         let options_ : any = {
             method: "post",
             headers: new Headers({
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -992,7 +980,6 @@ export class PersonsClient extends MyBaseClass {
         let options_ : any = {
             method: "get",
             headers: new Headers({
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };

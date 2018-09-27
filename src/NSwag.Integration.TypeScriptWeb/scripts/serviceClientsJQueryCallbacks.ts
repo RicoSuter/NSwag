@@ -30,7 +30,7 @@ export class GeoClient {
             data: content_,
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             }
         }); 
         
@@ -86,7 +86,6 @@ export class GeoClient {
             type: "post",
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
             }
         }); 
         
@@ -137,7 +136,7 @@ export class GeoClient {
             data: content_,
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             }
         }); 
         
@@ -187,7 +186,6 @@ export class GeoClient {
             type: "post",
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
             }
         }); 
         
@@ -237,7 +235,6 @@ export class GeoClient {
             type: "post",
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
                 "Accept": "application/json"
             }
         }); 
@@ -293,7 +290,6 @@ export class GeoClient {
             type: "post",
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
             }
         }); 
         
@@ -347,7 +343,6 @@ export class GeoClient {
             mimeType: "multipart/form-data",
             contentType: false,
             headers: {
-                "Content-Type": "multipart/form-data",
                 "Accept": "application/json"
             }
         }); 
@@ -405,7 +400,6 @@ export class GeoClient {
             mimeType: "multipart/form-data",
             contentType: false,
             headers: {
-                "Content-Type": "multipart/form-data",
             }
         }); 
         
@@ -456,7 +450,7 @@ export class GeoClient {
             data: content_,
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             }
         }); 
         
@@ -517,7 +511,6 @@ export class GeoClient {
             type: "get",
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
                 "Accept": "application/json"
             }
         }); 
@@ -571,7 +564,6 @@ export class GeoClient {
             type: "post",
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
                 "Accept": "application/json"
             }
         }); 
@@ -633,7 +625,6 @@ export class PersonsClient {
             type: "get",
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
                 "Accept": "application/json"
             }
         }); 
@@ -692,7 +683,7 @@ export class PersonsClient {
             data: content_,
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             }
         }); 
         
@@ -743,7 +734,6 @@ export class PersonsClient {
             type: "post",
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
                 "Accept": "application/json"
             }
         }); 
@@ -803,7 +793,6 @@ export class PersonsClient {
             type: "post",
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
                 "Accept": "application/json"
             }
         }); 
@@ -862,7 +851,6 @@ export class PersonsClient {
             type: "get",
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
                 "Accept": "application/json"
             }
         }); 
@@ -923,7 +911,6 @@ export class PersonsClient {
             type: "delete",
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
             }
         }); 
         
@@ -974,7 +961,7 @@ export class PersonsClient {
             data: content_,
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         }); 
@@ -1030,7 +1017,6 @@ export class PersonsClient {
             type: "post",
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
                 "Accept": "application/json"
             }
         }); 
@@ -1096,7 +1082,6 @@ export class PersonsClient {
             type: "get",
             dataType: "text",
             headers: {
-                "Content-Type": "application/json",
                 "Accept": "application/json"
             }
         }); 
@@ -1157,7 +1142,7 @@ export class PersonsClient {
             data: content_,
             dataType: "text",
             headers: {
-                "Content-Type": "application/xml",
+                "Content-Type": "application/xml", 
                 "Accept": "application/json"
             }
         }); 
@@ -1212,7 +1197,7 @@ export class PersonsClient {
             data: content_,
             dataType: "text",
             headers: {
-                "Content-Type": "application/octet-stream",
+                "Content-Type": "application/octet-stream", 
                 "Accept": "application/json"
             }
         }); 

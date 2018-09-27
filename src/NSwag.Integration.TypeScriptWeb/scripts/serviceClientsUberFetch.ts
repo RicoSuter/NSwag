@@ -37,7 +37,6 @@ export class Client {
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };
@@ -102,7 +101,6 @@ export class Client {
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };
@@ -163,7 +161,6 @@ export class Client {
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };
@@ -208,7 +205,6 @@ export class Client {
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };
@@ -255,7 +251,6 @@ export class Client {
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };
