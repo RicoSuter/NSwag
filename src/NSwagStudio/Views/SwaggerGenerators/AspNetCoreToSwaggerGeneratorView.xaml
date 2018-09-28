@@ -109,10 +109,6 @@
                      ToolTip="WorkingDirectory"
                      Margin="0,0,0,12" />
 
-            <CheckBox IsChecked="{Binding Command.RequireParametersWithoutDefault, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="RequireParametersWithoutDefault">
-                <TextBlock Text="Parameters without default value are always required (should not be enabled, legacy)." TextWrapping="Wrap" />
-            </CheckBox>
-
             <TextBlock Text="Use IDocumentProvider (not implemented yet)" FontWeight="Bold" Margin="0,0,0,6" />
             <TextBox Text="{Binding Command.UseDocumentProvider, Mode=TwoWay}" 
                      ToolTip="UseDocumentProvider" Margin="0,0,0,12" />
@@ -133,6 +129,14 @@
                                   ToolTip="DefaultPropertyNameHandling" ItemsSource="{Binding PropertyNameHandlings}" Margin="0,0,0,12" />
                     </StackPanel>
                 </GroupBox>
+
+                <CheckBox IsChecked="{Binding Command.RequireParametersWithoutDefault, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="RequireParametersWithoutDefault">
+                    <TextBlock Text="Parameters without default value are always required (should not be enabled, legacy)." TextWrapping="Wrap" />
+                </CheckBox>
+
+                <CheckBox IsChecked="{Binding Command.AllowNullableBodyParameters, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="AllowNullableBodyParameters">
+                    <TextBlock Text="Allow nullable body parameters (requires to set AllowEmptyInputInBodyModelBinding to true in ASP.NET Core)" TextWrapping="Wrap" />
+                </CheckBox>
 
                 <TextBlock Margin="0,0,0,6" Text="The default null handling (if NotNullAttribute and CanBeNullAttribute are missing)" TextWrapping="Wrap" FontWeight="Bold" />
                 <ComboBox SelectedItem="{Binding Command.DefaultReferenceTypeNullHandling, Mode=TwoWay}" 

@@ -133,6 +133,10 @@
                     <TextBlock Text="Add path parameters which are missing in the action method" TextWrapping="Wrap" />
                 </CheckBox>
 
+                <CheckBox IsChecked="{Binding Command.AllowNullableBodyParameters, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="AllowNullableBodyParameters">
+                    <TextBlock Text="Allow nullable body parameters (requires to set AllowEmptyInputInBodyModelBinding to true in ASP.NET Core)" TextWrapping="Wrap" />
+                </CheckBox>
+
                 <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
                     <Run Text="Default Enum Handling" FontWeight="Bold" />
                     <LineBreak />

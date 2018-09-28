@@ -32,6 +32,9 @@ namespace NSwag.SwaggerGeneration
         /// <summary>Gets or sets the Swagger specification version.</summary>
         public string Version { get; set; } = "1.0.0";
 
+        /// <summary>Gets or sets a value indicating whether nullable body parameters are allowed.</summary>
+        public bool AllowNullableBodyParameters { get; set; } = true;
+
         /// <summary>Gets the operation processor.</summary>
         [JsonIgnore]
         public OperationProcessorCollection OperationProcessors { get; } = new OperationProcessorCollection

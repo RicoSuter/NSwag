@@ -252,7 +252,10 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
         {
             SwaggerParameter operationParameter;
 
-            // TODO: Check IsNullableRaw here 
+            var typeDescription = _settings.ReflectionService.GetDescription(
+                extendedApiParameter.ParameterType, extendedApiParameter.Attributes, _settings);
+            var isNullable = _settings.AllowNullableBodyParameters && typeDescription.IsNullable;
+
             var operation = context.OperationDescription.Operation;
             var parameterType = extendedApiParameter.ParameterType;
             if (parameterType.Name == "XmlDocument" || parameterType.InheritsFrom("XmlDocument", TypeNameStyle.Name))
@@ -265,9 +268,9 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                     Schema = new JsonSchema4
                     {
                         Type = JsonObjectType.String,
-                        IsNullableRaw = true
+                        IsNullableRaw = isNullable
                     },
-                    IsNullableRaw = true,
+                    IsNullableRaw = isNullable,
                     IsRequired = extendedApiParameter.IsRequired(_settings.RequireParametersWithoutDefault),
                     Description = await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false)
                 };
@@ -283,26 +286,24 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                     {
                         Type = JsonObjectType.String,
                         Format = JsonFormatStrings.Byte,
-                        IsNullableRaw = true
+                        IsNullableRaw = isNullable
                     },
-                    IsNullableRaw = true,
+                    IsNullableRaw = isNullable,
                     IsRequired = extendedApiParameter.IsRequired(_settings.RequireParametersWithoutDefault),
                     Description = await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false)
                 };
             }
             else // body from type
             {
-                var typeDescription = _settings.ReflectionService.GetDescription(extendedApiParameter.ParameterType, extendedApiParameter.Attributes, _settings);
-
                 operationParameter = new SwaggerParameter
                 {
                     Name = extendedApiParameter.ApiParameter.Name,
                     Kind = SwaggerParameterKind.Body,
                     IsRequired = extendedApiParameter.IsRequired(_settings.RequireParametersWithoutDefault),
-                    IsNullableRaw = typeDescription.IsNullable,
+                    IsNullableRaw = isNullable,
                     Description = await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false),
                     Schema = await context.SchemaGenerator.GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(
-                        extendedApiParameter.ParameterType, extendedApiParameter.Attributes, isNullable: false/*typeDescription.IsNullable*/, schemaResolver: context.SchemaResolver).ConfigureAwait(false)
+                        extendedApiParameter.ParameterType, extendedApiParameter.Attributes, isNullable, schemaResolver: context.SchemaResolver).ConfigureAwait(false)
                 };
             }
 

@@ -175,6 +175,13 @@ namespace NSwag.Commands.SwaggerGeneration
         [Argument(Name = "Startup", IsRequired = false, Description = "The Startup class type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
         public string StartupType { get; set; }
 
+        [Argument(Name = "AllowNullableBodyParameters", IsRequired = false, Description = "Nullable body parameters are allowed (default: true).")]
+        public bool AllowNullableBodyParameters
+        {
+            get => Settings.AllowNullableBodyParameters;
+            set => Settings.AllowNullableBodyParameters = value;
+        }
+
         public async Task<TSettings> CreateSettingsAsync(AssemblyLoader.AssemblyLoader assemblyLoader, IWebHost webHost, string workingDirectory)
         {
             var options = webHost?.Services?.GetRequiredService<IOptions<MvcJsonOptions>>();
