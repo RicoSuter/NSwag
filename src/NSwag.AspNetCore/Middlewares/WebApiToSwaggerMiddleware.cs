@@ -21,6 +21,7 @@ namespace NSwag.AspNetCore.Middlewares
     public class WebApiToSwaggerMiddleware
     {
         private readonly RequestDelegate _nextDelegate;
+        private readonly IOptions<MvcOptions> _mvcOptions;
         private readonly IOptions<MvcJsonOptions> _mvcJsonOptions;
 
         private readonly string _path;
@@ -34,14 +35,16 @@ namespace NSwag.AspNetCore.Middlewares
 
         /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerMiddleware"/> class.</summary>
         /// <param name="nextDelegate">The next delegate.</param>
-        /// <param name="mvcJsonOptions">The injected MVC JSON options.</param>
+        /// <param name="mvcOptions">The options.</param>
+        /// <param name="mvcJsonOptions">The json options.</param>
         /// <param name="path">The path.</param>
         /// <param name="controllerTypes">The controller types.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
-        public WebApiToSwaggerMiddleware(RequestDelegate nextDelegate, IOptions<MvcJsonOptions> mvcJsonOptions, string path, IEnumerable<Type> controllerTypes, SwaggerSettings<WebApiToSwaggerGeneratorSettings> settings, SwaggerJsonSchemaGenerator schemaGenerator)
+        public WebApiToSwaggerMiddleware(RequestDelegate nextDelegate, IOptions<MvcOptions> mvcOptions, IOptions<MvcJsonOptions> mvcJsonOptions, string path, IEnumerable<Type> controllerTypes, SwaggerSettings<WebApiToSwaggerGeneratorSettings> settings, SwaggerJsonSchemaGenerator schemaGenerator)
         {
             _nextDelegate = nextDelegate;
+            _mvcOptions = mvcOptions;
             _mvcJsonOptions = mvcJsonOptions;
             _path = path;
             _controllerTypes = controllerTypes;
@@ -80,7 +83,7 @@ namespace NSwag.AspNetCore.Middlewares
                     try
                     {
                         var serializerSettings = _mvcJsonOptions.Value.SerializerSettings;
-                        var settings = _settings.CreateGeneratorSettings(serializerSettings);
+                        var settings = _settings.CreateGeneratorSettings(serializerSettings, _mvcOptions.Value);
                         var generator = new WebApiToSwaggerGenerator(settings, _schemaGenerator);
                         var document = await generator.GenerateForControllersAsync(_controllerTypes);
 

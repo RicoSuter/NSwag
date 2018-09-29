@@ -56,9 +56,9 @@ namespace NSwag.AspNetCore
 
         internal virtual string ActualSwaggerRoute => SwaggerRoute.Substring(MiddlewareBasePath?.Length ?? 0);
 
-        internal T CreateGeneratorSettings(JsonSerializerSettings serializerSettings)
+        internal T CreateGeneratorSettings(JsonSerializerSettings serializerSettings, object mvcOptions)
         {
-            GeneratorSettings.TryApplySerializerSettings(serializerSettings);
+            GeneratorSettings.ApplySettings(serializerSettings, mvcOptions);
             return GeneratorSettings;
         }
     }

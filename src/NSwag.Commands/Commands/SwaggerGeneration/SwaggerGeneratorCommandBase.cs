@@ -175,7 +175,7 @@ namespace NSwag.Commands.SwaggerGeneration
         [Argument(Name = "Startup", IsRequired = false, Description = "The Startup class type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
         public string StartupType { get; set; }
 
-        [Argument(Name = "AllowNullableBodyParameters", IsRequired = false, Description = "Nullable body parameters are allowed (default: true).")]
+        [Argument(Name = "AllowNullableBodyParameters", IsRequired = false, Description = "Nullable body parameters are allowed (ignored when MvcOptions.AllowEmptyInputInBodyModelBinding is available, default: true).")]
         public bool AllowNullableBodyParameters
         {
             get => Settings.AllowNullableBodyParameters;
@@ -184,16 +184,17 @@ namespace NSwag.Commands.SwaggerGeneration
 
         public async Task<TSettings> CreateSettingsAsync(AssemblyLoader.AssemblyLoader assemblyLoader, IWebHost webHost, string workingDirectory)
         {
-            var options = webHost?.Services?.GetRequiredService<IOptions<MvcJsonOptions>>();
-            var serializerSettings = options?.Value?.SerializerSettings;
-
             if (UseDocumentProvider)
             {
                 throw new NotImplementedException("The UseDocumentProvider feature is not yet implemented.");
             }
             else
             {
-                Settings.TryApplySerializerSettings(serializerSettings);
+                var mvcOptions = webHost?.Services?.GetRequiredService<IOptions<MvcOptions>>().Value;
+                var mvcJsonOptions = webHost?.Services?.GetRequiredService<IOptions<MvcJsonOptions>>();
+                var serializerSettings = mvcJsonOptions?.Value?.SerializerSettings;
+
+                Settings.ApplySettings(serializerSettings, mvcOptions);
                 Settings.DocumentTemplate = await GetDocumentTemplateAsync(workingDirectory);
 
                 InitializeCustomTypes(assemblyLoader);

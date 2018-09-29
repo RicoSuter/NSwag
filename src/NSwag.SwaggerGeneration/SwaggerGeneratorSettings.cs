@@ -9,6 +9,7 @@
 using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.Generation;
+using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Collections;
 
@@ -32,7 +33,7 @@ namespace NSwag.SwaggerGeneration
         /// <summary>Gets or sets the Swagger specification version.</summary>
         public string Version { get; set; } = "1.0.0";
 
-        /// <summary>Gets or sets a value indicating whether nullable body parameters are allowed.</summary>
+        /// <summary>Gets or sets a value indicating whether nullable body parameters are allowed (ignored when MvcOptions.AllowEmptyInputInBodyModelBinding is available).</summary>
         public bool AllowNullableBodyParameters { get; set; } = true;
 
         /// <summary>Gets the operation processor.</summary>
@@ -56,7 +57,10 @@ namespace NSwag.SwaggerGeneration
         /// <summary>Gets or sets the document template representing the initial Swagger specification (JSON data).</summary>
         public string DocumentTemplate { get; set; }
 
-        public void TryApplySerializerSettings(JsonSerializerSettings serializerSettings)
+        /// <summary>Applies the given settings to this settings object.</summary>
+        /// <param name="serializerSettings">The serializer settings.</param>
+        /// <param name="mvcOptions">The MVC options.</param>
+        public void ApplySettings(JsonSerializerSettings serializerSettings, object mvcOptions)
         {
             if (serializerSettings != null)
             {
@@ -69,6 +73,11 @@ namespace NSwag.SwaggerGeneration
 
                 if (!areSerializerSettingsSpecified)
                     SerializerSettings = serializerSettings;
+            }
+
+            if (mvcOptions != null && mvcOptions.HasProperty("AllowEmptyInputInBodyModelBinding"))
+            {
+                AllowNullableBodyParameters = mvcOptions.TryGetPropertyValue("AllowEmptyInputInBodyModelBinding", false);
             }
         }
     }
