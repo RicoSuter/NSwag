@@ -55,7 +55,7 @@
             "schema": {
               "type": "string"
             },
-            "x-nullable": true
+            "x-nullable": false
           }
         ],
         "responses": {
@@ -123,7 +123,7 @@
             "schema": {
               "type": "string"
             },
-            "x-nullable": true
+            "x-nullable": false
           }
         ],
         "responses": {
