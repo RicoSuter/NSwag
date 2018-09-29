@@ -26,6 +26,7 @@ namespace NSwag.AspNetCore.Middlewares
         private readonly SwaggerSettings<AspNetCoreToSwaggerGeneratorSettings> _settings;
         private readonly SwaggerJsonSchemaGenerator _schemaGenerator;
         private readonly IApiDescriptionGroupCollectionProvider _apiDescriptionGroupCollectionProvider;
+        private readonly IOptions<MvcOptions> _mvcOptions;
         private readonly IOptions<MvcJsonOptions> _mvcJsonOptions;
 
         private int _version;
@@ -36,16 +37,18 @@ namespace NSwag.AspNetCore.Middlewares
         /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerMiddleware"/> class.</summary>
         /// <param name="nextDelegate">The next delegate.</param>
         /// <param name="apiDescriptionGroupCollectionProvider">The <see cref="IApiDescriptionGroupCollectionProvider"/>.</param>
+        /// <param name="mvcOptions">The options.</param>
         /// <param name="mvcJsonOptions">The json options.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
-        public AspNetCoreToSwaggerMiddleware(RequestDelegate nextDelegate, IApiDescriptionGroupCollectionProvider apiDescriptionGroupCollectionProvider, IOptions<MvcJsonOptions> mvcJsonOptions, SwaggerSettings<AspNetCoreToSwaggerGeneratorSettings> settings, SwaggerJsonSchemaGenerator schemaGenerator)
+        public AspNetCoreToSwaggerMiddleware(RequestDelegate nextDelegate, IApiDescriptionGroupCollectionProvider apiDescriptionGroupCollectionProvider, IOptions<MvcOptions> mvcOptions, IOptions<MvcJsonOptions> mvcJsonOptions, SwaggerSettings<AspNetCoreToSwaggerGeneratorSettings> settings, SwaggerJsonSchemaGenerator schemaGenerator)
         {
             _nextDelegate = nextDelegate;
             _settings = settings;
             _path = settings.ActualSwaggerRoute;
             _schemaGenerator = schemaGenerator;
             _apiDescriptionGroupCollectionProvider = apiDescriptionGroupCollectionProvider;
+            _mvcOptions = mvcOptions;
             _mvcJsonOptions = mvcJsonOptions;
         }
 
@@ -80,7 +83,7 @@ namespace NSwag.AspNetCore.Middlewares
             try
             {
                 var serializerSettings = _mvcJsonOptions.Value.SerializerSettings;
-                var settings = _settings.CreateGeneratorSettings(serializerSettings);
+                var settings = _settings.CreateGeneratorSettings(serializerSettings, _mvcOptions.Value);
                 var generator = new AspNetCoreToSwaggerGenerator(settings, _schemaGenerator);
                 var document = await generator.GenerateAsync(apiDescriptionGroups);
 

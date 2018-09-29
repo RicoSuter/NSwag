@@ -159,7 +159,7 @@ namespace NSwag.CodeGeneration.Models
              Schema.Item?.ActualSchema.IsAnyType == true);
 
         /// <summary>Gets a value indicating whether the parameter is of type object.</summary>
-        public bool IsBody => this.Kind == SwaggerParameterKind.Body;
+        public bool IsBody => Kind == SwaggerParameterKind.Body;
 
         /// <summary>Gets the operation extension data.</summary>
         public IDictionary<string, object> ExtensionData => _parameter.ExtensionData;

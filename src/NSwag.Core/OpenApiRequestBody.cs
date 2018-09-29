@@ -18,6 +18,7 @@ namespace NSwag
         private string _name;
         private bool _isRequired;
         private string _description;
+        private int? _position;
 
         /// <summary>Initializes a new instance of the <see cref="OpenApiRequestBody"/> class.</summary>
         public OpenApiRequestBody()
@@ -74,6 +75,18 @@ namespace NSwag
             set
             {
                 _isRequired = value;
+                Parent?.UpdateBodyParameter();
+            }
+        }
+
+        /// <summary>Gets or sets the name.</summary>
+        [JsonProperty(PropertyName = "x-position", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public int? Position
+        {
+            get => _position;
+            set
+            {
+                _position = value;
                 Parent?.UpdateBodyParameter();
             }
         }

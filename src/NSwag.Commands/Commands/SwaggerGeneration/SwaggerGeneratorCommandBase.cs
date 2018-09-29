@@ -20,6 +20,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
+using NSwag.AssemblyLoader.Utilities;
 using NSwag.SwaggerGeneration;
 using NSwag.SwaggerGeneration.Processors;
 
@@ -174,21 +175,27 @@ namespace NSwag.Commands.SwaggerGeneration
         [Argument(Name = "Startup", IsRequired = false, Description = "The Startup class type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
         public string StartupType { get; set; }
 
-        public async Task<TSettings> CreateSettingsAsync(AssemblyLoader.AssemblyLoader assemblyLoader, IWebHost webHost)
+        [Argument(Name = "AllowNullableBodyParameters", IsRequired = false, Description = "Nullable body parameters are allowed (ignored when MvcOptions.AllowEmptyInputInBodyModelBinding is available, default: true).")]
+        public bool AllowNullableBodyParameters
         {
-            Settings.DocumentTemplate = await GetDocumentTemplateAsync();
+            get => Settings.AllowNullableBodyParameters;
+            set => Settings.AllowNullableBodyParameters = value;
+        }
 
-            var options = webHost?.Services?.GetRequiredService<IOptions<MvcJsonOptions>>();
-            var serializerSettings = options?.Value?.SerializerSettings;
-
+        public async Task<TSettings> CreateSettingsAsync(AssemblyLoader.AssemblyLoader assemblyLoader, IWebHost webHost, string workingDirectory)
+        {
             if (UseDocumentProvider)
             {
                 throw new NotImplementedException("The UseDocumentProvider feature is not yet implemented.");
             }
             else
             {
-                Settings.TryApplySerializerSettings(serializerSettings);
-                Settings.DocumentTemplate = await GetDocumentTemplateAsync();
+                var mvcOptions = webHost?.Services?.GetRequiredService<IOptions<MvcOptions>>().Value;
+                var mvcJsonOptions = webHost?.Services?.GetRequiredService<IOptions<MvcJsonOptions>>();
+                var serializerSettings = mvcJsonOptions?.Value?.SerializerSettings;
+
+                Settings.ApplySettings(serializerSettings, mvcOptions);
+                Settings.DocumentTemplate = await GetDocumentTemplateAsync(workingDirectory);
 
                 InitializeCustomTypes(assemblyLoader);
 
@@ -254,24 +261,19 @@ namespace NSwag.Commands.SwaggerGeneration
         {
             if (!UseDocumentProvider)
             {
+                // TODO: Is this needed/move to CreateDocumentAsync()?
+
                 if (ServiceHost == ".")
                     document.Host = string.Empty;
                 else if (!string.IsNullOrEmpty(ServiceHost))
                     document.Host = ServiceHost;
-
-                if (string.IsNullOrEmpty(DocumentTemplate))
-                {
-                    if (!string.IsNullOrEmpty(InfoTitle))
-                        document.Info.Title = InfoTitle;
-                    if (!string.IsNullOrEmpty(InfoVersion))
-                        document.Info.Version = InfoVersion;
-                    if (!string.IsNullOrEmpty(InfoDescription))
-                        document.Info.Description = InfoDescription;
-                }
-
+                
                 if (ServiceSchemes != null && ServiceSchemes.Any())
-                    document.Schemes = ServiceSchemes.Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true))
+                {
+                    document.Schemes = ServiceSchemes
+                        .Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true))
                         .ToList();
+                }
 
                 if (!string.IsNullOrEmpty(ServiceBasePath))
                     document.BasePath = ServiceBasePath;
@@ -281,20 +283,21 @@ namespace NSwag.Commands.SwaggerGeneration
             return json;
         }
 
-        public async Task<string> GetDocumentTemplateAsync()
+        private async Task<string> GetDocumentTemplateAsync(string workingDirectory)
         {
             if (!string.IsNullOrEmpty(DocumentTemplate))
             {
-                if (await DynamicApis.FileExistsAsync(DocumentTemplate).ConfigureAwait(false))
+                var file = PathUtilities.MakeAbsolutePath(DocumentTemplate, workingDirectory);
+                if (await DynamicApis.FileExistsAsync(file).ConfigureAwait(false))
                 {
-                    var json = await DynamicApis.FileReadAllTextAsync(DocumentTemplate).ConfigureAwait(false);
+                    var json = await DynamicApis.FileReadAllTextAsync(file).ConfigureAwait(false);
                     if (json.StartsWith("{") == false)
                         return (await SwaggerYamlDocument.FromYamlAsync(json)).ToJson();
                     else
                         return json;
                 }
-                else if (Settings.DocumentTemplate.StartsWith("{") == false)
-                    return (await SwaggerYamlDocument.FromYamlAsync(Settings.DocumentTemplate)).ToJson();
+                else if (DocumentTemplate.StartsWith("{") == false)
+                    return (await SwaggerYamlDocument.FromYamlAsync(DocumentTemplate)).ToJson();
                 else
                     return DocumentTemplate;
             }

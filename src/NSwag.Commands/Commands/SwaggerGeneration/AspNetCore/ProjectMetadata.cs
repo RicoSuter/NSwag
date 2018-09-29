@@ -120,25 +120,27 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
 
                 args.Add("/t:" + GetMetadataTarget);
 
-                if (framework != null)
+                if (!string.IsNullOrEmpty(framework))
                 {
                     args.Add("/p:TargetFramework=" + framework);
                 }
-                if (configuration != null)
+
+                if (!string.IsNullOrEmpty(configuration))
                 {
                     args.Add("/p:Configuration=" + configuration);
                 }
-                if (runtime != null)
+
+                if (!string.IsNullOrEmpty(runtime))
                 {
                     args.Add("/p:RuntimeIdentifier=" + runtime);
                 }
 
-                if (file != null)
+                if (!string.IsNullOrEmpty(file))
                 {
                     args.Add(file);
                 }
 
-                var exitCode = await Exe.RunAsync("dotnet", args, console: console).ConfigureAwait(false);
+                var exitCode = await Exe.RunAsync("dotnet", args, console).ConfigureAwait(false);
                 if (exitCode != 0)
                 {
                     throw new InvalidOperationException("Unable to retrieve project metadata. Ensure it's an MSBuild-based .NET Core project."

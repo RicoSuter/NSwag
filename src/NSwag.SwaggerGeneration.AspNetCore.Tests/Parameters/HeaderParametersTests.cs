@@ -11,7 +11,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Parameters
         public async Task When_complex_query_parameters_are_nullable_and_set_to_null_they_are_optional_in_spec()
         {
             // Arrange
-            var settings = new AspNetCoreToSwaggerGeneratorSettings();
+            var settings = new AspNetCoreToSwaggerGeneratorSettings { RequireParametersWithoutDefault = true };
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(HeaderParametersController));

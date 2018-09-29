@@ -9,6 +9,22 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
     public class ApiVersionProcessorWithAspNetCoreTests : AspNetCoreTestsBase
     {
         [Fact]
+        public async Task When_api_version_parameter_should_be_ignored_then_it_is_ignored()
+        {
+            // Arrange
+            var settings = new AspNetCoreToSwaggerGeneratorSettings();
+            settings.OperationProcessors.TryGet<ApiVersionProcessor>().IncludedVersions = new[] { "1" };
+
+            // Act
+            var document = await GenerateDocumentAsync(settings, typeof(VersionedValuesController), typeof(VersionedV3ValuesController));
+            var json = document.ToJson();
+
+            // Assert
+            var operations = document.Operations;
+            Assert.True(operations.All(o => o.Operation.ActualParameters.All(p => p.Name != "api-version")));
+        }
+
+        [Fact]
         public async Task When_generating_v1_then_only_v1_operations_are_included()
         {
             // Arrange

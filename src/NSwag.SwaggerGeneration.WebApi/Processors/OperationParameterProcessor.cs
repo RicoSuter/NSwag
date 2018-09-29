@@ -41,6 +41,8 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
         {
             var httpPath = context.OperationDescription.Path;
             var parameters = context.MethodInfo.GetParameters().ToList();
+
+            var position = 1;
             foreach (var parameter in parameters.Where(p => p.ParameterType != typeof(CancellationToken) &&
                                                             p.GetCustomAttributes().All(a => a.GetType().Name != "SwaggerIgnoreAttribute") &&
                                                             p.GetCustomAttributes().All(a => a.GetType().Name != "FromServicesAttribute") &&
@@ -159,7 +161,14 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
 
                 if (operationParameter != null)
                 {
+                    if (_settings.SchemaType == SchemaType.OpenApi3)
+                    {
+                        operationParameter.IsNullableRaw = null;
+                    }
+
+                    operationParameter.Position = position;
                     ((Dictionary<ParameterInfo, SwaggerParameter>)context.Parameters)[parameter] = operationParameter;
+                    position++;
                 }
             }
 
@@ -253,6 +262,10 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
         {
             SwaggerParameter operationParameter;
 
+            var attributes = parameter.GetCustomAttributes();
+            var typeDescription = _settings.ReflectionService.GetDescription(parameter.ParameterType, attributes, _settings);
+            var isNullable = _settings.AllowNullableBodyParameters && typeDescription.IsNullable;
+
             var operation = context.OperationDescription.Operation;
             if (parameter.ParameterType.Name == "XmlDocument" || parameter.ParameterType.InheritsFrom("XmlDocument", TypeNameStyle.Name))
             {
@@ -261,8 +274,12 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                 {
                     Name = name,
                     Kind = SwaggerParameterKind.Body,
-                    Schema = new JsonSchema4 { Type = JsonObjectType.String },
-                    IsNullableRaw = true,
+                    Schema = new JsonSchema4
+                    {
+                        Type = JsonObjectType.String,
+                        IsNullableRaw = isNullable
+                    },
+                    IsNullableRaw = isNullable,
                     IsRequired = parameter.HasDefaultValue == false,
                     Description = await parameter.GetDescriptionAsync(parameter.GetCustomAttributes()).ConfigureAwait(false)
                 };
@@ -275,8 +292,13 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                 {
                     Name = name,
                     Kind = SwaggerParameterKind.Body,
-                    Schema = new JsonSchema4 { Type = JsonObjectType.String, Format = JsonFormatStrings.Byte },
-                    IsNullableRaw = true,
+                    Schema = new JsonSchema4
+                    {
+                        Type = JsonObjectType.String,
+                        Format = JsonFormatStrings.Byte,
+                        IsNullableRaw = isNullable
+                    },
+                    IsNullableRaw = isNullable,
                     IsRequired = parameter.HasDefaultValue == false,
                     Description = await parameter.GetDescriptionAsync(parameter.GetCustomAttributes()).ConfigureAwait(false)
                 };
@@ -284,18 +306,15 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
             }
             else
             {
-                var attributes = parameter.GetCustomAttributes();
-                var typeDescription = _settings.ReflectionService.GetDescription(parameter.ParameterType, attributes, _settings);
-
                 operationParameter = new SwaggerParameter
                 {
                     Name = name,
                     Kind = SwaggerParameterKind.Body,
                     IsRequired = true, // FromBody parameters are always required
-                    IsNullableRaw = typeDescription.IsNullable,
+                    IsNullableRaw = isNullable,
                     Description = await parameter.GetDescriptionAsync(attributes).ConfigureAwait(false),
                     Schema = await context.SchemaGenerator.GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(
-                        parameter.ParameterType, parameter.GetCustomAttributes(), isNullable: false, schemaResolver: context.SchemaResolver).ConfigureAwait(false)
+                        parameter.ParameterType, parameter.GetCustomAttributes(), isNullable, schemaResolver: context.SchemaResolver).ConfigureAwait(false)
                 };
                 operation.Parameters.Add(operationParameter);
             }

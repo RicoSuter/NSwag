@@ -480,6 +480,12 @@ namespace NSwag.Commands
             saveFile = false;
 
             // New file format
+            if (data.Contains("\"noBuild\":") && !data.ToLowerInvariant().Contains("RequireParametersWithoutDefault".ToLowerInvariant()))
+            {
+                data = data.Replace("\"noBuild\":", "\"requireParametersWithoutDefault\": true, \"noBuild\":");
+                saveFile = true;
+            }
+
             if (data.Contains("assemblyTypeToSwagger"))
             {
                 data = data.Replace("assemblyTypeToSwagger", "typesToSwagger");
