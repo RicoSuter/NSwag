@@ -73,9 +73,9 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 
                 ParameterInfo parameter = null;
 
-                var propertyName = apiParameter.ModelMetadata.PropertyName;
+                var propertyName = apiParameter.ModelMetadata?.PropertyName;
                 var property = !string.IsNullOrEmpty(propertyName) ?
-                    apiParameter.ModelMetadata.ContainerType.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance) :
+                    apiParameter.ModelMetadata.ContainerType?.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance) :
                     null;
 
                 if (property != null)
@@ -172,17 +172,20 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                     }
                 }
 
-                operationParameter.Position = position;
-                position++;
-
-                if (parameter != null && operationParameter != null)
+                if (operationParameter != null)
                 {
+                    operationParameter.Position = position;
+                    position++;
+
                     if (_settings.SchemaType == SchemaType.OpenApi3)
                     {
                         operationParameter.IsNullableRaw = null;
                     }
 
-                    ((Dictionary<ParameterInfo, SwaggerParameter>)operationProcessorContext.Parameters)[parameter] = operationParameter;
+                    if (parameter != null)
+                    {
+                        ((Dictionary<ParameterInfo, SwaggerParameter>)operationProcessorContext.Parameters)[parameter] = operationParameter;
+                    }
                 }
             }
 
