@@ -159,6 +159,9 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                     }
                 }
 
+                operationParameter.Position = position;
+                position++;
+
                 if (operationParameter != null)
                 {
                     if (_settings.SchemaType == SchemaType.OpenApi3)
@@ -166,9 +169,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                         operationParameter.IsNullableRaw = null;
                     }
 
-                    operationParameter.Position = position;
                     ((Dictionary<ParameterInfo, SwaggerParameter>)context.Parameters)[parameter] = operationParameter;
-                    position++;
                 }
             }
 

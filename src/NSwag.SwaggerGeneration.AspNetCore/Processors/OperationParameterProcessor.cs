@@ -60,9 +60,6 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                     continue;
                 }
 
-                var parameterDescriptor = apiParameter.TryGetPropertyValue<ParameterDescriptor>("ParameterDescriptor");
-                var parameterName = parameterDescriptor?.Name ?? apiParameter.Name;
-
                 // In Mvc < 2.0, there isn't a good way to infer the attributes of a parameter with a IModelNameProvider.Name
                 // value that's different than the parameter name. Additionally, ApiExplorer will recurse in to complex model bound types
                 // and expose properties as top level parameters. Consequently, determining the property or parameter of an Api is best
@@ -74,19 +71,37 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                     ParameterType = apiParameter.Type
                 };
 
-                var parameter = methodParameters.FirstOrDefault(m => m.Name == parameterName);
-                if (parameter != null)
+                ParameterInfo parameter = null;
+
+                var propertyName = apiParameter.ModelMetadata.PropertyName;
+                var property = !string.IsNullOrEmpty(propertyName) ?
+                    apiParameter.ModelMetadata.ContainerType.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance) :
+                    null;
+
+                if (property != null)
                 {
-                    extendedApiParameter.ParameterInfo = parameter;
-                    extendedApiParameter.Attributes = parameter.GetCustomAttributes();
+                    extendedApiParameter.PropertyInfo = property;
+                    extendedApiParameter.Attributes = property.GetCustomAttributes();
                 }
                 else
                 {
-                    var property = operationProcessorContext.ControllerType.GetProperty(parameterName, BindingFlags.Public | BindingFlags.Instance);
-                    if (property != null)
+                    var parameterDescriptor = apiParameter.TryGetPropertyValue<ParameterDescriptor>("ParameterDescriptor");
+                    var parameterName = parameterDescriptor?.Name ?? apiParameter.Name;
+                    parameter = methodParameters.FirstOrDefault(m => m.Name.ToLowerInvariant() == parameterName.ToLowerInvariant());
+                    if (parameter != null)
                     {
-                        extendedApiParameter.PropertyInfo = property;
-                        extendedApiParameter.Attributes = property.GetCustomAttributes();
+                        extendedApiParameter.ParameterInfo = parameter;
+                        extendedApiParameter.Attributes = parameter.GetCustomAttributes();
+                    }
+                    else
+                    {
+                        parameterName = apiParameter.Name;
+                        property = operationProcessorContext.ControllerType.GetProperty(parameterName, BindingFlags.Public | BindingFlags.Instance);
+                        if (property != null)
+                        {
+                            extendedApiParameter.PropertyInfo = property;
+                            extendedApiParameter.Attributes = property.GetCustomAttributes();
+                        }
                     }
                 }
 
@@ -157,6 +172,9 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                     }
                 }
 
+                operationParameter.Position = position;
+                position++;
+
                 if (parameter != null && operationParameter != null)
                 {
                     if (_settings.SchemaType == SchemaType.OpenApi3)
@@ -164,9 +182,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                         operationParameter.IsNullableRaw = null;
                     }
 
-                    operationParameter.Position = position;
                     ((Dictionary<ParameterInfo, SwaggerParameter>)operationProcessorContext.Parameters)[parameter] = operationParameter;
-                    position++;
                 }
             }
 
