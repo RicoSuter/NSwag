@@ -67,6 +67,7 @@ namespace NSwag.AssemblyLoader.Utilities
 
             var regex = new Regex(
                 "^" + Regex.Escape(selector
+                    .Replace("\\", "/")
                     .Replace(delimiter.ToString(), "__del__")
                     .Replace("**", "__starstar__")
                     .Replace("*", "__star__"))
@@ -74,7 +75,7 @@ namespace NSwag.AssemblyLoader.Utilities
                 .Replace("__starstar__", "(.*?)")
                 .Replace("__star__", "([^" + escapedDelimiter + "]*?)") + "$");
 
-            return items.Where(i => regex.Match(i).Success);
+            return items.Where(i => regex.Match(i.Replace("\\", "/")).Success);
         }
 
         /// <summary>Converts a relative path to an absolute path.</summary>

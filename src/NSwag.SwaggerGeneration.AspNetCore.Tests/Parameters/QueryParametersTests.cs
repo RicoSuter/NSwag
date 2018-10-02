@@ -15,12 +15,16 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Parameters
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(ComplexQueryParametersController));
+            var json = document.ToJson();
 
             // Assert
             var operation = document.Operations.First().Operation;
 
             Assert.True(operation.ActualParameters.First().IsRequired);
             Assert.True(operation.ActualParameters.Last().IsRequired);
+
+            Assert.Equal("Bar.", operation.ActualParameters.First().Description);
+            Assert.Equal("Baz.", operation.ActualParameters.Last().Description);
         }
 
         [Fact]
