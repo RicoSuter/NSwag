@@ -185,7 +185,7 @@
 {%     endif -%}
                 request_.Method = new System.Net.Http.HttpMethod("{{ operation.HttpMethodUpper | upcase }}");
 {%     if operation.HasResultType and operation.HasAcceptHeaderParameterParameter == false -%}
-                request_.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("{{ operation.Produces }}"));
+                request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("{{ operation.Produces }}"));
 {%     endif -%}
 
                 PrepareRequest(client_, request_, urlBuilder_);
