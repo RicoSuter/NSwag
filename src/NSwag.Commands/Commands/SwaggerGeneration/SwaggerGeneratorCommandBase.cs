@@ -9,7 +9,9 @@
 
 using System;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.TestHost;
@@ -172,7 +174,10 @@ namespace NSwag.Commands.SwaggerGeneration
         [Argument(Name = "UseDocumentProvider", IsRequired = false, Description = ".")]
         public bool UseDocumentProvider { get; set; } = false;
 
-        [Argument(Name = "Startup", IsRequired = false, Description = "The Startup class type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
+        [Argument(Name = "CreateWebHostBuilderMethod", IsRequired = false, Description = "The CreateWebHostBuilder method in the form 'assemblyName:fullTypeName.methodName' or 'fullTypeName.methodName'.")]
+        public string CreateWebHostBuilderMethod { get; set; }
+
+        [Argument(Name = "Startup", IsRequired = false, Description = "The Startup class type in the form 'assemblyName:fullTypeName' or 'fullTypeName'.")]
         public string StartupType { get; set; }
 
         [Argument(Name = "AllowNullableBodyParameters", IsRequired = false, Description = "Nullable body parameters are allowed (ignored when MvcOptions.AllowEmptyInputInBodyModelBinding is available, default: true).")]
@@ -203,25 +208,54 @@ namespace NSwag.Commands.SwaggerGeneration
             }
         }
 
-        protected TestServer CreateTestServer(Type startupType)
+        protected async Task<TestServer> CreateTestServerAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
-            return new TestServer(new WebHostBuilder().UseStartup(startupType));
-        }
-
-        protected async Task<Type> GetStartupTypeAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
-        {
-            Type startupType;
-
-            if (string.IsNullOrEmpty(StartupType))
+            if (!string.IsNullOrEmpty(CreateWebHostBuilderMethod))
             {
-                // TODO: Implement proper auto discovery
-                var assemblies = await LoadAssembliesAsync(AssemblyPaths, assemblyLoader).ConfigureAwait(false);
-                startupType = assemblies.First().ExportedTypes.First(t => t.Name == "Startup");
+                // Load configured CreateWebHostBuilder method from program type
+                var segments = CreateWebHostBuilderMethod.Split('.');
+                var programTypeName = string.Join(".", segments.Take(segments.Length - 1));
+                var programType = assemblyLoader.GetType(programTypeName);
+                var method = programType.GetRuntimeMethod(segments.Last(), new[] { typeof(string[]) });
+                return new TestServer((IWebHostBuilder)method.Invoke(null, new object[] { new string[0] }));
+            }
+            else if (!string.IsNullOrEmpty(StartupType))
+            {
+                // Load configured startup type (obsolete)
+                var startupType = assemblyLoader.GetType(StartupType);
+
+#if NETCOREAPP1_0 || NETCOREAPP1_1
+                return new TestServer(new WebHostBuilder().UseStartup(startupType));
+#else
+                return new TestServer(WebHost.CreateDefaultBuilder().UseStartup(startupType));
+#endif
             }
             else
-                startupType = assemblyLoader.GetType(StartupType);
+            {
+                try
+                {
+                    // Search Program class and use CreateWebHostBuilder method as fallback
+                    var assemblies = await LoadAssembliesAsync(AssemblyPaths, assemblyLoader).ConfigureAwait(false);
+                    var programType = assemblies.First().ExportedTypes.First(t => t.Name == "Program");
+                    var method = programType.GetRuntimeMethod("CreateWebHostBuilder", new[] { typeof(string[]) });
+                    if (method != null)
+                        return new TestServer((IWebHostBuilder)method.Invoke(null, new object[] { new string[0] }));
+                    else
+                        throw new InvalidOperationException("The Program class does not have a CreateWebHostBuilder method.");
+                }
+                catch
+                {
+                    // Search Startup class as fallback
+                    var assemblies = await LoadAssembliesAsync(AssemblyPaths, assemblyLoader).ConfigureAwait(false);
+                    var startupType = assemblies.First().ExportedTypes.First(t => t.Name == "Startup");
 
-            return startupType;
+#if NETCOREAPP1_0 || NETCOREAPP1_1
+                    return new TestServer(new WebHostBuilder().UseStartup(startupType));
+#else
+                    return new TestServer(WebHost.CreateDefaultBuilder().UseStartup(startupType));
+#endif
+                }
+            }
         }
 
         protected void InitializeCustomTypes(AssemblyLoader.AssemblyLoader assemblyLoader)
@@ -267,7 +301,7 @@ namespace NSwag.Commands.SwaggerGeneration
                     document.Host = string.Empty;
                 else if (!string.IsNullOrEmpty(ServiceHost))
                     document.Host = ServiceHost;
-                
+
                 if (ServiceSchemes != null && ServiceSchemes.Any())
                 {
                     document.Schemes = ServiceSchemes
@@ -282,7 +316,7 @@ namespace NSwag.Commands.SwaggerGeneration
             var json = document.ToJson(OutputType);
             return json;
         }
-
+        
         private async Task<string> GetDocumentTemplateAsync(string workingDirectory)
         {
             if (!string.IsNullOrEmpty(DocumentTemplate))

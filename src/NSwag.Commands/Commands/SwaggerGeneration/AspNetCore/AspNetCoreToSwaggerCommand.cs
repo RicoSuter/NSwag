@@ -93,7 +93,7 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
                 var args = new List<string>();
                 string executable;
 
-#if NET451
+#if NET461
                 var toolDirectory = AppDomain.CurrentDomain.BaseDirectory;
                 if (!Directory.Exists(toolDirectory))
                     toolDirectory = Path.GetDirectoryName(typeof(AspNetCoreToSwaggerCommand).GetTypeInfo().Assembly.Location);
@@ -227,10 +227,8 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
         protected override async Task<string> RunIsolatedAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
             InitializeCustomTypes(assemblyLoader);
-
-            var startupType = await GetStartupTypeAsync(assemblyLoader);
             var currentWorkingDirectory = ChangeWorkingDirectory();
-            using (var testServer = CreateTestServer(startupType))
+            using (var testServer = await CreateTestServerAsync(assemblyLoader))
             {
                 Directory.SetCurrentDirectory(currentWorkingDirectory);
 
