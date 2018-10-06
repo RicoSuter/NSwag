@@ -72,8 +72,30 @@ namespace NSwag.AspNetCore
         {
             var settings = new SwaggerSettings<WebApiToSwaggerGeneratorSettings>();
             configure?.Invoke(settings);
-            app.UseMiddleware<WebApiToSwaggerMiddleware>(settings.ActualSwaggerRoute, controllerTypes, settings, schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings));
-            return app;
+
+            schemaGenerator = schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings);
+
+            return UseSwaggerCore(app, controllerTypes, settings, schemaGenerator);
+        }
+
+        public static IApplicationBuilder UseSwaggerCore(
+            IApplicationBuilder app,
+            IEnumerable<Type> controllerTypes,
+            SwaggerSettings<WebApiToSwaggerGeneratorSettings> settings,
+            SwaggerJsonSchemaGenerator schemaGenerator)
+        {
+            if (settings.DocumentName != null)
+            {
+                var registry = app.ApplicationServices.GetService<DocumentRegistry>();
+                if (registry != null)
+                {
+                    // Register our settings in the registry if possible. The middleware doesn't actually depend
+                    // on any services, it does things the old way.
+                    registry[settings.DocumentName] = RegisteredDocument.CreateWebApiGeneratorDocument(settings.GeneratorSettings, controllerTypes, schemaGenerator, settings.PostProcess);
+                }
+            }
+
+            return app.UseMiddleware<WebApiToSwaggerMiddleware>(settings.ActualSwaggerRoute, controllerTypes, settings, schemaGenerator);
         }
 
         /// <summary>Adds the Swagger generator that uses Api Description to perform Swagger generation.</summary>
@@ -87,7 +109,29 @@ namespace NSwag.AspNetCore
         {
             var settings = new SwaggerSettings<AspNetCoreToSwaggerGeneratorSettings>();
             configure?.Invoke(settings);
-            return app.UseMiddleware<AspNetCoreToSwaggerMiddleware>(settings, schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings));
+
+            schemaGenerator = schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings);
+
+            return UseSwaggerWithApiExplorerCore(app, settings, schemaGenerator);
+        }
+
+        private static IApplicationBuilder UseSwaggerWithApiExplorerCore(
+            IApplicationBuilder app,
+            SwaggerSettings<AspNetCoreToSwaggerGeneratorSettings> settings,
+            SwaggerJsonSchemaGenerator schemaGenerator)
+        {
+            if (settings.DocumentName != null)
+            {
+                var registry = app.ApplicationServices.GetService<DocumentRegistry>();
+                if (registry != null)
+                {
+                    // Register our settings in the registry if possible. The middleware doesn't actually depend
+                    // on any services, it does things the old way.
+                    registry[settings.DocumentName] = RegisteredDocument.CreateAspNetCoreGeneratorDocument(settings.GeneratorSettings, schemaGenerator, settings.PostProcess);
+                }
+            }
+
+            return app.UseMiddleware<AspNetCoreToSwaggerMiddleware>(settings, schemaGenerator);
         }
 
         /// <summary>Adds services required for swagger generation.</summary>
@@ -98,7 +142,15 @@ namespace NSwag.AspNetCore
         /// </remarks>
         public static IServiceCollection AddSwagger(this IServiceCollection serviceCollection)
         {
-            return serviceCollection.AddSingleton<IConfigureOptions<MvcOptions>, NSwagConfigureMvcOptions>();
+            serviceCollection.AddSingleton<IConfigureOptions<MvcOptions>, NSwagConfigureMvcOptions>();
+
+            serviceCollection.AddSingleton<DocumentRegistry>();
+            serviceCollection.AddSingleton<NSwagDocumentProvider>();
+
+            // Used by the Microsoft.Extensions.ApiDescription tool
+            serviceCollection.AddSingleton<Microsoft.Extensions.ApiDescription.IDocumentProvider>(s => s.GetRequiredService<NSwagDocumentProvider>());
+
+            return serviceCollection;
         }
 
         #endregion
@@ -162,8 +214,10 @@ namespace NSwag.AspNetCore
             var settings = new SwaggerUiSettings<WebApiToSwaggerGeneratorSettings>();
             configure?.Invoke(settings);
 
+            schemaGenerator = schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings);
+
             if (controllerTypes != null)
-                app.UseMiddleware<WebApiToSwaggerMiddleware>(settings.ActualSwaggerRoute, controllerTypes, settings, schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings));
+                UseSwaggerCore(app, controllerTypes, settings, schemaGenerator);
 
             app.UseMiddleware<RedirectMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute);
             app.UseMiddleware<SwaggerUiIndexMiddleware<WebApiToSwaggerGeneratorSettings>>(settings.ActualSwaggerUiRoute + "/index.html", settings, "NSwag.AspNetCore.SwaggerUi.index.html");
@@ -190,7 +244,9 @@ namespace NSwag.AspNetCore
             var settings = new SwaggerUiSettings<AspNetCoreToSwaggerGeneratorSettings>();
             configure?.Invoke(settings);
 
-            app.UseMiddleware<AspNetCoreToSwaggerMiddleware>(settings, schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings));
+            schemaGenerator = schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings);
+
+            UseSwaggerWithApiExplorerCore(app, settings, schemaGenerator);
             app.UseMiddleware<RedirectMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute);
             app.UseMiddleware<SwaggerUiIndexMiddleware<AspNetCoreToSwaggerGeneratorSettings>>(settings.ActualSwaggerUiRoute + "/index.html", settings, "NSwag.AspNetCore.SwaggerUi.index.html");
             app.UseFileServer(new FileServerOptions
@@ -262,9 +318,11 @@ namespace NSwag.AspNetCore
             var settings = new SwaggerUi3Settings<WebApiToSwaggerGeneratorSettings>();
             configure?.Invoke(settings);
 
-            if (controllerTypes != null)
-                app.UseMiddleware<WebApiToSwaggerMiddleware>(settings.ActualSwaggerRoute, controllerTypes, settings, schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings));
+            schemaGenerator = schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings);
 
+            if (controllerTypes != null)
+                UseSwaggerCore(app, controllerTypes, settings, schemaGenerator);
+            
             app.UseMiddleware<RedirectMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute);
             app.UseMiddleware<SwaggerUiIndexMiddleware<WebApiToSwaggerGeneratorSettings>>(settings.ActualSwaggerUiRoute + "/index.html", settings, "NSwag.AspNetCore.SwaggerUi3.index.html");
             app.UseFileServer(new FileServerOptions
@@ -289,7 +347,9 @@ namespace NSwag.AspNetCore
             var settings = new SwaggerUi3Settings<AspNetCoreToSwaggerGeneratorSettings>();
             configure?.Invoke(settings);
 
-            app.UseMiddleware<AspNetCoreToSwaggerMiddleware>(settings, schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings));
+            schemaGenerator = schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings);
+
+            UseSwaggerWithApiExplorerCore(app, settings, schemaGenerator);
             app.UseMiddleware<RedirectMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute);
             app.UseMiddleware<SwaggerUiIndexMiddleware<AspNetCoreToSwaggerGeneratorSettings>>(settings.ActualSwaggerUiRoute + "/index.html", settings, "NSwag.AspNetCore.SwaggerUi3.index.html");
             app.UseFileServer(new FileServerOptions
@@ -360,9 +420,10 @@ namespace NSwag.AspNetCore
         {
             var settings = new SwaggerReDocSettings<WebApiToSwaggerGeneratorSettings>();
             configure?.Invoke(settings);
+            schemaGenerator = schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings);
 
             if (controllerTypes != null)
-                app.UseMiddleware<WebApiToSwaggerMiddleware>(settings.ActualSwaggerRoute, controllerTypes, settings, schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings));
+                UseSwaggerCore(app, controllerTypes, settings, schemaGenerator);
 
             app.UseMiddleware<RedirectMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute);
             app.UseMiddleware<SwaggerUiIndexMiddleware<WebApiToSwaggerGeneratorSettings>>(settings.ActualSwaggerUiRoute + "/index.html", settings, "NSwag.AspNetCore.ReDoc.index.html");
@@ -388,7 +449,9 @@ namespace NSwag.AspNetCore
             var settings = new SwaggerUiSettings<AspNetCoreToSwaggerGeneratorSettings>();
             configure?.Invoke(settings);
 
-            app.UseMiddleware<AspNetCoreToSwaggerMiddleware>(settings, schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings));
+            schemaGenerator = schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings);
+
+            UseSwaggerWithApiExplorerCore(app, settings, schemaGenerator);
             app.UseMiddleware<RedirectMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute);
             app.UseMiddleware<SwaggerUiIndexMiddleware<AspNetCoreToSwaggerGeneratorSettings>>(settings.ActualSwaggerUiRoute + "/index.html", settings, "NSwag.AspNetCore.ReDoc.index.html");
             app.UseFileServer(new FileServerOptions
