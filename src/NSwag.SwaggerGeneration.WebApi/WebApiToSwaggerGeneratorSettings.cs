@@ -6,6 +6,8 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using NSwag.SwaggerGeneration.WebApi.Processors;
 
 namespace NSwag.SwaggerGeneration.WebApi
@@ -18,6 +20,8 @@ namespace NSwag.SwaggerGeneration.WebApi
         {
             OperationProcessors.Insert(3, new OperationParameterProcessor(this));
             OperationProcessors.Insert(3, new OperationResponseProcessor(this));
+
+            ControllerTypes = new List<Type>();
         }
 
         /// <summary>Gets or sets the default Web API URL template (default for Web API: 'api/{controller}/{id}'; for MVC projects: '{controller}/{action}/{id?}').</summary>
@@ -28,5 +32,10 @@ namespace NSwag.SwaggerGeneration.WebApi
 
         /// <summary>Gets or sets a value indicating whether to add path parameters which are missing in the action method.</summary>
         public bool AddMissingPathParameters { get; set; }
+
+        /// <summary>
+        /// Gets or sets a list of controller types used for swagger generation.
+        /// </summary>
+        public IList<Type> ControllerTypes { get; }
     }
 }
