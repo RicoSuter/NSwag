@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using NSwag.SwaggerGeneration;
 using NSwag.SwaggerGeneration.AspNetCore;
-using NSwag.SwaggerGeneration.WebApi;
 
 namespace NSwag.AspNetCore
 {
@@ -25,21 +24,6 @@ namespace NSwag.AspNetCore
         {
             return new RegisteredDocument()
             {
-                PostProcess = postProcess,
-                SchemaGenerator = schemaGenerator,
-                Settings = settings,
-            };
-        }
-
-        public static RegisteredDocument CreateWebApiGeneratorDocument(
-            WebApiToSwaggerGeneratorSettings settings,
-            IEnumerable<Type> controllerTypes,
-            SwaggerJsonSchemaGenerator schemaGenerator,
-            Action<SwaggerDocument> postProcess)
-        {
-            return new RegisteredDocument()
-            {
-                ControllerTypes = controllerTypes,
                 PostProcess = postProcess,
                 SchemaGenerator = schemaGenerator,
                 Settings = settings,
