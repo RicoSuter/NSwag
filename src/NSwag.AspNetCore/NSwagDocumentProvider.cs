@@ -13,9 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.ApiDescription;
 using Microsoft.Extensions.Options;
-using NSwag.SwaggerGeneration;
 using NSwag.SwaggerGeneration.AspNetCore;
-using NSwag.SwaggerGeneration.WebApi;
 
 namespace NSwag.AspNetCore
 {
@@ -78,11 +76,6 @@ namespace NSwag.AspNetCore
             {
                 var generator = new AspNetCoreToSwaggerGenerator(aspnetcore, documentInfo.SchemaGenerator);
                 document = await generator.GenerateAsync(_apiDescriptionGroupCollectionProvider.ApiDescriptionGroups);
-            }
-            else if (documentInfo.Settings is WebApiToSwaggerGeneratorSettings webapi)
-            {
-                var generator = new WebApiToSwaggerGenerator(webapi, documentInfo.SchemaGenerator);
-                document = await generator.GenerateForControllersAsync(webapi.ControllerTypes);
             }
             else
             {
