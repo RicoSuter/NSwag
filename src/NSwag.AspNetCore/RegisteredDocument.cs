@@ -34,8 +34,6 @@ namespace NSwag.AspNetCore
         {
         }
 
-        public IEnumerable<Type> ControllerTypes { get; private set; }
-
         public Action<SwaggerDocument> PostProcess { get; private set; }
 
         public SwaggerJsonSchemaGenerator SchemaGenerator { get; private set; }
