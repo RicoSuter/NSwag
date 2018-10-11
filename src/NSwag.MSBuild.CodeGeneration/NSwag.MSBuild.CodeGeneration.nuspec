@@ -13,7 +13,7 @@
     <tags>Swagger Documentation WebApi AspNet TypeScript CodeGen</tags>
     <developmentDependency>true</developmentDependency>
     <dependencies>
-      <dependency id="Microsoft.Extensions.ApiDescription.Design" Version="2.2.0-preview3-t007163513" />
+      <dependency id="Microsoft.Extensions.ApiDescription.Design" version="2.2.0-preview3-35486" />
       <dependency id="NSwag.MSBuild" version="11.20.1" />
     </dependencies>
     <references />
