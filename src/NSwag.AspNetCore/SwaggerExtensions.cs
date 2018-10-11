@@ -115,8 +115,8 @@ namespace NSwag.AspNetCore
         /// <summary>Adds services required for swagger generation.</summary>
         /// <param name="serviceCollection">The <see cref="IServiceCollection"/>.</param>
         /// <remarks>
-        /// This is currently only required in conjunction with 
-        /// <see cref="SwaggerExtensions.UseSwaggerWithApiExplorer(IApplicationBuilder, Action{AspNetCoreToSwaggerMiddlewareSettings})"/>.
+        /// This is currently only required in conjunction with
+        /// <see cref="UseSwaggerWithApiExplorer(IApplicationBuilder, Action{SwaggerSettings{AspNetCoreToSwaggerGeneratorSettings}}, SwaggerJsonSchemaGenerator)"/>.
         /// </remarks>
         public static IServiceCollection AddSwagger(this IServiceCollection serviceCollection)
         {
