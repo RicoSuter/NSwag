@@ -7,20 +7,15 @@
 //-----------------------------------------------------------------------
 
 using System;
-using System.Threading.Tasks;
-using NJsonSchema;
+using Newtonsoft.Json;
 using NSwag.SwaggerGeneration;
 using NSwag.SwaggerGeneration.WebApi;
-using Newtonsoft.Json;
 
 #if AspNetOwin
 using Microsoft.Owin;
 
 namespace NSwag.AspNet.Owin
 #else
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-
 namespace NSwag.AspNetCore
 #endif
 {

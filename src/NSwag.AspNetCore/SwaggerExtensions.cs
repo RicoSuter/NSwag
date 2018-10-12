@@ -7,19 +7,19 @@
 //-----------------------------------------------------------------------
 
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Options;
 using NSwag.AspNetCore.Middlewares;
 using NSwag.SwaggerGeneration;
-using NSwag.SwaggerGeneration.WebApi;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Mvc;
 using NSwag.SwaggerGeneration.AspNetCore;
+using NSwag.SwaggerGeneration.WebApi;
 
 namespace NSwag.AspNetCore
 {
