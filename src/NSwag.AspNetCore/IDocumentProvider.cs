@@ -13,7 +13,7 @@ namespace Microsoft.Extensions.ApiDescription
 {
     // This service will be looked up by name from the service collection when using
     // the Microsoft.Extensions.ApiDescription tool
-    public interface IDocumentProvider
+    internal interface IDocumentProvider
     {
         Task GenerateAsync(string documentName, TextWriter writer);
     }
