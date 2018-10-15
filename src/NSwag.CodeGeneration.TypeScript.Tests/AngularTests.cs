@@ -21,7 +21,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_return_value_is_void_then_client_returns_observable_of_void()
         {
             //// Arrange
@@ -42,10 +42,10 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("addMessage(message: Foo | null): Observable<void>"));
+            Assert.True(code.Contains("addMessage(message: Foo | null): Observable<void>"));
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_export_types_is_true_then_add_export_before_classes()
         {
             //// Arrange
@@ -67,11 +67,11 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("export class DiscussionClient"));
-            Assert.IsTrue(code.Contains("export interface IDiscussionClient"));
+            Assert.True(code.Contains("export class DiscussionClient"));
+            Assert.True(code.Contains("export interface IDiscussionClient"));
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_export_types_is_false_then_dont_add_export_before_classes()
         {
             //// Arrange
@@ -93,8 +93,8 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.IsFalse(code.Contains("export class DiscussionClient"));
-            Assert.IsFalse(code.Contains("export interface IDiscussionClient"));
+            Assert.False(code.Contains("export class DiscussionClient"));
+            Assert.False(code.Contains("export interface IDiscussionClient"));
         }
     }
 }

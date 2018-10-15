@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web.Http;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.AspNetCore.Mvc;
 using NSwag.SwaggerGeneration.WebApi;
+using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
-    [TestClass]
     public class FileDownloadTests
     {
-        public class FileDownloadController : ApiController
+        public class FileDownloadController : Controller
         {
             [Route("DownloadFile")]
             public HttpResponseMessage DownloadFile()
@@ -19,7 +18,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_response_is_file_and_stream_is_not_used_then_byte_array_is_returned()
         {
             //// Arrange
@@ -34,11 +33,11 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("System.Threading.Tasks.Task<FileResponse> DownloadFileAsync();"));
-            Assert.IsTrue(code.Contains("ReadAsStreamAsync()"));
+            Assert.Contains("System.Threading.Tasks.Task<FileResponse> DownloadFileAsync();", code);
+            Assert.Contains("ReadAsStreamAsync()", code);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_openapi3_contains_octet_stream_response_then_FileResponse_is_generated()
         {
             // Arrange
@@ -77,8 +76,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGenerator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("public async System.Threading.Tasks.Task<FileResponse> RawAsync("));
-            Assert.IsTrue(code.Contains("var fileResponse_ = new FileResponse("));
+            Assert.Contains("public async System.Threading.Tasks.Task<FileResponse> RawAsync(", code);
+            Assert.Contains("var fileResponse_ = new FileResponse(", code);
         }
     }
 }

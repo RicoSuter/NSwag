@@ -18,7 +18,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_parameter_is_nullable_and_ts20_then_it_is_a_union_type_with_undefined()
         {
             //// Arrange
@@ -39,7 +39,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = clientGenerator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("test(a: number, b: number | null)"));
+            Assert.True(code.Contains("test(a: number, b: number | null)"));
         }
     }
 }

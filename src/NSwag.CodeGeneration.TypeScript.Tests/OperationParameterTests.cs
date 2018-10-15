@@ -32,7 +32,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             public Bar Bar2 { get; set; }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_query_parameter_is_enum_array_then_the_enum_is_referenced()
         {
             //// Arrange
@@ -57,7 +57,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
 
             //// Assert
             Assert.IsNotNull(document.Operations.First().Operation.Parameters.First().Item.SchemaReference);
-            Assert.IsTrue(code.Contains("getFoos(bars: Bar[], "));
+            Assert.True(code.Contains("getFoos(bars: Bar[], "));
         }
     }
 }
