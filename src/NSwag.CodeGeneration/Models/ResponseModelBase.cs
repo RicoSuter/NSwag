@@ -16,7 +16,7 @@ namespace NSwag.CodeGeneration.Models
     /// <summary>The response template model.</summary>
     public abstract class ResponseModelBase
     {
-        private readonly IOperationModel _operationModel;
+        protected readonly IOperationModel _operationModel;
         private readonly SwaggerResponse _response;
         private readonly JsonSchema4 _exceptionSchema;
         private readonly IClientGenerator _generator;

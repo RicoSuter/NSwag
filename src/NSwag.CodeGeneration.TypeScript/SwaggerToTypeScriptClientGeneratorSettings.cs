@@ -100,6 +100,11 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <summary>Gets or sets the injection token type (applies only for the Angular template).</summary>
         public InjectionTokenType InjectionTokenType { get; set; } = InjectionTokenType.OpaqueToken;
 
+        /// <summary>
+        /// When set to true, all Success codes (200-299) will be parsed as Successfull codes.
+        /// This can be used in cases where an operation returns both 200 and 204 status codes for example.
+        /// </summary>
+        public bool AllowAllSuccessCodes { get; set; } = false;
 
         internal ITemplate CreateTemplate(object model)
         {

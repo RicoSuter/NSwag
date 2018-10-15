@@ -9,6 +9,7 @@
 using NJsonSchema;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag.CodeGeneration.Models;
+using System.Linq;
 
 namespace NSwag.CodeGeneration.TypeScript.Models
 {
@@ -37,5 +38,24 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         /// <summary>Gets or sets a value indicating whether to use a DTO class.</summary>
         public bool UseDtoClass => _settings.TypeScriptGeneratorSettings.GetTypeStyle(Type) != TypeScriptTypeStyle.Interface;
+
+        /// <summary>Gets a value indicating whether this is success response. </summary>
+        new public bool IsSuccess
+        {
+            get
+            {
+                if (IsPrimarySuccessResponse)
+                    return true;
+
+                var primarySuccessResponse = _operationModel.Responses.FirstOrDefault(r => r.IsPrimarySuccessResponse);
+                if (_settings.AllowAllSuccessCodes)
+                    return HttpUtilities.IsSuccessStatusCode(StatusCode);
+
+                return HttpUtilities.IsSuccessStatusCode(StatusCode) && (
+                    primarySuccessResponse == null ||
+                    primarySuccessResponse.Type == Type
+                );
+            }
+        }
     }
 }
