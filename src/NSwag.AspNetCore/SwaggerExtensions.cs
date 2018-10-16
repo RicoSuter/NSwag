@@ -93,25 +93,6 @@ namespace NSwag.AspNetCore
             return UseSwaggerWithApiExplorerCore(app, settings, schemaGenerator);
         }
 
-        private static IApplicationBuilder UseSwaggerWithApiExplorerCore(
-            IApplicationBuilder app,
-            SwaggerSettings<AspNetCoreToSwaggerGeneratorSettings> settings,
-            SwaggerJsonSchemaGenerator schemaGenerator)
-        {
-            if (settings.DocumentName != null)
-            {
-                var registry = app.ApplicationServices.GetService<DocumentRegistry>();
-                if (registry != null)
-                {
-                    // Register our settings in the registry if possible. The middleware doesn't actually depend
-                    // on any services, it does things the old way.
-                    registry[settings.DocumentName] = RegisteredDocument.CreateAspNetCoreGeneratorDocument(settings.GeneratorSettings, schemaGenerator, settings.PostProcess);
-                }
-            }
-
-            return app.UseMiddleware<AspNetCoreToSwaggerMiddleware>(settings, schemaGenerator);
-        }
-
         /// <summary>Adds services required for swagger generation.</summary>
         /// <param name="serviceCollection">The <see cref="IServiceCollection"/>.</param>
         /// <remarks>
@@ -437,5 +418,24 @@ namespace NSwag.AspNetCore
         }
 
         #endregion
+
+        private static IApplicationBuilder UseSwaggerWithApiExplorerCore(
+            IApplicationBuilder app,
+            SwaggerSettings<AspNetCoreToSwaggerGeneratorSettings> settings,
+            SwaggerJsonSchemaGenerator schemaGenerator)
+        {
+            if (settings.DocumentName != null)
+            {
+                var registry = app.ApplicationServices.GetService<DocumentRegistry>();
+                if (registry != null)
+                {
+                    // Register our settings in the registry if possible. The middleware doesn't actually depend
+                    // on any services, it does things the old way.
+                    registry[settings.DocumentName] = RegisteredDocument.CreateAspNetCoreGeneratorDocument(settings.GeneratorSettings, schemaGenerator, settings.PostProcess);
+                }
+            }
+
+            return app.UseMiddleware<AspNetCoreToSwaggerMiddleware>(settings, schemaGenerator);
+        }
     }
 }
