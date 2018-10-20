@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.Extensions.ApiDescription;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NSwag.SwaggerGeneration;
 using NSwag.SwaggerGeneration.AspNetCore;
@@ -23,33 +25,42 @@ namespace NSwag.AspNetCore.Middlewares
     {
         private readonly RequestDelegate _nextDelegate;
         private readonly string _path;
-        private readonly SwaggerSettings<AspNetCoreToSwaggerGeneratorSettings> _settings;
-        private readonly SwaggerJsonSchemaGenerator _schemaGenerator;
+        //private readonly SwaggerSettings<AspNetCoreToSwaggerGeneratorSettings> _settings;
+        //private readonly SwaggerJsonSchemaGenerator _schemaGenerator;
         private readonly IApiDescriptionGroupCollectionProvider _apiDescriptionGroupCollectionProvider;
-        private readonly IOptions<MvcOptions> _mvcOptions;
-        private readonly IOptions<MvcJsonOptions> _mvcJsonOptions;
+        //private readonly IOptions<MvcOptions> _mvcOptions;
+        //private readonly IOptions<MvcJsonOptions> _mvcJsonOptions;
+        private readonly SwaggerDocumentProvider _documentProvider;
 
         private int _version;
         private string _schemaJson;
         private Exception _schemaException;
         private DateTimeOffset _schemaTimestamp;
+        private string _documentName;
 
         /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerMiddleware"/> class.</summary>
         /// <param name="nextDelegate">The next delegate.</param>
-        /// <param name="apiDescriptionGroupCollectionProvider">The <see cref="IApiDescriptionGroupCollectionProvider"/>.</param>
-        /// <param name="mvcOptions">The options.</param>
-        /// <param name="mvcJsonOptions">The json options.</param>
-        /// <param name="settings">The settings.</param>
-        /// <param name="schemaGenerator">The schema generator.</param>
-        public AspNetCoreToSwaggerMiddleware(RequestDelegate nextDelegate, IApiDescriptionGroupCollectionProvider apiDescriptionGroupCollectionProvider, IOptions<MvcOptions> mvcOptions, IOptions<MvcJsonOptions> mvcJsonOptions, SwaggerSettings<AspNetCoreToSwaggerGeneratorSettings> settings, SwaggerJsonSchemaGenerator schemaGenerator)
+        public AspNetCoreToSwaggerMiddleware(
+            RequestDelegate nextDelegate,
+            IServiceProvider serviceProvider,
+            string path,
+            string documentName)
         {
+            //_settings = settings;
+            //_path = settings.ActualSwaggerRoute;
+            //_schemaGenerator = schemaGenerator;
+            //_mvcOptions = mvcOptions;
+            //_mvcJsonOptions = mvcJsonOptions;
+
             _nextDelegate = nextDelegate;
-            _settings = settings;
-            _path = settings.ActualSwaggerRoute;
-            _schemaGenerator = schemaGenerator;
-            _apiDescriptionGroupCollectionProvider = apiDescriptionGroupCollectionProvider;
-            _mvcOptions = mvcOptions;
-            _mvcJsonOptions = mvcJsonOptions;
+
+            _apiDescriptionGroupCollectionProvider = serviceProvider.GetService<IApiDescriptionGroupCollectionProvider>() ??
+                throw new InvalidOperationException("API Explorer not registred in DI.");
+            _documentProvider = serviceProvider.GetService<SwaggerDocumentProvider>() ??
+                throw new InvalidOperationException("The NSwag DI services are not registered: Call " + nameof(SwaggerExtensions.AddSwagger) + " in ConfigureServices().");
+
+            _path = path;
+            _documentName = documentName;
         }
 
         /// <summary>Invokes the specified context.</summary>
@@ -73,8 +84,8 @@ namespace NSwag.AspNetCore.Middlewares
         /// <returns>The Swagger specification.</returns>
         protected virtual async Task<string> GenerateSwaggerAsync(HttpContext context)
         {
-            if (_schemaException != null && _schemaTimestamp + _settings.ExceptionCacheTime > DateTimeOffset.UtcNow)
-                throw _schemaException;
+            //if (_schemaException != null && _schemaTimestamp + _settings.ExceptionCacheTime > DateTimeOffset.UtcNow)
+            //    throw _schemaException;
 
             var apiDescriptionGroups = _apiDescriptionGroupCollectionProvider.ApiDescriptionGroups;
             if (apiDescriptionGroups.Version == Volatile.Read(ref _version) && _schemaJson != null)
@@ -82,16 +93,13 @@ namespace NSwag.AspNetCore.Middlewares
 
             try
             {
-                var serializerSettings = _mvcJsonOptions.Value.SerializerSettings;
-                var settings = _settings.CreateGeneratorSettings(serializerSettings, _mvcOptions.Value);
-                var generator = new AspNetCoreToSwaggerGenerator(settings, _schemaGenerator);
-                var document = await generator.GenerateAsync(apiDescriptionGroups);
+                var document = await _documentProvider.GenerateAsync(_documentName);
 
                 document.Host = context.Request.Host.Value ?? "";
                 document.Schemes.Add(context.Request.Scheme == "http" ? SwaggerSchema.Http : SwaggerSchema.Https);
-                document.BasePath = context.Request.PathBase.Value?.Substring(0, context.Request.PathBase.Value.Length - (_settings.MiddlewareBasePath?.Length ?? 0)) ?? "";
+                document.BasePath = context.Request.PathBase.Value?.Substring(0, context.Request.PathBase.Value.Length - (/*_settings.MiddlewareBasePath?.Length ??*/ 0)) ?? "";
 
-                _settings.PostProcess?.Invoke(document);
+                //_settings.PostProcess?.Invoke(document);
                 _schemaJson = document.ToJson();
                 _schemaException = null;
                 _version = apiDescriptionGroups.Version;

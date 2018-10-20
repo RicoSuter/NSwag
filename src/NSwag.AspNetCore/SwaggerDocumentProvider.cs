@@ -17,15 +17,15 @@ using NSwag.SwaggerGeneration.AspNetCore;
 
 namespace NSwag.AspNetCore
 {
-    internal class NSwagDocumentProvider : IDocumentProvider
+    internal class SwaggerDocumentProvider : IDocumentProvider
     {
         private readonly IApiDescriptionGroupCollectionProvider _apiDescriptionGroupCollectionProvider;
         private readonly IOptions<MvcOptions> _mvcOptions;
         private readonly IOptions<MvcJsonOptions> _mvcJsonOptions;
-        private readonly DocumentRegistry _registry;
+        private readonly SwaggerDocumentRegistry _registry;
 
-        public NSwagDocumentProvider(
-            DocumentRegistry registry,
+        public SwaggerDocumentProvider(
+            SwaggerDocumentRegistry registry,
             IApiDescriptionGroupCollectionProvider apiDescriptionGroupCollectionProvider,
             IOptions<MvcOptions> mvcOptions,
             IOptions<MvcJsonOptions> mvcJsonOptions)

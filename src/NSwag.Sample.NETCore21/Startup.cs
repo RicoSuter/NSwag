@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NJsonSchema;
 using NSwag.AspNetCore;
+using NSwag.SwaggerGeneration.AspNetCore;
 
 namespace NSwag.Sample.NETCore21
 {
@@ -23,7 +24,9 @@ namespace NSwag.Sample.NETCore21
                 .AddMvc(options => options.AllowEmptyInputInBodyModelBinding = false)
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddSwagger();
+            // Add OpenAPI services
+
+            services.AddSwagger(options => options.AddDocument(settings => settings.SchemaType = SchemaType.OpenApi3));
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -40,7 +43,10 @@ namespace NSwag.Sample.NETCore21
             app.UseHttpsRedirection();
             app.UseMvc();
 
-            app.UseSwaggerUi3WithApiExplorer(settings => settings.GeneratorSettings.SchemaType = SchemaType.OpenApi3);
+            // Add OpenAPI middlewares
+
+            app.UseSwaggerUi3();
+            app.UseSwaggerWithApiExplorer();
         }
     }
 }

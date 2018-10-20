@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NSwag.AspNetCore;
-using System.Reflection;
 
 namespace NSwag.Sample.NETCore11
 {
@@ -31,6 +30,9 @@ namespace NSwag.Sample.NETCore11
                 options.OutputFormatters.Add(new YamlOutputFormatter());
             });
 
+
+            // Add Swagger services
+
             services.AddSwagger();
         }
 
@@ -42,49 +44,21 @@ namespace NSwag.Sample.NETCore11
 
             app.UseMvc();
 
-            // API Explorer based (new)
+            // Add Swagger middlewares
 
-            app.UseSwaggerUiWithApiExplorer(s =>
+            app.UseSwaggerWithApiExplorer("/swagger/v1/swagger.json");
+            
+            app.UseSwaggerUi3(s =>
             {
-                s.SwaggerRoute = "/swagger_api_ui/v1/swagger.json";
-                s.SwaggerUiRoute = "/swagger_api_ui";
-            });
-
-            app.UseSwaggerUi3WithApiExplorer(s =>
-            {
-                s.SwaggerRoute = "/swagger_api_ui3/v1/swagger.json";
-                s.SwaggerUiRoute = "/swagger_api_ui3";
-            });
-
-            app.UseSwaggerReDocWithApiExplorer(s =>
-            {
-                s.SwaggerRoute = "/swagger_api_redoc/v1/swagger.json";
-                s.SwaggerUiRoute = "/swagger_api_redoc";
-            });
-
-            // Reflection based (old)
-
-            app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, s =>
-            {
-                s.SwaggerRoute = "/swagger_ui/v1/swagger.json";
-                s.SwaggerUiRoute = "/swagger_ui";
-            });
-
-            app.UseSwaggerUi3(typeof(Startup).GetTypeInfo().Assembly, s =>
-            {
-                s.SwaggerRoute = "/swagger_ui3/v1/swagger.json";
+                s.SwaggerRoute = "/swagger/v1/swagger.json";
                 s.SwaggerUiRoute = "/swagger_ui3";
             });
 
-            app.UseSwaggerReDoc(typeof(Startup).GetTypeInfo().Assembly, s =>
+            app.UseSwaggerReDoc(s =>
             {
-                s.SwaggerRoute = "/swagger_redoc/v1/swagger.json";
+                s.SwaggerRoute = "/swagger/v1/swagger.json";
                 s.SwaggerUiRoute = "/swagger_redoc";
             });
-
-            // Tests
-
-            app.UseSwaggerWithApiExplorer(s => s.SwaggerRoute = "/swagger/v1/swagger.json");
         }
     }
 }
