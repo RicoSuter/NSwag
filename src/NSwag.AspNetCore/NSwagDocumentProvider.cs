@@ -8,6 +8,7 @@
 
 using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -23,6 +24,10 @@ namespace NSwag.AspNetCore
         private readonly IOptions<MvcOptions> _mvcOptions;
         private readonly IOptions<MvcJsonOptions> _mvcJsonOptions;
         private readonly DocumentRegistry _registry;
+
+        private int _version;
+        private string _lastDocument;
+        private string _lastDocumentName;
 
         public NSwagDocumentProvider(
             DocumentRegistry registry,
@@ -56,35 +61,28 @@ namespace NSwag.AspNetCore
             _registry = registry;
         }
 
-        public async Task<SwaggerDocument> GenerateAsync(string documentName)
+        public async Task<string> GenerateAsync(string documentName)
         {
             if (documentName == null)
             {
                 throw new ArgumentNullException(nameof(documentName));
             }
 
-            var documentInfo = _registry[documentName];
-            if (documentInfo == null)
+            var apiDescriptionGroups = _apiDescriptionGroupCollectionProvider.ApiDescriptionGroups;
+            var newVersion = apiDescriptionGroups.Version;
+            if (_lastDocument != null &&
+                string.Equals(_lastDocumentName, documentName, StringComparison.Ordinal) &&
+                newVersion == Volatile.Read(ref _version))
             {
-                throw new InvalidOperationException($"No registered document found for document name '{documentName}'.");
+                return _lastDocument;
             }
 
-            documentInfo.Settings.ApplySettings(_mvcJsonOptions.Value.SerializerSettings, _mvcOptions.Value);
+            var document = await GenerateAsyncCore(documentName);
+            _lastDocument = document.ToJson();
+            _lastDocumentName = documentName;
+            Volatile.Write(ref _version, newVersion);
 
-            SwaggerDocument document;
-            if (documentInfo.Settings is AspNetCoreToSwaggerGeneratorSettings aspnetcore)
-            {
-                var generator = new AspNetCoreToSwaggerGenerator(aspnetcore, documentInfo.SchemaGenerator);
-                document = await generator.GenerateAsync(_apiDescriptionGroupCollectionProvider.ApiDescriptionGroups);
-            }
-            else
-            {
-                throw new InvalidOperationException($"Unsupported settings type '{documentInfo.GetType().FullName}");
-            }
-
-            documentInfo.PostProcess?.Invoke(document);
-
-            return document;
+            return _lastDocument;
         }
 
         // Called by the Microsoft.Extensions.ApiDescription tool
@@ -100,10 +98,33 @@ namespace NSwag.AspNetCore
                 throw new ArgumentNullException(nameof(writer));
             }
 
-            var document = await GenerateAsync(documentName);
+            var document = await GenerateAsyncCore(documentName);
 
             var json = document.ToJson();
             await writer.WriteAsync(json);
+        }
+
+        private async Task<SwaggerDocument> GenerateAsyncCore(string documentName)
+        {
+            var documentSettings = _registry[documentName];
+            if (documentSettings == null)
+            {
+                throw new InvalidOperationException(
+                    $"No registered document found for document name '{documentName}'.");
+            }
+
+            documentSettings.GeneratorSettings.ApplySettings(
+                _mvcJsonOptions.Value.SerializerSettings,
+                _mvcOptions.Value);
+
+            var generator = new AspNetCoreToSwaggerGenerator(
+                documentSettings.GeneratorSettings,
+                documentSettings.SchemaGenerator);
+            var document = await generator.GenerateAsync(_apiDescriptionGroupCollectionProvider.ApiDescriptionGroups);
+
+            documentSettings.PostProcess?.Invoke(document);
+
+            return document;
         }
     }
 }

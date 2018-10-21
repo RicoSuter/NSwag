@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="NJsonSchema" Version="9.11.0" />
+    <ProjectReference Include="../NSwag.AspNetCore/NSwag.AspNetCore.csproj" />
+    <ProjectReference Include="../NSwag.SwaggerGeneration.AspNetCore/NSwag.SwaggerGeneration.AspNetCore.csproj" />
+    <ProjectReference Include="../NSwag.SwaggerGeneration/NSwag.SwaggerGeneration.csproj" />
+  </ItemGroup>
+
+</Project>
