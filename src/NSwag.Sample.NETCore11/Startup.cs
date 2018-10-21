@@ -30,9 +30,7 @@ namespace NSwag.Sample.NETCore11
                 options.OutputFormatters.Add(new YamlOutputFormatter());
             });
 
-
-            // Add Swagger services
-
+            // Add NSwag OpenAPI/Swagger services
             services.AddSwagger();
         }
 

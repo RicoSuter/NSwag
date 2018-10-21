@@ -5,7 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NJsonSchema;
 using NSwag.AspNetCore;
-using NSwag.SwaggerGeneration.AspNetCore;
 
 namespace NSwag.Sample.NETCore21
 {
@@ -24,7 +23,8 @@ namespace NSwag.Sample.NETCore21
                 .AddMvc(options => options.AllowEmptyInputInBodyModelBinding = false)
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            // Add OpenAPI services
+            // Add NSwag OpenAPI/Swagger DI services and configure documents
+            // For more advanced setup, see NSwag.Sample.NETCore20 project
 
             services.AddSwagger(options => options.AddDocument(settings => settings.SchemaType = SchemaType.OpenApi3));
         }
@@ -43,10 +43,10 @@ namespace NSwag.Sample.NETCore21
             app.UseHttpsRedirection();
             app.UseMvc();
 
-            // Add OpenAPI middlewares
+            // Add middlewares to service the OpenAPI/Swagger document and the web UI
 
-            app.UseSwaggerUi3();
             app.UseSwaggerWithApiExplorer();
+            app.UseSwaggerUi3();
         }
     }
 }

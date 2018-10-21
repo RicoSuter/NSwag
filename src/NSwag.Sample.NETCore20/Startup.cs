@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using NJsonSchema;
 using NSwag.AspNetCore;
 using NSwag.Sample.NETCore20.Part;
-using NSwag.SwaggerGeneration.AspNetCore;
 using NSwag.SwaggerGeneration.Processors.Security;
 
 namespace NSwag.Sample.NETCore20
@@ -25,11 +24,14 @@ namespace NSwag.Sample.NETCore20
             services.AddMvc().
                 AddApplicationPart(typeof(SampleController).GetTypeInfo().Assembly);
 
-            // Add OpenAPI and Swagger services
+            // Add OpenAPI and Swagger DI services and configure documents
 
+            // Adds the NSwag services
             services.AddSwagger(options => options
+                // Register a Swagger 2.0 document generator
                 .AddDocument("swagger", settings =>
                 {
+                    // Add custom document processors, etc.
                     settings.DocumentProcessors.Add(new SecurityDefinitionAppender("TEST_HEADER", new SwaggerSecurityScheme
                     {
                         Type = SwaggerSecuritySchemeType.ApiKey,
@@ -38,6 +40,7 @@ namespace NSwag.Sample.NETCore20
                         Description = "TEST_HEADER"
                     }));
                 })
+                // Register an OpenAPI 3.0 document generator
                 .AddDocument("openapi", settings => settings.SchemaType = SchemaType.OpenApi3));
         }
 
@@ -50,14 +53,18 @@ namespace NSwag.Sample.NETCore20
 
             app.UseMvc();
 
-            // Add OpenAPI and Swagger middlewares
+            // Add OpenAPI and Swagger middlewares to serve documents and web UIs
 
-            // Swagger 2.0
+            // Add Swagger 2.0 document serving middleware
             app.UseSwaggerWithApiExplorer("swagger", options => options.Path = "/swagger/v1/swagger.json");
 
+            // Add web UIs to interact with the document
             app.UseSwaggerUi3(options =>
             {
+                // Define OpenAPI/Swagger document route (defined with UseSwaggerWithApiExplorer)
                 options.SwaggerRoute = "/swagger/v1/swagger.json";
+
+                // Define web UI route
                 options.SwaggerUiRoute = "/swagger_ui";
             });
             app.UseSwaggerReDoc(options =>
@@ -66,9 +73,10 @@ namespace NSwag.Sample.NETCore20
                 options.SwaggerUiRoute = "/swagger_redoc";
             });
 
-            // OpenAPI 3.0
+            // Add OpenAPI 3.0 document serving middleware
             app.UseSwaggerWithApiExplorer("openapi", options => options.Path = "/openapi/v1/swagger.json");
 
+            // Add web UIs to interact with the document
             app.UseSwaggerUi3(options =>
             {
                 options.SwaggerRoute = "/openapi/v1/swagger.json";
@@ -80,13 +88,15 @@ namespace NSwag.Sample.NETCore20
                 options.SwaggerUiRoute = "/openapi_redoc";
             });
 
-            // All
+            // Add Swagger UI with multiple documents
             app.UseSwaggerUi3(options =>
             {
+                // Add multiple OpenAPI/Swagger documents to the Swagger UI 3 web frontend
                 options.SwaggerRoutes.Add(new SwaggerUi3Route("Swagger", "/swagger/v1/swagger.json"));
                 options.SwaggerRoutes.Add(new SwaggerUi3Route("Openapi", "/openapi/v1/swagger.json"));
                 options.SwaggerRoutes.Add(new SwaggerUi3Route("Petstore", "http://petstore.swagger.io/v2/swagger.json"));
 
+                // Define web UI route
                 options.SwaggerUiRoute = "/swagger_all";
             });
         }
