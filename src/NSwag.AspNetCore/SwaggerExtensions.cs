@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
+using NJsonSchema;
+using NSwag.AspNetCore.Documents;
 using NSwag.AspNetCore.Middlewares;
 using NSwag.SwaggerGeneration;
 using NSwag.SwaggerGeneration.AspNetCore;
@@ -26,6 +28,23 @@ namespace NSwag.AspNetCore
     /// <summary>Provides extensions to enable Swagger UI.</summary>
     public static class SwaggerExtensions
     {
+        #region Service registration
+
+        /// <summary>Adds services required for Swagger generation.</summary>
+        /// <param name="serviceCollection">The <see cref="IServiceCollection"/>.</param>
+        /// <param name="configure"></param>
+        public static IServiceCollection AddOpenApi(this IServiceCollection serviceCollection, Action<SwaggerDocumentRegistry> configure = null)
+        {
+            return AddSwagger(serviceCollection, registry =>
+            {
+                configure?.Invoke(registry);
+                foreach (var settings in registry.Documents.Select(t => t.Value).OfType<AspNetCoreToSwaggerDocument>())
+                {
+                    settings.SchemaType = SchemaType.OpenApi3;
+                }
+            });
+        }
+
         /// <summary>Adds services required for Swagger generation.</summary>
         /// <param name="serviceCollection">The <see cref="IServiceCollection"/>.</param>
         /// <param name="configure"></param>
@@ -51,6 +70,8 @@ namespace NSwag.AspNetCore
 
             return serviceCollection;
         }
+
+        #endregion
 
         #region Swagger
 
@@ -121,13 +142,38 @@ namespace NSwag.AspNetCore
         //    //return UseSwaggerWithApiExplorerCore(app, settings, schemaGenerator);
         //}
 
+        /// <summary>Adds the OpenAPI/Swagger generator that uses Api Description to perform Swagger generation.</summary>
+        /// <param name="app">The app.</param>
+        /// <param name="configure">Configure additional settings.</param>
+        public static IApplicationBuilder UseOpenApi(this IApplicationBuilder app, Action<SwaggerMiddlewareSettings> configure = null)
+        {
+            return UseSwaggerWithApiExplorer(app, "v1", configure);
+        }
+
+        /// <summary>Adds the OpenAPI/Swagger generator that uses Api Description to perform Swagger generation.</summary>
+        /// <param name="app">The app.</param>
+        /// <param name="documentName">The document name (identifier from <see cref="AddSwagger(IServiceCollection, Action{SwaggerDocumentRegistry})"/>).</param>
+        /// <param name="configure">Configure additional settings.</param>
+        public static IApplicationBuilder UseOpenApi(this IApplicationBuilder app, string documentName, Action<SwaggerMiddlewareSettings> configure = null)
+        {
+            return UseSwaggerWithApiExplorerCore(app, documentName, configure);
+        }
+
         /// <summary>Adds the Swagger generator that uses Api Description to perform Swagger generation.</summary>
         /// <param name="app">The app.</param>
-        /// <param name="path"></param>
-        /// <param name="documentName"></param>
-        public static IApplicationBuilder UseSwaggerWithApiExplorer(this IApplicationBuilder app, string path = null, string documentName = "v1")
+        /// <param name="configure">Configure additional settings.</param>
+        public static IApplicationBuilder UseSwaggerWithApiExplorer(this IApplicationBuilder app, Action<SwaggerMiddlewareSettings> configure = null)
         {
-            return UseSwaggerWithApiExplorerCore(app, path ?? "swagger/v1/swagger.json", documentName);
+            return UseSwaggerWithApiExplorer(app, "v1", configure);
+        }
+
+        /// <summary>Adds the Swagger generator that uses Api Description to perform Swagger generation.</summary>
+        /// <param name="app">The app.</param>
+        /// <param name="documentName">The document name (identifier from <see cref="AddSwagger(IServiceCollection, Action{SwaggerDocumentRegistry})"/>).</param>
+        /// <param name="configure">Configure additional settings.</param>
+        public static IApplicationBuilder UseSwaggerWithApiExplorer(this IApplicationBuilder app, string documentName, Action<SwaggerMiddlewareSettings> configure = null)
+        {
+            return UseSwaggerWithApiExplorerCore(app, documentName, configure);
         }
 
         #endregion
@@ -442,9 +488,9 @@ namespace NSwag.AspNetCore
 
         #endregion
 
-        private static IApplicationBuilder UseSwaggerWithApiExplorerCore(IApplicationBuilder app, string path, string documentName)
+        private static IApplicationBuilder UseSwaggerWithApiExplorerCore(IApplicationBuilder app, string documentName, Action<SwaggerMiddlewareSettings> configure)
         {
-            return app.UseMiddleware<AspNetCoreToSwaggerMiddleware>(path, documentName);
+            return app.UseMiddleware<SwaggerMiddleware>(documentName, configure);
         }
     }
 }

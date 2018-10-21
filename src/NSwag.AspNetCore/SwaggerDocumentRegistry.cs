@@ -6,8 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using NSwag.SwaggerGeneration;
-using NSwag.SwaggerGeneration.AspNetCore;
+using NSwag.AspNetCore.Documents;
 using System;
 using System.Collections.Generic;
 
@@ -16,75 +15,46 @@ namespace NSwag.AspNetCore
     /// <summary>Registry with Swagger document generators.</summary>
     public class SwaggerDocumentRegistry
     {
-        private readonly Dictionary<string, RegisteredDocument> _documents;
+        private readonly Dictionary<string, ISwaggerDocument> _documents;
 
+        /// <summary>Initializes a new instance of the <see cref="SwaggerDocumentRegistry"/> class.</summary>
         public SwaggerDocumentRegistry()
         {
-            _documents = new Dictionary<string, RegisteredDocument>(StringComparer.Ordinal);
+            _documents = new Dictionary<string, ISwaggerDocument>(StringComparer.Ordinal);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="documentName"></param>
-        /// <param name="configure"></param>
-        /// <param name="schemaGenerator"></param>
-        /// <returns></returns>
-        public SwaggerDocumentRegistry AddDocument(
-            string documentName,
-            Action<AspNetCoreToSwaggerGeneratorSettings> configure = null,
-            SwaggerJsonSchemaGenerator schemaGenerator = null)
+        /// <summary>Adds a document to the registry.</summary>
+        /// <param name="configure">The configure action.</param>
+        /// <returns>The registry.</returns>
+        public SwaggerDocumentRegistry AddDocument(Action<AspNetCoreToSwaggerDocument> configure = null)
         {
-            var settings = new AspNetCoreToSwaggerGeneratorSettings();
+            return AddDocument<AspNetCoreToSwaggerDocument>("v1", configure);
+        }
+
+        /// <summary>Adds a document to the registry.</summary>
+        /// <param name="documentName">The document name.</param>
+        /// <param name="configure">The configure action.</param>
+        /// <returns>The registry.</returns>
+        public SwaggerDocumentRegistry AddDocument(string documentName, Action<AspNetCoreToSwaggerDocument> configure = null)
+        {
+            return AddDocument<AspNetCoreToSwaggerDocument>(documentName, configure);
+        }
+
+        /// <summary>Adds a document to the registry.</summary>
+        /// <typeparam name="TDocument">The document type.</typeparam>
+        /// <param name="documentName">The document name.</param>
+        /// <param name="configure">The configure action.</param>
+        /// <returns>The registry.</returns>
+        public SwaggerDocumentRegistry AddDocument<TDocument>(string documentName, Action<TDocument> configure = null)
+            where TDocument : ISwaggerDocument, new()
+        {
+            var settings = new TDocument();
             configure?.Invoke(settings);
-
-            schemaGenerator = schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings);
-            this[documentName] = RegisteredDocument.CreateAspNetCoreGeneratorDocument(settings, schemaGenerator, null);
-
+            _documents[documentName] = settings;
             return this;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="configure"></param>
-        /// <param name="schemaGenerator"></param>
-        /// <returns></returns>
-        public SwaggerDocumentRegistry AddDocument(
-            Action<AspNetCoreToSwaggerGeneratorSettings> configure = null,
-            SwaggerJsonSchemaGenerator schemaGenerator = null)
-        {
-            return AddDocument("v1", configure, schemaGenerator);
-        }
-
-
-        internal RegisteredDocument this[string documentName]
-        {
-            get
-            {
-                if (documentName == null)
-                {
-                    throw new ArgumentNullException(nameof(documentName));
-                }
-
-                _documents.TryGetValue(documentName, out var document);
-                return document;
-            }
-
-            set
-            {
-                if (documentName == null)
-                {
-                    throw new ArgumentNullException(nameof(documentName));
-                }
-
-                if (value == null)
-                {
-                    throw new ArgumentNullException(nameof(value));
-                }
-
-                _documents[documentName] = value;
-            }
-        }
+        /// <summary>Gets a dictionary with all registered documents.</summary>
+        public IReadOnlyDictionary<string, ISwaggerDocument> Documents => _documents;
     }
 }

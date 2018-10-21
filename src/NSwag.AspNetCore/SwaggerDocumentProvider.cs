@@ -6,54 +6,22 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using Microsoft.Extensions.ApiDescription;
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.Extensions.ApiDescription;
-using Microsoft.Extensions.Options;
-using NSwag.SwaggerGeneration.AspNetCore;
 
 namespace NSwag.AspNetCore
 {
     internal class SwaggerDocumentProvider : IDocumentProvider
     {
-        private readonly IApiDescriptionGroupCollectionProvider _apiDescriptionGroupCollectionProvider;
-        private readonly IOptions<MvcOptions> _mvcOptions;
-        private readonly IOptions<MvcJsonOptions> _mvcJsonOptions;
+        private readonly IServiceProvider _serviceProvider;
         private readonly SwaggerDocumentRegistry _registry;
 
-        public SwaggerDocumentProvider(
-            SwaggerDocumentRegistry registry,
-            IApiDescriptionGroupCollectionProvider apiDescriptionGroupCollectionProvider,
-            IOptions<MvcOptions> mvcOptions,
-            IOptions<MvcJsonOptions> mvcJsonOptions)
+        public SwaggerDocumentProvider(IServiceProvider serviceProvider, SwaggerDocumentRegistry registry)
         {
-            if (apiDescriptionGroupCollectionProvider == null)
-            {
-                throw new ArgumentNullException(nameof(apiDescriptionGroupCollectionProvider));
-            }
-
-            if (mvcOptions == null)
-            {
-                throw new ArgumentNullException(nameof(mvcOptions));
-            }
-
-            if (mvcJsonOptions == null)
-            {
-                throw new ArgumentNullException(nameof(mvcJsonOptions));
-            }
-
-            if (registry == null)
-            {
-                throw new ArgumentNullException(nameof(registry));
-            }
-
-            _apiDescriptionGroupCollectionProvider = apiDescriptionGroupCollectionProvider;
-            _mvcOptions = mvcOptions;
-            _mvcJsonOptions = mvcJsonOptions;
-            _registry = registry;
+            _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+            _registry = registry ?? throw new ArgumentNullException(nameof(registry));
         }
 
         public async Task<SwaggerDocument> GenerateAsync(string documentName)
@@ -63,28 +31,14 @@ namespace NSwag.AspNetCore
                 throw new ArgumentNullException(nameof(documentName));
             }
 
-            var documentInfo = _registry[documentName];
-            if (documentInfo == null)
+            _registry.Documents.TryGetValue(documentName, out var settings);
+            if (settings == null)
             {
-                throw new InvalidOperationException($"No registered document found for document name '{documentName}'.");
+                throw new InvalidOperationException($"No registered OpenAPI/Swagger document found for document name '{documentName}'. " +
+                    $"Add with the AddSwagger()/AddOpenApi() methods in ConfigureServices().");
             }
 
-            documentInfo.Settings.ApplySettings(_mvcJsonOptions.Value.SerializerSettings, _mvcOptions.Value);
-
-            SwaggerDocument document;
-            if (documentInfo.Settings is AspNetCoreToSwaggerGeneratorSettings aspnetcore)
-            {
-                var generator = new AspNetCoreToSwaggerGenerator(aspnetcore, documentInfo.SchemaGenerator);
-                document = await generator.GenerateAsync(_apiDescriptionGroupCollectionProvider.ApiDescriptionGroups);
-            }
-            else
-            {
-                throw new InvalidOperationException($"Unsupported settings type '{documentInfo.GetType().FullName}");
-            }
-
-            documentInfo.PostProcess?.Invoke(document);
-
-            return document;
+            return await settings.GenerateAsync(_serviceProvider);
         }
 
         // Called by the Microsoft.Extensions.ApiDescription tool

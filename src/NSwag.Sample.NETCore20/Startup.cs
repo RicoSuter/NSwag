@@ -53,7 +53,7 @@ namespace NSwag.Sample.NETCore20
             // Add OpenAPI and Swagger middlewares
 
             // Swagger 2.0
-            app.UseSwaggerWithApiExplorer("/swagger/v1/swagger.json", "swagger");
+            app.UseSwaggerWithApiExplorer("swagger", options => options.Path = "/swagger/v1/swagger.json");
 
             app.UseSwaggerUi3(options =>
             {
@@ -67,7 +67,7 @@ namespace NSwag.Sample.NETCore20
             });
 
             // OpenAPI 3.0
-            app.UseSwaggerWithApiExplorer("/openapi/v1/swagger.json", "openapi");
+            app.UseSwaggerWithApiExplorer("openapi", options => options.Path = "/openapi/v1/swagger.json");
 
             app.UseSwaggerUi3(options =>
             {
