@@ -90,7 +90,7 @@ namespace NSwag.AspNetCore
 
             schemaGenerator = schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings);
 
-            return UseSwaggerWithApiExplorerCore(app, settings, schemaGenerator);
+            return app.UseMiddleware<AspNetCoreToSwaggerMiddleware>(settings, schemaGenerator);
         }
 
         /// <summary>Adds services required for swagger generation.</summary>
@@ -101,15 +101,7 @@ namespace NSwag.AspNetCore
         /// </remarks>
         public static IServiceCollection AddSwagger(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddSingleton<IConfigureOptions<MvcOptions>, NSwagConfigureMvcOptions>();
-
-            serviceCollection.AddSingleton<DocumentRegistry>();
-            serviceCollection.AddSingleton<NSwagDocumentProvider>();
-
-            // Used by the Microsoft.Extensions.ApiDescription tool
-            serviceCollection.AddSingleton<Microsoft.Extensions.ApiDescription.IDocumentProvider>(s => s.GetRequiredService<NSwagDocumentProvider>());
-
-            return serviceCollection;
+            return serviceCollection.AddSingleton<IConfigureOptions<MvcOptions>, NSwagConfigureMvcOptions>();
         }
 
         #endregion
@@ -203,7 +195,7 @@ namespace NSwag.AspNetCore
 
             schemaGenerator = schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings);
 
-            UseSwaggerWithApiExplorerCore(app, settings, schemaGenerator);
+            app.UseMiddleware<AspNetCoreToSwaggerMiddleware>(settings, schemaGenerator);
             app.UseMiddleware<RedirectMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute);
             app.UseMiddleware<SwaggerUiIndexMiddleware<AspNetCoreToSwaggerGeneratorSettings>>(settings.ActualSwaggerUiRoute + "/index.html", settings, "NSwag.AspNetCore.SwaggerUi.index.html");
             app.UseFileServer(new FileServerOptions
@@ -304,7 +296,7 @@ namespace NSwag.AspNetCore
 
             schemaGenerator = schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings);
 
-            UseSwaggerWithApiExplorerCore(app, settings, schemaGenerator);
+            app.UseMiddleware<AspNetCoreToSwaggerMiddleware>(settings, schemaGenerator);
             app.UseMiddleware<RedirectMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute);
             app.UseMiddleware<SwaggerUiIndexMiddleware<AspNetCoreToSwaggerGeneratorSettings>>(settings.ActualSwaggerUiRoute + "/index.html", settings, "NSwag.AspNetCore.SwaggerUi3.index.html");
             app.UseFileServer(new FileServerOptions
@@ -405,7 +397,7 @@ namespace NSwag.AspNetCore
 
             schemaGenerator = schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings);
 
-            UseSwaggerWithApiExplorerCore(app, settings, schemaGenerator);
+            app.UseMiddleware<AspNetCoreToSwaggerMiddleware>(settings, schemaGenerator);
             app.UseMiddleware<RedirectMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute);
             app.UseMiddleware<SwaggerUiIndexMiddleware<AspNetCoreToSwaggerGeneratorSettings>>(settings.ActualSwaggerUiRoute + "/index.html", settings, "NSwag.AspNetCore.ReDoc.index.html");
             app.UseFileServer(new FileServerOptions
@@ -418,24 +410,5 @@ namespace NSwag.AspNetCore
         }
 
         #endregion
-
-        private static IApplicationBuilder UseSwaggerWithApiExplorerCore(
-            IApplicationBuilder app,
-            SwaggerSettings<AspNetCoreToSwaggerGeneratorSettings> settings,
-            SwaggerJsonSchemaGenerator schemaGenerator)
-        {
-            if (settings.DocumentName != null)
-            {
-                var registry = app.ApplicationServices.GetService<DocumentRegistry>();
-                if (registry != null)
-                {
-                    // Register our settings in the registry if possible. The middleware doesn't actually depend
-                    // on any services, it does things the old way.
-                    registry[settings.DocumentName] = RegisteredDocument.CreateAspNetCoreGeneratorDocument(settings.GeneratorSettings, schemaGenerator, settings.PostProcess);
-                }
-            }
-
-            return app.UseMiddleware<AspNetCoreToSwaggerMiddleware>(settings, schemaGenerator);
-        }
     }
 }

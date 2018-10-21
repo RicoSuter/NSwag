@@ -8,19 +8,35 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace NSwag.AspNetCore
 {
     internal class DocumentRegistry
     {
-        private readonly Dictionary<string, RegisteredDocument> _documents;
+        private readonly Dictionary<string, OpenApiDocumentSettings> _documentSettings;
 
-        public DocumentRegistry()
+        public DocumentRegistry(IEnumerable<OpenApiDocumentSettings> documentSettings)
         {
-            _documents = new Dictionary<string, RegisteredDocument>(StringComparer.Ordinal);
+            _documentSettings = new Dictionary<string, OpenApiDocumentSettings>(StringComparer.Ordinal);
+            foreach (var settings in documentSettings)
+            {
+                if (_documentSettings.ContainsKey(settings.DocumentName))
+                {
+                    throw new InvalidOperationException($"Repeated document name '{settings.DocumentName}' in " +
+                        "registry. Open API document names must be unique.");
+                }
+
+                _documentSettings[settings.DocumentName] = settings;
+            }
+
+            DocumentNames = new ReadOnlyCollection<string>(_documentSettings.Keys.ToList());
         }
 
-        public RegisteredDocument this[string documentName]
+        public IReadOnlyCollection<string> DocumentNames { get; }
+
+        public OpenApiDocumentSettings this[string documentName]
         {
             get
             {
@@ -29,23 +45,8 @@ namespace NSwag.AspNetCore
                     throw new ArgumentNullException(nameof(documentName));
                 }
 
-                _documents.TryGetValue(documentName, out var document);
+                _documentSettings.TryGetValue(documentName, out var document);
                 return document;
-            }
-
-            set
-            {
-                if (documentName == null)
-                {
-                    throw new ArgumentNullException(nameof(documentName));
-                }
-
-                if (value == null)
-                {
-                    throw new ArgumentNullException(nameof(value));
-                }
-
-                _documents[documentName] = value;
             }
         }
     }
