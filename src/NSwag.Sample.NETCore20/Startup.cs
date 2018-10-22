@@ -74,17 +74,17 @@ namespace NSwag.Sample.NETCore20
             });
 
             // Add OpenAPI 3.0 document serving middleware
-            app.UseSwaggerWithApiExplorer("openapi", options => options.Path = "/openapi/v1/swagger.json");
+            app.UseSwaggerWithApiExplorer("openapi", options => options.Path = "/openapi/v1/openapi.json");
 
             // Add web UIs to interact with the document
             app.UseSwaggerUi3(options =>
             {
-                options.SwaggerRoute = "/openapi/v1/swagger.json";
+                options.SwaggerRoute = "/openapi/v1/openapi.json";
                 options.SwaggerUiRoute = "/openapi_ui";
             });
             app.UseSwaggerReDoc(options =>
             {
-                options.SwaggerRoute = "/openapi/v1/swagger.json";
+                options.SwaggerRoute = "/openapi/v1/openapi.json";
                 options.SwaggerUiRoute = "/openapi_redoc";
             });
 
