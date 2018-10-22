@@ -468,7 +468,7 @@ namespace NSwag.AspNetCore
 
         private static IApplicationBuilder UseSwaggerWithApiExplorerCore(IApplicationBuilder app, string documentName, Action<SwaggerMiddlewareSettings> configure)
         {
-            return app.UseMiddleware<SwaggerMiddleware>(documentName, configure);
+            return app.UseMiddleware<SwaggerMiddleware>(documentName, configure ?? new Action<SwaggerMiddlewareSettings>((s) => { }));
         }
     }
 }
