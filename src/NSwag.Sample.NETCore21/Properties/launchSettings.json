@@ -11,7 +11,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "swagger/v1/swagger.json",
+      "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_HTTPS_PORT": "44370",
         "ASPNETCORE_ENVIRONMENT": "Development"

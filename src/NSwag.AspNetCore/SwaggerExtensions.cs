@@ -31,7 +31,7 @@ namespace NSwag.AspNetCore
         /// <summary>Adds services required for Swagger 2.0 generation (change document settings to generate OpenAPI 3.0).</summary>
         /// <param name="serviceCollection">The <see cref="IServiceCollection"/>.</param>
         /// <param name="configure">Configure the document registry.</param>
-        public static IServiceCollection AddSwagger(this IServiceCollection serviceCollection, Action<SwaggerDocumentRegistry> configure = null)
+        public static IServiceCollection AddSwagger(this IServiceCollection serviceCollection, Action<ISwaggerDocumentBuilder> configure = null)
         {
             if (configure == null)
             {
@@ -53,6 +53,29 @@ namespace NSwag.AspNetCore
                 s.GetRequiredService<SwaggerDocumentProvider>());
 
             return serviceCollection;
+        }
+
+        /// <summary>Adds a document to the registry.</summary>
+        /// <param name="registry">The registry.</param>
+        /// <param name="configure">The configure action.</param>
+        /// <returns>The registry.</returns>
+        public static ISwaggerDocumentBuilder AddDocument(this ISwaggerDocumentBuilder registry, Action<AspNetCoreToSwaggerGeneratorSettings> configure = null)
+        {
+            return AddDocument(registry, "v1", configure);
+        }
+
+        /// <summary>Adds a document to the registry.</summary>
+        /// <param name="registry">The registry.</param>
+        /// <param name="documentName">The document name.</param>
+        /// <param name="configure">The configure action.</param>
+        /// <returns>The registry.</returns>
+        public static ISwaggerDocumentBuilder AddDocument(this ISwaggerDocumentBuilder registry, string documentName, Action<AspNetCoreToSwaggerGeneratorSettings> configure = null)
+        {
+            var settings = new AspNetCoreToSwaggerGeneratorSettings();
+            configure?.Invoke(settings);
+
+            var generator = new AspNetCoreToSwaggerGenerator(settings);
+            return ((SwaggerDocumentRegistry)registry).AddDocument(documentName, generator);
         }
 
         #endregion

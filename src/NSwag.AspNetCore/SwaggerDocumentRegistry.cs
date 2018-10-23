@@ -7,14 +7,13 @@
 //-----------------------------------------------------------------------
 
 using NSwag.SwaggerGeneration;
-using NSwag.SwaggerGeneration.AspNetCore;
 using System;
 using System.Collections.Generic;
 
 namespace NSwag.AspNetCore
 {
     /// <summary>Registry with Swagger document generators.</summary>
-    public class SwaggerDocumentRegistry
+    public class SwaggerDocumentRegistry : ISwaggerDocumentBuilder
     {
         private readonly Dictionary<string, ISwaggerGenerator> _documents;
 
@@ -22,27 +21,6 @@ namespace NSwag.AspNetCore
         public SwaggerDocumentRegistry()
         {
             _documents = new Dictionary<string, ISwaggerGenerator>(StringComparer.Ordinal);
-        }
-
-        /// <summary>Adds a document to the registry.</summary>
-        /// <param name="configure">The configure action.</param>
-        /// <returns>The registry.</returns>
-        public SwaggerDocumentRegistry AddDocument(Action<AspNetCoreToSwaggerGeneratorSettings> configure = null)
-        {
-            return AddDocument("v1", configure);
-        }
-
-        /// <summary>Adds a document to the registry.</summary>
-        /// <param name="documentName">The document name.</param>
-        /// <param name="configure">The configure action.</param>
-        /// <returns>The registry.</returns>
-        public SwaggerDocumentRegistry AddDocument(string documentName, Action<AspNetCoreToSwaggerGeneratorSettings> configure = null)
-        {
-            var settings = new AspNetCoreToSwaggerGeneratorSettings();
-            configure?.Invoke(settings);
-
-            var generator = new AspNetCoreToSwaggerGenerator(settings);
-            return AddDocument(documentName, generator);
         }
 
         /// <summary>Adds a document to the registry.</summary>
