@@ -66,3 +66,4 @@ NSwagStudio*.nupkg
 /samples/WithoutMiddleware/Sample.AspNetCore20/.vs/Sample.AspNetCore20/DesignTimeBuild
 /samples/.vs/*
 .vscode/
+/src/.cr/*

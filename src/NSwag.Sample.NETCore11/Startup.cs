@@ -44,18 +44,18 @@ namespace NSwag.Sample.NETCore11
 
             // Add Swagger middlewares
 
-            app.UseSwaggerWithApiExplorer("/swagger/v1/swagger.json");
-            
-            app.UseSwaggerUi3(s =>
+            app.UseSwagger(options => options.Path = "/swagger/v1/swagger.json");
+
+            app.UseSwaggerUi3(options =>
             {
-                s.SwaggerRoute = "/swagger/v1/swagger.json";
-                s.SwaggerUiRoute = "/swagger_ui3";
+                options.SwaggerRoute = "/swagger/v1/swagger.json";
+                options.SwaggerUiRoute = "/swagger_ui3";
             });
 
-            app.UseSwaggerReDoc(s =>
+            app.UseSwaggerReDoc(options =>
             {
-                s.SwaggerRoute = "/swagger/v1/swagger.json";
-                s.SwaggerUiRoute = "/swagger_redoc";
+                options.SwaggerRoute = "/swagger/v1/swagger.json";
+                options.SwaggerUiRoute = "/swagger_redoc";
             });
         }
     }

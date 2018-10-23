@@ -26,7 +26,7 @@ namespace NSwag.Sample.NETCore21
             // Add NSwag OpenAPI/Swagger DI services and configure documents
             // For more advanced setup, see NSwag.Sample.NETCore20 project
 
-            services.AddSwagger(options => 
+            services.AddSwagger(options =>
                 options.AddDocument(settings => settings.SchemaType = SchemaType.OpenApi3));
         }
 

@@ -6,7 +6,8 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using NSwag.AspNetCore.Documents;
+using NSwag.SwaggerGeneration;
+using NSwag.SwaggerGeneration.AspNetCore;
 using System;
 using System.Collections.Generic;
 
@@ -15,46 +16,46 @@ namespace NSwag.AspNetCore
     /// <summary>Registry with Swagger document generators.</summary>
     public class SwaggerDocumentRegistry
     {
-        private readonly Dictionary<string, ISwaggerDocument> _documents;
+        private readonly Dictionary<string, ISwaggerGenerator> _documents;
 
         /// <summary>Initializes a new instance of the <see cref="SwaggerDocumentRegistry"/> class.</summary>
         public SwaggerDocumentRegistry()
         {
-            _documents = new Dictionary<string, ISwaggerDocument>(StringComparer.Ordinal);
+            _documents = new Dictionary<string, ISwaggerGenerator>(StringComparer.Ordinal);
         }
 
         /// <summary>Adds a document to the registry.</summary>
         /// <param name="configure">The configure action.</param>
         /// <returns>The registry.</returns>
-        public SwaggerDocumentRegistry AddDocument(Action<AspNetCoreToSwaggerDocument> configure = null)
+        public SwaggerDocumentRegistry AddDocument(Action<AspNetCoreToSwaggerGeneratorSettings> configure = null)
         {
-            return AddDocument<AspNetCoreToSwaggerDocument>("v1", configure);
+            return AddDocument("v1", configure);
         }
 
         /// <summary>Adds a document to the registry.</summary>
         /// <param name="documentName">The document name.</param>
         /// <param name="configure">The configure action.</param>
         /// <returns>The registry.</returns>
-        public SwaggerDocumentRegistry AddDocument(string documentName, Action<AspNetCoreToSwaggerDocument> configure = null)
+        public SwaggerDocumentRegistry AddDocument(string documentName, Action<AspNetCoreToSwaggerGeneratorSettings> configure = null)
         {
-            return AddDocument<AspNetCoreToSwaggerDocument>(documentName, configure);
-        }
-
-        /// <summary>Adds a document to the registry.</summary>
-        /// <typeparam name="TDocument">The document type.</typeparam>
-        /// <param name="documentName">The document name.</param>
-        /// <param name="configure">The configure action.</param>
-        /// <returns>The registry.</returns>
-        public SwaggerDocumentRegistry AddDocument<TDocument>(string documentName, Action<TDocument> configure = null)
-            where TDocument : ISwaggerDocument, new()
-        {
-            var settings = new TDocument();
+            var settings = new AspNetCoreToSwaggerGeneratorSettings();
             configure?.Invoke(settings);
-            _documents[documentName] = settings;
+
+            var generator = new AspNetCoreToSwaggerGenerator(settings);
+            return AddDocument(documentName, generator);
+        }
+
+        /// <summary>Adds a document to the registry.</summary>
+        /// <param name="documentName">The document name.</param>
+        /// <param name="swaggerGenerator">The Swagger generator.</param>
+        /// <returns>The registry.</returns>
+        public SwaggerDocumentRegistry AddDocument(string documentName, ISwaggerGenerator swaggerGenerator)
+        {
+            _documents[documentName] = swaggerGenerator;
             return this;
         }
 
         /// <summary>Gets a dictionary with all registered documents.</summary>
-        public IReadOnlyDictionary<string, ISwaggerDocument> Documents => _documents;
+        public IReadOnlyDictionary<string, ISwaggerGenerator> Documents => _documents;
     }
 }
