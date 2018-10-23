@@ -93,7 +93,7 @@ namespace NSwag.Sample.NETCore20
             {
                 // Add multiple OpenAPI/Swagger documents to the Swagger UI 3 web frontend
                 options.SwaggerRoutes.Add(new SwaggerUi3Route("Swagger", "/swagger/v1/swagger.json"));
-                options.SwaggerRoutes.Add(new SwaggerUi3Route("Openapi", "/openapi/v1/swagger.json"));
+                options.SwaggerRoutes.Add(new SwaggerUi3Route("Openapi", "/openapi/v1/openapi.json"));
                 options.SwaggerRoutes.Add(new SwaggerUi3Route("Petstore", "http://petstore.swagger.io/v2/swagger.json"));
 
                 // Define web UI route
