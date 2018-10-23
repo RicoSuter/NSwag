@@ -23,7 +23,11 @@ namespace NSwag.Sample.NETCore21
                 .AddMvc(options => options.AllowEmptyInputInBodyModelBinding = false)
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddSwagger();
+            // Add NSwag OpenAPI/Swagger DI services and configure documents
+            // For more advanced setup, see NSwag.Sample.NETCore20 project
+
+            services.AddSwagger(options =>
+                options.AddDocument(settings => settings.SchemaType = SchemaType.OpenApi3));
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -40,7 +44,10 @@ namespace NSwag.Sample.NETCore21
             app.UseHttpsRedirection();
             app.UseMvc();
 
-            app.UseSwaggerUi3WithApiExplorer(settings => settings.GeneratorSettings.SchemaType = SchemaType.OpenApi3);
+            // Add middlewares to service the OpenAPI/Swagger document and the web UI
+
+            app.UseSwagger();
+            app.UseSwaggerUi3();
         }
     }
 }
