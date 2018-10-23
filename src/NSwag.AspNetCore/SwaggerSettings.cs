@@ -34,11 +34,6 @@ namespace NSwag.AspNetCore
 #endif
         }
 
-        /// <summary>
-        /// Gets or sets the document name. The document name is used as a logical identifier inside NSwag.
-        /// </summary>
-        public string DocumentName { get; set; } = "v1";
-
         /// <summary>Gets the generator settings.</summary>
         public T GeneratorSettings { get; }
 
