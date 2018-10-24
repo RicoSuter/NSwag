@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="OpenApiUi3Settings.cs" company="NSwag">
+// <copyright file="SwaggerUi3Options.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -13,17 +13,17 @@ namespace NSwag.AspNetCore
     /// <summary>
     ///
     /// </summary>
-    public class OpenApiUi3Settings
+    public class SwaggerUi3Options
     {
         /// <summary>
-        /// Gets or sets the Open API UI route template for all registered documents. Must start with '/'.
+        /// Gets or sets the UI route template for all registered Swagger and Open API documents. Must start with '/'.
         /// </summary>
         /// <value>Default is <c>"/swagger"</c>.</value>
         public string UiRouteTemplate { get; set; } = "/swagger";
 
         /// <summary>
         /// Gets a collection of additional <see cref="SwaggerUi3Route"/>s to display in the UI. Should not include
-        /// information about registered Open API documents in this application.
+        /// information about registered Swagger and Open API documents in this application.
         /// </summary>
         public ICollection<SwaggerUi3Route> AdditionalSwaggerRoutes { get; } = new List<SwaggerUi3Route>();
 

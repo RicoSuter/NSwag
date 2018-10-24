@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="OpenApiDocumentSettings.cs" company="NSwag">
+// <copyright file="SwaggerDocumentSettings.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -13,9 +13,9 @@ using NSwag.SwaggerGeneration.AspNetCore;
 namespace NSwag.AspNetCore
 {
     /// <summary>
-    /// Open API document settings.
+    /// Swagger and Open API document settings.
     /// </summary>
-    public class OpenApiDocumentSettings
+    public class SwaggerDocumentSettings
     {
         private SwaggerJsonSchemaGenerator _schemaGenerator;
 
@@ -57,10 +57,5 @@ namespace NSwag.AspNetCore
                 _schemaGenerator = value;
             }
         }
-
-        /// <summary>
-        /// Gets or sets an Open API post-process action that will be applied to this document.
-        /// </summary>
-        public Action<SwaggerDocument> PostProcess { get; set; }
     }
 }

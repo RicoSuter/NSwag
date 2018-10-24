@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="AspNetCoreToOpenApiMiddleware.cs" company="NSwag">
+// <copyright file="SwaggerMiddleware.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -13,33 +13,38 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Routing.Internal;
 using Microsoft.AspNetCore.Routing.Template;
 using Microsoft.Extensions.ObjectPool;
+using Microsoft.Extensions.Options;
 
 namespace NSwag.AspNetCore.Middlewares
 {
-    internal class AspNetCoreToOpenApiMiddleware
+    internal class SwaggerMiddleware
     {
         private const string DocumentNameEntry = "documentName";
-        private readonly NSwagDocumentProvider _documentProvider;
+        private readonly SwaggerDocumentProvider _documentProvider;
         private readonly TemplateMatcher _matcher;
         private readonly RequestDelegate _nextDelegate;
-        private readonly AspNetCoreToOpenApiMiddlewareSettings _settings;
+        private readonly SwaggerMiddlewareOptions _options;
 
         private string _failedDocumentName;
         private Exception _documentException;
         private DateTimeOffset _exceptionTimestamp;
 
-        public AspNetCoreToOpenApiMiddleware(
+        public SwaggerMiddleware(
             RequestDelegate nextDelegate,
-            NSwagDocumentProvider documentProvider,
+            SwaggerDocumentProvider documentProvider,
             ObjectPool<UriBuildingContext> pool,
-            AspNetCoreToOpenApiMiddlewareSettings settings)
+            IOptions<SwaggerMiddlewareOptions> options)
         {
             _documentProvider = documentProvider;
 
-            var template = TemplateParser.Parse(settings.SwaggerRoute);
+            _options = options.Value;
+            var path = _options.SwaggerRoute.StartsWith("/") ?
+                _options.SwaggerRoute.Substring(1) :
+                _options.SwaggerRoute;
+            var template = TemplateParser.Parse(path);
+
             _matcher = new TemplateMatcher(template, defaults: null);
             _nextDelegate = nextDelegate;
-            _settings = settings;
         }
 
         public async Task Invoke(HttpContext context)
@@ -58,26 +63,32 @@ namespace NSwag.AspNetCore.Middlewares
                     }
                 }
 
-                var documentString = await GenerateOpenApiAsync(documentName);
+                var documentString = await GenerateAsync(documentName);
                 context.Response.StatusCode = 200;
                 context.Response.Headers["Content-Type"] = "application/json; charset=utf-8";
                 await context.Response.WriteAsync(documentString);
             }
             else
+            {
                 await _nextDelegate(context);
+            }
         }
 
-        protected virtual async Task<string> GenerateOpenApiAsync(string documentName)
+        protected virtual async Task<string> GenerateAsync(string documentName)
         {
             var now = DateTimeOffset.UtcNow;
             if (_documentException != null &&
-                _exceptionTimestamp + _settings.ExceptionCacheTime > now &&
+                _exceptionTimestamp + _options.ExceptionCacheTime > now &&
                 string.Equals(_failedDocumentName, documentName, StringComparison.Ordinal))
+            {
                 throw _documentException;
+            }
 
             try
             {
-                return await _documentProvider.GenerateAsync(documentName);
+                var document = await _documentProvider.GenerateAsync(documentName);
+                _options.PostProcess?.Invoke(document);
+                return document.ToJson();
             }
             catch (Exception exception)
             {

@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="NSwagDocumentProvider.cs" company="NSwag">
+// <copyright file="SwaggerDocumentProvider.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -18,7 +18,7 @@ using NSwag.SwaggerGeneration.AspNetCore;
 
 namespace NSwag.AspNetCore
 {
-    internal class NSwagDocumentProvider : IDocumentProvider
+    internal class SwaggerDocumentProvider : IDocumentProvider
     {
         private readonly IApiDescriptionGroupCollectionProvider _apiDescriptionGroupCollectionProvider;
         private readonly IOptions<MvcOptions> _mvcOptions;
@@ -26,10 +26,10 @@ namespace NSwag.AspNetCore
         private readonly DocumentRegistry _registry;
 
         private int _version;
-        private string _lastDocument;
+        private SwaggerDocument _lastDocument;
         private string _lastDocumentName;
 
-        public NSwagDocumentProvider(
+        public SwaggerDocumentProvider(
             DocumentRegistry registry,
             IApiDescriptionGroupCollectionProvider apiDescriptionGroupCollectionProvider,
             IOptions<MvcOptions> mvcOptions,
@@ -61,7 +61,7 @@ namespace NSwag.AspNetCore
             _registry = registry;
         }
 
-        public async Task<string> GenerateAsync(string documentName)
+        public async Task<SwaggerDocument> GenerateAsync(string documentName)
         {
             if (documentName == null)
             {
@@ -78,11 +78,11 @@ namespace NSwag.AspNetCore
             }
 
             var document = await GenerateAsyncCore(documentName);
-            _lastDocument = document.ToJson();
-            _lastDocumentName = documentName;
             Volatile.Write(ref _version, newVersion);
+            _lastDocument = document;
+            _lastDocumentName = documentName;
 
-            return _lastDocument;
+            return document;
         }
 
         // Called by the Microsoft.Extensions.ApiDescription tool
@@ -121,8 +121,6 @@ namespace NSwag.AspNetCore
                 documentSettings.GeneratorSettings,
                 documentSettings.SchemaGenerator);
             var document = await generator.GenerateAsync(_apiDescriptionGroupCollectionProvider.ApiDescriptionGroups);
-
-            documentSettings.PostProcess?.Invoke(document);
 
             return document;
         }

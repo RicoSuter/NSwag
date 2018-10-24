@@ -1,19 +1,17 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="IOpenApiBuilder.cs" company="NSwag">
+// <copyright file="ISwaggerBuilder.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using Microsoft.Extensions.DependencyInjection;
-
-namespace NSwag.AspNetCore.DependencyInjection
+namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
-    /// An interface for configuring Open Api documents.
+    /// An interface for configuring Swagger and Open API documents.
     /// </summary>
-    public interface IOpenApiBuilder
+    public interface ISwaggerBuilder
     {
         /// <summary>
         /// Gets the <see cref="IServiceCollection"/>.

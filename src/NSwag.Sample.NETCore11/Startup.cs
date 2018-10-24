@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Reflection;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NSwag.AspNetCore;
-using System.Reflection;
 
 namespace NSwag.Sample.NETCore11
 {
@@ -31,7 +31,8 @@ namespace NSwag.Sample.NETCore11
                 options.OutputFormatters.Add(new YamlOutputFormatter());
             });
 
-            services.AddSwagger();
+            services.Configure<SwaggerUi3Options>(options => options.UiRouteTemplate = "/swagger_api_ui3");
+            SwaggerServiceCollectionExtensions.AddSwagger(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,25 +45,28 @@ namespace NSwag.Sample.NETCore11
 
             // API Explorer based (new)
 
+            var redocOptions = new SwaggerMiddlewareOptions
+            {
+                SwaggerRoute = "/swagger_api_redoc/{documentName}/swagger.json",
+            };
+
+            app.UseSwagger(redocOptions);
+            app.UseSwaggerReDocUi("/swagger_api_redoc/{documentName}", redocOptions);
+
+            var options = new SwaggerMiddlewareOptions
+            {
+                SwaggerRoute = "/swagger_api_ui3/{documentName}/swagger.json",
+            };
+
+            app.UseSwagger(options);
+            app.UseSwaggerUi4(options: null, generationMiddlewareOptions: options);
+
+#pragma warning disable CS0618 // Type or member is obsolete
             app.UseSwaggerUiWithApiExplorer(s =>
             {
                 s.SwaggerRoute = "/swagger_api_ui/v1/swagger.json";
                 s.SwaggerUiRoute = "/swagger_api_ui";
             });
-
-            app.UseSwaggerUi3WithApiExplorer(s =>
-            {
-                s.SwaggerRoute = "/swagger_api_ui3/v1/swagger.json";
-                s.SwaggerUiRoute = "/swagger_api_ui3";
-            });
-
-            app.UseSwaggerReDocWithApiExplorer(s =>
-            {
-                s.SwaggerRoute = "/swagger_api_redoc/v1/swagger.json";
-                s.SwaggerUiRoute = "/swagger_api_redoc";
-            });
-
-            // Reflection based (old)
 
             app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, s =>
             {
@@ -81,10 +85,11 @@ namespace NSwag.Sample.NETCore11
                 s.SwaggerRoute = "/swagger_redoc/v1/swagger.json";
                 s.SwaggerUiRoute = "/swagger_redoc";
             });
+#pragma warning restore CS0618 // Type or member is obsolete
 
             // Tests
 
-            app.UseSwaggerWithApiExplorer(s => s.SwaggerRoute = "/swagger/v1/swagger.json");
+            app.UseSwagger();
         }
     }
 }

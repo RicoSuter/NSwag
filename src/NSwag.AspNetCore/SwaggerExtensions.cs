@@ -248,7 +248,9 @@ namespace NSwag.AspNetCore
             this IApplicationBuilder app,
             Action<SwaggerUi3Settings<WebApiToSwaggerGeneratorSettings>> configure = null)
         {
+#pragma warning disable CS0618 // Type or member is obsolete
             return app.UseSwaggerUi3(null, configure, null);
+#pragma warning restore CS0618 // Type or member is obsolete
         }
 
         /// <summary>Adds the Swagger generator and Swagger UI to the pipeline.</summary>
@@ -349,7 +351,9 @@ namespace NSwag.AspNetCore
             this IApplicationBuilder app,
             Action<SwaggerReDocSettings<WebApiToSwaggerGeneratorSettings>> configure = null)
         {
+#pragma warning disable CS0618 // Type or member is obsolete
             return app.UseSwaggerReDoc(null, configure, null);
+#pragma warning restore CS0618 // Type or member is obsolete
         }
 
         /// <summary>Adds the Swagger generator and ReDoc UI to the pipeline.</summary>

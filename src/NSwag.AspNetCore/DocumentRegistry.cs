@@ -15,17 +15,17 @@ namespace NSwag.AspNetCore
 {
     internal class DocumentRegistry
     {
-        private readonly Dictionary<string, OpenApiDocumentSettings> _documentSettings;
+        private readonly Dictionary<string, SwaggerDocumentSettings> _documentSettings;
 
-        public DocumentRegistry(IEnumerable<OpenApiDocumentSettings> documentSettings)
+        public DocumentRegistry(IEnumerable<SwaggerDocumentSettings> documentSettings)
         {
-            _documentSettings = new Dictionary<string, OpenApiDocumentSettings>(StringComparer.Ordinal);
+            _documentSettings = new Dictionary<string, SwaggerDocumentSettings>(StringComparer.Ordinal);
             foreach (var settings in documentSettings)
             {
                 if (_documentSettings.ContainsKey(settings.DocumentName))
                 {
                     throw new InvalidOperationException($"Repeated document name '{settings.DocumentName}' in " +
-                        "registry. Open API document names must be unique.");
+                        "registry. Swagger and Open API document names must be unique.");
                 }
 
                 _documentSettings[settings.DocumentName] = settings;
@@ -36,7 +36,7 @@ namespace NSwag.AspNetCore
 
         public IReadOnlyCollection<string> DocumentNames { get; }
 
-        public OpenApiDocumentSettings this[string documentName]
+        public SwaggerDocumentSettings this[string documentName]
         {
             get
             {
