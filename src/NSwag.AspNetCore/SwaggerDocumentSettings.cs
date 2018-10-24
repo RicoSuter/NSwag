@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System;
+using Microsoft.Extensions.ApiDescription;
 using NSwag.SwaggerGeneration;
 using NSwag.SwaggerGeneration.AspNetCore;
 
@@ -29,6 +30,26 @@ namespace NSwag.AspNetCore
         /// Gets the <see cref="AspNetCoreToSwaggerGeneratorSettings"/> for this document.
         /// </summary>
         public AspNetCoreToSwaggerGeneratorSettings GeneratorSettings { get; } = new AspNetCoreToSwaggerGeneratorSettings();
+
+
+        /// <summary>
+        /// <para>
+        /// Gets or sets a post-process action that will be applied to this document.
+        /// </para>
+        /// <seealso cref="SwaggerMiddlewareOptions.PostProcess"/>
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// This <see cref="Action{SwaggerDocument}"/> is invoked before
+        /// <seealso cref="SwaggerMiddlewareOptions.PostProcess"/> if both are non-<see langword="null"/>.
+        /// </para>
+        /// <para>
+        /// Reviewers: This remains to support post-processing in <see cref="IDocumentProvider"/> scenarios. Otherwise,
+        /// those scenarios will lack post-processing entirely. Should be used to set defaults while the other action
+        /// adjusts to the specifics of the request.
+        /// </para>
+        /// </remarks>
+        public Action<SwaggerDocument> PostProcess { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="SwaggerJsonSchemaGenerator"/>.

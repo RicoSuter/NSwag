@@ -8,7 +8,7 @@
 
 using System;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.ApiDescription;
+using Microsoft.AspNetCore.Http;
 using NSwag.AspNetCore.Middlewares;
 
 namespace NSwag.AspNetCore
@@ -41,13 +41,15 @@ namespace NSwag.AspNetCore
         public TimeSpan ExceptionCacheTime { get; set; } = TimeSpan.FromSeconds(10);
 
         /// <summary>
+        /// <para>
         /// Gets or sets a post-process action that will be applied to all documents this middleware supports.
+        /// </para>
+        /// <seealso cref="SwaggerDocumentSettings.PostProcess"/>
         /// </summary>
         /// <remarks>
-        /// Reviewers: One issue with placing this here instead of in <see cref="SwaggerDocumentSettings"/> is the
-        /// post-processing cannot be done for the <see cref="SwaggerDocumentProvider"/>, potentially messing up what
-        /// <see cref="IDocumentProvider.GenerateAsync"/> writes.
+        /// This <see cref="Action{HttpContext, SwaggerDocument}"/> is invoked after
+        /// <seealso cref="SwaggerDocumentSettings.PostProcess"/> if both are non-<see langword="null"/>.
         /// </remarks>
-        public Action<SwaggerDocument> PostProcess { get; set; }
+        public Action<HttpContext, SwaggerDocument> PostProcess { get; set; }
     }
 }

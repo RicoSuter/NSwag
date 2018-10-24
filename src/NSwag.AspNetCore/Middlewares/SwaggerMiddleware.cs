@@ -63,7 +63,7 @@ namespace NSwag.AspNetCore.Middlewares
                     }
                 }
 
-                var documentString = await GenerateAsync(documentName);
+                var documentString = await GenerateAsync(documentName, context);
                 context.Response.StatusCode = 200;
                 context.Response.Headers["Content-Type"] = "application/json; charset=utf-8";
                 await context.Response.WriteAsync(documentString);
@@ -74,7 +74,7 @@ namespace NSwag.AspNetCore.Middlewares
             }
         }
 
-        protected virtual async Task<string> GenerateAsync(string documentName)
+        protected virtual async Task<string> GenerateAsync(string documentName, HttpContext context)
         {
             var now = DateTimeOffset.UtcNow;
             if (_documentException != null &&
@@ -87,7 +87,7 @@ namespace NSwag.AspNetCore.Middlewares
             try
             {
                 var document = await _documentProvider.GenerateAsync(documentName);
-                _options.PostProcess?.Invoke(document);
+                _options.PostProcess?.Invoke(context, document);
                 return document.ToJson();
             }
             catch (Exception exception)

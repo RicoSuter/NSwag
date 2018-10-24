@@ -78,6 +78,7 @@ namespace NSwag.AspNetCore
             }
 
             var document = await GenerateAsyncCore(documentName);
+
             Volatile.Write(ref _version, newVersion);
             _lastDocument = document;
             _lastDocumentName = documentName;
@@ -121,6 +122,7 @@ namespace NSwag.AspNetCore
                 documentSettings.GeneratorSettings,
                 documentSettings.SchemaGenerator);
             var document = await generator.GenerateAsync(_apiDescriptionGroupCollectionProvider.ApiDescriptionGroups);
+            documentSettings.PostProcess?.Invoke(document);
 
             return document;
         }
