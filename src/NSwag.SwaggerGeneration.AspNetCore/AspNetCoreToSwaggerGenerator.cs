@@ -58,8 +58,8 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             var schemaResolver = new SwaggerSchemaResolver(document, Settings);
 
             var apiGroups = apiDescriptions.Where(apiDescription => apiDescription.ActionDescriptor is ControllerActionDescriptor)
-                .Select(apiDescription => new Tuple<ApiDescription, MethodInfo>(apiDescription, ((ControllerActionDescriptor)apiDescription.ActionDescriptor).MethodInfo))
-                .GroupBy(item => item.Item2.DeclaringType)
+                .Select(apiDescription => new Tuple<ApiDescription, ControllerActionDescriptor>(apiDescription, (ControllerActionDescriptor)apiDescription.ActionDescriptor))
+                .GroupBy(item => item.Item2.ControllerTypeInfo.AsType())
                 .ToArray();
 
             var usedControllerTypes = new List<Type>();
@@ -96,7 +96,9 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             return await GenerateAsync(apiDescriptionGroupCollectionProvider.ApiDescriptionGroups);
         }
 
-        private async Task<bool> GenerateForControllerAsync(SwaggerDocument document, Type controllerType, IEnumerable<Tuple<ApiDescription, MethodInfo>> controllerApiDescriptionGroup, SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver)
+        private async Task<bool> GenerateForControllerAsync(SwaggerDocument document, Type controllerType, 
+            IEnumerable<Tuple<ApiDescription, ControllerActionDescriptor>> controllerApiDescriptionGroup, 
+            SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver)
         {
             var hasIgnoreAttribute = controllerType.GetTypeInfo()
                 .GetCustomAttributes()
@@ -111,7 +113,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             foreach (var item in controllerApiDescriptionGroup)
             {
                 var apiDescription = item.Item1;
-                var method = item.Item2;
+                var method = item.Item2.MethodInfo;
 
                 var actionHasIgnoreAttribute = method.GetCustomAttributes().Any(a => a.GetType().Name == "SwaggerIgnoreAttribute");
                 if (actionHasIgnoreAttribute)
