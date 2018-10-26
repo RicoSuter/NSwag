@@ -52,7 +52,7 @@ namespace NSwag.Sample.NETCore11
                 options.SwaggerUiRoute = "/swagger_ui3";
             });
 
-            app.UseSwaggerReDoc(options =>
+            app.UseReDoc(options =>
             {
                 options.SwaggerRoute = "/swagger/v1/swagger.json";
                 options.SwaggerUiRoute = "/swagger_redoc";

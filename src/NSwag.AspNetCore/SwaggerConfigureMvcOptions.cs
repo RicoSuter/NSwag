@@ -11,10 +11,10 @@ using Microsoft.Extensions.Options;
 
 namespace NSwag.AspNetCore
 {
-    internal class NSwagConfigureMvcOptions : ConfigureOptions<MvcOptions>
+    internal class SwaggerConfigureMvcOptions : ConfigureOptions<MvcOptions>
     {
-        public NSwagConfigureMvcOptions()
-            : base(options => options.Conventions.Add(new NSwagMvcApplicationModelConvention()))
+        public SwaggerConfigureMvcOptions()
+            : base(options => options.Conventions.Add(new SwaggerMvcApplicationModelConvention()))
         {
         }
     }
