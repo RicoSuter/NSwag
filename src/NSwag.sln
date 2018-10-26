@@ -154,7 +154,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Sample.NETCore20.Part
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.SwaggerGeneration.AspNetCore.Tests.Web", "NSwag.SwaggerGeneration.AspNetCore.Tests.Web\NSwag.SwaggerGeneration.AspNetCore.Tests.Web.csproj", "{FDD41017-91E2-4BD8-B827-F851BDEC6B6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.AssemblyLoader.Tests", "NSwag.AssemblyLoader.Tests\NSwag.AssemblyLoader.Tests.csproj", "{1853262B-6D39-477B-872A-8B5473FE74BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.AssemblyLoader.Tests", "NSwag.AssemblyLoader.Tests\NSwag.AssemblyLoader.Tests.csproj", "{1853262B-6D39-477B-872A-8B5473FE74BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

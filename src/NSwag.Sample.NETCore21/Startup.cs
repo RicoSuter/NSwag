@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NJsonSchema;
-using NSwag.AspNetCore;
 
 namespace NSwag.Sample.NETCore21
 {
@@ -23,7 +21,14 @@ namespace NSwag.Sample.NETCore21
                 .AddMvc(options => options.AllowEmptyInputInBodyModelBinding = false)
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddSwagger();
+            // Add NSwag OpenAPI/Swagger DI services and configure documents
+            // For more advanced setup, see NSwag.Sample.NETCore20 project
+
+            services.AddSwagger(options =>
+            {
+                options.AddOpenApiDocument(document => document.DocumentName = "a");
+                options.AddSwaggerDocument(document => document.DocumentName = "b");
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -40,7 +45,10 @@ namespace NSwag.Sample.NETCore21
             app.UseHttpsRedirection();
             app.UseMvc();
 
-            app.UseSwaggerUi3WithApiExplorer(settings => settings.GeneratorSettings.SchemaType = SchemaType.OpenApi3);
+            // Add middlewares to service the OpenAPI/Swagger document and the web UI
+
+            app.UseSwagger(); // registers the two documents in separate routes
+            app.UseSwaggerUi3(); // registers a single Swagger UI (v3) with the two documents
         }
     }
 }

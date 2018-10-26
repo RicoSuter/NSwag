@@ -83,11 +83,11 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                     else
                         httpStatusCode = apiResponse.StatusCode.ToString(CultureInfo.InvariantCulture);
 
-                    var typeDescription = _settings.ReflectionService.GetDescription(
-                        returnType, GetParameterAttributes(context.MethodInfo.ReturnParameter), _settings);
-
                     if (IsVoidResponse(returnType) == false)
                     {
+                        var typeDescription = _settings.ReflectionService.GetDescription(
+                            returnType, GetParameterAttributes(context.MethodInfo.ReturnParameter), _settings);
+
                         response.IsNullableRaw = typeDescription.IsNullable;
 
                         response.Schema = await context.SchemaGenerator
