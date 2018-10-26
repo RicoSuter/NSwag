@@ -21,7 +21,7 @@ using System.Reflection;
 
 namespace NSwag.AspNetCore
 {
-    // Obsolete extension methods only!
+    // Obsolete extension methods only, see /Extensions directory for supported extensions.
 
     /// <summary>Provides extensions to enable Swagger UI.</summary>
     public static class SwaggerExtensions
@@ -82,17 +82,7 @@ namespace NSwag.AspNetCore
         [Obsolete("Use " + nameof(UseSwagger) + " instead.")]
         public static IApplicationBuilder UseSwaggerWithApiExplorer(this IApplicationBuilder app, Action<SwaggerMiddlewareSettings> configure = null)
         {
-            return NSwagApplicationBuilderExtensions.UseSwagger(app, "v1", configure);
-        }
-
-        /// <summary>Adds the Swagger generator that uses Api Description to perform Swagger generation.</summary>
-        /// <param name="app">The app.</param>
-        /// <param name="documentName">The document name (identifier from <see cref="AddSwagger(IServiceCollection, Action{SwaggerDocumentRegistry})"/>).</param>
-        /// <param name="configure">Configure additional settings.</param>
-        [Obsolete("Use " + nameof(UseSwagger) + " instead.")]
-        public static IApplicationBuilder UseSwaggerWithApiExplorer(this IApplicationBuilder app, string documentName, Action<SwaggerMiddlewareSettings> configure = null)
-        {
-            return NSwagApplicationBuilderExtensions.UseSwagger(app, documentName, configure);
+            return NSwagApplicationBuilderExtensions.UseSwagger(app, configure);
         }
 
         #endregion

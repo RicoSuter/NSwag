@@ -14,8 +14,13 @@ namespace NSwag.AspNetCore.Middlewares
     /// <summary>The Swagger middleware settings.</summary>
     public class SwaggerMiddlewareSettings
     {
-        /// <summary>Gets or sets the path to serve the OpenAPI/Swagger document.</summary>
-        public string Path { get; set; } = "swagger/v1/swagger.json";
+        /// <summary>Gets the document name (internal identifier, default: v1).</summary>
+        /// <remarks>Ignored when <see cref="Path"/> contains '{documentName}' placeholder.</remarks>
+        public string DocumentName { get; set; } = "v1";
+
+        /// <summary>Gets or sets the path to serve the OpenAPI/Swagger document (default: 'swagger/{documentName}/swagger.json').</summary>
+        /// <remarks>May contain '{documentName}' placeholder to register multiple routes.</remarks>
+        public string Path { get; set; } = "swagger/{documentName}/swagger.json";
 
         /// <summary>Gets or sets for how long a <see cref="Exception"/> caught during schema generation is cached.</summary>
         public TimeSpan ExceptionCacheTime { get; set; } = TimeSpan.FromSeconds(10);

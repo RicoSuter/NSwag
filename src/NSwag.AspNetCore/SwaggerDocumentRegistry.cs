@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using Microsoft.Extensions.DependencyInjection;
 using NSwag.SwaggerGeneration;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,14 @@ namespace NSwag.AspNetCore
         /// <returns>The registry.</returns>
         public SwaggerDocumentRegistry AddDocument(string documentName, ISwaggerGenerator swaggerGenerator)
         {
+            if (_documents.ContainsKey(documentName))
+            {
+                throw new ArgumentException("The OpenAPI/Swagger document '" + documentName + "' is already registered: " +
+                    "Explicitely set the DocumentName property in " +
+                    nameof(NSwagServiceCollectionExtensions.AddSwaggerDocument) + "() or " +
+                    nameof(NSwagServiceCollectionExtensions.AddOpenApiDocument) + "().");
+            }
+
             _documents[documentName] = swaggerGenerator;
             return this;
         }

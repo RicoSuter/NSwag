@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using NJsonSchema;
 using NSwag.AspNetCore;
+using NSwag.SwaggerGeneration;
 using NSwag.SwaggerGeneration.AspNetCore;
 using System;
 
@@ -16,7 +18,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             if (configure == null)
             {
-                configure = registry => registry.AddDocument();
+                configure = registry => registry.AddSwaggerDocument();
             }
 
             serviceCollection.AddSingleton(s =>
@@ -30,8 +32,7 @@ namespace Microsoft.Extensions.DependencyInjection
             serviceCollection.AddSingleton<SwaggerDocumentProvider>();
 
             // Used by the Microsoft.Extensions.ApiDescription tool
-            serviceCollection.AddSingleton<Microsoft.Extensions.ApiDescription.IDocumentProvider>(s =>
-                s.GetRequiredService<SwaggerDocumentProvider>());
+            serviceCollection.AddSingleton<ApiDescription.IDocumentProvider>(s => s.GetRequiredService<SwaggerDocumentProvider>());
 
             return serviceCollection;
         }
@@ -40,23 +41,28 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="registry">The registry.</param>
         /// <param name="configure">The configure action.</param>
         /// <returns>The registry.</returns>
-        public static ISwaggerDocumentBuilder AddDocument(this ISwaggerDocumentBuilder registry, Action<AspNetCoreToSwaggerGeneratorSettings> configure = null)
+        public static ISwaggerDocumentBuilder AddOpenApiDocument(this ISwaggerDocumentBuilder registry, Action<SwaggerDocumentSettings> configure = null)
         {
-            return AddDocument(registry, "v1", configure);
+            return AddSwaggerDocument(registry, settings =>
+            {
+                settings.SchemaType = SchemaType.OpenApi3;
+                configure?.Invoke(settings);
+            });
         }
 
         /// <summary>Adds a document to the registry.</summary>
         /// <param name="registry">The registry.</param>
-        /// <param name="documentName">The document name.</param>
         /// <param name="configure">The configure action.</param>
         /// <returns>The registry.</returns>
-        public static ISwaggerDocumentBuilder AddDocument(this ISwaggerDocumentBuilder registry, string documentName, Action<AspNetCoreToSwaggerGeneratorSettings> configure = null)
+        public static ISwaggerDocumentBuilder AddSwaggerDocument(this ISwaggerDocumentBuilder registry, Action<SwaggerDocumentSettings> configure = null)
         {
-            var settings = new AspNetCoreToSwaggerGeneratorSettings();
+            var settings = new SwaggerDocumentSettings();
+            settings.SchemaType = SchemaType.Swagger2;
+
             configure?.Invoke(settings);
 
-            var generator = new AspNetCoreToSwaggerGenerator(settings);
-            return ((SwaggerDocumentRegistry)registry).AddDocument(documentName, generator);
+            var generator = new AspNetCoreToSwaggerGenerator(settings, settings.SchemaGenerator ?? new SwaggerJsonSchemaGenerator(settings));
+            return ((SwaggerDocumentRegistry)registry).AddDocument(settings.DocumentName, generator);
         }
     }
 }

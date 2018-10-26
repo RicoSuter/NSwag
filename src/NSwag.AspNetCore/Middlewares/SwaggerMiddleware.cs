@@ -20,6 +20,7 @@ namespace NSwag.AspNetCore.Middlewares
     {
         private readonly RequestDelegate _nextDelegate;
         private readonly string _documentName;
+        private string _path;
         private readonly IApiDescriptionGroupCollectionProvider _apiDescriptionGroupCollectionProvider;
         private readonly SwaggerDocumentProvider _documentProvider;
         private readonly SwaggerMiddlewareSettings _settings;
@@ -31,22 +32,17 @@ namespace NSwag.AspNetCore.Middlewares
 
         /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerMiddleware"/> class.</summary>
         /// <param name="nextDelegate">The next delegate.</param>
-        public SwaggerMiddleware(
-            RequestDelegate nextDelegate,
-            IServiceProvider serviceProvider,
-            string documentName,
-            Action<SwaggerMiddlewareSettings> configure)
+        public SwaggerMiddleware(RequestDelegate nextDelegate, IServiceProvider serviceProvider, string documentName, string path, SwaggerMiddlewareSettings settings)
         {
             _nextDelegate = nextDelegate;
             _documentName = documentName;
+            _path = path;
 
             _apiDescriptionGroupCollectionProvider = serviceProvider.GetService<IApiDescriptionGroupCollectionProvider>() ??
                 throw new InvalidOperationException("API Explorer not registered in DI.");
             _documentProvider = serviceProvider.GetService<SwaggerDocumentProvider>() ??
                 throw new InvalidOperationException("The NSwag DI services are not registered: Call " + nameof(NSwagServiceCollectionExtensions.AddSwagger) + "() in ConfigureServices().");
 
-            var settings = new SwaggerMiddlewareSettings();
-            configure?.Invoke(settings);
             _settings = settings;
         }
 
@@ -55,7 +51,7 @@ namespace NSwag.AspNetCore.Middlewares
         /// <returns>The task.</returns>
         public async Task Invoke(HttpContext context)
         {
-            if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value.Trim('/'), _settings.Path.Trim('/'), StringComparison.OrdinalIgnoreCase))
+            if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value.Trim('/'), _path.Trim('/'), StringComparison.OrdinalIgnoreCase))
             {
                 var schemaJson = await GenerateSwaggerAsync(context);
                 context.Response.StatusCode = 200;
