@@ -1,16 +1,16 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Http;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.AspNetCore.Mvc;
 using NJsonSchema;
 using NSwag.SwaggerGeneration.WebApi;
+using Xunit;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
 {
-    [TestClass]
     public class OperationParameterTests
     {
-        public class FooController : ApiController
+        public class FooController : Controller
         {
             [Route("foos/")]
             public Foo[] GetFoos([FromUri] Bar[] bars)
@@ -18,6 +18,8 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
                 return new Foo[0];
             }
         }
+
+        public class FromUriAttribute : Attribute { }
 
         public enum Bar
         {
@@ -56,8 +58,8 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = gen.GenerateFile();
 
             //// Assert
-            Assert.IsNotNull(document.Operations.First().Operation.Parameters.First().Item.SchemaReference);
-            Assert.True(code.Contains("getFoos(bars: Bar[], "));
+            Assert.NotNull(document.Operations.First().Operation.Parameters.First().Item.Reference);
+            Assert.Contains("getFoos(bars: Bar[], ", code);
         }
     }
 }

@@ -1,11 +1,10 @@
 ﻿using System.Threading.Tasks;
-using System.Web.Http;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using NSwag.SwaggerGeneration.WebApi;
+using Microsoft.AspNetCore.Mvc;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
 {
-    [TestClass]
     public class AngularTests
     {
         public class Foo
@@ -13,7 +12,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             public string Bar { get; set; }
         }
 
-        public class DiscussionController : ApiController
+        public class DiscussionController : Controller
         {
             [HttpPost]
             public void AddMessage([FromBody]Foo message)
@@ -42,7 +41,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.True(code.Contains("addMessage(message: Foo | null): Observable<void>"));
+            Assert.Contains("addMessage(message: Foo | null): Observable<void>", code);
         }
 
         [Fact]
@@ -67,8 +66,8 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.True(code.Contains("export class DiscussionClient"));
-            Assert.True(code.Contains("export interface IDiscussionClient"));
+            Assert.Contains("export class DiscussionClient", code);
+            Assert.Contains("export interface IDiscussionClient", code);
         }
 
         [Fact]
@@ -93,8 +92,8 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.False(code.Contains("export class DiscussionClient"));
-            Assert.False(code.Contains("export interface IDiscussionClient"));
+            Assert.DoesNotContain("export class DiscussionClient", code);
+            Assert.DoesNotContain("export interface IDiscussionClient", code);
         }
     }
 }

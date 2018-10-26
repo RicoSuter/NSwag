@@ -1,12 +1,11 @@
 ﻿using System.Threading.Tasks;
-using System.Web.Http;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.AspNetCore.Mvc;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag.SwaggerGeneration.WebApi;
+using Xunit;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
 {
-    [TestClass]
     public class TypeScriptOperationParameterTests
     {
         public class OptionalParameterController
@@ -39,7 +38,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = clientGenerator.GenerateFile();
 
             //// Assert
-            Assert.True(code.Contains("test(a: number, b: number | null)"));
+            Assert.Contains("test(a: number, b: number | null)", code);
         }
     }
 }
