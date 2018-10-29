@@ -45,6 +45,22 @@ window.onload = function() {
   }
   var urls = {Urls};
 
+  const disableTryItOutPlugin = function() {
+    return {
+      statePlugins: {
+      spec: {
+        wrapSelectors: {
+          allowTryItOutFor: function() {
+            return function() {
+                return {EnableTryItOut};
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
   // Build a system
   var ui = SwaggerUIBundle({
     url: url,
@@ -54,6 +70,9 @@ window.onload = function() {
     docExpansion: "{DocExpansion}",
     apisSorter: "{ApisSorter}",
     operationsSorter: "{OperationsSorter}",
+    defaultModelsExpandDepth: {DefaultModelsExpandDepth},
+    defaultModelExpandDepth: {DefaultModelExpandDepth},
+    tagSorter: "{TagSorter}",
 
     dom_id: '#swagger-ui',
     deepLinking: true,
@@ -62,7 +81,8 @@ window.onload = function() {
       SwaggerUIStandalonePreset
     ],
     plugins: [
-      SwaggerUIBundle.plugins.DownloadUrl
+        SwaggerUIBundle.plugins.DownloadUrl,
+        disableTryItOutPlugin
     ],
     layout: "StandaloneLayout"
   });
