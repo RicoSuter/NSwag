@@ -13,5 +13,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj" />
+    <ProjectReference Include="..\NSwag.AspNetCore\NSwag.AspNetCore.csproj" />
   </ItemGroup>
 </Project>
