@@ -24,11 +24,12 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web
                 options.AssumeDefaultVersionWhenUnspecified = true;
             })
             .AddMvcCore()
-            .AddVersionedApiExplorer(o =>
+            .AddVersionedApiExplorer(options =>
             {
-                o.GroupNameFormat = "VVV";
-                o.ApiVersionParameterSource = new HeaderApiVersionReader("api-version");
-                o.AssumeDefaultVersionWhenUnspecified = false;
+                options.GroupNameFormat = "VVV";
+                options.SubstituteApiVersionInUrl = true;
+                //options.ApiVersionParameterSource = new HeaderApiVersionReader("api-version");
+                options.AssumeDefaultVersionWhenUnspecified = false;
             });
 
             services.AddSwagger();

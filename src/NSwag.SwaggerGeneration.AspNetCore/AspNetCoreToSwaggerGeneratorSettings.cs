@@ -16,12 +16,16 @@ namespace NSwag.SwaggerGeneration.AspNetCore
         /// <summary>Initializes a new instance of the <see cref="AspNetCoreToSwaggerGeneratorSettings"/> class.</summary>
         public AspNetCoreToSwaggerGeneratorSettings()
         {
-            OperationProcessors.Insert(3, new OperationParameterProcessor(this));
-            OperationProcessors.Insert(3, new OperationResponseProcessor(this));
+            OperationProcessors.Insert(2, new OperationParameterProcessor(this));
+            OperationProcessors.Insert(2, new OperationResponseProcessor(this));
         }
+
+        /// <summary>Gets or sets the ASP.NET Core API Explorer group names to include (default: empty/null = all, often used to select API version).</summary>
+        public string[] ApiGroupNames { get; set; }
 
         /// <summary>Gets or sets a value indicating whether parameters without default value are always required
         /// (legacy, default: false).</summary>
+        /// <remarks>Use BindRequiredAttribute to mark parameters as required.</remarks>
         public bool RequireParametersWithoutDefault { get; set; }
     }
 }

@@ -40,7 +40,6 @@ namespace NSwag.SwaggerGeneration
         [JsonIgnore]
         public OperationProcessorCollection OperationProcessors { get; } = new OperationProcessorCollection
         {
-            new ApiVersionProcessor(),
             new OperationSummaryAndDescriptionProcessor(),
             new OperationTagsProcessor(),
             new OperationExtensionDataProcessor(),
