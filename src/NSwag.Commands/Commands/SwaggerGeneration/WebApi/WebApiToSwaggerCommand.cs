@@ -87,7 +87,9 @@ namespace NSwag.Commands.SwaggerGeneration.WebApi
             var generator = new WebApiToSwaggerGenerator(settings);
             var document = await generator.GenerateForControllersAsync(controllerTypes).ConfigureAwait(false);
 
-            return PostprocessDocument(document);
+            PostprocessDocument(document);
+
+            return document.ToJson(OutputType);
         }
 
         private string[] GetControllerNames(AssemblyLoader.AssemblyLoader assemblyLoader)

@@ -7,13 +7,14 @@
 //-----------------------------------------------------------------------
 
 using Microsoft.Extensions.ApiDescription;
+using NSwag.SwaggerGeneration;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 
 namespace NSwag.AspNetCore
 {
-    internal class SwaggerDocumentProvider : IDocumentProvider
+    internal class SwaggerDocumentProvider : IDocumentProvider, ISwaggerDocumentProvider
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly SwaggerDocumentRegistry _registry;
@@ -34,7 +35,7 @@ namespace NSwag.AspNetCore
             _registry.Documents.TryGetValue(documentName, out var settings);
             if (settings == null)
             {
-                throw new InvalidOperationException($"No registered OpenAPI/Swagger document found for document name '{documentName}'. " +
+                throw new InvalidOperationException($"No registered OpenAPI/Swagger document found for the document name '{documentName}'. " +
                     $"Add with the AddSwagger()/AddOpenApi() methods in ConfigureServices().");
             }
 

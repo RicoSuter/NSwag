@@ -171,8 +171,14 @@ namespace NSwag.Commands.SwaggerGeneration
         [Argument(Name = "SerializerSettings", IsRequired = false, Description = "The custom JsonSerializerSettings implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
         public string SerializerSettingsType { get; set; }
 
-        [Argument(Name = "UseDocumentProvider", IsRequired = false, Description = ".")]
-        public bool UseDocumentProvider { get; set; } = false;
+        [Argument(Name = "UseDocumentProvider", IsRequired = false, Description = "Generate document using SwaggerDocumentProvider (configuration from AddSwagger()).")]
+        public bool UseDocumentProvider { get; set; } = true;
+
+        [Argument(Name = "DocumentName", IsRequired = false, Description = "The document name to use in SwaggerDocumentProvider (default: v1).")]
+        public string DocumentName { get; set; } = "v1";
+
+        [Argument(Name = "AspNetCoreEnvironment", IsRequired = false, Description = "Sets the ASPNETCORE_ENVIRONMENT if provided (default: empty).")]
+        public string AspNetCoreEnvironment { get; set; }
 
         [Argument(Name = "CreateWebHostBuilderMethod", IsRequired = false, Description = "The CreateWebHostBuilder method in the form 'assemblyName:fullTypeName.methodName' or 'fullTypeName.methodName'.")]
         public string CreateWebHostBuilderMethod { get; set; }
@@ -189,23 +195,16 @@ namespace NSwag.Commands.SwaggerGeneration
 
         public async Task<TSettings> CreateSettingsAsync(AssemblyLoader.AssemblyLoader assemblyLoader, IWebHost webHost, string workingDirectory)
         {
-            if (UseDocumentProvider)
-            {
-                throw new NotImplementedException("The UseDocumentProvider feature is not yet implemented.");
-            }
-            else
-            {
-                var mvcOptions = webHost?.Services?.GetRequiredService<IOptions<MvcOptions>>().Value;
-                var mvcJsonOptions = webHost?.Services?.GetRequiredService<IOptions<MvcJsonOptions>>();
-                var serializerSettings = mvcJsonOptions?.Value?.SerializerSettings;
+            var mvcOptions = webHost?.Services?.GetRequiredService<IOptions<MvcOptions>>().Value;
+            var mvcJsonOptions = webHost?.Services?.GetRequiredService<IOptions<MvcJsonOptions>>();
+            var serializerSettings = mvcJsonOptions?.Value?.SerializerSettings;
 
-                Settings.ApplySettings(serializerSettings, mvcOptions);
-                Settings.DocumentTemplate = await GetDocumentTemplateAsync(workingDirectory);
+            Settings.ApplySettings(serializerSettings, mvcOptions);
+            Settings.DocumentTemplate = await GetDocumentTemplateAsync(workingDirectory);
 
-                InitializeCustomTypes(assemblyLoader);
+            InitializeCustomTypes(assemblyLoader);
 
-                return Settings;
-            }
+            return Settings;
         }
 
         protected async Task<TestServer> CreateTestServerAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
@@ -291,30 +290,22 @@ namespace NSwag.Commands.SwaggerGeneration
                 Settings.SerializerSettings = (JsonSerializerSettings)assemblyLoader.CreateInstance(SerializerSettingsType);
         }
 
-        public string PostprocessDocument(SwaggerDocument document)
+        protected void PostprocessDocument(SwaggerDocument document)
         {
-            if (!UseDocumentProvider)
+            if (ServiceHost == ".")
+                document.Host = string.Empty;
+            else if (!string.IsNullOrEmpty(ServiceHost))
+                document.Host = ServiceHost;
+
+            if (ServiceSchemes != null && ServiceSchemes.Any())
             {
-                // TODO: Is this needed/move to CreateDocumentAsync()?
-
-                if (ServiceHost == ".")
-                    document.Host = string.Empty;
-                else if (!string.IsNullOrEmpty(ServiceHost))
-                    document.Host = ServiceHost;
-
-                if (ServiceSchemes != null && ServiceSchemes.Any())
-                {
-                    document.Schemes = ServiceSchemes
-                        .Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true))
-                        .ToList();
-                }
-
-                if (!string.IsNullOrEmpty(ServiceBasePath))
-                    document.BasePath = ServiceBasePath;
+                document.Schemes = ServiceSchemes
+                    .Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true))
+                    .ToList();
             }
 
-            var json = document.ToJson(OutputType);
-            return json;
+            if (!string.IsNullOrEmpty(ServiceBasePath))
+                document.BasePath = ServiceBasePath;
         }
         
         private async Task<string> GetDocumentTemplateAsync(string workingDirectory)

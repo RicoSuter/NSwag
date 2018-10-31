@@ -31,6 +31,9 @@ namespace Microsoft.Extensions.DependencyInjection
             serviceCollection.AddSingleton<IConfigureOptions<MvcOptions>, SwaggerConfigureMvcOptions>();
             serviceCollection.AddSingleton<SwaggerDocumentProvider>();
 
+            // Used by UseDocumentProvider CLI setting
+            serviceCollection.AddSingleton<ISwaggerDocumentProvider>(s => s.GetRequiredService<SwaggerDocumentProvider>());
+
             // Used by the Microsoft.Extensions.ApiDescription tool
             serviceCollection.AddSingleton<ApiDescription.IDocumentProvider>(s => s.GetRequiredService<SwaggerDocumentProvider>());
 
