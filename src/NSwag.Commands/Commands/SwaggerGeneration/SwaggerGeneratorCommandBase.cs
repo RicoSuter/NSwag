@@ -171,7 +171,7 @@ namespace NSwag.Commands.SwaggerGeneration
         [Argument(Name = "SerializerSettings", IsRequired = false, Description = "The custom JsonSerializerSettings implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
         public string SerializerSettingsType { get; set; }
 
-        [Argument(Name = "UseDocumentProvider", IsRequired = false, Description = "Generate document using SwaggerDocumentProvider (configuration from AddSwagger()).")]
+        [Argument(Name = "UseDocumentProvider", IsRequired = false, Description = "Generate document using SwaggerDocumentProvider (configuration from AddSwagger(), most CLI settings will be ignored).")]
         public bool UseDocumentProvider { get; set; } = true;
 
         [Argument(Name = "DocumentName", IsRequired = false, Description = "The document name to use in SwaggerDocumentProvider (default: v1).")]
@@ -213,10 +213,29 @@ namespace NSwag.Commands.SwaggerGeneration
             {
                 // Load configured CreateWebHostBuilder method from program type
                 var segments = CreateWebHostBuilderMethod.Split('.');
+
                 var programTypeName = string.Join(".", segments.Take(segments.Length - 1));
-                var programType = assemblyLoader.GetType(programTypeName);
+                var programType = assemblyLoader.GetType(programTypeName) ??
+                    throw new InvalidOperationException("The Program class could not be determined.");
+
+                var methodName = segments.Last();
                 var method = programType.GetRuntimeMethod(segments.Last(), new[] { typeof(string[]) });
-                return new TestServer((IWebHostBuilder)method.Invoke(null, new object[] { new string[0] }));
+                if (method != null)
+                {
+                    return new TestServer((IWebHostBuilder)method.Invoke(null, new object[] { new string[0] }));
+                }
+                else
+                {
+                    method = programType.GetRuntimeMethod(segments.Last(), new Type[0]);
+                    if (method != null)
+                    {
+                        return new TestServer((IWebHostBuilder)method.Invoke(null, new object[0]));
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException("The CreateWebHostBuilderMethod '" + CreateWebHostBuilderMethod + "' could not be found.");
+                    }
+                }
             }
             else if (!string.IsNullOrEmpty(StartupType))
             {
@@ -233,20 +252,42 @@ namespace NSwag.Commands.SwaggerGeneration
             {
                 try
                 {
-                    // Search Program class and use CreateWebHostBuilder method as fallback
+                    // Search Program class and use CreateWebHostBuilder method
                     var assemblies = await LoadAssembliesAsync(AssemblyPaths, assemblyLoader).ConfigureAwait(false);
-                    var programType = assemblies.First().ExportedTypes.First(t => t.Name == "Program");
+                    var firstAssembly = assemblies.FirstOrDefault() ?? throw new InvalidOperationException("No assembly are be loaded from AssemblyPaths.");
+
+                    var programType = firstAssembly.ExportedTypes.First(t => t.Name == "Program") ??
+                        throw new InvalidOperationException("The Program class could not be determined in the assembly '" + firstAssembly.FullName + "'.");
+
                     var method = programType.GetRuntimeMethod("CreateWebHostBuilder", new[] { typeof(string[]) });
                     if (method != null)
+                    {
                         return new TestServer((IWebHostBuilder)method.Invoke(null, new object[] { new string[0] }));
+                    }
                     else
-                        throw new InvalidOperationException("The Program class does not have a CreateWebHostBuilder method.");
+                    {
+                        method = programType.GetRuntimeMethod("CreateWebHostBuilder", new Type[0]);
+                        if (method != null)
+                        {
+                            return new TestServer((IWebHostBuilder)method.Invoke(null, new object[0]));
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException("The Program class '" + programType.FullName + "' does not have a CreateWebHostBuilder() method.");
+                        }
+                    }
                 }
                 catch
                 {
                     // Search Startup class as fallback
                     var assemblies = await LoadAssembliesAsync(AssemblyPaths, assemblyLoader).ConfigureAwait(false);
-                    var startupType = assemblies.First().ExportedTypes.First(t => t.Name == "Startup");
+                    var firstAssembly = assemblies.FirstOrDefault() ?? throw new InvalidOperationException("No assembly are be loaded from AssemblyPaths.");
+
+                    var startupType = firstAssembly.ExportedTypes.FirstOrDefault(t => t.Name == "Startup");
+                    if (startupType == null)
+                    {
+                        throw new InvalidOperationException("The Startup class could not be determined in the assembly '" + firstAssembly.FullName + "'.");
+                    }
 
 #if NETCOREAPP1_0 || NETCOREAPP1_1
                     return new TestServer(new WebHostBuilder().UseStartup(startupType));
@@ -307,7 +348,7 @@ namespace NSwag.Commands.SwaggerGeneration
             if (!string.IsNullOrEmpty(ServiceBasePath))
                 document.BasePath = ServiceBasePath;
         }
-        
+
         private async Task<string> GetDocumentTemplateAsync(string workingDirectory)
         {
             if (!string.IsNullOrEmpty(DocumentTemplate))
