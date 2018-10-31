@@ -43,10 +43,10 @@ function blobToText(blob: any): Observable<string> {
             observer.complete();
         } else {
             let reader = new FileReader(); 
-            reader.onload = function() { 
-                observer.next(this.result);
+            reader.onload = event => { 
+                observer.next((<any>event.target).result);
                 observer.complete();
-            }
+            };
             reader.readAsText(blob); 
         }
     });
@@ -56,9 +56,7 @@ function blobToText(blob: any): Observable<string> {
 function blobToText(blob: Blob, q: ng.IQService): ng.IPromise<string> {
     return new q((resolve) => { 
         let reader = new FileReader(); 
-        reader.onload = function() { 
-            resolve(this.result);
-        }
+        reader.onload = event => resolve((<any>event.target).result);
         reader.readAsText(blob); 
     });
 }

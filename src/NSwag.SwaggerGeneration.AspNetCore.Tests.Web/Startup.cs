@@ -30,6 +30,8 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web
                 o.ApiVersionParameterSource = new HeaderApiVersionReader("api-version");
                 o.AssumeDefaultVersionWhenUnspecified = false;
             });
+
+            services.AddSwagger();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -45,6 +47,9 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
+            app.UseSwagger();
+            app.UseSwaggerUi3();
         }
     }
 }

@@ -10,7 +10,7 @@ using NSwag.SwaggerGeneration.AspNetCore.Processors;
 
 namespace NSwag.SwaggerGeneration.AspNetCore
 {
-    /// <summary>Settings for the <see cref="AspNetCoreToSwaggerGeneratorSettings"/>.</summary>
+    /// <summary>Settings for the <see cref="AspNetCoreToSwaggerGenerator"/>.</summary>
     public class AspNetCoreToSwaggerGeneratorSettings : SwaggerGeneratorSettings
     {
         /// <summary>Initializes a new instance of the <see cref="AspNetCoreToSwaggerGeneratorSettings"/> class.</summary>
