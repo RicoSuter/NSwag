@@ -169,3 +169,13 @@ Check out the [project Wiki](https://github.com/NSwag/NSwag/wiki) for more infor
 The generators can be used in a comfortable and simple Windows GUI called [NSwagStudio](https://github.com/NSwag/NSwag/wiki/NSwagStudio): 
 
 [![](https://raw.githubusercontent.com/NSwag/NSwag/master/assets/screenshots/03_WebAPI_CSharp.png)](https://raw.githubusercontent.com/NSwag/NSwag/master/assets/screenshots/03_WebAPI_CSharp.png)
+
+## Sponsors
+
+Companies or individuals which paid a substantial amount for implementing, fixing issues, support or sponsoring are listed below. Thank you for supporting this project! You can also become a sponsor via [Patreon](https://www.patreon.com/ricosuter) or by contacting [Rico Suter](https://rsuter.com). 
+
+[![](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://www.patreon.com/ricosuter)
+
+Sponsors:
+
+- [Picturepark](https://picturepark.com)
