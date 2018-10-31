@@ -34,7 +34,7 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 - In your [MSBuild targets](https://github.com/NSwag/NSwag/wiki/MSBuild)
 - In your [Cake](https://cakebuild.net) scripts using [Cake.NSwag](https://agc93.github.io/Cake.NSwag/doc/intro.html) (external community project, may not use latest NSwag version)
 
-**Tutorials**
+**Tutorials:**
 
 - [Video Tutorial: How to integrate NSwag into your ASP.NET Core Web API project (5 mins)](https://www.youtube.com/watch?v=lF9ZZ8p2Ciw)
 - [Integrate the NSwag toolchain into your ASP.NET Web API project](https://blog.rsuter.com/nswag-tutorial-integrate-the-nswag-toolchain-into-your-asp-net-web-api-project/)
