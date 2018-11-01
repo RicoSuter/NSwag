@@ -1,14 +1,13 @@
 using System.Threading.Tasks;
-using System.Web.Http;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.AspNetCore.Mvc;
 using NSwag.SwaggerGeneration.WebApi;
+using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
-    [TestClass]
     public class CSharpClientSettingsTests
     {
-        public class FooController : ApiController
+        public class FooController : Controller
         {
             public object GetPerson(bool @override = false)
             {
@@ -16,7 +15,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_ConfigurationClass_is_set_then_correct_ctor_is_generated()
         {
             //// Arrange
@@ -33,10 +32,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("public FooClient(MyConfig configuration) : base(configuration)"));
+            Assert.Contains("public FooClient(MyConfig configuration) : base(configuration)", code);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_UseHttpRequestMessageCreationMethod_is_set_then_CreateRequestMessage_is_generated()
         {
             //// Arrange
@@ -54,10 +53,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("var request_ = await CreateHttpRequestMessageAsync(cancellationToken).ConfigureAwait(false)"));
+            Assert.Contains("var request_ = await CreateHttpRequestMessageAsync(cancellationToken).ConfigureAwait(false)", code);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_parameter_name_is_reserved_keyword_then_it_is_appended_with_at()
         {
             //// Arrange
@@ -70,10 +69,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("Task<object> GetPersonAsync(bool? @override, "));
+            Assert.Contains("Task<object> GetPersonAsync(bool? @override, ", code);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_code_is_generated_then_by_default_the_system_httpclient_is_used()
         {
             //// Arrange
@@ -86,10 +85,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("var client_ = new System.Net.Http.HttpClient();"));
+            Assert.Contains("var client_ = new System.Net.Http.HttpClient();", code);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_custom_http_client_type_is_specified_then_an_instance_of_that_type_is_used()
         {
             //// Arrange
@@ -105,7 +104,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("var client_ = new CustomNamespace.CustomHttpClient();"));
+            Assert.Contains("var client_ = new CustomNamespace.CustomHttpClient();", code);
         }
     }
 }

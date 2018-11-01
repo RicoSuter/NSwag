@@ -1,16 +1,14 @@
 ﻿using System.Threading.Tasks;
-using System.Web;
-using System.Web.Http;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.AspNetCore.Mvc;
 using NJsonSchema;
 using NSwag.SwaggerGeneration.WebApi;
+using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
-    [TestClass]
     public class FormParameterTests
     {
-        [TestMethod]
+        [Fact]
         public void When_form_parameters_are_defined_then_MultipartFormDataContent_is_generated()
         {
             //// Arrange
@@ -21,7 +19,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
                     SwaggerOperationMethod.Post,
                     new SwaggerOperation
                     {
-                        Parameters = 
+                        Parameters =
                         {
                             new SwaggerParameter
                             {
@@ -35,7 +33,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
                             {
                                 Name = "bar",
                                 IsRequired = true,
-                                IsNullableRaw = false, 
+                                IsNullableRaw = false,
                                 Kind = SwaggerParameterKind.FormData,
                                 Type = JsonObjectType.String
                             }
@@ -49,19 +47,23 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("new System.Net.Http.MultipartFormDataContent"));
-            Assert.IsTrue(code.Contains("if (foo != null)"));
-            Assert.IsTrue(code.Contains("throw new System.ArgumentNullException(\"bar\");"));
+            Assert.Contains("new System.Net.Http.MultipartFormDataContent", code);
+            Assert.Contains("if (foo != null)", code);
+            Assert.Contains("throw new System.ArgumentNullException(\"bar\");", code);
         }
 
-        public class FileUploadController : ApiController
+        public class FileUploadController : Controller
         {
             public void Upload(HttpPostedFileBase file)
             {
             }
         }
 
-        [TestMethod]
+        public class HttpPostedFileBase
+        {
+        }
+
+        [Fact]
         public async Task When_action_has_file_parameter_then_Stream_is_generated_in_CSharp_code()
         {
             //// Arrange
@@ -73,14 +75,14 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("FileParameter file"));
-            Assert.IsTrue(code.Contains("var content_ = new System.Net.Http.MultipartFormDataContent(boundary_);"));
-            Assert.IsTrue(code.Contains("content_.Add(new System.Net.Http.StreamContent(file.Data), \"file\""));
+            Assert.Contains("FileParameter file", code);
+            Assert.Contains("var content_ = new System.Net.Http.MultipartFormDataContent(boundary_);", code);
+            Assert.Contains("content_.Add(new System.Net.Http.StreamContent(file.Data), \"file\"", code);
         }
 
         // TODO: Implement for JQuery, AngularJS and Angular 2
 
-        //[TestMethod]
+        //[Fact]
         //public void When_action_has_file_parameter_then_Stream_is_generated_in_TypeScript_code()
         //{
         //    //// Arrange
@@ -92,9 +94,9 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         //    var code = codeGen.GenerateFile();
 
         //    //// Assert
-        //    Assert.IsTrue(code.Contains("Stream file"));
-        //    Assert.IsTrue(code.Contains("var content_ = new MultipartFormDataContent();"));
-        //    Assert.IsTrue(code.Contains("content_.Add(new StreamContent(file), \"file\");"));
+        //    Assert.True(code.Contains("Stream file"));
+        //    Assert.True(code.Contains("var content_ = new MultipartFormDataContent();"));
+        //    Assert.True(code.Contains("content_.Add(new StreamContent(file), \"file\");"));
         //}
     }
 }
