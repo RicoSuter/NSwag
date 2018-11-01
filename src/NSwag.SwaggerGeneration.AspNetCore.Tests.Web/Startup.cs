@@ -30,7 +30,6 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web
             {
                 options.GroupNameFormat = "VVV";
                 options.SubstituteApiVersionInUrl = true;
-                options.AssumeDefaultVersionWhenUnspecified = false;
             });
 
             services.AddSwagger();
