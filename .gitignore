@@ -65,4 +65,5 @@ NSwagStudio*.nupkg
 /samples/WithoutMiddleware/Sample.AspNetCore20/.vs/Sample.AspNetCore20/v15/Server/sqlite3
 /samples/WithoutMiddleware/Sample.AspNetCore20/.vs/Sample.AspNetCore20/DesignTimeBuild
 /samples/.vs/*
-/src/.cr/personal/Unit Testing
+.vscode/
+/src/.cr/*
