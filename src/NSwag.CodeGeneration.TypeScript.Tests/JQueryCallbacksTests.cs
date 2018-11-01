@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Http;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using NSwag.SwaggerGeneration.WebApi;
+using Microsoft.AspNetCore.Mvc;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
 {
-    [TestClass]
     public class JQueryCallbacksTests
     {
         public class Foo
@@ -13,7 +13,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             public string Bar { get; set; }
         }
 
-        public class DiscussionController : ApiController
+        public class DiscussionController : Controller
         {
             [HttpPost]
             public void AddMessage([FromBody]Foo message)
@@ -21,7 +21,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_export_types_is_true_then_add_export_before_classes()
         {
             //// Arrange
@@ -43,11 +43,11 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("export class DiscussionClient"));
-            Assert.IsTrue(code.Contains("export interface IDiscussionClient"));
+            Assert.Contains("export class DiscussionClient", code);
+            Assert.Contains("export interface IDiscussionClient", code);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_export_types_is_false_then_dont_add_export_before_classes()
         {
             //// Arrange
@@ -69,8 +69,8 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.IsFalse(code.Contains("export class DiscussionClient"));
-            Assert.IsFalse(code.Contains("export interface IDiscussionClient"));
+            Assert.DoesNotContain("export class DiscussionClient", code);
+            Assert.DoesNotContain("export interface IDiscussionClient", code);
         }
     }
 }

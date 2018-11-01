@@ -33,9 +33,6 @@ namespace NSwag.AspNetCore
         /// <summary>Controls how the API listing is displayed. It can be set to 'none' (default), 'list' (shows operations for each resource), or 'full' (fully expanded: shows operations and their details).</summary>
         public string DocExpansion { get; set; } = "none";
 
-        /// <summary>Specifies the API sorter in Swagger UI 3.</summary>
-        public string ApisSorter { get; set; } = "none";
-
         /// <summary>Specifies the operations sorter in Swagger UI 3.</summary>
         public string OperationsSorter { get; set; } = "none";
 
@@ -45,8 +42,8 @@ namespace NSwag.AspNetCore
         /// <summary>The default expansion depth for the model on the model-example section in Swagger UI 3.</summary>
         public int DefaultModelExpandDepth { get; set; } = 1;
 
-        /// <summary>Specifies the tag sorter in Swagger UI 3</summary>
-        public string TagSorter { get; set; } = "none";
+        /// <summary>Specifies the tags sorter in Swagger UI 3</summary>
+        public string TagsSorter { get; set; } = "none";
 
         /// <summary>Specifies whether the "Try it out" option is enabled in Swagger UI 3.</summary>
         public bool EnableTryItOut { get; set; } = true;
@@ -76,11 +73,10 @@ namespace NSwag.AspNetCore
 
             html = html.Replace("{ValidatorUrl}", ValidateSpecification ? "undefined" : "null");
             html = html.Replace("{DocExpansion}", DocExpansion);
-            html = html.Replace("{ApisSorter}", ApisSorter);
             html = html.Replace("{OperationsSorter}", OperationsSorter);
             html = html.Replace("{DefaultModelsExpandDepth}", DefaultModelsExpandDepth.ToString());
             html = html.Replace("{DefaultModelExpandDepth}", DefaultModelExpandDepth.ToString());
-            html = html.Replace("{TagSorter}", TagSorter);
+            html = html.Replace("{TagsSorter}", TagsSorter);
             html = html.Replace("{EnableTryItOut}", EnableTryItOut.ToString().ToLower());
             html = html.Replace("{RedirectUrl}", string.IsNullOrEmpty(ServerUrl) ?
                 "window.location.origin + \"" + SwaggerUiRoute + "/oauth2-redirect.html\"" :

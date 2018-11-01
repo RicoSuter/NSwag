@@ -98,11 +98,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05 Frontends", "05 Frontend
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.SwaggerGeneration.WebApi", "NSwag.SwaggerGeneration.WebApi\NSwag.SwaggerGeneration.WebApi.csproj", "{8A547CB0-930F-466D-92EB-E780FF14C0A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.CodeGeneration.CSharp.Tests", "NSwag.CodeGeneration.CSharp.Tests\NSwag.CodeGeneration.CSharp.Tests.csproj", "{C7923A8B-D0CE-4FD8-ADA0-7507D5F3F693}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.CodeGeneration.CSharp.Tests", "NSwag.CodeGeneration.CSharp.Tests\NSwag.CodeGeneration.CSharp.Tests.csproj", "{C7923A8B-D0CE-4FD8-ADA0-7507D5F3F693}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.SwaggerGeneration.WebApi.Tests", "NSwag.SwaggerGeneration.WebApi.Tests\NSwag.SwaggerGeneration.WebApi.Tests.csproj", "{869C5D59-22B5-4FF8-A1D3-94DDD11D1EED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.CodeGeneration.TypeScript.Tests", "NSwag.CodeGeneration.TypeScript.Tests\NSwag.CodeGeneration.TypeScript.Tests.csproj", "{95B83E7B-1ADF-4185-AB36-3B17459B0128}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.CodeGeneration.TypeScript.Tests", "NSwag.CodeGeneration.TypeScript.Tests\NSwag.CodeGeneration.TypeScript.Tests.csproj", "{95B83E7B-1ADF-4185-AB36-3B17459B0128}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06 Tests", "06 Tests", "{634E4ABD-29EC-4EB2-81EF-7E41D6D6F6E0}"
 EndProject
@@ -187,19 +187,19 @@ Global
 		{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}.ReleaseTypeScriptStrict|x86.ActiveCfg = Release|Any CPU
 		{37650571-163A-4BE7-86BF-DC1B02ADACBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{37650571-163A-4BE7-86BF-DC1B02ADACBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{37650571-163A-4BE7-86BF-DC1B02ADACBB}.Debug|x64.ActiveCfg = Debug|x64
-		{37650571-163A-4BE7-86BF-DC1B02ADACBB}.Debug|x64.Build.0 = Debug|x64
+		{37650571-163A-4BE7-86BF-DC1B02ADACBB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{37650571-163A-4BE7-86BF-DC1B02ADACBB}.Debug|x64.Build.0 = Debug|Any CPU
 		{37650571-163A-4BE7-86BF-DC1B02ADACBB}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{37650571-163A-4BE7-86BF-DC1B02ADACBB}.Debug|x86.Build.0 = Debug|Any CPU
 		{37650571-163A-4BE7-86BF-DC1B02ADACBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37650571-163A-4BE7-86BF-DC1B02ADACBB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{37650571-163A-4BE7-86BF-DC1B02ADACBB}.Release|x64.ActiveCfg = Release|x64
-		{37650571-163A-4BE7-86BF-DC1B02ADACBB}.Release|x64.Build.0 = Release|x64
+		{37650571-163A-4BE7-86BF-DC1B02ADACBB}.Release|x64.ActiveCfg = Release|Any CPU
+		{37650571-163A-4BE7-86BF-DC1B02ADACBB}.Release|x64.Build.0 = Release|Any CPU
 		{37650571-163A-4BE7-86BF-DC1B02ADACBB}.Release|x86.ActiveCfg = Release|Any CPU
 		{37650571-163A-4BE7-86BF-DC1B02ADACBB}.ReleaseTypeScriptStrict|Any CPU.ActiveCfg = Release|Any CPU
 		{37650571-163A-4BE7-86BF-DC1B02ADACBB}.ReleaseTypeScriptStrict|Any CPU.Build.0 = Release|Any CPU
-		{37650571-163A-4BE7-86BF-DC1B02ADACBB}.ReleaseTypeScriptStrict|x64.ActiveCfg = Release|x64
-		{37650571-163A-4BE7-86BF-DC1B02ADACBB}.ReleaseTypeScriptStrict|x64.Build.0 = Release|x64
+		{37650571-163A-4BE7-86BF-DC1B02ADACBB}.ReleaseTypeScriptStrict|x64.ActiveCfg = Release|Any CPU
+		{37650571-163A-4BE7-86BF-DC1B02ADACBB}.ReleaseTypeScriptStrict|x64.Build.0 = Release|Any CPU
 		{37650571-163A-4BE7-86BF-DC1B02ADACBB}.ReleaseTypeScriptStrict|x86.ActiveCfg = Release|Any CPU
 		{DADA2D11-14E2-40B1-B31D-B68D6F18378C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DADA2D11-14E2-40B1-B31D-B68D6F18378C}.Debug|Any CPU.Build.0 = Debug|Any CPU
