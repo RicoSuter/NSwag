@@ -80,7 +80,7 @@ namespace NSwag.Sample.NETCore20
             //// Add OpenAPI 3.0 document serving middleware
             app.UseSwagger(options =>
             {
-                options.DocumentName = "swagger";
+                options.DocumentName = "openapi";
                 options.Path = "/openapi/v1/openapi.json";
             });
 

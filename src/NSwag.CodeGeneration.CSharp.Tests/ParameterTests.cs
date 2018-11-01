@@ -1,12 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NJsonSchema;
+﻿using NJsonSchema;
+using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
-    [TestClass]
     public class ParameterTests
     {
-        [TestMethod]
+        [Fact]
         public void When_parameters_have_same_name_then_they_are_renamed()
         {
             //// Arrange
@@ -38,11 +37,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("FooAsync(object fooQuery, object fooHeader, System.Threading.CancellationToken cancellationToken)"));
+            Assert.Contains("FooAsync(object fooQuery, object fooHeader, System.Threading.CancellationToken cancellationToken)", code);
         }
 
-
-        [TestMethod]
+        [Fact]
         public void When_parent_parameters_have_same_kind_then_they_are_included()
         {
             //// Arrange
@@ -113,10 +111,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("RemoveElementAsync(string x_User, System.Collections.Generic.IEnumerable<long> elementId, string secureToken)"));          
+            Assert.Contains("RemoveElementAsync(string x_User, System.Collections.Generic.IEnumerable<long> elementId, string secureToken)", code);          
         }
 
-        [TestMethod]
+        [Fact]
         public void When_swagger_contains_optional_parameters_then_they_are_rendered_in_CSharp()
         {
             //// Arrange
@@ -195,11 +193,11 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("lastName"));
-            Assert.IsTrue(code.Contains("optionalOrderId"));
+            Assert.Contains("lastName", code);
+            Assert.Contains("optionalOrderId", code);
         }
 
-        [TestMethod]
+        [Fact]
         public void Deep_object_properties_are_correctly_named()
         {
             //// Arrange
@@ -271,8 +269,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("options[optionalOrder.id]="));
-            Assert.IsTrue(code.Contains("options.OptionalOrderId"));
+            Assert.Contains("options[optionalOrder.id]=", code);
+            Assert.Contains("options.OptionalOrderId", code);
         }
     }
 }

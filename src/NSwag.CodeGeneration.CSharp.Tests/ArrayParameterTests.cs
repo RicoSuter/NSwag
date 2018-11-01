@@ -1,12 +1,11 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
-    [TestClass]
     public class ArrayParameterTests
     {
-        [TestMethod]
+        [Fact]
         public async Task When_parameter_is_array_then_CSharp_is_correct()
         {
             //// Arrange
@@ -67,10 +66,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(
-                code.Contains(
-                    @"foreach (var item_ in elementId) { urlBuilder_.Append(""elementId="").Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append(""&""); }"));
+            Assert.Contains(@"foreach (var item_ in elementId) { urlBuilder_.Append(""elementId="").Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append(""&""); }", code);
         }
-
     }
 }
