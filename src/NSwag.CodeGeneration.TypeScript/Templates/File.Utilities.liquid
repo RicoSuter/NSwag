@@ -1,4 +1,6 @@
-﻿{% if Framework.IsAngular -%}
+﻿{% if RequiresSwaggerExceptionClass -%}
+
+{% if Framework.IsAngular -%}
 function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): Observable<any> {
 {%     if WrapDtoExceptions -%}
     return {{ Framework.RxJs.ObservableThrowMethod }}(new SwaggerException(message, status, response, headers, result));
@@ -60,5 +62,7 @@ function blobToText(blob: Blob, q: ng.IQService): ng.IPromise<string> {
         reader.readAsText(blob); 
     });
 }
+
+{% endif -%}
 
 {% endif -%}
