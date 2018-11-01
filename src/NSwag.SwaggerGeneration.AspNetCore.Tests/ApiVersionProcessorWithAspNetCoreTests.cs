@@ -13,7 +13,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
         {
             // Arrange
             var settings = new AspNetCoreToSwaggerGeneratorSettings();
-            settings.OperationProcessors.TryGet<ApiVersionProcessor>().IncludedVersions = new[] { "1" };
+            settings.ApiGroupNames = new[] { "1" };
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(VersionedValuesController), typeof(VersionedV3ValuesController));
@@ -29,7 +29,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
         {
             // Arrange
             var settings = new AspNetCoreToSwaggerGeneratorSettings();
-            settings.OperationProcessors.TryGet<ApiVersionProcessor>().IncludedVersions = new[] { "1" };
+            settings.ApiGroupNames = new[] { "1" };
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(VersionedValuesController), typeof(VersionedV3ValuesController));
@@ -50,7 +50,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
         {
             // Arrange
             var settings = new AspNetCoreToSwaggerGeneratorSettings();
-            settings.OperationProcessors.TryGet<ApiVersionProcessor>().IncludedVersions = new[] { "2" };
+            settings.ApiGroupNames = new[] { "2" };
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(VersionedValuesController), typeof(VersionedV3ValuesController));
@@ -70,7 +70,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
         {
             // Arrange
             var settings = new AspNetCoreToSwaggerGeneratorSettings();
-            settings.OperationProcessors.TryGet<ApiVersionProcessor>().IncludedVersions = new[] { "3" };
+            settings.ApiGroupNames = new[] { "3" };
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(VersionedValuesController), typeof(VersionedV3ValuesController));
@@ -90,7 +90,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
         {
             // Arrange
             var settings = new AspNetCoreToSwaggerGeneratorSettings{};
-            settings.OperationProcessors.TryGet<ApiVersionProcessor>().IncludedVersions = new[] { "3" };
+            settings.ApiGroupNames = new[] { "3" };
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(VersionedValuesController), typeof(VersionedV3ValuesController));
