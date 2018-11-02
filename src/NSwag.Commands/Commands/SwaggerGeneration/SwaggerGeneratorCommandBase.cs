@@ -143,13 +143,6 @@ namespace NSwag.Commands.SwaggerGeneration
             set => Settings.Version = value;
         }
 
-        [Argument(Name = "IncludedVersions", IsRequired = false, Description = "The included API versions used by the ApiVersionProcessor (default: empty = all).")]
-        public string[] IncludedVersions
-        {
-            get => Settings.OperationProcessors.TryGet<ApiVersionProcessor>().IncludedVersions;
-            set => Settings.OperationProcessors.TryGet<ApiVersionProcessor>().IncludedVersions = value;
-        }
-
         [Argument(Name = "DocumentTemplate", IsRequired = false, Description = "Specifies the Swagger document template (may be a path or JSON, default: none).")]
         public string DocumentTemplate { get; set; }
 

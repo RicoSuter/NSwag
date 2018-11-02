@@ -22,6 +22,7 @@ using NJsonSchema.Yaml;
 using NJsonSchema;
 using Microsoft.AspNetCore.Hosting;
 using NSwag.SwaggerGeneration;
+using NSwag.SwaggerGeneration.Processors;
 
 #if NETCOREAPP || NETSTANDARD
 using System.Runtime.Loader;
@@ -65,6 +66,13 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
         {
             get => Settings.RequireParametersWithoutDefault;
             set => Settings.RequireParametersWithoutDefault = value;
+        }
+
+        [Argument(Name = "ApiGroupNames", IsRequired = false, Description = "The ASP.NET Core API Explorer group names to include (comma separated, default: empty = all).")]
+        public string[] ApiGroupNames
+        {
+            get => Settings.ApiGroupNames;
+            set => Settings.ApiGroupNames = value;
         }
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)

@@ -189,9 +189,10 @@
                 <TextBox Text="{Binding Command.ExcludedTypeNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
                          ToolTip="ExcludedTypeNames" Margin="0,0,0,12" />
 
-                <TextBlock Text="Included API versions used by the ApiVersionProcessor (empty = all, comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
-                <TextBox Text="{Binding Command.IncludedVersions, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
-                         ToolTip="IncludedVersions" Margin="0,0,0,12" />
+                <TextBlock Text="The ASP.NET Core API Explorer group names to include (comma separated, empty = all, often used to select API version)" 
+                           TextWrapping="Wrap" FontWeight="Bold" Margin="0,0,0,6" />
+                <TextBox Text="{Binding Command.ApiGroupNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
+                         ToolTip="ApiGroupNames" Margin="0,0,0,12" />
 
                 <GroupBox Header="Swagger Information" Margin="0,0,0,8">
                     <StackPanel Margin="4,8,4,-8">

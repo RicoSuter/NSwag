@@ -19,19 +19,33 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
             services.AddApiVersioning(options =>
             {
                 options.AssumeDefaultVersionWhenUnspecified = true;
+                options.ApiVersionReader = new UrlSegmentApiVersionReader();
             })
             .AddMvcCore()
-            .AddVersionedApiExplorer(o =>
+            .AddVersionedApiExplorer(options =>
             {
-                o.GroupNameFormat = "VVV";
-                o.ApiVersionParameterSource = new HeaderApiVersionReader("api-version");
-                o.AssumeDefaultVersionWhenUnspecified = false;
+                options.GroupNameFormat = "VVV";
+                options.SubstituteApiVersionInUrl = true;
             });
 
-            services.AddSwagger();
+            services.AddSwagger(builder => builder
+                .AddSwaggerDocument(settings =>
+                {
+                    settings.DocumentName = "v1";
+                    settings.ApiGroupNames = new[] { "1" };
+                }).AddSwaggerDocument(settings =>
+                {
+                    settings.DocumentName = "v2";
+                    settings.ApiGroupNames = new[] { "2" };
+                }).AddSwaggerDocument(settings =>
+                {
+                    settings.DocumentName = "v3";
+                    settings.ApiGroupNames = new[] { "3" };
+                }));
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

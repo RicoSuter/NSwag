@@ -23,6 +23,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Parameters
             Assert.True(operation.ActualParameters.First().IsRequired);
             Assert.True(operation.ActualParameters.Last().IsRequired);
 
+            Assert.Equal(2, operation.ActualParameters.Count);
             Assert.Equal("Bar.", operation.ActualParameters.First().Description);
             Assert.Equal("Baz.", operation.ActualParameters.Last().Description);
         }
@@ -39,6 +40,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Parameters
             // Assert
             var operation = document.Operations.First().Operation;
 
+            Assert.Equal(2, operation.ActualParameters.Count);
             Assert.True(operation.ActualParameters.First().IsRequired);
             Assert.False(operation.ActualParameters.Last().IsRequired);
         }

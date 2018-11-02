@@ -17,6 +17,7 @@ using NConsole;
 using Newtonsoft.Json;
 using NJsonSchema.Infrastructure;
 using NSwag.AssemblyLoader.Utilities;
+using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.WebApi;
 
 namespace NSwag.Commands.SwaggerGeneration.WebApi
@@ -64,6 +65,13 @@ namespace NSwag.Commands.SwaggerGeneration.WebApi
         {
             get => Settings.AddMissingPathParameters;
             set => Settings.AddMissingPathParameters = value;
+        }
+
+        [Argument(Name = "IncludedVersions", IsRequired = false, Description = "The included API versions used by the ApiVersionProcessor (comma separated, default: empty = all).")]
+        public string[] IncludedVersions
+        {
+            get => Settings.OperationProcessors.TryGet<ApiVersionProcessor>().IncludedVersions;
+            set => Settings.OperationProcessors.TryGet<ApiVersionProcessor>().IncludedVersions = value;
         }
 
         protected override async Task<string> RunIsolatedAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
