@@ -61,7 +61,7 @@ namespace NSwag.Tests.CommandLine
             Assert.IsTrue(json.Contains("\"Bar\": {"));
         }
 
-        [TestMethod]
+        //[TestMethod]
         public async Task RunIntegrationTests()
         {
             //// Arrange

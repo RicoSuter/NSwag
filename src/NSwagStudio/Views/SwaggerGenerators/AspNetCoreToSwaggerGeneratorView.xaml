@@ -15,6 +15,7 @@
         <converters:NumberAdditionConverter x:Key="NumberAdditionConverter" />
         <converters:StringArrayConverter x:Key="StringArrayConverter" />
         <converters1:NotConverter x:Key="NotConverter" />
+        <converters1:VisibilityConverter x:Key="VisibilityConverter" />
     </UserControl.Resources>
 
     <ScrollViewer DataContext="{StaticResource ViewModel}" x:Name="ScrollViewer" 
@@ -23,95 +24,113 @@
         <StackPanel Margin="8" Width="{Binding ElementName=ScrollViewer, Path=ActualWidth, Converter={StaticResource NumberAdditionConverter}, ConverterParameter=-32}">
             <TextBlock Text="AspNetCoreToSwaggerGenerator (new): This generator uses the API Explorer of ASP.NET Core." TextWrapping="Wrap" Margin="0,0,0,12" />
 
-            <TextBlock Text="Either use Project (to load a .csproj file) or Assembly (from compiled .dll)." TextWrapping="Wrap" FontWeight="Bold" Margin="0,0,0,12" />
+            <TextBlock Text="Either use Assembly (from compiled .dll) or use Project (to load a .csproj file)." TextWrapping="Wrap" FontWeight="Bold" Margin="0,0,0,12" />
 
-            <GroupBox Header="Project" Margin="0,0,0,12">
-                <StackPanel Margin="4,8,4,-8">
-                    <TextBlock Text="Project file path" FontWeight="Bold" Margin="0,0,0,6" />
-                    <dialogs:FileOpenPicker ToolTip="Project" Margin="0,0,0,12" 
-                                            FilePath="{Binding Command.Project, Mode=TwoWay}"
-                                            DefaultExtension=".csproj"
-                                            Filter="C# Project (.csproj)|*.csproj"/>
+            <TabControl Margin="0,0,0,12">
+                <TabItem Header="Assembly">
+                    <StackPanel Margin="4,8,4,-8">
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="MSBuildProjectExtensionsPath" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.MSBuildProjectExtensionsPath, Mode=TwoWay}" 
-                             ToolTip="MSBuildProjectExtensionsPath" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                </Grid.RowDefinitions>
 
-                    <TextBlock Text="Configuration" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.Configuration, Mode=TwoWay}" 
-                             ToolTip="Configuration" Margin="0,0,0,12" />
+                                <TextBlock Text=".NET Assembly Paths (multiple on separate lines)" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Grid.Row="1" Text="{Binding AssemblyPaths, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
+                                         ToolTip="AssemblyPaths" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"  
+                                         Margin="0,0,12,0" VerticalAlignment="Center" />
+                            </Grid>
 
-                    <TextBlock Text="Runtime" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.Runtime, Mode=TwoWay}" 
-                             ToolTip="Runtime" Margin="0,0,0,12" />
-
-                    <TextBlock Text="TargetFramework" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.TargetFramework, Mode=TwoWay}" 
-                             ToolTip="TargetFramework" Margin="0,0,0,12" />
-
-                    <CheckBox IsChecked="{Binding Command.NoBuild, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="NoBuild">
-                        <TextBlock Text="NoBuild" TextWrapping="Wrap" />
-                    </CheckBox>
-
-                    <CheckBox IsChecked="{Binding Command.Verbose, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="Verbose">
-                        <TextBlock Text="Verbose" TextWrapping="Wrap" />
-                    </CheckBox>
-                </StackPanel>
-            </GroupBox>
-
-            <GroupBox Header="Assembly" Margin="0,0,0,12">
-                <StackPanel Margin="4,8,4,-8">
-                    <Grid Margin="0,0,0,12">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                            </Grid.RowDefinitions>
-
-                            <TextBlock Text=".NET Assembly Paths (multiple on separate lines)" FontWeight="Bold" Margin="0,0,0,6" />
-                            <TextBox Grid.Row="1" Text="{Binding AssemblyPaths, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
-                                     ToolTip="AssemblyPaths" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"  
-                                     Margin="0,0,12,0" VerticalAlignment="Center" />
+                            <Button Command="{Binding BrowseAssemblyCommand}" VerticalAlignment="Stretch"
+                                    Padding="8,4,8,4" Grid.Column="1" Content="..." />
                         </Grid>
 
-                        <Button Command="{Binding BrowseAssemblyCommand}" VerticalAlignment="Stretch"
-                                Padding="8,4,8,4" Grid.Column="1" Content="..." />
-                    </Grid>
+                        <TextBlock Text="App.config or Web.config file path (optional, automatically searched when empty)" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBlock Text="(Required for correct binding redirects, required when assembly cannot be loaded)" Margin="0,0,0,6" />
+                        <dialogs:FileOpenPicker ToolTip="AssemblyConfig" Margin="0,0,0,12" 
+                                                FilePath="{Binding Command.AssemblyConfig, Mode=TwoWay}"
+                                                DefaultExtension=".config"
+                                                Filter="Config Files (.config)|*.config"/>
 
-                    <TextBlock Text="App.config or Web.config file path (optional, automatically searched when empty)" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBlock Text="(Required for correct binding redirects, required when assembly cannot be loaded)" Margin="0,0,0,6" />
-                    <dialogs:FileOpenPicker ToolTip="AssemblyConfig" Margin="0,0,0,12" 
-                                            FilePath="{Binding Command.AssemblyConfig, Mode=TwoWay}"
-                                            DefaultExtension=".config"
-                                            Filter="Config Files (.config)|*.config"/>
+                        <TextBlock Text="Paths to search for referenced assembly files (multiple on separate lines)" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.ReferencePaths, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
+                                 ToolTip="ReferencePaths" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
 
-                    <TextBlock Text="Paths to search for referenced assembly files (multiple on separate lines)" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.ReferencePaths, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
-                             ToolTip="ReferencePaths" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
+                        <CheckBox IsChecked="{Binding Command.UseNuGetCache, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="UseNuGetCache">
+                            <TextBlock Text="Add local Nuget's cache folder to reference paths" TextWrapping="Wrap" />
+                        </CheckBox>
 
-                    <CheckBox IsChecked="{Binding Command.UseNuGetCache, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="UseNuGetCache">
-                        <TextBlock Text="Add local Nuget's cache folder to reference paths" TextWrapping="Wrap" />
-                    </CheckBox>
+                        <TextBlock Text="CreateWebHostBuilder method in the form 'assemblyName:fullTypeName.methodName' or 'fullTypeName.methodName' (leave empty for auto-discovery)" TextWrapping="Wrap" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.CreateWebHostBuilderMethod, Mode=TwoWay}" 
+                                 ToolTip="CreateWebHostBuilderMethod" Margin="0,0,0,12" />
 
-                    <TextBlock Text="Startup type (leave empty for auto-discovery)" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.StartupType, Mode=TwoWay}" 
-                             ToolTip="StartupType" Margin="0,0,0,12" />
-                </StackPanel>
-            </GroupBox>
-            
+                        <TextBlock Text="Startup type in the form 'assemblyName:fullTypeName' or 'fullTypeName' (leave empty for auto-discovery)" 
+                                   FontWeight="Bold" Margin="0,0,0,6" TextWrapping="Wrap" />
+                        <TextBox Text="{Binding Command.StartupType, Mode=TwoWay}" 
+                                 ToolTip="StartupType" Margin="0,0,0,12" />
+                    </StackPanel>
+                </TabItem>
+                <TabItem Header="Project">
+                    <StackPanel Margin="4,8,4,-8">
+                        <TextBlock Text="Project file path" FontWeight="Bold" Margin="0,0,0,6" />
+                        <dialogs:FileOpenPicker ToolTip="Project" Margin="0,0,0,12" 
+                                                FilePath="{Binding Command.Project, Mode=TwoWay}"
+                                                DefaultExtension=".csproj"
+                                                Filter="C# Project (.csproj)|*.csproj"/>
+
+                        <TextBlock Text="MSBuildProjectExtensionsPath" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.MSBuildProjectExtensionsPath, Mode=TwoWay}" 
+                                 ToolTip="MSBuildProjectExtensionsPath" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
+
+                        <TextBlock Text="Configuration" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.Configuration, Mode=TwoWay}" 
+                                 ToolTip="Configuration" Margin="0,0,0,12" />
+
+                        <TextBlock Text="Runtime" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.Runtime, Mode=TwoWay}" 
+                                 ToolTip="Runtime" Margin="0,0,0,12" />
+
+                        <TextBlock Text="TargetFramework" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.TargetFramework, Mode=TwoWay}" 
+                                 ToolTip="TargetFramework" Margin="0,0,0,12" />
+
+                        <CheckBox IsChecked="{Binding Command.NoBuild, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="NoBuild">
+                            <TextBlock Text="NoBuild" TextWrapping="Wrap" />
+                        </CheckBox>
+
+                        <CheckBox IsChecked="{Binding Command.Verbose, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="Verbose">
+                            <TextBlock Text="Verbose" TextWrapping="Wrap" />
+                        </CheckBox>
+                    </StackPanel>
+                </TabItem>
+            </TabControl>
+
             <TextBlock Text="Working Directory (optional, i.e. directory of appsettings.json)" FontWeight="Bold" Margin="0,0,0,6" />
             <TextBox Text="{Binding Command.WorkingDirectory, Mode=TwoWay}"
                      ToolTip="WorkingDirectory"
                      Margin="0,0,0,12" />
 
+            <TextBlock Text="The ASPNETCORE_ENVIRONMENT environment variable (empty = use default)" FontWeight="Bold" Margin="0,0,0,6" />
+            <TextBox Text="{Binding Command.AspNetCoreEnvironment, Mode=TwoWay}"
+                     ToolTip="WorkingDirectory"
+                     Margin="0,0,0,12" />
+
             <CheckBox IsChecked="{Binding Command.UseDocumentProvider, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="UseDocumentProvider">
-                <TextBlock Text="Use IDocumentProvider (not implemented yet)" TextWrapping="Wrap" />
+                <TextBlock Text="Use document provider (configuration from AddSwagger(), recommended)" TextWrapping="Wrap" />
             </CheckBox>
+
+            <StackPanel Visibility="{Binding Command.UseDocumentProvider, Converter={StaticResource VisibilityConverter}}">
+                <TextBlock Text="Document Name" FontWeight="Bold" Margin="0,0,0,6" />
+                <TextBox Text="{Binding Command.DocumentName, Mode=TwoWay}"
+                         ToolTip="DocumentName"
+                         Margin="0,0,0,12" />
+            </StackPanel>
 
             <StackPanel Visibility="{Binding Command.UseDocumentProvider, Converter={StaticResource NotConverter}}">
                 <GroupBox Header="Deprecated, automatically resolved via DI (do not change)" Margin="0,0,0,8">
@@ -258,8 +277,10 @@
                                     Margin="0,0,0,12"
                                     FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" />
 
-            <TextBlock Margin="0,0,0,6" Text="Output Type" TextWrapping="Wrap" FontWeight="Bold" />
-            <ComboBox SelectedItem="{Binding Command.OutputType, Mode=TwoWay}" ItemsSource="{Binding OutputTypes}" Margin="0,0,0,12" />
+            <StackPanel Visibility="{Binding Command.UseDocumentProvider, Converter={StaticResource NotConverter}}">
+                <TextBlock Margin="0,0,0,6" Text="Output Type" TextWrapping="Wrap" FontWeight="Bold" />
+                <ComboBox SelectedItem="{Binding Command.OutputType, Mode=TwoWay}" ItemsSource="{Binding OutputTypes}" Margin="0,0,0,12" />
+            </StackPanel>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

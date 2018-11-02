@@ -20,6 +20,8 @@ using Newtonsoft.Json;
 using NSwag.SwaggerGeneration.AspNetCore;
 using NJsonSchema.Yaml;
 using NJsonSchema;
+using Microsoft.AspNetCore.Hosting;
+using NSwag.SwaggerGeneration;
 
 #if NETCOREAPP || NETSTANDARD
 using System.Runtime.Loader;
@@ -67,9 +69,19 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            // Run with .csproj
-            if (!string.IsNullOrEmpty(Project))
+            if (!string.IsNullOrEmpty(Project) && AssemblyPaths.Any())
             {
+                throw new InvalidOperationException("Either provide a Project or an assembly but not both.");
+            }
+
+            if (string.IsNullOrEmpty(Project))
+            {
+                // Run with assembly
+                return await base.RunAsync(processor, host);
+            }
+            else
+            {
+                // Run with .csproj
                 var verboseHost = Verbose ? host : null;
 
                 var projectFile = ProjectMetadata.FindProject(Project);
@@ -93,7 +105,7 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
                 var args = new List<string>();
                 string executable;
 
-#if NET451
+#if NET461
                 var toolDirectory = AppDomain.CurrentDomain.BaseDirectory;
                 if (!Directory.Exists(toolDirectory))
                     toolDirectory = Path.GetDirectoryName(typeof(AspNetCoreToSwaggerCommand).GetTypeInfo().Assembly.Location);
@@ -170,6 +182,7 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
                 args.Add(outputFile);
                 args.Add(projectMetadata.AssemblyName);
                 args.Add(toolDirectory);
+
                 try
                 {
                     var exitCode = await Exe.RunAsync(executable, args, verboseHost).ConfigureAwait(false);
@@ -190,14 +203,15 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
                     TryDeleteFiles(cleanupFiles);
                 }
             }
-            else
-            {
-                return await base.RunAsync(processor, host);
-            }
         }
 
-        public string ChangeWorkingDirectory()
+        internal string ChangeWorkingDirectoryAndSetAspNetCoreEnvironment()
         {
+            if (!string.IsNullOrEmpty(AspNetCoreEnvironment))
+            {
+                Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", AspNetCoreEnvironment);
+            }
+
             var currentWorkingDirectory = Directory.GetCurrentDirectory();
 
             if (!string.IsNullOrEmpty(WorkingDirectory))
@@ -224,26 +238,40 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
             return currentWorkingDirectory;
         }
 
-        protected override async Task<string> RunIsolatedAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
+        public async Task<SwaggerDocument> GenerateDocumentAsync(AssemblyLoader.AssemblyLoader assemblyLoader, IWebHost host, string currentWorkingDirectory)
         {
-            InitializeCustomTypes(assemblyLoader);
+            Directory.SetCurrentDirectory(currentWorkingDirectory);
 
-            var startupType = await GetStartupTypeAsync(assemblyLoader);
-            var currentWorkingDirectory = ChangeWorkingDirectory();
-            using (var testServer = CreateTestServer(startupType))
+            if (UseDocumentProvider)
             {
-                Directory.SetCurrentDirectory(currentWorkingDirectory);
+                var documentProvider = host.Services.GetRequiredService<ISwaggerDocumentProvider>();
+                var document = await documentProvider.GenerateAsync(DocumentName);
+                return document;
+            }
+            else
+            {
+                InitializeCustomTypes(assemblyLoader);
 
-                // See https://github.com/aspnet/Mvc/issues/5690
-                var type = typeof(IApiDescriptionGroupCollectionProvider);
-                var apiDescriptionProvider = (IApiDescriptionGroupCollectionProvider)testServer.Host.Services.GetRequiredService(type);
+                // In the case of KeyNotFoundException, see https://github.com/aspnet/Mvc/issues/5690
+                var apiDescriptionProvider = host.Services.GetRequiredService<IApiDescriptionGroupCollectionProvider>();
 
-                var settings = await CreateSettingsAsync(assemblyLoader, testServer.Host, currentWorkingDirectory);
+                var settings = await CreateSettingsAsync(assemblyLoader, host, currentWorkingDirectory);
                 var generator = new AspNetCoreToSwaggerGenerator(settings);
                 var document = await generator.GenerateAsync(apiDescriptionProvider.ApiDescriptionGroups).ConfigureAwait(false);
 
-                var json = PostprocessDocument(document);
-                return json;
+                PostprocessDocument(document);
+
+                return document;
+            }
+        }
+
+        protected override async Task<string> RunIsolatedAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
+        {
+            var currentWorkingDirectory = ChangeWorkingDirectoryAndSetAspNetCoreEnvironment();
+            using (var testServer = await CreateTestServerAsync(assemblyLoader))
+            {
+                var document = await GenerateDocumentAsync(assemblyLoader, testServer.Host, currentWorkingDirectory);
+                return UseDocumentProvider ? document.ToJson() : document.ToJson(OutputType);
             }
         }
 

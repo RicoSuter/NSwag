@@ -11,10 +11,7 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using NSwag.SwaggerGeneration.AspNetCore;
 
 namespace NSwag.Commands.SwaggerGeneration.AspNetCore
 {
@@ -25,19 +22,14 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
         {
             var command = JsonConvert.DeserializeObject<AspNetCoreToSwaggerCommand>(commandContent);
 
-            var previousWorkingDirectory = command.ChangeWorkingDirectory();
+            var previousWorkingDirectory = command.ChangeWorkingDirectoryAndSetAspNetCoreEnvironment();
             var webHost = GetWebHost(applicationName);
 
-            Directory.SetCurrentDirectory(previousWorkingDirectory);
-
-            var apiDescriptionProvider = webHost.Services.GetRequiredService<IApiDescriptionGroupCollectionProvider>();
-
             var assemblyLoader = new AssemblyLoader.AssemblyLoader();
-            var settings = Task.Run(async () => await command.CreateSettingsAsync(assemblyLoader, webHost, previousWorkingDirectory)).GetAwaiter().GetResult();
+            var document = Task.Run(async () =>
+                await command.GenerateDocumentAsync(assemblyLoader, webHost, previousWorkingDirectory)).GetAwaiter().GetResult();
 
-            var generator = new AspNetCoreToSwaggerGenerator(settings);
-            var document = generator.GenerateAsync(apiDescriptionProvider.ApiDescriptionGroups).GetAwaiter().GetResult();
-            var json = command.PostprocessDocument(document);
+            var json = command.UseDocumentProvider ? document.ToJson() : document.ToJson(command.OutputType);
 
             var outputPathDirectory = Path.GetDirectoryName(outputFile);
             Directory.CreateDirectory(outputPathDirectory);
