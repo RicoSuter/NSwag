@@ -18,7 +18,7 @@
         }
     }
     else if (value is bool) {
-        return System.Convert.ToString(value, cultureInfo).ToLower();
+        return System.Convert.ToString(value, cultureInfo).ToLowerInvariant();
     }
     else if (value is byte[])
     {
