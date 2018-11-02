@@ -35,6 +35,9 @@ namespace NSwag.AspNetCore
         }
 
         /// <summary>Gets the generator settings.</summary>
+#if !AspNetOwin
+        [Obsolete("This property is ignored when used without OpenAPI/Swagger generator and will be removed eventually, change config in UseSwagger().")]
+#endif
         public T GeneratorSettings { get; }
 
         /// <summary>Gets or sets the OWIN base path (when mapped via app.MapOwinPath()) (must start with '/').</summary>

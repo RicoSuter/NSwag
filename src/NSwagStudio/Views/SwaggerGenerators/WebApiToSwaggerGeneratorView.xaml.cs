@@ -25,7 +25,7 @@ namespace NSwagStudio.Views.SwaggerGenerators
 
         private WebApiToSwaggerGeneratorViewModel Model => (WebApiToSwaggerGeneratorViewModel)Resources["ViewModel"];
 
-        public string Title => "Web API or ASP.NET Core via Reflection";
+        public string Title => "Web API or ASP.NET Core via Reflection (deprecated)";
 
         public IOutputCommand Command => Model.Command;
 

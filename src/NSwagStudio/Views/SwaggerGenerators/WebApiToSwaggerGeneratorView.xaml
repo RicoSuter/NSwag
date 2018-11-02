@@ -74,7 +74,11 @@
                     </CheckBox>
 
                     <StackPanel Visibility="{Binding Command.IsAspNetCore, Converter={StaticResource VisibilityConverter}}">
-                        <TextBlock Text="Startup type (leave empty for auto-discovery)" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBlock Text="CreateWebHostBuilder method in the form 'assemblyName:fullTypeName.methodName' or 'fullTypeName.methodName' (leave empty for auto-discovery)" TextWrapping="Wrap" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.CreateWebHostBuilderMethod, Mode=TwoWay}" 
+                                 ToolTip="CreateWebHostBuilderMethod" Margin="0,0,0,12" />
+
+                        <TextBlock Text="Startup type (leave empty for auto-discovery)" FontWeight="Bold" Margin="0,0,0,6" TextWrapping="Wrap" />
                         <TextBox Text="{Binding Command.StartupType, Mode=TwoWay}" 
                                  ToolTip="StartupType" Margin="0,0,0,12" />
                     </StackPanel>

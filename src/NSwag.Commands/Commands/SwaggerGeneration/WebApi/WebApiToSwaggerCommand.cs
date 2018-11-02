@@ -86,8 +86,7 @@ namespace NSwag.Commands.SwaggerGeneration.WebApi
             var workingDirectory = Directory.GetCurrentDirectory();
             if (IsAspNetCore && ResolveJsonOptions)
             {
-                var startupType = await GetStartupTypeAsync(assemblyLoader);
-                using (var testServer = CreateTestServer(startupType))
+                using (var testServer = await CreateTestServerAsync(assemblyLoader))
                     settings = await CreateSettingsAsync(assemblyLoader, testServer.Host, workingDirectory);
             }
             else
@@ -96,7 +95,9 @@ namespace NSwag.Commands.SwaggerGeneration.WebApi
             var generator = new WebApiToSwaggerGenerator(settings);
             var document = await generator.GenerateForControllersAsync(controllerTypes).ConfigureAwait(false);
 
-            return PostprocessDocument(document);
+            PostprocessDocument(document);
+
+            return document.ToJson(OutputType);
         }
 
         private string[] GetControllerNames(AssemblyLoader.AssemblyLoader assemblyLoader)
