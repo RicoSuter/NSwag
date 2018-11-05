@@ -32,20 +32,22 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web
                 options.SubstituteApiVersionInUrl = true;
             });
 
-            services.AddSwagger(builder => builder
-                .AddSwaggerDocument(settings =>
+            services
+                .AddSwaggerDocument(document =>
                 {
-                    settings.DocumentName = "v1";
-                    settings.ApiGroupNames = new[] { "1" };
-                }).AddSwaggerDocument(settings =>
+                    document.DocumentName = "v1";
+                    document.ApiGroupNames = new[] { "1" };
+                })
+                .AddSwaggerDocument(document =>
                 {
-                    settings.DocumentName = "v2";
-                    settings.ApiGroupNames = new[] { "2" };
-                }).AddSwaggerDocument(settings =>
+                    document.DocumentName = "v2";
+                    document.ApiGroupNames = new[] { "2" };
+                })
+                .AddSwaggerDocument(document =>
                 {
-                    settings.DocumentName = "v3";
-                    settings.ApiGroupNames = new[] { "3" };
-                }));
+                    document.DocumentName = "v3";
+                    document.ApiGroupNames = new[] { "3" };
+                });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
