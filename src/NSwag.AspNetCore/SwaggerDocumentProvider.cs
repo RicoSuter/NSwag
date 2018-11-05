@@ -7,9 +7,12 @@
 //-----------------------------------------------------------------------
 
 using Microsoft.Extensions.ApiDescription;
+using Microsoft.Extensions.DependencyInjection;
 using NSwag.SwaggerGeneration;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace NSwag.AspNetCore
@@ -17,12 +20,12 @@ namespace NSwag.AspNetCore
     internal class SwaggerDocumentProvider : IDocumentProvider, ISwaggerDocumentProvider
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly SwaggerDocumentRegistry _registry;
+        private readonly IEnumerable<SwaggerDocumentRegistration> _documents;
 
-        public SwaggerDocumentProvider(IServiceProvider serviceProvider, SwaggerDocumentRegistry registry)
+        public SwaggerDocumentProvider(IServiceProvider serviceProvider, IEnumerable<SwaggerDocumentRegistration> documents)
         {
             _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
-            _registry = registry ?? throw new ArgumentNullException(nameof(registry));
+            _documents = documents ?? throw new ArgumentNullException(nameof(documents));
         }
 
         public async Task<SwaggerDocument> GenerateAsync(string documentName)
@@ -32,14 +35,25 @@ namespace NSwag.AspNetCore
                 throw new ArgumentNullException(nameof(documentName));
             }
 
-            _registry.Documents.TryGetValue(documentName, out var settings);
-            if (settings == null)
+            foreach (var group in _documents.GroupBy(g => g.DocumentName))
+            {
+                if (group.Count() > 1)
+                {
+                    throw new ArgumentException("The OpenAPI/Swagger document '" + group.Key + "' registered multiple times: " +
+                        "Explicitely set the DocumentName property in " +
+                        nameof(NSwagServiceCollectionExtensions.AddSwaggerDocument) + "() or " +
+                        nameof(NSwagServiceCollectionExtensions.AddOpenApiDocument) + "().");
+                }
+            }
+
+            var document = _documents.Single(g => g.DocumentName == documentName);
+            if (document.Generator == null)
             {
                 throw new InvalidOperationException($"No registered OpenAPI/Swagger document found for the document name '{documentName}'. " +
                     $"Add with the AddSwagger()/AddOpenApi() methods in ConfigureServices().");
             }
 
-            return await settings.GenerateAsync(_serviceProvider);
+            return await document.Generator.GenerateAsync(_serviceProvider);
         }
 
         // Called by the Microsoft.Extensions.ApiDescription tool

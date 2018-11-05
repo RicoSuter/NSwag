@@ -41,7 +41,7 @@ namespace NSwag.AspNetCore.Middlewares
             _apiDescriptionGroupCollectionProvider = serviceProvider.GetService<IApiDescriptionGroupCollectionProvider>() ??
                 throw new InvalidOperationException("API Explorer not registered in DI.");
             _documentProvider = serviceProvider.GetService<SwaggerDocumentProvider>() ??
-                throw new InvalidOperationException("The NSwag DI services are not registered: Call " + nameof(NSwagServiceCollectionExtensions.AddSwagger) + "() in ConfigureServices().");
+                throw new InvalidOperationException("The NSwag DI services are not registered: Call " + nameof(NSwagServiceCollectionExtensions.AddSwaggerDocument) + "() in ConfigureServices().");
 
             _settings = settings;
         }
