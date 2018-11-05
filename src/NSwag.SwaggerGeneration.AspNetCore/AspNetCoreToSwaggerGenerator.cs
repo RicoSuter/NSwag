@@ -53,7 +53,13 @@ namespace NSwag.SwaggerGeneration.AspNetCore
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
         public async Task<SwaggerDocument> GenerateAsync(ApiDescriptionGroupCollection apiDescriptionGroups)
         {
-            var apiDescriptions = apiDescriptionGroups.Items.SelectMany(g => g.Items);
+            var apiDescriptions = apiDescriptionGroups.Items
+                .Where(i =>
+                    Settings.ApiGroupNames == null ||
+                    Settings.ApiGroupNames.Length == 0 ||
+                    Settings.ApiGroupNames.Contains(i.GroupName))
+                .SelectMany(g => g.Items);
+
             var document = await CreateDocumentAsync().ConfigureAwait(false);
             var schemaResolver = new SwaggerSchemaResolver(document, Settings);
 
@@ -96,8 +102,8 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             return await GenerateAsync(apiDescriptionGroupCollectionProvider.ApiDescriptionGroups);
         }
 
-        private async Task<bool> GenerateForControllerAsync(SwaggerDocument document, Type controllerType, 
-            IEnumerable<Tuple<ApiDescription, ControllerActionDescriptor>> controllerApiDescriptionGroup, 
+        private async Task<bool> GenerateForControllerAsync(SwaggerDocument document, Type controllerType,
+            IEnumerable<Tuple<ApiDescription, ControllerActionDescriptor>> controllerApiDescriptionGroup,
             SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver)
         {
             var hasIgnoreAttribute = controllerType.GetTypeInfo()

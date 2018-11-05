@@ -15,4 +15,7 @@
     <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj" />
     <ProjectReference Include="..\NSwag.AspNetCore\NSwag.AspNetCore.csproj" />
   </ItemGroup>
+  <Target Name="NSwag" AfterTargets="Build">
+    <Copy SourceFiles="@(Reference)" DestinationFolder="$(OutDir)References" />
+  </Target>
 </Project>

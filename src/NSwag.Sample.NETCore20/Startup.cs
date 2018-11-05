@@ -26,13 +26,13 @@ namespace NSwag.Sample.NETCore20
             // Add OpenAPI and Swagger DI services and configure documents
 
             // Adds the NSwag services
-            services.AddSwagger(options => options
+            services
                 // Register a Swagger 2.0 document generator
-                .AddSwaggerDocument(settings =>
+                .AddSwaggerDocument(document =>
                 {
-                    settings.DocumentName = "swagger";
+                    document.DocumentName = "swagger";
                     // Add custom document processors, etc.
-                    settings.DocumentProcessors.Add(new SecurityDefinitionAppender("TEST_HEADER", new SwaggerSecurityScheme
+                    document.DocumentProcessors.Add(new SecurityDefinitionAppender("TEST_HEADER", new SwaggerSecurityScheme
                     {
                         Type = SwaggerSecuritySchemeType.ApiKey,
                         Name = "TEST_HEADER",
@@ -41,7 +41,7 @@ namespace NSwag.Sample.NETCore20
                     }));
                 })
                 // Register an OpenAPI 3.0 document generator
-                .AddOpenApiDocument(settings => settings.DocumentName = "openapi"));
+                .AddOpenApiDocument(document => document.DocumentName = "openapi");
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

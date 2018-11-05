@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.Extensions.Options;
 using NSwag.AspNetCore;
 using NSwag.AspNetCore.Middlewares;
-using NSwag.SwaggerGeneration;
 using NSwag.SwaggerGeneration.WebApi;
 using System;
 using System.Collections.Generic;
@@ -34,11 +32,10 @@ namespace Microsoft.AspNetCore.Builder
 
             if (settings.Path.Contains("{documentName}"))
             {
-                var registry = app.ApplicationServices.GetRequiredService<SwaggerDocumentRegistry>();
-
-                foreach (var document in registry.Documents)
+                var documents = app.ApplicationServices.GetRequiredService<IEnumerable<SwaggerDocumentRegistration>>();
+                foreach (var document in documents)
                 {
-                    app = app.UseMiddleware<SwaggerMiddleware>(document.Key, settings.Path.Replace("{documentName}", document.Key), settings);
+                    app = app.UseMiddleware<SwaggerMiddleware>(document.DocumentName, settings.Path.Replace("{documentName}", document.DocumentName), settings);
                 }
 
                 return app;
@@ -82,8 +79,8 @@ namespace Microsoft.AspNetCore.Builder
                 settings.SwaggerRoutes.Clear();
                 foreach (var document in documents)
                 {
-                    var swaggerRoute = swaggerRouteWithPlaceholder.Replace("{documentName}", document.Key);
-                    settings.SwaggerRoutes.Add(new SwaggerUi3Route(document.Key, swaggerRoute));
+                    var swaggerRoute = swaggerRouteWithPlaceholder.Replace("{documentName}", document.DocumentName);
+                    settings.SwaggerRoutes.Add(new SwaggerUi3Route(document.DocumentName, swaggerRoute));
                 }
             });
 
@@ -120,25 +117,25 @@ namespace Microsoft.AspNetCore.Builder
         private static void UseSwaggerUiWithDocumentNamePlaceholderExpanding(IApplicationBuilder app,
             SwaggerUiSettingsBase<WebApiToSwaggerGeneratorSettings> settings,
             Action<string, string> register,
-            Action<IReadOnlyDictionary<string, ISwaggerGenerator>> registerMultiple)
+            Action<IEnumerable<SwaggerDocumentRegistration>> registerMultiple)
         {
             if (settings.ActualSwaggerRoute.Contains("{documentName}"))
             {
-                var registry = app.ApplicationServices.GetRequiredService<SwaggerDocumentRegistry>();
+                var documents = app.ApplicationServices.GetRequiredService<IEnumerable<SwaggerDocumentRegistration>>();
                 if (settings.ActualSwaggerUiRoute.Contains("{documentName}"))
                 {
                     // Register multiple uis
-                    foreach (var document in registry.Documents)
+                    foreach (var document in documents)
                     {
                         register(
-                            settings.ActualSwaggerRoute.Replace("{documentName}", document.Key),
-                            settings.ActualSwaggerUiRoute.Replace("{documentName}", document.Key));
+                            settings.ActualSwaggerRoute.Replace("{documentName}", document.DocumentName),
+                            settings.ActualSwaggerUiRoute.Replace("{documentName}", document.DocumentName));
                     }
                 }
                 else
                 {
                     // Register single ui with multiple documents
-                    registerMultiple(registry.Documents);
+                    registerMultiple(documents);
                     register(settings.ActualSwaggerRoute, settings.ActualSwaggerUiRoute);
                 }
             }
