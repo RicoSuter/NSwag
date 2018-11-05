@@ -132,11 +132,15 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("FileResponse") &&
             _document.Operations.Any(o => o.Operation.ActualResponses.Any(r => r.Value.Schema?.ActualSchema.Type == JsonObjectType.File));
 
-        /// <summary>Gets a value indicating whether the SwaggerException class is required.</summary>
-        public bool RequiresSwaggerExceptionClass =>
-            !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("SwaggerException") &&
+        /// <summary>Gets a value indicating whether the client functions are required.</summary>
+        public bool RequiresClientFunctions =>
             _settings.GenerateClientClasses &&
             !string.IsNullOrEmpty(Clients);
+
+        /// <summary>Gets a value indicating whether the SwaggerException class is required. Note that if RequiresClientFunctions returns true this returns true since the client functions require it. </summary>
+        public bool RequiresSwaggerExceptionClass =>
+            RequiresClientFunctions &&
+            !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("SwaggerException");
 
         /// <summary>Table containing list of the generated classes.</summary>
         public string[] ClientClasses { get; }
