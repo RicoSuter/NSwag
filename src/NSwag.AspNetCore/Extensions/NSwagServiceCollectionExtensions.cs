@@ -4,6 +4,7 @@ using NJsonSchema;
 using NSwag.AspNetCore;
 using NSwag.SwaggerGeneration;
 using NSwag.SwaggerGeneration.AspNetCore;
+using NSwag.SwaggerGeneration.Processors;
 using System;
 using System.Linq;
 
@@ -36,8 +37,14 @@ namespace Microsoft.Extensions.DependencyInjection
 
                 configure?.Invoke(settings);
 
-                var generator = new AspNetCoreToSwaggerGenerator(settings, settings.SchemaGenerator ??
-                    new SwaggerJsonSchemaGenerator(settings));
+                if (settings.PostProcess != null)
+                {
+                    var processor = new ActionDocumentProcessor(context => settings.PostProcess(context.Document));
+                    settings.DocumentProcessors.Add(processor);
+                }
+
+                var schemaGenerator = settings.SchemaGenerator ?? new SwaggerJsonSchemaGenerator(settings);
+                var generator = new AspNetCoreToSwaggerGenerator(settings, schemaGenerator);
 
                 return new SwaggerDocumentRegistration(settings.DocumentName, generator);
             });

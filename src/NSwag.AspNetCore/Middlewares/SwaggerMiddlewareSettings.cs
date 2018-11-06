@@ -26,6 +26,9 @@ namespace NSwag.AspNetCore.Middlewares
         public TimeSpan ExceptionCacheTime { get; set; } = TimeSpan.FromSeconds(10);
 
         /// <summary>Gets or sets the Swagger post process action.</summary>
+        /// <remarks>Should only be used to transform the document related to the request 
+        /// because it will not be called by the CLI or NSwagStudio 
+        /// (use PostProcess in AddSwaggerDocument instead).</remarks>
         public Action<HttpRequest, SwaggerDocument> PostProcess { get; set; }
 
         /// <summary>Gets or sets the middleware base path (must start with '/').</summary>

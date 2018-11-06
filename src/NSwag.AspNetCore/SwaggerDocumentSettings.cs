@@ -1,5 +1,6 @@
 ﻿using NSwag.SwaggerGeneration;
 using NSwag.SwaggerGeneration.AspNetCore;
+using System;
 
 namespace NSwag.AspNetCore
 {
@@ -11,5 +12,8 @@ namespace NSwag.AspNetCore
 
         /// <summary>Gets or sets the JSON Schema generator.</summary>
         public SwaggerJsonSchemaGenerator SchemaGenerator { get; set; }
+
+        /// <summary>Gets or sets the Swagger post process action.</summary>
+        public Action<SwaggerDocument> PostProcess { get; set; }
     }
 }

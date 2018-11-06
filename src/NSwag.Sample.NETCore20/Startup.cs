@@ -39,6 +39,8 @@ namespace NSwag.Sample.NETCore20
                         In = SwaggerSecurityApiKeyLocation.Header,
                         Description = "TEST_HEADER"
                     }));
+                    // Post process the generated document
+                    document.PostProcess = d => d.Info.Title = "Hello world!";
                 })
                 // Register an OpenAPI 3.0 document generator
                 .AddOpenApiDocument(document => document.DocumentName = "openapi");
