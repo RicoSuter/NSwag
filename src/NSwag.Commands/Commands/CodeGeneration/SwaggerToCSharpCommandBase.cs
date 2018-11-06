@@ -81,7 +81,7 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.ParameterArrayType = value; }
         }
 
-        [Argument(Name = "ParameterDictionaryType", IsRequired = false, Description = "The generic dictionary .NET type of operation parameters (default: 'IReadOnlyDictionary').")]
+        [Argument(Name = "ParameterDictionaryType", IsRequired = false, Description = "The generic dictionary .NET type of operation parameters (default: 'IDictionary').")]
         public string ParameterDictionaryType
         {
             get { return Settings.ParameterDictionaryType; }
@@ -147,7 +147,7 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.CSharpGeneratorSettings.RequiredPropertiesMustBeDefined = value; }
         }
 
-        [Argument(Name = "DateType", IsRequired = false, Description = "The date .NET type (default: 'DateTime').")]
+        [Argument(Name = "DateType", IsRequired = false, Description = "The date .NET type (default: 'DateTimeOffset').")]
         public string DateType
         {
             get { return Settings.CSharpGeneratorSettings.DateType; }
@@ -161,7 +161,7 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.CSharpGeneratorSettings.JsonConverters = value; }
         }
 
-        [Argument(Name = "DateTimeType", IsRequired = false, Description = "The date time .NET type (default: 'DateTime').")]
+        [Argument(Name = "DateTimeType", IsRequired = false, Description = "The date time .NET type (default: 'DateTimeOffset').")]
         public string DateTimeType
         {
             get { return Settings.CSharpGeneratorSettings.DateTimeType; }
@@ -182,7 +182,7 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.CSharpGeneratorSettings.TimeSpanType = value; }
         }
 
-        [Argument(Name = "ArrayType", IsRequired = false, Description = "The generic array .NET type (default: 'ObservableCollection').")]
+        [Argument(Name = "ArrayType", IsRequired = false, Description = "The generic array .NET type (default: 'ICollection').")]
         public string ArrayType
         {
             get { return Settings.CSharpGeneratorSettings.ArrayType; }
@@ -196,7 +196,7 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.CSharpGeneratorSettings.ArrayInstanceType = value; }
         }
 
-        [Argument(Name = "DictionaryType", IsRequired = false, Description = "The generic dictionary .NET type (default: 'Dictionary').")]
+        [Argument(Name = "DictionaryType", IsRequired = false, Description = "The generic dictionary .NET type (default: 'IDictionary').")]
         public string DictionaryType
         {
             get { return Settings.CSharpGeneratorSettings.DictionaryType; }
@@ -210,7 +210,7 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.CSharpGeneratorSettings.DictionaryInstanceType = value; }
         }
 
-        [Argument(Name = "ArrayBaseType", IsRequired = false, Description = "The generic array .NET type (default: 'ObservableCollection').")]
+        [Argument(Name = "ArrayBaseType", IsRequired = false, Description = "The generic array .NET type (default: 'Collection').")]
         public string ArrayBaseType
         {
             get { return Settings.CSharpGeneratorSettings.ArrayBaseType; }
@@ -224,7 +224,7 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.CSharpGeneratorSettings.DictionaryBaseType = value; }
         }
 
-        [Argument(Name = "ClassStyle", IsRequired = false, Description = "The CSharp class style, 'Poco' or 'Inpc' (default: 'Inpc').")]
+        [Argument(Name = "ClassStyle", IsRequired = false, Description = "The CSharp class style, 'Poco' or 'Inpc' (default: 'Poco').")]
         public CSharpClassStyle ClassStyle
         {
             get { return Settings.CSharpGeneratorSettings.ClassStyle; }

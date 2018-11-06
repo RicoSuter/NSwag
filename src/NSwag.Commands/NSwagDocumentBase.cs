@@ -56,7 +56,7 @@ namespace NSwag.Commands
         public abstract Task<SwaggerDocumentExecutionResult> ExecuteAsync();
 
         /// <summary>Gets or sets the runtime where the document should be processed.</summary>
-        public Runtime Runtime { get; set; }
+        public Runtime Runtime { get; set; } = Runtime.NetCore21;
 
         /// <summary>Gets or sets the default variables.</summary>
         public string DefaultVariables { get; set; }
