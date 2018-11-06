@@ -45,7 +45,7 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.TypeScriptGeneratorSettings.Namespace = value; }
         }
 
-        [Argument(Name = "TypeScriptVersion", IsRequired = false, Description = "The target TypeScript version (default: 1.8).")]
+        [Argument(Name = "TypeScriptVersion", IsRequired = false, Description = "The target TypeScript version (default: 2.7).")]
         public decimal TypeScriptVersion
         {
             get { return Settings.TypeScriptGeneratorSettings.TypeScriptVersion; }
@@ -81,14 +81,14 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.UseSingletonProvider = value; }
         }
 
-        [Argument(Name = "InjectionTokenType", IsRequired = false, Description = "The Angular injection token type (default 'OpaqueToken', 'InjectionToken').")]
+        [Argument(Name = "InjectionTokenType", IsRequired = false, Description = "The Angular injection token type (default 'InjectionToken', 'OpaqueToken').")]
         public InjectionTokenType InjectionTokenType
         {
             get { return Settings.InjectionTokenType; }
             set { Settings.InjectionTokenType = value; }
         }
 
-        [Argument(Name = "RxJsVersion", IsRequired = false, Description = "The target RxJs version (default: 5.0).")]
+        [Argument(Name = "RxJsVersion", IsRequired = false, Description = "The target RxJs version (default: 6.0).")]
         public decimal RxJsVersion
         {
             get { return Settings.RxJsVersion; }

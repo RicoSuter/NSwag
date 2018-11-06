@@ -24,6 +24,20 @@ namespace NSwag.CodeGeneration.CSharp
             {
                 Namespace = "MyNamespace",
                 SchemaType = SchemaType.Swagger2,
+
+                // TODO: Remove these defaults when NJS is updated with them
+                ClassStyle = CSharpClassStyle.Poco,
+
+                DateType = "System.DateTimeOffset",
+                DateTimeType = "System.DateTimeOffset",
+                TimeType = "System.TimeSpan",
+                TimeSpanType = "System.TimeSpan",
+
+                ArrayType = "System.Collections.Generic.ICollection",
+                DictionaryType = "System.Collections.Generic.IDictionary",
+
+                ArrayBaseType = "System.Collections.Generic.Collection",
+                DictionaryBaseType = "System.Collections.Generic.Dictionary"
             };
 
             CSharpGeneratorSettings.TemplateFactory = new DefaultTemplateFactory(CSharpGeneratorSettings, new[]
@@ -32,8 +46,8 @@ namespace NSwag.CodeGeneration.CSharp
                 typeof(SwaggerToCSharpGeneratorSettings).GetTypeInfo().Assembly,
             });
 
-            ResponseArrayType = "System.Collections.ObjectModel.ObservableCollection";
-            ResponseDictionaryType = "System.Collections.Generic.Dictionary";
+            ResponseArrayType = "System.Collections.Generic.ICollection";
+            ResponseDictionaryType = "System.Collections.Generic.IDictionary";
 
             ParameterArrayType = "System.Collections.Generic.IEnumerable";
             ParameterDictionaryType = "System.Collections.Generic.IDictionary";
