@@ -2,13 +2,10 @@
   "x-generator": "NSwag v11.20.1.0 (NJsonSchema v9.12.0.0 (Newtonsoft.Json v10.0.0.0))",
   "swagger": "2.0",
   "info": {
-    "title": "My Title",
+    "title": "Hello world!",
     "version": "1.0.0"
   },
   "consumes": [
-    "application/json"
-  ],
-  "produces": [
     "application/json"
   ],
   "paths": {
@@ -18,6 +15,12 @@
           "Pet"
         ],
         "operationId": "Pet_AddPet",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "pet",
@@ -26,7 +29,7 @@
             "schema": {
               "$ref": "#/definitions/Pet"
             },
-            "x-nullable": true
+            "x-nullable": false
           }
         ],
         "responses": {
@@ -44,6 +47,12 @@
           "Pet"
         ],
         "operationId": "Pet_EditPet",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "pet",
@@ -52,7 +61,7 @@
             "schema": {
               "$ref": "#/definitions/Pet"
             },
-            "x-nullable": true
+            "x-nullable": false
           }
         ],
         "responses": {
@@ -72,6 +81,9 @@
           "Pet"
         ],
         "operationId": "Pet_FindByStatusAll",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "array",
@@ -111,6 +123,9 @@
           "Pet"
         ],
         "operationId": "Pet_FindByStatus",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "array",
@@ -166,12 +181,14 @@
           "Pet"
         ],
         "operationId": "Pet_FindByCategory",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "string",
             "name": "category",
             "in": "query",
-            "required": true,
             "x-nullable": true
           }
         ],
@@ -202,6 +219,9 @@
           "Pet"
         ],
         "operationId": "Pet_FindById",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "integer",
@@ -237,6 +257,9 @@
           "Pet"
         ],
         "operationId": "Pet_EditPetWithFormData",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "integer",
@@ -247,12 +270,72 @@
             "x-nullable": false
           },
           {
-            "type": "object",
-            "name": "pet",
+            "type": "integer",
+            "name": "Id",
             "in": "formData",
-            "x-schema": {
-              "$ref": "#/definitions/Pet"
-            },
+            "format": "int32",
+            "x-nullable": false
+          },
+          {
+            "type": "integer",
+            "name": "Age",
+            "in": "formData",
+            "format": "int32",
+            "maximum": 150.0,
+            "minimum": 0.0,
+            "x-nullable": false
+          },
+          {
+            "type": "integer",
+            "name": "Category.Id",
+            "in": "formData",
+            "format": "int32",
+            "x-nullable": false
+          },
+          {
+            "type": "string",
+            "name": "Category.Name",
+            "in": "formData",
+            "x-nullable": true
+          },
+          {
+            "type": "boolean",
+            "name": "HasVaccinations",
+            "in": "formData",
+            "x-nullable": false
+          },
+          {
+            "type": "string",
+            "name": "Name",
+            "in": "formData",
+            "maxLength": 50,
+            "minLength": 2,
+            "x-nullable": true
+          },
+          {
+            "type": "array",
+            "name": "Images",
+            "in": "formData",
+            "collectionFormat": "multi",
+            "x-nullable": true,
+            "items": {
+              "$ref": "#/definitions/Image"
+            }
+          },
+          {
+            "type": "array",
+            "name": "Tags",
+            "in": "formData",
+            "collectionFormat": "multi",
+            "x-nullable": true,
+            "items": {
+              "$ref": "#/definitions/Tag"
+            }
+          },
+          {
+            "type": "string",
+            "name": "Status",
+            "in": "formData",
             "x-nullable": true
           }
         ],
@@ -274,6 +357,9 @@
           "Pet"
         ],
         "operationId": "Pet_DeletePet",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "integer",
@@ -306,6 +392,9 @@
         "operationId": "Pet_UploadImage",
         "consumes": [
           "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
         ],
         "parameters": [
           {
@@ -355,7 +444,6 @@
             "type": "integer",
             "name": "int_RequiredAndNotNullable",
             "in": "query",
-            "required": true,
             "format": "int32",
             "x-nullable": false
           },
@@ -363,7 +451,6 @@
             "type": "integer",
             "name": "int_RequiredAndNullable",
             "in": "query",
-            "required": true,
             "format": "int32",
             "x-nullable": true
           },
@@ -371,14 +458,12 @@
             "type": "string",
             "name": "string_RequiredAndNullable",
             "in": "query",
-            "required": true,
             "x-nullable": true
           },
           {
             "type": "string",
             "name": "string_RequiredAndNotNullable",
             "in": "query",
-            "required": true,
             "x-nullable": false
           },
           {
@@ -415,6 +500,28 @@
         "responses": {
           "200": {
             "description": ""
+          }
+        }
+      }
+    },
+    "/sample": {
+      "post": {
+        "tags": [
+          "Sample"
+        ],
+        "operationId": "Sample_GetSample",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
           }
         }
       }
@@ -541,6 +648,14 @@
           "type": "string"
         }
       }
+    }
+  },
+  "securityDefinitions": {
+    "TEST_HEADER": {
+      "type": "apiKey",
+      "description": "TEST_HEADER",
+      "name": "TEST_HEADER",
+      "in": "header"
     }
   }
 }

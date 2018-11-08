@@ -21,7 +21,7 @@ namespace MyNamespace
     
         System.Threading.Tasks.Task FilterAsync(System.Collections.Generic.IEnumerable<string> currentStates);
     
-        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<string>> ReverseAsync(System.Collections.Generic.IEnumerable<string> values);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<string>> ReverseAsync(System.Collections.Generic.IEnumerable<string> values);
     
         System.Threading.Tasks.Task RefreshAsync();
     
@@ -72,7 +72,7 @@ namespace MyNamespace
         }
     
         [System.Web.Http.HttpPost, System.Web.Http.Route("api/Geo/Reverse")]
-        public System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<string>> Reverse(System.Collections.Generic.IEnumerable<string> values)
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<string>> Reverse(System.Collections.Generic.IEnumerable<string> values)
         {
             return _implementation.ReverseAsync(values);
         }
@@ -118,13 +118,13 @@ namespace MyNamespace
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.20.1.0 (NJsonSchema v9.12.0.0 (Newtonsoft.Json v11.0.0.0))")]
     public interface IPersonsController
     {
-        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<Person>> GetAllAsync();
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Person>> GetAllAsync();
     
         System.Threading.Tasks.Task AddAsync(Person person);
     
-        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<Person>> FindAsync(Gender gender);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Person>> FindAsync(Gender gender);
     
-        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<Person>> FindOptionalAsync(Gender? gender);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Person>> FindOptionalAsync(Gender? gender);
     
         System.Threading.Tasks.Task<Person> GetAsync(System.Guid id);
     
@@ -156,7 +156,7 @@ namespace MyNamespace
         }
     
         [System.Web.Http.HttpGet, System.Web.Http.Route("api/Persons")]
-        public System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<Person>> GetAll()
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Person>> GetAll()
         {
             return _implementation.GetAllAsync();
         }
@@ -168,13 +168,13 @@ namespace MyNamespace
         }
     
         [System.Web.Http.HttpPost, System.Web.Http.Route("api/Persons/find/{gender}")]
-        public System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<Person>> Find(Gender gender)
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Person>> Find(Gender gender)
         {
             return _implementation.FindAsync(gender);
         }
     
         [System.Web.Http.HttpPost, System.Web.Http.Route("api/Persons/find2")]
-        public System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<Person>> FindOptional(Gender? gender)
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Person>> FindOptional(Gender? gender)
         {
             return _implementation.FindOptionalAsync(gender);
         }

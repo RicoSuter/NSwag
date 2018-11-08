@@ -12,10 +12,12 @@ namespace Uber
     public partial class Client 
     {
         private string _baseUrl = "https://api.uber.com/v1";
+        private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
     
-        public Client()
+        public Client(System.Net.Http.HttpClient httpClient)
         {
+            _httpClient = httpClient; 
             _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(() => 
             {
                 var settings = new Newtonsoft.Json.JsonSerializerSettings();
@@ -42,7 +44,7 @@ namespace Uber
         /// <param name="longitude">Longitude component of location.</param>
         /// <returns>An array of products</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<Product>> ProductsAsync(double latitude, double longitude)
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Product>> ProductsAsync(double latitude, double longitude)
         {
             return ProductsAsync(latitude, longitude, System.Threading.CancellationToken.None);
         }
@@ -53,7 +55,7 @@ namespace Uber
         /// <returns>An array of products</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        public async System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<Product>> ProductsAsync(double latitude, double longitude, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Product>> ProductsAsync(double latitude, double longitude, System.Threading.CancellationToken cancellationToken)
         {
             if (latitude == null)
                 throw new System.ArgumentNullException("latitude");
@@ -67,7 +69,7 @@ namespace Uber
             urlBuilder_.Append("longitude=").Append(System.Uri.EscapeDataString(ConvertToString(longitude, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             urlBuilder_.Length--;
     
-            var client_ = new System.Net.Http.HttpClient();
+            var client_ = _httpClient;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -96,10 +98,10 @@ namespace Uber
                         if (status_ == "200") 
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            var result_ = default(System.Collections.ObjectModel.ObservableCollection<Product>); 
+                            var result_ = default(System.Collections.Generic.ICollection<Product>); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<Product>>(responseData_, _settings.Value);
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.ICollection<Product>>(responseData_, _settings.Value);
                                 return result_; 
                             } 
                             catch (System.Exception exception_) 
@@ -131,8 +133,6 @@ namespace Uber
             }
             finally
             {
-                if (client_ != null)
-                    client_.Dispose();
             }
         }
     
@@ -143,7 +143,7 @@ namespace Uber
         /// <param name="end_longitude">Longitude component of end location.</param>
         /// <returns>An array of price estimates by product</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<PriceEstimate>> PriceAsync(double start_latitude, double start_longitude, double end_latitude, double end_longitude)
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PriceEstimate>> PriceAsync(double start_latitude, double start_longitude, double end_latitude, double end_longitude)
         {
             return PriceAsync(start_latitude, start_longitude, end_latitude, end_longitude, System.Threading.CancellationToken.None);
         }
@@ -156,7 +156,7 @@ namespace Uber
         /// <returns>An array of price estimates by product</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        public async System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<PriceEstimate>> PriceAsync(double start_latitude, double start_longitude, double end_latitude, double end_longitude, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PriceEstimate>> PriceAsync(double start_latitude, double start_longitude, double end_latitude, double end_longitude, System.Threading.CancellationToken cancellationToken)
         {
             if (start_latitude == null)
                 throw new System.ArgumentNullException("start_latitude");
@@ -178,7 +178,7 @@ namespace Uber
             urlBuilder_.Append("end_longitude=").Append(System.Uri.EscapeDataString(ConvertToString(end_longitude, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             urlBuilder_.Length--;
     
-            var client_ = new System.Net.Http.HttpClient();
+            var client_ = _httpClient;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -207,10 +207,10 @@ namespace Uber
                         if (status_ == "200") 
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            var result_ = default(System.Collections.ObjectModel.ObservableCollection<PriceEstimate>); 
+                            var result_ = default(System.Collections.Generic.ICollection<PriceEstimate>); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<PriceEstimate>>(responseData_, _settings.Value);
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.ICollection<PriceEstimate>>(responseData_, _settings.Value);
                                 return result_; 
                             } 
                             catch (System.Exception exception_) 
@@ -242,8 +242,6 @@ namespace Uber
             }
             finally
             {
-                if (client_ != null)
-                    client_.Dispose();
             }
         }
     
@@ -254,7 +252,7 @@ namespace Uber
         /// <param name="product_id">Unique identifier representing a specific product for a given latitude & longitude.</param>
         /// <returns>An array of products</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<Product>> TimeAsync(double start_latitude, double start_longitude, System.Guid? customer_uuid, string product_id)
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Product>> TimeAsync(double start_latitude, double start_longitude, System.Guid? customer_uuid, string product_id)
         {
             return TimeAsync(start_latitude, start_longitude, customer_uuid, product_id, System.Threading.CancellationToken.None);
         }
@@ -267,7 +265,7 @@ namespace Uber
         /// <returns>An array of products</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        public async System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<Product>> TimeAsync(double start_latitude, double start_longitude, System.Guid? customer_uuid, string product_id, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Product>> TimeAsync(double start_latitude, double start_longitude, System.Guid? customer_uuid, string product_id, System.Threading.CancellationToken cancellationToken)
         {
             if (start_latitude == null)
                 throw new System.ArgumentNullException("start_latitude");
@@ -289,7 +287,7 @@ namespace Uber
             }
             urlBuilder_.Length--;
     
-            var client_ = new System.Net.Http.HttpClient();
+            var client_ = _httpClient;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -318,10 +316,10 @@ namespace Uber
                         if (status_ == "200") 
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            var result_ = default(System.Collections.ObjectModel.ObservableCollection<Product>); 
+                            var result_ = default(System.Collections.Generic.ICollection<Product>); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<Product>>(responseData_, _settings.Value);
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.ICollection<Product>>(responseData_, _settings.Value);
                                 return result_; 
                             } 
                             catch (System.Exception exception_) 
@@ -353,8 +351,6 @@ namespace Uber
             }
             finally
             {
-                if (client_ != null)
-                    client_.Dispose();
             }
         }
     
@@ -375,7 +371,7 @@ namespace Uber
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/me");
     
-            var client_ = new System.Net.Http.HttpClient();
+            var client_ = _httpClient;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -439,8 +435,6 @@ namespace Uber
             }
             finally
             {
-                if (client_ != null)
-                    client_.Dispose();
             }
         }
     
@@ -474,7 +468,7 @@ namespace Uber
             }
             urlBuilder_.Length--;
     
-            var client_ = new System.Net.Http.HttpClient();
+            var client_ = _httpClient;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -538,8 +532,6 @@ namespace Uber
             }
             finally
             {
-                if (client_ != null)
-                    client_.Dispose();
             }
         }
     
