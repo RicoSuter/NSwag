@@ -50,7 +50,7 @@ namespace NSwag.Tests.CommandLine
         public async Task When_config_file_with_project_with_newer_json_net_is_run_then_property_is_correct()
         {
             //// Arrange
-            var command = "run \"" + Path.GetFullPath("../../../NSwag.VersionMissmatchTest/nswag.json") + "\"";
+            var command = "run \"" + Path.GetFullPath("../../../NSwag.VersionMissmatchTest/nswag.json") + "\" /runtime:WinX64";
 
             //// Act
             var output = RunCommandLine(command, Path.GetFullPath("../../../NSwag.VersionMissmatchTest/output.json"));
