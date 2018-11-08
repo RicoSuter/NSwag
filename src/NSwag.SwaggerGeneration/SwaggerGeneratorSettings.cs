@@ -33,8 +33,8 @@ namespace NSwag.SwaggerGeneration
         /// <summary>Gets or sets the Swagger specification version.</summary>
         public string Version { get; set; } = "1.0.0";
 
-        /// <summary>Gets or sets a value indicating whether nullable body parameters are allowed (ignored when MvcOptions.AllowEmptyInputInBodyModelBinding is available, default: false).</summary>
-        public bool AllowNullableBodyParameters { get; set; } = false;
+        /// <summary>Gets or sets a value indicating whether nullable body parameters are allowed (ignored when MvcOptions.AllowEmptyInputInBodyModelBinding is available (ASP.NET Core 2.0+), default: true).</summary>
+        public bool AllowNullableBodyParameters { get; set; } = true;
 
         /// <summary>Gets the operation processor.</summary>
         [JsonIgnore]

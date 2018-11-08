@@ -179,7 +179,7 @@ namespace NSwag.Commands.SwaggerGeneration
         [Argument(Name = "Startup", IsRequired = false, Description = "The Startup class type in the form 'assemblyName:fullTypeName' or 'fullTypeName'.")]
         public string StartupType { get; set; }
 
-        [Argument(Name = "AllowNullableBodyParameters", IsRequired = false, Description = "Nullable body parameters are allowed (ignored when MvcOptions.AllowEmptyInputInBodyModelBinding is available, default: false).")]
+        [Argument(Name = "AllowNullableBodyParameters", IsRequired = false, Description = "Nullable body parameters are allowed (ignored when MvcOptions.AllowEmptyInputInBodyModelBinding is available (ASP.NET Core 2.0+), default: true).")]
         public bool AllowNullableBodyParameters
         {
             get => Settings.AllowNullableBodyParameters;
