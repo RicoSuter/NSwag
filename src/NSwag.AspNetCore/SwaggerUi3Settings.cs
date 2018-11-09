@@ -87,8 +87,8 @@ namespace NSwag.AspNetCore
             html = html.Replace("{TagsSorter}", TagsSorter);
             html = html.Replace("{EnableTryItOut}", EnableTryItOut.ToString().ToLower());
             html = html.Replace("{RedirectUrl}", string.IsNullOrEmpty(ServerUrl) ?
-                "window.location.origin + \"" + SwaggerUiRoute + "/oauth2-redirect.html\"" :
-                "\"" + ServerUrl + SwaggerUiRoute + "/oauth2-redirect.html\"");
+                "window.location.origin + \"" + TransformToExternalPath(SwaggerUiRoute, request) + "/oauth2-redirect.html\"" :
+                "\"" + ServerUrl + TransformToExternalPath(SwaggerUiRoute, request) + "/oauth2-redirect.html\"");
 
             return html;
         }
