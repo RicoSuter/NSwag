@@ -18,9 +18,9 @@ namespace NSwag.AspNetCore.Middlewares
         /// <remarks>Ignored when <see cref="Path"/> contains '{documentName}' placeholder.</remarks>
         public string DocumentName { get; set; } = "v1";
 
-        /// <summary>Gets or sets the path to serve the OpenAPI/Swagger document (default: 'swagger/{documentName}/swagger.json').</summary>
+        /// <summary>Gets or sets the path to serve the OpenAPI/Swagger document (default: '/swagger/{documentName}/swagger.json').</summary>
         /// <remarks>May contain '{documentName}' placeholder to register multiple routes.</remarks>
-        public string Path { get; set; } = "swagger/{documentName}/swagger.json";
+        public string Path { get; set; } = "/swagger/{documentName}/swagger.json";
 
         /// <summary>Gets or sets for how long a <see cref="Exception"/> caught during schema generation is cached.</summary>
         public TimeSpan ExceptionCacheTime { get; set; } = TimeSpan.FromSeconds(10);
@@ -30,8 +30,5 @@ namespace NSwag.AspNetCore.Middlewares
         /// because it will not be called by the CLI or NSwagStudio 
         /// (use PostProcess in AddSwaggerDocument instead).</remarks>
         public Action<HttpRequest, SwaggerDocument> PostProcess { get; set; }
-
-        /// <summary>Gets or sets the middleware base path (must start with '/').</summary>
-        public string MiddlewareBasePath { get; set; }
     }
 }

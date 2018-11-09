@@ -137,7 +137,7 @@ namespace NSwag.AspNet.Owin
             if (controllerTypes != null)
                 app.Use<SwaggerMiddleware>(settings.ActualSwaggerRoute, controllerTypes, settings, schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings));
 
-            app.Use<RedirectMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute);
+            app.Use<RedirectToIndexMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute, settings.TransformToExternalPath);
             app.Use<SwaggerUiIndexMiddleware<WebApiToSwaggerGeneratorSettings>>(settings.ActualSwaggerUiRoute + "/index.html", settings, "NSwag.AspNet.Owin.SwaggerUi.index.html");
             app.UseFileServer(new FileServerOptions
             {
@@ -208,7 +208,7 @@ namespace NSwag.AspNet.Owin
             if (controllerTypes != null)
                 app.Use<SwaggerMiddleware>(settings.ActualSwaggerRoute, controllerTypes, settings, schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings));
 
-            app.Use<RedirectMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute);
+            app.Use<RedirectToIndexMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute, settings.TransformToExternalPath);
             app.Use<SwaggerUiIndexMiddleware<WebApiToSwaggerGeneratorSettings>>(settings.ActualSwaggerUiRoute + "/index.html", settings, "NSwag.AspNet.Owin.SwaggerUi3.index.html");
             app.UseFileServer(new FileServerOptions
             {
@@ -279,7 +279,7 @@ namespace NSwag.AspNet.Owin
             if (controllerTypes != null)
                 app.Use<SwaggerMiddleware>(settings.ActualSwaggerRoute, controllerTypes, settings, schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings));
 
-            app.Use<RedirectMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute);
+            app.Use<RedirectToIndexMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute, settings.TransformToExternalPath);
             app.Use<SwaggerUiIndexMiddleware<WebApiToSwaggerGeneratorSettings>>(settings.ActualSwaggerUiRoute + "/index.html", settings, "NSwag.AspNet.Owin.ReDoc.index.html");
             app.UseFileServer(new FileServerOptions
             {

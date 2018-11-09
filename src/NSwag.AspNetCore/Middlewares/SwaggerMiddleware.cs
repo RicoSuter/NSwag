@@ -20,7 +20,7 @@ namespace NSwag.AspNetCore.Middlewares
     {
         private readonly RequestDelegate _nextDelegate;
         private readonly string _documentName;
-        private string _path;
+        private readonly string _route;
         private readonly IApiDescriptionGroupCollectionProvider _apiDescriptionGroupCollectionProvider;
         private readonly SwaggerDocumentProvider _documentProvider;
         private readonly SwaggerMiddlewareSettings _settings;
@@ -32,11 +32,12 @@ namespace NSwag.AspNetCore.Middlewares
 
         /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerMiddleware"/> class.</summary>
         /// <param name="nextDelegate">The next delegate.</param>
-        public SwaggerMiddleware(RequestDelegate nextDelegate, IServiceProvider serviceProvider, string documentName, string path, SwaggerMiddlewareSettings settings)
+        public SwaggerMiddleware(RequestDelegate nextDelegate, IServiceProvider serviceProvider, string documentName, string route, SwaggerMiddlewareSettings settings)
         {
             _nextDelegate = nextDelegate;
+
             _documentName = documentName;
-            _path = path;
+            _route = route;
 
             _apiDescriptionGroupCollectionProvider = serviceProvider.GetService<IApiDescriptionGroupCollectionProvider>() ??
                 throw new InvalidOperationException("API Explorer not registered in DI.");
@@ -51,7 +52,7 @@ namespace NSwag.AspNetCore.Middlewares
         /// <returns>The task.</returns>
         public async Task Invoke(HttpContext context)
         {
-            if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value.Trim('/'), _path.Trim('/'), StringComparison.OrdinalIgnoreCase))
+            if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value.Trim('/'), _route.Trim('/'), StringComparison.OrdinalIgnoreCase))
             {
                 var schemaJson = await GenerateSwaggerAsync(context);
                 context.Response.StatusCode = 200;
@@ -86,7 +87,7 @@ namespace NSwag.AspNetCore.Middlewares
 
                 document.Host = context.Request.Host.Value ?? "";
                 document.Schemes.Add(context.Request.Scheme == "http" ? SwaggerSchema.Http : SwaggerSchema.Https);
-                document.BasePath = context.Request.PathBase.Value?.Substring(0, context.Request.PathBase.Value.Length - (_settings.MiddlewareBasePath?.Length ?? 0)) ?? "";
+                document.BasePath = context.Request.PathBase.Value ?? "";
 
                 _settings.PostProcess?.Invoke(context.Request, document);
 

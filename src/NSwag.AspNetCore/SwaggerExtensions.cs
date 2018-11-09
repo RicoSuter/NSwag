@@ -144,12 +144,13 @@ namespace NSwag.AspNetCore
             SwaggerJsonSchemaGenerator schemaGenerator = null)
         {
             var settings = new SwaggerUiSettings<WebApiToSwaggerGeneratorSettings>();
+            settings.SwaggerRoute = "/swagger/v1/swagger.json";
             configure?.Invoke(settings);
 
             if (controllerTypes != null)
                 app.UseMiddleware<WebApiToSwaggerMiddleware>(settings.ActualSwaggerRoute, controllerTypes, settings, schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings));
 
-            app.UseMiddleware<RedirectMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute);
+            app.UseMiddleware<RedirectToIndexMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute, settings.TransformToExternalPath);
             app.UseMiddleware<SwaggerUiIndexMiddleware<WebApiToSwaggerGeneratorSettings>>(settings.ActualSwaggerUiRoute + "/index.html", settings, "NSwag.AspNetCore.SwaggerUi.index.html");
             app.UseFileServer(new FileServerOptions
             {
@@ -222,12 +223,13 @@ namespace NSwag.AspNetCore
             SwaggerJsonSchemaGenerator schemaGenerator = null)
         {
             var settings = new SwaggerUi3Settings<WebApiToSwaggerGeneratorSettings>();
+            settings.SwaggerRoute = "/swagger/v1/swagger.json";
             configure?.Invoke(settings);
 
             if (controllerTypes != null)
                 app.UseMiddleware<WebApiToSwaggerMiddleware>(settings.ActualSwaggerRoute, controllerTypes, settings, schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings));
 
-            app.UseMiddleware<RedirectMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute);
+            app.UseMiddleware<RedirectToIndexMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute, settings.TransformToExternalPath);
             app.UseMiddleware<SwaggerUiIndexMiddleware<WebApiToSwaggerGeneratorSettings>>(settings.ActualSwaggerUiRoute + "/index.html", settings, "NSwag.AspNetCore.SwaggerUi3.index.html");
             app.UseFileServer(new FileServerOptions
             {
@@ -262,7 +264,7 @@ namespace NSwag.AspNetCore
         /// <param name="webApiAssembly">The Web API assembly to search for controller types.</param>
         /// <param name="configure">Configure the Swagger settings.</param>
         /// <returns>The app builder.</returns>
-        [Obsolete("Use " + nameof(NSwagServiceCollectionExtensions.AddSwaggerDocument) + "(), " + nameof(UseSwaggerReDoc) + "() and " + nameof(UseSwaggerUi3) + "() instead.")]
+        [Obsolete("Use " + nameof(NSwagServiceCollectionExtensions.AddSwaggerDocument) + "(), " + nameof(UseSwagger) + "() and UseReDoc() instead.")]
         public static IApplicationBuilder UseSwaggerReDoc(
             this IApplicationBuilder app,
             Assembly webApiAssembly,
@@ -276,7 +278,7 @@ namespace NSwag.AspNetCore
         /// <param name="webApiAssemblies">The Web API assemblies to search for controller types.</param>
         /// <param name="configure">Configure the Swagger settings.</param>
         /// <returns>The app builder.</returns>
-        [Obsolete("Use " + nameof(NSwagServiceCollectionExtensions.AddSwaggerDocument) + "(), " + nameof(UseSwagger) + "() and " + nameof(UseSwaggerReDoc) + "() instead.")]
+        [Obsolete("Use " + nameof(NSwagServiceCollectionExtensions.AddSwaggerDocument) + "(), " + nameof(UseSwagger) + "() and UseReDoc() instead.")]
         public static IApplicationBuilder UseSwaggerReDoc(
             this IApplicationBuilder app,
             IEnumerable<Assembly> webApiAssemblies,
@@ -292,7 +294,7 @@ namespace NSwag.AspNetCore
         /// <param name="configure">Configure the Swagger settings.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
         /// <returns>The app builder.</returns>
-        [Obsolete("Use " + nameof(NSwagServiceCollectionExtensions.AddSwaggerDocument) + "(), " + nameof(UseSwagger) + "() and " + nameof(UseSwaggerReDoc) + "() instead.")]
+        [Obsolete("Use " + nameof(NSwagServiceCollectionExtensions.AddSwaggerDocument) + "(), " + nameof(UseSwagger) + "() and UseReDoc() instead.")]
         public static IApplicationBuilder UseSwaggerReDoc(
             this IApplicationBuilder app,
             IEnumerable<Type> controllerTypes,
@@ -300,12 +302,13 @@ namespace NSwag.AspNetCore
             SwaggerJsonSchemaGenerator schemaGenerator = null)
         {
             var settings = new SwaggerReDocSettings<WebApiToSwaggerGeneratorSettings>();
+            settings.SwaggerRoute = "/swagger/v1/swagger.json";
             configure?.Invoke(settings);
 
             if (controllerTypes != null)
                 app.UseMiddleware<WebApiToSwaggerMiddleware>(settings.ActualSwaggerRoute, controllerTypes, settings, schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings));
 
-            app.UseMiddleware<RedirectMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute);
+            app.UseMiddleware<RedirectToIndexMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute, settings.TransformToExternalPath);
             app.UseMiddleware<SwaggerUiIndexMiddleware<WebApiToSwaggerGeneratorSettings>>(settings.ActualSwaggerUiRoute + "/index.html", settings, "NSwag.AspNetCore.ReDoc.index.html");
             app.UseFileServer(new FileServerOptions
             {

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NSwag.AspNetCore;
+using System.Linq;
 
 namespace SimpleApp
 {
@@ -47,7 +48,12 @@ namespace SimpleApp
             app.UseMvc();
 
             app.UseSwagger();
-            app.UseSwaggerUi3();
+            app.UseSwaggerUi3(config => config.TransformToExternalPath = (internalUiRoute, request) =>
+            {
+                // The header X-External-Path is set in the nginx.conf file
+                var externalPath = request.Headers.ContainsKey("X-External-Path") ? request.Headers["X-External-Path"].First() : "";
+                return externalPath + internalUiRoute;
+            });
         }
     }
 }

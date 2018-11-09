@@ -15,8 +15,12 @@ using Newtonsoft.Json;
 using NSwag.SwaggerGeneration;
 
 #if AspNetOwin
+using Microsoft.Owin;
+
 namespace NSwag.AspNet.Owin
 #else
+using Microsoft.AspNetCore.Http;
+
 namespace NSwag.AspNetCore
 #endif
 {
@@ -56,9 +60,13 @@ namespace NSwag.AspNetCore
 
         internal override string ActualSwaggerRoute => SwaggerRoutes.Any() ? "" : base.ActualSwaggerRoute;
 
-        internal override string TransformHtml(string html)
+#if AspNetOwin
+        internal override string TransformHtml(string html, IOwinRequest request)
+#else
+        internal override string TransformHtml(string html, HttpRequest request)
+#endif
         {
-            var oauth2Settings = OAuth2Client ?? new OAuth2ClientSettings();
+        var oauth2Settings = OAuth2Client ?? new OAuth2ClientSettings();
             foreach (var property in oauth2Settings.GetType().GetRuntimeProperties())
             {
                 var value = property.GetValue(oauth2Settings);
@@ -68,7 +76,7 @@ namespace NSwag.AspNetCore
             html = html.Replace("{Urls}", !SwaggerRoutes.Any() ?
                 "undefined" :
                 JsonConvert.SerializeObject(
-                    SwaggerRoutes.Select(r => new SwaggerUi3Route(r.Name, r.Url.Substring(MiddlewareBasePath?.Length ?? 0)))
+                    SwaggerRoutes.Select(r => new SwaggerUi3Route(r.Name, TransformToExternalPath(r.Url.Substring(MiddlewareBasePath?.Length ?? 0), request)))
                 ));
 
             html = html.Replace("{ValidatorUrl}", ValidateSpecification ? "undefined" : "null");
