@@ -52,6 +52,7 @@ namespace SimpleApp
             // 2. Run Sample.AspNetCore21.Nginx and access http://localhost:59900/swagger/
             // both URLs should be correctly served...
 
+            // Config with support for multiple documents
             app.UseSwagger();
             app.UseSwaggerUi3(config => config.TransformToExternalPath = (internalUiRoute, request) =>
             {
@@ -59,6 +60,19 @@ namespace SimpleApp
                 var externalPath = request.Headers.ContainsKey("X-External-Path") ? request.Headers["X-External-Path"].First() : "";
                 return externalPath + internalUiRoute;
             });
+
+            // Config with single document
+            //app.UseSwagger(config => config.Path = "/swagger/v1/swagger.json");
+            //app.UseSwaggerUi3(config =>
+            //{
+            //    config.SwaggerRoute = "/swagger/v1/swagger.json";
+            //    config.TransformToExternalPath = (internalUiRoute, request) =>
+            //    {
+            //        // The header X-External-Path is set in the nginx.conf file
+            //        var externalPath = request.Headers.ContainsKey("X-External-Path") ? request.Headers["X-External-Path"].First() : "";
+            //        return externalPath + internalUiRoute;
+            //    };
+            //});
         }
     }
 }
