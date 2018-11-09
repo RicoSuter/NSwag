@@ -67,3 +67,5 @@ NSwagStudio*.nupkg
 /samples/.vs/*
 .vscode/
 /src/.cr/*
+/samples/WithMiddleware/Sample.AspNetCore21.Nginx/.vs
+/samples/WithMiddleware/Sample.AspNetCore21.Nginx/Properties
