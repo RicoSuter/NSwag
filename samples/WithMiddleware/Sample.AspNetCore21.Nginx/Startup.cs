@@ -55,10 +55,10 @@ namespace SimpleApp
             // Config with support for multiple documents
             app.UseSwagger(config => config.PostProcess = (document, request) =>
             {
-                if (request.Headers.ContainsKey("X-External-Path"))
+                if (request.Headers.ContainsKey("X-External-Host"))
                 {
                     // Change document server settings to public
-                    document.Host = request.Headers["Host"].First();
+                    document.Host = request.Headers["X-External-Host"].First();
                     document.BasePath = request.Headers["X-External-Path"].First();
                 }
             });
@@ -71,7 +71,19 @@ namespace SimpleApp
             });
 
             // Config with single document
-            //app.UseSwagger(config => config.Path = "/swagger/v1/swagger.json");
+            //app.UseSwagger(config =>
+            //{
+            //    config.Path = "/swagger/v1/swagger.json";
+            //    config.PostProcess = (document, request) =>
+            //    {
+            //        if (request.Headers.ContainsKey("X-External-Host"))
+            //        {
+            //            // Change document server settings to public
+            //            document.Host = request.Headers["X-External-Host"].First();
+            //            document.BasePath = request.Headers["X-External-Path"].First();
+            //        }
+            //    };
+            //});
             //app.UseSwaggerUi3(config =>
             //{
             //    config.SwaggerRoute = "/swagger/v1/swagger.json";
