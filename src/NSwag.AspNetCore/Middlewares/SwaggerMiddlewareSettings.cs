@@ -29,6 +29,6 @@ namespace NSwag.AspNetCore.Middlewares
         /// <remarks>Should only be used to transform the document related to the request 
         /// because it will not be called by the CLI or NSwagStudio 
         /// (use PostProcess in AddSwaggerDocument instead).</remarks>
-        public Action<HttpRequest, SwaggerDocument> PostProcess { get; set; }
+        public Action<SwaggerDocument, HttpRequest> PostProcess { get; set; }
     }
 }

@@ -53,7 +53,16 @@ namespace SimpleApp
             // both URLs should be correctly served...
 
             // Config with support for multiple documents
-            app.UseSwagger();
+            app.UseSwagger(config => config.PostProcess = (document, request) =>
+            {
+                if (request.Headers.ContainsKey("X-External-Path"))
+                {
+                    // Change document server settings to public
+                    document.Host = request.Headers["Host"].First();
+                    document.BasePath = request.Headers["X-External-Path"].First();
+                }
+            });
+
             app.UseSwaggerUi3(config => config.TransformToExternalPath = (internalUiRoute, request) =>
             {
                 // The header X-External-Path is set in the nginx.conf file
