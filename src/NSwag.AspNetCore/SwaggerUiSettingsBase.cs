@@ -29,9 +29,9 @@ namespace NSwag.AspNetCore
         }
 
         /// <summary>Gets or sets the internal swagger UI route (must start with '/').</summary>
-        public string SwaggerUiRoute { get; set; } = "/swagger";
+        public string Path { get; set; } = "/swagger";
 
-        internal string ActualSwaggerUiRoute => SwaggerUiRoute.Substring(MiddlewareBasePath?.Length ?? 0);
+        internal string ActualSwaggerUiPath => Path.Substring(MiddlewareBasePath?.Length ?? 0);
 
         /// <summary>Gets or sets the external route base path (must start with '/', default: null = use SwaggerUiRoute).</summary>
 #if AspNetOwin

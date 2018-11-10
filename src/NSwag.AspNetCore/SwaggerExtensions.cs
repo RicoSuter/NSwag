@@ -72,7 +72,7 @@ namespace NSwag.AspNetCore
         {
             var settings = new SwaggerSettings<WebApiToSwaggerGeneratorSettings>();
             configure?.Invoke(settings);
-            app.UseMiddleware<WebApiToSwaggerMiddleware>(settings.ActualSwaggerRoute, controllerTypes, settings, schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings));
+            app.UseMiddleware<WebApiToSwaggerMiddleware>(settings.ActualSwaggerDocumentPath, controllerTypes, settings, schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings));
             return app;
         }
 
@@ -80,7 +80,7 @@ namespace NSwag.AspNetCore
         /// <param name="app">The app.</param>
         /// <param name="configure">Configure additional settings.</param>
         [Obsolete("Use " + nameof(UseSwagger) + " instead.")]
-        public static IApplicationBuilder UseSwaggerWithApiExplorer(this IApplicationBuilder app, Action<SwaggerMiddlewareSettings> configure = null)
+        public static IApplicationBuilder UseSwaggerWithApiExplorer(this IApplicationBuilder app, Action<SwaggerDocumentMiddlewareSettings> configure = null)
         {
             return NSwagApplicationBuilderExtensions.UseSwagger(app, configure);
         }
@@ -144,17 +144,17 @@ namespace NSwag.AspNetCore
             SwaggerJsonSchemaGenerator schemaGenerator = null)
         {
             var settings = new SwaggerUiSettings<WebApiToSwaggerGeneratorSettings>();
-            settings.SwaggerRoute = "/swagger/v1/swagger.json";
+            settings.DocumentPath = "/swagger/v1/swagger.json";
             configure?.Invoke(settings);
 
             if (controllerTypes != null)
-                app.UseMiddleware<WebApiToSwaggerMiddleware>(settings.ActualSwaggerRoute, controllerTypes, settings, schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings));
+                app.UseMiddleware<WebApiToSwaggerMiddleware>(settings.ActualSwaggerDocumentPath, controllerTypes, settings, schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings));
 
-            app.UseMiddleware<RedirectToIndexMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute, settings.TransformToExternalPath);
-            app.UseMiddleware<SwaggerUiIndexMiddleware<WebApiToSwaggerGeneratorSettings>>(settings.ActualSwaggerUiRoute + "/index.html", settings, "NSwag.AspNetCore.SwaggerUi.index.html");
+            app.UseMiddleware<RedirectToIndexMiddleware>(settings.ActualSwaggerUiPath, settings.ActualSwaggerDocumentPath, settings.TransformToExternalPath);
+            app.UseMiddleware<SwaggerUiIndexMiddleware<WebApiToSwaggerGeneratorSettings>>(settings.ActualSwaggerUiPath + "/index.html", settings, "NSwag.AspNetCore.SwaggerUi.index.html");
             app.UseFileServer(new FileServerOptions
             {
-                RequestPath = new PathString(settings.ActualSwaggerUiRoute),
+                RequestPath = new PathString(settings.ActualSwaggerUiPath),
                 FileProvider = new EmbeddedFileProvider(typeof(SwaggerExtensions).GetTypeInfo().Assembly, "NSwag.AspNetCore.SwaggerUi")
             });
 
@@ -223,17 +223,17 @@ namespace NSwag.AspNetCore
             SwaggerJsonSchemaGenerator schemaGenerator = null)
         {
             var settings = new SwaggerUi3Settings<WebApiToSwaggerGeneratorSettings>();
-            settings.SwaggerRoute = "/swagger/v1/swagger.json";
+            settings.DocumentPath = "/swagger/v1/swagger.json";
             configure?.Invoke(settings);
 
             if (controllerTypes != null)
-                app.UseMiddleware<WebApiToSwaggerMiddleware>(settings.ActualSwaggerRoute, controllerTypes, settings, schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings));
+                app.UseMiddleware<WebApiToSwaggerMiddleware>(settings.ActualSwaggerDocumentPath, controllerTypes, settings, schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings));
 
-            app.UseMiddleware<RedirectToIndexMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute, settings.TransformToExternalPath);
-            app.UseMiddleware<SwaggerUiIndexMiddleware<WebApiToSwaggerGeneratorSettings>>(settings.ActualSwaggerUiRoute + "/index.html", settings, "NSwag.AspNetCore.SwaggerUi3.index.html");
+            app.UseMiddleware<RedirectToIndexMiddleware>(settings.ActualSwaggerUiPath, settings.ActualSwaggerDocumentPath, settings.TransformToExternalPath);
+            app.UseMiddleware<SwaggerUiIndexMiddleware<WebApiToSwaggerGeneratorSettings>>(settings.ActualSwaggerUiPath + "/index.html", settings, "NSwag.AspNetCore.SwaggerUi3.index.html");
             app.UseFileServer(new FileServerOptions
             {
-                RequestPath = new PathString(settings.ActualSwaggerUiRoute),
+                RequestPath = new PathString(settings.ActualSwaggerUiPath),
                 FileProvider = new EmbeddedFileProvider(typeof(SwaggerExtensions).GetTypeInfo().Assembly, "NSwag.AspNetCore.SwaggerUi3")
             });
 
@@ -302,17 +302,17 @@ namespace NSwag.AspNetCore
             SwaggerJsonSchemaGenerator schemaGenerator = null)
         {
             var settings = new SwaggerReDocSettings<WebApiToSwaggerGeneratorSettings>();
-            settings.SwaggerRoute = "/swagger/v1/swagger.json";
+            settings.DocumentPath = "/swagger/v1/swagger.json";
             configure?.Invoke(settings);
 
             if (controllerTypes != null)
-                app.UseMiddleware<WebApiToSwaggerMiddleware>(settings.ActualSwaggerRoute, controllerTypes, settings, schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings));
+                app.UseMiddleware<WebApiToSwaggerMiddleware>(settings.ActualSwaggerDocumentPath, controllerTypes, settings, schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings));
 
-            app.UseMiddleware<RedirectToIndexMiddleware>(settings.ActualSwaggerUiRoute, settings.ActualSwaggerRoute, settings.TransformToExternalPath);
-            app.UseMiddleware<SwaggerUiIndexMiddleware<WebApiToSwaggerGeneratorSettings>>(settings.ActualSwaggerUiRoute + "/index.html", settings, "NSwag.AspNetCore.ReDoc.index.html");
+            app.UseMiddleware<RedirectToIndexMiddleware>(settings.ActualSwaggerUiPath, settings.ActualSwaggerDocumentPath, settings.TransformToExternalPath);
+            app.UseMiddleware<SwaggerUiIndexMiddleware<WebApiToSwaggerGeneratorSettings>>(settings.ActualSwaggerUiPath + "/index.html", settings, "NSwag.AspNetCore.ReDoc.index.html");
             app.UseFileServer(new FileServerOptions
             {
-                RequestPath = new PathString(settings.ActualSwaggerUiRoute),
+                RequestPath = new PathString(settings.ActualSwaggerUiPath),
                 FileProvider = new EmbeddedFileProvider(typeof(SwaggerExtensions).GetTypeInfo().Assembly, "NSwag.AspNetCore.ReDoc")
             });
 

@@ -19,6 +19,8 @@ namespace NSwag.AspNet.Owin
 namespace NSwag.AspNetCore
 #endif
 {
+    // TODO: Remove this class in v13, only used for legacy Web API middlewares
+
     /// <summary>The settings for UseSwagger.</summary>
     public class SwaggerSettings<T>
         where T : SwaggerGeneratorSettings, new()
@@ -47,10 +49,10 @@ namespace NSwag.AspNetCore
 #if !AspNetOwin
         /// <summary>Gets or sets the Swagger document route (must start with '/', default: '/swagger/{documentName}/swagger.json').</summary>
         /// <remarks>May contain '{documentName}' placeholder to register multiple routes.</remarks>
-        public string SwaggerRoute { get; set; } = "/swagger/{documentName}/swagger.json";
+        public string DocumentPath { get; set; } = "/swagger/{documentName}/swagger.json";
 #else
         /// <summary>Gets or sets the Swagger document route (must start with '/', default: '/swagger/v1/swagger.json').</summary>
-        public string SwaggerRoute { get; set; } = "/swagger/v1/swagger.json";
+        public string DocumentPath { get; set; } = "/swagger/v1/swagger.json";
 #endif
 
         /// <summary>Gets or sets the Swagger post process action.</summary>
@@ -65,7 +67,7 @@ namespace NSwag.AspNetCore
 #endif
         public TimeSpan ExceptionCacheTime { get; set; } = TimeSpan.FromSeconds(10);
 
-        internal virtual string ActualSwaggerRoute => SwaggerRoute.Substring(MiddlewareBasePath?.Length ?? 0);
+        internal virtual string ActualSwaggerDocumentPath => DocumentPath.Substring(MiddlewareBasePath?.Length ?? 0);
 
         internal T CreateGeneratorSettings(JsonSerializerSettings serializerSettings, object mvcOptions)
         {

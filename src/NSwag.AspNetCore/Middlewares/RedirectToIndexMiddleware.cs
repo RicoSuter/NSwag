@@ -40,8 +40,12 @@ namespace NSwag.AspNetCore.Middlewares
 
                 if (context.Request.PathBase.HasValue)
                 {
-                    var suffix = !string.IsNullOrWhiteSpace(_swaggerRoute) ? "?url=" + _transformToExternal(context.Request.PathBase.Value + _swaggerRoute, context.Request) : "";
-                    context.Response.Headers.Add("Location", context.Request.PathBase.Value + _transformToExternal(_swaggerUiRoute, context.Request) + "/index.html" + suffix);
+                    var suffix = !string.IsNullOrWhiteSpace(_swaggerRoute) ?
+                        "?url=" + _transformToExternal(context.Request.PathBase.Value + _swaggerRoute, context.Request) :
+                        "";
+
+                    context.Response.Headers.Add("Location",
+                        _transformToExternal(context.Request.PathBase.Value + _swaggerUiRoute, context.Request) + "/index.html" + suffix);
                 }
                 else
                 {

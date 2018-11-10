@@ -58,7 +58,7 @@ namespace NSwag.AspNetCore
         /// <summary>Gets or sets the Swagger URL routes (must start with '/', hides SwaggerRoute).</summary>
         public ICollection<SwaggerUi3Route> SwaggerRoutes { get; } = new List<SwaggerUi3Route>();
 
-        internal override string ActualSwaggerRoute => SwaggerRoutes.Any() ? "" : base.ActualSwaggerRoute;
+        internal override string ActualSwaggerDocumentPath => SwaggerRoutes.Any() ? "" : base.ActualSwaggerDocumentPath;
 
 #if AspNetOwin
         internal override string TransformHtml(string html, IOwinRequest request)
@@ -87,8 +87,8 @@ namespace NSwag.AspNetCore
             html = html.Replace("{TagsSorter}", TagsSorter);
             html = html.Replace("{EnableTryItOut}", EnableTryItOut.ToString().ToLower());
             html = html.Replace("{RedirectUrl}", string.IsNullOrEmpty(ServerUrl) ?
-                "window.location.origin + \"" + TransformToExternalPath(SwaggerUiRoute, request) + "/oauth2-redirect.html\"" :
-                "\"" + ServerUrl + TransformToExternalPath(SwaggerUiRoute, request) + "/oauth2-redirect.html\"");
+                "window.location.origin + \"" + TransformToExternalPath(Path, request) + "/oauth2-redirect.html\"" :
+                "\"" + ServerUrl + TransformToExternalPath(Path, request) + "/oauth2-redirect.html\"");
 
             return html;
         }

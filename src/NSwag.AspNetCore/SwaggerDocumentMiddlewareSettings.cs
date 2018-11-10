@@ -9,10 +9,10 @@
 using Microsoft.AspNetCore.Http;
 using System;
 
-namespace NSwag.AspNetCore.Middlewares
+namespace NSwag.AspNetCore
 {
     /// <summary>The Swagger middleware settings.</summary>
-    public class SwaggerMiddlewareSettings
+    public class SwaggerDocumentMiddlewareSettings
     {
         /// <summary>Gets the document name (internal identifier, default: v1).</summary>
         /// <remarks>Ignored when <see cref="Path"/> contains '{documentName}' placeholder.</remarks>
@@ -25,10 +25,10 @@ namespace NSwag.AspNetCore.Middlewares
         /// <summary>Gets or sets for how long a <see cref="Exception"/> caught during schema generation is cached.</summary>
         public TimeSpan ExceptionCacheTime { get; set; } = TimeSpan.FromSeconds(10);
 
-        /// <summary>Gets or sets the Swagger post process action.</summary>
-        /// <remarks>Should only be used to transform the document related to the request 
-        /// because it will not be called by the CLI or NSwagStudio 
-        /// (use PostProcess in AddSwaggerDocument instead).</remarks>
+        /// <summary>Gets or sets the Swagger post process action.
+        /// Should only be used to transform the document related to the request.
+        /// Caution: This aciton will not be called by the CLI or NSwagStudio 
+        /// (use PostProcess in AddSwaggerDocument instead).</summary>
         public Action<SwaggerDocument, HttpRequest> PostProcess { get; set; }
     }
 }
