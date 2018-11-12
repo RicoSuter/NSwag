@@ -49,7 +49,7 @@ namespace SimpleApp
 
             // There are two ways to run this app: 
             // 1. Run docker-compose and access http://localhost:8080/externalpath/swagger
-            // 2. Run Sample.AspNetCore21.Nginx and access http://localhost:59900/swagger/
+            // 2. Run Sample.AspNetCore21.Nginx and access http://localhost:59185/swagger/
             // both URLs should be correctly served...
 
             // Config with support for multiple documents
