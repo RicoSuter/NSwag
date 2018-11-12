@@ -15,8 +15,12 @@ using Newtonsoft.Json;
 using NSwag.SwaggerGeneration;
 
 #if AspNetOwin
+using Microsoft.Owin;
+
 namespace NSwag.AspNet.Owin
 #else
+using Microsoft.AspNetCore.Http;
+
 namespace NSwag.AspNetCore
 #endif
 {
@@ -54,9 +58,13 @@ namespace NSwag.AspNetCore
         /// <summary>Gets or sets the Swagger URL routes (must start with '/', hides SwaggerRoute).</summary>
         public ICollection<SwaggerUi3Route> SwaggerRoutes { get; } = new List<SwaggerUi3Route>();
 
-        internal override string ActualSwaggerRoute => SwaggerRoutes.Any() ? "" : base.ActualSwaggerRoute;
+        internal override string ActualSwaggerDocumentPath => SwaggerRoutes.Any() ? "" : base.ActualSwaggerDocumentPath;
 
-        internal override string TransformHtml(string html)
+#if AspNetOwin
+        internal override string TransformHtml(string html, IOwinRequest request)
+#else
+        internal override string TransformHtml(string html, HttpRequest request)
+#endif
         {
             var oauth2Settings = OAuth2Client ?? new OAuth2ClientSettings();
             foreach (var property in oauth2Settings.GetType().GetRuntimeProperties())
@@ -68,7 +76,7 @@ namespace NSwag.AspNetCore
             html = html.Replace("{Urls}", !SwaggerRoutes.Any() ?
                 "undefined" :
                 JsonConvert.SerializeObject(
-                    SwaggerRoutes.Select(r => new SwaggerUi3Route(r.Name, r.Url.Substring(MiddlewareBasePath?.Length ?? 0)))
+                    SwaggerRoutes.Select(r => new SwaggerUi3Route(r.Name, TransformToExternalPath(r.Url.Substring(MiddlewareBasePath?.Length ?? 0), request)))
                 ));
 
             html = html.Replace("{ValidatorUrl}", ValidateSpecification ? "undefined" : "null");
@@ -79,8 +87,8 @@ namespace NSwag.AspNetCore
             html = html.Replace("{TagsSorter}", TagsSorter);
             html = html.Replace("{EnableTryItOut}", EnableTryItOut.ToString().ToLower());
             html = html.Replace("{RedirectUrl}", string.IsNullOrEmpty(ServerUrl) ?
-                "window.location.origin + \"" + SwaggerUiRoute + "/oauth2-redirect.html\"" :
-                "\"" + ServerUrl + SwaggerUiRoute + "/oauth2-redirect.html\"");
+                "window.location.origin + \"" + TransformToExternalPath(Path, request) + "/oauth2-redirect.html\"" :
+                "\"" + ServerUrl + TransformToExternalPath(Path, request) + "/oauth2-redirect.html\"");
 
             return html;
         }

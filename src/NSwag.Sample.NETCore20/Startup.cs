@@ -57,6 +57,13 @@ namespace NSwag.Sample.NETCore20
 
             //// Add OpenAPI and Swagger middlewares to serve documents and web UIs
 
+            // URLs: 
+            // - http://localhost:65384/swagger/v1/swagger.json
+            // - http://localhost:65384/swagger
+            // - http://localhost:65384/redoc
+            // - http://localhost:65384/openapi
+            // - http://localhost:65384/openapi_redoc
+
             // Add Swagger 2.0 document serving middleware
             app.UseSwagger(options =>
             {
@@ -67,16 +74,16 @@ namespace NSwag.Sample.NETCore20
             // Add web UIs to interact with the document
             app.UseSwaggerUi3(options =>
             {
-                // Define OpenAPI/Swagger document route (defined with UseSwaggerWithApiExplorer)
-                options.SwaggerRoute = "/swagger/v1/swagger.json";
-
                 // Define web UI route
-                options.SwaggerUiRoute = "/swagger_ui";
+                options.Path = "/swagger";
+
+                // Define OpenAPI/Swagger document route (defined with UseSwaggerWithApiExplorer)
+                options.DocumentPath = "/swagger/v1/swagger.json";
             });
             app.UseReDoc(options =>
             {
-                options.SwaggerRoute = "/swagger/v1/swagger.json";
-                options.SwaggerUiRoute = "/swagger_redoc";
+                options.Path = "/redoc";
+                options.DocumentPath = "/swagger/v1/swagger.json";
             });
 
             //// Add OpenAPI 3.0 document serving middleware
@@ -89,13 +96,13 @@ namespace NSwag.Sample.NETCore20
             // Add web UIs to interact with the document
             app.UseSwaggerUi3(options =>
             {
-                options.SwaggerRoute = "/openapi/v1/openapi.json";
-                options.SwaggerUiRoute = "/openapi_ui";
+                options.Path = "/openapi";
+                options.DocumentPath = "/openapi/v1/openapi.json";
             });
             app.UseReDoc(options =>
             {
-                options.SwaggerRoute = "/openapi/v1/openapi.json";
-                options.SwaggerUiRoute = "/openapi_redoc";
+                options.Path = "/openapi_redoc";
+                options.DocumentPath = "/openapi/v1/openapi.json";
             });
 
             // Add Swagger UI with multiple documents
@@ -107,7 +114,7 @@ namespace NSwag.Sample.NETCore20
                 options.SwaggerRoutes.Add(new SwaggerUi3Route("Petstore", "http://petstore.swagger.io/v2/swagger.json"));
 
                 // Define web UI route
-                options.SwaggerUiRoute = "/swagger_all";
+                options.Path = "/swagger_all";
             });
         }
     }

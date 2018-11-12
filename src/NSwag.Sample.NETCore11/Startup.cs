@@ -30,8 +30,8 @@ namespace NSwag.Sample.NETCore11
                 options.OutputFormatters.Add(new YamlOutputFormatter());
             });
 
-            // Add NSwag OpenAPI/Swagger services
-            services.AddSwagger();
+            // Add NSwag OpenAPI/Swagger services (use AddOpenApiDocument() for OAI v3)
+            services.AddSwaggerDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,20 +42,20 @@ namespace NSwag.Sample.NETCore11
 
             app.UseMvc();
 
-            // Add Swagger middlewares
-
+            // Add Swagger document middlewares
             app.UseSwagger(options => options.Path = "/swagger/v1/swagger.json");
 
+            // Add Swagger web UI middlewares
             app.UseSwaggerUi3(options =>
             {
-                options.SwaggerRoute = "/swagger/v1/swagger.json";
-                options.SwaggerUiRoute = "/swagger_ui3";
+                options.Path = "/swagger";
+                options.DocumentPath = "/swagger/v1/swagger.json";
             });
 
             app.UseReDoc(options =>
             {
-                options.SwaggerRoute = "/swagger/v1/swagger.json";
-                options.SwaggerUiRoute = "/swagger_redoc";
+                options.Path = "/redoc";
+                options.DocumentPath = "/swagger/v1/swagger.json";
             });
         }
     }

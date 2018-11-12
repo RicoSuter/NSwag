@@ -17,17 +17,17 @@ namespace Microsoft.AspNetCore.Builder
         /// <remarks>Registers multiple routes/documents if the settings.Path contains a '{documentName}' placeholder.</remarks>
         /// <param name="app">The app.</param>
         /// <param name="configure">Configure additional settings.</param>
-        public static IApplicationBuilder UseSwagger(this IApplicationBuilder app, Action<SwaggerMiddlewareSettings> configure = null)
+        public static IApplicationBuilder UseSwagger(this IApplicationBuilder app, Action<SwaggerDocumentMiddlewareSettings> configure = null)
         {
             return UseSwaggerWithApiExplorerCore(app, configure);
         }
 
-        private static IApplicationBuilder UseSwaggerWithApiExplorerCore(IApplicationBuilder app, Action<SwaggerMiddlewareSettings> configure)
+        private static IApplicationBuilder UseSwaggerWithApiExplorerCore(IApplicationBuilder app, Action<SwaggerDocumentMiddlewareSettings> configure)
         {
             // TODO(v12): Add IOptions support when SwaggerUi3Settings<> T has been removed
             //var settings = configure == null && app.ApplicationServices.GetService<IOptions<SwaggerMiddlewareSettings>>()?.Value ?? new SwaggerMiddlewareSettings();
 
-            var settings = new SwaggerMiddlewareSettings();
+            var settings = new SwaggerDocumentMiddlewareSettings();
             configure?.Invoke(settings);
 
             if (settings.Path.Contains("{documentName}"))
@@ -35,14 +35,14 @@ namespace Microsoft.AspNetCore.Builder
                 var documents = app.ApplicationServices.GetRequiredService<IEnumerable<SwaggerDocumentRegistration>>();
                 foreach (var document in documents)
                 {
-                    app = app.UseMiddleware<SwaggerMiddleware>(document.DocumentName, settings.Path.Replace("{documentName}", document.DocumentName), settings);
+                    app = app.UseMiddleware<SwaggerDocumentMiddleware>(document.DocumentName, settings.Path.Replace("{documentName}", document.DocumentName), settings);
                 }
 
                 return app;
             }
             else
             {
-                return app.UseMiddleware<SwaggerMiddleware>(settings.DocumentName, settings.Path, settings);
+                return app.UseMiddleware<SwaggerDocumentMiddleware>(settings.DocumentName, settings.Path, settings);
             }
         }
 
@@ -64,17 +64,17 @@ namespace Microsoft.AspNetCore.Builder
 
             UseSwaggerUiWithDocumentNamePlaceholderExpanding(app, settings, (swaggerRoute, swaggerUiRoute) =>
             {
-                app.UseMiddleware<RedirectMiddleware>(swaggerUiRoute, swaggerRoute);
+                app.UseMiddleware<RedirectToIndexMiddleware>(swaggerUiRoute, swaggerRoute, settings.TransformToExternalPath);
                 app.UseMiddleware<SwaggerUiIndexMiddleware<WebApiToSwaggerGeneratorSettings>>(swaggerUiRoute + "/index.html", settings, "NSwag.AspNetCore.SwaggerUi3.index.html");
                 app.UseFileServer(new FileServerOptions
                 {
-                    RequestPath = new PathString(settings.ActualSwaggerUiRoute),
+                    RequestPath = new PathString(swaggerUiRoute),
                     FileProvider = new EmbeddedFileProvider(typeof(SwaggerExtensions).GetTypeInfo().Assembly, "NSwag.AspNetCore.SwaggerUi3")
                 });
             },
             (documents) =>
             {
-                var swaggerRouteWithPlaceholder = settings.ActualSwaggerRoute;
+                var swaggerRouteWithPlaceholder = settings.ActualSwaggerDocumentPath;
 
                 settings.SwaggerRoutes.Clear();
                 foreach (var document in documents)
@@ -101,11 +101,11 @@ namespace Microsoft.AspNetCore.Builder
 
             UseSwaggerUiWithDocumentNamePlaceholderExpanding(app, settings, (swaggerRoute, swaggerUiRoute) =>
             {
-                app.UseMiddleware<RedirectMiddleware>(swaggerUiRoute, swaggerRoute);
+                app.UseMiddleware<RedirectToIndexMiddleware>(swaggerUiRoute, swaggerRoute, settings.TransformToExternalPath);
                 app.UseMiddleware<SwaggerUiIndexMiddleware<WebApiToSwaggerGeneratorSettings>>(swaggerUiRoute + "/index.html", settings, "NSwag.AspNetCore.ReDoc.index.html");
                 app.UseFileServer(new FileServerOptions
                 {
-                    RequestPath = new PathString(settings.ActualSwaggerUiRoute),
+                    RequestPath = new PathString(swaggerUiRoute),
                     FileProvider = new EmbeddedFileProvider(typeof(SwaggerExtensions).GetTypeInfo().Assembly, "NSwag.AspNetCore.ReDoc")
                 });
             }, (documents) => throw new NotSupportedException("ReDoc does not support multiple documents per UI: " +
@@ -119,34 +119,35 @@ namespace Microsoft.AspNetCore.Builder
             Action<string, string> register,
             Action<IEnumerable<SwaggerDocumentRegistration>> registerMultiple)
         {
-            if (settings.ActualSwaggerRoute.Contains("{documentName}"))
+            if (settings.ActualSwaggerDocumentPath.Contains("{documentName}"))
             {
                 var documents = app.ApplicationServices.GetRequiredService<IEnumerable<SwaggerDocumentRegistration>>();
-                if (settings.ActualSwaggerUiRoute.Contains("{documentName}"))
+                if (settings.ActualSwaggerUiPath.Contains("{documentName}"))
                 {
-                    // Register multiple uis
+                    // Register multiple uis for each document
                     foreach (var document in documents)
                     {
                         register(
-                            settings.ActualSwaggerRoute.Replace("{documentName}", document.DocumentName),
-                            settings.ActualSwaggerUiRoute.Replace("{documentName}", document.DocumentName));
+                            settings.ActualSwaggerDocumentPath.Replace("{documentName}", document.DocumentName),
+                            settings.ActualSwaggerUiPath.Replace("{documentName}", document.DocumentName));
                     }
                 }
                 else
                 {
                     // Register single ui with multiple documents
                     registerMultiple(documents);
-                    register(settings.ActualSwaggerRoute, settings.ActualSwaggerUiRoute);
+                    register(settings.ActualSwaggerDocumentPath, settings.ActualSwaggerUiPath);
                 }
             }
             else
             {
-                if (settings.ActualSwaggerUiRoute.Contains("{documentName}"))
+                if (settings.ActualSwaggerUiPath.Contains("{documentName}"))
                 {
                     throw new ArgumentException("The SwaggerUiRoute cannot contain '{documentName}' placeholder when SwaggerRoute is missing the placeholder.");
                 }
 
-                register(settings.ActualSwaggerRoute, settings.ActualSwaggerUiRoute);
+                // Register single ui with one document
+                register(settings.ActualSwaggerDocumentPath, settings.ActualSwaggerUiPath);
             }
         }
     }

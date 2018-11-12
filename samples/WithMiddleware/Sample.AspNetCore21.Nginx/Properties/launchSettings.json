@@ -3,8 +3,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:32367",
-      "sslPort": 44370
+      "applicationUrl": "http://localhost:59185/",
+      "sslPort": 0
     }
   },
   "profiles": {
@@ -13,18 +13,17 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_HTTPS_PORT": "44370",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "NSwag.Sample.NETCore21": {
+    "SimpleApp": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_URLS": "https://localhost:5001;http://localhost:5000",
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "applicationUrl": "http://localhost:59185/"
     }
   }
 }

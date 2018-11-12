@@ -16,14 +16,14 @@ using System.Threading.Tasks;
 namespace NSwag.AspNetCore.Middlewares
 {
     /// <summary>Generates a Swagger specification on a given path.</summary>
-    public class SwaggerMiddleware
+    public class SwaggerDocumentMiddleware
     {
         private readonly RequestDelegate _nextDelegate;
         private readonly string _documentName;
-        private string _path;
+        private readonly string _path;
         private readonly IApiDescriptionGroupCollectionProvider _apiDescriptionGroupCollectionProvider;
         private readonly SwaggerDocumentProvider _documentProvider;
-        private readonly SwaggerMiddlewareSettings _settings;
+        private readonly SwaggerDocumentMiddlewareSettings _settings;
 
         private int _version;
         private string _swaggerJson;
@@ -32,9 +32,10 @@ namespace NSwag.AspNetCore.Middlewares
 
         /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerMiddleware"/> class.</summary>
         /// <param name="nextDelegate">The next delegate.</param>
-        public SwaggerMiddleware(RequestDelegate nextDelegate, IServiceProvider serviceProvider, string documentName, string path, SwaggerMiddlewareSettings settings)
+        public SwaggerDocumentMiddleware(RequestDelegate nextDelegate, IServiceProvider serviceProvider, string documentName, string path, SwaggerDocumentMiddlewareSettings settings)
         {
             _nextDelegate = nextDelegate;
+
             _documentName = documentName;
             _path = path;
 
@@ -86,9 +87,9 @@ namespace NSwag.AspNetCore.Middlewares
 
                 document.Host = context.Request.Host.Value ?? "";
                 document.Schemes.Add(context.Request.Scheme == "http" ? SwaggerSchema.Http : SwaggerSchema.Https);
-                document.BasePath = context.Request.PathBase.Value?.Substring(0, context.Request.PathBase.Value.Length - (_settings.MiddlewareBasePath?.Length ?? 0)) ?? "";
+                document.BasePath = context.Request.PathBase.Value ?? "";
 
-                _settings.PostProcess?.Invoke(context.Request, document);
+                _settings.PostProcess?.Invoke(document, context.Request);
 
                 _swaggerJson = document.ToJson();
                 _swaggerException = null;
