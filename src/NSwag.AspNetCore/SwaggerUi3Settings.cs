@@ -66,7 +66,7 @@ namespace NSwag.AspNetCore
         internal override string TransformHtml(string html, HttpRequest request)
 #endif
         {
-        var oauth2Settings = OAuth2Client ?? new OAuth2ClientSettings();
+            var oauth2Settings = OAuth2Client ?? new OAuth2ClientSettings();
             foreach (var property in oauth2Settings.GetType().GetRuntimeProperties())
             {
                 var value = property.GetValue(oauth2Settings);
