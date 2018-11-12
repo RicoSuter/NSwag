@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NSwag.AspNetCore;
-using System.Reflection;
 
 namespace NSwag.Sample.NETCore11
 {
@@ -31,7 +30,8 @@ namespace NSwag.Sample.NETCore11
                 options.OutputFormatters.Add(new YamlOutputFormatter());
             });
 
-            services.AddSwagger();
+            // Add NSwag OpenAPI/Swagger services (use AddOpenApiDocument() for OAI v3)
+            services.AddSwaggerDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,44 +42,20 @@ namespace NSwag.Sample.NETCore11
 
             app.UseMvc();
 
-            // API Explorer based (new)
+            // Add Swagger document middlewares
+            app.UseSwagger(options => options.Path = "/swagger/v1/swagger.json");
 
-            app.UseSwaggerUiWithApiExplorer(s =>
+            // Add Swagger web UI middlewares
+            app.UseSwaggerUi3(options =>
             {
-                s.SwaggerRoute = "/swagger_api_ui/v1/swagger.json";
-                s.SwaggerUiRoute = "/swagger_api_ui";
+                options.Path = "/swagger";
+                options.DocumentPath = "/swagger/v1/swagger.json";
             });
 
-            app.UseSwaggerUi3WithApiExplorer(s =>
+            app.UseReDoc(options =>
             {
-                s.SwaggerRoute = "/swagger_api_ui3/v1/swagger.json";
-                s.SwaggerUiRoute = "/swagger_api_ui3";
-            });
-
-            app.UseSwaggerReDocWithApiExplorer(s =>
-            {
-                s.SwaggerRoute = "/swagger_api_redoc/v1/swagger.json";
-                s.SwaggerUiRoute = "/swagger_api_redoc";
-            });
-
-            // Reflection based (old)
-
-            app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, s =>
-            {
-                s.SwaggerRoute = "/swagger_ui/v1/swagger.json";
-                s.SwaggerUiRoute = "/swagger_ui";
-            });
-
-            app.UseSwaggerUi3(typeof(Startup).GetTypeInfo().Assembly, s =>
-            {
-                s.SwaggerRoute = "/swagger_ui3/v1/swagger.json";
-                s.SwaggerUiRoute = "/swagger_ui3";
-            });
-
-            app.UseSwaggerReDoc(typeof(Startup).GetTypeInfo().Assembly, s =>
-            {
-                s.SwaggerRoute = "/swagger_redoc/v1/swagger.json";
-                s.SwaggerUiRoute = "/swagger_redoc";
+                options.Path = "/redoc";
+                options.DocumentPath = "/swagger/v1/swagger.json";
             });
         }
     }

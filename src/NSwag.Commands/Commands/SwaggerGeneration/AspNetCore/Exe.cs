@@ -1,5 +1,10 @@
-﻿// Copyright (c) .NET Foundation. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+﻿//-----------------------------------------------------------------------
+// <copyright file="Exe.cs" company="NSwag">
+//     Copyright (c) Rico Suter. All rights reserved.
+// </copyright>
+// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <author>Rico Suter, mail@rsuter.com</author>
+//-----------------------------------------------------------------------
 
 using System;
 using System.Collections.Generic;
@@ -42,7 +47,7 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
                     }
                     else
                     {
-                        tcs.TrySetException(new Exception($"Process failed wtih non-zero exit code '{process.ExitCode}'."));
+                        tcs.TrySetException(new Exception($"Process failed with non-zero exit code '{process.ExitCode}'."));
                     }
                 };
 

@@ -1,15 +1,17 @@
-﻿// Copyright (c) .NET Foundation. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+﻿//-----------------------------------------------------------------------
+// <copyright file="AspNetCoreToSwaggerGeneratorCommandEntryPoint.cs" company="NSwag">
+//     Copyright (c) Rico Suter. All rights reserved.
+// </copyright>
+// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <author>Rico Suter, mail@rsuter.com</author>
+//-----------------------------------------------------------------------
 
 using System;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using NSwag.SwaggerGeneration.AspNetCore;
 
 namespace NSwag.Commands.SwaggerGeneration.AspNetCore
 {
@@ -18,25 +20,23 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
     {
         public static void Process(string commandContent, string outputFile, string applicationName)
         {
-            var serviceProvider = GetServiceProvider(applicationName);
-            var apiDescriptionProvider = serviceProvider.GetRequiredService<IApiDescriptionGroupCollectionProvider>();
+            var command = JsonConvert.DeserializeObject<AspNetCoreToSwaggerCommand>(commandContent);
+
+            var previousWorkingDirectory = command.ChangeWorkingDirectoryAndSetAspNetCoreEnvironment();
+            var webHost = GetWebHost(applicationName);
 
             var assemblyLoader = new AssemblyLoader.AssemblyLoader();
+            var document = Task.Run(async () =>
+                await command.GenerateDocumentAsync(assemblyLoader, webHost, previousWorkingDirectory)).GetAwaiter().GetResult();
 
-            var command = JsonConvert.DeserializeObject<AspNetCoreToSwaggerCommand>(commandContent);
-            command.InitializeCustomTypes(assemblyLoader);
-
-            var generator = new AspNetCoreToSwaggerGenerator(command.Settings);
-            var document = generator.GenerateAsync(apiDescriptionProvider.ApiDescriptionGroups).GetAwaiter().GetResult();
-
-            command.PostprocessDocument(document);
+            var json = command.UseDocumentProvider ? document.ToJson() : document.ToJson(command.OutputType);
 
             var outputPathDirectory = Path.GetDirectoryName(outputFile);
             Directory.CreateDirectory(outputPathDirectory);
-            File.WriteAllText(outputFile, document.ToJson());
+            File.WriteAllText(outputFile, json);
         }
 
-        private static IServiceProvider GetServiceProvider(string applicationName)
+        private static IWebHost GetWebHost(string applicationName)
         {
             var assemblyName = new AssemblyName(applicationName);
             var assembly = Assembly.Load(assemblyName);
@@ -68,7 +68,7 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
 
             if (webHost != null)
             {
-                return webHost.Services;
+                return webHost;
             }
 
             throw new InvalidOperationException($"aspnet2swaggercommand requires the entry point type {entryPointType.FullName} to have " +

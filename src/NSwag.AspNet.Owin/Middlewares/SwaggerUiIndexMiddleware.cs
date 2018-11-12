@@ -23,14 +23,14 @@ namespace NSwag.AspNet.Owin.Middlewares
 
         public override async Task Invoke(IOwinContext context)
         {
-            if (context.Request.Path.HasValue && context.Request.Path.Value.Trim('/').StartsWith(_indexPath.Trim('/'), StringComparison.OrdinalIgnoreCase))
+            if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value.Trim('/'), _indexPath.Trim('/'), StringComparison.OrdinalIgnoreCase))
             {
                 var stream = typeof(SwaggerUiIndexMiddleware<T>).Assembly.GetManifestResourceStream(_resourcePath);
                 using (var reader = new StreamReader(stream))
                 {
                     context.Response.Headers["Content-Type"] = "text/html; charset=utf-8";
                     context.Response.StatusCode = 200;
-                    context.Response.Write(_settings.TransformHtml(reader.ReadToEnd()));
+                    context.Response.Write(_settings.TransformHtml(reader.ReadToEnd(), context.Request));
                 }
             }
             else

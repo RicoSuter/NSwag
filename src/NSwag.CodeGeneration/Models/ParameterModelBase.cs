@@ -7,11 +7,10 @@
 //-----------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NSwag.CodeGeneration.Models
 {
@@ -22,9 +21,8 @@ namespace NSwag.CodeGeneration.Models
         private readonly IList<SwaggerParameter> _allParameters;
         private readonly CodeGeneratorSettingsBase _settings;
         private readonly IClientGenerator _generator;
-        private readonly ValueGeneratorBase _valueGenerator;
-        private bool _explode;
         private readonly TypeResolverBase _typeResolver;
+        private readonly IEnumerable<PropertyModel> _properties;
 
         /// <summary>Initializes a new instance of the <see cref="ParameterModelBase" /> class.</summary>
         /// <param name="parameterName">Name of the parameter.</param>
@@ -48,6 +46,12 @@ namespace NSwag.CodeGeneration.Models
             Type = typeName;
             Name = parameterName;
             VariableName = variableName;
+
+            var propertyNameGenerator = settings?.PropertyNameGenerator ?? throw new InvalidOperationException("PropertyNameGenerator not set.");
+
+            _properties = _parameter.ActualSchema.ActualProperties
+                .Select(p => new PropertyModel(p.Key, p.Value, propertyNameGenerator.Generate(p.Value)))
+                .ToList();
         }
 
         /// <summary>Gets the type of the parameter.</summary>
@@ -80,10 +84,22 @@ namespace NSwag.CodeGeneration.Models
         public bool IsDeepObject => _parameter.Style == SwaggerParameterStyle.DeepObject;
         
         /// <summary>Gets the contained value property names (OpenAPI 3).</summary>
-        public IEnumerable<string> PropertyNames => _parameter.ActualSchema.ActualProperties.Where(a => a.Value.Type != JsonObjectType.Array).Select(b => ConversionUtilities.ConvertToUpperCamelCase(b.Key, true));
+        public IEnumerable<PropertyModel> PropertyNames
+        {
+            get
+            {
+                return _properties.Where(p => !p.IsCollection);
+            }
+        }
 
         /// <summary>Gets the contained collection property names (OpenAPI 3).</summary>
-        public IEnumerable<string> CollectionPropertyNames => _parameter.ActualSchema.ActualProperties.Where(a => a.Value.Type == JsonObjectType.Array).Select(b => ConversionUtilities.ConvertToUpperCamelCase(b.Key, true));
+        public IEnumerable<PropertyModel> CollectionPropertyNames
+        {
+            get
+            {
+                return _properties.Where(p => p.IsCollection);
+            }
+        }
 
         /// <summary>Gets a value indicating whether the parameter has a description.</summary>
         public bool HasDescription => !string.IsNullOrEmpty(Description);
@@ -143,6 +159,9 @@ namespace NSwag.CodeGeneration.Models
              Schema.Item?.ActualSchema.IsAnyType == true);
 
         /// <summary>Gets a value indicating whether the parameter is of type object.</summary>
-        public bool IsBody => this.Kind == SwaggerParameterKind.Body;
+        public bool IsBody => Kind == SwaggerParameterKind.Body;
+
+        /// <summary>Gets the operation extension data.</summary>
+        public IDictionary<string, object> ExtensionData => _parameter.ExtensionData;
     }
 }

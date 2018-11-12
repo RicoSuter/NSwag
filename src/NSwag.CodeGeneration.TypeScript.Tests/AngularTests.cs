@@ -1,12 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
-using System.Web.Http;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Threading.Tasks;
+using Xunit;
 using NSwag.SwaggerGeneration.WebApi;
+using Microsoft.AspNetCore.Mvc;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
 {
-    [TestClass]
     public class AngularTests
     {
         public class Foo
@@ -14,16 +12,15 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             public string Bar { get; set; }
         }
 
-        public class DiscussionController : ApiController
+        public class DiscussionController : Controller
         {
-
             [HttpPost]
             public void AddMessage([FromBody]Foo message)
             {
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_return_value_is_void_then_client_returns_observable_of_void()
         {
             //// Arrange
@@ -44,7 +41,59 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("addMessage(message: Foo | null): Observable<void>"));
+            Assert.Contains("addMessage(message: Foo | null): Observable<void>", code);
+        }
+
+        [Fact]
+        public async Task When_export_types_is_true_then_add_export_before_classes()
+        {
+            //// Arrange
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var document = await generator.GenerateForControllerAsync<DiscussionController>();
+            var json = document.ToJson();
+
+            //// Act
+            var codeGen = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
+            {
+                Template = TypeScriptTemplate.Angular,
+                GenerateClientInterfaces = true,
+                TypeScriptGeneratorSettings =
+                {
+                    TypeScriptVersion = 2.0m,
+                    ExportTypes = true
+                }
+            });
+            var code = codeGen.GenerateFile();
+
+            //// Assert
+            Assert.Contains("export class DiscussionClient", code);
+            Assert.Contains("export interface IDiscussionClient", code);
+        }
+
+        [Fact]
+        public async Task When_export_types_is_false_then_dont_add_export_before_classes()
+        {
+            //// Arrange
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var document = await generator.GenerateForControllerAsync<DiscussionController>();
+            var json = document.ToJson();
+
+            //// Act
+            var codeGen = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
+            {
+                Template = TypeScriptTemplate.Angular,
+                GenerateClientInterfaces = true,
+                TypeScriptGeneratorSettings =
+                {
+                    TypeScriptVersion = 2.0m,
+                    ExportTypes = false
+                }
+            });
+            var code = codeGen.GenerateFile();
+
+            //// Assert
+            Assert.DoesNotContain("export class DiscussionClient", code);
+            Assert.DoesNotContain("export interface IDiscussionClient", code);
         }
     }
 }

@@ -23,6 +23,20 @@ namespace NSwag.CodeGeneration.CSharp
             ControllerStyle = CSharpControllerStyle.Partial;
             UseCancellationToken = false;
             AspNetNamespace = "System.Web.Http";
+            RouteNamingStrategy = CSharpControllerRouteNamingStrategy.None;
+        }
+
+        /// <summary>Returns the route name for a controller method.</summary>
+        /// <param name="operation">Swagger operation</param>
+        /// <returns>Route name.</returns>
+        public string GetRouteName(SwaggerOperation operation)
+        {
+            if (RouteNamingStrategy == CSharpControllerRouteNamingStrategy.OperationId)
+            {
+                return operation.OperationId;
+            }
+
+            return null;
         }
 
         /// <summary>Gets or sets the full name of the base class.</summary>
@@ -36,5 +50,8 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets the ASP.NET namespace (default: 'System.Web.Http').</summary>
         public string AspNetNamespace { get; set; }
+
+        /// <summary>Gets or sets the strategy for naming routes (default: CSharpRouteNamingStrategy.None).</summary>
+        public CSharpControllerRouteNamingStrategy RouteNamingStrategy { get; set; }
     }
 }

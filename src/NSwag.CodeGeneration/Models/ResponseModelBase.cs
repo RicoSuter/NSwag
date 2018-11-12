@@ -21,7 +21,6 @@ namespace NSwag.CodeGeneration.Models
         private readonly JsonSchema4 _exceptionSchema;
         private readonly IClientGenerator _generator;
         private readonly CodeGeneratorSettingsBase _settings;
-        private readonly bool _isPrimarySuccessResponse;
 
         /// <summary>Initializes a new instance of the <see cref="ResponseModelBase" /> class.</summary>
         /// <param name="operationModel">The operation model.</param>
@@ -31,16 +30,17 @@ namespace NSwag.CodeGeneration.Models
         /// <param name="exceptionSchema">The exception schema.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="generator">The client generator.</param>
-        protected ResponseModelBase(IOperationModel operationModel, 
-            string statusCode, SwaggerResponse response, bool isPrimarySuccessResponse, 
+        protected ResponseModelBase(IOperationModel operationModel,
+            string statusCode, SwaggerResponse response, bool isPrimarySuccessResponse,
             JsonSchema4 exceptionSchema, CodeGeneratorSettingsBase settings, IClientGenerator generator)
         {
             _response = response;
             _exceptionSchema = exceptionSchema;
             _generator = generator;
             _settings = settings;
-            _isPrimarySuccessResponse = isPrimarySuccessResponse;
             _operationModel = operationModel;
+
+            IsPrimarySuccessResponse = isPrimarySuccessResponse;
             StatusCode = statusCode;
         }
 
@@ -60,10 +60,11 @@ namespace NSwag.CodeGeneration.Models
         public ICollection<JsonExpectedSchema> ExpectedSchemas => _response.ExpectedSchemas;
 
         /// <summary>Gets a value indicating whether the response is of type date.</summary>
-        public bool IsDate {
+        public bool IsDate
+        {
             get
             {
-                return _response.ActualResponseSchema != null && 
+                return _response.ActualResponseSchema != null &&
                       (_response.ActualResponseSchema.Format == JsonFormatStrings.Date ||
                        _response.ActualResponseSchema.Format == JsonFormatStrings.DateTime) &&
                        _generator.GetTypeName(_response.ActualResponseSchema, IsNullable, "Response") != "string";
@@ -91,14 +92,14 @@ namespace NSwag.CodeGeneration.Models
         public bool InheritsExceptionSchema => _response.ActualResponseSchema?.InheritsSchema(_exceptionSchema) == true;
 
         /// <summary>Gets a value indicating whether this is the primary success response.</summary>
-        public bool IsPrimarySuccessResponse => _isPrimarySuccessResponse;
+        public bool IsPrimarySuccessResponse { get; }
 
         /// <summary>Gets a value indicating whether this is success response.</summary>
         public bool IsSuccess
         {
             get
             {
-                if (_isPrimarySuccessResponse)
+                if (IsPrimarySuccessResponse)
                     return true;
 
                 var primarySuccessResponse = _operationModel.Responses.FirstOrDefault(r => r.IsPrimarySuccessResponse);
@@ -111,5 +112,8 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets a value indicating whether this is an exceptional response.</summary>
         public bool ThrowsException => !IsSuccess;
+
+        /// <summary>Gets the response extension data.</summary>
+        public IDictionary<string, object> ExtensionData => _response.ExtensionData;
     }
 }

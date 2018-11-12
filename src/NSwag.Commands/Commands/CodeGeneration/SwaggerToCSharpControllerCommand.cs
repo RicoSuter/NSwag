@@ -50,6 +50,13 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.AspNetNamespace = value; }
         }
 
+        [Argument(Name = "RouteNamingStrategy", Description = "The strategy for naming controller routes (none, operationid; default: none).", IsRequired = false)]
+        public CSharpControllerRouteNamingStrategy RouteNamingStrategy
+        {
+            get { return Settings.RouteNamingStrategy; }
+            set { Settings.RouteNamingStrategy = value; }
+        }
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var code = await RunAsync();

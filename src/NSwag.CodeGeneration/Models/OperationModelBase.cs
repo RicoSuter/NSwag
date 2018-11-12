@@ -195,7 +195,7 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Gets or sets a value indicating whether the accept header is defined in a parameter.</summary>
         public bool HasAcceptHeaderParameterParameter => HeaderParameters.Any(p => p.Name.ToLowerInvariant() == "accept");
 
-        /// <summary>Gets or sets a value indicating whether the operation has form parameters.</summary>
+        /// <summary>Gets a value indicating whether the operation has form parameters.</summary>
         public bool HasFormParameters => _operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.FormData);
 
         /// <summary>Gets the form parameters.</summary>
@@ -251,6 +251,9 @@ namespace NSwag.CodeGeneration.Models
                                     _settings.WrapResponseMethods == null ||
                                     _settings.WrapResponseMethods.Length == 0 ||
                                     _settings.WrapResponseMethods.Contains(_settings.GenerateControllerName(ControllerName) + "." + ActualOperationName));
+
+        /// <summary>Gets the operation extension data.</summary>
+        public IDictionary<string, object> ExtensionData => _operation.ExtensionData;
 
         /// <summary>Gets the success response.</summary>
         /// <returns>The response.</returns>

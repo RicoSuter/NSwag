@@ -11,8 +11,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors;
@@ -21,7 +24,7 @@ using NSwag.SwaggerGeneration.Processors.Contexts;
 namespace NSwag.SwaggerGeneration.AspNetCore
 {
     /// <summary>Generates a <see cref="SwaggerDocument"/> using <see cref="ApiDescription"/>. </summary>
-    public class AspNetCoreToSwaggerGenerator
+    public class AspNetCoreToSwaggerGenerator : ISwaggerGenerator
     {
         private readonly SwaggerJsonSchemaGenerator _schemaGenerator;
 
@@ -50,27 +53,58 @@ namespace NSwag.SwaggerGeneration.AspNetCore
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
         public async Task<SwaggerDocument> GenerateAsync(ApiDescriptionGroupCollection apiDescriptionGroups)
         {
-            var apiDescriptions = apiDescriptionGroups.Items.SelectMany(g => g.Items);
-            var document = await CreateDocumentAsync(apiDescriptionGroups).ConfigureAwait(false);
+            var apiDescriptions = apiDescriptionGroups.Items
+                .Where(i =>
+                    Settings.ApiGroupNames == null ||
+                    Settings.ApiGroupNames.Length == 0 ||
+                    Settings.ApiGroupNames.Contains(i.GroupName))
+                .SelectMany(g => g.Items);
+
+            var document = await CreateDocumentAsync().ConfigureAwait(false);
             var schemaResolver = new SwaggerSchemaResolver(document, Settings);
 
             var apiGroups = apiDescriptions.Where(apiDescription => apiDescription.ActionDescriptor is ControllerActionDescriptor)
-                .Select(apiDescription => new Tuple<ApiDescription, MethodInfo>(apiDescription, ((ControllerActionDescriptor)apiDescription.ActionDescriptor).MethodInfo))
-                .GroupBy(item => item.Item2.DeclaringType);
+                .Select(apiDescription => new Tuple<ApiDescription, ControllerActionDescriptor>(apiDescription, (ControllerActionDescriptor)apiDescription.ActionDescriptor))
+                .GroupBy(item => item.Item2.ControllerTypeInfo.AsType())
+                .ToArray();
 
+            var usedControllerTypes = new List<Type>();
             foreach (var controllerApiDescriptionGroup in apiGroups)
-                await GenerateForControllerAsync(document, controllerApiDescriptionGroup.Key, controllerApiDescriptionGroup, new SwaggerGenerator(_schemaGenerator, Settings, schemaResolver), schemaResolver).ConfigureAwait(false);
+            {
+                var generator = new SwaggerGenerator(_schemaGenerator, Settings, schemaResolver);
+                var isIncluded = await GenerateForControllerAsync(document, controllerApiDescriptionGroup.Key, controllerApiDescriptionGroup, generator, schemaResolver).ConfigureAwait(false);
+                if (isIncluded)
+                    usedControllerTypes.Add(controllerApiDescriptionGroup.Key);
+            }
 
             document.GenerateOperationIds();
 
-            var controllerTypes = apiGroups.Select(k => k.Key);
+            var controllerTypes = apiGroups.Select(k => k.Key).ToArray();
             foreach (var processor in Settings.DocumentProcessors)
-                await processor.ProcessAsync(new DocumentProcessorContext(document, controllerTypes, schemaResolver, _schemaGenerator, Settings));
+                await processor.ProcessAsync(new DocumentProcessorContext(document, controllerTypes, usedControllerTypes, schemaResolver, _schemaGenerator, Settings));
 
             return document;
         }
 
-        private async Task GenerateForControllerAsync(SwaggerDocument document, Type controllerType, IEnumerable<Tuple<ApiDescription, MethodInfo>> controllerApiDescriptionGroup, SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver)
+        /// <summary>Generates the <see cref="SwaggerDocument"/> with services from the given service provider.</summary>
+        /// <param name="serviceProvider">The service provider.</param>
+        /// <returns>The document</returns>
+        public async Task<SwaggerDocument> GenerateAsync(object serviceProvider)
+        {
+            var typedServiceProvider = (IServiceProvider)serviceProvider;
+
+            var mvcOptions = typedServiceProvider.GetRequiredService<IOptions<MvcOptions>>();
+            var mvcJsonOptions = typedServiceProvider.GetRequiredService<IOptions<MvcJsonOptions>>();
+            var apiDescriptionGroupCollectionProvider = typedServiceProvider.GetRequiredService<IApiDescriptionGroupCollectionProvider>();
+
+            Settings.ApplySettings(mvcJsonOptions.Value.SerializerSettings, mvcOptions.Value);
+
+            return await GenerateAsync(apiDescriptionGroupCollectionProvider.ApiDescriptionGroups);
+        }
+
+        private async Task<bool> GenerateForControllerAsync(SwaggerDocument document, Type controllerType,
+            IEnumerable<Tuple<ApiDescription, ControllerActionDescriptor>> controllerApiDescriptionGroup,
+            SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver)
         {
             var hasIgnoreAttribute = controllerType.GetTypeInfo()
                 .GetCustomAttributes()
@@ -78,16 +112,14 @@ namespace NSwag.SwaggerGeneration.AspNetCore
 
             if (hasIgnoreAttribute)
             {
-                return;
+                return false;
             }
 
             var operations = new List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo>>();
-
-            var descriptions = new List<SwaggerOperationDescription>();
             foreach (var item in controllerApiDescriptionGroup)
             {
                 var apiDescription = item.Item1;
-                var method = item.Item2;
+                var method = item.Item2.MethodInfo;
 
                 var actionHasIgnoreAttribute = method.GetCustomAttributes().Any(a => a.GetType().Name == "SwaggerIgnoreAttribute");
                 if (actionHasIgnoreAttribute)
@@ -117,11 +149,12 @@ namespace NSwag.SwaggerGeneration.AspNetCore
                 operations.Add(new Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo>(operationDescription, apiDescription, method));
             }
 
-            await AddOperationDescriptionsToDocumentAsync(document, controllerType, operations, swaggerGenerator, schemaResolver).ConfigureAwait(false);
+            return await AddOperationDescriptionsToDocumentAsync(document, controllerType, operations, swaggerGenerator, schemaResolver).ConfigureAwait(false);
         }
 
-        private async Task AddOperationDescriptionsToDocumentAsync(SwaggerDocument document, Type controllerType, List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo>> operations, SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver)
+        private async Task<bool> AddOperationDescriptionsToDocumentAsync(SwaggerDocument document, Type controllerType, List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo>> operations, SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver)
         {
+            var addedOperations = 0;
             var allOperation = operations.Select(t => t.Item1).ToList();
             foreach (var tuple in operations)
             {
@@ -155,21 +188,34 @@ namespace NSwag.SwaggerGeneration.AspNetCore
                     }
 
                     document.Paths[path][operation.Method] = operation.Operation;
+                    addedOperations++;
                 }
             }
+
+            return addedOperations > 0;
         }
 
-        private async Task<SwaggerDocument> CreateDocumentAsync(ApiDescriptionGroupCollection apiDescriptionGroups)
+        private async Task<SwaggerDocument> CreateDocumentAsync()
         {
-            var document = !string.IsNullOrEmpty(Settings.DocumentTemplate) ? await SwaggerDocument.FromJsonAsync(Settings.DocumentTemplate).ConfigureAwait(false) : new SwaggerDocument();
+            var document = !string.IsNullOrEmpty(Settings.DocumentTemplate) ?
+                await SwaggerDocument.FromJsonAsync(Settings.DocumentTemplate).ConfigureAwait(false) :
+                new SwaggerDocument();
 
             document.Generator = $"NSwag v{SwaggerDocument.ToolchainVersion} (NJsonSchema v{JsonSchema4.ToolchainVersion})";
-            document.Info = new SwaggerInfo
+            document.SchemaType = Settings.SchemaType;
+
+            if (document.Info == null)
+                document.Info = new SwaggerInfo();
+
+            if (string.IsNullOrEmpty(Settings.DocumentTemplate))
             {
-                Title = Settings.Title,
-                Description = Settings.Description,
-                Version = Settings.Version,
-            };
+                if (!string.IsNullOrEmpty(Settings.Title))
+                    document.Info.Title = Settings.Title;
+                if (!string.IsNullOrEmpty(Settings.Description))
+                    document.Info.Description = Settings.Description;
+                if (!string.IsNullOrEmpty(Settings.Version))
+                    document.Info.Version = Settings.Version;
+            }
 
             return document;
         }

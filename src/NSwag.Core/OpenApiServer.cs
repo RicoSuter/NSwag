@@ -25,5 +25,9 @@ namespace NSwag
         /// <summary>Gets or sets the variables of the server.</summary>
         [JsonProperty(PropertyName = "variables", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public IDictionary<string, OpenApiServerVariable> Variables { get; } = new Dictionary<string, OpenApiServerVariable>();
+
+        /// <summary>Gets a value indicating whether the server description is valid.</summary>
+        [JsonIgnore]
+        public bool IsValid => !string.IsNullOrEmpty(Url) && !Url.Contains("///");
     }
 }

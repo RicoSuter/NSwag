@@ -56,6 +56,13 @@ namespace NSwag.AssemblyLoader
             var version = args.Version;
             if (version != null)
             {
+                // var assemblyByVersion = TryLoadByVersion(AllReferencePaths, assemblyName, version.Major + "." + version.Minor + "." + version.Build + "." + version.Revision);
+                // if (assemblyByVersion != null)
+                // {
+                //     Assemblies[args.Name] = assemblyByVersion;
+                //     return assemblyByVersion;
+                // }
+
                 var assemblyByVersion = TryLoadByVersion(AllReferencePaths, assemblyName, version.Major + "." + version.Minor + "." + version.Build + ".");
                 if (assemblyByVersion != null)
                 {

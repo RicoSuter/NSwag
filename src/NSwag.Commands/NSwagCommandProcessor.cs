@@ -76,7 +76,7 @@ namespace NSwag.Commands
                 else
                     entryAssembly = typeof(NSwagCommandProcessor).GetTypeInfo().Assembly;
 
-                var binDirectory = DynamicApis.PathGetDirectoryName(entryAssembly.CodeBase.Replace("file:///", string.Empty));
+                var binDirectory = DynamicApis.PathGetDirectoryName(new Uri(entryAssembly.CodeBase).LocalPath);
                 _host.WriteMessage("NSwag bin directory: " + binDirectory + "\n");
             }
             catch (Exception exception)

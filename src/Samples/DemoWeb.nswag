@@ -5,6 +5,7 @@
         "../NSwag.Demo.Web/bin/NSwag.Demo.Web.dll"
       ],
       "referencePaths": [],
+      "useNuGetCache": false,
       "isAspNetCore": false,
       "controllerNames": [
         "NSwag.Demo.Web.Controllers.TestController"

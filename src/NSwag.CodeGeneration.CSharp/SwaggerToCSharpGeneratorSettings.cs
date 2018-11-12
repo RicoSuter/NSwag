@@ -20,12 +20,24 @@ namespace NSwag.CodeGeneration.CSharp
         /// <summary>Initializes a new instance of the <see cref="SwaggerToCSharpClientGeneratorSettings"/> class.</summary>
         protected SwaggerToCSharpGeneratorSettings()
         {
-            AdditionalNamespaceUsages = null;
-
             CSharpGeneratorSettings = new CSharpGeneratorSettings
             {
                 Namespace = "MyNamespace",
                 SchemaType = SchemaType.Swagger2,
+
+                // TODO: Remove these defaults when NJS is updated with them
+                ClassStyle = CSharpClassStyle.Poco,
+
+                DateType = "System.DateTimeOffset",
+                DateTimeType = "System.DateTimeOffset",
+                TimeType = "System.TimeSpan",
+                TimeSpanType = "System.TimeSpan",
+
+                ArrayType = "System.Collections.Generic.ICollection",
+                DictionaryType = "System.Collections.Generic.IDictionary",
+
+                ArrayBaseType = "System.Collections.Generic.Collection",
+                DictionaryBaseType = "System.Collections.Generic.Dictionary"
             };
 
             CSharpGeneratorSettings.TemplateFactory = new DefaultTemplateFactory(CSharpGeneratorSettings, new[]
@@ -34,11 +46,14 @@ namespace NSwag.CodeGeneration.CSharp
                 typeof(SwaggerToCSharpGeneratorSettings).GetTypeInfo().Assembly,
             });
 
-            ResponseArrayType = "System.Collections.ObjectModel.ObservableCollection";
-            ResponseDictionaryType = "System.Collections.Generic.Dictionary";
+            ResponseArrayType = "System.Collections.Generic.ICollection";
+            ResponseDictionaryType = "System.Collections.Generic.IDictionary";
 
             ParameterArrayType = "System.Collections.Generic.IEnumerable";
             ParameterDictionaryType = "System.Collections.Generic.IDictionary";
+
+            AdditionalNamespaceUsages = new string[0];
+            AdditionalContractNamespaceUsages = new string[0];
         }
 
         /// <summary>Gets the CSharp generator settings.</summary>

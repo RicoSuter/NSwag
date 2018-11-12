@@ -111,11 +111,14 @@ namespace NSwag
                 return IsNullableRaw.Value;
             }
 
-            return Schema?.ActualSchema.IsNullable(schemaType) ?? false;
+            return ActualResponse.Schema?.IsNullable(schemaType) ?? false;
         }
 
         private JsonSchema4 GetActualResponseSchema()
         {
+            if (Content.ContainsKey("application/octet-stream") && !Content.ContainsKey("application/json"))
+                return new JsonSchema4 { Type = JsonObjectType.File };
+
             if ((Parent as SwaggerOperation)?.ActualProduces?.Contains("application/octet-stream") == true)
                 return new JsonSchema4 { Type = JsonObjectType.File };
 
