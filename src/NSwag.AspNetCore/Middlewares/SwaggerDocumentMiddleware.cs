@@ -20,7 +20,7 @@ namespace NSwag.AspNetCore.Middlewares
     {
         private readonly RequestDelegate _nextDelegate;
         private readonly string _documentName;
-        private readonly string _route;
+        private readonly string _path;
         private readonly IApiDescriptionGroupCollectionProvider _apiDescriptionGroupCollectionProvider;
         private readonly SwaggerDocumentProvider _documentProvider;
         private readonly SwaggerDocumentMiddlewareSettings _settings;
@@ -32,12 +32,12 @@ namespace NSwag.AspNetCore.Middlewares
 
         /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerMiddleware"/> class.</summary>
         /// <param name="nextDelegate">The next delegate.</param>
-        public SwaggerDocumentMiddleware(RequestDelegate nextDelegate, IServiceProvider serviceProvider, string documentName, string route, SwaggerDocumentMiddlewareSettings settings)
+        public SwaggerDocumentMiddleware(RequestDelegate nextDelegate, IServiceProvider serviceProvider, string documentName, string path, SwaggerDocumentMiddlewareSettings settings)
         {
             _nextDelegate = nextDelegate;
 
             _documentName = documentName;
-            _route = route;
+            _path = path;
 
             _apiDescriptionGroupCollectionProvider = serviceProvider.GetService<IApiDescriptionGroupCollectionProvider>() ??
                 throw new InvalidOperationException("API Explorer not registered in DI.");
@@ -52,7 +52,7 @@ namespace NSwag.AspNetCore.Middlewares
         /// <returns>The task.</returns>
         public async Task Invoke(HttpContext context)
         {
-            if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value.Trim('/'), _route.Trim('/'), StringComparison.OrdinalIgnoreCase))
+            if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value.Trim('/'), _path.Trim('/'), StringComparison.OrdinalIgnoreCase))
             {
                 var schemaJson = await GenerateSwaggerAsync(context);
                 context.Response.StatusCode = 200;
