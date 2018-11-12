@@ -43,7 +43,9 @@ namespace NSwag.AspNetCore
         public T GeneratorSettings { get; }
 
         /// <summary>Gets or sets the OWIN base path (when mapped via app.MapOwinPath()) (must start with '/').</summary>
+#if !AspNetOwin
         [Obsolete("This property is ignored when using AspNetCoreToSwaggerGenerator and will be removed eventually.")]
+#endif
         public string MiddlewareBasePath { get; set; }
 
 #if !AspNetOwin
