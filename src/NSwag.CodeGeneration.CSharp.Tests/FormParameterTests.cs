@@ -52,6 +52,51 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             Assert.Contains("throw new System.ArgumentNullException(\"bar\");", code);
         }
 
+        [Fact]
+        public void When_form_parameters_are_defined_then_FormUrlEncodedContent_is_generated()
+        {
+            //// Arrange
+            var document = new SwaggerDocument();
+            document.Paths["foo/bar"] = new SwaggerPathItem
+            {
+                {
+                    SwaggerOperationMethod.Post,
+                    new SwaggerOperation
+                    {
+                        Consumes = new System.Collections.Generic.List<string> { "application/x-www-form-urlencoded" },
+                        Parameters =
+                        {
+                            new SwaggerParameter
+                            {
+                                Name = "foo",
+                                IsRequired = false,
+                                IsNullableRaw = true,
+                                Kind = SwaggerParameterKind.FormData,
+                                Type = JsonObjectType.String
+                            },
+                            new SwaggerParameter
+                            {
+                                Name = "bar",
+                                IsRequired = true,
+                                IsNullableRaw = false,
+                                Kind = SwaggerParameterKind.FormData,
+                                Type = JsonObjectType.String
+                            }
+                        }
+                    }
+                }
+            };
+
+            //// Act
+            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+            var code = generator.GenerateFile();
+
+            //// Assert
+            Assert.Contains("new System.Net.Http.FormUrlEncodedContent", code);
+            Assert.Contains("if (foo != null)", code);
+            Assert.Contains("throw new System.ArgumentNullException(\"bar\");", code);
+        }
+
         public class FileUploadController : Controller
         {
             public void Upload(HttpPostedFileBase file)
