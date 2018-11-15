@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>NSwag.MSBuild.CodeGeneration</id>
-    <version>11.20.1</version>
+    <version>12.0.0</version>
     <authors>Rico Suter</authors>
     <owners>Rico Suter</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -14,7 +14,7 @@
     <developmentDependency>true</developmentDependency>
     <dependencies>
       <dependency id="Microsoft.Extensions.ApiDescription.Design" version="2.2.0-preview3-35486" />
-      <dependency id="NSwag.MSBuild" version="11.20.1" />
+      <dependency id="NSwag.MSBuild" version="12.0.0" />
     </dependencies>
     <references />
   </metadata>
