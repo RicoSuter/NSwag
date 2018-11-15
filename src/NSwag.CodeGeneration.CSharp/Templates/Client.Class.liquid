@@ -157,7 +157,7 @@
 {%     else -%}
 {%         if operation.HasFormParameters -%}
 {%             if operation.ConsumesFormUrlEncoded -%}
-                var keyValues_ = new System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<string, string>>();
+                var keyValues_ = new System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>>();
 {%                 for parameter in operation.FormParameters -%}
 {%                     if parameter.IsNullable -%}
                 if ({{ parameter.VariableName }} != null)
@@ -166,7 +166,7 @@
                     throw new System.ArgumentNullException("{{ parameter.VariableName }}");
                 else
 {%                     endif -%}
-                    keyValues_.Add(new System.Collections.Generic.KeyValuePair<string, string>("{{ parameter.Name }}", ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture))));
+                    keyValues_.Add(new System.Collections.Generic.KeyValuePair<string, string>("{{ parameter.Name }}", ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture)));
 {%                 endfor -%}
                 request_.Content = new System.Net.Http.FormUrlEncodedContent(keyValues_);
 {%             else -%}
