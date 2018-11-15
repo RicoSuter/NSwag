@@ -156,29 +156,44 @@
                 request_.Content = content_;
 {%     else -%}
 {%         if operation.HasFormParameters -%}
+{%             if operation.ConsumesFormUrlEncoded -%}
+                var keyValues_ = new System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>>();
+{%                 for parameter in operation.FormParameters -%}
+{%                     if parameter.IsNullable -%}
+                if ({{ parameter.VariableName }} != null)
+{%                     else -%}
+                if ({{ parameter.VariableName }} == null)
+                    throw new System.ArgumentNullException("{{ parameter.VariableName }}");
+                else
+{%                     endif -%}
+                    keyValues_.Add(new System.Collections.Generic.KeyValuePair<string, string>("{{ parameter.Name }}", ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture)));
+{%                 endfor -%}
+                request_.Content = new System.Net.Http.FormUrlEncodedContent(keyValues_);
+{%             else -%}
                 var boundary_ = System.Guid.NewGuid().ToString();
                 var content_ = new System.Net.Http.MultipartFormDataContent(boundary_);
                 content_.Headers.Remove("Content-Type");
                 content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
-{%             for parameter in operation.FormParameters -%}
-{%                 if parameter.IsNullable -%}
+{%                 for parameter in operation.FormParameters -%}
+{%                     if parameter.IsNullable -%}
                 if ({{ parameter.VariableName }} != null)
-{%                 else -%}
+{%                     else -%}
                 if ({{ parameter.VariableName }} == null)
                     throw new System.ArgumentNullException("{{ parameter.VariableName }}");
                 else
-{%                 endif -%}
-{%                 if parameter.IsFile -%}
-{%                     if parameter.IsArray -%}
-                    foreach (var item_ in {{ parameter.VariableName }}) { content_.Add(new System.Net.Http.StreamContent(item_.Data), "{{ parameter.Name }}", item_.FileName ?? "{{ parameter.Name }}"); }
-{%                     else -%}
-                    content_.Add(new System.Net.Http.StreamContent({{ parameter.VariableName }}.Data), "{{ parameter.Name }}", {{ parameter.VariableName }}.FileName ?? "{{ parameter.Name }}");
 {%                     endif -%}
-{%                 else -%}
+{%                     if parameter.IsFile -%}
+{%                         if parameter.IsArray -%}
+                    foreach (var item_ in {{ parameter.VariableName }}) { content_.Add(new System.Net.Http.StreamContent(item_.Data), "{{ parameter.Name }}", item_.FileName ?? "{{ parameter.Name }}"); }
+{%                         else -%}
+                    content_.Add(new System.Net.Http.StreamContent({{ parameter.VariableName }}.Data), "{{ parameter.Name }}", {{ parameter.VariableName }}.FileName ?? "{{ parameter.Name }}");
+{%                         endif -%}
+{%                     else -%}
                     content_.Add(new System.Net.Http.StringContent(ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture)), "{{ parameter.Name }}");
-{%                 endif -%}
-{%             endfor -%}
+{%                     endif -%}
+{%                 endfor -%}
                 request_.Content = content_;
+{%             endif -%}
 {%         elseif operation.IsGetOrDeleteOrHead == false -%}
                 request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "{{ operation.Produces }}");
 {%         endif -%}
