@@ -157,7 +157,7 @@
 {%     else -%}
 {%         if operation.HasFormParameters -%}
 {%             if operation.ConsumesFormUrlEncoded -%}
-                var keyValues_ = new System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<String, String>>();
+                var keyValues_ = new System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<string, string>>();
 {%                 for parameter in operation.FormParameters -%}
 {%                     if parameter.IsNullable -%}
                 if ({{ parameter.VariableName }} != null)
