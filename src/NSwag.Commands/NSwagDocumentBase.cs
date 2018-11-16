@@ -56,7 +56,7 @@ namespace NSwag.Commands
         public abstract Task<SwaggerDocumentExecutionResult> ExecuteAsync();
 
         /// <summary>Gets or sets the runtime where the document should be processed.</summary>
-        public Runtime Runtime { get; set; }
+        public Runtime Runtime { get; set; } = Runtime.NetCore21;
 
         /// <summary>Gets or sets the default variables.</summary>
         public string DefaultVariables { get; set; }
@@ -480,6 +480,12 @@ namespace NSwag.Commands
             saveFile = false;
 
             // New file format
+            if (data.Contains("\"noBuild\":") && !data.ToLowerInvariant().Contains("UseDocumentProvider".ToLowerInvariant()))
+            {
+                data = data.Replace("\"noBuild\":", "\"useDocumentProvider\": false, \"noBuild\":");
+                saveFile = true;
+            }
+
             if (data.Contains("\"noBuild\":") && !data.ToLowerInvariant().Contains("RequireParametersWithoutDefault".ToLowerInvariant()))
             {
                 data = data.Replace("\"noBuild\":", "\"requireParametersWithoutDefault\": true, \"noBuild\":");

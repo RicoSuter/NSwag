@@ -5,6 +5,10 @@
       "version": "9.10.35",
       "path": "../../NJsonSchema/src/NJsonSchema/NJsonSchema.csproj"
     },
+    "NJsonSchema.Yaml": {
+      "version": "9.10.35",
+      "path": "../../NJsonSchema/src/NJsonSchema.Yaml/NJsonSchema.Yaml.csproj"
+    },
     "NJsonSchema.CodeGeneration": {
       "version": "9.10.35",
       "path": "../../NJsonSchema/src/NJsonSchema.CodeGeneration/NJsonSchema.CodeGeneration.csproj"

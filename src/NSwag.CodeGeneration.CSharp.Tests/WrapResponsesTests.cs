@@ -1,15 +1,14 @@
 using System;
 using System.Threading.Tasks;
-using System.Web.Http;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.AspNetCore.Mvc;
 using NSwag.SwaggerGeneration.WebApi;
+using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
-    [TestClass]
     public class WrapResponsesTests
     {
-        public class TestController : ApiController
+        public class TestController : Controller
         {
             [Route("Foo")]
             public string Foo()
@@ -24,7 +23,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_success_responses_are_wrapped_then_SwaggerResponse_is_returned()
         {
             //// Arrange
@@ -39,11 +38,11 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("Task<SwaggerResponse<string>>"));
-            Assert.IsTrue(code.Contains("Task<SwaggerResponse>"));
+            Assert.Contains("Task<SwaggerResponse<string>>", code);
+            Assert.Contains("Task<SwaggerResponse>", code);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_success_responses_are_wrapped_then_SwaggerResponse_is_returned_web_api()
         {
             //// Arrange
@@ -58,8 +57,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGen.GenerateFile();
             
             //// Assert
-            Assert.IsTrue(code.Contains("Task<SwaggerResponse<string>>"));
-            Assert.IsTrue(code.Contains("Task<SwaggerResponse>"));
+            Assert.Contains("Task<SwaggerResponse<string>>", code);
+            Assert.Contains("Task<SwaggerResponse>", code);
         }
     }
 }

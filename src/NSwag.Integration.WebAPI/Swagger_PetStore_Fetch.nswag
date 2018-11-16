@@ -1,4 +1,5 @@
 ﻿{
+  "runtime": "WinX64",
   "swaggerGenerator": {
     "fromSwagger": {
       "json": "",

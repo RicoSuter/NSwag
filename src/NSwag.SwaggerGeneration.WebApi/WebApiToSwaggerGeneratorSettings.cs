@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.WebApi.Processors;
 
 namespace NSwag.SwaggerGeneration.WebApi
@@ -16,6 +17,7 @@ namespace NSwag.SwaggerGeneration.WebApi
         /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerGeneratorSettings"/> class.</summary>
         public WebApiToSwaggerGeneratorSettings()
         {
+            OperationProcessors.Insert(0, new ApiVersionProcessor());
             OperationProcessors.Insert(3, new OperationParameterProcessor(this));
             OperationProcessors.Insert(3, new OperationResponseProcessor(this));
         }

@@ -17,6 +17,7 @@ using NConsole;
 using Newtonsoft.Json;
 using NJsonSchema.Infrastructure;
 using NSwag.AssemblyLoader.Utilities;
+using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.WebApi;
 
 namespace NSwag.Commands.SwaggerGeneration.WebApi
@@ -66,6 +67,13 @@ namespace NSwag.Commands.SwaggerGeneration.WebApi
             set => Settings.AddMissingPathParameters = value;
         }
 
+        [Argument(Name = "IncludedVersions", IsRequired = false, Description = "The included API versions used by the ApiVersionProcessor (comma separated, default: empty = all).")]
+        public string[] IncludedVersions
+        {
+            get => Settings.OperationProcessors.TryGet<ApiVersionProcessor>().IncludedVersions;
+            set => Settings.OperationProcessors.TryGet<ApiVersionProcessor>().IncludedVersions = value;
+        }
+
         protected override async Task<string> RunIsolatedAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
             var controllerNames = ControllerNames.Where(s => !string.IsNullOrWhiteSpace(s)).Distinct().ToList();
@@ -78,8 +86,7 @@ namespace NSwag.Commands.SwaggerGeneration.WebApi
             var workingDirectory = Directory.GetCurrentDirectory();
             if (IsAspNetCore && ResolveJsonOptions)
             {
-                var startupType = await GetStartupTypeAsync(assemblyLoader);
-                using (var testServer = CreateTestServer(startupType))
+                using (var testServer = await CreateTestServerAsync(assemblyLoader))
                     settings = await CreateSettingsAsync(assemblyLoader, testServer.Host, workingDirectory);
             }
             else
@@ -88,7 +95,9 @@ namespace NSwag.Commands.SwaggerGeneration.WebApi
             var generator = new WebApiToSwaggerGenerator(settings);
             var document = await generator.GenerateForControllersAsync(controllerTypes).ConfigureAwait(false);
 
-            return PostprocessDocument(document);
+            PostprocessDocument(document);
+
+            return document.ToJson(OutputType);
         }
 
         private string[] GetControllerNames(AssemblyLoader.AssemblyLoader assemblyLoader)

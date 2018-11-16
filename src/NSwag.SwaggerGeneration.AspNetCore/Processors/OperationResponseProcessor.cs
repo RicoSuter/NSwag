@@ -83,11 +83,11 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                     else
                         httpStatusCode = apiResponse.StatusCode.ToString(CultureInfo.InvariantCulture);
 
-                    var typeDescription = _settings.ReflectionService.GetDescription(
-                        returnType, GetParameterAttributes(context.MethodInfo.ReturnParameter), _settings);
-
                     if (IsVoidResponse(returnType) == false)
                     {
+                        var typeDescription = _settings.ReflectionService.GetDescription(
+                            returnType, GetParameterAttributes(context.MethodInfo.ReturnParameter), _settings);
+
                         response.IsNullableRaw = typeDescription.IsNullable;
 
                         response.Schema = await context.SchemaGenerator
@@ -125,11 +125,17 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 
             var successXmlDescription = await parameter.GetDescriptionAsync(parameter.GetCustomAttributes())
                 .ConfigureAwait(false) ?? string.Empty;
-
-            foreach (var response in context.OperationDescription.Operation.Responses.Where(r =>
-                HttpUtilities.IsSuccessStatusCode(r.Key)))
+            
+            if (!string.IsNullOrEmpty(successXmlDescription))
             {
-                response.Value.Description = successXmlDescription;
+                foreach (var response in context.OperationDescription.Operation.Responses
+                    .Where(r => HttpUtilities.IsSuccessStatusCode(r.Key)))
+                {
+                    if (!string.IsNullOrEmpty(response.Value.Description))
+                    {
+                        response.Value.Description = successXmlDescription;
+                    }
+                }
             }
 
             return true;

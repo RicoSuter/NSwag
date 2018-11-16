@@ -116,6 +116,9 @@ namespace NSwag
 
         private JsonSchema4 GetActualResponseSchema()
         {
+            if (Content.ContainsKey("application/octet-stream") && !Content.ContainsKey("application/json"))
+                return new JsonSchema4 { Type = JsonObjectType.File };
+
             if ((Parent as SwaggerOperation)?.ActualProduces?.Contains("application/octet-stream") == true)
                 return new JsonSchema4 { Type = JsonObjectType.File };
 
