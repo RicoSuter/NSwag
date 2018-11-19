@@ -1,0 +1,112 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Http.Description;
+using Microsoft.Owin;
+using Microsoft.Web.Http;
+using Microsoft.Web.Http.Description;
+using Newtonsoft.Json;
+using NSwag;
+using NSwag.SwaggerGeneration;
+
+namespace ODataToSwaggerTest.Middlewares
+{
+    using System.Data;
+    using Newtonsoft.Json.Schema;
+    using NSwag.AspNet.Owin;
+    using NSwag.SwaggerGeneration.WebApi.Versioned;
+    using SchemaType = NJsonSchema.SchemaType;
+
+    public class VersionedSwaggerDocumentMiddleware : OwinMiddleware
+    {
+        private readonly OwinMiddleware _next;
+        private readonly string _path;
+        private readonly SwaggerSettings<VersionedWebApiToSwaggerGeneratorSettings> _settings;
+        private readonly SwaggerJsonSchemaGenerator _schemaGenerator;
+
+        private Exception _schemaException;
+        private DateTimeOffset _schemaTimestamp;
+        private readonly ODataApiExplorer _explorer;
+        private string _schemaJson;
+        private Dictionary<ApiVersion, string> _versionedSchemas = new Dictionary<ApiVersion, string>();
+
+        /// <summary>Initializes a new instance of the <see cref="VersionedSwaggerDocumentMiddleware"/> class.</summary>
+        /// <param name="next">The next middleware in the pipeline.</param>
+        /// <param name="explorer">The ODataApiExplorer from which to generate the Swagger.</param>
+        /// <param name="settings">The settings.</param>
+        /// <param name="schemaGenerator">The schema generator.</param>
+        public VersionedSwaggerDocumentMiddleware(OwinMiddleware next, ODataApiExplorer explorer, SwaggerSettings<VersionedWebApiToSwaggerGeneratorSettings> settings, SwaggerJsonSchemaGenerator schemaGenerator) : base(next)
+        {
+            _explorer = explorer;
+            _next = next;
+            _settings = settings;
+            _path = settings.DocumentPath;
+            _schemaGenerator = schemaGenerator;
+        }
+
+        /// <summary>Generates the Swagger specification.</summary>
+        /// <param name="context">The context.</param>
+        /// <param name="version">The api version to generate the Swagger for. If version is null generate for all versions instead.</param>
+        /// <returns>The Swagger specification.</returns>
+        protected virtual async Task<string> GenerateSwaggerAsync(IOwinContext context, ApiVersion version)
+        {
+            if (_schemaException != null && _schemaTimestamp + _settings.ExceptionCacheTime > DateTimeOffset.UtcNow)
+                throw _schemaException;
+          
+            if (version != null && _versionedSchemas.ContainsKey(version))
+                return _versionedSchemas[version];
+            
+            if (_schemaJson != null)
+                return _schemaJson;
+            
+            string schemaJson;
+            try {
+                var generator = new VersionedWebApiToSwaggerGenerator(_explorer, _settings.GeneratorSettings, _schemaGenerator);
+                var document = await generator.GenerateAsync();
+                
+                document.Host = context.Request.Host.Value ?? "";
+                document.Schemes.Add(context.Request.Scheme == "http" ? SwaggerSchema.Http : SwaggerSchema.Https);
+                
+                _settings.PostProcess?.Invoke(document);
+                schemaJson = document.ToJson();
+                _schemaException = null;
+                _schemaTimestamp = DateTimeOffset.UtcNow;
+                
+            }
+            // If an exception is thrown cache the exception and try later.
+            catch (Exception exception)
+            {
+                _schemaException = exception;
+                _schemaTimestamp = DateTimeOffset.UtcNow;
+                var t = new ApiDescription().GetType().GetMethods();
+                
+                throw _schemaException;
+            }
+
+            if (version != null)
+                _versionedSchemas.Add(version, schemaJson);
+            else
+                _schemaJson = schemaJson;
+            return schemaJson;
+        }
+
+        public override async Task Invoke(IOwinContext context)
+        {       
+            if(context.Request.Path.HasValue){
+                var requestPath = context.Request.Path.Value;
+                // If the base URL is used Swagger will be generated for ALL versions.
+                if (requestPath.EndsWith(_settings.DocumentPath))
+                {
+                    var sSchemaJson = await GenerateSwaggerAsync(context, null);
+                    context.Response.StatusCode = 200;
+                    context.Response.Headers["Content-Type"] = "application/json; charset=utf-8";
+                    await context.Response.WriteAsync(sSchemaJson);
+                    return; 
+                }
+            }
+            await _next.Invoke(context);
+        }
+        
+        
+    }
+}
