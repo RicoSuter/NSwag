@@ -6,6 +6,7 @@ using NSwag.SwaggerGeneration;
 using NSwag.SwaggerGeneration.AspNetCore;
 using NSwag.SwaggerGeneration.Processors;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -28,19 +29,53 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <summary>Adds services required for Swagger 2.0 generation (change document settings to generate OpenAPI 3.0).</summary>
         /// <param name="serviceCollection">The <see cref="IServiceCollection"/>.</param>
         /// <param name="configure">Configure the document.</param>
-        public static IServiceCollection AddSwaggerDocument(this IServiceCollection serviceCollection, Action<SwaggerDocumentSettings> configure = null)
+        public static IServiceCollection AddOpenApiDocument(this IServiceCollection serviceCollection, Action<SwaggerDocumentSettings, IServiceProvider> configure = null)
+        {
+            return AddSwaggerDocument(serviceCollection, (settings, services) =>
+            {
+                settings.SchemaType = SchemaType.OpenApi3;
+                configure?.Invoke(settings, services);
+            });
+        }
+
+        /// <summary>Adds services required for Swagger 2.0 generation (change document settings to generate OpenAPI 3.0).</summary>
+        /// <param name="serviceCollection">The <see cref="IServiceCollection"/>.</param>
+        /// <param name="configure">Configure the document.</param>
+        public static IServiceCollection AddSwaggerDocument(this IServiceCollection serviceCollection,
+            Action<SwaggerDocumentSettings> configure = null)
+        {
+            return AddSwaggerDocument(serviceCollection, (settings, services) =>
+            {
+                configure?.Invoke(settings);
+            });
+        }
+
+        /// <summary>Adds services required for Swagger 2.0 generation (change document settings to generate OpenAPI 3.0).</summary>
+        /// <param name="serviceCollection">The <see cref="IServiceCollection"/>.</param>
+        /// <param name="configure">Configure the document.</param>
+        public static IServiceCollection AddSwaggerDocument(this IServiceCollection serviceCollection, Action<SwaggerDocumentSettings, IServiceProvider> configure = null)
         {
             serviceCollection.AddSingleton(s =>
             {
                 var settings = new SwaggerDocumentSettings();
                 settings.SchemaType = SchemaType.Swagger2;
 
-                configure?.Invoke(settings);
+                configure?.Invoke(settings, s);
 
                 if (settings.PostProcess != null)
                 {
                     var processor = new ActionDocumentProcessor(context => settings.PostProcess(context.Document));
                     settings.DocumentProcessors.Add(processor);
+                }
+
+                foreach (var documentProcessor in s.GetRequiredService<IEnumerable<IDocumentProcessor>>())
+                {
+                    settings.DocumentProcessors.Add(documentProcessor);
+                }
+
+                foreach (var operationProcessor in s.GetRequiredService<IEnumerable<IOperationProcessor>>())
+                {
+                    settings.OperationProcessors.Add(operationProcessor);
                 }
 
                 var schemaGenerator = settings.SchemaGenerator ?? new SwaggerJsonSchemaGenerator(settings);
