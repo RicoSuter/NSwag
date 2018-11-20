@@ -26,16 +26,15 @@ namespace ODataToSwaggerTest.Middlewares
 
         private Exception _schemaException;
         private DateTimeOffset _schemaTimestamp;
-        private readonly ODataApiExplorer _explorer;
+        private readonly VersionedApiExplorer _explorer;
         private string _schemaJson;
-        private Dictionary<ApiVersion, string> _versionedSchemas = new Dictionary<ApiVersion, string>();
 
         /// <summary>Initializes a new instance of the <see cref="VersionedSwaggerDocumentMiddleware"/> class.</summary>
         /// <param name="next">The next middleware in the pipeline.</param>
-        /// <param name="explorer">The ODataApiExplorer from which to generate the Swagger.</param>
+        /// <param name="explorer">The VersionedApiExplorer from which to generate the Swagger.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
-        public VersionedSwaggerDocumentMiddleware(OwinMiddleware next, ODataApiExplorer explorer, SwaggerSettings<VersionedWebApiToSwaggerGeneratorSettings> settings, SwaggerJsonSchemaGenerator schemaGenerator) : base(next)
+        public VersionedSwaggerDocumentMiddleware(OwinMiddleware next, VersionedApiExplorer explorer, SwaggerSettings<VersionedWebApiToSwaggerGeneratorSettings> settings, SwaggerJsonSchemaGenerator schemaGenerator) : base(next)
         {
             _explorer = explorer;
             _next = next;
@@ -48,13 +47,10 @@ namespace ODataToSwaggerTest.Middlewares
         /// <param name="context">The context.</param>
         /// <param name="version">The api version to generate the Swagger for. If version is null generate for all versions instead.</param>
         /// <returns>The Swagger specification.</returns>
-        protected virtual async Task<string> GenerateSwaggerAsync(IOwinContext context, ApiVersion version)
+        protected virtual async Task<string> GenerateSwaggerAsync(IOwinContext context)
         {
             if (_schemaException != null && _schemaTimestamp + _settings.ExceptionCacheTime > DateTimeOffset.UtcNow)
                 throw _schemaException;
-          
-            if (version != null && _versionedSchemas.ContainsKey(version))
-                return _versionedSchemas[version];
             
             if (_schemaJson != null)
                 return _schemaJson;
@@ -83,10 +79,7 @@ namespace ODataToSwaggerTest.Middlewares
                 throw _schemaException;
             }
 
-            if (version != null)
-                _versionedSchemas.Add(version, schemaJson);
-            else
-                _schemaJson = schemaJson;
+            _schemaJson = schemaJson;
             return schemaJson;
         }
 
@@ -97,7 +90,7 @@ namespace ODataToSwaggerTest.Middlewares
                 // If the base URL is used Swagger will be generated for ALL versions.
                 if (requestPath.EndsWith(_settings.DocumentPath))
                 {
-                    var sSchemaJson = await GenerateSwaggerAsync(context, null);
+                    var sSchemaJson = await GenerateSwaggerAsync(context);
                     context.Response.StatusCode = 200;
                     context.Response.Headers["Content-Type"] = "application/json; charset=utf-8";
                     await context.Response.WriteAsync(sSchemaJson);
