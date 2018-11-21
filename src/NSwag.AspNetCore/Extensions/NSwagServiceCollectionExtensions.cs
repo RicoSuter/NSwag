@@ -13,7 +13,7 @@ namespace Microsoft.Extensions.DependencyInjection
     /// <summary>NSwag extensions for <see cref="IServiceCollection"/>.</summary>
     public static class NSwagServiceCollectionExtensions
     {
-        /// <summary>Adds services required for Swagger 2.0 generation (change document settings to generate OpenAPI 3.0).</summary>
+        /// <summary>Adds services required for OpenAPI 3.0 generation (change document settings to generate Swagger 2.0).</summary>
         /// <param name="serviceCollection">The <see cref="IServiceCollection"/>.</param>
         /// <param name="configure">Configure the document.</param>
         public static IServiceCollection AddOpenApiDocument(this IServiceCollection serviceCollection, Action<SwaggerDocumentSettings> configure = null)
