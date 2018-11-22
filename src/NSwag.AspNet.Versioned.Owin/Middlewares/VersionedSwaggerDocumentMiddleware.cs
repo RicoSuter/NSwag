@@ -14,13 +14,13 @@ namespace ODataToSwaggerTest.Middlewares
     using System.Data;
     using Newtonsoft.Json.Schema;
     using NSwag.AspNet.Owin;
+    using NSwag.SwaggerGeneration.WebApi;
     using NSwag.SwaggerGeneration.WebApi.Versioned;
     using SchemaType = NJsonSchema.SchemaType;
 
     public class VersionedSwaggerDocumentMiddleware : OwinMiddleware
     {
         private readonly OwinMiddleware _next;
-        private readonly string _path;
         private readonly SwaggerSettings<VersionedWebApiToSwaggerGeneratorSettings> _settings;
         private readonly SwaggerJsonSchemaGenerator _schemaGenerator;
 
@@ -39,13 +39,11 @@ namespace ODataToSwaggerTest.Middlewares
             _explorer = explorer;
             _next = next;
             _settings = settings;
-            _path = settings.DocumentPath;
             _schemaGenerator = schemaGenerator;
         }
 
         /// <summary>Generates the Swagger specification.</summary>
         /// <param name="context">The context.</param>
-        /// <param name="version">The api version to generate the Swagger for. If version is null generate for all versions instead.</param>
         /// <returns>The Swagger specification.</returns>
         protected virtual async Task<string> GenerateSwaggerAsync(IOwinContext context)
         {
@@ -74,7 +72,6 @@ namespace ODataToSwaggerTest.Middlewares
             {
                 _schemaException = exception;
                 _schemaTimestamp = DateTimeOffset.UtcNow;
-                var t = new ApiDescription().GetType().GetMethods();
                 
                 throw _schemaException;
             }
@@ -87,7 +84,6 @@ namespace ODataToSwaggerTest.Middlewares
         {       
             if(context.Request.Path.HasValue){
                 var requestPath = context.Request.Path.Value;
-                // If the base URL is used Swagger will be generated for ALL versions.
                 if (requestPath.EndsWith(_settings.DocumentPath))
                 {
                     var sSchemaJson = await GenerateSwaggerAsync(context);

@@ -13,13 +13,13 @@ namespace NSwag.SwaggerGeneration.WebApi.Versioned.Processors
     using SwaggerGeneration.Processors;
     using SwaggerGeneration.Processors.Contexts;
 
-    public class OperationResponseProcessor : OperationResponseProcessorBase, IOperationProcessor
+    public class VersionedOperationResponseProcessor : OperationResponseProcessorBase, IOperationProcessor
     {
         private readonly VersionedWebApiToSwaggerGeneratorSettings _settings;
 
-        /// <summary>Initializes a new instance of the <see cref="OperationParameterProcessor"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="VersionedOperationParameterProcessor"/> class.</summary>
         /// <param name="settings">The settings.</param>
-        public OperationResponseProcessor( VersionedWebApiToSwaggerGeneratorSettings settings )
+        public VersionedOperationResponseProcessor( VersionedWebApiToSwaggerGeneratorSettings settings )
             : base( settings )
         {
             _settings = settings;
@@ -64,8 +64,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Versioned.Processors
             }
             else
             {
-                var responseDescription = context.ApiDescription.ResponseDescription;
-                var returnType = responseDescription.ResponseType;
+                var returnType = context.ApiDescription.ActionDescriptor.ReturnType;
                 var response = new SwaggerResponse();
                 string httpStatusCode;
 
@@ -77,7 +76,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Versioned.Processors
                     httpStatusCode = "200";
 
                 var typeDescription = _settings.ReflectionService.GetDescription(
-                    returnType, GetParameterAttributes( context.MethodInfo.ReturnParameter ), _settings );
+                    returnType, GetParameterAttributes( parameter ), _settings );
                 
                 if ( IsVoidResponse( returnType ) == false )
                 {
@@ -116,7 +115,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Versioned.Processors
                 };
             }
 
-            var successXmlDescription = await parameter.GetDescriptionAsync( parameter.GetCustomAttributes() )
+            var successXmlDescription = await parameter.GetDescriptionAsync( GetParameterAttributes( parameter ) )
                                             .ConfigureAwait( false ) ?? string.Empty;
 
             if ( !string.IsNullOrEmpty( successXmlDescription ) )

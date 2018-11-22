@@ -8,10 +8,10 @@ namespace NSwag.SwaggerGeneration.WebApi.Versioned
     {
         public VersionedWebApiToSwaggerGeneratorSettings()
         {
-            OperationProcessors.Add(new OperationParameterProcessor(this)  );
-            OperationProcessors.Add(new OperationResponseProcessor(this)  );
+            OperationProcessors.Add( new VersionedOperationParameterProcessor(this ) );
+            OperationProcessors.Add(new VersionedOperationResponseProcessor( this ) );
         }
-
+        
         public List<ApiVersion> ApiVersions { get; } = new List<ApiVersion>();
     }
 }
