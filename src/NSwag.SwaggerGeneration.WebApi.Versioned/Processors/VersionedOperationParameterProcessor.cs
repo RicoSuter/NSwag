@@ -40,10 +40,34 @@ namespace NSwag.SwaggerGeneration.WebApi.Versioned.Processors
                     operationParameter = await CreatePrimitiveParameterAsync(context, parameter).ConfigureAwait(false);
                     var index = context.OperationDescription.Path.IndexOf( "{" + operationParameter.Name + "}",
                         StringComparison.OrdinalIgnoreCase );
-                    if ( index > 0 &&  context.OperationDescription.Path.Substring( index-1, 1 ) != "=")
+
+                    if ( index > 0 && context.OperationDescription.Path.Substring( index - 1, 1 ) != "=" )
+                    {
                         operationParameter.Kind = SwaggerParameterKind.Path;
+                    }
                     else
-                        operationParameter.Kind = SwaggerParameterKind.Query;
+                    {
+                        // Parameters inside parentheses are OData path parameters
+                        var odataPaths = Regex.Match( context.OperationDescription.Path, @"\(([^)]*)\)" );
+                        var matchedPath = false;
+                        for ( var i = 1; i < odataPaths.Groups.Count; i++ )
+                        {
+                            var odataIndex = odataPaths.Groups[i].Value.IndexOf( "{" + operationParameter.Name + "}",
+                                StringComparison.OrdinalIgnoreCase );
+                            if ( odataIndex > 0 )
+                            {
+                                operationParameter.Kind = SwaggerParameterKind.Path;
+                                matchedPath = true;
+                                break;
+                            }
+                        }
+                        
+                        if(!matchedPath)
+                        {
+                            operationParameter.Kind = SwaggerParameterKind.Query; 
+                        }
+                    }
+                        
                     context.OperationDescription.Operation.Parameters.Add(operationParameter);
                 }
                 else if (parameter.Source == ApiParameterSource.FromBody)
