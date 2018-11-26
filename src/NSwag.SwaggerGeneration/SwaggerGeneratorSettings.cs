@@ -36,7 +36,7 @@ namespace NSwag.SwaggerGeneration
         /// <summary>Gets or sets a value indicating whether nullable body parameters are allowed (ignored when MvcOptions.AllowEmptyInputInBodyModelBinding is available (ASP.NET Core 2.0+), default: true).</summary>
         public bool AllowNullableBodyParameters { get; set; } = true;
 
-        /// <summary>Gets the operation processor.</summary>
+        /// <summary>Gets the operation processors.</summary>
         [JsonIgnore]
         public OperationProcessorCollection OperationProcessors { get; } = new OperationProcessorCollection
         {
@@ -45,7 +45,7 @@ namespace NSwag.SwaggerGeneration
             new OperationExtensionDataProcessor(),
         };
 
-        /// <summary>Gets the operation processor.</summary>
+        /// <summary>Gets the document processors.</summary>
         [JsonIgnore]
         public DocumentProcessorCollection DocumentProcessors { get; } = new DocumentProcessorCollection
         {

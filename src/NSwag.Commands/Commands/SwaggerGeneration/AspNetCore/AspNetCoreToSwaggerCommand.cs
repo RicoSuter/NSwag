@@ -276,9 +276,9 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
         protected override async Task<string> RunIsolatedAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
             var currentWorkingDirectory = ChangeWorkingDirectoryAndSetAspNetCoreEnvironment();
-            using (var testServer = await CreateTestServerAsync(assemblyLoader))
+            using (var webHost = await CreateWebHostAsync(assemblyLoader))
             {
-                var document = await GenerateDocumentAsync(assemblyLoader, testServer.Host, currentWorkingDirectory);
+                var document = await GenerateDocumentAsync(assemblyLoader, webHost, currentWorkingDirectory);
                 return UseDocumentProvider ? document.ToJson() : document.ToJson(OutputType);
             }
         }

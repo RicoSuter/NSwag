@@ -86,8 +86,8 @@ namespace NSwag.Commands.SwaggerGeneration.WebApi
             var workingDirectory = Directory.GetCurrentDirectory();
             if (IsAspNetCore && ResolveJsonOptions)
             {
-                using (var testServer = await CreateTestServerAsync(assemblyLoader))
-                    settings = await CreateSettingsAsync(assemblyLoader, testServer.Host, workingDirectory);
+                using (var webHost = await CreateWebHostAsync(assemblyLoader))
+                    settings = await CreateSettingsAsync(assemblyLoader, webHost, workingDirectory);
             }
             else
                 settings = await CreateSettingsAsync(assemblyLoader, null, workingDirectory);
