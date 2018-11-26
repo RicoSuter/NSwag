@@ -34,9 +34,11 @@ namespace NSwag.CodeGeneration.CSharp
                 TimeSpanType = "System.TimeSpan",
 
                 ArrayType = "System.Collections.Generic.ICollection",
-                DictionaryType = "System.Collections.Generic.IDictionary",
+                ArrayInstanceType = "System.Collections.ObjectModel.Collection",
+                ArrayBaseType = "System.Collections.ObjectModel.Collection",
 
-                ArrayBaseType = "System.Collections.Generic.Collection",
+                DictionaryType = "System.Collections.Generic.IDictionary",
+                DictionaryInstanceType = "System.Collections.Generic.Dictionary",
                 DictionaryBaseType = "System.Collections.Generic.Dictionary"
             };
 
