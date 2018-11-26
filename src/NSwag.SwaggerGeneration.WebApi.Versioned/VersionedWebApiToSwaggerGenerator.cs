@@ -101,7 +101,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Versioned
 
                 var operationDescription = new SwaggerOperationDescription
                 {
-                    Path = path,
+                    Path = path.Split( '?' )[0],
                     Method = swaggerOperationMethod,
                     Operation = new SwaggerOperation
                     {
@@ -124,16 +124,6 @@ namespace NSwag.SwaggerGeneration.WebApi.Versioned
             {
                 var operation = tuple.Item1;
                 var apiDescription = tuple.Item2;
-
-                foreach ( var mediaType in apiDescription.SupportedRequestBodyFormatters.SelectMany( f => f.SupportedMediaTypes ) )
-                {
-                    document.Consumes = document.Consumes ?? new List<string>();
-                    
-                    if (!document.Consumes.Contains(mediaType.MediaType, StringComparer.OrdinalIgnoreCase))
-                    {
-                        document.Consumes.Add(mediaType.MediaType);
-                    }
-                }
 
                 var addOperation = await RunOperationProcessorsAsync( document, apiDescription, operation, allOperations, swaggerGenerator, schemaResolver ).ConfigureAwait( false );
                 if (addOperation)

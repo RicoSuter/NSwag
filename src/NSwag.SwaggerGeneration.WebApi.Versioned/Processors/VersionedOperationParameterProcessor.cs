@@ -67,7 +67,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Versioned.Processors
                             operationParameter.Kind = SwaggerParameterKind.Query; 
                         }
                     }
-                        
+                    operationParameter.IsNullableRaw = null;
                     context.OperationDescription.Operation.Parameters.Add(operationParameter);
                 }
                 else if (parameter.Source == ApiParameterSource.FromBody)

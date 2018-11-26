@@ -45,17 +45,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Versioned.Processors
                 .ToList();
 
             var operation = context.OperationDescription.Operation;
-            foreach ( var requestFormat in context.ApiDescription.SupportedRequestBodyFormatters.SelectMany( r =>
-                r.SupportedMediaTypes ) )
-            {
-                if ( operation.Consumes == null )
-                    operation.Consumes = new List<string>();
 
-                if ( !operation.Consumes.Contains( requestFormat.MediaType, StringComparer.OrdinalIgnoreCase ) )
-                {
-                    operation.Consumes.Add( requestFormat.MediaType );
-                }
-            }
 
             if ( responseTypeAttributes.Count > 0 )
             {
@@ -70,8 +60,6 @@ namespace NSwag.SwaggerGeneration.WebApi.Versioned.Processors
 
                 if ( context.MethodInfo.GetCustomAttribute<SwaggerDefaultResponseAttribute>() != null )
                     httpStatusCode = "default";
-                else if ( IsVoidResponse( returnType ) )
-                    httpStatusCode = "200";
                 else
                     httpStatusCode = "200";
 
@@ -81,14 +69,16 @@ namespace NSwag.SwaggerGeneration.WebApi.Versioned.Processors
                 if ( IsVoidResponse( returnType ) == false )
                 {
                     response.IsNullableRaw = typeDescription.IsNullable;
-
-                    response.Schema = await context.SchemaGenerator
+                    var testSchema = await context.SchemaGenerator
                         .GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(
-                            returnType, null, typeDescription.IsNullable, context.SchemaResolver )
-                        .ConfigureAwait( false );
+                            returnType, null, typeDescription.IsNullable, context.SchemaResolver)
+                        .ConfigureAwait(false);
+                    if ( testSchema.Type == JsonObjectType.File )
+                        testSchema.Type = JsonObjectType.Object;
+                    response.Schema = testSchema;
                 }
 
-                context.OperationDescription.Operation.Responses[httpStatusCode] = response;
+                context.OperationDescription.Operation.Responses.Add(httpStatusCode, response); 
 
                 if ( operation.Produces == null )
                     operation.Produces = new List<string>();
@@ -96,6 +86,9 @@ namespace NSwag.SwaggerGeneration.WebApi.Versioned.Processors
                 foreach ( var responseFormat in context.ApiDescription.SupportedResponseFormatters.SelectMany( r =>
                     r.SupportedMediaTypes ) )
                 {
+                    if (operation.Produces == null)
+                        operation.Produces = new List<string>();
+                
                     if ( !operation.Produces.Contains( responseFormat.MediaType, StringComparer.OrdinalIgnoreCase ) )
                     {
                         operation.Produces.Add( responseFormat.MediaType );
