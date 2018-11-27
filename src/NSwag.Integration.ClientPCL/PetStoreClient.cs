@@ -2353,7 +2353,7 @@ namespace PetStore
         private long? _id;
         private Category _category;
         private string _name;
-        private System.Collections.ObjectModel.ObservableCollection<string> _photoUrls = new System.Collections.ObjectModel.Collection<string>();
+        private System.Collections.ObjectModel.ObservableCollection<string> _photoUrls = new System.Collections.ObjectModel.ObservableCollection<string>();
         private System.Collections.ObjectModel.ObservableCollection<Tag> _tags;
         private PetStatus? _status;
     
