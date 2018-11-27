@@ -408,7 +408,7 @@ namespace MyNamespace
         private int _age;
         private System.TimeSpan _averageSleepTime;
         private Address _address = new Address();
-        private System.Collections.Generic.List<Person> _children = new System.Collections.ObjectModel.Collection<Person>();
+        private System.Collections.Generic.List<Person> _children = new System.Collections.Generic.List<Person>();
         private System.Collections.Generic.Dictionary<string, SkillLevel> _skills;
     
         [Newtonsoft.Json.JsonProperty("Id", Required = Newtonsoft.Json.Required.Always)]

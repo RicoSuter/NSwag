@@ -126,7 +126,7 @@ namespace NSwag.Integration.Console.Contracts
     
         [Newtonsoft.Json.JsonProperty("Children", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
-        public System.Collections.ObjectModel.ObservableCollection<Person> Children { get; set; } = new System.Collections.ObjectModel.Collection<Person>();
+        public System.Collections.ObjectModel.ObservableCollection<Person> Children { get; set; } = new System.Collections.ObjectModel.ObservableCollection<Person>();
     
         [Newtonsoft.Json.JsonProperty("Skills", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.Dictionary<string, SkillLevel> Skills { get; set; }
