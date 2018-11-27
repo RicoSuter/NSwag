@@ -154,6 +154,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.SwaggerGeneration.Asp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.AssemblyLoader.Tests", "NSwag.AssemblyLoader.Tests\NSwag.AssemblyLoader.Tests.csproj", "{1853262B-6D39-477B-872A-8B5473FE74BB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwag.MSBuild.CodeGeneration", "NSwag.MSBuild.CodeGeneration", "{E6E40935-0C79-480B-BF29-8C493AC7E518}"
+	ProjectSection(SolutionItems) = preProject
+		NSwag.MSBuild.CodeGeneration\NSwag.MSBuild.CodeGeneration.nuspec = NSwag.MSBuild.CodeGeneration\NSwag.MSBuild.CodeGeneration.nuspec
+		NSwag.MSBuild.CodeGeneration\NSwag.MSBuild.CodeGeneration.targets = NSwag.MSBuild.CodeGeneration\NSwag.MSBuild.CodeGeneration.targets
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1024,6 +1030,7 @@ Global
 		{18386943-8FCC-4414-BBEF-A1CAB1E557A2} = {D8CC0D1C-8DAC-49FE-AA78-C028DC124DD5}
 		{FDD41017-91E2-4BD8-B827-F851BDEC6B6E} = {634E4ABD-29EC-4EB2-81EF-7E41D6D6F6E0}
 		{1853262B-6D39-477B-872A-8B5473FE74BB} = {634E4ABD-29EC-4EB2-81EF-7E41D6D6F6E0}
+		{E6E40935-0C79-480B-BF29-8C493AC7E518} = {DDBB05AC-B066-48C4-933C-034F401EBB6A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {98FCEEE2-A45C-41E7-B2ED-1B14755E9067}

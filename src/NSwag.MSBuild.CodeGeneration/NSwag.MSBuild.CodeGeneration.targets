@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project>
+  <PropertyGroup>
+    <_NSwagcommand>$(NSwagExe)</_NSwagcommand>
+    <_NSwagcommand Condition="'$(MSBuildRuntimeType)' == 'Core'">$(NSwagExe_Core20)</_NSwagcommand>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup>
+    <CurrentServiceProjectReference>
+      <GenerateNSwagDocumentOptions />
+      <Configuration />
+      <Platform />
+    </CurrentServiceProjectReference>
+    <CurrentServiceFileReference>
+      <GenerateNSwagCSharpOptions />
+      <GenerateNSwagTypeScriptOptions />
+    </CurrentServiceFileReference>
+  </ItemDefinitionGroup>
+
+  <!-- ServiceProjectReference support -->
+
+  <Target Name="GenerateNSwagDocument">
+    <ItemGroup>
+      <!-- @(CurrentServiceProjectReference) item group will never contain more than one item. -->
+      <CurrentServiceProjectReference Update="@(CurrentServiceProjectReference)">
+        <Command>$(NSwagExe)</Command>
+        <Command Condition="'%(Platform)' == 'x86'">$(NSwagExe_x86)</Command>
+        <Command Condition="'%(TargetFramework)' == 'netcoreapp1.0'">$(NSwagExe_Core10)</Command>
+        <Command Condition="'%(TargetFramework)' == 'netcoreapp1.1'">$(NSwagExe_Core11)</Command>
+        <Command Condition="'%(TargetFramework)' == 'netcoreapp2.0'">$(NSwagExe_Core20)</Command>
+        <Command Condition="'%(TargetFramework)' == 'netcoreapp2.1'">$(NSwagExe_Core21)</Command>
+        <Command Condition="'%(TargetFramework)' == 'netcoreapp2.2'">$(NSwagExe_Core21)</Command>
+        <Configuration Condition="'%(Configuration)' == ''">$(Configuration)</Configuration>
+        <GenerateNSwagDocumentOptions
+            Condition="'%(GenerateNSwagDocumentOptions)' == ''">$(GenerateNSwagDocumentDefaultOptions)</GenerateNSwagDocumentOptions>
+      </CurrentServiceProjectReference>
+      <CurrentServiceProjectReference Update="@(CurrentServiceProjectReference)">
+        <Command>%(Command) aspnetcore2swagger /NoBuild:true /output:%(DocumentPath) /Project:%(FullPath)</Command>
+      </CurrentServiceProjectReference>
+      <CurrentServiceProjectReference Update="@(CurrentServiceProjectReference)">
+        <Command>%(Command) /Configuration:%(Configuration) /TargetFramework:%(TargetFramework)</Command>
+      </CurrentServiceProjectReference>
+      <CurrentServiceProjectReference Update="@(CurrentServiceProjectReference)">
+        <Command>%(Command) %(GenerateNSwagDocumentOptions)</Command>
+      </CurrentServiceProjectReference>
+    </ItemGroup>
+
+    <Message Importance="high" Text="%0AGenerateNSwagDocument:" />
+    <Message Importance="high" Text="  %(CurrentServiceProjectReference.Command)" />
+    <Exec Command="%(CurrentServiceProjectReference.Command)"
+        IgnoreExitCode="$([System.IO.File]::Exists('%(DocumentPath)'))" />
+  </Target>
+
+  <!-- ServiceFileReference support for C# -->
+
+  <Target Name="GenerateNSwagCSharp">
+    <ItemGroup>
+      <!-- @(CurrentServiceFileReference) item group will never contain more than one item. -->
+      <CurrentServiceFileReference Update="@(CurrentServiceFileReference)">
+        <Command>$(_NSwagcommand) swagger2csclient /className:%(ClassName) /namespace:%(Namespace)</Command>
+        <GenerateNSwagCSharpOptions
+            Condition="'%(GenerateNSwagCSharpOptions)' == ''">$(GenerateNSwagCSharpDefaultOptions)</GenerateNSwagCSharpOptions>
+      </CurrentServiceFileReference>
+      <CurrentServiceFileReference Update="@(CurrentServiceFileReference)">
+        <Command>%(Command) /input:%(FullPath) /output:%(OutputPath) %(GenerateNSwagCSharpOptions)</Command>
+      </CurrentServiceFileReference>
+    </ItemGroup>
+
+    <Message Importance="high" Text="%0AGenerateNSwagCSharp:" />
+    <Message Importance="high" Text="  %(CurrentServiceFileReference.Command)" />
+    <Exec Command="%(CurrentServiceFileReference.Command)"
+        IgnoreExitCode="$([System.IO.File]::Exists('%(OutputPath)'))" />
+  </Target>
+
+  <!-- ServiceFileReference support for TypeScript -->
+
+  <Target Name="GenerateNSwagTypeScript">
+    <ItemGroup>
+      <!-- @(CurrentServiceFileReference) item group will never contain more than one item. -->
+      <CurrentServiceFileReference Update="@(CurrentServiceFileReference)">
+        <Command>$(_NSwagcommand) swagger2tsclient /className:%(ClassName) /namespace:%(Namespace)</Command>
+        <GenerateNSwagTypeScriptOptions
+            Condition="'%(GenerateNSwagTypeScriptOptions)' == ''">$(GenerateNSwagTypeScriptDefaultOptions)</GenerateNSwagTypeScriptOptions>
+      </CurrentServiceFileReference>
+      <CurrentServiceFileReference Update="@(CurrentServiceFileReference)">
+        <Command>%(Command) /input:%(FullPath) /output:%(OutputPath) %(GenerateNSwagTypeScriptOptions)</Command>
+      </CurrentServiceFileReference>
+    </ItemGroup>
+
+    <Message Importance="high" Text="%0AGenerateNSwagTypeScript:" />
+    <Message Importance="high" Text="  %(CurrentServiceFileReference.Command)" />
+    <Exec Command="%(CurrentServiceFileReference.Command)"
+        IgnoreExitCode="$([System.IO.File]::Exists('%(OutputPath)'))" />
+  </Target>
+</Project>
