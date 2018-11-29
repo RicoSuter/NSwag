@@ -63,15 +63,16 @@ namespace NSwag.SwaggerGeneration
         {
             if (serializerSettings != null)
             {
-                // TODO: Move to NJS => JsonSchemaGeneratorSettings
                 var areSerializerSettingsSpecified =
                     DefaultPropertyNameHandling != PropertyNameHandling.Default ||
                     DefaultEnumHandling != EnumHandling.Integer ||
-                    ContractResolver != null |
+                    ContractResolver != null ||
                     SerializerSettings != null;
 
                 if (!areSerializerSettingsSpecified)
+                {
                     SerializerSettings = serializerSettings;
+                }
             }
 
             if (mvcOptions != null && mvcOptions.HasProperty("AllowEmptyInputInBodyModelBinding"))
