@@ -34,29 +34,33 @@ namespace NSwag.SwaggerGeneration.WebApi.Versioned.Processors
             
             foreach (var parameter in context.ApiDescription.ParameterDescriptions)
             {
-                SwaggerParameter operationParameter = null;
+                SwaggerParameterKind operationParameterKind = SwaggerParameterKind.Undefined;
+                var attributes = parameter.ParameterDescriptor.GetCustomAttributes<Attribute>();
+
+                if (attributes.Any(a => a.GetType().Name == "SwaggerIgnoreAttribute"))
+                    continue;
+                    
                 if (parameter.Source == ApiParameterSource.FromUri)
                 {
-                    operationParameter = await CreatePrimitiveParameterAsync(context, parameter).ConfigureAwait(false);
-                    var index = context.OperationDescription.Path.IndexOf( "{" + operationParameter.Name + "}",
+                    var index = context.OperationDescription.Path.IndexOf( "{" + parameter.Name + "}",
                         StringComparison.OrdinalIgnoreCase );
 
                     if ( index > 0 && context.OperationDescription.Path.Substring( index - 1, 1 ) != "=" )
                     {
-                        operationParameter.Kind = SwaggerParameterKind.Path;
+                        operationParameterKind = SwaggerParameterKind.Path;
                     }
                     else
                     {
                         // Parameters inside parentheses are OData path parameters
-                        var odataPaths = Regex.Match( context.OperationDescription.Path, @"\(([^)]*)\)" );
+                        var odataPaths = Regex.Matches( context.OperationDescription.Path, @"(\([^\)]+\))" );
                         var matchedPath = false;
-                        for ( var i = 1; i < odataPaths.Groups.Count; i++ )
+                        foreach ( Match match in odataPaths )
                         {
-                            var odataIndex = odataPaths.Groups[i].Value.IndexOf( "{" + operationParameter.Name + "}",
+                            var odataIndex = match.Groups[1].Value.IndexOf( "{" + parameter.Name + "}",
                                 StringComparison.OrdinalIgnoreCase );
                             if ( odataIndex > 0 )
                             {
-                                operationParameter.Kind = SwaggerParameterKind.Path;
+                                operationParameterKind = SwaggerParameterKind.Path;
                                 matchedPath = true;
                                 break;
                             }
@@ -64,9 +68,13 @@ namespace NSwag.SwaggerGeneration.WebApi.Versioned.Processors
                         
                         if(!matchedPath)
                         {
-                            operationParameter.Kind = SwaggerParameterKind.Query; 
+                            operationParameterKind = SwaggerParameterKind.Query; 
                         }
                     }
+
+                    SwaggerParameter operationParameter = await CreatePrimitiveParameterAsync(context, parameter).ConfigureAwait(false);
+                    
+                    operationParameter.Kind = operationParameterKind;
                     operationParameter.IsNullableRaw = null;
                     context.OperationDescription.Operation.Parameters.Add(operationParameter);
                 }
@@ -186,6 +194,5 @@ namespace NSwag.SwaggerGeneration.WebApi.Versioned.Processors
                 operationParameter.IsRequired = !parameter.ParameterDescriptor.IsOptional;
             return operationParameter;
         }
-        
     }
 }

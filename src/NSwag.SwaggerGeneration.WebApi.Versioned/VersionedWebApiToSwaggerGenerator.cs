@@ -90,6 +90,11 @@ namespace NSwag.SwaggerGeneration.WebApi.Versioned
         private async Task<bool> GenerateForControllerAsync( SwaggerDocument document, HttpControllerDescriptor controller,
             List<VersionedApiDescription> apiDescriptions, SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver )
         {
+            var hasIgnoreAttribute =controller.GetCustomAttributes<Attribute>()
+                .Any(x => x.GetType().Name == "SwaggerIgnoreAttribute");
+            if (hasIgnoreAttribute)
+                return false;
+            
             var operations = new List<Tuple<SwaggerOperationDescription, VersionedApiDescription>>();
             foreach ( var apiDescription in apiDescriptions )
             {
