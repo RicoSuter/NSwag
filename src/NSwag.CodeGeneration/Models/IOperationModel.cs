@@ -15,5 +15,8 @@ namespace NSwag.CodeGeneration.Models
     {
         /// <summary>Gets the responses.</summary>
         IEnumerable<ResponseModelBase> Responses { get; }
+
+        /// <summary>Gets Swagger operation's mime type.</summary>
+        string Produces { get; }
     }
 }
