@@ -17,11 +17,10 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <summary>Adds services required for OpenAPI 3.0 generation (change document settings to generate Swagger 2.0).</summary>
         /// <param name="serviceCollection">The <see cref="IServiceCollection"/>.</param>
         /// <param name="configure">Configure the document.</param>
-        public static IServiceCollection AddOpenApiDocument(this IServiceCollection serviceCollection, Action<SwaggerDocumentSettings> configure = null)
+        public static IServiceCollection AddOpenApiDocument(this IServiceCollection serviceCollection, Action<SwaggerDocumentSettings> configure)
         {
-            return AddSwaggerDocument(serviceCollection, settings =>
+            return AddOpenApiDocument(serviceCollection, (settings, services) =>
             {
-                settings.SchemaType = SchemaType.OpenApi3;
                 configure?.Invoke(settings);
             });
         }
@@ -41,8 +40,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <summary>Adds services required for Swagger 2.0 generation (change document settings to generate OpenAPI 3.0).</summary>
         /// <param name="serviceCollection">The <see cref="IServiceCollection"/>.</param>
         /// <param name="configure">Configure the document.</param>
-        public static IServiceCollection AddSwaggerDocument(this IServiceCollection serviceCollection,
-            Action<SwaggerDocumentSettings> configure = null)
+        public static IServiceCollection AddSwaggerDocument(this IServiceCollection serviceCollection, Action<SwaggerDocumentSettings> configure)
         {
             return AddSwaggerDocument(serviceCollection, (settings, services) =>
             {
@@ -55,12 +53,12 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="configure">Configure the document.</param>
         public static IServiceCollection AddSwaggerDocument(this IServiceCollection serviceCollection, Action<SwaggerDocumentSettings, IServiceProvider> configure = null)
         {
-            serviceCollection.AddSingleton(s =>
+            serviceCollection.AddSingleton(services =>
             {
                 var settings = new SwaggerDocumentSettings();
                 settings.SchemaType = SchemaType.Swagger2;
 
-                configure?.Invoke(settings, s);
+                configure?.Invoke(settings, services);
 
                 if (settings.PostProcess != null)
                 {
@@ -68,12 +66,12 @@ namespace Microsoft.Extensions.DependencyInjection
                     settings.DocumentProcessors.Add(processor);
                 }
 
-                foreach (var documentProcessor in s.GetRequiredService<IEnumerable<IDocumentProcessor>>())
+                foreach (var documentProcessor in services.GetRequiredService<IEnumerable<IDocumentProcessor>>())
                 {
                     settings.DocumentProcessors.Add(documentProcessor);
                 }
 
-                foreach (var operationProcessor in s.GetRequiredService<IEnumerable<IOperationProcessor>>())
+                foreach (var operationProcessor in services.GetRequiredService<IEnumerable<IOperationProcessor>>())
                 {
                     settings.OperationProcessors.Add(operationProcessor);
                 }
