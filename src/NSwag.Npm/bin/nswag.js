@@ -33,7 +33,7 @@ if (process.env["windir"]) {
 }
 
 var c = require('child_process');
-if (hasFullDotNet && args.toLowerCase().indexOf("/runtime:Win") != -1) {
+if (hasFullDotNet && args.toLowerCase().indexOf("/runtime:win") != -1) {
     // Run full .NET version
     if (args.toLowerCase().indexOf("/runtime:winx86") != -1) {
         var cmd = '"' + __dirname + '/binaries/Win/nswag.x86.exe" ' + args;
