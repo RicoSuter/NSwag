@@ -19,7 +19,6 @@ dotnet publish || goto :error
 cmd /c call "..\NSwagStudio\bin\Release\nswag.cmd" run /runtime:NetCore20 || goto :error
 popd
 
-
 pushd "%~dp0\..\src\NSwag.Sample.NETCore21"
 dotnet restore || goto :error
 dotnet publish || goto :error
