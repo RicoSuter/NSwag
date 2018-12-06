@@ -1,0 +1,50 @@
+﻿{
+  "runtime": "NetCore22",
+  "defaultVariables": null,
+  "swaggerGenerator": {
+    "aspNetCoreToSwagger": {
+      "project": "",
+      "msBuildProjectExtensionsPath": null,
+      "configuration": null,
+      "runtime": null,
+      "targetFramework": null,
+      "noBuild": false,
+      "verbose": false,
+      "defaultPropertyNameHandling": "Default",
+      "defaultReferenceTypeNullHandling": "Null",
+      "defaultEnumHandling": "Integer",
+      "flattenInheritanceHierarchy": false,
+      "generateKnownTypes": true,
+      "generateXmlObjects": false,
+      "generateAbstractProperties": false,
+      "ignoreObsoleteProperties": false,
+      "allowReferencesWithProperties": false,
+      "excludedTypeNames": [],
+      "serviceHost": null,
+      "serviceBasePath": null,
+      "serviceSchemes": [],
+      "infoTitle": "ljlkjlkj",
+      "infoDescription": null,
+      "infoVersion": "",
+      "includedVersions": null,
+      "documentTemplate": null,
+      "documentProcessorTypes": [],
+      "operationProcessorTypes": [],
+      "typeNameGeneratorType": null,
+      "schemaNameGeneratorType": null,
+      "contractResolverType": null,
+      "serializerSettingsType": null,
+      "settingsFactoryType": "NSwag.Sample.NETCore22:NSwag.Sample.NETCore22.MySettingsFactory",
+      "output": "swagger_assembly_cli.json",
+      "outputType": "Swagger2",
+      "assemblyPaths": [
+        "bin/Debug/netcoreapp2.1/NSwag.Sample.NETCore22.dll"
+      ],
+      "assemblyConfig": null,
+      "referencePaths": [
+        "%USERPROFILE%/.nuget/packages"
+      ]
+    }
+  },
+  "codeGenerators": {}
+}
