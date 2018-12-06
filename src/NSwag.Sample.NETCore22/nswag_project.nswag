@@ -1,14 +1,14 @@
 ﻿{
-  "runtime": "NetCore21",
+  "runtime": "NetCore22",
   "defaultVariables": null,
   "swaggerGenerator": {
     "aspNetCoreToSwagger": {
-      "project": "",
+      "project": "NSwag.Sample.NETCore22.csproj",
       "msBuildProjectExtensionsPath": null,
       "configuration": null,
       "runtime": null,
       "targetFramework": null,
-      "noBuild": false,
+      "noBuild": true,
       "verbose": false,
       "workingDirectory": null,
       "requireParametersWithoutDefault": true,
@@ -26,9 +26,9 @@
       "serviceHost": null,
       "serviceBasePath": null,
       "serviceSchemes": [],
-      "infoTitle": "ljlkjlkj",
+      "infoTitle": "My Title",
       "infoDescription": null,
-      "infoVersion": "",
+      "infoVersion": "1.0.0",
       "documentTemplate": null,
       "documentProcessorTypes": [],
       "operationProcessorTypes": [],
@@ -41,12 +41,10 @@
       "aspNetCoreEnvironment": null,
       "createWebHostBuilderMethod": null,
       "startupType": null,
-      "allowNullableBodyParameters": true,
-      "output": "swagger_assembly_cli.json",
+      "allowNullableBodyParameters": false,
+      "output": "swagger_project_cli.json",
       "outputType": "Swagger2",
-      "assemblyPaths": [
-        "bin/Debug/netcoreapp2.1/NSwag.Sample.NETCore21.dll"
-      ],
+      "assemblyPaths": [],
       "assemblyConfig": null,
       "referencePaths": [],
       "useNuGetCache": false

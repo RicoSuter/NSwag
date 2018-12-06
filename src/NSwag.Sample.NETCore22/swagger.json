@@ -1,13 +1,23 @@
-﻿{
-  "x-generator": "NSwag v12.0.4.0 (NJsonSchema v9.12.7.0 (Newtonsoft.Json v11.0.0.0))",
+{
+  "x-generator": "NSwag v11.17.15.0 (NJsonSchema v9.10.53.0 (Newtonsoft.Json v10.0.0.0))",
   "swagger": "2.0",
   "info": {
-    "title": "ljlkjlkj",
+    "title": "My Title",
     "version": "1.0.0"
   },
+  "host": "localhost:44370",
+  "schemes": [
+    "https"
+  ],
   "consumes": [
     "application/json",
+    "application/json-patch+json",
+    "text/json",
+    "application/*+json",
     "multipart/form-data"
+  ],
+  "produces": [
+    "application/json"
   ],
   "paths": {
     "/pet": {
@@ -19,9 +29,6 @@
         "consumes": [
           "application/json"
         ],
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "pet",
@@ -30,7 +37,7 @@
             "schema": {
               "$ref": "#/definitions/Pet"
             },
-            "x-nullable": false
+            "x-nullable": true
           }
         ],
         "responses": {
@@ -54,9 +61,6 @@
         "consumes": [
           "application/json"
         ],
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "pet",
@@ -65,7 +69,7 @@
             "schema": {
               "$ref": "#/definitions/Pet"
             },
-            "x-nullable": false
+            "x-nullable": true
           }
         ],
         "responses": {
@@ -88,20 +92,24 @@
           "Pet"
         ],
         "operationId": "Pet_FindByStatus",
-        "produces": [
-          "application/json"
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
         ],
         "parameters": [
           {
-            "type": "array",
             "name": "status",
-            "in": "query",
+            "in": "body",
             "required": true,
-            "collectionFormat": "multi",
-            "x-nullable": true,
-            "items": {
-              "type": "string"
-            }
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "x-nullable": true
           }
         ],
         "responses": {
@@ -124,9 +132,6 @@
           "Pet"
         ],
         "operationId": "Pet_FindByCategory",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "type": "string",
@@ -163,9 +168,6 @@
           "Pet"
         ],
         "operationId": "Pet_FindById",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "type": "integer",
@@ -201,9 +203,6 @@
           "Pet"
         ],
         "operationId": "Pet_EditPet2",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "type": "integer",
@@ -227,8 +226,6 @@
             "in": "formData",
             "required": true,
             "format": "int32",
-            "maximum": 150.0,
-            "minimum": 0.0,
             "x-nullable": false
           },
           {
@@ -258,8 +255,6 @@
             "name": "Name",
             "in": "formData",
             "required": true,
-            "maxLength": 50,
-            "minLength": 2,
             "x-nullable": true
           },
           {
@@ -313,9 +308,6 @@
           "Pet"
         ],
         "operationId": "Pet_DeletePet",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "type": "integer",
@@ -351,9 +343,6 @@
         "operationId": "Pet_UploadImage",
         "consumes": [
           "multipart/form-data"
-        ],
-        "produces": [
-          "application/json"
         ],
         "parameters": [
           {
@@ -395,10 +384,6 @@
     }
   },
   "definitions": {
-    "SerializableError": {
-      "type": "object",
-      "additionalProperties": {}
-    },
     "Pet": {
       "type": "object",
       "additionalProperties": false,
@@ -444,8 +429,7 @@
           }
         },
         "status": {
-          "type": "string",
-          "minLength": 1
+          "type": "string"
         }
       }
     },
@@ -496,6 +480,16 @@
           "type": "string"
         }
       }
+    },
+    "SerializableError": {
+      "type": "object",
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "type": "object",
+          "additionalProperties": {}
+        }
+      ]
     },
     "ApiResponse": {
       "type": "object",

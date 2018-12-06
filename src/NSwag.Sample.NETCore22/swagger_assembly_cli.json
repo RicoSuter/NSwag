@@ -6,7 +6,10 @@
     "version": "1.0.0"
   },
   "consumes": [
+    "application/json-patch+json",
     "application/json",
+    "application/*+json",
+    "text/json",
     "multipart/form-data"
   ],
   "paths": {
@@ -17,7 +20,9 @@
         ],
         "operationId": "Pet_AddPet",
         "consumes": [
-          "application/json"
+          "application/json-patch+json",
+          "application/json",
+          "application/*+json"
         ],
         "produces": [
           "application/json"
@@ -52,7 +57,9 @@
         ],
         "operationId": "Pet_EditPet",
         "consumes": [
-          "application/json"
+          "application/json-patch+json",
+          "application/json",
+          "application/*+json"
         ],
         "produces": [
           "application/json"
@@ -88,20 +95,27 @@
           "Pet"
         ],
         "operationId": "Pet_FindByStatus",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "type": "array",
             "name": "status",
-            "in": "query",
+            "in": "body",
             "required": true,
-            "collectionFormat": "multi",
-            "x-nullable": true,
-            "items": {
-              "type": "string"
-            }
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "x-nullable": false
           }
         ],
         "responses": {
@@ -192,7 +206,11 @@
             }
           },
           "404": {
-            "description": ""
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
           }
         }
       },
@@ -304,7 +322,11 @@
             }
           },
           "404": {
-            "description": ""
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
           }
         }
       },
@@ -338,7 +360,11 @@
             }
           },
           "404": {
-            "description": ""
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
           }
         }
       }
@@ -388,7 +414,11 @@
             }
           },
           "404": {
-            "description": ""
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
           }
         }
       }
@@ -493,6 +523,28 @@
           "format": "int32"
         },
         "name": {
+          "type": "string"
+        }
+      }
+    },
+    "ProblemDetails": {
+      "type": "object",
+      "additionalProperties": {},
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "detail": {
+          "type": "string"
+        },
+        "instance": {
           "type": "string"
         }
       }

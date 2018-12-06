@@ -29,7 +29,7 @@
         <Command Condition="'%(TargetFramework)' == 'netcoreapp1.1'">$(NSwagExe_Core11)</Command>
         <Command Condition="'%(TargetFramework)' == 'netcoreapp2.0'">$(NSwagExe_Core20)</Command>
         <Command Condition="'%(TargetFramework)' == 'netcoreapp2.1'">$(NSwagExe_Core21)</Command>
-        <Command Condition="'%(TargetFramework)' == 'netcoreapp2.2'">$(NSwagExe_Core21)</Command>
+        <Command Condition="'%(TargetFramework)' == 'netcoreapp2.2'">$(NSwagExe_Core22)</Command>
         <Configuration Condition="'%(Configuration)' == ''">$(Configuration)</Configuration>
         <GenerateNSwagDocumentOptions
             Condition="'%(GenerateNSwagDocumentOptions)' == ''">$(GenerateNSwagDocumentDefaultOptions)</GenerateNSwagDocumentOptions>

@@ -8,7 +8,7 @@
       "configuration": null,
       "runtime": null,
       "targetFramework": null,
-      "noBuild": false,
+      "noBuild": true,
       "verbose": false,
       "workingDirectory": null,
       "requireParametersWithoutDefault": true,
