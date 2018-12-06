@@ -32,6 +32,9 @@ namespace NSwag.Commands
         /// <summary>.NET Core 2.1 app.</summary>
         NetCore21,
 
+        /// <summary>.NET Core 2.2 app.</summary>
+        NetCore22,
+
         /// <summary>Execute in the same proces.</summary>
         Debug
     }
