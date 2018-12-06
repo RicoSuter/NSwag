@@ -15,6 +15,7 @@
     <AssemblyName>dotnet-nswag</AssemblyName>
     <PackageId>NSwag.ConsoleCore</PackageId>
   </PropertyGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\NSwag.AspNetCore.Launcher\NSwag.AspNetCore.Launcher.csproj" PrivateAssets="All" />
     <ProjectReference Include="..\NSwag.Commands\NSwag.Commands.csproj" />
@@ -40,7 +41,6 @@
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ApiExplorer" Version="2.2.0" />
   </ItemGroup>
-
   
   <ItemGroup>
     <PackageReference Include="NConsole" Version="3.9.6519.30868" />
