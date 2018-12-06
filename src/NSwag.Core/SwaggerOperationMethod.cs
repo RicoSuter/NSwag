@@ -6,50 +6,36 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Runtime.Serialization;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-
 namespace NSwag
 {
     /// <summary>Enumeration of the available HTTP methods. </summary>
-    [JsonConverter(typeof(StringEnumConverter))]
-    public enum SwaggerOperationMethod
+    public static class SwaggerOperationMethod
     {
         /// <summary>An undefined method.</summary>
-        [EnumMember(Value = "undefined")]
-        Undefined,
+        public static string Undefined { get; } = "undefined";
 
         /// <summary>The HTTP GET method. </summary>
-        [EnumMember(Value = "get")]
-        Get,
+        public static string Get { get; } = "get";
 
         /// <summary>The HTTP POST method. </summary>
-        [EnumMember(Value = "post")]
-        Post,
+        public static string Post { get; } = "post";
 
         /// <summary>The HTTP PUT method. </summary>
-        [EnumMember(Value = "put")]
-        Put,
+        public static string Put { get; } = "put";
 
         /// <summary>The HTTP DELETE method. </summary>
-        [EnumMember(Value = "delete")]
-        Delete,
+        public static string Delete { get; } = "delete";
 
         /// <summary>The HTTP OPTIONS method. </summary>
-        [EnumMember(Value = "options")]
-        Options,
+        public static string Options { get; } = "options";
 
         /// <summary>The HTTP HEAD method. </summary>
-        [EnumMember(Value = "head")]
-        Head,
+        public static string Head { get; } = "head";
 
         /// <summary>The HTTP PATCH method. </summary>
-        [EnumMember(Value = "patch")]
-        Patch,
+        public static string Patch { get; } = "patch";
 
         /// <summary>The HTTP TRACE method (OpenAPI only). </summary>
-        [EnumMember(Value = "trace")]
-        Trace
+        public static string Trace { get; } = "trace";
     }
 }
