@@ -160,6 +160,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwag.MSBuild.CodeGeneratio
 		NSwag.MSBuild.CodeGeneration\NSwag.MSBuild.CodeGeneration.targets = NSwag.MSBuild.CodeGeneration\NSwag.MSBuild.CodeGeneration.targets
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Sample.NETCore22", "NSwag.Sample.NETCore22\NSwag.Sample.NETCore22.csproj", "{AC8C4C44-C9AA-4894-AF21-868B53A96429}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -976,6 +978,24 @@ Global
 		{1853262B-6D39-477B-872A-8B5473FE74BB}.ReleaseTypeScriptStrict|x64.Build.0 = Release|Any CPU
 		{1853262B-6D39-477B-872A-8B5473FE74BB}.ReleaseTypeScriptStrict|x86.ActiveCfg = Release|Any CPU
 		{1853262B-6D39-477B-872A-8B5473FE74BB}.ReleaseTypeScriptStrict|x86.Build.0 = Release|Any CPU
+		{AC8C4C44-C9AA-4894-AF21-868B53A96429}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC8C4C44-C9AA-4894-AF21-868B53A96429}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC8C4C44-C9AA-4894-AF21-868B53A96429}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AC8C4C44-C9AA-4894-AF21-868B53A96429}.Debug|x64.Build.0 = Debug|Any CPU
+		{AC8C4C44-C9AA-4894-AF21-868B53A96429}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AC8C4C44-C9AA-4894-AF21-868B53A96429}.Debug|x86.Build.0 = Debug|Any CPU
+		{AC8C4C44-C9AA-4894-AF21-868B53A96429}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC8C4C44-C9AA-4894-AF21-868B53A96429}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC8C4C44-C9AA-4894-AF21-868B53A96429}.Release|x64.ActiveCfg = Release|Any CPU
+		{AC8C4C44-C9AA-4894-AF21-868B53A96429}.Release|x64.Build.0 = Release|Any CPU
+		{AC8C4C44-C9AA-4894-AF21-868B53A96429}.Release|x86.ActiveCfg = Release|Any CPU
+		{AC8C4C44-C9AA-4894-AF21-868B53A96429}.Release|x86.Build.0 = Release|Any CPU
+		{AC8C4C44-C9AA-4894-AF21-868B53A96429}.ReleaseTypeScriptStrict|Any CPU.ActiveCfg = Release|Any CPU
+		{AC8C4C44-C9AA-4894-AF21-868B53A96429}.ReleaseTypeScriptStrict|Any CPU.Build.0 = Release|Any CPU
+		{AC8C4C44-C9AA-4894-AF21-868B53A96429}.ReleaseTypeScriptStrict|x64.ActiveCfg = Release|Any CPU
+		{AC8C4C44-C9AA-4894-AF21-868B53A96429}.ReleaseTypeScriptStrict|x64.Build.0 = Release|Any CPU
+		{AC8C4C44-C9AA-4894-AF21-868B53A96429}.ReleaseTypeScriptStrict|x86.ActiveCfg = Release|Any CPU
+		{AC8C4C44-C9AA-4894-AF21-868B53A96429}.ReleaseTypeScriptStrict|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1031,6 +1051,7 @@ Global
 		{FDD41017-91E2-4BD8-B827-F851BDEC6B6E} = {634E4ABD-29EC-4EB2-81EF-7E41D6D6F6E0}
 		{1853262B-6D39-477B-872A-8B5473FE74BB} = {634E4ABD-29EC-4EB2-81EF-7E41D6D6F6E0}
 		{E6E40935-0C79-480B-BF29-8C493AC7E518} = {DDBB05AC-B066-48C4-933C-034F401EBB6A}
+		{AC8C4C44-C9AA-4894-AF21-868B53A96429} = {D8CC0D1C-8DAC-49FE-AA78-C028DC124DD5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {98FCEEE2-A45C-41E7-B2ED-1B14755E9067}

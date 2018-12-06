@@ -19,6 +19,18 @@ dotnet publish || goto :error
 cmd /c call "..\NSwagStudio\bin\Release\nswag.cmd" run /runtime:NetCore20 || goto :error
 popd
 
+pushd "%~dp0\..\src\NSwag.Sample.NETCore21"
+dotnet restore || goto :error
+dotnet build /p:CopyLocalLockFileAssemblies=true || goto :error
+cmd /c call "..\NSwagStudio\bin\Release\nswag.cmd" run /runtime:NetCore21 || goto :error
+popd
+
+pushd "%~dp0\..\src\NSwag.Sample.NETCore22"
+dotnet restore || goto :error
+dotnet build /p:CopyLocalLockFileAssemblies=true || goto :error
+cmd /c call "..\NSwagStudio\bin\Release\nswag.cmd" run /runtime:NetCore22 || goto :error
+popd
+
 pushd "%~dp0\..\src\NSwag.Sample.NetGlobalAsax"
 msbuild || goto :error
 cmd /c call "..\NSwagStudio\bin\Release\nswag.cmd" run /runtime:Winx64 || goto :error

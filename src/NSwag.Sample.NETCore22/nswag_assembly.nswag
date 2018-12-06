@@ -1,5 +1,5 @@
 ﻿{
-  "runtime": "NetCore21",
+  "runtime": "NetCore22",
   "defaultVariables": null,
   "swaggerGenerator": {
     "aspNetCoreToSwagger": {
@@ -45,7 +45,7 @@
       "output": "swagger_assembly_cli.json",
       "outputType": "Swagger2",
       "assemblyPaths": [
-        "bin/Debug/netcoreapp2.1/NSwag.Sample.NETCore21.dll"
+        "bin/Debug/netcoreapp2.2/NSwag.Sample.NETCore22.dll"
       ],
       "assemblyConfig": null,
       "referencePaths": [],
