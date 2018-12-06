@@ -1,19 +1,13 @@
 ﻿{
-  "x-generator": "NSwag v11.17.13.0 (NJsonSchema v9.10.50.0 (Newtonsoft.Json v9.0.0.0))",
+  "x-generator": "NSwag v12.0.4.0 (NJsonSchema v9.12.7.0 (Newtonsoft.Json v11.0.0.0))",
   "swagger": "2.0",
   "info": {
-    "title": "My Title",
+    "title": "ljlkjlkj",
     "version": "1.0.0"
   },
   "consumes": [
     "application/json",
-    "application/json-patch+json",
-    "text/json",
-    "application/*+json",
     "multipart/form-data"
-  ],
-  "produces": [
-    "application/json"
   ],
   "paths": {
     "/pet": {
@@ -25,6 +19,9 @@
         "consumes": [
           "application/json"
         ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "pet",
@@ -33,10 +30,13 @@
             "schema": {
               "$ref": "#/definitions/Pet"
             },
-            "x-nullable": true
+            "x-nullable": false
           }
         ],
         "responses": {
+          "204": {
+            "description": ""
+          },
           "400": {
             "x-nullable": true,
             "description": "",
@@ -54,6 +54,9 @@
         "consumes": [
           "application/json"
         ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "pet",
@@ -62,10 +65,13 @@
             "schema": {
               "$ref": "#/definitions/Pet"
             },
-            "x-nullable": true
+            "x-nullable": false
           }
         ],
         "responses": {
+          "204": {
+            "description": ""
+          },
           "400": {
             "x-nullable": true,
             "description": "",
@@ -82,32 +88,31 @@
           "Pet"
         ],
         "operationId": "Pet_FindByStatus",
-        "consumes": [
-          "application/json-patch+json",
-          "application/json",
-          "text/json",
-          "application/*+json"
+        "produces": [
+          "application/json"
         ],
         "parameters": [
           {
+            "type": "array",
             "name": "status",
-            "in": "body",
+            "in": "query",
             "required": true,
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "x-nullable": true
+            "collectionFormat": "multi",
+            "x-nullable": true,
+            "items": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
-          "400": {
+          "200": {
             "x-nullable": true,
             "description": "",
             "schema": {
-              "$ref": "#/definitions/SerializableError"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Pet"
+              }
             }
           }
         }
@@ -119,6 +124,9 @@
           "Pet"
         ],
         "operationId": "Pet_FindByCategory",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "string",
@@ -129,6 +137,16 @@
           }
         ],
         "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Pet"
+              }
+            }
+          },
           "400": {
             "x-nullable": true,
             "description": "",
@@ -145,6 +163,9 @@
           "Pet"
         ],
         "operationId": "Pet_FindById",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "integer",
@@ -156,6 +177,13 @@
           }
         ],
         "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Pet"
+            }
+          },
           "400": {
             "x-nullable": true,
             "description": "",
@@ -173,6 +201,9 @@
           "Pet"
         ],
         "operationId": "Pet_EditPet2",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "integer",
@@ -196,6 +227,8 @@
             "in": "formData",
             "required": true,
             "format": "int32",
+            "maximum": 150.0,
+            "minimum": 0.0,
             "x-nullable": false
           },
           {
@@ -225,6 +258,8 @@
             "name": "Name",
             "in": "formData",
             "required": true,
+            "maxLength": 50,
+            "minLength": 2,
             "x-nullable": true
           },
           {
@@ -258,6 +293,9 @@
           }
         ],
         "responses": {
+          "204": {
+            "description": ""
+          },
           "400": {
             "x-nullable": true,
             "description": "",
@@ -275,6 +313,9 @@
           "Pet"
         ],
         "operationId": "Pet_DeletePet",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "integer",
@@ -286,6 +327,9 @@
           }
         ],
         "responses": {
+          "204": {
+            "description": ""
+          },
           "400": {
             "x-nullable": true,
             "description": "",
@@ -308,6 +352,9 @@
         "consumes": [
           "multipart/form-data"
         ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "integer",
@@ -326,6 +373,13 @@
           }
         ],
         "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
           "400": {
             "x-nullable": true,
             "description": "",
@@ -341,52 +395,57 @@
     }
   },
   "definitions": {
+    "SerializableError": {
+      "type": "object",
+      "additionalProperties": {}
+    },
     "Pet": {
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "Id",
-        "Age",
-        "HasVaccinations",
-        "Name",
-        "Status"
+        "id",
+        "age",
+        "hasVaccinations",
+        "name",
+        "status"
       ],
       "properties": {
-        "Id": {
+        "id": {
           "type": "integer",
           "format": "int32"
         },
-        "Age": {
+        "age": {
           "type": "integer",
           "format": "int32",
           "maximum": 150.0,
           "minimum": 0.0
         },
-        "Category": {
+        "category": {
           "$ref": "#/definitions/Category"
         },
-        "HasVaccinations": {
+        "hasVaccinations": {
           "type": "boolean"
         },
-        "Name": {
+        "name": {
           "type": "string",
           "maxLength": 50,
           "minLength": 2
         },
-        "Images": {
+        "images": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/Image"
           }
         },
-        "Tags": {
+        "tags": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/Tag"
           }
         },
-        "Status": {
-          "type": "string"
+        "status": {
+          "type": "string",
+          "minLength": 1
         }
       }
     },
@@ -394,14 +453,14 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "Id"
+        "id"
       ],
       "properties": {
-        "Id": {
+        "id": {
           "type": "integer",
           "format": "int32"
         },
-        "Name": {
+        "name": {
           "type": "string"
         }
       }
@@ -410,14 +469,14 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "Id"
+        "id"
       ],
       "properties": {
-        "Id": {
+        "id": {
           "type": "integer",
           "format": "int32"
         },
-        "Url": {
+        "url": {
           "type": "string"
         }
       }
@@ -426,28 +485,36 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "Id"
+        "id"
       ],
       "properties": {
-        "Id": {
+        "id": {
           "type": "integer",
           "format": "int32"
         },
-        "Name": {
+        "name": {
           "type": "string"
         }
       }
     },
-    "SerializableError": {
+    "ApiResponse": {
       "type": "object",
-      "description": "Defines a serializable container for storing ModelState information.\nThis information is stored as key/value pairs.",
       "additionalProperties": false,
-      "allOf": [
-        {
-          "type": "object",
-          "additionalProperties": {}
+      "required": [
+        "code"
+      ],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
         }
-      ]
+      }
     }
   }
 }

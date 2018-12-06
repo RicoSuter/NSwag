@@ -10,6 +10,9 @@
       "targetFramework": null,
       "noBuild": false,
       "verbose": false,
+      "workingDirectory": null,
+      "requireParametersWithoutDefault": true,
+      "apiGroupNames": null,
       "defaultPropertyNameHandling": "Default",
       "defaultReferenceTypeNullHandling": "Null",
       "defaultEnumHandling": "Integer",
@@ -26,7 +29,6 @@
       "infoTitle": "ljlkjlkj",
       "infoDescription": null,
       "infoVersion": "",
-      "includedVersions": null,
       "documentTemplate": null,
       "documentProcessorTypes": [],
       "operationProcessorTypes": [],
@@ -34,16 +36,20 @@
       "schemaNameGeneratorType": null,
       "contractResolverType": null,
       "serializerSettingsType": null,
-      "settingsFactoryType": "NSwag.Sample.NETCore21:NSwag.Sample.NETCore21.MySettingsFactory",
+      "useDocumentProvider": false,
+      "documentName": "v1",
+      "aspNetCoreEnvironment": null,
+      "createWebHostBuilderMethod": null,
+      "startupType": null,
+      "allowNullableBodyParameters": true,
       "output": "swagger_assembly_cli.json",
       "outputType": "Swagger2",
       "assemblyPaths": [
         "bin/Debug/netcoreapp2.1/NSwag.Sample.NETCore21.dll"
       ],
       "assemblyConfig": null,
-      "referencePaths": [
-        "%USERPROFILE%/.nuget/packages"
-      ]
+      "referencePaths": [],
+      "useNuGetCache": false
     }
   },
   "codeGenerators": {}
