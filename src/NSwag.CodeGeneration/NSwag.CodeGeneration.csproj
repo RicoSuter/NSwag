@@ -19,8 +19,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-    <PackageReference Include="NJsonSchema" Version="9.13.1" />
-    <PackageReference Include="NJsonSchema.CodeGeneration" Version="9.13.1" />
+    <PackageReference Include="NJsonSchema" Version="9.13.2" />
+    <PackageReference Include="NJsonSchema.CodeGeneration" Version="9.13.2" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net451'">
     <Reference Include="Microsoft.CSharp" />
