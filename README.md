@@ -182,6 +182,7 @@ Companies or individuals which paid a substantial amount for implementing, fixin
 Please contact [Rico Suter](https://rsuter.com) for paid consulting and support. 
 
 [![](https://opencollective.com/static/images/opencollectivelogo.svg)](https://opencollective.com/nswag)
+
 [![](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://www.patreon.com/ricosuter)
 
 Sponsors:
