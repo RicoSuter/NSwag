@@ -172,10 +172,16 @@ The generators can be used in a comfortable and simple Windows GUI called [NSwag
 
 [![](https://raw.githubusercontent.com/NSwag/NSwag/master/assets/screenshots/03_WebAPI_CSharp.png)](https://raw.githubusercontent.com/NSwag/NSwag/master/assets/screenshots/03_WebAPI_CSharp.png)
 
-## Sponsors
+## Sponsors, support and consulting
 
-Companies or individuals which paid a substantial amount for implementing, fixing issues, support or sponsoring are listed below. Thank you for supporting this project! You can also become a sponsor via [Patreon](https://www.patreon.com/ricosuter) or by contacting [Rico Suter](https://rsuter.com). 
+Companies or individuals which paid a substantial amount for implementing, fixing issues, support or sponsoring are listed below. Thank you for supporting this project! You can also become a financial contributor
 
+- Project: [Open Collective](https://opencollective.com/nswag)
+- Main contributor (Rico Suter) directly: [Patreon](https://www.patreon.com/ricosuter)
+
+Please contact [Rico Suter](https://rsuter.com) for paid consulting and support. 
+
+[![](https://opencollective.com/static/images/opencollectivelogo.svg)](https://opencollective.com/nswag)
 [![](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://www.patreon.com/ricosuter)
 
 Sponsors:
