@@ -40,13 +40,21 @@ Add the switch `/runtime:NetCore*` to the command to execute one of the .NET Cor
 To specify what .NET Core binaries to execute, either use 
 
     nswag run version /runtime:NetCore10
+
 or
+
     nswag run version /runtime:NetCore11
+
 or
+
     nswag run version /runtime:NetCore20
+
 or
+
     nswag run version /runtime:NetCore21
+
 or
+
     nswag run version /runtime:NetCore22
 	
 ## Development
