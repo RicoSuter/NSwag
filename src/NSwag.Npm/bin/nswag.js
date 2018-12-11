@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 "use strict";
 
-var defaultCoreVersion = "22";
+var defaultCoreVersion = "21";
 var supportedCoreVersions = ["10", "11", "20", "21", "22"];
 
 // Initialize
