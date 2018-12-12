@@ -2,7 +2,7 @@
 "use strict";
 
 var defaultCoreVersion = "21";
-var supportedCoreVersions = ["10", "11", "20", "21"];
+var supportedCoreVersions = ["10", "11", "20", "21", "22"];
 
 // Initialize
 process.title = 'nswag';

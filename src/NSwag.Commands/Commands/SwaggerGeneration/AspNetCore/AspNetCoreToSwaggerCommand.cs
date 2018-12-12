@@ -252,25 +252,35 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
 
             if (UseDocumentProvider)
             {
-                var documentProvider = host.Services.GetRequiredService<ISwaggerDocumentProvider>();
-                var document = await documentProvider.GenerateAsync(DocumentName);
-                return document;
+                return await GenerateDocumentWithDocumentProviderAsync(host);
             }
             else
             {
-                InitializeCustomTypes(assemblyLoader);
-
-                // In the case of KeyNotFoundException, see https://github.com/aspnet/Mvc/issues/5690
-                var apiDescriptionProvider = host.Services.GetRequiredService<IApiDescriptionGroupCollectionProvider>();
-
-                var settings = await CreateSettingsAsync(assemblyLoader, host, currentWorkingDirectory);
-                var generator = new AspNetCoreToSwaggerGenerator(settings);
-                var document = await generator.GenerateAsync(apiDescriptionProvider.ApiDescriptionGroups).ConfigureAwait(false);
-
-                PostprocessDocument(document);
-
-                return document;
+                return await GenerateDocumentWithApiDescriptionAsync(assemblyLoader, host, currentWorkingDirectory);
             }
+        }
+
+        private async Task<SwaggerDocument> GenerateDocumentWithDocumentProviderAsync(IWebHost host)
+        {
+            var documentProvider = host.Services.GetRequiredService<ISwaggerDocumentProvider>();
+            var document = await documentProvider.GenerateAsync(DocumentName);
+            return document;
+        }
+
+        private async Task<SwaggerDocument> GenerateDocumentWithApiDescriptionAsync(AssemblyLoader.AssemblyLoader assemblyLoader, IWebHost host, string currentWorkingDirectory)
+        {
+            InitializeCustomTypes(assemblyLoader);
+
+            // In the case of KeyNotFoundException, see https://github.com/aspnet/Mvc/issues/5690
+            var apiDescriptionProvider = host.Services.GetRequiredService<IApiDescriptionGroupCollectionProvider>();
+
+            var settings = await CreateSettingsAsync(assemblyLoader, host, currentWorkingDirectory);
+            var generator = new AspNetCoreToSwaggerGenerator(settings);
+            var document = await generator.GenerateAsync(apiDescriptionProvider.ApiDescriptionGroups).ConfigureAwait(false);
+
+            PostprocessDocument(document);
+
+            return document;
         }
 
         protected override async Task<string> RunIsolatedAsync(AssemblyLoader.AssemblyLoader assemblyLoader)

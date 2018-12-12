@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers.Parameters
 {
@@ -7,7 +8,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers.Parameters
     public class SimpleQueryParametersController : Controller
     {
         [HttpGet]
-        public ActionResult GetList(int? required, int optional = 10)
+        public ActionResult GetList(int? required, int optional = 10, [BindRequired, FromQuery] string requiredString = null)
         {
             return Ok();
         }
