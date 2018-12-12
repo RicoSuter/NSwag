@@ -48,7 +48,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
         public AspNetCoreToSwaggerGeneratorSettings Settings { get; }
 
         /// <summary>Generates a Swagger specification for the given <see cref="ApiDescriptionGroupCollection"/>.</summary>
-        /// <param name="apiDescriptionGroups"><see cref="ApiDescriptionGroup"/>.</param>
+        /// <param name="apiDescriptionGroups">The <see cref="ApiDescriptionGroupCollection"/>.</param>
         /// <returns>The <see cref="SwaggerDocument" />.</returns>
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
         public async Task<SwaggerDocument> GenerateAsync(ApiDescriptionGroupCollection apiDescriptionGroups)

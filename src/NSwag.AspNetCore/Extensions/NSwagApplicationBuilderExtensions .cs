@@ -6,6 +6,7 @@ using NSwag.AspNetCore.Middlewares;
 using NSwag.SwaggerGeneration.WebApi;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace Microsoft.AspNetCore.Builder
@@ -82,6 +83,8 @@ namespace Microsoft.AspNetCore.Builder
                     var swaggerRoute = swaggerRouteWithPlaceholder.Replace("{documentName}", document.DocumentName);
                     settings.SwaggerRoutes.Add(new SwaggerUi3Route(document.DocumentName, swaggerRoute));
                 }
+
+                return true;
             });
 
             return app;
@@ -108,8 +111,7 @@ namespace Microsoft.AspNetCore.Builder
                     RequestPath = new PathString(swaggerUiRoute),
                     FileProvider = new EmbeddedFileProvider(typeof(SwaggerExtensions).GetTypeInfo().Assembly, "NSwag.AspNetCore.ReDoc")
                 });
-            }, (documents) => throw new NotSupportedException("ReDoc does not support multiple documents per UI: " +
-                "Do not use '{documentName}' placeholder only in SwaggerRoute but also in SwaggerUiRoute to register multiple UIs."));
+            }, (documents) => false);
 
             return app;
         }
@@ -117,7 +119,7 @@ namespace Microsoft.AspNetCore.Builder
         private static void UseSwaggerUiWithDocumentNamePlaceholderExpanding(IApplicationBuilder app,
             SwaggerUiSettingsBase<WebApiToSwaggerGeneratorSettings> settings,
             Action<string, string> register,
-            Action<IEnumerable<SwaggerDocumentRegistration>> registerMultiple)
+            Func<IEnumerable<SwaggerDocumentRegistration>, bool> registerMultiple)
         {
             if (settings.ActualSwaggerDocumentPath.Contains("{documentName}"))
             {
@@ -135,8 +137,25 @@ namespace Microsoft.AspNetCore.Builder
                 else
                 {
                     // Register single ui with multiple documents
-                    registerMultiple(documents);
-                    register(settings.ActualSwaggerDocumentPath, settings.ActualSwaggerUiPath);
+                    if (registerMultiple(documents))
+                    {
+                        register(settings.ActualSwaggerDocumentPath, settings.ActualSwaggerUiPath);
+                    }
+                    else
+                    {
+                        // If multiple documents is not supported and only one document is registered
+                        if (documents.Count() == 1)
+                        {
+                            register(
+                                settings.ActualSwaggerDocumentPath.Replace("{documentName}", documents.First().DocumentName),
+                                settings.ActualSwaggerUiPath.Replace("{documentName}", documents.First().DocumentName));
+                        }
+                        else
+                        {
+                            throw new NotSupportedException("This UI does not support multiple documents per UI: " +
+                                "Do not use '{documentName}' placeholder only in DocumentPath but also in Path to register multiple UIs.");
+                        }
+                    }
                 }
             }
             else
