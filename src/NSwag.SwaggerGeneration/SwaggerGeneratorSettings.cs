@@ -12,6 +12,9 @@ using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Collections;
+using NSwag.SwaggerGeneration.Processors.Contexts;
+using System;
+using System.Threading.Tasks;
 
 namespace NSwag.SwaggerGeneration
 {
@@ -55,6 +58,13 @@ namespace NSwag.SwaggerGeneration
 
         /// <summary>Gets or sets the document template representing the initial Swagger specification (JSON data).</summary>
         public string DocumentTemplate { get; set; }
+
+        /// <summary>Inserts a function based operation processor at the beginning of the pipeline to be used to filter operations.</summary>
+        /// <param name="filter">The processor filter.</param>
+        public void AddOperationFilter(Func<OperationProcessorContext, Task<bool>> filter)
+        {
+            OperationProcessors.Insert(0, new OperationProcessor(filter));
+        }
 
         /// <summary>Applies the given settings to this settings object.</summary>
         /// <param name="serializerSettings">The serializer settings.</param>
