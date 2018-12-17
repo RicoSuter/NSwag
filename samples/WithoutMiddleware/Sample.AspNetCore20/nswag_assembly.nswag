@@ -22,7 +22,8 @@
       "assemblyPaths": [
         "bin/$(configuration)/netcoreapp2.0/Sample.AspNetCore20.dll"
       ],
-      "referencePaths": []
+      "referencePaths": [],
+      "useNuGetCache": false
     }
   },
   "codeGenerators": {}

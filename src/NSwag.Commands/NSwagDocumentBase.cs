@@ -56,7 +56,7 @@ namespace NSwag.Commands
         public abstract Task<SwaggerDocumentExecutionResult> ExecuteAsync();
 
         /// <summary>Gets or sets the runtime where the document should be processed.</summary>
-        public Runtime Runtime { get; set; }
+        public Runtime Runtime { get; set; } = Runtime.NetCore21;
 
         /// <summary>Gets or sets the default variables.</summary>
         public string DefaultVariables { get; set; }
@@ -281,9 +281,17 @@ namespace NSwag.Commands
 
         private static Dictionary<string, string> ConvertVariables(string variables)
         {
-            return (variables ?? "")
-                .Split(',').Where(p => !string.IsNullOrEmpty(p))
-                .ToDictionary(p => p.Split('=')[0], p => p.Split('=')[1]);
+            try
+            {
+                return (variables ?? "")
+                    .Split(',').Where(p => !string.IsNullOrEmpty(p))
+                    .ToDictionary(p => p.Split('=')[0], p => p.Split('=')[1]);
+            }
+            catch (Exception exception)
+            {
+                throw new InvalidOperationException("Could not parse variables, ensure that they are " +
+                                                    "in the form 'key1=value1,key2=value2', variables: " + variables, exception);
+            }
         }
 
         private static JsonSerializerSettings GetSerializerSettings()
@@ -335,10 +343,11 @@ namespace NSwag.Commands
 
                 SwaggerGenerators.AspNetCoreToSwaggerCommand.Project = ConvertToAbsolutePath(
                     SwaggerGenerators.AspNetCoreToSwaggerCommand.Project);
-                SwaggerGenerators.AspNetCoreToSwaggerCommand.Configuration = ConvertToAbsolutePath(
-                    SwaggerGenerators.AspNetCoreToSwaggerCommand.Configuration);
                 SwaggerGenerators.AspNetCoreToSwaggerCommand.MSBuildProjectExtensionsPath = ConvertToAbsolutePath(
                     SwaggerGenerators.AspNetCoreToSwaggerCommand.MSBuildProjectExtensionsPath);
+
+                SwaggerGenerators.AspNetCoreToSwaggerCommand.WorkingDirectory = ConvertToAbsolutePath(
+                    SwaggerGenerators.AspNetCoreToSwaggerCommand.WorkingDirectory);
             }
 
             if (SwaggerGenerators.TypesToSwaggerCommand != null)
@@ -410,10 +419,11 @@ namespace NSwag.Commands
 
                 SwaggerGenerators.AspNetCoreToSwaggerCommand.Project = ConvertToRelativePath(
                     SwaggerGenerators.AspNetCoreToSwaggerCommand.Project);
-                SwaggerGenerators.AspNetCoreToSwaggerCommand.Configuration = ConvertToRelativePath(
-                    SwaggerGenerators.AspNetCoreToSwaggerCommand.Configuration);
                 SwaggerGenerators.AspNetCoreToSwaggerCommand.MSBuildProjectExtensionsPath = ConvertToRelativePath(
                     SwaggerGenerators.AspNetCoreToSwaggerCommand.MSBuildProjectExtensionsPath);
+
+                SwaggerGenerators.AspNetCoreToSwaggerCommand.WorkingDirectory = ConvertToRelativePath(
+                    SwaggerGenerators.AspNetCoreToSwaggerCommand.WorkingDirectory);
             }
 
 
@@ -470,6 +480,18 @@ namespace NSwag.Commands
             saveFile = false;
 
             // New file format
+            if (data.Contains("\"noBuild\":") && !data.ToLowerInvariant().Contains("UseDocumentProvider".ToLowerInvariant()))
+            {
+                data = data.Replace("\"noBuild\":", "\"useDocumentProvider\": false, \"noBuild\":");
+                saveFile = true;
+            }
+
+            if (data.Contains("\"noBuild\":") && !data.ToLowerInvariant().Contains("RequireParametersWithoutDefault".ToLowerInvariant()))
+            {
+                data = data.Replace("\"noBuild\":", "\"requireParametersWithoutDefault\": true, \"noBuild\":");
+                saveFile = true;
+            }
+
             if (data.Contains("assemblyTypeToSwagger"))
             {
                 data = data.Replace("assemblyTypeToSwagger", "typesToSwagger");

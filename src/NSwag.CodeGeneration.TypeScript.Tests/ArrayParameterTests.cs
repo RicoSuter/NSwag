@@ -1,12 +1,11 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
 {
-    [TestClass]
     public class ArrayParameterTests
     {
-        [TestMethod]
+        [Fact]
         public async Task When_parameter_is_array_then_TypeScript_is_correct()
         {
             //// Arrange
@@ -67,9 +66,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = generator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(
-                code.Contains(
-                    @"elementId.forEach(item => { url_ += ""elementId="" + encodeURIComponent("""" + item) + ""&""; });"));
+            Assert.Contains(@"elementId.forEach(item => { url_ += ""elementId="" + encodeURIComponent("""" + item) + ""&""; });", code);
         }
     }
 }

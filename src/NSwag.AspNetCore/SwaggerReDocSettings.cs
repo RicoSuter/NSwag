@@ -7,10 +7,13 @@
 //-----------------------------------------------------------------------
 
 using NSwag.SwaggerGeneration;
-
 #if AspNetOwin
+using Microsoft.Owin;
+
 namespace NSwag.AspNet.Owin
 #else
+using Microsoft.AspNetCore.Http;
+
 namespace NSwag.AspNetCore
 #endif
 {
@@ -18,7 +21,11 @@ namespace NSwag.AspNetCore
     public class SwaggerReDocSettings<T> : SwaggerUiSettingsBase<T>
         where T : SwaggerGeneratorSettings, new()
     {
-        internal override string TransformHtml(string html)
+#if AspNetOwin
+        internal override string TransformHtml(string html, IOwinRequest request)
+#else
+        internal override string TransformHtml(string html, HttpRequest request)
+#endif
         {
             return html;
         }

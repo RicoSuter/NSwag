@@ -9,29 +9,37 @@
 
 using System;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using NConsole;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
+using NSwag.AssemblyLoader.Utilities;
 using NSwag.SwaggerGeneration;
 using NSwag.SwaggerGeneration.Processors;
 
 namespace NSwag.Commands.SwaggerGeneration
 {
     /// <inheritdoc />
-    public abstract class SwaggerGeneratorCommandBase<T> : IsolatedSwaggerOutputCommandBase
-        where T : SwaggerGeneratorSettings, new()
+    public abstract class SwaggerGeneratorCommandBase<TSettings> : IsolatedSwaggerOutputCommandBase<TSettings>
+        where TSettings : SwaggerGeneratorSettings, new()
     {
         /// <summary>Initializes a new instance of the <see cref="SwaggerGeneratorCommandBase{T}"/> class.</summary>
         protected SwaggerGeneratorCommandBase()
         {
-            Settings = new T();
+            Settings = new TSettings();
         }
 
         [JsonIgnore]
-        public T Settings { get; }
+        protected override TSettings Settings { get; }
 
         [Argument(Name = nameof(DefaultPropertyNameHandling), IsRequired = false, Description = "The default property name handling ('Default' or 'CamelCase').")]
         public PropertyNameHandling DefaultPropertyNameHandling
@@ -135,13 +143,6 @@ namespace NSwag.Commands.SwaggerGeneration
             set => Settings.Version = value;
         }
 
-        [Argument(Name = "IncludedVersions", IsRequired = false, Description = "The included API versions used by the ApiVersionProcessor (default: empty = all).")]
-        public string[] IncludedVersions
-        {
-            get => Settings.OperationProcessors.TryGet<ApiVersionProcessor>().IncludedVersions;
-            set => Settings.OperationProcessors.TryGet<ApiVersionProcessor>().IncludedVersions = value;
-        }
-
         [Argument(Name = "DocumentTemplate", IsRequired = false, Description = "Specifies the Swagger document template (may be a path or JSON, default: none).")]
         public string DocumentTemplate { get; set; }
 
@@ -163,7 +164,134 @@ namespace NSwag.Commands.SwaggerGeneration
         [Argument(Name = "SerializerSettings", IsRequired = false, Description = "The custom JsonSerializerSettings implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
         public string SerializerSettingsType { get; set; }
 
-        public void InitializeCustomTypes(AssemblyLoader.AssemblyLoader assemblyLoader)
+        [Argument(Name = "UseDocumentProvider", IsRequired = false, Description = "Generate document using SwaggerDocumentProvider (configuration from AddSwagger(), most CLI settings will be ignored).")]
+        public bool UseDocumentProvider { get; set; } = true;
+
+        [Argument(Name = "DocumentName", IsRequired = false, Description = "The document name to use in SwaggerDocumentProvider (default: v1).")]
+        public string DocumentName { get; set; } = "v1";
+
+        [Argument(Name = "AspNetCoreEnvironment", IsRequired = false, Description = "Sets the ASPNETCORE_ENVIRONMENT if provided (default: empty).")]
+        public string AspNetCoreEnvironment { get; set; }
+
+        [Argument(Name = "CreateWebHostBuilderMethod", IsRequired = false, Description = "The CreateWebHostBuilder method in the form 'assemblyName:fullTypeName.methodName' or 'fullTypeName.methodName'.")]
+        public string CreateWebHostBuilderMethod { get; set; }
+
+        [Argument(Name = "Startup", IsRequired = false, Description = "The Startup class type in the form 'assemblyName:fullTypeName' or 'fullTypeName'.")]
+        public string StartupType { get; set; }
+
+        [Argument(Name = "AllowNullableBodyParameters", IsRequired = false, Description = "Nullable body parameters are allowed (ignored when MvcOptions.AllowEmptyInputInBodyModelBinding is available (ASP.NET Core 2.0+), default: true).")]
+        public bool AllowNullableBodyParameters
+        {
+            get => Settings.AllowNullableBodyParameters;
+            set => Settings.AllowNullableBodyParameters = value;
+        }
+
+        public async Task<TSettings> CreateSettingsAsync(AssemblyLoader.AssemblyLoader assemblyLoader, IWebHost webHost, string workingDirectory)
+        {
+            var mvcOptions = webHost?.Services?.GetRequiredService<IOptions<MvcOptions>>().Value;
+            var mvcJsonOptions = webHost?.Services?.GetRequiredService<IOptions<MvcJsonOptions>>();
+            var serializerSettings = mvcJsonOptions?.Value?.SerializerSettings;
+
+            Settings.ApplySettings(serializerSettings, mvcOptions);
+            Settings.DocumentTemplate = await GetDocumentTemplateAsync(workingDirectory);
+
+            InitializeCustomTypes(assemblyLoader);
+
+            return Settings;
+        }
+
+        protected async Task<IWebHost> CreateWebHostAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
+        {
+            if (!string.IsNullOrEmpty(CreateWebHostBuilderMethod))
+            {
+                // Load configured CreateWebHostBuilder method from program type
+                var segments = CreateWebHostBuilderMethod.Split('.');
+
+                var programTypeName = string.Join(".", segments.Take(segments.Length - 1));
+                var programType = assemblyLoader.GetType(programTypeName) ??
+                    throw new InvalidOperationException("The Program class could not be determined.");
+
+                var methodName = segments.Last();
+                var method = programType.GetRuntimeMethod(segments.Last(), new[] { typeof(string[]) });
+                if (method != null)
+                {
+                    return ((IWebHostBuilder)method.Invoke(null, new object[] { new string[0] })).Build();
+                }
+                else
+                {
+                    method = programType.GetRuntimeMethod(segments.Last(), new Type[0]);
+                    if (method != null)
+                    {
+                        return ((IWebHostBuilder)method.Invoke(null, new object[0])).Build();
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException("The CreateWebHostBuilderMethod '" + CreateWebHostBuilderMethod + "' could not be found.");
+                    }
+                }
+            }
+            else if (!string.IsNullOrEmpty(StartupType))
+            {
+                // Load configured startup type (obsolete)
+                var startupType = assemblyLoader.GetType(StartupType);
+
+#if NETCOREAPP1_0 || NETCOREAPP1_1
+                return new WebHostBuilder().UseStartup(startupType).Build();
+#else
+                return WebHost.CreateDefaultBuilder().UseStartup(startupType).Build();
+#endif
+            }
+            else
+            {
+                try
+                {
+                    // Search Program class and use CreateWebHostBuilder method
+                    var assemblies = await LoadAssembliesAsync(AssemblyPaths, assemblyLoader).ConfigureAwait(false);
+                    var firstAssembly = assemblies.FirstOrDefault() ?? throw new InvalidOperationException("No assembly are be loaded from AssemblyPaths.");
+
+                    var programType = firstAssembly.ExportedTypes.First(t => t.Name == "Program") ??
+                        throw new InvalidOperationException("The Program class could not be determined in the assembly '" + firstAssembly.FullName + "'.");
+
+                    var method = programType.GetRuntimeMethod("CreateWebHostBuilder", new[] { typeof(string[]) });
+                    if (method != null)
+                    {
+                        return ((IWebHostBuilder)method.Invoke(null, new object[] { new string[0] })).Build();
+                    }
+                    else
+                    {
+                        method = programType.GetRuntimeMethod("CreateWebHostBuilder", new Type[0]);
+                        if (method != null)
+                        {
+                            return ((IWebHostBuilder)method.Invoke(null, new object[0])).Build();
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException("The Program class '" + programType.FullName + "' does not have a CreateWebHostBuilder() method.");
+                        }
+                    }
+                }
+                catch
+                {
+                    // Search Startup class as fallback
+                    var assemblies = await LoadAssembliesAsync(AssemblyPaths, assemblyLoader).ConfigureAwait(false);
+                    var firstAssembly = assemblies.FirstOrDefault() ?? throw new InvalidOperationException("No assembly are be loaded from AssemblyPaths.");
+
+                    var startupType = firstAssembly.ExportedTypes.FirstOrDefault(t => t.Name == "Startup");
+                    if (startupType == null)
+                    {
+                        throw new InvalidOperationException("The Startup class could not be determined in the assembly '" + firstAssembly.FullName + "'.");
+                    }
+
+#if NETCOREAPP1_0 || NETCOREAPP1_1
+                    return new WebHostBuilder().UseStartup(startupType).Build();
+#else
+                    return WebHost.CreateDefaultBuilder().UseStartup(startupType).Build();
+#endif
+                }
+            }
+        }
+
+        protected void InitializeCustomTypes(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
             if (DocumentProcessorTypes != null)
             {
@@ -196,47 +324,39 @@ namespace NSwag.Commands.SwaggerGeneration
                 Settings.SerializerSettings = (JsonSerializerSettings)assemblyLoader.CreateInstance(SerializerSettingsType);
         }
 
-        public string PostprocessDocument(SwaggerDocument document)
+        protected void PostprocessDocument(SwaggerDocument document)
         {
             if (ServiceHost == ".")
                 document.Host = string.Empty;
             else if (!string.IsNullOrEmpty(ServiceHost))
                 document.Host = ServiceHost;
 
-            if (string.IsNullOrEmpty(DocumentTemplate))
-            {
-                if (!string.IsNullOrEmpty(InfoTitle))
-                    document.Info.Title = InfoTitle;
-                if (!string.IsNullOrEmpty(InfoVersion))
-                    document.Info.Version = InfoVersion;
-                if (!string.IsNullOrEmpty(InfoDescription))
-                    document.Info.Description = InfoDescription;
-            }
-
             if (ServiceSchemes != null && ServiceSchemes.Any())
-                document.Schemes = ServiceSchemes.Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true))
+            {
+                document.Schemes = ServiceSchemes
+                    .Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true))
                     .ToList();
+            }
 
             if (!string.IsNullOrEmpty(ServiceBasePath))
                 document.BasePath = ServiceBasePath;
-
-            return document.ToJson(OutputType);
         }
 
-        public async Task<string> GetDocumentTemplateAsync()
+        private async Task<string> GetDocumentTemplateAsync(string workingDirectory)
         {
             if (!string.IsNullOrEmpty(DocumentTemplate))
             {
-                if (await DynamicApis.FileExistsAsync(DocumentTemplate).ConfigureAwait(false))
+                var file = PathUtilities.MakeAbsolutePath(DocumentTemplate, workingDirectory);
+                if (await DynamicApis.FileExistsAsync(file).ConfigureAwait(false))
                 {
-                    var json = await DynamicApis.FileReadAllTextAsync(DocumentTemplate).ConfigureAwait(false);
+                    var json = await DynamicApis.FileReadAllTextAsync(file).ConfigureAwait(false);
                     if (json.StartsWith("{") == false)
                         return (await SwaggerYamlDocument.FromYamlAsync(json)).ToJson();
                     else
                         return json;
                 }
-                else if (Settings.DocumentTemplate.StartsWith("{") == false)
-                    return (await SwaggerYamlDocument.FromYamlAsync(Settings.DocumentTemplate)).ToJson();
+                else if (DocumentTemplate.StartsWith("{") == false)
+                    return (await SwaggerYamlDocument.FromYamlAsync(DocumentTemplate)).ToJson();
                 else
                     return DocumentTemplate;
             }

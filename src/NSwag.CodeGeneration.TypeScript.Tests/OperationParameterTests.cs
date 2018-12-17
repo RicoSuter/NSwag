@@ -1,16 +1,16 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Http;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.AspNetCore.Mvc;
 using NJsonSchema;
 using NSwag.SwaggerGeneration.WebApi;
+using Xunit;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
 {
-    [TestClass]
     public class OperationParameterTests
     {
-        public class FooController : ApiController
+        public class FooController : Controller
         {
             [Route("foos/")]
             public Foo[] GetFoos([FromUri] Bar[] bars)
@@ -18,6 +18,8 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
                 return new Foo[0];
             }
         }
+
+        public class FromUriAttribute : Attribute { }
 
         public enum Bar
         {
@@ -32,7 +34,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             public Bar Bar2 { get; set; }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_query_parameter_is_enum_array_then_the_enum_is_referenced()
         {
             //// Arrange
@@ -49,15 +51,18 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var document = await generator.GenerateForControllerAsync<FooController>();
             var json = document.ToJson();
 
-            var gen = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
+            var clientSettings = new SwaggerToTypeScriptClientGeneratorSettings
             {
                 Template = TypeScriptTemplate.JQueryCallbacks
-            });
+            };
+            clientSettings.TypeScriptGeneratorSettings.TypeScriptVersion = 1.8m;
+
+            var gen = new SwaggerToTypeScriptClientGenerator(document, clientSettings);
             var code = gen.GenerateFile();
 
             //// Assert
-            Assert.IsNotNull(document.Operations.First().Operation.Parameters.First().Item.SchemaReference);
-            Assert.IsTrue(code.Contains("getFoos(bars: Bar[], "));
+            Assert.NotNull(document.Operations.First().Operation.Parameters.First().Item.Reference);
+            Assert.Contains("getFoos(bars: Bar[], ", code);
         }
     }
 }

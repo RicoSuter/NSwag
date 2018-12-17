@@ -1,19 +1,18 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NJsonSchema.Generation;
 using NSwag.CodeGeneration.CSharp;
 using NSwag.CodeGeneration.TypeScript;
+using Xunit;
 
 namespace NSwag.CodeGeneration.Tests
 {
-    [TestClass]
     public class CodeGenerationTests
     {
-        [TestMethod]
+        [Fact]
         public async Task When_generating_CSharp_code_then_output_contains_expected_classes()
         {
             // Arrange
@@ -28,13 +27,13 @@ namespace NSwag.CodeGeneration.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.IsTrue(code.Contains("namespace MyNamespace"));
-            Assert.IsTrue(code.Contains("class MyClass"));
-            Assert.IsTrue(code.Contains("class Person"));
-            Assert.IsTrue(code.Contains("class Address"));
+            Assert.Contains("namespace MyNamespace", code);
+            Assert.Contains("class MyClass", code);
+            Assert.Contains("class Person", code);
+            Assert.Contains("class Address", code);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_generating_TypeScript_code_then_output_contains_expected_classes()
         {
             // Arrange
@@ -52,12 +51,12 @@ namespace NSwag.CodeGeneration.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.IsTrue(code.Contains("export class MyClass"));
-            Assert.IsTrue(code.Contains("export interface Person"));
-            Assert.IsTrue(code.Contains("export interface Address"));
+            Assert.Contains("export class MyClass", code);
+            Assert.Contains("export interface Person", code);
+            Assert.Contains("export interface Address", code);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_using_json_schema_with_references_in_service_then_references_are_correctly_resolved()
         {
             //// Arrange
@@ -112,7 +111,7 @@ namespace NSwag.CodeGeneration.Tests
                         {
                             Schema = new JsonSchema4
                             {
-                                SchemaReference = await generator.GenerateAsync(typeof(Person), new SwaggerSchemaResolver(document, settings))
+                                Reference = await generator.GenerateAsync(typeof(Person), new SwaggerSchemaResolver(document, settings))
                             }
                         }
                     }

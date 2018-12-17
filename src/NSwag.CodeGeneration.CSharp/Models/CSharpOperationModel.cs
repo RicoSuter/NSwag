@@ -54,9 +54,19 @@ namespace NSwag.CodeGeneration.CSharp.Models
             if (settings.GenerateOptionalParameters)
             {
                 if (generator is SwaggerToCSharpControllerGenerator)
-                    parameters = parameters.OrderBy(p => !p.IsRequired).ThenBy(p => p.Default == null).ToList();
+                {
+                    parameters = parameters
+                        .OrderBy(p => p.Position ?? 0)
+                        .OrderBy(p => !p.IsRequired)
+                        .ThenBy(p => p.Default == null).ToList();
+                }
                 else
-                    parameters = parameters.OrderBy(p => !p.IsRequired).ToList();
+                {
+                    parameters = parameters
+                        .OrderBy(p => p.Position ?? 0)
+                        .OrderBy(p => !p.IsRequired)
+                        .ToList();
+                }
             }
 
             Parameters = parameters.Select(parameter =>
@@ -166,6 +176,24 @@ namespace NSwag.CodeGeneration.CSharp.Models
                         else
                             return new CSharpExceptionDescriptionModel[] { };
                     });
+            }
+        }
+
+        /// <summary>Gets a value indicating whether a route name is available.</summary>
+        public bool HasRouteName => RouteName != null;
+
+        /// <summary>Gets the route name for this operation.</summary>
+        public string RouteName
+        {
+            get
+            {
+                var settings = _settings as SwaggerToCSharpControllerGeneratorSettings;
+                if (settings != null)
+                {
+                    return settings.GetRouteName(_operation);
+                }
+
+                return null;
             }
         }
 

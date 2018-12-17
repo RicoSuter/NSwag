@@ -1,12 +1,11 @@
 ﻿using System.Threading.Tasks;
-using System.Web.Http;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.AspNetCore.Mvc;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag.SwaggerGeneration.WebApi;
+using Xunit;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
 {
-    [TestClass]
     public class TypeScriptOperationParameterTests
     {
         public class OptionalParameterController
@@ -18,7 +17,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_parameter_is_nullable_and_ts20_then_it_is_a_union_type_with_undefined()
         {
             //// Arrange
@@ -39,7 +38,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = clientGenerator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("test(a: number, b: number | null)"));
+            Assert.Contains("test(a: number, b: number | null)", code);
         }
     }
 }

@@ -91,7 +91,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         /// <summary>Gets the clients code.</summary>
         public string Clients => _settings.GenerateClientClasses ? _clientCode : string.Empty;
-        
+
         /// <summary>Gets the types code.</summary>
         public string Types { get; }
 
@@ -118,6 +118,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets the namespace.</summary>
         public string Namespace => _settings.TypeScriptGeneratorSettings.Namespace;
 
+        /// <summary>Gets whether the export keyword should be added to all classes and enums.</summary>
+        public bool ExportTypes => _settings.TypeScriptGeneratorSettings.ExportTypes;
+
         /// <summary>Gets a value indicating whether the FileParameter interface should be rendered.</summary>
         public bool RequiresFileParameterInterface =>
             !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("FileParameter") &&
@@ -129,18 +132,25 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("FileResponse") &&
             _document.Operations.Any(o => o.Operation.ActualResponses.Any(r => r.Value.Schema?.ActualSchema.Type == JsonObjectType.File));
 
-        /// <summary>Gets a value indicating whether the SwaggerException class is required.</summary>
-        public bool RequiresSwaggerExceptionClass =>
-            !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("SwaggerException") &&
+        /// <summary>Gets a value indicating whether the client functions are required.</summary>
+        public bool RequiresClientFunctions =>
             _settings.GenerateClientClasses &&
             !string.IsNullOrEmpty(Clients);
+
+        /// <summary>Gets a value indicating whether the SwaggerException class is required. Note that if RequiresClientFunctions returns true this returns true since the client functions require it. </summary>
+        public bool RequiresSwaggerExceptionClass =>
+            RequiresClientFunctions &&
+            !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("SwaggerException");
 
         /// <summary>Table containing list of the generated classes.</summary>
         public string[] ClientClasses { get; }
 
         /// <summary>Gets a value indicating whether to handle references.</summary>
         public bool HandleReferences => _settings.TypeScriptGeneratorSettings.HandleReferences;
-        
+
+        /// <summary>Gets a value indicating whether MomentJS duration format is needed (moment-duration-format package).</summary>
+        public bool RequiresMomentJSDuration => Types?.Contains("moment.duration(") == true;
+
         private string GenerateDtoTypes()
         {
             var generator = new TypeScriptGenerator(_document, _settings.TypeScriptGeneratorSettings, _resolver);

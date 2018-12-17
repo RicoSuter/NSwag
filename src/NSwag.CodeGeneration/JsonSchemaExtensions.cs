@@ -25,7 +25,7 @@ namespace NSwag.CodeGeneration
 
         private static bool UsesComplexObjectSchema(this JsonSchema4 schema, List<JsonSchema4> checkedSchemas)
         {
-            schema = schema.ActualSchema;
+            schema = schema.ActualTypeSchema;
 
             if (checkedSchemas.Contains(schema))
                 return false;

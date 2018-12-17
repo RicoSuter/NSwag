@@ -14,31 +14,38 @@ using System.Threading.Tasks;
 using NConsole;
 using Newtonsoft.Json;
 using NJsonSchema;
+using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
+using NJsonSchema.Yaml;
 using NSwag.AssemblyLoader.Utilities;
 
 namespace NSwag.Commands
 {
     /// <summary>A command which is run in isolation.</summary>
-    public abstract class IsolatedSwaggerOutputCommandBase : IsolatedCommandBase<string>, IOutputCommand
+    public abstract class IsolatedSwaggerOutputCommandBase<T> : IsolatedCommandBase<string>, IOutputCommand
+        where T : JsonSchemaGeneratorSettings
     {
-        /// <summary>Initializes a new instance of the <see cref="IsolatedSwaggerOutputCommandBase"/> class.</summary>
-        protected IsolatedSwaggerOutputCommandBase()
-        {
-            OutputType = SchemaType.Swagger2;
-        }
+        [JsonIgnore]
+        protected abstract T Settings { get; }
 
         [Argument(Name = "Output", IsRequired = false, Description = "The output file path (optional).")]
         [JsonProperty("output", NullValueHandling = NullValueHandling.Include)]
         public string OutputFilePath { get; set; }
 
-        [Argument(Name = "OutputType", IsRequired = false, Description = "Specifies the output schema type (Swagger2|OpenApi3, default: Swagger2).")]
-        public SchemaType OutputType { get; set; }
+        [Argument(Name = "OutputType", IsRequired = false, Description = "Specifies the output schema type, ignored when UseDocumentProvider is enabled (Swagger2|OpenApi3, default: Swagger2).")]
+        public SchemaType OutputType
+        {
+            get { return Settings.SchemaType; }
+            set { Settings.SchemaType = value; }
+        }
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
+            JsonReferenceResolver ReferenceResolverFactory(SwaggerDocument d) =>
+                new JsonAndYamlReferenceResolver(new JsonSchemaResolver(d, Settings));
+
             var documentJson = await RunIsolatedAsync((string)null);
-            var document = await SwaggerDocument.FromJsonAsync(documentJson, expectedSchemaType: OutputType).ConfigureAwait(false);
+            var document = await SwaggerDocument.FromJsonAsync(documentJson, null, OutputType, ReferenceResolverFactory).ConfigureAwait(false);
             await this.TryWriteDocumentOutputAsync(host, () => document).ConfigureAwait(false);
             return document;
         }

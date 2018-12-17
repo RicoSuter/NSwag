@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NJsonSchema;
 using NSwag.AspNetCore;
 using NSwag.Sample.NETCore20.Part;
 using NSwag.SwaggerGeneration.Processors.Security;
@@ -24,7 +23,27 @@ namespace NSwag.Sample.NETCore20
             services.AddMvc().
                 AddApplicationPart(typeof(SampleController).GetTypeInfo().Assembly);
 
-            services.AddSwagger();
+            // Add OpenAPI and Swagger DI services and configure documents
+
+            // Adds the NSwag services
+            services
+                // Register a Swagger 2.0 document generator
+                .AddSwaggerDocument(document =>
+                {
+                    document.DocumentName = "swagger";
+                    // Add custom document processors, etc.
+                    document.DocumentProcessors.Add(new SecurityDefinitionAppender("TEST_HEADER", new SwaggerSecurityScheme
+                    {
+                        Type = SwaggerSecuritySchemeType.ApiKey,
+                        Name = "TEST_HEADER",
+                        In = SwaggerSecurityApiKeyLocation.Header,
+                        Description = "TEST_HEADER"
+                    }));
+                    // Post process the generated document
+                    document.PostProcess = d => d.Info.Title = "Hello world!";
+                })
+                // Register an OpenAPI 3.0 document generator
+                .AddOpenApiDocument(document => document.DocumentName = "openapi");
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -36,86 +55,66 @@ namespace NSwag.Sample.NETCore20
 
             app.UseMvc();
 
-            // API Explorer based (new)
+            //// Add OpenAPI and Swagger middlewares to serve documents and web UIs
 
-            // Swagger v2.0
+            // URLs: 
+            // - http://localhost:65384/swagger/v1/swagger.json
+            // - http://localhost:65384/swagger
+            // - http://localhost:65384/redoc
+            // - http://localhost:65384/openapi
+            // - http://localhost:65384/openapi_redoc
 
-            app.UseSwaggerUiWithApiExplorer(s =>
+            // Add Swagger 2.0 document serving middleware
+            app.UseSwagger(options =>
             {
-                s.SwaggerRoute = "/swagger_new_ui/v1/swagger.json";
-                s.SwaggerUiRoute = "/swagger_new_ui";
-
-                s.GeneratorSettings.DocumentProcessors.Add(new SecurityDefinitionAppender("TEST_HEADER", new SwaggerSecurityScheme
-                {
-                    Type = SwaggerSecuritySchemeType.ApiKey,
-                    Name = "TEST_HEADER",
-                    In = SwaggerSecurityApiKeyLocation.Header,
-                    Description = "TEST_HEADER"
-                }));
+                options.DocumentName = "swagger";
+                options.Path = "/swagger/v1/swagger.json";
             });
 
-            app.UseSwaggerUi3WithApiExplorer(s =>
+            // Add web UIs to interact with the document
+            app.UseSwaggerUi3(options =>
             {
-                s.SwaggerRoute = "/swagger_new_ui3/v1/swagger.json";
-                s.SwaggerUiRoute = "/swagger_new_ui3";
+                // Define web UI route
+                options.Path = "/swagger";
 
-                s.GeneratorSettings.DocumentProcessors.Add(new SecurityDefinitionAppender("TEST_HEADER", new SwaggerSecurityScheme
-                {
-                    Type = SwaggerSecuritySchemeType.ApiKey,
-                    Name = "TEST_HEADER",
-                    In = SwaggerSecurityApiKeyLocation.Header,
-                    Description = "TEST_HEADER"
-                }));
+                // Define OpenAPI/Swagger document route (defined with UseSwaggerWithApiExplorer)
+                options.DocumentPath = "/swagger/v1/swagger.json";
+            });
+            app.UseReDoc(options =>
+            {
+                options.Path = "/redoc";
+                options.DocumentPath = "/swagger/v1/swagger.json";
             });
 
-            app.UseSwaggerReDocWithApiExplorer(s =>
+            //// Add OpenAPI 3.0 document serving middleware
+            app.UseSwagger(options =>
             {
-                s.SwaggerRoute = "/swagger_new_redoc/v1/swagger.json";
-                s.SwaggerUiRoute = "/swagger_new_redoc";
+                options.DocumentName = "openapi";
+                options.Path = "/openapi/v1/openapi.json";
             });
 
-            // Swagger 3.0
-
-            app.UseSwaggerWithApiExplorer(s =>
+            // Add web UIs to interact with the document
+            app.UseSwaggerUi3(options =>
             {
-                s.GeneratorSettings.SchemaType = SchemaType.OpenApi3;
-                s.SwaggerRoute = "/swagger_new_v3/v1/swagger.json";
+                options.Path = "/openapi";
+                options.DocumentPath = "/openapi/v1/openapi.json";
+            });
+            app.UseReDoc(options =>
+            {
+                options.Path = "/openapi_redoc";
+                options.DocumentPath = "/openapi/v1/openapi.json";
             });
 
-            // Reflection based (old)
-
-            app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, s =>
+            // Add Swagger UI with multiple documents
+            app.UseSwaggerUi3(options =>
             {
-                s.SwaggerRoute = "/swagger_old_ui/v1/swagger.json";
-                s.SwaggerUiRoute = "/swagger_old_ui";
-            });
+                // Add multiple OpenAPI/Swagger documents to the Swagger UI 3 web frontend
+                options.SwaggerRoutes.Add(new SwaggerUi3Route("Swagger", "/swagger/v1/swagger.json"));
+                options.SwaggerRoutes.Add(new SwaggerUi3Route("Openapi", "/openapi/v1/openapi.json"));
+                options.SwaggerRoutes.Add(new SwaggerUi3Route("Petstore", "http://petstore.swagger.io/v2/swagger.json"));
 
-            app.UseSwaggerUi3(typeof(Startup).GetTypeInfo().Assembly, s =>
-            {
-                s.SwaggerRoute = "/swagger_old_ui3/v1/swagger.json";
-                s.SwaggerUiRoute = "/swagger_old_ui3";
-            });
-
-            app.UseSwaggerReDoc(typeof(Startup).GetTypeInfo().Assembly, s =>
-            {
-                s.SwaggerRoute = "/swagger_old_redoc/v1/swagger.json";
-                s.SwaggerUiRoute = "/swagger_old_redoc";
-            });
-
-            // Swagger 3.0
-
-            app.UseSwagger(typeof(Startup).GetTypeInfo().Assembly, s =>
-            {
-                s.GeneratorSettings.SchemaType = SchemaType.OpenApi3;
-                s.SwaggerRoute = "/swagger_old_v3/v1/swagger.json";
-            });
-
-            // All
-            app.UseSwaggerUi3(s =>
-            {
-                s.SwaggerRoutes.Add(new SwaggerUi3Route("A", "/swagger_new_ui/v1/swagger.json"));
-                s.SwaggerRoutes.Add(new SwaggerUi3Route("B", "http://petstore.swagger.io/v2/swagger.json"));
-                s.SwaggerUiRoute = "/swagger_all";
+                // Define web UI route
+                options.Path = "/swagger_all";
             });
         }
     }

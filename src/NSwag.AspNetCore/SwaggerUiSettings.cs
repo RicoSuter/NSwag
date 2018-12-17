@@ -12,8 +12,12 @@ using Newtonsoft.Json;
 using NSwag.SwaggerGeneration;
 
 #if AspNetOwin
+using Microsoft.Owin;
+
 namespace NSwag.AspNet.Owin
 #else
+using Microsoft.AspNetCore.Http;
+
 namespace NSwag.AspNetCore
 #endif
 {
@@ -41,8 +45,12 @@ namespace NSwag.AspNetCore
 
         /// <summary>Whether or not to show the headers that were sent when making a request via the 'Try it out!' option. Defaults to false.</summary>
         public bool ShowRequestHeaders { get; set; } = false;
-        
-        internal override string TransformHtml(string html)
+
+#if AspNetOwin
+        internal override string TransformHtml(string html, IOwinRequest request)
+#else
+        internal override string TransformHtml(string html, HttpRequest request)
+#endif
         {
             var oauth2Settings = OAuth2Client ?? new OAuth2ClientSettings();
             foreach (var property in oauth2Settings.GetType().GetRuntimeProperties())

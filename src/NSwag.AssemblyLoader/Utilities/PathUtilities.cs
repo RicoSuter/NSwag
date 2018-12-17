@@ -67,6 +67,7 @@ namespace NSwag.AssemblyLoader.Utilities
 
             var regex = new Regex(
                 "^" + Regex.Escape(selector
+                    .Replace("\\", "/")
                     .Replace(delimiter.ToString(), "__del__")
                     .Replace("**", "__starstar__")
                     .Replace("*", "__star__"))
@@ -74,7 +75,7 @@ namespace NSwag.AssemblyLoader.Utilities
                 .Replace("__starstar__", "(.*?)")
                 .Replace("__star__", "([^" + escapedDelimiter + "]*?)") + "$");
 
-            return items.Where(i => regex.Match(i).Success);
+            return items.Where(i => regex.Match(i.Replace("\\", "/")).Success);
         }
 
         /// <summary>Converts a relative path to an absolute path.</summary>
@@ -98,8 +99,13 @@ namespace NSwag.AssemblyLoader.Utilities
         /// <exception cref="ArgumentException">The path of the two files doesn't have any common base.</exception>
         public static string MakeRelativePath(string absolutePath, string relativeTo)
         {
-            string[] absParts = absolutePath.Split(System.IO.Path.DirectorySeparatorChar);
-            string[] relParts = relativeTo.Split(System.IO.Path.DirectorySeparatorChar);
+            string[] absParts = absolutePath.Split(Path.DirectorySeparatorChar, '/');
+            string[] relParts = relativeTo.Split(Path.DirectorySeparatorChar, '/');
+
+            if (absParts.SequenceEqual(relParts))
+            {
+                return ".";
+            }
 
             // Get the shortest of the two paths
             int len = absParts.Length < relParts.Length ? absParts.Length : relParts.Length;
@@ -128,14 +134,14 @@ namespace NSwag.AssemblyLoader.Utilities
             for (index = lastCommonRoot + 1; index < relParts.Length; index++)
             {
                 relativePath.Append("..");
-                relativePath.Append(System.IO.Path.DirectorySeparatorChar);
+                relativePath.Append(Path.DirectorySeparatorChar);
             }
 
             // Add on the folders
             for (index = lastCommonRoot + 1; index < absParts.Length - 1; index++)
             {
                 relativePath.Append(absParts[index]);
-                relativePath.Append(System.IO.Path.DirectorySeparatorChar);
+                relativePath.Append(Path.DirectorySeparatorChar);
             }
             relativePath.Append(absParts[absParts.Length - 1]);
 

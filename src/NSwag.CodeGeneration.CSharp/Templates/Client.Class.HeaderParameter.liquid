@@ -1,0 +1,5 @@
+{% if parameter.IsStringArray -%}
+request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", {{ parameter.VariableName }});
+{% else -%}
+request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture));
+{% endif -%}

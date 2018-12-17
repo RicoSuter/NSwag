@@ -59,7 +59,7 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.GenerateDtoTypes = value; }
         }
 
-        [Argument(Name = "InjectHttpClient", IsRequired = false, Description = "Specifies whether an HttpClient instance is injected.")]
+        [Argument(Name = "InjectHttpClient", IsRequired = false, Description = "Specifies whether an HttpClient instance is injected (default: true).")]
         public bool InjectHttpClient
         {
             get { return Settings.InjectHttpClient; }

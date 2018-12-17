@@ -1,0 +1,24 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Json Contract with Json Reference",
+    "description": "Json Contract with Json Reference"
+  },
+  "definitions": {
+    "ContractObject": {
+      "type": "object",
+      "properties": {
+        "bar": {
+          "$ref": "./baseContract.json#/definitions/myBool"
+        },
+        "foo": {
+          "$ref": "#/definitions/baseContractInt"
+        }
+      }
+    },
+    "baseContractInt": {
+      "$ref": "./baseContract.json#/definitions/myInt"
+    }
+  }
+}

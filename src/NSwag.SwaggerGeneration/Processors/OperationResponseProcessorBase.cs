@@ -129,11 +129,12 @@ namespace NSwag.SwaggerGeneration.Processors
 
                 if (IsVoidResponse(returnType) == false)
                 {
-                    response.IsNullableRaw = statusCodeGroup.Any(r => r.IsNullable) && typeDescription.IsNullable;
+                    var isNullable = statusCodeGroup.Any(r => r.IsNullable) && typeDescription.IsNullable;
+
+                    response.IsNullableRaw = isNullable;
                     response.ExpectedSchemas = await GenerateExpectedSchemasAsync(statusCodeGroup, context);
                     response.Schema = await context.SchemaGenerator
-                        .GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(
-                            returnType, null, typeDescription.IsNullable, context.SchemaResolver)
+                        .GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(returnType, null, isNullable, context.SchemaResolver)
                         .ConfigureAwait(false);
                 }
 

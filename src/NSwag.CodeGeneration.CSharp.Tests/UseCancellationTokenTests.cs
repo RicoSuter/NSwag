@@ -1,20 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web.Http;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.AspNetCore.Mvc;
 using NSwag.CodeGeneration.CSharp.Models;
 using NSwag.SwaggerGeneration.WebApi;
+using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
-    [TestClass]
-
     public class UseCancellationTokenTests
     {
-        public class TestController : ApiController
+        public class TestController : Controller
         {
             [Route("Foo")]
             public string Foo(string test, bool test2)
@@ -29,7 +24,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_controllerstyleispartial_and_usecancellationtokenistrue_and_requesthasnoparameter_then_cancellationtoken_is_added()
         {
             //// Arrange
@@ -44,12 +39,12 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("(System.Threading.CancellationToken cancellationToken)"));
-            Assert.IsTrue(code.Contains("_implementation.BarAsync(cancellationToken)"));
-            Assert.IsTrue(code.Contains("System.Threading.Tasks.Task BarAsync(System.Threading.CancellationToken cancellationToken)"));
+            Assert.Contains("(System.Threading.CancellationToken cancellationToken)", code);
+            Assert.Contains("_implementation.BarAsync(cancellationToken)", code);
+            Assert.Contains("System.Threading.Tasks.Task BarAsync(System.Threading.CancellationToken cancellationToken)", code);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_controllerstyleispartial_and_usecancellationtokenistrue_and_requesthasparameter_then_cancellationtoken_is_added()
         {
             //// Arrange
@@ -64,12 +59,12 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("System.Threading.Tasks.Task<string> FooAsync(string test, bool test2, System.Threading.CancellationToken cancellationToken)"));
-            Assert.IsTrue(code.Contains("_implementation.FooAsync(test, test2, cancellationToken);"));
-            Assert.IsTrue(code.Contains("public System.Threading.Tasks.Task<string> Foo(string test, bool test2, System.Threading.CancellationToken cancellationToken)"));
+            Assert.Contains("System.Threading.Tasks.Task<string> FooAsync(string test, bool test2, System.Threading.CancellationToken cancellationToken)", code);
+            Assert.Contains("_implementation.FooAsync(test, test2, cancellationToken);", code);
+            Assert.Contains("public System.Threading.Tasks.Task<string> Foo(string test, bool test2, System.Threading.CancellationToken cancellationToken)", code);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_controllerstyleisabstract_and_usecancellationtokenistrue_and_requesthasnoparameter_then_cancellationtoken_is_added()
         {
             //// Arrange
@@ -85,10 +80,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("abstract System.Threading.Tasks.Task Bar(System.Threading.CancellationToken cancellationToken)"));
+            Assert.Contains("abstract System.Threading.Tasks.Task Bar(System.Threading.CancellationToken cancellationToken)", code);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_controllerstyleisabstract_and_usecancellationtokenistrue_and_requesthasparameter_then_cancellationtoken_is_added()
         {
             //// Arrange
@@ -104,10 +99,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("System.Threading.Tasks.Task<string> Foo(string test, bool test2, System.Threading.CancellationToken cancellationToken)"));
+            Assert.Contains("System.Threading.Tasks.Task<string> Foo(string test, bool test2, System.Threading.CancellationToken cancellationToken)", code);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_usecancellationtokenparameter_notsetted_then_cancellationtoken_isnot_added()
         {
             //// Arrange
@@ -122,7 +117,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.IsFalse(code.Contains("System.Threading.CancellationToken cancellationToken"));
+            Assert.False(code.Contains("System.Threading.CancellationToken cancellationToken"));
         }
     }
 }

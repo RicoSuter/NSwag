@@ -1,11 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NJsonSchema;
+using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
-    [TestClass]
     public class ParameterTests
     {
-        [TestMethod]
+        [Fact]
         public void When_parameters_have_same_name_then_they_are_renamed()
         {
             //// Arrange
@@ -37,11 +37,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("FooAsync(object fooQuery, object fooHeader, System.Threading.CancellationToken cancellationToken)"));
+            Assert.Contains("FooAsync(object fooQuery, object fooHeader, System.Threading.CancellationToken cancellationToken)", code);
         }
 
-
-        [TestMethod]
+        [Fact]
         public void When_parent_parameters_have_same_kind_then_they_are_included()
         {
             //// Arrange
@@ -112,10 +111,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("RemoveElementAsync(string x_User, System.Collections.Generic.IEnumerable<long> elementId, string secureToken)"));          
+            Assert.Contains("RemoveElementAsync(string x_User, System.Collections.Generic.IEnumerable<long> elementId, string secureToken)", code);          
         }
 
-        [TestMethod]
+        [Fact]
         public void When_swagger_contains_optional_parameters_then_they_are_rendered_in_CSharp()
         {
             //// Arrange
@@ -194,8 +193,84 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("lastName"));
-            Assert.IsTrue(code.Contains("optionalOrderId"));
+            Assert.Contains("lastName", code);
+            Assert.Contains("optionalOrderId", code);
+        }
+
+        [Fact]
+        public void Deep_object_properties_are_correctly_named()
+        {
+            //// Arrange
+            var swagger = @"{
+   'openapi' : '3.0',
+   'info' : {
+      'version' : '1.0.2',
+       'title' : 'Test API'
+   },
+   'paths': {
+      '/journeys': {
+         'get': {
+            'tags': [
+               'CheckIn'
+            ],
+            'summary': 'Retrieve journeys',
+            'operationId': 'retrieveJourneys',
+            'description': '',
+            'parameters': [
+                {
+                   'name': 'lastName',
+                   'in': 'query',
+                   'schema': { 'type': 'string' }
+                },
+                {
+                   'name': 'eTicketNumber',
+                   'in': 'query',
+                   'schema': { 'type': 'string' }
+                },
+                {
+                   'name': 'options',
+                   'in': 'query',
+                   'style': 'deepObject',
+                   'explode': true,
+                   'schema': { '$ref': '#/components/schemas/Options' }
+                }
+            ],
+            'responses': {}
+         }
+      }
+   },
+   'components':{
+      'schemas': {
+         'Options': {
+            'type':'object',
+            'properties': {
+               'optionalOrder.id': {
+                  'schema': { 'type': 'string' }
+               },
+               'optionalFrequentFlyerCard.id':{
+                  'schema': { 'type': 'string' }
+               },
+               'optionalDepartureDate':{
+                  'schema': { 'type': 'string' }
+               },
+               'optionalOriginLocationCode':{
+                  'schema': { 'type': 'string' }
+               }
+            }
+         }
+      }
+   }
+}";
+
+            var document = SwaggerDocument.FromJsonAsync(swagger, "", SchemaType.OpenApi3).Result;
+
+            //// Act
+            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+            var code = generator.GenerateFile();
+
+            //// Assert
+            Assert.Contains("options[optionalOrder.id]=", code);
+            Assert.Contains("options.OptionalOrderId", code);
         }
     }
 }
