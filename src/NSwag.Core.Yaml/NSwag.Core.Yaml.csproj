@@ -16,7 +16,7 @@
     <RootNamespace>NSwag</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="NJsonSchema.Yaml" Version="9.13.5" />
+    <PackageReference Include="NJsonSchema.Yaml" Version="9.13.9" />
     <PackageReference Include="YamlDotNet.Signed" Version="5.0.1" />
   </ItemGroup>
   <ItemGroup>
