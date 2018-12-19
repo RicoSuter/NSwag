@@ -324,6 +324,13 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.QueryNullValue = value; }
         }
 
+        [Argument(Name = "InlineNamedDictionaries", Description = "Inline named dictionaries (default: false).", IsRequired = false)]
+        public bool InlineNamedDictionaries
+        {
+            get { return Settings.TypeScriptGeneratorSettings.InlineNamedDictionaries; }
+            set { Settings.TypeScriptGeneratorSettings.InlineNamedDictionaries = value; }
+        }
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var code = await RunAsync();
