@@ -282,5 +282,26 @@ namespace NSwag.Commands.CodeGeneration
             get { return Settings.CSharpGeneratorSettings.JsonSerializerSettingsTransformationMethod; }
             set { Settings.CSharpGeneratorSettings.JsonSerializerSettingsTransformationMethod = value; }
         }
+
+        //[Argument(Name = "InlineNamedArrays", Description = "Inline named arrays (default: false).", IsRequired = false)]
+        //public bool InlineNamedArrays
+        //{
+        //    get { return Settings.CSharpGeneratorSettings.InlineNamedArrays; }
+        //    set { Settings.CSharpGeneratorSettings.InlineNamedArrays = value; }
+        //}
+
+        [Argument(Name = "InlineNamedDictionaries", Description = "Inline named dictionaries (default: false).", IsRequired = false)]
+        public bool InlineNamedDictionaries
+        {
+            get { return Settings.CSharpGeneratorSettings.InlineNamedDictionaries; }
+            set { Settings.CSharpGeneratorSettings.InlineNamedDictionaries = value; }
+        }
+
+        [Argument(Name = "InlineNamedTuples", Description = "Inline named tuples (default: true).", IsRequired = false)]
+        public bool InlineNamedTuples
+        {
+            get { return Settings.CSharpGeneratorSettings.InlineNamedTuples; }
+            set { Settings.CSharpGeneratorSettings.InlineNamedTuples = value; }
+        }
     }
 }
