@@ -46,8 +46,8 @@ namespace NSwag.AspNetCore
                 }
             }
 
-            var document = _documents.Single(g => g.DocumentName == documentName);
-            if (document.Generator == null)
+            var document = _documents.SingleOrDefault(g => g.DocumentName == documentName);
+            if (document?.Generator == null)
             {
                 throw new InvalidOperationException($"No registered OpenAPI/Swagger document found for the document name '{documentName}'. " +
                     $"Add with the AddSwagger()/AddOpenApi() methods in ConfigureServices().");

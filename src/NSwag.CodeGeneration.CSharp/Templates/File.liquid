@@ -10,7 +10,7 @@ using {{ usage }};
 
 namespace {{ Namespace }}
 {
-    #pragma warning disable // Disable all warnings
+    #pragma warning disable
 
     {{ Clients | tab }}
 
@@ -151,4 +151,6 @@ namespace {{ Namespace }}
     {% template JsonExceptionConverter %}
 {%     endif -%}
 {% endif -%}
+
+    #pragma warning restore
 }

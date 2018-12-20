@@ -4,8 +4,7 @@
     <title>ReDoc</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.vaadin.com/vaadin-core-elements/1.2.0/webcomponentsjs/webcomponents-lite.min.js"></script>
-    <link rel="import" href="https://cdn.vaadin.com/vaadin-core-elements/1.2.0/vaadin-combo-box/vaadin-combo-box-light.html">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">
     <style>
         body {
             margin: 0;
@@ -14,8 +13,8 @@
     </style>
 </head>
 <body>
-    <redoc scroll-y-offset="body > nav"></redoc>
-    <script src="https://rebilly.github.io/ReDoc/releases/latest/redoc.min.js"></script>
+    <div id="redoc-container"></div>
+    <script src="https://cdn.jsdelivr.net/npm/redoc/bundles/redoc.standalone.js"></script>
     <script>
         var url = window.location.search.match(/url=([^&]+)/);
         if (url && url.length > 1) {
@@ -24,7 +23,8 @@
             url = undefined;
         }
 
-        Redoc.init(url);
+        var options = {};
+        Redoc.init(url, options, document.getElementById('redoc-container'));
     </script>
 </body>
 </html>

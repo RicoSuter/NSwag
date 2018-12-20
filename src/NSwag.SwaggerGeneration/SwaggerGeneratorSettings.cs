@@ -12,6 +12,9 @@ using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Collections;
+using NSwag.SwaggerGeneration.Processors.Contexts;
+using System;
+using System.Threading.Tasks;
 
 namespace NSwag.SwaggerGeneration
 {
@@ -36,7 +39,7 @@ namespace NSwag.SwaggerGeneration
         /// <summary>Gets or sets a value indicating whether nullable body parameters are allowed (ignored when MvcOptions.AllowEmptyInputInBodyModelBinding is available (ASP.NET Core 2.0+), default: true).</summary>
         public bool AllowNullableBodyParameters { get; set; } = true;
 
-        /// <summary>Gets the operation processor.</summary>
+        /// <summary>Gets the operation processors.</summary>
         [JsonIgnore]
         public OperationProcessorCollection OperationProcessors { get; } = new OperationProcessorCollection
         {
@@ -45,7 +48,7 @@ namespace NSwag.SwaggerGeneration
             new OperationExtensionDataProcessor(),
         };
 
-        /// <summary>Gets the operation processor.</summary>
+        /// <summary>Gets the document processors.</summary>
         [JsonIgnore]
         public DocumentProcessorCollection DocumentProcessors { get; } = new DocumentProcessorCollection
         {
@@ -56,6 +59,13 @@ namespace NSwag.SwaggerGeneration
         /// <summary>Gets or sets the document template representing the initial Swagger specification (JSON data).</summary>
         public string DocumentTemplate { get; set; }
 
+        /// <summary>Inserts a function based operation processor at the beginning of the pipeline to be used to filter operations.</summary>
+        /// <param name="filter">The processor filter.</param>
+        public void AddOperationFilter(Func<OperationProcessorContext, Task<bool>> filter)
+        {
+            OperationProcessors.Insert(0, new OperationProcessor(filter));
+        }
+
         /// <summary>Applies the given settings to this settings object.</summary>
         /// <param name="serializerSettings">The serializer settings.</param>
         /// <param name="mvcOptions">The MVC options.</param>
@@ -63,15 +73,16 @@ namespace NSwag.SwaggerGeneration
         {
             if (serializerSettings != null)
             {
-                // TODO: Move to NJS => JsonSchemaGeneratorSettings
                 var areSerializerSettingsSpecified =
                     DefaultPropertyNameHandling != PropertyNameHandling.Default ||
                     DefaultEnumHandling != EnumHandling.Integer ||
-                    ContractResolver != null |
+                    ContractResolver != null ||
                     SerializerSettings != null;
 
                 if (!areSerializerSettingsSpecified)
+                {
                     SerializerSettings = serializerSettings;
+                }
             }
 
             if (mvcOptions != null && mvcOptions.HasProperty("AllowEmptyInputInBodyModelBinding"))

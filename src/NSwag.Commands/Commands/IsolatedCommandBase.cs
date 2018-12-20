@@ -128,6 +128,7 @@ namespace NSwag.Commands
             yield return new BindingRedirect("NSwag.Core", typeof(SwaggerDocument), "c2d88086e098d109");
             yield return new BindingRedirect("NSwag.SwaggerGeneration", typeof(SwaggerJsonSchemaGenerator), "c2d88086e098d109");
             yield return new BindingRedirect("NSwag.SwaggerGeneration.WebApi", typeof(WebApiToSwaggerGenerator), "c2d88086e098d109");
+            yield return new BindingRedirect("NSwag.SwaggerGeneration.AspNetCore", typeof(AspNetCoreToSwaggerGenerator), "c2d88086e098d109");
             yield return new BindingRedirect("NSwag.Annotations", typeof(SwaggerTagsAttribute), "c2d88086e098d109");
             yield return new BindingRedirect("NSwag.Core.Yaml", typeof(SwaggerYamlDocument), "c2d88086e098d109");
             yield return new BindingRedirect("System.Runtime", "4.0.0.0", "b03f5f7f11d50a3a");

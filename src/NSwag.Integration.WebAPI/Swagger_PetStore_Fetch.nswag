@@ -54,6 +54,7 @@
       "timeType": "System.TimeSpan",
       "timeSpanType": "System.TimeSpan",
       "arrayType": "System.Collections.ObjectModel.ObservableCollection",
+      "arrayInstanceType": "System.Collections.ObjectModel.ObservableCollection",
       "dictionaryType": "System.Collections.Generic.Dictionary",
       "classStyle": "Inpc",
       "operationGenerationMode": "MultipleClientsFromOperationId",

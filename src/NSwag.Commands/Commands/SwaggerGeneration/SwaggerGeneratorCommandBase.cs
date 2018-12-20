@@ -200,7 +200,7 @@ namespace NSwag.Commands.SwaggerGeneration
             return Settings;
         }
 
-        protected async Task<TestServer> CreateTestServerAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
+        protected async Task<IWebHost> CreateWebHostAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
             if (!string.IsNullOrEmpty(CreateWebHostBuilderMethod))
             {
@@ -215,14 +215,14 @@ namespace NSwag.Commands.SwaggerGeneration
                 var method = programType.GetRuntimeMethod(segments.Last(), new[] { typeof(string[]) });
                 if (method != null)
                 {
-                    return new TestServer((IWebHostBuilder)method.Invoke(null, new object[] { new string[0] }));
+                    return ((IWebHostBuilder)method.Invoke(null, new object[] { new string[0] })).Build();
                 }
                 else
                 {
                     method = programType.GetRuntimeMethod(segments.Last(), new Type[0]);
                     if (method != null)
                     {
-                        return new TestServer((IWebHostBuilder)method.Invoke(null, new object[0]));
+                        return ((IWebHostBuilder)method.Invoke(null, new object[0])).Build();
                     }
                     else
                     {
@@ -236,9 +236,9 @@ namespace NSwag.Commands.SwaggerGeneration
                 var startupType = assemblyLoader.GetType(StartupType);
 
 #if NETCOREAPP1_0 || NETCOREAPP1_1
-                return new TestServer(new WebHostBuilder().UseStartup(startupType));
+                return new WebHostBuilder().UseStartup(startupType).Build();
 #else
-                return new TestServer(WebHost.CreateDefaultBuilder().UseStartup(startupType));
+                return WebHost.CreateDefaultBuilder().UseStartup(startupType).Build();
 #endif
             }
             else
@@ -255,14 +255,14 @@ namespace NSwag.Commands.SwaggerGeneration
                     var method = programType.GetRuntimeMethod("CreateWebHostBuilder", new[] { typeof(string[]) });
                     if (method != null)
                     {
-                        return new TestServer((IWebHostBuilder)method.Invoke(null, new object[] { new string[0] }));
+                        return ((IWebHostBuilder)method.Invoke(null, new object[] { new string[0] })).Build();
                     }
                     else
                     {
                         method = programType.GetRuntimeMethod("CreateWebHostBuilder", new Type[0]);
                         if (method != null)
                         {
-                            return new TestServer((IWebHostBuilder)method.Invoke(null, new object[0]));
+                            return ((IWebHostBuilder)method.Invoke(null, new object[0])).Build();
                         }
                         else
                         {
@@ -283,9 +283,9 @@ namespace NSwag.Commands.SwaggerGeneration
                     }
 
 #if NETCOREAPP1_0 || NETCOREAPP1_1
-                    return new TestServer(new WebHostBuilder().UseStartup(startupType));
+                    return new WebHostBuilder().UseStartup(startupType).Build();
 #else
-                    return new TestServer(WebHost.CreateDefaultBuilder().UseStartup(startupType));
+                    return WebHost.CreateDefaultBuilder().UseStartup(startupType).Build();
 #endif
                 }
             }
