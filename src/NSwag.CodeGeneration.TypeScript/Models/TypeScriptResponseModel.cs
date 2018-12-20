@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using NJsonSchema;
+using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag.CodeGeneration.Models;
 
@@ -24,10 +25,11 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <param name="isPrimarySuccessResponse">if set to <c>true</c> [is success response].</param>
         /// <param name="exceptionSchema">The exception schema.</param>
         /// <param name="generator">The generator.</param>
+        /// <param name="resolver">The resolver.</param>
         /// <param name="settings">The settings.</param>
         public TypeScriptResponseModel(IOperationModel operationModel, string statusCode, SwaggerResponse response, bool isPrimarySuccessResponse, 
-            JsonSchema4 exceptionSchema, IClientGenerator generator, SwaggerToTypeScriptClientGeneratorSettings settings) 
-            : base(operationModel, statusCode, response, isPrimarySuccessResponse, exceptionSchema, settings.TypeScriptGeneratorSettings, generator)
+            JsonSchema4 exceptionSchema, IClientGenerator generator, TypeResolverBase resolver, SwaggerToTypeScriptClientGeneratorSettings settings) 
+            : base(operationModel, statusCode, response, isPrimarySuccessResponse, exceptionSchema, resolver, settings.TypeScriptGeneratorSettings, generator)
         {
             _settings = settings;
         }

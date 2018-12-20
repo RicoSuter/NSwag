@@ -21,6 +21,7 @@ namespace NSwag.CodeGeneration.Models
         private readonly JsonSchema4 _exceptionSchema;
         private readonly IClientGenerator _generator;
         private readonly CodeGeneratorSettingsBase _settings;
+        private readonly TypeResolverBase _resolver;
 
         /// <summary>Initializes a new instance of the <see cref="ResponseModelBase" /> class.</summary>
         /// <param name="operationModel">The operation model.</param>
@@ -28,16 +29,18 @@ namespace NSwag.CodeGeneration.Models
         /// <param name="response">The response.</param>
         /// <param name="isPrimarySuccessResponse">Specifies whether this is the success response.</param>
         /// <param name="exceptionSchema">The exception schema.</param>
+        /// <param name="resolver">The resolver.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="generator">The client generator.</param>
         protected ResponseModelBase(IOperationModel operationModel,
             string statusCode, SwaggerResponse response, bool isPrimarySuccessResponse,
-            JsonSchema4 exceptionSchema, CodeGeneratorSettingsBase settings, IClientGenerator generator)
+            JsonSchema4 exceptionSchema, TypeResolverBase resolver, CodeGeneratorSettingsBase settings, IClientGenerator generator)
         {
             _response = response;
             _exceptionSchema = exceptionSchema;
             _generator = generator;
             _settings = settings;
+            _resolver = resolver;
             _operationModel = operationModel;
 
             IsPrimarySuccessResponse = isPrimarySuccessResponse;
@@ -84,6 +87,9 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets the actual response schema.</summary>
         public JsonSchema4 ActualResponseSchema => _response.ActualResponseSchema;
+
+        /// <summary>Gets the response schema.</summary>
+        public JsonSchema4 ResolvableResponseSchema => _response.Schema != null ? _resolver.GetResolvableSchema(_response.Schema) : null;
 
         /// <summary>Gets the schema.</summary>
         private JsonSchema4 Schema => _response.ActualResponseSchema;

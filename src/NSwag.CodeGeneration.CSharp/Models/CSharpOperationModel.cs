@@ -9,6 +9,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
+using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.CSharp;
 using NSwag.CodeGeneration.Models;
 
@@ -236,11 +237,12 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <param name="response">The response.</param>
         /// <param name="exceptionSchema">The exception schema.</param>
         /// <param name="generator">The generator.</param>
+        /// <param name="resolver">The resolver.</param>
         /// <param name="settings">The settings.</param>
         /// <returns></returns>
-        protected override CSharpResponseModel CreateResponseModel(string statusCode, SwaggerResponse response, JsonSchema4 exceptionSchema, IClientGenerator generator, ClientGeneratorBaseSettings settings)
+        protected override CSharpResponseModel CreateResponseModel(string statusCode, SwaggerResponse response, JsonSchema4 exceptionSchema, IClientGenerator generator, TypeResolverBase resolver, ClientGeneratorBaseSettings settings)
         {
-            return new CSharpResponseModel(this, statusCode, response, response == GetSuccessResponse(), exceptionSchema, generator, settings.CodeGeneratorSettings);
+            return new CSharpResponseModel(this, statusCode, response, response == GetSuccessResponse(), exceptionSchema, generator, resolver, settings.CodeGeneratorSettings);
         }
     }
 }

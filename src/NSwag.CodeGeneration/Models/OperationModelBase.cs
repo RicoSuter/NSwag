@@ -38,7 +38,7 @@ namespace NSwag.CodeGeneration.Models
             _settings = settings;
 
             var responses = _operation.ActualResponses
-                .Select(response => CreateResponseModel(response.Key, response.Value, exceptionSchema, generator, settings))
+                .Select(response => CreateResponseModel(response.Key, response.Value, exceptionSchema, generator, resolver, settings))
                 .ToList();
 
             var defaultResponse = responses.SingleOrDefault(r => r.StatusCode == "default");
@@ -54,9 +54,11 @@ namespace NSwag.CodeGeneration.Models
         /// <param name="response">The response.</param>
         /// <param name="exceptionSchema">The exception schema.</param>
         /// <param name="generator">The generator.</param>
+        /// <param name="resolver">The resolver.</param>
         /// <param name="settings">The settings.</param>
         /// <returns>The response model.</returns>
-        protected abstract TResponseModel CreateResponseModel(string statusCode, SwaggerResponse response, JsonSchema4 exceptionSchema, IClientGenerator generator, ClientGeneratorBaseSettings settings);
+        protected abstract TResponseModel CreateResponseModel(string statusCode, SwaggerResponse response, JsonSchema4 exceptionSchema, IClientGenerator generator,
+            TypeResolverBase resolver, ClientGeneratorBaseSettings settings);
 
         /// <summary>Gets the operation ID.</summary>
         public string Id => _operation.OperationId;
