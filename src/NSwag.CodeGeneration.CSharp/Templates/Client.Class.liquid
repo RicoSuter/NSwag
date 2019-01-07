@@ -184,9 +184,18 @@
 {%                     endif -%}
 {%                     if parameter.IsFile -%}
 {%                         if parameter.IsArray -%}
-                    foreach (var item_ in {{ parameter.VariableName }}) { content_.Add(new System.Net.Http.StreamContent(item_.Data), "{{ parameter.Name }}", item_.FileName ?? "{{ parameter.Name }}"); }
+                    foreach (var item_ in {{ parameter.VariableName }})
+                    {
+                        var content_{{ parameter.VariableName }}_ = new System.Net.Http.StreamContent(item_.Data);
+                        if (!string.IsNullOrEmpty(item_.ContentType))
+                            content_{{ parameter.VariableName }}_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse(item_.ContentType);
+                        content_.Add(content_{{ parameter.VariableName }}_, "{{ parameter.Name }}", item_.FileName ?? "{{ parameter.Name }}");
+                    }
 {%                         else -%}
-                    content_.Add(new System.Net.Http.StreamContent({{ parameter.VariableName }}.Data), "{{ parameter.Name }}", {{ parameter.VariableName }}.FileName ?? "{{ parameter.Name }}");
+                    var content_{{ parameter.VariableName }}_ = new System.Net.Http.StreamContent({{ parameter.VariableName }}.Data);
+                    if (!string.IsNullOrEmpty({{ parameter.VariableName }}.ContentType))
+                        content_{{ parameter.VariableName }}_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse({{ parameter.VariableName }}.ContentType);
+                    content_.Add(content_{{ parameter.VariableName }}_, "{{ parameter.Name }}", {{ parameter.VariableName }}.FileName ?? "{{ parameter.Name }}");
 {%                         endif -%}
 {%                     else -%}
                     content_.Add(new System.Net.Http.StringContent(ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture)), "{{ parameter.Name }}");
