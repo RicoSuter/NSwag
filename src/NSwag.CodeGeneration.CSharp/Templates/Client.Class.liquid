@@ -182,6 +182,7 @@
                     throw new System.ArgumentNullException("{{ parameter.VariableName }}");
                 else
 {%                     endif -%}
+                {
 {%                     if parameter.IsFile -%}
 {%                         if parameter.IsArray -%}
                     foreach (var item_ in {{ parameter.VariableName }})
@@ -200,6 +201,7 @@
 {%                     else -%}
                     content_.Add(new System.Net.Http.StringContent(ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture)), "{{ parameter.Name }}");
 {%                     endif -%}
+                }
 {%                 endfor -%}
                 request_.Content = content_;
 {%             endif -%}
