@@ -475,7 +475,12 @@ namespace NSwag.Integration.Console
                     content_.Headers.Remove("Content-Type");
                     content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
                     if (file != null)
-                        content_.Add(new System.Net.Http.StreamContent(file.Data), "file", file.FileName ?? "file");
+                    {
+                        var content_file_ = new System.Net.Http.StreamContent(file.Data);
+                        if (!string.IsNullOrEmpty(file.ContentType))
+                            content_file_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse(file.ContentType);
+                        content_.Add(content_file_, "file", file.FileName ?? "file");
+                    }
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
@@ -558,7 +563,15 @@ namespace NSwag.Integration.Console
                     content_.Headers.Remove("Content-Type");
                     content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
                     if (files != null)
-                        foreach (var item_ in files) { content_.Add(new System.Net.Http.StreamContent(item_.Data), "files", item_.FileName ?? "files"); }
+                    {
+                        foreach (var item_ in files)
+                        {
+                            var content_files_ = new System.Net.Http.StreamContent(item_.Data);
+                            if (!string.IsNullOrEmpty(item_.ContentType))
+                                content_files_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse(item_.ContentType);
+                            content_.Add(content_files_, "files", item_.FileName ?? "files");
+                        }
+                    }
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
     

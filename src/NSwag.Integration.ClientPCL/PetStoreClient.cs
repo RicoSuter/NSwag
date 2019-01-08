@@ -926,9 +926,16 @@ namespace PetStore
                     content_.Headers.Remove("Content-Type");
                     content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
                     if (additionalMetadata != null)
+                    {
                         content_.Add(new System.Net.Http.StringContent(ConvertToString(additionalMetadata, System.Globalization.CultureInfo.InvariantCulture)), "additionalMetadata");
+                    }
                     if (file != null)
-                        content_.Add(new System.Net.Http.StreamContent(file.Data), "file", file.FileName ?? "file");
+                    {
+                        var content_file_ = new System.Net.Http.StreamContent(file.Data);
+                        if (!string.IsNullOrEmpty(file.ContentType))
+                            content_file_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse(file.ContentType);
+                        content_.Add(content_file_, "file", file.FileName ?? "file");
+                    }
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
@@ -2581,20 +2588,28 @@ namespace PetStore
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "12.0.10.0 (NJsonSchema v9.13.11.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class FileParameter
     {
-        public FileParameter(System.IO.Stream data) 
+        public FileParameter(System.IO.Stream data)
             : this (data, null)
         {
         }
 
         public FileParameter(System.IO.Stream data, string fileName)
+            : this (data, fileName, null)
+        {
+        }
+
+        public FileParameter(System.IO.Stream data, string fileName, string contentType)
         {
             Data = data;
             FileName = fileName;
+            ContentType = contentType;
         }
 
         public System.IO.Stream Data { get; private set; }
 
         public string FileName { get; private set; }
+
+        public string ContentType { get; private set; }
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "12.0.10.0 (NJsonSchema v9.13.11.0 (Newtonsoft.Json v11.0.0.0))")]
