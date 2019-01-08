@@ -435,7 +435,7 @@ namespace NSwag.SwaggerGeneration.WebApi
             return methodName;
         }
 
-        private IEnumerable<SwaggerOperationMethod> GetSupportedHttpMethods(MethodInfo method)
+        private IEnumerable<string> GetSupportedHttpMethods(MethodInfo method)
         {
             // See http://www.asp.net/web-api/overview/web-api-routing-and-actions/routing-in-aspnet-web-api
 
@@ -466,7 +466,7 @@ namespace NSwag.SwaggerGeneration.WebApi
             }
         }
 
-        private IEnumerable<SwaggerOperationMethod> GetSupportedHttpMethodsFromAttributes(MethodInfo method)
+        private IEnumerable<string> GetSupportedHttpMethodsFromAttributes(MethodInfo method)
         {
             if (method.GetCustomAttributes().Any(a => a.GetType().Name == "HttpGetAttribute"))
                 yield return SwaggerOperationMethod.Get;
