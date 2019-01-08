@@ -129,8 +129,8 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 
                 SwaggerParameter operationParameter = null;
                 if (apiParameter.Source == BindingSource.Path ||
-                    apiParameter.Source == BindingSource.Custom &&
-                    httpPath.Contains($"{{{apiParameter.Name}}}"))
+                    (apiParameter.Source == BindingSource.Custom &&
+                     httpPath.Contains($"{{{apiParameter.Name}}}")))
                 {
                     operationParameter = await CreatePrimitiveParameterAsync(context, extendedApiParameter).ConfigureAwait(false);
                     operationParameter.Kind = SwaggerParameterKind.Path;
