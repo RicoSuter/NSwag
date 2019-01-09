@@ -6,7 +6,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers.Requests
     [Route("api/[controller]")]
     public class ConsumesController : Controller
     {
-        [Consumes("foo/bar", "text/html")]
+        [Consumes("foo/bar", "text/html")] // requires CustomTextInputFormatter
         [HttpPost("ConsumesOnOperation")]
         public ActionResult ConsumesOnOperation([FromBody]string body)
         {

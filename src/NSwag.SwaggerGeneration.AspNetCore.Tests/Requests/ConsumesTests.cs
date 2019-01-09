@@ -7,6 +7,8 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Requests
 {
     public class ConsumesTests : AspNetCoreTestsBase
     {
+        // These test required the CustomTextInputFormatter
+
         [Fact]
         public async Task When_consumes_is_defined_on_all_operations_then_it_is_added_to_the_document()
         {

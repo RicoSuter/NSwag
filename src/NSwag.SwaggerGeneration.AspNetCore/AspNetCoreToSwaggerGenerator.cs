@@ -146,8 +146,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
                 };
 
                 var consumes = apiDescription.SupportedRequestFormats
-                   .Select(f => f.MediaType).Concat(
-                       apiDescription.ActionDescriptor.ActionConstraints.OfType<ConsumesAttribute>().SelectMany(a => a.ContentTypes))
+                   .Select(f => f.MediaType)
                    .Distinct();
 
                 operations.Add(new Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo, IEnumerable<string>>(operationDescription, apiDescription, method, consumes));
