@@ -67,7 +67,7 @@ namespace NSwag.CodeGeneration.Models
         public string Path { get; set; }
 
         /// <summary>Gets or sets the HTTP method.</summary>
-        public SwaggerOperationMethod HttpMethod { get; set; }
+        public string HttpMethod { get; set; }
 
         /// <summary>Gets or sets the name of the operation.</summary>
         public string OperationName { get; set; }
