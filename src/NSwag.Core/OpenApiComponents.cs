@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using NJsonSchema;
 using NSwag.Collections;
@@ -23,8 +24,17 @@ namespace NSwag
             var schemas = new ObservableDictionary<string, JsonSchema4>();
             schemas.CollectionChanged += (sender, args) =>
             {
-                foreach (var path in schemas.Values)
-                    path.Parent = document;
+                foreach (var pair in schemas.ToArray())
+                {
+                    if (pair.Value == null)
+                    {
+                        schemas.Remove(pair.Key);
+                    }
+                    else
+                    {
+                        pair.Value.Parent = this;
+                    }
+                }
             };
             Schemas = schemas;
 
@@ -49,8 +59,17 @@ namespace NSwag
             var headers = new ObservableDictionary<string, JsonSchema4>();
             headers.CollectionChanged += (sender, args) =>
             {
-                foreach (var path in headers.Values)
-                    path.Parent = document;
+                foreach (var pair in headers.ToArray())
+                {
+                    if (pair.Value == null)
+                    {
+                        headers.Remove(pair.Key);
+                    }
+                    else
+                    {
+                        pair.Value.Parent = this;
+                    }
+                }
             };
             Headers = headers;
 
