@@ -132,8 +132,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
                     path = "/" + path;
 
                 var controllerActionDescriptor = (ControllerActionDescriptor)apiDescription.ActionDescriptor;
-                if (!Enum.TryParse<SwaggerOperationMethod>(apiDescription.HttpMethod, ignoreCase: true, result: out var swaggerOperationMethod))
-                    swaggerOperationMethod = SwaggerOperationMethod.Undefined;
+                var swaggerOperationMethod = apiDescription.HttpMethod.ToLowerInvariant();
 
                 var operationDescription = new SwaggerOperationDescription
                 {
