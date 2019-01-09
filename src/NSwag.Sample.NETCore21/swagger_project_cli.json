@@ -5,9 +5,8 @@
     "title": "My Title",
     "version": "1.0.0"
   },
-  "consumes": [
-    "application/json",
-    "multipart/form-data"
+  "produces": [
+    "application/json"
   ],
   "paths": {
     "/pet": {

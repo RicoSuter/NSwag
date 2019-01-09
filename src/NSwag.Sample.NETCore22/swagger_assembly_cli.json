@@ -5,12 +5,8 @@
     "title": "ljlkjlkj",
     "version": "1.0.0"
   },
-  "consumes": [
-    "application/json-patch+json",
-    "application/json",
-    "application/*+json",
-    "text/json",
-    "multipart/form-data"
+  "produces": [
+    "application/json"
   ],
   "paths": {
     "/pet": {

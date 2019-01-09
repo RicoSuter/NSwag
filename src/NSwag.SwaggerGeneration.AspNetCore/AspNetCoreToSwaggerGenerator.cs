@@ -115,7 +115,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
                 return false;
             }
 
-            var operations = new List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo, IEnumerable<string>>>();
+            var operations = new List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo, IEnumerable<string>, IEnumerable<string>>>();
             foreach (var item in controllerApiDescriptionGroup)
             {
                 var apiDescription = item.Item1;
@@ -149,24 +149,39 @@ namespace NSwag.SwaggerGeneration.AspNetCore
                    .Select(f => f.MediaType)
                    .Distinct();
 
-                operations.Add(new Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo, IEnumerable<string>>(operationDescription, apiDescription, method, consumes));
+                var produces = apiDescription.SupportedResponseTypes
+                   .SelectMany(t => t.ApiResponseFormats.Select(f => f.MediaType))
+                   .Distinct();
+
+                operations.Add(new Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo, IEnumerable<string>, IEnumerable<string>>(
+                    operationDescription, apiDescription, method, consumes, produces));
             }
 
             return await AddOperationDescriptionsToDocumentAsync(document, controllerType, operations, swaggerGenerator, schemaResolver).ConfigureAwait(false);
         }
 
         private async Task<bool> AddOperationDescriptionsToDocumentAsync(SwaggerDocument document, Type controllerType,
-            List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo, IEnumerable<string>>> operations,
+            List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo, IEnumerable<string>, IEnumerable<string>>> operations,
             SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver)
         {
             var globalConsumes = operations
                 .SelectMany(o => o.Item4)
-                .Where(c => operations.All(o => o.Item4.Contains(c)))
+                .Where(c => operations.All(o => o.Item4.Count() == 0 || o.Item4.Contains(c)))
                 .Distinct();
 
             if (globalConsumes.Any())
             {
                 document.Consumes = globalConsumes.ToList();
+            }
+
+            var globalProduces = operations
+                .SelectMany(o => o.Item5)
+                .Where(c => operations.All(o => o.Item5.Count() == 0 || o.Item5.Contains(c)))
+                .Distinct();
+
+            if (globalProduces.Any())
+            {
+                document.Produces = globalProduces.ToList();
             }
 
             var addedOperations = 0;
