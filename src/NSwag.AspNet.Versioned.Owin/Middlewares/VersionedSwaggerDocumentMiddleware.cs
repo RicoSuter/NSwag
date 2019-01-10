@@ -1,22 +1,18 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Http.Description;
-using Microsoft.Owin;
-using Microsoft.Web.Http;
-using Microsoft.Web.Http.Description;
-using Newtonsoft.Json;
-using NSwag;
-using NSwag.SwaggerGeneration;
-
-namespace ODataToSwaggerTest.Middlewares
+namespace NSwag.AspNet.Versioned.Owin.Middlewares
 {
-    using System.Data;
-    using Newtonsoft.Json.Schema;
-    using NSwag.AspNet.Owin;
-    using NSwag.SwaggerGeneration.WebApi;
-    using NSwag.SwaggerGeneration.WebApi.Versioned;
-    using SchemaType = NJsonSchema.SchemaType;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using AspNet.Owin;
+    using Microsoft.Owin;
+    using Microsoft.Web.Http.Description;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Serialization;
+    using NSwag;
+    using SwaggerGeneration;
+    using SwaggerGeneration.WebApi.Versioned;
 
     public class VersionedSwaggerDocumentMiddleware : OwinMiddleware
     {
@@ -49,30 +45,28 @@ namespace ODataToSwaggerTest.Middlewares
         {
             if (_schemaException != null && _schemaTimestamp + _settings.ExceptionCacheTime > DateTimeOffset.UtcNow)
                 throw _schemaException;
-            
+
             if (_schemaJson != null)
                 return _schemaJson;
-            
+
             string schemaJson;
             try {
                 var generator = new VersionedWebApiToSwaggerGenerator(_explorer, _settings.GeneratorSettings, _schemaGenerator);
                 var document = await generator.GenerateAsync();
-                
+
                 document.Host = context.Request.Host.Value ?? "";
                 document.Schemes.Add(context.Request.Scheme == "http" ? SwaggerSchema.Http : SwaggerSchema.Https);
-                
+
                 _settings.PostProcess?.Invoke(document);
                 schemaJson = document.ToJson();
                 _schemaException = null;
                 _schemaTimestamp = DateTimeOffset.UtcNow;
-                
             }
-            // If an exception is thrown cache the exception and try later.
+             // If an exception is thrown cache the exception and try later.
             catch (Exception exception)
             {
                 _schemaException = exception;
                 _schemaTimestamp = DateTimeOffset.UtcNow;
-                
                 throw _schemaException;
             }
 
@@ -81,7 +75,7 @@ namespace ODataToSwaggerTest.Middlewares
         }
 
         public override async Task Invoke(IOwinContext context)
-        {       
+        {
             if(context.Request.Path.HasValue){
                 var requestPath = context.Request.Path.Value;
                 if (requestPath.EndsWith(_settings.DocumentPath))
@@ -90,12 +84,11 @@ namespace ODataToSwaggerTest.Middlewares
                     context.Response.StatusCode = 200;
                     context.Response.Headers["Content-Type"] = "application/json; charset=utf-8";
                     await context.Response.WriteAsync(sSchemaJson);
-                    return; 
+                    return;
                 }
             }
             await _next.Invoke(context);
         }
-        
-        
+
     }
 }

@@ -20,7 +20,7 @@ namespace NSwag.AspNet.Versioned.Owin
     using Microsoft.Owin.StaticFiles;
     using Microsoft.Web.Http;
     using Microsoft.Web.Http.Description;
-    using ODataToSwaggerTest.Middlewares;
+    using Middlewares;
     using SwaggerGeneration;
     using SwaggerGeneration.WebApi;
     using SwaggerGeneration.WebApi.Versioned;
@@ -28,7 +28,7 @@ namespace NSwag.AspNet.Versioned.Owin
     /// <summary>Provides OWIN extensions to enable Swagger UI.</summary>
     public static class VersionedSwaggerExtensions
     {
-        
+
         public static IAppBuilder UseVersionedSwagger(
             this IAppBuilder app,
             VersionedApiExplorer explorer,
@@ -37,7 +37,7 @@ namespace NSwag.AspNet.Versioned.Owin
         {
             var settings = new SwaggerSettings<VersionedWebApiToSwaggerGeneratorSettings>();
             configure?.Invoke(settings);
-            
+
             return app.Use(typeof(VersionedSwaggerDocumentMiddleware), explorer, settings, schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings));
         }
 
@@ -55,14 +55,11 @@ namespace NSwag.AspNet.Versioned.Owin
         {
             var settings = new SwaggerUi3Settings<VersionedWebApiToSwaggerGeneratorSettings>();
             configure?.Invoke(settings);
-            
+
             app.Use<VersionedSwaggerDocumentMiddleware>(explorer, settings, schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings));
 
-            var newSettings = new SwaggerUi3Settings<SwaggerGeneratorSettings>();
-            
-            
             app.UseSwaggerUi3(settings.ToUi3SettingsAction());
-            
+
             app.UseStageMarker(PipelineStage.MapHandler);
             return app;
         }

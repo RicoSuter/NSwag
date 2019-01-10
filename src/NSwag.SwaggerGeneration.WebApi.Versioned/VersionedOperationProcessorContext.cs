@@ -12,21 +12,21 @@ namespace NSwag.SwaggerGeneration.WebApi.Versioned
 
     public class VersionedOperationProcessorContext : OperationProcessorContext
     {
-        
         public VersionedOperationProcessorContext(
-            SwaggerDocument document, 
-            SwaggerOperationDescription operationDescription, 
-            Type controllerType, 
-            MethodInfo methodInfo, 
-            SwaggerGenerator swaggerGenerator, 
-            JsonSchemaGenerator schemaGenerator, 
-            JsonSchemaResolver schemaResolver, 
-            SwaggerGeneratorSettings settings, 
-            IList<SwaggerOperationDescription> allOperationDescriptions) 
-            : base(document, operationDescription, controllerType, methodInfo, swaggerGenerator, schemaGenerator, schemaResolver, settings, allOperationDescriptions)
+            SwaggerDocument document,
+            SwaggerOperationDescription operationDescription,
+            Type controllerType,
+            MethodInfo methodInfo,
+            SwaggerGenerator swaggerGenerator,
+            JsonSchemaGenerator schemaGenerator,
+            JsonSchemaResolver schemaResolver,
+            SwaggerGeneratorSettings settings,
+            IList<SwaggerOperationDescription> allOperationDescriptions)
+            : base(document, operationDescription, controllerType, methodInfo, swaggerGenerator, schemaGenerator,
+                schemaResolver, settings, allOperationDescriptions)
         {
         }
-        
+
         public VersionedApiDescription ApiDescription { get; set; }
     }
 }
