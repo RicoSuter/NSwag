@@ -108,14 +108,11 @@ namespace NSwag.SwaggerGeneration.WebApi.Versioned
                 var path = apiDescription.RelativePath;
                 if (!path.StartsWith("/", StringComparison.Ordinal))
                     path = "/" + path;
-                if (!Enum.TryParse<SwaggerOperationMethod>(apiDescription.HttpMethod.Method, ignoreCase: true,
-                    result: out var swaggerOperationMethod))
-                    swaggerOperationMethod = SwaggerOperationMethod.Undefined;
 
                 var operationDescription = new SwaggerOperationDescription
                 {
                     Path = path.Split('?')[0],
-                    Method = swaggerOperationMethod,
+                    Method = apiDescription.HttpMethod.Method,
                     Operation = new SwaggerOperation
                     {
                         IsDeprecated = apiDescription.ActionDescriptor.GetCustomAttributes<ObsoleteAttribute>().Any(),
