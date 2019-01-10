@@ -22,7 +22,7 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         /// <param name="httpMethod">The HTTP method.</param>
         /// <param name="operation">The operation.</param>
         /// <returns>The client name.</returns>
-        public virtual string GetClientName(SwaggerDocument document, string path, SwaggerOperationMethod httpMethod, SwaggerOperation operation)
+        public virtual string GetClientName(SwaggerDocument document, string path, string httpMethod, SwaggerOperation operation)
         {
             return string.Empty;
         }
@@ -33,7 +33,7 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         /// <param name="httpMethod">The HTTP method.</param>
         /// <param name="operation">The operation.</param>
         /// <returns>The client name.</returns>
-        public virtual string GetOperationName(SwaggerDocument document, string path, SwaggerOperationMethod httpMethod, SwaggerOperation operation)
+        public virtual string GetOperationName(SwaggerDocument document, string path, string httpMethod, SwaggerOperation operation)
         {
             var operationName = ConvertPathToName(path);
             var hasNameConflict = document.Paths
@@ -46,7 +46,7 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
 
             if (hasNameConflict)
             {
-                operationName += CapitalizeFirst(httpMethod.ToString());
+                operationName += CapitalizeFirst(httpMethod);
             }
 
             return operationName;

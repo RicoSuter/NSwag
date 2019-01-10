@@ -22,10 +22,11 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <param name="isPrimarySuccessResponse">Specifies whether this is the success response.</param>
         /// <param name="exceptionSchema">The exception schema.</param>
         /// <param name="generator">The client generator.</param>
+        /// <param name="resolver">The resolver.</param>
         /// <param name="settings">The settings.</param>
         public CSharpResponseModel(IOperationModel operationModel, string statusCode, SwaggerResponse response, 
-            bool isPrimarySuccessResponse, JsonSchema4 exceptionSchema, IClientGenerator generator, CodeGeneratorSettingsBase settings)
-            : base(operationModel, statusCode, response, isPrimarySuccessResponse, exceptionSchema, settings, generator)
+            bool isPrimarySuccessResponse, JsonSchema4 exceptionSchema, IClientGenerator generator, TypeResolverBase resolver, CodeGeneratorSettingsBase settings)
+            : base(operationModel, statusCode, response, isPrimarySuccessResponse, exceptionSchema, resolver, settings, generator)
         {
         }
     }
