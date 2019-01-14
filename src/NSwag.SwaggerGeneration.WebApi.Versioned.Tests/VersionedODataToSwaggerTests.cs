@@ -41,10 +41,10 @@ namespace NSwag.SwaggerGeneration.WebApi.Versioned.Tests
             // Assert
             var operations = document.Operations.ToArray();
 
-            Assert.Contains(operations, o => o.Path.Equals("/api/Users") && o.Method == SwaggerOperationMethod.Get);
-            Assert.Contains(operations, o => o.Path.Equals("/api/Users") && o.Method == SwaggerOperationMethod.Post);
-            Assert.Contains(operations, o => o.Path.Equals("/api/Users({key})") && o.Method == SwaggerOperationMethod.Get);
-            Assert.Contains(operations, o => o.Path.Equals("/api/Users({key})") && o.Method == SwaggerOperationMethod.Patch);
+            Assert.Contains(operations, o => o.Path.Equals("/api/Users") && o.Method.Equals("GET"));
+            Assert.Contains(operations, o => o.Path.Equals("/api/Users") && o.Method.Equals("POST"));
+            Assert.Contains(operations, o => o.Path.Equals("/api/Users({key})") && o.Method.Equals("GET"));
+            Assert.Contains(operations, o => o.Path.Equals("/api/Users({key})") && o.Method.Equals("PATCH"));
         }
 
         [Fact]
