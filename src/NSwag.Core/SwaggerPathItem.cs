@@ -15,9 +15,9 @@ using NSwag.Collections;
 
 namespace NSwag
 {
-    /// <summary>A Swagger path.</summary>
+    /// <summary>A Swagger path, the key is usually a value of <see cref="SwaggerOperationMethod"/>.</summary>
     [JsonConverter(typeof(SwaggerPathItemConverter))]
-    public class SwaggerPathItem : ObservableDictionary<SwaggerOperationMethod, SwaggerOperation>
+    public class SwaggerPathItem : ObservableDictionary<string, SwaggerOperation>
     {
         /// <summary>Initializes a new instance of the <see cref="SwaggerPathItem"/> class.</summary>
         public SwaggerPathItem()
@@ -86,9 +86,8 @@ namespace NSwag
                         operations.Parameters = (List<SwaggerParameter>)serializer.Deserialize(reader, typeof(List<SwaggerParameter>));
                     else
                     {
-                        var key = (SwaggerOperationMethod)Enum.Parse(typeof(SwaggerOperationMethod), propertyName, true);
                         var value = (SwaggerOperation)serializer.Deserialize(reader, typeof(SwaggerOperation));
-                        operations.Add(key, value);
+                        operations.Add(propertyName, value);
                     }
 
                 }

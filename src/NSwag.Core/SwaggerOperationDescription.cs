@@ -15,7 +15,7 @@ namespace NSwag
         public string Path { get; set; }
 
         /// <summary>Gets or sets the HTTP method.</summary>
-        public SwaggerOperationMethod Method { get;  set; }
+        public string Method { get;  set; }
 
         /// <summary>Gets or sets the operation.</summary>
         public SwaggerOperation Operation { get; set; }
