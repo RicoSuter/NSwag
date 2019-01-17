@@ -38,7 +38,7 @@ namespace NSwag.AspNet.Versioned.Owin
             var settings = new SwaggerSettings<VersionedWebApiToSwaggerGeneratorSettings>();
             configure?.Invoke(settings);
 
-            return app.Use(typeof(VersionedSwaggerDocumentMiddleware), explorer, settings, schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings));
+            return app.Use<VersionedSwaggerDocumentMiddleware>(explorer, settings, schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings));
         }
 
         /// <summary>Adds the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
