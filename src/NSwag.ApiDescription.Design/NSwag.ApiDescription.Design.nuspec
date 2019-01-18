@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
-    <id>NSwag.MSBuild.CodeGeneration</id>
+    <id>NSwag.ApiDescription.Design</id>
     <version>12.0.12</version>
     <authors>Rico Suter</authors>
     <owners>Rico Suter</owners>
@@ -20,6 +20,6 @@
     <references />
   </metadata>
   <files>
-    <file src="NSwag.MSBuild.CodeGeneration.targets" target="build" />
+    <file src="NSwag.ApiDescription.Design.targets" target="build" />
   </files>
 </package>
