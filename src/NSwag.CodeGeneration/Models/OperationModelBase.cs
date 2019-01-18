@@ -92,14 +92,7 @@ namespace NSwag.CodeGeneration.Models
 
         // TODO: Remove this (may not work correctly)
         /// <summary>Gets or sets a value indicating whether the operation has a result type (i.e. not void).</summary>
-        public bool HasResultType
-        {
-            get
-            {
-                var response = GetSuccessResponse();
-                return response.Item2?.ActualResponseSchema != null;
-            }
-        }
+        public bool HasResultType => GetSuccessResponseSchema() != null;
 
         /// <summary>Gets or sets the type of the result.</summary>
         public abstract string ResultType { get; }
@@ -110,11 +103,11 @@ namespace NSwag.CodeGeneration.Models
             get
             {
                 var response = GetSuccessResponse();
-                if (response.Item1 == "204" || response?.Item2.ActualResponseSchema == null)
+                if (response.Value?.GetActualResponseSchema(response.Key) == null)
                     return "void";
 
-                var isNullable = response.Item2.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
-                return _generator.GetTypeName(response.Item2.ActualResponseSchema, isNullable, "Response");
+                var isNullable = response.Value.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
+                return _generator.GetTypeName(response.Value.GetActualResponseSchema(response.Key), isNullable, "Response");
             }
         }
 
@@ -127,8 +120,11 @@ namespace NSwag.CodeGeneration.Models
             get
             {
                 var response = GetSuccessResponse();
-                if (response.Item2 != null)
-                    return ConversionUtilities.TrimWhiteSpaces(response.Item2.Description);
+                if (response.Value != null)
+                {
+                    return ConversionUtilities.TrimWhiteSpaces(response.Value.Description);
+                }
+
                 return null;
             }
         }
@@ -262,16 +258,24 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets the success response.</summary>
         /// <returns>The response.</returns>
-        protected Tuple<string, SwaggerResponse> GetSuccessResponse()
+        protected KeyValuePair<string, SwaggerResponse> GetSuccessResponse()
         {
             if (_operation.ActualResponses.Any(r => r.Key == "200"))
-                return new Tuple<string, SwaggerResponse>("200", _operation.ActualResponses.Single(r => r.Key == "200").Value);
+                return new KeyValuePair<string, SwaggerResponse>("200", _operation.ActualResponses.Single(r => r.Key == "200").Value);
 
             var response = _operation.ActualResponses.FirstOrDefault(r => HttpUtilities.IsSuccessStatusCode(r.Key));
             if (response.Value != null)
-                return new Tuple<string, SwaggerResponse>(response.Key, response.Value);
+                return new KeyValuePair<string, SwaggerResponse>(response.Key, response.Value);
 
-            return new Tuple<string, SwaggerResponse>("default", _operation.ActualResponses.FirstOrDefault(r => r.Key == "default").Value);
+            return new KeyValuePair<string, SwaggerResponse>("default", _operation.ActualResponses.FirstOrDefault(r => r.Key == "default").Value);
+        }
+
+        /// <summary>Gets the success response schema.</summary>
+        /// <returns>The response schema.</returns>
+        protected JsonSchema4 GetSuccessResponseSchema()
+        {
+            var respones = GetSuccessResponse();
+            return respones.Value?.GetActualResponseSchema(respones.Key);
         }
 
         /// <summary>Gets the name of the parameter variable.</summary>

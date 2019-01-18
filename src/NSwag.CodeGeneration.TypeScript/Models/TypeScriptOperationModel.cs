@@ -65,7 +65,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             get
             {
                 var response = GetSuccessResponse();
-                var isNullable = response.Item2?.IsNullable(_settings.CodeGeneratorSettings.SchemaType) == true;
+                var isNullable = response.Value?.IsNullable(_settings.CodeGeneratorSettings.SchemaType) == true;
 
                 var resultType = isNullable && SupportsStrictNullChecks && UnwrappedResultType != "void" && UnwrappedResultType != "null" ?
                     UnwrappedResultType + " | null" :
@@ -126,8 +126,8 @@ namespace NSwag.CodeGeneration.TypeScript.Models
                     return "string";
 
                 return string.Join(" | ", _operation.ActualResponses
-                    .Where(r => !HttpUtilities.IsSuccessStatusCode(r.Key) && r.Value.ActualResponseSchema != null)
-                    .Select(r => _generator.GetTypeName(r.Value.ActualResponseSchema, r.Value.IsNullable(_settings.CodeGeneratorSettings.SchemaType), "Exception"))
+                    .Where(r => !HttpUtilities.IsSuccessStatusCode(r.Key) && r.Value.GetActualResponseSchema(r.Key) != null)
+                    .Select(r => _generator.GetTypeName(r.Value.GetActualResponseSchema(r.Key), r.Value.IsNullable(_settings.CodeGeneratorSettings.SchemaType), "Exception"))
                     .Concat(new[] { "string" }));
             }
         }
@@ -179,7 +179,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         protected override TypeScriptResponseModel CreateResponseModel(string statusCode, SwaggerResponse response,
             JsonSchema4 exceptionSchema, IClientGenerator generator, TypeResolverBase resolver, ClientGeneratorBaseSettings settings)
         {
-            return new TypeScriptResponseModel(this, statusCode, response, response == GetSuccessResponse().Item2,
+            return new TypeScriptResponseModel(this, statusCode, response, response == GetSuccessResponse().Value,
                 exceptionSchema, generator, resolver, (SwaggerToTypeScriptClientGeneratorSettings)settings);
         }
     }

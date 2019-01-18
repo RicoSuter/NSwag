@@ -138,9 +138,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 if (_operation.ActualResponses.Count(r => !HttpUtilities.IsSuccessStatusCode(r.Key)) != 1)
                     return "System.Exception";
 
-                var response = _operation.ActualResponses.Single(r => !HttpUtilities.IsSuccessStatusCode(r.Key)).Value;
-                var isNullable = response.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
-                return _generator.GetTypeName(response.ActualResponseSchema, isNullable, "Exception");
+                var response = _operation.ActualResponses.Single(r => !HttpUtilities.IsSuccessStatusCode(r.Key));
+                var isNullable = response.Value.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
+                return _generator.GetTypeName(response.Value.GetActualResponseSchema(response.Key), isNullable, "Exception");
             }
         }
 
@@ -242,7 +242,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <returns></returns>
         protected override CSharpResponseModel CreateResponseModel(string statusCode, SwaggerResponse response, JsonSchema4 exceptionSchema, IClientGenerator generator, TypeResolverBase resolver, ClientGeneratorBaseSettings settings)
         {
-            return new CSharpResponseModel(this, statusCode, response, response == GetSuccessResponse().Item2, exceptionSchema, generator, resolver, settings.CodeGeneratorSettings);
+            return new CSharpResponseModel(this, statusCode, response, response == GetSuccessResponse().Value, exceptionSchema, generator, resolver, settings.CodeGeneratorSettings);
         }
     }
 }
