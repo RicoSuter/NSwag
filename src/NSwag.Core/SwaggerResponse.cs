@@ -111,13 +111,13 @@ namespace NSwag
         }
 
         /// <summary>Gets the actual response schema for the given status code.</summary>
-        /// <param name="statusCode">The HTTP status code.</param>
+        /// <param name="operation">The response's operation.</param>
         /// <returns>The schema.</returns>
-        public JsonSchema4 GetActualResponseSchema(string statusCode)
+        public JsonSchema4 GetActualResponseSchema(SwaggerOperation operation)
         {
             var response = ActualResponse;
 
-            if (statusCode != "204")
+            if (operation.ActualResponses.SingleOrDefault(r => r.Value == this).Key != "204")
             {
                 if (response.Content.ContainsKey("application/octet-stream") && !response.Content.ContainsKey("application/json"))
                     return new JsonSchema4 { Type = JsonObjectType.File };

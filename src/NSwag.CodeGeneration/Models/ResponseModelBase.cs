@@ -25,6 +25,7 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Initializes a new instance of the <see cref="ResponseModelBase" /> class.</summary>
         /// <param name="operationModel">The operation model.</param>
+        /// <param name="operation">The operation.</param>
         /// <param name="statusCode">The status code.</param>
         /// <param name="response">The response.</param>
         /// <param name="isPrimarySuccessResponse">Specifies whether this is the success response.</param>
@@ -33,6 +34,7 @@ namespace NSwag.CodeGeneration.Models
         /// <param name="settings">The settings.</param>
         /// <param name="generator">The client generator.</param>
         protected ResponseModelBase(IOperationModel operationModel,
+            SwaggerOperation operation,
             string statusCode, SwaggerResponse response, bool isPrimarySuccessResponse,
             JsonSchema4 exceptionSchema, TypeResolverBase resolver, CodeGeneratorSettingsBase settings, IClientGenerator generator)
         {
@@ -43,9 +45,9 @@ namespace NSwag.CodeGeneration.Models
             _resolver = resolver;
             _operationModel = operationModel;
 
-            IsPrimarySuccessResponse = isPrimarySuccessResponse;
             StatusCode = statusCode;
-            ActualResponseSchema = response.GetActualResponseSchema(statusCode);
+            IsPrimarySuccessResponse = isPrimarySuccessResponse;
+            ActualResponseSchema = response.GetActualResponseSchema(operation);
         }
 
         /// <summary>Gets the HTTP status code.</summary>

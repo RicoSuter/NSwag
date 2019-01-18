@@ -38,7 +38,7 @@ namespace NSwag.CodeGeneration.Models
             _settings = settings;
 
             var responses = _operation.ActualResponses
-                .Select(response => CreateResponseModel(response.Key, response.Value, exceptionSchema, generator, resolver, settings))
+                .Select(response => CreateResponseModel(operation, response.Key, response.Value, exceptionSchema, generator, resolver, settings))
                 .ToList();
 
             var defaultResponse = responses.SingleOrDefault(r => r.StatusCode == "default");
@@ -50,6 +50,7 @@ namespace NSwag.CodeGeneration.Models
         }
 
         /// <summary>Creates the response model.</summary>
+        /// <param name="operation">The operation.</param>
         /// <param name="statusCode">The status code.</param>
         /// <param name="response">The response.</param>
         /// <param name="exceptionSchema">The exception schema.</param>
@@ -57,7 +58,7 @@ namespace NSwag.CodeGeneration.Models
         /// <param name="resolver">The resolver.</param>
         /// <param name="settings">The settings.</param>
         /// <returns>The response model.</returns>
-        protected abstract TResponseModel CreateResponseModel(string statusCode, SwaggerResponse response, JsonSchema4 exceptionSchema, IClientGenerator generator,
+        protected abstract TResponseModel CreateResponseModel(SwaggerOperation operation, string statusCode, SwaggerResponse response, JsonSchema4 exceptionSchema, IClientGenerator generator,
             TypeResolverBase resolver, ClientGeneratorBaseSettings settings);
 
         /// <summary>Gets the operation ID.</summary>
@@ -103,11 +104,13 @@ namespace NSwag.CodeGeneration.Models
             get
             {
                 var response = GetSuccessResponse();
-                if (response.Value?.GetActualResponseSchema(response.Key) == null)
+                if (response.Value?.GetActualResponseSchema(_operation) == null)
+                {
                     return "void";
+                }
 
                 var isNullable = response.Value.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
-                return _generator.GetTypeName(response.Value.GetActualResponseSchema(response.Key), isNullable, "Response");
+                return _generator.GetTypeName(response.Value.GetActualResponseSchema(_operation), isNullable, "Response");
             }
         }
 
@@ -275,7 +278,7 @@ namespace NSwag.CodeGeneration.Models
         protected JsonSchema4 GetSuccessResponseSchema()
         {
             var respones = GetSuccessResponse();
-            return respones.Value?.GetActualResponseSchema(respones.Key);
+            return respones.Value?.GetActualResponseSchema(_operation);
         }
 
         /// <summary>Gets the name of the parameter variable.</summary>
