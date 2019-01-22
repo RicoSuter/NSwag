@@ -57,10 +57,8 @@ src/packages/**
 /src/NSwag.Integration.TypeScriptWeb/scripts/serviceClientsAngular2.extensions.js.map
 /src/NSwag.Integration.TypeScriptWeb/scripts/serviceClientsAngular2.extensions.js
 /src/dist
-build/*.nupkg
+*.nupkg
 /src/NSwagStudio.Installer/Generated.wxs
-NSwag.MSBuild.*.nupkg
-NSwagStudio*.nupkg
 /samples/.vs/config
 /samples/WithoutMiddleware/Sample.AspNetCore20/.vs/Sample.AspNetCore20/v15/Server/sqlite3
 /samples/WithoutMiddleware/Sample.AspNetCore20/.vs/Sample.AspNetCore20/DesignTimeBuild
