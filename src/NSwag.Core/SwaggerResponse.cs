@@ -42,10 +42,6 @@ namespace NSwag
         [JsonProperty(PropertyName = "x-nullable", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public bool? IsNullableRaw { internal get; set; }
 
-        /// <summary>Gets the actual non-nullable response schema (either oneOf schema or the actual schema).</summary>
-        [JsonIgnore]
-        public JsonSchema4 ActualResponseSchema => ActualResponse.GetActualResponseSchema();
-
         /// <summary>Gets or sets the expected child schemas of the base schema (can be used for generating enhanced typings/documentation).</summary>
         [JsonProperty(PropertyName = "x-expectedSchemas", Order = 7, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public ICollection<JsonExpectedSchema> ExpectedSchemas { get; set; }
@@ -114,15 +110,23 @@ namespace NSwag
             return ActualResponse.Schema?.IsNullable(schemaType) ?? false;
         }
 
-        private JsonSchema4 GetActualResponseSchema()
+        /// <summary>Gets the actual response schema for the given status code.</summary>
+        /// <param name="operation">The response's operation.</param>
+        /// <returns>The schema.</returns>
+        public JsonSchema4 GetActualResponseSchema(SwaggerOperation operation)
         {
-            if (Content.ContainsKey("application/octet-stream") && !Content.ContainsKey("application/json"))
-                return new JsonSchema4 { Type = JsonObjectType.File };
+            var response = ActualResponse;
 
-            if ((Parent as SwaggerOperation)?.ActualProduces?.Contains("application/octet-stream") == true)
-                return new JsonSchema4 { Type = JsonObjectType.File };
+            if (operation.ActualResponses.SingleOrDefault(r => r.Value == this).Key != "204")
+            {
+                if (response.Content.ContainsKey("application/octet-stream") && !response.Content.ContainsKey("application/json"))
+                    return new JsonSchema4 { Type = JsonObjectType.File };
 
-            return Schema?.ActualSchema;
+                if ((response.Parent as SwaggerOperation)?.ActualProduces?.Contains("application/octet-stream") == true)
+                    return new JsonSchema4 { Type = JsonObjectType.File };
+            }
+
+            return response.Schema?.ActualSchema;
         }
 
         #region Implementation of IJsonReference
