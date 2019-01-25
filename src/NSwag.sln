@@ -154,10 +154,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.SwaggerGeneration.Asp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.AssemblyLoader.Tests", "NSwag.AssemblyLoader.Tests\NSwag.AssemblyLoader.Tests.csproj", "{1853262B-6D39-477B-872A-8B5473FE74BB}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwag.MSBuild.CodeGeneration", "NSwag.MSBuild.CodeGeneration", "{E6E40935-0C79-480B-BF29-8C493AC7E518}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwag.ApiDescription.Design", "NSwag.ApiDescription.Design", "{E6E40935-0C79-480B-BF29-8C493AC7E518}"
 	ProjectSection(SolutionItems) = preProject
-		NSwag.MSBuild.CodeGeneration\NSwag.MSBuild.CodeGeneration.nuspec = NSwag.MSBuild.CodeGeneration\NSwag.MSBuild.CodeGeneration.nuspec
-		NSwag.MSBuild.CodeGeneration\NSwag.MSBuild.CodeGeneration.targets = NSwag.MSBuild.CodeGeneration\NSwag.MSBuild.CodeGeneration.targets
+		NSwag.ApiDescription.Design\NSwag.ApiDescription.Design.nuspec = NSwag.ApiDescription.Design\NSwag.ApiDescription.Design.nuspec
+		NSwag.ApiDescription.Design\NSwag.ApiDescription.Design.targets = NSwag.ApiDescription.Design\NSwag.ApiDescription.Design.targets
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Sample.NETCore22", "NSwag.Sample.NETCore22\NSwag.Sample.NETCore22.csproj", "{AC8C4C44-C9AA-4894-AF21-868B53A96429}"

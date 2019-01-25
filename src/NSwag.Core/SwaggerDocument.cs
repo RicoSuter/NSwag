@@ -249,7 +249,9 @@ namespace NSwag
                 {
                     // Append "All" if possible
                     var arrayResponseOperation = operations.FirstOrDefault(
-                        a => a.Operation.ActualResponses.Any(r => HttpUtilities.IsSuccessStatusCode(r.Key) && r.Value.ActualResponseSchema != null && r.Value.ActualResponseSchema.Type == JsonObjectType.Array));
+                        o => o.Operation.ActualResponses.Any(r => 
+                            HttpUtilities.IsSuccessStatusCode(r.Key) && 
+                            r.Value.GetActualResponseSchema(o.Operation)?.Type == JsonObjectType.Array));
 
                     if (arrayResponseOperation != null)
                     {

@@ -25,6 +25,7 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Initializes a new instance of the <see cref="ResponseModelBase" /> class.</summary>
         /// <param name="operationModel">The operation model.</param>
+        /// <param name="operation">The operation.</param>
         /// <param name="statusCode">The status code.</param>
         /// <param name="response">The response.</param>
         /// <param name="isPrimarySuccessResponse">Specifies whether this is the success response.</param>
@@ -33,6 +34,7 @@ namespace NSwag.CodeGeneration.Models
         /// <param name="settings">The settings.</param>
         /// <param name="generator">The client generator.</param>
         protected ResponseModelBase(IOperationModel operationModel,
+            SwaggerOperation operation,
             string statusCode, SwaggerResponse response, bool isPrimarySuccessResponse,
             JsonSchema4 exceptionSchema, TypeResolverBase resolver, CodeGeneratorSettingsBase settings, IClientGenerator generator)
         {
@@ -43,21 +45,25 @@ namespace NSwag.CodeGeneration.Models
             _resolver = resolver;
             _operationModel = operationModel;
 
-            IsPrimarySuccessResponse = isPrimarySuccessResponse;
             StatusCode = statusCode;
+            IsPrimarySuccessResponse = isPrimarySuccessResponse;
+            ActualResponseSchema = response.GetActualResponseSchema(operation);
         }
 
         /// <summary>Gets the HTTP status code.</summary>
         public string StatusCode { get; }
 
+        /// <summary>Gets the actual response schema.</summary>
+        public JsonSchema4 ActualResponseSchema { get; }
+
         /// <summary>Gets a value indicating whether to check for the chunked HTTP status code (206, true when file response and 200/204).</summary>
         public bool CheckChunkedStatusCode => IsFile && (StatusCode == "200" || StatusCode == "204");
 
         /// <summary>Gets the type of the response.</summary>
-        public string Type => _generator.GetTypeName(_response.ActualResponseSchema, IsNullable, "Response");
+        public string Type => _generator.GetTypeName(ActualResponseSchema, IsNullable, "Response");
 
         /// <summary>Gets a value indicating whether the response has a type (i.e. not void).</summary>
-        public bool HasType => Schema != null;
+        public bool HasType => ActualResponseSchema != null;
 
         /// <summary>Gets or sets the expected child schemas of the base schema (can be used for generating enhanced typings/documentation).</summary>
         public ICollection<JsonExpectedSchema> ExpectedSchemas => _response.ExpectedSchemas;
@@ -67,10 +73,10 @@ namespace NSwag.CodeGeneration.Models
         {
             get
             {
-                return _response.ActualResponseSchema != null &&
-                      (_response.ActualResponseSchema.Format == JsonFormatStrings.Date ||
-                       _response.ActualResponseSchema.Format == JsonFormatStrings.DateTime) &&
-                       _generator.GetTypeName(_response.ActualResponseSchema, IsNullable, "Response") != "string";
+                return ActualResponseSchema != null &&
+                      (ActualResponseSchema.Format == JsonFormatStrings.Date ||
+                       ActualResponseSchema.Format == JsonFormatStrings.DateTime) &&
+                       _generator.GetTypeName(ActualResponseSchema, IsNullable, "Response") != "string";
             }
         }
 
@@ -78,27 +84,21 @@ namespace NSwag.CodeGeneration.Models
         public bool IsPlainText => _response.Content.ContainsKey("text/plain") || _operationModel.Produces == "text/plain";
 
         /// <summary>Gets a value indicating whether this is a file response.</summary>
-        public bool IsFile => Schema?.ActualSchema.Type == JsonObjectType.File;
+        public bool IsFile => ActualResponseSchema?.ActualSchema.Type == JsonObjectType.File;
 
         /// <summary>Gets the response's exception description.</summary>
         public string ExceptionDescription => !string.IsNullOrEmpty(_response.Description) ?
             ConversionUtilities.ConvertToStringLiteral(_response.Description) :
             "A server side error occurred.";
 
-        /// <summary>Gets the actual response schema.</summary>
-        public JsonSchema4 ActualResponseSchema => _response.ActualResponseSchema;
-
         /// <summary>Gets the response schema.</summary>
         public JsonSchema4 ResolvableResponseSchema => _response.Schema != null ? _resolver.GetResolvableSchema(_response.Schema) : null;
-
-        /// <summary>Gets the schema.</summary>
-        private JsonSchema4 Schema => _response.ActualResponseSchema;
 
         /// <summary>Gets a value indicating whether the response is nullable.</summary>
         public bool IsNullable => _response.IsNullable(_settings.SchemaType);
 
         /// <summary>Gets a value indicating whether the response type inherits from exception.</summary>
-        public bool InheritsExceptionSchema => _response.ActualResponseSchema?.InheritsSchema(_exceptionSchema) == true;
+        public bool InheritsExceptionSchema => ActualResponseSchema?.InheritsSchema(_exceptionSchema) == true;
 
         /// <summary>Gets a value indicating whether this is the primary success response.</summary>
         public bool IsPrimarySuccessResponse { get; }
