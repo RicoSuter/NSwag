@@ -77,6 +77,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
                     _generator,
                     _resolver))
                 .ToList();
+
+			Security = operation.Security.Select(scheme => scheme as Dictionary<string, IEnumerable<string>>).ToList();
         }
 
         /// <summary>Gets the method's access modifier.</summary>
@@ -198,6 +200,15 @@ namespace NSwag.CodeGeneration.CSharp.Models
             }
         }
 
+		/// <summary>Gets the security schemes mapped to this operation.</summary>
+		public List<Dictionary<string, IEnumerable<string>>> Security { get; private set; }
+
+		/// <summary>Checks if any authentication scheme are mapped to this operation.</summary>
+		public bool HasSecurity { get { return GetHasSecurity(); } }
+
+		/// <summary>Gets a comma delimited list of authentication scheme names mapped to this operation.</summary>
+		public string AuthenticationSchemes { get { return GetAuthenticationSchemes(); } }
+
         /// <summary>Gets the name of the parameter variable.</summary>
         /// <param name="parameter">The parameter.</param>
         /// <param name="allParameters">All parameters.</param>
@@ -245,5 +256,26 @@ namespace NSwag.CodeGeneration.CSharp.Models
         {
             return new CSharpResponseModel(this, operation, statusCode, response, response == GetSuccessResponse().Value, exceptionSchema, generator, resolver, settings.CodeGeneratorSettings);
         }
+
+		private bool GetHasSecurity()
+		{
+			return (Security.Count > 0);
+		}
+
+		private string GetAuthenticationSchemes()
+		{
+			string authenticationSchemes = "";
+
+			foreach (Dictionary<string, IEnumerable<string>> authenticationSchemeDictionary in Security)
+			{
+				foreach (KeyValuePair<string, IEnumerable<string>> authenticationScheme in authenticationSchemeDictionary)
+				{
+					authenticationSchemes += (string.IsNullOrWhiteSpace(authenticationSchemes)) ? "" : ",";
+					authenticationSchemes += authenticationScheme.Key;
+				}
+			}
+
+			return authenticationSchemes;
+		}
     }
 }

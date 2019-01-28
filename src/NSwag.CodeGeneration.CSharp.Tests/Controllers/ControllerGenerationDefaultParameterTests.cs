@@ -1,4 +1,7 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 using NJsonSchema;
 using Xunit;
 
@@ -96,6 +99,50 @@ namespace NSwag.CodeGeneration.CSharp.Tests.Controllers
 
             //Assert.True(result.Errors.Count == 0);
         }
+
+		[Fact]
+		public void When_security_schemes_are_mapped_then_generate_the_authorization_attribute_for_the_action()
+		{
+			SwaggerDocument apiDefinition = new SwaggerDocument();
+
+			string authenticationScheme1Name = "petstore_auth";
+			string authenticationScheme2Name = "api_key";
+			string authenticationScheme3Name = "Token";
+
+			SwaggerSecurityRequirement securityRequirement1 = new SwaggerSecurityRequirement();
+			securityRequirement1.Add(authenticationScheme1Name, new List<string>() { "write:pets", "read:pets" });
+			securityRequirement1.Add(authenticationScheme2Name, new List<string>());
+
+			SwaggerSecurityRequirement securityRequirement2 = new SwaggerSecurityRequirement();
+			securityRequirement2.Add(authenticationScheme3Name, new List<string>());
+
+			Collection<SwaggerSecurityRequirement> operationSecurity = new Collection<SwaggerSecurityRequirement>()
+			{ securityRequirement1, securityRequirement2 };
+
+			apiDefinition.Paths["foo/bar"] = new SwaggerPathItem
+			{
+				{
+					SwaggerOperationMethod.Get,
+					new SwaggerOperation
+					{
+						Security = operationSecurity
+					}
+				}
+			};
+
+			SwaggerToCSharpControllerGeneratorSettings codeGeneratorSettings = new SwaggerToCSharpControllerGeneratorSettings();
+			SwaggerToCSharpControllerGenerator codeGenerator = new SwaggerToCSharpControllerGenerator(apiDefinition, codeGeneratorSettings);
+			string controllerCode = codeGenerator.GenerateFile();
+
+			string expectedAuthorizationAttributeCodeTemplate =
+				"        [Microsoft.AspNetCore.Authorization.Authorize(AuthenticationSchemes = \"{0},{1},{2}\")]\n" +
+				"        public System.Threading.Tasks.Task Bar()";
+
+			string expectedAuthorizationAttributeCode = string.Format(expectedAuthorizationAttributeCodeTemplate, authenticationScheme1Name,
+				authenticationScheme2Name, authenticationScheme3Name);
+
+			Assert.Contains(expectedAuthorizationAttributeCode, controllerCode);
+		}
 
         private static string RemoveExternalReferences(string code)
         {
