@@ -101,7 +101,52 @@ namespace NSwag.CodeGeneration.CSharp.Tests.Controllers
         }
 
 		[Fact]
-		public void When_security_schemes_are_mapped_then_generate_the_authorization_attribute_for_the_action()
+		public void When_security_schemes_mapped_to_api_then_generate_authorization_attribute_for_controller()
+		{
+			SwaggerDocument apiDefinition = new SwaggerDocument();
+
+			string authenticationScheme1Name = "petstore_auth";
+			string authenticationScheme2Name = "api_key";
+			string authenticationScheme3Name = "Token";
+
+			SwaggerSecurityRequirement securityRequirement1 = new SwaggerSecurityRequirement();
+			securityRequirement1.Add(authenticationScheme1Name, new List<string>() { "write:pets", "read:pets" });
+			securityRequirement1.Add(authenticationScheme2Name, new List<string>());
+
+			SwaggerSecurityRequirement securityRequirement2 = new SwaggerSecurityRequirement();
+			securityRequirement2.Add(authenticationScheme3Name, new List<string>());
+
+			Collection<SwaggerSecurityRequirement> controllerSecurity = new Collection<SwaggerSecurityRequirement>()
+			{ securityRequirement1, securityRequirement2 };
+
+			apiDefinition.Security = controllerSecurity;
+
+			apiDefinition.Paths["foo/bar"] = new SwaggerPathItem
+			{
+				{
+					SwaggerOperationMethod.Get,
+					new SwaggerOperation()
+				}
+			};
+
+			SwaggerToCSharpControllerGeneratorSettings codeGeneratorSettings = new SwaggerToCSharpControllerGeneratorSettings
+			{ GenerateAuthorizationAttributes = true };
+
+			SwaggerToCSharpControllerGenerator codeGenerator = new SwaggerToCSharpControllerGenerator(apiDefinition, codeGeneratorSettings);
+			string controllerCode = codeGenerator.GenerateFile();
+
+			string expectedAuthorizationAttributeCodeTemplate =
+				"    [Microsoft.AspNetCore.Authorization.Authorize(AuthenticationSchemes = \"{0},{1},{2}\")]\n" +
+				"    public partial class Controller : System.Web.Http.ApiController";
+
+			string expectedAuthorizationAttributeCode = string.Format(expectedAuthorizationAttributeCodeTemplate, authenticationScheme1Name,
+				authenticationScheme2Name, authenticationScheme3Name);
+
+			Assert.Contains(expectedAuthorizationAttributeCode, controllerCode);
+		}
+
+		[Fact]
+		public void When_security_schemes_mapped_to_operation_then_generate_authorization_attribute_for_action()
 		{
 			SwaggerDocument apiDefinition = new SwaggerDocument();
 
@@ -130,7 +175,9 @@ namespace NSwag.CodeGeneration.CSharp.Tests.Controllers
 				}
 			};
 
-			SwaggerToCSharpControllerGeneratorSettings codeGeneratorSettings = new SwaggerToCSharpControllerGeneratorSettings();
+			SwaggerToCSharpControllerGeneratorSettings codeGeneratorSettings = new SwaggerToCSharpControllerGeneratorSettings()
+			{ GenerateAuthorizationAttributes = true };
+
 			SwaggerToCSharpControllerGenerator codeGenerator = new SwaggerToCSharpControllerGenerator(apiDefinition, codeGeneratorSettings);
 			string controllerCode = codeGenerator.GenerateFile();
 
@@ -142,6 +189,45 @@ namespace NSwag.CodeGeneration.CSharp.Tests.Controllers
 				authenticationScheme2Name, authenticationScheme3Name);
 
 			Assert.Contains(expectedAuthorizationAttributeCode, controllerCode);
+		}
+
+		[Fact]
+		public void When_security_schemes_mapped_and_GenerateAuthorizationAttributes_not_set_then_do_not_generate_authorization_attributes()
+		{
+			SwaggerDocument apiDefinition = new SwaggerDocument();
+
+			string authenticationScheme1Name = "petstore_auth";
+			string authenticationScheme2Name = "api_key";
+			string authenticationScheme3Name = "Token";
+
+			SwaggerSecurityRequirement securityRequirement1 = new SwaggerSecurityRequirement();
+			securityRequirement1.Add(authenticationScheme1Name, new List<string>() { "write:pets", "read:pets" });
+			securityRequirement1.Add(authenticationScheme2Name, new List<string>());
+
+			SwaggerSecurityRequirement securityRequirement2 = new SwaggerSecurityRequirement();
+			securityRequirement2.Add(authenticationScheme3Name, new List<string>());
+
+			Collection<SwaggerSecurityRequirement> securityMappings = new Collection<SwaggerSecurityRequirement>()
+			{ securityRequirement1, securityRequirement2 };
+
+			apiDefinition.Security = securityMappings;
+
+			apiDefinition.Paths["foo/bar"] = new SwaggerPathItem
+			{
+				{
+					SwaggerOperationMethod.Get,
+					new SwaggerOperation
+					{
+						Security = securityMappings
+					}
+				}
+			};
+
+			SwaggerToCSharpControllerGeneratorSettings codeGeneratorSettings = new SwaggerToCSharpControllerGeneratorSettings();
+			SwaggerToCSharpControllerGenerator codeGenerator = new SwaggerToCSharpControllerGenerator(apiDefinition, codeGeneratorSettings);
+			string controllerCode = codeGenerator.GenerateFile();
+			string unexpectedAuthorizationAttributeCode = "Microsoft.AspNetCore.Authorization.Authorize";
+			Assert.DoesNotContain(unexpectedAuthorizationAttributeCode, controllerCode);
 		}
 
         private static string RemoveExternalReferences(string code)

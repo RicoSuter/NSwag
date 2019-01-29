@@ -28,6 +28,9 @@ public interface I{{ Class }}Controller
 [{{ AspNetNamespace }}.RoutePrefix("{{ BasePath }}")]
 {% endif -%}
 {% if GeneratePartialControllers -%}
+{%     if GenerateAuthorizationAttributes and HasSecurity -%}
+[Microsoft.AspNetCore.Authorization.Authorize(AuthenticationSchemes = "{{ AuthenticationSchemes }}")]
+{%     endif -%}
 public partial class {{ Class }}Controller : {% if HasBaseClass %}{{ BaseClass }}{% else %}{{ AspNetNamespace }}.ApiController{% endif %}
 {
     private I{{ Class }}Controller _implementation;
@@ -53,7 +56,7 @@ public partial class {{ Class }}Controller : {% if HasBaseClass %}{{ BaseClass }
     [System.Obsolete]
 {%         endif -%}
     [{{ AspNetNamespace }}.Http{{ operation.HttpMethodUpper }}, {{ AspNetNamespace }}.Route("{{ operation.Path }}"{% if operation.HasRouteName %}, Name = "{{ operation.RouteName }}"{% endif %})]
-{%         if operation.HasSecurity -%}
+{%         if GenerateAuthorizationAttributes and operation.HasSecurity -%}
     [Microsoft.AspNetCore.Authorization.Authorize(AuthenticationSchemes = "{{ operation.AuthenticationSchemes }}")]
 {%         endif -%}
     public {% if operation.WrapResponse %}async System.Threading.Tasks.Task<HttpResponseMessage>{% else %}{{ operation.ResultType }}{% endif %} {{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{% if parameter.IsBody %}[{{ AspNetNamespace }}.FromBody] {% endif %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}{% if parameter.IsLast == false or UseCancellationToken %}, {% endif %}{% endfor %}{% if UseCancellationToken %}System.Threading.CancellationToken cancellationToken{% endif %})
