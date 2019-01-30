@@ -213,13 +213,13 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 
         private void RemoveUnusedPathParameters(SwaggerOperationDescription operationDescription, string httpPath)
         {
-            operationDescription.Path = Regex.Replace(httpPath, "{(.*?)(:(([^/]*)?))?}", match =>
+            operationDescription.Path = "/" + Regex.Replace(httpPath, "{(.*?)(:(([^/]*)?))?}", match =>
             {
                 var parameterName = match.Groups[1].Value.TrimEnd('?');
                 if (operationDescription.Operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.Path && string.Equals(p.Name, parameterName, StringComparison.OrdinalIgnoreCase)))
                     return "{" + parameterName + "}";
                 return string.Empty;
-            }).TrimEnd('/');
+            }).Trim('/');
         }
 
         private bool IsNullable(ParameterInfo parameter)

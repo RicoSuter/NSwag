@@ -132,12 +132,12 @@ namespace NSwag.SwaggerGeneration.AspNetCore
                     path = "/" + path;
 
                 var controllerActionDescriptor = (ControllerActionDescriptor)apiDescription.ActionDescriptor;
-                var swaggerOperationMethod = apiDescription.HttpMethod.ToLowerInvariant();
+                var httpMethod = apiDescription.HttpMethod?.ToLowerInvariant() ?? SwaggerOperationMethod.Get;
 
                 var operationDescription = new SwaggerOperationDescription
                 {
                     Path = path,
-                    Method = swaggerOperationMethod,
+                    Method = httpMethod,
                     Operation = new SwaggerOperation
                     {
                         IsDeprecated = method.GetCustomAttribute<ObsoleteAttribute>() != null,
