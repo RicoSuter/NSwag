@@ -58,7 +58,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 {
                     parameters = parameters
                         .OrderBy(p => p.Position ?? 0)
-                        .OrderBy(p => !p.IsRequired)
+                        .ThenBy(p => !p.IsRequired)
                         .ThenBy(p => p.Default == null).ToList();
                 }
                 else
@@ -70,6 +70,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 }
             }
 
+            //TODO: FORK the NJsonSchema.CodeGeneration.CSharp and add own setting for this
+            UseActionResultType = true;
+            
             Parameters = parameters.Select(parameter =>
                 new CSharpParameterModel(parameter.Name, GetParameterVariableName(parameter, _operation.Parameters),
                     ResolveParameterType(parameter), parameter, parameters,
@@ -103,6 +106,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets a value indicating whether the operation has a result type.</summary>
         public bool HasResult => UnwrappedResultType != "void";
 
+        /// <summary>Use ASP.Net Core 2.1 ActionResult type</summary>
+        private bool UseActionResultType { get; set; }
+
         /// <summary>Gets or sets the synchronous type of the result.</summary>
         public string SyncResultType
         {
@@ -124,6 +130,12 @@ namespace NSwag.CodeGeneration.CSharp.Models
         {
             get
             {
+                if (UseActionResultType) {
+                    return SyncResultType == "void"
+                        ? "IActionResult"
+                        : "System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<" + SyncResultType + ">>";
+                }
+
                 return SyncResultType == "void"
                     ? "System.Threading.Tasks.Task"
                     : "System.Threading.Tasks.Task<" + SyncResultType + ">";
