@@ -84,6 +84,43 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
+        public async Task When_aspnet_actiontype_inuse_with_abstract_then_actiontype_is_generated()
+        {
+            //// Arrange
+            var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var document = await swaggerGen.GenerateForControllerAsync<TestController>();
+
+            //// Act
+            var codeGen = new SwaggerToCSharpControllerGenerator(document, new SwaggerToCSharpControllerGeneratorSettings
+            {
+                ControllerStyle = CSharpControllerStyle.Abstract,
+            });
+            var code = codeGen.GenerateFile();
+
+            //// Assert
+            Assert.Contains("System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<string>> Foo(string test, bool test2);", code);
+        }
+
+        [Fact]
+        public async Task When_aspnet_actiontype_inuse_with_partial_then_actiontype_is_generated()
+        {
+            //// Arrange
+            var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var document = await swaggerGen.GenerateForControllerAsync<TestController>();
+
+            //// Act
+            var codeGen = new SwaggerToCSharpControllerGenerator(document, new SwaggerToCSharpControllerGeneratorSettings
+            {
+                ControllerStyle = CSharpControllerStyle.Partial,
+            });
+            var code = codeGen.GenerateFile();
+
+            //// Assert
+            Assert.Contains("System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<string>> FooAsync(string test, bool test2);", code);
+            Assert.Contains("public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<string>> Foo(string test, bool test2)", code);
+        }
+
+        [Fact]
         public async Task When_controllergenerationformat_notsetted_then_partialcontroller_is_generated()
         {
             //// Arrange
