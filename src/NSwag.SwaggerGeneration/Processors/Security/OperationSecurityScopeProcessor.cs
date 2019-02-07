@@ -37,9 +37,9 @@ namespace NSwag.SwaggerGeneration.Processors.Security
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
         public Task<bool> ProcessAsync(OperationProcessorContext context)
         {
-            var allAttributes = GetAllCustomAttributes(context.MethodInfo).ToList();
-            var allowAnonymous = allAttributes.FirstOrDefault(x => x.GetType().Name == "AllowAnonymousAttribute") != null;
+            var customAttributes = GetCustomAttributes(context.MethodInfo);
 
+            var allowAnonymous = customAttributes.Any(a => a.GetType().Name == "AllowAnonymousAttribute");
             if (allowAnonymous)
             {
                 return Task.FromResult(true);
@@ -61,9 +61,9 @@ namespace NSwag.SwaggerGeneration.Processors.Security
         /// <param name="operationDescription">The operation description.</param>
         /// <param name="methodInfo">The method information.</param>
         /// <returns>The scopes.</returns>
-        protected virtual IEnumerable<string> GetScopes(IEnumerable<Attribute> allAttributes, SwaggerOperationDescription operationDescription, MethodInfo methodInfo)
+        protected virtual IEnumerable<string> GetScopes(IEnumerable<Attribute> customAttributes, SwaggerOperationDescription operationDescription, MethodInfo methodInfo)
         {
-            var authorizeAttributes = allAttributes.Where(a => a.GetType().Name == "AuthorizeAttribute").ToList();
+            var authorizeAttributes = customAttributes.Where(a => a.GetType().Name == "AuthorizeAttribute");
             if (!authorizeAttributes.Any())
                 return Enumerable.Empty<string>();
 
@@ -77,11 +77,10 @@ namespace NSwag.SwaggerGeneration.Processors.Security
         /// <summary>Gets all customAttributes from a method.</summary>
         /// <param name="methodInfo">The method information.</param>
         /// <returns>The Attributes of the method.</returns>
-        private IEnumerable<Attribute> GetAllCustomAttributes(MethodInfo methodInfo)
+        private IEnumerable<Attribute> GetCustomAttributes(MethodInfo methodInfo)
         {
-            var allAttributes = methodInfo.GetCustomAttributes().Concat(
+            return methodInfo.GetCustomAttributes().Concat(
                 methodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes());
-            return allAttributes;
         }
     }
 }
