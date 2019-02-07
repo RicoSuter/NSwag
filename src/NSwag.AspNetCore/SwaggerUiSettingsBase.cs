@@ -33,6 +33,12 @@ namespace NSwag.AspNetCore
 
         internal string ActualSwaggerUiPath => Path.Substring(MiddlewareBasePath?.Length ?? 0);
 
+        /// <summary>Gets or sets a URI to load a custom CSS Stylesheet into the index.html</summary>
+        public Uri CustomStylesheetUri { get; set; }
+
+        /// <summary>Gets or sets a URI to load a custom JavaScript file into the index.html.</summary>
+        public Uri CustomJavaScriptUri { get; set; }
+
         /// <summary>Gets or sets the external route base path (must start with '/', default: null = use SwaggerUiRoute).</summary>
 #if AspNetOwin
         public Func<string, IOwinRequest, string> TransformToExternalPath { get; set; }
