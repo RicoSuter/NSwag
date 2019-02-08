@@ -98,13 +98,13 @@ namespace NSwag.Commands
         {
             var codeBaseDirectory = Path.GetDirectoryName(new Uri(typeof(IsolatedCommandBase<>).GetTypeInfo().Assembly.CodeBase).LocalPath);
 
-            yield return codeBaseDirectory + "/Newtonsoft.Json.dll";
-            yield return codeBaseDirectory + "/NJsonSchema.dll";
-            yield return codeBaseDirectory + "/NSwag.Core.dll";
-            yield return codeBaseDirectory + "/NSwag.Commands.dll";
-            yield return codeBaseDirectory + "/NSwag.SwaggerGeneration.dll";
-            yield return codeBaseDirectory + "/NSwag.SwaggerGeneration.WebApi.dll";
-            yield return codeBaseDirectory + "/NSwag.SwaggerGeneration.AspNetCore.dll";
+            yield return codeBaseDirectory + Path.DirectorySeparatorChar + "Newtonsoft.Json.dll";
+            yield return codeBaseDirectory + Path.DirectorySeparatorChar + "NJsonSchema.dll";
+            yield return codeBaseDirectory + Path.DirectorySeparatorChar + "NSwag.Core.dll";
+            yield return codeBaseDirectory + Path.DirectorySeparatorChar + "NSwag.Commands.dll";
+            yield return codeBaseDirectory + Path.DirectorySeparatorChar + "NSwag.SwaggerGeneration.dll";
+            yield return codeBaseDirectory + Path.DirectorySeparatorChar + "NSwag.SwaggerGeneration.WebApi.dll";
+            yield return codeBaseDirectory + Path.DirectorySeparatorChar + "NSwag.SwaggerGeneration.AspNetCore.dll";
         }
 #else
         public IEnumerable<Assembly> GetAssemblies(string assemblyDirectory)
