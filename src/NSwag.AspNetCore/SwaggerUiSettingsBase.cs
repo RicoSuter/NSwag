@@ -49,5 +49,35 @@ namespace NSwag.AspNetCore
 
         internal abstract string TransformHtml(string html, HttpRequest request);
 #endif
+
+        /// <summary>
+        /// Gets an HTML snippet for including custom StyleSheet in swagger UI.
+        /// </summary>
+        protected string GetCustomStyleHtml()
+        {
+            if (CustomStylesheetUri == null)
+            {
+                return string.Empty;
+            }
+
+            var uriString = System.Net.WebUtility.HtmlEncode(CustomStylesheetUri.OriginalString);
+
+            return $"<link rel=\"stylesheet\" href=\"{uriString}\">";
+        }
+
+        /// <summary>
+        /// Gets an HTML snippet for including custom JavaScript in swagger UI.
+        /// </summary>
+        protected string GetCustomScriptHtml()
+        {
+            if (CustomJavaScriptUri == null)
+            {
+                return string.Empty;
+            }
+            
+            var uriString = System.Net.WebUtility.HtmlEncode(CustomJavaScriptUri.OriginalString);
+
+            return $"<script src=\"{uriString}\"></script>";
+        }
     }
 }
