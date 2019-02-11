@@ -119,12 +119,18 @@ namespace NSwag
         {
             get
             {
-                if (_schemes != null) _schemes.CollectionChanged -= OnSchemesChanged;
+                if (_schemes != null)
+                {
+                    _schemes.CollectionChanged -= OnSchemesChanged;
+                }
+
                 _schemes = new ObservableCollection<SwaggerSchema>(Servers?
                     .Where(s => s.Url.Contains("://"))
                     .Select(s => s.Url.StartsWith("http://") ? SwaggerSchema.Http : SwaggerSchema.Https)
                     .Distinct() ?? new List<SwaggerSchema>());
+
                 _schemes.CollectionChanged += OnSchemesChanged;
+
                 return _schemes;
             }
             set { UpdateServers(value, Host, BasePath); }

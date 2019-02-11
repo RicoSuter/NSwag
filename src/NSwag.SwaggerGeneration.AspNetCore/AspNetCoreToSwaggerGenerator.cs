@@ -48,7 +48,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
         public AspNetCoreToSwaggerGeneratorSettings Settings { get; }
 
         /// <summary>Generates a Swagger specification for the given <see cref="ApiDescriptionGroupCollection"/>.</summary>
-        /// <param name="apiDescriptionGroups"><see cref="ApiDescriptionGroup"/>.</param>
+        /// <param name="apiDescriptionGroups">The <see cref="ApiDescriptionGroupCollection"/>.</param>
         /// <returns>The <see cref="SwaggerDocument" />.</returns>
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
         public async Task<SwaggerDocument> GenerateAsync(ApiDescriptionGroupCollection apiDescriptionGroups)
@@ -132,13 +132,12 @@ namespace NSwag.SwaggerGeneration.AspNetCore
                     path = "/" + path;
 
                 var controllerActionDescriptor = (ControllerActionDescriptor)apiDescription.ActionDescriptor;
-                if (!Enum.TryParse<SwaggerOperationMethod>(apiDescription.HttpMethod, ignoreCase: true, result: out var swaggerOperationMethod))
-                    swaggerOperationMethod = SwaggerOperationMethod.Undefined;
+                var httpMethod = apiDescription.HttpMethod?.ToLowerInvariant() ?? SwaggerOperationMethod.Get;
 
                 var operationDescription = new SwaggerOperationDescription
                 {
                     Path = path,
-                    Method = swaggerOperationMethod,
+                    Method = httpMethod,
                     Operation = new SwaggerOperation
                     {
                         IsDeprecated = method.GetCustomAttribute<ObsoleteAttribute>() != null,

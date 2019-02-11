@@ -1,6 +1,6 @@
 ## NSwag: The Swagger/OpenAPI toolchain for .NET, Web API and TypeScript
 
-[![NuGet Version](https://img.shields.io/nuget/v/NSwag.Core.svg)](https://www.nuget.org/packages?q=NSwag)
+ [![NuGet Version](https://img.shields.io/nuget/v/NSwag.Core.svg)](https://www.nuget.org/packages?q=NSwag)
 [![npm](https://img.shields.io/npm/v/nswag.svg)](https://www.npmjs.com/package/nswag)
 [![Build status](https://img.shields.io/appveyor/ci/rsuter/nswag.svg?label=build)](https://ci.appveyor.com/project/rsuter/nswag)
 [![Build status](https://img.shields.io/appveyor/ci/rsuter/nswag-25x6o.svg?label=CI+build)](https://ci.appveyor.com/project/rsuter/nswag-25x6o)
@@ -8,6 +8,8 @@
 [![Gitter](https://img.shields.io/badge/gitter-join%20chat-1dce73.svg)](https://gitter.im/NSwag/NSwag)
 [![StackOverflow](https://img.shields.io/badge/questions-on%20StackOverflow-orange.svg?style=flat)](http://stackoverflow.com/questions/tagged/nswag)
 [![Wiki](https://img.shields.io/badge/docs-in%20wiki-orange.svg?style=flat)](https://github.com/rsuter/nswag/wiki)
+[![Backers on Open Collective](https://opencollective.com/NSwag/backers/badge.svg)](#backers) 
+[![Sponsors on Open Collective](https://opencollective.com/NSwag/sponsors/badge.svg)](#sponsors)
 
 **[NSwag v12 released!](https://github.com/RSuter/NSwag/releases/tag/NSwag-Build-1032)**
 
@@ -130,7 +132,7 @@ Frontends:
     - Commands for the command line tool implementations and UI
 - **[NSwag.MSBuild](https://www.nuget.org/packages/NSwag.MSBuild/)** (MSBuild .targets): 
     - Adds a .targets file to your Visual Studio project, so that you can run the NSwag command line tool in an MSBuild target, see [MSBuild](https://github.com/RSuter/NSwag/wiki/MSBuild)
-- **[NSwag.ConsoleCore](https://www.nuget.org/packages/NSwag.ConsoleCore/)** (.NET Core 1.0, 1.1 and 2.0): 
+- **[NSwag.ConsoleCore](https://www.nuget.org/packages/NSwag.ConsoleCore/)** (.NET Core 1.0, 1.1, 2.0, 2.1 and 2.2): 
     - Command line tool for .NET Core (`dotnet nswag`)
 - **[NSwagStudio](https://chocolatey.org/packages/nswagstudio)** (Chocolatey, Windows): 
     - Package to install the NSwagStudio and command line tools via Chocolatey
@@ -172,12 +174,49 @@ The generators can be used in a comfortable and simple Windows GUI called [NSwag
 
 [![](https://raw.githubusercontent.com/NSwag/NSwag/master/assets/screenshots/03_WebAPI_CSharp.png)](https://raw.githubusercontent.com/NSwag/NSwag/master/assets/screenshots/03_WebAPI_CSharp.png)
 
-## Sponsors
+## Sponsors, support and consulting
 
-Companies or individuals which paid a substantial amount for implementing, fixing issues, support or sponsoring are listed below. Thank you for supporting this project! You can also become a sponsor via [Patreon](https://www.patreon.com/ricosuter) or by contacting [Rico Suter](https://rsuter.com). 
+Companies or individuals which paid a substantial amount for implementing, fixing issues, support or sponsoring are listed below. Thank you for supporting this project! You can also become a financial contributor
+
+- Project: [Open Collective](https://opencollective.com/nswag)
+- Main contributor (Rico Suter) directly: [Patreon](https://www.patreon.com/ricosuter)
+
+Please contact [Rico Suter](https://rsuter.com) for paid consulting and support. 
+
+[![](https://opencollective.com/static/images/opencollectivelogo.svg)](https://opencollective.com/nswag)
 
 [![](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://www.patreon.com/ricosuter)
 
 Sponsors:
 
 - [Picturepark](https://picturepark.com)
+
+## Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+<a href="https://github.com/RSuter/NSwag/graphs/contributors"><img src="https://opencollective.com/NSwag/contributors.svg?width=890&button=false" /></a>
+
+
+## Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/NSwag#backer)]
+
+<a href="https://opencollective.com/NSwag#backers" target="_blank"><img src="https://opencollective.com/NSwag/backers.svg?width=890"></a>
+
+
+## Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/NSwag#sponsor)]
+
+<a href="https://opencollective.com/NSwag/sponsor/0/website" target="_blank"><img src="https://opencollective.com/NSwag/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/NSwag/sponsor/1/website" target="_blank"><img src="https://opencollective.com/NSwag/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/NSwag/sponsor/2/website" target="_blank"><img src="https://opencollective.com/NSwag/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/NSwag/sponsor/3/website" target="_blank"><img src="https://opencollective.com/NSwag/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/NSwag/sponsor/4/website" target="_blank"><img src="https://opencollective.com/NSwag/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/NSwag/sponsor/5/website" target="_blank"><img src="https://opencollective.com/NSwag/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/NSwag/sponsor/6/website" target="_blank"><img src="https://opencollective.com/NSwag/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/NSwag/sponsor/7/website" target="_blank"><img src="https://opencollective.com/NSwag/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/NSwag/sponsor/8/website" target="_blank"><img src="https://opencollective.com/NSwag/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/NSwag/sponsor/9/website" target="_blank"><img src="https://opencollective.com/NSwag/sponsor/9/avatar.svg"></a>
+
+

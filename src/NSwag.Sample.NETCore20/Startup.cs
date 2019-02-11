@@ -31,13 +31,15 @@ namespace NSwag.Sample.NETCore20
                 .AddSwaggerDocument(document =>
                 {
                     document.DocumentName = "swagger";
+                    // Add operation security scope processor
+                    document.OperationProcessors.Add(new OperationSecurityScopeProcessor("TEST_APIKEY"));
                     // Add custom document processors, etc.
-                    document.DocumentProcessors.Add(new SecurityDefinitionAppender("TEST_HEADER", new SwaggerSecurityScheme
+                    document.DocumentProcessors.Add(new SecurityDefinitionAppender("TEST_APIKEY", new SwaggerSecurityScheme
                     {
                         Type = SwaggerSecuritySchemeType.ApiKey,
                         Name = "TEST_HEADER",
                         In = SwaggerSecurityApiKeyLocation.Header,
-                        Description = "TEST_HEADER"
+                        Description = "TEST_DESCRIPTION"
                     }));
                     // Post process the generated document
                     document.PostProcess = d => d.Info.Title = "Hello world!";

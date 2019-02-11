@@ -76,8 +76,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             //// Assert
             Assert.Contains("FileParameter file", code);
-            Assert.Contains("var content_ = new System.Net.Http.MultipartFormDataContent(boundary_);", code);
-            Assert.Contains("content_.Add(new System.Net.Http.StreamContent(file.Data), \"file\"", code);
+            Assert.Contains("var content_file_ = new System.Net.Http.StreamContent(file.Data);", code);
+            Assert.Contains("content_.Add(content_file_, \"file\", file.FileName ??", code);
         }
 
         [Fact]

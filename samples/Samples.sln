@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.AspNetCore20", "With
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.AspNetCore21", "WithoutMiddleware\Sample.AspNetCore21\Sample.AspNetCore21.csproj", "{55E2BF82-3ECE-45E2-96BD-65C09C42843D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Sample.NetOwinMiddleware", "NSwag.Sample.NetOwinMiddleware\NSwag.Sample.NetOwinMiddleware.csproj", "{F8839807-B6F6-41E3-BC98-DFAD3C03085E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{55E2BF82-3ECE-45E2-96BD-65C09C42843D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55E2BF82-3ECE-45E2-96BD-65C09C42843D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55E2BF82-3ECE-45E2-96BD-65C09C42843D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8839807-B6F6-41E3-BC98-DFAD3C03085E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8839807-B6F6-41E3-BC98-DFAD3C03085E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8839807-B6F6-41E3-BC98-DFAD3C03085E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8839807-B6F6-41E3-BC98-DFAD3C03085E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

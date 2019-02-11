@@ -133,7 +133,7 @@ namespace NSwag.CodeGeneration.TypeScript
                     {
                         Variable = "result" + response.StatusCode,
                         Value = "resultData" + response.StatusCode,
-                        Schema = response.ActualResponseSchema,
+                        Schema = response.ResolvableResponseSchema,
                         IsPropertyNullable = response.IsNullable,
                         TypeNameHint = string.Empty,
                         Settings = Settings.TypeScriptGeneratorSettings,
@@ -148,7 +148,7 @@ namespace NSwag.CodeGeneration.TypeScript
                     {
                         Variable = "result" + operation.DefaultResponse.StatusCode,
                         Value = "resultData" + operation.DefaultResponse.StatusCode,
-                        Schema = operation.DefaultResponse.ActualResponseSchema,
+                        Schema = operation.DefaultResponse.ResolvableResponseSchema,
                         IsPropertyNullable = operation.DefaultResponse.IsNullable,
                         TypeNameHint = string.Empty,
                         Settings = Settings.TypeScriptGeneratorSettings,

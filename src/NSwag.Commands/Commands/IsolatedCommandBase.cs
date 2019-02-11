@@ -98,13 +98,13 @@ namespace NSwag.Commands
         {
             var codeBaseDirectory = Path.GetDirectoryName(new Uri(typeof(IsolatedCommandBase<>).GetTypeInfo().Assembly.CodeBase).LocalPath);
 
-            yield return codeBaseDirectory + "/Newtonsoft.Json.dll";
-            yield return codeBaseDirectory + "/NJsonSchema.dll";
-            yield return codeBaseDirectory + "/NSwag.Core.dll";
-            yield return codeBaseDirectory + "/NSwag.Commands.dll";
-            yield return codeBaseDirectory + "/NSwag.SwaggerGeneration.dll";
-            yield return codeBaseDirectory + "/NSwag.SwaggerGeneration.WebApi.dll";
-            yield return codeBaseDirectory + "/NSwag.SwaggerGeneration.AspNetCore.dll";
+            yield return codeBaseDirectory + Path.DirectorySeparatorChar + "Newtonsoft.Json.dll";
+            yield return codeBaseDirectory + Path.DirectorySeparatorChar + "NJsonSchema.dll";
+            yield return codeBaseDirectory + Path.DirectorySeparatorChar + "NSwag.Core.dll";
+            yield return codeBaseDirectory + Path.DirectorySeparatorChar + "NSwag.Commands.dll";
+            yield return codeBaseDirectory + Path.DirectorySeparatorChar + "NSwag.SwaggerGeneration.dll";
+            yield return codeBaseDirectory + Path.DirectorySeparatorChar + "NSwag.SwaggerGeneration.WebApi.dll";
+            yield return codeBaseDirectory + Path.DirectorySeparatorChar + "NSwag.SwaggerGeneration.AspNetCore.dll";
         }
 #else
         public IEnumerable<Assembly> GetAssemblies(string assemblyDirectory)
@@ -128,6 +128,7 @@ namespace NSwag.Commands
             yield return new BindingRedirect("NSwag.Core", typeof(SwaggerDocument), "c2d88086e098d109");
             yield return new BindingRedirect("NSwag.SwaggerGeneration", typeof(SwaggerJsonSchemaGenerator), "c2d88086e098d109");
             yield return new BindingRedirect("NSwag.SwaggerGeneration.WebApi", typeof(WebApiToSwaggerGenerator), "c2d88086e098d109");
+            yield return new BindingRedirect("NSwag.SwaggerGeneration.AspNetCore", typeof(AspNetCoreToSwaggerGenerator), "c2d88086e098d109");
             yield return new BindingRedirect("NSwag.Annotations", typeof(SwaggerTagsAttribute), "c2d88086e098d109");
             yield return new BindingRedirect("NSwag.Core.Yaml", typeof(SwaggerYamlDocument), "c2d88086e098d109");
             yield return new BindingRedirect("System.Runtime", "4.0.0.0", "b03f5f7f11d50a3a");
