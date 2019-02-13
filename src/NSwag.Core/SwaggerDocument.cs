@@ -35,7 +35,7 @@ namespace NSwag
             paths.CollectionChanged += (sender, args) =>
             {
                 foreach (var path in Paths.Values)
-                    path.Parent = this;
+                    path.ActualPathItem.Parent = this;
             };
 
             Paths = paths;
@@ -223,7 +223,7 @@ namespace NSwag
         {
             get
             {
-                return Paths.SelectMany(p => p.Value.Select(o => new SwaggerOperationDescription
+                return Paths.SelectMany(p => p.Value.ActualPathItem.Select(o => new SwaggerOperationDescription
                 {
                     Path = p.Key,
                     Method = o.Key,
