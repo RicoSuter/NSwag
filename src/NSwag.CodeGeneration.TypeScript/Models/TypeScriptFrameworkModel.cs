@@ -42,7 +42,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public bool IsFetchOrAurelia => _settings.Template == TypeScriptTemplate.Fetch ||
                                         _settings.Template == TypeScriptTemplate.Aurelia;
 
-        /// <summary>Gets a value indicating whether to render for Axios</summary>
+        /// <summary>Gets a value indicating whether to render for Axios.</summary>
         public bool IsAxios => _settings.Template == TypeScriptTemplate.Axios;
 
         /// <summary>Gets a value indicating whether MomentJS is required.</summary>
