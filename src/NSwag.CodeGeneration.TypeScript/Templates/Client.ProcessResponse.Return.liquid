@@ -26,6 +26,6 @@ return this.q.resolve<{{ operation.ResultType }}>(<any>null);
 {%     if operation.WrapResponse -%}
 return new {{ operation.ResponseClass }}(status, _headers, <any>null);
 {%     else -%}
-return {% if operation.HasResultType %} null{% endif %};
+return{% if operation.HasResultType %} null{% endif %};
 {%     endif -%}
 {% endif -%}
