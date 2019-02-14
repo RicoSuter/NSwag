@@ -41,6 +41,10 @@ import { HttpClient, RequestInit } from 'aurelia-fetch-client';
 
 import * as ng from 'angular';
 {%         endif -%}
+{%         if Framework.IsAxios -%}
+
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+{%         endif -%}
 {%         if Framework.IsKnockout -%}
 
 import * as ko from 'knockout';
