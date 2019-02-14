@@ -94,11 +94,13 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var codeGen = new SwaggerToCSharpControllerGenerator(document, new SwaggerToCSharpControllerGeneratorSettings
             {
                 ControllerStyle = CSharpControllerStyle.Abstract,
+                UseActionResultType = true
             });
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.Contains("System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<string>> Foo(string test, bool test2);", code);
+            Assert.Contains("public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<string>> Foo(string test, bool test2);", code);
+            Assert.Contains("public abstract Microsoft.AspNetCore.Mvc.IActionResult Bar();", code);
         }
 
         [Fact]
@@ -112,12 +114,15 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var codeGen = new SwaggerToCSharpControllerGenerator(document, new SwaggerToCSharpControllerGeneratorSettings
             {
                 ControllerStyle = CSharpControllerStyle.Partial,
+                UseActionResultType = true
             });
             var code = codeGen.GenerateFile();
 
             //// Assert
             Assert.Contains("System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<string>> FooAsync(string test, bool test2);", code);
             Assert.Contains("public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<string>> Foo(string test, bool test2)", code);
+            Assert.Contains("Microsoft.AspNetCore.Mvc.IActionResult BarAsync();", code);
+            Assert.Contains("public Microsoft.AspNetCore.Mvc.IActionResult Bar()", code);
         }
 
         [Fact]

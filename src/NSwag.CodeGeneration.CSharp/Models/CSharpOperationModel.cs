@@ -58,7 +58,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 {
                     parameters = parameters
                         .OrderBy(p => p.Position ?? 0)
-                        .ThenBy(p => !p.IsRequired)
+                        .OrderBy(p => !p.IsRequired)
                         .ThenBy(p => p.Default == null).ToList();
                 }
                 else
@@ -70,9 +70,12 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 }
             }
 
-            //TODO: FORK the NJsonSchema.CodeGeneration.CSharp and add own setting for this
-            UseActionResultType = true;
-            
+            if (generator is SwaggerToCSharpControllerGenerator controllerGenerator) {
+                UseActionResultType = controllerGenerator.Settings.UseActionResultType;                
+            } else {
+                UseActionResultType = false;
+            }
+
             Parameters = parameters.Select(parameter =>
                 new CSharpParameterModel(parameter.Name, GetParameterVariableName(parameter, _operation.Parameters),
                     ResolveParameterType(parameter), parameter, parameters,
@@ -132,7 +135,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             {
                 if (UseActionResultType) {
                     return SyncResultType == "void"
-                        ? "IActionResult"
+                        ? "Microsoft.AspNetCore.Mvc.IActionResult"
                         : "System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<" + SyncResultType + ">>";
                 }
 
