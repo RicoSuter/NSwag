@@ -28,12 +28,8 @@ return response.blob().then(blob => { return { fileName: fileName, data: blob, s
 {%     if response.HasType -%}
 let result{{ response.StatusCode }}: any = null;
 {%         if Framework.IsAxios -%}
-{%              if response.UseDtoClass or response.IsDate -%}
 let resultData{{ response.StatusCode }}  = _responseText;
 {{ response.DataConversionCode }}
-{%              else -%}
-result{{ response.StatusCode }} = _responseText === "" ? null : <{{ response.Type }}>{% if operation.HandleReferences %}jsonParse{% else %}JSON.parse{% endif %}(_responseText, this.jsonParseReviver);
-{%              endif -%}
 {%         else -%}
 {%              if response.UseDtoClass or response.IsDate -%}
 let resultData{{ response.StatusCode }} = _responseText === "" ? null : {% if operation.HandleReferences %}jsonParse{% else %}JSON.parse{% endif %}(_responseText, this.jsonParseReviver);
