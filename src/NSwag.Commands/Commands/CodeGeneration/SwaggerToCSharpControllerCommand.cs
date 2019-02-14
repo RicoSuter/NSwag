@@ -43,6 +43,13 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.UseCancellationToken = value; }
         }
 
+        [Argument(Name = "UseActionResultType", Description = "Value indicating whether ASP.Net Core (2.1) ActionResult type is used (default: false)", IsRequired = false)]
+        public bool UseActionResultType
+        {
+            get { return Settings.UseActionResultType; }
+            set { Settings.UseActionResultType = value; }
+        }
+
         [Argument(Name = "AspNetNamespace", Description = "The ASP.NET (Core) framework namespace (default: 'System.Web.Http').", IsRequired = false)]
         public string AspNetNamespace
         {
