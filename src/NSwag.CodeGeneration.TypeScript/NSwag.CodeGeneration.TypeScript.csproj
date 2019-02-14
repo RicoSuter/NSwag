@@ -18,8 +18,12 @@
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Templates\AxiosClient.liquid" />
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="Templates\AngularClient.liquid" />
     <EmbeddedResource Include="Templates\AngularJSClient.liquid" />
+    <EmbeddedResource Include="Templates\AxiosClient.liquid" />
     <EmbeddedResource Include="Templates\Client.Method.Documentation.liquid" />
     <EmbeddedResource Include="Templates\Client.ProcessResponse.HandleStatusCode.liquid" />
     <EmbeddedResource Include="Templates\Client.ProcessResponse.liquid" />
