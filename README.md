@@ -32,11 +32,10 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 **Ways to use the toolchain:** 
 
 - Simple to use Windows GUI, [NSwagStudio](https://github.com/NSwag/NSwag/wiki/NSwagStudio)
-- Via [command line](https://github.com/NSwag/NSwag/wiki/CommandLine) (Windows, Mac and Linux support through [Mono](http://www.mono-project.com/) or .NET Core console binary, also via [NPM package](https://www.npmjs.com/package/nswag))
 - By using the [Swagger or Swagger UI OWIN and ASP.NET Core Middlewares](https://github.com/NSwag/NSwag/wiki/Middlewares) (also serves the [Swagger UI](http://swagger.io/swagger-ui)) (recommended)
+- Via [command line](https://github.com/NSwag/NSwag/wiki/CommandLine) (Windows, Mac and Linux support through [Mono](http://www.mono-project.com/) or .NET Core console binary, also via [NPM package](https://www.npmjs.com/package/nswag))
 - In your C# code, via [NuGet](https://www.nuget.org/packages?q=NSwag)
 - In your [MSBuild targets](https://github.com/NSwag/NSwag/wiki/MSBuild)
-- In your [Cake](https://cakebuild.net) scripts using [Cake.NSwag](https://agc93.github.io/Cake.NSwag/doc/intro.html) (external community project, may not use latest NSwag version)
 
 **Tutorials:**
 
@@ -144,6 +143,28 @@ The NuGet packages may require the **Microsoft.NETCore.Portable.Compatibility** 
 ![LayerDiagram](assets/LayerDiagram.png)
 
 ### Usage in C&#35;
+
+To register the middlewares to generate a Swagger spec and render the UI, register NSwag in `Startup.cs`: 
+
+```csharp
+public class Startup
+{
+    ...
+
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddSwaggerDocument();
+    }
+
+    public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+    {
+        ...
+
+        app.UseSwagger();
+        app.UseSwaggerUi3();
+    }
+}
+```
 
 The following code shows how to read a Swagger specification and generate C# client classes to call the described web services: 
 	
