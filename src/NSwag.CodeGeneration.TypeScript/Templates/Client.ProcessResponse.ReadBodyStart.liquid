@@ -18,6 +18,8 @@ return blobToText(new Blob([response]), this.q).then(_responseText => {
 const _responseText = response.text();
 {% elseif Framework.IsAngularJS -%}
 const _responseText = response.data;
+{% elseif Framework.IsAxios -%}
+const _responseText = response.data;
 {% else -%}
 const _responseText = xhr.responseText; 
 {% endif -%}
