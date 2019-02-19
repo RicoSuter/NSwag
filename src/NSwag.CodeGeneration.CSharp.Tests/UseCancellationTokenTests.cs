@@ -117,7 +117,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.False(code.Contains("System.Threading.CancellationToken cancellationToken"));
+            Assert.DoesNotContain("System.Threading.CancellationToken cancellationToken", code);
         }
     }
 }
