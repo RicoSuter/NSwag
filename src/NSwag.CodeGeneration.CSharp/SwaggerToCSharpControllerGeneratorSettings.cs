@@ -24,6 +24,8 @@ namespace NSwag.CodeGeneration.CSharp
             UseCancellationToken = false;
             AspNetNamespace = "System.Web.Http";
             RouteNamingStrategy = CSharpControllerRouteNamingStrategy.None;
+            UseModelValidationAttributes = false;
+            RequiredAttributeType = "System.ComponentModel.DataAnnotations.Required";
         }
 
         /// <summary>Returns the route name for a controller method.</summary>
@@ -53,5 +55,11 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets the strategy for naming routes (default: CSharpRouteNamingStrategy.None).</summary>
         public CSharpControllerRouteNamingStrategy RouteNamingStrategy { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether to allow adding model validation attributes</summary>
+        public bool UseModelValidationAttributes { get; set; }
+
+        /// <summary>Gets or sets the type of the attribute used to specify a parameter as required. (default: System.ComponentModel.DataAnnotations.Required</summary>
+        public string RequiredAttributeType { get; set; }
     }
 }
