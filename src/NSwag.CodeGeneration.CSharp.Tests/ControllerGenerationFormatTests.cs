@@ -10,17 +10,6 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 {
     public class ControllerGenerationFormatTests
     {
-        public class ComplexType
-        {
-            public string Prop1 { get; set; }
-
-            public int Prop2 { get; set; }
-
-            public bool Prop3 { get; set; }
-
-            public ComplexType Prop4 { get; set; }
-        }
-
         [Fact]
         public async Task When_controllergenerationformat_abstract_then_abstractcontroller_is_generated()
         {
@@ -55,6 +44,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
+
             Assert.Contains("partial class TestController", code);
             Assert.Contains("ITestController", code);
             Assert.Contains("private ITestController _implementation;", code);
@@ -85,7 +75,6 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         {
             //// Arrange
             var document = await GetSwaggerDocument();
-            var json = document.ToJson();
             var settings = new SwaggerToCSharpControllerGeneratorSettings
             {
                 AspNetNamespace = "MyCustomNameSpace"
@@ -216,7 +205,13 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
         private async Task<SwaggerDocument> GetSwaggerDocument()
         {
-            var type = await JsonSchema4.FromTypeAsync(typeof(ComplexType));
+            JsonSchema4 complexTypeSchema = new JsonSchema4();
+            complexTypeSchema.Title = "ComplexType";
+            complexTypeSchema.Properties["Prop1"] = new JsonProperty() { Type = JsonObjectType.String, IsRequired = true };
+            complexTypeSchema.Properties["Prop2"] = new JsonProperty() { Type = JsonObjectType.Integer, IsRequired = true };
+            complexTypeSchema.Properties["Prop3"] = new JsonProperty() { Type = JsonObjectType.Boolean, IsRequired = true };
+            complexTypeSchema.Properties["Prop4"] = new JsonProperty() { Type = JsonObjectType.Object, Reference = complexTypeSchema, IsRequired = true };
+
             var typeString = await JsonSchema4.FromTypeAsync(typeof(string));
 
             var document = new SwaggerDocument();
@@ -304,7 +299,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
                                 IsRequired = false,
                                 Kind = SwaggerParameterKind.Body,
                                 Type = JsonObjectType.Object,
-                                Reference = type
+                                Reference = complexTypeSchema
                             }
                         }
                     }
@@ -323,14 +318,14 @@ namespace NSwag.CodeGeneration.CSharp.Tests
                                 IsRequired = true,
                                 Kind = SwaggerParameterKind.Body,
                                 Type = JsonObjectType.Object,
-                                Reference = type
+                                Reference = complexTypeSchema
                             }
                         }
                     }
                 }
             };
 
-            document.Definitions["ComplexType"] = type;
+            document.Definitions["ComplexType"] = complexTypeSchema;
 
             return document;
         }
