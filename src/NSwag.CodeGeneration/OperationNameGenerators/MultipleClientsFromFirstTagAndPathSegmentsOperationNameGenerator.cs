@@ -11,8 +11,8 @@ using System.Linq;
 
 namespace NSwag.CodeGeneration.OperationNameGenerators
 {
-    /// <summary>Generates the client and operation name based on the path segments (operation name = last segment, client name = second to last segment).</summary>
-    public class MultipleClientsFromFirstTagOperationNameGenerator : IOperationNameGenerator
+    /// <summary>Generates the client name based on the first tag and operation name based on the path segments (operation name = last segment, client name = first tag).</summary>
+    public class MultipleClientsFromFirstTagAndPathSegmentsOperationNameGenerator : IOperationNameGenerator
     {
         /// <summary>Gets a value indicating whether the generator supports multiple client classes.</summary>
         public bool SupportsMultipleClients { get; } = true;
