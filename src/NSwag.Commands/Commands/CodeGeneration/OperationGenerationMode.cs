@@ -17,6 +17,9 @@ namespace NSwag.Commands.CodeGeneration
         /// <summary>From path segments (operation name = last segment, client name = second to last segment).</summary>
         MultipleClientsFromPathSegments,
 
+        /// <summary>From the first SwaggerDocument tag.</summary>
+        MultipleClientsFromFirstTag,
+
         /// <summary>From the Swagger operation ID.</summary>
         SingleClientFromOperationId,
 
