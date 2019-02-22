@@ -44,6 +44,11 @@
                              ToolTip="AdditionalNamespaceUsages" 
                              Margin="0,0,0,12" />
 
+                    <CheckBox IsChecked="{Binding Command.GenerateAdditionalNamespaceUsagesFromSwaggerDefinitions, Mode=TwoWay}" 
+                              ToolTip="GenerateAdditionalNamespaceUsagesFromSwaggerDefinitions"
+                              Content="Generate additional namespaces usages from the swagger definitions" 
+                              Margin="0,0,0,12" />
+                    
                     <CheckBox IsChecked="{Binding Command.GenerateContractsOutput, Mode=TwoWay}" 
                               ToolTip="GenerateContractsOutput"
                               Content="Generate contracts output" 
@@ -109,7 +114,7 @@
                                 <CheckBox IsChecked="{Binding Command.UseBaseUrl, Mode=TwoWay}" 
                                           Content="Use the base URL for the request" 
                                           ToolTip="UseBaseUrl" Margin="0,0,0,12" />
-                                
+
                                 <CheckBox IsChecked="{Binding Command.GenerateBaseUrlProperty, Mode=TwoWay}" 
                                           Visibility="{Binding Command.UseBaseUrl, Converter={StaticResource VisibilityConverter}}"
                                           Content="Generate the BaseUrl property (must be defined on the base class otherwise)" 

@@ -51,11 +51,6 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets the namespace.</summary>
         public string Namespace => _settings.CSharpGeneratorSettings.Namespace ?? string.Empty;
 
-        /// <summary>Gets the all the namespace usages.</summary>
-        public string[] NamespaceUsages => (_outputType == ClientGeneratorOutputType.Contracts ?
-            _settings.AdditionalContractNamespaceUsages?.Where(n => n != null).ToArray() :
-            _settings.AdditionalNamespaceUsages?.Where(n => n != null).ToArray()) ?? new string[] { };
-
         /// <summary>Gets a value indicating whether to generate contract code.</summary>
         public bool GenerateContracts =>
             _outputType == ClientGeneratorOutputType.Full ||
@@ -103,6 +98,30 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
         /// <summary>Gets or sets a value indicating whether to generate the response class (only applied when WrapResponses == true, default: true).</summary>
         public bool GenerateResponseClasses => _settings.GenerateResponseClasses;
+
+        /// <summary>Gets all the namespace usages.</summary>
+        public string[] NamespaceUsages
+        {
+            get
+            {
+                var namespaceUsages = (_outputType == ClientGeneratorOutputType.Contracts ?
+                    _settings.AdditionalContractNamespaceUsages?.Where(n => n != null).ToArray() :
+                    _settings.AdditionalNamespaceUsages?.Where(n => n != null).ToArray()) ?? new string[] { };
+                
+                if (_settings.GenerateAdditionalNamespaceUsagesFromSwaggerDefinitions)
+                {
+                    return _document.Definitions.Keys
+                        .Where(k => k.Contains('.'))
+                        .Select(k => k.Remove(k.LastIndexOf('.')))
+                        .Where(k => !string.IsNullOrWhiteSpace(k))
+                        .Concat(namespaceUsages)
+                        .Distinct()
+                        .ToArray();
+                }
+
+                return namespaceUsages;
+            }
+        }
 
         /// <summary>Gets the response class names.</summary>
         public IEnumerable<string> ResponseClassNames

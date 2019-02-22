@@ -68,6 +68,9 @@ namespace NSwag.CodeGeneration.CSharp
         /// <summary>Gets or sets the additional namespace usages.</summary>
         public string[] AdditionalNamespaceUsages { get; set; }
 
+        /// <summary>Gets or sets a value indicating whether to generate additional namespaces usages from the swagger definitions (default: false).</summary>
+        public bool GenerateAdditionalNamespaceUsagesFromSwaggerDefinitions { get; set; }
+
         /// <summary>Gets or sets the additional contract namespace usages.</summary>
         public string[] AdditionalContractNamespaceUsages { get; set; }
 
