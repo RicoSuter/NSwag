@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="MultipleClientsFromPathSegmentsOperationNameGenerator.cs" company="NSwag">
+// <copyright file="MultipleClientsFromFirstTagAndPathSegmentsOperationNameGenerator.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
