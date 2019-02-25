@@ -15,6 +15,8 @@ namespace NSwag.CodeGeneration
     /// <summary>The default parameter name generator.</summary>
     public class DefaultParameterNameGenerator : IParameterNameGenerator
     {
+        private readonly Dictionary<string, short> _knowParameters = new Dictionary<string, short>();
+
         /// <summary>Generates the parameter name for the given parameter.</summary>
         /// <param name="parameter">The parameter.</param>
         /// <param name="allParameters">All parameters.</param>
@@ -34,7 +36,13 @@ namespace NSwag.CodeGeneration
                 .Replace("]", string.Empty), true);
 
             if (allParameters.Count(p => p.Name == parameter.Name) > 1)
-                return variableName + parameter.Kind;
+                variableName = variableName + parameter.Kind;
+
+            var key = $"{parameter.ParentOperation?.OperationId}.{variableName}";
+            if (!_knowParameters.ContainsKey(key))
+                _knowParameters.Add(key, 1);
+            else
+                variableName = $"{variableName}{_knowParameters[key]++}";
 
             return variableName;
         }
