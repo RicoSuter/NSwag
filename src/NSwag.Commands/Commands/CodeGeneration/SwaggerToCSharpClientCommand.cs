@@ -170,7 +170,7 @@ namespace NSwag.Commands.CodeGeneration
         }
 
         [Argument(Name = "GenerateAdditionalNamespaceUsagesFromSwaggerDefinitions", IsRequired = false,
-                  Description = "Specifies whether to generate additional namespaces usages from the swagger definitions.")]
+                  Description = "Specifies whether to generate additional namespace usages from the swagger definitions.")]
         public bool GenerateAdditionalNamespaceUsagesFromSwaggerDefinitions
         {
             get { return Settings.GenerateAdditionalNamespaceUsagesFromSwaggerDefinitions; }

@@ -46,7 +46,7 @@
 
                     <CheckBox IsChecked="{Binding Command.GenerateAdditionalNamespaceUsagesFromSwaggerDefinitions, Mode=TwoWay}" 
                               ToolTip="GenerateAdditionalNamespaceUsagesFromSwaggerDefinitions"
-                              Content="Generate additional namespaces usages from the swagger definitions" 
+                              Content="Generate additional namespace usages from the swagger definitions" 
                               Margin="0,0,0,12" />
                     
                     <CheckBox IsChecked="{Binding Command.GenerateContractsOutput, Mode=TwoWay}" 
