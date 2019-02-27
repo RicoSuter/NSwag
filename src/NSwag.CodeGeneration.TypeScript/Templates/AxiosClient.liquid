@@ -41,7 +41,7 @@
 {%     endif -%}
         let options_ = <AxiosRequestConfig>{
 {%     if operation.HasBody -%}
-            body: content_,
+            data: content_,
 {%     endif -%}
             method: "{{ operation.HttpMethodUpper | upcase }}",
             url: url_,
