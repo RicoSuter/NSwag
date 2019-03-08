@@ -25,7 +25,7 @@ namespace NSwag.CodeGeneration.CSharp
             AspNetNamespace = "System.Web.Http";
             RouteNamingStrategy = CSharpControllerRouteNamingStrategy.None;
             UseModelValidationAttributes = false;
-            RequiredAttributeType = "System.ComponentModel.DataAnnotations.Required";
+            RequiredAttributeType = "Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired";
         }
 
         /// <summary>Returns the route name for a controller method.</summary>
