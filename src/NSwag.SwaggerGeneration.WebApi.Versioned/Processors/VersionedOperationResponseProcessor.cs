@@ -1,3 +1,6 @@
+using System.Runtime.Remoting.Contexts;
+using NJsonSchema.Generation;
+
 namespace NSwag.SwaggerGeneration.WebApi.Versioned.Processors
 {
     using System;
@@ -75,6 +78,9 @@ namespace NSwag.SwaggerGeneration.WebApi.Versioned.Processors
                         .ConfigureAwait(false);
                     if (testSchema.Type == JsonObjectType.File)
                         testSchema.Type = JsonObjectType.Object;
+
+                    ResolveDescriptionFromActualType(testSchema, context, typeDescription);
+
                     response.Schema = testSchema;
                 }
 
@@ -136,6 +142,22 @@ namespace NSwag.SwaggerGeneration.WebApi.Versioned.Processors
         private bool IsVoidResponse(Type returnType)
         {
             return returnType == null || returnType.FullName == "System.Void";
+        }
+
+        private async Task ResolveDescriptionFromActualType(JsonSchema4 schema, VersionedOperationProcessorContext context, JsonTypeDescription typeDescription)
+        {
+            var originalType = context.ApiDescription.ResponseDescription.DeclaredType;
+
+            schema.ActualTypeSchema.Description = await originalType.GetXmlSummaryAsync();
+
+            foreach (var property in originalType.GetProperties())
+            {
+                var description = await property.GetXmlSummaryAsync();
+                if (schema.ActualTypeSchema.Properties.ContainsKey(property.Name))
+                {
+                    schema.ActualTypeSchema.Properties[property.Name].Description = await property.GetXmlSummaryAsync();
+                }
+            }
         }
     }
 }
