@@ -100,7 +100,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             //// Assert
             Assert.Contains("public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<string>> Foo(string test, bool test2);", code);
-            Assert.Contains("public abstract Microsoft.AspNetCore.Mvc.IActionResult Bar();", code);
+            Assert.Contains("public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> Bar();", code);
         }
 
         [Fact]
@@ -121,8 +121,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             //// Assert
             Assert.Contains("System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<string>> FooAsync(string test, bool test2);", code);
             Assert.Contains("public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<string>> Foo(string test, bool test2)", code);
-            Assert.Contains("Microsoft.AspNetCore.Mvc.IActionResult BarAsync();", code);
-            Assert.Contains("public Microsoft.AspNetCore.Mvc.IActionResult Bar()", code);
+            Assert.Contains("System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> BarAsync();", code);
+            Assert.Contains("public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> Bar()", code);
         }
 
         [Fact]

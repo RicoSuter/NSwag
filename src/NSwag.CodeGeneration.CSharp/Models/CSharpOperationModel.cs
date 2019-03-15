@@ -135,7 +135,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             {
                 if (UseActionResultType) {
                     return SyncResultType == "void"
-                        ? "Microsoft.AspNetCore.Mvc.IActionResult"
+                        ? "System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult>"
                         : "System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<" + SyncResultType + ">>";
                 }
 
