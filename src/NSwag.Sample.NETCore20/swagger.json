@@ -8,6 +8,11 @@
   "consumes": [
     "application/json"
   ],
+  "produces": [
+    "text/plain",
+    "application/json",
+    "text/json"
+  ],
   "paths": {
     "/pet": {
       "post": {
