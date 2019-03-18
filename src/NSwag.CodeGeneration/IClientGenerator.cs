@@ -19,5 +19,9 @@ namespace NSwag.CodeGeneration
         /// <param name="typeNameHint">The type name hint.</param>
         /// <returns>The type name.</returns>
         string GetTypeName(JsonSchema4 schema, bool isNullable, string typeNameHint);
+
+        /// <summary>Gets the file/binary response type name.</summary>
+        /// <returns>The type name.</returns>
+        string GetBinaryResponseTypeName();
     }
 }

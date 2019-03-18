@@ -199,7 +199,7 @@ namespace NSwag
                         RequestBody.IsRequired = parameter.IsRequired;
 
                         RequestBody.Content.Clear();
-                        RequestBody.Content.Add(parameter.Schema?.Type == JsonObjectType.File ?
+                        RequestBody.Content.Add(parameter.Schema?.IsBinary == true ?
                             "application/octet-stream" : "application/json", new OpenApiMediaType
                             {
                                 Schema = parameter.Schema,
