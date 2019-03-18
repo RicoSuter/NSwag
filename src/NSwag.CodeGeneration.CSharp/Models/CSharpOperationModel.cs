@@ -140,7 +140,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
                 var response = _operation.ActualResponses.Single(r => !HttpUtilities.IsSuccessStatusCode(r.Key));
                 var isNullable = response.Value.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
-                return _generator.GetTypeName(response.Value.GetActualResponseSchema(_operation), isNullable, "Exception");
+                return _generator.GetTypeName(response.Value.Schema, isNullable, "Exception");
             }
         }
 
@@ -214,7 +214,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         protected override string ResolveParameterType(SwaggerParameter parameter)
         {
             var schema = parameter.ActualSchema;
-            if (schema.Type == JsonObjectType.File)
+            if (schema.IsBinary)
             {
                 if (parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
                     return "System.Collections.Generic.IEnumerable<FileParameter>";

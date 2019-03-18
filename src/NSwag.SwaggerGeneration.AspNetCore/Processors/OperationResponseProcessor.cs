@@ -118,7 +118,8 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                     IsNullableRaw = true,
                     Schema = new JsonSchema4
                     {
-                        Type = JsonObjectType.File
+                        Type = _settings.SchemaType == SchemaType.Swagger2 ? JsonObjectType.File : JsonObjectType.String,
+                        Format = _settings.SchemaType == SchemaType.Swagger2 ? null : JsonFormatStrings.Binary,
                     }
                 };
             }

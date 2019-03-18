@@ -93,7 +93,7 @@ namespace NSwag.CodeGeneration.Models
 
         // TODO: Remove this (may not work correctly)
         /// <summary>Gets or sets a value indicating whether the operation has a result type (i.e. not void).</summary>
-        public bool HasResultType => GetSuccessResponseSchema() != null;
+        public bool HasResultType => GetSuccessResponse().Value?.IsEmpty(_operation) == false;
 
         /// <summary>Gets or sets the type of the result.</summary>
         public abstract string ResultType { get; }
@@ -104,13 +104,18 @@ namespace NSwag.CodeGeneration.Models
             get
             {
                 var response = GetSuccessResponse();
-                if (response.Value?.GetActualResponseSchema(_operation) == null)
+                if (response.Value == null || response.Value.IsEmpty(_operation))
                 {
                     return "void";
                 }
 
+                if (response.Value.IsBinary(_operation) == true)
+                {
+                    return _generator.GetBinaryResponseTypeName();
+                }
+
                 var isNullable = response.Value.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
-                return _generator.GetTypeName(response.Value.GetActualResponseSchema(_operation), isNullable, "Response");
+                return _generator.GetTypeName(response.Value.Schema, isNullable, "Response");
             }
         }
 
@@ -248,7 +253,7 @@ namespace NSwag.CodeGeneration.Models
         }
 
         /// <summary>Gets a value indicating whether a file response is expected from one of the responses.</summary>
-        public bool IsFile => _operation.ActualResponses.Any(r => r.Value.Schema?.ActualSchema.Type == JsonObjectType.File);
+        public bool IsFile => _operation.ActualResponses.Any(r => r.Value.Schema?.ActualSchema.IsBinary == true); // TODO: Use response.IsBinary directly
 
         /// <summary>Gets a value indicating whether to wrap the response of this operation.</summary>
         public bool WrapResponse => _settings.WrapResponses && (
@@ -271,14 +276,6 @@ namespace NSwag.CodeGeneration.Models
                 return new KeyValuePair<string, SwaggerResponse>(response.Key, response.Value);
 
             return new KeyValuePair<string, SwaggerResponse>("default", _operation.ActualResponses.FirstOrDefault(r => r.Key == "default").Value);
-        }
-
-        /// <summary>Gets the success response schema.</summary>
-        /// <returns>The response schema.</returns>
-        protected JsonSchema4 GetSuccessResponseSchema()
-        {
-            var respones = GetSuccessResponse();
-            return respones.Value?.GetActualResponseSchema(_operation);
         }
 
         /// <summary>Gets the name of the parameter variable.</summary>
