@@ -198,6 +198,12 @@ namespace NSwag.SwaggerGeneration.AspNetCore
                     operation.Operation.Consumes = consumes.ToList();
                 }
 
+                var produces = tuple.Item5;
+                if (produces.Any(c => !globalProduces.Contains(c)))
+                {
+                    operation.Operation.Produces = produces.ToList();
+                }
+
                 var addOperation = await RunOperationProcessorsAsync(document, apiDescription, controllerType, method, operation, allOperation, swaggerGenerator, schemaResolver).ConfigureAwait(false);
                 if (addOperation)
                 {
