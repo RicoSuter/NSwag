@@ -1,5 +1,5 @@
 ﻿{
-  "x-generator": "NSwag v12.0.15.0 (NJsonSchema v9.13.22.0 (Newtonsoft.Json v11.0.0.0))",
+  "x-generator": "NSwag v12.0.15.0 (NJsonSchema v9.13.24.0 (Newtonsoft.Json v11.0.0.0))",
   "swagger": "2.0",
   "info": {
     "title": "My Title",
@@ -389,6 +389,23 @@
           },
           "404": {
             "description": ""
+          }
+        }
+      }
+    },
+    "/pet/file": {
+      "post": {
+        "tags": [
+          "Pet"
+        ],
+        "operationId": "Pet_GetFile",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
           }
         }
       }

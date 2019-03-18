@@ -137,5 +137,11 @@ namespace NSwag.Sample
             await Task.Delay(0);
             return Ok(new ApiResponse());
         }
+
+        [HttpPost("file")]
+        public ActionResult GetFile()
+        {
+            return NoContent();
+        }
     }
 }
