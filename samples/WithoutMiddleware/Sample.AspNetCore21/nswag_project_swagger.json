@@ -11,6 +11,11 @@
     "text/json",
     "application/*+json"
   ],
+  "produces": [
+    "text/plain",
+    "application/json",
+    "text/json"
+  ],
   "paths": {
     "/api/Values": {
       "get": {
