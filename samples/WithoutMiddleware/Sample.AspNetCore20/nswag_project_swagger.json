@@ -23,11 +23,6 @@
           "Values"
         ],
         "operationId": "Values_GetAll",
-        "produces": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
         "responses": {
           "200": {
             "x-nullable": true,
@@ -76,11 +71,6 @@
           "Values"
         ],
         "operationId": "Values_Get",
-        "produces": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
         "parameters": [
           {
             "type": "integer",

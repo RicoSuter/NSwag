@@ -20,9 +20,6 @@
           "application/json",
           "application/*+json"
         ],
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "pet",
@@ -56,9 +53,6 @@
           "application/json-patch+json",
           "application/json",
           "application/*+json"
-        ],
-        "produces": [
-          "application/json"
         ],
         "parameters": [
           {
@@ -97,9 +91,6 @@
           "text/json",
           "application/*+json"
         ],
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "status",
@@ -134,9 +125,6 @@
           "Pet"
         ],
         "operationId": "Pet_FindByCategory",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "type": "string",
@@ -173,9 +161,6 @@
           "Pet"
         ],
         "operationId": "Pet_FindById",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "type": "integer",
@@ -215,9 +200,6 @@
           "Pet"
         ],
         "operationId": "Pet_EditPet2",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "type": "integer",
@@ -331,9 +313,6 @@
           "Pet"
         ],
         "operationId": "Pet_DeletePet",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "type": "integer",
@@ -373,9 +352,6 @@
         "operationId": "Pet_UploadImage",
         "consumes": [
           "multipart/form-data"
-        ],
-        "produces": [
-          "application/json"
         ],
         "parameters": [
           {

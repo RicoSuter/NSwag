@@ -18,9 +18,6 @@
         "consumes": [
           "application/json"
         ],
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "pet",
@@ -51,9 +48,6 @@
         ],
         "operationId": "Pet_EditPet",
         "consumes": [
-          "application/json"
-        ],
-        "produces": [
           "application/json"
         ],
         "parameters": [
@@ -87,9 +81,6 @@
           "Pet"
         ],
         "operationId": "Pet_FindByStatus",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "type": "array",
@@ -123,9 +114,6 @@
           "Pet"
         ],
         "operationId": "Pet_FindByCategory",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "type": "string",
@@ -162,9 +150,6 @@
           "Pet"
         ],
         "operationId": "Pet_FindById",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "type": "integer",
@@ -200,9 +185,6 @@
           "Pet"
         ],
         "operationId": "Pet_EditPet2",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "type": "integer",
@@ -312,9 +294,6 @@
           "Pet"
         ],
         "operationId": "Pet_DeletePet",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "type": "integer",
@@ -350,9 +329,6 @@
         "operationId": "Pet_UploadImage",
         "consumes": [
           "multipart/form-data"
-        ],
-        "produces": [
-          "application/json"
         ],
         "parameters": [
           {
