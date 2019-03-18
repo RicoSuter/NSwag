@@ -1,5 +1,5 @@
 ﻿{
-  "x-generator": "NSwag v12.0.11.0 (NJsonSchema v9.13.13.0 (Newtonsoft.Json v10.0.0.0))",
+  "x-generator": "NSwag v12.0.15.0 (NJsonSchema v9.13.24.0 (Newtonsoft.Json v10.0.0.0))",
   "swagger": "2.0",
   "info": {
     "title": "Hello world!",
@@ -45,7 +45,12 @@
               "$ref": "#/definitions/SerializableError"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -77,7 +82,12 @@
               "$ref": "#/definitions/SerializableError"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       }
     },
     "/pet/findByStatus": {
@@ -119,7 +129,12 @@
               "$ref": "#/definitions/SerializableError"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       }
     },
     "/pet/findByStatus/{skip}/{sortOrder}": {
@@ -177,7 +192,12 @@
               "$ref": "#/definitions/SerializableError"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       }
     },
     "/pet/findByCategory": {
@@ -215,7 +235,12 @@
               "$ref": "#/definitions/SerializableError"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       }
     },
     "/pet/{petId}": {
@@ -255,7 +280,12 @@
           "404": {
             "description": ""
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -355,7 +385,12 @@
           "404": {
             "description": ""
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       },
       "delete": {
         "tags": [
@@ -386,7 +421,12 @@
           "404": {
             "description": ""
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       }
     },
     "/pet/{petId}/uploadImage": {
@@ -435,7 +475,12 @@
           "404": {
             "description": ""
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       }
     },
     "/pet/RequiredAndOptional": {
@@ -506,7 +551,12 @@
           "200": {
             "description": ""
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       }
     },
     "/sample": {
@@ -528,7 +578,12 @@
               "type": "string"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       }
     }
   },
@@ -656,9 +711,9 @@
     }
   },
   "securityDefinitions": {
-    "TEST_HEADER": {
+    "TEST_APIKEY": {
       "type": "apiKey",
-      "description": "TEST_HEADER",
+      "description": "TEST_DESCRIPTION",
       "name": "TEST_HEADER",
       "in": "header"
     }

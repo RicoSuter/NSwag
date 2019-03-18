@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace NSwag.CodeGeneration.OperationNameGenerators
 {
@@ -55,9 +56,9 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         /// <summary>Converts the path to an operation name.</summary>
         /// <param name="path">The HTTP path.</param>
         /// <returns>The operation name.</returns>
-        internal static string ConvertPathToName(string path)
+        public static string ConvertPathToName(string path)
         {
-            var name = path
+            var name = Regex.Replace(path, @"\{.*?\}", "")
                 .Split('/', '-', '_')
                 .Where(part => !part.Contains("{") && !string.IsNullOrWhiteSpace(part))
                 .Aggregate("", (current, part) => current + CapitalizeFirst(part));

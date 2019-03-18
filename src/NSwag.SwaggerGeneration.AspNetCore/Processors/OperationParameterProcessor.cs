@@ -207,19 +207,21 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 
         private void UpdateConsumedTypes(SwaggerOperationDescription operationDescription)
         {
-            if (operationDescription.Operation.ActualParameters.Any(p => p.Type == JsonObjectType.File))
+            if (operationDescription.Operation.ActualParameters.Any(p => p.IsBinary))
+            {
                 operationDescription.Operation.Consumes = new List<string> { "multipart/form-data" };
+            }
         }
 
         private void RemoveUnusedPathParameters(SwaggerOperationDescription operationDescription, string httpPath)
         {
-            operationDescription.Path = Regex.Replace(httpPath, "{(.*?)(:(([^/]*)?))?}", match =>
+            operationDescription.Path = "/" + Regex.Replace(httpPath, "{(.*?)(:(([^/]*)?))?}", match =>
             {
                 var parameterName = match.Groups[1].Value.TrimEnd('?');
                 if (operationDescription.Operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.Path && string.Equals(p.Name, parameterName, StringComparison.OrdinalIgnoreCase)))
                     return "{" + parameterName + "}";
                 return string.Empty;
-            }).TrimEnd('/');
+            }).Trim('/');
         }
 
         private bool IsNullable(ParameterInfo parameter)
@@ -234,9 +236,9 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
         private async Task<bool> TryAddFileParameterAsync(
             OperationProcessorContext context, ExtendedApiParameterDescription extendedApiParameter)
         {
-            var info = _settings.ReflectionService.GetDescription(extendedApiParameter.ParameterType, extendedApiParameter.Attributes, _settings);
+            var typeInfo = _settings.ReflectionService.GetDescription(extendedApiParameter.ParameterType, extendedApiParameter.Attributes, _settings);
 
-            var isFileArray = IsFileArray(extendedApiParameter.ApiParameter.Type, info);
+            var isFileArray = IsFileArray(extendedApiParameter.ApiParameter.Type, typeInfo);
 
             var attributes = extendedApiParameter.Attributes
                 .Union(extendedApiParameter.ParameterType.GetTypeInfo().GetCustomAttributes());
@@ -244,7 +246,10 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
             var hasSwaggerFileAttribute = attributes.Any(a =>
                 a.GetType().IsAssignableTo("SwaggerFileAttribute", TypeNameStyle.Name));
 
-            if (info.Type == JsonObjectType.File || hasSwaggerFileAttribute || isFileArray)
+            if (typeInfo.Type == JsonObjectType.File ||
+                typeInfo.Format == JsonFormatStrings.Binary ||
+                hasSwaggerFileAttribute ||
+                isFileArray)
             {
                 await AddFileParameterAsync(context, extendedApiParameter, isFileArray).ConfigureAwait(false);
                 return true;
@@ -264,9 +269,21 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
         private bool IsFileArray(Type type, JsonTypeDescription typeInfo)
         {
             var isFormFileCollection = type.Name == "IFormFileCollection";
-            var isFileArray = typeInfo.Type == JsonObjectType.Array && type.GenericTypeArguments.Any() &&
-                _settings.ReflectionService.GetDescription(type.GenericTypeArguments[0], null, _settings).Type == JsonObjectType.File;
-            return isFormFileCollection || isFileArray;
+            if (isFormFileCollection)
+            {
+                return true;
+            }
+
+            if (typeInfo.Type == JsonObjectType.Array && type.GenericTypeArguments.Any())
+            {
+                var description = _settings.ReflectionService.GetDescription(type.GenericTypeArguments[0], null, _settings);
+                if (description.Type == JsonObjectType.File || description.Format == JsonFormatStrings.Binary)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private async Task<SwaggerParameter> AddBodyParameterAsync(OperationProcessorContext context, ExtendedApiParameterDescription extendedApiParameter)

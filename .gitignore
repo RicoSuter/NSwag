@@ -1,4 +1,4 @@
-﻿src/**/bin/**
+src/**/bin/**
 src/**/obj/**
 src/packages/**
 
@@ -69,3 +69,6 @@ NSwagStudio*.nupkg
 /src/.cr/*
 /samples/WithMiddleware/Sample.AspNetCore21.Nginx/.vs
 /samples/WithMiddleware/Sample.AspNetCore21.Nginx/Properties
+
+
+.editorconfig

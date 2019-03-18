@@ -42,10 +42,6 @@ namespace NSwag
         [JsonProperty(PropertyName = "x-nullable", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public bool? IsNullableRaw { internal get; set; }
 
-        /// <summary>Gets the actual non-nullable response schema (either oneOf schema or the actual schema).</summary>
-        [JsonIgnore]
-        public JsonSchema4 ActualResponseSchema => ActualResponse.GetActualResponseSchema();
-
         /// <summary>Gets or sets the expected child schemas of the base schema (can be used for generating enhanced typings/documentation).</summary>
         [JsonProperty(PropertyName = "x-expectedSchemas", Order = 7, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public ICollection<JsonExpectedSchema> ExpectedSchemas { get; set; }
@@ -80,8 +76,8 @@ namespace NSwag
 
             if (schema != null || example != null)
             {
-                var type = schema?.Type == JsonObjectType.File ? "application/octet-stream" : "application/json";
-                Content[type] = new OpenApiMediaType
+                var mimeType = schema?.IsBinary == true ? "application/octet-stream" : "application/json";
+                Content[mimeType] = new OpenApiMediaType
                 {
                     Schema = schema,
                     Example = example
@@ -114,15 +110,42 @@ namespace NSwag
             return ActualResponse.Schema?.IsNullable(schemaType) ?? false;
         }
 
-        private JsonSchema4 GetActualResponseSchema()
+        /// <summary>Checks whether this is a binary/file response.</summary>
+        /// <param name="operation">The operation the response belongs to.</param>
+        /// <returns>The result.</returns>
+        public bool IsBinary(SwaggerOperation operation)
         {
-            if (Content.ContainsKey("application/octet-stream") && !Content.ContainsKey("application/json"))
-                return new JsonSchema4 { Type = JsonObjectType.File };
+            if (operation.ActualResponses.SingleOrDefault(r => r.Value == this).Key != "204")
+            {
+                var contentIsBinary =
+                    ActualResponse.Content.ContainsKey("application/octet-stream") &&
+                    !ActualResponse.Content.ContainsKey("application/json");
 
-            if ((Parent as SwaggerOperation)?.ActualProduces?.Contains("application/octet-stream") == true)
-                return new JsonSchema4 { Type = JsonObjectType.File };
+                if (contentIsBinary)
+                {
+                    return true;
+                }
 
-            return Schema?.ActualSchema;
+                var producesIsBinary = (ActualResponse.Parent as SwaggerOperation)?
+                    .ActualProduces?.Contains("application/octet-stream") == true;
+
+                if (producesIsBinary)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>Checks whether this is an empty response.</summary>
+        /// <param name="operation">The operation the response belongs to.</param>
+        /// <returns>The result.</returns>
+        public bool IsEmpty(SwaggerOperation operation)
+        {
+            return !IsBinary(operation) &&
+                ActualResponse.Content.Count == 0 &&
+                ActualResponse.Schema?.ActualSchema == null;
         }
 
         #region Implementation of IJsonReference

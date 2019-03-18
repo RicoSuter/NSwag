@@ -65,7 +65,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             get
             {
                 var response = GetSuccessResponse();
-                var isNullable = response?.IsNullable(_settings.CodeGeneratorSettings.SchemaType) == true;
+                var isNullable = response.Value?.IsNullable(_settings.CodeGeneratorSettings.SchemaType) == true;
 
                 var resultType = isNullable && SupportsStrictNullChecks && UnwrappedResultType != "void" && UnwrappedResultType != "null" ?
                     UnwrappedResultType + " | null" :
@@ -126,8 +126,8 @@ namespace NSwag.CodeGeneration.TypeScript.Models
                     return "string";
 
                 return string.Join(" | ", _operation.ActualResponses
-                    .Where(r => !HttpUtilities.IsSuccessStatusCode(r.Key) && r.Value.ActualResponseSchema != null)
-                    .Select(r => _generator.GetTypeName(r.Value.ActualResponseSchema, r.Value.IsNullable(_settings.CodeGeneratorSettings.SchemaType), "Exception"))
+                    .Where(r => !HttpUtilities.IsSuccessStatusCode(r.Key) && r.Value.Schema != null)
+                    .Select(r => _generator.GetTypeName(r.Value.Schema, r.Value.IsNullable(_settings.CodeGeneratorSettings.SchemaType), "Exception"))
                     .Concat(new[] { "string" }));
             }
         }
@@ -157,7 +157,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         protected override string ResolveParameterType(SwaggerParameter parameter)
         {
             var schema = parameter.ActualSchema;
-            if (schema.Type == JsonObjectType.File)
+            if (schema.IsBinary)
             {
                 if (parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
                     return "FileParameter[]";
@@ -169,6 +169,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         }
 
         /// <summary>Creates the response model.</summary>
+        /// <param name="operation">The operation.</param>
         /// <param name="statusCode">The status code.</param>
         /// <param name="response">The response.</param>
         /// <param name="exceptionSchema">The exception schema.</param>
@@ -176,10 +177,10 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <param name="resolver">The resolver.</param>
         /// <param name="settings">The settings.</param>
         /// <returns></returns>
-        protected override TypeScriptResponseModel CreateResponseModel(string statusCode, SwaggerResponse response,
+        protected override TypeScriptResponseModel CreateResponseModel(SwaggerOperation operation, string statusCode, SwaggerResponse response,
             JsonSchema4 exceptionSchema, IClientGenerator generator, TypeResolverBase resolver, ClientGeneratorBaseSettings settings)
         {
-            return new TypeScriptResponseModel(this, statusCode, response, response == GetSuccessResponse(),
+            return new TypeScriptResponseModel(this, operation, statusCode, response, response == GetSuccessResponse().Value,
                 exceptionSchema, generator, resolver, (SwaggerToTypeScriptClientGeneratorSettings)settings);
         }
     }

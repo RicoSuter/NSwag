@@ -73,16 +73,21 @@ namespace NSwag.CodeGeneration.TypeScript
             if (schema == null)
                 return "void";
 
-            if (schema.ActualSchema.Type == JsonObjectType.File)
-            {
-                return Settings.Template != TypeScriptTemplate.JQueryCallbacks &&
-                       Settings.Template != TypeScriptTemplate.JQueryPromises ? "FileResponse" : "any";
-            }
+            if (schema.ActualTypeSchema.IsBinary)
+                return GetBinaryResponseTypeName();
 
-            if (schema.ActualSchema.IsAnyType)
+            if (schema.ActualTypeSchema.IsAnyType)
                 return "any";
 
             return _resolver.Resolve(schema.ActualSchema, isNullable, typeNameHint);
+        }
+
+        /// <summary>Gets the file response type name.</summary>
+        /// <returns>The type name.</returns>
+        public override string GetBinaryResponseTypeName()
+        {
+            return Settings.Template != TypeScriptTemplate.JQueryCallbacks &&
+                   Settings.Template != TypeScriptTemplate.JQueryPromises ? "FileResponse" : "any";
         }
 
         /// <summary>Generates the file.</summary>
