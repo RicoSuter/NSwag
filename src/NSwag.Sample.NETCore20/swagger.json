@@ -1,5 +1,5 @@
 ﻿{
-  "x-generator": "NSwag v12.0.15.0 (NJsonSchema v9.13.24.0 (Newtonsoft.Json v10.0.0.0))",
+  "x-generator": "NSwag v12.0.16.0 (NJsonSchema v9.13.25.0 (Newtonsoft.Json v10.0.0.0))",
   "swagger": "2.0",
   "info": {
     "title": "Hello world!",
@@ -20,9 +20,6 @@
           "Pet"
         ],
         "operationId": "Pet_AddPet",
-        "consumes": [
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "pet",
@@ -54,9 +51,6 @@
           "Pet"
         ],
         "operationId": "Pet_EditPet",
-        "consumes": [
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "pet",
