@@ -26,8 +26,11 @@ namespace NSwag
         private bool _explode;
         private int? _position;
 
+        /// <summary>
+        /// Parent Operation
+        /// </summary>
         [JsonIgnore]
-        internal SwaggerOperation ParentOperation => Parent as SwaggerOperation;
+        public SwaggerOperation ParentOperation => Parent as SwaggerOperation;
 
         /// <summary>Gets or sets the name.</summary>
         [JsonProperty(PropertyName = "name", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
@@ -195,12 +198,12 @@ namespace NSwag
         /// <summary>Gets a value indicating whether this is an XML body parameter.</summary>
         [JsonIgnore]
         public bool IsXmlBodyParameter => Kind == SwaggerParameterKind.Body &&
-                                          (Parent as SwaggerOperation)?.ActualConsumes?.FirstOrDefault() == "application/xml" &&
+                                          ParentOperation?.ActualConsumes?.FirstOrDefault() == "application/xml" &&
                                           ((SwaggerOperation)Parent).ActualConsumes?.Contains("application/json") != true;
 
         /// <summary>Gets a value indicating whether this is an binary body parameter.</summary>
         [JsonIgnore]
         public bool IsBinaryBodyParameter => Kind == SwaggerParameterKind.Body &&
-                                             (Parent as SwaggerOperation)?.ActualConsumes?.FirstOrDefault() == "application/octet-stream";
+                                             ParentOperation?.ActualConsumes?.FirstOrDefault() == "application/octet-stream";
     }
 }
