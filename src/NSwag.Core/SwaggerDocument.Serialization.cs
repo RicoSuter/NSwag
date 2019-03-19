@@ -82,8 +82,8 @@ namespace NSwag
                 resolver.IgnoreProperty(typeof(SwaggerDocument), "basePath");
                 resolver.IgnoreProperty(typeof(SwaggerDocument), "schemes");
 
-                //resolver.IgnoreProperty(typeof(SwaggerDocument), "consumes");
-                //resolver.IgnoreProperty(typeof(SwaggerDocument), "produces");
+                resolver.IgnoreProperty(typeof(SwaggerDocument), "consumes");
+                resolver.IgnoreProperty(typeof(SwaggerDocument), "produces");
 
                 resolver.IgnoreProperty(typeof(SwaggerOperation), "schemes");
                 resolver.IgnoreProperty(typeof(SwaggerOperation), "consumes");
