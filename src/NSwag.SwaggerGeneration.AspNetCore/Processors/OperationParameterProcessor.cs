@@ -209,7 +209,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
         {
             if (operationDescription.Operation.ActualParameters.Any(p => p.IsBinary))
             {
-                operationDescription.Operation.Consumes = new List<string> { "multipart/form-data" };
+                operationDescription.Operation.TryAddConsumes("multipart/form-data");
             }
         }
 
@@ -298,7 +298,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
             var parameterType = extendedApiParameter.ParameterType;
             if (parameterType.Name == "XmlDocument" || parameterType.InheritsFrom("XmlDocument", TypeNameStyle.Name))
             {
-                operation.Consumes = new List<string> { "application/xml" };
+                operation.TryAddConsumes("application/xml");
                 operationParameter = new SwaggerParameter
                 {
                     Name = extendedApiParameter.ApiParameter.Name,
@@ -315,7 +315,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
             }
             else if (parameterType.IsAssignableTo("System.IO.Stream", TypeNameStyle.FullName))
             {
-                operation.Consumes = new List<string> { "application/octet-stream" };
+                operation.TryAddConsumes("application/octet-stream");
                 operationParameter = new SwaggerParameter
                 {
                     Name = extendedApiParameter.ApiParameter.Name,
