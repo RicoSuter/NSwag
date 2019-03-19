@@ -36,7 +36,9 @@
 {% if SerializeTypeInformation -%}
             settings.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto;
 {% endif -%}
+{% if GenerateUpdateJsonSerializerSettingsMethod -%}
             UpdateJsonSerializerSettings(settings);
+{% endif -%}
             return settings;
         });
     }
