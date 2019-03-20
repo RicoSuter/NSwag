@@ -200,7 +200,9 @@ namespace NSwag
 
         /// <summary>Gets a value indicating whether this is an binary body parameter.</summary>
         [JsonIgnore]
-        public bool IsBinaryBodyParameter => Kind == SwaggerParameterKind.Body &&
-                                             (Parent as SwaggerOperation)?.ActualConsumes?.FirstOrDefault() == "application/octet-stream";
+        public bool IsBinaryBodyParameter => !IsXmlBodyParameter &&
+                                             Kind == SwaggerParameterKind.Body &&
+                                             ((SwaggerOperation)Parent).ActualConsumes?.Any() == true &&
+                                             ((SwaggerOperation)Parent).ActualConsumes?.Contains("application/json") != true;
     }
 }
