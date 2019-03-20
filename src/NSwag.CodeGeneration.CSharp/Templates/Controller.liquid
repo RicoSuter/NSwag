@@ -111,6 +111,7 @@ public class FromHeaderBinding : {{ AspNetNamespace }}.Controllers.HttpParameter
     public override System.Threading.Tasks.Task ExecuteBindingAsync({{ AspNetNamespace }}.Metadata.ModelMetadataProvider metadataProvider, {{ AspNetNamespace }}.Controllers.HttpActionContext actionContext, System.Threading.CancellationToken cancellationToken)
     {
         System.Collections.Generic.IEnumerable<string> values;
+        var isBound = false;
         if (actionContext.Request.Headers.TryGetValues(_name, out values))
         {
             string tempVal = null;
@@ -126,9 +127,13 @@ public class FromHeaderBinding : {{ AspNetNamespace }}.Controllers.HttpParameter
             {
                 var actionValue = System.Convert.ChangeType(tempVal, Descriptor.ParameterType);
                 actionContext.ActionArguments[Descriptor.ParameterName] = actionValue;
+                isBound = true;
             }
         }
-
+        if (!isBound && Descriptor.IsOptional)
+        {
+            actionContext.ActionArguments[Descriptor.ParameterName] = Descriptor.DefaultValue;
+        }
         var taskSource = new System.Threading.Tasks.TaskCompletionSource<object>();
         taskSource.SetResult(null);
         return taskSource.Task;
