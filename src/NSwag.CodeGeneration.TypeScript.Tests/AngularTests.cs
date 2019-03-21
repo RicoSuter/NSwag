@@ -61,6 +61,15 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
 
         }
 
+        public class UrlEncodedRequestConsumingController: Controller
+        {
+            [HttpPost]
+            [Consumes("application/x-www-form-urlencoded")]
+            public void AddMessage([FromForm]Foo message, [FromForm]string messageId)
+            {
+            }
+        }
+
         [Fact]
         public async Task When_return_value_is_void_then_client_returns_observable_of_void()
         {
@@ -161,6 +170,31 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             //// Assert
             Assert.Contains("this.request = new RequestBodyBase()", code);
             Assert.Contains("this.request = new RequestBody()",     code);
+        }
+                
+        [Fact]
+        public async Task When_consumes_is_url_encoded_then_construct_url_encoded_request()
+        {
+            //// Arrange
+            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
+            var json = document.ToJson();
+
+            //// Act
+            var codeGen = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
+            {
+                Template = TypeScriptTemplate.Angular,
+                TypeScriptGeneratorSettings =
+                {
+                    TypeScriptVersion = 2.0m
+                }
+            });
+            var code = codeGen.GenerateFile();
+
+            //// Assert
+            Assert.Contains("content_", code);
+            Assert.DoesNotContain("FormData", code);
+            Assert.Contains("\"Content-Type\": \"application/x-www-form-urlencoded\"", code);
         }
     }
 }
