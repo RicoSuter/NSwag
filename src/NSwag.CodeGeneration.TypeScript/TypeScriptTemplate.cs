@@ -27,6 +27,9 @@ namespace NSwag.CodeGeneration.TypeScript
         Fetch,
 
         /// <summary>Uses the Aurelia fetch service.</summary>
-        Aurelia
+        Aurelia,
+
+        /// <summary>Uses the Axios service.</summary>
+        Axios,
     }
 }

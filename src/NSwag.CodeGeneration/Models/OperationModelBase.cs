@@ -38,7 +38,7 @@ namespace NSwag.CodeGeneration.Models
             _settings = settings;
 
             var responses = _operation.ActualResponses
-                .Select(response => CreateResponseModel(response.Key, response.Value, exceptionSchema, generator, settings))
+                .Select(response => CreateResponseModel(operation, response.Key, response.Value, exceptionSchema, generator, resolver, settings))
                 .ToList();
 
             var defaultResponse = responses.SingleOrDefault(r => r.StatusCode == "default");
@@ -50,13 +50,16 @@ namespace NSwag.CodeGeneration.Models
         }
 
         /// <summary>Creates the response model.</summary>
+        /// <param name="operation">The operation.</param>
         /// <param name="statusCode">The status code.</param>
         /// <param name="response">The response.</param>
         /// <param name="exceptionSchema">The exception schema.</param>
         /// <param name="generator">The generator.</param>
+        /// <param name="resolver">The resolver.</param>
         /// <param name="settings">The settings.</param>
         /// <returns>The response model.</returns>
-        protected abstract TResponseModel CreateResponseModel(string statusCode, SwaggerResponse response, JsonSchema4 exceptionSchema, IClientGenerator generator, ClientGeneratorBaseSettings settings);
+        protected abstract TResponseModel CreateResponseModel(SwaggerOperation operation, string statusCode, SwaggerResponse response, JsonSchema4 exceptionSchema, IClientGenerator generator,
+            TypeResolverBase resolver, ClientGeneratorBaseSettings settings);
 
         /// <summary>Gets the operation ID.</summary>
         public string Id => _operation.OperationId;
@@ -65,7 +68,7 @@ namespace NSwag.CodeGeneration.Models
         public string Path { get; set; }
 
         /// <summary>Gets or sets the HTTP method.</summary>
-        public SwaggerOperationMethod HttpMethod { get; set; }
+        public string HttpMethod { get; set; }
 
         /// <summary>Gets or sets the name of the operation.</summary>
         public string OperationName { get; set; }
@@ -90,14 +93,7 @@ namespace NSwag.CodeGeneration.Models
 
         // TODO: Remove this (may not work correctly)
         /// <summary>Gets or sets a value indicating whether the operation has a result type (i.e. not void).</summary>
-        public bool HasResultType
-        {
-            get
-            {
-                var response = GetSuccessResponse();
-                return response?.ActualResponseSchema != null;
-            }
-        }
+        public bool HasResultType => GetSuccessResponse().Value?.IsEmpty(_operation) == false;
 
         /// <summary>Gets or sets the type of the result.</summary>
         public abstract string ResultType { get; }
@@ -108,11 +104,18 @@ namespace NSwag.CodeGeneration.Models
             get
             {
                 var response = GetSuccessResponse();
-                if (response?.ActualResponseSchema == null)
+                if (response.Value == null || response.Value.IsEmpty(_operation))
+                {
                     return "void";
+                }
 
-                var isNullable = response.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
-                return _generator.GetTypeName(response.ActualResponseSchema, isNullable, "Response");
+                if (response.Value.IsBinary(_operation) == true)
+                {
+                    return _generator.GetBinaryResponseTypeName();
+                }
+
+                var isNullable = response.Value.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
+                return _generator.GetTypeName(response.Value.Schema, isNullable, "Response");
             }
         }
 
@@ -125,8 +128,11 @@ namespace NSwag.CodeGeneration.Models
             get
             {
                 var response = GetSuccessResponse();
-                if (response != null)
-                    return ConversionUtilities.TrimWhiteSpaces(response.Description);
+                if (response.Value != null)
+                {
+                    return ConversionUtilities.TrimWhiteSpaces(response.Value.Description);
+                }
+
                 return null;
             }
         }
@@ -247,7 +253,7 @@ namespace NSwag.CodeGeneration.Models
         }
 
         /// <summary>Gets a value indicating whether a file response is expected from one of the responses.</summary>
-        public bool IsFile => _operation.ActualResponses.Any(r => r.Value.Schema?.ActualSchema.Type == JsonObjectType.File);
+        public bool IsFile => _operation.ActualResponses.Any(r => r.Value.Schema?.ActualSchema.IsBinary == true); // TODO: Use response.IsBinary directly
 
         /// <summary>Gets a value indicating whether to wrap the response of this operation.</summary>
         public bool WrapResponse => _settings.WrapResponses && (
@@ -260,16 +266,16 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets the success response.</summary>
         /// <returns>The response.</returns>
-        protected SwaggerResponse GetSuccessResponse()
+        protected KeyValuePair<string, SwaggerResponse> GetSuccessResponse()
         {
             if (_operation.ActualResponses.Any(r => r.Key == "200"))
-                return _operation.ActualResponses.Single(r => r.Key == "200").Value;
+                return new KeyValuePair<string, SwaggerResponse>("200", _operation.ActualResponses.Single(r => r.Key == "200").Value);
 
-            var response = _operation.ActualResponses.FirstOrDefault(r => HttpUtilities.IsSuccessStatusCode(r.Key)).Value;
-            if (response != null)
-                return response;
+            var response = _operation.ActualResponses.FirstOrDefault(r => HttpUtilities.IsSuccessStatusCode(r.Key));
+            if (response.Value != null)
+                return new KeyValuePair<string, SwaggerResponse>(response.Key, response.Value);
 
-            return _operation.ActualResponses.FirstOrDefault(r => r.Key == "default").Value;
+            return new KeyValuePair<string, SwaggerResponse>("default", _operation.ActualResponses.FirstOrDefault(r => r.Key == "default").Value);
         }
 
         /// <summary>Gets the name of the parameter variable.</summary>

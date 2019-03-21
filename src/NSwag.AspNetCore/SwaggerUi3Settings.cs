@@ -89,6 +89,8 @@ namespace NSwag.AspNetCore
             html = html.Replace("{RedirectUrl}", string.IsNullOrEmpty(ServerUrl) ?
                 "window.location.origin + \"" + TransformToExternalPath(Path, request) + "/oauth2-redirect.html\"" :
                 "\"" + ServerUrl + TransformToExternalPath(Path, request) + "/oauth2-redirect.html\"");
+            html = html.Replace("{CustomStyle}", GetCustomStyleHtml());
+            html = html.Replace("{CustomScript}", GetCustomScriptHtml());
 
             return html;
         }

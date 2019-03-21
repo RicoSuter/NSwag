@@ -141,7 +141,7 @@ namespace NSwag.CodeGeneration.Models
         public bool IsStringArray => IsArray && Schema.Item?.ActualSchema.Type.HasFlag(JsonObjectType.String) == true;
 
         /// <summary>Gets a value indicating whether this is a file parameter.</summary>
-        public bool IsFile => Schema.Type.HasFlag(JsonObjectType.File);
+        public bool IsFile => Schema.IsBinary;
 
         /// <summary>Gets a value indicating whether the parameter is of type dictionary.</summary>
         public bool IsDictionary => Schema.IsDictionary;

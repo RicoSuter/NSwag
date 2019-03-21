@@ -1,16 +1,12 @@
 ﻿{
-  "x-generator": "NSwag v12.0.7.0 (NJsonSchema v9.13.4.0 (Newtonsoft.Json v11.0.0.0))",
+  "x-generator": "NSwag v12.0.17.0 (NJsonSchema v9.13.26.0 (Newtonsoft.Json v11.0.0.0))",
   "swagger": "2.0",
   "info": {
     "title": "ljlkjlkj",
     "version": "1.0.0"
   },
-  "consumes": [
-    "application/json-patch+json",
-    "application/json",
-    "application/*+json",
-    "text/json",
-    "multipart/form-data"
+  "produces": [
+    "application/json"
   ],
   "paths": {
     "/pet": {
@@ -23,9 +19,6 @@
           "application/json-patch+json",
           "application/json",
           "application/*+json"
-        ],
-        "produces": [
-          "application/json"
         ],
         "parameters": [
           {
@@ -60,9 +53,6 @@
           "application/json-patch+json",
           "application/json",
           "application/*+json"
-        ],
-        "produces": [
-          "application/json"
         ],
         "parameters": [
           {
@@ -101,9 +91,6 @@
           "text/json",
           "application/*+json"
         ],
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "status",
@@ -138,9 +125,6 @@
           "Pet"
         ],
         "operationId": "Pet_FindByCategory",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "type": "string",
@@ -177,9 +161,6 @@
           "Pet"
         ],
         "operationId": "Pet_FindById",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "type": "integer",
@@ -219,9 +200,6 @@
           "Pet"
         ],
         "operationId": "Pet_EditPet2",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "type": "integer",
@@ -335,9 +313,6 @@
           "Pet"
         ],
         "operationId": "Pet_DeletePet",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "type": "integer",
@@ -377,9 +352,6 @@
         "operationId": "Pet_UploadImage",
         "consumes": [
           "multipart/form-data"
-        ],
-        "produces": [
-          "application/json"
         ],
         "parameters": [
           {

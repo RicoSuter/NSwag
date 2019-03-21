@@ -1,6 +1,6 @@
 ## NSwag: The Swagger/OpenAPI toolchain for .NET, Web API and TypeScript
 
-[![NuGet Version](https://img.shields.io/nuget/v/NSwag.Core.svg)](https://www.nuget.org/packages?q=NSwag)
+ [![NuGet Version](https://img.shields.io/nuget/v/NSwag.Core.svg)](https://www.nuget.org/packages?q=NSwag)
 [![npm](https://img.shields.io/npm/v/nswag.svg)](https://www.npmjs.com/package/nswag)
 [![Build status](https://img.shields.io/appveyor/ci/rsuter/nswag.svg?label=build)](https://ci.appveyor.com/project/rsuter/nswag)
 [![Build status](https://img.shields.io/appveyor/ci/rsuter/nswag-25x6o.svg?label=CI+build)](https://ci.appveyor.com/project/rsuter/nswag-25x6o)
@@ -8,6 +8,8 @@
 [![Gitter](https://img.shields.io/badge/gitter-join%20chat-1dce73.svg)](https://gitter.im/NSwag/NSwag)
 [![StackOverflow](https://img.shields.io/badge/questions-on%20StackOverflow-orange.svg?style=flat)](http://stackoverflow.com/questions/tagged/nswag)
 [![Wiki](https://img.shields.io/badge/docs-in%20wiki-orange.svg?style=flat)](https://github.com/rsuter/nswag/wiki)
+[![Backers on Open Collective](https://opencollective.com/NSwag/backers/badge.svg)](#backers) 
+[![Sponsors on Open Collective](https://opencollective.com/NSwag/sponsors/badge.svg)](#sponsors)
 
 **[NSwag v12 released!](https://github.com/RSuter/NSwag/releases/tag/NSwag-Build-1032)**
 
@@ -30,11 +32,11 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 **Ways to use the toolchain:** 
 
 - Simple to use Windows GUI, [NSwagStudio](https://github.com/NSwag/NSwag/wiki/NSwagStudio)
-- Via [command line](https://github.com/NSwag/NSwag/wiki/CommandLine) (Windows, Mac and Linux support through [Mono](http://www.mono-project.com/) or .NET Core console binary, also via [NPM package](https://www.npmjs.com/package/nswag))
 - By using the [Swagger or Swagger UI OWIN and ASP.NET Core Middlewares](https://github.com/NSwag/NSwag/wiki/Middlewares) (also serves the [Swagger UI](http://swagger.io/swagger-ui)) (recommended)
+- Via [command line](https://github.com/NSwag/NSwag/wiki/CommandLine) (Windows, Mac and Linux support through [Mono](http://www.mono-project.com/) or .NET Core console binary, also via [NPM package](https://www.npmjs.com/package/nswag))
 - In your C# code, via [NuGet](https://www.nuget.org/packages?q=NSwag)
 - In your [MSBuild targets](https://github.com/NSwag/NSwag/wiki/MSBuild)
-- In your [Cake](https://cakebuild.net) scripts using [Cake.NSwag](https://agc93.github.io/Cake.NSwag/doc/intro.html) (external community project, may not use latest NSwag version)
+- With [ServiceProjectReference](https://github.com/NSwag/NSwag/wiki/ServiceProjectReference) tags in your .csproj (preview)
 
 **Tutorials:**
 
@@ -74,6 +76,7 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 			- Angular (v2+) using the http service, `Angular`
 			- window.fetch API and ES6 promises, `Fetch` (use this template in your React/Redux app)
 			- Aurelia using the HttpClient from aurelia-fetch-client, `Aurelia` (based on the Fetch template)
+			- `Axios` (preview)
 	    
 **Downloads**
 
@@ -89,25 +92,25 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 
 Specification:
 
-- **[NSwag.Core](https://www.nuget.org/packages/NSwag.Core/)** (.NET Standard 1.0 and .NET 4.5): 
+- **[NSwag.Core](https://www.nuget.org/packages/NSwag.Core/)** (.NET Standard 1.0 / 2.0 and .NET 4.5): 
     - The Swagger reader and writer classes, see [SwaggerDocument](https://github.com/RSuter/NSwag/wiki/SwaggerDocument)
-- **[NSwag.Core.Yaml](https://www.nuget.org/packages/NSwag.Core.Yaml/)** (.NET Standard 1.3 and .NET 4.5): 
+- **[NSwag.Core.Yaml](https://www.nuget.org/packages/NSwag.Core.Yaml/)** (.NET Standard 1.3 / 2.0 and .NET 4.5): 
     - Extensions to read and write YAML Swagger specifications
-- **[NSwag.Annotations](https://www.nuget.org/packages/NSwag.Annotations/)** (.NET Standard 1.0 and .NET 4.5): 
+- **[NSwag.Annotations](https://www.nuget.org/packages/NSwag.Annotations/)** (.NET Standard 1.0 / 2.0 and .NET 4.5): 
     - Attributes to decorate Web API controllers to control the Swagger generation
 
 Swagger generation:
 
-- **[NSwag.SwaggerGeneration](https://www.nuget.org/packages/NSwag.SwaggerGeneration/)** (.NET Standard 1.0 and .NET 4.5): 
+- **[NSwag.SwaggerGeneration](https://www.nuget.org/packages/NSwag.SwaggerGeneration/)** (.NET Standard 1.0 / 2.0 and .NET 4.5): 
     - Classes to generate Swagger specifications
-- **[NSwag.SwaggerGeneration.WebApi](https://www.nuget.org/packages/NSwag.SwaggerGeneration.WebApi/)** (.NET Standard 1.0 and .NET 4.5): 
+- **[NSwag.SwaggerGeneration.WebApi](https://www.nuget.org/packages/NSwag.SwaggerGeneration.WebApi/)** (.NET Standard 1.0 / 2.0 and .NET 4.5): 
     - Classes to generate Swagger specifications from Web API controllers, see [WebApiToSwaggerGenerator](https://github.com/RSuter/NSwag/wiki/WebApiToSwaggerGenerator)
-- **[NSwag.SwaggerGeneration.AspNetCore](https://www.nuget.org/packages/NSwag.SwaggerGeneration.AspNetCore/)** (.NET Standard 1.6 and .NET 4.5.1): 
+- **[NSwag.SwaggerGeneration.AspNetCore](https://www.nuget.org/packages/NSwag.SwaggerGeneration.AspNetCore/)** (.NET Standard 1.6 / 2.0 and .NET 4.5.1): 
     - (Experimental) Classes to generate Swagger specifications from ASP.NET Core MVC controllers using the ApiExplorer
 
 Code generation:
 
-- **[NSwag.CodeGeneration](https://www.nuget.org/packages/NSwag.CodeGeneration/)** (.NET Standard 1.3 / .NET 4.5.1): 
+- **[NSwag.CodeGeneration](https://www.nuget.org/packages/NSwag.CodeGeneration/)** (.NET Standard 1.3 / 2.0 / .NET 4.5.1): 
     - Base classes to generate clients from Swagger specifications
 - **[NSwag.CodeGeneration.CSharp](https://www.nuget.org/packages/NSwag.CodeGeneration.CSharp/)** (.NET Standard 1.3 and .NET 4.5.1): 
     - Classes to generate C# clients from Swagger specifications, see [SwaggerToCSharpClientGenerator](https://github.com/RSuter/NSwag/wiki/SwaggerToCSharpClientGenerator) and [SwaggerToCSharpControllerGenerator](https://github.com/RSuter/NSwag/wiki/SwaggerToCSharpControllerGenerator)
@@ -116,7 +119,7 @@ Code generation:
 
 ASP.NET and ASP.NET Core:
 
-- **[NSwag.AspNetCore](https://www.nuget.org/packages/NSwag.AspNetCore/)** (.NET Standard 1.6 and .NET 4.5.1+): 
+- **[NSwag.AspNetCore](https://www.nuget.org/packages/NSwag.AspNetCore/)** (.NET Standard 1.6 / 2.0 and .NET 4.5.1+): 
 - **[NSwag.AspNet.Owin](https://www.nuget.org/packages/NSwag.AspNet.Owin/)** (.NET 4.5+): 
     - [ASP.NET Core/OWIN middlewares](https://github.com/NSwag/NSwag/wiki/Middlewares) for serving Swagger specifications and Swagger UI
 - **[NSwag.AspNet.WebApi](https://www.nuget.org/packages/NSwag.AspNet.WebApi/)** (.NET 4.5+): 
@@ -124,9 +127,9 @@ ASP.NET and ASP.NET Core:
 
 Frontends:
 
-- **[NSwag.AssemblyLoader](https://www.nuget.org/packages/NSwag.AssemblyLoader/)** (.NET Standard 1.6 and .NET 4.5.1): 
+- **[NSwag.AssemblyLoader](https://www.nuget.org/packages/NSwag.AssemblyLoader/)** (.NET Standard 1.6 / 2.0 and .NET 4.5.1): 
     - Classes to load assemblies in an isolated AppDomain and generate Swagger specs from Web API controllers
-- **[NSwag.Commands](https://www.nuget.org/packages/NSwag.Commands/)** (.NET Standard 1.6 and .NET 4.5.1+): 
+- **[NSwag.Commands](https://www.nuget.org/packages/NSwag.Commands/)** (.NET Standard 1.6 / 2.0 and .NET 4.5.1+): 
     - Commands for the command line tool implementations and UI
 - **[NSwag.MSBuild](https://www.nuget.org/packages/NSwag.MSBuild/)** (MSBuild .targets): 
     - Adds a .targets file to your Visual Studio project, so that you can run the NSwag command line tool in an MSBuild target, see [MSBuild](https://github.com/RSuter/NSwag/wiki/MSBuild)
@@ -142,6 +145,28 @@ The NuGet packages may require the **Microsoft.NETCore.Portable.Compatibility** 
 ![LayerDiagram](assets/LayerDiagram.png)
 
 ### Usage in C&#35;
+
+To register the [middlewares](https://github.com/RSuter/NSwag/wiki/AspNetCoreToSwaggerGenerator) to generate a Swagger spec and render the UI, register NSwag in `Startup.cs`: 
+
+```csharp
+public class Startup
+{
+    ...
+
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddSwaggerDocument();
+    }
+
+    public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+    {
+        ...
+
+        app.UseSwagger();
+        app.UseSwaggerUi3();
+    }
+}
+```
 
 The following code shows how to read a Swagger specification and generate C# client classes to call the described web services: 
 	
@@ -188,3 +213,33 @@ Please contact [Rico Suter](https://rsuter.com) for paid consulting and support.
 Sponsors:
 
 - [Picturepark](https://picturepark.com)
+
+## Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+<a href="https://github.com/RSuter/NSwag/graphs/contributors"><img src="https://opencollective.com/NSwag/contributors.svg?width=890&button=false" /></a>
+
+
+## Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/NSwag#backer)]
+
+<a href="https://opencollective.com/NSwag#backers" target="_blank"><img src="https://opencollective.com/NSwag/backers.svg?width=890"></a>
+
+
+## Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/NSwag#sponsor)]
+
+<a href="https://opencollective.com/NSwag/sponsor/0/website" target="_blank"><img src="https://opencollective.com/NSwag/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/NSwag/sponsor/1/website" target="_blank"><img src="https://opencollective.com/NSwag/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/NSwag/sponsor/2/website" target="_blank"><img src="https://opencollective.com/NSwag/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/NSwag/sponsor/3/website" target="_blank"><img src="https://opencollective.com/NSwag/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/NSwag/sponsor/4/website" target="_blank"><img src="https://opencollective.com/NSwag/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/NSwag/sponsor/5/website" target="_blank"><img src="https://opencollective.com/NSwag/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/NSwag/sponsor/6/website" target="_blank"><img src="https://opencollective.com/NSwag/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/NSwag/sponsor/7/website" target="_blank"><img src="https://opencollective.com/NSwag/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/NSwag/sponsor/8/website" target="_blank"><img src="https://opencollective.com/NSwag/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/NSwag/sponsor/9/website" target="_blank"><img src="https://opencollective.com/NSwag/sponsor/9/avatar.svg"></a>
+
+

@@ -1,5 +1,5 @@
 ﻿{
-  "x-generator": "NSwag v12.0.7.0 (NJsonSchema v9.13.4.0 (Newtonsoft.Json v10.0.0.0))",
+  "x-generator": "NSwag v12.0.17.0 (NJsonSchema v9.13.26.0 (Newtonsoft.Json v10.0.0.0))",
   "swagger": "2.0",
   "info": {
     "title": "Hello world!",
@@ -8,6 +8,11 @@
   "consumes": [
     "application/json"
   ],
+  "produces": [
+    "text/plain",
+    "application/json",
+    "text/json"
+  ],
   "paths": {
     "/pet": {
       "post": {
@@ -15,12 +20,6 @@
           "Pet"
         ],
         "operationId": "Pet_AddPet",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "pet",
@@ -40,19 +39,18 @@
               "$ref": "#/definitions/SerializableError"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       },
       "put": {
         "tags": [
           "Pet"
         ],
         "operationId": "Pet_EditPet",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "pet",
@@ -72,7 +70,12 @@
               "$ref": "#/definitions/SerializableError"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       }
     },
     "/pet/findByStatus": {
@@ -81,9 +84,6 @@
           "Pet"
         ],
         "operationId": "Pet_FindByStatusAll",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "type": "array",
@@ -114,7 +114,12 @@
               "$ref": "#/definitions/SerializableError"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       }
     },
     "/pet/findByStatus/{skip}/{sortOrder}": {
@@ -123,9 +128,6 @@
           "Pet"
         ],
         "operationId": "Pet_FindByStatus",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "type": "array",
@@ -172,7 +174,12 @@
               "$ref": "#/definitions/SerializableError"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       }
     },
     "/pet/findByCategory": {
@@ -181,9 +188,6 @@
           "Pet"
         ],
         "operationId": "Pet_FindByCategory",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "type": "string",
@@ -210,7 +214,12 @@
               "$ref": "#/definitions/SerializableError"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       }
     },
     "/pet/{petId}": {
@@ -219,9 +228,6 @@
           "Pet"
         ],
         "operationId": "Pet_FindById",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "type": "integer",
@@ -250,16 +256,18 @@
           "404": {
             "description": ""
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       },
       "post": {
         "tags": [
           "Pet"
         ],
         "operationId": "Pet_EditPetWithFormData",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "type": "integer",
@@ -350,16 +358,18 @@
           "404": {
             "description": ""
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       },
       "delete": {
         "tags": [
           "Pet"
         ],
         "operationId": "Pet_DeletePet",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "type": "integer",
@@ -381,7 +391,12 @@
           "404": {
             "description": ""
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       }
     },
     "/pet/{petId}/uploadImage": {
@@ -392,9 +407,6 @@
         "operationId": "Pet_UploadImage",
         "consumes": [
           "multipart/form-data"
-        ],
-        "produces": [
-          "application/json"
         ],
         "parameters": [
           {
@@ -430,7 +442,12 @@
           "404": {
             "description": ""
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       }
     },
     "/pet/RequiredAndOptional": {
@@ -501,7 +518,12 @@
           "200": {
             "description": ""
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       }
     },
     "/sample": {
@@ -510,11 +532,6 @@
           "Sample"
         ],
         "operationId": "Sample_GetSample",
-        "produces": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
         "responses": {
           "200": {
             "x-nullable": true,
@@ -523,7 +540,12 @@
               "type": "string"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       }
     }
   },
@@ -651,9 +673,9 @@
     }
   },
   "securityDefinitions": {
-    "TEST_HEADER": {
+    "TEST_APIKEY": {
       "type": "apiKey",
-      "description": "TEST_HEADER",
+      "description": "TEST_DESCRIPTION",
       "name": "TEST_HEADER",
       "in": "header"
     }

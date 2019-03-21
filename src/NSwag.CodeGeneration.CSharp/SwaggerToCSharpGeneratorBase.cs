@@ -53,11 +53,15 @@ namespace NSwag.CodeGeneration.CSharp
             if (schema == null)
                 return "void";
 
-            if (schema.ActualSchema.Type == JsonObjectType.File)
-                return "FileResponse";
+            if (schema.ActualTypeSchema.IsBinary)
+            {
+                return GetBinaryResponseTypeName();
+            }
 
             if (schema.ActualSchema.IsAnyType)
+            {
                 return "object";
+            }
 
             return Resolver.Resolve(schema.ActualSchema, isNullable, typeNameHint)
                 .Replace(_settings.CSharpGeneratorSettings.ArrayType + "<", _settings.ResponseArrayType + "<")
