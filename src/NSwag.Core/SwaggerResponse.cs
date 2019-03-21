@@ -117,21 +117,28 @@ namespace NSwag
         {
             if (operation.ActualResponses.SingleOrDefault(r => r.Value == this).Key != "204")
             {
-                var contentIsBinary =
-                    ActualResponse.Content.ContainsKey("application/octet-stream") &&
-                    !ActualResponse.Content.ContainsKey("application/json");
-
-                if (contentIsBinary)
+                if (ActualResponse.Content.Any())
                 {
-                    return true;
+                    var contentIsBinary =
+                        !ActualResponse.Content.ContainsKey("application/json") &&
+                        !ActualResponse.Content.ContainsKey("text/plain");
+                    if (contentIsBinary)
+                    {
+                        return true;
+                    }
                 }
 
-                var producesIsBinary = (ActualResponse.Parent as SwaggerOperation)?
-                    .ActualProduces?.Contains("application/octet-stream") == true;
-
-                if (producesIsBinary)
+                var actualProduces = (ActualResponse.Parent as SwaggerOperation)?.ActualProduces;
+                if (actualProduces?.Any() == true)
                 {
-                    return true;
+                    var producesIsBinary =
+                        actualProduces?.Contains("application/json") != true &&
+                        actualProduces?.Contains("text/plain") != true;
+
+                    if (producesIsBinary)
+                    {
+                        return true;
+                    }
                 }
             }
 

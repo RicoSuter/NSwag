@@ -51,18 +51,6 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                             a.GetType().Name == "SwaggerDefaultResponseAttribute"))
                 .ToList();
 
-            var operation = context.OperationDescription.Operation;
-            foreach (var requestFormat in context.ApiDescription.SupportedRequestFormats)
-            {
-                if (operation.Consumes == null)
-                    operation.Consumes = new List<string>();
-
-                if (!operation.Consumes.Contains(requestFormat.MediaType, StringComparer.OrdinalIgnoreCase))
-                {
-                    operation.Consumes.Add(requestFormat.MediaType);
-                }
-            }
-
             if (responseTypeAttributes.Count > 0)
             {
                 // if SwaggerResponseAttribute \ ResponseTypeAttributes are present, we'll only use those.
@@ -97,17 +85,6 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                     }
 
                     context.OperationDescription.Operation.Responses[httpStatusCode] = response;
-
-                    if (operation.Produces == null)
-                        operation.Produces = new List<string>();
-
-                    foreach (var responseFormat in apiResponse.ApiResponseFormats)
-                    {
-                        if (!operation.Produces.Contains(responseFormat.MediaType, StringComparer.OrdinalIgnoreCase))
-                        {
-                            operation.Produces.Add(responseFormat.MediaType);
-                        }
-                    }
                 }
             }
 

@@ -19,7 +19,11 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddMvc(config => config.InputFormatters.Add(new CustomTextInputFormatter()))
+                .AddMvc(config =>
+                {
+                    config.InputFormatters.Add(new CustomTextInputFormatter());
+                    config.OutputFormatters.Add(new CustomTextOutputFormatter());
+                })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddApiVersioning(options =>

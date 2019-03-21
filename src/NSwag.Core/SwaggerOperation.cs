@@ -164,6 +164,20 @@ namespace NSwag
         [JsonIgnore]
         public ICollection<SwaggerSecurityRequirement> ActualSecurity => Security ?? Parent.Parent.Security;
 
+        /// <summary>Adds a consumes MIME type if it does not yet exists.</summary>
+        /// <param name="mimeType">The MIME type.</param>
+        public void TryAddConsumes(string mimeType)
+        {
+            if (Consumes == null)
+            {
+                Consumes = new List<string> { mimeType };
+            }
+            else if (!Consumes.Contains(mimeType))
+            {
+                Consumes.Add(mimeType);
+            }
+        }
+
         /// <summary>Gets or sets the parameters.</summary>
         [JsonProperty(PropertyName = "parameters", Order = 8, DefaultValueHandling = DefaultValueHandling.Ignore)]
         internal IList<SwaggerParameter> ParametersRaw
