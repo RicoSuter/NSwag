@@ -24,11 +24,12 @@ else if ({{ parameter.VariableName }} !== undefined)
 {%             if parameter.IsDateArray -%}
     {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach(item_ => { content_ += encodeURIComponent("{{ parameter.Name }}") + "=" + encodeURIComponent(item_ ? "" + item_.toJSON() : "null") + "&"; });
 {%             elseif parameter.IsObjectArray -%}
-    {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach((item, index) => { 
-        for (let attr in item)
-			if (item.hasOwnProperty(attr)) {
-				content_ += encodeURIComponent("{{ parameter.Name }}[" + index + "]." + attr) + "=" + encodeURIComponent("" + (<any>item)[attr]) + "&";
-			}
+    {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach((item_, index_) => { 
+        for (let attr_ in item_) {
+           if (item_.hasOwnProperty(attr_)) {
+                content_ += encodeURIComponent("{{ parameter.Name }}[" + index_ + "]." + attr_) + "=" + encodeURIComponent("" + (<any>item_)[attr_]) + "&";
+           }
+        }
     });
 {%             elseif parameter.IsDate -%}
     content_ += encodeURIComponent("{{ parameter.Name }}") + "=" + encodeURIComponent({{ parameter.VariableName }} ? "" + {{ parameter.VariableName }}.toJSON() : "{{ QueryNullValue }}") + "&"; 
