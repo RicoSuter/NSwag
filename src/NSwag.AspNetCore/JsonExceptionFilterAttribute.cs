@@ -59,7 +59,11 @@ namespace NSwag.AspNetCore
         {
             if (context.Exception != null && (_exceptionTypes.Count == 0 || _exceptionTypes.Exists(t => t.IsInstanceOfType(context.Exception))))
             {
+#if NETCOREAPP3_0
+                var options = context.HttpContext?.RequestServices?.GetService(typeof(IOptions<MvcNewtonsoftJsonOptions>)) as IOptions<MvcNewtonsoftJsonOptions>;
+#else
                 var options = context.HttpContext?.RequestServices?.GetService(typeof(IOptions<MvcJsonOptions>)) as IOptions<MvcJsonOptions>;
+#endif
 
                 var settings = options?.Value?.SerializerSettings ?? JsonConvert.DefaultSettings?.Invoke();
                 settings = settings != null ? CopySettings(settings) : new JsonSerializerSettings();

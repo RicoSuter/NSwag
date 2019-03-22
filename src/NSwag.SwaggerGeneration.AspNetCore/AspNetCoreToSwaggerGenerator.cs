@@ -94,7 +94,11 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             var typedServiceProvider = (IServiceProvider)serviceProvider;
 
             var mvcOptions = typedServiceProvider.GetRequiredService<IOptions<MvcOptions>>();
+#if NETCOREAPP3_0
+            var mvcJsonOptions = typedServiceProvider.GetRequiredService<IOptions<MvcNewtonsoftJsonOptions>>();
+#else
             var mvcJsonOptions = typedServiceProvider.GetRequiredService<IOptions<MvcJsonOptions>>();
+#endif
             var apiDescriptionGroupCollectionProvider = typedServiceProvider.GetRequiredService<IApiDescriptionGroupCollectionProvider>();
 
             Settings.ApplySettings(mvcJsonOptions.Value.SerializerSettings, mvcOptions.Value);

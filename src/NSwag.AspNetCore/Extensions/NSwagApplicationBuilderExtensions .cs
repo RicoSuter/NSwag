@@ -70,7 +70,7 @@ namespace Microsoft.AspNetCore.Builder
                 app.UseFileServer(new FileServerOptions
                 {
                     RequestPath = new PathString(swaggerUiRoute),
-                    FileProvider = new EmbeddedFileProvider(typeof(SwaggerExtensions).GetTypeInfo().Assembly, "NSwag.AspNetCore.SwaggerUi3")
+                    FileProvider = new EmbeddedFileProvider(typeof(NSwagApplicationBuilderExtensions).GetTypeInfo().Assembly, "NSwag.AspNetCore.SwaggerUi3")
                 });
             },
             (documents) =>
@@ -109,7 +109,7 @@ namespace Microsoft.AspNetCore.Builder
                 app.UseFileServer(new FileServerOptions
                 {
                     RequestPath = new PathString(swaggerUiRoute),
-                    FileProvider = new EmbeddedFileProvider(typeof(SwaggerExtensions).GetTypeInfo().Assembly, "NSwag.AspNetCore.ReDoc")
+                    FileProvider = new EmbeddedFileProvider(typeof(NSwagApplicationBuilderExtensions).GetTypeInfo().Assembly, "NSwag.AspNetCore.ReDoc")
                 });
             }, (documents) => false);
 
