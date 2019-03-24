@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard1.6;net451;netstandard2.0</TargetFrameworks>
     <Description>NSwag: The Swagger API toolchain for .NET and TypeScript</Description>
-    <Version>12.0.17</Version>
+    <Version>12.0.18</Version>
     <PackageTags>Swagger Documentation WebApi AspNet TypeScript CodeGen</PackageTags>
     <Copyright>Copyright © Rico Suter, 2018</Copyright>
     <PackageLicenseUrl>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</PackageLicenseUrl>
@@ -24,7 +24,7 @@
     <DefineConstants>TRACE;RELEASE;FullNet;NET451</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="NJsonSchema" Version="9.13.26" />
+    <PackageReference Include="NJsonSchema" Version="9.13.27" />
     <PackageReference Include="System.Net.Http" Version="4.3.2" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' OR '$(TargetFramework)' == 'netstandard2.0' ">
