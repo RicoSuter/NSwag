@@ -1,5 +1,5 @@
 ﻿{
-  "x-generator": "NSwag v12.0.17.0 (NJsonSchema v9.13.26.0 (Newtonsoft.Json v9.0.0.0))",
+  "x-generator": "NSwag v12.0.18.0 (NJsonSchema v9.13.27.0 (Newtonsoft.Json v9.0.0.0))",
   "swagger": "2.0",
   "info": {
     "title": "My Title",
@@ -18,6 +18,9 @@
           "Pet"
         ],
         "operationId": "Pet_AddPet",
+        "consumes": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "pet",
@@ -44,6 +47,9 @@
           "Pet"
         ],
         "operationId": "Pet_EditPet",
+        "consumes": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "pet",
@@ -237,6 +243,9 @@
           "Pet"
         ],
         "operationId": "Pet_EditPetWithFormData",
+        "consumes": [
+          "application/www-form-url-encoded"
+        ],
         "parameters": [
           {
             "type": "integer",
@@ -305,6 +314,7 @@
         ],
         "operationId": "Pet_UploadImage",
         "consumes": [
+          "multipart/form-data",
           "multipart/form-data"
         ],
         "parameters": [

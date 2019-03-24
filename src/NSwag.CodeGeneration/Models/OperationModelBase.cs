@@ -205,7 +205,9 @@ namespace NSwag.CodeGeneration.Models
         public bool HasFormParameters => _operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.FormData);
 
         /// <summary>Gets a value indicating whether the operation consumes 'application/x-www-form-urlencoded'.</summary>
-        public bool ConsumesFormUrlEncoded => _operation.ActualConsumes?.Any(c => c == "application/x-www-form-urlencoded") == true;
+        public bool ConsumesFormUrlEncoded =>
+            _operation.ActualConsumes?.Any(c => c == "application/x-www-form-urlencoded") == true ||
+            _operation.RequestBody?.Content.Any(mt => mt.Key == "application/x-www-form-urlencoded") == true;
 
         /// <summary>Gets the form parameters.</summary>
         public IEnumerable<TParameterModel> FormParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.FormData);
