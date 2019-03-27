@@ -16,9 +16,9 @@
         _httpClient = httpClient; 
 {%     endif -%}
 {% elseif UseBaseUrl and HasBaseUrl == false -%}
-    public {{ Class }}(string baseUrl{% if InjectHttpClient -%}, {{ HttpClientType }} httpClient{% endif %})
+    public {{ Class }}(string baseUrl = null{% if InjectHttpClient -%}, {{ HttpClientType }} httpClient{% endif %})
     {
-        BaseUrl = baseUrl; 
+        BaseUrl = baseUrl??BaseUrl; 
 {%     if InjectHttpClient -%}
         _httpClient = httpClient; 
 {%     endif -%}
