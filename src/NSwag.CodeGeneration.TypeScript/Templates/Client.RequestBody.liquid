@@ -57,6 +57,8 @@ else
 {%                 else -%}
     content_.append("{{ parameter.Name }}", {{ parameter.VariableName }}.data, {{ parameter.VariableName }}.fileName ? {{ parameter.VariableName }}.fileName : "{{ parameter.Name }}");
 {%                 endif -%}
+{%             elseif parameter.IsDate -%}
+    content_.append("{{ parameter.Name }}", {{ parameter.VariableName }}.toJSON());
 {%             else -%}
     content_.append("{{ parameter.Name }}", {{ parameter.VariableName }}.toString());
 {%             endif -%}
