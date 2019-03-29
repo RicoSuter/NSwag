@@ -309,7 +309,7 @@ namespace NSwag.CodeGeneration.Models
 
             var typeNameHint = !schema.HasTypeNameTitle ? ConversionUtilities.ConvertToUpperCamelCase(parameter.Name, true) : null;
             var isNullable = parameter.IsRequired == false || parameter.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
-            return _resolver.Resolve(schema, isNullable, null);
+            return _resolver.Resolve(schema, isNullable, typeNameHint);
         }
     }
 };
