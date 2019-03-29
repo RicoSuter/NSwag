@@ -116,7 +116,7 @@ namespace NSwag.CodeGeneration.Models
                 }
 
                 var isNullable = response.Value.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
-                return _generator.GetTypeName(response.Value.Schema, isNullable, null);
+                return _generator.GetTypeName(response.Value.Schema, isNullable, !response.Value.Schema.HasTypeNameTitle ? "Response" : null);
             }
         }
 
@@ -307,12 +307,7 @@ namespace NSwag.CodeGeneration.Models
                 schema = new JsonSchema4 { Type = JsonObjectType.Array, Item = schema };
             }
 
-            // TODO: Use NJS property
-            var typeNameHint =
-                string.IsNullOrEmpty(schema.Title) ||
-                !Regex.IsMatch(schema.Title, "^[a-zA-Z0-9_]*$") ?
-                ConversionUtilities.ConvertToUpperCamelCase(parameter.Name, true) : null;
-
+            var typeNameHint = !schema.HasTypeNameTitle ? ConversionUtilities.ConvertToUpperCamelCase(parameter.Name, true) : null;
             var isNullable = parameter.IsRequired == false || parameter.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
             return _resolver.Resolve(schema, isNullable, null);
         }
