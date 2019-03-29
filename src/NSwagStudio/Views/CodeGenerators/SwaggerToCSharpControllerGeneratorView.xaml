@@ -8,7 +8,7 @@
                                       xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
                                       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                                       xmlns:viewModels="clr-namespace:NSwagStudio.ViewModels.CodeGenerators"
-                                      xmlns:controls="cexlr-namespace:NSwagStudio.Controls"
+                                      xmlns:controls="clr-namespace:NSwagStudio.Controls"
                                       xmlns:dialogs="clr-namespace:MyToolkit.Dialogs;assembly=MyToolkit.Extended"
                                       xmlns:codeGenerators="clr-namespace:NSwagStudio.Views.CodeGenerators"
                                       xmlns:views="clr-namespace:NSwagStudio.Views.CodeGenerators.Views"
