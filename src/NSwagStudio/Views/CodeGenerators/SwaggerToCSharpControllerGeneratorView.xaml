@@ -8,7 +8,7 @@
                                       xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
                                       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                                       xmlns:viewModels="clr-namespace:NSwagStudio.ViewModels.CodeGenerators"
-                                      xmlns:controls="clr-namespace:NSwagStudio.Controls"
+                                      xmlns:controls="cexlr-namespace:NSwagStudio.Controls"
                                       xmlns:dialogs="clr-namespace:MyToolkit.Dialogs;assembly=MyToolkit.Extended"
                                       xmlns:codeGenerators="clr-namespace:NSwagStudio.Views.CodeGenerators"
                                       xmlns:views="clr-namespace:NSwagStudio.Views.CodeGenerators.Views"
@@ -56,6 +56,11 @@
 
                             <CheckBox IsChecked="{Binding Command.GenerateOptionalParameters, Mode=TwoWay}" 
                                       Content="Generate optional parameters (reorder parameters (required first, optional at the end) and generate optional parameters)" Margin="0,0,0,12" />
+
+                            <TextBlock Text="Excluded Parameter Names (comma separated)." FontWeight="Bold" Margin="0,0,0,12" />
+                            <TextBox ToolTip="ExcludedParameterNames" 
+                                     Text="{Binding Command.ExcludedParameterNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
+                                     Margin="0,0,0,12" />
 
                             <TextBlock Text="Route Naming Strategy" FontWeight="Bold" Margin="0,0,0,6" />
                             <ComboBox SelectedItem="{Binding Command.RouteNamingStrategy, Mode=TwoWay}" 

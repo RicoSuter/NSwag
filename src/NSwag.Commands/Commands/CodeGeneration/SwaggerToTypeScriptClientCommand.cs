@@ -274,6 +274,13 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.TypeScriptGeneratorSettings.ExcludedTypeNames = value; }
         }
 
+        [Argument(Name = "ExcludedParameterNames", IsRequired = false, Description = "The globally excluded parameter names.")]
+        public string[] ExcludedParameterNames
+        {
+            get { return Settings.ExcludedParameterNames; }
+            set { Settings.ExcludedParameterNames = value; }
+        }
+
         [Argument(Name = "HandleReferences", IsRequired = false, Description = "Handle JSON references (default: false).")]
         public bool HandleReferences
         {
