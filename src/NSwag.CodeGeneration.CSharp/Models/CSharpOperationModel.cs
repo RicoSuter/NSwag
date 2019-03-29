@@ -70,12 +70,14 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 }
             }
 
-            Parameters = parameters.Select(parameter =>
-                new CSharpParameterModel(parameter.Name, GetParameterVariableName(parameter, _operation.Parameters),
-                    ResolveParameterType(parameter), parameter, parameters,
-                    _settings.CodeGeneratorSettings,
-                    _generator,
-                    _resolver))
+            Parameters = parameters
+                .Where(p => !settings.ExcludedParameterNames.Contains(p.Name))
+                .Select(parameter =>
+                    new CSharpParameterModel(parameter.Name, GetParameterVariableName(parameter, _operation.Parameters),
+                        ResolveParameterType(parameter), parameter, parameters,
+                        _settings.CodeGeneratorSettings,
+                        _generator,
+                        _resolver))
                 .ToList();
         }
 

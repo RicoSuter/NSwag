@@ -134,6 +134,10 @@
                 <TextBlock Text="Generate schemas for types in KnownTypeAttribute attributes" TextWrapping="Wrap" />
             </CheckBox>
 
+            <CheckBox IsChecked="{Binding Command.GenerateEnumMappingDescription, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="GenerateEnumMappingDescription">
+                <TextBlock Text="Generate a description with number to enum name mappings (for integer enums only)" TextWrapping="Wrap" />
+            </CheckBox>
+
             <CheckBox IsChecked="{Binding Command.GenerateXmlObjects, Mode=TwoWay}" Margin="0,0,0,12">
                 <TextBlock Text="Generate xmlObject representation for definitions" TextWrapping="Wrap" />
             </CheckBox>
