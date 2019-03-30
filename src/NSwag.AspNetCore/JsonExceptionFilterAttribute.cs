@@ -13,10 +13,10 @@ using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using NSwag.Annotations;
 using NSwag.Annotations.Converters;
+using NSwag.SwaggerGeneration.AspNetCore;
 
 namespace NSwag.AspNetCore
 {
@@ -59,9 +59,7 @@ namespace NSwag.AspNetCore
         {
             if (context.Exception != null && (_exceptionTypes.Count == 0 || _exceptionTypes.Exists(t => t.IsInstanceOfType(context.Exception))))
             {
-                var options = context.HttpContext?.RequestServices?.GetService(typeof(IOptions<MvcJsonOptions>)) as IOptions<MvcJsonOptions>;
-
-                var settings = options?.Value?.SerializerSettings ?? JsonConvert.DefaultSettings?.Invoke();
+                var settings = AspNetCoreToSwaggerGenerator.GetJsonSerializerSettings(context.HttpContext?.RequestServices);
                 settings = settings != null ? CopySettings(settings) : new JsonSerializerSettings();
                 settings.Converters.Add(new JsonExceptionConverter(_hideStackTrace, _searchedNamespaces));
 

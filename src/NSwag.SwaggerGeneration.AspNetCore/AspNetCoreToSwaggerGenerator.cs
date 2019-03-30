@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors;
@@ -94,12 +95,34 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             var typedServiceProvider = (IServiceProvider)serviceProvider;
 
             var mvcOptions = typedServiceProvider.GetRequiredService<IOptions<MvcOptions>>();
-            var mvcJsonOptions = typedServiceProvider.GetRequiredService<IOptions<MvcJsonOptions>>();
+            var settings = GetJsonSerializerSettings(typedServiceProvider);
+
+            Settings.ApplySettings(settings, mvcOptions.Value);
+
             var apiDescriptionGroupCollectionProvider = typedServiceProvider.GetRequiredService<IApiDescriptionGroupCollectionProvider>();
-
-            Settings.ApplySettings(mvcJsonOptions.Value.SerializerSettings, mvcOptions.Value);
-
             return await GenerateAsync(apiDescriptionGroupCollectionProvider.ApiDescriptionGroups);
+        }
+
+        /// <summary>Loads the <see cref="GetJsonSerializerSettings"/> from the given service provider.</summary>
+        /// <param name="serviceProvider">The service provider.</param>
+        /// <returns>The settings.</returns>
+        public static JsonSerializerSettings GetJsonSerializerSettings(IServiceProvider serviceProvider)
+        {
+            dynamic options;
+            try
+            {
+                options = new Func<dynamic>(() => serviceProvider?.GetRequiredService(typeof(IOptions<MvcJsonOptions>)) as dynamic)();
+            }
+            catch
+            {
+                // Try load ASP.NET Core 3 options
+                var optionsAssembly = Assembly.Load(new AssemblyName("Microsoft.AspNetCore.Mvc.NewtonsoftJson"));
+                var optionsType = typeof(IOptions<>).MakeGenericType(optionsAssembly.GetType("Microsoft.AspNetCore.Mvc.MvcNewtonsoftJsonOptions", true));
+                options = serviceProvider?.GetRequiredService(optionsType) as dynamic;
+            }
+
+            var settings = (JsonSerializerSettings)options?.Value?.SerializerSettings ?? JsonConvert.DefaultSettings?.Invoke();
+            return settings;
         }
 
         private async Task<bool> GenerateForControllerAsync(SwaggerDocument document, Type controllerType,
