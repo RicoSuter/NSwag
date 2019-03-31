@@ -45,10 +45,12 @@ namespace NSwag.CodeGeneration.TypeScript.Models
                     .ToList();
             }
 
-            Parameters = parameters.Select(parameter =>
-                new TypeScriptParameterModel(parameter.Name,
-                    GetParameterVariableName(parameter, _operation.Parameters), ResolveParameterType(parameter),
-                    parameter, parameters, _settings, _generator, resolver))
+            Parameters = parameters
+                .Where(p => !settings.ExcludedParameterNames.Contains(p.Name))
+                .Select(parameter =>
+                    new TypeScriptParameterModel(parameter.Name,
+                        GetParameterVariableName(parameter, _operation.Parameters), ResolveParameterType(parameter),
+                        parameter, parameters, _settings, _generator, resolver))
                 .ToList();
         }
 
