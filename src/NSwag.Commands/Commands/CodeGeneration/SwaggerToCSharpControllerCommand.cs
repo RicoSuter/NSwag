@@ -36,18 +36,18 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.ControllerStyle = value; }
         }
 
+        [Argument(Name = "ControllerTarget", Description = "controller target framework (default: AspNetCore).", IsRequired = false)]
+        public CSharpControllerTarget ControllerTarget
+        {
+            get { return Settings.ControllerTarget; }
+            set { Settings.ControllerTarget = value; }
+        }
+
         [Argument(Name = "UseCancellationToken", Description = "Add a cancellation token parameter (default: false).", IsRequired = false)]
         public bool UseCancellationToken
         {
             get { return Settings.UseCancellationToken; }
             set { Settings.UseCancellationToken = value; }
-        }
-
-        [Argument(Name = "AspNetNamespace", Description = "The ASP.NET (Core) framework namespace (default: 'System.Web.Http').", IsRequired = false)]
-        public string AspNetNamespace
-        {
-            get { return Settings.AspNetNamespace; }
-            set { Settings.AspNetNamespace = value; }
         }
 
         [Argument(Name = "RouteNamingStrategy", Description = "The strategy for naming controller routes (none, operationid; default: none).", IsRequired = false)]

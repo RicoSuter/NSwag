@@ -45,6 +45,11 @@ namespace NSwagStudio.ViewModels.CodeGenerators
             .Select(t => (CSharpControllerStyle)Enum.Parse(typeof(CSharpControllerStyle), t))
             .ToArray();
 
+        /// <summary>Gets the list of class targets.</summary>
+        public CSharpControllerTarget[] ControllerTargets { get; } = Enum.GetNames(typeof(CSharpControllerTarget))
+            .Select(t => (CSharpControllerTarget)Enum.Parse(typeof(CSharpControllerTarget), t))
+            .ToArray();
+
         /// <summary>Gets the list of route naming strategies.</summary>
         public CSharpControllerRouteNamingStrategy[] RouteNamingStrategies { get; } = Enum.GetNames(typeof(CSharpControllerRouteNamingStrategy))
             .Select(t => (CSharpControllerRouteNamingStrategy)Enum.Parse(typeof(CSharpControllerRouteNamingStrategy), t))

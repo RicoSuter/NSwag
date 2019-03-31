@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="CSharpControllerStyleEnum.cs" company="NSwag">
+// <copyright file="CSharpControllerStyle.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
