@@ -21,9 +21,9 @@ namespace NSwag.CodeGeneration.CSharp
             ClassName = "{controller}";
             CSharpGeneratorSettings.ArrayType = "System.Collections.Generic.List";
             ControllerStyle = CSharpControllerStyle.Partial;
-            UseCancellationToken = false;
-            AspNetNamespace = "System.Web.Http";
+            ControllerTarget = CSharpControllerTarget.AspNetCore;
             RouteNamingStrategy = CSharpControllerRouteNamingStrategy.None;
+            UseCancellationToken = false;
         }
 
         /// <summary>Returns the route name for a controller method.</summary>
@@ -45,11 +45,11 @@ namespace NSwag.CodeGeneration.CSharp
         /// <summary>Gets or sets the controller generation style (partial, abstract; default: partial).</summary>
         public CSharpControllerStyle ControllerStyle { get; set; }
 
+        /// <summary>Gets or sets the controller target framework.</summary>
+        public CSharpControllerTarget ControllerTarget { get; set; }
+
         /// <summary>Gets or sets a value indicating whether to allow adding cancellation token </summary>
         public bool UseCancellationToken { get; set; }
-
-        /// <summary>Gets or sets the ASP.NET namespace (default: 'System.Web.Http').</summary>
-        public string AspNetNamespace { get; set; }
 
         /// <summary>Gets or sets the strategy for naming routes (default: CSharpRouteNamingStrategy.None).</summary>
         public CSharpControllerRouteNamingStrategy RouteNamingStrategy { get; set; }
