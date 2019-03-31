@@ -77,7 +77,12 @@ namespace {{ Namespace }} {
 {{ ExtensionCodeTop }}
 
 {{ Clients }}
+{% if GenerateCloneMethod -%}
+{% if ExportTypes %}export {% endif %}interface ICloneable<T> {
+    clone() : T;
+}
 
+{% endif -%}
 {{ Types }}
 
 {% if WrapResponses and GenerateResponseClasses -%}
