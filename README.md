@@ -37,6 +37,7 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 - In your C# code, via [NuGet](https://www.nuget.org/packages?q=NSwag)
 - In your [MSBuild targets](https://github.com/NSwag/NSwag/wiki/MSBuild)
 - With [ServiceProjectReference](https://github.com/NSwag/NSwag/wiki/ServiceProjectReference) tags in your .csproj (preview)
+- In your [Azure V2 Functions](https://github.com/Jusas/NSwag.AzureFunctionsV2) (external project, might not use latest NSwag version)
 
 **Tutorials:**
 

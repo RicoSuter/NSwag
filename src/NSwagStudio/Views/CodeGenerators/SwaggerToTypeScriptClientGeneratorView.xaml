@@ -134,6 +134,11 @@
                                           Content="Generate optional parameters (reorder parameters (required first, optional at the end) and generate optional parameters)" 
                                           Margin="0,0,0,12" />
 
+                                <TextBlock Text="Excluded Parameter Names (comma separated)." FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox ToolTip="ExcludedParameterNames" 
+                                         Text="{Binding Command.ExcludedParameterNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
+                                         Margin="0,0,0,12" />
+
                                 <CheckBox IsChecked="{Binding Command.WrapDtoExceptions, Mode=TwoWay}" ToolTip="WrapDtoExceptions"
                                           Content="Wrap DTO exceptions in a SwaggerException instance" Margin="0,0,0,12" />
 

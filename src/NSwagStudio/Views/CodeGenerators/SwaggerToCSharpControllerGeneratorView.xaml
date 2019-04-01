@@ -45,8 +45,10 @@
                                       ToolTip="ControllerStyle"
                                       ItemsSource="{Binding ControllerStyles}" Margin="0,0,0,12" />
 
-                            <TextBlock Text="The ASP.NET (Core) framework namespace" FontWeight="Bold" Margin="0,0,0,6" />
-                            <TextBox Text="{Binding Command.AspNetNamespace, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,12" />
+                            <TextBlock Text="Controller Target" FontWeight="Bold" Margin="0,0,0,6" />
+                            <ComboBox SelectedItem="{Binding Command.ControllerTarget, Mode=TwoWay}" 
+                                      ToolTip="ControllerTarget"
+                                      ItemsSource="{Binding ControllerTargets}" Margin="0,0,0,12" />
 
                             <CheckBox IsChecked="{Binding Command.UseCancellationToken, Mode=TwoWay}" 
                                       Content="Add cancellation token to controller methods" Margin="0,0,0,12" />
@@ -56,6 +58,11 @@
 
                             <CheckBox IsChecked="{Binding Command.GenerateOptionalParameters, Mode=TwoWay}" 
                                       Content="Generate optional parameters (reorder parameters (required first, optional at the end) and generate optional parameters)" Margin="0,0,0,12" />
+
+                            <TextBlock Text="Excluded Parameter Names (comma separated)." FontWeight="Bold" Margin="0,0,0,12" />
+                            <TextBox ToolTip="ExcludedParameterNames" 
+                                     Text="{Binding Command.ExcludedParameterNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
+                                     Margin="0,0,0,12" />
 
                             <TextBlock Text="Route Naming Strategy" FontWeight="Bold" Margin="0,0,0,6" />
                             <ComboBox SelectedItem="{Binding Command.RouteNamingStrategy, Mode=TwoWay}" 

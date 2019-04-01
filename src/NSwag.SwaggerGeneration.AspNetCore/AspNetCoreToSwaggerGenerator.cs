@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors;
@@ -94,12 +95,34 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             var typedServiceProvider = (IServiceProvider)serviceProvider;
 
             var mvcOptions = typedServiceProvider.GetRequiredService<IOptions<MvcOptions>>();
-            var mvcJsonOptions = typedServiceProvider.GetRequiredService<IOptions<MvcJsonOptions>>();
+            var settings = GetJsonSerializerSettings(typedServiceProvider);
+
+            Settings.ApplySettings(settings, mvcOptions.Value);
+
             var apiDescriptionGroupCollectionProvider = typedServiceProvider.GetRequiredService<IApiDescriptionGroupCollectionProvider>();
-
-            Settings.ApplySettings(mvcJsonOptions.Value.SerializerSettings, mvcOptions.Value);
-
             return await GenerateAsync(apiDescriptionGroupCollectionProvider.ApiDescriptionGroups);
+        }
+
+        /// <summary>Loads the <see cref="GetJsonSerializerSettings"/> from the given service provider.</summary>
+        /// <param name="serviceProvider">The service provider.</param>
+        /// <returns>The settings.</returns>
+        public static JsonSerializerSettings GetJsonSerializerSettings(IServiceProvider serviceProvider)
+        {
+            dynamic options;
+            try
+            {
+                options = new Func<dynamic>(() => serviceProvider?.GetRequiredService(typeof(IOptions<MvcJsonOptions>)) as dynamic)();
+            }
+            catch
+            {
+                // Try load ASP.NET Core 3 options
+                var optionsAssembly = Assembly.Load(new AssemblyName("Microsoft.AspNetCore.Mvc.NewtonsoftJson"));
+                var optionsType = typeof(IOptions<>).MakeGenericType(optionsAssembly.GetType("Microsoft.AspNetCore.Mvc.MvcNewtonsoftJsonOptions", true));
+                options = serviceProvider?.GetRequiredService(optionsType) as dynamic;
+            }
+
+            var settings = (JsonSerializerSettings)options?.Value?.SerializerSettings ?? JsonConvert.DefaultSettings?.Invoke();
+            return settings;
         }
 
         private async Task<bool> GenerateForControllerAsync(SwaggerDocument document, Type controllerType,
@@ -115,7 +138,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
                 return false;
             }
 
-            var operations = new List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo>>();
+            var operations = new List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo, IEnumerable<string>, IEnumerable<string>>>();
             foreach (var item in controllerApiDescriptionGroup)
             {
                 var apiDescription = item.Item1;
@@ -145,14 +168,45 @@ namespace NSwag.SwaggerGeneration.AspNetCore
                     }
                 };
 
-                operations.Add(new Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo>(operationDescription, apiDescription, method));
+                var consumes = apiDescription.SupportedRequestFormats
+                   .Select(f => f.MediaType)
+                   .Distinct();
+
+                var produces = apiDescription.SupportedResponseTypes
+                   .SelectMany(t => t.ApiResponseFormats.Select(f => f.MediaType))
+                   .Distinct();
+
+                operations.Add(new Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo, IEnumerable<string>, IEnumerable<string>>(
+                    operationDescription, apiDescription, method, consumes, produces));
             }
 
             return await AddOperationDescriptionsToDocumentAsync(document, controllerType, operations, swaggerGenerator, schemaResolver).ConfigureAwait(false);
         }
 
-        private async Task<bool> AddOperationDescriptionsToDocumentAsync(SwaggerDocument document, Type controllerType, List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo>> operations, SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver)
+        private async Task<bool> AddOperationDescriptionsToDocumentAsync(SwaggerDocument document, Type controllerType,
+            List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo, IEnumerable<string>, IEnumerable<string>>> operations,
+            SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver)
         {
+            var globalConsumes = operations
+                .SelectMany(o => o.Item4)
+                .Where(c => operations.All(o => o.Item4.Count() == 0 || o.Item4.Contains(c)))
+                .Distinct();
+
+            if (globalConsumes.Any())
+            {
+                document.Consumes = globalConsumes.ToList();
+            }
+
+            var globalProduces = operations
+                .SelectMany(o => o.Item5)
+                .Where(c => operations.All(o => o.Item5.Count() == 0 || o.Item5.Contains(c)))
+                .Distinct();
+
+            if (globalProduces.Any())
+            {
+                document.Produces = globalProduces.ToList();
+            }
+
             var addedOperations = 0;
             var allOperation = operations.Select(t => t.Item1).ToList();
             foreach (var tuple in operations)
@@ -161,16 +215,16 @@ namespace NSwag.SwaggerGeneration.AspNetCore
                 var apiDescription = tuple.Item2;
                 var method = tuple.Item3;
 
-                for (var i = 0; i < apiDescription.SupportedRequestFormats.Count; i++)
+                var consumes = tuple.Item4;
+                if (consumes.Any(c => !globalConsumes.Contains(c)))
                 {
-                    var mediaType = apiDescription.SupportedRequestFormats[i].MediaType;
-                    if (document.Consumes == null)
-                        document.Consumes = new List<string>();
+                    operation.Operation.Consumes = consumes.ToList();
+                }
 
-                    if (!document.Consumes.Contains(mediaType, StringComparer.OrdinalIgnoreCase))
-                    {
-                        document.Consumes.Add(mediaType);
-                    }
+                var produces = tuple.Item5;
+                if (produces.Any(c => !globalProduces.Contains(c)))
+                {
+                    operation.Operation.Produces = produces.ToList();
                 }
 
                 var addOperation = await RunOperationProcessorsAsync(document, apiDescription, controllerType, method, operation, allOperation, swaggerGenerator, schemaResolver).ConfigureAwait(false);
@@ -226,6 +280,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             {
                 ApiDescription = apiDescription,
             };
+
             foreach (var operationProcessor in Settings.OperationProcessors)
             {
                 if (await operationProcessor.ProcessAsync(operationProcessorContext).ConfigureAwait(false) == false)

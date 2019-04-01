@@ -168,7 +168,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
 
                     Assert.Single(operation.Operation.Responses);
                     var response = operation.Operation.Responses["200"];
-                    var definition = document.Definitions.First(f => f.Value == response.GetActualResponseSchema(operation.Operation));
+                    var definition = document.Definitions.First(f => f.Value == response.Schema?.ActualSchema);
                     Assert.Equal(nameof(TestModel), definition.Key);
                 },
                 operation =>
@@ -204,7 +204,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
 
             Assert.Single(operation.Responses);
             var response = operation.Responses["200"];
-            var definition = document.Definitions.First(f => f.Value == response.GetActualResponseSchema(operation));
+            var definition = document.Definitions.First(f => f.Value == response.Schema?.ActualSchema);
             Assert.Equal(nameof(TestModel), definition.Key);
         }
 
@@ -234,11 +234,11 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
 
             Assert.Equal(2, operation.Responses.Count);
             var response = operation.Responses["200"];
-            var definition = document.Definitions.First(f => f.Value == response.GetActualResponseSchema(operation));
+            var definition = document.Definitions.First(f => f.Value == response.Schema?.ActualSchema);
             Assert.Equal(nameof(TestModel), definition.Key);
 
             response = operation.Responses["default"];
-            definition = document.Definitions.First(f => f.Value == response.GetActualResponseSchema(operation));
+            definition = document.Definitions.First(f => f.Value == response.Schema?.ActualSchema);
             Assert.Equal(nameof(ProblemDetails), definition.Key);
         }
 
@@ -384,7 +384,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
             var operation = Assert.Single(document.Operations);
             Assert.Single(operation.Operation.Responses);
             var response = operation.Operation.Responses["202"];
-            var definition = document.Definitions.First(f => f.Value == response.GetActualResponseSchema(operation.Operation));
+            var definition = document.Definitions.First(f => f.Value == response.Schema?.ActualSchema);
             Assert.Equal(nameof(TestModel), definition.Key);
         }
 
@@ -402,7 +402,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
             var operation = Assert.Single(document.Operations);
             Assert.Single(operation.Operation.Responses);
             var response = operation.Operation.Responses["201"];
-            var definition = document.Definitions.First(f => f.Value == response.GetActualResponseSchema(operation.Operation));
+            var definition = document.Definitions.First(f => f.Value == response.Schema?.ActualSchema);
             Assert.Equal(nameof(TestModel), definition.Key);
         }
 

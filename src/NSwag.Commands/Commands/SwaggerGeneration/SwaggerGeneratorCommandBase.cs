@@ -76,6 +76,14 @@ namespace NSwag.Commands.SwaggerGeneration
             set => Settings.GenerateKnownTypes = value;
         }
 
+        [Argument(Name = "GenerateEnumMappingDescription", IsRequired = false, 
+            Description = "Generate a description with number to enum name mappings (for integer enums only, default: false).")]
+        public bool GenerateEnumMappingDescription
+        {
+            get => Settings.GenerateEnumMappingDescription;
+            set => Settings.GenerateEnumMappingDescription = value;
+        }
+
         [Argument(Name = "GenerateXmlObjects", IsRequired = false, Description = "Generate xmlObject representation for definitions (default: false).")]
         public bool GenerateXmlObjects
         {

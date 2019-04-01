@@ -124,13 +124,13 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets a value indicating whether the FileParameter interface should be rendered.</summary>
         public bool RequiresFileParameterInterface =>
             !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("FileParameter") &&
-            _document.Operations.Any(o => o.Operation.Parameters.Any(p => p.Type.HasFlag(JsonObjectType.File)));
+            _document.Operations.Any(o => o.Operation.ActualParameters.Any(p => p.ActualTypeSchema.IsBinary));
 
         /// <summary>Gets a value indicating whether the FileResponse interface should be rendered.</summary>
         public bool RequiresFileResponseInterface =>
             !Framework.IsJQuery &&
             !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("FileResponse") &&
-            _document.Operations.Any(o => o.Operation.ActualResponses.Any(r => r.Value.Schema?.ActualSchema.Type == JsonObjectType.File));
+            _document.Operations.Any(o => o.Operation.ActualResponses.Any(r => r.Value.IsBinary(o.Operation)));
 
         /// <summary>Gets a value indicating whether the client functions are required.</summary>
         public bool RequiresClientFunctions =>

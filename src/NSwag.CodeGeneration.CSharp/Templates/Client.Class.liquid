@@ -71,7 +71,7 @@
     {% template Client.Method.Documentation %}
     {{ operation.MethodAccessModifier }} {{ operation.SyncResultType }} {{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}{% if parameter.IsLast == false %}, {% endif %}{% endfor %})
     {
-        {% if operation.HasResult %}return {% endif %}System.Threading.Tasks.Task.Run(async () => await {{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.VariableName }}, {% endfor %}System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        {% if operation.HasResult or operation.WrapResponse %}return {% endif %}System.Threading.Tasks.Task.Run(async () => await {{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.VariableName }}, {% endfor %}System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
     }
 
 {%     endif -%}
