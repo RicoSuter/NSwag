@@ -53,5 +53,8 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets the strategy for naming routes (default: CSharpRouteNamingStrategy.None).</summary>
         public CSharpControllerRouteNamingStrategy RouteNamingStrategy { get; set; }
-    }
+
+		/// <summary>Controls the generation of Authorization attributes if security schemes are specified (default: false).</summary>
+		public bool GenerateAuthorizationAttributes { get; set; }
+	}
 }

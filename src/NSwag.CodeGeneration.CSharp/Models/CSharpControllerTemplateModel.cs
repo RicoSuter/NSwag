@@ -91,5 +91,35 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
         /// <summary>Gets the API version.</summary>
         public string Version => _document.Info.Version;
-    }
+
+		/// <summary>Gets the setting which indicates if authorization attributes should be generated.</summary>
+		public bool GenerateAuthorizationAttributes => _settings.GenerateAuthorizationAttributes;
+
+		/// <summary>Checks if any authentication scheme are mapped to this controller.</summary>
+		public bool HasSecurity { get { return GetHasSecurity(); } }
+
+		/// <summary>Gets a comma delimited list of authentication scheme names mapped to this controller.</summary>
+		public string AuthenticationSchemes { get { return GetAuthenticationSchemes(); } }
+
+		private bool GetHasSecurity()
+		{
+			return (_document.Security.Count > 0);
+		}
+
+		private string GetAuthenticationSchemes()
+		{
+			string authenticationSchemes = "";
+
+			foreach (Dictionary<string, IEnumerable<string>> authenticationSchemeDictionary in _document.Security)
+			{
+				foreach (KeyValuePair<string, IEnumerable<string>> authenticationScheme in authenticationSchemeDictionary)
+				{
+					authenticationSchemes += (string.IsNullOrWhiteSpace(authenticationSchemes)) ? "" : ",";
+					authenticationSchemes += authenticationScheme.Key;
+				}
+			}
+
+			return authenticationSchemes;
+		}
+	}
 }
