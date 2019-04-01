@@ -24,7 +24,6 @@ namespace NSwag.CodeGeneration.CSharp
             ControllerTarget = CSharpControllerTarget.AspNetCore;
             RouteNamingStrategy = CSharpControllerRouteNamingStrategy.None;
             UseCancellationToken = false;
-            RouteNamingStrategy = CSharpControllerRouteNamingStrategy.None;
         }
 
         /// <summary>Returns the route name for a controller method.</summary>
