@@ -194,7 +194,14 @@ namespace NSwag.SwaggerGeneration.AspNetCore
 
             if (globalConsumes.Any())
             {
-                document.Consumes = globalConsumes.ToList();
+                if (document.Consumes == null)
+                {
+                    document.Consumes = globalConsumes.ToList();
+                }
+                else
+                {
+                    document.Consumes.AddRange(globalConsumes.Where(c => !document.Consumes.Contains(c)));
+                }
             }
 
             var globalProduces = operations
@@ -204,7 +211,14 @@ namespace NSwag.SwaggerGeneration.AspNetCore
 
             if (globalProduces.Any())
             {
-                document.Produces = globalProduces.ToList();
+                if (document.Produces == null)
+                {
+                    document.Produces = globalProduces.ToList();
+                }
+                else
+                {
+                    document.Produces.AddRange(globalProduces.Where(c => !document.Produces.Contains(c)));
+                }
             }
 
             var addedOperations = 0;
