@@ -43,7 +43,7 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.UseCancellationToken = value; }
         }
 
-        [Argument(Name = "UseActionResultType", Description = "Value indicating whether ASP.Net Core (2.1) ActionResult type is used (default: false)", IsRequired = false)]
+        [Argument(Name = "UseActionResultType", Description = "Use ASP.Net Core (2.1) ActionResult type as return type (default: false)", IsRequired = false)]
         public bool UseActionResultType
         {
             get { return Settings.UseActionResultType; }

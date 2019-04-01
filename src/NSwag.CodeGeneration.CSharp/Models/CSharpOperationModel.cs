@@ -54,6 +54,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
             if (settings.GenerateOptionalParameters)
             {
+                // TODO: Move to CSharpControllerOperationModel
                 if (generator is SwaggerToCSharpControllerGenerator)
                 {
                     parameters = parameters
@@ -68,12 +69,6 @@ namespace NSwag.CodeGeneration.CSharp.Models
                         .OrderBy(p => !p.IsRequired)
                         .ToList();
                 }
-            }
-
-            if (generator is SwaggerToCSharpControllerGenerator controllerGenerator) {
-                UseActionResultType = controllerGenerator.Settings.UseActionResultType;                
-            } else {
-                UseActionResultType = false;
             }
 
             Parameters = parameters.Select(parameter =>
@@ -109,9 +104,6 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets a value indicating whether the operation has a result type.</summary>
         public bool HasResult => UnwrappedResultType != "void";
 
-        /// <summary>Use ASP.Net Core 2.1 ActionResult type</summary>
-        private bool UseActionResultType { get; set; }
-
         /// <summary>Gets or sets the synchronous type of the result.</summary>
         public string SyncResultType
         {
@@ -133,12 +125,6 @@ namespace NSwag.CodeGeneration.CSharp.Models
         {
             get
             {
-                if (UseActionResultType) {
-                    return SyncResultType == "void"
-                        ? "System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult>"
-                        : "System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<" + SyncResultType + ">>";
-                }
-
                 return SyncResultType == "void"
                     ? "System.Threading.Tasks.Task"
                     : "System.Threading.Tasks.Task<" + SyncResultType + ">";
