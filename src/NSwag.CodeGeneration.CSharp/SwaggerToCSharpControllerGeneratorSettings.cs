@@ -24,7 +24,6 @@ namespace NSwag.CodeGeneration.CSharp
             ControllerTarget = CSharpControllerTarget.AspNetCore;
             RouteNamingStrategy = CSharpControllerRouteNamingStrategy.None;
             UseCancellationToken = false;
-            AspNetNamespace = "System.Web.Http";
             RouteNamingStrategy = CSharpControllerRouteNamingStrategy.None;
         }
 
