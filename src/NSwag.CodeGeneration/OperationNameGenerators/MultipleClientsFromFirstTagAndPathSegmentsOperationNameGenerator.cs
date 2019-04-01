@@ -25,8 +25,7 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         /// <returns>The client name.</returns>
         public virtual string GetClientName(SwaggerDocument document, string path, string httpMethod, SwaggerOperation operation)
         {
-            var tags = operation.Tags;
-            return tags.Count > 0 ? tags[0] : string.Empty;
+            return ConversionUtilities.ConvertToUpperCamelCase(operation.Tags.FirstOrDefault(), false);
         }
 
         /// <summary>Gets the operation name for a given operation.</summary>
@@ -49,7 +48,7 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
 
             if (hasNameConflict)
             {
-                operationName += CapitalizeFirst(httpMethod);
+                operationName += ConversionUtilities.ConvertToUpperCamelCase(httpMethod, false);
             }
 
             return operationName;
@@ -65,20 +64,6 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
                 .Where(p => !p.Contains("{") && !string.IsNullOrWhiteSpace(p))
                 .Reverse()
                 .FirstOrDefault() ?? "Index";
-        }
-
-        /// <summary>Capitalizes first letter.</summary>
-        /// <param name="name">The name to capitalize.</param>
-        /// <returns>Capitalized name.</returns>
-        internal static string CapitalizeFirst(string name)
-        {
-            if (string.IsNullOrEmpty(name))
-            {
-                return string.Empty;
-            }
-
-            var capitalized = name.ToLower();
-            return char.ToUpper(capitalized[0]) + (capitalized.Length > 1 ? capitalized.Substring(1) : "");
         }
     }
 }
