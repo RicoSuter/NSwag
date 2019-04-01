@@ -32,7 +32,7 @@ namespace NSwag.SwaggerGeneration.Processors
             return Task.FromResult(true);
         }
 
-        private void AddControllerNameTag(OperationProcessorContext context)
+        protected virtual void AddControllerNameTag(OperationProcessorContext context)
         {
             var controllerName = context.ControllerType.Name;
             if (controllerName.EndsWith("Controller"))
