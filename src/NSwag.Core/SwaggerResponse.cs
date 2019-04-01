@@ -76,8 +76,8 @@ namespace NSwag
 
             if (schema != null || example != null)
             {
-                var type = schema?.Type == JsonObjectType.File ? "application/octet-stream" : "application/json";
-                Content[type] = new OpenApiMediaType
+                var mimeType = schema?.IsBinary == true ? "application/octet-stream" : "application/json";
+                Content[mimeType] = new OpenApiMediaType
                 {
                     Schema = schema,
                     Example = example
@@ -110,23 +110,51 @@ namespace NSwag
             return ActualResponse.Schema?.IsNullable(schemaType) ?? false;
         }
 
-        /// <summary>Gets the actual response schema for the given status code.</summary>
-        /// <param name="operation">The response's operation.</param>
-        /// <returns>The schema.</returns>
-        public JsonSchema4 GetActualResponseSchema(SwaggerOperation operation)
+        /// <summary>Checks whether this is a binary/file response.</summary>
+        /// <param name="operation">The operation the response belongs to.</param>
+        /// <returns>The result.</returns>
+        public bool IsBinary(SwaggerOperation operation)
         {
-            var response = ActualResponse;
-
             if (operation.ActualResponses.SingleOrDefault(r => r.Value == this).Key != "204")
             {
-                if (response.Content.ContainsKey("application/octet-stream") && !response.Content.ContainsKey("application/json"))
-                    return new JsonSchema4 { Type = JsonObjectType.File };
+                if (ActualResponse.Content.Any())
+                {
+                    var contentIsBinary =
+                        !ActualResponse.Content.ContainsKey("application/json") &&
+                        !ActualResponse.Content.ContainsKey("text/plain") &&
+                        !ActualResponse.Content.Keys.Any(p => p.StartsWith("application/") && p.EndsWith("+json"));
+                    if (contentIsBinary)
+                    {
+                        return true;
+                    }
+                }
 
-                if ((response.Parent as SwaggerOperation)?.ActualProduces?.Contains("application/octet-stream") == true)
-                    return new JsonSchema4 { Type = JsonObjectType.File };
+                var actualProduces = (ActualResponse.Parent as SwaggerOperation)?.ActualProduces;
+                if (actualProduces?.Any() == true)
+                {
+                    var producesIsBinary =
+                        actualProduces?.Contains("application/json") != true &&
+                        actualProduces?.Contains("text/plain") != true &&
+                        actualProduces?.Any(p => p.StartsWith("application/") && p.EndsWith("+json")) != true;
+
+                    if (producesIsBinary)
+                    {
+                        return true;
+                    }
+                }
             }
 
-            return response.Schema?.ActualSchema;
+            return false;
+        }
+
+        /// <summary>Checks whether this is an empty response.</summary>
+        /// <param name="operation">The operation the response belongs to.</param>
+        /// <returns>The result.</returns>
+        public bool IsEmpty(SwaggerOperation operation)
+        {
+            return !IsBinary(operation) &&
+                ActualResponse.Content.Count == 0 &&
+                ActualResponse.Schema?.ActualSchema == null;
         }
 
         #region Implementation of IJsonReference

@@ -133,9 +133,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 
             //// Act
-            var codeGen = new SwaggerToCSharpControllerGenerator(document, new SwaggerToCSharpControllerGeneratorSettings
-            {
-            });
+            var codeGen = new SwaggerToCSharpControllerGenerator(document, new SwaggerToCSharpControllerGeneratorSettings());
             var code = codeGen.GenerateFile();
 
             //// Assert
@@ -151,10 +149,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             //// Arrange
             var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
-            var settings = new SwaggerToCSharpControllerGeneratorSettings
-            {
-                AspNetNamespace = "MyCustomNameSpace"
-            };
+            var settings = new SwaggerToCSharpControllerGeneratorSettings();
 
             //// Act
             var codeGen = new SwaggerToCSharpControllerGenerator(document, settings);
@@ -162,7 +157,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             //// Assert
             Assert.Contains("partial class TestController", code);
-            Assert.Contains($"Complex([{settings.AspNetNamespace}.FromBody] ComplexType complexType)", code);
+            Assert.Contains($"Complex([Microsoft.AspNetCore.Mvc.FromBody] ComplexType complexType)", code);
             Assert.Contains("Foo(string test, bool test2)", code);
             Assert.Contains("Bar()", code);
         }
@@ -176,7 +171,6 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var settings = new SwaggerToCSharpControllerGeneratorSettings
             {
                 ControllerStyle = CSharpControllerStyle.Abstract,
-                AspNetNamespace = "MyCustomNameSpace"
             };
 
             //// Act
@@ -185,7 +179,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             //// Assert
             Assert.Contains("abstract class TestController", code);
-            Assert.Contains($"Complex([{settings.AspNetNamespace}.FromBody] ComplexType complexType)", code);
+            Assert.Contains($"Complex([Microsoft.AspNetCore.Mvc.FromBody] ComplexType complexType)", code);
             Assert.Contains("Foo(string test, bool test2)", code);
             Assert.Contains("Bar()", code);
         }

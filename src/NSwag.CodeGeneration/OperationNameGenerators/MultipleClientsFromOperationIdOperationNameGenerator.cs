@@ -48,7 +48,8 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
                 if (operationName.ToLowerInvariant().StartsWith("get"))
                 {
                     var isArrayResponse = operation.ActualResponses.ContainsKey("200") &&
-                                          operation.ActualResponses["200"].GetActualResponseSchema(operation)?.Type.HasFlag(JsonObjectType.Array) == true;
+                                          operation.ActualResponses["200"].Schema?.ActualSchema
+                                              .Type.HasFlag(JsonObjectType.Array) == true;
 
                     if (isArrayResponse)
                     {

@@ -252,6 +252,13 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.CSharpGeneratorSettings.ExcludedTypeNames = value; }
         }
 
+        [Argument(Name = "ExcludedParameterNames", IsRequired = false, Description = "The globally excluded parameter names.")]
+        public string[] ExcludedParameterNames
+        {
+            get { return Settings.ExcludedParameterNames; }
+            set { Settings.ExcludedParameterNames = value; }
+        }
+
         [Argument(Name = "HandleReferences", IsRequired = false, Description = "Use preserve references handling (All) in the JSON serializer (default: false).")]
         public bool HandleReferences
         {

@@ -74,7 +74,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests.Controllers
             //// Act
             var generator =
                 new SwaggerToCSharpControllerGenerator(document,
-                    new SwaggerToCSharpControllerGeneratorSettings { GenerateOptionalParameters = true, AspNetNamespace = "" });
+                    new SwaggerToCSharpControllerGeneratorSettings { GenerateOptionalParameters = true });
             var code = generator.GenerateFile();
 
             //// Assert

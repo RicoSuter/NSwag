@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -19,48 +20,34 @@ namespace NSwag
 {
     public partial class SwaggerDocument
     {
+        private static Lazy<PropertyRenameAndIgnoreSerializerContractResolver> Swagger2ContractResolver =
+            new Lazy<PropertyRenameAndIgnoreSerializerContractResolver>(() => CreateJsonSerializerContractResolver(SchemaType.Swagger2));
+
+        private static Lazy<PropertyRenameAndIgnoreSerializerContractResolver> OpenApi3ContractResolver =
+            new Lazy<PropertyRenameAndIgnoreSerializerContractResolver>(() => CreateJsonSerializerContractResolver(SchemaType.OpenApi3));
+
         /// <summary>Creates the serializer contract resolver based on the <see cref="NJsonSchema.SchemaType"/>.</summary>
         /// <param name="schemaType">The schema type.</param>
         /// <returns>The settings.</returns>
-        public static PropertyRenameAndIgnoreSerializerContractResolver CreateJsonSerializerContractResolver(SchemaType schemaType)
+        public static PropertyRenameAndIgnoreSerializerContractResolver GetJsonSerializerContractResolver(SchemaType schemaType)
+        {
+            if (schemaType == SchemaType.Swagger2)
+            {
+                return Swagger2ContractResolver.Value;
+            }
+            else if (schemaType == SchemaType.OpenApi3)
+            {
+                return OpenApi3ContractResolver.Value;
+            }
+
+            throw new ArgumentException("The given schema type is not supported.");
+        }
+
+        private static PropertyRenameAndIgnoreSerializerContractResolver CreateJsonSerializerContractResolver(SchemaType schemaType)
         {
             var resolver = JsonSchema4.CreateJsonSerializerContractResolver(schemaType);
 
-            if (schemaType == SchemaType.OpenApi3)
-            {
-                resolver.IgnoreProperty(typeof(SwaggerDocument), "swagger");
-
-                resolver.IgnoreProperty(typeof(SwaggerDocument), "host");
-                resolver.IgnoreProperty(typeof(SwaggerDocument), "basePath");
-                resolver.IgnoreProperty(typeof(SwaggerDocument), "schemes");
-
-                //resolver.IgnoreProperty(typeof(SwaggerDocument), "consumes");
-                //resolver.IgnoreProperty(typeof(SwaggerDocument), "produces");
-
-                resolver.IgnoreProperty(typeof(SwaggerOperation), "schemes");
-                resolver.IgnoreProperty(typeof(SwaggerOperation), "consumes");
-                resolver.IgnoreProperty(typeof(SwaggerOperation), "produces");
-
-                //resolver.IgnoreProperty(typeof(SwaggerParameter), "x-nullable");
-                
-                //resolver.IgnoreProperty(typeof(SwaggerResponse), "consumes"); => TODO map to response.content
-                //resolver.IgnoreProperty(typeof(SwaggerResponse), "produces");
-
-                resolver.IgnoreProperty(typeof(SwaggerDocument), "definitions");
-                resolver.IgnoreProperty(typeof(SwaggerDocument), "parameters");
-                resolver.IgnoreProperty(typeof(SwaggerDocument), "responses");
-                resolver.IgnoreProperty(typeof(SwaggerDocument), "securityDefinitions");
-
-                resolver.IgnoreProperty(typeof(SwaggerResponse), "schema");
-                resolver.IgnoreProperty(typeof(SwaggerResponse), "examples");
-                resolver.IgnoreProperty(typeof(SwaggerResponse), "x-nullable");
-
-                resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "flow");
-                resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "authorizationUrl");
-                resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "tokenUrl");
-                resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "scopes");
-            }
-            else if (schemaType == SchemaType.Swagger2)
+            if (schemaType == SchemaType.Swagger2)
             {
                 resolver.IgnoreProperty(typeof(SwaggerDocument), "openapi");
                 resolver.IgnoreProperty(typeof(SwaggerDocument), "servers");
@@ -86,6 +73,44 @@ namespace NSwag
                 resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "bearerFormat");
                 resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "openIdConnectUrl");
                 resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "flows");
+            }
+            else if (schemaType == SchemaType.OpenApi3)
+            {
+                resolver.IgnoreProperty(typeof(SwaggerDocument), "swagger");
+
+                resolver.IgnoreProperty(typeof(SwaggerDocument), "host");
+                resolver.IgnoreProperty(typeof(SwaggerDocument), "basePath");
+                resolver.IgnoreProperty(typeof(SwaggerDocument), "schemes");
+
+                resolver.IgnoreProperty(typeof(SwaggerDocument), "consumes");
+                resolver.IgnoreProperty(typeof(SwaggerDocument), "produces");
+
+                resolver.IgnoreProperty(typeof(SwaggerOperation), "schemes");
+                resolver.IgnoreProperty(typeof(SwaggerOperation), "consumes");
+                resolver.IgnoreProperty(typeof(SwaggerOperation), "produces");
+
+                //resolver.IgnoreProperty(typeof(SwaggerParameter), "x-nullable");
+
+                //resolver.IgnoreProperty(typeof(SwaggerResponse), "consumes"); => TODO map to response.content
+                //resolver.IgnoreProperty(typeof(SwaggerResponse), "produces");
+
+                resolver.IgnoreProperty(typeof(SwaggerDocument), "definitions");
+                resolver.IgnoreProperty(typeof(SwaggerDocument), "parameters");
+                resolver.IgnoreProperty(typeof(SwaggerDocument), "responses");
+                resolver.IgnoreProperty(typeof(SwaggerDocument), "securityDefinitions");
+
+                resolver.IgnoreProperty(typeof(SwaggerResponse), "schema");
+                resolver.IgnoreProperty(typeof(SwaggerResponse), "examples");
+                resolver.IgnoreProperty(typeof(SwaggerResponse), "x-nullable");
+
+                resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "flow");
+                resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "authorizationUrl");
+                resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "tokenUrl");
+                resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "scopes");
+            }
+            else
+            {
+                throw new ArgumentException("The given schema type is not supported.");
             }
 
             return resolver;

@@ -120,7 +120,7 @@ namespace NSwag
         {
             GenerateOperationIds();
 
-            var contractResolver = CreateJsonSerializerContractResolver(schemaType);
+            var contractResolver = GetJsonSerializerContractResolver(schemaType);
             return JsonSchemaSerialization.ToJson(this, schemaType, contractResolver, formatting);
         }
 
@@ -183,7 +183,7 @@ namespace NSwag
                 throw new NotSupportedException("The schema type JsonSchema is not supported.");
             }
 
-            var contractResolver = CreateJsonSerializerContractResolver(expectedSchemaType);
+            var contractResolver = GetJsonSerializerContractResolver(expectedSchemaType);
             return await JsonSchemaSerialization.FromJsonAsync<SwaggerDocument>(data, expectedSchemaType, documentPath, document =>
             {
                 document.SchemaType = expectedSchemaType;
@@ -251,7 +251,7 @@ namespace NSwag
                     var arrayResponseOperation = operations.FirstOrDefault(
                         o => o.Operation.ActualResponses.Any(r => 
                             HttpUtilities.IsSuccessStatusCode(r.Key) && 
-                            r.Value.GetActualResponseSchema(o.Operation)?.Type == JsonObjectType.Array));
+                            r.Value.Schema?.ActualSchema.Type == JsonObjectType.Array));
 
                     if (arrayResponseOperation != null)
                     {
