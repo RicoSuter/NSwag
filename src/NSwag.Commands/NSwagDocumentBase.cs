@@ -483,11 +483,13 @@ namespace NSwag.Commands
             if (data.Contains("\"aspNetNamespace\": \"System.Web.Http\""))
             {
                 data = data.Replace("\"aspNetNamespace\": \"System.Web.Http\"", "\"controllerTarget\": \"AspNet\"");
+                saveFile = true;
             }
 
             if (data.Contains("\"aspNetNamespace\": \"Microsoft.AspNetCore.Mvc\""))
             {
                 data = data.Replace("\"aspNetNamespace\": \"Microsoft.AspNetCore.Mvc\"", "\"controllerTarget\": \"AspNetCore\"");
+                saveFile = true;
             }
 
             if (data.Contains("\"noBuild\":") && !data.ToLowerInvariant().Contains("UseDocumentProvider".ToLowerInvariant()))
