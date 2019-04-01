@@ -27,15 +27,12 @@ namespace NSwag.CodeGeneration.CSharp.Models
             _settings = settings;
         }
 
-        /// <summary>Use ASP.Net Core 2.1 ActionResult type.</summary>
-        private bool UseActionResultType => _settings.UseActionResultType;
-
         /// <summary>Gets or sets the type of the result.</summary>
         public override string ResultType
         {
             get
             {
-                if (UseActionResultType)
+                if (_settings.UseActionResultType)
                 {
                     return SyncResultType == "void"
                         ? "System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult>"
