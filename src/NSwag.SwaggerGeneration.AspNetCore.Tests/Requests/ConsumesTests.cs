@@ -43,5 +43,37 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Requests
             Assert.Contains("foo/bar", operation.Consumes);
             Assert.Contains("foo/bar", operation.ActualConsumes);
         }
+
+        [Fact]
+        public async Task When_operation_consumes_is_different_in_several_controllers_then_they_are_added_to_the_operation()
+        {
+            // Arrange
+            var settings = new AspNetCoreToSwaggerGeneratorSettings();
+
+            // Act
+            var document = await GenerateDocumentAsync(settings, typeof(ConsumesController), typeof(MultipartConsumesController));
+            var json = document.ToJson();
+
+            // Assert
+            const string expectedTestContentType = "foo/bar";
+            const string expectedMultipartContentType = "multipart/form-data";
+            
+            var operation = document.Operations
+                .First(o => o.Operation.OperationId == "Consumes_ConsumesOnOperation")
+                .Operation;
+
+            var multipartOperation = document.Operations
+                .First(o => o.Operation.OperationId == "MultipartConsumes_ConsumesOnOperation")
+                .Operation;
+            
+            Assert.DoesNotContain(expectedTestContentType, document.Consumes);
+            Assert.DoesNotContain(expectedMultipartContentType, document.Consumes);
+
+            Assert.Contains(expectedTestContentType, operation.Consumes);
+            Assert.Contains(expectedTestContentType, operation.ActualConsumes);
+
+            Assert.Contains(expectedMultipartContentType, multipartOperation.Consumes);
+            Assert.Contains(expectedMultipartContentType, multipartOperation.ActualConsumes);
+        }
     }
 }
