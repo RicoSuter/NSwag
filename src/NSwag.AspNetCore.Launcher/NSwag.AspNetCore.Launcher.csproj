@@ -4,7 +4,7 @@
     <PlatformTarget Condition="'$(TargetFramework)'=='net461'">x64</PlatformTarget>
     <OutputType>Exe</OutputType>
     <IsPackable>false</IsPackable>
-    <Version>12.0.20</Version>
+    <Version>12.1.0</Version>
     <Authors>Rico Suter</Authors>
     <Company>Rico Suter</Company>
     <Description>NSwag: The Swagger API toolchain for .NET and TypeScript</Description>

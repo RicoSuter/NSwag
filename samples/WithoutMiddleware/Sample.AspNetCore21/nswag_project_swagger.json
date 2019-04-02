@@ -1,21 +1,10 @@
 ﻿{
-  "x-generator": "NSwag v12.0.18.0 (NJsonSchema v9.13.28.0 (Newtonsoft.Json v11.0.0.0))",
+  "x-generator": "NSwag v12.1.0.0 (NJsonSchema v9.13.28.0 (Newtonsoft.Json v11.0.0.0))",
   "swagger": "2.0",
   "info": {
     "title": "My Title",
     "version": "1.0.0"
   },
-  "consumes": [
-    "application/json-patch+json",
-    "application/json",
-    "text/json",
-    "application/*+json"
-  ],
-  "produces": [
-    "text/plain",
-    "application/json",
-    "text/json"
-  ],
   "paths": {
     "/api/Values": {
       "get": {
@@ -23,6 +12,11 @@
           "Values"
         ],
         "operationId": "Values_GetAll",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
         "responses": {
           "200": {
             "x-nullable": true,
@@ -41,6 +35,12 @@
           "Values"
         ],
         "operationId": "Values_Post",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
         "parameters": [
           {
             "name": "value",
@@ -65,6 +65,11 @@
           "Values"
         ],
         "operationId": "Values_Get",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
         "parameters": [
           {
             "type": "integer",
@@ -90,6 +95,12 @@
           "Values"
         ],
         "operationId": "Values_Put",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
         "parameters": [
           {
             "type": "integer",
