@@ -133,6 +133,7 @@
     <Compile Include="Attributes\SwaggerIgnoreTests.cs" />
     <Compile Include="Attributes\TagsTests.cs" />
     <Compile Include="ControllerClassesTests.cs" />
+    <Compile Include="OperationNameGenerator\MultipleClientsFromFirstTagAndPathSegmentsOperationNameGeneratorTests.cs" />
     <Compile Include="OperationNameGenerator\MultipleClientsFromOperationIdOperationNameGeneratorTests.cs" />
     <Compile Include="OperationNameGenerator\MultipleClientsFromPathSegmentsOperationNameGeneratorTests.cs" />
     <Compile Include="OperationProcessors\ApiVersionProcessorWithWebApiTests.cs" />
