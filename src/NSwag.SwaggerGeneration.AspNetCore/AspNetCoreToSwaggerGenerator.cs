@@ -72,14 +72,14 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             document.Consumes = apiGroups
                 .SelectMany(s => s.SupportedRequestFormats)
                 .Select(s => s.MediaType)
-                .Where(m => apiGroups.All(a => !a.SupportedRequestFormats.Any() || a.SupportedRequestFormats.Contains(m)))
+                .Where(m => apiGroups.All(a => a.SupportedRequestFormats.Contains(m)))
                 .Distinct()
                 .ToList();
             
             document.Produces = apiGroups
                 .SelectMany(c => c.SupportedResponseTypes)
                 .SelectMany(s => s.ApiResponseFormats.Select(f => f.MediaType))
-                .Where(c => apiGroups.All(o => !o.SupportedResponseTypes.Any() || o.SupportedResponseTypes.Contains(c)))
+                .Where(c => apiGroups.All(o => o.SupportedResponseTypes.Contains(c)))
                 .Distinct()
                 .ToList();
             
