@@ -238,26 +238,26 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo, IEnumerable<string>, IEnumerable<string>>> allOperations)
         {
             document.Consumes = allOperations
-                .SelectMany(s => s.Item4)
+                .SelectMany(s => s.Item4.Union(s.Item1.Operation.Consumes ?? new List<string>()))
                 .Where(m => allOperations.All(o => o.Item4.Contains(m)))
                 .Distinct()
                 .ToArray();
 
             document.Produces = allOperations
-                .SelectMany(s => s.Item5)
+                .SelectMany(s => s.Item5.Union(s.Item1.Operation.Produces ?? new List<string>()))
                 .Where(m => allOperations.All(o => o.Item5.Contains(m)))
                 .Distinct()
                 .ToArray();
 
             foreach (var tuple in allOperations)
             {
-                var consumes = tuple.Item4;
+                var consumes = tuple.Item4.Union(tuple.Item1.Operation.Consumes ?? new List<string>()).Distinct().ToArray();
                 if (consumes.Any(c => !document.Consumes.Contains(c)))
                 {
                     tuple.Item1.Operation.Consumes = consumes.ToList();
                 }
 
-                var produces = tuple.Item5;
+                var produces = tuple.Item5.Union(tuple.Item1.Operation.Produces ?? new List<string>()).Distinct().ToArray();
                 if (produces.Any(c => !document.Produces.Contains(c)))
                 {
                     tuple.Item1.Operation.Produces = produces.ToList();
