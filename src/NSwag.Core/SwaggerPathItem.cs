@@ -64,9 +64,8 @@ namespace NSwag
         public string DocumentPath { get; set; }
 
         /// <summary>Gets or sets the type reference path ($ref). </summary>
-        [JsonProperty("__referencePath", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(JsonPathUtilities.ReferenceReplaceString, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         string IJsonReferenceBase.ReferencePath { get; set; }
-        // TODO Use JsonPathUtilities.ReferenceReplaceString instead of __referencePath
 
         /// <summary>Gets or sets the referenced object.</summary>
         [JsonIgnore]
