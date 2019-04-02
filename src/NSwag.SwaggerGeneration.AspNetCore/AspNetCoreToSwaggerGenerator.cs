@@ -130,7 +130,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             var usedControllerTypes = new List<Type>();
             var swaggerGenerator = new SwaggerGenerator(_schemaGenerator, Settings, schemaResolver);
 
-            var allOperations = new List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo>>();
+            var allOperations = new List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo, IEnumerable<string>, IEnumerable<string>>>();
             foreach (var controllerApiDescriptionGroup in apiGroups)
             {
                 var controllerType = controllerApiDescriptionGroup.Key;
@@ -141,7 +141,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
 
                 if (!hasIgnoreAttribute)
                 {
-                    var operations = new List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo>>();
+                    var operations = new List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo, IEnumerable<string>, IEnumerable<string>>>();
                     foreach (var item in controllerApiDescriptionGroup)
                     {
                         var apiDescription = item.Item1;
@@ -167,19 +167,22 @@ namespace NSwag.SwaggerGeneration.AspNetCore
                             Operation = new SwaggerOperation
                             {
                                 IsDeprecated = method.GetCustomAttribute<ObsoleteAttribute>() != null,
-                                OperationId = GetOperationId(document, controllerActionDescriptor, method),
-                                Consumes = apiDescription.SupportedRequestFormats
-                                   .Select(f => f.MediaType)
-                                   .Distinct()
-                                   .ToList(),
-                                Produces = apiDescription.SupportedResponseTypes
-                                   .SelectMany(t => t.ApiResponseFormats.Select(f => f.MediaType))
-                                   .Distinct()
-                                   .ToList()
+                                OperationId = GetOperationId(document, controllerActionDescriptor, method)
                             }
                         };
 
-                        operations.Add(new Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo>(operationDescription, apiDescription, method));
+                        var consumes = apiDescription.SupportedRequestFormats
+                           .Select(f => f.MediaType)
+                           .Distinct()
+                           .ToArray();
+
+                        var produces = apiDescription.SupportedResponseTypes
+                           .SelectMany(t => t.ApiResponseFormats.Select(f => f.MediaType))
+                           .Distinct()
+                           .ToArray();
+
+                        operations.Add(new Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo, IEnumerable<string>, IEnumerable<string>>(
+                            operationDescription, apiDescription, method, consumes, produces));
                     }
 
                     var addedOperations = await AddOperationDescriptionsToDocumentAsync(document, controllerType, operations, swaggerGenerator, schemaResolver).ConfigureAwait(false);
@@ -196,12 +199,12 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             return usedControllerTypes;
         }
 
-        private async Task<List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo>>> AddOperationDescriptionsToDocumentAsync(
+        private async Task<List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo, IEnumerable<string>, IEnumerable<string>>>> AddOperationDescriptionsToDocumentAsync(
             SwaggerDocument document, Type controllerType,
-            List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo>> operations,
+            List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo, IEnumerable<string>, IEnumerable<string>>> operations,
             SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver)
         {
-            var addedOperations = new List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo>>();
+            var addedOperations = new List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo, IEnumerable<string>, IEnumerable<string>>>();
             var allOperations = operations.Select(t => t.Item1).ToList();
             foreach (var tuple in operations)
             {
@@ -209,8 +212,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
                 var apiDescription = tuple.Item2;
                 var method = tuple.Item3;
 
-                var addOperation = await RunOperationProcessorsAsync(document, apiDescription, controllerType, method, operation, 
-                    allOperations, swaggerGenerator, schemaResolver).ConfigureAwait(false);
+                var addOperation = await RunOperationProcessorsAsync(document, apiDescription, controllerType, method, operation, allOperations, swaggerGenerator, schemaResolver).ConfigureAwait(false);
                 if (addOperation)
                 {
                     var path = operation.Path.Replace("//", "/");
@@ -233,27 +235,33 @@ namespace NSwag.SwaggerGeneration.AspNetCore
         }
 
         private void UpdateConsumesAndProduces(SwaggerDocument document, 
-            List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo>> allOperations)
+            List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo, IEnumerable<string>, IEnumerable<string>>> allOperations)
         {
             document.Consumes = allOperations
-                .SelectMany(s => s.Item1.Operation.Consumes)
-                .Where(m => allOperations.All(o => o.Item1.Operation.Consumes.Contains(m)))
+                .SelectMany(s => s.Item4.Union(s.Item1.Operation.Consumes ?? new List<string>()))
+                .Where(m => allOperations.All(o => o.Item4.Contains(m)))
                 .Distinct()
                 .ToArray();
 
             document.Produces = allOperations
-                .SelectMany(s => s.Item1.Operation.Produces)
-                .Where(m => allOperations.All(o => o.Item1.Operation.Produces.Contains(m)))
+                .SelectMany(s => s.Item5.Union(s.Item1.Operation.Produces ?? new List<string>()))
+                .Where(m => allOperations.All(o => o.Item5.Contains(m)))
                 .Distinct()
                 .ToArray();
 
             foreach (var tuple in allOperations)
             {
-                var consumes = tuple.Item1.Operation.Consumes.Distinct().ToArray();
-                tuple.Item1.Operation.Consumes = consumes.Any(c => !document.Consumes.Contains(c)) ? consumes.ToList() : null;
+                var consumes = tuple.Item4.Union(tuple.Item1.Operation.Consumes ?? new List<string>()).Distinct().ToArray();
+                if (consumes.Any(c => !document.Consumes.Contains(c)))
+                {
+                    tuple.Item1.Operation.Consumes = consumes.ToList();
+                }
 
-                var produces = tuple.Item1.Operation.Produces.Distinct().ToArray();
-                tuple.Item1.Operation.Produces = produces.Any(c => !document.Produces.Contains(c)) ? produces.ToList() : null;
+                var produces = tuple.Item5.Union(tuple.Item1.Operation.Produces ?? new List<string>()).Distinct().ToArray();
+                if (produces.Any(c => !document.Produces.Contains(c)))
+                {
+                    tuple.Item1.Operation.Produces = produces.ToList();
+                }
             }
         }
 
