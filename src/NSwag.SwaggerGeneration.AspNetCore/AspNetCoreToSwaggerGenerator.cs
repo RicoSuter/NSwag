@@ -55,33 +55,35 @@ namespace NSwag.SwaggerGeneration.AspNetCore
         public async Task<SwaggerDocument> GenerateAsync(ApiDescriptionGroupCollection apiDescriptionGroups)
         {
             var apiDescriptions = apiDescriptionGroups.Items
-                .Where(i =>
+                .Where(group =>
                     Settings.ApiGroupNames == null ||
                     Settings.ApiGroupNames.Length == 0 ||
-                    Settings.ApiGroupNames.Contains(i.GroupName))
-                .SelectMany(g => g.Items);
+                    Settings.ApiGroupNames.Contains(group.GroupName))
+                .SelectMany(g => g.Items)
+                .Where(apiDescription => apiDescription.ActionDescriptor is ControllerActionDescriptor)
+                .ToArray();
 
             var document = await CreateDocumentAsync().ConfigureAwait(false);
             var schemaResolver = new SwaggerSchemaResolver(document, Settings);
 
-            var apiGroups = apiDescriptions.Where(apiDescription => apiDescription.ActionDescriptor is ControllerActionDescriptor)
+            var apiGroups = apiDescriptions
                 .Select(apiDescription => new Tuple<ApiDescription, ControllerActionDescriptor>(apiDescription, (ControllerActionDescriptor)apiDescription.ActionDescriptor))
                 .GroupBy(item => item.Item2.ControllerTypeInfo.AsType())
                 .ToArray();
 
-            document.Consumes = apiGroups
+            document.Consumes = apiDescriptions
                 .SelectMany(s => s.SupportedRequestFormats)
                 .Select(s => s.MediaType)
-                .Where(m => apiGroups.All(a => a.SupportedRequestFormats.Contains(m)))
+                .Where(m => apiDescriptions.All(a => a.SupportedRequestFormats.Any(f => f.MediaType == m)))
                 .Distinct()
-                .ToList();
+                .ToArray();
             
-            document.Produces = apiGroups
+            document.Produces = apiDescriptions
                 .SelectMany(c => c.SupportedResponseTypes)
                 .SelectMany(s => s.ApiResponseFormats.Select(f => f.MediaType))
-                .Where(c => apiGroups.All(o => o.SupportedResponseTypes.Contains(c)))
+                .Where(c => apiDescriptions.All(o => o.SupportedResponseTypes.Any(t => t.ApiResponseFormats.Any(f => f.MediaType == c))))
                 .Distinct()
-                .ToList();
+                .ToArray();
             
             var usedControllerTypes = new List<Type>();
             foreach (var controllerApiDescriptionGroup in apiGroups)
