@@ -15,6 +15,8 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
     /// <summary>Processes the SwaggerTagsAttribute on the operation method.</summary>
     public class AspNetCoreOperationTagsProcessor : OperationTagsProcessor
     {
+        /// <summary>Adds the controller name as operation tag.</summary>
+        /// <param name="context">The context.</param>
         protected override void AddControllerNameTag(OperationProcessorContext context)
         {
             var aspNetCoreContext = (AspNetCoreOperationProcessorContext)context;

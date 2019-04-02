@@ -32,6 +32,8 @@ namespace NSwag.SwaggerGeneration.Processors
             return Task.FromResult(true);
         }
 
+        /// <summary>Adds the controller name as operation tag.</summary>
+        /// <param name="context">The context.</param>
         protected virtual void AddControllerNameTag(OperationProcessorContext context)
         {
             var controllerName = context.ControllerType.Name;
