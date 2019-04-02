@@ -35,11 +35,8 @@ namespace NSwag.CodeGeneration.CSharp
         public SwaggerToCSharpControllerGenerator(SwaggerDocument document, SwaggerToCSharpControllerGeneratorSettings settings, CSharpTypeResolver resolver)
             : base(document, settings, resolver)
         {
-            if (document == null)
-                throw new ArgumentNullException(nameof(document));
-
-            Settings = settings;
-            _document = document;
+            _document = document ?? throw new ArgumentNullException(nameof(document));
+            Settings = settings ?? throw new ArgumentNullException(nameof(settings));
         }
 
         /// <summary>Gets or sets the generator settings.</summary>
@@ -74,7 +71,7 @@ namespace NSwag.CodeGeneration.CSharp
         /// <returns>The operation model.</returns>
         protected override CSharpOperationModel CreateOperationModel(SwaggerOperation operation, ClientGeneratorBaseSettings settings)
         {
-            return new CSharpOperationModel(operation, (SwaggerToCSharpGeneratorSettings)settings, this, (CSharpTypeResolver)Resolver);
+            return new CSharpControllerOperationModel(operation, (SwaggerToCSharpControllerGeneratorSettings)settings, this, (CSharpTypeResolver)Resolver);
         }
     }
 }

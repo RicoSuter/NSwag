@@ -70,6 +70,7 @@
     "swaggerToCSharpController": {
       "className": "{controller}",
       "namespace": "MyNamespace",
+      "controllerTarget": "aspNet",
       "additionalNamespaceUsages": [
         "System.Web.Http"
       ],
