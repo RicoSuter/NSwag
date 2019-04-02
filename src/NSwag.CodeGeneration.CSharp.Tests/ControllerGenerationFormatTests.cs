@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.CodeGeneration.CSharp.Models;
@@ -36,6 +37,15 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             [Route("Complex")]
             public void Complex([FromBody] ComplexType complexType)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public class TestControllerHeaderParam : Controller
+        {
+            [Route("HeaderParam")]
+            public void HeaderParam([FromHeader] string comesFromHeader)
             {
                 throw new NotImplementedException();
             }
@@ -181,7 +191,87 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             Assert.Contains("Route(\"Foo\")", code);
             Assert.Contains("Route(\"Bar\")", code);
         }
+
+        [Fact]
+        public async Task When_controllertarget_aspnet_then_custom_fromheader_generated()
+        {
+            //// Arrange
+            var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var document = await swaggerGen.GenerateForControllerAsync<TestController>();
+            var settings = new SwaggerToCSharpControllerGeneratorSettings
+            {
+                ControllerTarget = CSharpControllerTarget.AspNet
+            };
+
+            //// Act
+            var codeGen = new SwaggerToCSharpControllerGenerator(document, settings);
+            var code = codeGen.GenerateFile();
+
+            //// Assert
+            Assert.Contains("public class FromHeaderBinding :", code);
+            Assert.Contains("public class FromHeaderAttribute :", code);
+            Assert.DoesNotMatch("using FromHeaderAttribute = Microsoft.AspNetCore.Mvc.FromHeaderAttribute", code);
+        }
+
+        [Fact]
+        public async Task When_controllertarget_aspnetcore_then_use_builtin_fromheader()
+        {
+            //// Arrange
+            var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var document = await swaggerGen.GenerateForControllerAsync<TestController>();
+            var settings = new SwaggerToCSharpControllerGeneratorSettings
+            {
+                ControllerTarget = CSharpControllerTarget.AspNetCore
+            };
+
+            //// Act
+            var codeGen = new SwaggerToCSharpControllerGenerator(document, settings);
+            var code = codeGen.GenerateFile();
+
+            //// Assert
+            Assert.Contains("using FromHeaderAttribute = Microsoft.AspNetCore.Mvc.FromHeaderAttribute", code);
+            Assert.DoesNotContain("public class FromHeaderBinding :", code);
+            Assert.DoesNotContain("public class FromHeaderAttribute :", code);
+        }
+
+        [Fact]
+        public async Task When_controller_has_operation_with_header_parameter_then_partialcontroller_is_generated_with_fromheader_attribute()
+        {
+            //// Arrange
+            var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var document = await swaggerGen.GenerateForControllerAsync<TestControllerHeaderParam>();
+            var settings = new SwaggerToCSharpControllerGeneratorSettings();
+
+            //// Act
+            var codeGen = new SwaggerToCSharpControllerGenerator(document, settings);
+            var code = codeGen.GenerateFile();
+
+            //// Assert
+            Assert.Contains("partial class TestController", code);
+            Assert.Contains($"HeaderParam([FromHeader] string comesFromHeader)", code);
+        }
+
+        [Fact]
+        public async Task When_controller_has_operation_with_header_parameter_then_abstractcontroller_is_generated_with_fromheader_attribute_having_name_property()
+        {
+            //// Arrange
+            var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var document = await swaggerGen.GenerateForControllerAsync<TestControllerHeaderParam>();
+            document.Operations.ToList()[0].Operation.Parameters[0].Name = "comes-from-header";
+
+            var settings = new SwaggerToCSharpControllerGeneratorSettings
+            {
+                ControllerStyle = CSharpControllerStyle.Abstract,
+                ControllerTarget = CSharpControllerTarget.AspNet
+            };
+
+            //// Act
+            var codeGen = new SwaggerToCSharpControllerGenerator(document, settings);
+            var code = codeGen.GenerateFile();
+
+            //// Assert
+            Assert.Contains("abstract class TestController", code);
+            Assert.Contains($"HeaderParam([FromHeader(Name = \"comes-from-header\")] string comes_from_header)", code);
+        }
     }
 }
-
-

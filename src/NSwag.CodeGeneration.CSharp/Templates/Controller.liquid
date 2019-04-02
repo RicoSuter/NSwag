@@ -1,4 +1,8 @@
-﻿{% if GeneratePartialControllers -%}
+﻿{% if IsAspNetCore -%}
+using FromHeaderAttribute = {{ AspNetNamespace }}.FromHeaderAttribute;
+{% endif -%}
+
+{% if GeneratePartialControllers -%}
 [System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
 public interface I{{ Class }}Controller
 {
@@ -101,6 +105,8 @@ public abstract class {{ Class }}ControllerBase : {% if HasBaseClass %}{{ BaseCl
 }
 {% endif -%}
 
+
+{% if IsAspNetCore == false -%}
 public class FromHeaderBinding : {{ AspNetNamespace }}.Controllers.HttpParameterBinding
 {
     private readonly string _name;
@@ -153,3 +159,4 @@ public class FromHeaderAttribute : {{ AspNetNamespace }}.ParameterBindingAttribu
         return new FromHeaderBinding(parameter, Name ?? parameter.ParameterName);
     }
 }
+{% endif -%}
