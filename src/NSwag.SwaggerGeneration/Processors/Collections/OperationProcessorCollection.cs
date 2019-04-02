@@ -33,7 +33,7 @@ namespace NSwag.SwaggerGeneration.Processors.Collections
 
             if (item != null)
             {
-                this.SetItem(this.IndexOf(item), newItem);
+                SetItem(IndexOf(item), newItem);
                 return true;
             }
 
