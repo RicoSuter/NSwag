@@ -69,6 +69,20 @@ namespace NSwag.SwaggerGeneration.AspNetCore
                 .GroupBy(item => item.Item2.ControllerTypeInfo.AsType())
                 .ToArray();
 
+            document.Consumes = apiGroups
+                .SelectMany(s => s.SupportedRequestFormats)
+                .Select(s => s.MediaType)
+                .Where(m => apiGroups.All(a => !a.SupportedRequestFormats.Any() || a.SupportedRequestFormats.Contains(m)))
+                .Distinct()
+                .ToList();
+            
+            document.Produces = apiGroups
+                .SelectMany(c => c.SupportedResponseTypes)
+                .SelectMany(s => s.ApiResponseFormats.Select(f => f.MediaType))
+                .Where(c => apiGroups.All(o => !o.SupportedResponseTypes.Any() || o.SupportedResponseTypes.Contains(c)))
+                .Distinct()
+                .ToList();
+            
             var usedControllerTypes = new List<Type>();
             foreach (var controllerApiDescriptionGroup in apiGroups)
             {
@@ -187,40 +201,6 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo, IEnumerable<string>, IEnumerable<string>>> operations,
             SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver)
         {
-            var globalConsumes = operations
-                .SelectMany(o => o.Item4)
-                .Where(c => operations.All(o => o.Item4.Count() == 0 || o.Item4.Contains(c)))
-                .Distinct();
-
-            if (globalConsumes.Any())
-            {
-                if (document.Consumes == null)
-                {
-                    document.Consumes = globalConsumes.ToList();
-                }
-                else
-                {
-                    document.Consumes.AddRange(globalConsumes.Where(c => !document.Consumes.Contains(c)));
-                }
-            }
-
-            var globalProduces = operations
-                .SelectMany(o => o.Item5)
-                .Where(c => operations.All(o => o.Item5.Count() == 0 || o.Item5.Contains(c)))
-                .Distinct();
-
-            if (globalProduces.Any())
-            {
-                if (document.Produces == null)
-                {
-                    document.Produces = globalProduces.ToList();
-                }
-                else
-                {
-                    document.Produces.AddRange(globalProduces.Where(c => !document.Produces.Contains(c)));
-                }
-            }
-
             var addedOperations = 0;
             var allOperation = operations.Select(t => t.Item1).ToList();
             foreach (var tuple in operations)
@@ -230,13 +210,13 @@ namespace NSwag.SwaggerGeneration.AspNetCore
                 var method = tuple.Item3;
 
                 var consumes = tuple.Item4;
-                if (consumes.Any(c => !globalConsumes.Contains(c)))
+                if (consumes.Any(c => !document.Consumes.Contains(c)))
                 {
                     operation.Operation.Consumes = consumes.ToList();
                 }
 
                 var produces = tuple.Item5;
-                if (produces.Any(c => !globalProduces.Contains(c)))
+                if (produces.Any(c => !document.Produces.Contains(c)))
                 {
                     operation.Operation.Produces = produces.ToList();
                 }
