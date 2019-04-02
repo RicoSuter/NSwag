@@ -53,5 +53,8 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets the strategy for naming routes (default: CSharpRouteNamingStrategy.None).</summary>
         public CSharpControllerRouteNamingStrategy RouteNamingStrategy { get; set; }
+        
+        /// <summary>Gets or sets a value indicating whether ASP.Net Core (2.1) ActionResult type is used (default: false).</summary>
+        public bool UseActionResultType { get; set; }
     }
 }

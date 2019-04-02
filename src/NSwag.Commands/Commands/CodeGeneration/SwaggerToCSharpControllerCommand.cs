@@ -50,6 +50,13 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.UseCancellationToken = value; }
         }
 
+        [Argument(Name = "UseActionResultType", Description = "Use ASP.Net Core (2.1) ActionResult type as return type (default: false)", IsRequired = false)]
+        public bool UseActionResultType
+        {
+            get { return Settings.UseActionResultType; }
+            set { Settings.UseActionResultType = value; }
+        }
+
         [Argument(Name = "RouteNamingStrategy", Description = "The strategy for naming controller routes (none, operationid; default: none).", IsRequired = false)]
         public CSharpControllerRouteNamingStrategy RouteNamingStrategy
         {

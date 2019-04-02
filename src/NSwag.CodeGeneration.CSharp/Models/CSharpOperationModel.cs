@@ -54,6 +54,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
             if (settings.GenerateOptionalParameters)
             {
+                // TODO: Move to CSharpControllerOperationModel
                 if (generator is SwaggerToCSharpControllerGenerator)
                 {
                     parameters = parameters

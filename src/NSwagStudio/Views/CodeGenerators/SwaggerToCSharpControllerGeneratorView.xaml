@@ -50,6 +50,9 @@
                                       ToolTip="ControllerTarget"
                                       ItemsSource="{Binding ControllerTargets}" Margin="0,0,0,12" />
 
+                            <CheckBox IsChecked="{Binding Command.UseActionResultType, Mode=TwoWay}" 
+                                      Content="Use ASP.Net Core (2.1) ActionResult type as return type" Margin="0,0,0,12" />
+
                             <CheckBox IsChecked="{Binding Command.UseCancellationToken, Mode=TwoWay}" 
                                       Content="Add cancellation token to controller methods" Margin="0,0,0,12" />
 
