@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers;
 using Xunit;
 
-namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Parameters
+namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Responses
 {
     public class ResponseAttributesTests : AspNetCoreTestsBase
     {
