@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers.Requests
 {
@@ -6,9 +7,8 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers.Requests
     [Route("api/[controller]")]
     public class MultipartConsumesController : Controller
     {
-        [Consumes("multipart/form-data")]
         [HttpPost("ConsumesOnOperation")]
-        public ActionResult ConsumesOnOperation([FromBody] string body)
+        public ActionResult ConsumesOnOperation(IFormFile body)
         {
             return Ok();
         }

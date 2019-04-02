@@ -14,11 +14,11 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Responses
             var settings = new AspNetCoreToSwaggerGeneratorSettings();
 
             // Act
-            var document = await GenerateDocumentAsync(settings, typeof(ProducesController));
+            var document = await GenerateDocumentAsync(settings, typeof(TextProducesController));
             var json = document.ToJson();
 
             // Assert
-            var operation = document.Operations.First(o => o.Operation.OperationId == "Produces_ProducesOnOperation").Operation;
+            var operation = document.Operations.First(o => o.Operation.OperationId == "TextProduces_ProducesOnOperation").Operation;
 
             Assert.Contains("text/html", document.Produces);
             Assert.Contains("text/html", operation.ActualProduces);
@@ -32,19 +32,22 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Responses
             var settings = new AspNetCoreToSwaggerGeneratorSettings();
 
             // Act
-            var document = await GenerateDocumentAsync(settings, typeof(ProducesController), typeof(JsonProducesController));
+            var document = await GenerateDocumentAsync(settings, typeof(TextProducesController), typeof(JsonProducesController));
             var json = document.ToJson();
 
             // Assert
             const string expectedTextContentType = "text/html";
             const string expectedJsonJsonType = "application/json";
-            var textOperation = document.Operations.First(o => o.Operation.OperationId == "Produces_ProducesOnOperation").Operation;
+
+            var textOperation = document.Operations.First(o => o.Operation.OperationId == "TextProduces_ProducesOnOperation").Operation;
             var jsonOperation = document.Operations.First(o => o.Operation.OperationId == "JsonProduces_ProducesOnOperation").Operation;
 
             Assert.DoesNotContain(expectedTextContentType, document.Produces);
             Assert.DoesNotContain(expectedJsonJsonType, document.Produces);
+
             Assert.Contains(expectedTextContentType, textOperation.Produces);
             Assert.Contains(expectedTextContentType, textOperation.ActualProduces);
+
             Assert.Contains(expectedJsonJsonType, jsonOperation.Produces);
             Assert.Contains(expectedJsonJsonType, jsonOperation.ActualProduces);
         }

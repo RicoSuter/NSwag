@@ -4,7 +4,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers.Responses
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ProducesController : Controller
+    public class TextProducesController : Controller
     {
         [Produces("text/html")]
         [HttpPost("ProducesOnOperation")]
