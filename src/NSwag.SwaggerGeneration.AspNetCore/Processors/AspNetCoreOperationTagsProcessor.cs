@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="OperationTagsProcessor.cs" company="NSwag">
+// <copyright file="AspNetCoreOperationTagsProcessor.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -13,7 +13,7 @@ using NSwag.SwaggerGeneration.Processors.Contexts;
 namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 {
     /// <summary>Processes the SwaggerTagsAttribute on the operation method.</summary>
-    public class OperationTagsProcessorNetCore : OperationTagsProcessor
+    public class AspNetCoreOperationTagsProcessor : OperationTagsProcessor
     {
         protected override void AddControllerNameTag(OperationProcessorContext context)
         {
