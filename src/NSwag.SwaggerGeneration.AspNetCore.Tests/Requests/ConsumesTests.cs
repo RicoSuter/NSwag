@@ -51,23 +51,27 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Requests
             var settings = new AspNetCoreToSwaggerGeneratorSettings();
 
             // Act
-            var document = await GenerateDocumentAsync(settings, 
-                typeof(ConsumesController), typeof(MultipartConsumesController));
+            var document = await GenerateDocumentAsync(settings, typeof(ConsumesController), typeof(MultipartConsumesController));
             var json = document.ToJson();
 
             // Assert
             const string expectedTestContentType = "foo/bar";
             const string expectedMultipartContentType = "multipart/form-data";
             
-            var operation = document.Operations.First(o => o.Operation.OperationId == "Consumes_ConsumesOnOperation")
+            var operation = document.Operations
+                .First(o => o.Operation.OperationId == "Consumes_ConsumesOnOperation")
                 .Operation;
-            var multipartOperation = document.Operations.First(o => o.Operation.OperationId == "MultipartConsumes_ConsumesOnOperation")
+
+            var multipartOperation = document.Operations
+                .First(o => o.Operation.OperationId == "MultipartConsumes_ConsumesOnOperation")
                 .Operation;
             
             Assert.DoesNotContain(expectedTestContentType, document.Consumes);
             Assert.DoesNotContain(expectedMultipartContentType, document.Consumes);
+
             Assert.Contains(expectedTestContentType, operation.Consumes);
             Assert.Contains(expectedTestContentType, operation.ActualConsumes);
+
             Assert.Contains(expectedMultipartContentType, multipartOperation.Consumes);
             Assert.Contains(expectedMultipartContentType, multipartOperation.ActualConsumes);
         }
