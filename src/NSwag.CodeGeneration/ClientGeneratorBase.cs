@@ -38,6 +38,13 @@ namespace NSwag.CodeGeneration
         /// <returns>The code</returns>
         public abstract string GenerateFile();
 
+        /// <summary>Gets the file response type name.</summary>
+        /// <returns>The type name.</returns>
+        public virtual string GetBinaryResponseTypeName()
+        {
+            return "FileResponse";
+        }
+
         /// <summary>Gets the base settings.</summary>
         public abstract ClientGeneratorBaseSettings BaseSettings { get; }
 

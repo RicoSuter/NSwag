@@ -5,6 +5,7 @@ using NJsonSchema;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NJsonSchema.Generation;
 using NSwag.CodeGeneration.CSharp;
+using NSwag.CodeGeneration.OperationNameGenerators;
 using NSwag.CodeGeneration.TypeScript;
 using Xunit;
 
@@ -93,6 +94,21 @@ namespace NSwag.CodeGeneration.Tests
 
             //// Assert
             var jsonService = document.ToJson(); // no exception expected
+        }
+
+        [Fact]
+        public void No_Brackets_in_Operation_Name() 
+        {
+            // Arrange
+            var path = "/my/path/with/{parameter_with_underscore}/and/{another_parameter}";
+
+            //// Act
+            var operationName = SingleClientFromPathSegmentsOperationNameGenerator.ConvertPathToName(path);
+
+            // Assert
+            Assert.DoesNotContain("{", operationName);
+            Assert.DoesNotContain("}", operationName);
+            Assert.False(string.IsNullOrWhiteSpace(operationName));
         }
 
         private static async Task<SwaggerDocument> CreateDocumentAsync()

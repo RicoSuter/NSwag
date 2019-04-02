@@ -203,8 +203,10 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
 
         private void UpdateConsumedTypes(SwaggerOperationDescription operationDescription)
         {
-            if (operationDescription.Operation.ActualParameters.Any(p => p.Type == JsonObjectType.File))
-                operationDescription.Operation.Consumes = new List<string> { "multipart/form-data" };
+            if (operationDescription.Operation.ActualParameters.Any(p => p.IsBinary))
+            {
+                operationDescription.Operation.TryAddConsumes("multipart/form-data");
+            }
         }
 
         private void RemoveUnusedPathParameters(SwaggerOperationDescription operationDescription, string httpPath)
@@ -219,9 +221,9 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
         }
 
         private async Task<SwaggerParameter> TryAddFileParameterAsync(
-            OperationProcessorContext context, JsonTypeDescription info, ParameterInfo parameter)
+            OperationProcessorContext context, JsonTypeDescription typeInfo, ParameterInfo parameter)
         {
-            var isFileArray = IsFileArray(parameter.ParameterType, info);
+            var isFileArray = IsFileArray(parameter.ParameterType, typeInfo);
 
             var attributes = parameter.GetCustomAttributes()
                 .Union(parameter.ParameterType.GetTypeInfo().GetCustomAttributes());
@@ -229,7 +231,10 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
             var hasSwaggerFileAttribute = attributes.Any(a =>
                 a.GetType().IsAssignableTo("SwaggerFileAttribute", TypeNameStyle.Name));
 
-            if (info.Type == JsonObjectType.File || hasSwaggerFileAttribute || isFileArray)
+            if (typeInfo.Type == JsonObjectType.File ||
+                typeInfo.Format == JsonFormatStrings.Binary ||
+                hasSwaggerFileAttribute ||
+                isFileArray)
             {
                 return await AddFileParameterAsync(context, parameter, isFileArray).ConfigureAwait(false);
             }
@@ -254,9 +259,22 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
         private bool IsFileArray(Type type, JsonTypeDescription typeInfo)
         {
             var isFormFileCollection = type.Name == "IFormFileCollection";
-            var isFileArray = typeInfo.Type == JsonObjectType.Array && type.GenericTypeArguments.Any() &&
-                _settings.ReflectionService.GetDescription(type.GenericTypeArguments[0], null, _settings).Type == JsonObjectType.File;
-            return isFormFileCollection || isFileArray;
+            if (isFormFileCollection)
+            {
+                return true;
+            }
+
+            if (typeInfo.Type == JsonObjectType.Array && type.GenericTypeArguments.Any())
+            {
+                var description = _settings.ReflectionService.GetDescription(type.GenericTypeArguments[0], null, _settings);
+                if (description.Type == JsonObjectType.File || 
+                    description.Format == JsonFormatStrings.Binary)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private async Task<SwaggerParameter> AddBodyParameterAsync(OperationProcessorContext context, string name, ParameterInfo parameter)
@@ -270,7 +288,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
             var operation = context.OperationDescription.Operation;
             if (parameter.ParameterType.Name == "XmlDocument" || parameter.ParameterType.InheritsFrom("XmlDocument", TypeNameStyle.Name))
             {
-                operation.Consumes = new List<string> { "application/xml" };
+                operation.TryAddConsumes("application/xml");
                 operationParameter = new SwaggerParameter
                 {
                     Name = name,
@@ -288,7 +306,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
             }
             else if (parameter.ParameterType.IsAssignableTo("System.IO.Stream", TypeNameStyle.FullName))
             {
-                operation.Consumes = new List<string> { "application/octet-stream" };
+                operation.TryAddConsumes("application/octet-stream");
                 operationParameter = new SwaggerParameter
                 {
                     Name = name,
@@ -365,8 +383,11 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
 
                         var parameterInfo = _settings.ReflectionService.GetDescription(property.PropertyType, attributes, _settings);
                         var isFileArray = IsFileArray(property.PropertyType, parameterInfo);
+
                         if (parameterInfo.Type == JsonObjectType.File || isFileArray)
+                        {
                             InitializeFileParameter(operationParameter, isFileArray);
+                        }
                         else if (fromRouteAttribute != null
                             || httpPath.ToLowerInvariant().Contains("{" + propertyName.ToLower() + "}")
                             || httpPath.ToLowerInvariant().Contains("{" + propertyName.ToLower() + ":"))

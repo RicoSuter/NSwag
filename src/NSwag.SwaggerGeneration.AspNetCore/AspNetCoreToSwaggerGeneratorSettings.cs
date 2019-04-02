@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.AspNetCore.Processors;
 
 namespace NSwag.SwaggerGeneration.AspNetCore
@@ -18,6 +19,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
         {
             OperationProcessors.Insert(2, new OperationParameterProcessor(this));
             OperationProcessors.Insert(2, new OperationResponseProcessor(this));
+            OperationProcessors.Replace<OperationTagsProcessor>(new AspNetCoreOperationTagsProcessor());
         }
 
         /// <summary>Gets or sets the ASP.NET Core API Explorer group names to include (default: empty/null = all, often used to select API version).</summary>

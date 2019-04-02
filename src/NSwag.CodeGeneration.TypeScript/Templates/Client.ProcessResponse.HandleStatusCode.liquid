@@ -27,11 +27,16 @@ return response.blob().then(blob => { return { fileName: fileName, data: blob, s
 {% template Client.ProcessResponse.ReadBodyStart %}
 {%     if response.HasType -%}
 let result{{ response.StatusCode }}: any = null;
-{%         if response.UseDtoClass or response.IsDate -%}
-let resultData{{ response.StatusCode }} = _responseText === "" ? null : {% if operation.HandleReferences %}jsonParse{% else %}JSON.parse{% endif %}(_responseText, this.jsonParseReviver);
+{%         if Framework.IsAxios -%}
+let resultData{{ response.StatusCode }}  = _responseText;
 {{ response.DataConversionCode }}
 {%         else -%}
+{%              if response.UseDtoClass or response.IsDate -%}
+let resultData{{ response.StatusCode }} = _responseText === "" ? null : {% if operation.HandleReferences %}jsonParse{% else %}JSON.parse{% endif %}(_responseText, this.jsonParseReviver);
+{{ response.DataConversionCode }}
+{%              else -%}
 result{{ response.StatusCode }} = _responseText === "" ? null : <{{ response.Type }}>{% if operation.HandleReferences %}jsonParse{% else %}JSON.parse{% endif %}(_responseText, this.jsonParseReviver);
+{%              endif -%}
 {%         endif -%}
 {%         if response.IsSuccess -%}
 {%             if operation.WrapResponse -%}
@@ -39,6 +44,8 @@ result{{ response.StatusCode }} = _responseText === "" ? null : <{{ response.Typ
 return {{ Framework.RxJs.ObservableOfMethod }}(new {{ operation.ResponseClass }}(status, _headers, result{{ response.StatusCode }}));
 {%                 elseif Framework.IsAngularJS -%}
 return this.q.resolve(new {{ operation.ResponseClass }}(status, _headers, result{{ response.StatusCode }}));
+{%                 elseif Framework.IsAxios -%}
+return Promise.resolve<{{ operation.ResultType }}>(new {{ operation.ResultType }}(status, _headers, result{{ response.StatusCode }}));
 {%                 else -%}
 return new {{ operation.ResponseClass }}(status, _headers, result{{ response.StatusCode }});
 {%                 endif -%}
@@ -60,6 +67,8 @@ return throwException({% if Framework.IsAngularJS %}this.q, {% endif %}"A server
 return {{ Framework.RxJs.ObservableOfMethod }}<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
 {%             elseif Framework.IsAngularJS -%}
 return this.q.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
+{%             elseif Framework.IsAxios -%}
+return Promise.resolve<{{ operation.ResultType }}>(new {{ operation.ResultType }}(status, _headers, <any>null));
 {%             else -%}
 return new {{ operation.ResponseClass }}(status, _headers, <any>null);
 {%             endif -%}
@@ -68,6 +77,8 @@ return new {{ operation.ResponseClass }}(status, _headers, <any>null);
 return {{ Framework.RxJs.ObservableOfMethod }}<{{ operation.ResultType }}>(<any>null);
 {%             elseif Framework.IsAngularJS -%}
 return this.q.resolve<{{ operation.ResultType }}>(<any>null);
+{%             elseif Framework.IsAxios -%}
+return Promise.resolve<{{ operation.ResultType }}>(<any>null);
 {%             else -%}
 return{% if operation.HasResultType %} null{% endif %};
 {%             endif -%}

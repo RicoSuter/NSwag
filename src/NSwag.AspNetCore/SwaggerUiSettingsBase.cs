@@ -33,6 +33,12 @@ namespace NSwag.AspNetCore
 
         internal string ActualSwaggerUiPath => Path.Substring(MiddlewareBasePath?.Length ?? 0);
 
+        /// <summary>Gets or sets a URI to load a custom CSS Stylesheet into the index.html</summary>
+        public Uri CustomStylesheetUri { get; set; }
+
+        /// <summary>Gets or sets a URI to load a custom JavaScript file into the index.html.</summary>
+        public Uri CustomJavaScriptUri { get; set; }
+
         /// <summary>Gets or sets the external route base path (must start with '/', default: null = use SwaggerUiRoute).</summary>
 #if AspNetOwin
         public Func<string, IOwinRequest, string> TransformToExternalPath { get; set; }
@@ -43,5 +49,35 @@ namespace NSwag.AspNetCore
 
         internal abstract string TransformHtml(string html, HttpRequest request);
 #endif
+
+        /// <summary>
+        /// Gets an HTML snippet for including custom StyleSheet in swagger UI.
+        /// </summary>
+        protected string GetCustomStyleHtml()
+        {
+            if (CustomStylesheetUri == null)
+            {
+                return string.Empty;
+            }
+
+            var uriString = System.Net.WebUtility.HtmlEncode(CustomStylesheetUri.OriginalString);
+
+            return $"<link rel=\"stylesheet\" href=\"{uriString}\">";
+        }
+
+        /// <summary>
+        /// Gets an HTML snippet for including custom JavaScript in swagger UI.
+        /// </summary>
+        protected string GetCustomScriptHtml()
+        {
+            if (CustomJavaScriptUri == null)
+            {
+                return string.Empty;
+            }
+            
+            var uriString = System.Net.WebUtility.HtmlEncode(CustomJavaScriptUri.OriginalString);
+
+            return $"<script src=\"{uriString}\"></script>";
+        }
     }
 }

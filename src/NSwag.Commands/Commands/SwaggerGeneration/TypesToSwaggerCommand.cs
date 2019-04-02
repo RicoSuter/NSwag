@@ -25,7 +25,7 @@ namespace NSwag.Commands.SwaggerGeneration
         /// <summary>Initializes a new instance of the <see cref="TypesToSwaggerCommand"/> class.</summary>
         public TypesToSwaggerCommand()
         {
-            Settings = new JsonSchemaGeneratorSettings();
+            Settings = new JsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 };
             ClassNames = new string[] { };
         }
 
