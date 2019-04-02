@@ -1,18 +1,10 @@
 ﻿{
-  "x-generator": "NSwag v12.0.18.0 (NJsonSchema v9.13.28.0 (Newtonsoft.Json v10.0.0.0))",
+  "x-generator": "NSwag v12.0.20.0 (NJsonSchema v9.13.28.0 (Newtonsoft.Json v10.0.0.0))",
   "swagger": "2.0",
   "info": {
     "title": "Hello world!",
     "version": "1.0.0"
   },
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "text/plain",
-    "application/json",
-    "text/json"
-  ],
   "paths": {
     "/pet": {
       "post": {
@@ -20,6 +12,12 @@
           "Pet"
         ],
         "operationId": "Pet_AddPet",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "pet",
@@ -51,6 +49,12 @@
           "Pet"
         ],
         "operationId": "Pet_EditPet",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "pet",
@@ -84,6 +88,9 @@
           "Pet"
         ],
         "operationId": "Pet_FindByStatusAll",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "array",
@@ -128,6 +135,9 @@
           "Pet"
         ],
         "operationId": "Pet_FindByStatus",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "array",
@@ -188,6 +198,9 @@
           "Pet"
         ],
         "operationId": "Pet_FindByCategory",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "string",
@@ -228,6 +241,9 @@
           "Pet"
         ],
         "operationId": "Pet_FindById",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "integer",
@@ -268,6 +284,9 @@
           "Pet"
         ],
         "operationId": "Pet_EditPetWithFormData",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "integer",
@@ -370,6 +389,9 @@
           "Pet"
         ],
         "operationId": "Pet_DeletePet",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "integer",
@@ -407,6 +429,9 @@
         "operationId": "Pet_UploadImage",
         "consumes": [
           "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
         ],
         "parameters": [
           {
@@ -532,6 +557,11 @@
           "Sample"
         ],
         "operationId": "Sample_GetSample",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
         "responses": {
           "200": {
             "x-nullable": true,
