@@ -69,9 +69,17 @@ namespace NSwag.Core.Tests.Serialization
                             {
                                 "200",
                                 new SwaggerResponse
-                                {
-                                    Examples = 1
-                                }
+                                    {
+                                        Content =
+                                            {
+                                                {
+                                                    "application/json", new OpenApiMediaType
+                                                    {
+                                                        Example = 1,
+                                                    }
+                                                }
+                                            },
+                                    }
                             }
                         }
                     }

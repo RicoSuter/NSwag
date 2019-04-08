@@ -78,10 +78,13 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 
                         response.IsNullableRaw = typeDescription.IsNullable;
 
-                        response.Schema = await context.SchemaGenerator
+                        var responseSchema = await context.SchemaGenerator
                             .GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(
                                 returnType, null, typeDescription.IsNullable, context.SchemaResolver)
                             .ConfigureAwait(false);
+
+                        var contentTypes = context.OperationDescription.Operation.ActualProduces.ToList();
+                        response.UpdateContent(responseSchema, null, contentTypes);
                     }
 
                     context.OperationDescription.Operation.Responses[httpStatusCode] = response;
@@ -90,20 +93,26 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 
             if (context.OperationDescription.Operation.Responses.Count == 0)
             {
-                context.OperationDescription.Operation.Responses[GetVoidResponseStatusCode()] = new SwaggerResponse
+                var responseSchema = new JsonSchema4
+                {
+                    Type = _settings.SchemaType == SchemaType.Swagger2 ? JsonObjectType.File : JsonObjectType.String,
+                    Format = _settings.SchemaType == SchemaType.Swagger2 ? null : JsonFormatStrings.Binary,
+                };
+
+                var response = new SwaggerResponse
                 {
                     IsNullableRaw = true,
-                    Schema = new JsonSchema4
-                    {
-                        Type = _settings.SchemaType == SchemaType.Swagger2 ? JsonObjectType.File : JsonObjectType.String,
-                        Format = _settings.SchemaType == SchemaType.Swagger2 ? null : JsonFormatStrings.Binary,
-                    }
                 };
+
+                var contentTypes = context.OperationDescription.Operation.ActualProduces.ToList();
+                response.UpdateContent(responseSchema, null, contentTypes);
+
+                context.OperationDescription.Operation.Responses[GetVoidResponseStatusCode()] = response;
             }
 
             var successXmlDescription = await parameter.GetDescriptionAsync(parameter.GetCustomAttributes())
                 .ConfigureAwait(false) ?? string.Empty;
-            
+
             if (!string.IsNullOrEmpty(successXmlDescription))
             {
                 foreach (var response in context.OperationDescription.Operation.Responses

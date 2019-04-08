@@ -133,9 +133,14 @@ namespace NSwag.SwaggerGeneration.Processors
 
                     response.IsNullableRaw = isNullable;
                     response.ExpectedSchemas = await GenerateExpectedSchemasAsync(statusCodeGroup, context);
-                    response.Schema = await context.SchemaGenerator
+
+                    var schema = await context.SchemaGenerator
                         .GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(returnType, null, isNullable, context.SchemaResolver)
                         .ConfigureAwait(false);
+
+                    var contentTypes = context.OperationDescription.Operation.ActualProduces.ToList();
+
+                    response.UpdateContent(schema, null, contentTypes);
                 }
 
                 context.OperationDescription.Operation.Responses[httpStatusCode] = response;
@@ -213,12 +218,16 @@ namespace NSwag.SwaggerGeneration.Processors
                 var responseSchema = await context.SchemaGenerator.GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(
                     returnType, returnParameterAttributes, typeDescription.IsNullable, context.SchemaResolver).ConfigureAwait(false);
 
-                operation.Responses["200"] = new SwaggerResponse
+                var response = new SwaggerResponse
                 {
                     Description = successXmlDescription,
                     IsNullableRaw = typeDescription.IsNullable,
-                    Schema = responseSchema
                 };
+
+                var contentTypes = context.OperationDescription.Operation.ActualProduces.ToList();
+                response.UpdateContent(responseSchema, null, contentTypes);
+
+                operation.Responses["200"] = response;
             }
         }
 

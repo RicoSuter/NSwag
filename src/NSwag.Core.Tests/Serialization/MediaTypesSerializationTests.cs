@@ -159,19 +159,27 @@ namespace NSwag.Core.Tests.Serialization
                         new SwaggerPathItem
                         {
                             {
-                                SwaggerOperationMethod.Get, 
+                                SwaggerOperationMethod.Get,
                                 new SwaggerOperation
                                 {
                                     Responses =
                                     {
                                         {
-                                            "200", 
+                                            "200",
                                             new SwaggerResponse
                                             {
-                                                Examples = 123,
-                                                Schema = new JsonSchema4
+                                                Content =
                                                 {
-                                                    Type = type
+                                                    {
+                                                        "application/json", new OpenApiMediaType
+                                                        {
+                                                            Schema = new JsonSchema4
+                                                            {
+                                                                Type = type
+                                                            },
+                                                            Example = 123,
+                                                        }
+                                                    }
                                                 },
                                             }
                                         }
