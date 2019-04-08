@@ -27,6 +27,10 @@ namespace NSwag.SwaggerGeneration.AspNetCore
     /// <summary>Generates a <see cref="SwaggerDocument"/> using <see cref="ApiDescription"/>. </summary>
     public class AspNetCoreToSwaggerGenerator : ISwaggerGenerator
     {
+        // Default content types to be used when no content type information is available
+        private const string DefaultRequestContentType = "application/json";
+        private const string DefaultResponseContentType = "application/json";
+
         private readonly SwaggerJsonSchemaGenerator _schemaGenerator;
 
         /// <summary>Initializes a new instance of the <see cref="AspNetCoreToSwaggerGenerator" /> class.</summary>
@@ -54,26 +58,22 @@ namespace NSwag.SwaggerGeneration.AspNetCore
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
         public async Task<SwaggerDocument> GenerateAsync(ApiDescriptionGroupCollection apiDescriptionGroups)
         {
-            var apiDescriptions = apiDescriptionGroups.Items
-                .Where(i =>
-                    Settings.ApiGroupNames == null ||
-                    Settings.ApiGroupNames.Length == 0 ||
-                    Settings.ApiGroupNames.Contains(i.GroupName))
-                .SelectMany(g => g.Items);
-
             var document = await CreateDocumentAsync().ConfigureAwait(false);
             var schemaResolver = new SwaggerSchemaResolver(document, Settings);
 
-            var apiGroups = apiDescriptions.Where(apiDescription => apiDescription.ActionDescriptor is ControllerActionDescriptor)
-                .Select(apiDescription => new Tuple<ApiDescription, ControllerActionDescriptor>(apiDescription, (ControllerActionDescriptor)apiDescription.ActionDescriptor))
-                .GroupBy(item => item.Item2.ControllerTypeInfo.AsType())
+            var descriptorInfos = PrefilterDescriptions(apiDescriptionGroups);
+
+            AddGlobalConsumesProducesToDocument(document, descriptorInfos);
+
+            var apiGroups = descriptorInfos
+                .GroupBy(i => i.ControllerType)
                 .ToArray();
 
             var usedControllerTypes = new List<Type>();
             foreach (var controllerApiDescriptionGroup in apiGroups)
             {
                 var generator = new SwaggerGenerator(_schemaGenerator, Settings, schemaResolver);
-                var isIncluded = await GenerateForControllerAsync(document, controllerApiDescriptionGroup.Key, controllerApiDescriptionGroup, generator, schemaResolver).ConfigureAwait(false);
+                var isIncluded = await GenerateForControllerAsync(document, controllerApiDescriptionGroup.Key, controllerApiDescriptionGroup.ToList(), generator, schemaResolver).ConfigureAwait(false);
                 if (isIncluded)
                     usedControllerTypes.Add(controllerApiDescriptionGroup.Key);
             }
@@ -85,6 +85,28 @@ namespace NSwag.SwaggerGeneration.AspNetCore
                 await processor.ProcessAsync(new DocumentProcessorContext(document, controllerTypes, usedControllerTypes, schemaResolver, _schemaGenerator, Settings));
 
             return document;
+        }
+
+        private List<ApiDescriptorInfo> PrefilterDescriptions(ApiDescriptionGroupCollection apiDescriptionGroups)
+        {
+            var apiDescriptions = apiDescriptionGroups.Items
+                .Where(i =>
+                    Settings.ApiGroupNames == null ||
+                    Settings.ApiGroupNames.Length == 0 ||
+                    Settings.ApiGroupNames.Contains(i.GroupName))
+                .SelectMany(g => g.Items);
+
+
+            var descriptors = apiDescriptions.Where(d => d.ActionDescriptor is ControllerActionDescriptor)
+                .Select(d => new ApiDescriptorInfo(d))
+                .Where(i => i.ControllerType != null)
+                .GroupBy(i => i.ControllerType)
+                .Where(g => !ApiDescriptorInfo.HasSwaggerIgnoreAttribute(g.Key.GetTypeInfo()))
+                .SelectMany(g => g)
+                .Where(i => !ApiDescriptorInfo.HasSwaggerIgnoreAttribute(i.ActionDescriptor.MethodInfo))
+                .ToList();
+
+            return descriptors;
         }
 
         /// <summary>Generates the <see cref="SwaggerDocument"/> with services from the given service provider.</summary>
@@ -125,37 +147,18 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             return settings;
         }
 
-        private async Task<bool> GenerateForControllerAsync(SwaggerDocument document, Type controllerType,
-            IEnumerable<Tuple<ApiDescription, ControllerActionDescriptor>> controllerApiDescriptionGroup,
+        private Task<bool> GenerateForControllerAsync(SwaggerDocument document, Type controllerType,
+            IEnumerable<ApiDescriptorInfo> controllerApiDescriptionGroup,
             SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver)
         {
-            var hasIgnoreAttribute = controllerType.GetTypeInfo()
-                .GetCustomAttributes()
-                .Any(a => a.GetType().Name == "SwaggerIgnoreAttribute");
-
-            if (hasIgnoreAttribute)
-            {
-                return false;
-            }
-
-            var operations = new List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo, IEnumerable<string>, IEnumerable<string>>>();
+            var operations = new List<Tuple<SwaggerOperationDescription, ApiDescriptorInfo>>();
             foreach (var item in controllerApiDescriptionGroup)
             {
-                var apiDescription = item.Item1;
-                var method = item.Item2.MethodInfo;
-
-                var actionHasIgnoreAttribute = method.GetCustomAttributes().Any(a => a.GetType().Name == "SwaggerIgnoreAttribute");
-                if (actionHasIgnoreAttribute)
-                {
-                    continue;
-                }
-
-                var path = apiDescription.RelativePath;
+                var path = item.ApiDescription.RelativePath;
                 if (!path.StartsWith("/", StringComparison.Ordinal))
                     path = "/" + path;
 
-                var controllerActionDescriptor = (ControllerActionDescriptor)apiDescription.ActionDescriptor;
-                var httpMethod = apiDescription.HttpMethod?.ToLowerInvariant() ?? SwaggerOperationMethod.Get;
+                var httpMethod = item.ApiDescription.HttpMethod?.ToLowerInvariant() ?? SwaggerOperationMethod.Get;
 
                 var operationDescription = new SwaggerOperationDescription
                 {
@@ -163,71 +166,42 @@ namespace NSwag.SwaggerGeneration.AspNetCore
                     Method = httpMethod,
                     Operation = new SwaggerOperation
                     {
-                        IsDeprecated = method.GetCustomAttribute<ObsoleteAttribute>() != null,
-                        OperationId = GetOperationId(document, controllerActionDescriptor, method)
+                        IsDeprecated = item.ActionDescriptor.MethodInfo.GetCustomAttribute<ObsoleteAttribute>() != null,
+                        OperationId = GetOperationId(document, item.ActionDescriptor, item.ActionDescriptor.MethodInfo)
                     }
                 };
 
-                var consumes = apiDescription.SupportedRequestFormats
-                   .Select(f => f.MediaType)
-                   .Distinct();
-
-                var produces = apiDescription.SupportedResponseTypes
-                   .SelectMany(t => t.ApiResponseFormats.Select(f => f.MediaType))
-                   .Distinct();
-
-                operations.Add(new Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo, IEnumerable<string>, IEnumerable<string>>(
-                    operationDescription, apiDescription, method, consumes, produces));
+                operations.Add(new Tuple<SwaggerOperationDescription, ApiDescriptorInfo>(operationDescription, item));
             }
 
-            return await AddOperationDescriptionsToDocumentAsync(document, controllerType, operations, swaggerGenerator, schemaResolver).ConfigureAwait(false);
+            return AddOperationDescriptionsToDocumentAsync(document, controllerType, operations, swaggerGenerator, schemaResolver);
         }
 
         private async Task<bool> AddOperationDescriptionsToDocumentAsync(SwaggerDocument document, Type controllerType,
-            List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo, IEnumerable<string>, IEnumerable<string>>> operations,
+            List<Tuple<SwaggerOperationDescription, ApiDescriptorInfo>> operations,
             SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver)
         {
-            var globalConsumes = operations
-                .SelectMany(o => o.Item4)
-                .Where(c => operations.All(o => o.Item4.Count() == 0 || o.Item4.Contains(c)))
-                .Distinct();
-
-            if (globalConsumes.Any())
-            {
-                document.Consumes = globalConsumes.ToList();
-            }
-
-            var globalProduces = operations
-                .SelectMany(o => o.Item5)
-                .Where(c => operations.All(o => o.Item5.Count() == 0 || o.Item5.Contains(c)))
-                .Distinct();
-
-            if (globalProduces.Any())
-            {
-                document.Produces = globalProduces.ToList();
-            }
-
             var addedOperations = 0;
             var allOperation = operations.Select(t => t.Item1).ToList();
+
             foreach (var tuple in operations)
             {
                 var operation = tuple.Item1;
-                var apiDescription = tuple.Item2;
-                var method = tuple.Item3;
+                var descriptorInfo = tuple.Item2;
 
-                var consumes = tuple.Item4;
-                if (consumes.Any(c => !globalConsumes.Contains(c)))
+                var consumes = descriptorInfo.GetSupportedRequestFormats();
+                if (!consumes.SequenceEqual(document.Consumes))
                 {
                     operation.Operation.Consumes = consumes.ToList();
                 }
 
-                var produces = tuple.Item5;
-                if (produces.Any(c => !globalProduces.Contains(c)))
+                var produces = descriptorInfo.GetSupportedResponseFormats();
+                if (!produces.SequenceEqual(document.Produces))
                 {
                     operation.Operation.Produces = produces.ToList();
                 }
 
-                var addOperation = await RunOperationProcessorsAsync(document, apiDescription, controllerType, method, operation, allOperation, swaggerGenerator, schemaResolver).ConfigureAwait(false);
+                var addOperation = await RunOperationProcessorsAsync(document, descriptorInfo.ApiDescription, controllerType, descriptorInfo.ActionDescriptor.MethodInfo, operation, allOperation, swaggerGenerator, schemaResolver).ConfigureAwait(false);
                 if (addOperation)
                 {
                     var path = operation.Path.Replace("//", "/");
@@ -246,6 +220,26 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             }
 
             return addedOperations > 0;
+        }
+
+        private void AddGlobalConsumesProducesToDocument(SwaggerDocument document, List<ApiDescriptorInfo> descriptorInfos)
+        {
+            document.Consumes = descriptorInfos
+                .SelectMany(i => i.ApiDescription.SupportedRequestFormats)
+                .Select(f => f.MediaType)
+                .Distinct()
+                .DefaultIfEmpty(DefaultRequestContentType)
+                .OrderBy(s => s)
+                .ToList();
+
+            document.Produces = descriptorInfos
+                .SelectMany(i => i.ApiDescription.SupportedResponseTypes)
+                .SelectMany(r => r.ApiResponseFormats)
+                .Select(f => f.MediaType)
+                .Distinct()
+                .DefaultIfEmpty(DefaultResponseContentType)
+                .OrderBy(s => s)
+                .ToList();
         }
 
         private async Task<SwaggerDocument> CreateDocumentAsync()
@@ -332,6 +326,48 @@ namespace NSwag.SwaggerGeneration.AspNetCore
                 actionName = actionName.Substring(0, actionName.Length - 5);
 
             return actionName;
+        }
+
+        private class ApiDescriptorInfo
+        {
+            public ApiDescriptorInfo(ApiDescription apiDescription)
+            {
+                this.ApiDescription = apiDescription;
+                this.ActionDescriptor = (ControllerActionDescriptor)apiDescription.ActionDescriptor;
+                this.ControllerType = this.ActionDescriptor?.ControllerTypeInfo.AsType();
+            }
+
+            public ApiDescription ApiDescription { get; }
+
+            public ControllerActionDescriptor ActionDescriptor { get; }
+
+            public Type ControllerType { get; }
+
+            public IList<string> GetSupportedRequestFormats()
+            {
+                return this.ApiDescription.SupportedRequestFormats
+                        .Select(f => f.MediaType)
+                        .Distinct()
+                        .DefaultIfEmpty(DefaultRequestContentType)
+                        .OrderBy(s => s)
+                        .ToList();
+            }
+
+            public IList<string> GetSupportedResponseFormats()
+            {
+                return this.ApiDescription.SupportedResponseTypes
+                        .SelectMany(r => r.ApiResponseFormats)
+                        .Select(f => f.MediaType)
+                        .Distinct()
+                        .DefaultIfEmpty(DefaultResponseContentType)
+                        .OrderBy(s => s)
+                        .ToList();
+            }
+
+            public static bool HasSwaggerIgnoreAttribute(ICustomAttributeProvider type)
+            {
+                return type.GetCustomAttributes(true).Any(a => a.GetType().Name == "SwaggerIgnoreAttribute");
+            }
         }
     }
 }
