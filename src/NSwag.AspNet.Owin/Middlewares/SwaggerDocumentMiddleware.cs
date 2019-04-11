@@ -88,7 +88,7 @@ namespace NSwag.AspNet.Owin.Middlewares
                     _schemaJson = null;
                     _schemaException = exception;
                     _schemaTimestamp = DateTimeOffset.UtcNow;
-                    throw _schemaException;
+                    throw;
                 }
             }
 
