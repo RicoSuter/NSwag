@@ -27,6 +27,8 @@ namespace NSwag.AspNetCore
         internal override string TransformHtml(string html, HttpRequest request)
 #endif
         {
+            html = html.Replace("{CustomStyle}", GetCustomStyleHtml());
+            html = html.Replace("{CustomScript}", GetCustomScriptHtml());
             return html;
         }
     }
