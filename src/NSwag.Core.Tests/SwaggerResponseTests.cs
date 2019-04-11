@@ -11,6 +11,7 @@ namespace NSwag.Core.Tests
         [InlineData("application/json", false)]
         [InlineData("application/vnd.model+json", false)]
         [InlineData("*/*", false)]
+        [InlineData("application/json;charset=UTF-8", false)]
         public void When_response_contains_produces_detect_if_binary_response(string contentType, bool expectsBinary)
         {
             // Arrange
