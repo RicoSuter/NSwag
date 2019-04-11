@@ -120,11 +120,9 @@ namespace NSwag
                 if (ActualResponse.Content.Any())
                 {
                     var contentIsBinary =
-                        !ActualResponse.Content.ContainsKey("*/*") && // supports json
                         !ActualResponse.Content.ContainsKey("application/json") &&
                         !ActualResponse.Content.ContainsKey("text/plain") &&
                         !ActualResponse.Content.Keys.Any(p => p.StartsWith("application/") && p.EndsWith("+json"));
-
                     if (contentIsBinary)
                     {
                         return true;
@@ -135,7 +133,6 @@ namespace NSwag
                 if (actualProduces?.Any() == true)
                 {
                     var producesIsBinary =
-                        actualProduces?.Contains("*/*") != true && // supports json
                         actualProduces?.Contains("application/json") != true &&
                         actualProduces?.Contains("text/plain") != true &&
                         actualProduces?.Any(p => p.StartsWith("application/") && p.EndsWith("+json")) != true;

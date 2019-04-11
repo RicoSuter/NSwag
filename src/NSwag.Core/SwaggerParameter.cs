@@ -203,7 +203,6 @@ namespace NSwag
         public bool IsBinaryBodyParameter => !IsXmlBodyParameter &&
                                              Kind == SwaggerParameterKind.Body &&
                                              ((SwaggerOperation)Parent).ActualConsumes?.Any() == true &&
-                                             ((SwaggerOperation)Parent).ActualConsumes?.Any(p => p.Contains("*/*")) == false && // supports json
                                              ((SwaggerOperation)Parent).ActualConsumes?.Any(p => p.Contains("application/json")) == false;
     }
 }
