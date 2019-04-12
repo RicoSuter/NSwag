@@ -8,18 +8,14 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
-using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Contexts;
+using Microsoft.AspNetCore.Authorization;
+using NSwag.SwaggerGeneration.AspNetCore;
+using NJsonSchema.Infrastructure;
 
 namespace NSwag.SwaggerGeneration.Processors.Security
 {
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc.Controllers;
-
-    using NSwag.SwaggerGeneration.AspNetCore;
-
     /// <summary>Generates the OAuth2 security scopes for an operation by reflecting the AuthorizeAttribute attributes.</summary>
     public class AspNetCoreOperationSecurityScopeProcessor : IOperationProcessor
     {
@@ -44,30 +40,32 @@ namespace NSwag.SwaggerGeneration.Processors.Security
         {
             var aspNetCoreContext = (AspNetCoreOperationProcessorContext)context;
 
-            var endpointMetadata = aspNetCoreContext.ApiDescription.ActionDescriptor.EndpointMetadata;
-
-            var allowAnonymous = endpointMetadata.OfType<AllowAnonymousAttribute>().Any();
-            if (allowAnonymous)
+            var endpointMetadata = aspNetCoreContext?.ApiDescription?.ActionDescriptor?.TryGetPropertyValue<IList<object>>("EndpointMetadata");
+            if (endpointMetadata != null)
             {
-                return Task.FromResult(true);
+                var allowAnonymous = endpointMetadata.OfType<AllowAnonymousAttribute>().Any();
+                if (allowAnonymous)
+                {
+                    return Task.FromResult(true);
+                }
+
+                var authorizeAttributes = endpointMetadata.OfType<AuthorizeAttribute>().ToList();
+                if (!authorizeAttributes.Any())
+                {
+                    return Task.FromResult(true);
+                }
+
+                if (context.OperationDescription.Operation.Security == null)
+                {
+                    context.OperationDescription.Operation.Security = new List<SwaggerSecurityRequirement>();
+                }
+
+                var scopes = GetScopes(authorizeAttributes);
+                context.OperationDescription.Operation.Security.Add(new SwaggerSecurityRequirement
+                {
+                    { _name, scopes }
+                });
             }
-
-            var authorizeAttributes = endpointMetadata.OfType<AuthorizeAttribute>().ToList();
-            if (!authorizeAttributes.Any())
-            {
-                return Task.FromResult(true);
-            }
-
-            if (context.OperationDescription.Operation.Security == null)
-            {
-                context.OperationDescription.Operation.Security = new List<SwaggerSecurityRequirement>();
-            }
-
-            var scopes = this.GetScopes(authorizeAttributes);
-            context.OperationDescription.Operation.Security.Add(new SwaggerSecurityRequirement
-            {
-                { _name, scopes }
-            });
 
             return Task.FromResult(true);
         }
