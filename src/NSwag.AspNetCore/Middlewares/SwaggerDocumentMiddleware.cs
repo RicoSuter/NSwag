@@ -95,7 +95,7 @@ namespace NSwag.AspNetCore.Middlewares
                 _swaggerJson = null;
                 _swaggerException = exception;
                 _schemaTimestamp = DateTimeOffset.UtcNow;
-                throw _swaggerException;
+                throw;
             }
 
             return _swaggerJson;
