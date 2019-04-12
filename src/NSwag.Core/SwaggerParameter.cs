@@ -195,14 +195,16 @@ namespace NSwag
         /// <summary>Gets a value indicating whether this is an XML body parameter.</summary>
         [JsonIgnore]
         public bool IsXmlBodyParameter => Kind == SwaggerParameterKind.Body &&
-                                          (Parent as SwaggerOperation)?.ActualConsumes?.FirstOrDefault() == "application/xml" &&
-                                          ((SwaggerOperation)Parent).ActualConsumes?.Contains("application/json") != true;
+                                          ((SwaggerOperation)Parent).ActualConsumes?.Any() == true &&
+                                          ((SwaggerOperation)Parent).ActualConsumes.Any(p => p.Contains("application/xml")) &&
+                                          ((SwaggerOperation)Parent).ActualConsumes.Any(p => p.Contains("application/json")) == false;
 
         /// <summary>Gets a value indicating whether this is an binary body parameter.</summary>
         [JsonIgnore]
         public bool IsBinaryBodyParameter => !IsXmlBodyParameter &&
                                              Kind == SwaggerParameterKind.Body &&
                                              ((SwaggerOperation)Parent).ActualConsumes?.Any() == true &&
-                                             ((SwaggerOperation)Parent).ActualConsumes?.Any(p => p.Contains("application/json")) == false;
+                                             ((SwaggerOperation)Parent).ActualConsumes.Any(p => p.Contains("*/*")) == false && // supports json
+                                             ((SwaggerOperation)Parent).ActualConsumes.Any(p => p.Contains("application/json")) == false;
     }
 }
