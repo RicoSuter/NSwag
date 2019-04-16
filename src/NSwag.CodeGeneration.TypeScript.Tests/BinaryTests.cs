@@ -24,7 +24,7 @@ paths:
       responses:
         '200':
           content:
-            application/json:
+            application/xml:
               schema:
                 $ref: '#/components/schemas/FileToken'
       requestBody:
@@ -52,7 +52,8 @@ components:
 
             //// Assert
             Assert.Contains("addFile(body: Blob | undefined): ", code);
-            Assert.Contains("\"Content-Type\": \"image/png\",", code);
+            Assert.Contains("\"Content-Type\": \"image/png\"", code);
+            Assert.Contains("\"Accept\": \"application/xml\"", code);
             Assert.Contains("const content_ = body;", code);
         }
     }

@@ -252,7 +252,9 @@ namespace NSwag.CodeGeneration.Models
                 if (_operation.ActualProduces?.Contains("application/json") == true)
                     return "application/json";
 
-                return _operation.ActualProduces?.FirstOrDefault() ?? "application/json";
+                return _operation.ActualProduces?.FirstOrDefault() ?? 
+                    SuccessResponse?.Produces ??
+                    "application/json";
             }
         }
 
