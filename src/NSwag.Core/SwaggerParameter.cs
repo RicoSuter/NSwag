@@ -194,17 +194,37 @@ namespace NSwag
 
         /// <summary>Gets a value indicating whether this is an XML body parameter.</summary>
         [JsonIgnore]
-        public bool IsXmlBodyParameter => Kind == SwaggerParameterKind.Body &&
-                                          ((SwaggerOperation)Parent).ActualConsumes?.Any() == true &&
-                                          ((SwaggerOperation)Parent).ActualConsumes.Any(p => p.Contains("application/xml")) &&
-                                          ((SwaggerOperation)Parent).ActualConsumes.Any(p => p.Contains("application/json")) == false;
+        public bool IsXmlBodyParameter
+        {
+            get
+            {
+                var consumes = ((SwaggerOperation)Parent).ActualConsumes?.Any() == true ?
+                    ((SwaggerOperation)Parent).ActualConsumes :
+                    ((SwaggerOperation)Parent).RequestBody?.Content.Keys;
+
+                return Kind == SwaggerParameterKind.Body &&
+                       consumes?.Any() == true &&
+                       consumes.Any(p => p.Contains("application/xml")) &&
+                       consumes.Any(p => p.Contains("application/json")) == false;
+            }
+        }
 
         /// <summary>Gets a value indicating whether this is an binary body parameter.</summary>
         [JsonIgnore]
-        public bool IsBinaryBodyParameter => !IsXmlBodyParameter &&
-                                             Kind == SwaggerParameterKind.Body &&
-                                             ((SwaggerOperation)Parent).ActualConsumes?.Any() == true &&
-                                             ((SwaggerOperation)Parent).ActualConsumes.Any(p => p.Contains("*/*")) == false && // supports json
-                                             ((SwaggerOperation)Parent).ActualConsumes.Any(p => p.Contains("application/json")) == false;
+        public bool IsBinaryBodyParameter
+        {
+            get
+            {
+                var consumes = ((SwaggerOperation)Parent).ActualConsumes?.Any() == true ?
+                    ((SwaggerOperation)Parent).ActualConsumes :
+                    ((SwaggerOperation)Parent).RequestBody?.Content.Keys;
+
+                return !IsXmlBodyParameter &&
+                       Kind == SwaggerParameterKind.Body &&
+                       consumes?.Any() == true &&
+                       consumes.Any(p => p.Contains("*/*")) == false && // supports json
+                       consumes.Any(p => p.Contains("application/json")) == false;
+            }
+        }
     }
 }
