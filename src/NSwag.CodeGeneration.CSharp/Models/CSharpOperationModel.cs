@@ -216,6 +216,11 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <returns>The parameter type name.</returns>
         protected override string ResolveParameterType(SwaggerParameter parameter)
         {
+            if (parameter.IsBinaryBodyParameter)
+            {
+                return "System.IO.Stream";
+            }
+
             var schema = parameter.ActualSchema;
             if (schema.IsBinary)
             {
@@ -223,11 +228,6 @@ namespace NSwag.CodeGeneration.CSharp.Models
                     return "System.Collections.Generic.IEnumerable<FileParameter>";
 
                 return "FileParameter";
-            }
-
-            if (parameter.IsBinaryBodyParameter)
-            {
-                return "System.IO.Stream";
             }
 
             return base.ResolveParameterType(parameter)
