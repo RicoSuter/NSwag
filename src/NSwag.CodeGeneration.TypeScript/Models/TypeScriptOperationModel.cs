@@ -158,6 +158,11 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <returns>The parameter type name.</returns>
         protected override string ResolveParameterType(SwaggerParameter parameter)
         {
+            if (parameter.IsBinaryBodyParameter)
+            {
+                return "Blob";
+            }
+
             var schema = parameter.ActualSchema;
             if (schema.IsBinary)
             {

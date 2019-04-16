@@ -66,7 +66,9 @@ else
 {%     endif -%}
 {% else -%}
 {%     if operation.HasContent -%}
-{%         if operation.ContentParameter.IsXmlBodyParameter -%}
+{%         if operation.HasBinaryBodyParameter -%}
+const content_ = {{ operation.ContentParameter.VariableName }};
+{%         elseif operation.HasXmlBodyParameter -%}
 const content_ = {{ operation.ContentParameter.VariableName }};
 {%         else -%}
 const content_ = JSON.stringify({{ operation.ContentParameter.VariableName }});

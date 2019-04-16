@@ -1,12 +1,12 @@
 ﻿using System.Threading.Tasks;
 using Xunit;
 
-namespace NSwag.CodeGeneration.CSharp.Tests
+namespace NSwag.CodeGeneration.TypeScript.Tests
 {
     public class BinaryTests
     {
         [Fact]
-        public async Task When_body_is_binary_then_stream_is_used_as_parameter_in_CSharp()
+        public async Task When_body_is_binary_then_blob_is_used_as_parameter_in_TypeScript()
         {
             var yaml = @"openapi: 3.0.0
 servers:
@@ -47,12 +47,13 @@ components:
             var document = await SwaggerYamlDocument.FromYamlAsync(yaml);
 
             //// Act
-            var codeGenerator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+            var codeGenerator = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings());
             var code = codeGenerator.GenerateFile();
 
             //// Assert
-            Assert.Contains("public async System.Threading.Tasks.Task<FileToken> AddFileAsync(System.IO.Stream body, System.Threading.CancellationToken cancellationToken)", code);
-            Assert.Contains("var content_ = new System.Net.Http.StreamContent(body);", code);
+            Assert.Contains("addFile(body: Blob | undefined): ", code);
+            Assert.Contains("\"Content-Type\": \"image/png\",", code);
+            Assert.Contains("const content_ = body;", code);
         }
     }
 }
