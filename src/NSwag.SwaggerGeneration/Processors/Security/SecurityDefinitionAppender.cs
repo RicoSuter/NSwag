@@ -24,6 +24,7 @@ namespace NSwag.SwaggerGeneration.Processors.Security
         /// <summary>Initializes a new instance of the <see cref="SecurityDefinitionAppender" /> class where the security requirement must be manually added.</summary>
         /// <param name="name">The name/key of the security scheme/definition.</param>
         /// <param name="swaggerSecurityScheme">The Swagger security scheme.</param>
+        [Obsolete("Use the constructor with scopeNames parameter instead.")]
         public SecurityDefinitionAppender(string name, SwaggerSecurityScheme swaggerSecurityScheme)
         {
             _name = name;
