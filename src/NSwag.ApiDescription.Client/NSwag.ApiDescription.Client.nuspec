@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
-    <id>NSwag.ApiDescription.Design</id>
+    <id>NSwag.ApiDescription.Client</id>
     <version>12.2.5</version>
     <authors>Rico Suter</authors>
     <owners>Rico Suter</owners>
@@ -14,12 +14,12 @@
     <copyright>Copyright © Rico Suter, 2019</copyright>
     <developmentDependency>true</developmentDependency>
     <dependencies>
-      <dependency id="Microsoft.Extensions.ApiDescription.Design" version="0.1.0-preview1-10773" />
+      <dependency id="Microsoft.Extensions.ApiDescription.Client" version="0.3.0-preview5-19227-01" />
       <dependency id="NSwag.MSBuild" version="12.0.0" />
     </dependencies>
     <references />
   </metadata>
   <files>
-    <file src="NSwag.ApiDescription.Design.targets" target="build" />
+    <file src="NSwag.ApiDescription.Client.targets" target="build" />
   </files>
 </package>
