@@ -23,8 +23,8 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 
 **Features:**
 
-- Generate Swagger 2.0 and OpenAPI 3.0 specifications from C# ASP.NET (Core) controllers
-- Serve the specs via ASP.NET (Core) middleware, optionally with Swagger UI or ReDoc
+- [Generate Swagger 2.0 and OpenAPI 3.0 specifications from C# ASP.NET (Core) controllers](https://github.com/RicoSuter/NSwag/wiki/Middlewares)
+- Serve the specs via ASP.NET (Core) middleware, optionally with [Swagger UI]() or [ReDoc](https://github.com/Rebilly/ReDoc)
 - Generate C# or TypeScript clients/proxies from these specs
 - Everything can be automated via CLI (distributed via NuGet tool or build target; or NPM)
 - CLI configured via JSON file or NSwagStudio Windows UI
