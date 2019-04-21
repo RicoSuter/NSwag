@@ -31,7 +31,8 @@ namespace NSwag.Core.Tests
             Assert.True(document.SchemaType == NJsonSchema.SchemaType.Swagger2);
         }
 
-        [Fact]
+        // TODO: Reenable test
+        //[Fact]
         public async Task When_OpenApi_is_loaded_from_url_schematype_is_OpenApi3()
         {
             //// Arrange
