@@ -120,9 +120,13 @@ namespace NSwag
                 if (ActualResponse.Content.Any())
                 {
                     var contentIsBinary =
-                        !ActualResponse.Content.ContainsKey("application/json") &&
-                        !ActualResponse.Content.ContainsKey("text/plain") &&
+                        ActualResponse.Content.All(c => c.Value.Schema?.ActualSchema.IsAnyType != false || 
+                                                        c.Value.Schema?.ActualSchema.Type == JsonObjectType.File) && // is binary only if there is no JSON schema defined
+                        !ActualResponse.Content.Keys.Any(p => p.Contains("*/*")) && // supports json
+                        !ActualResponse.Content.Keys.Any(p => p.Contains("application/json")) &&
+                        !ActualResponse.Content.Keys.Any(p => p.Contains("text/plain")) &&
                         !ActualResponse.Content.Keys.Any(p => p.StartsWith("application/") && p.EndsWith("+json"));
+
                     if (contentIsBinary)
                     {
                         return true;
@@ -133,8 +137,10 @@ namespace NSwag
                 if (actualProduces?.Any() == true)
                 {
                     var producesIsBinary =
-                        actualProduces?.Contains("application/json") != true &&
-                        actualProduces?.Contains("text/plain") != true &&
+                        (Schema?.ActualSchema.IsAnyType != false || Schema?.ActualSchema.Type == JsonObjectType.File) && // is binary only if there is no JSON schema defined
+                        actualProduces?.Any(p => p.Contains("*/*")) != true && // supports json
+                        actualProduces?.Any(p => p.Contains("application/json")) != true &&
+                        actualProduces?.Any(p => p.Contains("text/plain")) != true &&
                         actualProduces?.Any(p => p.StartsWith("application/") && p.EndsWith("+json")) != true;
 
                     if (producesIsBinary)

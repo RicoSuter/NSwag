@@ -238,7 +238,9 @@ namespace NSwag.CodeGeneration.Models
                 if (_operation.ActualConsumes?.Contains("application/json") == true)
                     return "application/json";
 
-                return _operation.ActualConsumes?.FirstOrDefault() ?? "application/json";
+                return _operation.ActualConsumes?.FirstOrDefault() ??
+                    _operation.RequestBody?.Content.Keys.FirstOrDefault() ??
+                    "application/json";
             }
         }
 
@@ -250,7 +252,9 @@ namespace NSwag.CodeGeneration.Models
                 if (_operation.ActualProduces?.Contains("application/json") == true)
                     return "application/json";
 
-                return _operation.ActualProduces?.FirstOrDefault() ?? "application/json";
+                return _operation.ActualProduces?.FirstOrDefault() ?? 
+                    SuccessResponse?.Produces ??
+                    "application/json";
             }
         }
 

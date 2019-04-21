@@ -128,5 +128,8 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets the response extension data.</summary>
         public IDictionary<string, object> ExtensionData => _response.ExtensionData;
+
+        /// <summary>Gets the produced mime type of this response if available.</summary>
+        public string Produces => _response.Content.Keys.FirstOrDefault();
     }
 }

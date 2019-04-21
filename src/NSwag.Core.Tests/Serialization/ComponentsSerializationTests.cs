@@ -48,6 +48,54 @@ namespace NSwag.Core.Tests.Serialization
             Assert.True(document.Definitions.ContainsKey("Foo"));
         }
 
+        [Fact]
+        public async Task When_openapi3_has_nullable_schema_then_it_is_read_correctly()
+        {
+            var json = @"{
+  ""openapi"": ""3.0.0"",
+  ""info"": {
+    ""title"": ""Swagger Petstore"",
+    ""license"": {
+      ""name"": ""MIT""
+    },
+    ""version"": ""1.0.0""
+  },
+  ""servers"": [
+    {
+      ""url"": ""http://petstore.swagger.io/v1""
+    }
+  ],
+  ""paths"": { },
+  ""components"": {
+    ""schemas"": {
+      ""PurchaseReadDto2"": {
+        ""type"": ""object"",
+        ""nullable"": true,
+        ""additionalProperties"": false,
+        ""properties"": {
+          ""participantsParts"": {
+            ""type"": ""object"",
+            ""nullable"": true,
+            ""additionalProperties"": {
+              ""type"": ""number"",
+              ""format"": ""decimal"",
+              ""nullable"": true
+            }
+          }
+        }
+      }
+    }
+  }
+}";
+            // Act
+            var document = await SwaggerDocument.FromJsonAsync(json);
+
+            // Assert
+            Assert.True(document.Components.Schemas["PurchaseReadDto2"].IsNullableRaw);
+            Assert.True(document.Components.Schemas["PurchaseReadDto2"].Properties["participantsParts"].IsNullableRaw);
+            Assert.True(document.Components.Schemas["PurchaseReadDto2"].Properties["participantsParts"].AdditionalPropertiesSchema.IsNullableRaw);
+        }
+
         private static SwaggerDocument CreateDocument()
         {
             var schema = new JsonSchema4

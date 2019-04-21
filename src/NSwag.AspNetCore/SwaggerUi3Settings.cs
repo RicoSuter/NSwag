@@ -13,6 +13,7 @@ using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json;
 using NSwag.SwaggerGeneration;
+using NJsonSchema;
 
 #if AspNetOwin
 using Microsoft.Owin;
@@ -28,32 +29,72 @@ namespace NSwag.AspNetCore
     public class SwaggerUi3Settings<T> : SwaggerUiSettingsBase<T>
         where T : SwaggerGeneratorSettings, new()
     {
-        /// <summary>Gets or sets a value indicating whether the Swagger specification should be validated.</summary>
-        public bool ValidateSpecification { get; set; } = false;
+        /// <summary>Initializes a new instance of the <see cref="SwaggerUi3Settings{T}"/> class.</summary>
+        public SwaggerUi3Settings()
+        {
+            DocExpansion = "none";
+            OperationsSorter = "none";
+            DefaultModelsExpandDepth = 1;
+            DefaultModelExpandDepth = 1;
+            TagsSorter = "none";
+        }
 
         /// <summary>Gets or sets the Swagger UI OAuth2 client settings.</summary>
         public OAuth2ClientSettings OAuth2Client { get; set; }
 
-        /// <summary>Controls how the API listing is displayed. It can be set to 'none' (default), 'list' (shows operations for each resource), or 'full' (fully expanded: shows operations and their details).</summary>
-        public string DocExpansion { get; set; } = "none";
-
-        /// <summary>Specifies the operations sorter in Swagger UI 3.</summary>
-        public string OperationsSorter { get; set; } = "none";
-
-        /// <summary>The default expansion depth for models (set to -1 completely hide the models) in Swagger UI 3.</summary>
-        public int DefaultModelsExpandDepth { get; set; } = 1;
-
-        /// <summary>The default expansion depth for the model on the model-example section in Swagger UI 3.</summary>
-        public int DefaultModelExpandDepth { get; set; } = 1;
-
-        /// <summary>Specifies the tags sorter in Swagger UI 3</summary>
-        public string TagsSorter { get; set; } = "none";
+        /// <summary>Gets or sets the server URL.</summary>
+        public string ServerUrl { get; set; } = "";
 
         /// <summary>Specifies whether the "Try it out" option is enabled in Swagger UI 3.</summary>
         public bool EnableTryItOut { get; set; } = true;
 
-        /// <summary>Gets or sets the server URL.</summary>
-        public string ServerUrl { get; set; } = "";
+        /// <summary>Gets or sets a value indicating whether the Swagger specification should be validated.</summary>
+        public bool ValidateSpecification { get; set; } = false;
+
+        /// <summary>Gets the additional Swagger UI 3 settings.</summary>
+        public IDictionary<string, object> AdditionalSettings { get; } = new Dictionary<string, object>();
+
+        /// <summary>Controls how the API listing is displayed. It can be set to 'none' (default), 'list' (shows operations for each resource), or 'full' (fully expanded: shows operations and their details).</summary>
+        public string DocExpansion
+        {
+            get => (string)AdditionalSettings["docExpansion"];
+            set => AdditionalSettings["docExpansion"] = value;
+        }
+
+        /// <summary>Specifies the operations sorter in Swagger UI 3.</summary>
+        public string OperationsSorter
+        {
+            get => (string)AdditionalSettings["operationsSorter"];
+            set => AdditionalSettings["operationsSorter"] = value;
+        }
+
+        /// <summary>The default expansion depth for models (set to -1 completely hide the models) in Swagger UI 3.</summary>
+        public int DefaultModelsExpandDepth
+        {
+            get => (int)AdditionalSettings["defaultModelsExpandDepth"];
+            set => AdditionalSettings["defaultModelsExpandDepth"] = value;
+        }
+
+        /// <summary>The default expansion depth for the model on the model-example section in Swagger UI 3.</summary>
+        public int DefaultModelExpandDepth
+        {
+            get => (int)AdditionalSettings["defaultModelExpandDepth"];
+            set => AdditionalSettings["defaultModelExpandDepth"] = value;
+        }
+
+        /// <summary>Specifies the tags sorter in Swagger UI 3</summary>
+        public string TagsSorter
+        {
+            get => (string)AdditionalSettings["tagsSorter"];
+            set => AdditionalSettings["tagsSorter"] = value;
+        }
+
+        /// <summary>Gets a value indicating whether to send credentials from the Swagger UI 3 to the backend.</summary>
+        public bool WithCredentials
+        {
+            get => (bool)AdditionalSettings["withCredentials"];
+            set => AdditionalSettings["withCredentials"] = value;
+        }
 
         /// <summary>Gets or sets the Swagger URL routes (must start with '/', hides SwaggerRoute).</summary>
         public ICollection<SwaggerUi3Route> SwaggerRoutes { get; } = new List<SwaggerUi3Route>();
@@ -80,15 +121,12 @@ namespace NSwag.AspNetCore
                 ));
 
             html = html.Replace("{ValidatorUrl}", ValidateSpecification ? "undefined" : "null");
-            html = html.Replace("{DocExpansion}", DocExpansion);
-            html = html.Replace("{OperationsSorter}", OperationsSorter);
-            html = html.Replace("{DefaultModelsExpandDepth}", DefaultModelsExpandDepth.ToString());
-            html = html.Replace("{DefaultModelExpandDepth}", DefaultModelExpandDepth.ToString());
-            html = html.Replace("{TagsSorter}", TagsSorter);
+            html = html.Replace("{AdditionalSettings}", GenerateAdditionalSettings(AdditionalSettings));
             html = html.Replace("{EnableTryItOut}", EnableTryItOut.ToString().ToLower());
             html = html.Replace("{RedirectUrl}", string.IsNullOrEmpty(ServerUrl) ?
                 "window.location.origin + \"" + TransformToExternalPath(Path, request) + "/oauth2-redirect.html\"" :
                 "\"" + ServerUrl + TransformToExternalPath(Path, request) + "/oauth2-redirect.html\"");
+
             html = html.Replace("{CustomStyle}", GetCustomStyleHtml());
             html = html.Replace("{CustomScript}", GetCustomScriptHtml());
 

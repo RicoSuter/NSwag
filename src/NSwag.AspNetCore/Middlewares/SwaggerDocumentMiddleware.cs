@@ -54,7 +54,7 @@ namespace NSwag.AspNetCore.Middlewares
         {
             if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value.Trim('/'), _path.Trim('/'), StringComparison.OrdinalIgnoreCase))
             {
-                var schemaJson = await GenerateSwaggerAsync(context);
+                var schemaJson = await GetDocumentAsync(context);
                 context.Response.StatusCode = 200;
                 context.Response.Headers["Content-Type"] = "application/json; charset=utf-8";
                 await context.Response.WriteAsync(schemaJson);
@@ -65,10 +65,10 @@ namespace NSwag.AspNetCore.Middlewares
             }
         }
 
-        /// <summary>Generates the Swagger specification.</summary>
+        /// <summary>Generates or gets the cached Swagger specification.</summary>
         /// <param name="context">The context.</param>
         /// <returns>The Swagger specification.</returns>
-        protected virtual async Task<string> GenerateSwaggerAsync(HttpContext context)
+        protected virtual async Task<string> GetDocumentAsync(HttpContext context)
         {
             if (_swaggerException != null && _schemaTimestamp + _settings.ExceptionCacheTime > DateTimeOffset.UtcNow)
             {
@@ -83,15 +83,9 @@ namespace NSwag.AspNetCore.Middlewares
 
             try
             {
-                var document = await _documentProvider.GenerateAsync(_documentName);
+                var swaggerJson = await GenerateDocumentAsync(context);
 
-                document.Host = context.Request.Host.Value ?? "";
-                document.Schemes.Add(context.Request.Scheme == "http" ? SwaggerSchema.Http : SwaggerSchema.Https);
-                document.BasePath = context.Request.PathBase.Value ?? "";
-
-                _settings.PostProcess?.Invoke(document, context.Request);
-
-                _swaggerJson = document.ToJson();
+                _swaggerJson = swaggerJson;
                 _swaggerException = null;
                 _version = apiDescriptionGroups.Version;
                 _schemaTimestamp = DateTimeOffset.UtcNow;
@@ -101,10 +95,27 @@ namespace NSwag.AspNetCore.Middlewares
                 _swaggerJson = null;
                 _swaggerException = exception;
                 _schemaTimestamp = DateTimeOffset.UtcNow;
-                throw _swaggerException;
+                throw;
             }
 
             return _swaggerJson;
+        }
+
+        /// <summary>Generates the Swagger specification.</summary>
+        /// <param name="context">The context.</param>
+        /// <returns>The Swagger specification.</returns>
+        protected virtual async Task<string> GenerateDocumentAsync(HttpContext context)
+        {
+            var document = await _documentProvider.GenerateAsync(_documentName);
+
+            document.Host = context.Request.Host.Value ?? "";
+            document.Schemes.Add(context.Request.Scheme == "http" ? SwaggerSchema.Http : SwaggerSchema.Https);
+            document.BasePath = context.Request.PathBase.Value ?? "";
+
+            _settings.PostProcess?.Invoke(document, context.Request);
+
+            var swaggerJson = document.ToJson();
+            return swaggerJson;
         }
     }
 }
