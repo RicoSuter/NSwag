@@ -156,15 +156,17 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddSwaggerDocument();
+        services.AddOpenApiDocument(); // add OpenAPI v3 document
+//      services.AddSwaggerDocument(); // add Swagger v2 document
     }
 
     public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
     {
         ...
 
-        app.UseSwagger();
-        app.UseSwaggerUi3();
+        app.UseSwagger(); // serve OpenAPI/Swagger documents
+        app.UseSwaggerUi3(); // serve Swagger UI
+	app.UseReDoc(); // serve ReDoc UI
     }
 }
 ```
