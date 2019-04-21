@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using NJsonSchema;
 using System.Globalization;
+using Newtonsoft.Json;
 #if AspNetOwin
 using Microsoft.Owin;
 
@@ -91,10 +92,7 @@ namespace NSwag.AspNetCore
             var code = "";
             foreach (var pair in additionalSettings)
             {
-                code += pair.Key + ": " +
-                    (pair.Value is string ? "\"" + ConversionUtilities.ConvertToStringLiteral((string)pair.Value) + "\"" :
-                    pair.Value is bool ? pair.Value.ToString().ToLowerInvariant() :
-                    string.Format(CultureInfo.InvariantCulture, "{0}", pair.Value)) + ", \n    ";
+                code += pair.Key + ": " + JsonConvert.SerializeObject(pair.Value) + ", \n    ";
             }
 
             return code;
