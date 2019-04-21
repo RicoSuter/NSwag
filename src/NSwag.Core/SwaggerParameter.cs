@@ -198,12 +198,17 @@ namespace NSwag
         {
             get
             {
-                var consumes = ((SwaggerOperation)Parent).ActualConsumes?.Any() == true ?
-                    ((SwaggerOperation)Parent).ActualConsumes :
-                    ((SwaggerOperation)Parent).RequestBody?.Content.Keys;
+                if (Kind != SwaggerParameterKind.Body)
+                {
+                    return false;
+                }
 
-                return Kind == SwaggerParameterKind.Body &&
-                       consumes?.Any() == true &&
+                var parent = Parent as SwaggerOperation;
+                var consumes = parent?.ActualConsumes?.Any() == true ?
+                    parent.ActualConsumes :
+                    parent?.RequestBody?.Content.Keys;
+
+                return consumes?.Any() == true &&
                        consumes.Any(p => p.Contains("application/xml")) &&
                        consumes.Any(p => p.Contains("application/json")) == false;
             }
@@ -215,13 +220,17 @@ namespace NSwag
         {
             get
             {
-                var consumes = ((SwaggerOperation)Parent).ActualConsumes?.Any() == true ?
-                    ((SwaggerOperation)Parent).ActualConsumes :
-                    ((SwaggerOperation)Parent).RequestBody?.Content.Keys;
+                if (Kind != SwaggerParameterKind.Body || IsXmlBodyParameter)
+                {
+                    return false;
+                }
 
-                return !IsXmlBodyParameter &&
-                       Kind == SwaggerParameterKind.Body &&
-                       consumes?.Any() == true &&
+                var parent = Parent as SwaggerOperation;
+                var consumes = parent?.ActualConsumes?.Any() == true ?
+                    parent.ActualConsumes :
+                    parent?.RequestBody?.Content.Keys;
+
+                return consumes?.Any() == true &&
                        consumes.Any(p => p.Contains("*/*")) == false && // supports json
                        consumes.Any(p => p.Contains("application/json")) == false;
             }
