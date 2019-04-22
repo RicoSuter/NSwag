@@ -59,7 +59,7 @@ namespace NSwag
         public JsonSchema4 Schema
         {
             get => Content.FirstOrDefault(c => c.Value.Schema != null).Value?.Schema;
-            set => UpdateContent(value, Examples);
+            ////set => UpdateContent(value, Examples);
         }
 
         /// <summary>Gets or sets the headers (Swagger only).</summary>
@@ -67,21 +67,29 @@ namespace NSwag
         public object Examples
         {
             get => Content.FirstOrDefault(c => c.Value.Example != null).Value?.Example;
-            set => UpdateContent(Schema, value);
+            ////set => UpdateContent(Schema, value);
         }
 
-        private void UpdateContent(JsonSchema4 schema, object example)
+        public void UpdateContent(JsonSchema4 schema, object example, IList<string> contentTypes)
         {
             Content.Clear();
 
             if (schema != null || example != null)
             {
-                var mimeType = schema?.IsBinary == true ? "application/octet-stream" : "application/json";
-                Content[mimeType] = new OpenApiMediaType
+                contentTypes = contentTypes
+                    .DefaultIfEmpty("application/json")
+                    .ToList();
+
+                if (schema?.IsBinary == true)
                 {
-                    Schema = schema,
-                    Example = example
-                };
+                    contentTypes.Clear();
+                    contentTypes.Add("application/octet-stream");
+                }
+
+                foreach (var contentType in contentTypes)
+                {
+                    Content[contentType] = new OpenApiMediaType { Schema = schema, Example = example };
+                }
             }
         }
 
