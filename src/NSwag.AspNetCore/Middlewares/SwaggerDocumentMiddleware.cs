@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -26,7 +27,9 @@ namespace NSwag.AspNetCore.Middlewares
         private readonly SwaggerDocumentMiddlewareSettings _settings;
 
         private int _version;
-        private string _swaggerJson;
+        private readonly Dictionary<SwaggerDocumentKey, string> _swaggerJsonDict = new Dictionary<SwaggerDocumentKey, string>();
+        private readonly object _swaggerJsonLock = new object();
+        
         private Exception _swaggerException;
         private DateTimeOffset _schemaTimestamp;
 
@@ -76,7 +79,9 @@ namespace NSwag.AspNetCore.Middlewares
             }
 
             var apiDescriptionGroups = _apiDescriptionGroupCollectionProvider.ApiDescriptionGroups;
-            if (apiDescriptionGroups.Version == Volatile.Read(ref _version) && _swaggerJson != null)
+            string _swaggerJson = null;
+            var key = new SwaggerDocumentKey(context.Request.PathBase.ToString(), context.Request.Host.Host);
+            if (apiDescriptionGroups.Version == Volatile.Read(ref _version) && TryGetSwaggerJson(key, out _swaggerJson))
             {
                 return _swaggerJson;
             }
@@ -85,20 +90,35 @@ namespace NSwag.AspNetCore.Middlewares
             {
                 var swaggerJson = await GenerateDocumentAsync(context);
 
-                _swaggerJson = swaggerJson;
-                _swaggerException = null;
+                lock (_swaggerJsonLock)
+                {
+                    _swaggerJsonDict[key] = swaggerJson;
+                }
+
                 _version = apiDescriptionGroups.Version;
                 _schemaTimestamp = DateTimeOffset.UtcNow;
             }
             catch (Exception exception)
             {
-                _swaggerJson = null;
+                lock (_swaggerJsonLock)
+                {
+                    _swaggerJsonDict.Remove(key);
+                }
+
                 _swaggerException = exception;
                 _schemaTimestamp = DateTimeOffset.UtcNow;
                 throw;
             }
 
             return _swaggerJson;
+
+            bool TryGetSwaggerJson(SwaggerDocumentKey swaggerDocumentKey, out string json)
+            {
+                lock (_swaggerJsonLock)
+                {
+                    return _swaggerJsonDict.TryGetValue(swaggerDocumentKey, out json);
+                }
+            }
         }
 
         /// <summary>Generates the Swagger specification.</summary>
