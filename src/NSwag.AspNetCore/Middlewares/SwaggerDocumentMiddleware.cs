@@ -79,16 +79,21 @@ namespace NSwag.AspNetCore.Middlewares
             }
 
             var apiDescriptionGroups = _apiDescriptionGroupCollectionProvider.ApiDescriptionGroups;
-            string _swaggerJson = null;
-            var key = new SwaggerDocumentKey(context.Request.PathBase.ToString(), context.Request.Host.Host);
-            if (apiDescriptionGroups.Version == Volatile.Read(ref _version) && TryGetSwaggerJson(key, out _swaggerJson))
+
+            // The bellow code uses the swagger document Post Processing logic to get an actual
+            // host and basePath values. It looks like it's better to use a more lightweight DTO in PostProcess callback.
+            var doc = new SwaggerDocument();
+            _settings.PostProcess?.Invoke(doc, context.Request);
+            var key = new SwaggerDocumentKey(doc.BasePath ?? context.Request.PathBase, doc.Host ?? context.Request.Host.Host);
+            
+            if (apiDescriptionGroups.Version == Volatile.Read(ref _version) && TryGetSwaggerJson(key, out string swaggerJson))
             {
-                return _swaggerJson;
+                return swaggerJson;
             }
 
             try
             {
-                var swaggerJson = await GenerateDocumentAsync(context);
+                swaggerJson = await GenerateDocumentAsync(context);
 
                 lock (_swaggerJsonLock)
                 {
@@ -110,7 +115,7 @@ namespace NSwag.AspNetCore.Middlewares
                 throw;
             }
 
-            return _swaggerJson;
+            return swaggerJson;
 
             bool TryGetSwaggerJson(SwaggerDocumentKey swaggerDocumentKey, out string json)
             {
