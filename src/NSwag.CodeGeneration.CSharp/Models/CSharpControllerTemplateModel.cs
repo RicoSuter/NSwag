@@ -83,6 +83,12 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets a value indicating whether to allow adding cancellation token.</summary>
         public bool UseCancellationToken => _settings.UseCancellationToken;
 
+        /// <summary>Gets a value indicating whether to allow adding model validation attributes</summary>
+        public bool GenerateModelValidationAttributes => _settings.GenerateModelValidationAttributes;
+
+        /// <summary>Gets the type of the attribte used to specify a parameter as required.</summary>
+        public string RequiredAttributeType => IsAspNetCore ? "Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired" : "System.ComponentModel.DataAnnotations.Required";
+
         /// <summary>Gets the Title.</summary>
         public string Title => _document.Info.Title;
 

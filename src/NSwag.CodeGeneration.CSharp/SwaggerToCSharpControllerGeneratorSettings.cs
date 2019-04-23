@@ -23,6 +23,7 @@ namespace NSwag.CodeGeneration.CSharp
             ControllerStyle = CSharpControllerStyle.Partial;
             ControllerTarget = CSharpControllerTarget.AspNetCore;
             RouteNamingStrategy = CSharpControllerRouteNamingStrategy.None;
+            GenerateModelValidationAttributes = false;
             UseCancellationToken = false;
         }
 
@@ -53,7 +54,10 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets the strategy for naming routes (default: CSharpRouteNamingStrategy.None).</summary>
         public CSharpControllerRouteNamingStrategy RouteNamingStrategy { get; set; }
-        
+
+        /// <summary>Gets or sets a value indicating whether to allow adding model validation attributes</summary>
+        public bool GenerateModelValidationAttributes { get; set; }
+
         /// <summary>Gets or sets a value indicating whether ASP.Net Core (2.1) ActionResult type is used (default: false).</summary>
         public bool UseActionResultType { get; set; }
     }
