@@ -56,7 +56,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         {
             //// Arrange
             var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
-            var document = await swaggerGen.GenerateForControllerAsync<TestController>();
+            var document = await GetSwaggerDocument();
+
 
             //// Act
             var codeGen = new SwaggerToCSharpControllerGenerator(document, new SwaggerToCSharpControllerGeneratorSettings
@@ -67,7 +68,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.Contains("public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<string>> Foo(string test, bool test2);", code);
+            Assert.Contains("public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<string>> Foo(string test, bool? test2);", code);
             Assert.Contains("public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> Bar();", code);
         }
 
@@ -86,8 +87,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.Contains("System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<string>> FooAsync(string test, bool test2);", code);
-            Assert.Contains("public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<string>> Foo(string test, bool test2)", code);
+            Assert.Contains("System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<string>> FooAsync(string test, bool? test2);", code);
+            Assert.Contains("public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<string>> Foo(string test, bool? test2)", code);
             Assert.Contains("System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> BarAsync();", code);
             Assert.Contains("public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> Bar()", code);
         }
@@ -97,7 +98,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         {
             //// Arrange
             var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
-            var document = await swaggerGen.GenerateForControllerAsync<TestController>();
+            var document = await GetSwaggerDocument();
 
             //// Act
             var codeGen = new SwaggerToCSharpControllerGenerator(document, new SwaggerToCSharpControllerGeneratorSettings());
@@ -115,7 +116,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         {
             //// Arrange
             var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
-            var document = await swaggerGen.GenerateForControllerAsync<TestController>();
+            var document = await GetSwaggerDocument();
             var settings = new SwaggerToCSharpControllerGeneratorSettings();
 
             //// Act
@@ -125,7 +126,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             //// Assert
             Assert.Contains("partial class TestController", code);
             Assert.Contains($"Complex([Microsoft.AspNetCore.Mvc.FromBody] ComplexType complexType)", code);
-            Assert.Contains("Foo(string test, bool test2)", code);
+            Assert.Contains("Foo(string test, bool? test2)", code);
             Assert.Contains("Bar()", code);
         }
 
@@ -146,7 +147,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             //// Assert
             Assert.Contains("abstract class TestController", code);
             Assert.Contains($"Complex([Microsoft.AspNetCore.Mvc.FromBody] ComplexType complexType)", code);
-            Assert.Contains("Foo(string test, bool test2)", code);
+            Assert.Contains("Foo(string test, bool? test2)", code);
             Assert.Contains("Bar()", code);
         }
 
@@ -176,8 +177,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await GetSwaggerDocument();
             var settings = new SwaggerToCSharpControllerGeneratorSettings
             {
-                RouteNamingStrategy = CSharpControllerRouteNamingStrategy.None,
-                RequiredAttributeType = "MyCustomType"
+                RouteNamingStrategy = CSharpControllerRouteNamingStrategy.None
             };
 
             //// Act
@@ -196,9 +196,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await GetSwaggerDocument();
             var settings = new SwaggerToCSharpControllerGeneratorSettings
             {
-                AspNetNamespace = "MyCustomNameSpace",
-                UseModelValidationAttributes = true,
-                RequiredAttributeType = "MyCustomType"
+                GenerateModelValidationAttributes = true,
             };
 
             //// Act
@@ -207,10 +205,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             //// Assert
             Assert.Contains("partial class TestController", code);
-            Assert.Contains($"Complex([{settings.AspNetNamespace}.FromBody] ComplexType complexType)", code);
-            Assert.Contains($"ComplexRequired([{settings.AspNetNamespace}.FromBody] [{settings.RequiredAttributeType}] ComplexType complexType)", code);
+            Assert.Contains($"Complex([Microsoft.AspNetCore.Mvc.FromBody] ComplexType complexType)", code);
+            Assert.Contains($"ComplexRequired([Microsoft.AspNetCore.Mvc.FromBody] [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] ComplexType complexType)", code);
             Assert.Contains($"Foo(string test, bool? test2)", code);
-            Assert.Contains($"FooRequired([{settings.RequiredAttributeType}] string test, [{settings.RequiredAttributeType}] bool test2)", code);
+            Assert.Contains($"FooRequired([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string test, [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] bool test2)", code);
             Assert.Contains("Bar()", code);
         }
 
@@ -222,9 +220,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var settings = new SwaggerToCSharpControllerGeneratorSettings
             {
                 ControllerStyle = CSharpControllerStyle.Abstract,
-                UseModelValidationAttributes = true,
-                AspNetNamespace = "MyCustomNameSpace",
-                RequiredAttributeType = "MyCustomType"
+                GenerateModelValidationAttributes = true,
             };
 
             //// Act
@@ -233,10 +229,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             //// Assert
             Assert.Contains("abstract class TestController", code);
-            Assert.Contains($"Complex([{settings.AspNetNamespace}.FromBody] ComplexType complexType)", code);
-            Assert.Contains($"ComplexRequired([{settings.AspNetNamespace}.FromBody] [{settings.RequiredAttributeType}] ComplexType complexType)", code);
+            Assert.Contains($"Complex([Microsoft.AspNetCore.Mvc.FromBody] ComplexType complexType)", code);
+            Assert.Contains($"ComplexRequired([Microsoft.AspNetCore.Mvc.FromBody] [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] ComplexType complexType)", code);
             Assert.Contains($"Foo(string test, bool? test2)", code);
-            Assert.Contains($"FooRequired([{settings.RequiredAttributeType}] string test, [{settings.RequiredAttributeType}] bool test2)", code);
+            Assert.Contains($"FooRequired([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string test, [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] bool test2)", code);
             Assert.Contains("Bar()", code);
         }
 

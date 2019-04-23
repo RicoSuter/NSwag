@@ -23,8 +23,7 @@ namespace NSwag.CodeGeneration.CSharp
             ControllerStyle = CSharpControllerStyle.Partial;
             ControllerTarget = CSharpControllerTarget.AspNetCore;
             RouteNamingStrategy = CSharpControllerRouteNamingStrategy.None;
-            UseModelValidationAttributes = false;
-            RequiredAttributeType = "Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired";
+            GenerateModelValidationAttributes = false;
             UseCancellationToken = false;
         }
 
@@ -57,10 +56,7 @@ namespace NSwag.CodeGeneration.CSharp
         public CSharpControllerRouteNamingStrategy RouteNamingStrategy { get; set; }
 
         /// <summary>Gets or sets a value indicating whether to allow adding model validation attributes</summary>
-        public bool UseModelValidationAttributes { get; set; }
-
-        /// <summary>Gets or sets the type of the attribute used to specify a parameter as required. (default: System.ComponentModel.DataAnnotations.Required</summary>
-        public string RequiredAttributeType { get; set; }
+        public bool GenerateModelValidationAttributes { get; set; }
 
         /// <summary>Gets or sets a value indicating whether ASP.Net Core (2.1) ActionResult type is used (default: false).</summary>
         public bool UseActionResultType { get; set; }
