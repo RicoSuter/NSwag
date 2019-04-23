@@ -46,7 +46,7 @@ namespace NSwag.Tests.CommandLine
             Assert.IsTrue(output.Contains("export class Test implements ITest {"));
         }
 
-        [TestMethod]
+        //[TestMethod]
         public async Task When_config_file_with_project_with_newer_json_net_is_run_then_property_is_correct()
         {
             //// Arrange
