@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using NJsonSchema;
 using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
@@ -36,11 +37,12 @@ namespace NSwag.SwaggerGeneration.Processors
 
         /// <summary>Generates the responses based on the given return type attributes.</summary>
         /// <param name="operationProcessorContext">The context.</param>
-        /// <param name="returnParameter">The return parameter.</param>
         /// <param name="responseTypeAttributes">The response type attributes.</param>
         /// <returns>The task.</returns>
-        public async Task ProcessResponseTypeAttributes(OperationProcessorContext operationProcessorContext, ParameterInfo returnParameter, IEnumerable<Attribute> responseTypeAttributes)
+        public async Task ProcessResponseTypeAttributes(OperationProcessorContext operationProcessorContext, IEnumerable<Attribute> responseTypeAttributes)
         {
+            var returnParameter = operationProcessorContext.MethodInfo.ReturnParameter;
+
             var returnParameterAttributes = GetParameterAttributes(returnParameter);
             var successResponseDescription = await returnParameter.GetDescriptionAsync(returnParameterAttributes)
                 .ConfigureAwait(false) ?? string.Empty;
@@ -48,7 +50,7 @@ namespace NSwag.SwaggerGeneration.Processors
             var responseDescriptions = GetOperationResponseDescriptions(responseTypeAttributes, successResponseDescription);
             await ProcessOperationDescriptionsAsync(responseDescriptions, returnParameter, operationProcessorContext, successResponseDescription);
         }
-        
+
         /// <summary>Gets all attributes of the given parameter.</summary>
         /// <param name="parameter">The parameter.</param>
         /// <returns>The attributes.</returns>
@@ -65,6 +67,41 @@ namespace NSwag.SwaggerGeneration.Processors
                 // in some environments, the call to GetCustomAttributes(true) fails
                 return parameter?.GetCustomAttributes(false)?.Cast<Attribute>() ??
                     new Attribute[0];
+            }
+        }
+
+        /// <summary>Updates the response description based on the return parameter or the response tags in the method's xml docs.</summary>
+        /// <param name="operationProcessorContext">The context.</param>
+        /// <returns>The task.</returns>
+        protected async Task UpdateResponseDescriptionAsync(OperationProcessorContext operationProcessorContext)
+        {
+            var returnParameter = operationProcessorContext.MethodInfo.ReturnParameter;
+            var operationXmlDocs = await operationProcessorContext.MethodInfo.GetXmlDocumentationAsync();
+            var operationXmlDocsNodes = operationXmlDocs?.Nodes()?.OfType<XElement>();
+            var returnParameterXmlDocs = await returnParameter.GetDescriptionAsync(returnParameter.GetCustomAttributes())
+                .ConfigureAwait(false) ?? string.Empty;
+
+            if (!string.IsNullOrEmpty(returnParameterXmlDocs) || operationXmlDocsNodes?.Any() == true)
+            {
+                foreach (var response in operationProcessorContext.OperationDescription.Operation.Responses)
+                {
+                    if (string.IsNullOrEmpty(response.Value.Description))
+                    {
+                        // Support for <response code="201">Order created</response> tags
+                        var responseXmlDocs = operationXmlDocsNodes?.SingleOrDefault(n =>
+                            n.Name == "response" &&
+                            n.Attributes().Any(a => a.Name == "code" && a.Value == response.Key))?.Value;
+
+                        if (!string.IsNullOrEmpty(responseXmlDocs))
+                        {
+                            response.Value.Description = responseXmlDocs;
+                        }
+                        else if (!string.IsNullOrEmpty(returnParameterXmlDocs) && HttpUtilities.IsSuccessStatusCode(response.Key))
+                        {
+                            response.Value.Description = returnParameterXmlDocs;
+                        }
+                    }
+                }
             }
         }
 

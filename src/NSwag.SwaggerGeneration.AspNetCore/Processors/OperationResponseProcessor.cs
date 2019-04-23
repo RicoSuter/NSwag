@@ -7,7 +7,6 @@
 //-----------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -40,8 +39,6 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
             if (!(operationProcessorContext is AspNetCoreOperationProcessorContext context))
                 return false;
 
-            var parameter = context.MethodInfo.ReturnParameter;
-
             var responseTypeAttributes = context.MethodInfo.GetCustomAttributes()
                 .Where(a => a.GetType().Name == "ResponseTypeAttribute" ||
                             a.GetType().Name == "SwaggerResponseAttribute" ||
@@ -54,7 +51,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
             if (responseTypeAttributes.Count > 0)
             {
                 // if SwaggerResponseAttribute \ ResponseTypeAttributes are present, we'll only use those.
-                await ProcessResponseTypeAttributes(context, parameter, responseTypeAttributes);
+                await ProcessResponseTypeAttributes(context, responseTypeAttributes);
             }
             else
             {
@@ -101,21 +98,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                 };
             }
 
-            var successXmlDescription = await parameter.GetDescriptionAsync(parameter.GetCustomAttributes())
-                .ConfigureAwait(false) ?? string.Empty;
-            
-            if (!string.IsNullOrEmpty(successXmlDescription))
-            {
-                foreach (var response in context.OperationDescription.Operation.Responses
-                    .Where(r => HttpUtilities.IsSuccessStatusCode(r.Key)))
-                {
-                    if (!string.IsNullOrEmpty(response.Value.Description))
-                    {
-                        response.Value.Description = successXmlDescription;
-                    }
-                }
-            }
-
+            await UpdateResponseDescriptionAsync(context);
             return true;
         }
 
