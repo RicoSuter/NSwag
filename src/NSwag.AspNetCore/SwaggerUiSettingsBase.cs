@@ -8,6 +8,10 @@
 
 using NSwag.SwaggerGeneration;
 using System;
+using System.Collections.Generic;
+using NJsonSchema;
+using System.Globalization;
+using Newtonsoft.Json;
 #if AspNetOwin
 using Microsoft.Owin;
 
@@ -78,6 +82,20 @@ namespace NSwag.AspNetCore
             var uriString = System.Net.WebUtility.HtmlEncode(CustomJavaScriptUri.OriginalString);
 
             return $"<script src=\"{uriString}\"></script>";
+        }
+
+        /// <summary>Generates the additional objects JavaScript code.</summary>
+        /// <param name="additionalSettings">The additional settings.</param>
+        /// <returns>The code.</returns>
+        protected string GenerateAdditionalSettings(IDictionary<string, object> additionalSettings)
+        {
+            var code = "";
+            foreach (var pair in additionalSettings)
+            {
+                code += pair.Key + ": " + JsonConvert.SerializeObject(pair.Value) + ", \n    ";
+            }
+
+            return code;
         }
     }
 }

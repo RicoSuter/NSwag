@@ -93,7 +93,7 @@ namespace NSwag.CodeGeneration.Models
 
         // TODO: Remove this (may not work correctly)
         /// <summary>Gets or sets a value indicating whether the operation has a result type (i.e. not void).</summary>
-        public bool HasResultType => GetSuccessResponseSchema() != null;
+        public bool HasResultType => GetSuccessResponse().Value?.IsEmpty(_operation) == false;
 
         /// <summary>Gets or sets the type of the result.</summary>
         public abstract string ResultType { get; }
@@ -104,13 +104,18 @@ namespace NSwag.CodeGeneration.Models
             get
             {
                 var response = GetSuccessResponse();
-                if (response.Value?.GetActualResponseSchema(_operation) == null)
+                if (response.Value == null || response.Value.IsEmpty(_operation))
                 {
                     return "void";
                 }
 
+                if (response.Value.IsBinary(_operation) == true)
+                {
+                    return _generator.GetBinaryResponseTypeName();
+                }
+
                 var isNullable = response.Value.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
-                return _generator.GetTypeName(response.Value.GetActualResponseSchema(_operation), isNullable, "Response");
+                return _generator.GetTypeName(response.Value.Schema, isNullable, !response.Value.Schema.HasTypeNameTitle ? "Response" : null);
             }
         }
 
@@ -200,7 +205,9 @@ namespace NSwag.CodeGeneration.Models
         public bool HasFormParameters => _operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.FormData);
 
         /// <summary>Gets a value indicating whether the operation consumes 'application/x-www-form-urlencoded'.</summary>
-        public bool ConsumesFormUrlEncoded => _operation.ActualConsumes?.Any(c => c == "application/x-www-form-urlencoded") == true;
+        public bool ConsumesFormUrlEncoded =>
+            _operation.ActualConsumes?.Any(c => c == "application/x-www-form-urlencoded") == true ||
+            _operation.RequestBody?.Content.Any(mt => mt.Key == "application/x-www-form-urlencoded") == true;
 
         /// <summary>Gets the form parameters.</summary>
         public IEnumerable<TParameterModel> FormParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.FormData);
@@ -231,7 +238,9 @@ namespace NSwag.CodeGeneration.Models
                 if (_operation.ActualConsumes?.Contains("application/json") == true)
                     return "application/json";
 
-                return _operation.ActualConsumes?.FirstOrDefault() ?? "application/json";
+                return _operation.ActualConsumes?.FirstOrDefault() ??
+                    _operation.RequestBody?.Content.Keys.FirstOrDefault() ??
+                    "application/json";
             }
         }
 
@@ -243,12 +252,14 @@ namespace NSwag.CodeGeneration.Models
                 if (_operation.ActualProduces?.Contains("application/json") == true)
                     return "application/json";
 
-                return _operation.ActualProduces?.FirstOrDefault() ?? "application/json";
+                return _operation.ActualProduces?.FirstOrDefault() ?? 
+                    SuccessResponse?.Produces ??
+                    "application/json";
             }
         }
 
         /// <summary>Gets a value indicating whether a file response is expected from one of the responses.</summary>
-        public bool IsFile => _operation.ActualResponses.Any(r => r.Value.Schema?.ActualSchema.Type == JsonObjectType.File);
+        public bool IsFile => _operation.ActualResponses.Any(r => r.Value.Schema?.ActualSchema.IsBinary == true); // TODO: Use response.IsBinary directly
 
         /// <summary>Gets a value indicating whether to wrap the response of this operation.</summary>
         public bool WrapResponse => _settings.WrapResponses && (
@@ -273,14 +284,6 @@ namespace NSwag.CodeGeneration.Models
             return new KeyValuePair<string, SwaggerResponse>("default", _operation.ActualResponses.FirstOrDefault(r => r.Key == "default").Value);
         }
 
-        /// <summary>Gets the success response schema.</summary>
-        /// <returns>The response schema.</returns>
-        protected JsonSchema4 GetSuccessResponseSchema()
-        {
-            var respones = GetSuccessResponse();
-            return respones.Value?.GetActualResponseSchema(_operation);
-        }
-
         /// <summary>Gets the name of the parameter variable.</summary>
         /// <param name="parameter">The parameter.</param>
         /// <param name="allParameters">All parameters.</param>
@@ -298,14 +301,17 @@ namespace NSwag.CodeGeneration.Models
             var schema = parameter.ActualSchema;
 
             if (parameter.IsXmlBodyParameter)
+            {
                 return "string";
+            }
 
             if (parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
+            {
                 schema = new JsonSchema4 { Type = JsonObjectType.Array, Item = schema };
+            }
 
-            var typeNameHint = ConversionUtilities.ConvertToUpperCamelCase(parameter.Name, true);
+            var typeNameHint = !schema.HasTypeNameTitle ? ConversionUtilities.ConvertToUpperCamelCase(parameter.Name, true) : null;
             var isNullable = parameter.IsRequired == false || parameter.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
-
             return _resolver.Resolve(schema, isNullable, typeNameHint);
         }
     }

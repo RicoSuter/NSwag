@@ -194,13 +194,46 @@ namespace NSwag
 
         /// <summary>Gets a value indicating whether this is an XML body parameter.</summary>
         [JsonIgnore]
-        public bool IsXmlBodyParameter => Kind == SwaggerParameterKind.Body &&
-                                          (Parent as SwaggerOperation)?.ActualConsumes?.FirstOrDefault() == "application/xml" &&
-                                          ((SwaggerOperation)Parent).ActualConsumes?.Contains("application/json") != true;
+        public bool IsXmlBodyParameter
+        {
+            get
+            {
+                if (Kind != SwaggerParameterKind.Body)
+                {
+                    return false;
+                }
+
+                var parent = Parent as SwaggerOperation;
+                var consumes = parent?.ActualConsumes?.Any() == true ?
+                    parent.ActualConsumes :
+                    parent?.RequestBody?.Content.Keys;
+
+                return consumes?.Any() == true &&
+                       consumes.Any(p => p.Contains("application/xml")) &&
+                       consumes.Any(p => p.Contains("application/json")) == false;
+            }
+        }
 
         /// <summary>Gets a value indicating whether this is an binary body parameter.</summary>
         [JsonIgnore]
-        public bool IsBinaryBodyParameter => Kind == SwaggerParameterKind.Body &&
-                                             (Parent as SwaggerOperation)?.ActualConsumes?.FirstOrDefault() == "application/octet-stream";
+        public bool IsBinaryBodyParameter
+        {
+            get
+            {
+                if (Kind != SwaggerParameterKind.Body || IsXmlBodyParameter)
+                {
+                    return false;
+                }
+
+                var parent = Parent as SwaggerOperation;
+                var consumes = parent?.ActualConsumes?.Any() == true ?
+                    parent.ActualConsumes :
+                    parent?.RequestBody?.Content.Keys;
+
+                return consumes?.Any() == true &&
+                       consumes.Any(p => p.Contains("*/*")) == false && // supports json
+                       consumes.Any(p => p.Contains("application/json")) == false;
+            }
+        }
     }
 }

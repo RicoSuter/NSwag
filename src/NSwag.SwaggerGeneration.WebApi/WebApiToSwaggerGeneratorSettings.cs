@@ -18,6 +18,7 @@ namespace NSwag.SwaggerGeneration.WebApi
         public WebApiToSwaggerGeneratorSettings()
         {
             OperationProcessors.Insert(0, new ApiVersionProcessor());
+            OperationProcessors.Insert(3, new OperationConsumesProcessor());
             OperationProcessors.Insert(3, new OperationParameterProcessor(this));
             OperationProcessors.Insert(3, new OperationResponseProcessor(this));
         }

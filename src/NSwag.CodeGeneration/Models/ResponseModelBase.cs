@@ -18,6 +18,7 @@ namespace NSwag.CodeGeneration.Models
     {
         private readonly IOperationModel _operationModel;
         private readonly SwaggerResponse _response;
+        private readonly SwaggerOperation _operation;
         private readonly JsonSchema4 _exceptionSchema;
         private readonly IClientGenerator _generator;
         private readonly CodeGeneratorSettingsBase _settings;
@@ -39,6 +40,7 @@ namespace NSwag.CodeGeneration.Models
             JsonSchema4 exceptionSchema, TypeResolverBase resolver, CodeGeneratorSettingsBase settings, IClientGenerator generator)
         {
             _response = response;
+            _operation = operation;
             _exceptionSchema = exceptionSchema;
             _generator = generator;
             _settings = settings;
@@ -47,7 +49,7 @@ namespace NSwag.CodeGeneration.Models
 
             StatusCode = statusCode;
             IsPrimarySuccessResponse = isPrimarySuccessResponse;
-            ActualResponseSchema = response.GetActualResponseSchema(operation);
+            ActualResponseSchema = response.Schema?.ActualSchema;
         }
 
         /// <summary>Gets the HTTP status code.</summary>
@@ -60,7 +62,9 @@ namespace NSwag.CodeGeneration.Models
         public bool CheckChunkedStatusCode => IsFile && (StatusCode == "200" || StatusCode == "204");
 
         /// <summary>Gets the type of the response.</summary>
-        public string Type => _generator.GetTypeName(ActualResponseSchema, IsNullable, "Response");
+        public string Type => 
+            _response.IsBinary(_operation) ? _generator.GetBinaryResponseTypeName() : 
+            _generator.GetTypeName(ActualResponseSchema, IsNullable, "Response");
 
         /// <summary>Gets a value indicating whether the response has a type (i.e. not void).</summary>
         public bool HasType => ActualResponseSchema != null;
@@ -84,7 +88,7 @@ namespace NSwag.CodeGeneration.Models
         public bool IsPlainText => _response.Content.ContainsKey("text/plain") || _operationModel.Produces == "text/plain";
 
         /// <summary>Gets a value indicating whether this is a file response.</summary>
-        public bool IsFile => ActualResponseSchema?.ActualSchema.Type == JsonObjectType.File;
+        public bool IsFile => _response.IsBinary(_operation);
 
         /// <summary>Gets the response's exception description.</summary>
         public string ExceptionDescription => !string.IsNullOrEmpty(_response.Description) ?
@@ -124,5 +128,8 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets the response extension data.</summary>
         public IDictionary<string, object> ExtensionData => _response.ExtensionData;
+
+        /// <summary>Gets the produced mime type of this response if available.</summary>
+        public string Produces => _response.Content.Keys.FirstOrDefault();
     }
 }

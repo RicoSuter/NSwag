@@ -52,7 +52,27 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public async Task When_controllergenerationformat_notsetted_then_partialcontroller_is_generated()
+        public async Task When_aspnet_actiontype_inuse_with_abstract_then_actiontype_is_generated()
+        {
+            //// Arrange
+            var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var document = await swaggerGen.GenerateForControllerAsync<TestController>();
+
+            //// Act
+            var codeGen = new SwaggerToCSharpControllerGenerator(document, new SwaggerToCSharpControllerGeneratorSettings
+            {
+                ControllerStyle = CSharpControllerStyle.Abstract,
+                UseActionResultType = true
+            });
+            var code = codeGen.GenerateFile();
+
+            //// Assert
+            Assert.Contains("public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<string>> Foo(string test, bool test2);", code);
+            Assert.Contains("public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> Bar();", code);
+        }
+
+        [Fact]
+        public async Task When_aspnet_actiontype_inuse_with_partial_then_actiontype_is_generated()
         {
             //// Arrange
             var document = await GetSwaggerDocument();
@@ -60,7 +80,27 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             //// Act
             var codeGen = new SwaggerToCSharpControllerGenerator(document, new SwaggerToCSharpControllerGeneratorSettings
             {
+                ControllerStyle = CSharpControllerStyle.Partial,
+                UseActionResultType = true
             });
+            var code = codeGen.GenerateFile();
+
+            //// Assert
+            Assert.Contains("System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<string>> FooAsync(string test, bool test2);", code);
+            Assert.Contains("public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<string>> Foo(string test, bool test2)", code);
+            Assert.Contains("System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> BarAsync();", code);
+            Assert.Contains("public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> Bar()", code);
+        }
+
+        [Fact]
+        public async Task When_controllergenerationformat_notsetted_then_partialcontroller_is_generated()
+        {
+            //// Arrange
+            var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var document = await swaggerGen.GenerateForControllerAsync<TestController>();
+
+            //// Act
+            var codeGen = new SwaggerToCSharpControllerGenerator(document, new SwaggerToCSharpControllerGeneratorSettings());
             var code = codeGen.GenerateFile();
 
             //// Assert
@@ -74,11 +114,9 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_controller_has_operation_with_complextype_then_partialcontroller_is_generated_with_frombody_attribute()
         {
             //// Arrange
-            var document = await GetSwaggerDocument();
-            var settings = new SwaggerToCSharpControllerGeneratorSettings
-            {
-                AspNetNamespace = "MyCustomNameSpace"
-            };
+            var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var document = await swaggerGen.GenerateForControllerAsync<TestController>();
+            var settings = new SwaggerToCSharpControllerGeneratorSettings();
 
             //// Act
             var codeGen = new SwaggerToCSharpControllerGenerator(document, settings);
@@ -86,8 +124,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             //// Assert
             Assert.Contains("partial class TestController", code);
-            Assert.Contains($"Complex([{settings.AspNetNamespace}.FromBody] ComplexType complexType)", code);
-            Assert.Contains("Foo(string test, bool? test2)", code);
+            Assert.Contains($"Complex([Microsoft.AspNetCore.Mvc.FromBody] ComplexType complexType)", code);
+            Assert.Contains("Foo(string test, bool test2)", code);
             Assert.Contains("Bar()", code);
         }
 
@@ -99,7 +137,6 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var settings = new SwaggerToCSharpControllerGeneratorSettings
             {
                 ControllerStyle = CSharpControllerStyle.Abstract,
-                AspNetNamespace = "MyCustomNameSpace"
             };
 
             //// Act
@@ -108,8 +145,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             //// Assert
             Assert.Contains("abstract class TestController", code);
-            Assert.Contains($"Complex([{settings.AspNetNamespace}.FromBody] ComplexType complexType)", code);
-            Assert.Contains("Foo(string test, bool? test2)", code);
+            Assert.Contains($"Complex([Microsoft.AspNetCore.Mvc.FromBody] ComplexType complexType)", code);
+            Assert.Contains("Foo(string test, bool test2)", code);
             Assert.Contains("Bar()", code);
         }
 

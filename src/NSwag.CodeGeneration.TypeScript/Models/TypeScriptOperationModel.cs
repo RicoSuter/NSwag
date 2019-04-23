@@ -45,10 +45,12 @@ namespace NSwag.CodeGeneration.TypeScript.Models
                     .ToList();
             }
 
-            Parameters = parameters.Select(parameter =>
-                new TypeScriptParameterModel(parameter.Name,
-                    GetParameterVariableName(parameter, _operation.Parameters), ResolveParameterType(parameter),
-                    parameter, parameters, _settings, _generator, resolver))
+            Parameters = parameters
+                .Where(p => !settings.ExcludedParameterNames.Contains(p.Name))
+                .Select(parameter =>
+                    new TypeScriptParameterModel(parameter.Name,
+                        GetParameterVariableName(parameter, _operation.Parameters), ResolveParameterType(parameter),
+                        parameter, parameters, _settings, _generator, resolver))
                 .ToList();
         }
 
@@ -126,8 +128,8 @@ namespace NSwag.CodeGeneration.TypeScript.Models
                     return "string";
 
                 return string.Join(" | ", _operation.ActualResponses
-                    .Where(r => !HttpUtilities.IsSuccessStatusCode(r.Key) && r.Value.GetActualResponseSchema(_operation) != null)
-                    .Select(r => _generator.GetTypeName(r.Value.GetActualResponseSchema(_operation), r.Value.IsNullable(_settings.CodeGeneratorSettings.SchemaType), "Exception"))
+                    .Where(r => !HttpUtilities.IsSuccessStatusCode(r.Key) && r.Value.Schema != null)
+                    .Select(r => _generator.GetTypeName(r.Value.Schema, r.Value.IsNullable(_settings.CodeGeneratorSettings.SchemaType), "Exception"))
                     .Concat(new[] { "string" }));
             }
         }
@@ -156,8 +158,13 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <returns>The parameter type name.</returns>
         protected override string ResolveParameterType(SwaggerParameter parameter)
         {
+            if (parameter.IsBinaryBodyParameter)
+            {
+                return "Blob";
+            }
+
             var schema = parameter.ActualSchema;
-            if (schema.Type == JsonObjectType.File)
+            if (schema.IsBinary)
             {
                 if (parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
                     return "FileParameter[]";

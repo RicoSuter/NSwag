@@ -76,7 +76,16 @@ namespace NSwag.SwaggerGeneration
                 type = type.GenericTypeArguments[0];
 
             if (IsFileResponse(type))
-                return new TSchemaType { Type = JsonObjectType.File };
+            {
+                if (Settings.SchemaType == SchemaType.Swagger2)
+                {
+                    return new TSchemaType { Type = JsonObjectType.File };
+                }
+                else
+                {
+                    return new TSchemaType { Type = JsonObjectType.String, Format = JsonFormatStrings.Binary };
+                }
+            }
 
             return await base.GenerateWithReferenceAndNullabilityAsync(type, parentAttributes, isNullable, schemaResolver, transformation);
         }

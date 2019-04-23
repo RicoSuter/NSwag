@@ -13,10 +13,10 @@ using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using NSwag.Annotations;
 using NSwag.Annotations.Converters;
+using NSwag.SwaggerGeneration.AspNetCore;
 
 namespace NSwag.AspNetCore
 {
@@ -59,9 +59,7 @@ namespace NSwag.AspNetCore
         {
             if (context.Exception != null && (_exceptionTypes.Count == 0 || _exceptionTypes.Exists(t => t.IsInstanceOfType(context.Exception))))
             {
-                var options = context.HttpContext?.RequestServices?.GetService(typeof(IOptions<MvcJsonOptions>)) as IOptions<MvcJsonOptions>;
-
-                var settings = options?.Value?.SerializerSettings ?? JsonConvert.DefaultSettings?.Invoke();
+                var settings = AspNetCoreToSwaggerGenerator.GetJsonSerializerSettings(context.HttpContext?.RequestServices);
                 settings = settings != null ? CopySettings(settings) : new JsonSerializerSettings();
                 settings.Converters.Add(new JsonExceptionConverter(_hideStackTrace, _searchedNamespaces));
 
@@ -119,43 +117,19 @@ namespace NSwag.AspNetCore
 
         private JsonSerializerSettings CopySettings(JsonSerializerSettings settings)
         {
-            var copy = new JsonSerializerSettings
+            var settingsCopy = new JsonSerializerSettings();
+
+            foreach (var property in typeof(JsonSerializerSettings).GetRuntimeProperties())
             {
-                Context = settings.Context,
-                Culture = settings.Culture,
-                ContractResolver = settings.ContractResolver,
-                ConstructorHandling = settings.ConstructorHandling,
-                CheckAdditionalContent = settings.CheckAdditionalContent,
-                DateFormatHandling = settings.DateFormatHandling,
-                DateFormatString = settings.DateFormatString,
-                DateParseHandling = settings.DateParseHandling,
-                DateTimeZoneHandling = settings.DateTimeZoneHandling,
-                DefaultValueHandling = settings.DefaultValueHandling,
-                EqualityComparer = settings.EqualityComparer,
-                FloatFormatHandling = settings.FloatFormatHandling,
-                Formatting = settings.Formatting,
-                FloatParseHandling = settings.FloatParseHandling,
-                MaxDepth = settings.MaxDepth,
-                MetadataPropertyHandling = settings.MetadataPropertyHandling,
-                MissingMemberHandling = settings.MissingMemberHandling,
-                NullValueHandling = settings.NullValueHandling,
-                ObjectCreationHandling = settings.ObjectCreationHandling,
-                PreserveReferencesHandling = settings.PreserveReferencesHandling,
-                ReferenceResolverProvider = settings.ReferenceResolverProvider,
-                ReferenceLoopHandling = settings.ReferenceLoopHandling,
-                StringEscapeHandling = settings.StringEscapeHandling,
-                TraceWriter = settings.TraceWriter,
-                TypeNameHandling = settings.TypeNameHandling,
-                Binder = settings.Binder,
-                TypeNameAssemblyFormat = settings.TypeNameAssemblyFormat
-            };
+                property.SetValue(settingsCopy, property.GetValue(settings));
+            }
 
             foreach (var converter in settings.Converters)
             {
-                copy.Converters.Add(converter);
+                settingsCopy.Converters.Add(converter);
             }
 
-            return copy;
+            return settingsCopy;
         }
     }
 }

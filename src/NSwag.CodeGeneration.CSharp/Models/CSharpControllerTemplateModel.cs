@@ -45,7 +45,13 @@ namespace NSwag.CodeGeneration.CSharp.Models
         public bool HasBaseClass => !string.IsNullOrEmpty(BaseClass);
 
         /// <summary>Gets the ASP.NET framework namespace.</summary>
-        public string AspNetNamespace => _settings.AspNetNamespace;
+        public string AspNetNamespace => IsAspNetCore ? "Microsoft.AspNetCore.Mvc" : "System.Web.Http";
+
+        /// <summary>Gets or sets a value indicating whether the output should target ASP.NET Core.</summary>
+        public bool IsAspNetCore => _settings.ControllerTarget == CSharpControllerTarget.AspNetCore;
+
+        /// <summary>Gets or sets a value indicating whether the output should target ASP.NET MVC.</summary>
+        public bool IsAspNet => _settings.ControllerTarget == CSharpControllerTarget.AspNet;
 
         /// <summary>Gets the base class.</summary>
         public string BaseClass { get; }
