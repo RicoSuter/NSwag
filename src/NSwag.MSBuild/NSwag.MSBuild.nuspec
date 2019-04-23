@@ -11,7 +11,7 @@
     <iconUrl>https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png</iconUrl>
     <description>NSwag: The Swagger API toolchain for .NET and TypeScript</description>
     <tags>Swagger Documentation WebApi AspNet TypeScript CodeGen</tags>
-    <copyright>Copyright © Rico Suter, 2018</copyright>
+    <copyright>Copyright © Rico Suter, 2019</copyright>
     <developmentDependency>true</developmentDependency>
     <dependencies />
     <references />
