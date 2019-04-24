@@ -27,14 +27,16 @@ namespace NSwag.AspNetCore.Middlewares
         private readonly SwaggerDocumentMiddlewareSettings _settings;
 
         private int _version;
-        private readonly Dictionary<string, string> _swaggerJsonDict = new Dictionary<string, string>();
-        private readonly object _swaggerJsonLock = new object();
-        
-        private Exception _swaggerException;
-        private DateTimeOffset _schemaTimestamp;
+        private readonly object _documentsCacheLock = new object();
+        private readonly Dictionary<string, Tuple<string, Exception, DateTimeOffset>> _documentsCache
+            = new Dictionary<string, Tuple<string, Exception, DateTimeOffset>>();
 
         /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerMiddleware"/> class.</summary>
         /// <param name="nextDelegate">The next delegate.</param>
+        /// <param name="serviceProvider">The service provider.</param>
+        /// <param name="documentName">The document name.</param>
+        /// <param name="path">The document path.</param>
+        /// <param name="settings">The settings.</param>
         public SwaggerDocumentMiddleware(RequestDelegate nextDelegate, IServiceProvider serviceProvider, string documentName, string path, SwaggerDocumentMiddlewareSettings settings)
         {
             _nextDelegate = nextDelegate;
@@ -73,58 +75,56 @@ namespace NSwag.AspNetCore.Middlewares
         /// <returns>The Swagger specification.</returns>
         protected virtual async Task<string> GetDocumentAsync(HttpContext context)
         {
-            if (_swaggerException != null && _schemaTimestamp + _settings.ExceptionCacheTime > DateTimeOffset.UtcNow)
+            var documentKey = _settings.CreateDocumentCacheKey?.Invoke(context.Request) ?? string.Empty;
+
+            Tuple<string, Exception, DateTimeOffset> document = null;
+            lock (_documentsCacheLock)
             {
-                throw _swaggerException;
+                document = _documentsCache.ContainsKey(documentKey) ? _documentsCache[documentKey] : null;
+            }
+
+            if (document?.Item2 != null &&
+                document.Item3 + _settings.ExceptionCacheTime > DateTimeOffset.UtcNow)
+            {
+                throw document.Item2;
             }
 
             var apiDescriptionGroups = _apiDescriptionGroupCollectionProvider.ApiDescriptionGroups;
-            
-            var key = _settings.CreateDocumentCacheKey?.Invoke(context.Request) ?? string.Empty;
-            if (apiDescriptionGroups.Version == Volatile.Read(ref _version) && TryGetSwaggerJson(key, out string swaggerJson))
+            if (apiDescriptionGroups.Version == Volatile.Read(ref _version) &&
+                document?.Item1 != null)
             {
-                return swaggerJson;
+                return document.Item1;
             }
 
             try
             {
-                swaggerJson = await GenerateDocumentAsync(context);
+                var json = (await GenerateDocumentAsync(context)).ToJson();
+                _version = apiDescriptionGroups.Version;
 
-                lock (_swaggerJsonLock)
+                lock (_documentsCacheLock)
                 {
-                    _swaggerJsonDict[key] = swaggerJson;
+                    _documentsCache[documentKey] = new Tuple<string, Exception, DateTimeOffset>(
+                        json, null, DateTimeOffset.UtcNow);
                 }
 
-                _version = apiDescriptionGroups.Version;
-                _schemaTimestamp = DateTimeOffset.UtcNow;
+                return json;
             }
             catch (Exception exception)
             {
-                lock (_swaggerJsonLock)
+                lock (_documentsCacheLock)
                 {
-                    _swaggerJsonDict.Remove(key);
+                    _documentsCache[documentKey] = new Tuple<string, Exception, DateTimeOffset>(
+                        null, exception, DateTimeOffset.UtcNow);
                 }
 
-                _swaggerException = exception;
-                _schemaTimestamp = DateTimeOffset.UtcNow;
                 throw;
-            }
-
-            return swaggerJson;
-
-            bool TryGetSwaggerJson(string cacheKey, out string json)
-            {
-                lock (_swaggerJsonLock)
-                {
-                    return _swaggerJsonDict.TryGetValue(cacheKey, out json);
-                }
             }
         }
 
         /// <summary>Generates the Swagger specification.</summary>
         /// <param name="context">The context.</param>
         /// <returns>The Swagger specification.</returns>
-        protected virtual async Task<string> GenerateDocumentAsync(HttpContext context)
+        protected virtual async Task<SwaggerDocument> GenerateDocumentAsync(HttpContext context)
         {
             var document = await _documentProvider.GenerateAsync(_documentName);
 
@@ -134,8 +134,7 @@ namespace NSwag.AspNetCore.Middlewares
 
             _settings.PostProcess?.Invoke(document, context.Request);
 
-            var swaggerJson = document.ToJson();
-            return swaggerJson;
+            return document;
         }
     }
 }
