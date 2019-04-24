@@ -40,6 +40,6 @@ namespace NSwag.AspNetCore
         /// Hint: In a case of reverse proxy, the key may include of X-Forwarded-Host/X-Forwarded-Proto header values.
         /// <seealso cref="PostProcess"/> 
         /// </summary>
-        public Func<HttpRequest, string> CreateDocumentCacheKey { get; set; }
+        public Func<HttpRequest, string> CreateDocumentCacheKey { get; set; } = r => r.Host.ToString();
     }
 }
