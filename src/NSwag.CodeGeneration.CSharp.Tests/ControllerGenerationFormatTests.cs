@@ -259,18 +259,17 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         {
             JsonSchema4 complexTypeSchema = new JsonSchema4();
             complexTypeSchema.Title = "ComplexType";
-            complexTypeSchema.Properties["Prop1"] = new JsonProperty() { Type = JsonObjectType.String, IsRequired = true };
-            complexTypeSchema.Properties["Prop2"] = new JsonProperty() { Type = JsonObjectType.Integer, IsRequired = true };
-            complexTypeSchema.Properties["Prop3"] = new JsonProperty() { Type = JsonObjectType.Boolean, IsRequired = true };
-            complexTypeSchema.Properties["Prop4"] = new JsonProperty() { Type = JsonObjectType.Object, Reference = complexTypeSchema, IsRequired = true };
+            complexTypeSchema.Properties["Prop1"] = new JsonProperty { Type = JsonObjectType.String, IsRequired = true };
+            complexTypeSchema.Properties["Prop2"] = new JsonProperty { Type = JsonObjectType.Integer, IsRequired = true };
+            complexTypeSchema.Properties["Prop3"] = new JsonProperty { Type = JsonObjectType.Boolean, IsRequired = true };
+            complexTypeSchema.Properties["Prop4"] = new JsonProperty { Type = JsonObjectType.Object, Reference = complexTypeSchema, IsRequired = true };
 
             JsonSchema4 complexTypeReponseSchema = new JsonSchema4();
             complexTypeReponseSchema.Title = "ComplexTypeResponse";
-            complexTypeReponseSchema.Properties["Prop1"] = new JsonProperty() { Type = JsonObjectType.String, IsRequired = true };
-            complexTypeReponseSchema.Properties["Prop2"] = new JsonProperty() { Type = JsonObjectType.Integer, IsRequired = true };
-            complexTypeReponseSchema.Properties["Prop3"] = new JsonProperty() { Type = JsonObjectType.Boolean, IsRequired = true };
-            complexTypeReponseSchema.Properties["Prop4"] = new JsonProperty() { Type = JsonObjectType.Object, Reference = complexTypeSchema, IsRequired = true };
-
+            complexTypeReponseSchema.Properties["Prop1"] = new JsonProperty { Type = JsonObjectType.String, IsRequired = true };
+            complexTypeReponseSchema.Properties["Prop2"] = new JsonProperty { Type = JsonObjectType.Integer, IsRequired = true };
+            complexTypeReponseSchema.Properties["Prop3"] = new JsonProperty { Type = JsonObjectType.Boolean, IsRequired = true };
+            complexTypeReponseSchema.Properties["Prop4"] = new JsonProperty { Type = JsonObjectType.Object, Reference = complexTypeSchema, IsRequired = true };
 
             var typeString = await JsonSchema4.FromTypeAsync(typeof(string));
 
