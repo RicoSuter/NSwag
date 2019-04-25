@@ -77,10 +77,10 @@ namespace NSwag.AspNetCore.Middlewares
         {
             var documentKey = _settings.CreateDocumentCacheKey?.Invoke(context.Request) ?? string.Empty;
 
-            Tuple<string, Exception, DateTimeOffset> document = null;
+            Tuple<string, Exception, DateTimeOffset> document;
             lock (_documentsCacheLock)
             {
-                document = _documentsCache.ContainsKey(documentKey) ? _documentsCache[documentKey] : null;
+                _documentsCache.TryGetValue(documentKey, out document);
             }
 
             if (document?.Item2 != null &&
