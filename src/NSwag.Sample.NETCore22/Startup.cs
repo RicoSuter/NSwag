@@ -51,6 +51,11 @@ namespace NSwag.Sample.NETCore22
 
             app.UseSwagger(); // registers the two documents in separate routes
             app.UseSwaggerUi3(); // registers a single Swagger UI (v3) with the two documents
+            app.UseReDoc(config =>
+            {
+                config.Path = "/redoc";
+                config.DocumentPath = "/swagger/a/swagger.json";
+            });
         }
     }
 }
