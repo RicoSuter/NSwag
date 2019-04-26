@@ -16,7 +16,19 @@ namespace Microsoft.AspNetCore.Builder
     {
         /// <summary>Adds the OpenAPI/Swagger generator that uses the ASP.NET Core API Explorer 
         /// (default route defined in document: /swagger/v1/swagger.json).</summary>
-        /// <remarks>Registers multiple routes/documents if the settings.Path contains a '{documentName}' placeholder.</remarks>
+        /// <remarks>Registers multiple routes/documents if the settings.Path contains a '{documentName}' placeholder.
+        /// The methods <see cref="UseOpenApi"/> and <see cref="UseSwagger"/> are the same, but <see cref="UseSwagger"/> will be deprecated eventually.</remarks>
+        /// <param name="app">The app.</param>
+        /// <param name="configure">Configure additional settings.</param>
+        public static IApplicationBuilder UseOpenApi(this IApplicationBuilder app, Action<SwaggerDocumentMiddlewareSettings> configure = null)
+        {
+            return UseSwaggerWithApiExplorerCore(app, configure);
+        }
+
+        /// <summary>Adds the OpenAPI/Swagger generator that uses the ASP.NET Core API Explorer 
+        /// (default route defined in document: /swagger/v1/swagger.json).</summary>
+        /// <remarks>Registers multiple routes/documents if the settings.Path contains a '{documentName}' placeholder.
+        /// The methods <see cref="UseOpenApi"/> and <see cref="UseSwagger"/> are the same, but <see cref="UseSwagger"/> will be deprecated eventually.</remarks>
         /// <param name="app">The app.</param>
         /// <param name="configure">Configure additional settings.</param>
         public static IApplicationBuilder UseSwagger(this IApplicationBuilder app, Action<SwaggerDocumentMiddlewareSettings> configure = null)
