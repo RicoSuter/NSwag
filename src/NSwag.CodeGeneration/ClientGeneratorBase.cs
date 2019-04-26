@@ -121,11 +121,17 @@ namespace NSwag.CodeGeneration
                 .SelectMany(pair => pair.Value.Select(p => new { Path = pair.Key.TrimStart('/'), HttpMethod = p.Key, Operation = p.Value }))
                 .Select(tuple =>
                 {
+                    var operationName = BaseSettings.OperationNameGenerator.GetOperationName(document, tuple.Path, tuple.HttpMethod, tuple.Operation);
+                    if (operationName.EndsWith("Async"))
+                    {
+                        operationName = operationName.Substring(0, operationName.Length - "Async".Length);
+                    }
+
                     var operationModel = CreateOperationModel(tuple.Operation, BaseSettings);
                     operationModel.ControllerName = BaseSettings.OperationNameGenerator.GetClientName(document, tuple.Path, tuple.HttpMethod, tuple.Operation);
                     operationModel.Path = tuple.Path;
                     operationModel.HttpMethod = tuple.HttpMethod;
-                    operationModel.OperationName = BaseSettings.OperationNameGenerator.GetOperationName(document, tuple.Path, tuple.HttpMethod, tuple.Operation);
+                    operationModel.OperationName = operationName;
                     return operationModel;
                 })
                 .ToList();

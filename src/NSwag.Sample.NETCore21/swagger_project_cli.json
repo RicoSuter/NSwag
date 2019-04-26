@@ -1,11 +1,45 @@
 ﻿{
-  "x-generator": "NSwag v12.2.2.0 (NJsonSchema v9.13.35.0 (Newtonsoft.Json v11.0.0.0))",
+  "x-generator": "NSwag v12.2.4.0 (NJsonSchema v9.13.36.0 (Newtonsoft.Json v11.0.0.0))",
   "swagger": "2.0",
   "info": {
     "title": "My Title",
     "version": "1.0.0"
   },
   "paths": {
+    "/pet/createOrder": {
+      "post": {
+        "tags": [
+          "Pet"
+        ],
+        "summary": "Creates an order ",
+        "operationId": "Pet_CreateOrder",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "201": {
+            "x-nullable": false,
+            "description": "Order created",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "400": {
+            "x-nullable": true,
+            "description": "Order invalid",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
     "/pet": {
       "post": {
         "tags": [
@@ -31,7 +65,7 @@
         ],
         "responses": {
           "204": {
-            "description": ""
+            "description": "My success response description."
           },
           "400": {
             "x-nullable": true,
