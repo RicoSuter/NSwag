@@ -165,6 +165,10 @@
                     <TextBlock Text="Generate abstract properties (i.e. interface and abstract properties. Properties may defined multiple times in a inheritance hierarchy)" TextWrapping="Wrap" />
                 </CheckBox>
 
+                <CheckBox IsChecked="{Binding Command.GenerateAbstractSchemas, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="GenerateAbstractSchemas">
+                    <TextBlock Text="Generate the x-abstract flag on schemas" TextWrapping="Wrap" />
+                </CheckBox>
+
                 <CheckBox IsChecked="{Binding Command.IgnoreObsoleteProperties, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="IgnoreObsoleteProperties">
                     <TextBlock Text="Ignore properties with the ObsoleteAttribute" TextWrapping="Wrap" />
                 </CheckBox>

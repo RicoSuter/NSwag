@@ -99,6 +99,13 @@ namespace NSwag.Commands.SwaggerGeneration
             set => Settings.GenerateAbstractProperties = value;
         }
 
+        [Argument(Name = "GenerateAbstractSchemas", IsRequired = false, Description = "Generate the x-abstract flag on schemas (default: true).")]
+        public bool GenerateAbstractSchemas
+        {
+            get => Settings.GenerateAbstractSchemas;
+            set => Settings.GenerateAbstractSchemas = value;
+        }
+
         [Argument(Name = "IgnoreObsoleteProperties", IsRequired = false, Description = "Ignore properties with the ObsoleteAttribute (default: false).")]
         public bool IgnoreObsoleteProperties
         {
