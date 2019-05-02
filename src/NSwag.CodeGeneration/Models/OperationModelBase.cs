@@ -314,5 +314,14 @@ namespace NSwag.CodeGeneration.Models
             var isNullable = parameter.IsRequired == false || parameter.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
             return _resolver.Resolve(schema, isNullable, typeNameHint);
         }
+
+        /// <summary>Gets the actual parameters ignoring the excluded ones.</summary>
+        /// <returns>The parameters.</returns>
+        protected IList<SwaggerParameter> GetActualParameters()
+        {
+            return _operation.ActualParameters
+                .Where(p => !_settings.ExcludedParameterNames.Contains(p.Name))
+                .ToList();
+        }
     }
 };

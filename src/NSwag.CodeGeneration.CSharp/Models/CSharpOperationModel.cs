@@ -50,7 +50,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             _generator = generator;
             _resolver = resolver;
 
-            var parameters = _operation.ActualParameters.ToList();
+            var parameters = GetActualParameters();
 
             if (settings.GenerateOptionalParameters)
             {
@@ -72,7 +72,6 @@ namespace NSwag.CodeGeneration.CSharp.Models
             }
 
             Parameters = parameters
-                .Where(p => !settings.ExcludedParameterNames.Contains(p.Name))
                 .Select(parameter =>
                     new CSharpParameterModel(parameter.Name, GetParameterVariableName(parameter, _operation.Parameters),
                         ResolveParameterType(parameter), parameter, parameters,

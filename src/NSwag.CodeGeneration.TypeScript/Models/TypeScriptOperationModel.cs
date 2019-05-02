@@ -36,7 +36,8 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             _settings = settings;
             _generator = generator;
 
-            var parameters = _operation.ActualParameters.ToList();
+            var parameters = GetActualParameters();
+
             if (settings.GenerateOptionalParameters)
             {
                 parameters = parameters
@@ -46,7 +47,6 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             }
 
             Parameters = parameters
-                .Where(p => !settings.ExcludedParameterNames.Contains(p.Name))
                 .Select(parameter =>
                     new TypeScriptParameterModel(parameter.Name,
                         GetParameterVariableName(parameter, _operation.Parameters), ResolveParameterType(parameter),
