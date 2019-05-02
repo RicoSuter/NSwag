@@ -13,7 +13,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using NJsonSchema;
-using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors.Contexts;
 
@@ -22,11 +21,11 @@ namespace NSwag.SwaggerGeneration.Processors
     /// <summary>The OperationResponseProcessor base class.</summary>
     public abstract class OperationResponseProcessorBase
     {
-        private readonly JsonSchemaGeneratorSettings _settings;
+        private readonly SwaggerGeneratorSettings _settings;
 
         /// <summary>Initializes a new instance of the <see cref="OperationResponseProcessorBase"/> class.</summary>
         /// <param name="settings">The settings.</param>
-        public OperationResponseProcessorBase(JsonSchemaGeneratorSettings settings)
+        public OperationResponseProcessorBase(SwaggerGeneratorSettings settings)
         {
             _settings = settings;
         }
@@ -157,7 +156,8 @@ namespace NSwag.SwaggerGeneration.Processors
                 var description = string.Join("\nor\n", statusCodeGroup.Select(r => r.Description));
 
                 var typeDescription = _settings.ReflectionService.GetDescription(
-                    returnType, GetParameterAttributes(returnParameter), _settings);
+                    returnType, GetParameterAttributes(returnParameter), 
+                    _settings.DefaultResponseReferenceTypeNullHandling, _settings);
 
                 var response = new SwaggerResponse
                 {

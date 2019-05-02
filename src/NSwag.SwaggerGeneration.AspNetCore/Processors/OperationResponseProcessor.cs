@@ -71,7 +71,8 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                     if (IsVoidResponse(returnType) == false)
                     {
                         var typeDescription = _settings.ReflectionService.GetDescription(
-                            returnType, GetParameterAttributes(context.MethodInfo.ReturnParameter), _settings);
+                            returnType, GetParameterAttributes(context.MethodInfo.ReturnParameter),
+                            _settings.DefaultResponseReferenceTypeNullHandling, _settings);
 
                         response.IsNullableRaw = typeDescription.IsNullable;
 

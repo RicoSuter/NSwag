@@ -48,11 +48,18 @@ namespace NSwag.Commands.SwaggerGeneration
             set => Settings.DefaultPropertyNameHandling = value;
         }
 
-        [Argument(Name = nameof(DefaultReferenceTypeNullHandling), IsRequired = false, Description = "The default null handling (if NotNullAttribute and CanBeNullAttribute are missing, default: Null, Null or NotNull).")]
+        [Argument(Name = nameof(DefaultReferenceTypeNullHandling), IsRequired = false, Description = "The default reference type null handling (if NotNullAttribute and CanBeNullAttribute are missing, default: Null, Null or NotNull).")]
         public ReferenceTypeNullHandling DefaultReferenceTypeNullHandling
         {
             get => Settings.DefaultReferenceTypeNullHandling;
             set => Settings.DefaultReferenceTypeNullHandling = value;
+        }
+
+        [Argument(Name = nameof(DefaultResponseReferenceTypeNullHandling), IsRequired = false, Description = "The default response reference type null handling (if NotNullAttribute and CanBeNullAttribute are missing, default: Null, Null or NotNull).")]
+        public ReferenceTypeNullHandling DefaultResponseReferenceTypeNullHandling
+        {
+            get => Settings.DefaultResponseReferenceTypeNullHandling;
+            set => Settings.DefaultResponseReferenceTypeNullHandling = value;
         }
 
         [Argument(Name = "DefaultEnumHandling", IsRequired = false, Description = "The default enum handling ('String' or 'Integer'), default: Integer.")]

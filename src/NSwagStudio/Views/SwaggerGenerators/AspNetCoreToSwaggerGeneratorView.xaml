@@ -157,9 +157,13 @@
                     <TextBlock Text="Allow nullable body parameters (ignored when MvcOptions.AllowEmptyInputInBodyModelBinding is available)" TextWrapping="Wrap" />
                 </CheckBox>
 
-                <TextBlock Margin="0,0,0,6" Text="The default null handling (if NotNullAttribute and CanBeNullAttribute are missing)" TextWrapping="Wrap" FontWeight="Bold" />
+                <TextBlock Margin="0,0,0,6" Text="The default reference type null handling (if NotNullAttribute and CanBeNullAttribute are missing)" TextWrapping="Wrap" FontWeight="Bold" />
                 <ComboBox SelectedItem="{Binding Command.DefaultReferenceTypeNullHandling, Mode=TwoWay}" 
                           ToolTip="DefaultReferenceTypeNullHandling" ItemsSource="{Binding ReferenceTypeNullHandlings}" Margin="0,0,0,12" />
+
+                <TextBlock Margin="0,0,0,6" Text="The default response reference type null handling (if NotNullAttribute and CanBeNullAttribute are missing)" TextWrapping="Wrap" FontWeight="Bold" />
+                <ComboBox SelectedItem="{Binding Command.DefaultResponseReferenceTypeNullHandling, Mode=TwoWay}" 
+                          ToolTip="DefaultResponseReferenceTypeNullHandling" ItemsSource="{Binding ReferenceTypeNullHandlings}" Margin="0,0,0,12" />
 
                 <CheckBox IsChecked="{Binding Command.GenerateAbstractProperties, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="GenerateAbstractProperties">
                     <TextBlock Text="Generate abstract properties (i.e. interface and abstract properties. Properties may defined multiple times in a inheritance hierarchy)" TextWrapping="Wrap" />
