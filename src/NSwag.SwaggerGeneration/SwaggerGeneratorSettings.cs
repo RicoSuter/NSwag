@@ -24,6 +24,7 @@ namespace NSwag.SwaggerGeneration
         /// <summary>Initializes a new instance of the <see cref="SwaggerGeneratorSettings"/> class.</summary>
         public SwaggerGeneratorSettings()
         {
+            DefaultResponseReferenceTypeNullHandling = ReferenceTypeNullHandling.Null;
             SchemaType = SchemaType.Swagger2;
         }
 
@@ -38,6 +39,9 @@ namespace NSwag.SwaggerGeneration
 
         /// <summary>Gets or sets a value indicating whether nullable body parameters are allowed (ignored when MvcOptions.AllowEmptyInputInBodyModelBinding is available (ASP.NET Core 2.0+), default: true).</summary>
         public bool AllowNullableBodyParameters { get; set; } = true;
+
+        /// <summary>Gets or sets the default response reference type null handling when no nullability information is available (if NotNullAttribute and CanBeNullAttribute are missing, default: Null).</summary>
+        public ReferenceTypeNullHandling DefaultResponseReferenceTypeNullHandling { get; set; }
 
         /// <summary>Gets the operation processors.</summary>
         [JsonIgnore]
