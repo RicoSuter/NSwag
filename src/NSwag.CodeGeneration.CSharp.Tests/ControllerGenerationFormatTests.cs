@@ -11,6 +11,40 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 {
     public class ControllerGenerationFormatTests
     {
+        //TODO: Remove need for class used in test setup (was removed in 6660a90f7e5d29d9650f25baf1132fcd90dbe1e7)
+        public class ComplexType
+        {
+            public string Prop1 { get; set; }
+
+            public int Prop2 { get; set; }
+
+            public bool Prop3 { get; set; }
+
+            public ComplexType Prop4 { get; set; }
+        }
+
+        //TODO: Remove need for class used in test setup (was removed in 6660a90f7e5d29d9650f25baf1132fcd90dbe1e7)
+        public class TestController : Controller
+        {
+            [Route("Foo")]
+            public string Foo(string test, bool test2)
+            {
+                throw new NotImplementedException();
+            }
+
+            [Route("Bar")]
+            public void Bar()
+            {
+                throw new NotImplementedException();
+            }
+
+            [Route("Complex")]
+            public void Complex([FromBody] ComplexType complexType)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         [Fact]
         public async Task When_controllergenerationformat_abstract_then_abstractcontroller_is_generated()
         {
