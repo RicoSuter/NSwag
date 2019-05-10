@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using NSwag.SwaggerGeneration;
+using System.Collections.Generic;
 #if AspNetOwin
 using Microsoft.Owin;
 
@@ -21,12 +22,18 @@ namespace NSwag.AspNetCore
     public class SwaggerReDocSettings<T> : SwaggerUiSettingsBase<T>
         where T : SwaggerGeneratorSettings, new()
     {
+        /// <summary>Gets the additional ReDoc settings.</summary>
+        public IDictionary<string, object> AdditionalSettings { get; } = new Dictionary<string, object>();
+
 #if AspNetOwin
         internal override string TransformHtml(string html, IOwinRequest request)
 #else
         internal override string TransformHtml(string html, HttpRequest request)
 #endif
         {
+            html = html.Replace("{AdditionalSettings}", GenerateAdditionalSettings(AdditionalSettings));
+            html = html.Replace("{CustomStyle}", GetCustomStyleHtml());
+            html = html.Replace("{CustomScript}", GetCustomScriptHtml());
             return html;
         }
     }

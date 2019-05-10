@@ -71,7 +71,7 @@ namespace NSwag.CodeGeneration.CSharp
         /// <returns>The operation model.</returns>
         protected override CSharpOperationModel CreateOperationModel(SwaggerOperation operation, ClientGeneratorBaseSettings settings)
         {
-            return new CSharpOperationModel(operation, (SwaggerToCSharpGeneratorSettings)settings, this, (CSharpTypeResolver)Resolver);
+            return new CSharpControllerOperationModel(operation, (SwaggerToCSharpControllerGeneratorSettings)settings, this, (CSharpTypeResolver)Resolver);
         }
     }
 }

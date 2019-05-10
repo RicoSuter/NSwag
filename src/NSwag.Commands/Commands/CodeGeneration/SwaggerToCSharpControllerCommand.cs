@@ -28,7 +28,7 @@ namespace NSwag.Commands.CodeGeneration
             get { return Settings.ControllerBaseClass; }
             set { Settings.ControllerBaseClass = value; }
         }
-        
+
         [Argument(Name = "ControllerStyle", Description = "The controller generation style (partial, abstract; default: partial).", IsRequired = false)]
         public CSharpControllerStyle ControllerStyle
         {
@@ -48,6 +48,20 @@ namespace NSwag.Commands.CodeGeneration
         {
             get { return Settings.UseCancellationToken; }
             set { Settings.UseCancellationToken = value; }
+        }
+
+        [Argument(Name = "UseActionResultType", Description = "Use ASP.Net Core (2.1) ActionResult type as return type (default: false)", IsRequired = false)]
+        public bool UseActionResultType
+        {
+            get { return Settings.UseActionResultType; }
+            set { Settings.UseActionResultType = value; }
+        }
+
+        [Argument(Name = "GenerateModelValidationAttributes", Description = "Add model validation attributes (default: false).", IsRequired = false)]
+        public bool GenerateModelValidationAttributes
+        {
+            get { return Settings.GenerateModelValidationAttributes; }
+            set { Settings.GenerateModelValidationAttributes = value; }
         }
 
         [Argument(Name = "RouteNamingStrategy", Description = "The strategy for naming controller routes (none, operationid; default: none).", IsRequired = false)]

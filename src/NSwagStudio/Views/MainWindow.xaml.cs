@@ -11,6 +11,7 @@ using MyToolkit.UI;
 using MyToolkit.Utilities;
 using NSwagStudio.ViewModels;
 using Newtonsoft.Json;
+using System.Net;
 
 namespace NSwagStudio.Views
 {
@@ -28,6 +29,7 @@ namespace NSwagStudio.Views
             RegisterFileOpenHandler();
 
             Title += IntPtr.Size == 4 ? " (x86), v" : " (x64), v" + Model.NSwagVersion;
+            ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => true;
         }
 
         private MainWindowModel Model => (MainWindowModel)Resources["ViewModel"];

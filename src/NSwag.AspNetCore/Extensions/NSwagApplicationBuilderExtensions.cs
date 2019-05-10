@@ -14,8 +14,21 @@ namespace Microsoft.AspNetCore.Builder
     /// <summary>NSwag extensions for <see cref="IApplicationBuilder"/>.</summary>
     public static class NSwagApplicationBuilderExtensions
     {
-        /// <summary>Adds the OpenAPI/Swagger generator that uses Api Description to perform Swagger generation.</summary>
-        /// <remarks>Registers multiple routes/documents if the settings.Path contains a '{documentName}' placeholder.</remarks>
+        /// <summary>Adds the OpenAPI/Swagger generator that uses the ASP.NET Core API Explorer 
+        /// (default route defined in document: /swagger/v1/swagger.json).</summary>
+        /// <remarks>Registers multiple routes/documents if the settings.Path contains a '{documentName}' placeholder.
+        /// The methods <see cref="UseOpenApi"/> and <see cref="UseSwagger"/> are the same, but <see cref="UseSwagger"/> will be deprecated eventually.</remarks>
+        /// <param name="app">The app.</param>
+        /// <param name="configure">Configure additional settings.</param>
+        public static IApplicationBuilder UseOpenApi(this IApplicationBuilder app, Action<SwaggerDocumentMiddlewareSettings> configure = null)
+        {
+            return UseSwaggerWithApiExplorerCore(app, configure);
+        }
+
+        /// <summary>Adds the OpenAPI/Swagger generator that uses the ASP.NET Core API Explorer 
+        /// (default route defined in document: /swagger/v1/swagger.json).</summary>
+        /// <remarks>Registers multiple routes/documents if the settings.Path contains a '{documentName}' placeholder.
+        /// The methods <see cref="UseOpenApi"/> and <see cref="UseSwagger"/> are the same, but <see cref="UseSwagger"/> will be deprecated eventually.</remarks>
         /// <param name="app">The app.</param>
         /// <param name="configure">Configure additional settings.</param>
         public static IApplicationBuilder UseSwagger(this IApplicationBuilder app, Action<SwaggerDocumentMiddlewareSettings> configure = null)
@@ -47,7 +60,7 @@ namespace Microsoft.AspNetCore.Builder
             }
         }
 
-        /// <summary>Adds the Swagger UI (only) to the pipeline.</summary>
+        /// <summary>Adds the Swagger UI (UI only) to the pipeline (default route: /swagger).</summary>
         /// <remarks>The settings.GeneratorSettings property does not have any effect.</remarks>
         /// <param name="app">The app.</param>
         /// <param name="configure">Configure the Swagger settings.</param>
@@ -90,7 +103,7 @@ namespace Microsoft.AspNetCore.Builder
             return app;
         }
 
-        /// <summary>Adds the ReDoc UI (only) to the pipeline.</summary>
+        /// <summary>Adds the ReDoc UI (UI only) to the pipeline (default route: /swagger).</summary>
         /// <remarks>The settings.GeneratorSettings property does not have any effect.</remarks>
         /// <param name="app">The app.</param>
         /// <param name="configure">Configure the Swagger settings.</param>
@@ -153,7 +166,7 @@ namespace Microsoft.AspNetCore.Builder
                         else
                         {
                             throw new NotSupportedException("This UI does not support multiple documents per UI: " +
-                                "Do not use '{documentName}' placeholder only in DocumentPath but also in Path to register multiple UIs.");
+                                "Do not use '{documentName}' placeholder in DocumentPath or Path.");
                         }
                     }
                 }

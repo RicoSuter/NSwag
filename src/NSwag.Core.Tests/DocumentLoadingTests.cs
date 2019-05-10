@@ -130,7 +130,7 @@ namespace NSwag.Core.Tests
         ""id"": {
           ""type"": ""integer"",
           ""format"": ""int64"",
-          ""x-readOnly"": ""true""
+          ""readOnly"": ""true""
         },
         ""name"": {
           ""type"": ""string""

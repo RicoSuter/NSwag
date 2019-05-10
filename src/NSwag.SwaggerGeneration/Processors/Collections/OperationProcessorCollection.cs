@@ -21,5 +21,23 @@ namespace NSwag.SwaggerGeneration.Processors.Collections
         {
             return (T)this.FirstOrDefault(p => p is T);
         }
+
+        /// <summary>Replaces the first element of type <typeparamref name="T"/>
+        /// with <paramref name="newItem"/>.</summary>
+        /// <typeparam name="T">The operation processor type to replace.</typeparam>
+        /// <param name="newItem">The replacement item.</param>
+        /// <returns>true, if an item was replaced; otherwise false.</returns>
+        public bool Replace<T>(IOperationProcessor newItem) where T : IOperationProcessor
+        {
+            var item = this.OfType<T>().FirstOrDefault();
+
+            if (item != null)
+            {
+                SetItem(IndexOf(item), newItem);
+                return true;
+            }
+
+            return false;
+        }
     }
 }

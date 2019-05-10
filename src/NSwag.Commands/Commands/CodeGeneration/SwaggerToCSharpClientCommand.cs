@@ -52,13 +52,6 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.GenerateClientInterfaces = value; }
         }
 
-        [Argument(Name = "GenerateDtoTypes", IsRequired = false, Description = "Specifies whether to generate DTO classes.")]
-        public bool GenerateDtoTypes
-        {
-            get { return Settings.GenerateDtoTypes; }
-            set { Settings.GenerateDtoTypes = value; }
-        }
-
         [Argument(Name = "InjectHttpClient", IsRequired = false, Description = "Specifies whether an HttpClient instance is injected (default: true).")]
         public bool InjectHttpClient
         {

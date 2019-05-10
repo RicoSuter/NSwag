@@ -50,10 +50,11 @@ namespace NSwag.CodeGeneration.CSharp.Models
             _generator = generator;
             _resolver = resolver;
 
-            var parameters = _operation.ActualParameters.ToList();
+            var parameters = GetActualParameters();
 
             if (settings.GenerateOptionalParameters)
             {
+                // TODO: Move to CSharpControllerOperationModel
                 if (generator is SwaggerToCSharpControllerGenerator)
                 {
                     parameters = parameters
@@ -71,7 +72,6 @@ namespace NSwag.CodeGeneration.CSharp.Models
             }
 
             Parameters = parameters
-                .Where(p => !settings.ExcludedParameterNames.Contains(p.Name))
                 .Select(parameter =>
                     new CSharpParameterModel(parameter.Name, GetParameterVariableName(parameter, _operation.Parameters),
                         ResolveParameterType(parameter), parameter, parameters,
@@ -215,6 +215,11 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <returns>The parameter type name.</returns>
         protected override string ResolveParameterType(SwaggerParameter parameter)
         {
+            if (parameter.IsBinaryBodyParameter)
+            {
+                return "System.IO.Stream";
+            }
+
             var schema = parameter.ActualSchema;
             if (schema.IsBinary)
             {
@@ -222,11 +227,6 @@ namespace NSwag.CodeGeneration.CSharp.Models
                     return "System.Collections.Generic.IEnumerable<FileParameter>";
 
                 return "FileParameter";
-            }
-
-            if (parameter.IsBinaryBodyParameter)
-            {
-                return "System.IO.Stream";
             }
 
             return base.ResolveParameterType(parameter)

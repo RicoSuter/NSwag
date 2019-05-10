@@ -238,7 +238,9 @@ namespace NSwag.CodeGeneration.Models
                 if (_operation.ActualConsumes?.Contains("application/json") == true)
                     return "application/json";
 
-                return _operation.ActualConsumes?.FirstOrDefault() ?? "application/json";
+                return _operation.ActualConsumes?.FirstOrDefault() ??
+                    _operation.RequestBody?.Content.Keys.FirstOrDefault() ??
+                    "application/json";
             }
         }
 
@@ -250,7 +252,9 @@ namespace NSwag.CodeGeneration.Models
                 if (_operation.ActualProduces?.Contains("application/json") == true)
                     return "application/json";
 
-                return _operation.ActualProduces?.FirstOrDefault() ?? "application/json";
+                return _operation.ActualProduces?.FirstOrDefault() ?? 
+                    SuccessResponse?.Produces ??
+                    "application/json";
             }
         }
 
@@ -309,6 +313,15 @@ namespace NSwag.CodeGeneration.Models
             var typeNameHint = !schema.HasTypeNameTitle ? ConversionUtilities.ConvertToUpperCamelCase(parameter.Name, true) : null;
             var isNullable = parameter.IsRequired == false || parameter.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
             return _resolver.Resolve(schema, isNullable, typeNameHint);
+        }
+
+        /// <summary>Gets the actual parameters ignoring the excluded ones.</summary>
+        /// <returns>The parameters.</returns>
+        protected IList<SwaggerParameter> GetActualParameters()
+        {
+            return _operation.ActualParameters
+                .Where(p => !_settings.ExcludedParameterNames.Contains(p.Name))
+                .ToList();
         }
     }
 };

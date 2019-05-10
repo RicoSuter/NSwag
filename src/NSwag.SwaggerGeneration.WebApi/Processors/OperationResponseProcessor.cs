@@ -40,14 +40,14 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                 .ToList();
 
             var producesResponseTypeAttributes = context.MethodInfo.GetCustomAttributes()
-                .Where(a => a.GetType().Name == "ProducesResponseTypeAttribute" || 
+                .Where(a => a.GetType().Name == "ProducesResponseTypeAttribute" ||
                             a.GetType().Name == "ProducesAttribute")
                 .ToList();
 
-            var parameter = context.MethodInfo.ReturnParameter;
             var attributes = responseTypeAttributes.Concat(producesResponseTypeAttributes);
 
-            await ProcessResponseTypeAttributes(context, parameter, attributes);
+            await ProcessResponseTypeAttributes(context, attributes);
+            await UpdateResponseDescriptionAsync(context);
 
             return true;
         }

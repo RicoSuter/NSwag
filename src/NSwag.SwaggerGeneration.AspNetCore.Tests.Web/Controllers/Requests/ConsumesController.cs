@@ -8,14 +8,14 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers.Requests
     {
         [Consumes("foo/bar", "text/html")] // requires CustomTextInputFormatter
         [HttpPost("ConsumesOnOperation")]
-        public ActionResult ConsumesOnOperation([FromBody]string body)
+        public ActionResult ConsumesOnOperation([FromBody] string body)
         {
             return Ok();
         }
 
         [Consumes("text/html")]
         [HttpPost("SecondOperation")]
-        public ActionResult SecondOperation([FromBody]string body)
+        public ActionResult SecondOperation([FromBody] string body)
         {
             return Ok();
         }
