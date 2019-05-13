@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NJsonSchema;
 using NSwag.CodeGeneration.CSharp.Models;
+using NSwag.CodeGeneration.OperationNameGenerators;
 using NSwag.SwaggerGeneration.WebApi;
 using Xunit;
 
@@ -377,7 +380,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
                                 Kind = SwaggerParameterKind.Header,
                                 Type = JsonObjectType.String
                             }
-                        }
+                        },
+                        Tags = new List<string> { "Secondary" }
                     }
                 }
             };
@@ -438,13 +442,15 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public async Task When_controllertarget_aspnet_then_custom_fromheader_generated()
+        public async Task When_controllertarget_aspnet_and_multiple_controllers_then_only_single_custom_fromheader_generated()
         {
             //// Arrange
             var document = await GetSwaggerDocument();
             var settings = new SwaggerToCSharpControllerGeneratorSettings
             {
-                ControllerTarget = CSharpControllerTarget.AspNet
+                ControllerTarget = CSharpControllerTarget.AspNet,
+                ControllerStyle = CSharpControllerStyle.Abstract,
+                OperationNameGenerator = new MultipleClientsFromFirstTagAndPathSegmentsOperationNameGenerator()
             };
 
             //// Act
@@ -452,8 +458,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.Contains("public class FromHeaderBinding :", code);
-            Assert.Contains("public class FromHeaderAttribute :", code);
+            var fromHeaderCustomAttributeCount = Regex.Matches(code, "public class FromHeaderAttribute :").Count;
+            Assert.Equal(1, fromHeaderCustomAttributeCount);
+            var fromHeaderCustomBindingCount = Regex.Matches(code, "public class FromHeaderBinding :").Count;
+            Assert.Equal(1, fromHeaderCustomBindingCount);
             Assert.DoesNotMatch("using FromHeaderAttribute = Microsoft.AspNetCore.Mvc.FromHeaderAttribute", code);
         }
 

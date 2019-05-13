@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "NSwag.Console": {
+      "commandName": "Project",
+      "commandLineArgs": "run \"C:\\DEV\\OpenBankingApi.Generation\\ApiGenerator\\OpenBankingApi_v3.1.1_CoreControllers.nswag\""
+    }
+  }
+}
