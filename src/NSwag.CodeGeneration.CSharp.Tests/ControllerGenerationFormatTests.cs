@@ -211,7 +211,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             Assert.Contains($"ComplexRequired([Microsoft.AspNetCore.Mvc.FromBody] [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] ComplexType complexType)", code);
             Assert.Contains($"Foo(string test, bool? test2)", code);
             Assert.Contains($"FooRequired([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string test, [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] bool test2)", code);
-            Assert.Contains($"HeaderParamRequired([FromHeader(Name = \"comes-from-header\")] [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string comes_from_header)", code);
+            Assert.Contains($"HeaderParamRequired([Microsoft.AspNetCore.Mvc.FromHeader(Name = \"comes-from-header\")] [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string comes_from_header)", code);
             Assert.Contains("Bar()", code);
         }
 
@@ -236,7 +236,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             Assert.Contains($"ComplexRequired([Microsoft.AspNetCore.Mvc.FromBody] [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] ComplexType complexType)", code);
             Assert.Contains($"Foo(string test, bool? test2)", code);
             Assert.Contains($"FooRequired([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string test, [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] bool test2)", code);
-            Assert.Contains($"HeaderParamRequired([FromHeader(Name = \"comes-from-header\")] [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string comes_from_header)", code);
+            Assert.Contains($"HeaderParamRequired([Microsoft.AspNetCore.Mvc.FromHeader(Name = \"comes-from-header\")] [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string comes_from_header)", code);
             Assert.Contains("Bar()", code);
         }
 
@@ -462,7 +462,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             Assert.Equal(1, fromHeaderCustomAttributeCount);
             var fromHeaderCustomBindingCount = Regex.Matches(code, "public class FromHeaderBinding :").Count;
             Assert.Equal(1, fromHeaderCustomBindingCount);
-            Assert.DoesNotMatch("using FromHeaderAttribute = Microsoft.AspNetCore.Mvc.FromHeaderAttribute", code);
+            Assert.Contains("[FromHeader", code);
+            Assert.DoesNotContain("[Microsoft.AspNetCore.Mvc.FromHeader", code);
         }
 
         [Fact]
@@ -480,7 +481,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.Contains("using FromHeaderAttribute = Microsoft.AspNetCore.Mvc.FromHeaderAttribute", code);
+            Assert.Contains("[Microsoft.AspNetCore.Mvc.FromHeader", code);
+            Assert.DoesNotContain("[FromHeader", code);
             Assert.DoesNotContain("public class FromHeaderBinding :", code);
             Assert.DoesNotContain("public class FromHeaderAttribute :", code);
         }
@@ -490,7 +492,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         {
             //// Arrange
             var document = await GetSwaggerDocument();
-            var settings = new SwaggerToCSharpControllerGeneratorSettings();
+            var settings = new SwaggerToCSharpControllerGeneratorSettings
+            {
+                ControllerTarget = CSharpControllerTarget.AspNet
+            };
 
             //// Act
             var codeGen = new SwaggerToCSharpControllerGenerator(document, settings);
