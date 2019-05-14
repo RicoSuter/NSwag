@@ -18,6 +18,8 @@ namespace NSwag.CodeGeneration.CSharp
     {
         private readonly SwaggerDocument _document;
 
+        private int _controllerCount = 0;
+
         /// <summary>Initializes a new instance of the <see cref="SwaggerToCSharpControllerGenerator" /> class.</summary>
         /// <param name="document">The Swagger document.</param>
         /// <param name="settings">The settings.</param>
@@ -61,8 +63,19 @@ namespace NSwag.CodeGeneration.CSharp
         protected override string GenerateClientClass(string controllerName, string controllerClassName, IList<CSharpOperationModel> operations, ClientGeneratorOutputType outputType)
         {
             var model = new CSharpControllerTemplateModel(controllerClassName, operations, _document, Settings);
+            var controllerCode = GeneratePreControllerCode(model);
             var template = Settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Controller", model);
-            return template.Render();
+            controllerCode += template.Render();
+            _controllerCount++;
+            return controllerCode;
+        }
+
+        private string GeneratePreControllerCode(CSharpControllerTemplateModel model)
+        {
+            if (_controllerCount != 0) 
+                return string.Empty;
+            var fromHeaderTemplate = Settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Controller.BeforeAll", model);
+            return fromHeaderTemplate.Render() + "\n\n";
         }
 
         /// <summary>Creates an operation model.</summary>

@@ -1,0 +1,70 @@
+﻿{% if IsAspNetCore == false -%}
+public class FromHeaderBinding : {{ AspNetNamespace }}.Controllers.HttpParameterBinding
+{
+    private readonly string _name;
+
+    public FromHeaderBinding({{ AspNetNamespace }}.Controllers.HttpParameterDescriptor parameter, string headerName)
+        : base(parameter)
+    {
+        if (string.IsNullOrEmpty(headerName)) throw new System.ArgumentNullException("headerName");
+        _name = headerName;
+    }
+
+    public override System.Threading.Tasks.Task ExecuteBindingAsync({{ AspNetNamespace }}.Metadata.ModelMetadataProvider metadataProvider, {{ AspNetNamespace }}.Controllers.HttpActionContext actionContext, System.Threading.CancellationToken cancellationToken)
+    {
+        System.Collections.Generic.IEnumerable<string> values;
+        var isBound = false;
+        if (actionContext.Request.Headers.TryGetValues(_name, out values))
+        {
+            string tempVal = null;
+            foreach (var value in values)
+            {
+                if (value != null)
+                {
+                    tempVal = value;
+                    break;
+                }
+            }
+            if (tempVal != null)
+            {
+                var actionValue = System.Convert.ChangeType(tempVal, Descriptor.ParameterType);
+                actionContext.ActionArguments[Descriptor.ParameterName] = actionValue;
+                isBound = true;
+            }
+        }
+        if (!isBound && Descriptor.IsOptional)
+        {
+            actionContext.ActionArguments[Descriptor.ParameterName] = Descriptor.DefaultValue;
+        }
+        var taskSource = new System.Threading.Tasks.TaskCompletionSource<object>();
+        taskSource.SetResult(null);
+        return taskSource.Task;
+    }
+}
+
+public class FromHeaderAttribute : {{ AspNetNamespace }}.ParameterBindingAttribute
+{
+    public string Name { get; set; }
+
+    public override {{ AspNetNamespace }}.Controllers.HttpParameterBinding GetBinding({{ AspNetNamespace }}.Controllers.HttpParameterDescriptor parameter)
+    {
+        return new FromHeaderBinding(parameter, Name ?? parameter.ParameterName);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endif -%}
