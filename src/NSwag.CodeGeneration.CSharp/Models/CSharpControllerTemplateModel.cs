@@ -89,9 +89,6 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets the type of the attribute used to specify a parameter as required.</summary>
         public string RequiredAttributeType => IsAspNetCore ? "Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired" : "System.ComponentModel.DataAnnotations.Required";
 
-        /// <summary>Gets a value indicating whether any header parameters are defined in the document</summary> 
-        public bool HasHeaderParametersInDocument => _document.Operations.Count(opDesc => opDesc.Operation.Parameters.Any(p => p.Kind == SwaggerParameterKind.Header)) > 0;
-
         /// <summary>Gets the Title.</summary>
         public string Title => _document.Info.Title;
 
