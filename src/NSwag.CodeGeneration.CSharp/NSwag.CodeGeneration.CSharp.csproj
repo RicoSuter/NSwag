@@ -23,7 +23,8 @@
     <None Remove="Templates\Client.Class.HeaderParameter.liquid" />
     <None Remove="Templates\Client.Class.PathParameter.liquid" />
     <None Remove="Templates\Client.Class.QueryParameter.liquid" />
-    <None Remove="Templates\Controllers.AfterAll.liquid" />
+    <None Remove="Templates\Controller.AspNet.FromHeaderAttribute.liquid" />
+    <None Remove="Templates\Controller.AspNet.FromHeaderBinding.liquid" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Templates\Client.Class.BeforeSend.liquid" />
@@ -37,7 +38,8 @@
     <EmbeddedResource Include="Templates\Client.Interface.liquid" />
     <EmbeddedResource Include="Templates\Client.liquid" />
     <EmbeddedResource Include="Templates\Client.Method.Documentation.liquid" />
-    <EmbeddedResource Include="Templates\Controllers.AfterAll.liquid" />
+    <EmbeddedResource Include="Templates\Controller.AspNet.FromHeaderBinding.liquid" />
+    <EmbeddedResource Include="Templates\Controller.AspNet.FromHeaderAttribute.liquid" />
     <EmbeddedResource Include="Templates\Controller.liquid" />
     <EmbeddedResource Include="Templates\File.liquid" />
     <EmbeddedResource Include="Templates\JsonExceptionConverter.liquid" />

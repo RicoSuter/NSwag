@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.CSharp;
 using NSwag.CodeGeneration.CSharp.Models;
 
@@ -45,28 +46,13 @@ namespace NSwag.CodeGeneration.CSharp
         /// <summary>Gets the base settings.</summary>
         public override ClientGeneratorBaseSettings BaseSettings => Settings;
 
-        /// <summary>Generates the file.</summary>
-        /// <returns>The file contents.</returns>
-        public override string GenerateFile()
-        {
-            return GenerateFile(ClientGeneratorOutputType.Full);
-        }
-
-        /// <summary>Generates the the whole file containing all needed types.</summary>
-        /// <param name="outputType">The output type.</param>
-        /// <returns>The code</returns>
-        public string GenerateFile(ClientGeneratorOutputType outputType)
-        {
-            return GenerateFile(_document, outputType);
-        }
-
         /// <summary>Generates the client class.</summary>
         /// <param name="controllerName">Name of the controller.</param>
         /// <param name="controllerClassName">Name of the controller class.</param>
         /// <param name="operations">The operations.</param>
         /// <param name="outputType">Type of the output.</param>
         /// <returns>The code.</returns>
-        protected override string GenerateClientClass(string controllerName, string controllerClassName, IList<CSharpOperationModel> operations, ClientGeneratorOutputType outputType)
+        protected override CodeArtifact GenerateClientType(string controllerName, string controllerClassName, IList<CSharpOperationModel> operations, ClientGeneratorOutputType outputType)
         {
             var exceptionSchema = (Resolver as CSharpTypeResolver)?.ExceptionSchema;
             var model = new CSharpClientTemplateModel(controllerName, controllerClassName, operations, exceptionSchema, _document, Settings)
@@ -76,7 +62,7 @@ namespace NSwag.CodeGeneration.CSharp
             };
 
             var template = Settings.CSharpGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Client", model);
-            return template.Render();
+            return new CodeArtifact(model.Class, CodeArtifactType.Class, CodeArtifactLanguage.CSharp, template);
         }
 
         /// <summary>Creates an operation model.</summary>

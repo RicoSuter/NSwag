@@ -8,6 +8,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.CSharp;
 using NSwag.CodeGeneration.CSharp.Models;
 
@@ -47,11 +49,24 @@ namespace NSwag.CodeGeneration.CSharp
         /// <summary>Gets the base settings.</summary>
         public override ClientGeneratorBaseSettings BaseSettings => Settings;
 
-        /// <summary>Generates the file.</summary>
-        /// <returns>The file contents.</returns>
-        public override string GenerateFile()
+        /// <summary>Generates the client types.</summary>
+        /// <param name="type">The type.</param>
+        /// <returns>The code artifact collection.</returns>
+        protected override CodeArtifactCollection GenerateClientTypes(ClientGeneratorOutputType type)
         {
-            return GenerateFile(_document, ClientGeneratorOutputType.Full);
+            var artifacts = base.GenerateClientTypes(type).Artifacts.ToList();
+
+            if (Settings.ControllerTarget == CSharpControllerTarget.AspNet &&
+                _document.Operations.Count(operation => operation.Operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.Header)) > 0)
+            {
+                var template = Settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Controller.AspNet.FromHeaderAttribute", new object());
+                artifacts.Add(new CodeArtifact("FromHeaderAttribute", CodeArtifactType.Class, CodeArtifactLanguage.CSharp, template));
+
+                template = Settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Controller.AspNet.FromHeaderBinding", new object());
+                artifacts.Add(new CodeArtifact("FromHeaderBinding", CodeArtifactType.Class, CodeArtifactLanguage.CSharp, template));
+            }
+
+            return new CodeArtifactCollection(artifacts, null);
         }
 
         /// <summary>Generates the client class.</summary>
@@ -60,22 +75,11 @@ namespace NSwag.CodeGeneration.CSharp
         /// <param name="operations">The operations.</param>
         /// <param name="outputType">Type of the output.</param>
         /// <returns>The code.</returns>
-        protected override string GenerateClientClass(string controllerName, string controllerClassName, IList<CSharpOperationModel> operations, ClientGeneratorOutputType outputType)
+        protected override CodeArtifact GenerateClientType(string controllerName, string controllerClassName, IList<CSharpOperationModel> operations, ClientGeneratorOutputType outputType)
         {
             var model = new CSharpControllerTemplateModel(controllerClassName, operations, _document, Settings);
             var template = Settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Controller", model);
-            var controllerCode = template.Render();
-            _controllerCount++;
-            controllerCode += GenerateCodeAfterControllers(model);
-            return controllerCode;
-        }
-
-        private string GenerateCodeAfterControllers(CSharpControllerTemplateModel model)
-        {
-            if (_controllerCount != ClientClassCount) 
-                return string.Empty;
-            var fromHeaderTemplate = Settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Controllers.AfterAll", model);
-            return "\n\n" + fromHeaderTemplate.Render();
+            return new CodeArtifact(model.Class, CodeArtifactType.Class, CodeArtifactLanguage.CSharp, template);
         }
 
         /// <summary>Creates an operation model.</summary>

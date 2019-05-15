@@ -1,16 +1,15 @@
-﻿{% if IsAspNetCore == false and HasHeaderParametersInDocument -%}
-public class FromHeaderBinding : {{ AspNetNamespace }}.Controllers.HttpParameterBinding
+﻿public class FromHeaderBinding : System.Web.Http.Controllers.HttpParameterBinding
 {
     private readonly string _name;
 
-    public FromHeaderBinding({{ AspNetNamespace }}.Controllers.HttpParameterDescriptor parameter, string headerName)
+    public FromHeaderBinding(System.Web.Http.Controllers.HttpParameterDescriptor parameter, string headerName)
         : base(parameter)
     {
         if (string.IsNullOrEmpty(headerName)) throw new System.ArgumentNullException("headerName");
         _name = headerName;
     }
 
-    public override System.Threading.Tasks.Task ExecuteBindingAsync({{ AspNetNamespace }}.Metadata.ModelMetadataProvider metadataProvider, {{ AspNetNamespace }}.Controllers.HttpActionContext actionContext, System.Threading.CancellationToken cancellationToken)
+    public override System.Threading.Tasks.Task ExecuteBindingAsync(System.Web.Http.Metadata.ModelMetadataProvider metadataProvider, System.Web.Http.Controllers.HttpActionContext actionContext, System.Threading.CancellationToken cancellationToken)
     {
         System.Collections.Generic.IEnumerable<string> values;
         var isBound = false;
@@ -41,14 +40,3 @@ public class FromHeaderBinding : {{ AspNetNamespace }}.Controllers.HttpParameter
         return taskSource.Task;
     }
 }
-
-public class FromHeaderAttribute : {{ AspNetNamespace }}.ParameterBindingAttribute
-{
-    public string Name { get; set; }
-
-    public override {{ AspNetNamespace }}.Controllers.HttpParameterBinding GetBinding({{ AspNetNamespace }}.Controllers.HttpParameterDescriptor parameter)
-    {
-        return new FromHeaderBinding(parameter, Name ?? parameter.ParameterName);
-    }
-}
-{% endif -%}

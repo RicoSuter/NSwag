@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
+using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag.CodeGeneration.TypeScript.Models;
 
@@ -53,13 +54,6 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <summary>Gets or sets the generator settings.</summary>
         public SwaggerToTypeScriptClientGeneratorSettings Settings { get; set; }
 
-        /// <summary>Generates the file.</summary>
-        /// <returns>The file contents.</returns>
-        public override string GenerateFile()
-        {
-            return GenerateFile(_document, ClientGeneratorOutputType.Full);
-        }
-
         /// <summary>Gets the base settings.</summary>
         public override ClientGeneratorBaseSettings BaseSettings => Settings;
 
@@ -91,13 +85,13 @@ namespace NSwag.CodeGeneration.TypeScript
         }
 
         /// <summary>Generates the file.</summary>
-        /// <param name="clientCode">The client code.</param>
-        /// <param name="clientClasses">The client classes.</param>
+        /// <param name="clientTypes">The client types.</param>
+        /// <param name="dtoTypes">The DTO types.</param>
         /// <param name="outputType">Type of the output.</param>
         /// <returns>The code.</returns>
-        protected override string GenerateFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType)
+        protected override string GenerateFile(CodeArtifactCollection clientTypes, CodeArtifactCollection dtoTypes, ClientGeneratorOutputType outputType)
         {
-            var model = new TypeScriptFileTemplateModel(clientCode, clientClasses, _document, _extensionCode, Settings, _resolver);
+            var model = new TypeScriptFileTemplateModel(clientTypes, dtoTypes, _document, _extensionCode, Settings, _resolver);
             var template = BaseSettings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("TypeScript", "File", model);
             return template.Render();
         }
@@ -108,13 +102,21 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <param name="operations">The operations.</param>
         /// <param name="outputType">Type of the output.</param>
         /// <returns>The code.</returns>
-        protected override string GenerateClientClass(string controllerName, string controllerClassName, IList<TypeScriptOperationModel> operations, ClientGeneratorOutputType outputType)
+        protected override CodeArtifact GenerateClientType(string controllerName, string controllerClassName, IList<TypeScriptOperationModel> operations, ClientGeneratorOutputType outputType)
         {
             UpdateUseDtoClassAndDataConversionCodeProperties(operations);
 
             var model = new TypeScriptClientTemplateModel(controllerName, controllerClassName, operations, _extensionCode, _document, Settings);
             var template = Settings.CreateTemplate(model);
-            return template.Render();
+            return new CodeArtifact(model.Class, CodeArtifactType.Class, CodeArtifactLanguage.CSharp, template);
+        }
+
+        /// <summary>Generates all DTO types.</summary>
+        /// <returns>The code artifact collection.</returns>
+        protected override CodeArtifactCollection GenerateDtoTypes()
+        {
+            var generator = new TypeScriptGenerator(_document, Settings.TypeScriptGeneratorSettings, _resolver);
+            return generator.GenerateTypes(_extensionCode);
         }
 
         /// <summary>Creates an operation model.</summary>

@@ -24,19 +24,18 @@ namespace NSwag.CodeGeneration
         where TResponseModel : ResponseModelBase
         where TParameterModel : ParameterModelBase
     {
+        private readonly SwaggerDocument _document;
+
         /// <summary>Initializes a new instance of the <see cref="ClientGeneratorBase{TOperationModel, TParameterModel, TResponseModel}"/> class.</summary>
         /// <param name="document">The document.</param>
         /// <param name="codeGeneratorSettings">The code generator settings.</param>
         /// <param name="resolver">The type resolver.</param>
         protected ClientGeneratorBase(SwaggerDocument document, CodeGeneratorSettingsBase codeGeneratorSettings, TypeResolverBase resolver)
         {
+            _document = document;
             Resolver = resolver;
             codeGeneratorSettings.SchemaType = document.SchemaType; // enforce Swagger schema output 
         }
-
-        /// <summary>Generates the the whole file containing all needed types.</summary>
-        /// <returns>The code</returns>
-        public abstract string GenerateFile();
 
         /// <summary>Gets the file response type name.</summary>
         /// <returns>The type name.</returns>
@@ -55,18 +54,32 @@ namespace NSwag.CodeGeneration
         /// <returns>The type name.</returns>
         public abstract string GetTypeName(JsonSchema4 schema, bool isNullable, string typeNameHint);
 
+        /// <summary>Generates the the whole file containing all needed types.</summary>
+        /// <returns>The code</returns>
+        public string GenerateFile()
+        {
+            return GenerateFile(ClientGeneratorOutputType.Full);
+        }
+
+        /// <summary>Generates the the whole file containing all needed types.</summary>
+        /// <param name="outputType">Type of the output.</param>
+        /// <returns>The code</returns>
+        public string GenerateFile(ClientGeneratorOutputType outputType)
+        {
+            var clientTypes = GenerateClientTypes(outputType);
+            var dtoTypes = BaseSettings.GenerateDtoTypes ? GenerateDtoTypes() : new CodeArtifactCollection(Enumerable.Empty<CodeArtifact>(), null);
+            return GenerateFile(clientTypes, dtoTypes, outputType);
+        }
+
         /// <summary>Gets the type resolver.</summary>
         protected TypeResolverBase Resolver { get; }
 
-        /// <summary>Gets the number of client classes generated.</summary>
-        protected int ClientClassCount { get; private set; }
-
         /// <summary>Generates the file.</summary>
-        /// <param name="clientCode">The client code.</param>
-        /// <param name="clientClasses">The client classes.</param>
+        /// <param name="clientTypes">The client types.</param>
+        /// <param name="dtoTypes">The DTO types.</param>
         /// <param name="outputType">Type of the output.</param>
         /// <returns>The code.</returns>
-        protected abstract string GenerateFile(string clientCode, IEnumerable<string> clientClasses, ClientGeneratorOutputType outputType);
+        protected abstract string GenerateFile(CodeArtifactCollection clientTypes, CodeArtifactCollection dtoTypes, ClientGeneratorOutputType outputType);
 
         /// <summary>Generates the client class.</summary>
         /// <param name="controllerName">Name of the controller.</param>
@@ -74,7 +87,11 @@ namespace NSwag.CodeGeneration
         /// <param name="operations">The operations.</param>
         /// <param name="outputType">Type of the output.</param>
         /// <returns>The code.</returns>
-        protected abstract string GenerateClientClass(string controllerName, string controllerClassName, IList<TOperationModel> operations, ClientGeneratorOutputType outputType);
+        protected abstract CodeArtifact GenerateClientType(string controllerName, string controllerClassName, IList<TOperationModel> operations, ClientGeneratorOutputType outputType);
+
+        /// <summary>Generates all DTO types.</summary>
+        /// <returns>The code artifact collection.</returns>
+        protected abstract CodeArtifactCollection GenerateDtoTypes();
 
         /// <summary>Creates an operation model.</summary>
         /// <param name="operation">The operation.</param>
@@ -82,41 +99,34 @@ namespace NSwag.CodeGeneration
         /// <returns>The operation model.</returns>
         protected abstract TOperationModel CreateOperationModel(SwaggerOperation operation, ClientGeneratorBaseSettings settings);
 
-        /// <summary>Generates the file.</summary>
-        /// <param name="document">The document.</param>
+        /// <summary>Generates the client types.</summary>
         /// <param name="type">The type.</param>
-        /// <returns>The code.</returns>
-        protected string GenerateFile(SwaggerDocument document, ClientGeneratorOutputType type)
+        /// <returns>The code artifact collection.</returns>
+        protected virtual CodeArtifactCollection GenerateClientTypes(ClientGeneratorOutputType type)
         {
-            var clientCode = string.Empty;
-            var operations = GetOperations(document);
-            var clientClasses = new List<string>();
-            ClientClassCount = 1;
+            var operations = GetOperations(_document);
+            var clientTypes = new List<CodeArtifact>();
 
             if (BaseSettings.OperationNameGenerator.SupportsMultipleClients)
             {
                 var controllerOperationsGroups = operations.GroupBy(o => o.ControllerName).ToList();
-                ClientClassCount = controllerOperationsGroups.Count;
                 foreach (var controllerOperations in controllerOperationsGroups)
                 {
                     var controllerName = controllerOperations.Key;
                     var controllerClassName = BaseSettings.GenerateControllerName(controllerOperations.Key);
-                    clientCode += GenerateClientClass(controllerName, controllerClassName, controllerOperations.ToList(), type) + "\n\n";
-                    clientClasses.Add(controllerClassName);
+                    var clientType = GenerateClientType(controllerName, controllerClassName, controllerOperations.ToList(), type);
+                    clientTypes.Add(clientType);
                 }
             }
             else
             {
                 var controllerName = string.Empty;
                 var controllerClassName = BaseSettings.GenerateControllerName(controllerName);
-                clientCode = GenerateClientClass(controllerName, controllerClassName, operations, type);
-                clientClasses.Add(controllerClassName);
+                var clientClass = GenerateClientType(controllerName, controllerClassName, operations, type);
+                clientTypes.Add(clientClass);
             }
 
-            return GenerateFile(clientCode, clientClasses, type)
-                .Replace("\r", string.Empty)
-                .Replace("\n\n\n\n", "\n\n")
-                .Replace("\n\n\n", "\n\n");
+            return new CodeArtifactCollection(clientTypes, null);
         }
 
         private List<TOperationModel> GetOperations(SwaggerDocument document)
