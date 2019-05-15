@@ -188,7 +188,7 @@ namespace NSwag.AspNetCore.Launcher
                 var assemblyInfo = item.Value;
                 if (loadedAssembly.GetName().Version < assemblyInfo.MinimumRequiredVersion)
                 {
-                    Console.Error.WriteLine("Application references version lower than required.");
+                    Console.Error.WriteLine($"Application references version '{loadedAssembly.GetName().Version}' of '{item.Key}' which is lower than the required version '{assemblyInfo.MinimumRequiredVersion}'.");
                     return false;
                 }
 
