@@ -1,4 +1,4 @@
-﻿{% if IsAspNetCore == false -%}
+﻿{% if IsAspNetCore == false and HasHeaderParametersInDocument -%}
 public class FromHeaderBinding : {{ AspNetNamespace }}.Controllers.HttpParameterBinding
 {
     private readonly string _name;
@@ -51,20 +51,4 @@ public class FromHeaderAttribute : {{ AspNetNamespace }}.ParameterBindingAttribu
         return new FromHeaderBinding(parameter, Name ?? parameter.ParameterName);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 {% endif -%}

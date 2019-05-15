@@ -58,6 +58,9 @@ namespace NSwag.CodeGeneration
         /// <summary>Gets the type resolver.</summary>
         protected TypeResolverBase Resolver { get; }
 
+        /// <summary>Gets the number of client classes generated.</summary>
+        protected int ClientClassCount { get; private set; }
+
         /// <summary>Generates the file.</summary>
         /// <param name="clientCode">The client code.</param>
         /// <param name="clientClasses">The client classes.</param>
@@ -88,10 +91,13 @@ namespace NSwag.CodeGeneration
             var clientCode = string.Empty;
             var operations = GetOperations(document);
             var clientClasses = new List<string>();
+            ClientClassCount = 1;
 
             if (BaseSettings.OperationNameGenerator.SupportsMultipleClients)
             {
-                foreach (var controllerOperations in operations.GroupBy(o => o.ControllerName))
+                var controllerOperationsGroups = operations.GroupBy(o => o.ControllerName).ToList();
+                ClientClassCount = controllerOperationsGroups.Count;
+                foreach (var controllerOperations in controllerOperationsGroups)
                 {
                     var controllerName = controllerOperations.Key;
                     var controllerClassName = BaseSettings.GenerateControllerName(controllerOperations.Key);

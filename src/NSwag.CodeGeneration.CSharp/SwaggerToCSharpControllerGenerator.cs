@@ -63,19 +63,19 @@ namespace NSwag.CodeGeneration.CSharp
         protected override string GenerateClientClass(string controllerName, string controllerClassName, IList<CSharpOperationModel> operations, ClientGeneratorOutputType outputType)
         {
             var model = new CSharpControllerTemplateModel(controllerClassName, operations, _document, Settings);
-            var controllerCode = GeneratePreControllerCode(model);
             var template = Settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Controller", model);
-            controllerCode += template.Render();
+            var controllerCode = template.Render();
             _controllerCount++;
+            controllerCode += GenerateCodeAfterControllers(model);
             return controllerCode;
         }
 
-        private string GeneratePreControllerCode(CSharpControllerTemplateModel model)
+        private string GenerateCodeAfterControllers(CSharpControllerTemplateModel model)
         {
-            if (_controllerCount != 0) 
+            if (_controllerCount != ClientClassCount) 
                 return string.Empty;
-            var fromHeaderTemplate = Settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Controller.BeforeAll", model);
-            return fromHeaderTemplate.Render() + "\n\n";
+            var fromHeaderTemplate = Settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Controllers.AfterAll", model);
+            return "\n\n" + fromHeaderTemplate.Render();
         }
 
         /// <summary>Creates an operation model.</summary>
