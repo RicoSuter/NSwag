@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using NJsonSchema;
 using NSwag.CodeGeneration.CSharp.Models;
 using NSwag.CodeGeneration.OperationNameGenerators;
-using NSwag.SwaggerGeneration.WebApi;
 using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
@@ -99,7 +95,6 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_controllergenerationformat_notsetted_then_partialcontroller_is_generated()
         {
             //// Arrange
-            var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
             var document = await GetSwaggerDocument();
 
             //// Act
@@ -117,7 +112,6 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_controller_has_operation_with_complextype_then_partialcontroller_is_generated_with_frombody_attribute()
         {
             //// Arrange
-            var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
             var document = await GetSwaggerDocument();
             var settings = new SwaggerToCSharpControllerGeneratorSettings();
 
