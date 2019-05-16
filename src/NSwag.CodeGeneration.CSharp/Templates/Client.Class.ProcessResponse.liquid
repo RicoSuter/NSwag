@@ -6,11 +6,11 @@ var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, respon
 client_ = null; response_ = null; // response and client are disposed by FileResponse
 return fileResponse_;
 {%         else -%}
-ObjectResponseResult<{{ response.Type }}> objectResponse_ = await this.ReadObjectResponseAsync<{{ response.Type }}>(response_, headers_).ConfigureAwait(false);
+ObjectResponseResult<{{ response.Type }}> objectResponse_ = await ReadObjectResponseAsync<{{ response.Type }}>(response_, headers_).ConfigureAwait(false);
 throw new {{ ExceptionClass }}("{{ response.ExceptionDescription }}", (int)response_.StatusCode, objectResponse_.ResponseText, headers_, objectResponse_.ResponseObject);
 {%         endif -%}
 {%     else -%}
-ObjectResponseResult<{{ response.Type }}> objectResponse_ = await this.ReadObjectResponseAsync<{{ response.Type }}>(response_, headers_).ConfigureAwait(false);
+ObjectResponseResult<{{ response.Type }}> objectResponse_ = await ReadObjectResponseAsync<{{ response.Type }}>(response_, headers_).ConfigureAwait(false);
 {%         if response.IsSuccess -%}
 {%             if operation.WrapResponse -%}
 return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>((int)response_.StatusCode, headers_, responseText); 
