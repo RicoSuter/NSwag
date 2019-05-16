@@ -72,7 +72,7 @@
 
     protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string,System.Collections.Generic.IEnumerable<string>> responseHeadersAsDictionary)
     {
-#if DEBUG
+#if NSWAG_STRING_RESPONSES // Define this symbol in your project properties to enable inspecting response bodies as strings.
         string responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
         try
         {
