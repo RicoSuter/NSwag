@@ -20,9 +20,9 @@
     else if (value is bool) {
         return System.Convert.ToString(value, cultureInfo).ToLowerInvariant();
     }
-    else if (value is byte[] bytes)
+    else if (value is byte[])
     {
-        return System.Convert.ToBase64String(bytes);
+        return System.Convert.ToBase64String((byte[]) value);
     }
     else if (value != null && value.GetType().IsArray)
     {
