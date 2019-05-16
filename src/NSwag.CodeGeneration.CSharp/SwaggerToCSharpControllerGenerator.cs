@@ -48,11 +48,10 @@ namespace NSwag.CodeGeneration.CSharp
         public override ClientGeneratorBaseSettings BaseSettings => Settings;
 
         /// <summary>Generates the client types.</summary>
-        /// <param name="type">The type.</param>
         /// <returns>The code artifact collection.</returns>
-        protected override IEnumerable<CodeArtifact> GenerateAllClientTypes(ClientGeneratorOutputType type)
+        protected override IEnumerable<CodeArtifact> GenerateAllClientTypes()
         {
-            var artifacts = base.GenerateAllClientTypes(type).ToList();
+            var artifacts = base.GenerateAllClientTypes().ToList();
 
             if (Settings.ControllerTarget == CSharpControllerTarget.AspNet &&
                 _document.Operations.Count(operation => operation.Operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.Header)) > 0)
@@ -71,9 +70,8 @@ namespace NSwag.CodeGeneration.CSharp
         /// <param name="controllerName">Name of the controller.</param>
         /// <param name="controllerClassName">Name of the controller class.</param>
         /// <param name="operations">The operations.</param>
-        /// <param name="outputType">Type of the output.</param>
         /// <returns>The code.</returns>
-        protected override IEnumerable<CodeArtifact> GenerateClientTypes(string controllerName, string controllerClassName, IList<CSharpOperationModel> operations, ClientGeneratorOutputType outputType)
+        protected override IEnumerable<CodeArtifact> GenerateClientTypes(string controllerName, string controllerClassName, IEnumerable<CSharpOperationModel> operations)
         {
             var model = new CSharpControllerTemplateModel(controllerClassName, operations, _document, Settings);
             var template = Settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Controller", model);

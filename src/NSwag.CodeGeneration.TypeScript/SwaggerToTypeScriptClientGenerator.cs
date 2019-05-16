@@ -101,9 +101,8 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <param name="controllerName">Name of the controller.</param>
         /// <param name="controllerClassName">Name of the controller class.</param>
         /// <param name="operations">The operations.</param>
-        /// <param name="outputType">Type of the output.</param>
         /// <returns>The code.</returns>
-        protected override IEnumerable<CodeArtifact> GenerateClientTypes(string controllerName, string controllerClassName, IList<TypeScriptOperationModel> operations, ClientGeneratorOutputType outputType)
+        protected override IEnumerable<CodeArtifact> GenerateClientTypes(string controllerName, string controllerClassName, IEnumerable<TypeScriptOperationModel> operations)
         {
             UpdateUseDtoClassAndDataConversionCodeProperties(operations);
 

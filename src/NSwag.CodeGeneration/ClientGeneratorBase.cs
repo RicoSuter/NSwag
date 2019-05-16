@@ -69,10 +69,19 @@ namespace NSwag.CodeGeneration
         /// <returns>The code</returns>
         public string GenerateFile(ClientGeneratorOutputType outputType)
         {
-            var clientTypes = GenerateAllClientTypes(outputType);
+            var clientTypes = GenerateAllClientTypes();
+
             var dtoTypes = BaseSettings.GenerateDtoTypes ?
                 GenerateDtoTypes() :
                 Enumerable.Empty<CodeArtifact>();
+
+            clientTypes = clientTypes
+                .Where(t => outputType == ClientGeneratorOutputType.Full ||
+                            (outputType == ClientGeneratorOutputType.Implementation && t.Category == CodeArtifactCategory.Client));
+
+            dtoTypes = dtoTypes
+                .Where(t => outputType == ClientGeneratorOutputType.Full ||
+                            (outputType == ClientGeneratorOutputType.Contracts && t.Category == CodeArtifactCategory.Contract));
 
             return GenerateFile(clientTypes, dtoTypes, outputType);
         }
@@ -85,9 +94,8 @@ namespace NSwag.CodeGeneration
         protected abstract string GenerateFile(IEnumerable<CodeArtifact> clientTypes, IEnumerable<CodeArtifact> dtoTypes, ClientGeneratorOutputType outputType);
 
         /// <summary>Generates the client types.</summary>
-        /// <param name="type">The type.</param>
         /// <returns>The code artifact collection.</returns>
-        protected virtual IEnumerable<CodeArtifact> GenerateAllClientTypes(ClientGeneratorOutputType type)
+        protected virtual IEnumerable<CodeArtifact> GenerateAllClientTypes()
         {
             var operations = GetOperations(_document);
             var clientTypes = new List<CodeArtifact>();
@@ -99,7 +107,7 @@ namespace NSwag.CodeGeneration
                 {
                     var controllerName = controllerOperations.Key;
                     var controllerClassName = BaseSettings.GenerateControllerName(controllerOperations.Key);
-                    var clientType = GenerateClientTypes(controllerName, controllerClassName, controllerOperations.ToList(), type);
+                    var clientType = GenerateClientTypes(controllerName, controllerClassName, controllerOperations.ToList());
                     clientTypes.AddRange(clientType);
                 }
             }
@@ -107,7 +115,7 @@ namespace NSwag.CodeGeneration
             {
                 var controllerName = string.Empty;
                 var controllerClassName = BaseSettings.GenerateControllerName(controllerName);
-                var clientType = GenerateClientTypes(controllerName, controllerClassName, operations, type);
+                var clientType = GenerateClientTypes(controllerName, controllerClassName, operations);
                 clientTypes.AddRange(clientType);
             }
 
@@ -118,9 +126,8 @@ namespace NSwag.CodeGeneration
         /// <param name="controllerName">Name of the controller.</param>
         /// <param name="controllerClassName">Name of the controller class.</param>
         /// <param name="operations">The operations.</param>
-        /// <param name="outputType">Type of the output.</param>
         /// <returns>The code.</returns>
-        protected abstract IEnumerable<CodeArtifact> GenerateClientTypes(string controllerName, string controllerClassName, IList<TOperationModel> operations, ClientGeneratorOutputType outputType);
+        protected abstract IEnumerable<CodeArtifact> GenerateClientTypes(string controllerName, string controllerClassName, IEnumerable<TOperationModel> operations);
 
         /// <summary>Generates all DTO types.</summary>
         /// <returns>The code artifact collection.</returns>

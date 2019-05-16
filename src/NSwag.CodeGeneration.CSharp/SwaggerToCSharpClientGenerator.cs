@@ -50,30 +50,22 @@ namespace NSwag.CodeGeneration.CSharp
         /// <param name="controllerName">Name of the controller.</param>
         /// <param name="controllerClassName">Name of the controller class.</param>
         /// <param name="operations">The operations.</param>
-        /// <param name="outputType">Type of the output.</param>
         /// <returns>The code.</returns>
-        protected override IEnumerable<CodeArtifact> GenerateClientTypes(string controllerName, string controllerClassName, IList<CSharpOperationModel> operations, ClientGeneratorOutputType outputType)
+        protected override IEnumerable<CodeArtifact> GenerateClientTypes(string controllerName, string controllerClassName, IEnumerable<CSharpOperationModel> operations)
         {
             var exceptionSchema = (Resolver as CSharpTypeResolver)?.ExceptionSchema;
-            var model = new CSharpClientTemplateModel(controllerName, controllerClassName, operations, exceptionSchema, _document, Settings)
-            {
-                GenerateContracts = outputType == ClientGeneratorOutputType.Full || outputType == ClientGeneratorOutputType.Contracts,
-                GenerateImplementation = outputType == ClientGeneratorOutputType.Full || outputType == ClientGeneratorOutputType.Implementation,
-            };
 
+            var model = new CSharpClientTemplateModel(controllerName, controllerClassName, operations, exceptionSchema, _document, Settings);
             if (model.HasOperations)
             {
-                if (model.GenerateContracts && model.GenerateClientInterfaces)
+                if (model.GenerateClientInterfaces)
                 {
-                    var template = Settings.CSharpGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Client.Interface", model);
-                    yield return new CodeArtifact(model.Class, CodeArtifactType.Class, CodeArtifactLanguage.CSharp, CodeArtifactCategory.Contract, template);
+                    var interfaceTemplate = Settings.CSharpGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Client.Interface", model);
+                    yield return new CodeArtifact(model.Class, CodeArtifactType.Class, CodeArtifactLanguage.CSharp, CodeArtifactCategory.Contract, interfaceTemplate);
                 }
 
-                if (model.GenerateImplementation)
-                {
-                    var template = Settings.CSharpGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Client.Class", model);
-                    yield return new CodeArtifact(model.Class, CodeArtifactType.Class, CodeArtifactLanguage.CSharp, CodeArtifactCategory.Client, template);
-                }
+                var classTemplate = Settings.CSharpGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Client.Class", model);
+                yield return new CodeArtifact(model.Class, CodeArtifactType.Class, CodeArtifactLanguage.CSharp, CodeArtifactCategory.Client, classTemplate);
             }
         }
 
