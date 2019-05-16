@@ -152,7 +152,10 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         private string GenerateExtensionCodeAfter()
         {
-            var clientClassesVariable = "{" + string.Join(", ", _clientTypes.Select(c => "'" + c.TypeName + "': " + c.TypeName)) + "}";
+            var clientClassesVariable = "{" + string.Join(", ", _clientTypes
+                .Where(c => c.Category != CodeArtifactCategory.Utility)
+                .Select(c => "'" + c.TypeName + "': " + c.TypeName)) + "}";
+
             return _extensionCode.BottomCode.Replace("{clientClasses}", clientClassesVariable);
         }
     }

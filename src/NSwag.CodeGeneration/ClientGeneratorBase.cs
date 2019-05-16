@@ -75,15 +75,16 @@ namespace NSwag.CodeGeneration
                 GenerateDtoTypes() :
                 Enumerable.Empty<CodeArtifact>();
 
-            clientTypes = clientTypes
-                .Where(t => outputType == ClientGeneratorOutputType.Full ||
-                            (outputType == ClientGeneratorOutputType.Implementation && t.Category == CodeArtifactCategory.Client));
+            clientTypes = outputType == ClientGeneratorOutputType.Full || outputType == ClientGeneratorOutputType.Implementation ?
+                clientTypes : Enumerable.Empty<CodeArtifact>();
 
-            dtoTypes = dtoTypes
-                .Where(t => outputType == ClientGeneratorOutputType.Full ||
-                            (outputType == ClientGeneratorOutputType.Contracts && t.Category == CodeArtifactCategory.Contract));
+            dtoTypes = outputType == ClientGeneratorOutputType.Full || outputType == ClientGeneratorOutputType.Contracts ?
+                dtoTypes : Enumerable.Empty<CodeArtifact>();
 
-            return GenerateFile(clientTypes, dtoTypes, outputType);
+            return GenerateFile(clientTypes, dtoTypes, outputType)
+                .Replace("\r", string.Empty)
+                .Replace("\n\n\n\n", "\n\n")
+                .Replace("\n\n\n", "\n\n");
         }
 
         /// <summary>Generates the file.</summary>
