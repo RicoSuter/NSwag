@@ -162,6 +162,14 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.CSharpGeneratorSettings.TypeAccessModifier = value; }
         }
 
+        [Argument(Name = "GenerateAdditionalNamespaceUsagesFromSwaggerDefinitions", IsRequired = false,
+                  Description = "Specifies whether to generate additional namespace usages from the swagger definitions.")]
+        public bool GenerateAdditionalNamespaceUsagesFromSwaggerDefinitions
+        {
+            get { return Settings.GenerateAdditionalNamespaceUsagesFromSwaggerDefinitions; }
+            set { Settings.GenerateAdditionalNamespaceUsagesFromSwaggerDefinitions = value; }
+        }
+
         [Argument(Name = "GenerateContractsOutput", IsRequired = false,
                   Description = "Specifies whether to generate contracts output (interface and models in a separate file set with the ContractsOutput parameter).")]
         public bool GenerateContractsOutput { get; set; }
