@@ -1,9 +1,9 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using NJsonSchema;
 using NSwag.CodeGeneration.CSharp.Models;
-using NSwag.SwaggerGeneration.WebApi;
+using NSwag.CodeGeneration.OperationNameGenerators;
 using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
@@ -31,7 +31,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public async Task When_controllergenerationformat_abstract_then_partialcontroller_is_generated()
+        public async Task When_controllergenerationformat_partial_then_partialcontroller_is_generated()
         {
             //// Arrange
             var document = await GetSwaggerDocument();
@@ -55,9 +55,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_aspnet_actiontype_inuse_with_abstract_then_actiontype_is_generated()
         {
             //// Arrange
-            var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
             var document = await GetSwaggerDocument();
-
 
             //// Act
             var codeGen = new SwaggerToCSharpControllerGenerator(document, new SwaggerToCSharpControllerGeneratorSettings
@@ -97,7 +95,6 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_controllergenerationformat_notsetted_then_partialcontroller_is_generated()
         {
             //// Arrange
-            var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
             var document = await GetSwaggerDocument();
 
             //// Act
@@ -115,7 +112,6 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_controller_has_operation_with_complextype_then_partialcontroller_is_generated_with_frombody_attribute()
         {
             //// Arrange
-            var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
             var document = await GetSwaggerDocument();
             var settings = new SwaggerToCSharpControllerGeneratorSettings();
 
@@ -209,6 +205,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             Assert.Contains($"ComplexRequired([Microsoft.AspNetCore.Mvc.FromBody] [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] ComplexType complexType)", code);
             Assert.Contains($"Foo(string test, bool? test2)", code);
             Assert.Contains($"FooRequired([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string test, [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] bool test2)", code);
+            Assert.Contains($"HeaderParamRequired([Microsoft.AspNetCore.Mvc.FromHeader(Name = \"comes-from-header\")] [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string comes_from_header)", code);
             Assert.Contains("Bar()", code);
         }
 
@@ -233,6 +230,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             Assert.Contains($"ComplexRequired([Microsoft.AspNetCore.Mvc.FromBody] [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] ComplexType complexType)", code);
             Assert.Contains($"Foo(string test, bool? test2)", code);
             Assert.Contains($"FooRequired([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string test, [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] bool test2)", code);
+            Assert.Contains($"HeaderParamRequired([Microsoft.AspNetCore.Mvc.FromHeader(Name = \"comes-from-header\")] [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string comes_from_header)", code);
             Assert.Contains("Bar()", code);
         }
 
@@ -346,6 +344,42 @@ namespace NSwag.CodeGeneration.CSharp.Tests
                 }
             };
 
+            document.Paths["HeaderParam"] = new SwaggerPathItem
+            {
+                {
+                    SwaggerOperationMethod.Post,
+                    new SwaggerOperation {
+                        OperationId = "Test_HeaderParam",
+                        Parameters = {
+                            new SwaggerParameter {
+                                Name = "comesFromHeader",
+                                Kind = SwaggerParameterKind.Header,
+                                Type = JsonObjectType.String
+                            }
+                        }
+                    }
+                }
+            };
+
+            document.Paths["HeaderParamRequired"] = new SwaggerPathItem
+            {
+                {
+                    SwaggerOperationMethod.Post,
+                    new SwaggerOperation {
+                        OperationId = "Test_HeaderParamRequired",
+                        Parameters = {
+                            new SwaggerParameter {
+                                Name = "comes-from-header",
+                                IsRequired = true,
+                                Kind = SwaggerParameterKind.Header,
+                                Type = JsonObjectType.String
+                            }
+                        },
+                        Tags = new List<string> { "Secondary" }
+                    }
+                }
+            };
+
             document.Paths["Complex"] = new SwaggerPathItem
             {
                 {
@@ -400,7 +434,70 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             document.Definitions["ComplexTypeResponse"] = complexTypeReponseSchema;
             return document;
         }
+
+        [Fact]
+        public async Task When_controllertarget_aspnet_and_multiple_controllers_then_only_single_custom_fromheader_generated()
+        {
+            //// Arrange
+            var document = await GetSwaggerDocument();
+            var settings = new SwaggerToCSharpControllerGeneratorSettings
+            {
+                ControllerTarget = CSharpControllerTarget.AspNet,
+                ControllerStyle = CSharpControllerStyle.Abstract,
+                OperationNameGenerator = new MultipleClientsFromFirstTagAndPathSegmentsOperationNameGenerator()
+            };
+
+            //// Act
+            var codeGen = new SwaggerToCSharpControllerGenerator(document, settings);
+            var code = codeGen.GenerateFile();
+
+            //// Assert
+            var fromHeaderCustomAttributeCount = Regex.Matches(code, "public class FromHeaderAttribute :").Count;
+            Assert.Equal(1, fromHeaderCustomAttributeCount);
+            var fromHeaderCustomBindingCount = Regex.Matches(code, "public class FromHeaderBinding :").Count;
+            Assert.Equal(1, fromHeaderCustomBindingCount);
+            Assert.Contains("[FromHeader", code);
+            Assert.DoesNotContain("[Microsoft.AspNetCore.Mvc.FromHeader", code);
+        }
+
+        [Fact]
+        public async Task When_controllertarget_aspnetcore_then_use_builtin_fromheader()
+        {
+            //// Arrange
+            var document = await GetSwaggerDocument();
+            var settings = new SwaggerToCSharpControllerGeneratorSettings
+            {
+                ControllerTarget = CSharpControllerTarget.AspNetCore
+            };
+
+            //// Act
+            var codeGen = new SwaggerToCSharpControllerGenerator(document, settings);
+            var code = codeGen.GenerateFile();
+
+            //// Assert
+            Assert.Contains("[Microsoft.AspNetCore.Mvc.FromHeader", code);
+            Assert.DoesNotContain("[FromHeader", code);
+            Assert.DoesNotContain("public class FromHeaderBinding :", code);
+            Assert.DoesNotContain("public class FromHeaderAttribute :", code);
+        }
+
+        [Fact]
+        public async Task When_controller_has_operation_with_header_parameter_then_partialcontroller_is_generated_with_fromheader_attribute()
+        {
+            //// Arrange
+            var document = await GetSwaggerDocument();
+            var settings = new SwaggerToCSharpControllerGeneratorSettings
+            {
+                ControllerTarget = CSharpControllerTarget.AspNet
+            };
+
+            //// Act
+            var codeGen = new SwaggerToCSharpControllerGenerator(document, settings);
+            var code = codeGen.GenerateFile();
+
+            //// Assert
+            Assert.Contains("partial class TestController", code);
+            Assert.Contains($"HeaderParam([FromHeader] string comesFromHeader)", code);
+        }
     }
 }
-
-

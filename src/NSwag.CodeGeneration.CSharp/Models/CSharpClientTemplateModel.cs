@@ -47,12 +47,6 @@ namespace NSwag.CodeGeneration.CSharp.Models
             ExceptionClass = _settings.ExceptionClass.Replace("{controller}", controllerName);
         }
 
-        /// <summary>Gets or sets a value indicating whether to generate client contracts (i.e. client interfaces).</summary>
-        public bool GenerateContracts { get; set; }
-
-        /// <summary>Gets or sets a value indicating whether to generate implementation classes.</summary>
-        public bool GenerateImplementation { get; set; }
-
         /// <summary>Gets the class name.</summary>
         public string Class { get; }
 

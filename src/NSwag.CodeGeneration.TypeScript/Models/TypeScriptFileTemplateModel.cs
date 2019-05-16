@@ -8,7 +8,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using NJsonSchema;
+using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.TypeScript;
 
 namespace NSwag.CodeGeneration.TypeScript.Models
@@ -19,19 +19,20 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         private readonly SwaggerToTypeScriptClientGeneratorSettings _settings;
         private readonly TypeScriptTypeResolver _resolver;
         private readonly string _clientCode;
+        private readonly IEnumerable<CodeArtifact> _clientTypes;
         private readonly SwaggerDocument _document;
         private readonly TypeScriptExtensionCode _extensionCode;
 
         /// <summary>Initializes a new instance of the <see cref="TypeScriptFileTemplateModel" /> class.</summary>
-        /// <param name="clientCode">The client code.</param>
-        /// <param name="clientClasses">The client classes.</param>
+        /// <param name="clientTypes">The client types.</param>
+        /// <param name="dtoTypes">The DTO types.</param>
         /// <param name="document">The Swagger document.</param>
         /// <param name="extensionCode">The extension code.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="resolver">The resolver.</param>
         public TypeScriptFileTemplateModel(
-            string clientCode,
-            IEnumerable<string> clientClasses,
+            IEnumerable<CodeArtifact> clientTypes,
+            IEnumerable<CodeArtifact> dtoTypes,
             SwaggerDocument document,
             TypeScriptExtensionCode extensionCode,
             SwaggerToTypeScriptClientGeneratorSettings settings,
@@ -41,10 +42,11 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             _extensionCode = extensionCode;
             _settings = settings;
             _resolver = resolver;
-            _clientCode = clientCode;
-            ClientClasses = clientClasses.ToArray();
 
-            Types = GenerateDtoTypes();
+            _clientCode = clientTypes.Concatenate();
+            _clientTypes = clientTypes;
+
+            Types = dtoTypes.Concatenate();
             ExtensionCodeBottom = GenerateExtensionCodeAfter();
             Framework = new TypeScriptFrameworkModel(settings);
         }
@@ -142,24 +144,18 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             RequiresClientFunctions &&
             !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("SwaggerException");
 
-        /// <summary>Table containing list of the generated classes.</summary>
-        public string[] ClientClasses { get; }
-
         /// <summary>Gets a value indicating whether to handle references.</summary>
         public bool HandleReferences => _settings.TypeScriptGeneratorSettings.HandleReferences;
 
         /// <summary>Gets a value indicating whether MomentJS duration format is needed (moment-duration-format package).</summary>
         public bool RequiresMomentJSDuration => Types?.Contains("moment.duration(") == true;
 
-        private string GenerateDtoTypes()
-        {
-            var generator = new TypeScriptGenerator(_document, _settings.TypeScriptGeneratorSettings, _resolver);
-            return _settings.GenerateDtoTypes ? generator.GenerateTypes(_extensionCode).Concatenate() : string.Empty;
-        }
-
         private string GenerateExtensionCodeAfter()
         {
-            var clientClassesVariable = "{" + string.Join(", ", ClientClasses.Select(c => "'" + c + "': " + c)) + "}";
+            var clientClassesVariable = "{" + string.Join(", ", _clientTypes
+                .Where(c => c.Category != CodeArtifactCategory.Utility)
+                .Select(c => "'" + c.TypeName + "': " + c.TypeName)) + "}";
+
             return _extensionCode.BottomCode.Replace("{clientClasses}", clientClassesVariable);
         }
     }
