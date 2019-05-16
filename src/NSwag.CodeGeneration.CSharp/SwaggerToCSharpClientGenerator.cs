@@ -66,13 +66,13 @@ namespace NSwag.CodeGeneration.CSharp
                 if (model.GenerateContracts && model.GenerateClientInterfaces)
                 {
                     var template = Settings.CSharpGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Client.Interface", model);
-                    yield return new CodeArtifact(model.Class, CodeArtifactType.Class, CodeArtifactLanguage.CSharp, template);
+                    yield return new CodeArtifact(model.Class, CodeArtifactType.Class, CodeArtifactLanguage.CSharp, CodeArtifactCategory.Contract, template);
                 }
 
                 if (model.GenerateImplementation)
                 {
                     var template = Settings.CSharpGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Client.Class", model);
-                    yield return new CodeArtifact(model.Class, CodeArtifactType.Class, CodeArtifactLanguage.CSharp, template);
+                    yield return new CodeArtifact(model.Class, CodeArtifactType.Class, CodeArtifactLanguage.CSharp, CodeArtifactCategory.Client, template);
                 }
             }
         }

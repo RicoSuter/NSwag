@@ -58,10 +58,10 @@ namespace NSwag.CodeGeneration.CSharp
                 _document.Operations.Count(operation => operation.Operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.Header)) > 0)
             {
                 var template = Settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Controller.AspNet.FromHeaderAttribute", new object());
-                artifacts.Add(new CodeArtifact("FromHeaderAttribute", CodeArtifactType.Class, CodeArtifactLanguage.CSharp, template));
+                artifacts.Add(new CodeArtifact("FromHeaderAttribute", CodeArtifactType.Class, CodeArtifactLanguage.CSharp, CodeArtifactCategory.Utility, template));
 
                 template = Settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Controller.AspNet.FromHeaderBinding", new object());
-                artifacts.Add(new CodeArtifact("FromHeaderBinding", CodeArtifactType.Class, CodeArtifactLanguage.CSharp, template));
+                artifacts.Add(new CodeArtifact("FromHeaderBinding", CodeArtifactType.Class, CodeArtifactLanguage.CSharp, CodeArtifactCategory.Utility, template));
             }
 
             return artifacts;
@@ -77,7 +77,7 @@ namespace NSwag.CodeGeneration.CSharp
         {
             var model = new CSharpControllerTemplateModel(controllerClassName, operations, _document, Settings);
             var template = Settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Controller", model);
-            yield return new CodeArtifact(model.Class, CodeArtifactType.Class, CodeArtifactLanguage.CSharp, template);
+            yield return new CodeArtifact(model.Class, CodeArtifactType.Class, CodeArtifactLanguage.CSharp, CodeArtifactCategory.Client, template);
         }
 
         /// <summary>Creates an operation model.</summary>

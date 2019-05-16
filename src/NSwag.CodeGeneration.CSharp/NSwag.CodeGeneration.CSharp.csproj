@@ -36,7 +36,6 @@
     <EmbeddedResource Include="Templates\Client.Class.QueryParameter.liquid" />
     <EmbeddedResource Include="Templates\Client.Interface.Body.liquid" />
     <EmbeddedResource Include="Templates\Client.Interface.liquid" />
-    <EmbeddedResource Include="Templates\Client.liquid" />
     <EmbeddedResource Include="Templates\Client.Method.Documentation.liquid" />
     <EmbeddedResource Include="Templates\Controller.AspNet.FromHeaderBinding.liquid" />
     <EmbeddedResource Include="Templates\Controller.AspNet.FromHeaderAttribute.liquid" />
@@ -45,7 +44,7 @@
     <EmbeddedResource Include="Templates\JsonExceptionConverter.liquid" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="9.13.37" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="9.14.1" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net451'">
     <Reference Include="Microsoft.CSharp" />

@@ -1,9 +1,0 @@
-﻿{% if HasOperations -%}
-{%     if GenerateContracts and GenerateClientInterfaces -%}
-{% template Client.Interface %}
-{%     endif -%}
-
-{%     if GenerateImplementation -%}
-{% template Client.Class %}
-{%     endif -%}
-{% endif -%}

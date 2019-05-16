@@ -43,10 +43,10 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             _settings = settings;
             _resolver = resolver;
 
-            _clientCode = new CodeArtifactCollection(clientTypes, null).Concatenate();
+            _clientCode = clientTypes.Concatenate();
             _clientTypes = clientTypes;
 
-            Types = new CodeArtifactCollection(dtoTypes, null).Concatenate();
+            Types = dtoTypes.Concatenate();
             ExtensionCodeBottom = GenerateExtensionCodeAfter();
             Framework = new TypeScriptFrameworkModel(settings);
         }

@@ -109,7 +109,7 @@ namespace NSwag.CodeGeneration.TypeScript
 
             var model = new TypeScriptClientTemplateModel(controllerName, controllerClassName, operations, _extensionCode, _document, Settings);
             var template = Settings.CreateTemplate(model);
-            yield return new CodeArtifact(model.Class, CodeArtifactType.Class, CodeArtifactLanguage.CSharp, template);
+            yield return new CodeArtifact(model.Class, CodeArtifactType.Class, CodeArtifactLanguage.CSharp, CodeArtifactCategory.Client, template);
         }
 
         /// <summary>Generates all DTO types.</summary>
@@ -117,7 +117,7 @@ namespace NSwag.CodeGeneration.TypeScript
         protected override IEnumerable<CodeArtifact> GenerateDtoTypes()
         {
             var generator = new TypeScriptGenerator(_document, Settings.TypeScriptGeneratorSettings, _resolver);
-            return generator.GenerateTypes(_extensionCode).Artifacts;
+            return generator.GenerateTypes(_extensionCode);
         }
 
         /// <summary>Creates an operation model.</summary>

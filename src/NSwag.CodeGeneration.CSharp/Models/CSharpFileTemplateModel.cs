@@ -40,14 +40,14 @@ namespace NSwag.CodeGeneration.CSharp.Models
             SwaggerToCSharpGeneratorBase generator,
             CSharpTypeResolver resolver)
         {
-            _clientCode = new CodeArtifactCollection(clientTypes, null).Concatenate();
             _outputType = outputType;
             _document = document;
             _generator = generator;
             _settings = settings;
             _resolver = resolver;
+            _clientCode = clientTypes.Concatenate();
 
-            Classes = new CodeArtifactCollection(dtoTypes, null).Concatenate();
+            Classes = dtoTypes.Concatenate();
         }
 
         /// <summary>Gets the namespace.</summary>

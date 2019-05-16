@@ -91,7 +91,7 @@ namespace NSwag.CodeGeneration.CSharp
         protected override IEnumerable<CodeArtifact> GenerateDtoTypes()
         {
             var generator = new CSharpGenerator(_document, _settings.CSharpGeneratorSettings, _resolver);
-            return generator.GenerateTypes().Artifacts;
+            return generator.GenerateTypes();
         }
     }
 }
