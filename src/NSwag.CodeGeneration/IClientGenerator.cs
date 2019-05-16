@@ -15,7 +15,7 @@ namespace NSwag.CodeGeneration
     {
         /// <summary>Gets the type.</summary>
         /// <param name="schema">The schema.</param>
-        /// <param name="isNullable">if set to <c>true</c> [is nullable].</param>
+        /// <param name="isNullable">Specifies whether the type is nullable..</param>
         /// <param name="typeNameHint">The type name hint.</param>
         /// <returns>The type name.</returns>
         string GetTypeName(JsonSchema4 schema, bool isNullable, string typeNameHint);

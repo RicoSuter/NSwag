@@ -52,7 +52,7 @@ namespace NSwag.CodeGeneration.CSharp
         /// <param name="operations">The operations.</param>
         /// <param name="outputType">Type of the output.</param>
         /// <returns>The code.</returns>
-        protected override CodeArtifact GenerateClientType(string controllerName, string controllerClassName, IList<CSharpOperationModel> operations, ClientGeneratorOutputType outputType)
+        protected override IEnumerable<CodeArtifact> GenerateClientTypes(string controllerName, string controllerClassName, IList<CSharpOperationModel> operations, ClientGeneratorOutputType outputType)
         {
             var exceptionSchema = (Resolver as CSharpTypeResolver)?.ExceptionSchema;
             var model = new CSharpClientTemplateModel(controllerName, controllerClassName, operations, exceptionSchema, _document, Settings)
@@ -61,8 +61,20 @@ namespace NSwag.CodeGeneration.CSharp
                 GenerateImplementation = outputType == ClientGeneratorOutputType.Full || outputType == ClientGeneratorOutputType.Implementation,
             };
 
-            var template = Settings.CSharpGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Client", model);
-            return new CodeArtifact(model.Class, CodeArtifactType.Class, CodeArtifactLanguage.CSharp, template);
+            if (model.HasOperations)
+            {
+                if (model.GenerateContracts && model.GenerateClientInterfaces)
+                {
+                    var template = Settings.CSharpGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Client.Interface", model);
+                    yield return new CodeArtifact(model.Class, CodeArtifactType.Class, CodeArtifactLanguage.CSharp, template);
+                }
+
+                if (model.GenerateImplementation)
+                {
+                    var template = Settings.CSharpGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Client.Class", model);
+                    yield return new CodeArtifact(model.Class, CodeArtifactType.Class, CodeArtifactLanguage.CSharp, template);
+                }
+            }
         }
 
         /// <summary>Creates an operation model.</summary>

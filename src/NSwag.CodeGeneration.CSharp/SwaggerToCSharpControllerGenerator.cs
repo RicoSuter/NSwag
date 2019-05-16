@@ -20,8 +20,6 @@ namespace NSwag.CodeGeneration.CSharp
     {
         private readonly SwaggerDocument _document;
 
-        private int _controllerCount = 0;
-
         /// <summary>Initializes a new instance of the <see cref="SwaggerToCSharpControllerGenerator" /> class.</summary>
         /// <param name="document">The Swagger document.</param>
         /// <param name="settings">The settings.</param>
@@ -52,9 +50,9 @@ namespace NSwag.CodeGeneration.CSharp
         /// <summary>Generates the client types.</summary>
         /// <param name="type">The type.</param>
         /// <returns>The code artifact collection.</returns>
-        protected override CodeArtifactCollection GenerateClientTypes(ClientGeneratorOutputType type)
+        protected override IEnumerable<CodeArtifact> GenerateAllClientTypes(ClientGeneratorOutputType type)
         {
-            var artifacts = base.GenerateClientTypes(type).Artifacts.ToList();
+            var artifacts = base.GenerateAllClientTypes(type).ToList();
 
             if (Settings.ControllerTarget == CSharpControllerTarget.AspNet &&
                 _document.Operations.Count(operation => operation.Operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.Header)) > 0)
@@ -66,7 +64,7 @@ namespace NSwag.CodeGeneration.CSharp
                 artifacts.Add(new CodeArtifact("FromHeaderBinding", CodeArtifactType.Class, CodeArtifactLanguage.CSharp, template));
             }
 
-            return new CodeArtifactCollection(artifacts, null);
+            return artifacts;
         }
 
         /// <summary>Generates the client class.</summary>
@@ -75,11 +73,11 @@ namespace NSwag.CodeGeneration.CSharp
         /// <param name="operations">The operations.</param>
         /// <param name="outputType">Type of the output.</param>
         /// <returns>The code.</returns>
-        protected override CodeArtifact GenerateClientType(string controllerName, string controllerClassName, IList<CSharpOperationModel> operations, ClientGeneratorOutputType outputType)
+        protected override IEnumerable<CodeArtifact> GenerateClientTypes(string controllerName, string controllerClassName, IList<CSharpOperationModel> operations, ClientGeneratorOutputType outputType)
         {
             var model = new CSharpControllerTemplateModel(controllerClassName, operations, _document, Settings);
             var template = Settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Controller", model);
-            return new CodeArtifact(model.Class, CodeArtifactType.Class, CodeArtifactLanguage.CSharp, template);
+            yield return new CodeArtifact(model.Class, CodeArtifactType.Class, CodeArtifactLanguage.CSharp, template);
         }
 
         /// <summary>Creates an operation model.</summary>

@@ -32,22 +32,22 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <param name="generator">The client generator base.</param>
         /// <param name="resolver">The resolver.</param>
         public CSharpFileTemplateModel(
-            CodeArtifactCollection clientTypes,
-            CodeArtifactCollection dtoTypes,
+            IEnumerable<CodeArtifact> clientTypes,
+            IEnumerable<CodeArtifact> dtoTypes,
             ClientGeneratorOutputType outputType,
             SwaggerDocument document,
             SwaggerToCSharpGeneratorSettings settings,
             SwaggerToCSharpGeneratorBase generator,
             CSharpTypeResolver resolver)
         {
-            _clientCode = clientTypes.Concatenate();
+            _clientCode = new CodeArtifactCollection(clientTypes, null).Concatenate();
             _outputType = outputType;
             _document = document;
             _generator = generator;
             _settings = settings;
             _resolver = resolver;
 
-            Classes = dtoTypes.Concatenate();
+            Classes = new CodeArtifactCollection(dtoTypes, null).Concatenate();
         }
 
         /// <summary>Gets the namespace.</summary>

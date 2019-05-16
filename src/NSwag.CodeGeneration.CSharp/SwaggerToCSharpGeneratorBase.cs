@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
@@ -35,7 +36,7 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets the type.</summary>
         /// <param name="schema">The schema.</param>
-        /// <param name="isNullable">if set to <c>true</c> [is nullable].</param>
+        /// <param name="isNullable">Specifies whether the type is nullable..</param>
         /// <param name="typeNameHint">The type name hint.</param>
         /// <returns>The type name.</returns>
         public override string GetTypeName(JsonSchema4 schema, bool isNullable, string typeNameHint)
@@ -78,7 +79,7 @@ namespace NSwag.CodeGeneration.CSharp
         /// <param name="dtoTypes">The DTO types.</param>
         /// <param name="outputType">Type of the output.</param>
         /// <returns>The code.</returns>
-        protected override string GenerateFile(CodeArtifactCollection clientTypes, CodeArtifactCollection dtoTypes, ClientGeneratorOutputType outputType)
+        protected override string GenerateFile(IEnumerable<CodeArtifact> clientTypes, IEnumerable<CodeArtifact> dtoTypes, ClientGeneratorOutputType outputType)
         {
             var model = new CSharpFileTemplateModel(clientTypes, dtoTypes, outputType, _document, _settings, this, (CSharpTypeResolver)Resolver);
             var template = _settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "File", model);
@@ -87,10 +88,10 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Generates all DTO types.</summary>
         /// <returns>The code artifact collection.</returns>
-        protected override CodeArtifactCollection GenerateDtoTypes()
+        protected override IEnumerable<CodeArtifact> GenerateDtoTypes()
         {
             var generator = new CSharpGenerator(_document, _settings.CSharpGeneratorSettings, _resolver);
-            return generator.GenerateTypes();
+            return generator.GenerateTypes().Artifacts;
         }
     }
 }

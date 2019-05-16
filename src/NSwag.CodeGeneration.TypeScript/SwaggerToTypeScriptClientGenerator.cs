@@ -45,6 +45,7 @@ namespace NSwag.CodeGeneration.TypeScript
             _document = document ?? throw new ArgumentNullException(nameof(document));
             _resolver = resolver;
             _resolver.RegisterSchemaDefinitions(_document.Definitions);
+
             _extensionCode = new TypeScriptExtensionCode(
                 Settings.TypeScriptGeneratorSettings.ExtensionCode,
                 (Settings.TypeScriptGeneratorSettings.ExtendedClasses ?? new string[] { }).Concat(new[] { Settings.ConfigurationClass }).ToArray(),
@@ -59,7 +60,7 @@ namespace NSwag.CodeGeneration.TypeScript
 
         /// <summary>Gets the type.</summary>
         /// <param name="schema">The schema.</param>
-        /// <param name="isNullable">if set to <c>true</c> [is nullable].</param>
+        /// <param name="isNullable">Specifies whether the type is nullable..</param>
         /// <param name="typeNameHint">The type name hint.</param>
         /// <returns>The type name.</returns>
         public override string GetTypeName(JsonSchema4 schema, bool isNullable, string typeNameHint)
@@ -89,7 +90,7 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <param name="dtoTypes">The DTO types.</param>
         /// <param name="outputType">Type of the output.</param>
         /// <returns>The code.</returns>
-        protected override string GenerateFile(CodeArtifactCollection clientTypes, CodeArtifactCollection dtoTypes, ClientGeneratorOutputType outputType)
+        protected override string GenerateFile(IEnumerable<CodeArtifact> clientTypes, IEnumerable<CodeArtifact> dtoTypes, ClientGeneratorOutputType outputType)
         {
             var model = new TypeScriptFileTemplateModel(clientTypes, dtoTypes, _document, _extensionCode, Settings, _resolver);
             var template = BaseSettings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("TypeScript", "File", model);
@@ -102,21 +103,21 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <param name="operations">The operations.</param>
         /// <param name="outputType">Type of the output.</param>
         /// <returns>The code.</returns>
-        protected override CodeArtifact GenerateClientType(string controllerName, string controllerClassName, IList<TypeScriptOperationModel> operations, ClientGeneratorOutputType outputType)
+        protected override IEnumerable<CodeArtifact> GenerateClientTypes(string controllerName, string controllerClassName, IList<TypeScriptOperationModel> operations, ClientGeneratorOutputType outputType)
         {
             UpdateUseDtoClassAndDataConversionCodeProperties(operations);
 
             var model = new TypeScriptClientTemplateModel(controllerName, controllerClassName, operations, _extensionCode, _document, Settings);
             var template = Settings.CreateTemplate(model);
-            return new CodeArtifact(model.Class, CodeArtifactType.Class, CodeArtifactLanguage.CSharp, template);
+            yield return new CodeArtifact(model.Class, CodeArtifactType.Class, CodeArtifactLanguage.CSharp, template);
         }
 
         /// <summary>Generates all DTO types.</summary>
         /// <returns>The code artifact collection.</returns>
-        protected override CodeArtifactCollection GenerateDtoTypes()
+        protected override IEnumerable<CodeArtifact> GenerateDtoTypes()
         {
             var generator = new TypeScriptGenerator(_document, Settings.TypeScriptGeneratorSettings, _resolver);
-            return generator.GenerateTypes(_extensionCode);
+            return generator.GenerateTypes(_extensionCode).Artifacts;
         }
 
         /// <summary>Creates an operation model.</summary>

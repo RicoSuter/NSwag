@@ -19,7 +19,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         private readonly SwaggerToTypeScriptClientGeneratorSettings _settings;
         private readonly TypeScriptTypeResolver _resolver;
         private readonly string _clientCode;
-        private readonly CodeArtifactCollection _clientTypes;
+        private readonly IEnumerable<CodeArtifact> _clientTypes;
         private readonly SwaggerDocument _document;
         private readonly TypeScriptExtensionCode _extensionCode;
 
@@ -31,8 +31,8 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <param name="settings">The settings.</param>
         /// <param name="resolver">The resolver.</param>
         public TypeScriptFileTemplateModel(
-            CodeArtifactCollection clientTypes,
-            CodeArtifactCollection dtoTypes,
+            IEnumerable<CodeArtifact> clientTypes,
+            IEnumerable<CodeArtifact> dtoTypes,
             SwaggerDocument document,
             TypeScriptExtensionCode extensionCode,
             SwaggerToTypeScriptClientGeneratorSettings settings,
@@ -42,10 +42,11 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             _extensionCode = extensionCode;
             _settings = settings;
             _resolver = resolver;
-            _clientCode = clientTypes.Concatenate();
+
+            _clientCode = new CodeArtifactCollection(clientTypes, null).Concatenate();
             _clientTypes = clientTypes;
 
-            Types = dtoTypes.Concatenate();
+            Types = new CodeArtifactCollection(dtoTypes, null).Concatenate();
             ExtensionCodeBottom = GenerateExtensionCodeAfter();
             Framework = new TypeScriptFrameworkModel(settings);
         }
@@ -151,7 +152,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         private string GenerateExtensionCodeAfter()
         {
-            var clientClassesVariable = "{" + string.Join(", ", _clientTypes.Artifacts.Select(c => "'" + c + "': " + c)) + "}";
+            var clientClassesVariable = "{" + string.Join(", ", _clientTypes.Select(c => "'" + c.TypeName + "': " + c.TypeName)) + "}";
             return _extensionCode.BottomCode.Replace("{clientClasses}", clientClassesVariable);
         }
     }
