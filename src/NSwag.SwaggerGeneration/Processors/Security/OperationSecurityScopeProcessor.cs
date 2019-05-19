@@ -6,11 +6,11 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Contexts;
 
 namespace NSwag.SwaggerGeneration.Processors.Security
@@ -37,10 +37,18 @@ namespace NSwag.SwaggerGeneration.Processors.Security
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
         public Task<bool> ProcessAsync(OperationProcessorContext context)
         {
+            var customAttributes = GetCustomAttributes(context.MethodInfo);
+
+            var allowAnonymous = customAttributes.Any(a => a.GetType().Name == "AllowAnonymousAttribute");
+            if (allowAnonymous)
+            {
+                return Task.FromResult(true);
+            }
+
             if (context.OperationDescription.Operation.Security == null)
                 context.OperationDescription.Operation.Security = new List<SwaggerSecurityRequirement>();
 
-            var scopes = GetScopes(context.OperationDescription, context.MethodInfo);
+            var scopes = GetScopes(allAttributes, context.OperationDescription, context.MethodInfo);
             context.OperationDescription.Operation.Security.Add(new SwaggerSecurityRequirement
             {
                 { _name, scopes }
@@ -53,12 +61,9 @@ namespace NSwag.SwaggerGeneration.Processors.Security
         /// <param name="operationDescription">The operation description.</param>
         /// <param name="methodInfo">The method information.</param>
         /// <returns>The scopes.</returns>
-        protected virtual IEnumerable<string> GetScopes(SwaggerOperationDescription operationDescription, MethodInfo methodInfo)
+        protected virtual IEnumerable<string> GetScopes(IEnumerable<Attribute> customAttributes, SwaggerOperationDescription operationDescription, MethodInfo methodInfo)
         {
-            var allAttributes = methodInfo.GetCustomAttributes().Concat(
-                methodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes());
-
-            var authorizeAttributes = allAttributes.Where(a => a.GetType().Name == "AuthorizeAttribute").ToList();
+            var authorizeAttributes = customAttributes.Where(a => a.GetType().Name == "AuthorizeAttribute");
             if (!authorizeAttributes.Any())
                 return Enumerable.Empty<string>();
 
@@ -67,6 +72,15 @@ namespace NSwag.SwaggerGeneration.Processors.Security
                 .Where(a => a.Roles != null)
                 .SelectMany(a => ((string)a.Roles).Split(','))
                 .Distinct();
+        }
+
+        /// <summary>Gets all customAttributes from a method.</summary>
+        /// <param name="methodInfo">The method information.</param>
+        /// <returns>The Attributes of the method.</returns>
+        private IEnumerable<Attribute> GetCustomAttributes(MethodInfo methodInfo)
+        {
+            return methodInfo.GetCustomAttributes().Concat(
+                methodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes());
         }
     }
 }
