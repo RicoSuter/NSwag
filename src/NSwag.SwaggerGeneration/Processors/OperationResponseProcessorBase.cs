@@ -12,6 +12,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Namotion.Reflection;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors.Contexts;
@@ -42,31 +43,13 @@ namespace NSwag.SwaggerGeneration.Processors
         {
             var returnParameter = operationProcessorContext.MethodInfo.ReturnParameter;
 
-            var returnParameterAttributes = GetParameterAttributes(returnParameter);
-            var successResponseDescription = await returnParameter.GetDescriptionAsync(returnParameterAttributes)
+            var successResponseDescription = await returnParameter
+                .ToContextualParameter()
+                .GetDescriptionAsync()
                 .ConfigureAwait(false) ?? string.Empty;
 
             var responseDescriptions = GetOperationResponseDescriptions(responseTypeAttributes, successResponseDescription);
             await ProcessOperationDescriptionsAsync(responseDescriptions, returnParameter, operationProcessorContext, successResponseDescription);
-        }
-
-        /// <summary>Gets all attributes of the given parameter.</summary>
-        /// <param name="parameter">The parameter.</param>
-        /// <returns>The attributes.</returns>
-        protected IEnumerable<Attribute> GetParameterAttributes(ParameterInfo parameter)
-        {
-            try
-            {
-                return parameter?.GetCustomAttributes(true)?.Cast<Attribute>() ??
-                    parameter?.GetCustomAttributes(false)?.Cast<Attribute>() ??
-                    new Attribute[0];
-            }
-            catch
-            {
-                // in some environments, the call to GetCustomAttributes(true) fails
-                return parameter?.GetCustomAttributes(false)?.Cast<Attribute>() ??
-                    new Attribute[0];
-            }
         }
 
         /// <summary>Updates the response description based on the return parameter or the response tags in the method's xml docs.</summary>
@@ -77,7 +60,9 @@ namespace NSwag.SwaggerGeneration.Processors
             var returnParameter = operationProcessorContext.MethodInfo.ReturnParameter;
             var operationXmlDocs = await operationProcessorContext.MethodInfo.GetXmlDocumentationAsync();
             var operationXmlDocsNodes = operationXmlDocs?.Nodes()?.OfType<XElement>();
-            var returnParameterXmlDocs = await returnParameter.GetDescriptionAsync(returnParameter.GetCustomAttributes(false).Cast<Attribute>())
+            var returnParameterXmlDocs = await returnParameter
+                .ToContextualParameter()
+                .GetDescriptionAsync()
                 .ConfigureAwait(false) ?? string.Empty;
 
             if (!string.IsNullOrEmpty(returnParameterXmlDocs) || operationXmlDocsNodes?.Any() == true)
@@ -152,12 +137,14 @@ namespace NSwag.SwaggerGeneration.Processors
             foreach (var statusCodeGroup in operationDescriptions.GroupBy(r => r.StatusCode))
             {
                 var httpStatusCode = statusCodeGroup.Key;
-                var returnType = statusCodeGroup.Select(r => r.ResponseType).FindCommonBaseType();
+
+                var returnType = statusCodeGroup.Select(r => r.ResponseType).GetCommonBaseType();
+                var contextualReturnType = returnType.ToContextualType(returnParameter.GetCustomAttributes(false).OfType<Attribute>());
+
                 var description = string.Join("\nor\n", statusCodeGroup.Select(r => r.Description));
 
                 var typeDescription = _settings.ReflectionService.GetDescription(
-                    returnType, GetParameterAttributes(returnParameter), 
-                    _settings.DefaultResponseReferenceTypeNullHandling, _settings);
+                    contextualReturnType, _settings.DefaultResponseReferenceTypeNullHandling, _settings);
 
                 var response = new SwaggerResponse
                 {
@@ -171,7 +158,7 @@ namespace NSwag.SwaggerGeneration.Processors
                     response.IsNullableRaw = isNullable;
                     response.ExpectedSchemas = await GenerateExpectedSchemasAsync(statusCodeGroup, context);
                     response.Schema = await context.SchemaGenerator
-                        .GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(returnType, null, isNullable, context.SchemaResolver)
+                        .GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(contextualReturnType, isNullable, context.SchemaResolver)
                         .ConfigureAwait(false);
                 }
 
@@ -188,9 +175,9 @@ namespace NSwag.SwaggerGeneration.Processors
 
                 loadDefaultSuccessResponseFromReturnType = !hasSuccessResponse &&
                     context.MethodInfo.GetCustomAttributes()
-                        .Any(a => a.GetType().IsAssignableTo("SwaggerDefaultResponseAttribute", TypeNameStyle.Name)) ||
+                        .Any(a => a.GetType().IsAssignableToTypeName("SwaggerDefaultResponseAttribute", TypeNameStyle.Name)) ||
                     context.MethodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes()
-                        .Any(a => a.GetType().IsAssignableTo("SwaggerDefaultResponseAttribute", TypeNameStyle.Name));
+                        .Any(a => a.GetType().IsAssignableToTypeName("SwaggerDefaultResponseAttribute", TypeNameStyle.Name));
             }
             else
             {
@@ -210,9 +197,11 @@ namespace NSwag.SwaggerGeneration.Processors
                 var expectedSchemas = new List<JsonExpectedSchema>();
                 foreach (var response in group)
                 {
-                    var isNullable = _settings.ReflectionService.GetDescription(response.ResponseType, null, _settings).IsNullable;
+                    var contextualResponseType = response.ResponseType.ToContextualType();
+
+                    var isNullable = _settings.ReflectionService.GetDescription(contextualResponseType, _settings).IsNullable;
                     var schema = await context.SchemaGenerator.GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(
-                        response.ResponseType, null, isNullable, context.SchemaResolver)
+                        contextualResponseType, isNullable, context.SchemaResolver)
                         .ConfigureAwait(false);
 
                     expectedSchemas.Add(new JsonExpectedSchema
@@ -245,10 +234,11 @@ namespace NSwag.SwaggerGeneration.Processors
             }
             else
             {
-                var returnParameterAttributes = GetParameterAttributes(returnParameter);
-                var typeDescription = _settings.ReflectionService.GetDescription(returnType, returnParameterAttributes, _settings);
+                var contextualReturnParameter = returnType.ToContextualType(returnParameter.GetCustomAttributes(false).OfType<Attribute>());
+
+                var typeDescription = _settings.ReflectionService.GetDescription(contextualReturnParameter, _settings);
                 var responseSchema = await context.SchemaGenerator.GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(
-                    returnType, returnParameterAttributes, typeDescription.IsNullable, context.SchemaResolver).ConfigureAwait(false);
+                    contextualReturnParameter, typeDescription.IsNullable, context.SchemaResolver).ConfigureAwait(false);
 
                 operation.Responses["200"] = new SwaggerResponse
                 {

@@ -13,6 +13,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Namotion.Reflection;
 using NJsonSchema;
 using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
@@ -51,13 +52,13 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                 var parameterName = parameter.Name;
                 var attributes = parameter.GetCustomAttributes().ToList();
 
-                dynamic fromRouteAttribute = attributes.TryGetIfAssignableTo("Microsoft.AspNetCore.Mvc.FromRouteAttribute");
-                dynamic fromHeaderAttribute = attributes.TryGetIfAssignableTo("Microsoft.AspNetCore.Mvc.FromHeaderAttribute");
-                dynamic fromFormAttribute = attributes.TryGetIfAssignableTo("Microsoft.AspNetCore.Mvc.FromFormAttribute");
+                dynamic fromRouteAttribute = attributes.TryGetAssignableToTypeName("Microsoft.AspNetCore.Mvc.FromRouteAttribute");
+                dynamic fromHeaderAttribute = attributes.TryGetAssignableToTypeName("Microsoft.AspNetCore.Mvc.FromHeaderAttribute");
+                dynamic fromFormAttribute = attributes.TryGetAssignableToTypeName("Microsoft.AspNetCore.Mvc.FromFormAttribute");
 
-                var fromBodyAttribute = attributes.TryGetIfAssignableTo("FromBodyAttribute", TypeNameStyle.Name);
-                var fromUriAttribute = attributes.TryGetIfAssignableTo("FromUriAttribute", TypeNameStyle.Name) ??
-                                       attributes.TryGetIfAssignableTo("FromQueryAttribute", TypeNameStyle.Name);
+                var fromBodyAttribute = attributes.TryGetAssignableToTypeName("FromBodyAttribute", TypeNameStyle.Name);
+                var fromUriAttribute = attributes.TryGetAssignableToTypeName("FromUriAttribute", TypeNameStyle.Name) ??
+                                       attributes.TryGetAssignableToTypeName("FromQueryAttribute", TypeNameStyle.Name);
 
                 string bodyParameterName = fromBodyAttribute.TryGetPropertyValue<string>("Name") ?? parameterName;
                 string uriParameterName = fromUriAttribute.TryGetPropertyValue<string>("Name") ?? parameterName;
@@ -80,7 +81,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                 }
                 else
                 {
-                    var parameterInfo = _settings.ReflectionService.GetDescription(parameter.ParameterType, parameter.GetCustomAttributes(), _settings);
+                    var parameterInfo = _settings.ReflectionService.GetDescription(parameter.ToContextualParameter(), _settings);
 
                     operationParameter = await TryAddFileParameterAsync(context, parameterInfo, parameter).ConfigureAwait(false);
                     if (operationParameter == null)
@@ -117,12 +118,12 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                             if (parameterInfo.IsComplexType)
                             {
                                 // Check for a custom ParameterBindingAttribute (OWIN/WebAPI only)
-                                var parameterBindingAttribute = attributes.TryGetIfAssignableTo("ParameterBindingAttribute", TypeNameStyle.Name);
+                                var parameterBindingAttribute = attributes.TryGetAssignableToTypeName("ParameterBindingAttribute", TypeNameStyle.Name);
                                 if (parameterBindingAttribute != null && fromBodyAttribute == null && fromUriAttribute == null && !_settings.IsAspNetCore)
                                 {
                                     // Try to find a [WillReadBody] attribute on either the action parameter or the bindingAttribute's class
                                     var willReadBodyAttribute = attributes.Concat(parameterBindingAttribute.GetType().GetTypeInfo().GetCustomAttributes())
-                                        .TryGetIfAssignableTo("WillReadBodyAttribute", TypeNameStyle.Name);
+                                        .TryGetAssignableToTypeName("WillReadBodyAttribute", TypeNameStyle.Name);
 
                                     if (willReadBodyAttribute == null)
                                         operationParameter = await AddBodyParameterAsync(context, bodyParameterName, parameter).ConfigureAwait(false);
@@ -229,7 +230,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                 .Union(parameter.ParameterType.GetTypeInfo().GetCustomAttributes());
 
             var hasSwaggerFileAttribute = attributes.Any(a =>
-                a.GetType().IsAssignableTo("SwaggerFileAttribute", TypeNameStyle.Name));
+                a.GetType().IsAssignableToTypeName("SwaggerFileAttribute", TypeNameStyle.Name));
 
             if (typeInfo.Type == JsonObjectType.File ||
                 typeInfo.Format == JsonFormatStrings.Binary ||
@@ -244,12 +245,12 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
 
         private async Task<SwaggerParameter> AddFileParameterAsync(OperationProcessorContext context, ParameterInfo parameter, bool isFileArray)
         {
-            var attributes = parameter.GetCustomAttributes().ToList();
+            var contextualParameter = parameter.ToContextualParameter();
 
             // TODO: Check if there is a way to control the property name
-            var parameterDocumentation = await parameter.GetDescriptionAsync(parameter.GetCustomAttributes()).ConfigureAwait(false);
+            var parameterDocumentation = await contextualParameter.GetDescriptionAsync().ConfigureAwait(false);
             var operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(
-                parameter.Name, parameterDocumentation, parameter.ParameterType, attributes).ConfigureAwait(false);
+                parameter.Name, parameterDocumentation, parameter.ParameterType, contextualParameter.ContextAttributes).ConfigureAwait(false);
 
             InitializeFileParameter(operationParameter, isFileArray);
             context.OperationDescription.Operation.Parameters.Add(operationParameter);
@@ -266,8 +267,8 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
 
             if (typeInfo.Type == JsonObjectType.Array && type.GenericTypeArguments.Any())
             {
-                var description = _settings.ReflectionService.GetDescription(type.GenericTypeArguments[0], null, _settings);
-                if (description.Type == JsonObjectType.File || 
+                var description = _settings.ReflectionService.GetDescription(type.ToContextualType(), _settings);
+                if (description.Type == JsonObjectType.File ||
                     description.Format == JsonFormatStrings.Binary)
                 {
                     return true;
@@ -280,13 +281,14 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
         private async Task<SwaggerParameter> AddBodyParameterAsync(OperationProcessorContext context, string name, ParameterInfo parameter)
         {
             SwaggerParameter operationParameter;
+            var contextualParameter = parameter.ToContextualParameter();
 
             var attributes = parameter.GetCustomAttributes();
-            var typeDescription = _settings.ReflectionService.GetDescription(parameter.ParameterType, attributes, _settings);
+            var typeDescription = _settings.ReflectionService.GetDescription(contextualParameter, _settings);
             var isNullable = _settings.AllowNullableBodyParameters && typeDescription.IsNullable;
 
             var operation = context.OperationDescription.Operation;
-            if (parameter.ParameterType.Name == "XmlDocument" || parameter.ParameterType.InheritsFrom("XmlDocument", TypeNameStyle.Name))
+            if (parameter.ParameterType.Name == "XmlDocument" || parameter.ParameterType.InheritsFromTypeName("XmlDocument", TypeNameStyle.Name))
             {
                 operation.TryAddConsumes("application/xml");
                 operationParameter = new SwaggerParameter
@@ -300,11 +302,11 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                     },
                     IsNullableRaw = isNullable,
                     IsRequired = parameter.HasDefaultValue == false,
-                    Description = await parameter.GetDescriptionAsync(parameter.GetCustomAttributes()).ConfigureAwait(false)
+                    Description = await contextualParameter.GetDescriptionAsync().ConfigureAwait(false)
                 };
                 operation.Parameters.Add(operationParameter);
             }
-            else if (parameter.ParameterType.IsAssignableTo("System.IO.Stream", TypeNameStyle.FullName))
+            else if (parameter.ParameterType.IsAssignableToTypeName("System.IO.Stream", TypeNameStyle.FullName))
             {
                 operation.TryAddConsumes("application/octet-stream");
                 operationParameter = new SwaggerParameter
@@ -319,7 +321,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                     },
                     IsNullableRaw = isNullable,
                     IsRequired = parameter.HasDefaultValue == false,
-                    Description = await parameter.GetDescriptionAsync(parameter.GetCustomAttributes()).ConfigureAwait(false)
+                    Description = await contextualParameter.GetDescriptionAsync().ConfigureAwait(false)
                 };
                 operation.Parameters.Add(operationParameter);
             }
@@ -331,9 +333,9 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                     Kind = SwaggerParameterKind.Body,
                     IsRequired = true, // FromBody parameters are always required
                     IsNullableRaw = isNullable,
-                    Description = await parameter.GetDescriptionAsync(attributes).ConfigureAwait(false),
+                    Description = await contextualParameter.GetDescriptionAsync().ConfigureAwait(false),
                     Schema = await context.SchemaGenerator.GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(
-                        parameter.ParameterType, parameter.GetCustomAttributes(), isNullable, schemaResolver: context.SchemaResolver).ConfigureAwait(false)
+                        contextualParameter, isNullable, schemaResolver: context.SchemaResolver).ConfigureAwait(false)
                 };
                 operation.Parameters.Add(operationParameter);
             }
@@ -343,12 +345,14 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
 
         private async Task<SwaggerParameter> AddPrimitiveParametersFromUriAsync(OperationProcessorContext context, string httpPath, string name, ParameterInfo parameter, JsonTypeDescription typeDescription)
         {
+            var contextualParameter = parameter.ToContextualParameter();
             var operation = context.OperationDescription.Operation;
+
             if (typeDescription.Type.HasFlag(JsonObjectType.Array))
             {
                 var attributes = parameter.GetCustomAttributes();
 
-                var parameterDocumentation = await parameter.GetDescriptionAsync(attributes).ConfigureAwait(false);
+                var parameterDocumentation = await contextualParameter.GetDescriptionAsync().ConfigureAwait(false);
                 var operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(
                     name, parameterDocumentation, parameter.ParameterType, attributes).ConfigureAwait(false);
 
@@ -381,7 +385,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
 
                         // TODO: Check if required can be controlled with mechanisms other than RequiredAttribute
 
-                        var parameterInfo = _settings.ReflectionService.GetDescription(property.PropertyType, attributes, _settings);
+                        var parameterInfo = _settings.ReflectionService.GetDescription(property.ToContextualProperty(), _settings);
                         var isFileArray = IsFileArray(property.PropertyType, parameterInfo);
 
                         if (parameterInfo.Type == JsonObjectType.File || isFileArray)

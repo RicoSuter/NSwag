@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Namotion.Reflection;
 using NJsonSchema;
 using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
@@ -70,9 +71,8 @@ namespace NSwag.SwaggerGeneration
         /// <returns>The parameter.</returns>
         public async Task<SwaggerParameter> CreatePrimitiveParameterAsync(string name, ParameterInfo parameter)
         {
-            var attributes = parameter.GetCustomAttributes();
-            var documentation = await parameter.GetDescriptionAsync(attributes).ConfigureAwait(false);
-            return await CreatePrimitiveParameterAsync(name, documentation, parameter.ParameterType, attributes)
+            var documentation = await parameter.ToContextualParameter().GetDescriptionAsync().ConfigureAwait(false);
+            return await CreatePrimitiveParameterAsync(name, documentation, parameter.ParameterType, parameter.GetCustomAttributes(false).OfType<Attribute>())
                 .ConfigureAwait(false);
         }
 
@@ -87,11 +87,12 @@ namespace NSwag.SwaggerGeneration
         {
             SwaggerParameter operationParameter;
 
-            var typeDescription = _settings.ReflectionService.GetDescription(parameterType, parentAttributes, _settings);
+            var contextualParameterType = parameterType.ToContextualType(parentAttributes);
+            var typeDescription = _settings.ReflectionService.GetDescription(contextualParameterType, _settings);
             if (typeDescription.RequiresSchemaReference(_settings.TypeMappers))
             {
                 var schema = await _schemaGenerator
-                    .GenerateAsync(parameterType, parentAttributes, _schemaResolver)
+                    .GenerateAsync(contextualParameterType, _schemaResolver)
                     .ConfigureAwait(false);
 
                 operationParameter = new SwaggerParameter();
@@ -128,7 +129,7 @@ namespace NSwag.SwaggerGeneration
                 if (_settings.SchemaType == SchemaType.Swagger2)
                 {
                     operationParameter = await _schemaGenerator
-                        .GenerateAsync<SwaggerParameter>(parameterType, parentAttributes, _schemaResolver)
+                        .GenerateAsync<SwaggerParameter>(contextualParameterType, _schemaResolver)
                         .ConfigureAwait(false);
                 }
                 else
@@ -137,14 +138,14 @@ namespace NSwag.SwaggerGeneration
                     {
                         Schema = await _schemaGenerator
                             .GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(
-                                parameterType, parentAttributes, typeDescription.IsNullable, _schemaResolver)
+                                contextualParameterType, typeDescription.IsNullable, _schemaResolver)
                             .ConfigureAwait(false)
                     };
                 }
             }
 
             operationParameter.Name = name;
-            operationParameter.IsRequired = parentAttributes.TryGetIfAssignableTo("RequiredAttribute", TypeNameStyle.Name) != null;
+            operationParameter.IsRequired = parentAttributes.TryGetAssignableToTypeName("RequiredAttribute", TypeNameStyle.Name) != null;
 
             if (typeDescription.Type.HasFlag(JsonObjectType.Array))
                 operationParameter.CollectionFormat = SwaggerParameterCollectionFormat.Multi;

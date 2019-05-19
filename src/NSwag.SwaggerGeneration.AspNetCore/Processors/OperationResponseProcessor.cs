@@ -11,6 +11,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Namotion.Reflection;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors;
@@ -70,15 +71,15 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 
                     if (IsVoidResponse(returnType) == false)
                     {
+                        var contextualReturnType = returnType.ToContextualType(context.MethodInfo.ReturnParameter.GetCustomAttributes(false).OfType<Attribute>());
+
                         var typeDescription = _settings.ReflectionService.GetDescription(
-                            returnType, GetParameterAttributes(context.MethodInfo.ReturnParameter),
-                            _settings.DefaultResponseReferenceTypeNullHandling, _settings);
+                            contextualReturnType, _settings.DefaultResponseReferenceTypeNullHandling, _settings);
 
                         response.IsNullableRaw = typeDescription.IsNullable;
 
                         response.Schema = await context.SchemaGenerator
-                            .GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(
-                                returnType, null, typeDescription.IsNullable, context.SchemaResolver)
+                            .GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(contextualReturnType, typeDescription.IsNullable, context.SchemaResolver)
                             .ConfigureAwait(false);
                     }
 

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Namotion.Reflection;
 using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors.Contexts;
 
@@ -98,7 +99,7 @@ namespace NSwag.SwaggerGeneration.Processors
             var versionAttributes = context.MethodInfo.GetCustomAttributes()
                 .Concat(context.MethodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes())
                 .Concat(context.ControllerType.GetTypeInfo().GetCustomAttributes(true))
-                .Where(a => a.GetType().IsAssignableTo(attributeType, TypeNameStyle.Name) && a.HasProperty("Versions"))
+                .Where(a => a.GetType().IsAssignableToTypeName(attributeType, TypeNameStyle.Name) && a.HasProperty("Versions"))
                 .SelectMany((dynamic a) => ((IEnumerable)a.Versions).OfType<object>().Select(v => v.ToString()))
                 .ToArray();
 

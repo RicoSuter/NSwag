@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Namotion.Reflection;
 using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors.Contexts;
 
@@ -34,7 +35,7 @@ namespace NSwag.SwaggerGeneration.Processors
             foreach (var extensionDataAttribute in
                     from extensionDataAttribute
                     in context.MethodInfo.GetCustomAttributes()
-                        .Where(a => a.GetType().IsAssignableTo("SwaggerExtensionDataAttribute", TypeNameStyle.Name))
+                        .Where(a => a.GetType().IsAssignableToTypeName("SwaggerExtensionDataAttribute", TypeNameStyle.Name))
                     select (dynamic)extensionDataAttribute)
             {
                 string key = extensionDataAttribute.Key;
@@ -53,7 +54,7 @@ namespace NSwag.SwaggerGeneration.Processors
                 foreach (var extensionDataAttribute in
                     from extensionDataAttribute
                     in parameter.Key.GetCustomAttributes(true)
-                        .Where(a => a.GetType().IsAssignableTo("SwaggerExtensionDataAttribute", TypeNameStyle.Name))
+                        .Where(a => a.GetType().IsAssignableToTypeName("SwaggerExtensionDataAttribute", TypeNameStyle.Name))
                     select (dynamic)extensionDataAttribute)
                 {
                     string key = extensionDataAttribute.Key;

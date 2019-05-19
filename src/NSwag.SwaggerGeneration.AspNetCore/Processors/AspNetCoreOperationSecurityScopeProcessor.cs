@@ -13,6 +13,7 @@ using NSwag.SwaggerGeneration.Processors.Contexts;
 using Microsoft.AspNetCore.Authorization;
 using NSwag.SwaggerGeneration.AspNetCore;
 using NJsonSchema.Infrastructure;
+using Namotion.Reflection;
 
 namespace NSwag.SwaggerGeneration.Processors.Security
 {
