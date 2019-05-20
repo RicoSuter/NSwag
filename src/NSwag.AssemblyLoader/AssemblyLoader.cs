@@ -197,7 +197,15 @@ namespace NSwag.AssemblyLoader
         private string[] GetAllDirectories(string rootDirectory)
         {
             rootDirectory = Environment.ExpandEnvironmentVariables(rootDirectory);
-            return Directory.GetDirectories(rootDirectory, "*", SearchOption.AllDirectories);
+
+            try
+            {
+                return Directory.GetDirectories(rootDirectory, "*", SearchOption.AllDirectories);
+            }
+            catch // https://github.com/RicoSuter/NSwag/issues/2177
+            {
+                return Array.Empty<string>();
+            }
         }
     }
 }
