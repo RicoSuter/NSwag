@@ -72,7 +72,7 @@ namespace NSwagStudio.ViewModels
 
         public string NSwagVersion => SwaggerDocument.ToolchainVersion;
 
-        public string NJsonSchemaVersion => JsonSchema4.ToolchainVersion;
+        public string NJsonSchemaVersion => JsonSchema.ToolchainVersion;
 
         protected override async void OnLoaded()
         {
