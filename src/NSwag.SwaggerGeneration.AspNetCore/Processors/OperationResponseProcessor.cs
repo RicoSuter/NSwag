@@ -77,7 +77,6 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                             contextualReturnType, _settings.DefaultResponseReferenceTypeNullHandling, _settings);
 
                         response.IsNullableRaw = typeDescription.IsNullable;
-
                         response.Schema = await context.SchemaGenerator
                             .GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(contextualReturnType, typeDescription.IsNullable, context.SchemaResolver)
                             .ConfigureAwait(false);
