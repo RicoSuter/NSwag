@@ -78,7 +78,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 
                         response.IsNullableRaw = typeDescription.IsNullable;
                         response.Schema = await context.SchemaGenerator
-                            .GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(contextualReturnType, typeDescription.IsNullable, context.SchemaResolver)
+                            .GenerateWithReferenceAndNullabilityAsync<JsonSchema>(contextualReturnType, typeDescription.IsNullable, context.SchemaResolver)
                             .ConfigureAwait(false);
                     }
 
@@ -91,7 +91,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                 context.OperationDescription.Operation.Responses[GetVoidResponseStatusCode()] = new SwaggerResponse
                 {
                     IsNullableRaw = true,
-                    Schema = new JsonSchema4
+                    Schema = new JsonSchema
                     {
                         Type = _settings.SchemaType == SchemaType.Swagger2 ? JsonObjectType.File : JsonObjectType.String,
                         Format = _settings.SchemaType == SchemaType.Swagger2 ? null : JsonFormatStrings.Binary,

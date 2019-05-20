@@ -34,7 +34,7 @@ namespace NSwag.Commands
         public int Process(string[] args)
         {
             _host.WriteMessage("toolchain v" + SwaggerDocument.ToolchainVersion +
-                " (NJsonSchema v" + JsonSchema4.ToolchainVersion + ")\n");
+                " (NJsonSchema v" + JsonSchema.ToolchainVersion + ")\n");
             _host.WriteMessage("Visit http://NSwag.org for more information.\n");
 
             WriteBinDirectory();

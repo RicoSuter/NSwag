@@ -23,6 +23,7 @@ using NJsonSchema;
 using Microsoft.AspNetCore.Hosting;
 using NSwag.SwaggerGeneration;
 using NSwag.SwaggerGeneration.Processors;
+using NJsonSchema.Generation;
 
 #if NETCOREAPP || NETSTANDARD
 using System.Runtime.Loader;

@@ -18,12 +18,12 @@ namespace NSwag.CodeGeneration
         /// <summary>Checks whether the schema uses an object schema somewhere (i.e. does it require a DTO class).</summary>
         /// <param name="schema">The schema.</param>
         /// <returns>true or false</returns>
-        public static bool UsesComplexObjectSchema(this JsonSchema4 schema)
+        public static bool UsesComplexObjectSchema(this JsonSchema schema)
         {
-            return UsesComplexObjectSchema(schema, new List<JsonSchema4>());
+            return UsesComplexObjectSchema(schema, new List<JsonSchema>());
         }
 
-        private static bool UsesComplexObjectSchema(this JsonSchema4 schema, List<JsonSchema4> checkedSchemas)
+        private static bool UsesComplexObjectSchema(this JsonSchema schema, List<JsonSchema> checkedSchemas)
         {
             schema = schema.ActualTypeSchema;
 

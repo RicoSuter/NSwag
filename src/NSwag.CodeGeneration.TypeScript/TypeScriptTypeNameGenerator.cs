@@ -17,7 +17,7 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <param name="schema">The schema.</param>
         /// <param name="typeNameHint">The type name hint.</param>
         /// <returns>The type name.</returns>
-        protected override string Generate(JsonSchema4 schema, string typeNameHint)
+        protected override string Generate(JsonSchema schema, string typeNameHint)
         {
             if (typeNameHint == "Error")
                 typeNameHint = "ErrorDto";

@@ -34,7 +34,7 @@ namespace NSwag.SwaggerGeneration
         /// <param name="schema">The properties</param>
         /// <param name="schemaResolver">The schema resolver.</param>
         /// <returns></returns>
-        protected override async Task GenerateObjectAsync(Type type, JsonTypeDescription typeDescription, JsonSchema4 schema, JsonSchemaResolver schemaResolver)
+        protected override async Task GenerateObjectAsync(Type type, JsonTypeDescription typeDescription, JsonSchema schema, JsonSchemaResolver schemaResolver)
         {
             if (_isRootType)
             {
@@ -64,7 +64,7 @@ namespace NSwag.SwaggerGeneration
         /// <returns>The requested schema object.</returns>
         public override async Task<TSchemaType> GenerateWithReferenceAndNullabilityAsync<TSchemaType>(
             ContextualType contextualType, bool isNullable,
-            JsonSchemaResolver schemaResolver, Func<TSchemaType, JsonSchema4, Task> transformation = null)
+            JsonSchemaResolver schemaResolver, Func<TSchemaType, JsonSchema, Task> transformation = null)
         {
             if (contextualType.TypeName == "Task`1")
             {

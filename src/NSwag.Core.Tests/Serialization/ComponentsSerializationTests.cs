@@ -98,19 +98,19 @@ namespace NSwag.Core.Tests.Serialization
 
         private static SwaggerDocument CreateDocument()
         {
-            var schema = new JsonSchema4
+            var schema = new JsonSchema
             {
                 Type = JsonObjectType.String
             };
 
             var document = new SwaggerDocument();
             document.Definitions["Foo"] = schema;
-            document.Definitions["Bar"] = new JsonSchema4
+            document.Definitions["Bar"] = new JsonSchema
             {
                 Type = JsonObjectType.Object,
                 Properties =
                 {
-                    { "Foo", new JsonProperty { Reference = schema } }
+                    { "Foo", new JsonSchemaProperty { Reference = schema } }
                 }
             };
 

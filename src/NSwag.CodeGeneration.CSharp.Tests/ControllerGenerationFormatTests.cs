@@ -255,21 +255,21 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
         private async Task<SwaggerDocument> GetSwaggerDocument()
         {
-            JsonSchema4 complexTypeSchema = new JsonSchema4();
+            JsonSchema complexTypeSchema = new JsonSchema();
             complexTypeSchema.Title = "ComplexType";
-            complexTypeSchema.Properties["Prop1"] = new JsonProperty { Type = JsonObjectType.String, IsRequired = true };
-            complexTypeSchema.Properties["Prop2"] = new JsonProperty { Type = JsonObjectType.Integer, IsRequired = true };
-            complexTypeSchema.Properties["Prop3"] = new JsonProperty { Type = JsonObjectType.Boolean, IsRequired = true };
-            complexTypeSchema.Properties["Prop4"] = new JsonProperty { Type = JsonObjectType.Object, Reference = complexTypeSchema, IsRequired = true };
+            complexTypeSchema.Properties["Prop1"] = new JsonSchemaProperty { Type = JsonObjectType.String, IsRequired = true };
+            complexTypeSchema.Properties["Prop2"] = new JsonSchemaProperty { Type = JsonObjectType.Integer, IsRequired = true };
+            complexTypeSchema.Properties["Prop3"] = new JsonSchemaProperty { Type = JsonObjectType.Boolean, IsRequired = true };
+            complexTypeSchema.Properties["Prop4"] = new JsonSchemaProperty { Type = JsonObjectType.Object, Reference = complexTypeSchema, IsRequired = true };
 
-            JsonSchema4 complexTypeReponseSchema = new JsonSchema4();
+            JsonSchema complexTypeReponseSchema = new JsonSchema();
             complexTypeReponseSchema.Title = "ComplexTypeResponse";
-            complexTypeReponseSchema.Properties["Prop1"] = new JsonProperty { Type = JsonObjectType.String, IsRequired = true };
-            complexTypeReponseSchema.Properties["Prop2"] = new JsonProperty { Type = JsonObjectType.Integer, IsRequired = true };
-            complexTypeReponseSchema.Properties["Prop3"] = new JsonProperty { Type = JsonObjectType.Boolean, IsRequired = true };
-            complexTypeReponseSchema.Properties["Prop4"] = new JsonProperty { Type = JsonObjectType.Object, Reference = complexTypeSchema, IsRequired = true };
+            complexTypeReponseSchema.Properties["Prop1"] = new JsonSchemaProperty { Type = JsonObjectType.String, IsRequired = true };
+            complexTypeReponseSchema.Properties["Prop2"] = new JsonSchemaProperty { Type = JsonObjectType.Integer, IsRequired = true };
+            complexTypeReponseSchema.Properties["Prop3"] = new JsonSchemaProperty { Type = JsonObjectType.Boolean, IsRequired = true };
+            complexTypeReponseSchema.Properties["Prop4"] = new JsonSchemaProperty { Type = JsonObjectType.Object, Reference = complexTypeSchema, IsRequired = true };
 
-            var typeString = await JsonSchema4.FromTypeAsync(typeof(string));
+            var typeString = await JsonSchema.FromTypeAsync(typeof(string));
 
             var document = new SwaggerDocument();
             document.Paths["Foo"] = new SwaggerPathItem

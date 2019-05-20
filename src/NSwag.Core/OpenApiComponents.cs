@@ -21,7 +21,7 @@ namespace NSwag
         /// <param name="document"></param>
         public OpenApiComponents(SwaggerDocument document)
         {
-            var schemas = new ObservableDictionary<string, JsonSchema4>();
+            var schemas = new ObservableDictionary<string, JsonSchema>();
             schemas.CollectionChanged += (sender, args) =>
             {
                 foreach (var pair in schemas.ToArray())
@@ -56,7 +56,7 @@ namespace NSwag
 
             Examples = new Dictionary<string, OpenApiExample>();
 
-            var headers = new ObservableDictionary<string, JsonSchema4>();
+            var headers = new ObservableDictionary<string, JsonSchema>();
             headers.CollectionChanged += (sender, args) =>
             {
                 foreach (var pair in headers.ToArray())
@@ -80,7 +80,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the types.</summary>
         [JsonProperty(PropertyName = "schemas", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IDictionary<string, JsonSchema4> Schemas { get; }
+        public IDictionary<string, JsonSchema> Schemas { get; }
 
         /// <summary>Gets or sets the responses which can be used for all operations.</summary>
         [JsonProperty(PropertyName = "responses", DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -96,7 +96,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the types.</summary>
         [JsonProperty(PropertyName = "headers", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IDictionary<string, JsonSchema4> Headers { get; }
+        public IDictionary<string, JsonSchema> Headers { get; }
 
         /// <summary>Gets or sets the security definitions.</summary>
         [JsonProperty(PropertyName = "securitySchemes", DefaultValueHandling = DefaultValueHandling.Ignore)]

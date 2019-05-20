@@ -56,7 +56,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the response schema (Swagger only).</summary>
         [JsonProperty(PropertyName = "schema", Order = 2, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public JsonSchema4 Schema
+        public JsonSchema Schema
         {
             get => Content.FirstOrDefault(c => c.Value.Schema != null).Value?.Schema;
             set => UpdateContent(value, Examples);
@@ -70,7 +70,7 @@ namespace NSwag
             set => UpdateContent(Schema, value);
         }
 
-        private void UpdateContent(JsonSchema4 schema, object example)
+        private void UpdateContent(JsonSchema schema, object example)
         {
             Content.Clear();
 

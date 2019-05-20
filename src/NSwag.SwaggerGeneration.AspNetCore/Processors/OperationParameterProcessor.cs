@@ -306,7 +306,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                 {
                     Name = extendedApiParameter.ApiParameter.Name,
                     Kind = SwaggerParameterKind.Body,
-                    Schema = new JsonSchema4
+                    Schema = new JsonSchema
                     {
                         Type = JsonObjectType.String,
                         IsNullableRaw = isNullable
@@ -323,7 +323,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                 {
                     Name = extendedApiParameter.ApiParameter.Name,
                     Kind = SwaggerParameterKind.Body,
-                    Schema = new JsonSchema4
+                    Schema = new JsonSchema
                     {
                         Type = JsonObjectType.String,
                         Format = JsonFormatStrings.Byte,
@@ -343,7 +343,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                     IsRequired = extendedApiParameter.IsRequired(_settings.RequireParametersWithoutDefault),
                     IsNullableRaw = isNullable,
                     Description = await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false),
-                    Schema = await context.SchemaGenerator.GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(
+                    Schema = await context.SchemaGenerator.GenerateWithReferenceAndNullabilityAsync<JsonSchema>(
                         contextualParameterType, isNullable, schemaResolver: context.SchemaResolver).ConfigureAwait(false)
                 };
             }

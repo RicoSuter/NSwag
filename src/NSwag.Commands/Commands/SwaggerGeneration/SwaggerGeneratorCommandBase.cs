@@ -21,6 +21,7 @@ using NConsole;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NJsonSchema;
+using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
 using NSwag.AssemblyLoader.Utilities;
 using NSwag.SwaggerGeneration;

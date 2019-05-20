@@ -298,7 +298,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                 {
                     Name = name,
                     Kind = SwaggerParameterKind.Body,
-                    Schema = new JsonSchema4
+                    Schema = new JsonSchema
                     {
                         Type = JsonObjectType.String,
                         IsNullableRaw = isNullable
@@ -316,7 +316,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                 {
                     Name = name,
                     Kind = SwaggerParameterKind.Body,
-                    Schema = new JsonSchema4
+                    Schema = new JsonSchema
                     {
                         Type = JsonObjectType.String,
                         Format = JsonFormatStrings.Byte,
@@ -337,7 +337,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                     IsRequired = true, // FromBody parameters are always required
                     IsNullableRaw = isNullable,
                     Description = await contextualParameter.GetDescriptionAsync().ConfigureAwait(false),
-                    Schema = await context.SchemaGenerator.GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(
+                    Schema = await context.SchemaGenerator.GenerateWithReferenceAndNullabilityAsync<JsonSchema>(
                         contextualParameter, isNullable, schemaResolver: context.SchemaResolver).ConfigureAwait(false)
                 };
                 operation.Parameters.Add(operationParameter);

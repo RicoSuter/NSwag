@@ -97,7 +97,7 @@ namespace NSwag.SwaggerGeneration
                 if (_settings.SchemaType == SchemaType.Swagger2)
                 {
                     operationParameter.Type = typeDescription.Type;
-                    operationParameter.CustomSchema = new JsonSchema4 { Reference = schema.ActualSchema };
+                    operationParameter.CustomSchema = new JsonSchema { Reference = schema.ActualSchema };
 
                     // Copy enumeration for compatibility with other tools which do not understand x-schema.
                     // The enumeration will be ignored by NSwag and only the x-schema is processed
@@ -112,12 +112,12 @@ namespace NSwag.SwaggerGeneration
                 {
                     if (typeDescription.IsNullable)
                     {
-                        operationParameter.Schema = new JsonSchema4 { IsNullableRaw = true };
-                        operationParameter.Schema.OneOf.Add(new JsonSchema4 { Reference = schema.ActualSchema });
+                        operationParameter.Schema = new JsonSchema { IsNullableRaw = true };
+                        operationParameter.Schema.OneOf.Add(new JsonSchema { Reference = schema.ActualSchema });
                     }
                     else
                     {
-                        operationParameter.Schema = new JsonSchema4 { Reference = schema.ActualSchema };
+                        operationParameter.Schema = new JsonSchema { Reference = schema.ActualSchema };
                     }
                 }
             }
@@ -134,7 +134,7 @@ namespace NSwag.SwaggerGeneration
                     operationParameter = new SwaggerParameter
                     {
                         Schema = await _schemaGenerator
-                            .GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(
+                            .GenerateWithReferenceAndNullabilityAsync<JsonSchema>(
                                 contextualParameter, typeDescription.IsNullable, _schemaResolver)
                             .ConfigureAwait(false)
                     };

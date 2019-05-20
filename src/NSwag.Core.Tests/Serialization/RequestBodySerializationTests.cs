@@ -93,7 +93,7 @@ namespace NSwag.Core.Tests.Serialization
             var parameter = document.Paths["/baz"][SwaggerOperationMethod.Get].Parameters
                 .Single(p => p.Kind == SwaggerParameterKind.Body);
 
-            parameter.Schema = new JsonSchema4 { Title = "blub" };
+            parameter.Schema = new JsonSchema { Title = "blub" };
 
             //// Assert
             var requestBody = document.Paths["/baz"][SwaggerOperationMethod.Get].RequestBody;
@@ -178,7 +178,7 @@ namespace NSwag.Core.Tests.Serialization
             var requestBody = document.Paths["/baz"][SwaggerOperationMethod.Get].RequestBody;
             requestBody.Content["application/json"] = new OpenApiMediaType
             {
-                Schema = new JsonSchema4 { Title = "blub" }
+                Schema = new JsonSchema { Title = "blub" }
             };
 
             //// Assert
@@ -210,7 +210,7 @@ namespace NSwag.Core.Tests.Serialization
 
         private static SwaggerDocument CreateDocument()
         {
-            var schema = new JsonSchema4
+            var schema = new JsonSchema
             {
                 Type = JsonObjectType.String
             };
@@ -237,7 +237,7 @@ namespace NSwag.Core.Tests.Serialization
                                                 "application/json",
                                                 new OpenApiMediaType
                                                 {
-                                                    Schema = new JsonSchema4 { Reference = schema }
+                                                    Schema = new JsonSchema { Reference = schema }
                                                 }
                                             }
                                         }
