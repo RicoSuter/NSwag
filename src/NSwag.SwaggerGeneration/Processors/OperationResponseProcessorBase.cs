@@ -139,7 +139,8 @@ namespace NSwag.SwaggerGeneration.Processors
                 var httpStatusCode = statusCodeGroup.Key;
 
                 var returnType = statusCodeGroup.Select(r => r.ResponseType).GetCommonBaseType();
-                var contextualReturnType = returnType.ToContextualType(returnParameter?.GetCustomAttributes(false)?.OfType<Attribute>() ?? Enumerable.Empty<Attribute>());
+                var returnParameterAttributes = returnParameter?.GetCustomAttributes(false)?.OfType<Attribute>() ?? Enumerable.Empty<Attribute>();
+                var contextualReturnType = returnType.ToContextualType(returnParameterAttributes);
 
                 var description = string.Join("\nor\n", statusCodeGroup.Select(r => r.Description));
 
@@ -219,11 +220,17 @@ namespace NSwag.SwaggerGeneration.Processors
         private async Task LoadDefaultSuccessResponseAsync(ParameterInfo returnParameter, string successXmlDescription, OperationProcessorContext context)
         {
             var operation = context.OperationDescription.Operation;
+
             var returnType = returnParameter.ParameterType;
             if (returnType == typeof(Task))
+            {
                 returnType = typeof(void);
+            }
+
             while (returnType.Name == "Task`1" || returnType.Name == "ActionResult`1")
+            {
                 returnType = returnType.GenericTypeArguments[0];
+            }
 
             if (IsVoidResponse(returnType))
             {
@@ -234,7 +241,8 @@ namespace NSwag.SwaggerGeneration.Processors
             }
             else
             {
-                var contextualReturnParameter = returnType.ToContextualType(returnParameter?.GetCustomAttributes(false)?.OfType<Attribute>() ?? Enumerable.Empty<Attribute>());
+                var returnParameterAttributes = returnParameter?.GetCustomAttributes(false)?.OfType<Attribute>() ?? Enumerable.Empty<Attribute>();
+                var contextualReturnParameter = returnType.ToContextualType(returnParameterAttributes);
 
                 var typeDescription = _settings.ReflectionService.GetDescription(contextualReturnParameter, _settings);
                 var responseSchema = await context.SchemaGenerator.GenerateWithReferenceAndNullabilityAsync<JsonSchema>(

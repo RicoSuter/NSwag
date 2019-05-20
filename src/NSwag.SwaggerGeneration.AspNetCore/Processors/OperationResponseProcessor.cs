@@ -71,7 +71,8 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 
                     if (IsVoidResponse(returnType) == false)
                     {
-                        var contextualReturnType = returnType.ToContextualType(context.MethodInfo.ReturnParameter?.GetCustomAttributes(false).OfType<Attribute>() ?? Enumerable.Empty<Attribute>());
+                        var returnTypeAttributes = context.MethodInfo.ReturnParameter?.GetCustomAttributes(false).OfType<Attribute>() ?? Enumerable.Empty<Attribute>();
+                        var contextualReturnType = returnType.ToContextualType(returnTypeAttributes);
 
                         var typeDescription = _settings.ReflectionService.GetDescription(
                             contextualReturnType, _settings.DefaultResponseReferenceTypeNullHandling, _settings);
