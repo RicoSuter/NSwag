@@ -67,32 +67,29 @@ namespace NSwag.SwaggerGeneration
 
         /// <summary>Creates a primitive parameter for the given parameter information reflection object.</summary>
         /// <param name="name">The name.</param>
-        /// <param name="parameter">The parameter information.</param>
+        /// <param name="contextualParameter">The parameter.</param>
         /// <returns>The parameter.</returns>
-        public async Task<SwaggerParameter> CreatePrimitiveParameterAsync(string name, ParameterInfo parameter)
+        public async Task<SwaggerParameter> CreatePrimitiveParameterAsync(string name, ContextualParameterInfo contextualParameter)
         {
-            var documentation = await parameter.ToContextualParameter().GetDescriptionAsync().ConfigureAwait(false);
-            return await CreatePrimitiveParameterAsync(name, documentation, parameter.ParameterType, parameter.GetCustomAttributes(false).OfType<Attribute>())
-                .ConfigureAwait(false);
+            var documentation = await contextualParameter.GetDescriptionAsync().ConfigureAwait(false);
+            return await CreatePrimitiveParameterAsync(name, documentation, contextualParameter).ConfigureAwait(false);
         }
 
         /// <summary>Creates a primitive parameter for the given parameter information reflection object.</summary>
         /// <param name="name">The name.</param>
         /// <param name="description">The description.</param>
-        /// <param name="parameterType">Type of the parameter.</param>
-        /// <param name="parentAttributes">The parent attributes.</param>
+        /// <param name="contextualParameter">Type of the parameter.</param>
         /// <returns>The parameter.</returns>
         public async Task<SwaggerParameter> CreatePrimitiveParameterAsync(
-            string name, string description, Type parameterType, IEnumerable<Attribute> parentAttributes)
+            string name, string description, ContextualType contextualParameter)
         {
             SwaggerParameter operationParameter;
 
-            var contextualParameterType = parameterType.ToContextualType(parentAttributes);
-            var typeDescription = _settings.ReflectionService.GetDescription(contextualParameterType, _settings);
+            var typeDescription = _settings.ReflectionService.GetDescription(contextualParameter, _settings);
             if (typeDescription.RequiresSchemaReference(_settings.TypeMappers))
             {
                 var schema = await _schemaGenerator
-                    .GenerateAsync(contextualParameterType, _schemaResolver)
+                    .GenerateAsync(contextualParameter, _schemaResolver)
                     .ConfigureAwait(false);
 
                 operationParameter = new SwaggerParameter();
@@ -129,7 +126,7 @@ namespace NSwag.SwaggerGeneration
                 if (_settings.SchemaType == SchemaType.Swagger2)
                 {
                     operationParameter = await _schemaGenerator
-                        .GenerateAsync<SwaggerParameter>(contextualParameterType, _schemaResolver)
+                        .GenerateAsync<SwaggerParameter>(contextualParameter, _schemaResolver)
                         .ConfigureAwait(false);
                 }
                 else
@@ -138,23 +135,27 @@ namespace NSwag.SwaggerGeneration
                     {
                         Schema = await _schemaGenerator
                             .GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(
-                                contextualParameterType, typeDescription.IsNullable, _schemaResolver)
+                                contextualParameter, typeDescription.IsNullable, _schemaResolver)
                             .ConfigureAwait(false)
                     };
                 }
             }
 
             operationParameter.Name = name;
-            operationParameter.IsRequired = parentAttributes.TryGetAssignableToTypeName("RequiredAttribute", TypeNameStyle.Name) != null;
+            operationParameter.IsRequired = contextualParameter.ContextAttributes.TryGetAssignableToTypeName("RequiredAttribute", TypeNameStyle.Name) != null;
 
             if (typeDescription.Type.HasFlag(JsonObjectType.Array))
+            {
                 operationParameter.CollectionFormat = SwaggerParameterCollectionFormat.Multi;
+            }
 
             operationParameter.IsNullableRaw = typeDescription.IsNullable;
-            _schemaGenerator.ApplyDataAnnotations(operationParameter, typeDescription, parentAttributes);
+            _schemaGenerator.ApplyDataAnnotations(operationParameter, typeDescription, contextualParameter.ContextAttributes);
 
             if (description != string.Empty)
+            {
                 operationParameter.Description = description;
+            }
 
             return operationParameter;
         }

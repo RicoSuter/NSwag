@@ -356,11 +356,11 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
             OperationProcessorContext context,
             ExtendedApiParameterDescription extendedApiParameter)
         {
+            var contextualParameter = extendedApiParameter.ParameterType.ToContextualType(extendedApiParameter.Attributes);
+
+            var description = await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false);
             var operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(
-                extendedApiParameter.ApiParameter.Name,
-                await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false),
-                extendedApiParameter.ParameterType,
-                extendedApiParameter.Attributes).ConfigureAwait(false);
+                extendedApiParameter.ApiParameter.Name, description, contextualParameter).ConfigureAwait(false);
 
             if (extendedApiParameter.ParameterInfo?.HasDefaultValue == true)
             {
