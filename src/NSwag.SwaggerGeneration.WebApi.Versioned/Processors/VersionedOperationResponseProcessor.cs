@@ -148,14 +148,26 @@ namespace NSwag.SwaggerGeneration.WebApi.Versioned.Processors
         {
             var originalType = context.ApiDescription.ResponseDescription.DeclaredType;
 
-            schema.ActualTypeSchema.Description = await originalType.GetXmlSummaryAsync();
+            if (schema.IsArray)
+            {
+                schema = schema.Item;
+
+                if (originalType.IsGenericType)
+                {
+                    originalType = originalType.GenericTypeArguments[0];
+                }
+            }
+
+            if(string.IsNullOrEmpty(schema.ActualTypeSchema.Description)) {
+                schema.ActualTypeSchema.Description = await originalType.GetXmlSummaryAsync();
+            }
 
             foreach (var property in originalType.GetProperties())
             {
                 var description = await property.GetXmlSummaryAsync();
                 if (schema.ActualTypeSchema.Properties.ContainsKey(property.Name))
                 {
-                    schema.ActualTypeSchema.Properties[property.Name].Description = await property.GetXmlSummaryAsync();
+                    schema.ActualTypeSchema.Properties[property.Name].Description = description;
                 }
             }
         }

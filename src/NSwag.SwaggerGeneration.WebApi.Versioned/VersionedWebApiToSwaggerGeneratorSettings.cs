@@ -13,5 +13,10 @@ namespace NSwag.SwaggerGeneration.WebApi.Versioned
         }
 
         public List<ApiVersion> ApiVersions { get; } = new List<ApiVersion>();
+
+        /// <summary>
+        /// This property is needed to resolve duplicate operations when using Web Api controllers
+        /// </summary>
+        public string ODataPath { get; set; } = "/odata";
     }
 }

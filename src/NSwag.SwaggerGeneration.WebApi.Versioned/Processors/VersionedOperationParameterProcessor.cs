@@ -104,7 +104,6 @@ namespace NSwag.SwaggerGeneration.WebApi.Versioned.Processors
                     Schema = new JsonSchema4 { Type = JsonObjectType.String },
                     IsNullableRaw = true,
                     IsRequired = true,
-                    Description = parameter.Documentation
                 });
             }
             else
@@ -119,7 +118,6 @@ namespace NSwag.SwaggerGeneration.WebApi.Versioned.Processors
                     Kind = SwaggerParameterKind.Body,
                     IsRequired = true, // FromBody parameters are always required.
                     IsNullableRaw = typeDescription.IsNullable,
-                    Description = parameter.Documentation,
                     Schema = await context.SchemaGenerator.GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(
                         parameter.ParameterDescriptor.ParameterType,
                         parameter.ParameterDescriptor.GetCustomAttributes<Attribute>(), isNullable: false,
@@ -127,6 +125,13 @@ namespace NSwag.SwaggerGeneration.WebApi.Versioned.Processors
                 };
 
                 operationParameter.Schema.Default = parameter.ParameterDescriptor.DefaultValue;
+                var parameterName = parameter?.Name ?? string.Empty;
+                var parameterInfo = context.MethodInfo.GetParameters().FirstOrDefault(m => m.Name.ToLowerInvariant() == parameterName.ToLowerInvariant());
+                if (parameterInfo != null)
+                {
+                    operationParameter.Description = await parameterInfo
+                        .GetDescriptionAsync(parameterInfo.GetCustomAttributes()).ConfigureAwait(false);
+                }
 
                 operation.Parameters.Add(operationParameter);
             }
@@ -193,6 +198,14 @@ namespace NSwag.SwaggerGeneration.WebApi.Versioned.Processors
                 parameter.Documentation,
                 parameter.ParameterDescriptor.ParameterType,
                 parameter.ParameterDescriptor.GetCustomAttributes<Attribute>());
+
+            var parameterName = parameter?.Name ?? string.Empty;
+            var parameterInfo = context.MethodInfo.GetParameters().FirstOrDefault(m => m.Name.ToLowerInvariant() == parameterName.ToLowerInvariant());
+            if (parameterInfo != null)
+            {
+                operationParameter.Description = await parameterInfo
+                    .GetDescriptionAsync(parameterInfo.GetCustomAttributes()).ConfigureAwait(false);
+            }
 
             operationParameter.IsRequired = !parameter.ParameterDescriptor.IsOptional;
             return operationParameter;
