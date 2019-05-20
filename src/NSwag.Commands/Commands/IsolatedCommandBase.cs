@@ -13,6 +13,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using Namotion.Reflection;
 using NConsole;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -110,6 +111,7 @@ namespace NSwag.Commands
         public IEnumerable<Assembly> GetAssemblies(string assemblyDirectory)
         {
             yield return typeof(JToken).GetTypeInfo().Assembly;
+            yield return typeof(ContextualType).GetTypeInfo().Assembly;
             yield return typeof(JsonSchema).GetTypeInfo().Assembly;
             yield return typeof(SwaggerDocument).GetTypeInfo().Assembly;
             yield return typeof(InputOutputCommandBase).GetTypeInfo().Assembly;
@@ -124,6 +126,7 @@ namespace NSwag.Commands
         {
 #if NET461
             yield return new BindingRedirect("Newtonsoft.Json", typeof(JToken), "30ad4fe6b2a6aeed");
+            yield return new BindingRedirect("Namotion.Reflection", typeof(JsonSchema), "c2f9c3bdfae56102");
             yield return new BindingRedirect("NJsonSchema", typeof(JsonSchema), "c2f9c3bdfae56102");
             yield return new BindingRedirect("NSwag.Core", typeof(SwaggerDocument), "c2d88086e098d109");
             yield return new BindingRedirect("NSwag.SwaggerGeneration", typeof(SwaggerJsonSchemaGenerator), "c2d88086e098d109");

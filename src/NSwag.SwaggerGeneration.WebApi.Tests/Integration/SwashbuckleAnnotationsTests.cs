@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NJsonSchema;
+using NJsonSchema.Generation;
 using NJsonSchema.Generation.TypeMappers;
 
 namespace NSwag.SwaggerGeneration.WebApi.Tests.Integration
@@ -53,7 +54,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Integration
             {
                 TypeMappers =
                 {
-                    new ObjectTypeMapper(typeof(JsonDate), new JsonSchema4
+                    new ObjectTypeMapper(typeof(JsonDate), new JsonSchema
                     {
                         Type = JsonObjectType.String,
                         Format = "date"
