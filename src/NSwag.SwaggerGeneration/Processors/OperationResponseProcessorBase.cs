@@ -139,7 +139,7 @@ namespace NSwag.SwaggerGeneration.Processors
                 var httpStatusCode = statusCodeGroup.Key;
 
                 var returnType = statusCodeGroup.Select(r => r.ResponseType).GetCommonBaseType();
-                var contextualReturnType = returnType.ToContextualType(returnParameter.GetCustomAttributes(false).OfType<Attribute>());
+                var contextualReturnType = returnType.ToContextualType(returnParameter?.GetCustomAttributes(false)?.OfType<Attribute>() ?? Enumerable.Empty<Attribute>());
 
                 var description = string.Join("\nor\n", statusCodeGroup.Select(r => r.Description));
 
@@ -234,7 +234,7 @@ namespace NSwag.SwaggerGeneration.Processors
             }
             else
             {
-                var contextualReturnParameter = returnType.ToContextualType(returnParameter.GetCustomAttributes(false).OfType<Attribute>());
+                var contextualReturnParameter = returnType.ToContextualType(returnParameter?.GetCustomAttributes(false)?.OfType<Attribute>() ?? Enumerable.Empty<Attribute>());
 
                 var typeDescription = _settings.ReflectionService.GetDescription(contextualReturnParameter, _settings);
                 var responseSchema = await context.SchemaGenerator.GenerateWithReferenceAndNullabilityAsync<JsonSchema>(

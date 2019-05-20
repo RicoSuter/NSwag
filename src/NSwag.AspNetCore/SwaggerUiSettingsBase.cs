@@ -23,8 +23,12 @@ namespace NSwag.AspNetCore
 #endif
 {
     /// <summary>The base settings for all Swagger UIs.</summary>
+#if AspNetOwin
     public abstract class SwaggerUiSettingsBase<T> : SwaggerSettings<T>
         where T : SwaggerGeneratorSettings, new()
+#else
+    public abstract class SwaggerUiSettingsBase : SwaggerSettings
+#endif
     {
         /// <summary>Initializes a new instance of the <see cref="SwaggerUiSettingsBase{T}"/> class.</summary>
         public SwaggerUiSettingsBase()

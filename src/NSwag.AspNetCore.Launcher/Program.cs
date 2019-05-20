@@ -48,6 +48,7 @@ namespace NSwag.AspNetCore.Launcher
             ["Newtonsoft.Json"] = new AssemblyLoadInfo(new Version(9, 0, 0)),
             ["NConsole"] = new AssemblyLoadInfo(new Version(3, 9, 0, 0)),
             ["NJsonSchema"] = new AssemblyLoadInfo(new Version(9, 7, 7)),
+            ["Namotion.Reflection"] = new AssemblyLoadInfo(new Version(1, 0, 0)),
             ["NSwag.AssemblyLoader"] = new AssemblyLoadInfo(NSwagVersion),
             ["NSwag.Commands"] = new AssemblyLoadInfo(NSwagVersion),
             ["NSwag.Core"] = new AssemblyLoadInfo(NSwagVersion),

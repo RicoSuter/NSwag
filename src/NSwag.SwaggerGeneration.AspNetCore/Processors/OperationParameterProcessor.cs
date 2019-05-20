@@ -390,7 +390,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 
             public Type ParameterType { get; set; }
 
-            public IEnumerable<Attribute> Attributes { get; set; }
+            public IEnumerable<Attribute> Attributes { get; set; } = Enumerable.Empty<Attribute>();
 
             public bool IsRequired(bool requireParametersWithoutDefault)
             {

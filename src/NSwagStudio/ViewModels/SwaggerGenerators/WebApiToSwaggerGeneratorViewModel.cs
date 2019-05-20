@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Microsoft.Win32;
 using MyToolkit.Command;
 using NJsonSchema;
+using NJsonSchema.Generation;
 using NSwag;
 using NSwag.Commands;
 using NSwag.Commands.SwaggerGeneration.WebApi;

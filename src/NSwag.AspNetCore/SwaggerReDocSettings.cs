@@ -19,8 +19,12 @@ namespace NSwag.AspNetCore
 #endif
 {
     /// <summary>The settings for UseReDoc.</summary>
+#if AspNetOwin
     public class SwaggerReDocSettings<T> : SwaggerUiSettingsBase<T>
         where T : SwaggerGeneratorSettings, new()
+#else
+    public class SwaggerReDocSettings : SwaggerUiSettingsBase
+#endif
     {
         /// <summary>Gets the additional ReDoc settings.</summary>
         public IDictionary<string, object> AdditionalSettings { get; } = new Dictionary<string, object>();
