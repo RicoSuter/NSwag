@@ -137,7 +137,7 @@ namespace NSwag.SwaggerGeneration.Processors
                 var httpStatusCode = statusCodeGroup.Key;
 
                 var returnType = statusCodeGroup.Select(r => r.ResponseType).GetCommonBaseType();
-                var returnParameterAttributes = returnParameter?.GetCustomAttributes(false).OfType<Attribute>();
+                var returnParameterAttributes = returnParameter?.GetCustomAttributes(false)?.OfType<Attribute>();
                 var contextualReturnType = returnType.ToContextualType(returnParameterAttributes);
 
                 var description = string.Join("\nor\n", statusCodeGroup.Select(r => r.Description));

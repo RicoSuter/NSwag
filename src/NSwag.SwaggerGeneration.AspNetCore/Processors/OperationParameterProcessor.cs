@@ -377,7 +377,9 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
             operationParameter.Kind = SwaggerParameterKind.FormData;
 
             if (isFileArray)
+            {
                 operationParameter.CollectionFormat = SwaggerParameterCollectionFormat.Multi;
+            }
         }
 
         private class ExtendedApiParameterDescription
