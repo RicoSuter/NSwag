@@ -46,15 +46,10 @@ namespace NSwag.Commands
 
             var documentJson = await RunIsolatedAsync((string)null);
             var document = await JsonSchema4.FromJsonAsync(documentJson, null, ReferenceResolverFactory).ConfigureAwait(false);
-            await TryWriteDocumentOutputAsyncX(this, host, () => document).ConfigureAwait(false);
+            await OutputCommandExtensions.TryWriteFileOutputAsync(this, this.OutputFilePath, host, () => document.ToJson()).ConfigureAwait(false);
             return document;
         }
 
-
-        public static Task<bool> TryWriteDocumentOutputAsyncX(IOutputCommand command, IConsoleHost host, Func<JsonSchema4> generator)
-        {
-            return OutputCommandExtensions.TryWriteFileOutputAsync(command, command.OutputFilePath, host, () => generator().ToJson());
-        }
         protected async Task<Assembly[]> LoadAssembliesAsync(IEnumerable<string> assemblyPaths, AssemblyLoader.AssemblyLoader assemblyLoader)
         {
 #if FullNet
