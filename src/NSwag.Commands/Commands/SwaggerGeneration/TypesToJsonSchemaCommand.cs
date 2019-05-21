@@ -1,4 +1,5 @@
-﻿//-----------------------------------------------------------------------
+﻿using System.IO;
+//-----------------------------------------------------------------------
 // <copyright file="TypesToSwaggerCommand.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
@@ -117,7 +118,12 @@ namespace NSwag.Commands.SwaggerGeneration
                 var type = assemblies.Select(a => a.GetType(className)).FirstOrDefault(t => t != null);
                 await generator.GenerateAsync(type, schemaResolver).ConfigureAwait(false);
             }
-
+            
+            document.AllOf.Add(new JsonSchema4
+                                {
+                                    Reference = document.Definitions.First().Value
+                                });
+            
             return document.ToJson();
         }
     }

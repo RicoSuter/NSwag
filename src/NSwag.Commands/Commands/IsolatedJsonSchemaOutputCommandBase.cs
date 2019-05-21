@@ -32,13 +32,6 @@ namespace NSwag.Commands
         [JsonProperty("output", NullValueHandling = NullValueHandling.Include)]
         public string OutputFilePath { get; set; }
 
-        [Argument(Name = "OutputType", IsRequired = false, Description = "Specifies the output schema type, ignored when UseDocumentProvider is enabled (Swagger2|OpenApi3, default: Swagger2).")]
-        public SchemaType OutputType
-        {
-            get { return Settings.SchemaType; }
-            set { Settings.SchemaType = value; }
-        }
-
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             JsonReferenceResolver ReferenceResolverFactory(JsonSchema4 d) =>
