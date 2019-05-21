@@ -57,13 +57,11 @@ namespace NSwag.SwaggerGeneration.Processors
         /// <returns>The task.</returns>
         protected async Task UpdateResponseDescriptionAsync(OperationProcessorContext operationProcessorContext)
         {
-            var returnParameter = operationProcessorContext.MethodInfo.ReturnParameter;
+            var returnParameter = operationProcessorContext.MethodInfo.ReturnParameter.ToContextualParameter();
+
             var operationXmlDocs = await operationProcessorContext.MethodInfo.GetXmlDocumentationAsync();
             var operationXmlDocsNodes = operationXmlDocs?.Nodes()?.OfType<XElement>();
-            var returnParameterXmlDocs = await returnParameter
-                .ToContextualParameter(returnParameter?.GetCustomAttributes(false).Cast<Attribute>())
-                .GetDescriptionAsync()
-                .ConfigureAwait(false) ?? string.Empty;
+            var returnParameterXmlDocs = await returnParameter.GetDescriptionAsync().ConfigureAwait(false) ?? string.Empty;
 
             if (!string.IsNullOrEmpty(returnParameterXmlDocs) || operationXmlDocsNodes?.Any() == true)
             {
@@ -139,7 +137,7 @@ namespace NSwag.SwaggerGeneration.Processors
                 var httpStatusCode = statusCodeGroup.Key;
 
                 var returnType = statusCodeGroup.Select(r => r.ResponseType).GetCommonBaseType();
-                var returnParameterAttributes = returnParameter?.GetCustomAttributes(false)?.OfType<Attribute>() ?? Enumerable.Empty<Attribute>();
+                var returnParameterAttributes = returnParameter?.GetCustomAttributes(false).OfType<Attribute>();
                 var contextualReturnType = returnType.ToContextualType(returnParameterAttributes);
 
                 var description = string.Join("\nor\n", statusCodeGroup.Select(r => r.Description));
