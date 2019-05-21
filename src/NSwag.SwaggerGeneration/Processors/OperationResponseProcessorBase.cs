@@ -61,7 +61,7 @@ namespace NSwag.SwaggerGeneration.Processors
             var operationXmlDocs = await operationProcessorContext.MethodInfo.GetXmlDocumentationAsync();
             var operationXmlDocsNodes = operationXmlDocs?.Nodes()?.OfType<XElement>();
             var returnParameterXmlDocs = await returnParameter
-                .ToContextualParameter()
+                .ToContextualParameter(returnParameter?.GetCustomAttributes(false).Cast<Attribute>())
                 .GetDescriptionAsync()
                 .ConfigureAwait(false) ?? string.Empty;
 
