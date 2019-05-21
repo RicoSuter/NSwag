@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project>
+  <PropertyGroup>
+    <_NSwagCommand>$(NSwagExe)</_NSwagCommand>
+    <_NSwagCommand Condition="'$(MSBuildRuntimeType)' == 'Core'">$(NSwagExe_Core21)</_NSwagCommand>
+  </PropertyGroup>
+
+  <!-- OpenApiReference support for C# -->
+
+  <Target Name="GenerateNSwagCSharp">
+    <ItemGroup>
+      <!-- @(CurrentOpenApiReference) item group will never contain more than one item. -->
+      <CurrentOpenApiReference>
+        <Command>$(_NSwagCommand) swagger2csclient /className:%(ClassName) /namespace:%(Namespace)</Command>
+      </CurrentOpenApiReference>
+      <CurrentOpenApiReference>
+        <Command>%(Command) /input:%(FullPath) /output:%(OutputPath) %(Options)</Command>
+      </CurrentOpenApiReference>
+      <CurrentOpenApiReference>
+        <Command Condition="! %(FirstForGenerator)">%(Command) /GenerateExceptionClasses:false</Command>
+      </CurrentOpenApiReference>
+    </ItemGroup>
+
+    <Message Importance="high" Text="%0AGenerateNSwagCSharp:" />
+    <Message Importance="high" Text="  %(CurrentOpenApiReference.Command)" />
+    <Exec Command="%(CurrentOpenApiReference.Command)" IgnoreExitCode="$([System.IO.File]::Exists('%(OutputPath)'))" />
+  </Target>
+
+  <!-- OpenApiReference support for TypeScript -->
+
+  <Target Name="GenerateNSwagTypeScript">
+    <ItemGroup>
+      <!-- @(CurrentOpenApiReference) item group will never contain more than one item. -->
+      <CurrentOpenApiReference>
+        <Command>$(_NSwagCommand) swagger2tsclient /className:%(ClassName) /namespace:%(Namespace)</Command>
+      </CurrentOpenApiReference>
+      <CurrentOpenApiReference>
+        <Command>%(Command) /input:%(FullPath) /output:%(OutputPath) %(Options)</Command>
+      </CurrentOpenApiReference>
+    </ItemGroup>
+
+    <Message Importance="high" Text="%0AGenerateNSwagTypeScript:" />
+    <Message Importance="high" Text="  %(CurrentOpenApiReference.Command)" />
+    <Exec Command="%(CurrentOpenApiReference.Command)" IgnoreExitCode="$([System.IO.File]::Exists('%(OutputPath)'))" />
+  </Target>
+</Project>

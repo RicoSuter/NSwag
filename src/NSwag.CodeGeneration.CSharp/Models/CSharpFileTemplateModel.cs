@@ -8,7 +8,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using NJsonSchema;
+using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.CSharp;
 
 namespace NSwag.CodeGeneration.CSharp.Models
@@ -24,28 +24,30 @@ namespace NSwag.CodeGeneration.CSharp.Models
         private readonly SwaggerToCSharpGeneratorBase _generator;
 
         /// <summary>Initializes a new instance of the <see cref="CSharpFileTemplateModel" /> class.</summary>
-        /// <param name="clientCode">The client code.</param>
+        /// <param name="clientTypes">The client types.</param>
+        /// <param name="dtoTypes">The DTO types.</param>
         /// <param name="outputType">Type of the output.</param>
         /// <param name="document">The Swagger document.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="generator">The client generator base.</param>
         /// <param name="resolver">The resolver.</param>
         public CSharpFileTemplateModel(
-            string clientCode,
+            IEnumerable<CodeArtifact> clientTypes,
+            IEnumerable<CodeArtifact> dtoTypes,
             ClientGeneratorOutputType outputType,
             SwaggerDocument document,
             SwaggerToCSharpGeneratorSettings settings,
             SwaggerToCSharpGeneratorBase generator,
             CSharpTypeResolver resolver)
         {
-            _clientCode = clientCode;
             _outputType = outputType;
             _document = document;
             _generator = generator;
             _settings = settings;
             _resolver = resolver;
+            _clientCode = clientTypes.Concatenate();
 
-            Classes = GenerateDtoTypes();
+            Classes = dtoTypes.Concatenate();
         }
 
         /// <summary>Gets the namespace.</summary>
@@ -143,12 +145,6 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 }
                 return new string[] { };
             }
-        }
-
-        private string GenerateDtoTypes()
-        {
-            var generator = new CSharpGenerator(_document, _settings.CSharpGeneratorSettings, _resolver);
-            return _settings.GenerateDtoTypes ? generator.GenerateTypes().Concatenate() : string.Empty;
         }
     }
 }
