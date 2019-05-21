@@ -204,7 +204,7 @@ namespace NSwag.AssemblyLoader
             }
             catch // https://github.com/RicoSuter/NSwag/issues/2177
             {
-                return Array.Empty<string>();
+                return new string[0];
             }
         }
     }
