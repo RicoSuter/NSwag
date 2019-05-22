@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 //-----------------------------------------------------------------------
 // <copyright file="TypesToSwaggerCommand.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
@@ -93,6 +94,9 @@ namespace NSwag.Commands.SwaggerGeneration
             set { Settings.GenerateXmlObjects = value; }
         }
 
+        [Argument(Name = nameof(AllowAdditionalProperties), IsRequired = false, Description = "If `additionalProperties` on all possible definitions and references are allowed (default: false).")]
+        public bool AllowAdditionalProperties { get; set; }
+
         protected override async Task<string> RunIsolatedAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
             var document = new NJsonSchema.JsonSchema4();
@@ -118,13 +122,32 @@ namespace NSwag.Commands.SwaggerGeneration
                 var type = assemblies.Select(a => a.GetType(className)).FirstOrDefault(t => t != null);
                 await generator.GenerateAsync(type, schemaResolver).ConfigureAwait(false);
             }
-            
+
             document.AllOf.Add(new JsonSchema4
-                                {
-                                    Reference = document.Definitions.First().Value
-                                });
-            
+            {
+                Reference = document.Definitions.First().Value
+            });
+
+            SetAllowAdditionalProperties(document);
+
             return document.ToJson();
+        }
+
+        private void SetAllowAdditionalProperties(JsonSchema4 document)
+        {
+            foreach (var definition in document.Definitions.Values)
+                SetAllowAdditionalProperties(definition);
+
+            foreach (var definition in document.OneOf)
+                SetAllowAdditionalProperties(definition);
+
+            foreach (var definition in document.AllOf)
+                SetAllowAdditionalProperties(definition);
+
+            foreach (var definition in document.AnyOf)
+                SetAllowAdditionalProperties(definition);
+
+            document.AllowAdditionalProperties = AllowAdditionalProperties;
         }
     }
 }
