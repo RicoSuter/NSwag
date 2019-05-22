@@ -52,13 +52,13 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
             {
                 var parameterName = contextualParameter.Name;
 
-                dynamic fromRouteAttribute = contextualParameter.ContextAttributes.TryGetAssignableToTypeName("Microsoft.AspNetCore.Mvc.FromRouteAttribute");
-                dynamic fromHeaderAttribute = contextualParameter.ContextAttributes.TryGetAssignableToTypeName("Microsoft.AspNetCore.Mvc.FromHeaderAttribute");
-                dynamic fromFormAttribute = contextualParameter.ContextAttributes.TryGetAssignableToTypeName("Microsoft.AspNetCore.Mvc.FromFormAttribute");
+                dynamic fromRouteAttribute = contextualParameter.ContextAttributes.FirstAssignableToTypeNameOrDefault("Microsoft.AspNetCore.Mvc.FromRouteAttribute");
+                dynamic fromHeaderAttribute = contextualParameter.ContextAttributes.FirstAssignableToTypeNameOrDefault("Microsoft.AspNetCore.Mvc.FromHeaderAttribute");
+                dynamic fromFormAttribute = contextualParameter.ContextAttributes.FirstAssignableToTypeNameOrDefault("Microsoft.AspNetCore.Mvc.FromFormAttribute");
 
-                var fromBodyAttribute = contextualParameter.ContextAttributes.TryGetAssignableToTypeName("FromBodyAttribute", TypeNameStyle.Name);
-                var fromUriAttribute = contextualParameter.ContextAttributes.TryGetAssignableToTypeName("FromUriAttribute", TypeNameStyle.Name) ??
-                                       contextualParameter.ContextAttributes.TryGetAssignableToTypeName("FromQueryAttribute", TypeNameStyle.Name);
+                var fromBodyAttribute = contextualParameter.ContextAttributes.FirstAssignableToTypeNameOrDefault("FromBodyAttribute", TypeNameStyle.Name);
+                var fromUriAttribute = contextualParameter.ContextAttributes.FirstAssignableToTypeNameOrDefault("FromUriAttribute", TypeNameStyle.Name) ??
+                                       contextualParameter.ContextAttributes.FirstAssignableToTypeNameOrDefault("FromQueryAttribute", TypeNameStyle.Name);
 
                 string bodyParameterName = fromBodyAttribute.TryGetPropertyValue<string>("Name") ?? parameterName;
                 string uriParameterName = fromUriAttribute.TryGetPropertyValue<string>("Name") ?? parameterName;
@@ -120,12 +120,12 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                             if (parameterInfo.IsComplexType)
                             {
                                 // Check for a custom ParameterBindingAttribute (OWIN/WebAPI only)
-                                var parameterBindingAttribute = contextualParameter.ContextAttributes.TryGetAssignableToTypeName("ParameterBindingAttribute", TypeNameStyle.Name);
+                                var parameterBindingAttribute = contextualParameter.ContextAttributes.FirstAssignableToTypeNameOrDefault("ParameterBindingAttribute", TypeNameStyle.Name);
                                 if (parameterBindingAttribute != null && fromBodyAttribute == null && fromUriAttribute == null && !_settings.IsAspNetCore)
                                 {
                                     // Try to find a [WillReadBody] attribute on either the action parameter or the bindingAttribute's class
                                     var willReadBodyAttribute = contextualParameter.ContextAttributes.Concat(parameterBindingAttribute.GetType().GetTypeInfo().GetCustomAttributes())
-                                        .TryGetAssignableToTypeName("WillReadBodyAttribute", TypeNameStyle.Name);
+                                        .FirstAssignableToTypeNameOrDefault("WillReadBodyAttribute", TypeNameStyle.Name);
 
                                     if (willReadBodyAttribute == null)
                                         operationParameter = await AddBodyParameterAsync(context, bodyParameterName, contextualParameter).ConfigureAwait(false);
@@ -363,7 +363,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
             }
             else
             {
-                foreach (var contextualProperty in contextualParameter.Type.GetContextualRuntimeProperties())
+                foreach (var contextualProperty in contextualParameter.Type.GetContextualProperties())
                 {
                     if (contextualProperty.ContextAttributes.All(a => a.GetType().Name != "SwaggerIgnoreAttribute" && a.GetType().Name != "JsonIgnoreAttribute"))
                     {
@@ -383,7 +383,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                             propertyName = fromHeaderAttribute?.Name;
                         }
 
-                        var propertySummary = await contextualProperty.PropertyInfo.GetXmlSummaryAsync().ConfigureAwait(false);
+                        var propertySummary = await contextualProperty.PropertyInfo.GetXmlDocsSummaryAsync().ConfigureAwait(false);
                         var operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(propertyName, propertySummary, contextualProperty).ConfigureAwait(false);
 
                         // TODO: Check if required can be controlled with mechanisms other than RequiredAttribute

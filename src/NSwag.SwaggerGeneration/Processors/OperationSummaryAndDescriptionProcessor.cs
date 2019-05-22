@@ -33,12 +33,12 @@ namespace NSwag.SwaggerGeneration.Processors
             }
             else
             {
-                var summary = await context.MethodInfo.GetXmlSummaryAsync().ConfigureAwait(false);
+                var summary = await context.MethodInfo.GetXmlDocsSummaryAsync().ConfigureAwait(false);
                 if (summary != string.Empty)
                     context.OperationDescription.Operation.Summary = summary;
             }
 
-            var remarks = await context.MethodInfo.GetXmlRemarksAsync().ConfigureAwait(false);
+            var remarks = await context.MethodInfo.GetXmlDocsRemarksAsync().ConfigureAwait(false);
             if (remarks != string.Empty)
             {
                 context.OperationDescription.Operation.Description = remarks;

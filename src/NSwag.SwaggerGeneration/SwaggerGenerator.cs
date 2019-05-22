@@ -142,7 +142,7 @@ namespace NSwag.SwaggerGeneration
             }
 
             operationParameter.Name = name;
-            operationParameter.IsRequired = contextualParameter.ContextAttributes.TryGetAssignableToTypeName("RequiredAttribute", TypeNameStyle.Name) != null;
+            operationParameter.IsRequired = contextualParameter.ContextAttributes.FirstAssignableToTypeNameOrDefault("RequiredAttribute", TypeNameStyle.Name) != null;
 
             if (typeDescription.Type.HasFlag(JsonObjectType.Array))
             {

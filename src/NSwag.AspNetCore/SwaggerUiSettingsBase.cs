@@ -33,7 +33,12 @@ namespace NSwag.AspNetCore
         /// <summary>Initializes a new instance of the <see cref="SwaggerUiSettingsBase{T}"/> class.</summary>
         public SwaggerUiSettingsBase()
         {
-            TransformToExternalPath = (internalUiRoute, request) => internalUiRoute;
+            TransformToExternalPath = (internalUiRoute, request) =>
+            {
+                return internalUiRoute.StartsWith("/") && internalUiRoute.StartsWith(request.PathBase.ToString()) == false
+                    ? request.PathBase + internalUiRoute
+                    : internalUiRoute;
+            };
         }
 
         /// <summary>Gets or sets the internal swagger UI route (must start with '/').</summary>
@@ -82,7 +87,7 @@ namespace NSwag.AspNetCore
             {
                 return string.Empty;
             }
-            
+
             var uriString = System.Net.WebUtility.HtmlEncode(CustomJavaScriptUri.OriginalString);
 
             return $"<script src=\"{uriString}\"></script>";
