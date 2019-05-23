@@ -141,7 +141,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                                             // If we are not reading from the body, then treat this as a primitive.
                                             // This may seem odd, but it allows for primitive -> custom complex-type bindings which are very common
                                             // In this case, the API author should use a TypeMapper to define the parameter
-                                            operationParameter = await AddPrimitiveParameterAsync(uriParameterName, context.OperationDescription.Operation, contextualParameter, context.SwaggerGenerator).ConfigureAwait(false);
+                                            operationParameter = await AddPrimitiveParameterAsync(uriParameterName, context, contextualParameter).ConfigureAwait(false);
                                         }
                                     }
                                 }
@@ -163,8 +163,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                                 }
                                 else
                                 {
-                                    operationParameter = await AddPrimitiveParameterAsync(
-                                        uriParameterName, context.OperationDescription.Operation, contextualParameter, context.SwaggerGenerator).ConfigureAwait(false);
+                                    operationParameter = await AddPrimitiveParameterAsync(uriParameterName, context, contextualParameter).ConfigureAwait(false);
                                 }
                             }
                         }
@@ -421,18 +420,36 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
         }
 
         private async Task<SwaggerParameter> AddPrimitiveParameterAsync(
-            string name, SwaggerOperation operation, ContextualParameterInfo parameter, SwaggerGenerator swaggerGenerator)
+            string name, OperationProcessorContext context, ContextualParameterInfo contextualParameter)
         {
-            var operationParameter = await swaggerGenerator.CreatePrimitiveParameterAsync(name, parameter).ConfigureAwait(false);
+            var operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(name, contextualParameter).ConfigureAwait(false);
             operationParameter.Kind = SwaggerParameterKind.Query;
-            operationParameter.IsRequired = operationParameter.IsRequired || parameter.ParameterInfo.HasDefaultValue == false;
+            operationParameter.IsRequired = operationParameter.IsRequired || contextualParameter.ParameterInfo.HasDefaultValue == false;
 
-            if (parameter.ParameterInfo.HasDefaultValue)
+            if (contextualParameter.ParameterInfo.HasDefaultValue)
             {
-                operationParameter.Default = parameter.ParameterInfo.DefaultValue;
+                var defaultValue = context.SchemaGenerator.ConvertDefaultValue(
+                    contextualParameter, contextualParameter.ParameterInfo.DefaultValue);
+
+                if (_settings.SchemaType == SchemaType.Swagger2)
+                {
+                    operationParameter.Default = defaultValue;
+                }
+                else if (operationParameter.Schema.HasReference)
+                {
+                    operationParameter.Schema = new JsonSchema
+                    {
+                        Default = defaultValue,
+                        OneOf = { operationParameter.Schema }
+                    };
+                }
+                else
+                {
+                    operationParameter.Schema.Default = defaultValue;
+                }
             }
 
-            operation.Parameters.Add(operationParameter);
+            context.OperationDescription.Operation.Parameters.Add(operationParameter);
             return operationParameter;
         }
 

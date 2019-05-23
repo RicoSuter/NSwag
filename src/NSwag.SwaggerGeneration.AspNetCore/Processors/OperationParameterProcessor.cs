@@ -364,7 +364,25 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 
             if (extendedApiParameter.ParameterInfo?.HasDefaultValue == true)
             {
-                operationParameter.Default = extendedApiParameter.ParameterInfo.DefaultValue;
+                var defaultValue = context.SchemaGenerator
+                    .ConvertDefaultValue(contextualParameter, extendedApiParameter.ParameterInfo.DefaultValue);
+
+                if (_settings.SchemaType == SchemaType.Swagger2)
+                {
+                    operationParameter.Default = defaultValue;
+                }
+                else if (operationParameter.Schema.HasReference)
+                {
+                    operationParameter.Schema = new JsonSchema
+                    {
+                        Default = defaultValue,
+                        OneOf = { operationParameter.Schema }
+                    };
+                }
+                else
+                {
+                    operationParameter.Schema.Default = defaultValue;
+                }
             }
 
             operationParameter.IsRequired = extendedApiParameter.IsRequired(_settings.RequireParametersWithoutDefault);
