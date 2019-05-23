@@ -1,0 +1,67 @@
+trigger:
+  branches:
+      include:
+      - master
+      - release
+      - refs/tags/*
+pr:
+- master
+
+pool:
+  vmImage: 'windows-2019'
+
+variables:
+  BuildConfiguration: Release
+  Projects: 'src/NSwag.Min.sln'
+
+steps:
+# Install required SDKs and tools
+- task: UseDotNet@2
+  displayName: 'Install .NET Core SDK'
+  inputs:
+    packageType: 'sdk'
+    version: '2.2.203'
+- task: CmdLine@2
+  displayName: 'Install DNT'
+  inputs:
+    script: 'npm i -g dotnettools'
+
+# Patch project versions (on master only)
+- task: CmdLine@2
+  displayName: 'Update project version patch'
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  inputs:
+    script: 'dnt bump-versions patch'
+    failOnStderr: true
+- task: CmdLine@2
+  displayName: 'Patch project version preview'
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  inputs:
+    script: 'dnt bump-versions preview "$(Build.BuildNumber)"'
+    failOnStderr: true
+
+# Build and test
+- task: DotNetCoreCLI@2
+  displayName: 'Build solution'
+  inputs:
+    command: 'build'
+    projects: '$(Projects)'
+    arguments: '--configuration $(BuildConfiguration)'
+    feedsToUse: 'select'
+    versioningScheme: 'off'
+
+# Publish artifacts
+- task: CopyFiles@2
+  displayName: 'Copy packages'
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  inputs:
+    Contents: '**/*.nupkg'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    flattenFolders: true
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish artifacts'
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
