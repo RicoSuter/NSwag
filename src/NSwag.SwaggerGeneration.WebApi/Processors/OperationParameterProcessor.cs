@@ -41,7 +41,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
         public async Task<bool> ProcessAsync(OperationProcessorContext context)
         {
             var httpPath = context.OperationDescription.Path;
-            var parameters = context.MethodInfo.GetParameters().ToList();
+            var parameters = context.MethodInfo.GetParameters();
 
             var position = 1;
             foreach (var contextualParameter in parameters.Select(p => p.ToContextualParameter())
@@ -215,7 +215,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
 
         private void UpdateConsumedTypes(SwaggerOperationDescription operationDescription)
         {
-            if (operationDescription.Operation.ActualParameters.Any(p => p.IsBinary))
+            if (operationDescription.Operation.ActualParameters.Any(p => p.ActualSchema.IsBinary))
             {
                 operationDescription.Operation.TryAddConsumes("multipart/form-data");
             }
@@ -237,7 +237,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
         {
             var isFileArray = IsFileArray(contextualParameter.Type, typeInfo);
             var hasSwaggerFileAttribute = contextualParameter.Attributes
-                .Any(a => a.GetType().IsAssignableToTypeName("SwaggerFileAttribute", TypeNameStyle.Name));
+                .FirstAssignableToTypeNameOrDefault("SwaggerFileAttribute", TypeNameStyle.Name) != null;
 
             if (typeInfo.Type == JsonObjectType.File ||
                 typeInfo.Format == JsonFormatStrings.Binary ||
@@ -272,7 +272,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
 
             if (typeInfo.Type == JsonObjectType.Array && type.GenericTypeArguments.Any())
             {
-                var description = _settings.ReflectionService.GetDescription(type.ToContextualType(), _settings);
+                var description = _settings.ReflectionService.GetDescription(type.GenericTypeArguments[0].ToContextualType(), _settings);
                 if (description.Type == JsonObjectType.File ||
                     description.Format == JsonFormatStrings.Binary)
                 {
