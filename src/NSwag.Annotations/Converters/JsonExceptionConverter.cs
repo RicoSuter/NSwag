@@ -95,20 +95,29 @@ namespace NSwag.Annotations.Converters
         {
             var jObject = serializer.Deserialize<JObject>(reader);
             if (jObject == null)
+            {
                 return null;
+            }
 
             var newSerializer = new JsonSerializer();
             newSerializer.ContractResolver = (IContractResolver)Activator.CreateInstance(serializer.ContractResolver.GetType());
 
             var field = GetField(typeof(DefaultContractResolver), "_sharedCache");
             if (field != null)
+            {
                 field.SetValue(newSerializer.ContractResolver, false);
+            }
 
             dynamic resolver = newSerializer.ContractResolver;
             if (newSerializer.ContractResolver.GetType().GetRuntimeProperty("IgnoreSerializableAttribute") != null)
+            {
                 resolver.IgnoreSerializableAttribute = true;
+            }
+
             if (newSerializer.ContractResolver.GetType().GetRuntimeProperty("IgnoreSerializableInterface") != null)
+            {
                 resolver.IgnoreSerializableInterface = true;
+            }
 
             JToken token;
             if (jObject.TryGetValue("discriminator", StringComparison.OrdinalIgnoreCase, out token))
@@ -118,7 +127,9 @@ namespace NSwag.Annotations.Converters
                 {
                     var exceptionType = Type.GetType("System." + discriminator, false);
                     if (exceptionType != null)
+                    {
                         objectType = exceptionType;
+                    }
                     else
                     {
                         foreach (var pair in _searchedNamespaces)
@@ -130,7 +141,6 @@ namespace NSwag.Annotations.Converters
                                 break;
                             }
                         }
-
                     }
                 }
             }
@@ -141,12 +151,24 @@ namespace NSwag.Annotations.Converters
                 var jValue = jObject.GetValue(resolver.GetResolvedPropertyName(property.Value));
                 var propertyValue = (object)jValue?.ToObject(property.Key.PropertyType);
                 if (property.Key.SetMethod != null)
+                {
                     property.Key.SetValue(value, propertyValue);
+                }
                 else
                 {
                     field = GetField(objectType, "m_" + property.Value.Substring(0, 1).ToLowerInvariant() + property.Value.Substring(1));
                     if (field != null)
+                    {
                         field.SetValue(value, propertyValue);
+                    }
+                    else
+                    {
+                        field = GetField(objectType, "_" + property.Value.Substring(0, 1).ToLowerInvariant() + property.Value.Substring(1));
+                        if (field != null)
+                        {
+                            field.SetValue(value, propertyValue);
+                        }
+                    }
                 }
             }
 
@@ -162,7 +184,10 @@ namespace NSwag.Annotations.Converters
         {
             var field = type.GetTypeInfo().GetDeclaredField(fieldName);
             if (field == null && type.GetTypeInfo().BaseType != null)
+            {
                 return GetField(type.GetTypeInfo().BaseType, fieldName);
+            }
+
             return field;
         }
 
@@ -175,7 +200,9 @@ namespace NSwag.Annotations.Converters
                 var propertyName = attribute != null ? attribute.PropertyName : property.Name;
 
                 if (!new[] { "Message", "StackTrace", "Source", "InnerException", "Data", "TargetSite", "HelpLink", "HResult" }.Contains(propertyName))
+                {
                     result[property] = propertyName;
+                }
             }
             return result;
         }
