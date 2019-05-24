@@ -22,33 +22,31 @@ namespace NSwag.Collections
         IDictionary<TKey, TValue>, INotifyCollectionChanged,
         INotifyPropertyChanged, IDictionary, IReadOnlyDictionary<TKey, TValue>
     {
-        private IDictionary<TKey, TValue> _dictionary;
-
         /// <summary>Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}"/> class. </summary>
         public ObservableDictionary()
         {
-            _dictionary = new Dictionary<TKey, TValue>();
+            Dictionary = new Dictionary<TKey, TValue>();
         }
 
         /// <summary>Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}"/> class. </summary>
         /// <param name="dictionary">The dictionary to initialize this dictionary. </param>
         public ObservableDictionary(IDictionary<TKey, TValue> dictionary)
         {
-            _dictionary = new Dictionary<TKey, TValue>(dictionary);
+            Dictionary = new Dictionary<TKey, TValue>(dictionary);
         }
 
         /// <summary>Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}"/> class. </summary>
         /// <param name="comparer">The comparer. </param>
         public ObservableDictionary(IEqualityComparer<TKey> comparer)
         {
-            _dictionary = new Dictionary<TKey, TValue>(comparer);
+            Dictionary = new Dictionary<TKey, TValue>(comparer);
         }
 
         /// <summary>Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}"/> class. </summary>
         /// <param name="capacity">The capacity. </param>
         public ObservableDictionary(int capacity)
         {
-            _dictionary = new Dictionary<TKey, TValue>(capacity);
+            Dictionary = new Dictionary<TKey, TValue>(capacity);
         }
 
         /// <summary>Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}"/> class. </summary>
@@ -56,7 +54,7 @@ namespace NSwag.Collections
         /// <param name="comparer">The comparer. </param>
         public ObservableDictionary(IDictionary<TKey, TValue> dictionary, IEqualityComparer<TKey> comparer)
         {
-            _dictionary = new Dictionary<TKey, TValue>(dictionary, comparer);
+            Dictionary = new Dictionary<TKey, TValue>(dictionary, comparer);
         }
 
         /// <summary>Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}"/> class. </summary>
@@ -64,11 +62,11 @@ namespace NSwag.Collections
         /// <param name="comparer">The comparer. </param>
         public ObservableDictionary(int capacity, IEqualityComparer<TKey> comparer)
         {
-            _dictionary = new Dictionary<TKey, TValue>(capacity, comparer);
+            Dictionary = new Dictionary<TKey, TValue>(capacity, comparer);
         }
 
         /// <summary>Gets the underlying dictonary. </summary>
-        protected IDictionary<TKey, TValue> Dictionary => _dictionary;
+        protected IDictionary<TKey, TValue> Dictionary { get; private set; }
 
         /// <summary>Adds multiple key-value pairs the the dictionary. </summary>
         /// <param name="items">The key-value pairs. </param>
@@ -88,7 +86,7 @@ namespace NSwag.Collections
                         Dictionary.Add(item);
                 }
                 else
-                    _dictionary = new Dictionary<TKey, TValue>(items);
+                    Dictionary = new Dictionary<TKey, TValue>(items);
 
                 OnCollectionChanged(NotifyCollectionChangedAction.Add, items.ToArray());
             }
