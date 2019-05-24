@@ -6,6 +6,7 @@ using Newtonsoft.Json.Serialization;
 using NJsonSchema;
 using NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers.Parameters;
 using Xunit;
+using static NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers.Parameters.DefaultParametersController;
 
 namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Parameters
 {
@@ -48,7 +49,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Parameters
             // Assert
             var operation = document.Operations.First(o => o.Path.Contains(nameof(DefaultParametersController.WithDefaultEnum))).Operation;
 
-            Assert.Equal(5, operation.Parameters.First().Schema.Default);
+            Assert.Equal((int)MyEnum.Def, operation.Parameters.First().Schema.Default);
             Assert.True(operation.Parameters.First().Schema.OneOf.Any());
         }
 
