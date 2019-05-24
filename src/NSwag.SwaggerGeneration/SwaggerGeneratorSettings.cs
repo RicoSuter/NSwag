@@ -10,7 +10,6 @@ using Namotion.Reflection;
 using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.Generation;
-using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Collections;
 using NSwag.SwaggerGeneration.Processors.Contexts;

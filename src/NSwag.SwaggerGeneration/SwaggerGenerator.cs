@@ -6,10 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using Namotion.Reflection;
 using NJsonSchema;
@@ -168,32 +164,6 @@ namespace NSwag.SwaggerGeneration
             }
 
             return operationParameter;
-        }
-
-        private bool IsParameterRequired(ParameterInfo parameter)
-        {
-            if (parameter == null)
-            {
-                return false;
-            }
-
-            if (parameter.GetCustomAttributes().Any(a => a.GetType().Name == "RequiredAttribute"))
-            {
-                return true;
-            }
-
-            if (parameter.HasDefaultValue)
-            {
-                return false;
-            }
-
-            var isNullable = Nullable.GetUnderlyingType(parameter.ParameterType) != null;
-            if (isNullable)
-            {
-                return false;
-            }
-
-            return parameter.ParameterType.GetTypeInfo().IsValueType;
         }
     }
 }
