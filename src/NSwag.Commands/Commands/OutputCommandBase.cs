@@ -30,7 +30,7 @@ namespace NSwag.Commands
                     if (input.EndsWith(".yaml", StringComparison.OrdinalIgnoreCase) ||
                         input.EndsWith(".yml", StringComparison.OrdinalIgnoreCase))
                     {
-                        return await SwaggerYamlDocument.FromUrlAsync(input).ConfigureAwait(false);
+                        return await OpenApiYamlDocument.FromUrlAsync(input).ConfigureAwait(false);
                     }
                     else
                     {
@@ -42,7 +42,7 @@ namespace NSwag.Commands
                     if (input.EndsWith(".yaml", StringComparison.OrdinalIgnoreCase) ||
                         input.EndsWith(".yml", StringComparison.OrdinalIgnoreCase))
                     {
-                        return await SwaggerYamlDocument.FromFileAsync(input).ConfigureAwait(false);
+                        return await OpenApiYamlDocument.FromFileAsync(input).ConfigureAwait(false);
                     }
                     else
                     {
@@ -54,7 +54,7 @@ namespace NSwag.Commands
             {
                 if (IsYaml(input))
                 {
-                    return await SwaggerYamlDocument.FromYamlAsync(input).ConfigureAwait(false);
+                    return await OpenApiYamlDocument.FromYamlAsync(input).ConfigureAwait(false);
                 }
                 else
                 {

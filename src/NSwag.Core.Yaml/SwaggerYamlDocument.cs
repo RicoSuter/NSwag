@@ -21,7 +21,7 @@ using YamlDotNet.Serialization;
 namespace NSwag
 {
     /// <summary>Extension methods to load and save <see cref="OpenApiDocument"/> from/to YAML.</summary>
-    public static class SwaggerYamlDocument
+    public static class OpenApiYamlDocument
     {
         /// <summary>Creates a Swagger specification from a YAML string.</summary>
         /// <param name="data">The JSON or YAML data.</param>

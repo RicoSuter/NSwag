@@ -44,7 +44,7 @@ components:
           type: string
           format: uuid";
 
-            var document = await SwaggerYamlDocument.FromYamlAsync(yaml);
+            var document = await OpenApiYamlDocument.FromYamlAsync(yaml);
 
             //// Act
             var codeGenerator = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings());

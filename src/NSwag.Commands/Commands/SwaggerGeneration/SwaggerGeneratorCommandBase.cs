@@ -389,7 +389,7 @@ namespace NSwag.Commands.SwaggerGeneration
                     var json = await DynamicApis.FileReadAllTextAsync(file).ConfigureAwait(false);
                     if (json.StartsWith("{") == false)
                     {
-                        return (await SwaggerYamlDocument.FromYamlAsync(json)).ToJson();
+                        return (await OpenApiYamlDocument.FromYamlAsync(json)).ToJson();
                     }
                     else
                     {
@@ -398,7 +398,7 @@ namespace NSwag.Commands.SwaggerGeneration
                 }
                 else if (DocumentTemplate.StartsWith("{") == false)
                 {
-                    return (await SwaggerYamlDocument.FromYamlAsync(DocumentTemplate)).ToJson();
+                    return (await OpenApiYamlDocument.FromYamlAsync(DocumentTemplate)).ToJson();
                 }
                 else
                 {
